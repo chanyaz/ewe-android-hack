@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.util.notNullAndObservable
 import com.squareup.phrase.Phrase
-import rx.Observable
 
 class BaggageInfoView(val context: Context) {
 
@@ -28,7 +28,7 @@ class BaggageInfoView(val context: Context) {
             createDialogBuilder(context).create().show()
         }
 
-        Observable.zip(vm.baggageChargeSubject, vm.doNotShowLastHorizontalLineSubject, { baggageCharge, doNotShowLastHorizontalLine ->
+        ObservableOld.zip(vm.baggageChargeSubject, vm.doNotShowLastHorizontalLineSubject, { baggageCharge, doNotShowLastHorizontalLine ->
             object {
                 val baggageChargePair = baggageCharge
                 val doNotShowHorizontalLine = doNotShowLastHorizontalLine

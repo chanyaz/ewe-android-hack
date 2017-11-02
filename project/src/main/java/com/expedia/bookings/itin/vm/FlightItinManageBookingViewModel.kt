@@ -10,7 +10,7 @@ import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.itin.data.FlightItinLegsDetailData
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightItinManageBookingViewModel(val context: Context, private val itinId: String) {
 

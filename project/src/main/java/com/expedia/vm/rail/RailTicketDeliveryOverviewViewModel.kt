@@ -3,8 +3,8 @@ package com.expedia.vm.rail
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.rail.widget.TicketDeliveryMethod
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailTicketDeliveryOverviewViewModel(val context: Context) {
 

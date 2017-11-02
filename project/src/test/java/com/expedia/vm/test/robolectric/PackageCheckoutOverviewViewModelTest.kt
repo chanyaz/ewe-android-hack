@@ -6,6 +6,8 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.services.subscribeTestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.PackageTestUtil
@@ -16,7 +18,6 @@ import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -44,25 +45,25 @@ class PackageCheckoutOverviewViewModelTest {
         trip.packageDetails = packageDetails
         packageDetails.hotel = hotel
 
-        val cityTestSubscriber = TestSubscriber<String>()
-        val datesTestSubscriber = TestSubscriber<String>()
-        val travelerTestSubscriber = TestSubscriber<String>()
+        val cityTestSubscriber = TestObserver<String>()
+        val datesTestSubscriber = TestObserver<String>()
+        val travelerTestSubscriber = TestObserver<String>()
 
-        val urlTestSubscriber = TestSubscriber<List<String>>()
+        val urlTestSubscriber = TestObserver<List<String>>()
 
         viewmodel.cityTitle.subscribe(cityTestSubscriber)
-        viewmodel.datesTitle.subscribe(datesTestSubscriber)
-        viewmodel.datesTitleContDesc.subscribe(datesTestSubscriber)
+        viewmodel.datesTitle.subscribeTestObserver(datesTestSubscriber)
+        viewmodel.datesTitleContDesc.subscribeTestObserver(datesTestSubscriber)
         viewmodel.travelersTitle.subscribe(travelerTestSubscriber)
         viewmodel.url.subscribe(urlTestSubscriber)
 
         viewmodel.tripResponseSubject.onNext(createOverviewHeaderData(trip))
 
-        assertEquals("New York, NY", cityTestSubscriber.onNextEvents[0])
-        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", datesTestSubscriber.onNextEvents[0])
-        assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", datesTestSubscriber.onNextEvents[1])
-        assertEquals("1 traveler", travelerTestSubscriber.onNextEvents[0])
-        assertEquals("https://media.expedia.com/tes.jpg", urlTestSubscriber.onNextEvents[0][0])
+        assertEquals("New York, NY", cityTestSubscriber.values()[0])
+        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", datesTestSubscriber.values()[0])
+        assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", datesTestSubscriber.values()[1])
+        assertEquals("1 traveler", travelerTestSubscriber.values()[0])
+        assertEquals("https://media.expedia.com/tes.jpg", urlTestSubscriber.values()[0][0])
         urlTestSubscriber.assertValueCount(1)
 
         trip.packageDetails.hotel.hotelCity = "Tokyo"
@@ -74,7 +75,7 @@ class PackageCheckoutOverviewViewModelTest {
         viewmodel.tripResponseSubject.onNext(createOverviewHeaderData(trip))
 
         cityTestSubscriber.assertValueCount(2)
-        assertEquals("New York University, New York", cityTestSubscriber.onNextEvents[1])
+        assertEquals("New York University, New York", cityTestSubscriber.values()[1])
 
         assertEquals("$1,000", trip.bundleTotal.formattedMoney)
         packageDetails.pricing.bundleTotal = null

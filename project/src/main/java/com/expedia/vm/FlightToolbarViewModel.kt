@@ -1,31 +1,30 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
+import com.expedia.util.Optional
 import com.squareup.phrase.Phrase
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.LocalDate
-import rx.Observable
-import rx.subjects.BehaviorSubject
 
 class FlightToolbarViewModel(private val context: Context) {
     //input
     val refreshToolBar = BehaviorSubject.create<Boolean>()
     val isOutboundSearch = BehaviorSubject.create<Boolean>() // TODO - move this into flightSearchViewModel
     val setTitleOnly = BehaviorSubject.create<String>()
-    val regionNames = BehaviorSubject.create<SuggestionV4.RegionNames>()
-    val country = BehaviorSubject.create<String>()
-    val airport = BehaviorSubject.create<String>()
+    val regionNames = BehaviorSubject.create<Optional<SuggestionV4.RegionNames>>()
+    val country = BehaviorSubject.create<Optional<String>>()
+    val airport = BehaviorSubject.create<Optional<String>>()
     val travelers = BehaviorSubject.create<Int>()
     val date = BehaviorSubject.create<LocalDate>()
     val lob = BehaviorSubject.create<LineOfBusiness>()
@@ -42,11 +41,15 @@ class FlightToolbarViewModel(private val context: Context) {
             menuVisibilitySubject.onNext(false)
         }
 
-        Observable.combineLatest(refreshToolBar, isOutboundSearch, regionNames, country, airport, lob, travelers, date, { isResults, isOutboundSearch, regionNames, country, airportCode, lob, numTravelers, date ->
-            if (lob == LineOfBusiness.FLIGHTS_V2) {
-                titleSubject.onNext(getFlightTitle(isResults, isOutboundSearch, regionNames.displayName))
-            } else if (lob == LineOfBusiness.PACKAGES) {
-                titleSubject.onNext(getPackageTitle(isOutboundSearch, regionNames, country, airportCode))
+        ObservableOld.combineLatest(refreshToolBar, isOutboundSearch, regionNames, country, airport, lob, travelers, date, { isResults, isOutboundSearch, regionNamesOptional, country, airportCode, lob, numTravelers, date ->
+            regionNamesOptional.value?.let { regionNames ->
+                if (lob == LineOfBusiness.FLIGHTS_V2) {
+                    titleSubject.onNext(getFlightTitle(isResults, isOutboundSearch, regionNames.displayName))
+                } else if (lob == LineOfBusiness.PACKAGES) {
+                    airportCode.value?.let {
+                        titleSubject.onNext(getPackageTitle(isOutboundSearch, regionNames, country.value, it))
+                    }
+                }
             }
             subtitleSubject.onNext(getSubtitle(date, numTravelers))
             menuVisibilitySubject.onNext(isResults)

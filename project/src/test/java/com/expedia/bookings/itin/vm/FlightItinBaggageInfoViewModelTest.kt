@@ -1,14 +1,14 @@
 package com.expedia.bookings.itin.vm
 
-import com.expedia.bookings.test.robolectric.RobolectricRunner
 import android.app.Activity
 import com.expedia.bookings.R
+import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class FlightItinBaggageInfoViewModelTest {
@@ -16,7 +16,7 @@ class FlightItinBaggageInfoViewModelTest {
     lateinit private var activity: Activity
     lateinit private var sut: FlightItinBagaggeInfoViewModel
 
-    private val createBaggageInfoWidgetSubscriber = TestSubscriber<ItinWebviewInfoButtonViewModel.ItinWebviewInfoButtonWidgetParams>()
+    private val createBaggageInfoWidgetSubscriber = TestObserver<ItinWebviewInfoButtonViewModel.ItinWebviewInfoButtonWidgetParams>()
 
     @Before
     fun setup() {

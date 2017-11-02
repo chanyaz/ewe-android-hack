@@ -6,7 +6,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.enums.TravelerCheckoutStatus
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class HotelTravelersViewModel(context: Context, lob: LineOfBusiness, showMainTravelerMinAgeMessaging: Boolean) : TravelersViewModel(context, lob, showMainTravelerMinAgeMessaging) {
     val createTripOptInStatus = BehaviorSubject.create<MerchandiseSpam>()

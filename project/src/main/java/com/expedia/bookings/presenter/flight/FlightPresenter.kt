@@ -10,10 +10,11 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.BuildConfig
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.AbstractItinDetailsResponse
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightItinDetailsResponse
@@ -22,7 +23,6 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
-import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
@@ -31,13 +31,14 @@ import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.shared.KrazyglueHotelsListAdapter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.StrUtils
@@ -45,10 +46,20 @@ import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
+import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.widget.flights.FlightListAdapter
+import com.expedia.bookings.widget.shared.WebCheckoutView
+import com.expedia.bookings.withLatestFrom
 import com.expedia.ui.FlightActivity
+import com.expedia.util.Optional
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.safeSubscribeOptional
+import com.expedia.util.setInverseVisibility
+import com.expedia.util.subscribeVisibility
+import com.expedia.util.updateVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
+import com.expedia.vm.FlightWebCheckoutViewViewModel
 import com.expedia.vm.flights.BaseFlightOffersViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
@@ -56,24 +67,13 @@ import com.expedia.vm.flights.FlightErrorViewModel
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.flights.FlightOffersViewModelByot
 import com.expedia.vm.packages.PackageSearchType
-import com.squareup.phrase.Phrase
-import rx.Observable
-import javax.inject.Inject
-import com.expedia.bookings.widget.shared.WebCheckoutView
-import com.expedia.vm.FlightWebCheckoutViewViewModel
-import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Constants
-import com.expedia.util.notNullAndObservable
-import com.expedia.util.safeSubscribeOptional
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.updateVisibility
-import com.expedia.util.Optional
-import com.expedia.util.subscribeVisibility
 import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
-import rx.Observer
+import com.squareup.phrase.Phrase
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
 import java.util.Date
+import javax.inject.Inject
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
@@ -164,9 +164,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val presenter = viewStub.inflate() as FlightOutboundPresenter
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
-            presenter.toolbarViewModel.regionNames.onNext(params.arrivalAirport.regionNames)
-            presenter.toolbarViewModel.country.onNext(params.arrivalAirport.hierarchyInfo?.country?.name)
-            presenter.toolbarViewModel.airport.onNext(params.arrivalAirport.hierarchyInfo?.airport?.airportCode)
+            presenter.toolbarViewModel.regionNames.onNext(Optional(params.arrivalAirport.regionNames))
+            presenter.toolbarViewModel.country.onNext(Optional(params.arrivalAirport.hierarchyInfo?.country?.name))
+            presenter.toolbarViewModel.airport.onNext(Optional(params.arrivalAirport.hierarchyInfo?.airport?.airportCode))
             presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             presenter.toolbarViewModel.date.onNext(params.departureDate)
@@ -215,9 +215,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val presenter = viewStub.inflate() as FlightInboundPresenter
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
-            presenter.toolbarViewModel.regionNames.onNext(params.departureAirport.regionNames)
-            presenter.toolbarViewModel.country.onNext(params.departureAirport.hierarchyInfo?.country?.name)
-            presenter.toolbarViewModel.airport.onNext(params.departureAirport.hierarchyInfo?.airport?.airportCode)
+            presenter.toolbarViewModel.regionNames.onNext(Optional(params.departureAirport.regionNames))
+            presenter.toolbarViewModel.country.onNext(Optional(params.departureAirport.hierarchyInfo?.country?.name))
+            presenter.toolbarViewModel.airport.onNext(Optional(params.departureAirport.hierarchyInfo?.airport?.airportCode))
             presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             params.returnDate?.let {
@@ -271,7 +271,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             createTripBuilder.fareFamilyTotalPrice(it.second.totalPrice.amount)
             flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
         }
-        Observable.combineLatest(flightOfferViewModel.confirmedOutboundFlightSelection,
+        ObservableOld.combineLatest(flightOfferViewModel.confirmedOutboundFlightSelection,
                 flightOfferViewModel.confirmedInboundFlightSelection,
                 { outbound, inbound ->
                     val baggageFeesTextFormatted = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
@@ -415,7 +415,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
         if (isFlightGreedySearchEnabled(context)) {
-            Observable.zip(searchViewModel.searchParamsObservable, viewModel.errorObservableForGreedyCall, viewModel.hasUserClickedSearchObservable,
+            ObservableOld.zip(searchViewModel.searchParamsObservable, viewModel.errorObservableForGreedyCall, viewModel.hasUserClickedSearchObservable,
                     { _, error, hasUserClickedSearch ->
                         object {
                             val error = error
@@ -525,7 +525,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     .onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
         }
         if (isFlightGreedySearchEnabled(context)) {
-            Observable.zip(searchViewModel.searchParamsObservable, flightOfferViewModel.greedyOutboundResultsObservable, flightOfferViewModel.hasUserClickedSearchObservable,
+            ObservableOld.zip(searchViewModel.searchParamsObservable, flightOfferViewModel.greedyOutboundResultsObservable, flightOfferViewModel.hasUserClickedSearchObservable,
                     { _, results, hasUserClickedSearch ->
                         object {
                             val results = results
@@ -871,8 +871,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
         confirmationPresenter.viewModel = FlightConfirmationViewModel(context, isWebCheckout = true)
         pageUsableData.markPageLoadStarted(System.currentTimeMillis())
-        return object : Observer<AbstractItinDetailsResponse> {
-            override fun onCompleted() {
+        return object : DisposableObserver<AbstractItinDetailsResponse>() {
+            override fun onComplete() {
             }
 
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {

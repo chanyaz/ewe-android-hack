@@ -141,6 +141,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	@Override
 	public void onCreate() {
+
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
 		//Init language as per dev settings
 		if (BuildConfig.DEBUG) {

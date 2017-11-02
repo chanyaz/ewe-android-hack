@@ -12,7 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -31,8 +31,8 @@ class ReviewRatingDialogViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testLinksAreCorrect() {
-        val testReviewLink = TestSubscriber<String>()
-        val testFeedbackLink = TestSubscriber<String>()
+        val testReviewLink = TestObserver<String>()
+        val testFeedbackLink = TestObserver<String>()
 
         vm.reviewLinkSubject.subscribe(testReviewLink)
         vm.feedbackLinkSubject.subscribe(testFeedbackLink)
@@ -57,7 +57,7 @@ class ReviewRatingDialogViewModelTest {
 
     @Test
     fun testReviewSavedPrefs() {
-        val testReviewLink = TestSubscriber<Unit>()
+        val testReviewLink = TestObserver<Unit>()
         vm.reviewSubject.subscribe(testReviewLink)
 
         assertSavePrefsNotStored()
@@ -67,7 +67,7 @@ class ReviewRatingDialogViewModelTest {
 
     @Test
     fun testFeedbackSavedPrefs() {
-        val testReviewLink = TestSubscriber<Unit>()
+        val testReviewLink = TestObserver<Unit>()
         vm.feedbackSubject.subscribe(testReviewLink)
 
         assertSavePrefsNotStored()
@@ -77,7 +77,7 @@ class ReviewRatingDialogViewModelTest {
 
     @Test
     fun testNoThanksSavedPrefs() {
-        val testReviewLink = TestSubscriber<Unit>()
+        val testReviewLink = TestObserver<Unit>()
         vm.noSubject.subscribe(testReviewLink)
 
         assertSavePrefsNotStored()

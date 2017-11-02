@@ -2,7 +2,8 @@ package com.expedia.account.util;
 
 import android.support.annotation.NonNull;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class StatusObservableWrapper {
 
@@ -27,9 +28,9 @@ public class StatusObservableWrapper {
 		mEmitter = emitter;
 	}
 
-	private Subscriber<? super Boolean> mDummySubscriber = new Subscriber<Boolean>() {
+	private Observer<? super Boolean> mDummySubscriber = new Observer<Boolean>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 
 		}
 
@@ -39,14 +40,18 @@ public class StatusObservableWrapper {
 		}
 
 		@Override
+		public void onSubscribe(Disposable d) {
+		}
+
+		@Override
 		public void onNext(Boolean aBoolean) {
 
 		}
 	};
 
-	private Subscriber<? super Boolean> mSubscriber = mDummySubscriber;
+	private Observer<? super Boolean> mSubscriber = mDummySubscriber;
 
-	public void subscribe(Subscriber<Boolean> subscriber) {
+	public void subscribe(Observer<Boolean> subscriber) {
 		mSubscriber = subscriber;
 		mSubscriber.onNext(mEmitter.isGood());
 	}

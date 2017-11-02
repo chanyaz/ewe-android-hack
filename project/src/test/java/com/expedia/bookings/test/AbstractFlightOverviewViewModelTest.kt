@@ -16,7 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
@@ -36,7 +36,7 @@ class AbstractFlightOverviewViewModelTest {
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testObFeesLink() {
         setFlightOverviewModel(true)
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         sut.obFeeDetailsUrlObservable.subscribe(testSubscriber)
         setupFlightLeg()
         addObFees()
@@ -51,7 +51,7 @@ class AbstractFlightOverviewViewModelTest {
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testObFeesReset() {
         setFlightOverviewModel(true)
-        val obFeeTestSubscriber = TestSubscriber<String>()
+        val obFeeTestSubscriber = TestObserver<String>()
         sut.chargesObFeesTextSubject.subscribe(obFeeTestSubscriber)
         setupFlightLeg()
         addObFees()
@@ -67,8 +67,8 @@ class AbstractFlightOverviewViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testEarnMessage() {
         setFlightOverviewModel(false)
-        val showEarnMessageTestSubscriber = TestSubscriber<Boolean>()
-        val earnMessageTestSubscriber = TestSubscriber<String>()
+        val showEarnMessageTestSubscriber = TestObserver<Boolean>()
+        val earnMessageTestSubscriber = TestObserver<String>()
         sut.showEarnMessage.subscribe(showEarnMessageTestSubscriber)
         sut.earnMessage.subscribe(earnMessageTestSubscriber)
 

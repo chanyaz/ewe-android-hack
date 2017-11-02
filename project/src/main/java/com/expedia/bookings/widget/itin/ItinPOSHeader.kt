@@ -17,7 +17,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.expedia.vm.ItinPOSHeaderViewModel
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
@@ -34,7 +34,7 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     }
     val pointOfSaleUrlTextView: TextView by bindView(R.id.pos_trips_signin)
 
-    private var subscriptions: CompositeSubscription? = null
+    private var subscriptions: CompositeDisposable? = null
 
     init {
         View.inflate(context, R.layout.itin_pos_header, this)
@@ -45,7 +45,7 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        subscriptions?.unsubscribe()
+        subscriptions?.dispose()
     }
 
     @VisibleForTesting
@@ -62,8 +62,8 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     }
 
     private fun bindViewSubscriptions() {
-        subscriptions?.unsubscribe()
-        val subscriptions = CompositeSubscription()
+        subscriptions?.dispose()
+        val subscriptions = CompositeDisposable()
 
         subscriptions.add(itinPOSHeaderViewModel.posImageViewSubject.subscribe { resId ->
             imageView.setImageDrawable(ContextCompat.getDrawable(context, resId))

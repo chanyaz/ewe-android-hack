@@ -1,8 +1,10 @@
 package com.expedia.bookings.test
 
 import android.app.Application
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -10,21 +12,24 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.tracking.hotel.HotelTracking
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.isAllowCheckinCheckoutDatesInlineEnabled
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.mobiata.android.util.SettingUtils
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -32,11 +37,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 
 @RunWith(RobolectricRunner::class)
 class HotelCheckoutSummaryViewModelTest {
@@ -67,13 +67,13 @@ class HotelCheckoutSummaryViewModelTest {
                 AbacusUtils.DefaultVariant.CONTROL.ordinal)
         givenHappyHotelProductResponse()
         setup()
-        val testTextSubscriber = TestSubscriber<String>()
+        val testTextSubscriber = TestObserver<String>()
         sut.freeCancellationText.subscribe(testTextSubscriber)
 
-        val checkinFormattedDateSubscriber = TestSubscriber<String>()
+        val checkinFormattedDateSubscriber = TestObserver<String>()
         sut.checkinDateFormattedByEEEMMDD.subscribe(checkinFormattedDateSubscriber)
 
-        val testNewDataSubscriber = TestSubscriber<Unit>()
+        val testNewDataSubscriber = TestObserver<Unit>()
         sut.newDataObservable.subscribe(testNewDataSubscriber)
 
         createTripResponseObservable.onNext(createTripResponse)
@@ -92,7 +92,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(expectedHotelName, sut.hotelName.value)
         assertEquals(hotelProductResponse.checkInDate, sut.checkInDate.value)
         assertEquals("Mar 22, 2013 - Mar 23, 2013", sut.checkInOutDatesFormatted.value)
-        assertEquals(checkinFormattedDateSubscriber.onNextEvents.size, 0)
+        assertEquals(checkinFormattedDateSubscriber.valueCount(), 0)
         assertEquals(hotelProductResponse.hotelAddress, sut.address.value)
         assertEquals("San Francisco, CA", sut.city.value)
         assertEquals(hotelRoomResponse.roomTypeDescription, sut.roomDescriptions.value)
@@ -103,14 +103,14 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(rate.nightlyRatesPerRoom, sut.nightlyRatesPerRoom.value)
         assertEquals(rate.nightlyRateTotal.toString(), sut.nightlyRateTotal.value)
         assertEquals(Money(BigDecimal(rate.surchargeTotalForEntireStay.toString()), rate.currencyCode).formattedMoney, sut.surchargeTotalForEntireStay.value.formattedMoney)
-        assertEquals(rate.taxStatusType, sut.taxStatusType.value)
+        assertEquals(rate.taxStatusType, sut.taxStatusType.value?.value)
         assertEquals(rate.extraGuestFees, sut.extraGuestFees.value)
         assertEquals(rate.displayTotalPrice.formattedMoney, sut.tripTotalPrice.value)
         assertEquals("$0", sut.dueNowAmount.value)
         assertFalse(sut.showFeesPaidAtHotel.value)
         assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toString()), rate.currencyCode).formattedMoney, sut.feesPaidAtHotel.value)
-        assertEquals(testNewDataSubscriber.onNextEvents.size, 1)
-        assertEquals("Free cancellation", testTextSubscriber.onNextEvents[0])
+        assertEquals(testNewDataSubscriber.valueCount(), 1)
+        assertEquals("Free cancellation", testTextSubscriber.values()[0])
         assertNull(sut.burnAmountShownOnHotelCostBreakdown.value)
         assertEquals(hotelRoomResponse.valueAdds, sut.valueAddsListObservable.value)
     }
@@ -149,18 +149,18 @@ class HotelCheckoutSummaryViewModelTest {
         givenHappyHotelProductResponse()
         setup()
         createTripResponseObservable.onNext(createTripResponse)
-        val checkinFormattedDateSubscriber = TestSubscriber<String>()
+        val checkinFormattedDateSubscriber = TestObserver<String>()
         sut.checkinDateFormattedByEEEMMDD.subscribe(checkinFormattedDateSubscriber)
-        val checkoutFormattedDateSubscriber = TestSubscriber<String>()
+        val checkoutFormattedDateSubscriber = TestObserver<String>()
         sut.checkoutDateFormattedByEEEMMDD.subscribe(checkoutFormattedDateSubscriber)
         toggleABTestCheckinCheckoutDatesInline(true)
         givenHappyHotelProductResponse()
         setup()
         createTripResponseObservable.onNext(createTripResponse)
 
-        assertEquals(1, checkinFormattedDateSubscriber.onNextEvents.size)
+        assertEquals(1, checkinFormattedDateSubscriber.valueCount())
         checkinFormattedDateSubscriber.assertValue("Fri, Mar 22")
-        assertEquals(1, checkoutFormattedDateSubscriber.onNextEvents.size)
+        assertEquals(1, checkoutFormattedDateSubscriber.valueCount())
         checkoutFormattedDateSubscriber.assertValue("Sat, Mar 23")
         assertNull(sut.checkInOutDatesFormatted.value)
     }
@@ -172,17 +172,17 @@ class HotelCheckoutSummaryViewModelTest {
         givenHappyHotelProductResponse()
         setup()
         createTripResponseObservable.onNext(createTripResponse)
-        val checkinFormattedDateSubscriber = TestSubscriber<String>()
+        val checkinFormattedDateSubscriber = TestObserver<String>()
         sut.checkinDateFormattedByEEEMMDD.subscribe(checkinFormattedDateSubscriber)
-        val checkoutFormattedDateSubscriber = TestSubscriber<String>()
+        val checkoutFormattedDateSubscriber = TestObserver<String>()
         sut.checkoutDateFormattedByEEEMMDD.subscribe(checkoutFormattedDateSubscriber)
         toggleABTestCheckinCheckoutDatesInline(false)
         givenHappyHotelProductResponse()
         setup()
         createTripResponseObservable.onNext(createTripResponse)
 
-        assertEquals(0, checkinFormattedDateSubscriber.onNextEvents.size)
-        assertEquals(0, checkoutFormattedDateSubscriber.onNextEvents.size)
+        assertEquals(0, checkinFormattedDateSubscriber.valueCount())
+        assertEquals(0, checkoutFormattedDateSubscriber.valueCount())
         assertEquals("Mar 22, 2013 - Mar 23, 2013", sut.checkInOutDatesFormatted.value)
     }
 
@@ -204,14 +204,14 @@ class HotelCheckoutSummaryViewModelTest {
         givenHappyHotelProductResponse()
         setup()
 
-        val testTextSubscriber = TestSubscriber<String>()
+        val testTextSubscriber = TestObserver<String>()
         val checkInDate = LocalDate.now().plusDays(10)
         createTripResponse.newHotelProductResponse.hotelRoomResponse.freeCancellationWindowDate = checkInDate.toString() + " 23:59"
         sut.freeCancellationText.subscribe(testTextSubscriber)
         createTripResponseObservable.onNext(createTripResponse)
 
         val formattedCheckInDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(checkInDate)
-        assertEquals("Free cancellation before ${formattedCheckInDate}", testTextSubscriber.onNextEvents[0])
+        assertEquals("Free cancellation before ${formattedCheckInDate}", testTextSubscriber.values()[0])
     }
 
     @Test

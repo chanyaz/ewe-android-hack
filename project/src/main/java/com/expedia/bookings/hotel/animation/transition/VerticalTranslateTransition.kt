@@ -1,7 +1,7 @@
 package com.expedia.bookings.hotel.animation.transition
 
 import android.view.View
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class VerticalTranslateTransition(view: View, origin: Int, target: Int) : TranslateTransition(view, origin, target) {
     val reachedTargetSubject = PublishSubject.create<Unit>()

@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import com.expedia.account.R
 import com.expedia.account.view.TOSLayout
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class SinglePageTOSLayout(context: Context, attrs: AttributeSet): TOSLayout(context, attrs) {
 
-    val termOfUseCheckedSubject = BehaviorSubject.create<Boolean>(vTermsOfUseCheckBox.isChecked)
+    val termOfUseCheckedSubject = BehaviorSubject.createDefault<Boolean>(vTermsOfUseCheckBox.isChecked)
 
     init {
         vTermsOfUseCheckBox.setOnCheckedChangeListener { compoundButton, checked ->

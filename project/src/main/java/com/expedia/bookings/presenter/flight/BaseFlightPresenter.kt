@@ -37,8 +37,9 @@ import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.FlightToolbarViewModel
 import com.expedia.vm.WebViewViewModel
-import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
+import io.reactivex.Observer
+import io.reactivex.exceptions.OnErrorNotImplementedException
+import io.reactivex.observers.DisposableObserver
 
 abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
@@ -257,14 +258,14 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         }
     }
 
-    val selectedFlightResults = object : Observer<FlightLeg> {
+    val selectedFlightResults = object : DisposableObserver<FlightLeg>() {
         override fun onNext(flight: FlightLeg) {
             show(overviewPresenter)
             overviewPresenter.vm.selectedFlightLegSubject.onNext(flight)
             trackFlightOverviewLoad()
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
         }
 
         override fun onError(e: Throwable) {

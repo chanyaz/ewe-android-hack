@@ -8,9 +8,10 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.NumberUtils
+import com.expedia.bookings.withLatestFrom
 import com.expedia.vm.interfaces.IBucksViewModel
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class BucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val context: Context) : IBucksViewModel {
     //MESSAGING
@@ -26,10 +27,10 @@ class BucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val contex
         }
     }
 
-    private val programmaticToggle = BehaviorSubject.create<Boolean>(false)
+    private val programmaticToggle = BehaviorSubject.createDefault<Boolean>(false)
 
     //Inlet
-    override val bucksOpted = BehaviorSubject.create<Boolean>(true)
+    override val bucksOpted = BehaviorSubject.createDefault<Boolean>(true)
     override val bucksMessage = paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.filter { it.tripResponse.isRewardsRedeemable() }
             .map { pointsAppliedMessage(it.paymentSplits, it.tripResponse) }
 

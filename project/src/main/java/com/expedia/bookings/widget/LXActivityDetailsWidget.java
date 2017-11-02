@@ -49,9 +49,10 @@ import com.squareup.phrase.Phrase;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.subjects.PublishSubject;
 import kotlin.Unit;
-import rx.Observer;
-import rx.subjects.PublishSubject;
 
 public class LXActivityDetailsWidget extends LXDetailsScrollView implements RecyclerGallery.GalleryItemListener, RecyclerGallery.IImageViewBitmapLoadedListener {
 
@@ -466,9 +467,9 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		}
 	}
 
-	private Observer<Offer> lxOfferObserever = new Observer<Offer>() {
+	private Observer<Offer> lxOfferObserever = new DisposableObserver<Offer>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override
@@ -488,8 +489,10 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 					break;
 				}
 			}
-			AdTracker.trackLXDetails(lxState.activity.id, lxState.activity.destination, availabilityDate,
-				lxState.activity.regionId, lxState.activity.price.currencyCode, lowestTicketAmount);
+			if (lxState.activity != null) {
+				AdTracker.trackLXDetails(lxState.activity.id, lxState.activity.destination, availabilityDate,
+					lxState.activity.regionId, lxState.activity.price.currencyCode, lowestTicketAmount);
+			}
 		}
 	};
 

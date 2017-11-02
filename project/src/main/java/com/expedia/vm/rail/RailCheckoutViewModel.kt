@@ -3,6 +3,7 @@ package com.expedia.vm.rail
 import android.content.Context
 import android.text.Spanned
 import android.text.SpannedString
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BillingInfo
@@ -20,12 +21,13 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -45,7 +47,7 @@ class RailCheckoutViewModel(val context: Context) {
 
     var createTripId: String? = null
 
-    val selectedCardFeeObservable = BehaviorSubject.create<Money>()
+    val selectedCardFeeObservable = BehaviorSubject.create<Optional<Money>>()
     val paymentTypeSelectedHasCardFee = PublishSubject.create<Boolean>()
     val cardFeeTextSubject = PublishSubject.create<Spanned>()
     val tripResponseObservable = BehaviorSubject.create<RailCreateTripResponse>()
@@ -103,7 +105,8 @@ class RailCheckoutViewModel(val context: Context) {
         builder.clearTravelers()
     }
 
-    val paymentCompleteObserver = endlessObserver<BillingInfo?> { billingInfo ->
+    val paymentCompleteObserver = endlessObserver<Optional<BillingInfo>> { billingInfoOptional ->
+        val billingInfo = billingInfoOptional.value
         val cardDetails = RailCheckoutParams.CardDetails(billingInfo?.number.toString(),
                 billingInfo?.expirationDate?.year.toString(), billingInfo?.expirationDate?.monthOfYear.toString(),
                 billingInfo?.securityCode, billingInfo?.nameOnCard,
@@ -152,7 +155,8 @@ class RailCheckoutViewModel(val context: Context) {
     }
 
     private fun setupCardFeeSubjects() {
-        selectedCardFeeObservable.subscribe { selectedCardFee ->
+        selectedCardFeeObservable.subscribe { selectedCardFeeOptional ->
+            val selectedCardFee = selectedCardFeeOptional.value
             if (selectedCardFee != null && !selectedCardFee.isZero) {
                 val cardFeeText = Phrase.from(context, R.string.rail_cc_processing_fee_TEMPLATE)
                         .put("card_fee", selectedCardFee.formattedPrice)
@@ -165,7 +169,7 @@ class RailCheckoutViewModel(val context: Context) {
             }
         }
 
-        Observable.combineLatest(paymentTypeSelectedHasCardFee, showingPaymentForm, { haveCardFee, showingPaymentForm ->
+        ObservableOld.combineLatest(paymentTypeSelectedHasCardFee, showingPaymentForm, { haveCardFee, showingPaymentForm ->
             haveCardFee && showingPaymentForm
         }).subscribe { displayCardFeesObservable.onNext(it) }
     }
@@ -193,13 +197,13 @@ class RailCheckoutViewModel(val context: Context) {
         newTripResponse.ticketDeliveryFees = newTripResponse.getTicketDeliveryFeeForOption(currentTicketDeliveryToken)
 
         cardFeeTripResponseSubject.onNext(newTripResponse)
-        selectedCardFeeObservable.onNext(cardFee)
+        selectedCardFeeObservable.onNext(Optional(cardFee))
         updatePricingSubject.onNext(newTripResponse)
     }
 
     private fun getCardFeesCallback(): Observer<CardFeeResponse> {
 
-        return object : Observer<CardFeeResponse> {
+        return object: DisposableObserver<CardFeeResponse>() {
             override fun onNext(it: CardFeeResponse) {
                 if (!it.hasErrors()) {
                     updateCostBreakdownWithFees(it.feePrice, it.tripTotalPrice)
@@ -209,10 +213,10 @@ class RailCheckoutViewModel(val context: Context) {
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 cardFeeErrorObservable.onNext(Unit)
                 RailTracking().trackCardFeeApiNoResponseError()
             }
@@ -237,7 +241,7 @@ class RailCheckoutViewModel(val context: Context) {
     }
 
     private fun makeCheckoutResponseObserver(): Observer<RailCheckoutResponseWrapper> {
-        return object : Observer<RailCheckoutResponseWrapper> {
+        return object : DisposableObserver<RailCheckoutResponseWrapper>() {
             override fun onNext(response: RailCheckoutResponseWrapper) {
                 showCheckoutDialogObservable.onNext(false)
                 if (response.checkoutResponse != null) {
@@ -260,7 +264,7 @@ class RailCheckoutViewModel(val context: Context) {
                 RailTracking().trackCheckoutApiNoResponseError()
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
         }

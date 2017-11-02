@@ -1,7 +1,7 @@
 package com.expedia.bookings.itin.vm
 
-import rx.Observable
-import rx.subjects.PublishSubject
+import com.expedia.bookings.ObservableOld
+import io.reactivex.subjects.PublishSubject
 
 class ItinActionButtonsViewModel {
     val leftButtonVisibilityObservable = PublishSubject.create<Boolean>()
@@ -15,7 +15,7 @@ class ItinActionButtonsViewModel {
     val dividerVisibilityObservable = PublishSubject.create<Boolean>()
     
     init{
-        Observable.zip(leftButtonVisibilityObservable, rightButtonVisibilityObservable, { leftButtonVisible: Boolean, rightButtonVisible: Boolean ->
+        ObservableOld.zip(leftButtonVisibilityObservable, rightButtonVisibilityObservable, { leftButtonVisible: Boolean, rightButtonVisible: Boolean ->
             dividerVisibilityObservable.onNext(leftButtonVisible && rightButtonVisible)
         }).subscribe()
     }

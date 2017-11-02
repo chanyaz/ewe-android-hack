@@ -4,7 +4,7 @@ import com.expedia.bookings.data.AbstractItinDetailsResponse;
 
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface ItinTripApi {
 

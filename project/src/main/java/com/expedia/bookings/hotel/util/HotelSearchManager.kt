@@ -4,11 +4,12 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.RetrofitUtils
-import rx.Observer
-import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 
 open class HotelSearchManager(private val hotelServices: HotelServices?) {
     val successSubject = PublishSubject.create<HotelSearchResponse>()
@@ -23,7 +24,7 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
 
     var isCurrentLocationSearch = false
     private var searchResponse: HotelSearchResponse? = null
-    private var subscriptions: CompositeSubscription = CompositeSubscription()
+    private var subscriptions: CompositeDisposable = CompositeDisposable()
 
     private var prefetchSearch = false
 
@@ -37,7 +38,7 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
             reset()
             fetchingResults = true
             isCurrentLocationSearch = params.suggestion.isCurrentLocationSearch
-            subscriptions.add(services.search(params, apiCompleteSubject).subscribe(searchResponseObserver))
+            subscriptions.add(services.search(params, apiCompleteSubject).subscribeObserver(searchResponseObserver))
         }
     }
 
@@ -46,11 +47,11 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
         subscriptions.clear()
     }
 
-    fun unsubscribe() {
+    fun dispose() {
         subscriptions.clear()
     }
 
-    val searchResponseObserver = object : Observer<HotelSearchResponse> {
+    val searchResponseObserver = object : DisposableObserver<HotelSearchResponse>() {
         override fun onNext(hotelSearchResponse: HotelSearchResponse) {
             fetchingResults = false
             if (hotelSearchResponse.hasErrors()) {
@@ -73,11 +74,11 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
             }
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
             fetchingResults = false
         }
 
-        override fun onError(e: Throwable?) {
+        override fun onError(e: Throwable) {
             fetchingResults = false
             if (!prefetchSearch) {
                 val retrofitError = RetrofitUtils.getRetrofitError(e)

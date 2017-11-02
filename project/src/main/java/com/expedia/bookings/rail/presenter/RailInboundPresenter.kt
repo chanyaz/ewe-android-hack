@@ -20,7 +20,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.rail.RailInboundResultsViewModel
 import com.expedia.vm.rail.RailOutboundHeaderViewModel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {

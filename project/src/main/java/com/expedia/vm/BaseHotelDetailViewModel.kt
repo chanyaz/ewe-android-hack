@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.LineOfBusiness
@@ -31,12 +32,12 @@ import com.expedia.util.getGuestRatingText
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
-import rx.Observable
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
 import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.LinkedHashMap
@@ -70,7 +71,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val checkOutDate: LocalDate? get() = paramsSubject.value.checkOut
 
     val roomSelectedSubject = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
-    val hotelSoldOut = BehaviorSubject.create<Boolean>(false)
+    val hotelSoldOut = BehaviorSubject.createDefault<Boolean>(false)
     val selectedRoomSoldOut = PublishSubject.create<Unit>()
     val hotelPriceContentDesc = PublishSubject.create<String>()
 
@@ -79,7 +80,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     var etpOffersList = ArrayList<HotelOffersResponse.HotelRoomResponse>()
 
     val sectionBodyObservable = BehaviorSubject.create<String>()
-    val showBookByPhoneObservable = BehaviorSubject.create<Boolean>(false)
+    val showBookByPhoneObservable = BehaviorSubject.createDefault<Boolean>(false)
     val galleryObservable = PublishSubject.create<ArrayList<HotelMedia>>()
 
     val commonAmenityTextObservable = BehaviorSubject.create<String>()
@@ -87,13 +88,13 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val amenitiesListObservable = BehaviorSubject.create<List<Amenity>>()
     val noAmenityObservable = BehaviorSubject.create<Unit>()
 
-    val hasETPObservable = BehaviorSubject.create<Boolean>(false)
+    val hasETPObservable = BehaviorSubject.createDefault<Boolean>(false)
     val hasFreeCancellationObservable = BehaviorSubject.create<Boolean>()
     val renovationObservable = BehaviorSubject.create<Boolean>()
     val hotelRenovationObservable = BehaviorSubject.create<Pair<String, String>>()
     val hotelPayLaterInfoObservable = BehaviorSubject.create<Pair<String, List<HotelOffersResponse.HotelRoomResponse>>>()
     val vipAccessInfoObservable = BehaviorSubject.create<Unit>()
-    val propertyInfoListObservable = BehaviorSubject.create<List<HotelOffersResponse.HotelText>>(emptyList())
+    val propertyInfoListObservable = BehaviorSubject.createDefault<List<HotelOffersResponse.HotelText>>(emptyList())
 
     val roomResponseListObservable = BehaviorSubject.create<Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>>>()
     var uniqueValueAddForRooms: List<String> by Delegates.notNull()
@@ -103,13 +104,13 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
     val hotelRoomDetailViewModelsObservable = BehaviorSubject.create<ArrayList<HotelRoomDetailViewModel>>()
 
-    val hotelResortFeeObservable = BehaviorSubject.create<String>("")
+    val hotelResortFeeObservable = BehaviorSubject.createDefault<String>("")
     val hotelResortFeeIncludedTextObservable = BehaviorSubject.create<String>()
     val hotelNameObservable = BehaviorSubject.create<String>()
     val hotelRatingObservable = BehaviorSubject.create<Float>()
     val hotelRatingContentDescriptionObservable = BehaviorSubject.create<String>()
     val hotelRatingObservableVisibility = BehaviorSubject.create<Boolean>()
-    val onlyShowTotalPrice = BehaviorSubject.create<Boolean>(false)
+    val onlyShowTotalPrice = BehaviorSubject.createDefault<Boolean>(false)
     val roomPriceToShowCustomer = BehaviorSubject.create<String>()
     val totalPriceObservable = BehaviorSubject.create<String>()
     val priceToShowCustomerObservable = BehaviorSubject.create<String>()
@@ -130,14 +131,14 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val discountPercentageBackgroundObservable = BehaviorSubject.create<Int>()
     val discountPercentageTextColorObservable = BehaviorSubject.create<Int>()
     val discountPercentageObservable = BehaviorSubject.create<Pair<String, String>>()
-    val showDiscountPercentageObservable = BehaviorSubject.create<Boolean>(false)
+    val showDiscountPercentageObservable = BehaviorSubject.createDefault<Boolean>(false)
     val shopWithPointsObservable = PublishSubject.create<Boolean>()
     val showAirAttachedObservable = PublishSubject.create<Boolean>()
-    val showAirAttachSWPImageObservable = BehaviorSubject.create<Boolean>(false)
-    val hasVipAccessObservable = BehaviorSubject.create<Boolean>(false)
-    val hasVipAccessLoyaltyObservable = BehaviorSubject.create<Boolean>(false)
-    val hasRegularLoyaltyPointsAppliedObservable = BehaviorSubject.create<Boolean>(false)
-    val promoMessageObservable = BehaviorSubject.create<String>("")
+    val showAirAttachSWPImageObservable = BehaviorSubject.createDefault<Boolean>(false)
+    val hasVipAccessObservable = BehaviorSubject.createDefault<Boolean>(false)
+    val hasVipAccessLoyaltyObservable = BehaviorSubject.createDefault<Boolean>(false)
+    val hasRegularLoyaltyPointsAppliedObservable = BehaviorSubject.createDefault<Boolean>(false)
+    val promoMessageObservable = BehaviorSubject.createDefault<String>("")
     val earnMessageObservable = BehaviorSubject.create<String>()
     val earnMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
 
@@ -147,7 +148,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val scrollToRoom = PublishSubject.create<Unit>()
     val returnToSearchSubject = PublishSubject.create<Unit>()
     val hotelSelectedObservable = PublishSubject.create<Unit>()
-    private val allRoomsSoldOut = BehaviorSubject.create<Boolean>(false)
+    private val allRoomsSoldOut = BehaviorSubject.createDefault<Boolean>(false)
 
     lateinit var hotelId: String
     var isCurrentLocationSearch = false
@@ -155,7 +156,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val loadTimeData = PageUsableData()
 
     private val resortFeeFormatter = HotelResortFeeFormatter()
-    private var roomSubscriptions: CompositeSubscription? = null
+    private var roomSubscriptions: CompositeDisposable? = null
 
     val bookByPhoneContainerClickObserver: Observer<Unit> = endlessObserver {
         var supportPhoneNumber = when (userStateManager.getCurrentUserLoyaltyTier()) {
@@ -200,24 +201,24 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         HotelTracking.trackHotelEtpInfo()
     }
 
-    val strikeThroughPriceVisibility = Observable.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut, shopWithPointsObservable, showAirAttachedObservable) {
+    val strikeThroughPriceVisibility = ObservableOld.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut, shopWithPointsObservable, showAirAttachedObservable) {
         strikeThroughPriceGreaterThanPriceToShowUsers, hotelSoldOut, shopWithPointsObservable, showAirAttachedObservable ->
         (strikeThroughPriceGreaterThanPriceToShowUsers && !hotelSoldOut) && (shopWithPointsObservable || !showAirAttachedObservable)
     }
 
-    val perNightVisibility = Observable.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut ->
+    val perNightVisibility = ObservableOld.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut ->
         !(onlyShowTotalPrice || hotelSoldOut)
     }
 
-    val payByPhoneContainerVisibility = Observable.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
+    val payByPhoneContainerVisibility = ObservableOld.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
 
-    val hotelMessagingContainerVisibility = Observable.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable)
+    val hotelMessagingContainerVisibility = ObservableOld.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable)
     {
         hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied, shouldShowAirAttachSWPImage ->
         (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || hasRegularLoyaltyPointsApplied || shouldShowAirAttachSWPImage) && !hotelSoldOut
     }
 
-    val etpContainerVisibility = Observable.combineLatest(hasETPObservable, hotelSoldOut) { hasETPOffer, hotelSoldOut -> hasETPOffer && !hotelSoldOut }
+    val etpContainerVisibility = ObservableOld.combineLatest(hasETPObservable, hotelSoldOut) { hasETPOffer, hotelSoldOut -> hasETPOffer && !hotelSoldOut }
 
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
 
@@ -238,12 +239,12 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         }
 
         hotelRoomDetailViewModelsObservable.subscribe { roomDetailViewModels ->
-            roomSubscriptions?.unsubscribe()
+            roomSubscriptions?.dispose()
             if (roomDetailViewModels.isEmpty()) {
                 return@subscribe
             }
 
-            roomSubscriptions = CompositeSubscription()
+            roomSubscriptions = CompositeDisposable()
             roomDetailViewModels.forEach { roomViewModel ->
                 roomSubscriptions?.add(roomViewModel.roomSoldOut.subscribe {
                     if (areAllRoomDetailsSoldOut(roomDetailViewModels)) {

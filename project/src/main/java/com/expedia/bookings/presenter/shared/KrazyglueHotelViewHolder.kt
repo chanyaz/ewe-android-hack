@@ -15,14 +15,14 @@ import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeInverseVisibility
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.expedia.util.subscribeStarRating
-import kotlin.properties.Delegates
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.KrazyglueHotelViewHolderViewModel
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
+import kotlin.properties.Delegates
 
 class KrazyglueHotelViewHolder(itemView: View, searchParams: BehaviorSubject<HotelSearchParams>, regionId: BehaviorSubject<String>) : RecyclerView.ViewHolder(itemView){
 

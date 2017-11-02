@@ -18,7 +18,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -38,7 +38,7 @@ class LXSearchViewModelTests {
 
     @Test
     fun selectDatesAndSearch() {
-        val testSubscriber = TestSubscriber<LxSearchParams>()
+        val testSubscriber = TestObserver<LxSearchParams>()
         val expected = arrayListOf<LxSearchParams>()
         val suggestion = getDummySuggestion()
 
@@ -63,15 +63,15 @@ class LXSearchViewModelTests {
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(3)).build() as LxSearchParams)
 
-        assertEquals(testSubscriber.onNextEvents[0].activityStartDate, expected[0].activityStartDate)
-        assertEquals(testSubscriber.onNextEvents[1].activityEndDate, expected[1].activityEndDate)
+        assertEquals(testSubscriber.values()[0].activityStartDate, expected[0].activityStartDate)
+        assertEquals(testSubscriber.values()[1].activityEndDate, expected[1].activityEndDate)
     }
 
     @Test
     fun selectErrorObservablesForLXSearch() {
-        val destinationErrorTestSubscriber = TestSubscriber<Unit>()
-        val dateErrorTestSubscriber = TestSubscriber<Unit>()
-        val searchParamsTestSubscriber = TestSubscriber<LxSearchParams>()
+        val destinationErrorTestSubscriber = TestObserver<Unit>()
+        val dateErrorTestSubscriber = TestObserver<Unit>()
+        val searchParamsTestSubscriber = TestObserver<LxSearchParams>()
 
 
         val suggestion = getDummySuggestion()

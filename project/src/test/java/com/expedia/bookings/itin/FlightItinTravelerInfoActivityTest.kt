@@ -9,6 +9,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.itin.activity.FlightItinTravelerInfoActivity
 import com.expedia.bookings.itin.vm.FlightItinTravelerViewModel
 import com.expedia.bookings.itin.vm.FlightTravelerInfoViewModel
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.squareup.phrase.Phrase
@@ -20,7 +21,6 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -30,8 +30,8 @@ class FlightItinTravelerInfoActivityTest {
     lateinit var sut: FlightItinTravelerInfoActivity
     lateinit var context: Context
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
-    private val travelerTicketSubscriber = TestSubscriber<CharSequence>()
-    private val travelerPhoneSubscriber = TestSubscriber<CharSequence>()
+    private val travelerTicketSubscriber = TestObserver<CharSequence>()
+    private val travelerPhoneSubscriber = TestObserver<CharSequence>()
     lateinit var testItinCardData: ItinCardDataFlight
 
 

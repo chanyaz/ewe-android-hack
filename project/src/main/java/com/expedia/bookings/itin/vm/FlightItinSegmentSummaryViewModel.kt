@@ -7,8 +7,8 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.DateTime
-import rx.subjects.PublishSubject
 
 class FlightItinSegmentSummaryViewModel(private val context: Context) {
     data class SummaryWidgetParams(

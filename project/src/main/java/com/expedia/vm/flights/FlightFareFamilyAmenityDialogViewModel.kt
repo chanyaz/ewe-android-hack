@@ -2,7 +2,8 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.data.flights.FlightAmenityCategory
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
+import java.util.HashMap
 
 class FlightFareFamilyAmenityDialogViewModel(val context: Context,
                                              val fareFamilyComponents: HashMap<String, HashMap<String, String>>,

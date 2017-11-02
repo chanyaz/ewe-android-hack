@@ -11,9 +11,10 @@ import com.expedia.bookings.presenter.shared.StoredCouponAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponAppliedStatus
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.RetrofitUtils
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>?) {
 
@@ -33,6 +34,10 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
 
     open fun getCreateTripResponseObserver(): Observer<HotelCreateTripResponse> {
         return object : Observer<HotelCreateTripResponse> {
+            override fun onSubscribe(d: Disposable) {
+                //ignore
+            }
+
             override fun onNext(response: HotelCreateTripResponse) {
                 if (response.hasErrors()) {
                     if (response.firstError.errorInfo.field == "productKey") {
@@ -58,7 +63,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
         }

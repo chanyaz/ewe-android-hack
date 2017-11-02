@@ -20,8 +20,8 @@ import com.expedia.util.subscribeTextChange
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.EntryFormToolbarViewModel
 import com.expedia.vm.traveler.SimpleTravelerEntryWidgetViewModel
-import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.disposables.CompositeDisposable
 
 class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs), TravelerButton.ITravelerButtonListener {
 
@@ -53,7 +53,7 @@ class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLa
         }
     }
 
-    var compositeSubscription: CompositeSubscription? = null
+    var CompositeDisposable: CompositeDisposable? = null
 
     private val toolbar: EntryFormToolbar by bindView(R.id.rail_traveler_toolbar)
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
@@ -85,14 +85,14 @@ class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLa
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        compositeSubscription?.unsubscribe()
+        CompositeDisposable?.dispose()
         if (changedView is RailTravelerEntryWidget) {
             if (visibility == View.VISIBLE) {
-                compositeSubscription = CompositeSubscription()
-                compositeSubscription?.add(nameEntryView.firstName.subscribeTextChange(formFilledSubscriber))
-                compositeSubscription?.add(nameEntryView.lastName.subscribeTextChange(formFilledSubscriber))
-                compositeSubscription?.add(phoneEntryView.phoneNumber.subscribeTextChange(formFilledSubscriber))
-                compositeSubscription?.add(emailEntryView.emailAddress.subscribeTextChange(formFilledSubscriber))
+                CompositeDisposable = CompositeDisposable()
+                CompositeDisposable?.add(nameEntryView.firstName.subscribeTextChange(formFilledSubscriber))
+                CompositeDisposable?.add(nameEntryView.lastName.subscribeTextChange(formFilledSubscriber))
+                CompositeDisposable?.add(phoneEntryView.phoneNumber.subscribeTextChange(formFilledSubscriber))
+                CompositeDisposable?.add(emailEntryView.emailAddress.subscribeTextChange(formFilledSubscriber))
             }
         }
     }

@@ -9,7 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.Observer
+import io.reactivex.Observer
 
 class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
     val stopsLabel: TextView by bindView(R.id.label)
@@ -20,7 +20,9 @@ class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : Relativ
 
     val checkObserver: Observer<Unit> = endlessObserver {
         checkBox.isChecked = !checkBox.isChecked
-        observer?.onNext(value)
+        value?.let {
+            observer?.onNext(it)
+        }
         if (checkBox.isChecked) onChecked()
         refreshContentDescription()
     }

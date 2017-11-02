@@ -5,8 +5,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.pos.PointOfSale
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelResultsPricingStructureHeaderViewModel(val context: Context, val priceDescriptorMessageIdForHSR: Int?) {
     // Inputs

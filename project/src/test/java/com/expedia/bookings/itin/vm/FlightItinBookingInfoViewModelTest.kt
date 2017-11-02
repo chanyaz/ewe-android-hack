@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.vm
 import android.app.Activity
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import org.junit.Before
@@ -10,7 +11,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -23,11 +23,11 @@ class FlightItinBookingInfoViewModelTest {
     lateinit private var context: Context
 
 
-    private val createWidgetSharedSubject = TestSubscriber<Boolean>()
-    private val createAdditionalInfoSubject = TestSubscriber<ItinLinkOffCardViewViewModel.CardViewParams>()
-    private val createTravelerlInfoSubject = TestSubscriber<ItinLinkOffCardViewViewModel.CardViewParams>()
-    private val createPriceSummarySubject = TestSubscriber<ItinLinkOffCardViewViewModel.CardViewParams>()
-    private val createManageBookingSubject = TestSubscriber<ItinLinkOffCardViewViewModel.CardViewParams>()
+    private val createWidgetSharedSubject = TestObserver<Boolean>()
+    private val createAdditionalInfoSubject = TestObserver<ItinLinkOffCardViewViewModel.CardViewParams>()
+    private val createTravelerlInfoSubject = TestObserver<ItinLinkOffCardViewViewModel.CardViewParams>()
+    private val createPriceSummarySubject = TestObserver<ItinLinkOffCardViewViewModel.CardViewParams>()
+    private val createManageBookingSubject = TestObserver<ItinLinkOffCardViewViewModel.CardViewParams>()
 
 
     @Before

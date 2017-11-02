@@ -5,14 +5,15 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.enums.MerchandiseSpam
-import rx.Observable
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import com.expedia.bookings.withLatestFrom
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelCheckoutMainViewModel(paymentModel: PaymentModel<HotelCreateTripResponse>, shopWithPointsViewModel: ShopWithPointsViewModel) {
     val animateInSlideToPurchaseSubject = PublishSubject.create<Unit>()
     val onLogoutButtonClicked = PublishSubject.create<Unit>()
-    val userWithEffectiveSwPAvailableSignedOut = BehaviorSubject.create<Boolean>(false)
+    val userWithEffectiveSwPAvailableSignedOut = BehaviorSubject.createDefault<Boolean>(false)
     val emailOptInStatus = PublishSubject.create<MerchandiseSpam>()
 
     //OUTLETS

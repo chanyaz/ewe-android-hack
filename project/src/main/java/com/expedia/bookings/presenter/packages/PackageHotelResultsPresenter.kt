@@ -15,10 +15,10 @@ import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
-import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
+import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
-import com.expedia.bookings.widget.FilterButtonWithCountWidget
+import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -27,7 +27,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.PackageFilterViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.squareup.phrase.Phrase
-import rx.Observer
+import io.reactivex.Observer
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }

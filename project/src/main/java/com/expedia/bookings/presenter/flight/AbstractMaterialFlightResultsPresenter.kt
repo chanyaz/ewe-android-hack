@@ -38,7 +38,7 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
                 trackFlightScrollDepth(it)
             }
             filter.viewModelBase.atleastOneFilterIsApplied.filter { it }.subscribe {
-                resultsPresenter.trackScrollDepthSubscription?.unsubscribe()
+                resultsPresenter.trackScrollDepthSubscription?.dispose()
             }
         }
         resultsPresenter.setAdapter(flightListAdapter)

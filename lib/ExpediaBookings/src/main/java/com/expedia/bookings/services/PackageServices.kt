@@ -20,10 +20,10 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observable
-import rx.Scheduler
+import io.reactivex.Observable
+import io.reactivex.Scheduler
 import java.text.NumberFormat
 import java.util.ArrayList
 import java.util.Currency
@@ -46,7 +46,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 

@@ -17,6 +17,7 @@ import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -36,7 +37,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
-import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertNotNull
@@ -78,23 +78,23 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMenuItemsWhenBackflowIsBucketed() {
-        val testSubscriber = TestSubscriber.create<PackageCreateTripResponse>()
+        val testSubscriber = TestObserver.create<PackageCreateTripResponse>()
         val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
         AbacusTestUtils.bucketTests(AbacusUtils.PackagesBackFlowFromOverview)
         setupOverviewPresenter()
         packageServiceRule.services!!.createTrip(params).subscribe(testSubscriber)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
         assertEquals(overviewPresenter.bundleOverviewHeader.toolbar.menu.size(), 5)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMenuItemsWhenBackflowIsControlled() {
-        val testSubscriber = TestSubscriber.create<PackageCreateTripResponse>()
+        val testSubscriber = TestObserver.create<PackageCreateTripResponse>()
         val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
         setupOverviewPresenter()
         packageServiceRule.services!!.createTrip(params).subscribe(testSubscriber)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
         assertEquals(overviewPresenter.bundleOverviewHeader.toolbar.menu.size(), 4)
     }
 
@@ -128,9 +128,9 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageBundleWidgetTitleTextFromMultiItemResponse() {
-        val stepOneTestSubscriber = TestSubscriber<String>()
-        val stepTwoTestSubscriber = TestSubscriber<String>()
-        val stepThreeTestSubscriber = TestSubscriber<String>()
+        val stepOneTestSubscriber = TestObserver<String>()
+        val stepTwoTestSubscriber = TestObserver<String>()
+        val stepThreeTestSubscriber = TestObserver<String>()
         AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
         overviewPresenter.bundleWidget.viewModel.stepOneTextObservable.subscribe(stepOneTestSubscriber)
@@ -138,25 +138,25 @@ class PackageOverviewPresenterTest {
         overviewPresenter.bundleWidget.viewModel.stepThreeTextObservale.subscribe(stepThreeTestSubscriber)
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
 
-        assertEquals("Hotel in Detroit - 1 room, 3 nights", stepOneTestSubscriber.onNextEvents[0])
-        assertEquals("Flights - SEA to SFO, round trip", stepTwoTestSubscriber.onNextEvents[0])
-        assertEquals("", stepThreeTestSubscriber.onNextEvents[0])
+        assertEquals("Hotel in Detroit - 1 room, 3 nights", stepOneTestSubscriber.values()[0])
+        assertEquals("Flights - SEA to SFO, round trip", stepTwoTestSubscriber.values()[0])
+        assertEquals("", stepThreeTestSubscriber.values()[0])
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBundleTotalTextAfterCreateTrip() {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
-        val testSubscriber = TestSubscriber.create<PackageCreateTripResponse>()
+        val testSubscriber = TestObserver.create<PackageCreateTripResponse>()
         val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
         setupOverviewPresenter()
         packageServiceRule.services!!.createTrip(params).subscribe(testSubscriber)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
 
         assertEquals("Bundle total", overviewPresenter.totalPriceWidget.bundleTotalText.text)
 
         setPointOfSale(PointOfSaleId.JAPAN)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
 
         assertEquals("Trip total", overviewPresenter.totalPriceWidget.bundleTotalText.text)
         setPointOfSale(initialPOSID)
@@ -165,7 +165,7 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testWebURLForCreateTripWithMIDTurnedOn() {
-        val testSubscriber = TestSubscriber.create<String>()
+        val testSubscriber = TestObserver.create<String>()
         AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
         overviewPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testSubscriber)
@@ -174,8 +174,8 @@ class PackageOverviewPresenterTest {
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
-        val currentURLIndex = testSubscriber.onNextEvents.size - 1
-        assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=fd713193-3ec1-4773-9f0d-4ff51cc8c19f", testSubscriber.onNextEvents[currentURLIndex])
+        val currentURLIndex = testSubscriber.valueCount() - 1
+        assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=fd713193-3ec1-4773-9f0d-4ff51cc8c19f", testSubscriber.values()[currentURLIndex])
     }
 
     @Test
@@ -210,6 +210,7 @@ class PackageOverviewPresenterTest {
 
         assertEquals("$350", overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleTotalPrice.text)
     }
+
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCacheResponseUsedOnChangeHotelRoomBack() {
@@ -265,7 +266,7 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMidCheckoutViewShowsAfterGoingBackFromOverviewScreenToCheckout() {
-        val testSubscriber = TestSubscriber.create<String>()
+        val testSubscriber = TestObserver.create<String>()
         AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
         overviewPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testSubscriber)

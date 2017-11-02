@@ -14,7 +14,7 @@ import com.expedia.account.input.rules.ExpediaNameInputRule
 import com.expedia.account.input.rules.ExpediaPasswordInputRule
 import com.expedia.account.util.CombiningFakeObservable
 import com.expedia.account.util.InvalidCharacterTextWatcher
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class SinglePageEmailNamePasswordLayout(context: Context, attrs: AttributeSet): LinearLayout (context, attrs) {
 

@@ -10,7 +10,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelStarRatingFilterItem(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val clickedSubject = PublishSubject.create<Unit>()

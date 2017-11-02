@@ -1,6 +1,6 @@
 package com.expedia.bookings.vm
 
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class DebugSelectLanguageVM {
     val restartAppSubject = PublishSubject.create<Unit>()

@@ -7,6 +7,7 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.itin.vm.FlightItinMapWidgetViewModel
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.flightlib.data.Airport
@@ -15,7 +16,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
@@ -26,14 +26,14 @@ class FlightItinMapWidgetTest {
     lateinit var sut: FlightItinMapWidget
     lateinit var mockAnalyticsProvider: AnalyticsProvider
 
-    var leftButtonObservable = TestSubscriber<Boolean>()
-    var rightButtonObservable = TestSubscriber<Boolean>()
+    var leftButtonObservable = TestObserver<Boolean>()
+    var rightButtonObservable = TestObserver<Boolean>()
 
-    var leftButtonDrawableObservable = TestSubscriber<Int>()
-    var rightButtonDrawableObservable = TestSubscriber<Int>()
+    var leftButtonDrawableObservable = TestObserver<Int>()
+    var rightButtonDrawableObservable = TestObserver<Int>()
 
-    var leftButtonTextObservable = TestSubscriber<String>()
-    var rightButtonTextObservable = TestSubscriber<String>()
+    var leftButtonTextObservable = TestObserver<String>()
+    var rightButtonTextObservable = TestObserver<String>()
 
     @Before
     fun setup() {

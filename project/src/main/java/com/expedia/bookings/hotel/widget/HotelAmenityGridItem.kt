@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import android.util.TypedValue
 import com.expedia.bookings.hotel.data.Amenity
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelAmenityGridItem(context: Context, private val amenity: Amenity) : LinearLayout(context, null) {
     val amenitySelected = PublishSubject.create<Amenity>()

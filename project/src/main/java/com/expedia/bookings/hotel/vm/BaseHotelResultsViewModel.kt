@@ -5,8 +5,8 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 open class BaseHotelResultsViewModel(protected val context: Context) {
 

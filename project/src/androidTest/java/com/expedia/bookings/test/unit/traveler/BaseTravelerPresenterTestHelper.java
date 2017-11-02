@@ -1,8 +1,5 @@
 package com.expedia.bookings.test.unit.traveler;
 
-import com.expedia.bookings.test.espresso.EspressoUser;
-import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
-import com.expedia.vm.traveler.FlightTravelersViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,18 +25,22 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.validation.TravelerValidator;
 import com.expedia.bookings.widget.CheckoutToolbar;
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard;
 import com.expedia.vm.CheckoutToolbarViewModel;
-import com.expedia.vm.traveler.TravelersViewModel;
+import com.expedia.vm.traveler.FlightTravelersViewModel;
 import com.expedia.vm.traveler.TravelerSummaryViewModel;
+import com.expedia.vm.traveler.TravelersViewModel;
 import com.squareup.phrase.Phrase;
+
+import io.reactivex.observers.DisposableObserver;
 import kotlin.Unit;
-import rx.Observer;
 
 public class BaseTravelerPresenterTestHelper {
 
@@ -127,9 +128,9 @@ public class BaseTravelerPresenterTestHelper {
 			}
 		});
 
-		testTravelersPresenter.getCloseSubject().subscribe(new Observer<Unit>() {
+		testTravelersPresenter.getCloseSubject().subscribe(new DisposableObserver<Unit>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 
 			}
 

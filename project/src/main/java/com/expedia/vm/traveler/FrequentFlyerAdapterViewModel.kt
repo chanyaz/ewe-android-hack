@@ -1,12 +1,12 @@
 package com.expedia.vm.traveler
 
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FrequentFlyerCard
 import com.expedia.bookings.utils.FlightV2Utils
-import rx.Observable
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 
@@ -27,7 +27,7 @@ class FrequentFlyerAdapterViewModel(var traveler: Traveler) {
             }
         }
 
-        Observable.combineLatest(flightLegsObservable, frequentFlyerPlans, { legs, plans ->
+        ObservableOld.combineLatest(flightLegsObservable, frequentFlyerPlans, { legs, plans ->
             if (legs != null && plans != null) {
                 viewHolderViewModels.clear()
                 val validAirlines = ArrayList<FrequentFlyerCard>()

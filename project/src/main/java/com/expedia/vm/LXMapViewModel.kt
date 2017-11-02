@@ -13,7 +13,7 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -36,7 +36,7 @@ class LXMapViewModel(val context: Context) {
         activityPrice.onNext(fromPriceStyledString(context, response))
         eventLatLng.onNext(ActivityDetailsResponse.LXLocation.getLocation(response.eventLocation.latLng))
         redemptionLocationsLatLng.onNext(getRedemptionLocationCoordinates(response.redemptionLocation))
-        toolbarDetailText.onNext(lxState.activity.title)
+        toolbarDetailText.onNext(lxState.activity.title ?: "")
         toolbarSubtitleText.onNext(LXDataUtils.getToolbarSearchDateText(context, lxState.searchParams, false))
     }
 

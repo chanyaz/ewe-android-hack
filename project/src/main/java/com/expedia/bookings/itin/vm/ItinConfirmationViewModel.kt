@@ -1,7 +1,7 @@
 package com.expedia.bookings.itin.vm
 
 import com.expedia.bookings.data.trips.TicketingStatus
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class ItinConfirmationViewModel {
     data class WidgetParams(

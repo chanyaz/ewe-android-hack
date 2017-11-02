@@ -1,9 +1,7 @@
 package com.expedia.bookings.presenter.shared
 
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
-
+import io.reactivex.subjects.PublishSubject
 
 class StoredCouponWidgetViewModel {
 

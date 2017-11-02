@@ -5,7 +5,7 @@ import com.expedia.bookings.data.payment.ProgramName;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface LoyaltyApi {
 

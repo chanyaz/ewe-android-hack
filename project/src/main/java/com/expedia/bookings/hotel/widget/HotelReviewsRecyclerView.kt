@@ -13,7 +13,7 @@ import com.expedia.bookings.widget.HotelReviewsSummaryWidget
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.vm.HotelReviewRowViewModel
 import com.expedia.vm.HotelReviewsSummaryViewModel
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
 
 class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {

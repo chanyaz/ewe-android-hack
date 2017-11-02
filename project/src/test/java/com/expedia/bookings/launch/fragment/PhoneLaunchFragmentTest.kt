@@ -4,13 +4,13 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.launch.widget.PhoneLaunchWidget
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -37,11 +37,11 @@ class PhoneLaunchFragmentTest {
         fragmentManager.beginTransaction().add(testFragment, "TAG").commitNow()
         assertNotNull(testFragment.view)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         val widget = testFragment.view!!.findViewById<PhoneLaunchWidget>(R.id.new_phone_launch_widget)
         widget.locationNotAvailable.subscribe(testSubscriber)
         testFragment.onReactToLocationRequest()
 
-        assertEquals(1, testSubscriber.valueCount)
+        assertEquals(1, testSubscriber.valueCount())
     }
 }

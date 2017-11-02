@@ -10,10 +10,10 @@ import com.expedia.bookings.widget.hotel.HotelCellViewHolder
 import com.expedia.bookings.widget.hotel.HotelListAdapter
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.testutils.JSONResourceReader
+import io.reactivex.subjects.PublishSubject
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

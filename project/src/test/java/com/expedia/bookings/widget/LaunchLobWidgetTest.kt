@@ -18,11 +18,11 @@ import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.mobiata.android.util.SettingUtils
+import io.reactivex.subjects.BehaviorSubject
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.subjects.BehaviorSubject
 import java.util.HashMap
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals

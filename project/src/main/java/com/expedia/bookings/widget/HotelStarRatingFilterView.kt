@@ -7,7 +7,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.utils.bindView
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelStarRatingFilterView(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
     val starRatingsSubject = PublishSubject.create<UserFilterChoices.StarRatings>()

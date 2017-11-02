@@ -23,7 +23,9 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.squareup.phrase.Phrase
-import rx.Observer
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
 
 class PackageCheckoutViewModel(context: Context, var packageServices: PackageServices) : AbstractCardFeeEnabledCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
@@ -78,7 +80,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
     }
 
     fun makeCheckoutResponseObserver(): Observer<PackageCheckoutResponse> {
-        return object : Observer<PackageCheckoutResponse> {
+        return object : DisposableObserver<PackageCheckoutResponse>() {
             override fun onNext(response: PackageCheckoutResponse) {
                 showCheckoutDialogObservable.onNext(false)
                 if (response.hasErrors()) {
@@ -139,14 +141,14 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
         }
     }
 
     override fun getCardFeesCallback(): Observer<CardFeeResponse> {
-        return object : Observer<CardFeeResponse> {
+        return object : DisposableObserver<CardFeeResponse>() {
             override fun onNext(cardFeeResponse: CardFeeResponse) {
                 if (!cardFeeResponse.hasErrors()) {
                     // add card fee to trip response
@@ -164,10 +166,10 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
             }
         }
     }

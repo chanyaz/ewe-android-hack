@@ -8,6 +8,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -18,7 +19,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -30,7 +30,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
 
     var hotelResultsCount: Int by Delegates.notNull<Int>()
     var priceType: HotelRate.UserPriceType by Delegates.notNull<HotelRate.UserPriceType>()
-    val testObserverForResultsDescriptionLabel = TestSubscriber.create<String>()
+    val testObserverForResultsDescriptionLabel = TestObserver.create<String>()
 
     @Before
     fun before() {

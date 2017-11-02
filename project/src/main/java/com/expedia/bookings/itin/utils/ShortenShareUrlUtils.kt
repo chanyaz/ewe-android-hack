@@ -5,8 +5,9 @@ import android.util.Log
 import com.expedia.bookings.data.trips.TripsShareUrlShortenResponse
 import com.expedia.bookings.services.TripShareUrlShortenServiceInterface
 import com.expedia.bookings.utils.Ui
-import rx.Observer
-import rx.Subscription
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
 
 class ShortenShareUrlUtils private constructor(context: Context) {
     companion object {
@@ -24,7 +25,7 @@ class ShortenShareUrlUtils private constructor(context: Context) {
     }
 
     var tripShareUrlShortenService: TripShareUrlShortenServiceInterface
-    private var tripShareUrlShortenSubscription: Subscription? = null
+    private var tripShareUrlShortenSubscription: Disposable? = null
     private val LOGGING_TAG = "SHORTEN_SHARE_URL"
 
     init {
@@ -42,17 +43,17 @@ class ShortenShareUrlUtils private constructor(context: Context) {
     }
 
     private fun getShortenUrlObserver(resultObserver: Observer<String>): Observer<TripsShareUrlShortenResponse> {
-        return object : Observer<TripsShareUrlShortenResponse> {
-            override fun onCompleted() {
-                tripShareUrlShortenSubscription?.unsubscribe()
+        return object : DisposableObserver<TripsShareUrlShortenResponse>() {
+            override fun onComplete() {
+                tripShareUrlShortenSubscription?.dispose()
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 Log.d(LOGGING_TAG, "Error: " + e?.printStackTrace().toString())
                 resultObserver.onError(e)
             }
 
-            override fun onNext(t: TripsShareUrlShortenResponse?) {
+            override fun onNext(t: TripsShareUrlShortenResponse) {
                 val shortUrl = t?.short_url
                 Log.d(LOGGING_TAG, "Success: " + shortUrl)
                 resultObserver.onNext(shortUrl)

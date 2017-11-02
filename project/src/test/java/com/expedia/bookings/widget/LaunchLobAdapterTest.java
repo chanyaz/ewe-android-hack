@@ -20,8 +20,8 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner;
 
 import kotlin.Pair;
 import kotlin.Unit;
-import rx.observers.TestSubscriber;
-import rx.subjects.BehaviorSubject;
+import com.expedia.bookings.services.TestObserver;
+import io.reactivex.subjects.BehaviorSubject;
 
 import static org.junit.Assert.assertEquals;
 
@@ -127,12 +127,12 @@ public class LaunchLobAdapterTest {
 			launchLobViewModel);
 
 		for (LobInfo lobInfo : LobInfo.values()) {
-			TestSubscriber<Pair<LineOfBusiness, View>> testSubscriber = new TestSubscriber<>();
+			TestObserver<Pair<LineOfBusiness, View>> testSubscriber = new TestObserver<>();
 			vh.getViewModel().getNavigationSubject().take(1).subscribe(testSubscriber);
 			vh.bind(lobInfo, false, getContext(), true);
 			vh.onClick(mockItemView);
 			testSubscriber.awaitTerminalEvent();
-			assertEquals(lobInfo.getLineOfBusiness(), testSubscriber.getOnNextEvents().get(0).getFirst());
+			assertEquals(lobInfo.getLineOfBusiness(), testSubscriber.values().get(0).getFirst());
 		}
 	}
 
@@ -148,11 +148,11 @@ public class LaunchLobAdapterTest {
 		LaunchLobAdapter.LobViewHolder vh = new LaunchLobAdapter.LobViewHolder(mockItemView,
 			launchLobViewModel);
 		for (LobInfo lobInfo : LobInfo.values()) {
-			TestSubscriber<Pair<LineOfBusiness, View>> testSubscriber = new TestSubscriber<>();
+			TestObserver<Pair<LineOfBusiness, View>> testSubscriber = new TestObserver<>();
 			vh.getViewModel().getNavigationSubject().take(1).subscribe(testSubscriber);
 			vh.bind(lobInfo, false, getContext(), false);
 			vh.onClick(mockItemView);
-			assertEquals(0, testSubscriber.getOnNextEvents().size());
+			assertEquals(0, testSubscriber.values().size());
 		}
 	}
 }

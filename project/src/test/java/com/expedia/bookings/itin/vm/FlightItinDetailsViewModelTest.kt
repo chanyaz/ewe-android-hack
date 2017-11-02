@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TicketingStatus
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -20,7 +21,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import com.squareup.phrase.Phrase
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -36,15 +36,15 @@ class FlightItinDetailsViewModelTest {
     lateinit private var context: Context
     lateinit private var dateTime: DateTime
 
-    val itinCardDataValidSubscriber = TestSubscriber<Unit>()
-    val itinCardDataSubscriber = TestSubscriber<ItinCardDataFlight>()
-    val updateToolbarSubscriber = TestSubscriber<ItinToolbarViewModel.ToolbarParams>()
-    val clearLegSummaryContainerSubscriber = TestSubscriber<Unit>()
-    val createLegSummaryWidgetsSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
-    val updateConfirmationSubscriber = TestSubscriber<ItinConfirmationViewModel.WidgetParams>()
-    val createLayoverSubscriber = TestSubscriber<String>()
-    val createBaggageInfoWebviewSubcriber = TestSubscriber<String>()
-    val createBookingInfoWidgetSubscriber = TestSubscriber<FlightItinBookingInfoViewModel.WidgetParams>()
+    val itinCardDataValidSubscriber = TestObserver<Unit>()
+    val itinCardDataSubscriber = TestObserver<ItinCardDataFlight>()
+    val updateToolbarSubscriber = TestObserver<ItinToolbarViewModel.ToolbarParams>()
+    val clearLegSummaryContainerSubscriber = TestObserver<Unit>()
+    val createLegSummaryWidgetsSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
+    val updateConfirmationSubscriber = TestObserver<ItinConfirmationViewModel.WidgetParams>()
+    val createLayoverSubscriber = TestObserver<String>()
+    val createBaggageInfoWebviewSubcriber = TestObserver<String>()
+    val createBookingInfoWidgetSubscriber = TestObserver<FlightItinBookingInfoViewModel.WidgetParams>()
 
     @Before
     fun setup() {
@@ -109,7 +109,7 @@ class FlightItinDetailsViewModelTest {
         sut.itinCardDataFlight = testItinCardData
         sut.updateConfirmationWidget()
         updateConfirmationSubscriber.assertValueCount(1)
-        val charSeq = updateConfirmationSubscriber.onNextEvents[0].confirmationNumbers
+        val charSeq = updateConfirmationSubscriber.values()[0].confirmationNumbers
         updateConfirmationSubscriber.assertValue(ItinConfirmationViewModel.WidgetParams(TicketingStatus.COMPLETE, charSeq, false))
         assertEquals<CharSequence>(charSeq.toString(), "IKQVCR")
     }

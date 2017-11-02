@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.TransitionElement
@@ -57,6 +58,7 @@ import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.shared.WebCheckoutView
+import com.expedia.bookings.withLatestFrom
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
 import com.expedia.util.setInverseVisibility
@@ -73,9 +75,10 @@ import com.expedia.vm.HotelWebCheckoutViewViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
-import rx.Observable
-import rx.Observer
-import rx.Subscription
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 import java.util.Date
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -289,7 +292,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
         confirmationPresenter.hotelConfirmationViewModel.setSearchParams(hotelSearchParams)
 
-        Observable.combineLatest(confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable, confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable, { confirmationDetailsSet, confirmationUISet ->
+        ObservableOld.combineLatest(confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable, confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable, { confirmationDetailsSet, confirmationUISet ->
             if (confirmationDetailsSet && confirmationUISet) {
                 pageUsableData.markAllViewsLoaded(Date().time)
                 HotelTracking.trackHotelPurchaseConfirmation(confirmationPresenter.hotelConfirmationViewModel.hotelCheckoutResponseObservable.value, confirmationPresenter.hotelConfirmationViewModel.percentagePaidWithPointsObservable.value,
@@ -321,8 +324,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
         confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(context, true)
-        return object : Observer<AbstractItinDetailsResponse> {
-            override fun onCompleted() {
+        return object : DisposableObserver<AbstractItinDetailsResponse>() {
+            override fun onComplete() {
 
             }
 
@@ -455,8 +458,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     fun onDestroyed() {
-        searchPresenter.shopWithPointsWidget.subscription.unsubscribe()
-        searchPresenter.shopWithPointsWidget.shopWithPointsViewModel.subscription.unsubscribe()
+        searchPresenter.shopWithPointsWidget.subscription.dispose()
+        searchPresenter.shopWithPointsWidget.shopWithPointsViewModel.subscription.dispose()
         hotelDetailViewModel.clearSubscriptions()
     }
 
@@ -623,10 +626,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 hotelDetailViewModel.datesChanged = false
             } else {
                 detailPresenter.hotelDetailView.resetViews()
-                if (hotelDetailViewModel.datesChanged
-                        && hotelDetailViewModel.changeDateParams != null) {
-                    updateSearchParams(hotelDetailViewModel.changeDateParams!!)
-                    resultsViewModel.paramsSubject.onNext(hotelDetailViewModel.changeDateParams)
+                val changeDateParams = hotelDetailViewModel.changeDateParams
+                if (hotelDetailViewModel.datesChanged && changeDateParams != null) {
+                    updateSearchParams(changeDateParams)
+                    resultsViewModel.paramsSubject.onNext(changeDateParams)
                 }
             }
             super.startTransition(forward)
@@ -986,14 +989,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             handleHotelIdSearch(params, goToResults = true)
         }
 
-        var subscription: Subscription? = null
+        var subscription: Disposable? = null
         handler.hotelIdToDetailsSubject.subscribe { params ->
             updateSearchForDeepLink(params)
             subscription = hotelInfoManager.infoSuccessSubject.subscribe { offerResponse ->
                 if (hotelSearchParams.suggestion.type == "HOTEL") {
                     searchPresenter.getSearchViewModel().locationTextObservable.onNext(offerResponse.hotelName)
                 }
-                subscription?.unsubscribe()
+                subscription?.dispose()
             }
             handleHotelIdSearch(params, goToResults = false)
         }

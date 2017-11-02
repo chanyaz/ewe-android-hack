@@ -3,22 +3,21 @@ package com.expedia.bookings.hotel.fragment
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
-import android.support.v4.app.DialogFragment
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
+import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
-import com.expedia.bookings.R
-import com.expedia.bookings.hotel.widget.HotelChangeDateCalendarPicker
-import org.joda.time.LocalDate
 import android.view.ViewGroup
 import android.view.Window
+import com.expedia.bookings.R
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
+import com.expedia.bookings.hotel.widget.HotelChangeDateCalendarPicker
 import com.expedia.bookings.model.HotelStayDates
 import com.expedia.bookings.widget.TextView
-import rx.Subscription
-import rx.subjects.PublishSubject
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 
 class ChangeDatesDialogFragment : DialogFragment() {
     val datesChangedSubject = PublishSubject.create<HotelStayDates>()
@@ -33,7 +32,7 @@ class ChangeDatesDialogFragment : DialogFragment() {
     private var newDates: HotelStayDates? = null
 
     private var userTappedDone = false
-    private var dateSubscription: Subscription? = null
+    private var dateSubscription: Disposable? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -71,7 +70,7 @@ class ChangeDatesDialogFragment : DialogFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        dateSubscription?.unsubscribe()
+        dateSubscription?.dispose()
         dateSubscription = null
     }
 
@@ -80,7 +79,7 @@ class ChangeDatesDialogFragment : DialogFragment() {
         val dates = newDates
         if (userTappedDone && dates != null && !dates.sameHotelStayDates(initialDates)) {
             if (dates.getStartDate() != null && dates.getEndDate() != null) {
-                datesChangedSubject.onNext(newDates)
+                datesChangedSubject.onNext(dates)
             }
         }
         userTappedDone = false

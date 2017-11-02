@@ -2,25 +2,25 @@ package com.expedia.bookings.test
 
 import android.app.Activity
 import com.expedia.bookings.data.BillingInfo
-import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.multiitem.BundleSearchResponse
-import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.services.ProductSearchType
-import com.expedia.bookings.testrule.ServicesRule
-import org.joda.time.LocalDate
-import rx.observers.TestSubscriber
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOffersResponse
+import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.services.ProductSearchType
+import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Constants
+import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
@@ -31,7 +31,7 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
 
 
     fun getPSSHotelSearchResponse(): BundleSearchResponse {
-        val observer = TestSubscriber<BundleSearchResponse>()
+        val observer = TestObserver<BundleSearchResponse>()
         val params = PackageSearchParams.Builder(26, 329)
                 .infantSeatingInLap(true)
                 .origin(getOriginDestSuggestions().second)
@@ -47,11 +47,11 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         services?.packageSearch(params, ProductSearchType.OldPackageSearch)!!.subscribe(observer)
         observer.awaitTerminalEvent()
 
-        return observer.onNextEvents[0]
+        return observer.values()[0]
     }
 
     fun getPSSOffersSearchResponse(fileName: String): PackageOffersResponse {
-        val observer = TestSubscriber<PackageOffersResponse>()
+        val observer = TestObserver<PackageOffersResponse>()
         val params = PackageSearchParams.Builder(0, 0).destination(getOriginDestSuggestions().first).origin(getOriginDestSuggestions().second)
                 .adults(1).children(listOf(12, 14)).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(2)).build() as PackageSearchParams
         params.packagePIID = fileName
@@ -61,11 +61,11 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
                 params.ratePlanCode, params.roomTypeCode, params.adults, params.childAges!![0].toInt())!!.subscribe(observer)
         observer.awaitTerminalEvent()
 
-        return observer.onNextEvents[0]
+        return observer.values()[0]
     }
 
     fun getPSSFlightOutboundSearchResponse(fileName: String): BundleSearchResponse? {
-        val observer = TestSubscriber<BundleSearchResponse>()
+        val observer = TestObserver<BundleSearchResponse>()
         val params = PackageSearchParams.Builder(0, 0).destination(getOriginDestSuggestions().first).origin(getOriginDestSuggestions().second)
                 .adults(1).children(listOf(12, 14)).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(2)).build() as PackageSearchParams
         params.packagePIID = fileName
@@ -77,11 +77,11 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         services?.packageSearch(params, ProductSearchType.OldPackageSearch)!!.subscribe(observer)
         observer.awaitTerminalEvent()
 
-        return observer.onNextEvents[0]
+        return observer.values()[0]
     }
 
     fun getPSSFlightInboundSearchResponse(fileName: String): BundleSearchResponse? {
-        val observer = TestSubscriber<BundleSearchResponse>()
+        val observer = TestObserver<BundleSearchResponse>()
         val params = PackageSearchParams.Builder(0, 0).destination(getOriginDestSuggestions().first).origin(getOriginDestSuggestions().second)
                 .adults(1).children(listOf(12, 14)).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(2)).build() as PackageSearchParams
         params.packagePIID = fileName
@@ -92,20 +92,20 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         services?.packageSearch(params, ProductSearchType.OldPackageSearch)!!.subscribe(observer)
         observer.awaitTerminalEvent()
 
-        return observer.onNextEvents[0]
+        return observer.values()[0]
     }
 
     fun getPSSCreateTripResponse(fileName: String): PackageCreateTripResponse? {
-        val observer = TestSubscriber<PackageCreateTripResponse>()
+        val observer = TestObserver<PackageCreateTripResponse>()
         val params = PackageCreateTripParams(fileName, "", 1, false, emptyList())
 
         services?.createTrip(params)!!.subscribe(observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        return observer.onNextEvents[0]
+        return observer.values()[0]
     }
 
     fun getPSSCheckoutResponse(): PackageCheckoutResponse? {
-        val obsever = TestSubscriber<PackageCheckoutResponse>()
+        val obsever = TestObserver<PackageCheckoutResponse>()
         val travelers = arrayListOf(getTraveler(), getTraveler(), getTraveler())
         val billing = getBillingInfo()
         billing.storedCard = getStoredCard()
@@ -120,7 +120,7 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
                 .build()
         services?.checkout(params.toQueryMap())!!.subscribe(obsever)
         obsever.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        return obsever.onNextEvents[0]
+        return obsever.values()[0]
     }
 
     private fun getBillingInfo(): BillingInfo {

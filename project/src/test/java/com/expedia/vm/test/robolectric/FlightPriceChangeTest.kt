@@ -17,6 +17,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -32,7 +33,6 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -61,8 +61,8 @@ class FlightPriceChangeTest {
 
     @Test
     fun testCreateTripPriceAlert() {
-        val priceChangeAlertSubscriber = TestSubscriber<TripResponse>()
-        val showPriceChangeAlertSubscriber = TestSubscriber<Boolean>()
+        val priceChangeAlertSubscriber = TestObserver<TripResponse>()
+        val showPriceChangeAlertSubscriber = TestObserver<Boolean>()
         val dummyFlightTripResponse = getDummyFlightCreateTripPriceChangeResponse(9.01, 10.01)
         val flightTripItem = TripBucketItemFlightV2(dummyFlightTripResponse)
         Db.getTripBucket().add(flightTripItem)
@@ -90,7 +90,7 @@ class FlightPriceChangeTest {
 
     @Test
     fun testCreateTripPriceChangeNotFired() {
-        val priceChangeAlertSubscriber = TestSubscriber<TripResponse>()
+        val priceChangeAlertSubscriber = TestObserver<TripResponse>()
         val dummyFlightCreateTripResponse = getDummyFlightCreateTripPriceChangeResponse(9.01, 10.0)
         val flightTripItem = TripBucketItemFlightV2(dummyFlightCreateTripResponse)
         Db.getTripBucket().add(flightTripItem)

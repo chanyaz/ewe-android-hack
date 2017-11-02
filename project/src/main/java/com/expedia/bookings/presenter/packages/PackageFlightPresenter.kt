@@ -34,6 +34,7 @@ import com.expedia.bookings.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
+import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeInverseVisibility
@@ -145,9 +146,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
         val destinationOrOrigin = if (isOutboundResultsPresenter()) Db.sharedInstance.packageParams.destination else Db.sharedInstance.packageParams.origin
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
-        toolbarViewModel.regionNames.onNext(destinationOrOrigin?.regionNames)
-        toolbarViewModel.country.onNext(destinationOrOrigin?.hierarchyInfo?.country?.name)
-        toolbarViewModel.airport.onNext(destinationOrOrigin?.hierarchyInfo?.airport?.airportCode)
+        toolbarViewModel.regionNames.onNext(Optional(destinationOrOrigin?.regionNames))
+        toolbarViewModel.country.onNext(Optional(destinationOrOrigin?.hierarchyInfo?.country?.name))
+        toolbarViewModel.airport.onNext(Optional(destinationOrOrigin?.hierarchyInfo?.airport?.airportCode))
         toolbarViewModel.travelers.onNext(numTravelers)
         toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.sharedInstance.packageParams.startDate else Db.sharedInstance.packageParams.endDate as LocalDate)
         toolbarViewModel.lob.onNext(getLineOfBusiness())

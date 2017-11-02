@@ -8,16 +8,16 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 
 @RunWith (RobolectricRunner::class)
 class FlightItinToolbarViewModelTest {
     lateinit private var activity: Activity
     lateinit private var sut: ItinToolbarViewModel
 
-    val toolbarTitleSubscriber = TestSubscriber<String>()
-    val toolbarSubTitleSubscriber = TestSubscriber<String>()
-    val shareIconSubscriber = TestSubscriber<Boolean>()
+    val toolbarTitleSubscriber = TestObserver<String>()
+    val toolbarSubTitleSubscriber = TestObserver<String>()
+    val shareIconSubscriber = TestObserver<Boolean>()
 
     @Before
     fun setup() {

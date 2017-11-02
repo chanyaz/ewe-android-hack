@@ -4,25 +4,23 @@ import android.app.Activity
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapView
 import com.expedia.vm.HotelMapViewModel
 import com.google.android.gms.maps.MapView
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -35,7 +33,7 @@ class HotelMapViewTest {
 
     private var hotelMapView: HotelMapView by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
-    private var selectARoomTestSubscriber = TestSubscriber.create<Unit>()
+    private var selectARoomTestSubscriber = TestObserver.create<Unit>()
 
     @Before fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -122,7 +120,7 @@ class HotelMapViewTest {
     }
 
     @Test fun testMapViewWhenRoomOffersAreNotAvailable() {
-        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, BehaviorSubject.create<Boolean>(true), LineOfBusiness.HOTELS)
+        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, BehaviorSubject.createDefault<Boolean>(true), LineOfBusiness.HOTELS)
         givenHotelOffersResponseWhenRoomOffersAreNotAvailable()
         hotelMapView.viewmodel.offersObserver.onNext(hotelOffersResponse)
 

@@ -9,14 +9,15 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.hotel.util.HotelSearchManager
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.trackingString
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 
 class HotelResultsViewModel(context: Context, private val hotelSearchManager: HotelSearchManager) :
         BaseHotelResultsViewModel(context) {
@@ -42,7 +43,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
 
     private var isFilteredSearch = false
     private var cachedParams: HotelSearchParams? = null
-    private var apiSubscriptions = CompositeSubscription()
+    private var apiSubscriptions = CompositeDisposable()
 
     init {
         paramsSubject.subscribe(endlessObserver { params ->
@@ -71,11 +72,11 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
 
     fun clearSubscriptions() {
         apiSubscriptions.clear()
-        hotelSearchManager.unsubscribe()
+        hotelSearchManager.dispose()
     }
 
     fun unsubscribeSearchResponse() {
-        hotelSearchManager.unsubscribe()
+        hotelSearchManager.dispose()
     }
 
     fun getSearchParams() : HotelSearchParams? {
@@ -83,7 +84,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
     }
 
     private fun setupSearchSubscriptions() {
-        apiSubscriptions.add(hotelSearchManager.apiCompleteSubject.subscribe(resultsReceivedDateTimeObservable))
+        apiSubscriptions.add(hotelSearchManager.apiCompleteSubject.subscribeObserver(resultsReceivedDateTimeObservable))
         apiSubscriptions.add(hotelSearchManager.successSubject.subscribe { response ->
             if (response.isPinnedSearch && !response.hasPinnedHotel()) {
                 val error = ApiError(ApiError.Code.HOTEL_PINNED_NOT_FOUND)
@@ -94,7 +95,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             }
         })
 
-        apiSubscriptions.add(hotelSearchManager.errorSubject.subscribe(searchApiErrorObservable))
+        apiSubscriptions.add(hotelSearchManager.errorSubject.subscribeObserver(searchApiErrorObservable))
 
         apiSubscriptions.add(hotelSearchManager.noResultsSubject.subscribe {
             var error: ApiError

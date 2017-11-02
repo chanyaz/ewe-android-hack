@@ -12,6 +12,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.itin.data.FlightItinLegsDetailData
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
@@ -27,7 +28,6 @@ import org.mockito.Mockito.`when` as whenever
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -36,10 +36,10 @@ class FlightItinManageBookingViewModelTest {
     lateinit private var activity: Activity
     lateinit private var sut: FlightItinManageBookingViewModel
 
-    val itinCardDataValidSubscriber = TestSubscriber<Unit>()
-    val itinCardDataSubscriber = TestSubscriber<ItinCardDataFlight>()
-    val updateToolbarSubscriber = TestSubscriber<ItinToolbarViewModel.ToolbarParams>()
-    val customerSupportDetailSubscriber = TestSubscriber<ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams>()
+    val itinCardDataValidSubscriber = TestObserver<Unit>()
+    val itinCardDataSubscriber = TestObserver<ItinCardDataFlight>()
+    val updateToolbarSubscriber = TestObserver<ItinToolbarViewModel.ToolbarParams>()
+    val customerSupportDetailSubscriber = TestObserver<ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams>()
 
     @Before
     fun setup() {
@@ -137,7 +137,7 @@ class FlightItinManageBookingViewModelTest {
 
     @Test
     fun testCreateFlightLegDetailWidgetData() {
-        val flightLegDetailWidgetSubject = TestSubscriber<ArrayList<FlightItinLegsDetailData>>()
+        val flightLegDetailWidgetSubject = TestObserver<ArrayList<FlightItinLegsDetailData>>()
         sut.flightLegDetailWidgetLegDataSubject.subscribe(flightLegDetailWidgetSubject)
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
         val testItinCardData = ItinCardDataFlightBuilder().build()
@@ -167,7 +167,7 @@ class FlightItinManageBookingViewModelTest {
 
     @Test
     fun testRulesAndRegualationText(){
-        val flightLegDetailRulesAndRegulationSubject = TestSubscriber<String>()
+        val flightLegDetailRulesAndRegulationSubject = TestObserver<String>()
         sut.flightLegDetailRulesAndRegulationSubject.subscribe(flightLegDetailRulesAndRegulationSubject)
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
         val testItinCardData = ItinCardDataFlightBuilder().build()
@@ -197,7 +197,7 @@ class FlightItinManageBookingViewModelTest {
 
     @Test
     fun testIsSplitTicket() {
-        val flightSplitTicketVisibilitySubject = TestSubscriber<Boolean>()
+        val flightSplitTicketVisibilitySubject = TestObserver<Boolean>()
         sut.flightSplitTicketVisibilitySubject.subscribe(flightSplitTicketVisibilitySubject)
 
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
@@ -213,7 +213,7 @@ class FlightItinManageBookingViewModelTest {
 
     @Test
     fun testIsNotSplitTicket() {
-        val flightSplitTicketVisibilitySubject = TestSubscriber<Boolean>()
+        val flightSplitTicketVisibilitySubject = TestObserver<Boolean>()
         sut.flightSplitTicketVisibilitySubject.subscribe(flightSplitTicketVisibilitySubject)
 
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
@@ -229,7 +229,7 @@ class FlightItinManageBookingViewModelTest {
 
     @Test
     fun testAirlineSupportWidgetWithValues() {
-        val flightItinAirlineSupportDetailsSubject = TestSubscriber<FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams>()
+        val flightItinAirlineSupportDetailsSubject = TestObserver<FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams>()
         sut.flightItinAirlineSupportDetailsSubject.subscribe(flightItinAirlineSupportDetailsSubject)
 
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
@@ -277,7 +277,7 @@ class FlightItinManageBookingViewModelTest {
 
     @Test
     fun testAirlineSupportWidgetWithNoValues() {
-        val flightItinAirlineSupportDetailsSubject = TestSubscriber<FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams>()
+        val flightItinAirlineSupportDetailsSubject = TestObserver<FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams>()
         sut.flightItinAirlineSupportDetailsSubject.subscribe(flightItinAirlineSupportDetailsSubject)
 
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
@@ -309,7 +309,7 @@ class FlightItinManageBookingViewModelTest {
 
     @Test
     fun testModifyReservationWithData() {
-        val flightItinModifyReservationSubject = TestSubscriber<FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams>()
+        val flightItinModifyReservationSubject = TestObserver<FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams>()
         sut.flightItinModifyReservationSubject.subscribe(flightItinModifyReservationSubject)
 
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
@@ -332,7 +332,7 @@ class FlightItinManageBookingViewModelTest {
 
     @Test
     fun testModifyReservationWithoutData() {
-        val flightItinModifyReservationSubject = TestSubscriber<FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams>()
+        val flightItinModifyReservationSubject = TestObserver<FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams>()
         sut.flightItinModifyReservationSubject.subscribe(flightItinModifyReservationSubject)
 
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)

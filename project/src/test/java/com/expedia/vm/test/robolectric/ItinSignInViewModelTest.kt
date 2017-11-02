@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
 import org.mockito.Matchers
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -29,10 +29,10 @@ class ItinSignInViewModelTest {
     lateinit private var mockItinPageUsablePerformanceModel: ItinPageUsableTracking
     lateinit private var notificationManager: NotificationManager
 
-    val statusTextTestSubscriber = TestSubscriber<String>()
-    val buttonTextTestSubscriber = TestSubscriber<String>()
-    val contDescTestSubscriber = TestSubscriber<String>()
-    val imageTestSubscriber = TestSubscriber<Drawable>()
+    val statusTextTestSubscriber = TestObserver<String>()
+    val buttonTextTestSubscriber = TestObserver<String>()
+    val contDescTestSubscriber = TestObserver<String>()
+    val imageTestSubscriber = TestObserver<Drawable>()
 
     @Before
     fun before() {

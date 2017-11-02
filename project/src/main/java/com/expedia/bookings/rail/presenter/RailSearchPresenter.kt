@@ -31,7 +31,7 @@ import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.rail.RailSearchViewModel
 import com.expedia.vm.rail.RailSuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
-import rx.Observable
+import io.reactivex.Observable
 import kotlin.properties.Delegates
 
 class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {

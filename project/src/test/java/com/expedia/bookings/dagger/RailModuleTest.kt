@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 
 @RunWith(RobolectricRunner::class)
 class RailModuleTest {
@@ -43,7 +43,7 @@ class RailModuleTest {
     fun essDeviceIsMobileForPhone() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.suggestRailsV4("chicago", true, TestSubscriber())
+        sut.suggestRailsV4("chicago", true, TestObserver())
 
         kotlin.test.assertEquals("mobile", server.takeRequest().requestUrl.queryParameter("device"))
     }
@@ -53,7 +53,7 @@ class RailModuleTest {
     fun essDeviceIsTabletForTablet() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.suggestRailsV4("chicago", true, TestSubscriber())
+        sut.suggestRailsV4("chicago", true, TestObserver())
 
         kotlin.test.assertEquals("tablet", server.takeRequest().requestUrl.queryParameter("device"))
     }
@@ -62,7 +62,7 @@ class RailModuleTest {
     fun essCommonParamsAreCorrect() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.suggestRailsV4("chicago", true, TestSubscriber())
+        sut.suggestRailsV4("chicago", true, TestObserver())
 
         val requestUrl = server.takeRequest().requestUrl
         kotlin.test.assertEquals(PointOfSale.getSuggestLocaleIdentifier(), requestUrl.queryParameter("locale"))

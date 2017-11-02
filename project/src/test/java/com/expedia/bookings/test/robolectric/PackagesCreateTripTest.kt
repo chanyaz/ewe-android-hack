@@ -13,6 +13,7 @@ import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -27,7 +28,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -68,7 +68,7 @@ class PackagesCreateTripTest {
 
     @Test
     fun testMultiItemCreateTripFiredWhenMIDAPIOFF() {
-        val testSubscriber = TestSubscriber<Unit>()
+        val testSubscriber = TestObserver<Unit>()
         activity.getCreateTripViewModel().performCreateTrip.subscribe(testSubscriber)
 
         val params = getDummySearchParams()
@@ -87,7 +87,7 @@ class PackagesCreateTripTest {
 
     @Test
     fun testMultiItemCreateTripFiredWhenMIDAPION() {
-        val createTripSubscriber = TestSubscriber<MultiItemApiCreateTripResponse>()
+        val createTripSubscriber = TestObserver<MultiItemApiCreateTripResponse>()
         AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().multiItemResponseSubject.subscribe(createTripSubscriber)
         setUpPackageDb()
@@ -112,7 +112,7 @@ class PackagesCreateTripTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDCreateTripShowErrorPresenter() {
         AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
-        val showErrorPresenterTestSubscriber = TestSubscriber<ApiError>()
+        val showErrorPresenterTestSubscriber = TestObserver<ApiError>()
         val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.createTripErrorObservable.subscribe(showErrorPresenterTestSubscriber)
         createTripViewModel.packageServices = packageServiceRule.services!!

@@ -11,7 +11,7 @@ import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
-import rx.Observable
+import io.reactivex.Observable
 
 class CurrentLocationSuggestionProvider(val suggestionServices: SuggestionV4Services, val locationObservable: Observable<Location>, val context: Context) {
     fun currentLocationSuggestion(): Observable<SuggestionV4> {

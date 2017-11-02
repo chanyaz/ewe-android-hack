@@ -56,8 +56,8 @@ import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.launch.LobToolbarViewModel
 import org.joda.time.LocalDate
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {

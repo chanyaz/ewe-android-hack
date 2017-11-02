@@ -13,7 +13,7 @@ import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.ShopWithPointsViewModel
-import rx.Subscription
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearLayout (context, attrs) {
@@ -25,7 +25,7 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
         @Inject set
 
-    var subscription: Subscription
+    var subscription: Disposable
 
     init {
         var layoutId = R.layout.widget_shop_with_points

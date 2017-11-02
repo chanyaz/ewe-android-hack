@@ -17,7 +17,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -40,8 +40,8 @@ class TravelerTSAViewModelTest {
     val TEST_ADULT_CHILD_ERROR_V2 = "This traveler must be between the ages of 12 and 17 for the entire trip to travel as a youth"
     val TEST_CHILD_ERROR_V2 = "This traveler must be between the ages of 2 and 11 for the entire trip to travel as a child"
 
-    val testErrorTextSubscriber = TestSubscriber<String>()
-    val testBirthDateErrorSubscriber = TestSubscriber<Boolean>()
+    val testErrorTextSubscriber = TestObserver<String>()
+    val testBirthDateErrorSubscriber = TestObserver<Boolean>()
 
     var activity: Activity by Delegates.notNull()
     var travelerValidator: TravelerValidator by Delegates.notNull()
@@ -66,11 +66,11 @@ class TravelerTSAViewModelTest {
     @Test
     fun testUpdateTravelerGenderErrorReset() {
         tsaVM = TravelerTSAViewModel(traveler, activity)
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         tsaVM.genderViewModel.errorSubject.subscribe(testSubscriber)
         tsaVM.genderViewModel.errorSubject.onNext(true)
 
-        assertEquals(true, testSubscriber.onNextEvents[0])
+        assertEquals(true, testSubscriber.values()[0])
     }
 
     @Test
@@ -79,10 +79,10 @@ class TravelerTSAViewModelTest {
         traveler.birthDate = TEST_BIRTH_DATE
         tsaVM = TravelerTSAViewModel(traveler, activity)
 
-        val testSubscriber = TestSubscriber<LocalDate>()
+        val testSubscriber = TestObserver<LocalDate>()
         tsaVM.dateOfBirthViewModel.birthDateSubject.subscribe(testSubscriber)
 
-        assertEquals(TEST_BIRTH_DATE, testSubscriber.onNextEvents[0])
+        assertEquals(TEST_BIRTH_DATE, testSubscriber.values()[0])
         testSubscriber.assertValueCount(1)
     }
 
@@ -96,8 +96,8 @@ class TravelerTSAViewModelTest {
         setAgeEnteredAtSearch(1, PassengerCategory.INFANT_IN_LAP)
         tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(10))
 
-        assertEquals(TEST_INFANT_ERROR, testErrorTextSubscriber.onNextEvents[0])
-        assertTrue(testBirthDateErrorSubscriber.onNextEvents[0], "Expected Error State to be triggered")
+        assertEquals(TEST_INFANT_ERROR, testErrorTextSubscriber.values()[0])
+        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
     }
 
     @Test
@@ -109,8 +109,8 @@ class TravelerTSAViewModelTest {
         setAgeEnteredAtSearch(5, PassengerCategory.CHILD)
         tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(13))
 
-        assertEquals(TEST_CHILD_ERROR, testErrorTextSubscriber.onNextEvents[0])
-        assertTrue(testBirthDateErrorSubscriber.onNextEvents[0], "Expected Error State to be triggered")
+        assertEquals(TEST_CHILD_ERROR, testErrorTextSubscriber.values()[0])
+        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
     }
 
     @Test
@@ -122,8 +122,8 @@ class TravelerTSAViewModelTest {
         setAgeEnteredAtSearch(12, PassengerCategory.ADULT_CHILD)
         tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(10))
 
-        assertEquals(TEST_ADULT_CHILD_ERROR, testErrorTextSubscriber.onNextEvents[0])
-        assertTrue(testBirthDateErrorSubscriber.onNextEvents[0], "Expected Error State to be triggered")
+        assertEquals(TEST_ADULT_CHILD_ERROR, testErrorTextSubscriber.values()[0])
+        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
     }
 
     @Test
@@ -134,8 +134,8 @@ class TravelerTSAViewModelTest {
 
         setAgeEnteredAtSearch(-1, PassengerCategory.ADULT)
         tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(10))
-        assertEquals(TEST_ADULT_ERROR, testErrorTextSubscriber.onNextEvents[0])
-        assertTrue(testBirthDateErrorSubscriber.onNextEvents[0], "Expected Error State to be triggered")
+        assertEquals(TEST_ADULT_ERROR, testErrorTextSubscriber.values()[0])
+        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
     }
 
     @Test
@@ -155,10 +155,10 @@ class TravelerTSAViewModelTest {
         traveler.gender = TEST_GENDER
         tsaVM = TravelerTSAViewModel(traveler, activity)
 
-        val testSubscriber = TestSubscriber<Traveler.Gender>()
+        val testSubscriber = TestObserver<Traveler.Gender>()
         tsaVM.genderViewModel.genderSubject.subscribe(testSubscriber)
 
-        assertEquals(TEST_GENDER, testSubscriber.onNextEvents[0])
+        assertEquals(TEST_GENDER, testSubscriber.values()[0])
         testSubscriber.assertValueCount(1)
     }
 
@@ -173,8 +173,8 @@ class TravelerTSAViewModelTest {
         tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
         tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
 
-        assertEquals(TEST_INFANT_ERROR, testErrorTextSubscriber.onNextEvents[0])
-        assertTrue(testBirthDateErrorSubscriber.onNextEvents[0], "Expected Error State to be triggered")
+        assertEquals(TEST_INFANT_ERROR, testErrorTextSubscriber.values()[0])
+        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
     }
 
     @Test
@@ -185,8 +185,8 @@ class TravelerTSAViewModelTest {
         setAgeEnteredAtSearch(6, PassengerCategory.CHILD)
         tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(100))
 
-        assertEquals(TEST_CHILD_ERROR_V2, testErrorTextSubscriber.onNextEvents[0])
-        assertTrue(testBirthDateErrorSubscriber.onNextEvents[0], "Expected Error State to be triggered")
+        assertEquals(TEST_CHILD_ERROR_V2, testErrorTextSubscriber.values()[0])
+        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
     }
 
     @Test
@@ -197,8 +197,8 @@ class TravelerTSAViewModelTest {
         setAgeEnteredAtSearch(14, PassengerCategory.ADULT_CHILD)
         tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(100))
 
-        assertEquals(TEST_ADULT_CHILD_ERROR_V2, testErrorTextSubscriber.onNextEvents[0])
-        assertTrue(testBirthDateErrorSubscriber.onNextEvents[0], "Expected Error State to be triggered")
+        assertEquals(TEST_ADULT_CHILD_ERROR_V2, testErrorTextSubscriber.values()[0])
+        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
     }
 
     private fun setAgeEnteredAtSearch(searchedAge: Int, passengerCategory: PassengerCategory) {

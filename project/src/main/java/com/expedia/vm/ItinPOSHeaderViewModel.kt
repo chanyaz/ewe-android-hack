@@ -3,9 +3,8 @@ package com.expedia.vm
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.model.PointOfSaleStateModel
-import com.expedia.bookings.tracking.OmnitureTracking
-import rx.android.schedulers.AndroidSchedulers
-import rx.subjects.BehaviorSubject
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
 
 // This object is injected. Part of TripModule
 class ItinPOSHeaderViewModel(pointOfSaleStateModel: PointOfSaleStateModel) {

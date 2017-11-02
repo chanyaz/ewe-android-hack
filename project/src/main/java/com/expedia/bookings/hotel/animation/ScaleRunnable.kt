@@ -1,7 +1,7 @@
 package com.expedia.bookings.hotel.animation
 
 import android.view.View
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.lang.ref.WeakReference
 
 abstract class ScaleRunnable(view: View, private val duration: Long, private val startDelay: Long) : Runnable {

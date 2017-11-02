@@ -11,9 +11,12 @@ import com.expedia.bookings.meso.model.MesoHotelAdResponse
 import com.expedia.bookings.meso.vm.MesoHotelAdViewModel
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.bindView
-import rx.Observer
+import com.expedia.util.Optional
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 
-class MesoHotelAdViewHolder(private var mesoAdView: View, private val mesoHotelAdViewModel: MesoHotelAdViewModel) : LaunchLoadingViewHolder(mesoAdView), ViewTreeObserver.OnPreDrawListener, Observer<MesoHotelAdResponse> {
+class MesoHotelAdViewHolder(private var mesoAdView: View, private val mesoHotelAdViewModel: MesoHotelAdViewModel) : LaunchLoadingViewHolder(mesoAdView), ViewTreeObserver.OnPreDrawListener, Observer<Optional<MesoHotelAdResponse>> {
+
     private val hotelBackgroundImage: ImageView by bindView(R.id.hotel_image_background)
     private val dealCardView: CardView by bindView(R.id.deal_card_view)
     private val percentageOff: TextView by bindView(R.id.price_off)
@@ -81,19 +84,23 @@ class MesoHotelAdViewHolder(private var mesoAdView: View, private val mesoHotelA
         hotelSubText.text = HtmlCompat.fromHtml(htmlBody)
     }
 
-    override fun onNext(mesoHotelAdResponse: MesoHotelAdResponse) {
+    override fun onNext(mesoHotelAdResponse: Optional<MesoHotelAdResponse>) {
         cancelAnimation()
         bindListData()
     }
 
-    override fun onError(e: Throwable?) {
+    override fun onError(e: Throwable) {
         mesoAdView.visibility = View.GONE
         val layoutParams = mesoAdView.layoutParams
         layoutParams.height = 0
         mesoAdView.layoutParams = layoutParams
     }
 
-    override fun onCompleted() {
+    override fun onComplete() {
+        // Not used
+    }
+
+    override fun onSubscribe(d: Disposable) {
         // Not used
     }
 }

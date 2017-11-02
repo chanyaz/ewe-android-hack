@@ -24,6 +24,7 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.traveler.FrequentFlyerAdapter
 import com.expedia.bookings.widget.traveler.TSAEntryView
+import com.expedia.util.Optional
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.AbstractUniversalCKOTravelerEntryWidgetViewModel
@@ -110,7 +111,8 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             setUpFrequentFlyerRecyclerView(context, viewModel)
         }
         vm.frequentFlyerAdapterViewModel?.showFrequentFlyerObservable?.subscribeVisibility(frequentFlyerButton)
-        vm.passportCountrySubject.subscribe { countryCode ->
+        vm.passportCountrySubject.subscribe { countryCodeOptional ->
+            val countryCode = countryCodeOptional.value
             val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
                     R.layout.material_item)
             if (countryCode.isNullOrBlank()) {
@@ -193,7 +195,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
         builder.setAdapter(adapter) { dialog, position ->
             if ((viewModel as FlightTravelerEntryWidgetViewModel).showPassportCountryObservable.value) {
-                (viewModel as FlightTravelerEntryWidgetViewModel).passportCountrySubject.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
+                (viewModel as FlightTravelerEntryWidgetViewModel).passportCountrySubject.onNext(Optional(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER)))
             }
             (viewModel as FlightTravelerEntryWidgetViewModel).passportCountryObserver.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
         }

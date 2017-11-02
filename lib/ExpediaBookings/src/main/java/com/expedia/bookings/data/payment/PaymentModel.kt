@@ -4,12 +4,14 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.services.LoyaltyServices
-import rx.Observable
-import rx.Observer
-import rx.Subscriber
-import rx.Subscription
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import com.expedia.bookings.withLatestFrom
+import com.expedia.util.Optional
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 
 class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
@@ -20,17 +22,16 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     }
 
     //API
-    private val nullSubscription: Subscription? = null
     //Persist the last subscription to clean it up (if it is active) before creating a new subscription for currencyToPoints API
-    val burnAmountToPointsApiSubscriptions = BehaviorSubject.create<Subscription?>(nullSubscription)
+    val burnAmountToPointsApiSubscriptions = BehaviorSubject.createDefault<Optional<Disposable>>(Optional<Disposable>(null))
 
     val burnAmountToPointsApiResponse = PublishSubject.create<CalculatePointsResponse>()
     val burnAmountToPointsApiError = PublishSubject.create<ApiError>()
 
     private fun makeCalculatePointsApiResponseObserver(): Observer<CalculatePointsResponse> {
-        return object : Subscriber<CalculatePointsResponse>() {
-            override fun onError(apiError: Throwable?) {
-                if (!this.isUnsubscribed) {
+        return object: DisposableObserver<CalculatePointsResponse>() {
+            override fun onError(apiError: Throwable) {
+                if (!this.isDisposed) {
                     burnAmountToPointsApiError.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                 }
             }
@@ -43,7 +44,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
         }
     }
@@ -67,7 +68,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val tripResponses = PublishSubject.create<T>()
 
     //Facade to ensure there are no glitches!
-    //Whenever you need Amount Chosen To Be Paid With Points and Latest Trip response and Latest Currency To Points Api Subscription, use this!
+    //Whenever you need Amount Chosen To Be Paid With Points and Latest Trip response and Latest Currency To Points Api Disposable, use this!
     private val burnAmountAndLatestTripResponse = burnAmountSubject.withLatestFrom(tripResponses, {
         burnAmount, latestTripResponse ->
         object {
@@ -76,8 +77,8 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
         }
     })
 
-    val pwpOpted = BehaviorSubject.create<Boolean>(true)
-    val swpOpted = BehaviorSubject.create<Boolean>(true)
+    val pwpOpted = BehaviorSubject.createDefault<Boolean>(true)
+    val swpOpted = BehaviorSubject.createDefault<Boolean>(true)
 
     val togglePaymentByPoints = PublishSubject.create<Boolean>()
     val togglePaymentByPointsIntermediateStream = PublishSubject.create<PaymentSplits>()
@@ -108,7 +109,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     //This Intermediate Stream is ultimately poured into `restoredPaymentSplitsInCaseOfDiscardedApiCall` which the clients can absorb.
     private val restoredPaymentSplitsInCaseOfDiscardedApiCallIntermediateStream = discardPendingCurrencyToPointsAPISubscription
             .withLatestFrom(burnAmountToPointsApiSubscriptions, { _, burnAmountToPointsApiSubscription -> burnAmountToPointsApiSubscription })
-            .doOnNext { it?.unsubscribe() }
+            .doOnNext { it?.value?.dispose() }
             .withLatestFrom(paymentSplits, { _, paymentSplits -> paymentSplits })
 
     //Facade to ensure there are no glitches!
@@ -130,7 +131,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
         }
 
         burnAmountToPointsApiResponse.subscribe {
-            tripTotalPayable.onNext(it.tripTotalPayable)
+            tripTotalPayable.onNext(it.tripTotalPayable!!)
             paymentSplitsFromBurnAmountUpdates.onNext(PaymentSplits(it.conversion!!, it.remainingPayableByCard!!))
         }
 
@@ -141,7 +142,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
             }
         }).subscribe {
             if (it.togglePaymentByPoints) {
-                tripTotalPayable.onNext(it.latestTripResponse.rewardsUserAccountDetails().tripTotalPayable)
+                tripTotalPayable.onNext(it.latestTripResponse.rewardsUserAccountDetails().tripTotalPayable!!)
                 togglePaymentByPointsIntermediateStream.onNext(it.latestTripResponse.paymentSplitsWhenMaxPayableWithPoints())
             } else {
                 tripTotalPayable.onNext(it.latestTripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
@@ -171,8 +172,8 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
         }
 
         burnAmountAndLatestTripResponse
-                .withLatestFrom(burnAmountToPointsApiSubscriptions, { burnAmountAndLatestTripResponse, burnAmountToPointsApiSubscription -> Pair(burnAmountAndLatestTripResponse, burnAmountToPointsApiSubscription) })
-                .doOnNext { it.second?.unsubscribe() }
+                .withLatestFrom(burnAmountToPointsApiSubscriptions, { burnAmountAndLatestTripResponse, burnAmountToPointsApiSubscription -> Pair(burnAmountAndLatestTripResponse, burnAmountToPointsApiSubscription.value) })
+                .doOnNext { it.second?.dispose() }
                 .filter { !canHandleCurrencyToPointsConversionLocally(it.first.burnAmount, it.first.latestTripResponse.maxPayableWithRewardPoints().amount) }
                 .map { it.first }
                 .subscribe {
@@ -183,7 +184,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
                             .rateId(it.latestTripResponse.rewardsUserAccountDetails().rateID)
                             .build()
 
-                    burnAmountToPointsApiSubscriptions.onNext(loyaltyServices.currencyToPoints(calculatePointsParams, makeCalculatePointsApiResponseObserver()))
+                    burnAmountToPointsApiSubscriptions.onNext(Optional(loyaltyServices.currencyToPoints(calculatePointsParams, makeCalculatePointsApiResponseObserver())))
                 }
 
         restoredPaymentSplitsInCaseOfDiscardedApiCallIntermediateStream.subscribe {

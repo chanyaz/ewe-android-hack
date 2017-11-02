@@ -1,7 +1,7 @@
 package com.expedia.bookings.services
 
+import io.reactivex.Observable
 import org.json.JSONObject
-import rx.Observable
 
 interface TripsServicesInterface {
     fun getTripDetails(tripId: String, useCache: Boolean): JSONObject?

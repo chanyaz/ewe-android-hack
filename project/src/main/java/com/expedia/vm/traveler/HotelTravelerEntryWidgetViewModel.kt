@@ -8,8 +8,8 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelTravelerEntryWidgetViewModel(val context: Context, travelerCheckoutStatus: TravelerCheckoutStatus,
                                         val createTripOptInStatus: BehaviorSubject<MerchandiseSpam>)

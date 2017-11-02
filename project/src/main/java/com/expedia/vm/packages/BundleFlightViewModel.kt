@@ -2,6 +2,7 @@ package com.expedia.vm.packages
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.LineOfBusiness
@@ -19,9 +20,9 @@ import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
-import rx.Observable
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val showLoadingStateObservable = PublishSubject.create<Boolean>()
@@ -46,7 +47,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val totalDurationObserver = BehaviorSubject.create<CharSequence>()
     val totalDurationContDescObserver = BehaviorSubject.create<String>()
     val searchParams = BehaviorSubject.create<BaseSearchParams>()
-    val showRowContainerWithMoreInfo = BehaviorSubject.create<Boolean>(AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+    val showRowContainerWithMoreInfo = BehaviorSubject.createDefault<Boolean>(AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
             && (lob == LineOfBusiness.FLIGHTS_V2))
     val updateUpsellClassPreference = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
     val showPaymentInfoLinkObservable = PublishSubject.create<Boolean>()
@@ -60,7 +61,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     lateinit var updatedFlightLeg: FlightLeg
 
     init {
-        Observable.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
+        ObservableOld.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(suggestion)))
@@ -99,7 +100,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             }
         }
 
-        Observable.combineLatest(selectedFlightObservable, flight, suggestion, date, guests, { searchType, flight, suggestion, date, guests ->
+        ObservableOld.combineLatest(selectedFlightObservable, flight, suggestion, date, guests, { searchType, flight, suggestion, date, guests ->
             baggageUrl = flight.baggageFeesUrl
             updatedFlightLeg = flight
             val fmt = ISODateTimeFormat.dateTime()

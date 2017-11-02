@@ -6,8 +6,8 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.widget.ExpandableCardView
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class CheckoutToolbarViewModel(val context: Context) {
 

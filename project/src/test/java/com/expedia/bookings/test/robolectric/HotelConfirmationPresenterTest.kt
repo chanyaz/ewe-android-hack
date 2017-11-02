@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -12,6 +13,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.ItinTripServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil.Companion.getDummyHotelSearchParams
@@ -23,6 +25,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.util.SettingUtils
+import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,9 +34,6 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
-import rx.subjects.TestSubject
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -42,7 +42,7 @@ import kotlin.test.assertTrue
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelConfirmationPresenterTest {
-    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.immediate(), "../lib/mocked/templates")
+    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.trampoline(), "../lib/mocked/templates")
         @Rule get
 
 
@@ -64,7 +64,7 @@ class HotelConfirmationPresenterTest {
 
     @Test
     fun testConfirmationScreenPopulatedByItinsCall() {
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = hotelPresenter.makeNewItinResponseObserver()
         hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.itinDetailsResponseObservable.subscribe(testObserver)
         serviceRule.services!!.getTripDetails("web_view_hotel_trip_details", makeItinResponseObserver)
@@ -96,13 +96,13 @@ class HotelConfirmationPresenterTest {
     @Test
     fun testHotelConfirmationObservable() {
         var confirmationDetailsAndUISet = false
-        val testDetailsSetSubscriber = TestSubscriber<Boolean>()
-        val testUISetSubscriber = TestSubscriber<Boolean>()
+        val testDetailsSetSubscriber = TestObserver<Boolean>()
+        val testUISetSubscriber = TestObserver<Boolean>()
         setDummyCheckoutResponse()
         hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable.subscribe(testDetailsSetSubscriber)
         hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable.subscribe(testUISetSubscriber)
 
-        TestSubject.combineLatest(hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable, hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable, {
+        ObservableOld.combineLatest(hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable, hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable, {
             detailsSet, UISet ->
                 if (detailsSet && UISet) {
                     confirmationDetailsAndUISet = true

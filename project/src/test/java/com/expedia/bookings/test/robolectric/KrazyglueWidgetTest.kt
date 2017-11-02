@@ -11,23 +11,23 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.KrazyglueResponse
-import com.expedia.bookings.presenter.shared.KrazyglueHotelViewHolder
-import com.expedia.bookings.presenter.shared.KrazyglueWidget
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.presenter.shared.KrazyglueHotelViewHolder
 import com.expedia.bookings.presenter.shared.KrazyglueHotelsListAdapter
 import com.expedia.bookings.presenter.shared.KrazyglueSeeMoreViewHolder
+import com.expedia.bookings.presenter.shared.KrazyglueWidget
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.KrazyglueHotelSeeMoreHolderViewModel
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -150,8 +150,8 @@ class KrazyglueWidgetTest {
     fun testSeeMoreHotelDataBinding() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         val seeMoreHotel = LayoutInflater.from(activity).inflate(R.layout.krazyglue_see_more_hotel_view, null)
-        val hotelSearchParamsObservable = BehaviorSubject.create<HotelSearchParams>(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
-        val regionIdObservable = BehaviorSubject.create<String>("12345")
+        val hotelSearchParamsObservable = BehaviorSubject.createDefault<HotelSearchParams>(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
+        val regionIdObservable = BehaviorSubject.createDefault<String>("12345")
         KrazyglueSeeMoreViewHolder(seeMoreHotel, activity, hotelSearchParamsObservable, regionIdObservable)
 
         assertEquals("Offer expires in 1 day", seeMoreHotel.findViewById<TextView>(R.id.hotel_offer_expire).text)
@@ -161,8 +161,8 @@ class KrazyglueWidgetTest {
     fun testHotelBindsDataCorrectly() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         val hotelView = LayoutInflater.from(activity).inflate(R.layout.krazyglue_hotel_view, null)
-        val hotelSearchObservable = BehaviorSubject.create<HotelSearchParams>(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
-        val regionIdObservable = BehaviorSubject.create<String>("12345")
+        val hotelSearchObservable = BehaviorSubject.createDefault<HotelSearchParams>(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
+        val regionIdObservable = BehaviorSubject.createDefault<String>("12345")
         val viewHolder = KrazyglueHotelViewHolder(hotelView, hotelSearchObservable, regionIdObservable)
         val hotel = FlightTestUtil.getKrazyglueHotel(hotelID = "21222", hoteName = "San Francisco Hotel")
         viewHolder.viewModel.hotelObservable.onNext(hotel)

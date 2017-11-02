@@ -5,7 +5,7 @@ import android.view.View
 import android.view.inputmethod.BaseInputConnection
 import android.view.inputmethod.InputConnection
 import android.view.inputmethod.InputConnectionWrapper
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class NumericKeyWatcher(view: View, mutable: Boolean, val outPutTextSubject: PublishSubject<String>) : BaseInputConnection(view, mutable) {
     val DELETION_TEXT = ""

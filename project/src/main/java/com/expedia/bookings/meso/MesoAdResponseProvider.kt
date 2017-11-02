@@ -8,7 +8,7 @@ import com.expedia.bookings.utils.Constants
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest
 import com.google.android.gms.ads.formats.NativeCustomTemplateAd
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 open class MesoAdResponseProvider {
 
@@ -26,7 +26,7 @@ open class MesoAdResponseProvider {
                             val mesoAdResponse = MesoAdResponse(generateHotelAdResponse(hotelAdResponse))
                             mesoHotelAdResponseSubject.onNext(mesoAdResponse)
                         }
-                        mesoHotelAdResponseSubject.onCompleted()
+                        mesoHotelAdResponseSubject.onComplete()
                     })
             { hotelAdResponse, s -> }.build()
 
@@ -43,7 +43,7 @@ open class MesoAdResponseProvider {
                             val mesoAdResponse = MesoAdResponse(null, generateDestinationAdResponse(destinationAdResponse))
                             mesoDestinationAdResponseSubject.onNext(mesoAdResponse)
                         }
-                        mesoDestinationAdResponseSubject.onCompleted()
+                        mesoDestinationAdResponseSubject.onComplete()
                     })
             { destinationAdResponse, s -> }.build()
 

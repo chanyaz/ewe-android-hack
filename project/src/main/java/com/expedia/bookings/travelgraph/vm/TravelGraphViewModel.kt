@@ -6,8 +6,9 @@ import com.expedia.bookings.data.travelgraph.TravelGraphUserHistoryResponse
 import com.expedia.bookings.data.travelgraph.TravelGraphUserHistoryResult
 import com.expedia.bookings.services.travelgraph.TravelGraphServices
 import com.expedia.bookings.utils.Ui
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 
 class TravelGraphViewModel(val context: Context, private val travelGraphServices: TravelGraphServices) {
     val searchHistoryResultSubject = PublishSubject.create<TravelGraphUserHistoryResult>()
@@ -25,7 +26,7 @@ class TravelGraphViewModel(val context: Context, private val travelGraphServices
     }
 
     private fun createTravelGraphResponseObserver(): Observer<TravelGraphUserHistoryResponse> {
-        return object : Observer<TravelGraphUserHistoryResponse> {
+        return object : DisposableObserver<TravelGraphUserHistoryResponse>() {
             override fun onNext(response: TravelGraphUserHistoryResponse) {
                 val searchResult = getHotelSearchHistoryItems(response)
                 if (searchResult != null) {
@@ -37,9 +38,9 @@ class TravelGraphViewModel(val context: Context, private val travelGraphServices
                 return response.getSearchHistoryResultFor(TravelGraphUserHistoryResponse.TravelGraphItemLOB.HOTEL)
             }
 
-            override fun onCompleted() {}
+            override fun onComplete() {}
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 //TODO handle errors
             }
         }

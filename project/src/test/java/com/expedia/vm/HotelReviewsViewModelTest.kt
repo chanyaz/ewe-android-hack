@@ -6,6 +6,7 @@ import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTrackedNumTim
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.hamcrest.Matchers
@@ -13,7 +14,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -32,9 +32,9 @@ class HotelReviewsViewModelTest {
         val vm = HotelReviewsViewModel(context)
         val offer = createHotelOffersResponse()
 
-        val toolbarTitleTestObservable = TestSubscriber.create<String>()
-        val toolbarSubtitleTestObservable = TestSubscriber.create<String>()
-        val hotelIdTestObservable = TestSubscriber.create<String>()
+        val toolbarTitleTestObservable = TestObserver.create<String>()
+        val toolbarSubtitleTestObservable = TestObserver.create<String>()
+        val hotelIdTestObservable = TestObserver.create<String>()
 
         vm.toolbarTitleObservable.subscribe(toolbarTitleTestObservable)
         vm.toolbarSubtitleObservable.subscribe(toolbarSubtitleTestObservable)
@@ -42,9 +42,9 @@ class HotelReviewsViewModelTest {
 
         vm.hotelOfferObserver.onNext(offer)
 
-        assertEquals("name", toolbarTitleTestObservable.onNextEvents.last())
-        assertEquals("1 reviews", toolbarSubtitleTestObservable.onNextEvents.last())
-        assertEquals("id", hotelIdTestObservable.onNextEvents.last())
+        assertEquals("name", toolbarTitleTestObservable.values().last())
+        assertEquals("1 reviews", toolbarSubtitleTestObservable.values().last())
+        assertEquals("id", hotelIdTestObservable.values().last())
 
         offer.hotelName = "name2"
         offer.hotelId = "id2"
@@ -52,9 +52,9 @@ class HotelReviewsViewModelTest {
 
         vm.hotelOfferObserver.onNext(offer)
 
-        assertEquals("name2", toolbarTitleTestObservable.onNextEvents.last())
-        assertEquals("0 reviews", toolbarSubtitleTestObservable.onNextEvents.last())
-        assertEquals("id2", hotelIdTestObservable.onNextEvents.last())
+        assertEquals("name2", toolbarTitleTestObservable.values().last())
+        assertEquals("0 reviews", toolbarSubtitleTestObservable.values().last())
+        assertEquals("id2", hotelIdTestObservable.values().last())
     }
 
     @Test

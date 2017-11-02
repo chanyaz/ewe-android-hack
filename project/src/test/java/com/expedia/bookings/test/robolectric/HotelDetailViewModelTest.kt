@@ -26,6 +26,7 @@ import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -40,6 +41,7 @@ import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.mobiata.android.util.SettingUtils
+import io.reactivex.subjects.PublishSubject
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -48,8 +50,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
-import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.ArrayList
@@ -121,71 +121,71 @@ class HotelDetailViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testHotelMessageVisibilityDiscountOnly() {
-        val testSubscriber = TestSubscriber.create<Boolean>()
+        val testSubscriber = TestObserver.create<Boolean>()
         vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
         triggerHotelMessageContainer(showDiscount = true, vip = false, promoMessage = "",
                 soldOut = false, loyaltyApplied = false, airAttach = false)
-        assertTrue(testSubscriber.onNextEvents.last())
+        assertTrue(testSubscriber.values().last())
 
         triggerHotelMessageContainer(showDiscount = true, vip = false, promoMessage = "",
                 soldOut = true, loyaltyApplied = false, airAttach = false)
-        assertFalse(testSubscriber.onNextEvents.last(), "FAILURE: Expected false when soldOut = true")
+        assertFalse(testSubscriber.values().last(), "FAILURE: Expected false when soldOut = true")
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testHotelMessageVisibilityVIPOnly() {
-        val testSubscriber = TestSubscriber.create<Boolean>()
+        val testSubscriber = TestObserver.create<Boolean>()
         vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
         triggerHotelMessageContainer(showDiscount = false, vip = true, promoMessage = "",
                 soldOut = false, loyaltyApplied = false, airAttach = false)
-        assertTrue(testSubscriber.onNextEvents.last())
+        assertTrue(testSubscriber.values().last())
 
         triggerHotelMessageContainer(showDiscount = false, vip = true, promoMessage = "",
                 soldOut = true, loyaltyApplied = false, airAttach = false)
-        assertFalse(testSubscriber.onNextEvents.last(), "FAILURE: Expected false when soldOut = true")
+        assertFalse(testSubscriber.values().last(), "FAILURE: Expected false when soldOut = true")
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testHotelMessageVisibilityLoyaltyOnly() {
-        val testSubscriber = TestSubscriber.create<Boolean>()
+        val testSubscriber = TestObserver.create<Boolean>()
         vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
         triggerHotelMessageContainer(showDiscount = false, vip = false, promoMessage = "",
                 soldOut = false, loyaltyApplied = true, airAttach = false)
-        assertTrue(testSubscriber.onNextEvents.last())
+        assertTrue(testSubscriber.values().last())
 
         triggerHotelMessageContainer(showDiscount = false, vip = false, promoMessage = "",
                 soldOut = true, loyaltyApplied = true, airAttach = false)
-        assertFalse(testSubscriber.onNextEvents.last(), "FAILURE: Expected false when soldOut = true")
+        assertFalse(testSubscriber.values().last(), "FAILURE: Expected false when soldOut = true")
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testHotelMessageVisibilityPromoOnly() {
-        val testSubscriber = TestSubscriber.create<Boolean>()
+        val testSubscriber = TestObserver.create<Boolean>()
         vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
         triggerHotelMessageContainer(showDiscount = false, vip = false, promoMessage = "Mobile Exclusive",
                 soldOut = false, loyaltyApplied = false, airAttach = false)
-        assertTrue(testSubscriber.onNextEvents.last())
+        assertTrue(testSubscriber.values().last())
 
         triggerHotelMessageContainer(showDiscount = false, vip = false, promoMessage = "Mobile Exclusive",
                 soldOut = true, loyaltyApplied = false, airAttach = false)
-        assertFalse(testSubscriber.onNextEvents.last(), "FAILURE: Expected false when soldOut = true")
+        assertFalse(testSubscriber.values().last(), "FAILURE: Expected false when soldOut = true")
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testRatingContainerBackground() {
-        val testSubscriber = TestSubscriber.create<Drawable>()
+        val testSubscriber = TestObserver.create<Drawable>()
         vm.ratingContainerBackground.subscribe(testSubscriber)
 
         vm.isUserRatingAvailableObservable.onNext(true)
-        assertEquals(ContextCompat.getDrawable(context, R.drawable.gray_background_ripple), testSubscriber.onNextEvents[0],
+        assertEquals(ContextCompat.getDrawable(context, R.drawable.gray_background_ripple), testSubscriber.values()[0],
                 "FAILURE: Rating available needs a clickable ripple background")
 
         vm.isUserRatingAvailableObservable.onNext(false)
-        assertEquals(ContextCompat.getDrawable(context, R.color.gray100), testSubscriber.onNextEvents[1],
+        assertEquals(ContextCompat.getDrawable(context, R.color.gray100), testSubscriber.values()[1],
                 "FAILURE: No rating available needs a static background")
     }
 
@@ -217,7 +217,7 @@ class HotelDetailViewModelTest {
     }
 
     @Test fun getHotelPriceContentDescriptionTestWithStrikeThrough() {
-        val testSubscriberText = TestSubscriber<CharSequence>()
+        val testSubscriberText = TestObserver<CharSequence>()
         val chargeableRateInfo = offer2.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         chargeableRateInfo.priceToShowUsers = 110f
         chargeableRateInfo.averageRate = 110f
@@ -226,45 +226,45 @@ class HotelDetailViewModelTest {
         vm.hotelOffersSubject.onNext(offer2)
 
         assertEquals("Regularly ${vm.strikeThroughPriceObservable.value}, now ${vm.priceToShowCustomerObservable.value}.\u0020Original price discounted ${vm.discountPercentageObservable.value.first}.\u0020",
-                testSubscriberText.onNextEvents[0])
+                testSubscriberText.values()[0])
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun getHotelPriceContentDescriptionTestNoStrikeThrough() {
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
-        val testSubscriberText = TestSubscriber<CharSequence>()
+        val testSubscriberText = TestObserver<CharSequence>()
         chargeableRateInfo.priceToShowUsers = 110f
         chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers - 10f
         chargeableRateInfo.averageRate = 110f
         vm.hotelPriceContentDesc.subscribe(testSubscriberText)
         vm.hotelOffersSubject.onNext(offer1)
 
-        assertEquals("$110/night", testSubscriberText.onNextEvents[0])
+        assertEquals("$110/night", testSubscriberText.values()[0])
     }
 
     @Test
     fun testNullAmenityList() {
-        val testAmenitySubscriber = TestSubscriber<Unit>()
+        val testAmenitySubscriber = TestObserver<Unit>()
         vm.noAmenityObservable.subscribe(testAmenitySubscriber)
         vm.hotelOffersSubject.onNext(offer1)
-        assertTrue(testAmenitySubscriber.onNextEvents.isNotEmpty())
+        assertTrue(testAmenitySubscriber.values().isNotEmpty())
     }
 
     @Test
     fun testNonExistentAmenity() {
-        val testAmenitySubscriber = TestSubscriber<Unit>()
+        val testAmenitySubscriber = TestObserver<Unit>()
         vm.noAmenityObservable.subscribe(testAmenitySubscriber)
         vm.hotelOffersSubject.onNext(offer2)
-        assertTrue(testAmenitySubscriber.onNextEvents.isNotEmpty())
+        assertTrue(testAmenitySubscriber.values().isNotEmpty())
     }
 
     @Test
     fun testPoolAmenity() {
-        val testAmenitySubscriber = TestSubscriber<List<Amenity>>()
+        val testAmenitySubscriber = TestObserver<List<Amenity>>()
         vm.amenitiesListObservable.subscribe(testAmenitySubscriber)
         vm.hotelOffersSubject.onNext(soldOutOffer)
-        assertEquals(Amenity.POOL, testAmenitySubscriber.onNextEvents[0][0])
+        assertEquals(Amenity.POOL, testAmenitySubscriber.values()[0][0])
     }
 
     @Test fun discountPercentageShouldNotShowForPackages() {
@@ -277,13 +277,13 @@ class HotelDetailViewModelTest {
     fun resortFeeShowUKPOS() {
         CurrencyUtils.initMap(RuntimeEnvironment.application)
         setPOS(PointOfSaleId.UNITED_KINGDOM)
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         vm.hotelResortFeeObservable.subscribe(testSubscriber)
         vm.paramsSubject.onNext(createSearchParams())
 
         makeResortFeeResponse(vm)
 
-        assertEquals("20.00 USD", testSubscriber.onNextEvents[1])
+        assertEquals("20.00 USD", testSubscriber.values()[1])
         assertEquals("total fee", context.getString(vm.getFeeTypeText()))
     }
 
@@ -291,13 +291,13 @@ class HotelDetailViewModelTest {
     fun resortFeeShowUSPOS() {
         CurrencyUtils.initMap(RuntimeEnvironment.application)
         setPOS(PointOfSaleId.UNITED_STATES)
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         vm.hotelResortFeeObservable.subscribe(testSubscriber)
         vm.paramsSubject.onNext(createSearchParams())
 
         makeResortFeeResponse(vm)
 
-        assertEquals("$20", testSubscriber.onNextEvents[1])
+        assertEquals("$20", testSubscriber.values()[1])
     }
 
     private fun makeResortFeeResponse(vm: BaseHotelDetailViewModel) {
@@ -453,12 +453,12 @@ class HotelDetailViewModelTest {
     }
 
     @Test fun reviewsClicking() {
-        val testSub = TestSubscriber.create<String>()
+        val testSub = TestObserver.create<String>()
         val expected = listOf("hotel1", "hotel2", "hotel1", "hotel2", "hotel2", "hotel2")
 
         vm.reviewsDataObservable
                 .map { hotel -> hotel.hotelName }
-                .take(expected.size)
+                .take(expected.size.toLong())
                 .subscribe(testSub)
 
         vm.hotelOffersSubject.onNext(offer1)
@@ -480,14 +480,14 @@ class HotelDetailViewModelTest {
         vm.reviewsClickObserver.onNext(Unit)
 
         testSub.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        testSub.assertCompleted()
-        testSub.assertReceivedOnNext(expected)
+        testSub.assertComplete()
+        testSub.assertValueSequence(expected)
     }
 
     @Test fun allRoomsSoldOutSignal() {
         vm.hotelOffersSubject.onNext(offer1)
 
-        val hotelSoldOutTestSubscriber = TestSubscriber.create<Boolean>()
+        val hotelSoldOutTestSubscriber = TestObserver.create<Boolean>()
         vm.hotelSoldOut.subscribe(hotelSoldOutTestSubscriber)
 
         val hotelRoomDetailViewModels = ArrayList<HotelRoomDetailViewModel>()
@@ -505,7 +505,7 @@ class HotelDetailViewModelTest {
     }
 
     @Test fun hotelSoldOutSignal() {
-        val hotelSoldOutTestSubscriber = TestSubscriber.create<Boolean>()
+        val hotelSoldOutTestSubscriber = TestObserver.create<Boolean>()
         vm.hotelSoldOut.subscribe(hotelSoldOutTestSubscriber)
 
         vm.hotelOffersSubject.onNext(soldOutOffer)
@@ -603,8 +603,8 @@ class HotelDetailViewModelTest {
 
     @Test
     fun testFetchOffersHappy() {
-        val testProgressSub = TestSubscriber.create<Unit>()
-        val testSuccessSub = TestSubscriber.create<HotelOffersResponse>()
+        val testProgressSub = TestObserver.create<Unit>()
+        val testSuccessSub = TestObserver.create<HotelOffersResponse>()
 
         vm.fetchInProgressSubject.subscribe(testProgressSub)
         vm.hotelOffersSubject.subscribe(testSuccessSub)
@@ -618,9 +618,9 @@ class HotelDetailViewModelTest {
 
     @Test
     fun testFetchOffersSoldOut() {
-        val testSuccessSub = TestSubscriber.create<HotelOffersResponse>()
-        val testFetchOfferSub= TestSubscriber.create<Unit>()
-        val testFetchInfoSub = TestSubscriber.create<Unit>()
+        val testSuccessSub = TestObserver.create<HotelOffersResponse>()
+        val testFetchOfferSub= TestObserver.create<Unit>()
+        val testFetchInfoSub = TestObserver.create<Unit>()
 
         mockHotelInfoManager.fetchOffersCalled.subscribe(testFetchOfferSub)
         mockHotelInfoManager.fetchInfoCalled.subscribe(testFetchInfoSub)
@@ -641,19 +641,19 @@ class HotelDetailViewModelTest {
 
     @Test
     fun testDatesForSoldOut() {
-        val testDatesTextSub = TestSubscriber.create<String>()
+        val testDatesTextSub = TestObserver.create<String>()
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelEnableInfositeChangeDate)
         vm.searchInfoObservable.subscribe(testDatesTextSub)
         vm.hotelOffersSubject.onNext(soldOutOffer)
 
-        assertEquals(context.getString(R.string.change_dates), testDatesTextSub.onNextEvents[0],
+        assertEquals(context.getString(R.string.change_dates), testDatesTextSub.values()[0],
                 "Failure: Expected Dates to read Change Dates when hotel sold out!")
     }
 
     fun testFetchOffersApiError() {
-        val testSuccessSub = TestSubscriber.create<HotelOffersResponse>()
-        val testErrorSub = TestSubscriber.create<ApiError>()
-        val testFetchOfferSub = TestSubscriber.create<Unit>()
+        val testSuccessSub = TestObserver.create<HotelOffersResponse>()
+        val testErrorSub = TestObserver.create<ApiError>()
+        val testFetchOfferSub = TestObserver.create<Unit>()
 
         mockHotelInfoManager.fetchOffersCalled.subscribe(testFetchOfferSub)
 
@@ -671,14 +671,14 @@ class HotelDetailViewModelTest {
 
     @Test
     fun testApiErrorObservable() {
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         vm.infositeApiErrorSubject.subscribe(testSubscriber)
 
         mockHotelInfoManager.apiErrorSubject.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
 
         testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.onNextEvents[0].errorCode)
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.values()[0].errorCode)
     }
 
     @Test
@@ -740,8 +740,8 @@ class HotelDetailViewModelTest {
         val originalStartDate = LocalDate()
         val originalEndDate = LocalDate(1)
 
-        val testParamsSub = TestSubscriber.create<HotelSearchParams>()
-        val testFetchInProgressSub = TestSubscriber.create<Unit>()
+        val testParamsSub = TestObserver.create<HotelSearchParams>()
+        val testFetchInProgressSub = TestObserver.create<Unit>()
 
         vm.hotelId = "test"
 
@@ -762,7 +762,7 @@ class HotelDetailViewModelTest {
 
         vm.changeDates(newStartDate, newEndDate)
 
-        var newParams = testParamsSub.onNextEvents
+        var newParams = testParamsSub.values()
 
         assertEquals(2, newParams.count())
         assertEquals(newStartDate, newParams.last().startDate)

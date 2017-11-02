@@ -15,7 +15,7 @@ import com.expedia.vm.rail.RailFareOptionViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -78,9 +78,9 @@ class RailFareOptionViewTest {
     fun testRailFareOptionClickEvents() {
         val railFareOptionViewModel = RailFareOptionViewModel(getContext(), false)
 
-        val testOfferClickedSubscriber = TestSubscriber<Unit>()
-        val testShowAmenitiesClickedSubscriber = TestSubscriber<Unit>()
-        val testShowFareClickedSubscriber = TestSubscriber<Unit>()
+        val testOfferClickedSubscriber = TestObserver<Unit>()
+        val testShowAmenitiesClickedSubscriber = TestObserver<Unit>()
+        val testShowFareClickedSubscriber = TestObserver<Unit>()
         railFareOptionViewModel.offerSelectButtonClicked.subscribe(testOfferClickedSubscriber)
         railFareOptionViewModel.showAmenitiesForFareClicked.subscribe(testShowAmenitiesClickedSubscriber)
         railFareOptionViewModel.showFareRulesForFareClicked.subscribe(testShowFareClickedSubscriber)

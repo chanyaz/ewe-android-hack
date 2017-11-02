@@ -39,7 +39,9 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Observer;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 public class LXSortFilterWidget extends LinearLayout {
 
@@ -139,11 +141,16 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	private Observer activityFilterSubscriber = new Observer() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override
 		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onSubscribe(@NonNull Disposable d) {
+
 		}
 
 		@Override

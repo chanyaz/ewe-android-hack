@@ -46,11 +46,10 @@ import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import com.squareup.otto.Subscribe
-import rx.Observer
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
-import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 

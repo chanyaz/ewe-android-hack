@@ -10,7 +10,6 @@ import com.expedia.account.util.MockFacebookViewHelper;
 
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
-import rx.Observable;
 import timber.log.Timber;
 
 public class MockExpediaAccountApi implements ExpediaAccountApi {

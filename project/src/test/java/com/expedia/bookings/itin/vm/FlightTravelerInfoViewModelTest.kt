@@ -1,22 +1,22 @@
 package com.expedia.bookings.itin.vm
 
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class FlightTravelerInfoViewModelTest {
     lateinit private var sut: FlightTravelerInfoViewModel
     private val testString = "123456"
-    private val createTravelerSubscriber = TestSubscriber<Traveler>()
-    private val createTravelerNameSubscriber = TestSubscriber<CharSequence>()
-    private val createTravelerEmailSubscriber = TestSubscriber<CharSequence>()
-    private val createTicketNumberSubscriber = TestSubscriber<CharSequence>()
-    private val createPhoneNumberSubscriber = TestSubscriber<CharSequence>()
-    private val createInfantInLapSubscriber = TestSubscriber<CharSequence>()
+    private val createTravelerSubscriber = TestObserver<Traveler>()
+    private val createTravelerNameSubscriber = TestObserver<CharSequence>()
+    private val createTravelerEmailSubscriber = TestObserver<CharSequence>()
+    private val createTicketNumberSubscriber = TestObserver<CharSequence>()
+    private val createPhoneNumberSubscriber = TestObserver<CharSequence>()
+    private val createInfantInLapSubscriber = TestObserver<CharSequence>()
 
     @Before
     fun setup() {

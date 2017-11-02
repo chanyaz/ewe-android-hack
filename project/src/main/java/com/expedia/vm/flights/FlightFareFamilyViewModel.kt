@@ -5,8 +5,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.FlightTripResponse.FareFamilyDetails
+import com.expedia.bookings.withLatestFrom
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightFareFamilyViewModel(val context: Context) {
     val tripObservable = PublishSubject.create<FlightTripResponse>()

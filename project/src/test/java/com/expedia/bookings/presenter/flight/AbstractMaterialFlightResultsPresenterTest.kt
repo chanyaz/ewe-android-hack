@@ -14,6 +14,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -23,6 +24,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import io.reactivex.schedulers.Schedulers
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
@@ -32,8 +34,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -58,7 +58,7 @@ class AbstractMaterialFlightResultsPresenterTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         service = FlightServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                listOf(interceptor), Schedulers.immediate(), Schedulers.immediate(), false)
+                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline(), false)
         Ui.getApplication(context).defaultTravelerComponent()
     }
 
@@ -147,7 +147,7 @@ class AbstractMaterialFlightResultsPresenterTest {
     fun obFeeDetailsUrlNotSetWhenOBFeeNotShown() {
         createSystemUnderTest(false)
 
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val expectedUrl = "http://url"
         sut.paymentFeeInfoWebView.viewModel.webViewURLObservable.subscribe(testSubscriber)
 
@@ -160,7 +160,7 @@ class AbstractMaterialFlightResultsPresenterTest {
     fun obFeeDetailsUrlSet() {
         createSystemUnderTest(false)
 
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val expectedUrl = "http://url"
         sut.paymentFeeInfoWebView.viewModel.webViewURLObservable.subscribe(testSubscriber)
 
@@ -189,7 +189,7 @@ class AbstractMaterialFlightResultsPresenterTest {
     fun showPaymentFees() {
         createSystemUnderTest(true)
         setupFlightLeg()
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         sut.overviewPresenter.showPaymentFeesObservable.subscribe(testSubscriber)
 
         sut.overviewPresenter.paymentFeesMayApplyTextView.performClick()
@@ -202,7 +202,7 @@ class AbstractMaterialFlightResultsPresenterTest {
     fun showTextPaymentFees() {
         createSystemUnderTest(true)
         setupFlightLeg(false)
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         sut.overviewPresenter.showPaymentFeesObservable.subscribe(testSubscriber)
         sut.flightOfferViewModel.obFeeDetailsUrlObservable.onNext("")
         sut.overviewPresenter.paymentFeesMayApplyTextView.performClick()

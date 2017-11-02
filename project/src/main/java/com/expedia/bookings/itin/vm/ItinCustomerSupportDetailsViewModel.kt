@@ -1,6 +1,6 @@
 package com.expedia.bookings.itin.vm
 
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class ItinCustomerSupportDetailsViewModel {
 

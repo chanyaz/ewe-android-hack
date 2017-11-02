@@ -6,8 +6,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.utils.DateUtils
 import com.squareup.phrase.Phrase
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.format.DateTimeFormat
-import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 
 class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewModel: HotelCheckoutSummaryViewModel) {
@@ -37,7 +37,7 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
 
             // Taxes & Fees
             val surchargeTotal = hotelCheckoutSummaryViewModel.surchargeTotalForEntireStay.value
-            val taxStatusType = hotelCheckoutSummaryViewModel.taxStatusType.value
+            val taxStatusType = hotelCheckoutSummaryViewModel.taxStatusType.value?.value
             if (taxStatusType != null && taxStatusType.equals("UNKNOWN")) {
                 breakdowns.add(Breakdown(context.getString(R.string.taxes_and_fees), context.getString(R.string.unknown), BreakdownItem.OTHER))
             } else if (!surchargeTotal.isZero) {

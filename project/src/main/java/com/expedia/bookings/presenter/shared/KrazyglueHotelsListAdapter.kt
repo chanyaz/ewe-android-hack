@@ -9,10 +9,10 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import rx.subjects.PublishSubject
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
-class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<KrazyglueResponse.KrazyglueHotel>>, val hotelSearchParams: BehaviorSubject<HotelSearchParams>, val regionId: BehaviorSubject<String>,  val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<KrazyglueResponse.KrazyglueHotel>>, val hotelSearchParams: BehaviorSubject<HotelSearchParams>, val regionId: BehaviorSubject<String>, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     enum class KrazyglueViewHolderType {
         LOADING_VIEW,

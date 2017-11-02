@@ -19,7 +19,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -45,11 +45,11 @@ class RailLegOptionViewModelTest {
         val testViewModel = RailLegOptionViewModel(context, false)
         val legOption = buildMockLegOption()
 
-        val testSub = TestSubscriber<String>()
+        val testSub = TestObserver<String>()
         testViewModel.formattedStopsAndDurationObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
 
-        assertEquals("$expectedDuration, $expectedChangeText", testSub.onNextEvents[0])
+        assertEquals("$expectedDuration, $expectedChangeText", testSub.values()[0])
     }
 
     @Test
@@ -57,11 +57,11 @@ class RailLegOptionViewModelTest {
         val testViewModel = RailLegOptionViewModel(context, false)
         val legOption = buildMockLegOption()
 
-        val testSub = TestSubscriber<String>()
+        val testSub = TestObserver<String>()
         testViewModel.formattedTimeSubject.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
 
-        assertEquals(expectedFormattedTime, testSub.onNextEvents[0])
+        assertEquals(expectedFormattedTime, testSub.values()[0])
     }
 
     @Test
@@ -69,11 +69,11 @@ class RailLegOptionViewModelTest {
         val testViewModel = RailLegOptionViewModel(context, false)
         val legOption = buildMockLegOption()
 
-        val testSub = TestSubscriber<String>()
+        val testSub = TestObserver<String>()
         testViewModel.aggregatedOperatingCarrierSubject.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
 
-        assertEquals(testAggregatedOperationCarrier, testSub.onNextEvents[0])
+        assertEquals(testAggregatedOperationCarrier, testSub.values()[0])
     }
 
     @Test
@@ -81,13 +81,13 @@ class RailLegOptionViewModelTest {
         val testViewModel = RailLegOptionViewModel(context, false)
         val legOption = buildMockLegOption()
 
-        val testSub = TestSubscriber<String>()
+        val testSub = TestObserver<String>()
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
         testViewModel.cheapestLegPriceObservable.onNext(Optional(null))
         testViewModel.offerSubject.onNext(Optional(null))
 
-        assertEquals(testFormattedPrice, testSub.onNextEvents[0])
+        assertEquals(testFormattedPrice, testSub.values()[0])
     }
 
     @Test
@@ -96,13 +96,13 @@ class RailLegOptionViewModelTest {
         val testViewModel = RailLegOptionViewModel(context, false)
         val legOption = buildMockLegOption()
 
-        val testSub = TestSubscriber<String>()
+        val testSub = TestObserver<String>()
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
         testViewModel.cheapestLegPriceObservable.onNext(Optional(Money("10", "USD")))
         testViewModel.offerSubject.onNext(Optional(null))
 
-        assertEquals(testRoundTripOutboundFormattedPrice, testSub.onNextEvents[0])
+        assertEquals(testRoundTripOutboundFormattedPrice, testSub.values()[0])
     }
 
     @Test
@@ -111,13 +111,13 @@ class RailLegOptionViewModelTest {
         val testViewModel = RailLegOptionViewModel(context, true)
         val legOption = buildMockLegOption()
 
-        val testSub = TestSubscriber<String>()
+        val testSub = TestObserver<String>()
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
         testViewModel.cheapestLegPriceObservable.onNext(Optional(Money("5", "USD")))
         testViewModel.offerSubject.onNext(Optional(getRailOffer(false)))
 
-        assertEquals(testRoundTripInboundFormattedPrice, testSub.onNextEvents[0])
+        assertEquals(testRoundTripInboundFormattedPrice, testSub.values()[0])
     }
 
     @Test
@@ -126,13 +126,13 @@ class RailLegOptionViewModelTest {
         val testViewModel = RailLegOptionViewModel(context, true)
         val legOption = buildMockLegOption()
 
-        val testSub = TestSubscriber<String>()
+        val testSub = TestObserver<String>()
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
         testViewModel.cheapestLegPriceObservable.onNext(Optional(Money("5", "USD")))
         testViewModel.offerSubject.onNext(Optional(getRailOffer(true)))
 
-        assertEquals(testOpenReturnFormattedPrice, testSub.onNextEvents[0])
+        assertEquals(testOpenReturnFormattedPrice, testSub.values()[0])
     }
 
     @Test
@@ -140,12 +140,12 @@ class RailLegOptionViewModelTest {
         val testViewModel = RailLegOptionViewModel(context, false)
         val legOption = buildMockLegOption()
 
-        val testSub = TestSubscriber.create<Boolean>()
+        val testSub = TestObserver.create<Boolean>()
 
         testViewModel.railCardAppliedObservable.subscribe(testSub)
 
         testViewModel.legOptionObservable.onNext(legOption)
-        assertTrue(testSub.onNextEvents[0])
+        assertTrue(testSub.values()[0])
     }
 
     private fun buildMockLegOption(): RailLegOption {

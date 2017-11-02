@@ -42,6 +42,7 @@ import com.expedia.bookings.widget.HotelServerFilterView
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelListAdapter
+import com.expedia.bookings.zipWith
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
@@ -50,8 +51,8 @@ import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelFilterViewModel
 import com.expedia.vm.hotel.UrgencyViewModel
-import rx.Observer
-import rx.Subscription
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -64,7 +65,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     private val narrowResultsPromptView: TextView by bindView(R.id.narrow_result_prompt)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
-    private var narrowFilterPromptSubscription: Subscription? = null
+    private var narrowFilterPromptSubscription: Disposable? = null
     private var swpEnabled = false
 
     val filterCountObserver: Observer<Int> = endlessObserver { numberOfFilters ->
@@ -184,7 +185,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                         .duration(500L).outDelay(3000L)
                         .run()
                 HotelTracking.trackHotelNarrowPrompt()
-                narrowFilterPromptSubscription?.unsubscribe()
+                narrowFilterPromptSubscription?.dispose()
             }
         }
     }

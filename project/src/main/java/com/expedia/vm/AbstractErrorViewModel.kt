@@ -5,11 +5,12 @@ import android.support.annotation.DrawableRes
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.subscribeObserver
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.Subscription
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class AbstractErrorViewModel(protected val context: Context) {
 
@@ -39,7 +40,7 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
     val soldOutObservable = BehaviorSubject.create<Unit>()
     val createTripUnknownErrorObservable = BehaviorSubject.create<Unit>()
 
-    private var buttonActionSubscription: Subscription? = null
+    private var buttonActionSubscription: Disposable? = null
 
     init {
         checkoutApiErrorObserver.subscribe(checkoutApiErrorHandler())
@@ -53,8 +54,8 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
 
     protected fun subscribeActionToButtonPress(action: Observer<Unit>) {
         // Unsubscribe current button action
-        buttonActionSubscription?.unsubscribe()
-        buttonActionSubscription = errorButtonClickedObservable.subscribe(action)
+        buttonActionSubscription?.dispose()
+        buttonActionSubscription = errorButtonClickedObservable.subscribeObserver(action)
     }
 
     open fun makeDefaultError() {

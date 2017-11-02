@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -52,15 +55,13 @@ import com.expedia.vm.traveler.HotelTravelersViewModel;
 import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import kotlin.Unit;
-import rx.Observer;
-import rx.Subscriber;
-
 
 public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener,
 	UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener,
@@ -186,9 +187,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.getViewmodel().getDoneClickedMethod().subscribe(toolbar.getViewModel().getDoneClickedMethod());
 
 		if (hotelMaterialFormTestEnabled) {
-			paymentInfoCardView.getViewmodel().getMenuVisibility().subscribe(new Observer<Boolean>() {
+			paymentInfoCardView.getViewmodel().getMenuVisibility().subscribe(new DisposableObserver<Boolean>() {
 				@Override
-				public void onCompleted() {
+				public void onComplete() {
 
 				}
 
@@ -206,9 +207,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getShowDone());
 		mainContactInfoCardView.onDoneClickedMethod.subscribe(toolbar.getViewModel().getDoneClickedMethod());
-		paymentInfoCardView.getToolbarNavIconFocusObservable().subscribe(new Observer<Boolean>() {
+		paymentInfoCardView.getToolbarNavIconFocusObservable().subscribe(new DisposableObserver<Boolean>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 
 			}
 			@Override
@@ -289,9 +290,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		travelersPresenter.getToolbarTitleSubject().subscribe(toolbar.getViewModel().getToolbarTitle());
 		travelersPresenter.getToolbarNavIconContDescSubject().subscribe(toolbar.getViewModel().getToolbarNavIconContentDesc());
 		travelersPresenter.getViewModel().getDoneClickedMethod().subscribe(toolbar.getViewModel().getDoneClickedMethod());
-		travelersPresenter.getCloseSubject().subscribe(new Subscriber<Unit>() {
+		travelersPresenter.getCloseSubject().subscribe(new DisposableObserver<Unit>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 
 			}
 
@@ -329,12 +330,17 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		toolbar.getViewModel().getNextClicked().subscribe(new Observer<Unit>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 
 			}
 
 			@Override
 			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onSubscribe(@NonNull Disposable d) {
 
 			}
 
@@ -348,11 +354,16 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		toolbar.getViewModel().getExpanded().subscribe(new Observer<ExpandableCardView>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 			}
 
 			@Override
 			public void onError(Throwable e) {
+			}
+
+			@Override
+			public void onSubscribe(@NonNull Disposable d) {
+
 			}
 
 			@Override
@@ -367,12 +378,17 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		toolbar.getViewModel().getClosed().subscribe(new Observer<Unit>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 
 			}
 
 			@Override
 			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onSubscribe(@NonNull Disposable d) {
 
 			}
 
@@ -523,11 +539,16 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				.getVm().getAcceptedTermsObservable().getValue()) {
 				acceptTermsWidget.getVm().getAcceptedTermsObservable().subscribe(new Observer<Boolean>() {
 					@Override
-					public void onCompleted() {
+					public void onComplete() {
 					}
 
 					@Override
 					public void onError(Throwable e) {
+					}
+
+					@Override
+					public void onSubscribe(@NonNull Disposable d) {
+
 					}
 
 					@Override
@@ -976,11 +997,16 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public Observer<Boolean> expandPaymentObserver = new Observer<Boolean>() {
 
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override
 		public void onError(Throwable e) {
+
+		}
+
+		@Override
+		public void onSubscribe(@NonNull Disposable d) {
 
 		}
 

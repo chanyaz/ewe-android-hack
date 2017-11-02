@@ -1,12 +1,15 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.subscribeObserver
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.json.JSONObject
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import rx.Observable
-import rx.Scheduler
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) : TripsServicesInterface {
 
@@ -14,7 +17,7 @@ class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(JsonConverterFactory())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 

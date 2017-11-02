@@ -21,6 +21,7 @@ import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.withLatestFrom
 import com.expedia.util.endlessObserver
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
 import com.expedia.vm.rail.RailConfirmationViewModel
@@ -31,7 +32,7 @@ import com.expedia.vm.rail.RailInboundDetailsViewModel
 import com.expedia.vm.rail.RailInboundResultsViewModel
 import com.expedia.vm.rail.RailOutboundResultsViewModel
 import com.expedia.vm.rail.RailSearchViewModel
-import rx.Observer
+import io.reactivex.Observer
 import javax.inject.Inject
 import kotlin.properties.Delegates
 

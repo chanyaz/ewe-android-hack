@@ -5,9 +5,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
-import org.joda.time.DateTime
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class KrazyglueWidgetViewModel(context: Context) {
     val cityObservable = PublishSubject.create<String>()

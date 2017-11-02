@@ -1,11 +1,11 @@
 package com.expedia.vm.rail
 
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.data.rail.responses.PassengerSegmentFare
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSegment
-import rx.Observable
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
 
 class RailAmenitiesViewModel {
@@ -16,7 +16,7 @@ class RailAmenitiesViewModel {
     val segmentAmenitiesSubject = BehaviorSubject.create<List<Pair<RailSegment, PassengerSegmentFare>>>()
 
     init {
-        Observable.combineLatest(legOptionObservable, railProductObservable,
+        ObservableOld.combineLatest(legOptionObservable, railProductObservable,
                 { legOption, product ->
                     getAmenitiesForSegments(legOption, product)
                 }).subscribe(segmentAmenitiesSubject)

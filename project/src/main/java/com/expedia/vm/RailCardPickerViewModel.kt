@@ -10,9 +10,11 @@ import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.rail.widget.RailCardPickerRowView
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import com.expedia.bookings.withLatestFrom
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.HashMap
 
@@ -111,8 +113,8 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
     }
 
     private fun fetchRailCards() {
-        railServices.railGetCards(PointOfSale.getPointOfSale().localeIdentifier, object : Observer<RailCardsResponse> {
-            override fun onError(e: Throwable?) {
+        railServices.railGetCards(PointOfSale.getPointOfSale().localeIdentifier, object : DisposableObserver<RailCardsResponse>() {
+            override fun onError(e: Throwable) {
                 railCardError.onNext(context.getString(R.string.no_rail_cards_error_message))
                 RailTracking().trackRailCardsApiNoResponseError()
             }
@@ -121,7 +123,7 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
                 railCardTypes.onNext(response.railCards)
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // Ignore
             }
 

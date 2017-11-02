@@ -42,8 +42,9 @@ import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import rx.Observer;
-import rx.Subscription;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 	implements CVVEntryWidget.CVVEntryFragmentListener {
@@ -192,7 +193,7 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 
 	private Observer<LXCreateTripResponse> createTripObserver = new Observer<LXCreateTripResponse>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 			cleanup();
 		}
 
@@ -209,6 +210,11 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 			else {
 				Events.post(new Events.LXError(null));
 			}
+		}
+
+		@Override
+		public void onSubscribe(@NonNull Disposable d) {
+			// ignore
 		}
 
 		@Override
@@ -240,11 +246,11 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 		}
 	};
 
-	private Subscription createTripSubscription;
+	private Disposable createTripSubscription;
 
 	private void cleanup() {
 		if (createTripSubscription != null) {
-			createTripSubscription.unsubscribe();
+			createTripSubscription.dispose();
 			createTripSubscription = null;
 		}
 	}

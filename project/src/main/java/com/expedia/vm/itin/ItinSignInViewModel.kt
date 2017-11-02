@@ -21,8 +21,8 @@ import com.expedia.bookings.widget.ItineraryLoaderLoginExtender
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.Subscription
-import rx.subjects.PublishSubject
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 // Open for testing
@@ -48,7 +48,7 @@ open class ItinSignInViewModel(val context: Context) {
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
     var userLoginStateChangedModel: UserLoginStateChangedModel = Ui.getApplication(context).appComponent().userLoginStateChangedModel()
-    private var loginStateSubsciption: Subscription? = null
+    private var loginStateSubsciption: Disposable? = null
 
     var signInClickSubject = endlessObserver<Unit> {
         if (userStateManager.isUserAuthenticated()) {
@@ -56,7 +56,7 @@ open class ItinSignInViewModel(val context: Context) {
         } else {
             loginStateSubsciption = userLoginStateChangedModel.userLoginStateChanged.filter { true }.subscribe {
                 startTimerOnSuccessfullSignIn()
-                loginStateSubsciption?.unsubscribe()
+                loginStateSubsciption?.dispose()
             }
 
             OmnitureTracking.trackItinSignIn()

@@ -4,10 +4,10 @@ import com.expedia.bookings.data.TNSDeregister
 import com.expedia.bookings.data.TNSRegisterDeviceResponse
 import com.expedia.bookings.data.TNSRegisterUserDeviceFlightsRequestBody
 import com.expedia.bookings.data.TNSRegisterUserDeviceRequestBody
+import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
-import rx.Observable
 
 internal interface TNSApi {
 

@@ -1,5 +1,6 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Money
@@ -17,20 +18,21 @@ import com.expedia.bookings.data.lx.LXSortType
 import com.expedia.bookings.data.lx.LXTheme
 import com.expedia.bookings.data.lx.LXThemeType
 import com.expedia.bookings.data.lx.LxSearchParams
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LXUtils
 import com.expedia.bookings.utils.Strings
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.LocalDate
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observable
-import rx.Observer
-import rx.Scheduler
-import rx.Subscription
 import java.util.Collections
 import java.util.Comparator
 import java.util.LinkedHashSet
@@ -45,13 +47,13 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 .baseUrl(endpoint)
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
 
         adapter.create(LXApi::class.java)
     }
 
-    fun lxCategorySearch(searchParams: LxSearchParams, observer: Observer<LXSearchResponse>): Subscription {
+    fun lxCategorySearch(searchParams: LxSearchParams, observer: Observer<LXSearchResponse>): Disposable {
         return lxApi.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate(), searchParams.modQualified)
                 .doOnNext(HANDLE_SEARCH_ERROR)
                 .doOnNext(ACTIVITIES_MONEY_TITLE)
@@ -62,11 +64,11 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 .doOnNext(PUT_CATEGORIES_AND_ACTIVITES_IN_THEME)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
-    fun lxSearch(searchParams: LxSearchParams, observer: Observer<LXSearchResponse>): Subscription {
-        return lxSearch(searchParams).subscribe(observer)
+    fun lxSearch(searchParams: LxSearchParams, observer: Observer<LXSearchResponse>): Disposable {
+        return lxSearch(searchParams).subscribeObserver(observer)
     }
 
     fun lxSearch(searchParams: LxSearchParams): Observable<LXSearchResponse> {
@@ -167,7 +169,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
     }
 
     fun lxDetails(activityId: String?, location: String?, startDate: LocalDate?, endDate: LocalDate?, promoPricingEnabled: Boolean,
-                  observer: Observer<ActivityDetailsResponse>): Subscription {
+                  observer: Observer<ActivityDetailsResponse>): Disposable {
         return lxApi.activityDetails(activityId, location, DateUtils.convertToLXDate(startDate),
                 DateUtils.convertToLXDate(endDate), promoPricingEnabled)
                 .observeOn(this.observeOn)
@@ -175,7 +177,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 .doOnNext(HANDLE_ACTIVITY_DETAILS_ERROR)
                 .doOnNext(ACCEPT_ONLY_KNOWN_TICKET_TYPES)
                 .doOnNext(DETAILS_TITLE_AND_TICKET_MONEY)
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
     private val HANDLE_ACTIVITY_DETAILS_ERROR = { response: ActivityDetailsResponse ->
@@ -241,7 +243,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         }
     }
 
-    fun createTrip(createTripParams: LXCreateTripParams, originalPrice: Money, observer: Observer<LXCreateTripResponse>): Subscription {
+    fun createTrip(createTripParams: LXCreateTripParams, originalPrice: Money, observer: Observer<LXCreateTripResponse>): Disposable {
         return lxApi.createTrip(createTripParams)
                 .doOnNext(HANDLE_ERRORS)
                 .doOnNext {
@@ -252,10 +254,10 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 }
                 .observeOn(this.observeOn)
                 .subscribeOn(this.subscribeOn)
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
-    fun createTripV2(createTripParams: LXCreateTripParams, originalPrice: Money, observer: Observer<LXCreateTripResponseV2>): Subscription {
+    fun createTripV2(createTripParams: LXCreateTripParams, originalPrice: Money, observer: Observer<LXCreateTripResponseV2>): Disposable {
         return lxApi.createTripV2(createTripParams)
                 .doOnNext(HANDLE_ERRORS)
                 .doOnNext {
@@ -266,11 +268,11 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 }
                 .observeOn(this.observeOn)
                 .subscribeOn(this.subscribeOn)
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
 
-    fun lxCheckout(checkoutParams: LXCheckoutParams, observer: Observer<LXCheckoutResponse>): Subscription {
+    fun lxCheckout(checkoutParams: LXCheckoutParams, observer: Observer<LXCheckoutResponse>): Disposable {
         val originalPrice = Money(checkoutParams.expectedTotalFare, checkoutParams.expectedFareCurrencyCode)
         return lxApi.checkout(checkoutParams.toQueryMap())
                 .doOnNext(HANDLE_ERRORS)
@@ -282,7 +284,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 }
                 .observeOn(this.observeOn)
                 .subscribeOn(this.subscribeOn)
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
     private val HANDLE_ERRORS = { response: BaseApiResponse ->
@@ -369,8 +371,8 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         return theme
     }
 
-    fun lxThemeSortAndFilter(currentTheme: LXTheme, lxSortType: LXSortFilterMetadata, categorySortObserver: Observer<LXTheme>, lxFilterTextSearchEnabled: Boolean): Subscription {
-        return Observable.combineLatest(Observable.just(currentTheme), Observable.just(lxSortType),
+    fun lxThemeSortAndFilter(currentTheme: LXTheme, lxSortType: LXSortFilterMetadata, categorySortObserver: Observer<LXTheme>, lxFilterTextSearchEnabled: Boolean): Disposable {
+        return ObservableOld.combineLatest(Observable.just(currentTheme), Observable.just(lxSortType),
                 { theme, sortType ->
                     if (lxFilterTextSearchEnabled) {
                         theme.activities = theme.unfilteredActivities.applySortFilter(sortType)
@@ -381,18 +383,18 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 })
                 .subscribeOn(this.subscribeOn)
                 .observeOn(this.observeOn)
-                .subscribe(categorySortObserver)
+                .subscribeObserver(categorySortObserver)
     }
 
     fun lxSearchSortFilter(lxSearchParams: LxSearchParams?, lxSortFilterMetadata: LXSortFilterMetadata?,
-                           searchResultFilterObserver: Observer<LXSearchResponse>, lxFilterTextSearchEnabled: Boolean): Subscription {
+                           searchResultFilterObserver: Observer<LXSearchResponse>, lxFilterTextSearchEnabled: Boolean): Disposable {
 
         val lxSearchResponseObservable = if (lxSearchParams == null)
             Observable.just<LXSearchResponse>(cachedLXSearchResponse) else lxSearch(lxSearchParams)
 
         return (
                 if (lxSortFilterMetadata != null)
-                    Observable.combineLatest(lxSearchResponseObservable, Observable.just(lxSortFilterMetadata),
+                    ObservableOld.combineLatest(lxSearchResponseObservable, Observable.just(lxSortFilterMetadata),
                             { searchResponse, sortFilterMetadata ->
                                 if (lxFilterTextSearchEnabled) {
                                     searchResponse.activities = searchResponse.unFilteredActivities.applySortFilter(sortFilterMetadata)
@@ -406,7 +408,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 .doOnNext { isFromCachedResponseInjector(lxSearchParams == null, it) }
                 .subscribeOn(this.subscribeOn)
                 .observeOn(this.observeOn)
-                .subscribe(searchResultFilterObserver)
+                .subscribeObserver(searchResultFilterObserver)
     }
 
     private fun isFromCachedResponseInjector(isFromCachedResponse: Boolean, lxSearchResponse: LXSearchResponse) = {

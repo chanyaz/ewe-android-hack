@@ -2,11 +2,11 @@ package com.expedia.bookings.itin.vm
 
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class FlightItinTravelerPreferenceViewModelTest {
@@ -15,11 +15,11 @@ class FlightItinTravelerPreferenceViewModelTest {
 
     val testString = "12345"
 
-    val createTravelerSubscriber = TestSubscriber<Traveler>()
-    val createKnownTravelerSubscriber = TestSubscriber<CharSequence>()
-    val createRedressSubscriber = TestSubscriber<CharSequence>()
-    val createSpecialRequestSubscriber = TestSubscriber<CharSequence>()
-    val createFrequentFlyerSubscriber = TestSubscriber<Map<String, TravelerFrequentFlyerMembership>>()
+    val createTravelerSubscriber = TestObserver<Traveler>()
+    val createKnownTravelerSubscriber = TestObserver<CharSequence>()
+    val createRedressSubscriber = TestObserver<CharSequence>()
+    val createSpecialRequestSubscriber = TestObserver<CharSequence>()
+    val createFrequentFlyerSubscriber = TestObserver<Map<String, TravelerFrequentFlyerMembership>>()
 
     @Before
     fun setup() {

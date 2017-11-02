@@ -13,7 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -30,17 +30,17 @@ class RailOutboundDetailsViewModelTest {
         viewModel.railResultsObservable.onNext(mockSearchResponse)
 
         val leg = mockLegOption()
-        val overtakenTestSubscriber = TestSubscriber.create<Boolean>()
+        val overtakenTestSubscriber = TestObserver.create<Boolean>()
         viewModel.overtaken.subscribe(overtakenTestSubscriber)
 
         viewModel.railLegOptionSubject.onNext(leg)
         overtakenTestSubscriber.assertValueCount(1)
-        assertFalse(overtakenTestSubscriber.onNextEvents[0])
+        assertFalse(overtakenTestSubscriber.values()[0])
 
         leg.overtakenJourney = true
         viewModel.railLegOptionSubject.onNext(leg)
         overtakenTestSubscriber.assertValueCount(2)
-        assertTrue(overtakenTestSubscriber.onNextEvents[1])
+        assertTrue(overtakenTestSubscriber.values()[1])
     }
 
     @Test
@@ -48,7 +48,7 @@ class RailOutboundDetailsViewModelTest {
         val OFFERS_FOR_LEG_OPTION = 6
         val EXPECTED_FILTERED_OFFER_LIST_SIZE = 4
 
-        val offerPairSubscriber = TestSubscriber.create<Pair<List<RailOffer>, Money?>>()
+        val offerPairSubscriber = TestObserver.create<Pair<List<RailOffer>, Money?>>()
         viewModel.railOffersAndInboundCheapestPricePairSubject.subscribe(offerPairSubscriber)
 
         val mockSearchResponse = mockSearchResponse()
@@ -59,7 +59,7 @@ class RailOutboundDetailsViewModelTest {
 
         assertEquals(OFFERS_FOR_LEG_OPTION, viewModel.railResultsObservable.value.findOffersForLegOption(outboundLeg).size)
         offerPairSubscriber.assertValueCount(1)
-        val pair = offerPairSubscriber.onNextEvents[0]
+        val pair = offerPairSubscriber.values()[0]
         assertEquals(EXPECTED_FILTERED_OFFER_LIST_SIZE, pair.first.size)
     }
 

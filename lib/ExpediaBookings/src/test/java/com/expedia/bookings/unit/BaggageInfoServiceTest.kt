@@ -3,16 +3,16 @@ package com.expedia.bookings.unit
 import com.expedia.bookings.data.flights.BaggageInfoResponse
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.BaggageInfoService
+import com.expedia.bookings.services.TestObserver
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -31,7 +31,7 @@ class BaggageInfoServiceTest {
         val interceptor = MockInterceptor()
         service = BaggageInfoService("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
     }
 
     @Test
@@ -40,13 +40,13 @@ class BaggageInfoServiceTest {
         val root = File("../mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
         server.setDispatcher(ExpediaDispatcher(opener))
-        val observer = TestSubscriber<BaggageInfoResponse>()
+        val observer = TestObserver<BaggageInfoResponse>()
         service!!.getBaggageInfo(getBaggageParams(), observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        val response = observer.onNextEvents[0]
+        val response = observer.values()[0]
         val expectedCharges = getExpectedCharge()
         observer.assertNoErrors()
-        observer.assertCompleted()
+        observer.assertComplete()
         observer.assertValueCount(1)
         assertEquals("Emirates", response.airlineName)
         assertEquals(expectedCharges, response.charges)

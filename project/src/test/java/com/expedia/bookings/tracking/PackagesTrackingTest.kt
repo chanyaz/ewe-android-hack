@@ -12,6 +12,7 @@ import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.ItinTripServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
@@ -20,14 +21,13 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.vm.BaseFlightFilterViewModel
+import io.reactivex.schedulers.Schedulers
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
 import java.util.Locale
 
 //TODO : Add corresponding test case for any new method in PackageTracking
@@ -41,7 +41,7 @@ class PackagesTrackingTest {
     private val dummyPageStartTime = 1509344185763L
     private val dummyPageEndTime = 1509344186900L
 
-    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.immediate(), "../lib/mocked/templates")
+    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.trampoline(), "../lib/mocked/templates")
         @Rule get
 
     @Before
@@ -618,11 +618,11 @@ class PackagesTrackingTest {
         Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
         PackageTestUtil.setDbPackageSelectedHotel()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         serviceRule.services!!.getTripDetails("mid_trip_details", testObserver)
         testObserver.awaitTerminalEvent()
 
-        val response = testObserver.onNextEvents[0] as MIDItinDetailsResponse
+        val response = testObserver.values()[0] as MIDItinDetailsResponse
 
         val pageUsableData = PageUsableData()
         pageUsableData.markPageLoadStarted(10000)

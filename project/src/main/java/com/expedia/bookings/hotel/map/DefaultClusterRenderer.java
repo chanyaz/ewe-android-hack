@@ -58,7 +58,7 @@ import com.google.maps.android.ui.IconGenerator;
 import com.google.maps.android.ui.SquareTextView;
 
 import kotlin.Unit;
-import rx.subjects.PublishSubject;
+import io.reactivex.subjects.PublishSubject;
 
 import static com.google.maps.android.clustering.algo.NonHierarchicalDistanceBasedAlgorithm.MAX_DISTANCE_AT_ZOOM;
 

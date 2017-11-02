@@ -13,7 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -43,9 +43,9 @@ class RailErrorViewModelTest {
 
     @Test
     fun testSearchNoResults() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
@@ -53,16 +53,16 @@ class RailErrorViewModelTest {
         subjectUnderTest.searchApiErrorObserver.onNext(ApiError(ApiError.Code.RAIL_SEARCH_NO_RESULTS))
         testErrorImageSubscriber.assertValueCount(1)
         testErrorMessageSubscriber.assertValueCount(1)
-        assertEquals(context.getString(R.string.error_no_result_message), testErrorMessageSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.error_no_result_message), testErrorMessageSubscriber.values()[0])
         testButtonTextSubscriber .assertValueCount(1)
-        assertEquals(context.getString(R.string.edit_search), testButtonTextSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.edit_search), testButtonTextSubscriber.values()[0])
     }
 
     @Test
     fun testOtherSearchErrors() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
@@ -74,16 +74,16 @@ class RailErrorViewModelTest {
         subjectUnderTest.searchApiErrorObserver.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
         testErrorImageSubscriber.assertValueCount(1)
         testErrorMessageSubscriber.assertValueCount(1)
-        assertEquals(expectedErrorMessage, testErrorMessageSubscriber.onNextEvents[0])
+        assertEquals(expectedErrorMessage, testErrorMessageSubscriber.values()[0])
         testButtonTextSubscriber .assertValueCount(1)
-        assertEquals(context.getString(R.string.retry), testButtonTextSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.retry), testButtonTextSubscriber.values()[0])
     }
 
     @Test
     fun testCreateTripErrors() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
@@ -91,16 +91,16 @@ class RailErrorViewModelTest {
         subjectUnderTest.createTripErrorObserverable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
         testErrorImageSubscriber.assertValueCount(1)
         testErrorMessageSubscriber.assertValueCount(1)
-        assertEquals(context.getString(R.string.rail_unknown_error_message), testErrorMessageSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.rail_unknown_error_message), testErrorMessageSubscriber.values()[0])
         testButtonTextSubscriber .assertValueCount(1)
-        assertEquals(context.getString(R.string.retry), testButtonTextSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.retry), testButtonTextSubscriber.values()[0])
     }
 
     @Test
     fun testCheckoutInvalidInputError() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
@@ -108,16 +108,16 @@ class RailErrorViewModelTest {
         subjectUnderTest.checkoutApiErrorObserver.onNext(ApiError(ApiError.Code.INVALID_INPUT))
         testErrorImageSubscriber.assertValueCount(1)
         testErrorMessageSubscriber.assertValueCount(1)
-        assertEquals(context.getString(R.string.rail_cko_retry_error_message), testErrorMessageSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.rail_cko_retry_error_message), testErrorMessageSubscriber.values()[0])
         testButtonTextSubscriber .assertValueCount(1)
-        assertEquals(context.getString(R.string.edit_button), testButtonTextSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.edit_button), testButtonTextSubscriber.values()[0])
     }
 
     @Test
     fun testCheckoutUnknownApiError() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
@@ -125,16 +125,16 @@ class RailErrorViewModelTest {
         subjectUnderTest.checkoutApiErrorObserver.onNext(ApiError(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR))
         testErrorImageSubscriber.assertValueCount(1)
         testErrorMessageSubscriber.assertValueCount(1)
-        assertEquals(context.getString(R.string.rail_cko_retry_error_message), testErrorMessageSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.rail_cko_retry_error_message), testErrorMessageSubscriber.values()[0])
         testButtonTextSubscriber .assertValueCount(1)
-        assertEquals(context.getString(R.string.edit_button), testButtonTextSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.edit_button), testButtonTextSubscriber.values()[0])
     }
 
     @Test
     fun testCheckoutUnknownError() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
@@ -142,8 +142,8 @@ class RailErrorViewModelTest {
         subjectUnderTest.checkoutApiErrorObserver.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
         testErrorImageSubscriber.assertValueCount(1)
         testErrorMessageSubscriber.assertValueCount(1)
-        assertEquals(context.getString(R.string.rail_unknown_error_message), testErrorMessageSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.rail_unknown_error_message), testErrorMessageSubscriber.values()[0])
         testButtonTextSubscriber .assertValueCount(1)
-        assertEquals(context.getString(R.string.edit_button), testButtonTextSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.edit_button), testButtonTextSubscriber.values()[0])
     }
 }

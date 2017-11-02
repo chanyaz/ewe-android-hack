@@ -4,6 +4,8 @@ import android.content.Context
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.services.subscribeTestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
@@ -13,7 +15,6 @@ import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -35,15 +36,15 @@ class FlightCheckoutOverviewViewModelTest {
                 .adults(1).build() as FlightSearchParams
 
 
-        val titleTestSubscriber = TestSubscriber<String>()
-        val checkInOutTestSubscriber = TestSubscriber<Pair<String, String>>()
-        val urlTestSubscriber = TestSubscriber<List<String>>()
-        val subTitleTestSubscriber = TestSubscriber<String>()
+        val titleTestSubscriber = TestObserver<String>()
+        val checkInOutTestSubscriber = TestObserver<Pair<String, String>>()
+        val urlTestSubscriber = TestObserver<List<String>>()
+        val subTitleTestSubscriber = TestObserver<String>()
 
-        viewmodel.cityTitle.subscribe(titleTestSubscriber)
-        viewmodel.datesTitle.subscribe(titleTestSubscriber)
-        viewmodel.datesTitleContDesc.subscribe(titleTestSubscriber)
-        viewmodel.travelersTitle.subscribe(titleTestSubscriber)
+        viewmodel.cityTitle.subscribeTestObserver(titleTestSubscriber)
+        viewmodel.datesTitle.subscribeTestObserver(titleTestSubscriber)
+        viewmodel.datesTitleContDesc.subscribeTestObserver(titleTestSubscriber)
+        viewmodel.travelersTitle.subscribeTestObserver(titleTestSubscriber)
 
         viewmodel.checkInAndCheckOutDate.subscribe(checkInOutTestSubscriber)
 
@@ -52,14 +53,14 @@ class FlightCheckoutOverviewViewModelTest {
 
         viewmodel.params.onNext(params)
 
-        assertEquals("San Francisco, CA", titleTestSubscriber.onNextEvents[0])
-        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", titleTestSubscriber.onNextEvents[1])
-        assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", titleTestSubscriber.onNextEvents[2])
-        assertEquals("1 traveler", titleTestSubscriber.onNextEvents[3])
-        assertEquals("1989-09-06", checkInOutTestSubscriber.onNextEvents[0].first)
-        assertEquals("2021-09-06", checkInOutTestSubscriber.onNextEvents[0].second)
-        assertEquals("https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/SEA.jpg?downsize=480px:*&crop=w:165/480xw;center,top&output-quality=60&output-format=jpeg&", urlTestSubscriber.onNextEvents[0][0].toString())
-        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021, 1 traveler", subTitleTestSubscriber.onNextEvents[0])
+        assertEquals("San Francisco, CA", titleTestSubscriber.values()[0])
+        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", titleTestSubscriber.values()[1])
+        assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", titleTestSubscriber.values()[2])
+        assertEquals("1 traveler", titleTestSubscriber.values()[3])
+        assertEquals("1989-09-06", checkInOutTestSubscriber.values()[0].first)
+        assertEquals("2021-09-06", checkInOutTestSubscriber.values()[0].second)
+        assertEquals("https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/SEA.jpg?downsize=480px:*&crop=w:165/480xw;center,top&output-quality=60&output-format=jpeg&", urlTestSubscriber.values()[0][0].toString())
+        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021, 1 traveler", subTitleTestSubscriber.values()[0])
         titleTestSubscriber.assertValueCount(4)
         checkInOutTestSubscriber.assertValueCount(1)
         urlTestSubscriber.assertValueCount(1)
@@ -79,8 +80,8 @@ class FlightCheckoutOverviewViewModelTest {
                 .endDate(LocalDate.now().withYear(2021).withMonthOfYear(9).withDayOfMonth(6))
                 .adults(1).build() as FlightSearchParams
 
-        val checkInAndCheckOutDateTestSubscriber = TestSubscriber<Pair<String, String>>()
-        val checkInWithoutCheckoutDateTestSubscriber = TestSubscriber<String>()
+        val checkInAndCheckOutDateTestSubscriber = TestObserver<Pair<String, String>>()
+        val checkInWithoutCheckoutDateTestSubscriber = TestObserver<String>()
 
         viewmodel.checkInAndCheckOutDate.subscribe(checkInAndCheckOutDateTestSubscriber)
         viewmodel.checkInWithoutCheckoutDate.subscribe(checkInWithoutCheckoutDateTestSubscriber)
@@ -90,8 +91,8 @@ class FlightCheckoutOverviewViewModelTest {
         checkInAndCheckOutDateTestSubscriber.assertValueCount(1)
         checkInWithoutCheckoutDateTestSubscriber.assertValueCount(0)
 
-        assertEquals("1989-09-06", checkInAndCheckOutDateTestSubscriber.onNextEvents.first().first)
-        assertEquals("2021-09-06", checkInAndCheckOutDateTestSubscriber.onNextEvents.first().second)
+        assertEquals("1989-09-06", checkInAndCheckOutDateTestSubscriber.values().first().first)
+        assertEquals("2021-09-06", checkInAndCheckOutDateTestSubscriber.values().first().second)
     }
 
     @Test
@@ -107,8 +108,8 @@ class FlightCheckoutOverviewViewModelTest {
                 .startDate(LocalDate.now().withYear(1989).withMonthOfYear(9).withDayOfMonth(6))
                 .adults(1).build() as FlightSearchParams
 
-        val checkInAndCheckOutDateTestSubscriber = TestSubscriber<Pair<String, String>>()
-        val checkInWithoutCheckoutDateTestSubscriber = TestSubscriber<String>()
+        val checkInAndCheckOutDateTestSubscriber = TestObserver<Pair<String, String>>()
+        val checkInWithoutCheckoutDateTestSubscriber = TestObserver<String>()
 
         viewmodel.checkInAndCheckOutDate.subscribe(checkInAndCheckOutDateTestSubscriber)
         viewmodel.checkInWithoutCheckoutDate.subscribe(checkInWithoutCheckoutDateTestSubscriber)
@@ -118,7 +119,7 @@ class FlightCheckoutOverviewViewModelTest {
         checkInAndCheckOutDateTestSubscriber.assertValueCount(0)
         checkInWithoutCheckoutDateTestSubscriber.assertValueCount(1)
 
-        assertEquals("1989-09-06", checkInWithoutCheckoutDateTestSubscriber.onNextEvents.first())
+        assertEquals("1989-09-06", checkInWithoutCheckoutDateTestSubscriber.values().first())
     }
 
     private fun getFakeSuggestion(airportCode: String): SuggestionV4 {

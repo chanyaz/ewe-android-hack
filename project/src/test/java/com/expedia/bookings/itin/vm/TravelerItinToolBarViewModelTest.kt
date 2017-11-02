@@ -2,16 +2,13 @@ package com.expedia.bookings.itin.vm
 
 import android.app.Activity
 import android.content.Context
-import com.expedia.bookings.R
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
-import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class TravelerItinToolBarViewModelTest {
@@ -19,8 +16,8 @@ class TravelerItinToolBarViewModelTest {
     lateinit private var sut: ItinToolbarViewModel
     lateinit var context: Context
 
-    val toolbarTitleSubscriber = TestSubscriber<String>()
-    val toolbarSubTitleSubscriber = TestSubscriber<String>()
+    val toolbarTitleSubscriber = TestObserver<String>()
+    val toolbarSubTitleSubscriber = TestObserver<String>()
 
     @Before
     fun setup() {

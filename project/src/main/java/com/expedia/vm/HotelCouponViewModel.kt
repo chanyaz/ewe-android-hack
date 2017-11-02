@@ -1,14 +1,13 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.os.Handler
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.hotels.AbstractApplyCouponParameters
-import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters
 import com.expedia.bookings.data.hotels.HotelApplySavedCodeParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
@@ -23,16 +22,17 @@ import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.isHotelMaterialForms
 import com.expedia.bookings.utils.isShowSavedCoupons
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.exceptions.OnErrorNotImplementedException
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelCouponViewModel(val context: Context, val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
     val applyObservable = PublishSubject.create<String>()
-    val removeObservable = BehaviorSubject.create<Boolean>(false)
+    val removeObservable = BehaviorSubject.createDefault<Boolean>(false)
     val couponObservable = PublishSubject.create<HotelCreateTripResponse>()
     val storedCouponSuccessObservable = PublishSubject.create<HotelCreateTripResponse>()
     val errorObservable = PublishSubject.create<ApiError>()
@@ -102,7 +102,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             }
         })
 
-        Observable.combineLatest(hasStoredCoupons, expandedObservable, { hasStoredCoupon, expanded ->
+        ObservableOld.combineLatest(hasStoredCoupons, expandedObservable, { hasStoredCoupon, expanded ->
             storedCouponWidgetVisibilityObservable.onNext(hasStoredCoupon && expanded && isShowSavedCoupons(context))
         }).subscribe()
     }
@@ -150,22 +150,22 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     )
 
     fun <T> couponEndlessObserver(body: (T) -> Unit): Observer<T> {
-        return object : Observer<T> {
+        return object : DisposableObserver<T>() {
             override fun onNext(t: T) {
                 body(t)
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 throw OnErrorNotImplementedException(RuntimeException("Cannot call completed on endless observer " + body.javaClass))
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 raiseAlertDialog(e)
             }
         }
     }
 
-    fun raiseAlertDialog(e: Throwable?) {
+    fun raiseAlertDialog(e: Throwable) {
         if (RetrofitUtils.isNetworkError(e)) {
             networkErrorAlertDialogObservable.onNext(Unit)
         }

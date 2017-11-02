@@ -12,8 +12,8 @@ import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractErrorViewModel
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {

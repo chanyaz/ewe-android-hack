@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import rx.Observer;
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class CombiningFakeObservable {
 
@@ -30,14 +30,18 @@ public class CombiningFakeObservable {
 	}
 
 	public void addSource(StatusObservableWrapper source) {
-		final Subscriber<Boolean> sub = new Subscriber<Boolean>() {
+		final Observer<Boolean> sub = new Observer<Boolean>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 				mObservations.remove(this);
 			}
 
 			@Override
 			public void onError(Throwable e) {
+			}
+
+			@Override
+			public void onSubscribe(Disposable d) {
 			}
 
 			@Override
@@ -50,7 +54,7 @@ public class CombiningFakeObservable {
 		source.subscribe(sub);
 	}
 
-	public void recompute(Subscriber<Boolean> subscriber, Boolean value) {
+	public void recompute(Observer<Boolean> subscriber, Boolean value) {
 		if (mObservations.get(subscriber) != value) {
 			mObservations.put(subscriber, value);
 		}

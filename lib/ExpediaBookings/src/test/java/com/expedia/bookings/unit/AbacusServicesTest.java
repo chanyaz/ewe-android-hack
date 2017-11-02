@@ -14,17 +14,17 @@ import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.AbacusServices;
+import com.expedia.bookings.services.TestObserver;
 import com.google.gson.JsonSyntaxException;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -45,8 +45,8 @@ public class AbacusServicesTest {
 		service = new AbacusServices("http://localhost:" + server.getPort(),
 			new OkHttpClient.Builder().addInterceptor(logger).build(),
 			interceptor,
-			Schedulers.immediate(),
-			Schedulers.immediate());
+			Schedulers.trampoline(),
+			Schedulers.trampoline());
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class AbacusServicesTest {
 		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
-		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
+		TestObserver<AbacusResponse> observer = new TestObserver<>();
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
 		service.downloadBucket(query, observer);
 		observer.awaitTerminalEvent();
@@ -69,26 +69,26 @@ public class AbacusServicesTest {
 		server.enqueue(new MockResponse()
 			.setBody("{\"evaluatedExperiments\" : []}"));
 
-		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
+		TestObserver<AbacusResponse> observer = new TestObserver<>();
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
 		service.downloadBucket(query, observer);
 		observer.awaitTerminalEvent();
 
-		for (AbacusResponse abacus : observer.getOnNextEvents()) {
+		for (AbacusResponse abacus : observer.values()) {
 			assertEquals(0, abacus.numberOfTests());
 		}
-		observer.assertCompleted();
+		observer.assertComplete();
 	}
 
 	@Test
 	public void testMockDownloadWorks() throws Throwable {
-		TestSubscriber<AbacusResponse> observer = getAbacusResponseTestSubscriber();
+		TestObserver<AbacusResponse> observer = getAbacusResponseTestObserver();
 
 		observer.assertValueCount(1);
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 
-		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
+		AbacusResponse responseV2 = observer.values().get(0);
 		assertEquals(5, responseV2.numberOfTests());
 
 		assertNull(responseV2.testForKey(new ABTest(9000)));
@@ -117,13 +117,13 @@ public class AbacusServicesTest {
 
 	@Test
 	public void testForceUpdateTestMap() throws Throwable {
-		TestSubscriber<AbacusResponse> observer = getAbacusResponseTestSubscriber();
+		TestObserver<AbacusResponse> observer = getAbacusResponseTestObserver();
 
 		observer.assertValueCount(1);
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 
-		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
+		AbacusResponse responseV2 = observer.values().get(0);
 		assertEquals(5, responseV2.numberOfTests());
 
 		ABTest test = new ABTest(3243);
@@ -136,9 +136,9 @@ public class AbacusServicesTest {
 
 	@Test
 	public void testUpdateABTestForDebug() throws Throwable {
-		TestSubscriber<AbacusResponse> observer = getAbacusResponseTestSubscriber();
+		TestObserver<AbacusResponse> observer = getAbacusResponseTestObserver();
 
-		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
+		AbacusResponse responseV2 = observer.values().get(0);
 		assertEquals(5, responseV2.numberOfTestsDebugMap());
 		ABTest test = new ABTest(3243);
 		assertEquals(1, responseV2.variateForTest(test));
@@ -151,12 +151,12 @@ public class AbacusServicesTest {
 		assertEquals(1, responseV2.variateForTest(new ABTest(5555)));
 	}
 
-	private TestSubscriber<AbacusResponse> getAbacusResponseTestSubscriber() throws IOException {
+	private TestObserver<AbacusResponse> getAbacusResponseTestObserver() throws IOException {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
+		TestObserver<AbacusResponse> observer = new TestObserver<>();
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
 		service.downloadBucket(query, observer);
 		observer.awaitTerminalEvent();
@@ -165,18 +165,18 @@ public class AbacusServicesTest {
 
 	@Test
 	public void testUpdateFromAbacusResponse() throws Throwable {
-		TestSubscriber<AbacusResponse> observer = getAbacusResponseTestSubscriber();
+		TestObserver<AbacusResponse> observer = getAbacusResponseTestObserver();
 
-		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
+		AbacusResponse responseV2 = observer.values().get(0);
 		assertEquals(5, responseV2.numberOfTestsDebugMap());
 
-		TestSubscriber<AbacusResponse> newObserver = new TestSubscriber<>();
+		TestObserver<AbacusResponse> newObserver = new TestObserver<>();
 		AbacusEvaluateQuery newQuery = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 2, 0);
 		service.downloadBucket(newQuery, newObserver);
 		newObserver.awaitTerminalEvent();
-		newObserver.assertCompleted();
+		newObserver.assertComplete();
 
-		AbacusResponse newResponseV2 = newObserver.getOnNextEvents().get(0);
+		AbacusResponse newResponseV2 = newObserver.values().get(0);
 		responseV2.updateFrom(newResponseV2);
 		assertEquals(3, newResponseV2.numberOfTestsDebugMap());
 	}

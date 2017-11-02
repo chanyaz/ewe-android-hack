@@ -17,7 +17,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.EntryFormToolbarViewModel
 import com.expedia.vm.rail.RailTicketDeliveryEntryViewModel
 import com.expedia.vm.rail.RailTicketDeliveryOptionViewModel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 

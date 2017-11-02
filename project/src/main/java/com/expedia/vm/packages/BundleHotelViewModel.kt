@@ -10,9 +10,9 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.format.DateTimeFormat
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 
 class BundleHotelViewModel(val context: Context) {
     val showLoadingStateObservable = PublishSubject.create<Boolean>()
@@ -74,7 +74,7 @@ class BundleHotelViewModel(val context: Context) {
             hotelAddressObservable.onNext(selectedHotel.address)
 
             if (selectHotelRoom.hasFreeCancellation) {
-                hotelFreeCancellationObservable.onNext(getCancellationText(selectHotelRoom))
+                hotelFreeCancellationObservable.onNext(getCancellationText(selectHotelRoom) ?: "")
                 hotelNonRefundableObservable.onNext("")
             } else {
                 hotelFreeCancellationObservable.onNext("")

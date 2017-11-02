@@ -21,7 +21,7 @@ import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
 import com.mobiata.android.text.StrikethroughTagHandler
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 /**
  * A Viewholder for the case where our data are hotels.

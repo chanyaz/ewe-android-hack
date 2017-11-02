@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.KrazyglueHotelSeeMoreHolderViewModel
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class KrazyglueSeeMoreViewHolder(itemView: View, context: Context, searchParams: BehaviorSubject<HotelSearchParams>, regionId: BehaviorSubject<String>) : RecyclerView.ViewHolder(itemView) {
 

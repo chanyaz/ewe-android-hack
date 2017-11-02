@@ -3,19 +3,19 @@ package com.expedia.bookings.test.data
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.flights.FlightOverviewViewModel as FlightsOverviewViewModel
-import com.expedia.vm.packages.FlightOverviewViewModel as PackagesOverviewViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import kotlin.test.assertEquals
+import com.expedia.vm.flights.FlightOverviewViewModel as FlightsOverviewViewModel
+import com.expedia.vm.packages.FlightOverviewViewModel as PackagesOverviewViewModel
 
 @RunWith(RobolectricRunner::class)
 class  FlightOverviewViewModelTest {
@@ -35,21 +35,21 @@ class  FlightOverviewViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPricePerPersonMessagingFlights() {
-        val urgencyMessagingTestSubscriber = TestSubscriber<String>()
+        val urgencyMessagingTestSubscriber = TestObserver<String>()
         setupFlightLeg()
         sutFlight.urgencyMessagingSubject.subscribe(urgencyMessagingTestSubscriber)
         sutFlight.updateUrgencyMessage(flightLeg)
-        assertEquals("$42.00 per person", urgencyMessagingTestSubscriber.onNextEvents[0])
+        assertEquals("$42.00 per person", urgencyMessagingTestSubscriber.values()[0])
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPricePerPersonMessagingPackages() {
-        val urgencyMessagingTestSubscriber = TestSubscriber<String>()
+        val urgencyMessagingTestSubscriber = TestObserver<String>()
         setupFlightLeg()
         sutPackages.urgencyMessagingSubject.subscribe(urgencyMessagingTestSubscriber)
         sutPackages.updateUrgencyMessage(flightLeg)
-        assertEquals("+$77.00 per person", urgencyMessagingTestSubscriber.onNextEvents[0])
+        assertEquals("+$77.00 per person", urgencyMessagingTestSubscriber.values()[0])
     }
 
     private fun setupFlightLeg() {

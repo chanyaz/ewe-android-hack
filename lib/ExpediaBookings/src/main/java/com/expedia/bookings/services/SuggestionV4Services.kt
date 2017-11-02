@@ -4,17 +4,18 @@ import com.expedia.bookings.data.GaiaSuggestion
 import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.SuggestionV4Response
+import com.expedia.bookings.subscribeObserver
 import com.google.gson.GsonBuilder
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observable
-import rx.Observer
-import rx.Scheduler
-import rx.Subscription
 
 open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
                                 essInterceptor: Interceptor, gaiaInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) : ISuggestionV4Services {
@@ -25,7 +26,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         val adapter = Retrofit.Builder()
                 .baseUrl(essEndpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor)
                         .addInterceptor(essInterceptor).build())
                 .build()
@@ -38,7 +39,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         val adapter = Retrofit.Builder()
                 .baseUrl(gaiaEndPoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().addInterceptor(gaiaInterceptor)
                         .addInterceptor(interceptor).build())
                 .build()
@@ -46,7 +47,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         adapter.create<GaiaSuggestApi>(GaiaSuggestApi::class.java)
     }
 
-    override fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean): Subscription {
+    override fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean): Disposable {
 
         var type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST
         if (disablePOI) {
@@ -57,10 +58,10 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions}
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
-    override fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, sameAsWeb: Boolean, guid: String?): Subscription {
+    override fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, sameAsWeb: Boolean, guid: String?): Disposable {
         val regiontype: Int
         val dest: Boolean
         val features: String
@@ -82,7 +83,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
     override fun suggestNearbyGaia(lat: Double, lng: Double, sortType: String, lob: String, locale: String, siteId: Int, isMISForRealWorldEnabled: Boolean): Observable<MutableList<GaiaSuggestion>> {
@@ -93,7 +94,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         return response.map { it.toMutableList() }
     }
 
-    override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?): Subscription {
+    override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?): Disposable {
         val suggestType: Int
         if (isMISForRealWorldEnabled) {
             suggestType = SuggestionResultType.AIRPORT or
@@ -116,24 +117,25 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
-    override fun suggestRailsV4(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>): Subscription {
+    override fun suggestRailsV4(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>): Disposable {
         val suggestType = SuggestionResultType.TRAIN_STATION
         return suggestV4(query, suggestType, isDest, "ta_hierarchy", "RAILS")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
-    private var airportSuggestionSubscription: Subscription? = null
+    private var airportSuggestionSubscription: Disposable? = null
 
-    override fun getAirports(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, guid: String): Subscription {
+    override fun getAirports(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, guid: String): Disposable {
 
-        airportSuggestionSubscription?.unsubscribe()
+        airportSuggestionSubscription?.dispose()
 
+        airportSuggestionSubscription?.dispose()
         val suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or
                 SuggestionResultType.CITY or SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
 
@@ -141,9 +143,9 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
-                .subscribe(observer)
+                .subscribeObserver(observer)
 
-        return airportSuggestionSubscription as Subscription
+        return airportSuggestionSubscription as Disposable
     }
 
     private fun suggestV4(query: String, suggestType: Int, isDest: Boolean, features: String, lineOfBusiness: String,

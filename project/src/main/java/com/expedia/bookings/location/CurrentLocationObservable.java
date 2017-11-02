@@ -10,21 +10,22 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.mobiata.android.Log;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action0;
-import rx.subscriptions.Subscriptions;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.annotations.NonNull;
 
 public class CurrentLocationObservable implements
 	GoogleApiClient.ConnectionCallbacks,
-	Observable.OnSubscribe<Location>, GoogleApiClient.OnConnectionFailedListener {
+	ObservableOnSubscribe<Location>, GoogleApiClient.OnConnectionFailedListener {
+
+	private ObservableEmitter<Location> emitter;
 
 	public static Observable<Location> create(Context context) {
 		return Observable.create(new CurrentLocationObservable(context));
 	}
 
 	private GoogleApiClient googleApiClient;
-	Subscriber<? super Location> subscriber;
 
 	private CurrentLocationObservable(Context context) {
 		googleApiClient = new GoogleApiClient.Builder(context)
@@ -46,8 +47,9 @@ public class CurrentLocationObservable implements
 			sendError();
 		}
 		else {
-			subscriber.onNext(location);
-			subscriber.onCompleted();
+			emitter.onNext(location);
+			emitter.onComplete();
+			unsubscribe();
 		}
 	}
 
@@ -61,22 +63,18 @@ public class CurrentLocationObservable implements
 	// OnSubscribe
 
 	@Override
-	public void call(Subscriber<? super Location> subscriber) {
-		this.subscriber = subscriber;
-
-		subscriber.add(Subscriptions.create(disconnectAction));
+	public void subscribe(@NonNull ObservableEmitter<Location> emitter) throws Exception {
+		this.emitter = emitter;
 
 		//Attempt to connect to Google Api Client on Subscribe
 		googleApiClient.connect();
 	}
 
-	private final Action0 disconnectAction = new Action0() {
-		@Override
-		public void call() {
-			Log.d("CurrentLocationObservable: Disconnecting");
-			googleApiClient.disconnect();
-		}
-	};
+	private void unsubscribe() {
+		Log.d("CurrentLocationObservable: Disconnecting");
+		googleApiClient.disconnect();
+	}
+
 
 	@Override
 	public synchronized void onConnectionFailed(ConnectionResult connectionResult) {
@@ -89,6 +87,7 @@ public class CurrentLocationObservable implements
 		ApiError.ErrorInfo errorInfo = new ApiError.ErrorInfo();
 		errorInfo.cause = "Could not determine users current location.";
 		error.errorInfo = errorInfo;
-		subscriber.onError(error);
+		emitter.onError(error);
+		unsubscribe();
 	}
 }

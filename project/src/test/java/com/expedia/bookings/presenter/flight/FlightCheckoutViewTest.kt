@@ -21,41 +21,41 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.ItinTripServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.RewardsUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.WebViewUtils
-import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.RewardsUtil
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.ui.HotelActivity
 import com.expedia.util.Optional
 import com.expedia.vm.FlightWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.Robolectric
-import org.robolectric.annotation.Config
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
+import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
+import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
 import java.io.File
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
@@ -74,7 +74,7 @@ class FlightCheckoutViewTest {
     var server: MockWebServer = MockWebServer()
         @Rule get
 
-    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.immediate(), "../lib/mocked/templates")
+    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.trampoline(), "../lib/mocked/templates")
         @Rule get
 
     @Before
@@ -147,10 +147,10 @@ class FlightCheckoutViewTest {
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
-        val tripResponseSubscriber = TestSubscriber<TripResponse>()
-        val testPerformCreateTripSubscriber = TestSubscriber<Unit>()
-        val testShowLoadingSubscriber = TestSubscriber<Unit>()
-        val testUrlSubscriber = TestSubscriber<String>()
+        val tripResponseSubscriber = TestObserver<TripResponse>()
+        val testPerformCreateTripSubscriber = TestObserver<Unit>()
+        val testShowLoadingSubscriber = TestObserver<Unit>()
+        val testUrlSubscriber = TestObserver<String>()
         val webCheckoutViewModel = flightPresenter.webCheckoutView.viewModel as FlightWebCheckoutViewViewModel
         webCheckoutViewModel.flightCreateTripViewModel.createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
         webCheckoutViewModel.flightCreateTripViewModel.performCreateTrip.subscribe(testPerformCreateTripSubscriber)
@@ -163,7 +163,7 @@ class FlightCheckoutViewTest {
         testShowLoadingSubscriber.assertValueCount(1)
         testPerformCreateTripSubscriber.assertValueCount(1)
         tripResponseSubscriber.assertValueCount(1)
-        assertEquals("happy_round_trip", (tripResponseSubscriber.onNextEvents[0] as FlightCreateTripResponse).newTrip?.tripId)
+        assertEquals("happy_round_trip", (tripResponseSubscriber.values()[0] as FlightCreateTripResponse).newTrip?.tripId)
         testUrlSubscriber.assertValue("${PointOfSale.getPointOfSale().flightsWebCheckoutUrl}?tripid=happy_round_trip")
     }
 
@@ -175,8 +175,8 @@ class FlightCheckoutViewTest {
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
-        val bookingTripIDSubscriber = TestSubscriber<String>()
-        val fectchTripIDSubscriber = TestSubscriber<String>()
+        val bookingTripIDSubscriber = TestObserver<String>()
+        val fectchTripIDSubscriber = TestObserver<String>()
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
@@ -226,7 +226,7 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
         flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
 
@@ -257,7 +257,7 @@ class FlightCheckoutViewTest {
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
         flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
         serviceRule.services!!.getTripDetails("flight_trip_details_multi_segment", makeItinResponseObserver)
@@ -279,8 +279,8 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
-        val testRewardsSubscriber: TestSubscriber<Optional<String>> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
+        val testRewardsSubscriber: TestObserver<Optional<String>> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
         flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
         flightPresenter.confirmationPresenter.viewModel.setRewardsPoints.subscribe(testRewardsSubscriber)
@@ -289,7 +289,7 @@ class FlightCheckoutViewTest {
         testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         assertEquals("13 points earned", RewardsUtil.buildRewardText(activity,
-                testRewardsSubscriber.onNextEvents[0].value ?: "",
+                testRewardsSubscriber.values()[0].value ?: "",
                 ProductFlavorFeatureConfiguration.getInstance(), isFlights = true))
     }
 
@@ -302,8 +302,8 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
-        val testRewardsSubscriber: TestSubscriber<Optional<String>> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
+        val testRewardsSubscriber: TestObserver<Optional<String>> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
         flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
         flightPresenter.confirmationPresenter.viewModel.setRewardsPoints.subscribe(testRewardsSubscriber)
@@ -312,7 +312,7 @@ class FlightCheckoutViewTest {
         testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         assertEquals("", RewardsUtil.buildRewardText(activity,
-                testRewardsSubscriber.onNextEvents[0].value ?: "",
+                testRewardsSubscriber.values()[0].value ?: "",
                 ProductFlavorFeatureConfiguration.getInstance(), isFlights = true))
     }
 
@@ -325,7 +325,7 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
         flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
 
@@ -348,7 +348,7 @@ class FlightCheckoutViewTest {
         setupTestToOpenInFlightOutboundPresenter()
         val shadowActivity = Shadows.shadowOf(activity)
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
         flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
 
@@ -372,7 +372,7 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
         flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
 
@@ -394,7 +394,7 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
         flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
 
@@ -415,7 +415,7 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
 
         serviceRule.services!!.getTripDetails("flight_trip_details", makeItinResponseObserver)
@@ -434,7 +434,7 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
 
         serviceRule.services!!.getTripDetails("flight_trip_details_multi_segment", makeItinResponseObserver)
@@ -452,7 +452,7 @@ class FlightCheckoutViewTest {
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
         flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
         serviceRule.services!!.getTripDetails("flight_trip_details_multi_segment", makeItinResponseObserver)
@@ -469,7 +469,7 @@ class FlightCheckoutViewTest {
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
         flightPresenter.show(flightPresenter.webCheckoutView)
         flightPresenter.bookingSuccessDialog.show()
@@ -533,7 +533,7 @@ class FlightCheckoutViewTest {
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
-        val testSearchParamsSubscriber = TestSubscriber<FlightSearchParams>()
+        val testSearchParamsSubscriber = TestObserver<FlightSearchParams>()
         flightPresenter.confirmationPresenter.viewModel.flightSearchParamsObservable.subscribe(testSearchParamsSubscriber)
         val searchParams = setupFlightSearchParams()
         flightPresenter.searchViewModel.searchParamsObservable.onNext(searchParams)
@@ -616,7 +616,7 @@ class FlightCheckoutViewTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                listOf(interceptor), Schedulers.immediate(), Schedulers.immediate(), false)
+                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline(), false)
     }
 
     private fun createTripParams(productKey: String): FlightCreateTripParams {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.SpannedString
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -15,8 +16,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
 
@@ -33,7 +33,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
     val priceAboveSlider = BehaviorSubject.create<String>()
 
     init {
-        Observable.combineLatest(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, newRateObserver, { paymentSplitsWithTripTotalPayableAndTripResponse, newRateObserver ->
+        ObservableOld.combineLatest(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, newRateObserver, { paymentSplitsWithTripTotalPayableAndTripResponse, newRateObserver ->
             object {
                 val country = paymentSplitsWithTripTotalPayableAndTripResponse.tripResponse.newHotelProductResponse.hotelCountry
                 val payingWithPoints = paymentSplitsWithTripTotalPayableAndTripResponse.paymentSplits.payingWithPoints

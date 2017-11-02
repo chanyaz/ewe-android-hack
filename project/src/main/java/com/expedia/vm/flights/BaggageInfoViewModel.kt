@@ -6,8 +6,9 @@ import com.expedia.bookings.data.flights.BaggageInfoResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.services.BaggageInfoService
 import com.expedia.bookings.utils.Ui
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 
@@ -32,7 +33,7 @@ class BaggageInfoViewModel(val context: Context) {
     }
 
     fun makeBaggageInfoObserver(): Observer<BaggageInfoResponse> {
-        return object : Observer<BaggageInfoResponse> {
+        return object : DisposableObserver<BaggageInfoResponse>() {
             override fun onNext(response: BaggageInfoResponse) {
                 val chargesArraySize = response.charges.size
                 if (chargesArraySize == 0) {
@@ -53,12 +54,12 @@ class BaggageInfoViewModel(val context: Context) {
                 showLoaderSubject.onNext(false)
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 showBaggageInfoWebViewSubject.onNext(Unit)
                 showLoaderSubject.onNext(false)
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
         }

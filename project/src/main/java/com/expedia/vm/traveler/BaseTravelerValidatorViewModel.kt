@@ -3,7 +3,7 @@ package com.expedia.vm.traveler
 import com.expedia.bookings.section.CommonSectionValidators
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.mobiata.android.validation.ValidationError
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
 
 abstract class BaseTravelerValidatorViewModel : InvalidCharacterHelper.InvalidCharacterListener {

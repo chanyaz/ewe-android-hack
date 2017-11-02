@@ -7,7 +7,7 @@ import com.expedia.bookings.services.ISuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.isPackagesMISRealWorldGeoEnabled
 import com.expedia.vm.SuggestionAdapterViewModel
-import rx.Observable
+import io.reactivex.Observable
 
 class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
     override fun getSuggestionService(query: String) {

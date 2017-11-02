@@ -33,6 +33,7 @@ import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.FareFamilyCardView
 import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
+import com.expedia.bookings.withLatestFrom
 import com.expedia.util.Optional
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.subscribeText
@@ -48,7 +49,7 @@ import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
 import com.expedia.vm.packages.FlightTotalPriceViewModel
 import com.squareup.phrase.Phrase
-import rx.Observable
+import io.reactivex.Observable
 import java.util.Locale
 import javax.inject.Inject
 
@@ -292,7 +293,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
                     .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
             totalPriceWidget.viewModel.priceAvailableObservable.onNext(true)
         }
-        viewModel.evolableTermsConditionSubject.onNext(tripResponse.details.legs)
+        tripResponse.details.legs?.let {
+            viewModel.evolableTermsConditionSubject.onNext(it)
+        }
         bottomCheckoutContainer.viewModel.checkoutButtonEnableObservable.onNext(true)
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)

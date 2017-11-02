@@ -7,7 +7,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 abstract class BaseSummaryViewModel(val context: Context) {
 
@@ -17,7 +17,7 @@ abstract class BaseSummaryViewModel(val context: Context) {
     val titleObservable = BehaviorSubject.create<String>()
     val subtitleObservable = BehaviorSubject.create<String>()
     val subtitleColorObservable = BehaviorSubject.create<Int>()
-    val travelerStatusObserver = BehaviorSubject.create<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
+    val travelerStatusObserver = BehaviorSubject.createDefault<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
 
     abstract fun getTitle() : String
     abstract fun getSubtitle() : String

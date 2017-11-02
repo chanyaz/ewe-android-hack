@@ -23,7 +23,7 @@ import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.widget.HotelCarouselRecycler;
 import com.expedia.bookings.widget.HotelMapCarouselAdapter;
 
-import rx.subjects.PublishSubject;
+import io.reactivex.subjects.PublishSubject;
 
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;

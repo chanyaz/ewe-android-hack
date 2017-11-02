@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.BuildConfig
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
@@ -11,6 +12,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.shared.CalendarRules
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.Constants
@@ -20,6 +22,7 @@ import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.utils.validation.TravelerValidator
+import com.expedia.bookings.withLatestFrom
 import com.expedia.ui.FlightActivity
 import com.expedia.util.FlightCalendarRules
 import com.expedia.util.Optional
@@ -27,11 +30,11 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.flights.AdvanceSearchFilter
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
-import rx.Observable
-import rx.Subscription
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
@@ -49,7 +52,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
     val cachedSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     val cachedEndDateObservable = BehaviorSubject.create<Optional<LocalDate>>()
-    val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
+    val isRoundTripSearchObservable = BehaviorSubject.createDefault<Boolean>(true)
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
     val previousSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     var hasPreviousSearchParams = false
@@ -70,7 +73,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     var toAndFromFlightFieldsSwitched = false
     var isGreedyCallStarted = false
 
-    protected var flightGreedySearchSubscription: Subscription? = null
+    protected var flightGreedySearchSubscription: Disposable? = null
 
     val flightParamsBuilder = FlightSearchParams.Builder(getCalendarRules().getMaxSearchDurationDays(),
             getCalendarRules().getMaxDateRange())
@@ -123,7 +126,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             greedyCachedSearchParamsObservable.onNext(cachedSearchParams)
         }
         isGreedyCallStarted = true
-        flightGreedySearchSubscription?.unsubscribe()
+        flightGreedySearchSubscription?.dispose()
     }
 
     init {
@@ -163,12 +166,12 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             Observable.merge(dateSetObservable, isRoundTripSearchObservable).filter { getParamsBuilder().hasValidDates() }
                     .map { it -> Unit }.subscribe(validDateSetObservable)
 
-            flightGreedySearchSubscription = Observable.combineLatest(formattedOriginObservable, formattedDestinationObservable,
+            flightGreedySearchSubscription = ObservableOld.combineLatest(formattedOriginObservable, formattedDestinationObservable,
                     validDateSetObservable, { flyFrom, flyTo, date -> Unit })
                     .filter { isReadyToFireSearchCall() }
-                    .subscribe(performGreedyCallSearchObserver)
+                    .subscribeObserver(performGreedyCallSearchObserver)
 
-            Observable.combineLatest(greedySearchParamsObservable, flightsSourceObservable, flightsDestinationObservable, dateSetObservable,
+            ObservableOld.combineLatest(greedySearchParamsObservable, flightsSourceObservable, flightsDestinationObservable, dateSetObservable,
                     { searchParams, origin, destination, _ ->
                         object {
                             val searchParams = searchParams
@@ -191,7 +194,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                         }
                     }
             abortGreedyCallObservable.subscribe {
-                flightGreedySearchSubscription?.unsubscribe()
+                flightGreedySearchSubscription?.dispose()
                 cancelGreedyCallObservable.onNext(Unit)
             }
         }

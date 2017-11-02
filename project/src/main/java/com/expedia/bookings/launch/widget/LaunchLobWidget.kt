@@ -23,7 +23,7 @@ import com.expedia.bookings.utils.shouldPackageForceUpdateBeVisible
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.widget.GridLinesItemDecoration
 import com.expedia.util.notNullAndObservable
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {

@@ -6,6 +6,8 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.sos.SmartOfferService
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
@@ -13,8 +15,6 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -33,7 +33,7 @@ class SOSServiceTest {
         val interceptor = MockInterceptor()
         service = SmartOfferService("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
 
         givenServerUsingMockResponses()
     }
@@ -46,10 +46,10 @@ class SOSServiceTest {
         val params = MemberDealsRequest()
 
         service!!.fetchMemberDeals(params,observer)
-        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        observer.awaitTerminalEvent(3, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
-        observer.assertCompleted()
+        observer.assertComplete()
         observer.assertValueCount(1)
     }
 
@@ -59,10 +59,10 @@ class SOSServiceTest {
         val params = MemberDealsRequest()
 
         service!!.fetchMemberDeals(params, observer)
-        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        observer.awaitTerminalEvent(3, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
-        val response = observer.onNextEvents[0]
+        val response = observer.values()[0]
         Assert.assertTrue(response!!.destinations!![0].hotels!![0].offerMarkers!!.isNotEmpty())
     }
 
@@ -73,6 +73,6 @@ class SOSServiceTest {
         server.setDispatcher(ExpediaDispatcher(opener))
     }
 
-    class TestMemberDealObsrver : TestSubscriber<DealsResponse>() {
+    class TestMemberDealObsrver : TestObserver<DealsResponse>() {
     }
 }

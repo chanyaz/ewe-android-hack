@@ -7,9 +7,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.meso.MesoAdResponseProvider
 import com.expedia.bookings.meso.model.MesoAdResponse
 import com.expedia.bookings.meso.model.MesoHotelAdResponse
+import com.expedia.util.Optional
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 
 class MesoHotelAdViewModel(val context: Context) {
     var mesoHotelAdResponse: MesoHotelAdResponse? = null
@@ -19,23 +21,27 @@ class MesoHotelAdViewModel(val context: Context) {
     val percentageOff: String? by lazy { getPriceOffString() }
     val hotelName: String? by lazy { getMesoHotelName() }
 
-    fun fetchHotelMesoAd(mesoHotelAdObserver: Observer<MesoHotelAdResponse>) {
+    fun fetchHotelMesoAd(mesoHotelAdObserver: Observer<Optional<MesoHotelAdResponse>>) {
         MesoAdResponseProvider.fetchHotelMesoAd(context, getMesoHotelSubject(mesoHotelAdObserver))
     }
 
-    private fun getMesoHotelSubject(mesoHotelAdObserver: Observer<MesoHotelAdResponse>): PublishSubject<MesoAdResponse> {
+    private fun getMesoHotelSubject(mesoHotelAdObserver: Observer<Optional<MesoHotelAdResponse>>): PublishSubject<MesoAdResponse> {
         val mesoHotelAdResponseSubject: PublishSubject<MesoAdResponse> = PublishSubject.create<MesoAdResponse>()
         mesoHotelAdResponseSubject.subscribe(object : Observer<MesoAdResponse> {
+            override fun onSubscribe(d: Disposable) {
+                mesoHotelAdObserver.onSubscribe(d)
+            }
+
             override fun onNext(mesoAdResponse: MesoAdResponse) {
                 mesoHotelAdResponse = mesoAdResponse.HotelAdResponse
-                mesoHotelAdObserver.onNext(mesoHotelAdResponse)
+                mesoHotelAdObserver.onNext(Optional(mesoHotelAdResponse))
             }
 
-            override fun onCompleted() {
-                mesoHotelAdObserver.onCompleted()
+            override fun onComplete() {
+                mesoHotelAdObserver.onComplete()
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 mesoHotelAdObserver.onError(e)
             }
         })

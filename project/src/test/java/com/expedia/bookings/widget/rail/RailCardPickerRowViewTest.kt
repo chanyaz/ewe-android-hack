@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -38,7 +38,7 @@ class RailCardPickerRowViewTest {
         assertNotNull(cardPickerRow.cardTypeSpinner.adapter)
         assertNotNull(cardPickerRow.cardQuantitySpinner.adapter)
 
-        val testSubscriber = TestSubscriber.create<RailCardSelected>()
+        val testSubscriber = TestObserver.create<RailCardSelected>()
         cardPickerRow.viewModel.cardTypeQuantityChanged.subscribe(testSubscriber)
 
         assertEquals(context.resources.getString(R.string.select_rail_card_hint), (cardPickerRow.cardTypeSpinner.selectedItem as SpinnerAdapterWithHint.SpinnerItem).value)
@@ -46,13 +46,13 @@ class RailCardPickerRowViewTest {
         testSubscriber.assertValueCount(0)
 
         cardPickerRow.cardTypeSpinner.setSelection(0)
-        assertSelectionDetails(testSubscriber.onNextEvents[0], 0, 1, mockRailCardOne)
+        assertSelectionDetails(testSubscriber.values()[0], 0, 1, mockRailCardOne)
 
         cardPickerRow.cardQuantitySpinner.setSelection(1)
-        assertSelectionDetails(testSubscriber.onNextEvents[1], 0, 2, mockRailCardOne)
+        assertSelectionDetails(testSubscriber.values()[1], 0, 2, mockRailCardOne)
 
         cardPickerRow.cardTypeSpinner.setSelection(1)
-        assertSelectionDetails(testSubscriber.onNextEvents[2], 0, 2, mockRailCardTwo)
+        assertSelectionDetails(testSubscriber.values()[2], 0, 2, mockRailCardTwo)
     }
 
     private fun assertSelectionDetails(railCardSelectedDetails:RailCardSelected, id: Int, quantity: Int, cardType: RailCard) {

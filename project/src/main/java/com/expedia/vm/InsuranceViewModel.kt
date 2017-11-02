@@ -9,9 +9,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.insurance.InsurancePriceType
 import com.expedia.bookings.data.insurance.InsuranceProduct
@@ -23,9 +21,10 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SpannableLinkBuilder
 import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class InsuranceViewModel(private val context: Context, private val insuranceServices: InsuranceServices) {
     // inputs
@@ -106,6 +105,10 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     }
 
     val insuranceSelectionUpdatedObserver = object : Observer<FlightCreateTripResponse> {
+        override fun onSubscribe(d: Disposable) {
+            //ignore
+        }
+
         private fun handleError(message: String) {
             FlightsV2Tracking.trackInsuranceError(message)
 
@@ -118,7 +121,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
             errorDialog.show()
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
             toggleSwitchEnabledObservable.onNext(true)
             updatingTripDialog.dismiss()
         }

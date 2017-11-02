@@ -27,7 +27,7 @@ import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val travelerPickerWidget: TravelerPickerWidget by bindView(R.id.traveler_picker_widget)

@@ -18,6 +18,7 @@ import com.expedia.bookings.presenter.packages.PackageFlightPresenter
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
@@ -30,7 +31,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -48,9 +48,9 @@ class SlidingBundleWidgetTest {
     val packageServiceRule = ServicesRule(PackageServices::class.java)
         @Rule get
 
-    var hotelObserver = TestSubscriber<BundleSearchResponse>()
-    var flightObserver = TestSubscriber<BundleSearchResponse>()
-    var offerObserver = TestSubscriber<PackageOffersResponse>()
+    var hotelObserver = TestObserver<BundleSearchResponse>()
+    var flightObserver = TestObserver<BundleSearchResponse>()
+    var offerObserver = TestObserver<PackageOffersResponse>()
 
     @Before
     fun setup() {
@@ -259,14 +259,14 @@ class SlidingBundleWidgetTest {
         buildPackagesSearchParams()
         Db.setPackageParams(params)
         searchHotels()
-        hotelResponse = hotelObserver.onNextEvents.get(0)
+        hotelResponse = hotelObserver.values().get(0)
         Db.setPackageResponse(hotelResponse)
     }
 
     private fun setPackageResponseOutboundFlight() {
         buildPackagesSearchParams()
         searchHotels()
-        hotelResponse = hotelObserver.onNextEvents.get(0)
+        hotelResponse = hotelObserver.values().get(0)
         Db.setPackageResponse(hotelResponse)
 
         params.packagePIID = hotelResponse.getHotels()[0].hotelId
@@ -274,7 +274,7 @@ class SlidingBundleWidgetTest {
         params.ratePlanCode = "flight_outbound_happy"
         params.roomTypeCode = "flight_outbound_happy"
         searchRooms()
-        roomResponse = offerObserver.onNextEvents[0]
+        roomResponse = offerObserver.values()[0]
         addCurrentOfferToDB(roomResponse.getBundleRoomResponse()[0])
         Db.setPackageSelectedHotel(hotelResponse.getHotels().get(0), roomResponse.getBundleRoomResponse()[0])
 
@@ -285,8 +285,8 @@ class SlidingBundleWidgetTest {
         params.isOutboundSearch(true)
         Db.setPackageParams(params)
         searchFLights()
-        flightResponse  = flightObserver.onNextEvents.get(0)
-        flightResponse.setCurrentOfferPrice(flightObserver.onNextEvents[0].getFlightLegs()[0].packageOfferModel.price)
+        flightResponse  = flightObserver.values().get(0)
+        flightResponse.setCurrentOfferPrice(flightObserver.values()[0].getFlightLegs()[0].packageOfferModel.price)
         Db.setPackageResponse(flightResponse)
     }
 

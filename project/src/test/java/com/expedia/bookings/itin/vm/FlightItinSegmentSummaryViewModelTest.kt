@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import android.app.Activity
 import com.expedia.bookings.R
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -11,7 +12,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -21,12 +21,12 @@ class FlightItinSegmentSummaryViewModelTest {
     lateinit private var dateTime: DateTime
     lateinit private var frozenTime: DateTime
 
-    val createAirlineWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.AirlineWidgetParams>()
-    val createTimingWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.TimingWidgetParams>()
-    val createSeatingWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SeatingWidgetParams>()
-    val updateTerminalGateSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.TerminalGateParams>()
-    var createRedEyeSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.RedEyeParams>()
-    val updateFlightStatusSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.FlightStatsParams>()
+    val createAirlineWidgetSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.AirlineWidgetParams>()
+    val createTimingWidgetSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.TimingWidgetParams>()
+    val createSeatingWidgetSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.SeatingWidgetParams>()
+    val updateTerminalGateSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.TerminalGateParams>()
+    var createRedEyeSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.RedEyeParams>()
+    val updateFlightStatusSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.FlightStatsParams>()
 
     @Before
     fun setup() {

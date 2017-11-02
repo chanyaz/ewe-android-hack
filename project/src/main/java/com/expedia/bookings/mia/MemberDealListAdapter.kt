@@ -14,8 +14,8 @@ import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.util.subscribeOnClick
-import rx.Observer
-import rx.subjects.BehaviorSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
 
 class MemberDealListAdapter(private val context: Context, private val searchHotelsClickedObserver: Observer<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

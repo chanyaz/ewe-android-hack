@@ -1,7 +1,7 @@
 package com.expedia.bookings.itin.vm
 
 import android.content.Intent
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class ItinLinkOffCardViewViewModel {
 

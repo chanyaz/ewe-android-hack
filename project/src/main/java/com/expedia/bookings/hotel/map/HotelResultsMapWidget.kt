@@ -25,11 +25,11 @@ import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.mobiata.android.LocationServices
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.DateTime
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
-import rx.subjects.PublishSubject
 import java.util.concurrent.Callable
 import java.util.concurrent.TimeUnit
 

@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.vm.packages.PackageTotalPriceViewModel
@@ -12,7 +13,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -27,7 +27,7 @@ class BundlePriceViewModelTestJP {
 
     @Test
     fun testBundleSaveLabel(){
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val testViewModelUniversalCKO = PackageTotalPriceViewModel(context)
         testViewModelUniversalCKO.savingsPriceObservable.subscribe(testSubscriber)
 
@@ -38,12 +38,12 @@ class BundlePriceViewModelTestJP {
 
         testViewModelUniversalCKO.savings.onNext(someMoney)
 
-        assertEquals(expectedSavingLabel, testSubscriber.onNextEvents[1])
+        assertEquals(expectedSavingLabel, testSubscriber.values()[1])
     }
 
     @Test
      fun testBundleSaveLabelNonInteger(){
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val testViewModelUniversalCKO = PackageTotalPriceViewModel(context)
         testViewModelUniversalCKO.savingsPriceObservable.subscribe(testSubscriber)
 
@@ -53,32 +53,32 @@ class BundlePriceViewModelTestJP {
                 .format().toString()
 
         testViewModelUniversalCKO.savings.onNext(someMoney)
-        assertEquals(expectedSavingLabel, testSubscriber.onNextEvents[1])
+        assertEquals(expectedSavingLabel, testSubscriber.values()[1])
     }
 
 
     @Test
     fun testBundleTotalInteger() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val testViewModelUniversalCKO = PackageTotalPriceViewModel(context)
         testViewModelUniversalCKO.totalPriceObservable.subscribe(testSubscriber)
 
         val someMoney = Money("1120.00", "JPY")
 
         testViewModelUniversalCKO.total.onNext(someMoney)
-        assertEquals("JPY1,120", testSubscriber.onNextEvents[0])
+        assertEquals("JPY1,120", testSubscriber.values()[0])
     }
 
     @Test
     fun testBundleTotalIntegerNonInteger() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val testViewModelUniversalCKO = PackageTotalPriceViewModel(context)
         testViewModelUniversalCKO.totalPriceObservable.subscribe(testSubscriber)
 
         val someMoney = Money("1120.86", "JPY")
 
         testViewModelUniversalCKO.total.onNext(someMoney)
-        assertEquals("JPY1,120.86", testSubscriber.onNextEvents[0])
+        assertEquals("JPY1,120.86", testSubscriber.values()[0])
     }
 
 }

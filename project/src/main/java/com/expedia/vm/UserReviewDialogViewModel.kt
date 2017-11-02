@@ -8,10 +8,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.mobiata.android.util.SettingUtils
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.PeriodType
-import rx.subjects.PublishSubject
 
 class UserReviewDialogViewModel(val context: Context) {
     val reviewSubject = PublishSubject.create<Unit>()
@@ -44,7 +45,7 @@ class UserReviewDialogViewModel(val context: Context) {
             OmnitureTracking.trackItinAppRatingClickNo()
         }
 
-        rx.Observable.merge(reviewSubject, feedbackSubject, noSubject).subscribe(closeSubject)
+        Observable.merge(reviewSubject, feedbackSubject, noSubject).subscribe(closeSubject)
     }
 
     private fun startIntent(link: String) {

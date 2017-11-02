@@ -81,8 +81,8 @@ import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
+import io.reactivex.disposables.Disposable
 import org.joda.time.LocalDate
-import rx.Subscription
 import javax.inject.Inject
 
 class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
@@ -126,7 +126,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         Ui.getApplication(this).appComponent().userLoginStateChangedModel()
     }
 
-    private var loginStateSubsciption: Subscription? = null
+    private var loginStateSubsciption: Disposable? = null
 
     private val debugMenu: DebugMenu by lazy {
         DebugMenuFactory.newInstance(this)
@@ -558,7 +558,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
     override fun onDestroy() {
         super.onDestroy()
-        loginStateSubsciption?.unsubscribe()
+        loginStateSubsciption?.dispose()
     }
 
     inner class PagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {

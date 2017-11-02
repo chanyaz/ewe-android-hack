@@ -1,5 +1,13 @@
 package com.expedia.bookings.test.unit.traveler;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Shadows;
+import org.robolectric.shadows.ShadowAlertDialog;
+
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
@@ -15,15 +23,7 @@ import com.expedia.bookings.widget.FlightTravelerEntryWidget;
 import com.expedia.testutils.RobolectricPlaygroundRule;
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.Shadows;
-import org.robolectric.shadows.ShadowAlertDialog;
-
-import rx.subjects.BehaviorSubject;
+import io.reactivex.subjects.BehaviorSubject;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;

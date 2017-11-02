@@ -8,7 +8,7 @@ import com.expedia.vm.BaseCheckoutOverviewViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -17,8 +17,8 @@ class BaseCheckoutOverviewViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCheckInWithoutCheckoutDate() {
-        val datesTitleTestSubscriber = TestSubscriber<String>()
-        val datesTitleContDescTestSubscriber = TestSubscriber<String>()
+        val datesTitleTestSubscriber = TestObserver<String>()
+        val datesTitleContDescTestSubscriber = TestObserver<String>()
 
         val viewmodel = BaseCheckoutOverviewViewModel(getContext())
 
@@ -30,15 +30,15 @@ class BaseCheckoutOverviewViewModelTest {
         datesTitleTestSubscriber.assertValueCount(1)
         datesTitleContDescTestSubscriber.assertValueCount(1)
 
-        assertEquals("Mon Sep 06, 2021", datesTitleTestSubscriber.onNextEvents.first())
-        assertEquals("Mon Sep 06, 2021", datesTitleContDescTestSubscriber.onNextEvents.first())
+        assertEquals("Mon Sep 06, 2021", datesTitleTestSubscriber.values().first())
+        assertEquals("Mon Sep 06, 2021", datesTitleContDescTestSubscriber.values().first())
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCheckInAndCheckoutDate() {
-        val datesTitleTestSubscriber = TestSubscriber<String>()
-        val datesTitleContDescTestSubscriber = TestSubscriber<String>()
+        val datesTitleTestSubscriber = TestObserver<String>()
+        val datesTitleContDescTestSubscriber = TestObserver<String>()
 
         val viewmodel = BaseCheckoutOverviewViewModel(getContext())
 
@@ -50,8 +50,8 @@ class BaseCheckoutOverviewViewModelTest {
         datesTitleTestSubscriber.assertValueCount(1)
         datesTitleContDescTestSubscriber.assertValueCount(1)
 
-        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", datesTitleTestSubscriber.onNextEvents.first())
-        assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", datesTitleContDescTestSubscriber.onNextEvents.first())
+        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", datesTitleTestSubscriber.values().first())
+        assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", datesTitleContDescTestSubscriber.values().first())
     }
 
     private fun getContext(): Context {

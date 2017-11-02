@@ -55,8 +55,9 @@ import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
 import com.expedia.vm.packages.PackageSearchViewModel
 import com.mobiata.android.Log
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.Date
 import javax.inject.Inject
@@ -135,7 +136,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             show(confirmationPresenter)
             pageUsableData.markAllViewsLoaded(Date().time)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
-            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
+            expediaRewards?.let {
+                confirmationPresenter.viewModel.setRewardsPoints.onNext(it)
+            }
             PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.sharedInstance.packageSelectedRoom.supplierType), pageUsableData, Db.sharedInstance.packageParams)
         }
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
@@ -479,8 +482,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
         confirmationPresenter.viewModel = PackageConfirmationViewModel(context, isWebCheckout = true)
-        return object : Observer<AbstractItinDetailsResponse> {
-            override fun onCompleted() {
+        return object : DisposableObserver<AbstractItinDetailsResponse>() {
+            override fun onComplete() {
             }
 
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {

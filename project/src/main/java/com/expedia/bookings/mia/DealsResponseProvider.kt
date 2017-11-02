@@ -1,16 +1,16 @@
 package com.expedia.bookings.mia
 
 import com.expedia.bookings.data.sos.DealsResponse
-import rx.Observer
-import rx.Subscription
-import rx.subjects.PublishSubject
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 
 abstract class DealsResponseProvider {
 
     protected val dealsObserver = DealsObserver()
     val errorSubject = PublishSubject.create<Unit>()
     val dealsResponseSubject = PublishSubject.create<DealsResponse>()
-    var searchSubscription: Subscription? = null
+    var searchSubscription: Disposable? = null
     protected var dealsReturnedResponse: DealsResponse? = null
 
     init {
@@ -21,12 +21,12 @@ abstract class DealsResponseProvider {
 
     open fun fetchDeals() {}
 
-    inner class DealsObserver : Observer<DealsResponse> {
-        override fun onError(e: Throwable?) {
+    inner class DealsObserver : DisposableObserver<DealsResponse>() {
+        override fun onError(e: Throwable) {
             errorSubject.onNext(Unit)
         }
 
-        override fun onNext(response: DealsResponse?) {
+        override fun onNext(response: DealsResponse) {
             if (response == null || response.hasError()) {
                 errorSubject.onNext(Unit)
             } else {
@@ -34,14 +34,14 @@ abstract class DealsResponseProvider {
             }
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
             cleanup()
         }
     }
 
     private fun cleanup() {
         if (searchSubscription != null) {
-            searchSubscription!!.unsubscribe()
+            searchSubscription!!.dispose()
             searchSubscription = null
         }
     }

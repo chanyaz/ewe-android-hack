@@ -30,7 +30,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
-import rx.Observer
+import io.reactivex.Observer
 
 open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)

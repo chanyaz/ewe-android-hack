@@ -7,8 +7,8 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightResultsViewModel(context: Context, lob: LineOfBusiness) {
 

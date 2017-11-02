@@ -7,8 +7,8 @@ import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.endlessObserver
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.LocalDate
-import rx.subjects.BehaviorSubject
 
 class DateOfBirthViewModel(var traveler: Traveler, val context: Context) : BaseTravelerValidatorViewModel() {
 
@@ -18,7 +18,7 @@ class DateOfBirthViewModel(var traveler: Traveler, val context: Context) : BaseT
     }
 
     val birthDateSubject = BehaviorSubject.create<LocalDate>()
-    val defaultDateSubject = BehaviorSubject.create<LocalDate>(LocalDate(1970, 1, 1))
+    val defaultDateSubject = BehaviorSubject.createDefault<LocalDate>(LocalDate(1970, 1, 1))
     val birthErrorTextSubject = BehaviorSubject.create<String>()
 
     override val invalidCharacterMode = InvalidCharacterHelper.Mode.ANY

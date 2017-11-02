@@ -6,7 +6,7 @@ import com.expedia.vm.rail.RailTicketDeliveryEntryViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -18,8 +18,8 @@ class RailTicketDeliveryEntryViewModelTest {
     @Test
     fun testDeliveryOptions() {
         val viewModel = RailTicketDeliveryEntryViewModel(RuntimeEnvironment.application)
-        val testSubscriberTicketDeliveryByPostOptions = TestSubscriber.create<List<RailTicketDeliveryOption>>()
-        val testSubscriberDeliveryByMailSupported = TestSubscriber.create<Boolean>()
+        val testSubscriberTicketDeliveryByPostOptions = TestObserver.create<List<RailTicketDeliveryOption>>()
+        val testSubscriberDeliveryByMailSupported = TestObserver.create<Boolean>()
         viewModel.ticketDeliveryByPostOptions.subscribe(testSubscriberTicketDeliveryByPostOptions)
         viewModel.deliveryByMailSupported.subscribe(testSubscriberDeliveryByMailSupported)
 
@@ -35,18 +35,18 @@ class RailTicketDeliveryEntryViewModelTest {
 
         viewModel.ticketDeliveryOptions.onNext(ticketDeliveryOptionsAll)
         testSubscriberTicketDeliveryByPostOptions.assertValueCount(1)
-        assertEquals(1, testSubscriberTicketDeliveryByPostOptions.onNextEvents[0].size)
+        assertEquals(1, testSubscriberTicketDeliveryByPostOptions.values()[0].size)
         testSubscriberDeliveryByMailSupported.assertValueCount(1)
-        assertTrue(testSubscriberDeliveryByMailSupported.onNextEvents[0])
+        assertTrue(testSubscriberDeliveryByMailSupported.values()[0])
 
         option1.ticketDeliveryCountryCodeList = emptyList()
         option2.ticketDeliveryCountryCodeList = emptyList()
 
         viewModel.ticketDeliveryOptions.onNext(ticketDeliveryOptionsAll)
         testSubscriberTicketDeliveryByPostOptions.assertValueCount(2)
-        assertEquals(0, testSubscriberTicketDeliveryByPostOptions.onNextEvents[1].size)
+        assertEquals(0, testSubscriberTicketDeliveryByPostOptions.values()[1].size)
         testSubscriberDeliveryByMailSupported.assertValueCount(2)
-        assertFalse(testSubscriberDeliveryByMailSupported.onNextEvents[1])
+        assertFalse(testSubscriberDeliveryByMailSupported.values()[1])
 
     }
 }

@@ -12,7 +12,7 @@ import com.expedia.vm.rail.RailInboundDetailsViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -36,7 +36,7 @@ class RailInboundDetailsViewModelTest {
         //selected inbound leg with legOptionIndex: 8
         val selectedInboundLeg = mockSearchResponse.inboundLeg!!.legOptionList[0] //mockInboundLeg()
 
-        val offerPairSubscriber = TestSubscriber.create<Pair<List<RailOffer>, Money?>>()
+        val offerPairSubscriber = TestObserver.create<Pair<List<RailOffer>, Money?>>()
         viewModel.railOffersAndInboundCheapestPricePairSubject.subscribe(offerPairSubscriber)
 
         viewModel.railResultsObservable.onNext(mockSearchResponse)
@@ -44,7 +44,7 @@ class RailInboundDetailsViewModelTest {
 
         assertEquals(OFFERS_FOR_LEG_OPTION, viewModel.railResultsObservable.value.findOffersForLegOption(selectedInboundLeg).size)
         offerPairSubscriber.assertValueCount(1)
-        val pair = offerPairSubscriber.onNextEvents[0]
+        val pair = offerPairSubscriber.values()[0]
         assertEquals(EXPECTED_FILTERED_OFFER_LIST_SIZE, pair.first.size)
         assertFalse(pair.first[0].isOpenReturn)
         assertFalse(pair.first[1].isOpenReturn)
@@ -64,7 +64,7 @@ class RailInboundDetailsViewModelTest {
         //selected inbound leg with legOptionIndex: 8
         val selectedInboundLeg = mockSearchResponse.inboundLeg!!.legOptionList[0] //mockInboundLeg()
 
-        val offerPairSubscriber = TestSubscriber.create<Pair<List<RailOffer>, Money?>>()
+        val offerPairSubscriber = TestObserver.create<Pair<List<RailOffer>, Money?>>()
         viewModel.railOffersAndInboundCheapestPricePairSubject.subscribe(offerPairSubscriber)
 
         viewModel.railResultsObservable.onNext(mockSearchResponse)
@@ -72,7 +72,7 @@ class RailInboundDetailsViewModelTest {
 
         assertEquals(OFFERS_FOR_LEG_OPTION, viewModel.railResultsObservable.value.findOffersForLegOption(selectedInboundLeg).size)
         offerPairSubscriber.assertValueCount(1)
-        val pair = offerPairSubscriber.onNextEvents[0]
+        val pair = offerPairSubscriber.values()[0]
         assertEquals(EXPECTED_FILTERED_OFFER_LIST_SIZE, pair.first.size)
         assertTrue(pair.first[0].isOpenReturn)
     }

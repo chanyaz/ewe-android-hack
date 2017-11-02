@@ -20,7 +20,7 @@ import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelInfoToolbarViewModel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelGalleryToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val navClickedSubject = PublishSubject.create<Unit>()

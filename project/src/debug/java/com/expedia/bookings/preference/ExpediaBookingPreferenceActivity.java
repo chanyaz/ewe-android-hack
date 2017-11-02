@@ -11,8 +11,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Constants;
 import com.mobiata.android.Log;
-
-import rx.subjects.PublishSubject;
+import io.reactivex.subjects.PublishSubject;
 
 public class ExpediaBookingPreferenceActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 

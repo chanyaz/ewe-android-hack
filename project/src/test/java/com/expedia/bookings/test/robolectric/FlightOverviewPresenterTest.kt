@@ -52,7 +52,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.test.assertEquals
@@ -88,10 +88,10 @@ class FlightOverviewPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFareFamilyWidgetVisibility() {
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
-        val testSubscriber = TestSubscriber.create<FlightCreateTripResponse>()
+        val testSubscriber = TestObserver.create<FlightCreateTripResponse>()
         val params = FlightCreateTripParams.Builder().productKey("happy_fare_family_round_trip").build()
         flightServiceRule.services!!.createTrip(params, testSubscriber)
-        widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
         assertEquals(View.VISIBLE, widget.fareFamilyCardView.visibility)
     }
 
@@ -101,12 +101,12 @@ class FlightOverviewPresenterTest {
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         val cardViewViewModel = widget.fareFamilyCardView.viewModel
         val detailsViewModel = widget.flightFareFamilyDetailsWidget.viewModel
-        val testSubscriber = TestSubscriber.create<FlightCreateTripResponse>()
+        val testSubscriber = TestObserver.create<FlightCreateTripResponse>()
         val params = FlightCreateTripParams.Builder().productKey("happy_fare_family_round_trip").build()
         flightServiceRule.services!!.createTrip(params, testSubscriber)
-        widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
 
-        val updateTripTestSubscriber = TestSubscriber.create<Pair<String, FlightTripResponse.FareFamilyDetails>>()
+        val updateTripTestSubscriber = TestObserver.create<Pair<String, FlightTripResponse.FareFamilyDetails>>()
         cardViewViewModel.updateTripObserver.subscribe(updateTripTestSubscriber)
 
         //When done button is not pressed
@@ -122,18 +122,18 @@ class FlightOverviewPresenterTest {
         detailsViewModel.choosingFareFamilyObservable.onNext(getFareFamilyDetail("economy"))
         detailsViewModel.doneButtonObservable.onNext(Unit)
         updateTripTestSubscriber.assertValueCount(1)
-        assertEquals("economy", updateTripTestSubscriber.onNextEvents[0].second.fareFamilyCode)
+        assertEquals("economy", updateTripTestSubscriber.values()[0].second.fareFamilyCode)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFareFamilyUnavailableError() {
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
-        val testSubscriber = TestSubscriber.create<FlightCreateTripResponse>()
+        val testSubscriber = TestObserver.create<FlightCreateTripResponse>()
         val params = FlightCreateTripParams.Builder().productKey("fare_family_unavailable_error").build()
         flightServiceRule.services!!.createTrip(params, testSubscriber)
-        widget.flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable.onNext(testSubscriber.onNextEvents[0].fareFamilyList!!.fareFamilyDetails.first())
-        widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        widget.flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable.onNext(testSubscriber.values()[0].fareFamilyList!!.fareFamilyDetails.first())
+        widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val okButton = alertDialog.findViewById<View>(android.R.id.button1) as Button
         val errorMessage = alertDialog.findViewById<View>(android.R.id.message) as android.widget.TextView
@@ -273,7 +273,7 @@ class FlightOverviewPresenterTest {
 //
 //        val flightCheckoutPresenter = widget.getCheckoutPresenter()
 //        val flightSummary = widget.flightSummary
-//        val basicEconomyClickedTestSubscriber = TestSubscriber<Unit>()
+//        val basicEconomyClickedTestSubscriber = TestObserver<Unit>()
 //        flightSummary.basicEconomyInfoClickedSubject.subscribe(basicEconomyClickedTestSubscriber)
 //
 //        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
@@ -392,7 +392,7 @@ class FlightOverviewPresenterTest {
     fun testOutboundBaggageFeeInfoEmptyCharge() {
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
-        val outboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
+        val outboundFlightBaggageInfoTestSubscriber = TestObserver<String>()
         val outboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SEA"
         flightLeg.baggageFeesUrl = outboundFlightBaggageFeesURL
         outboundFlightWidget.baggageInfoView.baggageInfoParentContainer = LayoutInflater.from(activity).inflate(R.layout.baggage_info_parent, null) as LinearLayout
@@ -406,12 +406,12 @@ class FlightOverviewPresenterTest {
     fun testInboundBaggageFeeInfoError() {
         createExpectedFlightLeg()
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
-        val inboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
+        val inboundFlightBaggageInfoTestSubscriber = TestObserver<String>()
         val inboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SEA"
         flightLeg.baggageFeesUrl = inboundFlightBaggageFeesURL
         inboundFlightWidget.viewModel.baggageInfoUrlSubject.subscribe(inboundFlightBaggageInfoTestSubscriber)
         prepareBundleWidgetViewModel(inboundFlightWidget.viewModel)
-        inboundFlightWidget.baggageInfoView.baggageInfoViewModel.makeBaggageInfoObserver().onError(null)
+        inboundFlightWidget.baggageInfoView.baggageInfoViewModel.makeBaggageInfoObserver().onError(Throwable("Error"))
         inboundFlightBaggageInfoTestSubscriber.assertValue(inboundFlightBaggageFeesURL)
     }
 
@@ -419,7 +419,7 @@ class FlightOverviewPresenterTest {
     fun testInboundBaggageFeeInfoEmptyCharge() {
         createExpectedFlightLeg()
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
-        val inboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
+        val inboundFlightBaggageInfoTestSubscriber = TestObserver<String>()
         val inboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SEA"
         flightLeg.baggageFeesUrl = inboundFlightBaggageFeesURL
         inboundFlightWidget.baggageInfoView.baggageInfoParentContainer = LayoutInflater.from(activity).inflate(R.layout.baggage_info_parent, null) as LinearLayout
@@ -433,12 +433,12 @@ class FlightOverviewPresenterTest {
     fun testOutboundBaggageFeeInfoError() {
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
-        val outboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
+        val outboundFlightBaggageInfoTestSubscriber = TestObserver<String>()
         val outboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SEA"
         flightLeg.baggageFeesUrl = outboundFlightBaggageFeesURL
         outboundFlightWidget.viewModel.baggageInfoUrlSubject.subscribe(outboundFlightBaggageInfoTestSubscriber)
         prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
-        outboundFlightWidget.baggageInfoView.baggageInfoViewModel.makeBaggageInfoObserver().onError(null)
+        outboundFlightWidget.baggageInfoView.baggageInfoViewModel.makeBaggageInfoObserver().onError(Throwable("Error"))
         outboundFlightBaggageInfoTestSubscriber.assertValue(outboundFlightBaggageFeesURL)
     }
 
@@ -449,7 +449,7 @@ class FlightOverviewPresenterTest {
         val summaryWidgetViewModel = widget.flightSummary.viewmodel
         summaryWidgetViewModel.params.onNext(setupFlightSearchParams())
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
-        val updatedInboundFlightLegSubjectTestSubscriber = TestSubscriber<FlightLeg>()
+        val updatedInboundFlightLegSubjectTestSubscriber = TestObserver<FlightLeg>()
         flightSummaryWidget.viewmodel.updatedOutboundFlightLegSubject.subscribe(updatedInboundFlightLegSubjectTestSubscriber)
         prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
         outboundFlightWidget.baggageFeesButton.performClick()
@@ -468,7 +468,7 @@ class FlightOverviewPresenterTest {
         val summaryWidgetViewModel = widget.flightSummary.viewmodel
         summaryWidgetViewModel.params.onNext(setupFlightSearchParams())
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
-        val updatedInboundFlightLegSubjectTestSubscriber = TestSubscriber<FlightLeg>()
+        val updatedInboundFlightLegSubjectTestSubscriber = TestObserver<FlightLeg>()
         flightSummaryWidget.viewmodel.updatedOutboundFlightLegSubject.subscribe(updatedInboundFlightLegSubjectTestSubscriber)
         prepareBundleWidgetViewModel(inboundFlightWidget.viewModel)
         inboundFlightWidget.baggageFeesButton.performClick()

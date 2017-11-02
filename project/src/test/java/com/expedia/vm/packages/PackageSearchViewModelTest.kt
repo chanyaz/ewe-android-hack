@@ -2,6 +2,7 @@ package com.expedia.vm.packages
 
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.JodaUtils
@@ -12,7 +13,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -31,7 +31,7 @@ class PackageSearchViewModelTest {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
         sut.performSearchObserver.onNext(getDummyPackageSearchParams(0, 2))
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         SearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedParams ->
             testSubscriber.onNext(Unit)
             assertNotNull(loadedParams)

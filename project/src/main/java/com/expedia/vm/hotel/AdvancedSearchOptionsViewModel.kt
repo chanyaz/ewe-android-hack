@@ -7,8 +7,8 @@ import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class AdvancedSearchOptionsViewModel(val context: Context) {
     //inputs

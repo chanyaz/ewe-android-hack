@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.utils.CalendarShortDateRenderer
@@ -22,7 +23,6 @@ import com.mobiata.android.time.util.JodaUtils
 import com.mobiata.android.time.widget.CalendarPicker
 import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
-import rx.Observable
 import org.joda.time.LocalDate
 
 open class CalendarDialogFragment() : DialogFragment() {
@@ -90,7 +90,7 @@ open class CalendarDialogFragment() : DialogFragment() {
                 calendarPickerView.hideToolTip()
             }
 
-            Observable.zip(vm.calendarTooltipTextObservable, vm.calendarTooltipContDescObservable, {
+            ObservableOld.zip(vm.calendarTooltipTextObservable, vm.calendarTooltipContDescObservable, {
                 tooltipText, tooltipContDescription ->
                 val (top, bottom) = tooltipText
                 object {

@@ -4,15 +4,15 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.presenter.shared.StoredCouponWidget
-import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponAppliedStatus
+import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponViewHolder
+import com.expedia.bookings.presenter.shared.StoredCouponWidget
+import com.expedia.bookings.services.TestObserver
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -57,7 +57,7 @@ class StoredCouponWidgetTest {
 
     @Test
     fun testFunctionalityOfClickOnStoredCouponViewHolder() {
-        val applyStoredCouponTestSubject = TestSubscriber.create<String>()
+        val applyStoredCouponTestSubject = TestObserver.create<String>()
         setupStoredCouponWidget()
         val adapter = (storedCouponWidget.storedCouponRecyclerView.adapter as StoredCouponListAdapter)
         adapter.applyStoredCouponSubject.subscribe(applyStoredCouponTestSubject)
@@ -65,7 +65,7 @@ class StoredCouponWidgetTest {
         val storedCouponViewHolderAt0 = findStoredCouponViewHolderAtPosition(0)
         storedCouponViewHolderAt0.itemView.performClick()
 
-        assertEquals("1", applyStoredCouponTestSubject.onNextEvents[0])
+        assertEquals("1", applyStoredCouponTestSubject.values()[0])
         testViewsInStoredCouponViewHolder(View.GONE, "A", View.GONE, storedCouponViewHolderAt0, View.VISIBLE)
     }
 

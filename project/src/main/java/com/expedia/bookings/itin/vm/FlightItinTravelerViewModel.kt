@@ -3,17 +3,13 @@ package com.expedia.bookings.itin.vm
 import android.content.Context
 import android.support.design.widget.TabLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.data.user.UserStateManager
-import com.expedia.bookings.itin.data.ItinCardDataHotel
-import com.expedia.bookings.utils.ItinUtils
-import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 open class FlightItinTravelerViewModel(private val context: Context, private val itinId: String) : TabLayout.OnTabSelectedListener {
     override fun onTabReselected(tab: TabLayout.Tab?) {

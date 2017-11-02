@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -17,8 +17,8 @@ class AddGuestItinViewModelTest {
     lateinit private var activity: Activity
     lateinit private var sut: AddGuestItinViewModel
 
-    val hasEmailErrorSubscriber = TestSubscriber<Boolean>()
-    val hasItinErrorSubscriber = TestSubscriber<Boolean>()
+    val hasEmailErrorSubscriber = TestObserver<Boolean>()
+    val hasItinErrorSubscriber = TestObserver<Boolean>()
 
     @Before
     fun before() {
@@ -34,19 +34,19 @@ class AddGuestItinViewModelTest {
 
         sut.emailValidateObservable.onNext("testing")
         hasEmailErrorSubscriber.assertValue(true)
-        assertTrue(hasEmailErrorSubscriber.onNextEvents[0])
+        assertTrue(hasEmailErrorSubscriber.values()[0])
         sut.itinNumberValidateObservable.onNext("12345678")
-        assertTrue(hasItinErrorSubscriber.onNextEvents[0])
+        assertTrue(hasItinErrorSubscriber.values()[0])
 
         sut.emailValidateObservable.onNext("testing@expedia.com")
-        assertFalse(hasEmailErrorSubscriber.onNextEvents[1])
+        assertFalse(hasEmailErrorSubscriber.values()[1])
         sut.itinNumberValidateObservable.onNext("12345678")
-        assertTrue(hasItinErrorSubscriber.onNextEvents[1])
+        assertTrue(hasItinErrorSubscriber.values()[1])
 
         sut.emailValidateObservable.onNext("testing@expedia.com")
-        assertFalse(hasEmailErrorSubscriber.onNextEvents[2])
+        assertFalse(hasEmailErrorSubscriber.values()[2])
         sut.itinNumberValidateObservable.onNext("12345678910")
-        assertFalse(hasItinErrorSubscriber.onNextEvents[2])
+        assertFalse(hasItinErrorSubscriber.values()[2])
     }
 
     @Test

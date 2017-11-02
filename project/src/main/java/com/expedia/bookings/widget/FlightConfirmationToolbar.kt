@@ -24,7 +24,9 @@ import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.flights.FlightConfirmationShareBroadcastReceiver
 import com.expedia.vm.ConfirmationToolbarViewModel
 import com.mobiata.android.util.SettingUtils
-import rx.Observer
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import javax.inject.Inject
 
 class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs) {
 
@@ -91,8 +93,8 @@ class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolba
     }
 
     private fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
-        return object : Observer<AbstractItinDetailsResponse> {
-            override fun onCompleted() {
+        return object : DisposableObserver<AbstractItinDetailsResponse>() {
+            override fun onComplete() {
                 progressDialog.dismiss()
             }
 
@@ -101,7 +103,7 @@ class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolba
                 shareTrip(shareMessage)
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
 
             }
         }

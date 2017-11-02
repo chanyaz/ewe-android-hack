@@ -3,7 +3,7 @@ package com.expedia.vm.lx
 import android.content.Context
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.AbstractCheckoutViewModel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class LXCheckoutViewModel(context: Context) : AbstractCheckoutViewModel(context) {
 

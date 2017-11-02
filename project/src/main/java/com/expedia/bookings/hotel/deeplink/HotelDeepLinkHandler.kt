@@ -7,8 +7,9 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.hotel.util.HotelSuggestionManager
 import com.expedia.bookings.location.CurrentLocationObservable
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 
 class HotelDeepLinkHandler(private val context: Context,
                            private val suggestionManager: HotelSuggestionManager) {
@@ -74,20 +75,20 @@ class HotelDeepLinkHandler(private val context: Context,
     }
 
     private fun generateLocationServiceCallback(hotelSearchParams: HotelSearchParams?): Observer<Location> {
-        return object : Observer<Location> {
+        return object : DisposableObserver<Location>() {
             override fun onNext(location: Location) {
                 val coordinate = SuggestionV4.LatLng()
                 coordinate.lat = location.latitude
                 coordinate.lng = location.longitude
                 hotelSearchParams?.suggestion?.coordinates = coordinate
-                hotelSearchDeepLinkSubject.onNext(hotelSearchParams)
+                hotelSearchDeepLinkSubject.onNext(hotelSearchParams!!)
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 deepLinkInvalidSubject.onNext(Unit)
             }
         }

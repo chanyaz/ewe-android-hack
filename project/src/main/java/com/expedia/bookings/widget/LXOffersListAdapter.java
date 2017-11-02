@@ -26,7 +26,7 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.subjects.PublishSubject;
+import io.reactivex.subjects.PublishSubject;
 
 public class LXOffersListAdapter extends BaseAdapter {
 

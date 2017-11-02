@@ -19,7 +19,8 @@ import com.expedia.account.util.Events;
 import com.expedia.account.util.Utils;
 import com.squareup.phrase.Phrase;
 
-import rx.Observer;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class SignInLayout extends KeyboardObservingFrameLayout {
 
@@ -117,12 +118,17 @@ public class SignInLayout extends KeyboardObservingFrameLayout {
 		validationObservable.addSource(vPasswordPresenter.getStatusObservable());
 		validationObservable.subscribe(new Observer<Boolean>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 
 			}
 
 			@Override
 			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onSubscribe(Disposable d) {
 
 			}
 

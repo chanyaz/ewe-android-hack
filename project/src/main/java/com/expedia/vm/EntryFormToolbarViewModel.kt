@@ -1,6 +1,6 @@
 package com.expedia.vm
 
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class EntryFormToolbarViewModel {
     val formFilledIn = PublishSubject.create<Boolean>()

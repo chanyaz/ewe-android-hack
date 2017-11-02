@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -39,38 +39,38 @@ class RailFareRulesViewModelTest {
     fun fareNotesIncludedInFareRules() {
         fareRulesVM = RailFareRulesViewModel(activity)
 
-        val fareRulesSubscriber = TestSubscriber<List<String>>()
+        val fareRulesSubscriber = TestObserver<List<String>>()
         fareRulesVM.fareRulesObservable.subscribe(fareRulesSubscriber)
 
         val railProduct = generateRailProduct()
         railProduct.refundableRules = emptyList()
         fareRulesVM.railProductObservable.onNext(railProduct)
 
-        assertEquals(3, fareRulesSubscriber.onNextEvents[0].size)
-        assertFareNotes(fareRulesSubscriber.onNextEvents[0])
+        assertEquals(3, fareRulesSubscriber.values()[0].size)
+        assertFareNotes(fareRulesSubscriber.values()[0])
     }
 
     @Test
     fun refundableRulesIncludedInFareRules() {
         fareRulesVM = RailFareRulesViewModel(activity)
 
-        val fareRulesSubscriber = TestSubscriber<List<String>>()
+        val fareRulesSubscriber = TestObserver<List<String>>()
         fareRulesVM.fareRulesObservable.subscribe(fareRulesSubscriber)
         fareRulesVM.railProductObservable.onNext(generateRailProduct())
 
-        assertEquals(6, fareRulesSubscriber.onNextEvents[0].size)
-        assertFareNotesAndRefundableRules(fareRulesSubscriber.onNextEvents[0])
+        assertEquals(6, fareRulesSubscriber.values()[0].size)
+        assertFareNotesAndRefundableRules(fareRulesSubscriber.values()[0])
     }
 
     @Test
     fun emptyFareRules() {
         fareRulesVM = RailFareRulesViewModel(activity)
 
-        val noFareRulesSubscriber = TestSubscriber<Boolean>()
+        val noFareRulesSubscriber = TestObserver<Boolean>()
         fareRulesVM.noFareRulesObservable.subscribe(noFareRulesSubscriber)
 
         fareRulesVM.railProductObservable.onNext(RailProduct())
-        assertTrue(noFareRulesSubscriber.onNextEvents[0])
+        assertTrue(noFareRulesSubscriber.values()[0])
     }
 
     private fun assertFareNotes(fareRules: List<String>) {

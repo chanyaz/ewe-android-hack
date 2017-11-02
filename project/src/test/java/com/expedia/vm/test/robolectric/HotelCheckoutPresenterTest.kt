@@ -13,25 +13,26 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.payment.PaymentModel
-import com.expedia.bookings.data.user.User
-import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.payment.PointsType
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.enums.MerchandiseSpam
+import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
 import com.expedia.bookings.presenter.shared.StoredCouponRecyclerView
 import com.expedia.bookings.presenter.shared.StoredCouponViewHolder
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
@@ -44,22 +45,21 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.FacebookEvents.Companion.userStateManager
-import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.CouponWidget
-import com.expedia.bookings.widget.MaterialFormsCouponWidget
-import com.expedia.vm.HotelCreateTripViewModel
-import junit.framework.Assert.assertTrue
 import com.expedia.bookings.widget.CheckoutBasePresenter
+import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.HotelTravelerEntryWidget
+import com.expedia.bookings.widget.MaterialFormsCouponWidget
 import com.expedia.bookings.widget.TravelerContactDetailsWidget
+import com.expedia.vm.HotelCheckoutViewModel
+import com.expedia.vm.HotelCreateTripViewModel
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.HotelTravelersViewModel
-import org.junit.After
-import com.expedia.vm.HotelCheckoutViewModel
 import junit.framework.Assert.assertFalse
+import junit.framework.Assert.assertTrue
 import org.joda.time.LocalDate
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -68,7 +68,6 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -153,8 +152,8 @@ class HotelCheckoutPresenterTest {
 
     @Test
     fun testMaterialCouponWidgetApplyFiresMenuButtonPressed() {
-        val testEnableSubmitButtonObservable = TestSubscriber<Boolean>()
-        val testOnCouponSubmitClicked = TestSubscriber<Unit>()
+        val testEnableSubmitButtonObservable = TestObserver<Boolean>()
+        val testOnCouponSubmitClicked = TestObserver<Unit>()
 
         setupHotelMaterialForms()
         checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(testEnableSubmitButtonObservable)
@@ -174,7 +173,7 @@ class HotelCheckoutPresenterTest {
 
     @Test
     fun testToolbarReceivesOnDoneClickedMethodDefaultTravelerWidget() {
-        val testDoneClickedSubscriber = TestSubscriber<() -> Unit>()
+        val testDoneClickedSubscriber = TestObserver<() -> Unit>()
         checkout.toolbar.viewModel.doneClickedMethod.subscribe(testDoneClickedSubscriber)
         checkout.mainContactInfoCardView.performClick()
 
@@ -184,7 +183,7 @@ class HotelCheckoutPresenterTest {
     @Test
     fun testToolbarReceivesOnDoneClickedMethodMaterialTraveler() {
         setupHotelMaterialForms()
-        val testDoneClickedSubscriber = TestSubscriber<() -> Unit>()
+        val testDoneClickedSubscriber = TestObserver<() -> Unit>()
         checkout.toolbar.viewModel.doneClickedMethod.subscribe(testDoneClickedSubscriber)
         checkout.travelerSummaryCardView.performClick()
 
@@ -194,8 +193,8 @@ class HotelCheckoutPresenterTest {
     @Test
     fun testTravelerWidgetToolbarWithHotelMaterialABTestOn() {
         setupHotelMaterialForms()
-        val doneMenuVisibilitySubscriber = TestSubscriber<Unit>()
-        val toolbarTitleTestSubscriber = TestSubscriber<String>()
+        val doneMenuVisibilitySubscriber = TestObserver<Unit>()
+        val toolbarTitleTestSubscriber = TestObserver<String>()
         checkout.toolbar.viewModel.visibleMenuWithTitleDone.subscribe(doneMenuVisibilitySubscriber)
         checkout.toolbar.viewModel.toolbarTitle.subscribe(toolbarTitleTestSubscriber)
 
@@ -211,7 +210,7 @@ class HotelCheckoutPresenterTest {
 
     @Test
     fun testTravelerWidgetToolbarWithHotelMaterialABTestOff() {
-        val doneMenuVisibilitySubscriber = TestSubscriber<Unit>()
+        val doneMenuVisibilitySubscriber = TestObserver<Unit>()
         checkout.toolbar.viewModel.visibleMenuWithTitleDone.subscribe(doneMenuVisibilitySubscriber)
 
 
@@ -357,7 +356,7 @@ class HotelCheckoutPresenterTest {
 
     @Test
     fun testTravelerCheckoutParamsWhenHotelMaterialFormIsTurnedOn() {
-        val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
+        val testCheckoutParams = TestObserver<HotelCheckoutV2Params>()
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = setupHotelCheckoutPresenter()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
@@ -366,13 +365,13 @@ class HotelCheckoutPresenterTest {
 
         checkoutView.onBookV2(null, paymentSplits)
 
-        assertNotNull(testCheckoutParams.onNextEvents[0])
-        testTravelerDetails(testCheckoutParams.onNextEvents[0].traveler)
+        assertNotNull(testCheckoutParams.values()[0])
+        testTravelerDetails(testCheckoutParams.values()[0].traveler)
     }
 
     @Test
     fun testTravelerCheckoutParamsWhenHotelMaterialFormIsTurnedOff() {
-        val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
+        val testCheckoutParams = TestObserver<HotelCheckoutV2Params>()
         val checkoutView = setupHotelCheckoutPresenter()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
         var paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
@@ -380,8 +379,8 @@ class HotelCheckoutPresenterTest {
 
         checkoutView.onBookV2(null, paymentSplits)
 
-        assertNotNull(testCheckoutParams.onNextEvents[0])
-        testTravelerDetails(testCheckoutParams.onNextEvents[0].traveler)
+        assertNotNull(testCheckoutParams.values()[0])
+        testTravelerDetails(testCheckoutParams.values()[0].traveler)
     }
 
     @Test
@@ -420,7 +419,7 @@ class HotelCheckoutPresenterTest {
     }
 
     fun testCreateTripEmailOptInStatusWithNoStatus() {
-        val testEmailOptInSubscriber = TestSubscriber<MerchandiseSpam>()
+        val testEmailOptInSubscriber = TestObserver<MerchandiseSpam>()
         checkout.hotelCheckoutMainViewModel.emailOptInStatus.subscribe(testEmailOptInSubscriber)
         goToCheckout()
 
@@ -431,10 +430,10 @@ class HotelCheckoutPresenterTest {
     fun testUiDisabledOnApplyBucketed() {
         setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
         checkout.couponCardView.isExpanded = true
-        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        val enableMenuButtonSubscriber = TestObserver<Boolean>()
         checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
         val storedCouponRecycler = getStoredCouponRecycler()
-        val testEnableStoredCouponsSubscriber = TestSubscriber<Boolean>()
+        val testEnableStoredCouponsSubscriber = TestObserver<Boolean>()
         (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.enableStoredCouponsSubject
                 .subscribe(testEnableStoredCouponsSubscriber)
 
@@ -464,7 +463,7 @@ class HotelCheckoutPresenterTest {
         setup()
         goToCheckout(mockHotelServices.getHotelCouponCreateTripResponse())
         checkout.couponCardView.isExpanded = true
-        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        val enableMenuButtonSubscriber = TestObserver<Boolean>()
         checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
 
         checkout.couponCardView.viewmodel.applyObservable.onNext("1")
@@ -479,10 +478,10 @@ class HotelCheckoutPresenterTest {
     fun testUiEnabledOnErrorBucketed() {
         setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
         checkout.couponCardView.isExpanded = true
-        val testEnableStoredCouponsSubscriber = TestSubscriber<Boolean>()
+        val testEnableStoredCouponsSubscriber = TestObserver<Boolean>()
         (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.enableStoredCouponsSubject
                 .subscribe(testEnableStoredCouponsSubscriber)
-        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        val enableMenuButtonSubscriber = TestObserver<Boolean>()
         checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
 
         checkout.couponCardView.viewmodel.applyObservable.onNext("1")
@@ -499,9 +498,9 @@ class HotelCheckoutPresenterTest {
     fun testUiEnabledOnSuccessfulCouponBucketed() {
         setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
         checkout.couponCardView.isExpanded = true
-        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        val enableMenuButtonSubscriber = TestObserver<Boolean>()
         checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
-        val testEnableStoredCouponsSubscriber = TestSubscriber<Boolean>()
+        val testEnableStoredCouponsSubscriber = TestObserver<Boolean>()
         (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.enableStoredCouponsSubject
                 .subscribe(testEnableStoredCouponsSubscriber)
 
@@ -521,7 +520,7 @@ class HotelCheckoutPresenterTest {
         setup()
         goToCheckout(mockHotelServices.getHotelCouponCreateTripResponse())
         checkout.couponCardView.isExpanded = true
-        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        val enableMenuButtonSubscriber = TestObserver<Boolean>()
         checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
 
         checkout.couponCardView.viewmodel.applyObservable.onNext("1")
@@ -537,7 +536,7 @@ class HotelCheckoutPresenterTest {
         setup()
         goToCheckout(mockHotelServices.getHotelCouponCreateTripResponse())
         checkout.couponCardView.isExpanded = true
-        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        val enableMenuButtonSubscriber = TestObserver<Boolean>()
         checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
 
         checkout.couponCardView.viewmodel.applyObservable.onNext("1")
@@ -554,9 +553,9 @@ class HotelCheckoutPresenterTest {
     fun testUiEnabledOnNetworkErrorCanceledBucketed() {
         setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
         checkout.couponCardView.isExpanded = true
-        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        val enableMenuButtonSubscriber = TestObserver<Boolean>()
         checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
-        val testEnableStoredCouponsSubscriber = TestSubscriber<Boolean>()
+        val testEnableStoredCouponsSubscriber = TestObserver<Boolean>()
         (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.enableStoredCouponsSubject
                 .subscribe(testEnableStoredCouponsSubscriber)
 
@@ -575,7 +574,7 @@ class HotelCheckoutPresenterTest {
 
     @Test
     fun testCreateTripEmailOptInStatusWithEmailStatus() {
-        val testEmailOptInSubscriber = TestSubscriber<MerchandiseSpam>()
+        val testEmailOptInSubscriber = TestObserver<MerchandiseSpam>()
         checkout.hotelCheckoutMainViewModel.emailOptInStatus.subscribe(testEmailOptInSubscriber)
         goToCheckout()
         checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
@@ -586,7 +585,7 @@ class HotelCheckoutPresenterTest {
     @Test
     fun testEmailOptInObservableMaterialFormOn() {
         setupHotelMaterialForms()
-        val travelerEmailOptInSubscriber = TestSubscriber<MerchandiseSpam>()
+        val travelerEmailOptInSubscriber = TestObserver<MerchandiseSpam>()
         (checkout.travelersPresenter.viewModel as HotelTravelersViewModel).createTripOptInStatus.subscribe(travelerEmailOptInSubscriber)
         goToCheckout()
         checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
@@ -607,7 +606,7 @@ class HotelCheckoutPresenterTest {
     fun testEmailOptedInTravelerDetailsOnBookMaterialFormOn() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = setupHotelCheckoutPresenter()
-        val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
+        val testCheckoutParams = TestObserver<HotelCheckoutV2Params>()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
         checkoutView.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptInResponse())
 
@@ -617,12 +616,12 @@ class HotelCheckoutPresenterTest {
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
         checkoutView.onBookV2(null, paymentSplits)
 
-        assertEquals(true, testCheckoutParams.onNextEvents.last().traveler.expediaEmailOptIn)
+        assertEquals(true, testCheckoutParams.values().last().traveler.expediaEmailOptIn)
     }
 
     @Test
     fun testEmailOptedInTravelerDetailsOnBookMaterialFormOff() {
-        val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
+        val testCheckoutParams = TestObserver<HotelCheckoutV2Params>()
         val checkoutView = setupHotelCheckoutPresenter()
         goToCheckout()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
@@ -632,7 +631,7 @@ class HotelCheckoutPresenterTest {
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
         checkoutView.onBookV2(null, paymentSplits)
 
-        assertEquals(true, testCheckoutParams.onNextEvents.last().traveler.expediaEmailOptIn)
+        assertEquals(true, testCheckoutParams.values().last().traveler.expediaEmailOptIn)
     }
 
     @Test
@@ -666,7 +665,7 @@ class HotelCheckoutPresenterTest {
     fun testOptOutCheckedSetsFalseParamMaterialFormOn() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = setupHotelCheckoutPresenter()
-        val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
+        val testCheckoutParams = TestObserver<HotelCheckoutV2Params>()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
         checkoutView.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
 
@@ -676,7 +675,7 @@ class HotelCheckoutPresenterTest {
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
         checkoutView.onBookV2(null, paymentSplits)
 
-        assertEquals(false, testCheckoutParams.onNextEvents.last().traveler.expediaEmailOptIn)
+        assertEquals(false, testCheckoutParams.values().last().traveler.expediaEmailOptIn)
     }
 
     @Test

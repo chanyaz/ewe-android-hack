@@ -5,19 +5,20 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripsShareUrlShortenResponse
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity
 import com.expedia.bookings.services.TripShareUrlShortenServiceInterface
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.ShareUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
-import rx.Observable
-import rx.Observer
-import rx.Subscription
 import kotlin.test.assertEquals
 
 @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
@@ -90,7 +91,7 @@ class ShareTripHelperTest {
     }
 
     private class TestShortenUrlService : TripShareUrlShortenServiceInterface {
-        override fun getShortenedShareUrl(url: String, observer: Observer<TripsShareUrlShortenResponse>): Subscription =
-                Observable.just(TripsShareUrlShortenResponse("https://expedia.com", "https://e.xp.co")).subscribe(observer)
+        override fun getShortenedShareUrl(url: String, observer: Observer<TripsShareUrlShortenResponse>): Disposable =
+                Observable.just(TripsShareUrlShortenResponse("https://expedia.com", "https://e.xp.co")).subscribeObserver(observer)
     }
 }

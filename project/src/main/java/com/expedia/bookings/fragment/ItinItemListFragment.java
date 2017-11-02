@@ -62,8 +62,8 @@ import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
 
+import io.reactivex.functions.Consumer;
 import kotlin.Unit;
-import rx.functions.Action1;
 
 public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
 	ItinerarySyncListener {
@@ -268,9 +268,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
 			getItineraryManager().addSyncListener(mSignInPresenter.getSyncListenerAdapter());
 			mSignInPresenter.getSignInWidget().getViewModel().getSyncItinManagerSubject().subscribe(
-				new Action1<Unit>() {
+				new Consumer<Unit>() {
 					@Override
-					public void call(Unit unit) {
+					public void accept(Unit unit) {
 						syncItinManager(true, true);
 					}
 				});

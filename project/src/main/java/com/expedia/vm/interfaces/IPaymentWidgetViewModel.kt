@@ -3,8 +3,8 @@ package com.expedia.vm.interfaces
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import rx.Observable
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
 interface IPaymentWidgetViewModel {
     //INLETS

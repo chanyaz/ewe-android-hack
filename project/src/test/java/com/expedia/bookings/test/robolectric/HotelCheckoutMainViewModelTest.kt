@@ -15,7 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -43,7 +43,7 @@ class HotelCheckoutMainViewModelTest {
 
     @Test
     fun testUpdateEarnedRewardsPoint(){
-        val updateEarnPointsText = TestSubscriber.create<Float>()
+        val updateEarnPointsText = TestObserver.create<Float>()
         sut.updateEarnedRewards.map { it.points }.subscribe(updateEarnPointsText)
         paymentModel.createTripSubject.onNext(getCreateTripResponse())
 

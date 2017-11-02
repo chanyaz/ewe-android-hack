@@ -19,7 +19,7 @@ import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 

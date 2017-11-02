@@ -12,14 +12,13 @@ import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.withLatestFrom
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.vm.rail.RailLegSummaryViewModel
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 

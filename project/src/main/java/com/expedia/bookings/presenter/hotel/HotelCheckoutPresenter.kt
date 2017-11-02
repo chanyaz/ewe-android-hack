@@ -26,11 +26,12 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.FreeCancellationWidget
+import com.expedia.bookings.withLatestFrom
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelCheckoutViewModel
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.format.ISODateTimeFormat
-import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.Locale

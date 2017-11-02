@@ -16,9 +16,10 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel() {
@@ -44,7 +45,7 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
     }
 
     fun makeCreateTripResponseObserver(): Observer<FlightCreateTripResponse> {
-        return object : Observer<FlightCreateTripResponse> {
+        return object : DisposableObserver<FlightCreateTripResponse>() {
             override fun onNext(response: FlightCreateTripResponse) {
                 if (!isValidContext(context)) {
                     return
@@ -73,7 +74,7 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
         }

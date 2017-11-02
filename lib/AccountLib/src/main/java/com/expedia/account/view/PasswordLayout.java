@@ -17,7 +17,7 @@ import com.expedia.account.util.CombiningFakeObservable;
 import com.expedia.account.util.Events;
 import com.expedia.account.util.Utils;
 
-import rx.Observer;
+import io.reactivex.Observer;
 
 public class PasswordLayout extends KeyboardObservingFrameLayout {
 

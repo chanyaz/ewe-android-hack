@@ -16,6 +16,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.server.DateTimeParser
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -38,7 +39,6 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowApplication
-import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -75,10 +75,10 @@ class FlightConfirmationViewModelTest {
         val destination = "Detroit"
         val userPoints = "100"
 
-        val destinationTestSubscriber= TestSubscriber<String>()
-        val itinNumberTestSubscriber = TestSubscriber<String>()
-        val expediaPointsSubscriber = TestSubscriber<String>()
-        val crossSellWidgetView = TestSubscriber<Boolean>()
+        val destinationTestSubscriber= TestObserver<String>()
+        val itinNumberTestSubscriber = TestObserver<String>()
+        val expediaPointsSubscriber = TestObserver<String>()
+        val crossSellWidgetView = TestObserver<Boolean>()
 
         vm = FlightConfirmationViewModel(activity)
         vm.destinationObservable.subscribe(destinationTestSubscriber)
@@ -99,7 +99,7 @@ class FlightConfirmationViewModelTest {
     fun crossSellNotOfferedTest() {
         val pastExpiration = DateTime.now().minusDays(50).toString()
         val response = getCheckoutResponseWithoutAirAttachOffer(pastExpiration)
-        val crossSellWidgetView = TestSubscriber<Boolean>()
+        val crossSellWidgetView = TestObserver<Boolean>()
 
         vm = FlightConfirmationViewModel(activity)
         vm.crossSellWidgetVisibility.subscribe(crossSellWidgetView)
@@ -179,7 +179,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun zeroFlightLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val expediaPointsSubscriber = TestSubscriber<String>()
+        val expediaPointsSubscriber = TestObserver<String>()
         val userPoints = "0"
 
         vm = FlightConfirmationViewModel(activity)
@@ -192,7 +192,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun nullFlightLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val expediaPointsSubscriber = TestSubscriber<String>()
+        val expediaPointsSubscriber = TestObserver<String>()
         val userPoints = null
 
         vm = FlightConfirmationViewModel(activity)
@@ -205,7 +205,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun noShowFlightLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val expediaPointsSubscriber = TestSubscriber<String>()
+        val expediaPointsSubscriber = TestObserver<String>()
         val userPoints = "100"
         vm = FlightConfirmationViewModel(activity)
         //adding test POS configuration without rewards enabled
@@ -218,7 +218,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testRewardsPointsStringFlights() {
-        val rewardsString = TestSubscriber<String>()
+        val rewardsString = TestObserver<String>()
         vm = FlightConfirmationViewModel(activity)
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
         vm.rewardPointsObservable.subscribe(rewardsString)
@@ -229,7 +229,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testNumberOfTravelersString() {
-        val travelersString = TestSubscriber<String>()
+        val travelersString = TestObserver<String>()
         val numberOfTravelers = 5
         vm = FlightConfirmationViewModel(activity)
         vm.formattedTravelersStringSubject.subscribe(travelersString)
@@ -241,7 +241,7 @@ class FlightConfirmationViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTripTotalPriceStringWhenToggled() {
-        val priceString = TestSubscriber<String>()
+        val priceString = TestObserver<String>()
         vm = FlightConfirmationViewModel(activity)
         vm.tripTotalPriceSubject.subscribe(priceString)
         vm.confirmationObservable.onNext(Pair(getCheckoutResponse(DateTime.now().toString(), null), customerEmail))
@@ -252,7 +252,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testTripProtectionStringNotVisible() {
-        val showTripProtection = TestSubscriber<Boolean>()
+        val showTripProtection = TestObserver<Boolean>()
         val checkoutResponse = getCheckoutResponse(DateTime.now().toString())
         vm = FlightConfirmationViewModel(activity)
 
@@ -264,7 +264,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testTripProtectionStringVisible() {
-        val showTripProtection = TestSubscriber<Boolean>()
+        val showTripProtection = TestObserver<Boolean>()
         val checkoutResponse = getCheckoutResponse(DateTime.now().toString())
         setUpInsuranceProductInResponse(checkoutResponse)
 
@@ -314,7 +314,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun testFlightSearchParamsBecomeHotelSearchParamsForKrazyglue() {
         bucketViewmodelIntoKrazyglue()
-        val hotelSearchParamsTestSubscriber = TestSubscriber<HotelSearchParams>()
+        val hotelSearchParamsTestSubscriber = TestObserver<HotelSearchParams>()
         vm.krazyGlueHotelSearchParamsObservable.subscribe(hotelSearchParamsTestSubscriber)
         vm.flightSearchParamsObservable.onNext(FlightTestUtil.getFlightSearchParams(isRoundTrip = true))
 
@@ -322,13 +322,13 @@ class FlightConfirmationViewModelTest {
         vm.flightCheckoutResponseObservable.onNext(getCheckoutResponse(DateTime.now().toString()))
 
         hotelSearchParamsTestSubscriber.assertValueCount(1)
-        assertTrue(hotelSearchParamsTestSubscriber.onNextEvents[0] is HotelSearchParams)
+        assertTrue(hotelSearchParamsTestSubscriber.values()[0] is HotelSearchParams)
     }
 
     @Test
     fun testRegionIdParsedFromDeeplinkUrl() {
         bucketViewmodelIntoKrazyglue()
-        val regionIdTestSubscriber = TestSubscriber<String>()
+        val regionIdTestSubscriber = TestObserver<String>()
         vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
         vm.getKrazyglueResponseObserver().onNext(FlightTestUtil.getKrazyglueResponse(isSuccessful = true))
 
@@ -372,7 +372,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun testSuccessfulKrazyglueResponseMaintainsHiddenCrossSell() {
         bucketViewmodelIntoKrazyglue()
-        val crossSellVisibilityTestSubscriber = TestSubscriber<Boolean>()
+        val crossSellVisibilityTestSubscriber = TestObserver<Boolean>()
         vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
         val crossSellEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = false, isRoundTrip = true)
         vm.flightCheckoutResponseObservable.onNext(crossSellEligibleCheckoutResponse)
@@ -384,7 +384,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun testFailedKrazyGlueResponseShowsCrossSellWhenEligible() {
         bucketViewmodelIntoKrazyglue()
-        val crossSellVisibilityTestSubscriber = TestSubscriber<Boolean>()
+        val crossSellVisibilityTestSubscriber = TestObserver<Boolean>()
         vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
         val crossSellEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = true, isRoundTrip = true)
         vm.flightCheckoutResponseObservable.onNext(crossSellEligibleCheckoutResponse)
@@ -396,7 +396,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun testFailedKrazyGlueResponseHidesCrossSellAndKrazyglueWhenNotEligible() {
         bucketViewmodelIntoKrazyglue()
-        val crossSellVisibilityTestSubscriber = TestSubscriber<Boolean>()
+        val crossSellVisibilityTestSubscriber = TestObserver<Boolean>()
         vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
         val crossSellNotEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = false, isRoundTrip = true)
         vm.flightCheckoutResponseObservable.onNext(crossSellNotEligibleCheckoutResponse)
@@ -408,14 +408,14 @@ class FlightConfirmationViewModelTest {
     @Test
     fun testSuccessfulKrazyglueResponse() {
         bucketViewmodelIntoKrazyglue()
-        val regionIdTestSubscriber = TestSubscriber<String>()
-        val krazyglueHotelsTestSubscriber = TestSubscriber<List<KrazyglueResponse.KrazyglueHotel>>()
+        val regionIdTestSubscriber = TestObserver<String>()
+        val krazyglueHotelsTestSubscriber = TestObserver<List<KrazyglueResponse.KrazyglueHotel>>()
         vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
         vm.krazyglueHotelsObservable.subscribe(krazyglueHotelsTestSubscriber)
         vm.getKrazyglueResponseObserver().onNext(FlightTestUtil.getKrazyglueResponse(isSuccessful = true))
 
         regionIdTestSubscriber.assertValue("178276")
-        assertEquals(3, krazyglueHotelsTestSubscriber.onNextEvents[0].size)
+        assertEquals(3, krazyglueHotelsTestSubscriber.values()[0].size)
     }
 
     @Test
@@ -457,8 +457,8 @@ class FlightConfirmationViewModelTest {
     @Test
     fun testFailedKrazyglueResponse() {
         bucketViewmodelIntoKrazyglue()
-        val regionIdTestSubscriber = TestSubscriber<String>()
-        val krazyglueHotelsTestSubscriber = TestSubscriber<List<KrazyglueResponse.KrazyglueHotel>>()
+        val regionIdTestSubscriber = TestObserver<String>()
+        val krazyglueHotelsTestSubscriber = TestObserver<List<KrazyglueResponse.KrazyglueHotel>>()
         vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
         vm.krazyglueHotelsObservable.subscribe(krazyglueHotelsTestSubscriber)
         vm.getKrazyglueResponseObserver().onNext(FlightTestUtil.getKrazyglueResponse(isSuccessful = false))

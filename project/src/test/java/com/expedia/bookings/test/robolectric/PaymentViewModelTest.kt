@@ -23,6 +23,8 @@ import com.expedia.bookings.data.trips.TripBucketItemLX
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.trips.TripBucketItemTransport
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.services.subscribeTestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
@@ -32,14 +34,13 @@ import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PaymentViewModel
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.Scheduler
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
 import kotlin.properties.Delegates
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -53,14 +54,14 @@ class PaymentViewModelTest {
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
     private var viewModel: PaymentViewModel by notNullAndObservable {
         it.paymentType.subscribe(paymentTypeTestSubscriber)
-        it.cardTitle.subscribe(cardTitleTestSubscriber)
-        it.cardSubtitle.subscribe(cardSubtitleTestSubscriber)
+        it.cardTitle.subscribeTestObserver(cardTitleTestSubscriber)
+        it.cardSubtitle.subscribeTestObserver(cardSubtitleTestSubscriber)
         it.pwpSmallIcon.subscribe(pwpSmallIconTestSubscriber)
     }
-    val paymentTypeTestSubscriber = TestSubscriber.create<Drawable>()
-    val cardTitleTestSubscriber = TestSubscriber.create<String>()
-    val cardSubtitleTestSubscriber = TestSubscriber.create<String>()
-    val pwpSmallIconTestSubscriber = TestSubscriber.create<Boolean>()
+    val paymentTypeTestSubscriber = TestObserver.create<Drawable>()
+    val cardTitleTestSubscriber = TestObserver.create<String>()
+    val cardSubtitleTestSubscriber = TestObserver.create<String>()
+    val pwpSmallIconTestSubscriber = TestObserver.create<Boolean>()
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application
@@ -75,7 +76,7 @@ class PaymentViewModelTest {
     
     @Test
     fun showCardInfoLabelHaveInvalidPaymentWarning() {
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         val flightCreateTripResponse = FlightCreateTripResponse()
         val amexValidFormOfPayment = ValidFormOfPayment()
         amexValidFormOfPayment.name = "AmericanExpress"
@@ -94,7 +95,7 @@ class PaymentViewModelTest {
 
     @Test
     fun showInvalidPaymentTypeWarning() {
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         viewModel.showInvalidPaymentWarning.subscribe(testSubscriber)
 
         viewModel.paymentTypeWarningHandledByCkoView.onNext(false)
@@ -106,7 +107,7 @@ class PaymentViewModelTest {
 
     @Test
     fun dontShowInvalidPaymentTypeWarning() {
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         viewModel.showInvalidPaymentWarning.subscribe(testSubscriber)
 
         viewModel.paymentTypeWarningHandledByCkoView.onNext(true)
@@ -118,7 +119,7 @@ class PaymentViewModelTest {
 
     @Test
     fun invalidPaymentTypeWarningHotels() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         givenHotelTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
@@ -132,7 +133,7 @@ class PaymentViewModelTest {
 
     @Test
     fun invalidPaymentTypeWarningPackages() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         givenPackagesTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
@@ -146,7 +147,7 @@ class PaymentViewModelTest {
 
     @Test
     fun invalidPaymentTypeWarningFlights() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         givenFlightsTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
@@ -160,7 +161,7 @@ class PaymentViewModelTest {
 
     @Test
     fun invalidPaymentTypeWarningLX() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         givenLxTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
@@ -174,7 +175,7 @@ class PaymentViewModelTest {
 
     @Test
     fun invalidPaymentTypeWarningTransport() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         givenTransportTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
@@ -230,8 +231,8 @@ class PaymentViewModelTest {
     fun testPaymentTileWithPaymentABTest() {
         val viewModel = PaymentViewModel(getContext())
 
-        viewModel.cardTitle.subscribe(cardTitleTestSubscriber)
-        viewModel.cardSubtitle.subscribe(cardSubtitleTestSubscriber)
+        viewModel.cardTitle.subscribeTestObserver(cardTitleTestSubscriber)
+        viewModel.cardSubtitle.subscribeTestObserver(cardSubtitleTestSubscriber)
         viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
 
         viewModel.isRedeemable.onNext(false)
@@ -270,7 +271,7 @@ class PaymentViewModelTest {
 
     @Test
     fun testNewCheckoutBehavior() {
-        val testNewCheckoutSubscriber = TestSubscriber.create<Boolean>()
+        val testNewCheckoutSubscriber = TestObserver.create<Boolean>()
         viewModel.newCheckoutIsEnabled.subscribe(testNewCheckoutSubscriber)
 
         viewModel.lineOfBusiness.onNext(LineOfBusiness.RAILS)
@@ -285,8 +286,8 @@ class PaymentViewModelTest {
 
     @Test
     fun testMenuButtonBehaviorOnCardSelection() {
-        val testMenuVisibilitySubscriber = TestSubscriber.create<Boolean>()
-        val testEnableMenuSubscriber = TestSubscriber.create<Boolean>()
+        val testMenuVisibilitySubscriber = TestObserver.create<Boolean>()
+        val testEnableMenuSubscriber = TestObserver.create<Boolean>()
         viewModel.menuVisibility.subscribe(testMenuVisibilitySubscriber)
         viewModel.enableMenuItem.subscribe(testEnableMenuSubscriber)
 
@@ -316,7 +317,7 @@ class PaymentViewModelTest {
     @Test
     fun testAllowUnknownCardTypesNoPaymentTypeWarning() {
         toggleAllowUnknownCardTypesABTest(true)
-        val invalidPaymentTypeWarningTestSubscriber = TestSubscriber<String>()
+        val invalidPaymentTypeWarningTestSubscriber = TestObserver<String>()
         givenFlightsTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(invalidPaymentTypeWarningTestSubscriber)
@@ -330,7 +331,7 @@ class PaymentViewModelTest {
     @Test
     fun testDontAllowUnknownCardTypesNoPaymentTypeWarning() {
         toggleAllowUnknownCardTypesABTest(false)
-        val invalidPaymentTypeWarningTestSubscriber = TestSubscriber<String>()
+        val invalidPaymentTypeWarningTestSubscriber = TestObserver<String>()
         givenFlightsTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(invalidPaymentTypeWarningTestSubscriber)
@@ -400,7 +401,7 @@ class PaymentViewModelTest {
 
     class TestPaymentViewModelClass(context: Context): PaymentViewModel(context) {
         override fun getScheduler(): Scheduler {
-            return Schedulers.immediate()
+            return Schedulers.trampoline()
         }
     }
 }

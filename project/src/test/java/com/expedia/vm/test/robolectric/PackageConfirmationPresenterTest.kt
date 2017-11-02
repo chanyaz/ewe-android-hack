@@ -10,6 +10,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.presenter.packages.PackageConfirmationPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.services.ItinTripServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -24,6 +25,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.vm.PackageWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
+import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,8 +36,6 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -50,7 +50,7 @@ class PackageConfirmationPresenterTest {
     private var confirmationPresenter: PackageConfirmationPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
 
-    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.immediate(), "../lib/mocked/templates")
+    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.trampoline(), "../lib/mocked/templates")
         @Rule get
 
     @Before
@@ -81,8 +81,8 @@ class PackageConfirmationPresenterTest {
     fun testMIDWebViewTripIDOnSuccessfulBooking() {
         setupMIDWebCheckout()
 
-        val bookingTripIDSubscriber = TestSubscriber<String>()
-        val fectchTripIDSubscriber = TestSubscriber<String>()
+        val bookingTripIDSubscriber = TestObserver<String>()
+        val fectchTripIDSubscriber = TestObserver<String>()
         (packagePresenter.bundlePresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
         (packagePresenter.bundlePresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
         (packagePresenter.bundlePresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
@@ -109,7 +109,7 @@ class PackageConfirmationPresenterTest {
         setupMIDWebCheckout()
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
         packagePresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
 
@@ -134,7 +134,7 @@ class PackageConfirmationPresenterTest {
     fun testMIDMultipleFlightsPopulatesConfirmationCorrectly() {
         setupMIDWebCheckout()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
         packagePresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
 
@@ -154,7 +154,7 @@ class PackageConfirmationPresenterTest {
     fun testMIDShowBookingSuccessDialogOnItinResponseError() {
         setupMIDWebCheckout()
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
         packagePresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
 
@@ -171,7 +171,7 @@ class PackageConfirmationPresenterTest {
         setupMIDWebCheckout()
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
 
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
         packagePresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
 

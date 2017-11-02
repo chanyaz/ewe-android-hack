@@ -4,8 +4,8 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class BaseTravelerEntryWidgetViewModel(val context: Context, val travelerIndex: Int) {
     var nameViewModel = TravelerNameViewModel()

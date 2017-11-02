@@ -11,10 +11,10 @@ import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observable
-import rx.Scheduler
+import io.reactivex.Observable
+import io.reactivex.Scheduler
 import java.io.IOException
 
 class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Interceptor, private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
@@ -38,7 +38,7 @@ class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Inter
         val adapter = Retrofit.Builder()
                 .baseUrl(endPoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client.newBuilder().addInterceptor(interceptor).build())
                 .build()
 

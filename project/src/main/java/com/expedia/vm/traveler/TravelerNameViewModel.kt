@@ -2,7 +2,7 @@ package com.expedia.vm.traveler
 
 import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.utils.AccessibilityUtil
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
 open class TravelerNameViewModel {

@@ -1,10 +1,10 @@
 package com.expedia.bookings.services.travelgraph
 
 import com.expedia.bookings.data.travelgraph.TravelGraphUserHistoryResponse
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import rx.Observable
 
 interface TravelGraphApi {
 

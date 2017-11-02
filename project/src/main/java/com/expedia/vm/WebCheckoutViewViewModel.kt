@@ -5,8 +5,8 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class WebCheckoutViewViewModel(context: Context) : WebViewViewModel(), UserAccountRefresher.IUserAccountRefreshListener  {
     // var so that we can mock it for unit testing

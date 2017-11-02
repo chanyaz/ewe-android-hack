@@ -4,8 +4,8 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class BasicEconomyTooltipViewModel {
     val basicEconomyTooltipInfo = PublishSubject.create<List<FlightLeg.BasicEconomyTooltipInfo>>()

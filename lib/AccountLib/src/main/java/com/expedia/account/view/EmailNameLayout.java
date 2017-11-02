@@ -23,7 +23,7 @@ import com.expedia.account.util.InvalidCharacterTextWatcher;
 import com.expedia.account.util.Utils;
 import com.squareup.otto.Subscribe;
 
-import rx.Observer;
+import io.reactivex.Observer;
 
 public class EmailNameLayout extends KeyboardObservingFrameLayout {
 

@@ -14,7 +14,7 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
 
 class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

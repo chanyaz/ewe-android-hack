@@ -34,8 +34,8 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
+import io.reactivex.functions.Consumer;
 import kotlin.Unit;
-import rx.functions.Action1;
 
 public class EBPreferencesFragment extends BasePreferenceFragment {
 
@@ -216,9 +216,9 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			final SelectLanguageDialogFragment dialogFragment = new SelectLanguageDialogFragment();
 
 			final DebugSelectLanguageVM vm = new DebugSelectLanguageVM();
-			vm.getRestartAppSubject().subscribe(new Action1<Unit>() {
+			vm.getRestartAppSubject().subscribe(new Consumer<Unit>() {
 				@Override
-				public void call(final Unit restartApp) {
+				public void accept(Unit restartApp) {
 					if (getView() != null) {
 						getView().postDelayed(new Runnable() {
 							@Override

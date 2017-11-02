@@ -39,9 +39,9 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConstants;
+import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.notification.PushNotificationUtils;
@@ -60,12 +60,12 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 
-import rx.Observable;
-import rx.Observer;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.functions.FuncN;
-import rx.subjects.PublishSubject;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * This singleton keeps all of our itinerary data together.  It loads, syncs and stores all itin data.
@@ -1347,9 +1347,9 @@ public class ItineraryManager implements JSONable {
 
 		private void reauthFacebookUser() {
 			ServicesUtil.generateAccountService(mContext)
-				.facebookReauth(mContext).doOnNext(new Action1<FacebookLinkResponse>() {
+				.facebookReauth(mContext).doOnNext(new Consumer<FacebookLinkResponse>() {
 				@Override
-				public void call(FacebookLinkResponse linkResponse) {
+				public void accept(FacebookLinkResponse linkResponse) {
 					if (linkResponse != null
 						&& linkResponse.isSuccess()) {
 						Log.w(LOGGING_TAG, "FB: Autologin success");
@@ -1389,66 +1389,71 @@ public class ItineraryManager implements JSONable {
 		}
 
 		@NonNull
-		private Func1<Throwable, JSONObject> onErrorReturnNull() {
-			return new Func1<Throwable, JSONObject>() {
+		private Function<Throwable, JSONObject> onErrorReturnNull() {
+			return new Function<Throwable, JSONObject>() {
 				@Override
-				public JSONObject call(Throwable throwable) {
+				public JSONObject apply(Throwable throwable) {
 					return null;
 				}
 			};
 		}
 
 		private void waitAndParseDetailResponses(List<Observable<JSONObject>> observables, final Map<String, Trip> trips) {
-			Observable.zip(observables, new FuncN<List<JSONObject>>() {
-				@Override
-				public List<JSONObject> call(Object... args) {
-					ArrayList<JSONObject> responseList = new ArrayList<>();
-					for (Object arg : args) {
-						responseList.add((JSONObject) arg);
+			Observable.zip(observables, new Function<Object[], List<JSONObject>>() {
+					@Override
+					public List<JSONObject> apply(Object[] objects) throws Exception {
+						ArrayList<JSONObject> responseList = new ArrayList<>();
+						for (Object arg : objects) {
+							responseList.add((JSONObject) arg);
+						}
+						Log.i(LOGGING_TAG,
+							"REFRESH_ALL_TRIPS: Number of responses received in zip " + responseList.size());
+						return responseList;
 					}
-					Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Number of responses received in zip " + responseList.size());
-					return responseList;
-				}
-			}).flatMap(new Func1<List<JSONObject>, Observable<JSONObject>>() {
-				@Override
-				public Observable<JSONObject> call(List<JSONObject> jsonObjects) {
-					return Observable.from(jsonObjects);
-				}
-			}).toBlocking().subscribe(new Observer<JSONObject>() {
-				@Override
-				public void onCompleted() {
-				}
-
-				@Override
-				public void onError(Throwable e) {
-					Log.e(LOGGING_TAG, "REFRESH_ALL_TRIPS: Error observable");
-					e.printStackTrace();
-				}
-
-				@Override
-				public void onNext(JSONObject jsonObject) {
-					TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(jsonObject);
-					if (response == null) {
-						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is null");
-						refreshTripResponseNull(new Trip());
+				}).flatMap(new Function<List<JSONObject>, Observable<JSONObject>>() {
+					@Override
+					public Observable<JSONObject> apply(List<JSONObject> jsonObjects) {
+						return Observable.fromIterable(jsonObjects);
 					}
-					else {
-						Trip updatedTrip = response.getTrip();
-						String itineraryKey = updatedTrip.getItineraryKey();
-						if (trips.containsKey(itineraryKey)) {
-							Trip trip = trips.get(itineraryKey);
-							if (response.hasErrors()) {
-								Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response has errors");
-								refreshTripResponseHasErrors(trip, response);
-							}
-							else {
-								Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is a success");
-								refreshTripResponseSuccess(trip, false, response);
+				}).blockingSubscribe(new Observer<JSONObject>() {
+					@Override
+					public void onComplete() {
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						Log.e(LOGGING_TAG, "REFRESH_ALL_TRIPS: Error observable");
+						e.printStackTrace();
+					}
+
+					@Override
+					public void onSubscribe(Disposable d) {
+					}
+
+					@Override
+					public void onNext(JSONObject jsonObject) {
+						TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(jsonObject);
+						if (response == null) {
+							Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is null");
+							refreshTripResponseNull(new Trip());
+						}
+						else {
+							Trip updatedTrip = response.getTrip();
+							String itineraryKey = updatedTrip.getItineraryKey();
+							if (trips.containsKey(itineraryKey)) {
+								Trip trip = trips.get(itineraryKey);
+								if (response.hasErrors()) {
+									Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response has errors");
+									refreshTripResponseHasErrors(trip, response);
+								}
+								else {
+									Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is a success");
+									refreshTripResponseSuccess(trip, false, response);
+								}
 							}
 						}
 					}
-				}
-			});
+				});
 		}
 
 		private void refreshTrip(Trip trip, boolean deepRefresh) {

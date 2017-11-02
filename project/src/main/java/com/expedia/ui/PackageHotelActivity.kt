@@ -43,7 +43,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
         if (intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
             // back to hotel room, should also be able to back to hotel results
             Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE, isMidAPIEnabled(this)))
-            val hotelOffers = PackageResponseUtils.loadHotelOfferResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
+            val hotelOffers = PackageResponseUtils.loadHotelOfferResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE) ?: return
             hotelsPresenter.selectedPackageHotel = Db.getPackageSelectedHotel()
             hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.max_calendar_selectable_date_range)))
             hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)

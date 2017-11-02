@@ -6,7 +6,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.ISuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
-import rx.Observable
+import io.reactivex.Observable
 
 class LXSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, locationObservable: Observable<Location>?, shouldShowCurrentLocation: Boolean, rawQueryEnabled: Boolean) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, shouldShowCurrentLocation, rawQueryEnabled) {
     override fun getSuggestionService(query: String) {

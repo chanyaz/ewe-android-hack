@@ -7,7 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -48,7 +48,7 @@ class SuggestionV4UtilsTest {
     }
 
     private fun checkDistinctSavedSuggestions(gaiaSuggestion: GaiaSuggestion) {
-        val testSubscriber = TestSubscriber<Unit>()
+        val testSubscriber = TestObserver<Unit>()
         SuggestionV4Utils.testSuggestionSavedSubject.subscribe(testSubscriber)
 
         val gaiaSuggestions = ArrayList<GaiaSuggestion>()

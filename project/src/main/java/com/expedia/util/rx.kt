@@ -4,7 +4,6 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -13,32 +12,38 @@ import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.FontCache
-import com.expedia.bookings.widget.setRightDrawable
+import com.expedia.bookings.widget.RecyclerGallery
+import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.setParentTextInputLayoutError
+import com.expedia.bookings.widget.setRightDrawable
 import com.expedia.bookings.widget.updatePaddingForOldApi
-import com.expedia.bookings.widget.StarRatingBar
-import com.expedia.bookings.widget.RecyclerGallery
 import com.google.android.gms.maps.GoogleMap
-import com.jakewharton.rxbinding.widget.RxTextView
-import rx.Observable
-import rx.Observer
-import rx.Subscription
-import rx.exceptions.OnErrorNotImplementedException
-import rx.subjects.PublishSubject
+import com.jakewharton.rxbinding2.widget.RxTextView
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.exceptions.OnErrorNotImplementedException
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 
 fun <T> endlessObserver(body: (T) -> Unit): Observer<T> {
     return object : Observer<T> {
+        override fun onSubscribe(d: Disposable) {
+            //ignore
+        }
+
         override fun onNext(t: T) {
             body(t)
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
             throw OnErrorNotImplementedException(RuntimeException("Cannot call completed on endless observer " + body.javaClass))
         }
 
-        override fun onError(e: Throwable?) {
+        override fun onError(e: Throwable) {
             throw OnErrorNotImplementedException("Error at " + body.javaClass, e)
         }
     }
@@ -84,43 +89,43 @@ fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
 }
 
 // Only emits non-null data
-fun <T : Any?> Observable<T>.safeSubscribe(observer: Observer<T>): Subscription {
-    return this.subscribe(object : Observer<T> {
+fun <T : Any?> Observable<T>.safeSubscribe(observer: Observer<T>): Disposable {
+    return this.subscribeObserver(object : DisposableObserver<T>() {
         override fun onNext(t: T) {
             if (t != null) {
                 observer.onNext(t)
             }
         }
 
-        override fun onCompleted() {
-            observer.onCompleted()
+        override fun onComplete() {
+            observer.onComplete()
         }
 
-        override fun onError(e: Throwable?) {
+        override fun onError(e: Throwable) {
             observer.onError(e)
         }
     })
 }
 
-fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(observer: Observer<T>): Subscription {
-    return this.subscribe(object : Observer<Optional<T>> {
+fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(observer: Observer<T>): Disposable {
+    return this.subscribeObserver(object : DisposableObserver<Optional<T>>() {
         override fun onNext(t: Optional<T>) {
-            if (t.value != null) {
-                observer.onNext(t.value)
+            t.value?.let {
+                observer.onNext(it as T)
             }
         }
 
-        override fun onCompleted() {
-            observer.onCompleted()
+        override fun onComplete() {
+            observer.onComplete()
         }
 
-        override fun onError(e: Throwable?) {
+        override fun onError(e: Throwable) {
             observer.onError(e)
         }
     })
 }
 // Only emits non-null data
-fun <T : Any?> Observable<T>.safeSubscribe(onNextFunc: (T) -> Unit): Subscription {
+fun <T : Any?> Observable<T>.safeSubscribe(onNextFunc: (T) -> Unit): Disposable {
     return this.subscribe {
         if (it != null) {
             onNextFunc.invoke(it as T)
@@ -128,9 +133,9 @@ fun <T : Any?> Observable<T>.safeSubscribe(onNextFunc: (T) -> Unit): Subscriptio
     }
 }
 
-fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(onNextFunc: (T) -> Unit): Subscription {
-    return this.map { it.value }.subscribe {
-        if (it != null) {
+fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(onNextFunc: (T) -> Unit): Disposable {
+    return this.subscribe {
+        it.value?.let {
             onNextFunc.invoke(it as T)
         }
     }
@@ -142,7 +147,7 @@ fun Observable<FontCache.Font>.subscribeFont(textview: TextView?) {
     }
 }
 
-fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView?): Subscription {
+fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView?): Disposable {
     return this.subscribe { textview?.text = it }
 }
 
@@ -215,7 +220,7 @@ fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleButton) {
     }
 }
 
-fun Observable<Boolean>.subscribeVisibility(view: View?): Subscription {
+fun Observable<Boolean>.subscribeVisibility(view: View?): Disposable {
     return this.subscribe { visible ->
         view?.visibility = if (visible) View.VISIBLE else View.GONE
     }
@@ -269,10 +274,10 @@ fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
     this.subscribe { textView.isCursorVisible = it }
 }
 
-fun TextView.subscribeTextChange(observer: Observer<String>): Subscription {
+fun TextView.subscribeTextChange(observer: Observer<String>): Disposable {
     return RxTextView.afterTextChangeEvents(this).map({
         it.view().text.toString()
-    }).distinctUntilChanged().subscribe(observer)
+    }).distinctUntilChanged().subscribeObserver(observer)
 }
 
 fun EditText.subscribeMaterialFormsError(observer: Observable<Boolean>, errorMessageId: Int, rightDrawableId: Int = 0) {

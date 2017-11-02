@@ -2,6 +2,7 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.FlightItinDetailsResponse
@@ -17,11 +18,11 @@ import com.expedia.bookings.services.KrazyglueServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.RewardsUtil
-import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.utils.HMACUtil
+import com.expedia.bookings.utils.RewardsUtil
+import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.util.Optional
 import com.mobiata.android.Log
@@ -29,11 +30,11 @@ import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import io.fabric.sdk.android.services.network.UrlUtils
 import org.joda.time.DateTime
-import rx.Observable
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import java.net.URI
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean = false) {
 
@@ -48,7 +49,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
     val tripTotalPriceSubject = PublishSubject.create<String>()
     val numberOfTravelersSubject = PublishSubject.create<Int>()
     val formattedTravelersStringSubject = PublishSubject.create<String>()
-    val showTripProtectionMessage = BehaviorSubject.create<Boolean>(false)
+    val showTripProtectionMessage = BehaviorSubject.createDefault<Boolean>(false)
     val krazyglueHotelsObservable = PublishSubject.create<List<KrazyglueResponse.KrazyglueHotel>>()
     val krazyGlueRegionIdObservable = PublishSubject.create<String>()
     val flightSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
@@ -122,7 +123,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
         }
 
         if (isKrazyglueEnabled) {
-            Observable.zip(flightCheckoutResponseObservable, flightSearchParamsObservable,  { response, params ->
+            ObservableOld.zip(flightCheckoutResponseObservable, flightSearchParamsObservable,  { response, params ->
                 val flightLegs = response.getFirstFlightTripDetails().getLegs()
                 val hotelSearchParams = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(context, flightLegs, params)
                 krazyGlueHotelSearchParamsObservable.onNext(hotelSearchParams)
@@ -132,7 +133,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                 krazyglueService.getKrazyglueHotels(signedUrl, getKrazyglueResponseObserver())
             }).subscribe()
 
-            Observable.zip(flightCheckoutResponseObservable, krazyglueHotelsObservable , { response, hotels ->
+            ObservableOld.zip(flightCheckoutResponseObservable, krazyglueHotelsObservable , { response, hotels ->
                 val isAirAttachQualified = response.airAttachInfo?.hasAirAttach ?: false
                 crossSellWidgetVisibility.onNext(hotels.isEmpty() && isAirAttachQualified)
             }).subscribe()
@@ -160,7 +161,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
             if (!userStateManager.isUserAuthenticated() && !ExpediaBookingApp.isRobolectric()) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
-            tripTotalPriceSubject.onNext(response.responseData.totalTripPrice?.totalFormatted)
+            tripTotalPriceSubject.onNext(response.responseData.totalTripPrice?.totalFormatted ?: "")
 
             val hasInsurance = response.responseData.insurance != null
             showTripProtectionMessage.onNext(hasInsurance)
@@ -172,7 +173,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
     }
 
     fun getKrazyglueResponseObserver(): Observer<KrazyglueResponse> {
-        return object : Observer<KrazyglueResponse> {
+        return object : DisposableObserver<KrazyglueResponse>() {
             override fun onNext(response: KrazyglueResponse) {
                 if (response.success) {
                     if (response.krazyglueHotels.isEmpty()) {
@@ -191,7 +192,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
             override fun onError(e: Throwable) {

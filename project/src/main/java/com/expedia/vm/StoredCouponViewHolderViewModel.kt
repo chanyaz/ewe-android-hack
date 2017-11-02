@@ -1,7 +1,7 @@
 package com.expedia.vm
 
 import com.expedia.bookings.presenter.shared.StoredCouponAppliedStatus
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class StoredCouponViewHolderViewModel {
     val couponName = PublishSubject.create<String>()

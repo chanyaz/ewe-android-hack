@@ -2,8 +2,8 @@ package com.expedia.bookings.itin.vm
 
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightItinTravelerPreferenceViewModel {
     val travelerObservable: BehaviorSubject<Traveler> = BehaviorSubject.create()

@@ -13,7 +13,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.subscribeText
 import com.expedia.vm.TravelerPickerViewModel
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputTextView(context, attrs) {
     var oldTravelerData: TravelerParams? = null
@@ -58,9 +58,9 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
             dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         }
         dialog.setOnDismissListener {
-            if (oldTravelerData != null) {
+            oldTravelerData?.let {
                 //if it's not null, the user dismissed the dialog, otherwise we clear it on Done
-                traveler.getViewModel().travelerParamsObservable.onNext(oldTravelerData)
+                traveler.getViewModel().travelerParamsObservable.onNext(it)
                 oldTravelerData = null
             }
             this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)

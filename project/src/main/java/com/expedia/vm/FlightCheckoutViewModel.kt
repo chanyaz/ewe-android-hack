@@ -22,9 +22,11 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.safeSubscribeOptional
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import com.expedia.util.safeSubscribe
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledCheckoutViewModel(context) {
@@ -78,7 +80,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
     }
 
     override fun getCardFeesCallback(): Observer<CardFeeResponse> {
-        return object : Observer<CardFeeResponse> {
+        return object : DisposableObserver<CardFeeResponse>() {
             override fun onNext(cardFeeResponse: CardFeeResponse) {
                 if (!cardFeeResponse.hasErrors()) {
                     // add card fee to trip response
@@ -96,10 +98,10 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
             }
         }
     }
@@ -124,7 +126,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
     }
 
     fun makeCheckoutResponseObserver(): Observer<FlightCheckoutResponse> {
-        return object : Observer<FlightCheckoutResponse> {
+        return object : DisposableObserver<FlightCheckoutResponse>() {
             override fun onNext(response: FlightCheckoutResponse) {
                 showCheckoutDialogObservable.onNext(false)
                 if (response.hasErrors()) {
@@ -150,7 +152,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
         }

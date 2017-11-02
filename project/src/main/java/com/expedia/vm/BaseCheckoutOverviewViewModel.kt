@@ -1,12 +1,12 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.DateFormatUtils
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 open class BaseCheckoutOverviewViewModel(context: Context) {
     val city = PublishSubject.create<String>()
@@ -43,13 +43,13 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
             travelersTitle.onNext(text)
         }
 
-        Observable.combineLatest(datesTitle, travelersTitle) { datesTitle, travelersTitle ->
+        ObservableOld.combineLatest(datesTitle, travelersTitle) { datesTitle, travelersTitle ->
             subTitleText.onNext(Phrase.from(context, R.string.flight_overview_toolbar_TEMPLATE)
                     .put("date", datesTitle).put("guests", travelersTitle)
                     .format().toString())
         }.subscribe()
 
-        Observable.combineLatest(datesTitleContDesc, travelersTitle) { datesTitleContDesc, travelersTitle ->
+        ObservableOld.combineLatest(datesTitleContDesc, travelersTitle) { datesTitleContDesc, travelersTitle ->
             subTitleContDesc.onNext(Phrase.from(context, R.string.flight_overview_toolbar_TEMPLATE)
                     .put("date", datesTitleContDesc).put("guests", travelersTitle)
                     .format().toString())

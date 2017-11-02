@@ -16,7 +16,7 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.BaseTravelerPickerViewModel
 import com.expedia.vm.RailTravelerPickerViewModel
 import com.squareup.phrase.Phrase
-import rx.Observer
+import io.reactivex.Observer
 
 class RailTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPickerView(context, attrs) {
     val DEFAULT_CHILD_AGE = 10

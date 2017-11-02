@@ -8,7 +8,6 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
-import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
@@ -20,11 +19,12 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import com.squareup.phrase.Phrase
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.format.DateTimeFormat
 import retrofit2.HttpException
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 
 class PackageCreateTripViewModel(var packageServices: PackageServices, val context: Context) : BaseCreateTripViewModel() {
 
@@ -53,7 +53,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
 
     @VisibleForTesting
     fun makeMultiItemCreateTripResponseObserver(): Observer<MultiItemApiCreateTripResponse> {
-        return object : Observer<MultiItemApiCreateTripResponse> {
+        return object : DisposableObserver<MultiItemApiCreateTripResponse>() {
             override fun onError(e: Throwable) {
                 showCreateTripDialogObservable.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
@@ -75,14 +75,14 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                 multiItemResponseSubject.onNext(response)
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
         }
     }
 
     fun makeCreateTripResponseObserver(): Observer<PackageCreateTripResponse> {
-        return object : Observer<PackageCreateTripResponse> {
+        return object : DisposableObserver<PackageCreateTripResponse>() {
             override fun onNext(response: PackageCreateTripResponse) {
                 if (!isValidContext(context)) {
                     return
@@ -129,7 +129,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
         }

@@ -34,6 +34,8 @@ import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.data.FlightCode
 import com.mobiata.flightlib.data.Waypoint
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 import org.joda.time.DateTime
 import org.json.JSONObject
 import org.junit.After
@@ -42,8 +44,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import rx.Observable
-import rx.Subscription
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
@@ -243,7 +243,7 @@ class NotificationSchedulerTest {
         var tnsUser: TNSUser? = null
         var tnsCourier: Courier? = null
         var tnsFlights: List<TNSFlight>? = listOf()
-        override fun registerForFlights(user: TNSUser, courier: Courier, flights: List<TNSFlight>): Subscription {
+        override fun registerForFlights(user: TNSUser, courier: Courier, flights: List<TNSFlight>): Disposable {
             tnsUser = user
             tnsCourier = courier
             tnsFlights = flights

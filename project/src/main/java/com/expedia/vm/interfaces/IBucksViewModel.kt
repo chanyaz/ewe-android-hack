@@ -1,7 +1,7 @@
 package com.expedia.vm.interfaces
 
-import rx.Observable
-import rx.subjects.BehaviorSubject
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 
 interface IBucksViewModel {
     //Inlets

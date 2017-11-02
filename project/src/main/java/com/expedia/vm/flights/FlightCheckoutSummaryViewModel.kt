@@ -9,16 +9,16 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightCheckoutSummaryViewModel(val context: Context) {
-    val showFreeCancellationObservable = BehaviorSubject.create(false)
-    val showSplitTicketMessagingObservable = BehaviorSubject.create(false)
+    val showFreeCancellationObservable = BehaviorSubject.createDefault(false)
+    val showSplitTicketMessagingObservable = BehaviorSubject.createDefault(false)
     val splitTicketBaggageFeesLinksObservable = BehaviorSubject.create<SpannableStringBuilder>()
-    val showAirlineFeeWarningObservable = BehaviorSubject.create(false)
+    val showAirlineFeeWarningObservable = BehaviorSubject.createDefault<Boolean>(false)
     val airlineFeeWarningTextObservable = BehaviorSubject.create<String>()
-    val showBasicEconomyMessageObservable = BehaviorSubject.create(false)
+    val showBasicEconomyMessageObservable = BehaviorSubject.createDefault(false)
     var outboundSelectedAndTotalLegRank: Pair<Int, Int>? = null
     var inboundSelectedAndTotalLegRank: Pair<Int, Int>? = null
     val evolableTermsConditionTextObservable = PublishSubject.create<SpannableStringBuilder>()
@@ -26,7 +26,7 @@ class FlightCheckoutSummaryViewModel(val context: Context) {
 
     init {
         evolableTermsConditionSubject.filter { flightList ->
-            val flightLeg = flightList?.firstOrNull()
+            val flightLeg = flightList.firstOrNull()
             flightLeg != null && flightLeg.isEvolable && isEvolableEnabled()
         }.map { flightList ->
             flightList[0]

@@ -1,15 +1,15 @@
 package com.expedia.bookings.itin.vm
 
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class FlightItinLinkOffCardViewViewModelTest {
 
-    private val createAdditionalInfoSubject = TestSubscriber<ItinLinkOffCardViewViewModel.CardViewParams>()
+    private val createAdditionalInfoSubject = TestObserver<ItinLinkOffCardViewViewModel.CardViewParams>()
     private lateinit var sut: FlightItinLinkOffCardViewViewModel
 
     @Before

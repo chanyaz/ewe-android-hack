@@ -9,13 +9,14 @@ import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerUtils
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import com.expedia.util.Optional
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: Int, val showPassportCountryObservable: BehaviorSubject<Boolean>, travelerCheckoutStatus: TravelerCheckoutStatus) : AbstractUniversalCKOTravelerEntryWidgetViewModel(context, travelerIndex) {
     var tsaViewModel = TravelerTSAViewModel(getTraveler(), context)
     var advancedOptionsViewModel = TravelerAdvancedOptionsViewModel(context)
-    val passportCountrySubject = BehaviorSubject.create<String>()
+    val passportCountrySubject = BehaviorSubject.create<Optional<String>>()
     val passportValidSubject = BehaviorSubject.create<Boolean>()
     val passportCountryObserver = BehaviorSubject.create<String>()
     val additionalNumberOfInvalidFields = PublishSubject.create<Int>()
@@ -37,8 +38,12 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
         }
 
         frequentFlyerAdapterViewModel = FrequentFlyerAdapterViewModel(getTraveler())
-        flightLegsObservable.subscribe(frequentFlyerAdapterViewModel?.flightLegsObservable)
-        frequentFlyerPlans.subscribe(frequentFlyerAdapterViewModel?.frequentFlyerPlans)
+        frequentFlyerAdapterViewModel?.flightLegsObservable?.let {
+            flightLegsObservable.subscribe(it)
+        }
+        frequentFlyerAdapterViewModel?.frequentFlyerPlans?.let {
+            frequentFlyerPlans.subscribe(it)
+        }
     }
 
     override fun getTraveler(): Traveler {
@@ -67,7 +72,7 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
         super.updateTraveler(traveler)
         tsaViewModel.updateTraveler(traveler)
         advancedOptionsViewModel.updateTraveler(traveler)
-        passportCountrySubject.onNext(traveler.primaryPassportCountry)
+        passportCountrySubject.onNext(Optional(traveler.primaryPassportCountry))
         frequentFlyerAdapterViewModel?.updateTravelerObservable?.onNext(traveler)
     }
 }

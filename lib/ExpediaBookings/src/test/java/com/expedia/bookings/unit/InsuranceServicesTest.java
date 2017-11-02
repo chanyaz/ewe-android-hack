@@ -1,29 +1,29 @@
 package com.expedia.bookings.unit;
 
-import com.expedia.bookings.data.flights.FlightCreateTripResponse;
-import com.expedia.bookings.data.insurance.InsurancePriceType;
-import com.expedia.bookings.data.insurance.InsuranceProduct;
-import com.expedia.bookings.data.insurance.InsuranceTripParams;
-import com.expedia.bookings.interceptors.MockInterceptor;
-import com.expedia.bookings.services.InsuranceServices;
-import com.mobiata.mocke3.ExpediaDispatcher;
-import com.mobiata.mocke3.FileSystemOpener;
-import com.mobiata.mocke3.Mocker;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
+import com.expedia.bookings.data.flights.FlightCreateTripResponse;
+import com.expedia.bookings.data.insurance.InsurancePriceType;
+import com.expedia.bookings.data.insurance.InsuranceProduct;
+import com.expedia.bookings.data.insurance.InsuranceTripParams;
+import com.expedia.bookings.interceptors.MockInterceptor;
+import com.expedia.bookings.services.InsuranceServices;
+import com.expedia.bookings.services.TestObserver;
+import com.mobiata.mocke3.ExpediaDispatcher;
+import com.mobiata.mocke3.FileSystemOpener;
+import com.mobiata.mocke3.Mocker;
 
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.mockwebserver.MockWebServer;
-import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
 
 public class InsuranceServicesTest {
 	@Rule
@@ -34,7 +34,7 @@ public class InsuranceServicesTest {
 	@Before
 	public void setUp() throws IOException {
 		insuranceServices = new InsuranceServices("http://localhost:" + server.getPort(), new OkHttpClient(),
-			new MockInterceptor(), Schedulers.immediate(), Schedulers.immediate());
+			new MockInterceptor(), Schedulers.trampoline(), Schedulers.trampoline());
 
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
@@ -65,21 +65,21 @@ public class InsuranceServicesTest {
 		Assert.assertEquals(product.typeId, "100001");
 
 		// add insurance to the trip and verify it comes back selected
-		TestSubscriber<FlightCreateTripResponse> addInsuranceObserver = new TestSubscriber<>();
+		TestObserver<FlightCreateTripResponse> addInsuranceObserver = new TestObserver<>();
 		insuranceServices.addInsuranceToTrip(new InsuranceTripParams(trip.getNewTrip().getTripId(), product.productId))
 			.subscribe(addInsuranceObserver);
 		addInsuranceObserver.awaitTerminalEvent();
 		addInsuranceObserver.assertNoErrors();
-		FlightCreateTripResponse updatedTrip = addInsuranceObserver.getOnNextEvents().get(0);
+		FlightCreateTripResponse updatedTrip = addInsuranceObserver.values().get(0);
 		Assert.assertNotNull(updatedTrip.getSelectedInsuranceProduct());
 
 		// remove insurance from the trip and verify it comes back blank
-		TestSubscriber<FlightCreateTripResponse> removeInsuranceObserver = new TestSubscriber<>();
+		TestObserver<FlightCreateTripResponse> removeInsuranceObserver = new TestObserver<>();
 		insuranceServices.removeInsuranceFromTrip(new InsuranceTripParams(trip.getNewTrip().getTripId())).subscribe(
 			removeInsuranceObserver);
 		removeInsuranceObserver.awaitTerminalEvent();
 		removeInsuranceObserver.assertNoErrors();
-		updatedTrip = removeInsuranceObserver.getOnNextEvents().get(0);
+		updatedTrip = removeInsuranceObserver.values().get(0);
 		Assert.assertNull(updatedTrip.getSelectedInsuranceProduct());
 	}
 

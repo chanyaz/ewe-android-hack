@@ -1,6 +1,6 @@
 package com.expedia.model
 
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class UserLoginStateChangedModel {
     val userLoginStateChanged = PublishSubject.create<Boolean>()

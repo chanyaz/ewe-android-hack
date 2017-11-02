@@ -3,13 +3,14 @@ package com.expedia.bookings.services
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.clientlog.EmptyResponse
 import com.google.gson.GsonBuilder
+import io.reactivex.Observer
+import io.reactivex.Scheduler
+import io.reactivex.observers.DisposableObserver
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observer
-import rx.Scheduler
 import java.net.URL
 
 class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) : IClientLogServices {
@@ -23,7 +24,7 @@ class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 		val adapter = Retrofit.Builder()
 			.baseUrl(endpoint)
 			.addConverterFactory(GsonConverterFactory.create(gson))
-			.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+			.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 			.client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
 			.build()
 
@@ -46,16 +47,16 @@ class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 
 	//This endpoint doesn't return json so it will always onError
 	private fun makeEmptyObserver() : Observer<EmptyResponse>  {
-		return object : Observer<EmptyResponse> {
-			override fun onCompleted() {
+		return object : DisposableObserver<EmptyResponse>() {
+			override fun onError(e: Throwable) {
 				//ignore
 			}
 
-			override fun onError(error: Throwable?) {
+			override fun onNext(t: EmptyResponse) {
 				//ignore
 			}
 
-			override fun onNext(response: EmptyResponse?) {
+			override fun onComplete() {
 				//ignore
 			}
 		}

@@ -6,6 +6,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -13,15 +14,14 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.testutils.builder.TestSuggestionV4Builder
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import rx.Observable
-import rx.observers.TestSubscriber
-import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -38,7 +38,7 @@ class HotelSearchViewModelTest {
     private lateinit var suggestionBuilder: TestSuggestionV4Builder
 
     private lateinit var today: LocalDate
-    private val testGenericSearchSubscriber = TestSubscriber.create<HotelSearchParams>()
+    private val testGenericSearchSubscriber = TestObserver.create<HotelSearchParams>()
 
     @Before
     fun setup() {
@@ -55,22 +55,22 @@ class HotelSearchViewModelTest {
     fun testSearchMissingRequiredParamDates() {
         triggerParams(suggestion = suggestionBuilder.build())
 
-        val testErrorSubscriber = TestSubscriber.create<Unit>()
+        val testErrorSubscriber = TestObserver.create<Unit>()
         testViewModel.errorNoDatesObservable.subscribe(testErrorSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
-        assertEquals(1, testErrorSubscriber.onNextEvents.size)
+        assertEquals(1, testErrorSubscriber.valueCount())
     }
 
     @Test
     fun testSearchMissingRequiredParamDestination() {
         triggerParams(startDate = today, endDate = today.plusDays(1))
 
-        val testErrorSubscriber = TestSubscriber.create<Unit>()
+        val testErrorSubscriber = TestObserver.create<Unit>()
         testViewModel.errorNoDestinationObservable.subscribe(testErrorSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
-        assertEquals(1, testErrorSubscriber.onNextEvents.size)
+        assertEquals(1, testErrorSubscriber.valueCount())
     }
 
     @Test
@@ -80,13 +80,13 @@ class HotelSearchViewModelTest {
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = today, endDate = invalidEndDate)
 
-        val testErrorSubscriber = TestSubscriber.create<String>()
+        val testErrorSubscriber = TestObserver.create<String>()
         testViewModel.errorMaxDurationObservable.subscribe(testErrorSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
         val expectedErrorText = context.getString(R.string.hotel_search_range_error_TEMPLATE,
                 testViewModel.getCalendarRules().getMaxSearchDurationDays())
-        assertEquals(expectedErrorText, testErrorSubscriber.onNextEvents[0])
+        assertEquals(expectedErrorText, testErrorSubscriber.values()[0])
     }
 
     @Test
@@ -97,21 +97,21 @@ class HotelSearchViewModelTest {
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = invalidStartDate, endDate = invalidEndDate)
 
-        val testErrorSubscriber = TestSubscriber.create<String>()
+        val testErrorSubscriber = TestObserver.create<String>()
         testViewModel.errorMaxRangeObservable.subscribe(testErrorSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
         val expectedErrorText = context.getString(R.string.error_date_too_far)
-        assertEquals(expectedErrorText, testErrorSubscriber.onNextEvents[0])
+        assertEquals(expectedErrorText, testErrorSubscriber.values()[0])
     }
 
     @Test
     fun testSearchStartMaxDateStrings() {
-        val testDateTextObservable = TestSubscriber.create<CharSequence>()
-        val testDateAccessibilityObservable = TestSubscriber.create<CharSequence>()
-        val testDateInstructionObservable = TestSubscriber.create<CharSequence>()
-        val testCalendarTooltipTextObservable = TestSubscriber.create<Pair<String, String>>()
-        val testCalendarTooltipContDescObservable = TestSubscriber.create<String>()
+        val testDateTextObservable = TestObserver.create<CharSequence>()
+        val testDateAccessibilityObservable = TestObserver.create<CharSequence>()
+        val testDateInstructionObservable = TestObserver.create<CharSequence>()
+        val testCalendarTooltipTextObservable = TestObserver.create<Pair<String, String>>()
+        val testCalendarTooltipContDescObservable = TestObserver.create<String>()
 
         testViewModel.dateTextObservable.subscribe(testDateTextObservable)
         testViewModel.dateAccessibilityObservable.subscribe(testDateAccessibilityObservable)
@@ -125,17 +125,17 @@ class HotelSearchViewModelTest {
 
         val startDateString = LocaleBasedDateFormatUtils.localDateToMMMd(startDate)
 
-        assertEquals(startDateString + " - Select check out date", testDateTextObservable.onNextEvents[0])
-        assertEquals(startDateString + " - Select check out date Button. Opens dialog. ", testDateAccessibilityObservable.onNextEvents[0])
-        assertEquals(startDateString + " - Select check out date", testDateInstructionObservable.onNextEvents[0])
-        assertEquals(startDateString, testCalendarTooltipTextObservable.onNextEvents[0].first)
-        assertEquals("Next: Select check out date", testCalendarTooltipTextObservable.onNextEvents[0].second)
-        assertEquals(startDateString + ". Next: Select check out date", testCalendarTooltipContDescObservable.onNextEvents[0])
+        assertEquals(startDateString + " - Select check out date", testDateTextObservable.values()[0])
+        assertEquals(startDateString + " - Select check out date Button. Opens dialog. ", testDateAccessibilityObservable.values()[0])
+        assertEquals(startDateString + " - Select check out date", testDateInstructionObservable.values()[0])
+        assertEquals(startDateString, testCalendarTooltipTextObservable.values()[0].first)
+        assertEquals("Next: Select check out date", testCalendarTooltipTextObservable.values()[0].second)
+        assertEquals(startDateString + ". Next: Select check out date", testCalendarTooltipContDescObservable.values()[0])
     }
 
     @Test
     fun testStartMaxDateCantDoSearch() {
-        val testErrorNoDatesObservable = TestSubscriber.create<Unit>()
+        val testErrorNoDatesObservable = TestObserver.create<Unit>()
         testViewModel.errorNoDatesObservable.subscribe(testErrorNoDatesObservable)
 
         val startDate = today.plusDays(testViewModel.getCalendarRules().getMaxDateRange())
@@ -152,11 +152,11 @@ class HotelSearchViewModelTest {
 
     @Test
     fun testSearchStartMaxDateMinusOneStrings() {
-        val testDateTextObservable = TestSubscriber.create<CharSequence>()
-        val testDateAccessibilityObservable = TestSubscriber.create<CharSequence>()
-        val testDateInstructionObservable = TestSubscriber.create<CharSequence>()
-        val testCalendarTooltipTextObservable = TestSubscriber.create<Pair<String, String>>()
-        val testCalendarTooltipContDescObservable = TestSubscriber.create<String>()
+        val testDateTextObservable = TestObserver.create<CharSequence>()
+        val testDateAccessibilityObservable = TestObserver.create<CharSequence>()
+        val testDateInstructionObservable = TestObserver.create<CharSequence>()
+        val testCalendarTooltipTextObservable = TestObserver.create<Pair<String, String>>()
+        val testCalendarTooltipContDescObservable = TestObserver.create<String>()
 
         testViewModel.dateTextObservable.subscribe(testDateTextObservable)
         testViewModel.dateAccessibilityObservable.subscribe(testDateAccessibilityObservable)
@@ -170,17 +170,17 @@ class HotelSearchViewModelTest {
 
         val startDateString = LocaleBasedDateFormatUtils.localDateToMMMd(startDate)
 
-        assertEquals(startDateString + " - Select check out date", testDateTextObservable.onNextEvents[0])
-        assertEquals(startDateString + " - Select check out date Button. Opens dialog. ", testDateAccessibilityObservable.onNextEvents[0])
-        assertEquals(startDateString + " - Select check out date", testDateInstructionObservable.onNextEvents[0])
-        assertEquals(startDateString, testCalendarTooltipTextObservable.onNextEvents[0].first)
-        assertEquals("Next: Select check out date", testCalendarTooltipTextObservable.onNextEvents[0].second)
-        assertEquals(startDateString + ". Next: Select check out date", testCalendarTooltipContDescObservable.onNextEvents[0])
+        assertEquals(startDateString + " - Select check out date", testDateTextObservable.values()[0])
+        assertEquals(startDateString + " - Select check out date Button. Opens dialog. ", testDateAccessibilityObservable.values()[0])
+        assertEquals(startDateString + " - Select check out date", testDateInstructionObservable.values()[0])
+        assertEquals(startDateString, testCalendarTooltipTextObservable.values()[0].first)
+        assertEquals("Next: Select check out date", testCalendarTooltipTextObservable.values()[0].second)
+        assertEquals(startDateString + ". Next: Select check out date", testCalendarTooltipContDescObservable.values()[0])
     }
 
     @Test
     fun testStartMaxDateMinusOneCanDoSearch() {
-        val testErrorNoDatesObservable = TestSubscriber.create<Unit>()
+        val testErrorNoDatesObservable = TestObserver.create<Unit>()
         testViewModel.errorNoDatesObservable.subscribe(testErrorNoDatesObservable)
 
         val startDate = today.plusDays(testViewModel.getCalendarRules().getMaxDateRange() - 1)
@@ -191,18 +191,18 @@ class HotelSearchViewModelTest {
         testViewModel.searchObserver.onNext(Unit)
 
         testGenericSearchSubscriber.assertValueCount(1)
-        assertEquals(startDate, testGenericSearchSubscriber.onNextEvents[0].startDate)
-        assertEquals(endDate, testGenericSearchSubscriber.onNextEvents[0].endDate)
+        assertEquals(startDate, testGenericSearchSubscriber.values()[0].startDate)
+        assertEquals(endDate, testGenericSearchSubscriber.values()[0].endDate)
         testErrorNoDatesObservable.assertValueCount(0)
     }
 
     @Test
     fun testSearchNullStartEndDateStrings() {
-        val testDateTextObservable = TestSubscriber.create<CharSequence>()
-        val testDateAccessibilityObservable = TestSubscriber.create<CharSequence>()
-        val testDateInstructionObservable = TestSubscriber.create<CharSequence>()
-        val testCalendarTooltipTextObservable = TestSubscriber.create<Pair<String, String>>()
-        val testCalendarTooltipContDescObservable = TestSubscriber.create<String>()
+        val testDateTextObservable = TestObserver.create<CharSequence>()
+        val testDateAccessibilityObservable = TestObserver.create<CharSequence>()
+        val testDateInstructionObservable = TestObserver.create<CharSequence>()
+        val testCalendarTooltipTextObservable = TestObserver.create<Pair<String, String>>()
+        val testCalendarTooltipContDescObservable = TestObserver.create<String>()
 
         testViewModel.dateTextObservable.subscribe(testDateTextObservable)
         testViewModel.dateAccessibilityObservable.subscribe(testDateAccessibilityObservable)
@@ -213,17 +213,17 @@ class HotelSearchViewModelTest {
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = null, endDate = null)
 
-        assertEquals("Select dates", testDateTextObservable.onNextEvents[0])
-        assertEquals("Select dates Button. Opens dialog. ", testDateAccessibilityObservable.onNextEvents[0])
-        assertEquals("Select check in date", testDateInstructionObservable.onNextEvents[0])
-        assertEquals("Select dates", testCalendarTooltipTextObservable.onNextEvents[0].first)
-        assertEquals("Next: Select check out date", testCalendarTooltipTextObservable.onNextEvents[0].second)
-        assertEquals("Select dates", testCalendarTooltipContDescObservable.onNextEvents[0])
+        assertEquals("Select dates", testDateTextObservable.values()[0])
+        assertEquals("Select dates Button. Opens dialog. ", testDateAccessibilityObservable.values()[0])
+        assertEquals("Select check in date", testDateInstructionObservable.values()[0])
+        assertEquals("Select dates", testCalendarTooltipTextObservable.values()[0].first)
+        assertEquals("Next: Select check out date", testCalendarTooltipTextObservable.values()[0].second)
+        assertEquals("Select dates", testCalendarTooltipContDescObservable.values()[0])
     }
 
     @Test
     fun testNullStartEndDateCantDoSearch() {
-        val testErrorNoDatesObservable = TestSubscriber.create<Unit>()
+        val testErrorNoDatesObservable = TestObserver.create<Unit>()
         testViewModel.errorNoDatesObservable.subscribe(testErrorNoDatesObservable)
 
         triggerParams(suggestion = suggestionBuilder.build(),
@@ -237,11 +237,11 @@ class HotelSearchViewModelTest {
 
     @Test
     fun testSearchGoodStartEndDateStrings() {
-        val testDateTextObservable = TestSubscriber.create<CharSequence>()
-        val testDateAccessibilityObservable = TestSubscriber.create<CharSequence>()
-        val testDateInstructionObservable = TestSubscriber.create<CharSequence>()
-        val testCalendarTooltipTextObservable = TestSubscriber.create<Pair<String, String>>()
-        val testCalendarTooltipContDescObservable = TestSubscriber.create<String>()
+        val testDateTextObservable = TestObserver.create<CharSequence>()
+        val testDateAccessibilityObservable = TestObserver.create<CharSequence>()
+        val testDateInstructionObservable = TestObserver.create<CharSequence>()
+        val testCalendarTooltipTextObservable = TestObserver.create<Pair<String, String>>()
+        val testCalendarTooltipContDescObservable = TestObserver.create<String>()
 
         testViewModel.dateTextObservable.subscribe(testDateTextObservable)
         testViewModel.dateAccessibilityObservable.subscribe(testDateAccessibilityObservable)
@@ -257,17 +257,17 @@ class HotelSearchViewModelTest {
         val startDateString = LocaleBasedDateFormatUtils.localDateToMMMd(startDate)
         val endDateString = LocaleBasedDateFormatUtils.localDateToMMMd(endDate)
 
-        assertEquals(startDateString + " - " + endDateString + " (1 night)", testDateTextObservable.onNextEvents[0])
-        assertEquals("Select dates Button. Opens dialog. " + startDateString + " to " + endDateString + " (1 night)", testDateAccessibilityObservable.onNextEvents[0])
-        assertEquals(startDateString + " - " + endDateString + " (1 night)", testDateInstructionObservable.onNextEvents[0])
-        assertEquals(startDateString + " - " + endDateString, testCalendarTooltipTextObservable.onNextEvents[0].first)
-        assertEquals("Drag to modify", testCalendarTooltipTextObservable.onNextEvents[0].second)
-        assertEquals(startDateString + " to " + endDateString + ". Select dates again to modify", testCalendarTooltipContDescObservable.onNextEvents[0])
+        assertEquals(startDateString + " - " + endDateString + " (1 night)", testDateTextObservable.values()[0])
+        assertEquals("Select dates Button. Opens dialog. " + startDateString + " to " + endDateString + " (1 night)", testDateAccessibilityObservable.values()[0])
+        assertEquals(startDateString + " - " + endDateString + " (1 night)", testDateInstructionObservable.values()[0])
+        assertEquals(startDateString + " - " + endDateString, testCalendarTooltipTextObservable.values()[0].first)
+        assertEquals("Drag to modify", testCalendarTooltipTextObservable.values()[0].second)
+        assertEquals(startDateString + " to " + endDateString + ". Select dates again to modify", testCalendarTooltipContDescObservable.values()[0])
     }
 
     @Test
     fun testGoodStartEndDateCanDoSearch() {
-        val testErrorNoDatesObservable = TestSubscriber.create<Unit>()
+        val testErrorNoDatesObservable = TestObserver.create<Unit>()
         testViewModel.errorNoDatesObservable.subscribe(testErrorNoDatesObservable)
 
         val startDate = today.plusDays(testViewModel.getCalendarRules().getMaxDateRange() - 1)
@@ -276,8 +276,8 @@ class HotelSearchViewModelTest {
                 startDate = startDate, endDate = endDate)
 
         testViewModel.searchObserver.onNext(Unit)
-        assertEquals(startDate, testGenericSearchSubscriber.onNextEvents[0].startDate)
-        assertEquals(endDate, testGenericSearchSubscriber.onNextEvents[0].endDate)
+        assertEquals(startDate, testGenericSearchSubscriber.values()[0].startDate)
+        assertEquals(endDate, testGenericSearchSubscriber.values()[0].endDate)
         testErrorNoDatesObservable.assertValueCount(0)
     }
 
@@ -287,13 +287,13 @@ class HotelSearchViewModelTest {
         val suggestion = suggestionBuilder.hotelId(expectedId).build()
         triggerParams(suggestion = suggestion, startDate = today, endDate = today.plusDays(1))
 
-        val testSubscriber = TestSubscriber.create<HotelSearchParams>()
+        val testSubscriber = TestObserver.create<HotelSearchParams>()
         testViewModel.hotelIdSearchSubject.subscribe(testSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
-        assertEquals(1, testSubscriber.onNextEvents.size)
-        assertEquals(expectedId, testSubscriber.onNextEvents[0].suggestion.hotelId)
-        assertEquals(0, testGenericSearchSubscriber.onNextEvents.size)
+        assertEquals(1, testSubscriber.valueCount())
+        assertEquals(expectedId, testSubscriber.values()[0].suggestion.hotelId)
+        assertEquals(0, testGenericSearchSubscriber.valueCount())
     }
 
     @Test
@@ -301,12 +301,12 @@ class HotelSearchViewModelTest {
         val suggestion = suggestionBuilder.type("RAW_TEXT_SEARCH").build()
         triggerParams(suggestion = suggestion, startDate = today, endDate = today.plusDays(1))
 
-        val testSubscriber = TestSubscriber.create<HotelSearchParams>()
+        val testSubscriber = TestObserver.create<HotelSearchParams>()
         testViewModel.rawTextSearchSubject.subscribe(testSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
-        assertEquals(1, testSubscriber.onNextEvents.size)
-        assertEquals(0, testGenericSearchSubscriber.onNextEvents.size)
+        assertEquals(1, testSubscriber.valueCount())
+        assertEquals(0, testGenericSearchSubscriber.valueCount())
     }
 
     @Test
@@ -316,97 +316,97 @@ class HotelSearchViewModelTest {
 
         val errors = Observable.merge(testViewModel.errorMaxRangeObservable, testViewModel.errorMaxDurationObservable,
                 testViewModel.errorNoDestinationObservable, testViewModel.errorNoDatesObservable)
-        val testSubscriber = TestSubscriber.create<Any>()
+        val testSubscriber = TestObserver.create<Any>()
         errors.subscribe(testSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
 
-        assertEquals(0, testSubscriber.onNextEvents.size)
-        assertEquals(1, testGenericSearchSubscriber.onNextEvents.size)
+        assertEquals(0, testSubscriber.valueCount())
+        assertEquals(1, testGenericSearchSubscriber.valueCount())
     }
 
     @Test
     fun testPrefetchDisabled_invalidParams() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
 
         triggerParams(startDate = today, endDate = today.plusDays(1))
-        assertEquals(0, testSubscriber.onNextEvents.size)
+        assertEquals(0, testSubscriber.valueCount())
     }
 
     @Test
     fun testPrefetchDisabled_hotelIdSearch() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
 
         val suggestion = suggestionBuilder.hotelId("12345").build()
         triggerParams(suggestion = suggestion, startDate = today, endDate = today.plusDays(1))
-        assertEquals(0, testSubscriber.onNextEvents.size)
+        assertEquals(0, testSubscriber.valueCount())
     }
 
     @Test
     fun testPrefetchDisabled_rawTextSearch() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
 
         val suggestion = suggestionBuilder.type("RAW_TEXT_SEARCH").build()
         triggerParams(suggestion = suggestion, startDate = today, endDate = today.plusDays(1))
-        assertEquals(0, testSubscriber.onNextEvents.size)
+        assertEquals(0, testSubscriber.valueCount())
     }
 
     @Test
     fun testPrefetchDisabled_advancedSearchOptions() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
         testViewModel.getParamsBuilder().hotelName("ADVANCED_OPTION")
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = today, endDate = today.plusDays(1))
-        assertEquals(0, testSubscriber.onNextEvents.size)
+        assertEquals(0, testSubscriber.valueCount())
     }
 
     @Test
     fun testPrefetchDisabled_deeplink() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
         testViewModel.ignoreGreedyForDeepLink = true
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = today, endDate = today.plusDays(1))
-        assertEquals(0, testSubscriber.onNextEvents.size)
+        assertEquals(0, testSubscriber.values().size)
     }
 
     @Test
     fun testPrefetchEnabled() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = today, endDate = today.plusDays(1))
 
-        assertEquals(1, testSubscriber.onNextEvents.size)
+        assertEquals(1, testSubscriber.valueCount())
 
         testViewModel.destinationLocationObserver.onNext(suggestionBuilder.build())
-        assertEquals(2, testSubscriber.onNextEvents.size, "Error: Expected another search after destination change")
+        assertEquals(2, testSubscriber.valueCount(), "Error: Expected another search after destination change")
 
         testViewModel.datesUpdated(today.plusDays(1), today.plusDays(2))
-        assertEquals(3, testSubscriber.onNextEvents.size, "Error: Expected another search after dates change")
+        assertEquals(3, testSubscriber.valueCount(), "Error: Expected another search after dates change")
     }
 
     @Test
     fun testShopWithPointsToggle() {
         testViewModel.shopWithPointsViewModel.isShopWithPointsAvailableObservable.onNext(true)
 
-        val testSubscriber = TestSubscriber<HotelSearchParams>()
+        val testSubscriber = TestObserver<HotelSearchParams>()
         testViewModel.genericSearchSubject.subscribe(testSubscriber)
 
         triggerParams(suggestion = suggestionBuilder.build(),
@@ -414,17 +414,17 @@ class HotelSearchViewModelTest {
 
         testViewModel.searchObserver.onNext(Unit)
 
-        assertTrue(testSubscriber.onNextEvents[0].shopWithPoints)
+        assertTrue(testSubscriber.values()[0].shopWithPoints)
 
         testViewModel.shopWithPointsViewModel.shopWithPointsToggleObservable.onNext(false)
         testViewModel.searchObserver.onNext(Unit)
 
-        assertFalse(testSubscriber.onNextEvents[1].shopWithPoints)
+        assertFalse(testSubscriber.values()[1].shopWithPoints)
 
         testViewModel.shopWithPointsViewModel.shopWithPointsToggleObservable.onNext(true)
         testViewModel.searchObserver.onNext(Unit)
 
-        assertTrue(testSubscriber.onNextEvents[2].shopWithPoints)
+        assertTrue(testSubscriber.values()[2].shopWithPoints)
     }
 
     private class MockSearchManager(hotelServices: HotelServices) : HotelSearchManager(hotelServices) {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
@@ -19,9 +20,8 @@ import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import rx.Observable
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSubject<RailLegOption>, val inbound: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -46,7 +46,7 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     }
 
     init {
-        Observable.combineLatest(legOptionsAndCompareToPriceSubject, outboundOfferSubject, { pair, offer ->
+        ObservableOld.combineLatest(legOptionsAndCompareToPriceSubject, outboundOfferSubject, { pair, offer ->
             loading = false
             legOptions = pair.first
             cheapestCompareToPrice = pair.second

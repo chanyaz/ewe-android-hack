@@ -1,12 +1,12 @@
 package com.expedia.vm.traveler
 
 import com.expedia.bookings.enums.TravelerCheckoutStatus
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class TravelerPickerWidgetViewModel {
     
-    var passportRequired = BehaviorSubject.create<Boolean>(false)
+    var passportRequired = BehaviorSubject.createDefault<Boolean>(false)
 
     val selectedTravelerSubject = BehaviorSubject.create<TravelerSelectItemViewModel>()
 

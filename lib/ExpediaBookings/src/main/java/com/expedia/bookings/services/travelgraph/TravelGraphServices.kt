@@ -1,15 +1,16 @@
 package com.expedia.bookings.services.travelgraph
 
 import com.expedia.bookings.data.travelgraph.TravelGraphUserHistoryResponse
+import com.expedia.bookings.subscribeObserver
 import com.google.gson.GsonBuilder
+import io.reactivex.Observer
+import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observer
-import rx.Scheduler
-import rx.Subscription
 import java.util.UUID
 
 class TravelGraphServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, tgInterceptor: Interceptor,
@@ -21,7 +22,7 @@ class TravelGraphServices(endpoint: String, okHttpClient: OkHttpClient, intercep
         val retrofit = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).addInterceptor(tgInterceptor).build())
                 .build()
 
@@ -29,13 +30,13 @@ class TravelGraphServices(endpoint: String, okHttpClient: OkHttpClient, intercep
     }
 
     //Guest user not supported for now
-    fun fetchUserHistory(expUserId: String, siteId: String, locale: String, observer: Observer<TravelGraphUserHistoryResponse>): Subscription {
+    fun fetchUserHistory(expUserId: String, siteId: String, locale: String, observer: Observer<TravelGraphUserHistoryResponse>): Disposable {
         val transactionGUID = UUID.randomUUID().toString().replace("-".toRegex(), "")
         val lobs = arrayListOf("HOTEL_SEARCH")      //Hardcoded to get just search info for now.
 
         return travelGraphApi.fetchUserHistory(siteId, locale, expUserId, transactionGUID, lobs)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 }

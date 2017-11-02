@@ -16,7 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
@@ -37,15 +37,15 @@ class InsuranceViewModelTest {
 
     @Test
     fun benefitsDifferBetweenDomesticAndInternational() {
-        val benefitsSubscriber = TestSubscriber<Spanned>()
+        val benefitsSubscriber = TestObserver<Spanned>()
         sut.benefitsObservable.subscribe(benefitsSubscriber)
 
         sut.tripObservable.onNext(tripResponseWithInsuranceAvailableButNotSelected(FlightType.DOMESTIC))
         sut.tripObservable.onNext(tripResponseWithInsuranceAvailableButNotSelected(FlightType.INTERNATIONAL))
 
         benefitsSubscriber.assertValueCount(2)
-        val domesticBenefits = benefitsSubscriber.onNextEvents[0]
-        val internationalBenefits = benefitsSubscriber.onNextEvents[1]
+        val domesticBenefits = benefitsSubscriber.values()[0]
+        val internationalBenefits = benefitsSubscriber.values()[1]
 
         assertFalse(domesticBenefits.isNullOrEmpty())
         assertFalse(internationalBenefits.isNullOrEmpty())
@@ -54,24 +54,24 @@ class InsuranceViewModelTest {
 
     @Test
     fun widgetIsNotVisibleWhenInsuranceIsUnavailable() {
-        val widgetVisibilitySubscriber = TestSubscriber<Boolean>()
+        val widgetVisibilitySubscriber = TestObserver<Boolean>()
         sut.widgetVisibilityObservable.subscribe(widgetVisibilitySubscriber)
 
         sut.tripObservable.onNext(tripResponseWithoutInsuranceAvailable(FlightType.DOMESTIC))
 
         widgetVisibilitySubscriber.assertValueCount(1)
-        val widgetIsVisible = widgetVisibilitySubscriber.onNextEvents[0]
+        val widgetIsVisible = widgetVisibilitySubscriber.values()[0]
         assertFalse(widgetIsVisible)
     }
 
     @Test
     fun widgetIsVisibleWhenInsuranceIsAvailableAndBucketed() {
-        val widgetVisibilitySubscriber = TestSubscriber<Boolean>()
+        val widgetVisibilitySubscriber = TestObserver<Boolean>()
         sut.widgetVisibilityObservable.subscribe(widgetVisibilitySubscriber)
 
         sut.tripObservable.onNext(tripResponseWithInsuranceAvailableButNotSelected(FlightType.DOMESTIC))
         widgetVisibilitySubscriber.assertValueCount(1)
-        val widgetIsVisible = widgetVisibilitySubscriber.onNextEvents[0]
+        val widgetIsVisible = widgetVisibilitySubscriber.values()[0]
         assertTrue(widgetIsVisible)
 
     }
@@ -79,20 +79,20 @@ class InsuranceViewModelTest {
     @Test
     fun widgetIsResetOnNewTrip() {
         var insuranceIsSelected: Boolean
-        var toggleSwitchSubscriber: TestSubscriber<Boolean>
+        var toggleSwitchSubscriber: TestObserver<Boolean>
 
-        toggleSwitchSubscriber = TestSubscriber<Boolean>()
+        toggleSwitchSubscriber = TestObserver<Boolean>()
         sut.programmaticToggleObservable.subscribe(toggleSwitchSubscriber)
         sut.tripObservable.onNext(tripResponseWithInsuranceAvailableAndSelected(FlightType.DOMESTIC))
         toggleSwitchSubscriber.assertValueCount(1)
-        insuranceIsSelected = toggleSwitchSubscriber.onNextEvents[0]
+        insuranceIsSelected = toggleSwitchSubscriber.values()[0]
         assertTrue(insuranceIsSelected)
 
-        toggleSwitchSubscriber = TestSubscriber<Boolean>()
+        toggleSwitchSubscriber = TestObserver<Boolean>()
         sut.programmaticToggleObservable.subscribe(toggleSwitchSubscriber)
         sut.tripObservable.onNext(tripResponseWithInsuranceAvailableButNotSelected(FlightType.DOMESTIC))
         toggleSwitchSubscriber.assertValueCount(1)
-        insuranceIsSelected = toggleSwitchSubscriber.onNextEvents[0]
+        insuranceIsSelected = toggleSwitchSubscriber.values()[0]
         assertFalse(insuranceIsSelected)
     }
 

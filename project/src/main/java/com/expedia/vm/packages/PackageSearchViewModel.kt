@@ -17,8 +17,8 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
-import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
@@ -57,8 +57,12 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (!invalidDates) {
             datesUpdated(pastSearchParams.startDate, pastSearchParams.endDate)
         }
-        originLocationObserver.onNext(pastSearchParams.origin)
-        destinationLocationObserver.onNext(pastSearchParams.destination)
+        pastSearchParams.origin?.let {
+            originLocationObserver.onNext(it)
+        }
+        pastSearchParams.destination?.let {
+            destinationLocationObserver.onNext(it)
+        }
     }
 
     val searchObserver = endlessObserver<Unit> {

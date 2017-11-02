@@ -3,6 +3,7 @@ package com.expedia.bookings.hotel.util
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.joda.time.LocalDate
@@ -10,7 +11,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
@@ -25,7 +25,7 @@ class HotelInfoManagerTest {
 
     private val params = makeParams()
 
-    private val testSuccessSub = TestSubscriber<HotelOffersResponse>()
+    private val testSuccessSub = TestObserver<HotelOffersResponse>()
 
     @Before
     fun setUp() {
@@ -39,14 +39,14 @@ class HotelInfoManagerTest {
         testManager.fetchOffers(params, "happypath")
 
         testSuccessSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        testSuccessSub.assertNoTerminalEvent()
+        testSuccessSub.assertNotTerminated()
         testSuccessSub.assertNoErrors()
         testSuccessSub.assertValueCount(1)
     }
 
     @Test
     fun testSoldOutFetchOffers() {
-        val testSoldOutSub = TestSubscriber<Unit>()
+        val testSoldOutSub = TestObserver<Unit>()
 
         testManager.offerSuccessSubject.subscribe(testSuccessSub)
         testManager.soldOutSubject.subscribe(testSoldOutSub)
@@ -65,7 +65,7 @@ class HotelInfoManagerTest {
         testManager.fetchInfo(params, "happy")
 
         testSuccessSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        testSuccessSub.assertNoTerminalEvent()
+        testSuccessSub.assertNotTerminated()
         testSuccessSub.assertNoErrors()
         testSuccessSub.assertValueCount(1)
     }

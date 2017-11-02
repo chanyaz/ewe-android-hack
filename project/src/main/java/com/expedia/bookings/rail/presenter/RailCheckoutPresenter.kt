@@ -43,6 +43,7 @@ import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.shared.SlideToPurchaseWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
+import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.CheckoutToolbarViewModel
@@ -172,7 +173,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         paymentViewModel.lineOfBusiness.onNext(LineOfBusiness.RAILS)
         paymentViewModel.isCreditCardRequired.onNext(true)
         paymentViewModel.billingInfoAndStatusUpdate.map { billingInfoAndStatusPair ->
-            billingInfoAndStatusPair.first
+            Optional(billingInfoAndStatusPair.first)
         }.subscribe(checkoutViewModel.paymentCompleteObserver)
 
         paymentViewModel.showingPaymentForm.subscribe(checkoutViewModel.showingPaymentForm)

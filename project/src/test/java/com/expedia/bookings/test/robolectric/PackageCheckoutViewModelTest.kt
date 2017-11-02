@@ -3,26 +3,27 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.text.SpannableStringBuilder
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.enums.PassengerCategory
-import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.BaseApiResponse
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.enums.PassengerCategory
+import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.packages.PackageCheckoutViewModel
 import com.mobiata.android.util.SettingUtils
@@ -32,7 +33,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
 import java.io.IOException
 import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
@@ -56,7 +56,7 @@ class PackageCheckoutViewModelTest {
 
     @Test
     fun testCheckoutPriceChange() {
-        val testSubscriber = TestSubscriber.create<TripResponse>()
+        val testSubscriber = TestObserver.create<TripResponse>()
         testViewModel.checkoutPriceChangeObservable.subscribe(testSubscriber)
 
         testViewModel.builder.tripId("12312")
@@ -71,7 +71,7 @@ class PackageCheckoutViewModelTest {
         testSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
 
         testSubscriber.assertValueCount(1)
-        val packageCheckoutResponse = testSubscriber.onNextEvents[0] as PackageCheckoutResponse
+        val packageCheckoutResponse = testSubscriber.values()[0] as PackageCheckoutResponse
         assertEquals("$464.64", packageCheckoutResponse.oldPackageDetails.pricing.packageTotal.formattedPrice)
         assertEquals("$787.00", packageCheckoutResponse.packageDetails.pricing.packageTotal.formattedPrice)
     }
@@ -119,7 +119,7 @@ class PackageCheckoutViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCheckoutUnknownError() {
-        val testSubscriber = TestSubscriber.create<ApiError>()
+        val testSubscriber = TestObserver.create<ApiError>()
         testViewModel.checkoutErrorObservable.subscribe(testSubscriber)
 
         testViewModel.builder.tripId("12312")
@@ -134,39 +134,39 @@ class PackageCheckoutViewModelTest {
         testSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
 
         testSubscriber.assertValueCount(1)
-        val packageCheckoutResponse = testSubscriber.onNextEvents[0] as ApiError
+        val packageCheckoutResponse = testSubscriber.values()[0] as ApiError
         assertEquals(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN, packageCheckoutResponse.errorCode)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testInvalidCardNumberError() {
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         testViewModel.checkoutErrorObservable.subscribe(testSubscriber)
 
         testViewModel.makeCheckoutResponseObserver().onNext(getCheckoutErrorResponse(ApiError.Code.INVALID_CARD_NUMBER))
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.INVALID_CARD_NUMBER, testSubscriber.onNextEvents[0].errorCode)
+        assertEquals(ApiError.Code.INVALID_CARD_NUMBER, testSubscriber.values()[0].errorCode)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTripAlreadyBookedError() {
-        val testSubscriber = TestSubscriber<Pair<BaseApiResponse, String>>()
+        val testSubscriber = TestObserver<Pair<BaseApiResponse, String>>()
         testViewModel.bookingSuccessResponse.subscribe(testSubscriber)
 
         testViewModel.email = "email@example.com"
         testViewModel.makeCheckoutResponseObserver().onNext(getCheckoutErrorResponse(ApiError.Code.TRIP_ALREADY_BOOKED))
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, testSubscriber.onNextEvents[0].first.errors[0].errorCode)
+        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, testSubscriber.values()[0].first.errors[0].errorCode)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMakeCheckoutResponseObserverWhenOnError() {
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         testViewModel.showCheckoutDialogObservable.subscribe(testSubscriber)
 
         testViewModel.makeCheckoutResponseObserver().onError(IOException())
@@ -178,22 +178,22 @@ class PackageCheckoutViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testUpdateMayChargeFees() {
-        val subscriberForOBFee = TestSubscriber<String>()
-        val subscriberForChargeFee = TestSubscriber<String>()
+        val subscriberForOBFee = TestObserver<String>()
+        val subscriberForChargeFee = TestObserver<String>()
         testViewModel.obFeeDetailsUrlSubject.subscribe(subscriberForOBFee)
         testViewModel.selectedFlightChargesFees.subscribe(subscriberForChargeFee)
 
         testViewModel.updateMayChargeFees(createFakeFlightLeg())
 
-        assertEquals("", subscriberForOBFee.onNextEvents[1])
-        assertEquals("", subscriberForChargeFee.onNextEvents[1])
+        assertEquals("", subscriberForOBFee.values()[1])
+        assertEquals("", subscriberForChargeFee.values()[1])
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testUpdateMayChargeFeesWhenMayChargeObFeesIsTrue() {
-        val subscriberForOBFee = TestSubscriber<String>()
-        val subscriberForChargeFee = TestSubscriber<String>()
+        val subscriberForOBFee = TestObserver<String>()
+        val subscriberForChargeFee = TestObserver<String>()
         testViewModel.obFeeDetailsUrlSubject.subscribe(subscriberForOBFee)
         testViewModel.selectedFlightChargesFees.subscribe(subscriberForChargeFee)
 
@@ -201,15 +201,15 @@ class PackageCheckoutViewModelTest {
         flightLeg.mayChargeObFees = true
         testViewModel.updateMayChargeFees(flightLeg)
 
-        assertEquals("", subscriberForOBFee.onNextEvents[0])
-        assertEquals("Payment fees may apply", subscriberForChargeFee.onNextEvents[1])
+        assertEquals("", subscriberForOBFee.values()[0])
+        assertEquals("Payment fees may apply", subscriberForChargeFee.values()[1])
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testUpdateMayChargeFeesWhenHasAirlineWithCCfeeIsTrue() {
-        val subscriberForOBFee = TestSubscriber<String>()
-        val subscriberForChargeFee = TestSubscriber<String>()
+        val subscriberForOBFee = TestObserver<String>()
+        val subscriberForChargeFee = TestObserver<String>()
         testViewModel.obFeeDetailsUrlSubject.subscribe(subscriberForOBFee)
         testViewModel.selectedFlightChargesFees.subscribe(subscriberForChargeFee)
 
@@ -219,15 +219,15 @@ class PackageCheckoutViewModelTest {
         flightLeg.airlineMessageModel = messageModel
         testViewModel.updateMayChargeFees(flightLeg)
 
-        assertEquals("", subscriberForOBFee.onNextEvents[0])
-        assertEquals("Payment fees may apply", subscriberForChargeFee.onNextEvents[1])
+        assertEquals("", subscriberForOBFee.values()[0])
+        assertEquals("Payment fees may apply", subscriberForChargeFee.values()[1])
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testUpdateMayChargeFeesWhenHasAirlineWithCCfeeIsFalse() {
-        val subscriberForOBFee = TestSubscriber<String>()
-        val subscriberForChargeFee = TestSubscriber<String>()
+        val subscriberForOBFee = TestObserver<String>()
+        val subscriberForChargeFee = TestObserver<String>()
         testViewModel.obFeeDetailsUrlSubject.subscribe(subscriberForOBFee)
         testViewModel.selectedFlightChargesFees.subscribe(subscriberForChargeFee)
 
@@ -236,15 +236,15 @@ class PackageCheckoutViewModelTest {
         flightLeg.airlineMessageModel = messageModel
         testViewModel.updateMayChargeFees(flightLeg)
 
-        assertEquals("", subscriberForOBFee.onNextEvents[1])
-        assertEquals("", subscriberForChargeFee.onNextEvents[1])
+        assertEquals("", subscriberForOBFee.values()[1])
+        assertEquals("", subscriberForChargeFee.values()[1])
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testUpdateMayChargeFeesWithAirlineFeeLinkNotNull() {
-        val subscriberForOBFee = TestSubscriber<String>()
-        val subscriberForChargeFee = TestSubscriber<String>()
+        val subscriberForOBFee = TestObserver<String>()
+        val subscriberForChargeFee = TestObserver<String>()
         testViewModel.obFeeDetailsUrlSubject.subscribe(subscriberForOBFee)
         testViewModel.selectedFlightChargesFees.subscribe(subscriberForChargeFee)
 
@@ -256,20 +256,20 @@ class PackageCheckoutViewModelTest {
         flightLeg.mayChargeObFees = true
         testViewModel.updateMayChargeFees(flightLeg)
 
-        assertEquals("https://www.expedia.com/link", subscriberForOBFee.onNextEvents[1])
-        assertEquals("Payment fees may apply", subscriberForChargeFee.onNextEvents[1])
+        assertEquals("https://www.expedia.com/link", subscriberForOBFee.values()[1])
+        assertEquals("Payment fees may apply", subscriberForChargeFee.values()[1])
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testLegalTextForNonUKPOS() {
-        val legalTextTestSubscriber = TestSubscriber<SpannableStringBuilder>()
+        val legalTextTestSubscriber = TestObserver<SpannableStringBuilder>()
         testViewModel.legalText.subscribe(legalTextTestSubscriber)
 
         testViewModel.createTripResponseObservable.onNext(Optional(PackageTestUtil.getCreateTripResponse()))
 
         legalTextTestSubscriber.assertValueCount(1)
-        assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy, and Fare Information.", legalTextTestSubscriber.onNextEvents[0].toString())
+        assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy, and Fare Information.", legalTextTestSubscriber.values()[0].toString())
     }
 
     @Test
@@ -281,13 +281,13 @@ class PackageCheckoutViewModelTest {
         Ui.getApplication(activity).defaultPackageComponents()
         testViewModel = PackageCheckoutViewModel(activity.application, serviceRule.services!!)
 
-        val legalTextTestSubscriber = TestSubscriber<SpannableStringBuilder>()
+        val legalTextTestSubscriber = TestObserver<SpannableStringBuilder>()
         testViewModel.legalText.subscribe(legalTextTestSubscriber)
 
         testViewModel.createTripResponseObservable.onNext(Optional(PackageTestUtil.getCreateTripResponse()))
 
         legalTextTestSubscriber.assertValueCount(1)
-        assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Terms of Booking, the Privacy Policy, and the Insurance and Fare Information.", legalTextTestSubscriber.onNextEvents[0].toString())
+        assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Terms of Booking, the Privacy Policy, and the Insurance and Fare Information.", legalTextTestSubscriber.values()[0].toString())
     }
 
     private fun getCheckoutErrorResponse(errorCode: ApiError.Code): PackageCheckoutResponse {

@@ -18,7 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -51,19 +51,19 @@ class FlightAdvanceSearchViewModelTest {
     fun testAdvanceSearchWidgetCheckBox() {
         val nonStopCheckBoxObserver = (widget.advanceSearchFilterContainer.getChildAt(0) as AdvanceSearchCheckableFilter).checkObserver
         val refundableCheckBoxObserver = (widget.advanceSearchFilterContainer.getChildAt(1) as AdvanceSearchCheckableFilter).checkObserver
-        val advanceSearchFilterTestSubscriber = TestSubscriber<AdvanceSearchFilter>()
+        val advanceSearchFilterTestSubscriber = TestObserver<AdvanceSearchFilter>()
         viewModel.selectAdvancedSearch.subscribe(advanceSearchFilterTestSubscriber)
         assertFalse(viewModel.isAdvanceSearchFilterSelected)
 
         //When only non stop filter is checked on
         nonStopCheckBoxObserver.onNext(Unit)
-        assertEquals(true, advanceSearchFilterTestSubscriber.onNextEvents.last().isChecked)
+        assertEquals(true, advanceSearchFilterTestSubscriber.values().last().isChecked)
         assertTrue(viewModel.isAdvanceSearchFilterSelected)
 
         refundableCheckBoxObserver.onNext(Unit)
-        assertEquals(true, advanceSearchFilterTestSubscriber.onNextEvents.last().isChecked)
+        assertEquals(true, advanceSearchFilterTestSubscriber.values().last().isChecked)
         nonStopCheckBoxObserver.onNext(Unit)
-        assertEquals(false, advanceSearchFilterTestSubscriber.onNextEvents.last().isChecked)
+        assertEquals(false, advanceSearchFilterTestSubscriber.values().last().isChecked)
         assertTrue(viewModel.isAdvanceSearchFilterSelected)
     }
 }

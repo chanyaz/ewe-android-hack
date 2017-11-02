@@ -18,7 +18,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.rail.RailOutboundResultsViewModel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {

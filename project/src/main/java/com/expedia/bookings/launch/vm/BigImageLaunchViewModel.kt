@@ -4,7 +4,7 @@ import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import com.expedia.bookings.R
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class BigImageLaunchViewModel(@DrawableRes val icon: Int, @ColorRes val bgGradient: Int, @StringRes val titleId: Int, @StringRes val subtitleId: Int) {
 

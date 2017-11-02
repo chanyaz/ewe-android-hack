@@ -8,7 +8,7 @@ import com.squareup.phrase.Phrase
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -17,7 +17,7 @@ class BundlePriceViewModelTest {
 
     @Test
     fun testBundleSaveLabel() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val testViewModelUniversalCKO = PackageTotalPriceViewModel(context)
 
         testViewModelUniversalCKO.savingsPriceObservable.subscribe(testSubscriber)
@@ -28,23 +28,23 @@ class BundlePriceViewModelTest {
                 .format().toString()
 
         testViewModelUniversalCKO.savings.onNext(someMoney)
-        assertEquals(expectedSavingLabel, testSubscriber.onNextEvents[1])
+        assertEquals(expectedSavingLabel, testSubscriber.values()[1])
 
     }
 
     @Test
     fun testNoBundleSaveLabel() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val testViewModelUniversalCKO = PackageTotalPriceViewModel(context)
         testViewModelUniversalCKO.savingsPriceObservable.subscribe(testSubscriber)
 
         val zeroMoney = Money("0.0", "US")
         testViewModelUniversalCKO.savings.onNext(zeroMoney)
-        assertEquals("", testSubscriber.onNextEvents[0])
+        assertEquals("", testSubscriber.values()[0])
 
         val someMoney = Money("-50.0", "USD")
         testViewModelUniversalCKO.savings.onNext(someMoney)
-        assertEquals("", testSubscriber.onNextEvents[1])
+        assertEquals("", testSubscriber.values()[1])
 
     }
 

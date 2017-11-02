@@ -2,19 +2,19 @@ package com.expedia.bookings.itin.vm
 
 import android.app.Activity
 import com.expedia.bookings.R
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class FlightItinLayoverViewModelTest {
     lateinit private var activity: Activity
     lateinit private var sut: FlightItinLayoverViewModel
 
-    private val createLayoutWidgetSubscriber = TestSubscriber<ItinTimeDurationViewModel.TimeDurationWidgetParams>()
+    private val createLayoutWidgetSubscriber = TestObserver<ItinTimeDurationViewModel.TimeDurationWidgetParams>()
 
     @Before
     fun setup() {

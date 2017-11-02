@@ -1,17 +1,17 @@
 package com.expedia.vm.hotel
 
 import android.content.Context
-import com.expedia.bookings.data.hotel.PriceRange
 import com.expedia.bookings.data.hotel.DisplaySort
+import com.expedia.bookings.data.hotel.PriceRange
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.tracking.hotel.FilterTracker
 import com.expedia.util.endlessObserver
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.HashSet
 
 abstract class BaseHotelFilterViewModel(val context: Context) {
@@ -30,7 +30,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val filterCountObservable = BehaviorSubject.create<Int>()
     val priceRangeContainerVisibility = BehaviorSubject.create<Boolean>()
     val sortSpinnerObservable = PublishSubject.create<DisplaySort>()
-    val isCurrentLocationSearch = BehaviorSubject.create<Boolean>(false)
+    val isCurrentLocationSearch = BehaviorSubject.createDefault<Boolean>(false)
     val sortContainerVisibilityObservable = BehaviorSubject.create<Boolean>()
     val neighborhoodListObservable = PublishSubject.create<List<HotelSearchResponse.Neighborhood>>()
     val newPriceRangeObservable = PublishSubject.create<PriceRange>()

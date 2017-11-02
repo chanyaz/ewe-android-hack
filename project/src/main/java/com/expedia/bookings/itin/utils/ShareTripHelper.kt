@@ -6,7 +6,8 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable
 import com.expedia.bookings.itin.widget.ShareItinDialog
 import com.expedia.bookings.widget.itin.ItinContentGenerator
-import rx.Observer
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
 
 class ShareTripHelper(val context: Context, val itinCardData: ItinCardData) {
 
@@ -32,8 +33,8 @@ class ShareTripHelper(val context: Context, val itinCardData: ItinCardData) {
     }
 
     private fun getShortUrlResultObserver(itinSharable: ItinSharable): Observer<String> {
-        return object : Observer<String> {
-            override fun onError(e: Throwable?) {
+        return object : DisposableObserver<String>() {
+            override fun onError(e: Throwable) {
                 //we have the full url anyway
                 showNativeShareDialog()
             }
@@ -45,7 +46,7 @@ class ShareTripHelper(val context: Context, val itinCardData: ItinCardData) {
                 showNativeShareDialog()
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
         }
     }

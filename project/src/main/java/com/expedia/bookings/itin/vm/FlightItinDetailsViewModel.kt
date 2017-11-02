@@ -13,7 +13,7 @@ import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.utils.FormatUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightItinDetailsViewModel(private val context: Context, private val itinId: String) {
 
@@ -180,8 +180,10 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                 }
 
                 val layoverDuration = segment.layoverDuration
-                if (!layoverDuration.isNullOrEmpty()) {
-                    createLayoverWidgetSubject.onNext(layoverDuration)
+                layoverDuration?.let {
+                    if (!it.isEmpty()) {
+                        createLayoverWidgetSubject.onNext(it)
+                    }
                 }
             }
 

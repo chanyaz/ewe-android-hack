@@ -5,7 +5,7 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.vm.PriceChangeViewModel
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class RailPriceChangeViewModel(context: Context) : PriceChangeViewModel(context, LineOfBusiness.RAILS) {
     //input

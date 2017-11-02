@@ -28,8 +28,8 @@ import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.flightlib.data.Flight
-import rx.schedulers.Schedulers
-import rx.subjects.PublishSubject
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 
 open class NotificationScheduler @JvmOverloads constructor(val context: Context,
                                                            val db: Db = Db.sharedInstance,

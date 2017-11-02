@@ -31,7 +31,9 @@ import com.expedia.ui.FlightActivity;
 import com.expedia.ui.LOBWebViewActivity;
 import com.expedia.vm.HotelConfirmationViewModel;
 
-import rx.observers.TestSubscriber;
+import com.expedia.bookings.services.TestObserver;
+
+import kotlin.Unit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -73,7 +75,7 @@ public class HotelConfirmationViewModelTest {
 		givenCheckInDate();
 		givenCheckOutDate();
 
-		vm.getAddToCalendarBtnObserver(getContext()).onNext(null);
+		vm.getAddToCalendarBtnObserver(getContext()).onNext(Unit.INSTANCE);
 
 		Intent checkInIntentToAssert = shadowApplication.getNextStartedActivity();
 		AddToCalendarUtilsTests.makeAddToCalendarIntentAssertions(checkInIntentToAssert, isCheckIn, hotelName, hotelAddress, "", itineraryNumber,checkInDate);
@@ -98,7 +100,7 @@ public class HotelConfirmationViewModelTest {
 	@Test
 	public void getDirectionsToHotelBtnObserver() {
 		givenHotelLocation();
-		vm.getDirectionsToHotelBtnObserver(getContext()).onNext(null);
+		vm.getDirectionsToHotelBtnObserver(getContext()).onNext(Unit.INSTANCE);
 
 		Intent intent = shadowApplication.getNextStartedActivity();
 		Uri data = intent.getData();
@@ -113,7 +115,7 @@ public class HotelConfirmationViewModelTest {
 		givenHotelLocation();
 
 		vm.getHotelLocation().onNext(hotelLocation);
-		vm.getAddCarBtnObserver(getContext()).onNext(null);
+		vm.getAddCarBtnObserver(getContext()).onNext(Unit.INSTANCE);
 		Intent intent = shadowApplication.getNextStartedActivity();
 
 		assertEquals(LOBWebViewActivity.class.getName(), intent.getComponent().getClassName());
@@ -126,7 +128,7 @@ public class HotelConfirmationViewModelTest {
 		givenCheckInDate();
 		givenCheckOutDate();
 
-		vm.getAddFlightBtnObserver(getContext()).onNext(null);
+		vm.getAddFlightBtnObserver(getContext()).onNext(Unit.INSTANCE);
 		Intent intent = shadowApplication.getNextStartedActivity();
 
 		assertEquals(FlightActivity.class.getName(), intent.getComponent().getClassName());
@@ -138,7 +140,7 @@ public class HotelConfirmationViewModelTest {
 		givenCheckInDate();
 		givenCheckOutDate();
 
-		vm.getAddLXBtnObserver(getContext()).onNext(null);
+		vm.getAddLXBtnObserver(getContext()).onNext(Unit.INSTANCE);
 		Intent intent = shadowApplication.getNextStartedActivity();
 
 		assertEquals(LXBaseActivity.class.getName(), intent.getComponent().getClassName());
@@ -152,15 +154,15 @@ public class HotelConfirmationViewModelTest {
 		givenCheckInDate();
 		givenCheckOutDate();
 
-		TestSubscriber testSubscriber = new TestSubscriber<>();
+		TestObserver testSubscriber = new TestObserver<>();
 		Db.sharedInstance.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest.getKey(),
 			AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		vm.getAddLXBtn().subscribe(testSubscriber);
 		vm.getAddLXBtn().onNext(getContext().getResources().getString(R.string.add_lx_TEMPLATE, hotelCity));
 
 		testSubscriber.assertValueCount(1);
-		testSubscriber.assertNoTerminalEvent();
-		assertEquals(testSubscriber.getOnNextEvents().get(0),
+		testSubscriber.assertNotTerminated();
+		assertEquals(testSubscriber.values().get(0),
 			"Find activities while in San francisco");
 	}
 

@@ -5,9 +5,9 @@ import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.FlightItinManageBookingActivity
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.itin.activity.FlightItinTravelerInfoActivity
-import rx.subjects.PublishSubject
+import com.expedia.bookings.utils.FeatureToggleUtil
+import io.reactivex.subjects.PublishSubject
 
 open class FlightItinBookingInfoViewModel(private val context: Context, private val itinId: String) {
     data class WidgetParams(

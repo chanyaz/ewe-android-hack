@@ -17,16 +17,16 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.Constants
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
-import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -43,7 +43,7 @@ class FlightServicesTest {
         logger.level = HttpLoggingInterceptor.Level.BODY
         service = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(), listOf(MockInterceptor()),
-                Schedulers.immediate(), Schedulers.immediate(), false)
+                Schedulers.trampoline(), Schedulers.trampoline(), false)
     }
 
     @Test
@@ -52,8 +52,8 @@ class FlightServicesTest {
                 .setBody("{garbage}"))
         val resultsResponseReceived = PublishSubject.create<Unit>()
 
-        val observer = TestSubscriber<FlightSearchResponse>()
-        val resultsResponseReceivedTestSubscriber = TestSubscriber<Unit>()
+        val observer = TestObserver<FlightSearchResponse>()
+        val resultsResponseReceivedTestSubscriber = TestObserver<Unit>()
         resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber)
         val params = FlightSearchParams.Builder(26, 500)
                 .origin(dummySuggestion)
@@ -78,8 +78,8 @@ class FlightServicesTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val resultsResponseReceived = PublishSubject.create<Unit>()
 
-        val observer = TestSubscriber<FlightSearchResponse>()
-        val resultsResponseReceivedTestSubscriber = TestSubscriber<Unit>()
+        val observer = TestObserver<FlightSearchResponse>()
+        val resultsResponseReceivedTestSubscriber = TestObserver<Unit>()
         resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber)
         val params = FlightSearchParams.Builder(26, 500)
                 .flightCabinClass("COACH")
@@ -94,10 +94,10 @@ class FlightServicesTest {
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
-        observer.assertCompleted()
+        observer.assertComplete()
         observer.assertValueCount(1)
         resultsResponseReceivedTestSubscriber.assertValueCount(1)
-        val response = observer.onNextEvents[0]
+        val response = observer.values()[0]
         Assert.assertEquals(7, response.legs.size.toLong())
         Assert.assertEquals(5, response.offers.size.toLong())
         Assert.assertEquals("coach", response.offers[0].offersSeatClassAndBookingCode[0][0].seatClass)
@@ -113,8 +113,8 @@ class FlightServicesTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val resultsResponseReceived = PublishSubject.create<Unit>()
 
-        val observer = TestSubscriber<FlightSearchResponse>()
-        val resultsResponseReceivedTestSubscriber = TestSubscriber<Unit>()
+        val observer = TestObserver<FlightSearchResponse>()
+        val resultsResponseReceivedTestSubscriber = TestObserver<Unit>()
         resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber)
         val params = FlightSearchParams.Builder(26, 500)
                 .flightCabinClass("COACH")
@@ -129,10 +129,10 @@ class FlightServicesTest {
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
-        observer.assertCompleted()
+        observer.assertComplete()
         observer.assertValueCount(1)
         resultsResponseReceivedTestSubscriber.assertValueCount(1)
-        val response = observer.onNextEvents[0]
+        val response = observer.values()[0]
         Assert.assertEquals(7, response.legs.size.toLong())
         Assert.assertEquals(5, response.offers.size.toLong())
         Assert.assertEquals("coach", response.offers[0].offersSeatClassAndBookingCode[0][0].seatClass)
@@ -149,8 +149,8 @@ class FlightServicesTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val resultsResponseReceived = PublishSubject.create<Unit>()
 
-        val observer = TestSubscriber<FlightSearchResponse>()
-        val resultsResponseReceivedTestSubscriber = TestSubscriber<Unit>()
+        val observer = TestObserver<FlightSearchResponse>()
+        val resultsResponseReceivedTestSubscriber = TestObserver<Unit>()
         resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber)
 
         val origin = dummySuggestion
@@ -169,10 +169,10 @@ class FlightServicesTest {
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
-        observer.assertCompleted()
+        observer.assertComplete()
         observer.assertValueCount(1)
         resultsResponseReceivedTestSubscriber.assertValueCount(1)
-        val response = observer.onNextEvents[0]
+        val response = observer.values()[0]
         Assert.assertEquals(4, response.legs.size.toLong())
         Assert.assertEquals(2, response.offers.size.toLong())
         Assert.assertTrue(response.isResponseCached())
@@ -187,8 +187,8 @@ class FlightServicesTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val resultsResponseReceived = PublishSubject.create<Unit>()
 
-        val observer = TestSubscriber<FlightSearchResponse>()
-        val resultsResponseReceivedTestSubscriber = TestSubscriber<Unit>()
+        val observer = TestObserver<FlightSearchResponse>()
+        val resultsResponseReceivedTestSubscriber = TestObserver<Unit>()
         resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber)
 
         val origin = dummySuggestion
@@ -207,10 +207,10 @@ class FlightServicesTest {
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
-        observer.assertCompleted()
+        observer.assertComplete()
         observer.assertValueCount(1)
         resultsResponseReceivedTestSubscriber.assertValueCount(1)
-        val response = observer.onNextEvents[0]
+        val response = observer.values()[0]
         Assert.assertEquals(4, response.legs.size.toLong())
         Assert.assertEquals(2, response.offers.size.toLong())
         Assert.assertTrue(response.isResponseCached())
@@ -225,8 +225,8 @@ class FlightServicesTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val resultsResponseReceived = PublishSubject.create<Unit>()
 
-        val observer = TestSubscriber<FlightSearchResponse>()
-        val resultsResponseReceivedTestSubscriber = TestSubscriber<Unit>()
+        val observer = TestObserver<FlightSearchResponse>()
+        val resultsResponseReceivedTestSubscriber = TestObserver<Unit>()
         resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber)
 
         val origin = dummySuggestion
@@ -245,10 +245,10 @@ class FlightServicesTest {
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
-        observer.assertCompleted()
+        observer.assertComplete()
         observer.assertValueCount(1)
         resultsResponseReceivedTestSubscriber.assertValueCount(1)
-        val response = observer.onNextEvents[0]
+        val response = observer.values()[0]
         Assert.assertEquals(0, response.legs.size.toLong())
         Assert.assertEquals(0, response.offers.size.toLong())
         Assert.assertTrue(response.isResponseCached())
@@ -263,8 +263,8 @@ class FlightServicesTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val resultsResponseReceived = PublishSubject.create<Unit>()
 
-        val observer = TestSubscriber<FlightSearchResponse>()
-        val resultsResponseReceivedTestSubscriber = TestSubscriber<Unit>()
+        val observer = TestObserver<FlightSearchResponse>()
+        val resultsResponseReceivedTestSubscriber = TestObserver<Unit>()
         resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber)
 
         val params = FlightSearchParams.Builder(26, 500)
@@ -280,7 +280,7 @@ class FlightServicesTest {
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
-        observer.assertCompleted()
+        observer.assertComplete()
         observer.assertValueCount(1)
         resultsResponseReceivedTestSubscriber.assertValueCount(1)
     }
@@ -292,8 +292,8 @@ class FlightServicesTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val resultsResponseReceived = PublishSubject.create<Unit>()
 
-        val observer = TestSubscriber<FlightSearchResponse>()
-        val resultsResponseReceivedTestSubscriber = TestSubscriber<Unit>()
+        val observer = TestObserver<FlightSearchResponse>()
+        val resultsResponseReceivedTestSubscriber = TestObserver<Unit>()
         resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber)
 
         val params = FlightSearchParams.Builder(26, 500)
@@ -308,7 +308,7 @@ class FlightServicesTest {
         service!!.flightSearch(params, observer, resultsResponseReceived)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
         observer.assertNoErrors()
-        observer.assertCompleted()
+        observer.assertComplete()
         observer.assertValueCount(1)
         resultsResponseReceivedTestSubscriber.assertValueCount(1)
     }
@@ -319,7 +319,7 @@ class FlightServicesTest {
         val opener = FileSystemOpener(root)
         server.setDispatcher(ExpediaDispatcher(opener))
 
-        val observer = TestSubscriber<FlightSearchResponse>()
+        val observer = TestObserver<FlightSearchResponse>()
         val departureSuggestion = dummySuggestion
         val suggestion = FlightApiMockResponseGenerator.SuggestionResponseType.SEARCH_ERROR.suggestionString
         departureSuggestion.hierarchyInfo!!.airport!!.airportCode = suggestion
@@ -335,9 +335,9 @@ class FlightServicesTest {
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
-        observer.assertCompleted()
+        observer.assertComplete()
         observer.assertValueCount(1)
-        val response = observer.onNextEvents[0]
+        val response = observer.values()[0]
         Assert.assertEquals(0, response.legs.size.toLong())
         Assert.assertEquals(0, response.offers.size.toLong())
     }
@@ -349,7 +349,7 @@ class FlightServicesTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val observer = PublishSubject.create<FlightCheckoutResponse>()
 
-        val testObserver = TestSubscriber<FlightCheckoutResponse>()
+        val testObserver = TestObserver<FlightCheckoutResponse>()
         observer.subscribe(testObserver)
 
         val params = HashMap<String, Any>()
@@ -358,10 +358,10 @@ class FlightServicesTest {
         service!!.checkout(params, null, observer)
         testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testObserver.assertNoErrors()
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
         testObserver.assertValueCount(1)
 
-        val response = testObserver.onNextEvents[0]
+        val response = testObserver.values()[0]
         assertEquals("725b4f99-bfea-4bef-bbec-a1fa194350e5", response.newTrip?.tripId)
     }
 
@@ -372,7 +372,7 @@ class FlightServicesTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val observer = PublishSubject.create<FlightCheckoutResponse>()
 
-        val testObserver = TestSubscriber<FlightCheckoutResponse>()
+        val testObserver = TestObserver<FlightCheckoutResponse>()
         observer.subscribe(testObserver)
 
         val params = HashMap<String, Any>()
@@ -381,10 +381,10 @@ class FlightServicesTest {
         service!!.checkout(params, null, observer)
         testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testObserver.assertNoErrors()
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
         testObserver.assertValueCount(1)
 
-        val response = testObserver.onNextEvents[0]
+        val response = testObserver.values()[0]
         assertTrue(response.errors.isNotEmpty())
         assertEquals("Custom error response for checkout. tripId is populated from corresponding createTrip",
                 response.errors.get(0).errorInfo.summary)

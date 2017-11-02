@@ -1,7 +1,7 @@
 package com.expedia.bookings.itin.vm
 
 import com.expedia.bookings.itin.data.FlightItinLegsDetailData
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightItinLegsDetailWidgetViewModel {
 

@@ -9,7 +9,7 @@ import com.expedia.vm.rail.RailLegSummaryViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -31,17 +31,17 @@ class RailLegSummaryViewModelTest {
         val railProduct = RailProduct()
         railProduct.aggregatedFareDescription = "Fare Description"
 
-        val overtakenTestSubscriber = TestSubscriber.create<Boolean>()
+        val overtakenTestSubscriber = TestObserver.create<Boolean>()
         viewModel.overtakenSubject.subscribe(overtakenTestSubscriber)
 
         viewModel.railLegOptionObserver.onNext(leg)
         overtakenTestSubscriber.assertValueCount(1)
-        assertFalse(overtakenTestSubscriber.onNextEvents[0])
+        assertFalse(overtakenTestSubscriber.values()[0])
 
         leg.overtakenJourney = true
         viewModel.railLegOptionObserver.onNext(leg)
         overtakenTestSubscriber.assertValueCount(2)
-        assertTrue(overtakenTestSubscriber.onNextEvents[1])
+        assertTrue(overtakenTestSubscriber.values()[1])
     }
 
     @Test
@@ -52,10 +52,10 @@ class RailLegSummaryViewModelTest {
         val card2 = RailCard("cat", "prog", "name2")
         railProduct.fareQualifierList = listOf(card1, card2)
 
-        val cardNameTestSubscriber = TestSubscriber.create<String>()
+        val cardNameTestSubscriber = TestObserver.create<String>()
         viewModel.railCardNameObservable.subscribe(cardNameTestSubscriber)
 
         viewModel.railProductObserver.onNext(railProduct)
-        assertEquals("name1, name2", cardNameTestSubscriber.onNextEvents[0])
+        assertEquals("name1, name2", cardNameTestSubscriber.values()[0])
     }
 }

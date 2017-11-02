@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -76,7 +76,7 @@ class FlightErrorViewModelTest {
     }
 
     private fun assertButtonTextMatchesCheckoutError(apiError: ApiError, errorMessage: String) {
-        val errorButtonTextSubscriber = TestSubscriber.create<String>()
+        val errorButtonTextSubscriber = TestObserver.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonTextSubscriber)
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
@@ -86,7 +86,7 @@ class FlightErrorViewModelTest {
     }
 
     private fun assertErrorMessageMatchesCheckoutError(apiError: ApiError, errorMessage: String) {
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
@@ -96,7 +96,7 @@ class FlightErrorViewModelTest {
     }
 
     fun observableEmissionsOnSearchError(apiError: ApiError) {
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
         subjectUnderTest.searchApiErrorObserver.onNext(apiError)

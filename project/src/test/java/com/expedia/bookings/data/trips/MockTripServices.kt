@@ -1,9 +1,9 @@
 package com.expedia.bookings.data.trips
 
 import com.expedia.bookings.services.TripsServicesInterface
+import io.reactivex.Observable
 import okio.Okio
 import org.json.JSONObject
-import rx.Observable
 import java.io.File
 
 open class MockTripServices(val error: Boolean) : TripsServicesInterface {

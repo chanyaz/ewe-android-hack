@@ -7,6 +7,7 @@ import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchResponse
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.vm.FlightResultsViewModel
@@ -16,7 +17,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -100,10 +100,10 @@ class PackageFlightResultTest {
         Db.setPackageResponse(searchResponse)
 
         val resultsVM = FlightResultsViewModel(context, LineOfBusiness.PACKAGES)
-        val testSubscriber = TestSubscriber<List<FlightLeg>>()
+        val testSubscriber = TestObserver<List<FlightLeg>>()
         resultsVM.flightResultsObservable.subscribe(testSubscriber)
         resultsVM.flightResultsObservable.onNext(searchResponse.packageResult.flightsPackage.flights)
-        val testSubscriberResult = testSubscriber.onNextEvents[0]
+        val testSubscriberResult = testSubscriber.values()[0]
 
         for (i in 2..testSubscriberResult.size - 1) {
             val current = testSubscriberResult[i].packageOfferModel.price.packageTotalPrice.amount

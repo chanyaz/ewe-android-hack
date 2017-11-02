@@ -5,7 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 class RailFareRulesViewModel(val context: Context) {

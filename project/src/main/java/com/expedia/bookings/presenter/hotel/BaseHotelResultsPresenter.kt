@@ -66,8 +66,9 @@ import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.subjects.PublishSubject
+import org.joda.time.DateTime
+import io.reactivex.Observer
+import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 import kotlin.properties.Delegates.notNull
 

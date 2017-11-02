@@ -16,15 +16,14 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.FlightSearchViewModel
-import com.expedia.vm.packages.PackageFlightViewModel
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.schedulers.Schedulers
-import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.test.assertEquals
 
@@ -46,7 +45,7 @@ class PackageFlightListAdapterTest {
         val server = MockWebServer()
         val service = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().build(), listOf(MockInterceptor()),
-                Schedulers.immediate(), Schedulers.immediate(), false)
+                Schedulers.trampoline(), Schedulers.trampoline(), false)
         flightSearchViewModel = FlightSearchViewModel(context)
     }
 

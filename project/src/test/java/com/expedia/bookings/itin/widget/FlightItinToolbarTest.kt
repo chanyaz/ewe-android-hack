@@ -4,16 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.activity.FlightItinDetailsActivity
 import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -51,7 +48,7 @@ class FlightItinToolbarTest {
 
     @Test
     fun testShareIconClick() {
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         sut.viewModel.shareIconClickedSubject.subscribe(testSubscriber)
 
         testSubscriber.assertNoValues()

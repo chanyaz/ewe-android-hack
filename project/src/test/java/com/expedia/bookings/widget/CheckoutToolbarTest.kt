@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.accessibility.AccessibilityManager
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.isSecureIconEnabled
@@ -17,7 +18,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -87,7 +87,7 @@ class CheckoutToolbarTest {
     fun testCustomToolbarTitle() {
         setSecureIconABTest()
         getToolbar()
-        val toolbarCustomTitleTestSubscriber = TestSubscriber.create<String>()
+        val toolbarCustomTitleTestSubscriber = TestObserver.create<String>()
         toolbar.viewModel.toolbarCustomTitle.subscribe(toolbarCustomTitleTestSubscriber)
 
         toolbar.viewModel.toolbarTitle.onNext("test title")
@@ -98,7 +98,7 @@ class CheckoutToolbarTest {
     fun testHideToolbarTitle() {
         setSecureIconABTest()
         getToolbar()
-        val hideToolbarTitleTestSubscriber = TestSubscriber.create<Unit>()
+        val hideToolbarTitleTestSubscriber = TestObserver.create<Unit>()
         toolbar.viewModel.hideToolbarTitle.subscribe(hideToolbarTitleTestSubscriber)
 
         toolbar.viewModel.hideToolbarTitle.onNext(Unit)

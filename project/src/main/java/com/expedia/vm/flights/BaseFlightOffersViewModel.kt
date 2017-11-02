@@ -19,10 +19,12 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
-import rx.Observer
-import rx.Subscription
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import com.expedia.bookings.withLatestFrom
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.HashMap
 
 abstract class BaseFlightOffersViewModel(val context: Context, val flightServices: FlightServices) {
@@ -72,11 +74,11 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     protected var isRoundTripSearch = true
     protected lateinit var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer>
 
-    protected var flightOutboundSearchSubscription: Subscription? = null
-    protected var flightInboundSearchSubscription: Subscription? = null
-    protected var flightCacheSearchSubscription: Subscription? = null
-    protected var flightGreedySearchSubscription: Subscription? = null
-    protected var flightGreedyCacheSearchSubscription: Subscription? = null
+    protected var flightOutboundSearchSubscription: Disposable? = null
+    protected var flightInboundSearchSubscription: Disposable? = null
+    protected var flightCacheSearchSubscription: Disposable? = null
+    protected var flightGreedySearchSubscription: Disposable? = null
+    protected var flightGreedyCacheSearchSubscription: Disposable? = null
 
     init {
         searchParamsObservable.subscribe { params ->
@@ -114,11 +116,11 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             }
 
             cancelGreedySearchObservable.subscribe {
-                flightGreedySearchSubscription?.unsubscribe()
+                flightGreedySearchSubscription?.dispose()
             }
             cancelGreedyCachedSearchObservable.withLatestFrom(isCachedCallCompleted, { _, cachedCallCompleted -> cachedCallCompleted })
                     .subscribe {
-                        flightGreedyCacheSearchSubscription?.unsubscribe()
+                        flightGreedyCacheSearchSubscription?.dispose()
                         if (!it) {
                             cachedSearchTrackingString.onNext("CL")
                         }
@@ -126,19 +128,19 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         }
 
         cancelOutboundSearchObservable.subscribe {
-            flightOutboundSearchSubscription?.unsubscribe()
-            flightCacheSearchSubscription?.unsubscribe()
+            flightOutboundSearchSubscription?.dispose()
+            flightCacheSearchSubscription?.dispose()
         }
 
         cancelInboundSearchObservable.subscribe {
-            flightInboundSearchSubscription?.unsubscribe()
+            flightInboundSearchSubscription?.dispose()
         }
 
         cancelCachedSearchObservable.withLatestFrom(isCachedCallCompleted, { _, cachedCallCompleted -> cachedCallCompleted })
                 .filter { cachedCallCompleted -> !cachedCallCompleted }
                 .subscribe {
                     // Normal API call returned before cache call.
-                    flightCacheSearchSubscription?.unsubscribe()
+                    flightCacheSearchSubscription?.dispose()
                     cachedSearchTrackingString.onNext("CL")
                     showDebugToast("Normal api call returned before cached call.")
                 }
@@ -204,7 +206,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         // fires offer selected before flight selection confirmed to lookup terms, fees etc. in offer
         inboundSelected.subscribe {
             val offer = getFlightOffer(outboundSelected.value.legId, it.legId)
-            flightOfferSelected.onNext(offer)
+            flightOfferSelected.onNext(offer!!)
         }
     }
 
@@ -242,7 +244,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
     protected fun makeResultsObserver(): Observer<FlightSearchResponse> {
 
-        return object : Observer<FlightSearchResponse> {
+        return object : DisposableObserver<FlightSearchResponse>() {
             override fun onNext(response: FlightSearchResponse) {
                 if (isFlightGreedySearchEnabled(context) && !isGreedyCallAborted) {
                     isGreedyCallCompleted =
@@ -330,7 +332,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
         }
     }

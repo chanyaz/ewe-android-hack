@@ -11,8 +11,8 @@ import com.expedia.bookings.services.SuggestionV4Services;
 
 import dagger.Module;
 import dagger.Provides;
-import rx.Observable;
-import rx.functions.Action1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 
 @Module
 public class LXFakeCurrentLocationSuggestionModule {
@@ -31,9 +31,9 @@ public class LXFakeCurrentLocationSuggestionModule {
 	@LXScope
 	Observable<SuggestionV4> provideMockedCurrentLocationSuggestionObservable(SuggestionV4Services service, Context context) {
 		if (error != null) {
-			return Observable.just(new SuggestionV4()).doOnNext(new Action1<SuggestionV4>() {
+			return Observable.just(new SuggestionV4()).doOnNext(new Consumer<SuggestionV4>() {
 				@Override
-				public void call(SuggestionV4 suggestion) {
+				public void accept(SuggestionV4 suggestion) {
 					throw error;
 				}
 			});

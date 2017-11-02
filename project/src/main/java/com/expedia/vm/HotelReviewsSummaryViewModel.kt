@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TypefaceSpan
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class HotelReviewsSummaryViewModel(val context: Context) {
 

@@ -21,6 +21,7 @@ import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.CouponTestUtil
 import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -37,8 +38,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -111,16 +110,16 @@ class MaterialFormsHotelCouponTest {
 
     @Test
     fun testDataOnStoredCouponSubject() {
-        val applyStoredCouponTestSubject = TestSubscriber.create<List<StoredCouponAdapter>>()
+        val applyStoredCouponTestSubject = TestObserver.create<List<StoredCouponAdapter>>()
         goToCheckout(mockHotelServices.getHotelCouponCreateTripResponse())
         couponWidget.storedCouponWidget.viewModel.storedCouponsSubject.subscribe(applyStoredCouponTestSubject)
         checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHotelCouponCreateTripResponse())
 
-        assertEquals(3, applyStoredCouponTestSubject.onNextEvents[0].count())
+        assertEquals(3, applyStoredCouponTestSubject.values()[0].count())
 
         checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripResponse())
 
-        assertEquals(0, applyStoredCouponTestSubject.onNextEvents[1].count())
+        assertEquals(0, applyStoredCouponTestSubject.values()[1].count())
     }
 
     private fun goToCheckout(withTripResponse: HotelCreateTripResponse = mockHotelServices.getHappyCreateTripResponse()) {

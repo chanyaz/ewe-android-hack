@@ -2,7 +2,7 @@ package com.expedia.vm
 
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.util.endlessObserver
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class HotelReviewsPageViewModel {
 
@@ -10,7 +10,7 @@ class HotelReviewsPageViewModel {
     val reviewsListObservable = BehaviorSubject.create<Boolean>()
     val messageProgressLoadingObservable = BehaviorSubject.create<Boolean>()
     val messageProgressLoadingAnimationObservable = BehaviorSubject.create<Unit>()
-    val moreReviewsAvailableObservable = BehaviorSubject.create<Boolean>(true)
+    val moreReviewsAvailableObservable = BehaviorSubject.createDefault<Boolean>(true)
 
     val reviewsObserver = endlessObserver<List<HotelReviewsResponse.Review>> { reviews ->
         hasReviews = hasReviews || reviews.size > 0

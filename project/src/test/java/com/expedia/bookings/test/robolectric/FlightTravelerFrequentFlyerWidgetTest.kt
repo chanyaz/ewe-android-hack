@@ -9,10 +9,11 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightLeg.FlightSegment
-import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
 import com.expedia.bookings.data.flights.FrequentFlyerCard
+import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
 import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership
 import com.expedia.bookings.enums.TravelerCheckoutStatus
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -22,9 +23,10 @@ import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.FrequentFlyerDialogAdapter
 import com.expedia.bookings.widget.traveler.FrequentFlyerAdapter
 import com.expedia.bookings.widget.traveler.FrequentFlyerViewHolder
+import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FrequentFlyerProgramNumberViewModel
-import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
+import io.reactivex.subjects.BehaviorSubject
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,12 +35,10 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
-import rx.subjects.BehaviorSubject
-import kotlin.test.assertEquals
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
-import java.util.LinkedHashMap
 import java.util.ArrayList
+import java.util.LinkedHashMap
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
@@ -63,7 +63,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
         widget = LayoutInflater.from(activity).inflate(R.layout.test_flight_entry_widget, null) as FlightTravelerEntryWidget
         Db.sharedInstance.clear()
         Db.sharedInstance.travelers.add(traveler)
-        widget.viewModel = FlightTravelerEntryWidgetViewModel(activity, 0, BehaviorSubject.create(false), TravelerCheckoutStatus.CLEAN)
+        widget.viewModel = FlightTravelerEntryWidgetViewModel(activity, 0, BehaviorSubject.createDefault(false), TravelerCheckoutStatus.CLEAN)
     }
 
     @Test
@@ -94,11 +94,11 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testFFNDialogNoEnrolledPrograms() {
-        val frequentFlyerPlansSubscriber = TestSubscriber.create<FlightCreateTripResponse.FrequentFlyerPlans>()
+        val frequentFlyerPlansSubscriber = TestObserver.create<FlightCreateTripResponse.FrequentFlyerPlans>()
         val ffnAdapter = widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter
         ffnAdapter.viewModel.frequentFlyerPlans.subscribe(frequentFlyerPlansSubscriber)
         givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = false)
-        assertNull(frequentFlyerPlansSubscriber.onNextEvents[0].enrolledFrequentFlyerPlans)
+        assertNull(frequentFlyerPlansSubscriber.values()[0].enrolledFrequentFlyerPlans)
 
         val frequentFlyerViewHolder = getViewHolderAndOpen()
         assertFrequentFlyerViewHolderData(frequentFlyerViewHolder, "Alaska Airlines", "Alaska Airlines", "", 0)
@@ -112,14 +112,14 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testFFNDialogEnrolledPrograms() {
-        val frequentFlyerPlansSubscriber = TestSubscriber.create<FlightCreateTripResponse.FrequentFlyerPlans>()
+        val frequentFlyerPlansSubscriber = TestObserver.create<FlightCreateTripResponse.FrequentFlyerPlans>()
         val ffnAdapter = widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter
         ffnAdapter.viewModel.frequentFlyerPlans.subscribe(frequentFlyerPlansSubscriber)
         Db.sharedInstance.travelers[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
         givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = true)
 
         frequentFlyerPlansSubscriber.assertValueCount(1)
-        val plans = frequentFlyerPlansSubscriber.onNextEvents[0]
+        val plans = frequentFlyerPlansSubscriber.values()[0]
         assertEquals(1, plans.enrolledFrequentFlyerPlans.size)
 
         val frequentFlyerViewHolder = getViewHolderAndOpen()
@@ -154,7 +154,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testNewSelectedTravelerClearsFFN() {
-        val updateTravelerSubscriber = TestSubscriber.create<Traveler>()
+        val updateTravelerSubscriber = TestObserver.create<Traveler>()
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.updateTravelerObservable?.subscribe(updateTravelerSubscriber)
         Db.sharedInstance.travelers[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
         givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = true)
@@ -191,8 +191,8 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testFrequentFlyerButtonHiddenWithoutValidPlans() {
-        val frequentFlyerVisibilitySubscriber = TestSubscriber.create<Boolean>()
-        val frequentFlyerCardsSubscriber = TestSubscriber.create<List<FrequentFlyerCard>>()
+        val frequentFlyerVisibilitySubscriber = TestObserver.create<Boolean>()
+        val frequentFlyerCardsSubscriber = TestObserver.create<List<FrequentFlyerCard>>()
         setupVisibilityAndCardTestSubscribers(frequentFlyerVisibilitySubscriber, frequentFlyerCardsSubscriber, 1)
 
         frequentFlyerCardsSubscriber.assertNoValues()
@@ -203,8 +203,8 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testFrequentFlyerButtonVisibleWithOneValidAndOneInvalidPlan() {
-        val frequentFlyerVisibilitySubscriber = TestSubscriber.create<Boolean>()
-        val frequentFlyerCardsSubscriber = TestSubscriber.create<List<FrequentFlyerCard>>()
+        val frequentFlyerVisibilitySubscriber = TestObserver.create<Boolean>()
+        val frequentFlyerCardsSubscriber = TestObserver.create<List<FrequentFlyerCard>>()
         setupVisibilityAndCardTestSubscribers(frequentFlyerVisibilitySubscriber, frequentFlyerCardsSubscriber, 2)
 
         frequentFlyerCardsSubscriber.assertValueCount(1)
@@ -214,8 +214,8 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testFrequentFlyerRecyclerVisibilityWithValidPlans() {
-        val frequentFlyerVisibilitySubscriber = TestSubscriber.create<Boolean>()
-        val frequentFlyerCardsSubscriber = TestSubscriber.create<List<FrequentFlyerCard>>()
+        val frequentFlyerVisibilitySubscriber = TestObserver.create<Boolean>()
+        val frequentFlyerCardsSubscriber = TestObserver.create<List<FrequentFlyerCard>>()
         setupVisibilityAndCardTestSubscribers(frequentFlyerVisibilitySubscriber, frequentFlyerCardsSubscriber, 2)
 
         frequentFlyerCardsSubscriber.assertValueCount(1)
@@ -231,8 +231,8 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testFrequentFlyerRecyclerVisibilityWithInvalidPlans() {
-        val frequentFlyerVisibilitySubscriber = TestSubscriber.create<Boolean>()
-        val frequentFlyerCardsSubscriber = TestSubscriber.create<List<FrequentFlyerCard>>()
+        val frequentFlyerVisibilitySubscriber = TestObserver.create<Boolean>()
+        val frequentFlyerCardsSubscriber = TestObserver.create<List<FrequentFlyerCard>>()
         setupVisibilityAndCardTestSubscribers(frequentFlyerVisibilitySubscriber, frequentFlyerCardsSubscriber, 1)
 
         frequentFlyerCardsSubscriber.assertNoValues()
@@ -243,7 +243,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testFrequentFlyerDoesntCrashSwitchingTravelersWhileClosed() {
-        val updateTravelerSubscriber = TestSubscriber.create<Traveler>()
+        val updateTravelerSubscriber = TestObserver.create<Traveler>()
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.updateTravelerObservable?.subscribe(updateTravelerSubscriber)
         Db.sharedInstance.travelers[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable.onNext(listOf(buildMockFlight(3)))
@@ -274,8 +274,8 @@ class FlightTravelerFrequentFlyerWidgetTest {
         assertEquals(0, frequentFlyerViewHolder.viewModel.enrolledPlans.size)
     }
 
-    private fun setupVisibilityAndCardTestSubscribers(visibilitySubscriber: TestSubscriber<Boolean>,
-                                                      cardsSubscriber: TestSubscriber<List<FrequentFlyerCard>>,
+    private fun setupVisibilityAndCardTestSubscribers(visibilitySubscriber: TestObserver<Boolean>,
+                                                      cardsSubscriber: TestObserver<List<FrequentFlyerCard>>,
                                                       numOfSegments: Int) {
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel
                 ?.showFrequentFlyerObservable?.subscribe(visibilitySubscriber)

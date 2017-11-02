@@ -33,7 +33,7 @@ import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
-import rx.Subscription
+import io.reactivex.disposables.Disposable
 
 abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener{
 
@@ -61,7 +61,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     var scrollSpaceView: View? = null
     var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
-    private var trackShowingCkoOverviewSubscription: Subscription? = null
+    private var trackShowingCkoOverviewSubscription: Disposable? = null
 
     val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.payment_fee_info_webview_stub)
@@ -369,14 +369,14 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     fun trackShowBundleOverview() {
-        trackShowingCkoOverviewSubscription?.unsubscribe()
+        trackShowingCkoOverviewSubscription?.dispose()
         val createTripResponse = checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.value?.value
         if (createTripResponse != null) {
             fireCheckoutOverviewTracking(createTripResponse)
         } else {
             trackShowingCkoOverviewSubscription = checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { tripResponse ->
                 // Un-subscribe:- as we only want to track the initial load of cko overview
-                trackShowingCkoOverviewSubscription?.unsubscribe()
+                trackShowingCkoOverviewSubscription?.dispose()
                 fireCheckoutOverviewTracking(tripResponse!!)
             }
         }

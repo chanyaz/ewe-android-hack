@@ -23,7 +23,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 open class HotelViewModel(private val context: Context) {
 

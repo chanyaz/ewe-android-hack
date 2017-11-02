@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.FlightV2Utils.getDeltaPricing
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class FareFamilyItemViewModel(val context: Context,
                               val fareFamilyDetail: FlightTripResponse.FareFamilyDetails,

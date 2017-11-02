@@ -18,8 +18,8 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.FlightCellWidget
 import com.expedia.bookings.widget.packages.PackageBannerWidget
 import com.expedia.vm.AbstractFlightViewModel
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.Locale
 

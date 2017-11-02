@@ -4,20 +4,20 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.tracking.RailTracking
-import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.StrUtils
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class BaseTravelerPickerViewModel(var context: Context) {
     val adultTextObservable = BehaviorSubject.create<String>()
     val childTextObservable = BehaviorSubject.create<String>()
-    val travelerParamsObservable = BehaviorSubject.create(TravelerParams(1, emptyList(), emptyList(), emptyList()))
+    val travelerParamsObservable = BehaviorSubject.createDefault(TravelerParams(1, emptyList(), emptyList(), emptyList()))
     val guestsTextObservable = BehaviorSubject.create<CharSequence>()
-    val isInfantInLapObservable = BehaviorSubject.create<Boolean>(false)
+    val isInfantInLapObservable = BehaviorSubject.createDefault<Boolean>(false)
     val infantInSeatObservable = PublishSubject.create<Boolean>()
     val isTravelerSelectionChangedObservable = PublishSubject.create<Boolean>()
     var showSeatingPreference = false

@@ -6,8 +6,8 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.rail.util.RailUtils
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 open class BaseRailResultsViewModel(context: Context) {
     //input

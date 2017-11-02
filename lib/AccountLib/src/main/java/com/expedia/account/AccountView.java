@@ -49,12 +49,12 @@ import com.expedia.account.view.TOSLayout;
 import com.expedia.account.view.WelcomeLayout;
 import com.squareup.otto.Subscribe;
 
-import rx.Observer;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class AccountView extends BufferedPresenter {
@@ -77,7 +77,7 @@ public class AccountView extends BufferedPresenter {
 
 	private FacebookViewHelper mFacebookHelper;
 	private SmartPasswordViewHelper mSmartLockHelper;
-	private Subscription mCurrentDownload;
+	private Disposable mCurrentDownload;
 	private static final Boolean isMinimumAccessibilityAPI = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1;
 
 	// Flags for specifying whether to direct focus to these fields
@@ -89,9 +89,9 @@ public class AccountView extends BufferedPresenter {
 
 	private static final String TAG = "AccountView";
 
-	private Observer<Boolean> mNextButtonController = new Observer<Boolean>() {
+	private Observer<Boolean> mNextButtonController = new DisposableObserver<Boolean>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override
@@ -104,9 +104,9 @@ public class AccountView extends BufferedPresenter {
 		}
 	};
 
-	private Observer<Boolean> mLinkButtonController = new Observer<Boolean>() {
+	private Observer<Boolean> mLinkButtonController = new DisposableObserver<Boolean>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override
@@ -950,7 +950,7 @@ public class AccountView extends BufferedPresenter {
 			if (mCurrentDownload != null && (
 				STATE_LOADING_ACCOUNT.equals(state) ||
 					STATE_LOADING_SIGN_IN.equals(state))) {
-				mCurrentDownload.unsubscribe();
+				mCurrentDownload.dispose();
 				mCurrentDownload = null;
 			}
 
@@ -1385,12 +1385,12 @@ public class AccountView extends BufferedPresenter {
 
 	private void doSignIn(final String email, final String password, final String recaptchaResponseToken) {
 		show(STATE_LOADING_SIGN_IN);
-		mCurrentDownload = getService().signIn(email, password, recaptchaResponseToken)
+		getService().signIn(email, password, recaptchaResponseToken)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(new Subscriber<AccountResponse>() {
+			.subscribe(new Observer<AccountResponse>() {
 				@Override
-				public void onCompleted() {
+				public void onComplete() {
 					mCurrentDownload = null;
 				}
 
@@ -1399,6 +1399,11 @@ public class AccountView extends BufferedPresenter {
 					mCurrentDownload = null;
 					show(STATE_SIGN_IN, FLAG_CLEAR_BACKSTACK);
 					showSignInError(e);
+				}
+
+				@Override
+				public void onSubscribe(Disposable d) {
+					mCurrentDownload = d;
 				}
 
 				@Override
@@ -1444,21 +1449,21 @@ public class AccountView extends BufferedPresenter {
 	private void doCreateAccount(String recaptchaResponseToken) {
 		final PartialUser user = Db.getNewUser();
 		user.recaptchaResponseToken = recaptchaResponseToken;
-		mCurrentDownload = getService().createUser(user)
+		getService().createUser(user)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
-			.map(new Func1<AccountResponse, AccountResponse>() {
+			.map(new Function<AccountResponse, AccountResponse>() {
 				@Override
-				public AccountResponse call(AccountResponse accountResponse) {
+				public AccountResponse apply(AccountResponse accountResponse) throws Exception {
 					if (!TextUtils.isEmpty(accountResponse.tuid)) {
 						accountResponse.success = true;
 					}
 					return accountResponse;
 				}
 			})
-			.subscribe(new Subscriber<AccountResponse>() {
+			.subscribe(new Observer<AccountResponse>() {
 				@Override
-				public void onCompleted() {
+				public void onComplete() {
 					mCurrentDownload = null;
 				}
 
@@ -1466,6 +1471,11 @@ public class AccountView extends BufferedPresenter {
 				public void onError(Throwable e) {
 					mCurrentDownload = null;
 					showCreateAccountError(e);
+				}
+
+				@Override
+				public void onSubscribe(Disposable d) {
+					mCurrentDownload = d;
 				}
 
 				@Override

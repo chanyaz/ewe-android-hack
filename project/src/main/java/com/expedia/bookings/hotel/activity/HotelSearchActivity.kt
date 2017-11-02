@@ -34,9 +34,9 @@ class HotelSearchActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        presenter.shopWithPointsWidget.subscription.unsubscribe()
-        presenter.shopWithPointsWidget.shopWithPointsViewModel.subscription.unsubscribe()
-        hotelSearchManager.unsubscribe()
+        presenter.shopWithPointsWidget.subscription.dispose()
+        presenter.shopWithPointsWidget.shopWithPointsViewModel.subscription.dispose()
+        hotelSearchManager.dispose()
 
         super.onDestroy()
     }

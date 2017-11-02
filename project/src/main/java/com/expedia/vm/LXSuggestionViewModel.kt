@@ -6,8 +6,8 @@ import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.SuggestionStrUtils
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class LXSuggestionViewModel(val context: Context) {
 

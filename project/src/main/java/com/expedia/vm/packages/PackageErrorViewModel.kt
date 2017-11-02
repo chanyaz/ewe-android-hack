@@ -9,11 +9,12 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
+import com.expedia.bookings.withLatestFrom
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractErrorViewModel
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {

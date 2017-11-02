@@ -2,8 +2,8 @@ package com.expedia.bookings.presenter
 
 import android.content.Context
 import com.expedia.bookings.data.TripResponse
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class BottomCheckoutContainerViewModel(context: Context) {
 

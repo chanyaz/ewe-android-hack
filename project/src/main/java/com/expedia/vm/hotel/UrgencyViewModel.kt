@@ -7,9 +7,9 @@ import com.expedia.bookings.data.urgency.UrgencyResponse
 import com.expedia.bookings.services.urgency.UrgencyServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.squareup.phrase.Phrase
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
-import rx.Observer
-import rx.subjects.PublishSubject
 
 class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices) {
 
@@ -52,10 +52,10 @@ class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices
         return date.toString("MM/d/YYYY")
     }
 
-    private class UrgencyObserver : Observer<UrgencyResponse> {
+    private class UrgencyObserver : DisposableObserver<UrgencyResponse>() {
         val urgencyResponseSubject = PublishSubject.create<UrgencyResponse>()
 
-        override fun onNext(response: UrgencyResponse?) {
+        override fun onNext(response: UrgencyResponse) {
             if (response != null && !response.hasError()) {
                 urgencyResponseSubject.onNext(response)
             } else {
@@ -63,11 +63,11 @@ class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices
             }
         }
 
-        override fun onError(e: Throwable?) {
+        override fun onError(e: Throwable) {
             //nothing, swallow errors
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
         }
     }
 

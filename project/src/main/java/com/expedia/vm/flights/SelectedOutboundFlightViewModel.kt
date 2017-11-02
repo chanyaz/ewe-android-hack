@@ -5,7 +5,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.FlightV2Utils
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class SelectedOutboundFlightViewModel(outboundFlightSelectedSubject: PublishSubject<FlightLeg>, context: Context, isDeltaPricingEnabled: Boolean) {
 

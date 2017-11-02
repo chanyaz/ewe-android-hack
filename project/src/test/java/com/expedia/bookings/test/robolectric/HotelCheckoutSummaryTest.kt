@@ -1,26 +1,26 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
+import android.view.View
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
+import com.expedia.bookings.widget.TextView
 import com.expedia.vm.HotelCheckoutSummaryViewModel
+import io.reactivex.subjects.PublishSubject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import android.view.View
-import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.widget.TextView
-import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -109,7 +109,7 @@ class HotelCheckoutSummaryTest {
         val textView = container.getChildAt(0) as TextView
         assertEquals(description1, actual = textView.text.toString())
 
-        hotelCheckoutSummaryViewModel.valueAddsListObservable.onNext(null)
+        hotelCheckoutSummaryViewModel.valueAddsListObservable.onNext(emptyList())
         assertEquals(0, container.childCount)
     }
 

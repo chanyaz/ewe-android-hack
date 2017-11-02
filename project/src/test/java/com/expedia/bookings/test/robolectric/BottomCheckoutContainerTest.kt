@@ -16,7 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -40,12 +40,12 @@ class BottomCheckoutContainerTest {
 
     @Test
     fun testSliderPurchaseTotalText() {
-        val sliderPurchaseTotalTestTestSubscriber = TestSubscriber<CharSequence>()
+        val sliderPurchaseTotalTestTestSubscriber = TestObserver<CharSequence>()
         bottomContainer.viewModel.sliderPurchaseTotalText.subscribe(sliderPurchaseTotalTestTestSubscriber)
 
         val totalChargedString = "Your card will be charged $50.00"
         bottomContainer.viewModel.sliderPurchaseTotalText.onNext(totalChargedString)
-        assertEquals(totalChargedString, sliderPurchaseTotalTestTestSubscriber.onNextEvents[0])
+        assertEquals(totalChargedString, sliderPurchaseTotalTestTestSubscriber.values()[0])
     }
 
     @Test
@@ -78,7 +78,7 @@ class BottomCheckoutContainerTest {
 
     @Test
     fun testBottomContainerState() {
-        val testSubscriber = TestSubscriber.create<Boolean>()
+        val testSubscriber = TestObserver.create<Boolean>()
         bottomContainer.viewModel.checkoutButtonEnableObservable.subscribe(testSubscriber)
         bottomContainer.viewModel.resetPriceWidgetObservable.onNext(Unit)
         testSubscriber.assertValueCount(1)

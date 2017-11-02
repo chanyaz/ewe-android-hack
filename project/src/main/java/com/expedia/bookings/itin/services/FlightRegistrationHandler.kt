@@ -12,8 +12,7 @@ import com.expedia.bookings.data.user.UserSource
 import com.expedia.bookings.notification.GCMRegistrationKeeper
 import com.expedia.bookings.services.TNSServices
 import com.expedia.bookings.utils.UniqueIdentifierHelper
-
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightRegistrationHandler(val context: Context,
                                 val tnsServices: TNSServices,

@@ -4,17 +4,18 @@ import android.content.Intent
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripsShareUrlShortenResponse
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.services.TripShareUrlShortenServiceInterface
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.Observable
-import rx.Observer
-import rx.Subscription
-import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class ShortenShareUrlUtilsTest {
@@ -34,21 +35,21 @@ class ShortenShareUrlUtilsTest {
         val sut = ShortenShareUrlUtils.getInstance(activity)
         sut.tripShareUrlShortenService = TestShortenUrlService()
 
-        var testSubscriber = TestSubscriber<String>()
+        var testSubscriber = TestObserver<String>()
         testSubscriber.assertNoErrors()
         sut.shortenSharableUrl("", testSubscriber)
-        testSubscriber.assertReceivedOnNext(mutableListOf(""))
-        testSubscriber.unsubscribe()
+        testSubscriber.assertValues("")
+        testSubscriber.dispose()
 
-        testSubscriber = TestSubscriber<String>()
+        testSubscriber = TestObserver<String>()
         testSubscriber.assertNoErrors()
         sut.shortenSharableUrl("http://expedia.com", testSubscriber)
-        testSubscriber.assertReceivedOnNext(mutableListOf("m"))
-        testSubscriber.unsubscribe()
+        testSubscriber.assertValues("m")
+        testSubscriber.dispose()
     }
 
     private class TestShortenUrlService : TripShareUrlShortenServiceInterface {
-        override fun getShortenedShareUrl(url: String, observer: Observer<TripsShareUrlShortenResponse>): Subscription =
-                Observable.just(TripsShareUrlShortenResponse(url, url.drop(url.length - 1))).subscribe(observer)
+        override fun getShortenedShareUrl(url: String, observer: Observer<TripsShareUrlShortenResponse>): Disposable =
+                Observable.just(TripsShareUrlShortenResponse(url, url.drop(url.length - 1))).subscribeObserver(observer)
     }
 }

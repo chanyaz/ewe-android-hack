@@ -9,10 +9,11 @@ import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.data.Money
 import java.util.Locale
+import com.expedia.bookings.withLatestFrom
+import io.reactivex.subjects.PublishSubject
 
 class FareFamilyViewModel(private val context: Context) {
     // inputs

@@ -8,27 +8,27 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.BasicEconomyToolTipView
-import com.expedia.util.subscribeVisibility
+import com.expedia.bookings.widget.FlightSegmentBreakdownView
+import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
-import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeTextAndVisibilityInvisible
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import com.expedia.vm.flights.BasicEconomyTooltipViewModel
-import rx.subjects.PublishSubject
-import rx.Observable
+import io.reactivex.subjects.PublishSubject
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
@@ -77,7 +77,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
         vm.earnMessage.subscribeText(earnMessageTextView)
         vm.showEarnMessage.subscribeVisibility(earnMessageTextView)
         vm.showBundlePriceSubject.subscribeVisibility(bundlePriceLabelTextView)
-        Observable.combineLatest(vm.showEarnMessage, vm.showBundlePriceSubject, {
+        ObservableOld.combineLatest(vm.showEarnMessage, vm.showBundlePriceSubject, {
             showEarnMessage, showBundlePrice ->
             showEarnMessage || showBundlePrice
         }).subscribeVisibility(bundlePriceTextView)

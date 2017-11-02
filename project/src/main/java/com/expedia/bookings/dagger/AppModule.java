@@ -52,6 +52,8 @@ import com.mobiata.android.util.NetUtils;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
@@ -59,8 +61,6 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 @Module
 public class AppModule {

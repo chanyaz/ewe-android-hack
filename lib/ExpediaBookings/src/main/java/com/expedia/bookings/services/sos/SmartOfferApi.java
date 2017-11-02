@@ -4,7 +4,7 @@ import com.expedia.bookings.data.sos.DealsResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface SmartOfferApi {
 	@GET("/sos/offers/member-only-deals/v1?")

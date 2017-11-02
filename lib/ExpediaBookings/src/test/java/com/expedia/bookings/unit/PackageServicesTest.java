@@ -27,11 +27,13 @@ import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ProductSearchType;
+import com.expedia.bookings.services.TestObserver;
 import com.expedia.bookings.utils.Constants;
 import com.google.gson.Gson;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -39,8 +41,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import retrofit2.HttpException;
-import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
 
 public class PackageServicesTest {
 	@Rule
@@ -55,7 +55,7 @@ public class PackageServicesTest {
 		Interceptor interceptor = new MockInterceptor();
 		service = new PackageServices("http://localhost:" + server.getPort(),
 			new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor, Schedulers.immediate(), Schedulers.immediate());
+			interceptor, Schedulers.trampoline(), Schedulers.trampoline());
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class PackageServicesTest {
 		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -84,7 +84,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -96,9 +96,9 @@ public class PackageServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		BundleSearchResponse response = observer.values().get(0);
 		Assert.assertEquals(48, response.getHotels().size());
 		Assert.assertEquals(2, response.getFlightLegs().size());
 		System.out.println(response.getFlightLegs().get(0).flightSegments.get(0).airlineLogoURL);
@@ -112,7 +112,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -124,9 +124,9 @@ public class PackageServicesTest {
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		BundleSearchResponse response = observer.values().get(0);
 		Assert.assertEquals(50, response.getHotels().size());
 		Assert.assertEquals(100, response.getFlightLegs().size());
 
@@ -153,7 +153,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 
 		SuggestionV4 originSuggestion = getDummySuggestion();
 		originSuggestion.hierarchyInfo.airport.airportCode = "error";
@@ -168,7 +168,7 @@ public class PackageServicesTest {
 
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
-		Throwable throwable = observer.getOnErrorEvents().get(0);
+		Throwable throwable = observer.errors().get(0);
 		if (throwable instanceof HttpException) {
 			ResponseBody response = ((HttpException) throwable).response().errorBody();
 			Assert.assertNotNull(response);
@@ -188,7 +188,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -203,9 +203,9 @@ public class PackageServicesTest {
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		BundleSearchResponse response = observer.values().get(0);
 		Assert.assertEquals(50, response.getHotels().size());
 		Assert.assertEquals(100, response.getFlightLegs().size());
 
@@ -232,7 +232,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
@@ -248,7 +248,7 @@ public class PackageServicesTest {
 
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
-		Throwable throwable = observer.getOnErrorEvents().get(0);
+		Throwable throwable = observer.errors().get(0);
 		if (throwable instanceof HttpException) {
 			ResponseBody response = ((HttpException) throwable).response().errorBody();
 			Assert.assertNotNull(response);
@@ -268,7 +268,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -284,9 +284,9 @@ public class PackageServicesTest {
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		BundleSearchResponse response = observer.values().get(0);
 		Assert.assertEquals(50, response.getHotels().size());
 		Assert.assertEquals(100, response.getFlightLegs().size());
 
@@ -313,7 +313,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
@@ -330,7 +330,7 @@ public class PackageServicesTest {
 
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
-		Throwable throwable = observer.getOnErrorEvents().get(0);
+		Throwable throwable = observer.errors().get(0);
 		if (throwable instanceof HttpException) {
 			ResponseBody response = ((HttpException) throwable).response().errorBody();
 			Assert.assertNotNull(response);
@@ -350,7 +350,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<MultiItemApiSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<MultiItemApiSearchResponse> observer = new TestObserver<>();
 
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
@@ -364,9 +364,9 @@ public class PackageServicesTest {
 
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 
-		MultiItemApiSearchResponse response = observer.getOnNextEvents().get(0);
+		MultiItemApiSearchResponse response = observer.values().get(0);
 
 		Assert.assertEquals("3052.42", response.getOffers().get(0).getPrice().getBasePrice().getAmount().toString());
 	}
@@ -377,7 +377,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
@@ -391,7 +391,7 @@ public class PackageServicesTest {
 
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
-		Throwable throwable = observer.getOnErrorEvents().get(0);
+		Throwable throwable = observer.errors().get(0);
 		if (throwable instanceof HttpException) {
 			ResponseBody response = ((HttpException) throwable).response().errorBody();
 			Assert.assertNotNull(response);
@@ -414,13 +414,13 @@ public class PackageServicesTest {
 		String prodID = "create_trip_multitraveler";
 		String destID = "6139057";
 
-		TestSubscriber<PackageCreateTripResponse> observer = new TestSubscriber<>();
+		TestObserver<PackageCreateTripResponse> observer = new TestObserver<>();
 		PackageCreateTripParams params = new PackageCreateTripParams(prodID, destID, 2, false, Arrays.asList(0, 8, 12));
 		service.createTrip(params).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertNoErrors();
-		observer.assertCompleted();
-		PackageCreateTripResponse response = observer.getOnNextEvents().get(0);
+		observer.assertComplete();
+		PackageCreateTripResponse response = observer.values().get(0);
 		Assert.assertEquals("$2,202.34", response.packageDetails.pricing.packageTotal.getFormattedMoneyFromAmountAndCurrencyCode());
 		Assert.assertEquals("4", response.packageDetails.flight.details.offer.numberOfTickets);
 	}
@@ -440,7 +440,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -456,9 +456,9 @@ public class PackageServicesTest {
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		BundleSearchResponse response = observer.values().get(0);
 		Assert.assertEquals("v5-45dc0add4d92f2116bdcde80d6c383cc-46-1-st-v5-a2573d67403439fd314f60b92e69c5d0-37-1", response.getSelectedFlightPIID("484e6292832e2ace56acb0c2d202c6fd", "6dbea58f27ddc792f812ab18982fb2bc"));
 		Assert.assertNull(response.getSelectedFlightPIID(null, null));
 		Assert.assertNull(response.getSelectedFlightPIID("484e6292832e2ace56acb0c2d202c6fd", "wrong_id"));
@@ -470,7 +470,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -482,9 +482,9 @@ public class PackageServicesTest {
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		BundleSearchResponse response = observer.values().get(0);
 		Assert.assertEquals("v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1", response.getFlightPIIDFromSelectedHotel(response.getHotels().get(0).hotelPid));
 		Assert.assertNull(response.getFlightPIIDFromSelectedHotel("hotel-ZERO"));
 		Assert.assertNull(response.getFlightPIIDFromSelectedHotel(null));

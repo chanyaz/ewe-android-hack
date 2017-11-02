@@ -15,6 +15,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import com.expedia.bookings.services.TestObserver
+import java.io.File
+import java.util.concurrent.TimeUnit
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -40,7 +43,6 @@ class PackageHotelPresenterTest {
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
     lateinit var hotelResponse: BundleSearchResponse
-
 
     @Before
     fun setup() {

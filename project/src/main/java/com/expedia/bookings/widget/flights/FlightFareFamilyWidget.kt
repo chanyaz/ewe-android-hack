@@ -7,11 +7,11 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
-import android.view.ViewTreeObserver
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.RadioGroup
 import com.expedia.bookings.R
@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.ScrollView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
+import com.expedia.bookings.withLatestFrom
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.flights.FareFamilyItemViewModel

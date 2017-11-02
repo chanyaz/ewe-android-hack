@@ -4,6 +4,14 @@ import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
+import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.TripBucketItemFlightV2
+import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
@@ -11,6 +19,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -32,15 +41,6 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.TripBucketItemFlightV2
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.BillingInfo
-import com.expedia.bookings.data.TripDetails
-import com.expedia.bookings.data.LineOfBusiness
-import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -92,7 +92,7 @@ class FlightCheckoutToolbarTest {
     @Test
     fun testToolbarReceivesOnDoneClicked() {
         overview.showCheckout()
-        val testDoneClickedSubscriber = TestSubscriber<() -> Unit>()
+        val testDoneClickedSubscriber = TestObserver<() -> Unit>()
         toolbar.viewModel.doneClickedMethod.subscribe(testDoneClickedSubscriber)
         checkout.paymentWidget.cardInfoContainer.performClick()
         checkout.paymentWidget.showPaymentForm(false)

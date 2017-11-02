@@ -20,7 +20,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
+import com.expedia.util.Optional
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -50,11 +51,11 @@ class RailCheckoutViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testTotalPriceText() {
-        val testSubscriber = TestSubscriber<CharSequence>()
+        val testSubscriber = TestObserver<CharSequence>()
         testViewModel.sliderPurchaseTotalText.subscribe(testSubscriber)
 
         testViewModel.totalPriceObserver.onNext(testPrice)
-        assertEquals(expectedSlideToPurchaseText, testSubscriber.onNextEvents[0])
+        assertEquals(expectedSlideToPurchaseText, testSubscriber.values()[0])
     }
 
     @Test
@@ -73,7 +74,7 @@ class RailCheckoutViewModelTest {
     @Test
     fun testBillingInfoObserver() {
         val mockBilling = buildMockBillingInfo()
-        testViewModel.paymentCompleteObserver.onNext(mockBilling)
+        testViewModel.paymentCompleteObserver.onNext(Optional(mockBilling))
 
         // ALL fields are required for valid rail booking, and should be called at least once building checkout params.
         Mockito.verify(mockBilling, Mockito.times(1)).number
@@ -112,8 +113,8 @@ class RailCheckoutViewModelTest {
 
     @Test
     fun testPriceChange() {
-        val priceChangeTestSub = TestSubscriber<Pair<Money, Money>>()
-        val pricingSubjectTestSub = TestSubscriber<RailCreateTripResponse>()
+        val priceChangeTestSub = TestObserver<Pair<Money, Money>>()
+        val pricingSubjectTestSub = TestObserver<RailCreateTripResponse>()
 
         val oldMockResponse = RailCreateTripResponse()
         oldMockResponse.totalPrice = Money("12120", "USD")
@@ -124,53 +125,53 @@ class RailCheckoutViewModelTest {
 
         testViewModel.checkoutParams.onNext(buildMockCheckoutParams("pricechange"))
 
-        assertNotNull(priceChangeTestSub.onNextEvents[0])
-        assertEquals(expectedPriceChangeTripId, pricingSubjectTestSub.onNextEvents[0].tripId)
+        assertNotNull(priceChangeTestSub.values()[0])
+        assertEquals(expectedPriceChangeTripId, pricingSubjectTestSub.values()[0].tripId)
         assertEquals(expectedPriceChangeTripId, testViewModel.createTripId)
     }
 
     @Test
     fun testInvalidInputError() {
-        val errorTestSub = TestSubscriber<ApiError>()
+        val errorTestSub = TestObserver<ApiError>()
         testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
 
         testViewModel.checkoutParams.onNext(buildMockCheckoutParams("invalidinput"))
 
-        assertNotNull(errorTestSub.onNextEvents[0])
-        assertEquals(ApiError.Code.INVALID_INPUT, errorTestSub.onNextEvents[0].errorCode)
+        assertNotNull(errorTestSub.values()[0])
+        assertEquals(ApiError.Code.INVALID_INPUT, errorTestSub.values()[0].errorCode)
     }
 
     @Test
     fun testUnknownApiError() {
-        val errorTestSub = TestSubscriber<ApiError>()
+        val errorTestSub = TestObserver<ApiError>()
         testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
 
         testViewModel.checkoutParams.onNext(buildMockCheckoutParams("unknownpayment"))
 
-        assertNotNull(errorTestSub.onNextEvents[0])
-        assertEquals(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR, errorTestSub.onNextEvents[0].errorCode)
+        assertNotNull(errorTestSub.values()[0])
+        assertEquals(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR, errorTestSub.values()[0].errorCode)
     }
 
     @Test
     fun testOtherUnknownErrors() {
-        val errorTestSub = TestSubscriber<ApiError>()
+        val errorTestSub = TestObserver<ApiError>()
         testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
 
         testViewModel.checkoutParams.onNext(buildMockCheckoutParams("unknown"))
 
-        assertNotNull(errorTestSub.onNextEvents[0])
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, errorTestSub.onNextEvents[0].errorCode)
+        assertNotNull(errorTestSub.values()[0])
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, errorTestSub.values()[0].errorCode)
     }
 
     @Test
     fun testRailCheckout() {
-        val checkoutTestSub = TestSubscriber<Pair<RailCheckoutResponse, String>>()
+        val checkoutTestSub = TestObserver<Pair<RailCheckoutResponse, String>>()
         testViewModel.bookingSuccessSubject.subscribe(checkoutTestSub)
         testViewModel.travelerCompleteObserver.onNext(buildMockTraveler())
 
         testViewModel.checkoutParams.onNext(getCheckoutRequest())
 
-        assertEquals(expectedCheckoutItinNumber, checkoutTestSub.onNextEvents[0].first.newTrip.itineraryNumber)
+        assertEquals(expectedCheckoutItinNumber, checkoutTestSub.values()[0].first.newTrip.itineraryNumber)
     }
 
     private fun getCheckoutRequest() : RailCheckoutParams {

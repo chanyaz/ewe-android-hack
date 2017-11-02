@@ -8,7 +8,7 @@ import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -25,8 +25,8 @@ class RailCheckoutOverviewViewModelTest {
                 .origin(RailSearchRequestMock.origin("Origin"))
                 .destination(RailSearchRequestMock.destination("Destination")).build() as RailSearchRequest
 
-        val checkInAndCheckOutDateTestSubscriber = TestSubscriber<Pair<String, String>>()
-        val checkInWithoutCheckoutDateTestSubscriber = TestSubscriber<String>()
+        val checkInAndCheckOutDateTestSubscriber = TestObserver<Pair<String, String>>()
+        val checkInWithoutCheckoutDateTestSubscriber = TestObserver<String>()
 
         viewmodel.checkInAndCheckOutDate.subscribe(checkInAndCheckOutDateTestSubscriber)
         viewmodel.checkInWithoutCheckoutDate.subscribe(checkInWithoutCheckoutDateTestSubscriber)
@@ -36,8 +36,8 @@ class RailCheckoutOverviewViewModelTest {
         checkInAndCheckOutDateTestSubscriber.assertValueCount(1)
         checkInWithoutCheckoutDateTestSubscriber.assertValueCount(0)
 
-        assertEquals("1989-09-06", checkInAndCheckOutDateTestSubscriber.onNextEvents.first().first)
-        assertEquals("2021-09-06", checkInAndCheckOutDateTestSubscriber.onNextEvents.first().second)
+        assertEquals("1989-09-06", checkInAndCheckOutDateTestSubscriber.values().first().first)
+        assertEquals("2021-09-06", checkInAndCheckOutDateTestSubscriber.values().first().second)
     }
 
     @Test
@@ -50,8 +50,8 @@ class RailCheckoutOverviewViewModelTest {
                 .origin(RailSearchRequestMock.origin("Origin"))
                 .destination(RailSearchRequestMock.destination("Destination")).build() as RailSearchRequest
 
-        val checkInAndCheckOutDateTestSubscriber = TestSubscriber<Pair<String, String>>()
-        val checkInWithoutCheckoutDateTestSubscriber = TestSubscriber<String>()
+        val checkInAndCheckOutDateTestSubscriber = TestObserver<Pair<String, String>>()
+        val checkInWithoutCheckoutDateTestSubscriber = TestObserver<String>()
 
         viewmodel.checkInAndCheckOutDate.subscribe(checkInAndCheckOutDateTestSubscriber)
         viewmodel.checkInWithoutCheckoutDate.subscribe(checkInWithoutCheckoutDateTestSubscriber)
@@ -61,7 +61,7 @@ class RailCheckoutOverviewViewModelTest {
         checkInAndCheckOutDateTestSubscriber.assertValueCount(0)
         checkInWithoutCheckoutDateTestSubscriber.assertValueCount(1)
 
-        assertEquals("1989-09-06", checkInWithoutCheckoutDateTestSubscriber.onNextEvents.first())
+        assertEquals("1989-09-06", checkInWithoutCheckoutDateTestSubscriber.values().first())
     }
 
     private fun getContext(): Context {

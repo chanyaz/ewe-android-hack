@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.util.endlessObserver
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class HotelReviewRowViewModel(val context: Context) {
 

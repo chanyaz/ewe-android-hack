@@ -6,8 +6,8 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.RetrofitUtils
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 
 open class HotelInfoManager(private val hotelServices: HotelServices) {
 
@@ -28,8 +28,9 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
         hotelServices.info(params, hotelId, infoObserver)
     }
 
-    private val offersObserver = object : Observer<HotelOffersResponse> {
-        override fun onNext(response: HotelOffersResponse?) {
+    private val offersObserver = object : DisposableObserver<HotelOffersResponse>() {
+
+        override fun onNext(response: HotelOffersResponse) {
             response?.let { response ->
                 if (response.hasErrors()
                         && response.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
@@ -42,17 +43,17 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
             }
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
         }
 
-        override fun onError(e: Throwable?) {
+        override fun onError(e: Throwable) {
             val retrofitError = RetrofitUtils.getRetrofitError(e)
             offerRetrofitErrorSubject.onNext(retrofitError)
         }
     }
 
-    private val infoObserver = object : Observer<HotelOffersResponse> {
-        override fun onNext(response: HotelOffersResponse?) {
+    private val infoObserver = object : DisposableObserver<HotelOffersResponse>() {
+        override fun onNext(response: HotelOffersResponse) {
             response?.let { response ->
                 if (!response.hasErrors()) {
                     infoSuccessSubject.onNext(response)
@@ -62,10 +63,10 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
             }
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
         }
 
-        override fun onError(e: Throwable?) {
+        override fun onError(e: Throwable) {
             val retrofitError = RetrofitUtils.getRetrofitError(e)
             infoRetrofitErrorSubject.onNext(retrofitError)
         }

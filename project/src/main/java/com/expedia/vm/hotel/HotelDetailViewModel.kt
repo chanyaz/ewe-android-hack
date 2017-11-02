@@ -15,6 +15,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.RetrofitError
@@ -24,9 +25,9 @@ import com.expedia.bookings.utils.trackingString
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelInfoToolbarViewModel
 import com.squareup.phrase.Phrase
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
-import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
 import java.math.BigDecimal
 
 open class HotelDetailViewModel(context: Context, private val hotelInfoManager: HotelInfoManager,
@@ -42,7 +43,7 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
         private set
     private var swpEnabled = false
     private var cachedParams: HotelSearchParams? = null
-    private var apiSubscriptions = CompositeSubscription()
+    private var apiSubscriptions = CompositeDisposable()
 
     init {
         paramsSubject.subscribe { params ->
@@ -59,8 +60,8 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
             swpEnabled = params.shopWithPoints
         }
         searchInfoTextColorObservable.onNext(getSearchInfoTextColor())
-        apiSubscriptions.add(hotelInfoManager.offerSuccessSubject.subscribe(hotelOffersSubject))
-        apiSubscriptions.add(hotelInfoManager.infoSuccessSubject.subscribe(hotelOffersSubject))
+        apiSubscriptions.add(hotelInfoManager.offerSuccessSubject.subscribeObserver(hotelOffersSubject))
+        apiSubscriptions.add(hotelInfoManager.infoSuccessSubject.subscribeObserver(hotelOffersSubject))
 
         registerErrorSubscriptions()
     }
@@ -196,7 +197,7 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
     }
 
     private fun registerErrorSubscriptions() {
-        apiSubscriptions.add(hotelInfoManager.apiErrorSubject.subscribe(infositeApiErrorSubject))
+        apiSubscriptions.add(hotelInfoManager.apiErrorSubject.subscribeObserver(infositeApiErrorSubject))
 
         apiSubscriptions.add(hotelInfoManager.offerRetrofitErrorSubject.subscribe { retrofitError ->
             val retryFun = { fetchOffers(cachedParams!!, hotelId) }

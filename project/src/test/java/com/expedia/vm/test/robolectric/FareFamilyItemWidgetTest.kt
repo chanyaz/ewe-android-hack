@@ -25,7 +25,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.test.assertEquals
 
@@ -45,9 +45,9 @@ class FareFamilyItemWidgetTest {
 
     @Before
     fun before() {
-        val createTripResponseObserver = TestSubscriber<FlightCreateTripResponse>()
+        val createTripResponseObserver = TestObserver<FlightCreateTripResponse>()
         flightServiceRule.services!!.createTrip( params , createTripResponseObserver)
-        flightCreateTripResponse = createTripResponseObserver.onNextEvents[0]
+        flightCreateTripResponse = createTripResponseObserver.values()[0]
         activity = Robolectric.buildActivity(android.support.v4.app.FragmentActivity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(activity).defaultTravelerComponent()

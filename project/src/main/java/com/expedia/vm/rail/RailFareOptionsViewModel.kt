@@ -2,8 +2,8 @@ package com.expedia.vm.rail
 
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailOffer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailFareOptionsViewModel(val showDeltaPricing: Boolean) {
     //inputs

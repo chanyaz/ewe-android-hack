@@ -22,8 +22,8 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockWebServer;
-import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
+import com.expedia.bookings.services.TestObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoyaltyServicesTest {
 	@Rule
@@ -38,24 +38,24 @@ public class LoyaltyServicesTest {
 		Interceptor interceptor = new MockInterceptor();
 		service = new LoyaltyServices("http://localhost:" + server.getPort(),
 			new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor, Schedulers.immediate(), Schedulers.immediate());
+			interceptor, Schedulers.trampoline(), Schedulers.trampoline());
 	}
 
 	@Test
 	public void testCalculatePoints() throws IOException {
-		TestSubscriber<CalculatePointsResponse> observer = new TestSubscriber<>();
+		TestObserver<CalculatePointsResponse> observer = new TestObserver<>();
 		setupCalculatePoints("happy", observer);
 
-		Assert.assertNotNull(observer.getOnNextEvents().get(0).getConversion());
-		Assert.assertNotNull(observer.getOnNextEvents().get(0).getRemainingPayableByCard());
-		Assert.assertNotNull(observer.getOnNextEvents().get(0).getProgramName());
+		Assert.assertNotNull(observer.values().get(0).getConversion());
+		Assert.assertNotNull(observer.values().get(0).getRemainingPayableByCard());
+		Assert.assertNotNull(observer.values().get(0).getProgramName());
 	}
 
 	@Test
 	public void testCalculatePointsThrowsInvalidInput() throws IOException {
-		TestSubscriber<CalculatePointsResponse> observer = new TestSubscriber<>();
+		TestObserver<CalculatePointsResponse> observer = new TestObserver<>();
 		setupCalculatePoints("invalid_amount_entered", observer);
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertNoErrors();
 		observer.assertValueCount(1);
 		Assert.assertEquals(ApiError.Code.INVALID_INPUT, getCalculatePointsError(observer));
@@ -63,9 +63,9 @@ public class LoyaltyServicesTest {
 
 	@Test
 	public void testCalculatePointsThrowsTripServiceError() throws IOException {
-		TestSubscriber<CalculatePointsResponse> observer = new TestSubscriber<>();
+		TestObserver<CalculatePointsResponse> observer = new TestObserver<>();
 		setupCalculatePoints("trip_service_error", observer);
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertNoErrors();
 		observer.assertValueCount(1);
 		Assert.assertEquals(ApiError.Code.TRIP_SERVICE_ERROR, getCalculatePointsError(observer));
@@ -73,20 +73,20 @@ public class LoyaltyServicesTest {
 
 	@Test
 	public void testCalculatePointsThrowsPointsConversionUnauthenticatedError() throws IOException {
-		TestSubscriber<CalculatePointsResponse> observer = new TestSubscriber<>();
+		TestObserver<CalculatePointsResponse> observer = new TestObserver<>();
 		setupCalculatePoints("points_conversion_unauthenticated", observer);
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertNoErrors();
 		observer.assertValueCount(1);
 		Assert.assertEquals(ApiError.Code.POINTS_CONVERSION_UNAUTHENTICATED_ACCESS,
 			getCalculatePointsError(observer));
 	}
 
-	private ApiError.Code getCalculatePointsError(TestSubscriber<CalculatePointsResponse> observer) {
-		return observer.getOnNextEvents().get(0).getFirstError().errorCode;
+	private ApiError.Code getCalculatePointsError(TestObserver<CalculatePointsResponse> observer) {
+		return observer.values().get(0).getFirstError().errorCode;
 	}
 
-	private void setupCalculatePoints(String tripId, TestSubscriber<CalculatePointsResponse> observer) throws IOException {
+	private void setupCalculatePoints(String tripId, TestObserver<CalculatePointsResponse> observer) throws IOException {
 		givenServerUsingMockResponses();
 		CalculatePointsParams calculatePointsParams = new CalculatePointsParams.Builder().
 			tripId(tripId).programName(ProgramName.ExpediaRewards).amount("100").rateId("rateId").build();
@@ -95,7 +95,7 @@ public class LoyaltyServicesTest {
 
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 	}
 

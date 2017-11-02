@@ -20,5 +20,11 @@
       "currencyCode": "USD"
     }
   },
+  "tripTotalPayable": {
+    "amount": "135",
+    "formattedPrice": "$135",
+    "formattedWholePrice": "$135",
+    "currencyCode": "USD"
+  },
   "activityId": "88052f7f-991e-4e2f-b42f-9a7464e337ac"
 }

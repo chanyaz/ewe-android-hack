@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.hotel.widget.TwoTabCardView
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.unsubscribeOnClick
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailOneWayReturnTabs(context: Context, attrs: AttributeSet?) : TwoTabCardView(context, attrs) {
     val oneWayClickedSubject = PublishSubject.create<Unit>()

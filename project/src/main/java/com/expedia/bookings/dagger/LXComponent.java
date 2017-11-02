@@ -17,7 +17,7 @@ import com.expedia.vm.LXMapViewModel;
 import com.expedia.vm.lx.LXCheckoutViewModel;
 import com.expedia.vm.lx.LXCreateTripViewModel;
 import dagger.Component;
-import rx.Observable;
+import io.reactivex.Observable;
 
 @LXScope
 @Component(dependencies = {AppComponent.class}, modules = {LXModule.class, LXCurrentLocationSuggestionModule.class})

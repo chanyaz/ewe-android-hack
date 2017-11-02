@@ -1,7 +1,7 @@
 package com.expedia.vm
 
 import com.expedia.bookings.data.flights.KrazyglueResponse
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 
 class KrazyglueHotelViewHolderViewModel {

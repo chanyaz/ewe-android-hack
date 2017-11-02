@@ -1,8 +1,6 @@
 package com.expedia.vm.flights
 
-import android.content.Context
-import com.expedia.bookings.utils.FlightV2Utils
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class FlightConfirmationCardViewModel(flightTitle: String, flightSubtitle: String, flightUrl: String, flightDeparetureDateTitle: String) {
     val titleSubject = BehaviorSubject.create<String>()

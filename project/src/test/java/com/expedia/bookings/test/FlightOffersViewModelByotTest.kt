@@ -21,8 +21,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -46,14 +47,14 @@ class FlightOffersViewModelByotTest {
 
     @Test
     fun testGoodOutboundSearchResponse() {
-        val testSubscriber = TestSubscriber<List<FlightLeg>>()
+        val testSubscriber = TestObserver<List<FlightLeg>>()
         sut.isOutboundSearch = true
         sut.outboundResultsObservable.subscribe(testSubscriber)
         performFlightSearch(false)
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        val response = testSubscriber.onNextEvents[0]
+        val response = testSubscriber.values()[0]
         assertNotNull(response)
         assertEquals(response.size, 3)
     }
@@ -62,7 +63,7 @@ class FlightOffersViewModelByotTest {
     fun testGoodInboundSearchResponse() {
         val flightLeg = FlightLeg()
         flightLeg.legId = "leg-Id"
-        val testSubscriber = TestSubscriber<List<FlightLeg>>()
+        val testSubscriber = TestObserver<List<FlightLeg>>()
         sut.isOutboundSearch = false
         sut.inboundResultsObservable.subscribe(testSubscriber)
         sut.outboundSelected.onNext(flightLeg)
@@ -70,17 +71,17 @@ class FlightOffersViewModelByotTest {
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        val response = testSubscriber.onNextEvents[0]
+        val response = testSubscriber.values()[0]
         assertNotNull(response)
         assertEquals(response.size, 4)
     }
 
     @Test
     fun testRoundTripFlightOfferSelection() {
-        val offerSelectedSubscriber = TestSubscriber<FlightTripDetails.FlightOffer>()
-        val flightProductIdSubscriber = TestSubscriber<String>()
-        val outboundResultTestSubscriber = TestSubscriber<List<FlightLeg>>()
-        val inboundResultTestSubscriber = TestSubscriber<List<FlightLeg>>()
+        val offerSelectedSubscriber = TestObserver<FlightTripDetails.FlightOffer>()
+        val flightProductIdSubscriber = TestObserver<String>()
+        val outboundResultTestSubscriber = TestObserver<List<FlightLeg>>()
+        val inboundResultTestSubscriber = TestObserver<List<FlightLeg>>()
 
         sut.outboundResultsObservable.subscribe(outboundResultTestSubscriber)
         sut.inboundResultsObservable.subscribe(inboundResultTestSubscriber)
@@ -146,7 +147,7 @@ class FlightOffersViewModelByotTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         flightServices = FlightServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                listOf(interceptor), Schedulers.immediate(), Schedulers.immediate(), false)
+                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline(), false)
     }
 
     private fun getDummySuggestion(): SuggestionV4 {

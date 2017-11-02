@@ -1,19 +1,20 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
-import rx.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
 
 abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSearchViewModel(context) {
-    val departTimeSubject = BehaviorSubject.create<Int>(0)
-    val returnTimeSubject = BehaviorSubject.create<Int>(0)
+    val departTimeSubject = BehaviorSubject.createDefault<Int>(0)
+    val returnTimeSubject = BehaviorSubject.createDefault<Optional<Int>>(Optional(0))
     val departTimeSliderTooltipColor = BehaviorSubject.create<Int>()
     val returnTimeSliderTooltipColor = BehaviorSubject.create<Int>()
-    val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(false)
+    val isRoundTripSearchObservable = BehaviorSubject.createDefault<Boolean>(false)
 
     val setUpTimeSliderSubject = BehaviorSubject.create<Pair<LocalDate?, LocalDate?>>()
 
@@ -25,8 +26,8 @@ abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSea
         return departTimeSubject.value
     }
 
-    fun getEndDateTimeAsMillis(): Int{
-        return returnTimeSubject.value
+    fun getEndDateTimeAsMillis(): Int {
+        return returnTimeSubject.value.value ?: 0
     }
 
     init {
@@ -40,13 +41,13 @@ abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSea
                 }
                 if (end != null && end.equals(LocalDate.now()) && now.hourOfDay >= 16
                         && getEndDateTimeAsMillis() < now.plusHours(3).millisOfDay) {
-                    returnTimeSubject.onNext(now.plusHours(3).millisOfDay)
+                    returnTimeSubject.onNext(Optional(now.plusHours(3).millisOfDay))
                 }
                 validateTimes()
             }
             else{
                 departTimeSubject.onNext(DateTime().withHourOfDay(9).withMinuteOfHour(0).millisOfDay)
-                returnTimeSubject.onNext(DateTime().withHourOfDay(18).withMinuteOfHour(0).millisOfDay)
+                returnTimeSubject.onNext(Optional(DateTime().withHourOfDay(18).withMinuteOfHour(0).millisOfDay))
             }
         }
     }

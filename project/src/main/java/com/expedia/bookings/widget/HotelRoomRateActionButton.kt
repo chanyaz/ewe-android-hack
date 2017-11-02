@@ -7,7 +7,7 @@ import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeOnClick
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelRoomRateActionButton(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val viewRoomButton: Button by bindView(R.id.view_room_button)

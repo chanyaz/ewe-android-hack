@@ -11,20 +11,21 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.NearbyHotelParams
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.Strings
 import com.google.gson.GsonBuilder
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observable
-import rx.Observer
-import rx.Scheduler
-import rx.Subscription
-import rx.subjects.PublishSubject
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
@@ -39,20 +40,20 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 
         adapter.create(HotelApi::class.java)
     }
 
-    fun nearbyHotels(params: NearbyHotelParams, observer: Observer<MutableList<Hotel>>): Subscription {
+    fun nearbyHotels(params: NearbyHotelParams, observer: Observer<MutableList<Hotel>>): Disposable {
         return hotelApi.nearbyHotelSearch(params.latitude, params.longitude, params.guestCount, params.checkInDate,
                 params.checkOutDate, params.sortOrder, params.filterUnavailable)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.hotelList.take(25).toMutableList() }
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
     open fun search(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<HotelSearchResponse> {
@@ -77,7 +78,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 }
     }
 
-    fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+    fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Disposable {
             return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
                     hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints, hotelSearchParams.mctc)
                     .timeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
@@ -86,10 +87,10 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                     .doOnNext { response ->
                         doPostOffersClientSideWork(response)
                     }
-                    .subscribe(observer)
+                    .subscribeObserver(observer)
     }
 
-    fun info(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+    fun info(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Disposable {
         val yyyyMMddDateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
 
         return hotelApi.info(hotelId).doOnNext {
@@ -99,10 +100,10 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 .timeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
-    fun createTrip(body: HotelCreateTripParams, isRewardsEnabledForCurrentPOS: Boolean, observer: Observer<HotelCreateTripResponse>): Subscription {
+    fun createTrip(body: HotelCreateTripParams, isRewardsEnabledForCurrentPOS: Boolean, observer: Observer<HotelCreateTripResponse>): Disposable {
         return hotelApi.createTrip(body.toQueryMap())
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
@@ -111,7 +112,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                     updatePayLaterRateInfo(it)
                     removeUnknownRewardsTypes(it)
                 }
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
     fun applyCoupon(body: AbstractApplyCouponParameters, isRewardsEnabledForCurrentPOS: Boolean): Observable<HotelCreateTripResponse> {
@@ -136,12 +137,12 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 }
     }
 
-    fun checkout(params: HotelCheckoutV2Params, observer: Observer<HotelCheckoutResponse>): Subscription {
+    fun checkout(params: HotelCheckoutV2Params, observer: Observer<HotelCheckoutResponse>): Disposable {
         return hotelApi.checkout(params)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { removeUnknownRewardsTypes(it) }
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
     private fun getRegionId(params: HotelSearchParams) : String? {

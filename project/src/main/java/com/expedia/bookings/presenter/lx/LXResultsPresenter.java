@@ -53,8 +53,9 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Observer;
-import rx.Subscription;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 public class LXResultsPresenter extends Presenter {
 
@@ -71,7 +72,7 @@ public class LXResultsPresenter extends Presenter {
 	@InjectView(R.id.lx_theme_results_widget)
 	LXThemeResultsWidget themeResultsWidget;
 
-	Subscription searchSubscription;
+	Disposable searchSubscription;
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
@@ -229,13 +230,13 @@ public class LXResultsPresenter extends Presenter {
 
 	private void cleanup() {
 		if (searchSubscription != null) {
-			searchSubscription.unsubscribe();
+			searchSubscription.dispose();
 		}
 	}
 
-	private Observer<LXTheme> lxThemeSearchObserver = new Observer<LXTheme>() {
+	private Observer<LXTheme> lxThemeSearchObserver = new DisposableObserver<LXTheme>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 			//ignore
 		}
 
@@ -292,12 +293,12 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	class SearchResultObserver implements Observer<LXSearchResponse> {
+	class SearchResultObserver extends DisposableObserver<LXSearchResponse> {
 		public SearchType searchType;
 		public View widget;
 
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 			cleanup();
 		}
 
@@ -366,10 +367,10 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	private class ThemeResultSortObserver implements Observer<LXTheme> {
+	private class ThemeResultSortObserver extends DisposableObserver<LXTheme> {
 
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 			// ignore
 		}
 

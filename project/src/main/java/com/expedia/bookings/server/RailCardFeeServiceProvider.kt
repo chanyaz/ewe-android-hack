@@ -2,7 +2,7 @@ package com.expedia.bookings.server
 
 import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.services.RailServices
-import rx.Observer
+import io.reactivex.Observer
 
 class RailCardFeeServiceProvider {
 

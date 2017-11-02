@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
+import com.expedia.util.Optional
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -112,9 +113,9 @@ class PackageFlightPresenterTest {
         val regionName = SuggestionV4.RegionNames()
         regionName.shortName = "Bengaluru, India (BLR - Kempegowda Intl.)"
         regionName.displayName = "Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India"
-        presenter.toolbarViewModel.regionNames.onNext(regionName)
-        presenter.toolbarViewModel.country.onNext("India")
-        presenter.toolbarViewModel.airport.onNext("BLR")
+        presenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
+        presenter.toolbarViewModel.country.onNext(Optional("India"))
+        presenter.toolbarViewModel.airport.onNext(Optional("BLR"))
         presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
         assertEquals("Outbound to Bengaluru, India (BLR)", presenter.toolbar.title.toString())
     }
@@ -133,9 +134,9 @@ class PackageFlightPresenterTest {
         val regionName = SuggestionV4.RegionNames()
         regionName.shortName = "Bengaluru, India (BLR - Kempegowda Intl.)"
         regionName.displayName = "Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India"
-        presenter.toolbarViewModel.regionNames.onNext(regionName)
-        presenter.toolbarViewModel.country.onNext("India")
-        presenter.toolbarViewModel.airport.onNext("BLR")
+        presenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
+        presenter.toolbarViewModel.country.onNext(Optional("India"))
+        presenter.toolbarViewModel.airport.onNext(Optional("BLR"))
         presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
         assertEquals("Inbound to Bengaluru, India (BLR)", presenter.toolbar.title.toString())
     }
@@ -154,9 +155,9 @@ class PackageFlightPresenterTest {
         val regionName = SuggestionV4.RegionNames()
         regionName.shortName = "Bengaluru, India (BLR - Kempegowda Intl.)"
         regionName.displayName = "Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India"
-        presenter.toolbarViewModel.regionNames.onNext(regionName)
-        presenter.toolbarViewModel.country.onNext("India")
-        presenter.toolbarViewModel.airport.onNext("BLR")
+        presenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
+        presenter.toolbarViewModel.country.onNext(Optional("India"))
+        presenter.toolbarViewModel.airport.onNext(Optional("BLR"))
         presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
         assertEquals("Step 2: Flight to Bengaluru", presenter.toolbar.title.toString())
     }
@@ -175,9 +176,9 @@ class PackageFlightPresenterTest {
         val regionName = SuggestionV4.RegionNames()
         regionName.shortName = "Bengaluru, India (BLR - Kempegowda Intl.)"
         regionName.displayName = "Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India"
-        presenter.toolbarViewModel.regionNames.onNext(regionName)
-        presenter.toolbarViewModel.country.onNext("India")
-        presenter.toolbarViewModel.airport.onNext("BLR")
+        presenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
+        presenter.toolbarViewModel.country.onNext(Optional("India"))
+        presenter.toolbarViewModel.airport.onNext(Optional("BLR"))
         presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
         assertEquals("Step 3: Flight to Bengaluru", presenter.toolbar.title.toString())
     }

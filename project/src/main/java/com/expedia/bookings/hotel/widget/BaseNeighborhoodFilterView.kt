@@ -11,7 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class BaseNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val neighborhoodOnSubject = PublishSubject.create<HotelSearchResponse.Neighborhood>()

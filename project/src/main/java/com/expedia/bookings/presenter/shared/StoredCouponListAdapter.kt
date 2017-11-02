@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.util.safeSubscribe
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCouponAdapter>>,
                               val enableStoredCouponsSubject: PublishSubject<Boolean>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

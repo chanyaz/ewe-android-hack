@@ -6,13 +6,13 @@ import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailSearchViewModel
 import com.squareup.phrase.Phrase
-import rx.Observable
 
 class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 
@@ -43,7 +43,7 @@ class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardVie
                     .put("location", formattedDestination)
                     .format().toString()
         }
-        Observable.combineLatest(
+        ObservableOld.combineLatest(
                 vm.formattedOriginObservable,
                 vm.formattedDestinationObservable,
                 { origin, destination ->

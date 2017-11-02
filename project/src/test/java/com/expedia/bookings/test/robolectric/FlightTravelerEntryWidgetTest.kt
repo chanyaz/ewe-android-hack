@@ -23,9 +23,11 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
+import com.expedia.util.Optional
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.TravelerEmailViewModel
 import com.mobiata.android.util.SettingUtils
+import io.reactivex.subjects.BehaviorSubject
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +36,6 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates.notNull
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -83,7 +84,7 @@ class FlightTravelerEntryWidgetTest {
     fun testInvalidPassportCountrySetsEmptyString() {
         givenMaterialForm()
         setupViewModel(0, showPassport = true)
-        (widget.viewModel as FlightTravelerEntryWidgetViewModel).passportCountrySubject.onNext("2KA9$%@!@")
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).passportCountrySubject.onNext(Optional("2KA9$%@!@"))
 
         assertEquals("", widget.passportCountryEditBox.text.toString())
     }
@@ -91,7 +92,7 @@ class FlightTravelerEntryWidgetTest {
     @Test
     fun testPassportErrorMessage() {
         givenMaterialForm()
-        widget.viewModel = FlightTravelerEntryWidgetViewModel(activity, 0, BehaviorSubject.create(true), TravelerCheckoutStatus.CLEAN)
+        widget.viewModel = FlightTravelerEntryWidgetViewModel(activity, 0, BehaviorSubject.createDefault(true), TravelerCheckoutStatus.CLEAN)
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).passportValidSubject.onNext(false)
 
         assertEquals("Select a passport country", (widget.passportCountryEditBox.parent.parent as TextInputLayout).error)

@@ -22,8 +22,8 @@ import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import com.mobiata.android.util.AndroidUtils
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,

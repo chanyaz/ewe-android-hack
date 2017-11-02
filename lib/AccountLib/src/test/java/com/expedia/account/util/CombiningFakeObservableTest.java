@@ -6,7 +6,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import rx.Observer;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,12 +18,17 @@ public class CombiningFakeObservableTest {
 	CombiningFakeObservable observable;
 	Observer<Boolean> listener = new Observer<Boolean>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 
 		}
 
 		@Override
 		public void onError(Throwable e) {
+
+		}
+
+		@Override
+		public void onSubscribe(Disposable d) {
 
 		}
 

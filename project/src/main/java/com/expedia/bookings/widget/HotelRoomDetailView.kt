@@ -21,7 +21,7 @@ import com.expedia.util.setTextAndVisibility
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.updateVisibility
 import com.expedia.vm.HotelRoomDetailViewModel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewModel) : RelativeLayout(context) {
 

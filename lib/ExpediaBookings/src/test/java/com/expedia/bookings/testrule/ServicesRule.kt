@@ -6,6 +6,8 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.RailServices
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,14 +15,12 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
-import rx.Scheduler
-import rx.schedulers.Schedulers
 import java.io.File
 import java.io.IOException
 import java.lang.reflect.InvocationTargetException
 import kotlin.properties.Delegates
 
-open class ServicesRule<T : Any>(val servicesClass: Class<T>, val scheduler:Scheduler = Schedulers.immediate(), val rootPath: String = "../lib/mocked/templates", val setExpediaDispatcher: Boolean = true) : TestRule {
+open class ServicesRule<T : Any>(val servicesClass: Class<T>, val scheduler:Scheduler = Schedulers.trampoline(), val rootPath: String = "../lib/mocked/templates", val setExpediaDispatcher: Boolean = true) : TestRule {
 
     var server: MockWebServer by Delegates.notNull()
     var services: T? = null
@@ -58,22 +58,22 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>, val scheduler:Sche
         if (servicesClass.equals(RailServices::class.java)) {
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java, Interceptor::class.java, Interceptor::class.java, Boolean::class.java, Scheduler::class.java,
                     Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(), MockInterceptor(),
-                    MockInterceptor(), MockInterceptor(), false, Schedulers.immediate(), Schedulers.immediate())
+                    MockInterceptor(), MockInterceptor(), false, Schedulers.trampoline(), Schedulers.trampoline())
         }
         else if (servicesClass.equals(FlightServices::class.java)) {
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, List::class.java, Scheduler::class.java,
                     Scheduler::class.java, Boolean::class.java).newInstance("http://localhost:" + server.port, client.build(), listOf(MockInterceptor()),
-                    Schedulers.immediate(), scheduler, false)
+                    Schedulers.trampoline(), scheduler, false)
         }
         else if (servicesClass.equals(CardFeeService::class.java)) {
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, List::class.java, Scheduler::class.java,
                     Scheduler::class.java, Boolean::class.java).newInstance("http://localhost:" + server.port, client.build(), listOf(MockInterceptor()),
-                    Schedulers.immediate(), scheduler)
+                    Schedulers.trampoline(), scheduler)
         }
         else {
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java, Scheduler::class.java,
                     Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(), MockInterceptor(),
-                    Schedulers.immediate(), scheduler)
+                    Schedulers.trampoline(), scheduler)
         }
     }
 

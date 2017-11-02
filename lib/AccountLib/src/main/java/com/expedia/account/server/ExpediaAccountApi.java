@@ -5,11 +5,11 @@ import java.util.Map;
 import com.expedia.account.data.AccountResponse;
 import com.expedia.account.data.FacebookLinkResponse;
 
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import rx.Observable;
 
 public interface ExpediaAccountApi {
 

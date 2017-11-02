@@ -10,14 +10,14 @@ import com.expedia.bookings.data.abacus.PayloadDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observer;
-import rx.Scheduler;
-import rx.Subscription;
 
 public class AbacusServices {
 	private AbacusApi api;
@@ -35,28 +35,28 @@ public class AbacusServices {
 		Retrofit adapter = new Retrofit.Builder()
 			.baseUrl(endpoint)
 			.addConverterFactory(GsonConverterFactory.create(gson))
-			.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+			.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 			.client(client.newBuilder().addInterceptor(interceptor).build())
 			.build();
 
 		api = adapter.create(AbacusApi.class);
 	}
 
-	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer) {
-		return downloadBucket(query, observer, 15, TimeUnit.SECONDS);
+	public void downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer) {
+		downloadBucket(query, observer, 15, TimeUnit.SECONDS);
 	}
 
-	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer, long timeout,
+	public void downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer, long timeout,
 		TimeUnit timeUnit) {
-		return api.evaluateExperiments(query.guid, query.eapid, query.tpid, query.getEvaluatedExperiments())
+		api.evaluateExperiments(query.guid, query.eapid, query.tpid, query.getEvaluatedExperiments())
 			.observeOn(observeOn)
 			.subscribeOn(subscribeOn)
 			.timeout(timeout, timeUnit)
 			.subscribe(observer);
 	}
 
-	public Subscription logExperiment(AbacusLogQuery query) {
-		return api.logExperiment(query)
+	public void logExperiment(AbacusLogQuery query) {
+		api.logExperiment(query)
 			.observeOn(observeOn)
 			.subscribeOn(subscribeOn)
 			.subscribe(emptyObserver);
@@ -64,12 +64,17 @@ public class AbacusServices {
 
 	private final static Observer<AbacusLogResponse> emptyObserver = new Observer<AbacusLogResponse>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 			//Ignore
 		}
 
 		@Override
 		public void onError(Throwable e) {
+			//Ignore
+		}
+
+		@Override
+		public void onSubscribe(Disposable d) {
 			//Ignore
 		}
 

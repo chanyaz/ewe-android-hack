@@ -7,7 +7,7 @@ import com.expedia.bookings.utils.DateUtils
 import com.mobiata.android.Log
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class ItinTimeDurationViewModel(private val context: Context) {
 

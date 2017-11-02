@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mobiata.android.Log
 import com.mobiata.android.util.IoUtils
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.io.IOException
 import java.util.ArrayList
 

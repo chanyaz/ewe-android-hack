@@ -31,9 +31,10 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class FacebookViewHelper {
@@ -203,9 +204,9 @@ public class FacebookViewHelper {
 		mAccountView.getService().facebookAutoLogin(user.facebookUserId, user.facebookToken)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(new Subscriber<FacebookLinkResponse>() {
+			.subscribe(new Observer<FacebookLinkResponse>() {
 				@Override
-				public void onCompleted() {
+				public void onComplete() {
 					// We're done with the facebookAutoLogin request
 				}
 
@@ -214,6 +215,11 @@ public class FacebookViewHelper {
 					Timber.d("FACEBOOK: unable to facebookAutoLogin: " + e);
 					mAccountView.onFacebookError();
 					showErrorFacebookUnknown();
+				}
+
+				@Override
+				public void onSubscribe(Disposable d) {
+
 				}
 
 				@Override
@@ -308,9 +314,9 @@ public class FacebookViewHelper {
 		mAccountView.getService().facebookLinkNewAccount(user.facebookUserId, user.facebookToken, user.email)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(new Subscriber<FacebookLinkResponse>() {
+			.subscribe(new Observer<FacebookLinkResponse>() {
 				@Override
-				public void onCompleted() {
+				public void onComplete() {
 					// Done with facebookLinkNewAccount request
 				}
 
@@ -319,6 +325,11 @@ public class FacebookViewHelper {
 					Timber.d("FACEBOOK: unable to facebookLinkNewAccount: " + e);
 					showErrorFacebookUnknown();
 					mAccountView.onFacebookError();
+				}
+
+				@Override
+				public void onSubscribe(Disposable d) {
+
 				}
 
 				@Override
@@ -349,9 +360,9 @@ public class FacebookViewHelper {
 			user.facebookToken, user.email, user.password)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(new Subscriber<FacebookLinkResponse>() {
+			.subscribe(new Observer<FacebookLinkResponse>() {
 				@Override
-				public void onCompleted() {
+				public void onComplete() {
 					// Done with facebookLinkNewAccount request
 				}
 
@@ -359,6 +370,11 @@ public class FacebookViewHelper {
 				public void onError(Throwable e) {
 					mAccountView.onFacebookError();
 					showErrorFacebookLinkExisting();
+				}
+
+				@Override
+				public void onSubscribe(Disposable d) {
+
 				}
 
 				@Override
@@ -379,9 +395,9 @@ public class FacebookViewHelper {
 		mAccountView.getService().signInProfileOnly()
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(new Subscriber<AccountResponse>() {
+			.subscribe(new Observer<AccountResponse>() {
 				@Override
-				public void onCompleted() {
+				public void onComplete() {
 					// We're done handing the signIn request
 				}
 
@@ -390,6 +406,11 @@ public class FacebookViewHelper {
 					Timber.d("FACEBOOK: unable to fbSignInRefreshProfile: " + e);
 					mAccountView.onFacebookError();
 					showErrorFacebookUnknown();
+				}
+
+				@Override
+				public void onSubscribe(Disposable d) {
+
 				}
 
 				@Override

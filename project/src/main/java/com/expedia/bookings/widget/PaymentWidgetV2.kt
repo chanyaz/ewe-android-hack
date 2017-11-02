@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isDisplayCardsOnPaymentForm
 import com.expedia.bookings.utils.isHotelMaterialForms
+import com.expedia.bookings.withLatestFrom
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeText

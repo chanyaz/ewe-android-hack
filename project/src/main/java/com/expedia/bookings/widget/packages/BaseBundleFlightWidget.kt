@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.Presenter
@@ -38,7 +39,6 @@ import com.expedia.vm.flights.BaggageInfoViewModel
 import com.expedia.vm.flights.FlightOverviewRowViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.squareup.phrase.Phrase
-import rx.Observable
 
 abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : AccessibleCardView(context, attrs) {
     abstract fun showLoading()
@@ -114,7 +114,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             flightIcon.setColorFilter(pair.second)
         }
 
-        Observable.combineLatest(vm.showBaggageInfoLinkObservable, vm.showPaymentInfoLinkObservable, {
+        ObservableOld.combineLatest(vm.showBaggageInfoLinkObservable, vm.showPaymentInfoLinkObservable, {
             showBaggageInfoLink, showPaymentInfoLink -> (showBaggageInfoLink || showPaymentInfoLink)
         }).subscribeVisibility(baggagePaymentDivider)
         vm.showBaggageInfoLinkObservable.subscribeVisibility(baggageFeesButton)

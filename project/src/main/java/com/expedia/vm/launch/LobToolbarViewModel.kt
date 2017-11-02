@@ -5,7 +5,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.NavigationHelper
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 class LobToolbarViewModel(context: Context, val defaultLob: LineOfBusiness) {

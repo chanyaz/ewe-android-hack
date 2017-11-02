@@ -44,8 +44,8 @@ import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
+import com.expedia.bookings.services.TestObserver;
+import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -67,7 +67,7 @@ public class HotelServicesTest {
 		Interceptor interceptor = new MockInterceptor();
 		service = new HotelServices("http://localhost:" + server.getPort(),
 			new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor, Schedulers.immediate(), Schedulers.immediate());
+			interceptor, Schedulers.trampoline(), Schedulers.trampoline());
 	}
 
 	@Test
@@ -94,9 +94,9 @@ public class HotelServicesTest {
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
-		TestSubscriber testSubscriber = new TestSubscriber();
-		service.search(hotelSearchParams, null).subscribe(testSubscriber);
-		testSubscriber.awaitTerminalEvent();
+		TestObserver testObserver = new TestObserver();
+		service.search(hotelSearchParams, null).subscribe(testObserver);
+		testObserver.awaitTerminalEvent();
 
 		assertFalse("I don't expect to see longitude or latitude in a request where both are 0", testResult[0]);
 		assertFalse("I don't expect to see regionId param in this request as it's not set", testResult[1]);
@@ -124,9 +124,9 @@ public class HotelServicesTest {
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
-		TestSubscriber testSubscriber = new TestSubscriber();
-		service.search(hotelSearchParams, null).subscribe(testSubscriber);
-		testSubscriber.awaitTerminalEvent();
+		TestObserver testObserver = new TestObserver();
+		service.search(hotelSearchParams, null).subscribe(testObserver);
+		testObserver.awaitTerminalEvent();
 
 		assertTrue("Failure: Region Id expected to match neighborhood id if set", testResult[0]);
 	}
@@ -155,7 +155,7 @@ public class HotelServicesTest {
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
-		TestSubscriber testSubscriber = new TestSubscriber();
+		TestObserver testSubscriber = new TestObserver();
 		service.search(hotelSearchParams, null).subscribe(testSubscriber);
 		testSubscriber.awaitTerminalEvent();
 
@@ -168,7 +168,7 @@ public class HotelServicesTest {
 		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
-		TestSubscriber<List<Hotel>> observer = new TestSubscriber<>();
+		TestObserver<List<Hotel>> observer = new TestObserver<>();
 		NearbyHotelParams params = givenNearbyHotelParams();
 
 		service.nearbyHotels(params, observer);
@@ -182,14 +182,14 @@ public class HotelServicesTest {
 	public void testMockSearchWorks() throws Throwable {
 		givenServerUsingMockResponses();
 
-		TestSubscriber<List<Hotel>> observer = new TestSubscriber<>();
+		TestObserver<List<Hotel>> observer = new TestObserver<>();
 		NearbyHotelParams params = givenNearbyHotelParams();
 
 		service.nearbyHotels(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 	}
 
@@ -197,38 +197,38 @@ public class HotelServicesTest {
 	public void testMockDetailsWithoutOffersWorks() throws Throwable {
 		givenServerUsingMockResponses();
 
-		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelOffersResponse> observer = new TestObserver<>();
 
 		HotelSearchParams params = givenHappyHotelSearchParams();
 		service.info(params, "happy", observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 
-		Assert.assertNull(observer.getOnNextEvents().get(0).hotelRoomResponse);
-		Assert.assertNotNull(observer.getOnNextEvents().get(0).checkInDate);
-		Assert.assertNotNull(observer.getOnNextEvents().get(0).checkOutDate);
+		Assert.assertNull(observer.values().get(0).hotelRoomResponse);
+		Assert.assertNotNull(observer.values().get(0).checkInDate);
+		Assert.assertNotNull(observer.values().get(0).checkOutDate);
 	}
 
 	@Test
 	public void testMockDetailsWithOffersWorks() throws Throwable {
 		givenServerUsingMockResponses();
 
-		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelOffersResponse> observer = new TestObserver<>();
 
 		HotelSearchParams params = givenHappyHotelSearchParams();
 		service.offers(params, "happypath", observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 
-		Assert.assertNotNull(observer.getOnNextEvents().get(0).hotelRoomResponse);
-		Assert.assertNotNull(observer.getOnNextEvents().get(0).checkInDate);
-		Assert.assertNotNull(observer.getOnNextEvents().get(0).checkOutDate);
+		Assert.assertNotNull(observer.values().get(0).hotelRoomResponse);
+		Assert.assertNotNull(observer.values().get(0).checkInDate);
+		Assert.assertNotNull(observer.values().get(0).checkOutDate);
 	}
 
 	@Test
@@ -237,16 +237,16 @@ public class HotelServicesTest {
 
 		HotelCreateTripParams params = new HotelCreateTripParams("hotel_pwp_multiple_points_types", false, 1, Collections.<Integer>emptyList());
 
-		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelCreateTripResponse> observer = new TestObserver<>();
 
 		service.createTrip(params, true, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 
-		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		HotelCreateTripResponse response = observer.values().get(0);
 		Assert.assertEquals(1, response.getPointsDetails().size());
 		Assert.assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
 	}
@@ -257,16 +257,16 @@ public class HotelServicesTest {
 
 		HotelCreateTripParams params = new HotelCreateTripParams("happypath_pwp_points_only", false, 1, Collections.<Integer>emptyList());
 
-		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelCreateTripResponse> observer = new TestObserver<>();
 
 		service.createTrip(params, true, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 
-		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		HotelCreateTripResponse response = observer.values().get(0);
 		Assert.assertEquals(1, response.getPointsDetails().size());
 		Assert.assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
 	}
@@ -277,16 +277,16 @@ public class HotelServicesTest {
 
 		HotelCreateTripParams params = new HotelCreateTripParams("hotel_pwp_unknown_points_type", false, 1, Collections.<Integer>emptyList());
 
-		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelCreateTripResponse> observer = new TestObserver<>();
 
 		service.createTrip(params, true, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 
-		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		HotelCreateTripResponse response = observer.values().get(0);
 		Assert.assertEquals(0, response.getPointsDetails().size());
 	}
 
@@ -294,7 +294,7 @@ public class HotelServicesTest {
 	public void testCheckoutWorks() throws Throwable {
 		givenServerUsingMockResponses();
 
-		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelCheckoutResponse> observer = new TestObserver<>();
 
 		String tripId = "happypath_0";
 		TripDetails tripDetails = new TripDetails(tripId, "12123.33", "USD", true);
@@ -308,7 +308,7 @@ public class HotelServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 	}
 
@@ -316,7 +316,7 @@ public class HotelServicesTest {
 	public void testCheckoutWithPriceChangeAndUserPreferences() throws Throwable {
 		givenServerUsingMockResponses();
 
-		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelCheckoutResponse> observer = new TestObserver<>();
 
 		String tripId = "hotel_price_change_with_user_preferences";
 		TripDetails tripDetails = new TripDetails(tripId, "675.81", "USD", true);
@@ -330,17 +330,17 @@ public class HotelServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		assertNotNull(observer.getOnNextEvents().get(0).pointsDetails);
-		assertNotNull(observer.getOnNextEvents().get(0).userPreferencePoints);
+		assertNotNull(observer.values().get(0).pointsDetails);
+		assertNotNull(observer.values().get(0).userPreferencePoints);
 	}
 
 	@Test
 	public void checkoutWithPriceChangeDoesNotIncludeUnknownRewardsTypes() throws Throwable {
 		givenServerUsingMockResponses();
 
-		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelCheckoutResponse> observer = new TestObserver<>();
 
 		String tripId = "hotel_price_change_with_multiple_points_types";
 		TripDetails tripDetails = new TripDetails(tripId, "675.81", "USD", true);
@@ -354,10 +354,10 @@ public class HotelServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 
-		HotelCheckoutResponse response = observer.getOnNextEvents().get(0);
+		HotelCheckoutResponse response = observer.values().get(0);
 		assertEquals(1, response.pointsDetails.size());
 		assertEquals(ProgramName.ExpediaRewards, response.pointsDetails.get(0).getProgramName());
 	}
@@ -366,29 +366,29 @@ public class HotelServicesTest {
 	public void testCouponRemove() throws Throwable {
 		givenServerUsingMockResponses();
 
-		TestSubscriber<HotelCreateTripResponse> subscriber = new TestSubscriber<>();
+		TestObserver<HotelCreateTripResponse> subscriber = new TestObserver<>();
 		service.removeCoupon("hotel_coupon_remove_success", true).subscribe(subscriber);
 		subscriber.awaitTerminalEvent(2, TimeUnit.SECONDS);
-		subscriber.assertCompleted();
+		subscriber.assertComplete();
 
-		Assert.assertNotNull(subscriber.getOnNextEvents().get(0).newHotelProductResponse);
+		Assert.assertNotNull(subscriber.values().get(0).newHotelProductResponse);
 	}
 
 	@Test
 	public void couponRemoveResponseHasOnlyKnownPointsTypes() throws Throwable {
 		givenServerUsingMockResponses();
 
-		TestSubscriber<HotelCreateTripResponse> subscriber = new TestSubscriber<>();
+		TestObserver<HotelCreateTripResponse> subscriber = new TestObserver<>();
 		service.removeCoupon("hotel_coupon_remove_success_with_multiple_points_types", true).subscribe(subscriber);
 		subscriber.awaitTerminalEvent(2, TimeUnit.SECONDS);
-		subscriber.assertCompleted();
+		subscriber.assertComplete();
 
 		subscriber.assertNoErrors();
-		subscriber.assertCompleted();
+		subscriber.assertComplete();
 		subscriber.assertValueCount(1);
 
 		// Guest user has no points details
-		HotelCreateTripResponse response = subscriber.getOnNextEvents().get(0);
+		HotelCreateTripResponse response = subscriber.values().get(0);
 		assertEquals(1, response.getPointsDetails().size());
 		assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
 	}
@@ -397,13 +397,13 @@ public class HotelServicesTest {
 	public void testCouponError() throws IOException {
 		givenServerUsingMockResponses();
 
-		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelCreateTripResponse> observer = new TestObserver<>();
 		givenCouponParams("hotel_coupon_errors_expired");
 
 		service.applyCoupon(couponParams, true).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
-		observer.assertCompleted();
-		ApiError apiError = observer.getOnNextEvents().get(0).getFirstError();
+		observer.assertComplete();
+		ApiError apiError = observer.values().get(0).getFirstError();
 		Assert.assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.errorCode);
 	}
 
@@ -411,18 +411,18 @@ public class HotelServicesTest {
 	public void testCouponSuccess() throws IOException {
 		givenServerUsingMockResponses();
 
-		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelCreateTripResponse> observer = new TestObserver<>();
 		givenCouponParams("hotel_coupon_success");
 
 		service.applyCoupon(couponParams, true).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 
 		// Guest user has no points details
-		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		HotelCreateTripResponse response = observer.values().get(0);
 		assertNull(response.getPointsDetails());
 	}
 
@@ -430,18 +430,18 @@ public class HotelServicesTest {
 	public void couponApplyResponseHasOnlyKnownPointsTypes() throws IOException {
 		givenServerUsingMockResponses();
 
-		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelCreateTripResponse> observer = new TestObserver<>();
 		givenCouponParams("hotel_coupon_success_multiple_points_types");
 
 		service.applyCoupon(couponParams, true).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 
 		// Guest user has no points details
-		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		HotelCreateTripResponse response = observer.values().get(0);
 		assertEquals(1, response.getPointsDetails().size());
 		assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
 	}
@@ -452,16 +452,16 @@ public class HotelServicesTest {
 
 		HotelCreateTripParams params = new HotelCreateTripParams("happypath_createtrip_saved_coupons", false, 1, Collections.<Integer>emptyList());
 
-		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+		TestObserver<HotelCreateTripResponse> observer = new TestObserver<>();
 
 		service.createTrip(params, true, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
 
-		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		HotelCreateTripResponse response = observer.values().get(0);
 		Assert.assertEquals(3, response.userCoupons.size());
 		HotelCreateTripResponse.SavedCoupon firstCoupon = response.userCoupons.get(0);
 

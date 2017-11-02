@@ -9,9 +9,9 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class HotelErrorViewModel(context: Context) : AbstractErrorViewModel(context) {

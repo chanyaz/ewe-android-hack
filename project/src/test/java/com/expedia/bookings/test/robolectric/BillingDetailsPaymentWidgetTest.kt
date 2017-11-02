@@ -27,7 +27,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
-import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -37,6 +37,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
+import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
 import com.expedia.vm.PaymentViewModel
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
@@ -51,7 +52,6 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.test.assertNull
 
@@ -578,7 +578,7 @@ class BillingDetailsPaymentWidgetTest {
     fun testMaterialBillingCountryValidation() {
         givenMaterialPaymentBillingWidget()
         val countryLayout = billingDetailsPaymentWidget.editCountryEditText?.getParentTextInputLayout()!!
-        val testHasErrorSubscriber = TestSubscriber<Boolean>()
+        val testHasErrorSubscriber = TestObserver<Boolean>()
         billingDetailsPaymentWidget.sectionLocation.billingCountryErrorSubject.subscribe(testHasErrorSubscriber)
         val pointOfSale = PointOfSale.getPointOfSale().threeLetterCountryCode
         val position =  billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(pointOfSale)
@@ -588,7 +588,7 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.showPaymentForm(false)
 
         assertValidState(countryLayout, "Country", " Country, $countryName, Opens dialog")
-        assertEquals(true, testHasErrorSubscriber.onNextEvents.isEmpty())
+        assertEquals(true, testHasErrorSubscriber.values().isEmpty())
         assertEquals(countryName, countryLayout.editText?.text.toString())
         assertEquals(pointOfSale, billingDetailsPaymentWidget.sectionLocation.location.countryCode)
 
@@ -597,7 +597,7 @@ class BillingDetailsPaymentWidgetTest {
 
         countryLayout.editText?.setText("")
         billingDetailsPaymentWidget.sectionLocation.validateBillingCountrySubject.onNext(Unit)
-        assertTrue(testHasErrorSubscriber.onNextEvents[testHasErrorSubscriber.onNextEvents.lastIndex])
+        assertTrue(testHasErrorSubscriber.values()[testHasErrorSubscriber.values().lastIndex])
         assertErrorState(countryLayout, "Select a billing country", "Country, Opens dialog, Error, Select a billing country")
     }
 
@@ -739,27 +739,27 @@ class BillingDetailsPaymentWidgetTest {
     @Test
     fun testCreateFakeAddress() {
         givenMaterialPaymentBillingWidget()
-        val testCreateFakeAddressSubscriber = TestSubscriber.create<Unit>()
-        val testPopulateFakeBillingAddressSubscriber = TestSubscriber.create<Location>()
+        val testCreateFakeAddressSubscriber = TestObserver.create<Unit>()
+        val testPopulateFakeBillingAddressSubscriber = TestObserver.create<Location>()
         billingDetailsPaymentWidget.viewmodel.createFakeAddressObservable.subscribe(testCreateFakeAddressSubscriber)
         billingDetailsPaymentWidget.viewmodel.populateFakeBillingAddress.subscribe(testPopulateFakeBillingAddressSubscriber)
         billingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(true)
 
-        assertEquals(1, testCreateFakeAddressSubscriber.onNextEvents.size)
-        assertEquals(1, testPopulateFakeBillingAddressSubscriber.onNextEvents.size)
+        assertEquals(1, testCreateFakeAddressSubscriber.valueCount())
+        assertEquals(1, testPopulateFakeBillingAddressSubscriber.valueCount())
 
-        val fakeAddress = testPopulateFakeBillingAddressSubscriber.onNextEvents[0]
+        val fakeAddress = testPopulateFakeBillingAddressSubscriber.values()[0]
         assertValidFakeAddress(fakeAddress)
     }
 
     @Test
     fun testShouldNotCreateFakeAddress() {
         givenMaterialPaymentBillingWidget()
-        val testCreateFakeAddressSubscriber = TestSubscriber.create<Unit>()
+        val testCreateFakeAddressSubscriber = TestObserver.create<Unit>()
         billingDetailsPaymentWidget.viewmodel.createFakeAddressObservable.subscribe(testCreateFakeAddressSubscriber)
         billingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(false)
 
-        assertEquals(0, testCreateFakeAddressSubscriber.onNextEvents.size)
+        assertEquals(0, testCreateFakeAddressSubscriber.valueCount())
     }
 
     @Test

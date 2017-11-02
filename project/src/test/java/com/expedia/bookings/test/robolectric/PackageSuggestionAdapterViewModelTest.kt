@@ -12,10 +12,10 @@ import com.mobiata.android.util.SettingUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.Observable
-import rx.Observer
-import rx.Subscription
 import kotlin.test.assertFalse
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -48,11 +48,11 @@ class PackageSuggestionAdapterViewModelTest {
     }
 
     class MockSuggestionV4Services : ISuggestionV4Services {
-        override fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean): Subscription {
+        override fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean): Disposable {
             TODO("not implemented: getLxSuggestionsV4")
         }
 
-        override fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, sameAsWeb: Boolean, guid: String?): Subscription {
+        override fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, sameAsWeb: Boolean, guid: String?): Disposable {
             TODO("not implemented: getHotelSuggestionsV4")
         }
 
@@ -60,15 +60,15 @@ class PackageSuggestionAdapterViewModelTest {
             TODO("not implemented: suggestNearbyGaia")
         }
 
-        override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?): Subscription {
+        override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?): Disposable {
             TODO("not implemented: suggestPackagesV4")
         }
 
-        override fun suggestRailsV4(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>): Subscription {
+        override fun suggestRailsV4(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>): Disposable {
             TODO("not implemented: suggestRailsV4")
         }
 
-        override fun getAirports(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, guid: String): Subscription {
+        override fun getAirports(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, guid: String): Disposable {
             TODO("not implemented: getAirports")
         }
     }

@@ -16,7 +16,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.updateVisibility
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewModel): RelativeLayout(context) {
     val roomImageClickedSubject = PublishSubject.create<Unit>()

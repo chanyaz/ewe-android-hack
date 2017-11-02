@@ -6,6 +6,7 @@ import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.data.lx.LxSearchParams
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.LXMapViewModel
@@ -15,7 +16,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -31,10 +31,10 @@ class LXMapViewModelTest {
         it.redemptionLocationsLatLng.subscribe(redemptionLocationsLatLngTestSubscriber)
     }
 
-    val activityNameTestSubscriber = TestSubscriber<String>()
-    val activityPriceTestSubscriber = TestSubscriber<CharSequence>()
-    val eventLatLngTestSubscriber = TestSubscriber<LatLong>()
-    val redemptionLocationsLatLngTestSubscriber = TestSubscriber<List<LatLong>>()
+    val activityNameTestSubscriber = TestObserver<String>()
+    val activityPriceTestSubscriber = TestObserver<CharSequence>()
+    val eventLatLngTestSubscriber = TestObserver<LatLong>()
+    val redemptionLocationsLatLngTestSubscriber = TestObserver<List<LatLong>>()
 
     @Before fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -66,10 +66,10 @@ class LXMapViewModelTest {
         activityPriceTestSubscriber.assertValueCount(1)
 
         activityNameTestSubscriber.assertValue("New York Pass: Visit up to 80 Attractions, Museums & Tours")
-        compareLocationLatLng(eventLatLngTestSubscriber.onNextEvents[0]
+        compareLocationLatLng(eventLatLngTestSubscriber.values()[0]
                 , ActivityDetailsResponse.LXLocation.getLocation(activityOffersResponse.eventLocation.latLng))
         redemptionLocationsLatLngTestSubscriber.assertValue(emptyList())
-        assertEquals("From $130", activityPriceTestSubscriber.onNextEvents[0].toString())
+        assertEquals("From $130", activityPriceTestSubscriber.values()[0].toString())
 
     }
 

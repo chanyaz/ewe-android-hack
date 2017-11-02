@@ -7,7 +7,7 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 abstract class AbstractUniversalCKOTravelerEntryWidgetViewModel(context: Context, val travelerIndex: Int) {
 

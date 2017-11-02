@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.flightlib.data.Airport
@@ -18,7 +19,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
@@ -31,9 +31,9 @@ class FlightItinTravelerViewModelTest {
     lateinit private var context: Context
     lateinit var testItinCardData: ItinCardDataFlight
 
-    val updateToolbarSubscriber = TestSubscriber<ItinToolbarViewModel.ToolbarParams>()
-    val updateTravelerListSubscriber = TestSubscriber<List<Traveler>>()
-    val itinCardDataNotValidSubscriber = TestSubscriber<Unit>()
+    val updateToolbarSubscriber = TestObserver<ItinToolbarViewModel.ToolbarParams>()
+    val updateTravelerListSubscriber = TestObserver<List<Traveler>>()
+    val itinCardDataNotValidSubscriber = TestObserver<Unit>()
 
     @Before
     fun setup() {

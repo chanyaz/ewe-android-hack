@@ -9,7 +9,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 class RailCostSummaryBreakdownViewModel(context: Context, val isCheckout: Boolean) : BaseCostSummaryBreakdownViewModel(context) {

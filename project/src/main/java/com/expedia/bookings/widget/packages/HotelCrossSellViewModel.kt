@@ -7,7 +7,7 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class HotelCrossSellViewModel(context: Context) {
 
