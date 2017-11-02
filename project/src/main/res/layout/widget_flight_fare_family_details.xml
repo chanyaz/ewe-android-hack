@@ -38,6 +38,7 @@
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/fare_family_location"
                 style="@style/Core.Text.200.Medium"
+                android:focusable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp" />
@@ -45,6 +46,7 @@
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/fare_family_airlines"
                 android:layout_width="match_parent"
+                android:focusable="true"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textSize="12sp" />

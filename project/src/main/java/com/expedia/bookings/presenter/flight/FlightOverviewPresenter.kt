@@ -29,6 +29,7 @@ import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.FareFamilyCardView
 import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
@@ -227,6 +228,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             flightFareFamilyDetailsWidget.visibility = View.VISIBLE
+            getCheckoutPresenter().visibility =  View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -240,6 +242,8 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             if (forward) {
                 flightFareFamilyDetailsWidget.visibility = View.VISIBLE
                 flightFareFamilyDetailsWidget.translationY = 0f
+                flightFareFamilyDetailsWidget.toolbar.setFocusForView()
+                getCheckoutPresenter().visibility =  View.GONE
             } else {
                 flightFareFamilyDetailsWidget.visibility = View.GONE
                 flightFareFamilyDetailsWidget.translationY = (flightFareFamilyDetailsWidget.height).toFloat()
