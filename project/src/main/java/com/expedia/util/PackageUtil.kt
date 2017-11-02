@@ -18,6 +18,7 @@ object PackageUtil {
                     pointOfSaleId == PointOfSaleId.AUSTRALIA ||
                     pointOfSaleId == PointOfSaleId.NEW_ZEALND ||
                     pointOfSaleId == PointOfSaleId.CANADA ||
+                    pointOfSaleId == PointOfSaleId.HONG_KONG ||
                     pointOfSaleId == PointOfSaleId.TRAVELOCITY_CA ||
                     pointOfSaleId == PointOfSaleId.WOTIF ||
                     pointOfSaleId == PointOfSaleId.WOTIF_NZ ||
@@ -64,7 +65,9 @@ object PackageUtil {
             return R.string.nav_hotel_plus_flight_deals
         }
 
-        if (pointOfSaleId == PointOfSaleId.CANADA || pointOfSaleId == PointOfSaleId.TRAVELOCITY_CA) {
+        if (pointOfSaleId == PointOfSaleId.CANADA ||
+                pointOfSaleId == PointOfSaleId.HONG_KONG ||
+                pointOfSaleId == PointOfSaleId.TRAVELOCITY_CA) {
             return R.string.nav_flight_plus_hotel
         }
 
