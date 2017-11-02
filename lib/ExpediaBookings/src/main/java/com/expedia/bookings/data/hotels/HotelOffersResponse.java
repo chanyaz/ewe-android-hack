@@ -82,7 +82,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public RateInfo rateInfo;
 		public String roomTypeDescription;
 		public String roomLongDescription;
-		public String roomThumbnailUrl;
+		@Nullable public String roomThumbnailUrl;
+		@Nullable public List<String> roomThumbnailUrlArray;
 		public List<ValueAdds> valueAdds;
 		public String supplierType;
 		public boolean isDiscountRestrictedToCurrentSourceType;

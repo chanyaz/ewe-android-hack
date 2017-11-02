@@ -3,6 +3,7 @@ package com.expedia.bookings.hotel.widget
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Handler
 import android.support.annotation.VisibleForTesting
@@ -26,11 +27,12 @@ import android.widget.TableRow
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.hotel.activity.HotelGalleryActivity
 import com.expedia.bookings.hotel.animation.AlphaCalculator
+import com.expedia.bookings.hotel.data.HotelGalleryParcel
+import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.PackagesTracking
@@ -69,6 +71,7 @@ import com.expedia.vm.HotelRoomHeaderViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import rx.Observable
+import rx.Observer
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
@@ -472,12 +475,16 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         val groupedRooms = viewModel.groupAndSortRoomList(roomListToUse)
         val viewModels = ArrayList<HotelRoomDetailViewModel>()
         var roomOptionCount = 0
+
         for ((roomType, roomResponses) in groupedRooms) {
             if (roomResponses.count() >= 0) {
                 val cardView = Ui.inflate<HotelRoomCardView>(R.layout.hotel_room_card_view, roomContainer, false)
                 var roomCount = if (roomResponses.count() > 1) 0 else -1
 
-                val header = getRoomHeaderView(roomResponses[0], roomCount)
+                val roomResponse = roomResponses[0]
+                val header = getRoomHeaderView(roomResponse, roomCount)
+
+                header.roomImageClickedSubject.subscribe(RoomImageClickObserver(roomResponse.roomTypeCode))
                 cardView.addViewToContainer(header)
 
                 for (roomResponse in roomResponses) {
@@ -498,6 +505,23 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         roomContainer.startAnimation(fadeInRoomsAnimation)
         viewModel.hotelRoomDetailViewModelsObservable.onNext(viewModels)
+    }
+
+    private inner class RoomImageClickObserver(private val roomCode: String) : Observer<Unit> {
+        override fun onNext(t: Unit?) {
+            val intent = Intent(context, HotelGalleryActivity::class.java)
+            val parcel = HotelGalleryParcel(viewModel.hotelNameObservable.value,
+                    viewModel.hotelRatingObservable.value, roomCode,
+                    showDescription = false, startIndex = 0)
+            intent.putExtra(HotelExtras.GALLERY_PARCELABLE, parcel)
+            context.startActivity(intent)
+        }
+
+        override fun onError(e: Throwable?) {
+        }
+
+        override fun onCompleted() {
+        }
     }
 
     private fun getRoomHeaderView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, roomCount: Int) : HotelRoomHeaderView {

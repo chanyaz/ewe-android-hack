@@ -1,0 +1,125 @@
+{
+  "checkInInstructions": "The front desk is open daily from 7 AM - 11 PM<br />The check-in location differs from the property location. To check in, go to 356 E Hanson Ranch Road<br />If you are planning to arrive after 10 PM please contact the property in advance using the information on the booking confirmation. ",
+  "deepLinkUrl": "https://www.expedia.com/Vail-Hotels-Chateau-Christiania.h13166759.Hotel-Information",
+  "deskTopOverrideNumber": false,
+  "firstHotelOverview": "Situated in Vail, this condo is within a 5-minute walk of Cogswell Gallery and Vail Ski Resort. Gerald R. Ford Amphitheater and Betty Ford Alpine Gardens are also within 15 minutes.",
+  "hotelAddress": "356 Hanson Ranch Road",
+  "hotelAmenities": [{
+    "id": "321",
+    "description": "Barbecue grill(s)"
+  }, {
+    "id": "2390",
+    "description": "Free WiFi"
+  }],
+  "hotelAmenitiesText": {
+    "name": "Property Amenities",
+    "content": "<p>In addition to an outdoor pool, Chateau Christiania provides ski-in/ski-out access and a health club. Wireless Internet access is complimentary. This Vail condo also offers tour/ticket assistance, barbecue grills, and ski storage. Onsite parking is available (surcharge).</p><p>Chateau Christiania is a smoke-free property.</p><ul><li>Barbecue grill(s)</li><li>Picnic area</li><li>Ski storage</li><li>Ski-in/ski-out access</li><li>Luggage storage</li><li>Newspapers in lobby (surcharge)</li><li>Breakfast available (surcharge)</li><li>Concierge services</li><li>Front desk (limited hours)</li><li>Laundry facilities</li><li>Tours/ticket assistance</li><li>Total number of rooms - 8</li><li>Free WiFi</li><li>Self parking (surcharge)</li><li>Health club</li><li>Outdoor pool</li><li>Smoke-free property</li></ul>"
+  },
+  "hotelCity": "Vail",
+  "hotelCountry": "USA",
+  "hotelFeesText": {
+    "name": "Fees",
+    "content": "<ul><li>The following fees and deposits are charged by the property at time of service, check-in, or check-out.<ul> <li>Fee for continental breakfast: USD 15.00 per person (approximately)</li>       <li>Self parking fee: USD 30.00 per night</li>          <li>Crib (infant bed) fee: USD 25.00 per night</li><li>Rollaway bed fee: USD 35.00 per night</li>             </ul></li><li>The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change.</li></ul>"
+  },
+  "hotelGuestRating": "4.5",
+  "hotelId": "13166759",
+  "hotelMandatoryFeesText": {
+    "name": "Mandatory Fees and Taxes",
+    "content": "<ul><li>You'll be asked to pay the following charges at the property:<ul><li>Resort fee: 6.00 percent of room rate</li></ul></li><li>The resort fee includes:<ul><li>Pool access</li><li>Spa tub access</li><li>Health club access</li><li>Fitness center access</li><li>Fitness/yoga classes</li></ul></li><li>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book.</li></ul>"
+  },
+  "hotelName": "Chateau Christiania",
+  "hotelOverviewText": [{
+    "name": "Location",
+    "content": "Situated in Vail, this condo is within a 5-minute walk of Cogswell Gallery and Vail Ski Resort. Gerald R. Ford Amphitheater and Betty Ford Alpine Gardens are also within 15 minutes."
+  }, {
+    "name": "Property Features",
+    "content": "This smoke-free condo features ski-in/ski-out access, an outdoor pool, and a health club. WiFi in public areas is free. Other amenities include self parking, concierge services, and laundry facilities."
+  }, {
+    "name": "Room Amenities",
+    "content": "All 8 condos have 2 bedrooms and feature free WiFi. Guests can enjoy fireplaces, and other standard amenities include kitchens with refrigerators and ovens."
+  }],
+  "hotelPoliciesText": {
+    "name": "Policies",
+    "content": "<ul><li>Extra-person charges may apply and vary depending on property policy.</li><li>Government-issued photo identification and a credit card or cash deposit are required at check-in for incidental charges.</li><li>Special requests are subject to availability upon check-in and may incur additional charges. Special requests cannot be guaranteed.</li><li>Pets not allowed</li><li>Check-in time starts at 4 PM</li><li>Check-in time ends at 11 PM</li><li>Check-out time is 11 AM</li><li>Minimum check-in age is 18</li><li>MasterCard</li><li>American Express</li><li>Visa</li></ul><ul><li>This property does not provide air conditioning. For more details, please contact the office using the information on the reservation confirmation received after booking.</li></ul>"
+  },
+  "hotelStarRating": "3.5",
+  "hotelStarRatingCssClassName": "3-5",
+  "hotelStateProvince": "CO",
+  "isVipAccess": false,
+  "latitude": "39.640105",
+  "localizedHotelName": "Chateau Christiania",
+  "locationDescription": "Vail",
+  "locationId": "6056742",
+  "longDescription": "<p><strong>Location:</strong> Situated in Vail, this condo is within a 5-minute walk of Cogswell Gallery and Vail Ski Resort. Gerald R. Ford Amphitheater and Betty Ford Alpine Gardens are also within 15 minutes. </p>",
+  "longitude": "-106.372127",
+  "nonLocalizedHotelName": "Chateau Christiania",
+  "percentRecommended": "0",
+  "photos": [{
+    "url": "/hotels/14000000/13170000/13166800/13166759/13166759_1_z.jpg",
+    "thumbnailUrl": "/hotels/14000000/13170000/13166800/13166759/13166759_1_t.jpg",
+    "featured": true,
+    "displayText": "Featured Image"
+  }, {
+    "url": "/hotels/14000000/13170000/13166800/13166759/13166759_7_z.jpg",
+    "thumbnailUrl": "/hotels/14000000/13170000/13166800/13166759/13166759_7_t.jpg",
+    "displayText": "Guestroom"
+  }, {
+    "url": "/hotels/14000000/13170000/13166800/13166759/13166759_36_z.jpg",
+    "thumbnailUrl": "/hotels/14000000/13170000/13166800/13166759/13166759_36_t.jpg",
+    "displayText": "Guestroom"
+  }],
+  "regions": [{
+    "id": 201,
+    "type": "COUNTRY",
+    "name": "United States of America",
+    "description": "",
+    "latitude": 45.920785,
+    "longitude": -116.638707
+  }, {
+    "id": 207,
+    "type": "PROVINCESTATE",
+    "name": "Colorado",
+    "description": "",
+    "latitude": 38.99882,
+    "longitude": -105.548298
+  }, {
+    "id": 7053,
+    "type": "CITY",
+    "name": "Vail",
+    "description": "",
+    "latitude": 39.643551,
+    "longitude": -106.378143
+  }, {
+    "id": 180057,
+    "type": "MULTICITYVICINITY",
+    "name": "Vail - Beaver Creek (ski area)",
+    "description": "",
+    "latitude": 39.641303,
+    "longitude": -106.382835
+  }, {
+    "id": 6056729,
+    "type": "MULTIREGIONWITHINACOUNTRY",
+    "name": "Northwest Colorado",
+    "description": "",
+    "latitude": 39.977917,
+    "longitude": -107.487077
+  }, {
+    "id": 6056742,
+    "type": "NEIGHBORHOOD",
+    "name": "Vail",
+    "description": "",
+    "latitude": 39.63329261,
+    "longitude": -106.36131355
+  }, {
+    "id": 6229634,
+    "type": "MULTIREGIONWITHINACOUNTRY",
+    "name": "Colorado Western Slope",
+    "description": "",
+    "latitude": 39.111478,
+    "longitude": -107.507516
+  }],
+  "telesalesNumber": "1-800-267-9604",
+  "packageTelesalesNumber": "1-800-661-6408",
+  "totalRecommendations": "0",
+  "totalReviews": "2"
+}

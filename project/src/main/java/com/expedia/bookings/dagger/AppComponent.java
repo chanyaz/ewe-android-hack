@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.fragment.AccountSettingsFragment;
+import com.expedia.bookings.hotel.util.HotelGalleryManager;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
@@ -81,4 +82,6 @@ public interface AppComponent {
 	NotificationManager notificationManager();
 
 	SatelliteServices satelliteServices();
+
+	HotelGalleryManager hotelGalleryManager();
 }

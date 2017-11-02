@@ -85,7 +85,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppHotelPinnedSearch = new ABTest(15082);
 	public static final ABTest EBAndroidAppHotelGroupRoomRate = new ABTest(14591);
 	public static final ABTest HotelAutoSuggestSameAsWeb = new ABTest(15637, true);
-	public static final ABTest EBAndroidAppHotelThrottleGalleryAnimation = new ABTest(14785);
 	public static final ABTest EBAndroidAppHotelGreedySearch = new ABTest(15228);
 	public static final ABTest EBAndroidAppHotelSuperSearch = new ABTest(14911);
 	public static final ABTest EBAndroidAppHotelHideStrikethroughPrice = new ABTest(14863);
@@ -95,6 +94,7 @@ public class AbacusUtils {
 	public static final ABTest HotelShowSoldOutResults = new ABTest(15730);
 	public static final ABTest EBAndroidAppHotelPayLaterCreditCardMessaging = new ABTest(15925);
 	public static final ABTest HotelEnableInfositeChangeDate = new ABTest(15220);
+	public static final ABTest HotelRoomImageGallery = new ABTest(14927, true);
 
 	// Cars Web View Tests
 	public static final ABTest EBAndroidAppCarsFlexView = new ABTest(14632);
@@ -192,7 +192,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelGreedySearch.getKey());
 		testIDs.add(EBAndroidAppHotelSuperSearch.getKey());
 		testIDs.add(EBAndroidAppHotelHideStrikethroughPrice.getKey());
-		testIDs.add(EBAndroidAppHotelThrottleGalleryAnimation.getKey());
 		testIDs.add(EBAndroidAppAPIMAuth.getKey());
 		testIDs.add(EBAndroidAppFlightFrequentFlyerNumber.getKey());
 		testIDs.add(EBAndroidAppAccountSinglePageSignUp.getKey());
@@ -229,6 +228,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsKrazyglue.getKey());
 		testIDs.add(EBAndroidAppFlightsDeltaPricing.getKey());
 		testIDs.add(HotelEnableInfositeChangeDate.getKey());
+		testIDs.add(HotelRoomImageGallery.getKey());
 		testIDs.add(EBAndroidAppFlightsFrenchLegalBaggageInfo.getKey());
 		testIDs.add(EBAndroidAppAccountRecaptcha.getKey());
 		testIDs.add(EBAndroidAppHotelMaterialForms.getKey());

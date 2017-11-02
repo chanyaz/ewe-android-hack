@@ -23,6 +23,11 @@ class HotelRoomHeaderViewModel(val context: Context, val hotelRoomResponse: Hote
 
     val roomDescriptionString: String? by lazy { hotelRoomResponse.roomLongDescription }
 
+    fun hasRoomImages() : Boolean {
+        return hotelRoomResponse.roomThumbnailUrlArray != null
+                && hotelRoomResponse.roomThumbnailUrlArray!!.isNotEmpty()
+    }
+
     private fun getHotelImageUrl(): String? {
         return if (!hotelRoomResponse.roomThumbnailUrl.isNullOrBlank()) {
             Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl

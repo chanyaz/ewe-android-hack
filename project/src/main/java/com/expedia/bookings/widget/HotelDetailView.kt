@@ -4,11 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
-import android.support.constraint.ConstraintLayout
-import android.support.constraint.ConstraintSet
-import android.transition.Transition
-import android.transition.TransitionInflater
-import android.transition.TransitionManager
+import android.content.Intent
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -17,15 +13,14 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.ScrollView
 import com.expedia.bookings.R
-import com.expedia.bookings.animation.TransitionListenerAdapter
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.hotel.DEFAULT_HOTEL_GALLERY_CODE
+import com.expedia.bookings.hotel.activity.HotelGalleryActivity
 import com.expedia.bookings.hotel.animation.AlphaCalculator
+import com.expedia.bookings.hotel.data.HotelGalleryParcel
+import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.widget.HotelDetailContentView
 import com.expedia.bookings.hotel.widget.HotelDetailGalleryView
-import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -58,7 +53,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
 
     private val detailContainer: ScrollView by bindView(R.id.detail_container)
-    private val constraintView: ConstraintLayout by bindView(R.id.content_constraint_container)
     private var galleryExpanded = false
 
     private var statusBarHeight = 0
@@ -67,9 +61,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private var resortOutAnimator: ObjectAnimator by Delegates.notNull()
     private var bottomButtonInAnimator: ObjectAnimator by Delegates.notNull()
     private var bottomButtonOutAnimator: ObjectAnimator by Delegates.notNull()
-
-    private var galleryCollapsedConstraintSet = ConstraintSet()
-    private var galleryFullScreenConstraintSet = ConstraintSet()
 
     private var alreadyTrackedGalleryClick = false
 
@@ -99,8 +90,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             }
         }
 
-        vm.galleryObservable.subscribe { galleryUrls ->
-            galleryView.setGalleryItems(galleryUrls)
+        vm.galleryObservable.subscribe { galleryMediaList ->
+            galleryView.setGalleryItems(galleryMediaList)
         }
 
         vm.scrollToRoom.subscribe { scrollToRoom(false) }
@@ -122,17 +113,14 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     init {
-        View.inflate(getContext(), R.layout.hotel_detail_view_collapsed_gallery, this)
+        View.inflate(getContext(), R.layout.hotel_detail_view, this)
         statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarHeight = Ui.getToolbarSize(getContext())
         Ui.showTransparentStatusBar(getContext())
 
         toolbarHeightOffset = statusBarHeight.toFloat() + toolBarHeight
         hotelDetailsToolbar.toolbar.setNavigationOnClickListener { view ->
-            if (hotelDetailsToolbar.navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
-                collapseGallery()
-            } else
-                (getContext() as Activity).onBackPressed()
+            (getContext() as Activity).onBackPressed()
         }
 
         galleryView.galleryClickedSubject.subscribe {
@@ -140,11 +128,14 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 viewmodel.trackHotelDetailGalleryClick()
                 alreadyTrackedGalleryClick = true
             }
-            if (galleryExpanded) {
-                collapseGallery()
-            } else {
-                expandGallery()
-            }
+
+            val intent = Intent(context, HotelGalleryActivity::class.java)
+            val parcel = HotelGalleryParcel(viewmodel.hotelNameObservable.value,
+                    viewmodel.hotelRatingObservable.value,
+                    roomCode = DEFAULT_HOTEL_GALLERY_CODE,
+                    showDescription = true, startIndex = galleryView.getCurrentIndex())
+            intent.putExtra(HotelExtras.GALLERY_PARCELABLE, parcel)
+            context.startActivity(intent)
         }
 
         bottomButtonWidget.selectRoomClickedSubject.subscribe {
@@ -166,13 +157,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         hideResortAndSelectRoom()
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-
-        galleryCollapsedConstraintSet.clone(constraintView)
-        galleryFullScreenConstraintSet.clone(context, R.layout.hotel_detail_view_expanded_gallery)
-    }
-
     fun resetViews() {
         detailContainer.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
         hotelDetailsToolbar.toolBarBackground.alpha = 0f
@@ -191,51 +175,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         detailContainer.post {
             detailContainer.scrollTo(0, 0)
         }
-    }
-
-    fun collapseGallery() {
-        galleryView.collapse()
-        if (!bottomButtonInAnimator.isRunning && bottomButtonWidget.translationY != 0f) {
-            bottomButtonInAnimator.startDelay = 100
-            bottomButtonInAnimator.start()
-        }
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelThrottleGalleryAnimation)) {
-            val collapseTransition = TransitionInflater.from(context).inflateTransition(R.transition.gallery_collapse_transition)
-            collapseTransition.addListener(object: TransitionListenerAdapter() {
-                override fun onTransitionEnd(transition: Transition?) {
-                    galleryExpanded = false
-                }
-            })
-            TransitionManager.beginDelayedTransition(constraintView, collapseTransition)
-        } else {
-            galleryExpanded = false
-        }
-        galleryCollapsedConstraintSet.applyTo(constraintView)
-
-        hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
-        hotelDetailsToolbar.navIcon.parameter = 0f
-    }
-
-    private fun expandGallery() {
-        galleryView.expand()
-        if (!bottomButtonOutAnimator.isRunning && bottomButtonWidget.translationY != bottomButtonContainerHeight.toFloat()) {
-            bottomButtonOutAnimator.start()
-        }
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelThrottleGalleryAnimation)) {
-            val expandTransition = TransitionInflater.from(context).inflateTransition(R.transition.gallery_expand_transition)
-            expandTransition.addListener(object: TransitionListenerAdapter() {
-                override fun onTransitionEnd(transition: Transition?) {
-                    galleryExpanded = true
-                }
-            })
-            TransitionManager.beginDelayedTransition(constraintView, expandTransition)
-        } else {
-            galleryExpanded = true
-        }
-        galleryFullScreenConstraintSet.applyTo(constraintView)
-
-        hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_gallery_cont_desc)
-        hotelDetailsToolbar.navIcon.parameter = 1f
     }
 
     private fun showToolbarGradient() {

@@ -18,6 +18,7 @@ import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.hotel.util.HotelGalleryManager;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.server.EndpointProvider;
@@ -337,5 +338,11 @@ public class AppModule {
 	@Singleton
 	NotificationManager provideNotificationManager(Context context) {
 		return new NotificationManager(context);
+	}
+
+	@Provides
+	@Singleton
+	HotelGalleryManager provideHotelGalleryManager(Context context) {
+		return new HotelGalleryManager(context);
 	}
 }

@@ -1,0 +1,723 @@
+{
+  "hotelRoomResponse": [{
+    "productKey": "LPAS-c251e-211416307-200674447-182-3-1821.33-USD-1-V3",
+    "bedTypes": [{
+      "id": "6234",
+      "description": "2 queen beds\r"
+    }],
+    "cancellationPolicy": "\u003cp\u003eWe understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Lion Square Lodge charges the following cancellation and change fees.\u003c/p\u003e\u003cp\u003eCancellations or changes made before 11:59pm (property local time) on Dec 23, 2017 or no-shows are subject to a property fee equal to the first nights rate plus taxes and fees.\u003c/p\u003e\u003cp\u003eCancellations or changes made after 11:59pm (property local time) on Dec 23, 2017 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.\u003c/p\u003e\u003cp\u003eYour room/unit will be guaranteed for late arrival.\u003c/p\u003e\u003cp\u003eHotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.\u003c/p\u003e",
+    "currentAllotment": "12",
+    "depositRequired": false,
+    "hasFreeCancellation": false,
+    "immediateChargeRequired": true,
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isMemberDeal": false,
+    "isPayLater": false,
+    "isSameDayDRR": false,
+    "nonRefundable": false,
+    "promoDescription": "",
+    "promotionDetails": {
+      "promoId": "233201590",
+      "promoExpirationDate": "2079-06-06T15:59:00-07:00"
+    },
+    "quotedOccupancy": "4",
+    "rateChange": false,
+    "rateDescription": "Lodge Room 2 Queens Valley View",
+    "rateInfo": {
+      "priceBreakdown": true,
+      "promo": true,
+      "rateChange": false,
+      "chargeableRateInfo": {
+        "maxNightlyRate": "519.16",
+        "averageRate": "519.16",
+        "taxStatusType": "ESTIMATED",
+        "surchargeTotal": "87.95",
+        "surchargeTotalForEntireStay": "263.85",
+        "surchargesWithoutPropertyFee": "87.95",
+        "surchargesWithoutPropertyFeeForEntireStay": "263.85",
+        "averageBaseRate": "519.16",
+        "nightlyRateTotal": "1557.48",
+        "discountPercent": 0,
+        "total": "1821.33",
+        "currencyCode": "USD",
+        "currencySymbol": "$",
+        "surcharges": [{
+          "amount": "87.95",
+          "type": "TAX_ALL"
+        }],
+        "surchargesForEntireStay": [{
+          "amount": "263.85",
+          "type": "TAX_ALL"
+        }],
+        "nightlyRatesPerRoom": [{
+          "promo": "false",
+          "baseRate": "519.16",
+          "rate": "519.16"
+        }, {
+          "promo": "false",
+          "baseRate": "519.16",
+          "rate": "519.16"
+        }, {
+          "promo": "false",
+          "baseRate": "519.16",
+          "rate": "519.16"
+        }],
+        "priceToShowUsers": "519",
+        "strikethroughPriceWithTaxesAndFeesToShowUsers": "1821",
+        "totalMandatoryFees": "0.00",
+        "totalPriceWithMandatoryFees": "1821.33",
+        "formattedTotalPriceWithMandatoryFees": "$ 1,821.33",
+        "userPriceType": "PerNightRateNoTaxes",
+        "priceAdjustments": [],
+        "checkoutPriceType": "total",
+        "airAttached": false,
+        "roomTypeCode": "200674447",
+        "ratePlanCode": "211416307",
+        "showResortFeeMessage": false,
+        "resortFeeInclusion": false,
+        "loyaltyInfo": {
+          "earn": {
+            "points": {
+              "base": 3643,
+              "bonus": 3643,
+              "total": 7286
+            }
+          },
+          "isBurnApplied": false
+        }
+      }
+    },
+    "rateOccupancyPerRoom": "7",
+    "ratePlanCode": "211416307",
+    "roomLongDescription": " 2 Queen Beds  337 sq feet (31 sq meters)   Internet  - Free WiFi    Entertainment  - Premium channels and DVD player   Food \u0026 Drink  - Refrigerator and coffee/tea maker   Sleep  - Premium bedding   Bathroom  - Partially open bathroom, shower, bathrobes, and free toiletries  Practical  - Free newspaper, iron/ironing board, and desk; rollaway/extra beds and cribs/infant beds available on request  Comfort  - Daily housekeeping Non-Smoking \u0026nbsp; ",
+    "roomThumbnailUrl": "/hotels/1000000/800000/796000/795934/795934_174_t.jpg",
+    "roomThumbnailUrlArray": ["/hotels/1000000/800000/796000/795934/795934_174_t.jpg"],
+    "roomTypeCode": "200674447",
+    "roomTypeDescription": "Lodge Room 2 Queens Valley View",
+    "smokingPreferences": "NS",
+    "supplierType": "MERCHANT",
+    "valueAdds": [{
+      "id": "2109",
+      "description": "Free Parking"
+    }, {
+      "id": "2191",
+      "description": "Free High-Speed Internet"
+    }, {
+      "id": "2208",
+      "description": "Full Kitchen"
+    }]
+  }, {
+    "productKey": "LPAS-c251e-204570762-200902223-182-3-2943.95-USD-1-V3",
+    "bedTypes": [{
+      "id": "6214",
+      "description": "3 beds\r"
+    }],
+    "cancellationPolicy": "\u003cp\u003eWe understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Lion Square Lodge charges the following cancellation and change fees.\u003c/p\u003e\u003cp\u003eCancellations or changes made before 11:59pm (property local time) on Dec 23, 2017 or no-shows are subject to a property fee equal to the first nights rate plus taxes and fees.\u003c/p\u003e\u003cp\u003eCancellations or changes made after 11:59pm (property local time) on Dec 23, 2017 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.\u003c/p\u003e\u003cp\u003eYour room/unit will be guaranteed for late arrival.\u003c/p\u003e\u003cp\u003eHotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.\u003c/p\u003e",
+    "currentAllotment": "5",
+    "depositRequired": false,
+    "hasFreeCancellation": false,
+    "immediateChargeRequired": true,
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isMemberDeal": false,
+    "isPayLater": false,
+    "isSameDayDRR": false,
+    "nonRefundable": false,
+    "promoDescription": "",
+    "promotionDetails": {
+      "promoId": "208445580",
+      "promoExpirationDate": "2079-06-06T15:59:00-07:00"
+    },
+    "quotedOccupancy": "4",
+    "rateChange": false,
+    "rateDescription": "One Bedroom1 Bath Superior Mountain View",
+    "rateInfo": {
+      "priceBreakdown": true,
+      "promo": true,
+      "rateChange": false,
+      "chargeableRateInfo": {
+        "maxNightlyRate": "839.16",
+        "averageRate": "839.16",
+        "taxStatusType": "ESTIMATED",
+        "surchargeTotal": "142.16",
+        "surchargeTotalForEntireStay": "426.47",
+        "surchargesWithoutPropertyFee": "142.16",
+        "surchargesWithoutPropertyFeeForEntireStay": "426.47",
+        "averageBaseRate": "839.16",
+        "nightlyRateTotal": "2517.48",
+        "discountPercent": 0,
+        "total": "2943.95",
+        "currencyCode": "USD",
+        "currencySymbol": "$",
+        "surcharges": [{
+          "amount": "142.16",
+          "type": "TAX_ALL"
+        }],
+        "surchargesForEntireStay": [{
+          "amount": "426.47",
+          "type": "TAX_ALL"
+        }],
+        "nightlyRatesPerRoom": [{
+          "promo": "false",
+          "baseRate": "839.16",
+          "rate": "839.16"
+        }, {
+          "promo": "false",
+          "baseRate": "839.16",
+          "rate": "839.16"
+        }, {
+          "promo": "false",
+          "baseRate": "839.16",
+          "rate": "839.16"
+        }],
+        "priceToShowUsers": "839",
+        "strikethroughPriceWithTaxesAndFeesToShowUsers": "2944",
+        "totalMandatoryFees": "0.00",
+        "totalPriceWithMandatoryFees": "2943.95",
+        "formattedTotalPriceWithMandatoryFees": "$ 2,943.95",
+        "userPriceType": "PerNightRateNoTaxes",
+        "priceAdjustments": [],
+        "checkoutPriceType": "total",
+        "airAttached": false,
+        "roomTypeCode": "200902223",
+        "ratePlanCode": "204570762",
+        "showResortFeeMessage": false,
+        "resortFeeInclusion": false,
+        "loyaltyInfo": {
+          "earn": {
+            "points": {
+              "base": 5888,
+              "bonus": 5888,
+              "total": 11776
+            }
+          },
+          "isBurnApplied": false
+        }
+      }
+    },
+    "rateOccupancyPerRoom": "4",
+    "ratePlanCode": "204570762",
+    "roomLongDescription": " 1 King Bed and 2 Queen Sofa Beds   Internet  - Free WiFi    Entertainment  - Premium channels and DVD player   Food \u0026 Drink  - Refrigerator and coffee/tea maker   Sleep  - Premium bedding   Bathroom  - Partially open bathroom, shower, bathrobes, and free toiletries  Practical  - Free newspaper, iron/ironing board, and desk; rollaway/extra beds available on request  Comfort  - Daily housekeeping Non-Smoking \u0026nbsp; ",
+    "roomThumbnailUrl": "/hotels/1000000/800000/796000/795934/795934_215_t.jpg",
+    "roomThumbnailUrlArray": ["/hotels/1000000/800000/796000/795934/795934_215_t.jpg"],
+    "roomTypeCode": "200902223",
+    "roomTypeDescription": "One Bedroom1 Bath Superior Mountain View",
+    "smokingPreferences": "NS",
+    "supplierType": "MERCHANT",
+    "valueAdds": [{
+      "id": "2109",
+      "description": "Free Parking"
+    }, {
+      "id": "2191",
+      "description": "Free High-Speed Internet"
+    }, {
+      "id": "2208",
+      "description": "Full Kitchen"
+    }]
+  }, {
+    "productKey": "LPAS-c251e-211416310-200674247-182-3-2979.03-USD-1-V3",
+    "bedTypes": [{
+      "id": "6194",
+      "description": "1 king bed\r"
+    }, {
+      "id": "6201",
+      "description": "1 queen bed\r"
+    }],
+    "cancellationPolicy": "\u003cp\u003eWe understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Lion Square Lodge charges the following cancellation and change fees.\u003c/p\u003e\u003cp\u003eCancellations or changes made before 11:59pm (property local time) on Dec 23, 2017 or no-shows are subject to a property fee equal to the first nights rate plus taxes and fees.\u003c/p\u003e\u003cp\u003eCancellations or changes made after 11:59pm (property local time) on Dec 23, 2017 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.\u003c/p\u003e\u003cp\u003eYour room/unit will be guaranteed for late arrival.\u003c/p\u003e\u003cp\u003eHotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.\u003c/p\u003e",
+    "currentAllotment": "7",
+    "depositRequired": false,
+    "hasFreeCancellation": false,
+    "immediateChargeRequired": true,
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isMemberDeal": false,
+    "isPayLater": false,
+    "isSameDayDRR": false,
+    "nonRefundable": false,
+    "promoDescription": "",
+    "promotionDetails": {
+      "promoId": "233201593",
+      "promoExpirationDate": "2079-06-06T15:59:00-07:00"
+    },
+    "quotedOccupancy": "4",
+    "rateChange": false,
+    "rateDescription": "One Bedroom 2 Bath Superior Condo (North Building)",
+    "rateInfo": {
+      "priceBreakdown": true,
+      "promo": true,
+      "rateChange": false,
+      "chargeableRateInfo": {
+        "maxNightlyRate": "849.16",
+        "averageRate": "849.16",
+        "taxStatusType": "ESTIMATED",
+        "surchargeTotal": "143.85",
+        "surchargeTotalForEntireStay": "431.55",
+        "surchargesWithoutPropertyFee": "143.85",
+        "surchargesWithoutPropertyFeeForEntireStay": "431.55",
+        "averageBaseRate": "849.16",
+        "nightlyRateTotal": "2547.48",
+        "discountPercent": 0,
+        "total": "2979.03",
+        "currencyCode": "USD",
+        "currencySymbol": "$",
+        "surcharges": [{
+          "amount": "143.85",
+          "type": "TAX_ALL"
+        }],
+        "surchargesForEntireStay": [{
+          "amount": "431.55",
+          "type": "TAX_ALL"
+        }],
+        "nightlyRatesPerRoom": [{
+          "promo": "false",
+          "baseRate": "849.16",
+          "rate": "849.16"
+        }, {
+          "promo": "false",
+          "baseRate": "849.16",
+          "rate": "849.16"
+        }, {
+          "promo": "false",
+          "baseRate": "849.16",
+          "rate": "849.16"
+        }],
+        "priceToShowUsers": "849",
+        "strikethroughPriceWithTaxesAndFeesToShowUsers": "2979",
+        "totalMandatoryFees": "0.00",
+        "totalPriceWithMandatoryFees": "2979.03",
+        "formattedTotalPriceWithMandatoryFees": "$ 2,979.03",
+        "userPriceType": "PerNightRateNoTaxes",
+        "priceAdjustments": [],
+        "checkoutPriceType": "total",
+        "airAttached": false,
+        "roomTypeCode": "200674247",
+        "ratePlanCode": "211416310",
+        "showResortFeeMessage": false,
+        "resortFeeInclusion": false,
+        "loyaltyInfo": {
+          "earn": {
+            "points": {
+              "base": 5958,
+              "bonus": 5958,
+              "total": 11916
+            }
+          },
+          "isBurnApplied": false
+        }
+      }
+    },
+    "rateOccupancyPerRoom": "7",
+    "ratePlanCode": "211416310",
+    "roomLongDescription": " 1 King Bed or 1 Queen Bed  980 sq feet (91 sq meters)   Internet  - Free WiFi    Entertainment  - Premium channels and DVD player   Food \u0026 Drink  - Refrigerator and coffee/tea maker   Sleep  - Premium bedding   Bathroom  - Partially open bathroom, shower, bathrobes, and free toiletries  Practical  - Free newspaper, iron/ironing board, and desk; rollaway/extra beds and cribs/infant beds available on request  Comfort  - Daily housekeeping Non-Smoking \u0026nbsp; ",
+    "roomThumbnailUrl": "/hotels/1000000/800000/796000/795934/795934_121_t.jpg",
+    "roomThumbnailUrlArray": ["/hotels/1000000/800000/796000/795934/795934_121_t.jpg"],
+    "roomTypeCode": "200674247",
+    "roomTypeDescription": "One Bedroom 2 Bath Superior Condo (North Building)",
+    "smokingPreferences": "NS",
+    "supplierType": "MERCHANT",
+    "valueAdds": [{
+      "id": "2109",
+      "description": "Free Parking"
+    }, {
+      "id": "2191",
+      "description": "Free High-Speed Internet"
+    }, {
+      "id": "2208",
+      "description": "Full Kitchen"
+    }]
+  }, {
+    "productKey": "LPAS-c251e-10410-10410-182-3-3364.93-USD-1-V3",
+    "bedTypes": [{
+      "id": "6194",
+      "description": "1 king bed\r"
+    }, {
+      "id": "6234",
+      "description": "2 queen beds\r"
+    }, {
+      "id": "6204",
+      "description": "1 sofa bed\r"
+    }],
+    "cancellationPolicy": "\u003cp\u003eWe understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Lion Square Lodge charges the following cancellation and change fees.\u003c/p\u003e\u003cp\u003eCancellations or changes made before 11:59pm (property local time) on Dec 23, 2017 or no-shows are subject to a property fee equal to the first nights rate plus taxes and fees.\u003c/p\u003e\u003cp\u003eCancellations or changes made after 11:59pm (property local time) on Dec 23, 2017 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.\u003c/p\u003e\u003cp\u003eYour room/unit will be guaranteed for late arrival.\u003c/p\u003e\u003cp\u003eHotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.\u003c/p\u003e",
+    "currentAllotment": "3",
+    "depositRequired": false,
+    "hasFreeCancellation": false,
+    "immediateChargeRequired": true,
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isMemberDeal": false,
+    "isPayLater": false,
+    "isSameDayDRR": false,
+    "nonRefundable": false,
+    "promoDescription": "",
+    "promotionDetails": {
+      "promoId": "30759",
+      "promoExpirationDate": "2079-06-06T15:59:00-07:00"
+    },
+    "quotedOccupancy": "6",
+    "rateChange": false,
+    "rateDescription": "One Bedroom + Loft Superior Condo Valley View",
+    "rateInfo": {
+      "priceBreakdown": true,
+      "promo": true,
+      "rateChange": false,
+      "chargeableRateInfo": {
+        "maxNightlyRate": "959.16",
+        "averageRate": "959.16",
+        "taxStatusType": "ESTIMATED",
+        "surchargeTotal": "162.48",
+        "surchargeTotalForEntireStay": "487.45",
+        "surchargesWithoutPropertyFee": "162.48",
+        "surchargesWithoutPropertyFeeForEntireStay": "487.45",
+        "averageBaseRate": "959.16",
+        "nightlyRateTotal": "2877.48",
+        "discountPercent": 0,
+        "total": "3364.93",
+        "currencyCode": "USD",
+        "currencySymbol": "$",
+        "surcharges": [{
+          "amount": "162.48",
+          "type": "TAX_ALL"
+        }],
+        "surchargesForEntireStay": [{
+          "amount": "487.45",
+          "type": "TAX_ALL"
+        }],
+        "nightlyRatesPerRoom": [{
+          "promo": "false",
+          "baseRate": "959.16",
+          "rate": "959.16"
+        }, {
+          "promo": "false",
+          "baseRate": "959.16",
+          "rate": "959.16"
+        }, {
+          "promo": "false",
+          "baseRate": "959.16",
+          "rate": "959.16"
+        }],
+        "priceToShowUsers": "959",
+        "strikethroughPriceWithTaxesAndFeesToShowUsers": "3365",
+        "totalMandatoryFees": "0.00",
+        "totalPriceWithMandatoryFees": "3364.93",
+        "formattedTotalPriceWithMandatoryFees": "$ 3,364.93",
+        "userPriceType": "PerNightRateNoTaxes",
+        "priceAdjustments": [],
+        "checkoutPriceType": "total",
+        "airAttached": false,
+        "roomTypeCode": "10410",
+        "ratePlanCode": "10410",
+        "showResortFeeMessage": false,
+        "resortFeeInclusion": false,
+        "loyaltyInfo": {
+          "earn": {
+            "points": {
+              "base": 6730,
+              "bonus": 6730,
+              "total": 13460
+            }
+          },
+          "isBurnApplied": false
+        }
+      }
+    },
+    "rateOccupancyPerRoom": "11",
+    "ratePlanCode": "10410",
+    "roomLongDescription": " 1 King Bed or 2 Queen Beds  1060 sq feet (98 sq meters)   Internet  - Free WiFi    Entertainment  - Premium channels and DVD player   Food \u0026 Drink  - Refrigerator and coffee/tea maker   Sleep  - Premium bedding   Bathroom  - Partially open bathroom, shower, bathrobes, and free toiletries  Practical  - Free newspaper, iron/ironing board, and desk; rollaway/extra beds and cribs/infant beds available on request  Comfort  - Daily housekeeping Non-Smoking \u0026nbsp; ",
+    "roomThumbnailUrl": "/hotels/1000000/800000/796000/795934/795934_118_t.jpg",
+    "roomThumbnailUrlArray": ["/hotels/1000000/800000/796000/795934/795934_118_t.jpg"],
+    "roomTypeCode": "10410",
+    "roomTypeDescription": "One Bedroom + Loft Superior Condo Valley View",
+    "smokingPreferences": "NS",
+    "supplierType": "MERCHANT",
+    "valueAdds": [{
+      "id": "2109",
+      "description": "Free Parking"
+    }, {
+      "id": "2191",
+      "description": "Free High-Speed Internet"
+    }, {
+      "id": "2208",
+      "description": "Full Kitchen"
+    }]
+  }, {
+    "productKey": "LPAS-c251e-204570761-200902225-182-3-3470.17-USD-1-V3",
+    "bedTypes": [{
+      "id": "6222",
+      "description": "2 beds\r"
+    }],
+    "cancellationPolicy": "\u003cp\u003eWe understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Lion Square Lodge charges the following cancellation and change fees.\u003c/p\u003e\u003cp\u003eCancellations or changes made before 11:59pm (property local time) on Dec 23, 2017 or no-shows are subject to a property fee equal to the first nights rate plus taxes and fees.\u003c/p\u003e\u003cp\u003eCancellations or changes made after 11:59pm (property local time) on Dec 23, 2017 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.\u003c/p\u003e\u003cp\u003eYour room/unit will be guaranteed for late arrival.\u003c/p\u003e\u003cp\u003eHotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.\u003c/p\u003e",
+    "currentAllotment": "1",
+    "depositRequired": false,
+    "hasFreeCancellation": false,
+    "immediateChargeRequired": true,
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isMemberDeal": false,
+    "isPayLater": false,
+    "isSameDayDRR": false,
+    "nonRefundable": false,
+    "promoDescription": "",
+    "promotionDetails": {
+      "promoId": "208445579",
+      "promoExpirationDate": "2079-06-06T15:59:00-07:00"
+    },
+    "quotedOccupancy": "4",
+    "rateChange": false,
+    "rateDescription": "One Bedroom + Loft Superior Condo Mountain View",
+    "rateInfo": {
+      "priceBreakdown": true,
+      "promo": true,
+      "rateChange": false,
+      "chargeableRateInfo": {
+        "maxNightlyRate": "989.16",
+        "averageRate": "989.16",
+        "taxStatusType": "ESTIMATED",
+        "surchargeTotal": "167.56",
+        "surchargeTotalForEntireStay": "502.69",
+        "surchargesWithoutPropertyFee": "167.56",
+        "surchargesWithoutPropertyFeeForEntireStay": "502.69",
+        "averageBaseRate": "989.16",
+        "nightlyRateTotal": "2967.48",
+        "discountPercent": 0,
+        "total": "3470.17",
+        "currencyCode": "USD",
+        "currencySymbol": "$",
+        "surcharges": [{
+          "amount": "167.56",
+          "type": "TAX_ALL"
+        }],
+        "surchargesForEntireStay": [{
+          "amount": "502.69",
+          "type": "TAX_ALL"
+        }],
+        "nightlyRatesPerRoom": [{
+          "promo": "false",
+          "baseRate": "989.16",
+          "rate": "989.16"
+        }, {
+          "promo": "false",
+          "baseRate": "989.16",
+          "rate": "989.16"
+        }, {
+          "promo": "false",
+          "baseRate": "989.16",
+          "rate": "989.16"
+        }],
+        "priceToShowUsers": "989",
+        "strikethroughPriceWithTaxesAndFeesToShowUsers": "3470",
+        "totalMandatoryFees": "0.00",
+        "totalPriceWithMandatoryFees": "3470.17",
+        "formattedTotalPriceWithMandatoryFees": "$ 3,470.17",
+        "userPriceType": "PerNightRateNoTaxes",
+        "priceAdjustments": [],
+        "checkoutPriceType": "total",
+        "airAttached": false,
+        "roomTypeCode": "200902225",
+        "ratePlanCode": "204570761",
+        "showResortFeeMessage": false,
+        "resortFeeInclusion": false,
+        "loyaltyInfo": {
+          "earn": {
+            "points": {
+              "base": 6940,
+              "bonus": 6940,
+              "total": 13880
+            }
+          },
+          "isBurnApplied": false
+        }
+      }
+    },
+    "rateOccupancyPerRoom": "4",
+    "ratePlanCode": "204570761",
+    "roomLongDescription": " 2 Twin Beds  1060 sq feet (98 sq meters)   Internet  - Free WiFi    Entertainment  - Premium channels and DVD player   Food \u0026 Drink  - Refrigerator and coffee/tea maker   Sleep  - Premium bedding   Bathroom  - Partially open bathroom, shower, bathrobes, and free toiletries  Practical  - Free newspaper, iron/ironing board, and desk; rollaway/extra beds and cribs/infant beds available on request  Comfort  - Daily housekeeping Non-Smoking \u0026nbsp; ",
+    "roomThumbnailUrl": "/hotels/1000000/800000/796000/795934/795934_224_t.jpg",
+    "roomThumbnailUrlArray": ["/hotels/1000000/800000/796000/795934/795934_224_t.jpg"],
+    "roomTypeCode": "200902225",
+    "roomTypeDescription": "One Bedroom + Loft Superior Condo Mountain View",
+    "smokingPreferences": "NS",
+    "supplierType": "MERCHANT",
+    "valueAdds": [{
+      "id": "2109",
+      "description": "Free Parking"
+    }, {
+      "id": "2191",
+      "description": "Free High-Speed Internet"
+    }, {
+      "id": "2208",
+      "description": "Full Kitchen"
+    }]
+  }],
+  "airAttachExpirationTimeSeconds": "0",
+  "checkInDate": "2018-01-22",
+  "checkOutDate": "2018-01-25",
+  "hotelTagline": "Ski-in/ski-out in heart of Vail\u0027s Lionshead Village",
+  "numberOfNights": "3",
+  "numberOfRoomsRequested": "1",
+  "shortDescription": "Located at the base of Vail Mountain, this ski-in/ski-out lodge is near 31 area ski lifts and 193 ski runs yet near the shops and restaurants of Vail.\r\n\r\n\r\n",
+  "signedMapUrl": "https://maps.googleapis.com/maps/api/staticmap?client\u003dgme-expedia\u0026center\u003d39.64282,-106.39037\u0026maptype\u003dmobile\u0026zoom\u003d16\u0026size\u003d480x400\u0026sensor\u003dfalse\u0026hl\u003dfalse\u0026signature\u003dMUIVBg5y3cEmISmWM9oe-SWRKjI",
+  "timeZoneUTCOffsetMinutes": "-420",
+  "checkInInstructions": "",
+  "deepLinkUrl": "https://www.expedia.com/Vail-Hotels-Lion-Square-Lodge.h795934.Hotel-Information",
+  "deskTopOverrideNumber": false,
+  "firstHotelOverview": "Located at the base of Vail Mountain, this ski-in/ski-out lodge is near 31 area ski lifts and 193 ski runs yet near the shops and restaurants of Vail.",
+  "hotelAddress": "660 W Lionshead Pl",
+  "hotelAmenities": [{
+    "id": "2048",
+    "description": "Free use of nearby fitness center"
+  }, {
+    "id": "2082",
+    "description": "Ski-in/ski-out access"
+  }, {
+    "id": "354",
+    "description": "Ski storage"
+  }, {
+    "id": "8",
+    "description": "Elevator/lift"
+  }, {
+    "id": "9",
+    "description": "Fitness facilities"
+  }, {
+    "id": "43",
+    "description": "Concierge services"
+  }, {
+    "id": "2063",
+    "description": "24-hour front desk"
+  }, {
+    "id": "81",
+    "description": "Conference space"
+  }, {
+    "id": "2065",
+    "description": "Business center"
+  }, {
+    "id": "369",
+    "description": "Laundry facilities"
+  }, {
+    "id": "371",
+    "description": "Spa tub"
+  }, {
+    "id": "19",
+    "description": "Restaurant"
+  }, {
+    "id": "52",
+    "description": "Total number of rooms - 118"
+  }, {
+    "id": "3861",
+    "description": "Free self parking"
+  }, {
+    "id": "2070",
+    "description": "Dry cleaning/laundry service"
+  }, {
+    "id": "2390",
+    "description": "Free WiFi"
+  }, {
+    "id": "24",
+    "description": "Outdoor pool"
+  }, {
+    "id": "2137",
+    "description": "Smoke-free property"
+  }, {
+    "id": "2047",
+    "description": "Free newspapers in lobby"
+  }],
+  "hotelAmenitiesText": {
+    "name": "Property Amenities",
+    "content": "\u003cp\u003e\u003c/p\u003e\u003cp\u003eLion Square Lodge is accessible to the shops and restaurants of Vail as well as to 31 ski lifts and 193 area ski runs and the Eagle Bahn Gandola is outside the door of the lodge. Amenities include a 24-hour front desk, concierge services, ski storage, ski rental shops, complimentary ski valet, and ski and grocery store shuttles in the winter. An outdoor pool with three spa tubs and a small fitness center are on site.\u003c/p\u003e\u003cp\u003e\u003c/p\u003e\u003cp\u003eComplimentary wireless Internet access is available in the lobby and business center. A restaurant is also on site.\u003c/p\u003e\u003cp\u003e\u003c/p\u003e\u003cp\u003eThis is a smoke-free property.\u003c/p\u003e\u003cul\u003e\u003cli\u003eFree use of nearby fitness center\u003c/li\u003e\u003cli\u003eSki-in/ski-out access\u003c/li\u003e\u003cli\u003eSki storage\u003c/li\u003e\u003cli\u003eElevator/lift\u003c/li\u003e\u003cli\u003eFitness facilities\u003c/li\u003e\u003cli\u003eConcierge services\u003c/li\u003e\u003cli\u003e24-hour front desk\u003c/li\u003e\u003cli\u003eConference space\u003c/li\u003e\u003cli\u003eBusiness center\u003c/li\u003e\u003cli\u003eLaundry facilities\u003c/li\u003e\u003cli\u003eSpa tub\u003c/li\u003e\u003cli\u003eRestaurant\u003c/li\u003e\u003cli\u003eTotal number of rooms - 118\u003c/li\u003e\u003cli\u003eFree self parking\u003c/li\u003e\u003cli\u003eDry cleaning/laundry service\u003c/li\u003e\u003cli\u003eFree WiFi\u003c/li\u003e\u003cli\u003eOutdoor pool\u003c/li\u003e\u003cli\u003eSmoke-free property\u003c/li\u003e\u003cli\u003eFree newspapers in lobby\u003c/li\u003e\u003c/ul\u003e"
+  },
+  "hotelCity": "Vail",
+  "hotelCountry": "USA",
+  "hotelFeesText": {
+    "name": "Fees",
+    "content": "\u003cul\u003e\u003cli\u003eThe following fees and deposits are charged by the property at time of service, check-in, or check-out.\u003cul\u003e                  \u003cli\u003eRollaway bed fee: USD 20.0 per night\u003c/li\u003e             \u003c/ul\u003e\u003c/li\u003e\u003cli\u003eThe above list may not be comprehensive. Fees and deposits may not include tax and are subject to change.\u003c/li\u003e\u003c/ul\u003e"
+  },
+  "hotelGuestRating": "4.5",
+  "hotelId": "795934",
+  "hotelName": "Lion Square Lodge",
+  "hotelOverviewText": [{
+    "name": "Heart of Ski Country",
+    "content": "Located at the base of Vail Mountain, this ski-in/ski-out lodge is near 31 area ski lifts and 193 ski runs yet near the shops and restaurants of Vail."
+  }],
+  "hotelPoliciesText": {
+    "name": "Policies",
+    "content": "\u003cul\u003e\u003cli\u003eExtra-person charges may apply and vary depending on property policy.\u003c/li\u003e\u003cli\u003eGovernment-issued photo identification and a credit card or cash deposit are required at check-in for incidental charges.\u003c/li\u003e\u003cli\u003eSpecial requests are subject to availability upon check-in and may incur additional charges. Special requests cannot be guaranteed.\u003c/li\u003e\u003cli\u003eNo cribs (infant beds) available\u003c/li\u003e\u003cli\u003ePets not allowed\u003c/li\u003e\u003cli\u003eCheck-in time starts at 4 PM\u003c/li\u003e\u003cli\u003eCheck-out time is 10 AM\u003c/li\u003e\u003cli\u003eDiscover\u003c/li\u003e\u003cli\u003eMasterCard\u003c/li\u003e\u003cli\u003eAmerican Express\u003c/li\u003e\u003cli\u003eVisa\u003c/li\u003e\u003c/ul\u003e"
+  },
+  "hotelStarRating": "3.5",
+  "hotelStarRatingCssClassName": "3-5",
+  "hotelStateProvince": "CO",
+  "isVipAccess": false,
+  "latitude": "39.64282",
+  "localizedHotelName": "Lion Square Lodge",
+  "locationDescription": "Vail",
+  "locationId": "6056742",
+  "longDescription": "",
+  "longitude": "-106.39037",
+  "nonLocalizedHotelName": "Lion Square Lodge",
+  "percentRecommended": "95",
+  "photos": [{
+    "url": "/hotels/1000000/800000/796000/795934/795934_177_z.jpg",
+    "thumbnailUrl": "/hotels/1000000/800000/796000/795934/795934_177_t.jpg",
+    "featured": true,
+    "displayText": "Featured Image"
+  }, {
+    "url": "/hotels/1000000/800000/796000/795934/795934_251_z.jpg",
+    "thumbnailUrl": "/hotels/1000000/800000/796000/795934/795934_251_t.jpg",
+    "displayText": "Lobby"
+  }],
+  "regions": [{
+    "id": 201,
+    "type": "COUNTRY",
+    "name": "United States of America",
+    "description": "",
+    "latitude": 45.920785,
+    "longitude": -116.638707
+  }, {
+    "id": 207,
+    "type": "PROVINCESTATE",
+    "name": "Colorado",
+    "description": "",
+    "latitude": 38.99882,
+    "longitude": -105.548298
+  }, {
+    "id": 7053,
+    "type": "CITY",
+    "name": "Vail",
+    "description": "",
+    "latitude": 39.643551,
+    "longitude": -106.378143
+  }, {
+    "id": 180057,
+    "type": "MULTICITYVICINITY",
+    "name": "Vail - Beaver Creek (ski area)",
+    "description": "",
+    "latitude": 39.641303,
+    "longitude": -106.382835
+  }, {
+    "id": 6056729,
+    "type": "MULTIREGIONWITHINACOUNTRY",
+    "name": "Northwest Colorado",
+    "description": "",
+    "latitude": 39.977917,
+    "longitude": -107.487077
+  }, {
+    "id": 6056742,
+    "type": "NEIGHBORHOOD",
+    "name": "Vail",
+    "description": "",
+    "latitude": 39.63329261,
+    "longitude": -106.36131355
+  }, {
+    "id": 6229634,
+    "type": "MULTIREGIONWITHINACOUNTRY",
+    "name": "Colorado Western Slope",
+    "description": "",
+    "latitude": 39.111478,
+    "longitude": -107.507516
+  }, {
+    "id": 3000663452,
+    "type": "CITY",
+    "name": "Lionshead",
+    "description": "",
+    "latitude": 39.643058,
+    "longitude": -106.387825
+  }],
+  "telesalesNumber": "1-800-267-9604",
+  "packageTelesalesNumber": "1-800-661-6408",
+  "totalRecommendations": "318",
+  "totalReviews": "334"
+}
