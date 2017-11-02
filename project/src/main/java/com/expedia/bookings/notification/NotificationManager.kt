@@ -11,6 +11,7 @@ import com.activeandroid.query.Select
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.mobiata.android.util.SettingUtils
+import org.joda.time.DateTime
 
 class NotificationManager(private val context: Context) {
 
@@ -96,7 +97,9 @@ class NotificationManager(private val context: Context) {
                 .orderBy("TriggerTimeMillis").execute<Notification>()
 
         for (notification in notifications) {
-            scheduleNotification(notification)
+            if (notification.triggerTimeMillis > DateTime.now().millis) {
+                scheduleNotification(notification)
+            }
         }
     }
 

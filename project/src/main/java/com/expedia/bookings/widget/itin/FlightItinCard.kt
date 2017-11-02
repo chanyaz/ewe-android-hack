@@ -58,8 +58,9 @@ class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<I
                     OmnitureTracking.trackItinFlightVisitSite()
                 } else {
                     val flightTrip = (itinCardData.tripComponent as TripFlight).flightTrip
+                    val airlineCode = getAirlineCode(itinCardData) ?: ""
                     OmnitureTracking
-                            .trackItinFlightCheckIn(getAirlineCode(itinCardData), flightTrip.isSplitTicket,
+                            .trackItinFlightCheckIn(airlineCode, flightTrip.isSplitTicket,
                                     flightTrip.legCount)
                 }
                 (itinCardData.tripComponent as TripFlight).flightTrip.getLeg(flightLegNumber).isUserCheckedIn = true
@@ -92,7 +93,7 @@ class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<I
                 .primaryAirlineNamesFormatted
     }
 
-    private fun getAirlineCode(itinCardData: ItinCardDataFlight): String {
+    private fun getAirlineCode(itinCardData: ItinCardDataFlight): String? {
         val flightLegNumber = (itinCardData).legNumber
         return (itinCardData.tripComponent as TripFlight).flightTrip
                 .getLeg(flightLegNumber)
