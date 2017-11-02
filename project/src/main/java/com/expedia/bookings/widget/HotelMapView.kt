@@ -72,6 +72,7 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
         val navIcon: ArrowXDrawable = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolBar.navigationIcon = navIcon
+        toolBar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
 
         toolBar.setNavigationOnClickListener { view ->
             (context as Activity).onBackPressed()
