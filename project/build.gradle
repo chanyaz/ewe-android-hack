@@ -11,6 +11,7 @@ apply plugin: 'checkstyle'
 apply plugin: 'com.shazam.fork'
 apply from: '../jacoco.gradle'
 apply plugin: 'com.shazam.fork.reporter.jenkins'
+apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
 repositories {
     jcenter()
@@ -99,6 +100,7 @@ dependencies {
     // Dagger 2.6.1
     compile 'com.google.dagger:dagger:2.6.1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.6.1'
+
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
     compile ('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
@@ -446,6 +448,10 @@ android {
             jobName = "EBad-PullRequests-UITests"
         }
     }
+}
+
+androidExtensions {
+    experimental = true
 }
 
 public class GradleUtil {

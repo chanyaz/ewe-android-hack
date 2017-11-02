@@ -72,6 +72,15 @@ class HotelDetailGalleryView(context: Context, attrs: AttributeSet?) : RelativeL
         galleryItemScrolledSubject.onNext(position)
     }
 
+    fun getCurrentIndex() : Int {
+        return galleryRecyclerView.getPosition()
+    }
+
+    fun scrollTo(position: Int) {
+        galleryRecyclerView.scrollToPosition(position)
+        updateTextForPosition(position)
+    }
+
     fun expand() {
         galleryRecyclerView.updateAccessibility(collapsed = false)
         hotelGalleryDescriptionContainer.visibility = View.VISIBLE

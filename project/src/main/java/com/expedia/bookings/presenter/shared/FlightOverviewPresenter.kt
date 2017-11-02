@@ -62,7 +62,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
         basicEconomyTooltip.text = HtmlCompat.fromHtml(context.getString(R.string.flight_details_basic_economy_message))
     }
 
-    @Override
     override fun onFinishInflate() {
         super.onFinishInflate()
         val filter = PorterDuffColorFilter(ContextCompat.getColor(this.context,R.color.flight_overview_color_filter), PorterDuff.Mode.SRC_ATOP)

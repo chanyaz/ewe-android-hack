@@ -6,7 +6,7 @@
         android:id="@+id/hotel_details_gradient"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_detail_gradient_height"
-        android:background="@drawable/cars_lx_details_gradient_top"/>
+        android:background="@drawable/toolbar_over_image_gradient_top"/>
 
     <View
         android:id="@+id/toolbar_background"
@@ -70,25 +70,7 @@
                         app:star_spacing="4dp"/>
 
                 </LinearLayout>
-
-                <FrameLayout
-                    android:id="@+id/hotel_detail_toolbar_heart_container"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="-18dp"
-                    android:layout_marginRight="-12dp">
-
-                    <LinearLayout
-                        android:id="@+id/hotel_detail_toolbar_heart_mock_button"
-                        android:orientation="vertical"
-                        android:layout_height="30dp"
-                        android:layout_width="30dp" />
-
-                </FrameLayout>
-
             </LinearLayout>
-
-
         </android.support.v7.widget.Toolbar>
 
         <View

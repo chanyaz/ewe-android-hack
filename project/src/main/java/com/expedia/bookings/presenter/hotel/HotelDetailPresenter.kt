@@ -136,12 +136,4 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
             AccessibilityUtil.setFocusToToolbarNavigationIcon(hotelDetailView.hotelDetailsToolbar.toolbar)
         }
     }
-
-    override fun back(): Boolean {
-        if (hotelDetailView.hotelDetailsToolbar.navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
-            hotelDetailView.collapseGallery()
-            return true
-        }
-        return super.back()
-    }
 }

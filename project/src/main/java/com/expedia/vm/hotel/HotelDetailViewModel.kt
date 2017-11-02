@@ -21,15 +21,16 @@ import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.BaseHotelDetailViewModel
-import com.expedia.vm.HotelDetailToolbarViewModel
+import com.expedia.vm.HotelInfoToolbarViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 import java.math.BigDecimal
 
-open class HotelDetailViewModel(context: Context,
-                                private val hotelInfoManager: HotelInfoManager) : BaseHotelDetailViewModel(context) {
+open class HotelDetailViewModel(context: Context, private val hotelInfoManager: HotelInfoManager) :
+        BaseHotelDetailViewModel(context) {
+
     val fetchInProgressSubject = PublishSubject.create<Unit>()
     val fetchCancelledSubject = PublishSubject.create<Unit>()
     val apiErrorSubject = PublishSubject.create<ApiError>()
@@ -180,8 +181,8 @@ open class HotelDetailViewModel(context: Context,
 
     companion object {
         @JvmStatic
-        fun convertToToolbarViewModel(detailViewModel: BaseHotelDetailViewModel): HotelDetailToolbarViewModel {
-            val viewModel = HotelDetailToolbarViewModel(detailViewModel.context, detailViewModel.hotelNameObservable.value, detailViewModel.hotelRatingObservable.value, detailViewModel.hotelSoldOut.value)
+        fun convertToToolbarViewModel(detailViewModel: BaseHotelDetailViewModel): HotelInfoToolbarViewModel {
+            val viewModel = HotelInfoToolbarViewModel(detailViewModel.context, detailViewModel.hotelNameObservable.value, detailViewModel.hotelRatingObservable.value, detailViewModel.hotelSoldOut.value)
             return viewModel
         }
     }

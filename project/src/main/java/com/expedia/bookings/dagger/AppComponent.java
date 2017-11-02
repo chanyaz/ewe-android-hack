@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.fragment.AccountSettingsFragment;
+import com.expedia.bookings.hotel.util.HotelGalleryManager;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
@@ -28,7 +29,7 @@ import dagger.Component;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
-@Component(modules = { AppModule.class, UserModule.class })
+@Component(modules = { AppModule.class, UserModule.class, GalleryModule.class })
 @Singleton
 public interface AppComponent {
 	void inject(ExpediaServices services);
@@ -81,4 +82,5 @@ public interface AppComponent {
 	NotificationManager notificationManager();
 
 	SatelliteServices satelliteServices();
+	HotelGalleryManager hotelGalleryManager();
 }

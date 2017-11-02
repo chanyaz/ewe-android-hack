@@ -15,6 +15,8 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.hotel.DEFAULT_HOTEL_GALLERY_CODE
+import com.expedia.bookings.hotel.util.HotelGalleryManager
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
@@ -23,7 +25,6 @@ import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
-import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.priceFormatter
@@ -242,6 +243,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     })
 
     protected val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+    private val galleryManager = Ui.getApplication(context).appComponent().hotelGalleryManager()
 
     init {
         allRoomsSoldOut.subscribe(hotelSoldOut)
@@ -334,23 +336,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         return roomOrderedMap
     }
 
-    private fun areAllRoomDetailsSoldOut(viewModels: ArrayList<HotelRoomDetailViewModel>): Boolean {
-        for (vm in viewModels) {
-            if (!vm.roomSoldOut.value) return false
-        }
-        return true
-    }
-
-    private fun areAllRoomsSoldOut(viewModels: ArrayList<HotelRoomRateViewModel>): Boolean {
-        var soldOutCount = 0
-        for (vm in viewModels) {
-            if (vm.roomSoldOut.value) soldOutCount++
-        }
-        return soldOutCount == viewModels.size
-    }
-
     fun addViewsAfterTransition() {
-        galleryObservable.onNext(getGalleryUrls())
+        fetchHotelImages()
 
         if (hotelOffersResponse.hotelRoomResponse != null && hotelOffersResponse.hotelRoomResponse.isNotEmpty()) {
             uniqueValueAddForRooms = getValueAdd(hotelOffersResponse.hotelRoomResponse)
@@ -467,6 +454,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     protected open fun offerReturned(offerResponse: HotelOffersResponse) {
         hotelOffersResponse = offerResponse
 
+        galleryManager?.saveHotelOfferMedia(offerResponse)
+
         val amenityList = arrayListOf<Amenity>()
         if (offerResponse.hotelAmenities != null) {
             amenityList.addAll(Amenity.amenitiesToShow(offerResponse.hotelAmenities))
@@ -564,18 +553,31 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         pricePerDescriptorObservable.onNext( pricePerDescriptor() )
     }
 
-    private fun getGalleryUrls(): ArrayList<HotelMedia> {
-        val galleryUrls = ArrayList<HotelMedia>()
-
-        val images = Images.getHotelImages(hotelOffersResponse, R.drawable.room_fallback)
-        if (images.isNotEmpty()) {
-            galleryUrls.addAll(images.toMutableList())
+    open fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
+        return if (showStrikeThrough) {
+            Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
+                    .put("strikethroughprice", strikeThroughPriceObservable.value)
+                    .put("price", priceToShowCustomerObservable.value)
+                    .format()
+                    .toString() + Phrase.from(context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE)
+                    .put("percentage", discountPercentageObservable.value.first)
+                    .format()
+                    .toString()
         } else {
-            val placeHolder = HotelMedia()
-            placeHolder.setIsPlaceholder(true)
-            galleryUrls.add(placeHolder)
+            priceToShowCustomerObservable.value + context.getString(R.string.per_night)
         }
-        return galleryUrls
+    }
+
+    protected fun priceDescriptorForPriceType(priceType: HotelRate.UserPriceType?): String? {
+        return when (priceType) {
+            HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.getString(R.string.total_including_taxes_fees)
+            HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> context.getString(R.string.excluding_taxes_fees)
+            else -> null
+        }
+    }
+
+    private fun getCommonValueAdds(hotelOffersResponse: HotelOffersResponse): List<String> {
+        return getCommonValueAdds(getAllValueAdds(hotelOffersResponse))
     }
 
     private fun getAllValueAdds(hotelOffersResponse: HotelOffersResponse): List<List<String>> {
@@ -585,10 +587,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
                     it.valueAdds.map { it.description }
                 }
         return allValueAdds
-    }
-
-    private fun getCommonValueAdds(hotelOffersResponse: HotelOffersResponse): List<String> {
-        return getCommonValueAdds(getAllValueAdds(hotelOffersResponse))
     }
 
     private fun getCommonValueAdds(allValueAdds: List<List<String>>): List<String> {
@@ -627,26 +625,28 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         }
     }
 
-    open fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
-        return if (showStrikeThrough) {
-            Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
-                    .put("strikethroughprice", strikeThroughPriceObservable.value)
-                    .put("price", priceToShowCustomerObservable.value)
-                    .format()
-                    .toString() + Phrase.from(context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE)
-                    .put("percentage", discountPercentageObservable.value.first)
-                    .format()
-                    .toString()
-        } else {
-            priceToShowCustomerObservable.value + context.getString(R.string.per_night)
+    private fun areAllRoomDetailsSoldOut(viewModels: ArrayList<HotelRoomDetailViewModel>): Boolean {
+        for (vm in viewModels) {
+            if (!vm.roomSoldOut.value) return false
         }
+        return true
     }
 
-    protected fun priceDescriptorForPriceType(priceType: HotelRate.UserPriceType?): String? {
-        return when (priceType) {
-            HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.getString(R.string.total_including_taxes_fees)
-            HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> context.getString(R.string.excluding_taxes_fees)
-            else -> null
+    private fun areAllRoomsSoldOut(viewModels: ArrayList<HotelRoomRateViewModel>): Boolean {
+        var soldOutCount = 0
+        for (vm in viewModels) {
+            if (vm.roomSoldOut.value) soldOutCount++
         }
+        return soldOutCount == viewModels.size
+    }
+
+    private fun fetchHotelImages() {
+        val list = galleryManager.fetchMediaList(DEFAULT_HOTEL_GALLERY_CODE)
+        if (list.isEmpty()) {
+            val placeHolder = HotelMedia()
+            placeHolder.setIsPlaceholder(true)
+            list.add(placeHolder)
+        }
+        galleryObservable.onNext(list)
     }
 }

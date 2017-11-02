@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelDetailsToolbar
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.TextView
-import com.expedia.vm.HotelDetailToolbarViewModel
+import com.expedia.vm.HotelInfoToolbarViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mobiata.android.util.AndroidUtils
@@ -85,7 +85,7 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
     private fun setUpToolbar() {
         val hotelName = intent.getStringExtra("Name")
         val hotelRating = intent.getFloatExtra("Rating", 0f)
-        val vm = HotelDetailToolbarViewModel(this@GalleryActivity, hotelName, hotelRating, false)
+        val vm = HotelInfoToolbarViewModel(this@GalleryActivity, hotelName, hotelRating, false)
         toolbar.setHotelDetailViewModel(vm)
         toolbar.refreshForCystalTheme()
         toolbar.toolBarBackground.alpha = 0f

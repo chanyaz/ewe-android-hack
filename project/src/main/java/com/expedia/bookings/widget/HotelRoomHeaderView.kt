@@ -12,17 +12,21 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomHeaderViewModel
 import android.view.ViewTreeObserver
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.util.setInverseVisibility
+import com.expedia.util.updateVisibility
 import rx.subjects.PublishSubject
 
 class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewModel): RelativeLayout(context) {
+    val roomImageClickedSubject = PublishSubject.create<Unit>()
+    val roomInfoClickedSubject = PublishSubject.create<Unit>()
 
     private val headerImageView: ImageView by bindView(R.id.header_image_view)
+    private val roomPhotoCountView: ImageView by bindView(R.id.room_photo_indicator)
     private val roomTypeTextView: TextView by bindView(R.id.room_type_text_view)
     private val roomInfoIcon: ImageView by bindView(R.id.room_info_icon)
     private val bedTypeTextView: TextView by bindView(R.id.bed_type_text_view)
-
-    val roomInfoClickedSubject = PublishSubject.create<Unit>()
 
     init {
         View.inflate(context, R.layout.hotel_room_header, this)
@@ -53,6 +57,13 @@ class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewMo
         roomInfoIcon.setInverseVisibility(viewModel.roomDescriptionString.isNullOrEmpty())
 
         bedTypeTextView.text = viewModel.bedTypeString
+
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelRoomImageGallery)) {
+            roomPhotoCountView.updateVisibility(viewModel.hasRoomImages())
+            if (viewModel.hasRoomImages()) {
+                headerImageView.subscribeOnClick(roomImageClickedSubject)
+            }
+        }
     }
 
     fun recycleImageView() {

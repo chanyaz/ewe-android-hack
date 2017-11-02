@@ -49,6 +49,10 @@ class HotelDetailGalleryRecyclerView(context: Context, attrs: AttributeSet?) : R
         return true
     }
 
+    fun getPosition() : Int {
+        return layoutManager.findFirstVisibleItemPosition()
+    }
+
     fun updateAccessibility(collapsed: Boolean) {
         layoutManager.canA11yScroll = !collapsed
 

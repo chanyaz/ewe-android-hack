@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:parentTag="RelativeLayout">
 
     <ImageView
         android:id="@+id/header_image_view"
@@ -10,6 +12,25 @@
         android:layout_height="120dp"
         android:layout_alignParentTop="true"
         android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/room_photo_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignRight="@id/header_image_view"
+        android:layout_alignBottom="@id/header_image_view"
+        android:background="@drawable/gallery_item_count_bg"
+        android:src="@drawable/ic_photo_library_18"
+        android:tint="@color/white"
+        android:padding="8dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:importantForAccessibility="no"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/room_type_text_view"
