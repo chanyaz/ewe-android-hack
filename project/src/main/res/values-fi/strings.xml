@@ -654,6 +654,8 @@
     <!-- Flights Roundtrip label -->
     <string name="roundtrip">menopaluu</string>
 
+    <!-- Flights Roundtrip label with round brackets-->
+    <string name="roundtrip_with_brackets">(menopaluu)</string>
     <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
     <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} – {arrival_code} – {departure_code}</string>
 
@@ -1419,6 +1421,9 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Saapuu {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">Välilasku: {layover}</string>
+    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <string name="itin_flight_total_duration_TEMPLATE">Kesto yhteensä: {duration}</string>
+
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} pv {hours} h {minutes} min</string>
@@ -1630,6 +1635,8 @@
     <string name="flights_tab_selection_accouncement_roundtrip">Näytetään lentohakunäyttö menopaluulennoille</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Meno</string>
+    <!-- Label to identify selected outbound flight card -->
+    <string name="flight_outbound_label">Lähtölento:</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Lennot</string>
     <!-- Flights payment fees info web view title -->
@@ -2031,7 +2038,7 @@
         <item quantity="one">+ {travelercount} lisämatkustaja</item>
         <item quantity="other">+ {travelercount} lisämatkustajaa</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">Muokkaa matkustajaa {travelernumber} ({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Muokkaa matkustajan {travelernumber} ({passengerage}) tietoja</string>
     <string name="traveler_child_age_TEMPLATE">{age}-vuotias</string>
     <!-- save traveler -->
     <string name="save_traveler">Tallenna matkustaja</string>

@@ -3,7 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
-    <string name="select_checkin_date">Seleccionar la fecha de check-in</string>
+    <string name="select_checkin_date">Selecciona la fecha de check-in</string>
     <!-- Package Calendar Strings -->
     <string name="select_departure_date">Selecciona una fecha de salida</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
@@ -654,6 +654,8 @@
     <!-- Flights Roundtrip label -->
     <string name="roundtrip">viaje de ida y vuelta</string>
 
+    <!-- Flights Roundtrip label with round brackets-->
+    <string name="roundtrip_with_brackets">(ida y vuelta)</string>
     <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
     <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
 
@@ -836,7 +838,7 @@
 
     <!-- New launch screen -->
     <!-- Search screen title -->
-    <string name="search_title">Búsqueda</string>
+    <string name="search_title">Buscar</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Para esta noche</string>
@@ -847,7 +849,7 @@
     <!-- List loading header -->
     <string name="loading_header">Cargando…</string>
     <!-- Hotel launch list rating text -->
-    <string name="hotel_rating_text">de 5 (clasificación de los clientes)</string>
+    <string name="hotel_rating_text">de 5 (clasificación de los huéspedes)</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">¡solo para dispositivos móviles!</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -962,7 +964,7 @@
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Estamos buscando tus itinerarios…</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">Inicia sesión para tus viajes</string>
+    <string name="sign_in_for_your_trips">Inicia sesión para ver tus viajes</string>
     <!-- Button text to refresh your trips -->
     <string name="refresh_trips">Actualizar viajes</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
@@ -1419,6 +1421,9 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Llega el {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">Escala de {layover}</string>
+    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <string name="itin_flight_total_duration_TEMPLATE">Duración total: {duration}</string>
+
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} d {hours} h {minutes} m</string>
@@ -1629,7 +1634,9 @@
     <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
     <string name="flights_tab_selection_accouncement_roundtrip">Se muestra la pantalla de búsqueda de vuelo de ida y vuelta</string>
     <!-- Label to identify selected outbound flight/rail card -->
-    <string name="outbound_label">Vuelta</string>
+    <string name="outbound_label">Ida</string>
+    <!-- Label to identify selected outbound flight card -->
+    <string name="flight_outbound_label">Vuelo de ida:</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Vuelos</string>
     <!-- Flights payment fees info web view title -->
@@ -2358,7 +2365,7 @@
 
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
-    <string name="search">Búsqueda</string>
+    <string name="search">Buscar</string>
     <!-- Label for "advanced search" view -->
     <string name="advanced_search">Búsqueda avanzada</string>
     <!-- Title for "flight type" view -->
@@ -2402,9 +2409,9 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">queda %d habitación</item>
-        <item quantity="two">quedan %d habitaciones</item>
-        <item quantity="many">quedan %d habitaciones</item>
+        <item quantity="one">¡Queda %d habitación!</item>
+        <item quantity="two">¡Quedan %d habitaciones!</item>
+        <item quantity="many">¡Quedan %d habitaciones!</item>
         <item quantity="other">quedan %d habitaciones</item>
     </plurals>
     <!-- No of filters applied on packages -->
@@ -2721,7 +2728,7 @@
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">Todas las habitaciones incluyen %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
-    <string name="select_a_room_instruction">Selecciona</string>
+    <string name="select_a_room_instruction">Seleccionar</string>
     <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
     <string name="map_select_a_room_cont_desc_TEMPLATE">Botón para seleccionar habitación desde {price}</string>
     <!-- The text we use when the search date it tonight -->
@@ -2737,7 +2744,7 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">Ver habitación</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
-    <string name="book_room_button_text">Reservación</string>
+    <string name="book_room_button_text">Reservar</string>
     <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
     <string name="view_room_button_content_description_TEMPLATE">Ver habitación, {room}</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
@@ -2773,7 +2780,7 @@
     <!-- Continue button for dialog confirming the clearing of private data -->
     <string name="continue_button">Continuar</string>
     <!-- Title for dialog after private data has been cleared -->
-    <string name="toast_private_data_cleared">Los datos privados han sido eliminados</string>
+    <string name="toast_private_data_cleared">Se eliminaron los datos privados.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Reservando…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -2908,15 +2915,15 @@
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Solicitar la tarjeta {brand_reward_name} Visa®</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">Ayuda sobre la aplicación.</string>
+    <string name="app_support">Ayuda con la aplicación</string>
     <!-- Section label for app settings functionality -->
     <string name="about_section_app_settings">Ajustes de la aplicación</string>
     <!-- Section label for user support functionality -->
     <string name="about_section_support">Ayuda</string>
     <!-- Section label for communication options that are not related to user support -->
-    <string name="about_section_communicate">Comunícate</string>
+    <string name="about_section_communicate">Comunícate con nosotros</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
-    <string name="rate_our_app">¡Califica nuestra aplicación!</string>
+    <string name="rate_our_app">Califica nuestra aplicación</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Términos y condiciones</string>
     <!-- Label for link to terms of use -->
@@ -3626,8 +3633,8 @@
     <string name="star_rating_selected_cont_desc_TEMPLATE">{star_rating} seleccionada</string>
     <!-- Hotel Filters rating not selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Not Selected 2) Class Rating One Not Selected -->
     <string name="star_rating_not_selected_cont_desc_TEMPLATE">{star_rating} no seleccionada</string>
-    <string name="show_more">MOSTRAR MÁS</string>
-    <string name="show_less">MOSTRAR MENOS</string>
+    <string name="show_more">VER MÁS</string>
+    <string name="show_less">VER MENOS</string>
     <string name="price_range">Rango de precios</string>
     <!-- Price Range minimum filter label for accessibility -->
     <string name="price_range_minimum">Mínimo del rango de precios</string>
@@ -4174,9 +4181,9 @@
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Búscalo aquí y ahorra dinero</string>
     <!-- Fly from hint -->
-    <string name="fly_from_hint">Vuela de</string>
+    <string name="fly_from_hint">Origen</string>
     <!-- Fly to hint -->
-    <string name="fly_to_hint">Vuela a</string>
+    <string name="fly_to_hint">Destino</string>
 
     <!-- Strings used in Orbitz where amount type is rewards  -->
     <!-- Label indicating Orbucks Available. Eg: $1000.12 in Orbucks available-->

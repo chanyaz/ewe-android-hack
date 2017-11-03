@@ -654,6 +654,8 @@
     <!-- Flights Roundtrip label -->
     <string name="roundtrip">aller-retour</string>
 
+    <!-- Flights Roundtrip label with round brackets-->
+    <string name="roundtrip_with_brackets">(aller-retour)</string>
     <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
     <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
 
@@ -1419,6 +1421,9 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Arrivée le {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">Escale de {layover}</string>
+    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <string name="itin_flight_total_duration_TEMPLATE">Durée totale : {duration}</string>
+
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} j {hours} h {minutes} min</string>
@@ -1630,6 +1635,8 @@
     <string name="flights_tab_selection_accouncement_roundtrip">Affiche l\&apos;écran de recherche pour un vol aller-retour</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Aller</string>
+    <!-- Label to identify selected outbound flight card -->
+    <string name="flight_outbound_label">Vol aller :</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Vols</string>
     <!-- Flights payment fees info web view title -->

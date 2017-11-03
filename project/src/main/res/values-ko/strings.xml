@@ -209,7 +209,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s, %2$s(%3$s)</string>
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s, %2$s</string>
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">지금 예약: %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
@@ -579,7 +579,7 @@
     <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
     <string name="checkout_traveler_title_TEMPLATE">여행객 {travelernumber} ({passengerycategory})</string>
     <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
-    <string name="traveler_age_range_TEMPLATE">{category}({range})</string>
+    <string name="traveler_age_range_TEMPLATE">{range} {category}</string>
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">만 18+</string>
     <!-- Youth age label on flight checkout traveler summary card -->
@@ -654,6 +654,8 @@
     <!-- Flights Roundtrip label -->
     <string name="roundtrip">왕복</string>
 
+    <!-- Flights Roundtrip label with round brackets-->
+    <string name="roundtrip_with_brackets">(왕복)</string>
     <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
     <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
 
@@ -749,7 +751,7 @@
     <!-- Label describing the price of the package includes taxes and fees -->
     <string name="packages_append_taxes_and_fees">(세금 및 수수료 포함)</string>
     <!-- Template for packages total includes taxes and fees e.g Trip total (with taxes & fee) -->
-    <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring}({taxesandfeesstring})</string>
+    <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">여행 만드는 중…</string>
 
@@ -1419,6 +1421,9 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">{date} 도착</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">{layover} 대기</string>
+    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <string name="itin_flight_total_duration_TEMPLATE">총 소요 시간: {duration}</string>
+
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}일 {hours}시간 {minutes}분</string>
@@ -1630,6 +1635,8 @@
     <string name="flights_tab_selection_accouncement_roundtrip">왕복 항공편 검색 화면을 보여줍니다.</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">가는편:</string>
+    <!-- Label to identify selected outbound flight card -->
+    <string name="flight_outbound_label">가는 항공편:</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">항공</string>
     <!-- Flights payment fees info web view title -->
@@ -2031,7 +2038,7 @@
         <item quantity="one">+ 추가 {travelercount}명</item>
         <item quantity="other">+ 추가 {travelercount}명</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">여행객 {travelernumber} 수정 ({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">여행객 {travelernumber}({passengerage}) 수정</string>
     <string name="traveler_child_age_TEMPLATE">만 {age}세</string>
     <!-- save traveler -->
     <string name="save_traveler">여행객 저장</string>

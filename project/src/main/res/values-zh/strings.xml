@@ -654,6 +654,8 @@
     <!-- Flights Roundtrip label -->
     <string name="roundtrip">往返</string>
 
+    <!-- Flights Roundtrip label with round brackets-->
+    <string name="roundtrip_with_brackets">（往返）</string>
     <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
     <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
 
@@ -1419,6 +1421,9 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">到达时间：{date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">中途停留 {layover}</string>
+    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <string name="itin_flight_total_duration_TEMPLATE">总时长：{duration}</string>
+
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} 天 {hours} 小时 {minutes} 分钟</string>
@@ -1630,6 +1635,8 @@
     <string name="flights_tab_selection_accouncement_roundtrip">正在显示往返机票搜索屏幕</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">去程</string>
+    <!-- Label to identify selected outbound flight card -->
+    <string name="flight_outbound_label">去程航班：</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">航班</string>
     <!-- Flights payment fees info web view title -->
@@ -2031,7 +2038,7 @@
         <item quantity="one">+ 其他 {travelercount} 位旅客</item>
         <item quantity="other">+ 其他 {travelercount} 位旅客</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber}({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber}（{passengerage}）</string>
     <string name="traveler_child_age_TEMPLATE">{age} 岁</string>
     <!-- save traveler -->
     <string name="save_traveler">保存旅客</string>

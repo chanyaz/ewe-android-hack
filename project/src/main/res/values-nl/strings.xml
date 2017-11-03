@@ -654,6 +654,8 @@
     <!-- Flights Roundtrip label -->
     <string name="roundtrip">retour</string>
 
+    <!-- Flights Roundtrip label with round brackets-->
+    <string name="roundtrip_with_brackets">(retour)</string>
     <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
     <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
 
@@ -1419,6 +1421,9 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Komt aan op {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">Tussenstop van {layover}</string>
+    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <string name="itin_flight_total_duration_TEMPLATE">Totale reisduur: {duration}</string>
+
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} d. {hours} u. {minutes} min.</string>
@@ -1630,6 +1635,8 @@
     <string name="flights_tab_selection_accouncement_roundtrip">Zoekscherm met retourvluchten</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Heenvlucht</string>
+    <!-- Label to identify selected outbound flight card -->
+    <string name="flight_outbound_label">Heenvlucht:</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Vluchten</string>
     <!-- Flights payment fees info web view title -->
@@ -2029,9 +2036,9 @@
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+{travelercount} extra reiziger</item>
-        <item quantity="other">+{travelercount} extra reizigers</item>
+        <item quantity="other">+ {travelercount} extra reizigers</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">Bewerk reiziger {travelernumber} ({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Reiziger {travelernumber} bewerken ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} jaar oud</string>
     <!-- save traveler -->
     <string name="save_traveler">Reiziger opslaan</string>
