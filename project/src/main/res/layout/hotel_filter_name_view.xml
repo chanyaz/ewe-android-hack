@@ -15,7 +15,8 @@
         android:text="@string/Filter_By"
         android:textColor="@color/hotel_filter_text"
         android:textSize="15sp"
-        app:textStyle="medium" />
+        app:textStyle="medium"
+        android:labelFor="@+id/filter_hotel_name_edit_text"/>
 
     <RelativeLayout
         android:id="@+id/filter_hotel_name_container"
@@ -36,7 +37,7 @@
             android:tint="@color/hotel_filter_hotel_name_icon" />
 
         <com.expedia.bookings.widget.accessibility.AccessibleEditText
-            android:id="@+id/filter_hotel_name_edit_text"
+            android:id="@id/filter_hotel_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_toRightOf="@id/hotel_name"
