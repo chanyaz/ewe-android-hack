@@ -9,21 +9,25 @@ class BaggageInfoParams {
     val flightClassType = FlightClassType()
 
     fun makeBaggageParams(flightLeg: FlightLeg): ArrayList<HashMap<String, String>> {
-        baggageParams = ArrayList<HashMap<String, String>>()
-        val flightSegment = flightLeg.flightSegments
-        for ((index, value) in flightSegment.withIndex()) {
-            val baggageParam = HashMap<String, String>()
-            baggageParam.put("originapt", value.arrivalAirportCode)
-            baggageParam.put("destinationapt", value.departureAirportCode)
-            baggageParam.put("cabinclass", flightClassType.getCabinClass(value.seatClass))
-            baggageParam.put("mktgcarrier", value.airlineCode)
-            baggageParam.put("opcarrier", value.operatingAirlineCode)
-            baggageParam.put("bookingclass", value.bookingCode)
-            baggageParam.put("traveldate", DateUtils.toMMddyyyy(value.departureTime))
-            baggageParam.put("flightnumber", value.flightNumber)
-            baggageParam.put("segmentnumber", (index + 1).toString())
-            baggageParams.add(baggageParam)
+        if (flightLeg.jsonBaggageFeesUrl != null) {
+            return flightLeg.jsonBaggageFeesUrl.formData
+        } else {
+            baggageParams = ArrayList<HashMap<String, String>>()
+            val flightSegment = flightLeg.flightSegments
+            for ((index, value) in flightSegment.withIndex()) {
+                val baggageParam = HashMap<String, String>()
+                baggageParam.put("originapt", value.arrivalAirportCode)
+                baggageParam.put("destinationapt", value.departureAirportCode)
+                baggageParam.put("cabinclass", flightClassType.getCabinClass(value.seatClass))
+                baggageParam.put("mktgcarrier", value.airlineCode)
+                baggageParam.put("opcarrier", value.operatingAirlineCode)
+                baggageParam.put("bookingclass", value.bookingCode)
+                baggageParam.put("traveldate", DateUtils.toMMddyyyy(value.departureTime))
+                baggageParam.put("flightnumber", value.flightNumber)
+                baggageParam.put("segmentnumber", (index + 1).toString())
+                baggageParams.add(baggageParam)
+            }
+            return baggageParams
         }
-        return baggageParams
     }
 }

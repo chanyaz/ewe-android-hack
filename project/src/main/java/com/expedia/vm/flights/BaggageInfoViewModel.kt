@@ -55,6 +55,7 @@ class BaggageInfoViewModel(val context: Context) {
 
             override fun onError(e: Throwable?) {
                 showBaggageInfoWebViewSubject.onNext(Unit)
+                showLoaderSubject.onNext(false)
             }
 
             override fun onCompleted() {
