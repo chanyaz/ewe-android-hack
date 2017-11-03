@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.flights;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -50,6 +51,7 @@ public class FlightLeg {
 	public boolean isBasicEconomy;
 	public List<BasicEconomyTooltipInfo> basicEconomyTooltipInfo = new ArrayList<>();
 	public int legRank;
+	public BaggageInfoFormData jsonBaggageFeesUrl;
 
 	public boolean isEvolable;
 	public String evolablePenaltyRulesUrl;
@@ -186,5 +188,10 @@ public class FlightLeg {
 	public static class BasicEconomyTooltipInfo {
 		public String fareRulesTitle;
 		public String[] fareRules;
+	}
+
+	public static class BaggageInfoFormData {
+		public String requestPath;
+		public ArrayList<HashMap<String, String>> formData;
 	}
 }

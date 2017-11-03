@@ -58,6 +58,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val showBaggageInfoSubject = PublishSubject.create<FlightLeg>()
     val showBaggageInfoFlightLob = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsFrenchLegalBaggageInfo,R.string.preference_show_baggage_info_flights) && (lob == LineOfBusiness.FLIGHTS_V2)
     lateinit var baggageUrl: String
+    lateinit var updatedFlightLeg: FlightLeg
 
     init {
         Observable.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
@@ -101,6 +102,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
 
         Observable.combineLatest(selectedFlightObservable, flight, suggestion, date, guests, { searchType, flight, suggestion, date, guests ->
             baggageUrl = flight.baggageFeesUrl
+            updatedFlightLeg = flight
             val fmt = ISODateTimeFormat.dateTime()
             val localDate = LocalDate.parse(flight.departureDateTimeISO, fmt)
             flightSelectIconObservable.onNext(false)
@@ -131,7 +133,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
 
             baggageInfoClickSubject.subscribe {
                 if (showBaggageInfoFlightLob) {
-                    showBaggageInfoSubject.onNext(flight)
+                    showBaggageInfoSubject.onNext(updatedFlightLeg)
                 } else {
                     openBaggageFeeWebView()
                 }
