@@ -12,6 +12,7 @@ open class BaseHotelResultsViewModel(protected val context: Context) {
 
     // Inputs
     val paramsSubject = PublishSubject.create<HotelSearchParams>()
+    val resultStateParamsSubject = BehaviorSubject.create<String>("")
 
     // Outputs
     val hotelResultsObservable = PublishSubject.create<HotelSearchResponse>()

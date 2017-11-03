@@ -19,7 +19,7 @@ import com.expedia.bookings.widget.TextView
 import rx.Subscription
 import rx.subjects.PublishSubject
 
-class ChangeDatesDialogFragment() : DialogFragment() {
+class ChangeDatesDialogFragment : DialogFragment() {
     val datesChangedSubject = PublishSubject.create<Pair<LocalDate, LocalDate>>()
 
     private lateinit var rules: HotelCalendarRules

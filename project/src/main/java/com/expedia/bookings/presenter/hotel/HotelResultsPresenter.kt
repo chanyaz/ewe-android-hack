@@ -81,6 +81,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     init {
         filterView.viewModel.filterByParamsObservable.subscribe { params ->
+
             viewModel.filterParamsSubject.onNext(params)
         }
 
@@ -88,6 +89,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
+        baseViewModel = vm
         mapViewModel.mapInitializedObservable.subscribe {
             setMapToInitialState(viewModel.getSearchParams()?.suggestion)
         }
@@ -107,6 +109,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.hotelResultsObservable.subscribe {
             if (filterBtnWithCountWidget.translationY != 0f) {
                 showSortAndFilter()
+            } else {
+                sortFilterButtonTransition?.jumpToOrigin()
             }
         }
 
@@ -144,7 +148,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.hotelResultsObservable.subscribe { show(ResultsList()) }
 
         vm.locationParamsSubject.subscribe { params ->
-            showMapLoadingOverlay()
             filterView.sortByObserver.onNext(params.isCurrentLocationSearch && !params.isGoogleSuggestionSearch)
             filterView.viewModel.clearObservable.onNext(Unit)
         }
@@ -153,13 +156,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             if (previousWasList) {
                 show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
                 resetListOffset()
-                showLoading()
             } else {
                 show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
                 fab.isEnabled = false
                 animateMapCarouselOut()
                 clearMarkers()
-                showMapLoadingOverlay()
             }
         }
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewModel.isCurrentLocationSearch)
@@ -179,7 +180,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     private fun initSortCallToAction() {
-
         viewModel.hotelResultsObservable.subscribe {
             narrowResultsPromptView.visibility = View.GONE
             narrowFilterPromptSubscription = adapter.filterPromptSubject.subscribe {
@@ -230,7 +230,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget, 0, filterHeight.toInt())
         filterBtnWithCountWidget.setOnClickListener {
-            previousWasList = currentState == ResultsList::class.java.name
             showWithTracking(ResultsFilter())
             filterView.viewModel.sortContainerVisibilityObservable.onNext(true)
             filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
@@ -256,6 +255,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun showLoading() {
         super.showLoading()
+        resetListOffset()
         sortFilterButtonTransition?.jumpToTarget()
         urgencyDropDownContainer.visibility = View.GONE
         narrowResultsPromptView.visibility = View.GONE
@@ -364,7 +364,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     private fun newParams(params: HotelSearchParams) {
         filterView.viewModel.resetPriceSliderFilterTracking()
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
-        setMapToInitialState(params.suggestion)
+        if (currentState == ResultsList::class.java.name) {
+            setMapToInitialState(params.suggestion)
+        }
         filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
 
         filterView.viewModel.clearObservable.onNext(Unit)
@@ -380,7 +382,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     private fun resetForNewSearch() {
-        showLoading()
+        if (previousWasList) {
+            showLoading()
+        } else {
+            showMapLoadingOverlay()
+        }
         clearMarkers()
     }
 

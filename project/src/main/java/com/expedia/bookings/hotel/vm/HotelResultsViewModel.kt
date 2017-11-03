@@ -11,6 +11,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
+import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
@@ -36,6 +37,8 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
 
     val searchApiErrorObservable = PublishSubject.create<ApiError>()
 
+    val paramChangedSubject = PublishSubject.create<HotelSearchParams>()
+
     var cachedResponse: HotelSearchResponse? = null
         private set
 
@@ -47,12 +50,16 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             trackAdImpression(it.pageViewBeaconPixelUrl)
         }
 
-        paramsSubject.subscribe(endlessObserver { params -> doSearch(params) })
+        paramsSubject.subscribe(endlessObserver { params ->
+            doSearch(params)
+        })
 
         locationParamsSubject.subscribe(endlessObserver { suggestion ->
             hotelSearchManager.reset()
             val paramBuilder = newParamBuilder(suggestion, cachedParams)
-            doSearch(paramBuilder.build())
+            val params = paramBuilder.build()
+            doSearch(params)
+            paramChangedSubject.onNext(params)
         })
 
         filterParamsSubject.subscribe(endlessObserver { filterParams ->
@@ -61,6 +68,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             val newParams = paramBuilder.build()
             newParams.clearPinnedHotelId()
             doSearch(newParams, true)
+            paramChangedSubject.onNext(newParams)
         })
 
         hotelSearchManager.apiCompleteSubject.subscribe(resultsReceivedDateTimeObservable)
@@ -177,7 +185,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         if (isFilteredSearch) {
             hotelSearchResponse.isFilteredResponse = true
             filterResultsObservable.onNext(hotelSearchResponse)
-        } else if (titleSubject.value == context.getString(R.string.visible_map_area)) {
+        } else if (resultStateParamsSubject.value == BaseHotelResultsPresenter.ResultsMap::class.java.name) {
             mapResultsObservable.onNext(hotelSearchResponse)
         } else {
             hotelResultsObservable.onNext(hotelSearchResponse)

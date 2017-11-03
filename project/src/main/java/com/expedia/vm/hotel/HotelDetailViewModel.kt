@@ -33,6 +33,7 @@ open class HotelDetailViewModel(context: Context,
     val fetchInProgressSubject = PublishSubject.create<Unit>()
     val fetchCancelledSubject = PublishSubject.create<Unit>()
     val apiErrorSubject = PublishSubject.create<ApiError>()
+    val dateChangedParamSubject = PublishSubject.create<HotelSearchParams>()
 
     private var swpEnabled = false
     private var cachedParams: HotelSearchParams? = null
@@ -75,6 +76,7 @@ open class HotelDetailViewModel(context: Context,
             val params = builder.build()
 
             fetchOffers(params, hotelId)
+            dateChangedParamSubject.onNext(params)
         }
     }
 

@@ -198,6 +198,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.showDefault()
+
+        presenter.viewModel.paramChangedSubject.subscribe { newParams ->
+            updateSearchParams(newParams)
+        }
         presenter
     }
     val detailsStub: ViewStub by bindView(R.id.details_stub)
@@ -236,6 +240,12 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             viewModel.hotelSoldOutWithHotelId.subscribe((resultsPresenter.mapCarouselRecycler.adapter as HotelMapCarouselAdapter).hotelSoldOut)
             viewModel.hotelSoldOutWithHotelId.subscribe(resultsPresenter.adapter.hotelSoldOut)
             viewModel.hotelSoldOutWithHotelId.subscribe(resultsPresenter.mapViewModel.hotelSoldOutWithIdObserver)
+        }
+
+        hotelDetailViewModel.dateChangedParamSubject.subscribe { newParams ->
+            updateSearchParams(newParams)
+            hotelSearchManager.reset()
+            resultsViewModel.paramsSubject.onNext(newParams)
         }
 
         presenter

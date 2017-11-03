@@ -144,5 +144,4 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         }
         return super.back()
     }
-
 }

@@ -169,6 +169,7 @@ class HotelResultsViewModelTest {
         val testSubscriber = TestSubscriber<HotelSearchResponse>()
         sut.mapResultsObservable.subscribe(testSubscriber)
 
+        sut.resultStateParamsSubject.onNext("com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter\$ResultsMap")
         sut.paramsSubject.onNext(params)
         mockSearchProvider.successSubject.onNext(happyResponse)
 

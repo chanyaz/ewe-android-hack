@@ -614,7 +614,7 @@ class HotelDetailViewModelTest {
     fun testFetchOffersApiError() {
         val testSuccessSub = TestSubscriber.create<HotelOffersResponse>()
         val testErrorSub = TestSubscriber.create<ApiError>()
-        val testFetchOfferSub= TestSubscriber.create<Unit>()
+        val testFetchOfferSub = TestSubscriber.create<Unit>()
 
         mockHotelInfoManager.fetchOffersCalled.subscribe(testFetchOfferSub)
 
@@ -628,6 +628,49 @@ class HotelDetailViewModelTest {
         mockHotelInfoManager.errorSubject.onNext(ApiError())
         testErrorSub.assertValueCount(1)
         testSuccessSub.assertValueCount(0)
+    }
+
+    fun testChangeDate() {
+        val originalStartDate = LocalDate()
+        val originalEndDate = LocalDate(1)
+
+        val testParamsSub = TestSubscriber.create<HotelSearchParams>()
+        val testFetchInProgressSub = TestSubscriber.create<Unit>()
+        val testDateChangedParamSubject = TestSubscriber.create<HotelSearchParams>()
+
+        vm.hotelId = "test"
+
+        vm.paramsSubject.subscribe(testParamsSub)
+        vm.fetchInProgressSubject.subscribe(testFetchInProgressSub)
+        vm.dateChangedParamSubject.subscribe(testDateChangedParamSubject)
+
+        val destination = SuggestionV4()
+        val originalParams = HotelSearchParams.Builder(0, 0, true)
+                .destination(destination)
+                .startDate(originalStartDate)
+                .endDate(originalEndDate)
+                .adults(1)
+
+        vm.paramsSubject.onNext(originalParams.build() as HotelSearchParams)
+
+        val newStartDate = LocalDate(2)
+        val newEndDate = LocalDate().plusDays(4)
+
+        vm.changeDates(newStartDate, newEndDate)
+
+        var newParams = testParamsSub.onNextEvents
+
+        assertEquals(2, newParams.count())
+        assertEquals(newStartDate, newParams.last().startDate)
+        assertEquals(newEndDate, newParams.last().endDate)
+
+        newParams = testDateChangedParamSubject.onNextEvents
+
+        assertEquals(1, newParams.count())
+        assertEquals(newStartDate, newParams.first().startDate)
+        assertEquals(newEndDate, newParams.first().endDate)
+
+        testFetchInProgressSub.assertValueCount(1)
     }
 
     private fun createRoomResponseList() : List<HotelOffersResponse.HotelRoomResponse> {
