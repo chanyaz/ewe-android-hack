@@ -63,17 +63,12 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 	}
 
 	private void addGeneralRule() {
-		String generalConditionText = flightCreateTripResponse.flightRules.rulesToText
-				.get(RulesKeys.GENERAL_CONDITIONS.getKey());
-		String generalConditionUrl = flightCreateTripResponse.flightRules.rulesToUrl
-				.get(RulesKeys.GENERAL_CONDITIONS.getKey());
-		if (generalConditionText != null && generalConditionUrl != null) {
-			populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
-				generalConditionText, generalConditionUrl, mGeneralConditionTextView);
-		}
+		String generalConditionText = flightCreateTripResponse.flightRules.rulesToText.get(RulesKeys.GENERAL_CONDITIONS.getKey());
+		String generalConditionUrl = flightCreateTripResponse.flightRules.rulesToUrl.get(RulesKeys.GENERAL_CONDITIONS.getKey());
+		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(generalConditionText, generalConditionUrl, mGeneralConditionTextView);
 	}
 
-    @Override
+	@Override
 	String constructHtmlBodySectionOne() {
 		StringBuilder rulesBodyBuilder = new StringBuilder();
 		if (flightCreateTripResponse != null) {

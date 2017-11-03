@@ -9,6 +9,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.fragment.ExpediaSupportFragmentTestUtil
 import com.expedia.bookings.fragment.FlightRulesFragmentV2
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,11 +18,12 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner :: class)
 class FlightRulesFragmentV2Test {
-    private var testFragment = FlightRulesFragmentV2()
+    private lateinit var testFragment: FlightRulesFragmentV2
     private lateinit var activity: ExpediaSupportFragmentTestUtil.FragmentUtilActivity
 
     @Before
     fun setup() {
+        testFragment = FlightRulesFragmentV2()
         activity = Robolectric.buildActivity(ExpediaSupportFragmentTestUtil.FragmentUtilActivity::class.java).create().start().resume().visible().get()
     }
 
@@ -30,18 +32,17 @@ class FlightRulesFragmentV2Test {
         val flightResponse = getFlightCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemFlightV2(flightResponse))
         ExpediaSupportFragmentTestUtil.startFragment(activity.supportFragmentManager, testFragment)
-        assertEquals(testFragment.view?.findViewById<android.widget.TextView>(R.id.general_condition_view)?.visibility, View.GONE)
+        assertEquals(View.GONE, testFragment.view?.findViewById<android.widget.TextView>(R.id.general_condition_view)?.visibility)
     }
 
     @Test
     fun testGeneralConditionViewVisibility() {
         val flightResponse = getFlightCreateTripResponse()
         addGeneralConditionRules(flightResponse)
-        Db.getTripBucket().remove(0)
         Db.getTripBucket().add(TripBucketItemFlightV2(flightResponse))
         ExpediaSupportFragmentTestUtil.startFragment(activity.supportFragmentManager, testFragment)
 
-        assertEquals(testFragment.view?.findViewById<android.widget.TextView>(R.id.general_condition_view)?.visibility, View.VISIBLE)
+        assertEquals(View.VISIBLE, testFragment.view?.findViewById<android.widget.TextView>(R.id.general_condition_view)?.visibility)
     }
 
     private fun getFlightCreateTripResponse(): FlightCreateTripResponse {
@@ -66,4 +67,10 @@ class FlightRulesFragmentV2Test {
         flightResponse.flightRules.rulesToText.put("GeneralConditions", "Please read the general conditions of carriage which can be found here.")
         flightResponse.flightRules.rulesToUrl.put("GeneralConditions", "https://www.expedia.fr/p/support/check-in")
     }
+
+    @After
+    fun cleanup() {
+        Db.getTripBucket().clear()
+    }
+
 }
