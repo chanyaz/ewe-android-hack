@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.widget.Toast;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -21,6 +22,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
@@ -95,6 +97,15 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 		Ui.getApplication(this).appComponent().abacus()
 				.downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
+
+		if (BuildConfig.DEBUG && FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_enable_production_abacus)) {
+			Handler handler = new Handler(Looper.getMainLooper());
+			handler.post(new Runnable() {
+				public void run() {
+					Toast.makeText(RouterActivity.this.getApplication(), "Production Abacus is enabled! Go to Settings to change it", Toast.LENGTH_LONG).show();
+				}
+			});
+		}
 	}
 
 	private Observer<AbacusResponse> evaluatePreLaunchABTestsSubscriber = new Observer<AbacusResponse>() {

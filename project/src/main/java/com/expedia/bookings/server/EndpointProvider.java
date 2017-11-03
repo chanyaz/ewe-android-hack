@@ -13,6 +13,7 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
 import com.mobiata.android.util.SettingUtils;
@@ -68,7 +69,8 @@ public class EndpointProvider {
 
 	public String getAbacusEndpointUrl() {
 		// Always point to production if release
-		if (BuildConfig.RELEASE) {
+
+		if (BuildConfig.RELEASE || FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_production_abacus)) {
 			return getE3EndpointUrl();
 		}
 
