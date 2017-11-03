@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
-import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CustomListAdapter
@@ -15,7 +14,6 @@ import com.google.gson.Gson
 
 class WhatsNewFragment : Fragment() {
 
-    val latest_features: TextView by bindView(R.id.latest_features_of_app)
     val listView: ListView by bindView(R.id.list_to_be)
 
 
@@ -25,7 +23,6 @@ class WhatsNewFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        latest_features.text = "Whats new , Huh!"
         val data = dummyData()
         val listData = Array<CustomPojo>(data!!.size, { i ->  data.get(i)})
         val adapter = CustomListAdapter(data = listData, context = this.context)
@@ -38,13 +35,26 @@ class WhatsNewFragment : Fragment() {
             {
                 "monthAndYear": "July, 2017",
                 "featureList": [
-                    "Upsell Options New"
+                    "We've made flight searches so much faster, that you'll get younger every time you click on a search. Well not really, but it's still pretty fast!!"
                 ]
             },
             {
                 "monthAndYear": "April, 2017",
                 "featureList": [
                     "Now, get even better fares with SubPub"
+                ]
+            },
+            {
+                "monthAndYear": "August, 2017",
+                "featureList": [
+                    "You can use your Expedia loyalty points now to even book Local Activities! Go crazy!! ",
+                    "Your favorite travel app now gives you the option to purchase business class tickets! Book your next trip now! "
+                ]
+            },
+            {
+                "monthAndYear": "September, 2017",
+                "featureList": [
+                    "Get a quick history of all searches you've made recently to continue from where you left off, right on your app's home screen! "
                 ]
             }
         ]
