@@ -14,6 +14,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.squareup.phrase.Phrase
@@ -132,6 +133,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                     (flight.mayChargeObFees || PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()))
 
             baggageInfoClickSubject.subscribe {
+                OmnitureTracking.trackFlightBaggageFeesClick()
                 if (showBaggageInfoFlightLob) {
                     showBaggageInfoSubject.onNext(updatedFlightLeg)
                 } else {
