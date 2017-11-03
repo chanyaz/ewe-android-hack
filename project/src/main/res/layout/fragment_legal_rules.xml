@@ -91,6 +91,11 @@
             style="@style/LegalInformationTextView" />
 
         <TextView
+            android:id ="@+id/general_condition_view"
+            style="@style/LegalInformationTextView"
+            android:visibility="gone"/>
+
+        <TextView
             android:id="@+id/lcc_text_view"
             style="@style/LegalInformationTextView"
             android:visibility="gone" />

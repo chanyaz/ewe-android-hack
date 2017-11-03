@@ -31,7 +31,8 @@ public abstract class BaseRulesFragment extends Fragment {
 		LCC_IMPORTANT_TEXT("flightRulesLCCImportantMessage"),
 		LCC_LITE_TEXT("flightRulesLCCServiceLiteMessage"),
 		LCC_EMAIL_TEXT("LccPartnerConfEmailsText"),
-		LCC_CHECKIN_TEXT("flightRulesLCCPrecheckinAdvice");
+		LCC_CHECKIN_TEXT("flightRulesLCCPrecheckinAdvice"),
+		GENERAL_CONDITIONS("GeneralConditions");
 
 		private String mKey;
 
@@ -48,6 +49,7 @@ public abstract class BaseRulesFragment extends Fragment {
 	protected TextView mCompletePenaltyRulesTextView;
 	protected TextView mLiabilitiesLinkTextView;
 	protected TextView mAdditionalFeesTextView;
+	protected TextView mGeneralConditionTextView;
 
 	protected TextView mLccTextView;
 	protected LinearLayout cancellationPolicyContainer;
@@ -70,6 +72,7 @@ public abstract class BaseRulesFragment extends Fragment {
 		cancellationPolicyContainer = Ui.findView(v, R.id.cancellation_policy_container);
 		mCancellationTextView = Ui.findView(v, R.id.cancellation_policy_text_view);
 		mFareInformation = Ui.findView(v, R.id.fare_information);
+		mGeneralConditionTextView = Ui.findView(v, R.id.general_condition_view);
 		return v;
 	}
 

@@ -55,14 +55,25 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 			populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
 				airlineFeeRuleText, airlineFeeRuleUrl, mAdditionalFeesTextView);
 
+			addGeneralRule();
 			mFareInformation.setText(R.string.fare_information);
 		}
 
 		return v;
 	}
 
+	private void addGeneralRule() {
+		String generalConditionText = flightCreateTripResponse.flightRules.rulesToText
+				.get(RulesKeys.GENERAL_CONDITIONS.getKey());
+		String generalConditionUrl = flightCreateTripResponse.flightRules.rulesToUrl
+				.get(RulesKeys.GENERAL_CONDITIONS.getKey());
+		if (generalConditionText != null && generalConditionUrl != null) {
+			populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
+				generalConditionText, generalConditionUrl, mGeneralConditionTextView);
+		}
+	}
 
-	@Override
+    @Override
 	String constructHtmlBodySectionOne() {
 		StringBuilder rulesBodyBuilder = new StringBuilder();
 		if (flightCreateTripResponse != null) {
@@ -100,4 +111,6 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 			mLccTextView.setVisibility(View.VISIBLE);
 		}
 	}
+
 }
+
