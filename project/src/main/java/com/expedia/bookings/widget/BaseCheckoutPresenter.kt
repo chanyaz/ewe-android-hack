@@ -355,7 +355,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         Observable.combineLatest(getCheckoutViewModel().paymentTypeSelectedHasCardFee,
                 paymentWidget.viewmodel.showingPaymentForm,
                 { haveCardFee, showingGuestPaymentForm ->
-                    ckoViewModel.showCardFeeWarningText.onNext(!showingGuestPaymentForm)
+                    ckoViewModel.showCardFeeWarningText.onNext(!showingGuestPaymentForm && haveCardFee)
                     val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
                     if (cardFeeVisibility == View.VISIBLE && cardProcessingFeeTextView.visibility == View.GONE) {
                         cardProcessingFeeTextView.visibility = cardFeeVisibility
