@@ -7,11 +7,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.DebugColorPaletteAdapter
 import com.expedia.bookings.widget.DebugColorPaletteItem
 
 class DebugColorPaletteActivity : AppCompatActivity() {
-    private val colorRecyclerView: RecyclerView by lazy { findViewById(R.id.super_color_view) as RecyclerView }
+    private val colorRecyclerView by bindView<RecyclerView>(R.id.super_color_view)
     private val colorRecyclerAdapter = DebugColorPaletteAdapter()
 
     private val MAX_SPAN_COUNT = 2

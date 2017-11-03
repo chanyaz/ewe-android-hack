@@ -19,38 +19,21 @@ import com.expedia.bookings.itin.widget.HotelItinImage
 import com.expedia.bookings.itin.widget.HotelItinLocationDetails
 import com.expedia.bookings.itin.widget.HotelItinRoomDetails
 import com.expedia.bookings.itin.widget.HotelItinToolbar
+import com.expedia.bookings.utils.bindView
 
 open class HotelItinDetailsActivity : HotelItinBaseActivity() {
 
-    val locationDetailsView: HotelItinLocationDetails by lazy {
-        findViewById(R.id.widget_hotel_itin_location_details) as HotelItinLocationDetails
-    }
-    val roomDetailsView: HotelItinRoomDetails by lazy {
-        findViewById(R.id.widget_hotel_itin_room_details) as HotelItinRoomDetails
-    }
-    val roomDetailsHeader: View by lazy {
-        findViewById(R.id.itin_hotel_room_details_header)
-    }
-    val hotelImageView: HotelItinImage by lazy {
-        findViewById(R.id.hotel_itin_image) as HotelItinImage
-    }
-    val checkinCheckoutView: HotelItinCheckInCheckOutDetails by lazy {
-        findViewById(R.id.widget_hotel_itin_checkin_checkout_details) as HotelItinCheckInCheckOutDetails
-    }
-    val toolbar: HotelItinToolbar by lazy {
-        findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
-    }
-    val hotelBookingDetailsView: HotelItinBookingDetails by lazy {
-        findViewById(R.id.widget_hotel_itin_booking_details) as HotelItinBookingDetails
-    }
+    val locationDetailsView by bindView<HotelItinLocationDetails>(R.id.widget_hotel_itin_location_details)
+    val roomDetailsView by bindView<HotelItinRoomDetails>(R.id.widget_hotel_itin_room_details)
+    val roomDetailsHeader by bindView<View>(R.id.itin_hotel_room_details_header)
+    val hotelImageView by bindView<HotelItinImage>(R.id.hotel_itin_image)
+    val checkinCheckoutView by bindView<HotelItinCheckInCheckOutDetails>(R.id.widget_hotel_itin_checkin_checkout_details)
+    val toolbar by bindView<HotelItinToolbar>(R.id.widget_hotel_itin_toolbar)
+    val hotelBookingDetailsView by bindView<HotelItinBookingDetails>(R.id.widget_hotel_itin_booking_details)
 
-    val roomDetailsChevron: ImageView by lazy {
-        findViewById(R.id.itin_hotel_room_details_chevron) as ImageView
-    }
+    val roomDetailsChevron by bindView<ImageView>(R.id.itin_hotel_room_details_chevron)
 
-    val container: ViewGroup by lazy {
-        findViewById(R.id.container) as ViewGroup
-    }
+    val container by bindView<ViewGroup>(R.id.container)
 
     lateinit var itinCardDataHotel: ItinCardDataHotel
 

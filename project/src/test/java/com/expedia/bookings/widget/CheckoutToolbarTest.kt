@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.app.Activity
 import android.content.Context
+import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.widget.ActionMenuView
 import android.view.LayoutInflater
 import android.view.accessibility.AccessibilityManager
@@ -44,13 +45,14 @@ class CheckoutToolbarTest {
         assertNull(actionMenuView.getChildAt(0))
 
         toolbar.viewModel.menuVisibility.onNext(true)
-        assertNotNull(actionMenuView.getChildAt(0))
+        val actionView = actionMenuView.getChildAt(0) as ActionMenuItemView
+        assertNotNull(actionView)
 
         toolbar.viewModel.formFilledIn.onNext(false)
-        assertEquals("Next", actionMenuView.getChildAt(0).contentDescription)
+        assertEquals("Next", actionView.text)
 
         toolbar.viewModel.formFilledIn.onNext(true)
-        assertEquals("Done", actionMenuView.getChildAt(0).contentDescription)
+        assertEquals("Done", actionView.text)
     }
 
     @Test

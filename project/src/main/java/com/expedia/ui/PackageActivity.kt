@@ -17,6 +17,7 @@ import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.vm.packages.PackageSearchType
 
@@ -25,9 +26,7 @@ class PackageActivity : AbstractAppCompatActivity() {
 
     private var isCrossSellPackageOnFSREnabled = false
 
-    val packagePresenter: PackagePresenter by lazy {
-        findViewById(R.id.package_presenter) as PackagePresenter
-    }
+    val packagePresenter by bindView<PackagePresenter>(R.id.package_presenter)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

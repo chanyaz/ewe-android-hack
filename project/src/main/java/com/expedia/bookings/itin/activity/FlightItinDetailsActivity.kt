@@ -80,12 +80,8 @@ class FlightItinDetailsActivity : AppCompatActivity() {
             flightBookingDetailsWidget.viewModel.updateBookingInfoWidget(params)
         }
     }
-    private val itinConfirmationWidget: ItinConfirmationWidget by lazy {
-        findViewById(R.id.widget_itin_flight_confirmation_cardview) as ItinConfirmationWidget
-    }
-    private val itinToolbar: ItinToolbar by lazy {
-        findViewById(R.id.widget_flight_itin_toolbar) as ItinToolbar
-    }
+    private val itinConfirmationWidget by bindView<ItinConfirmationWidget>(R.id.widget_itin_flight_confirmation_cardview)
+    private val itinToolbar by bindView<ItinToolbar>(R.id.widget_flight_itin_toolbar)
 
     private val flightBookingDetailsWidget: FlightItinBookingDetailsWidget by bindView(R.id.widget_flight_itin_booking_details)
 
@@ -94,9 +90,7 @@ class FlightItinDetailsActivity : AppCompatActivity() {
             finishActivity()
         }
     }
-    private val flightSummaryContainer: LinearLayout by lazy {
-        findViewById(R.id.flight_itin_summary_container) as LinearLayout
-    }
+    private val flightSummaryContainer by bindView<LinearLayout>(R.id.flight_itin_summary_container)
 
     private val flightTotalDurationWidget: ItinTimeDurationWidget by bindView(R.id.widget_itin_flight_total_duration_cardview)
 

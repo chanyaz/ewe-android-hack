@@ -13,6 +13,7 @@ import com.expedia.bookings.itin.widget.HotelItinToolbar
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.PermissionsUtils.havePermissionToAccessLocation
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -68,15 +69,9 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
 
 
     lateinit var itinCardDataHotel: ItinCardDataHotel
-    private val mapView: MapView by lazy {
-        findViewById(R.id.expanded_map_view_hotel) as MapView
-    }
-    val directionsButton: FrameLayout by lazy {
-        findViewById(R.id.directions_button) as FrameLayout
-    }
-    private val directionsButtonText: TextView by lazy {
-        findViewById(R.id.directions_button_text) as TextView
-    }
+    private val mapView by bindView<MapView>(R.id.expanded_map_view_hotel)
+    val directionsButton by bindView<FrameLayout>(R.id.directions_button)
+    private val directionsButtonText by bindView<TextView>(R.id.directions_button_text)
 
     private var googleMap: GoogleMap? = null
     private val MAP_ZOOM_LEVEL = 14f
@@ -86,9 +81,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     private var panTracked = false
     private var moveStarted = false
     private var currentZoom = 0f
-    private val toolbar: HotelItinToolbar by lazy {
-        findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
-    }
+    private val toolbar by bindView<HotelItinToolbar>(R.id.widget_hotel_itin_toolbar)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

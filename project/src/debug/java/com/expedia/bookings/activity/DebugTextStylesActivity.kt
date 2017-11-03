@@ -6,10 +6,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.DebugTextStyleAdapter
 
 class DebugTextStylesActivity : AppCompatActivity() {
-    private val textStylesRecyclerView: RecyclerView by lazy { findViewById(R.id.debug_text_styles_list) as RecyclerView }
+    private val textStylesRecyclerView by bindView<RecyclerView>(R.id.debug_text_styles_list)
     private val textStyleAdapter = DebugTextStyleAdapter(this)
 
     public override fun onCreate(savedInstanceState: Bundle?) {

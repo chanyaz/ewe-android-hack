@@ -12,26 +12,25 @@ import com.expedia.bookings.mia.MemberDealResponseProvider
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 
 class MemberDealActivity : AppCompatActivity() {
 
     private lateinit var memberDealResponseProvider: MemberDealResponseProvider
     private lateinit var adapter: MemberDealListAdapter
-    val recyclerView: RecyclerView by lazy {
-        findViewById(R.id.member_deal_recycler_view) as RecyclerView
-    }
+    val recyclerView by bindView<RecyclerView>(R.id.member_deal_recycler_view)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.member_deal_activity)
 
-        val toolBar = findViewById(R.id.mod_search_toolbar) as Toolbar
+        val toolBar = findViewById<Toolbar>(R.id.mod_search_toolbar)
         toolBar.setNavigationOnClickListener { view ->
             onBackPressed()
         }
 
-        val shopButton = findViewById(R.id.mod_shop_button) as Button
+        val shopButton = findViewById<Button>(R.id.mod_shop_button)
         shopButton.setOnClickListener { view ->
             HotelNavUtils.goToHotels(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
             OmnitureTracking.trackMemberPricingShop()

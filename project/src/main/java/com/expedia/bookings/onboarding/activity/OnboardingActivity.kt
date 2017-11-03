@@ -23,6 +23,7 @@ import com.expedia.bookings.onboarding.LeftRightFlingListener
 import com.expedia.bookings.onboarding.adapter.OnboardingPagerAdapter
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.squareup.phrase.Phrase
@@ -30,29 +31,17 @@ import com.squareup.phrase.Phrase
 
 class OnboardingActivity: AppCompatActivity() {
 
-    private val title: TextView by lazy {
-        findViewById(R.id.title_onboarding) as TextView
-    }
-    private val subtitle: TextView by lazy {
-        findViewById(R.id.subtitle_onboarding) as TextView
-    }
-    private val previousButton: ImageView by lazy {
-        findViewById(R.id.button_previous) as ImageView
-    }
-    private val nextButton: ImageView by lazy {
-        findViewById(R.id.button_next) as ImageView
-    }
-    private val finalButton: Button by lazy {
-        findViewById(R.id.button_final) as Button
-    }
-    private val viewPager: DisableableViewPager by lazy {
-        findViewById(R.id.pager_onboarding) as DisableableViewPager
-    }
+    private val title by bindView<TextView>(R.id.title_onboarding)
+    private val subtitle by bindView<TextView>(R.id.subtitle_onboarding)
+    private val previousButton by bindView<ImageView>(R.id.button_previous)
+    private val nextButton by bindView<ImageView>(R.id.button_next)
+    private val finalButton by bindView<Button>(R.id.button_final)
+    private val viewPager by bindView<DisableableViewPager>(R.id.pager_onboarding)
     private val circles: List<View> by lazy {
         val circles = arrayListOf(
-            findViewById(R.id.onboarding_first_circle) as View,
-            findViewById(R.id.onboarding_second_circle) as View,
-            findViewById(R.id.onboarding_third_circle) as View
+                findViewById<View>(R.id.onboarding_first_circle),
+                findViewById<View>(R.id.onboarding_second_circle),
+                findViewById<View>(R.id.onboarding_third_circle)
         )
         circles
     }

@@ -11,13 +11,12 @@ import com.expedia.bookings.presenter.packages.PackageHotelPresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.google.android.gms.maps.MapView
 
 class PackageHotelActivity : AbstractAppCompatActivity() {
-    val hotelsPresenter: PackageHotelPresenter by lazy {
-        findViewById(R.id.package_hotel_presenter) as PackageHotelPresenter
-    }
+    val hotelsPresenter by bindView<PackageHotelPresenter>(R.id.package_hotel_presenter)
 
     val resultsMapView: MapView by lazy {
         hotelsPresenter.findViewById<MapView>(R.id.map_view)

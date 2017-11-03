@@ -5,11 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.rail.presenter.RailPresenter
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 
 class RailActivity : AppCompatActivity() {
-    val railPresenter: RailPresenter by lazy {
-        findViewById(R.id.rail_presenter)as RailPresenter
-    }
+    val railPresenter by bindView<RailPresenter>(R.id.rail_presenter)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

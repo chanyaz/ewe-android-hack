@@ -61,6 +61,7 @@ import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.LXDataUtils
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
@@ -119,24 +120,16 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
     private var hasMenu = false
 
-    val viewPager: DisableableViewPager by lazy {
-        findViewById(R.id.viewpager) as DisableableViewPager
-    }
-    val toolbar: PhoneLaunchToolbar by lazy {
-        findViewById(R.id.launch_toolbar) as PhoneLaunchToolbar
-    }
+    val viewPager by bindView<DisableableViewPager>(R.id.viewpager)
+    val toolbar by bindView<PhoneLaunchToolbar>(R.id.launch_toolbar)
 
     val pagerAdapter: PagerAdapter by lazy {
         PagerAdapter(supportFragmentManager)
     }
 
-    private val bottomNavShadow: View by lazy {
-        findViewById(R.id.bottom_tab_layout_shadow)
-    }
+    private val bottomNavShadow by bindView<View>(R.id.bottom_tab_layout_shadow)
 
-    private val bottomNavTabLayout: TabLayout by lazy {
-        findViewById(R.id.bottom_tab_layout) as TabLayout
-    }
+    private val bottomNavTabLayout by bindView<TabLayout>(R.id.bottom_tab_layout)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

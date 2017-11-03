@@ -107,7 +107,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         collapsingToolbarLayout.isTitleEnabled = enable
     }
 
-    override fun onStartNestedScroll(child: View?, target: View?, nestedScrollAxes: Int): Boolean {
+    override fun onStartNestedScroll(child: View, target: View, nestedScrollAxes: Int): Boolean {
         return isExpandable && super.onStartNestedScroll(child, target, nestedScrollAxes)
     }
 

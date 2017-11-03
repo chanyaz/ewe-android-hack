@@ -18,13 +18,12 @@ import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.util.PermissionsUtils.requestLocationPermission
 import com.google.android.gms.maps.MapView
 
 class HotelActivity : AbstractAppCompatActivity() {
-    val hotelPresenter: HotelPresenter by lazy {
-        findViewById(R.id.hotel_presenter) as HotelPresenter
-    }
+    val hotelPresenter by bindView<HotelPresenter>(R.id.hotel_presenter)
 
     val resultsMapView: MapView by lazy {
         hotelPresenter.findViewById<MapView>(R.id.map_view)

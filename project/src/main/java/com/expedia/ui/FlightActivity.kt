@@ -9,11 +9,10 @@ import com.expedia.bookings.presenter.flight.FlightPresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 
 class FlightActivity : AbstractAppCompatActivity() {
-    val flightsPresenter: FlightPresenter by lazy {
-        findViewById(R.id.flight_presenter) as FlightPresenter
-    }
+    val flightsPresenter by bindView<FlightPresenter>(R.id.flight_presenter)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

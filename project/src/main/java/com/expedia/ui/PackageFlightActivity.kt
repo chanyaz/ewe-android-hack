@@ -6,13 +6,11 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.packages.PackageFlightPresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 
 class PackageFlightActivity : AbstractAppCompatActivity() {
 
-    val flightsPresenter: PackageFlightPresenter by lazy {
-        val presenter = findViewById(R.id.package_flight_presenter) as PackageFlightPresenter
-        presenter
-    }
+    val flightsPresenter by bindView<PackageFlightPresenter>(R.id.package_flight_presenter)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

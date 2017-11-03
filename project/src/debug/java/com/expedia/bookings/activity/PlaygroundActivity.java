@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
 
-public class PlaygroundActivity extends ActionBarActivity {
+public class PlaygroundActivity extends AppCompatActivity {
 
 	private static final String KEY_LAYOUT_RES = "KEY_LAYOUT_RES";
 	private static final String KEY_THEME_RES = "KEY_THEME_RES";

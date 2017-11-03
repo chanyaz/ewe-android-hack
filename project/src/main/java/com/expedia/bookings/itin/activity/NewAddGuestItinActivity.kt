@@ -22,6 +22,7 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClearPrivateDataUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.mobiata.android.util.SettingUtils
 import javax.inject.Inject
 
@@ -30,18 +31,12 @@ class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDia
     lateinit var pointOfSaleStateModel: PointOfSaleStateModel
         @Inject set
 
-    private val presenter: Presenter by lazy {
-        findViewById(R.id.guest_itin_presenter) as Presenter
-    }
+    private val presenter by bindView<Presenter>(R.id.guest_itin_presenter)
 
     @VisibleForTesting
-    val addGuestItinWidget: AddGuestItinWidget by lazy {
-        findViewById(R.id.add_guest_itin_widget) as AddGuestItinWidget
-    }
+    val addGuestItinWidget by bindView<AddGuestItinWidget>(R.id.add_guest_itin_widget)
 
-    private val guestItinProgressWidget: ItinFetchProgressWidget by lazy {
-        findViewById(R.id.guest_itin_progress_widget) as ItinFetchProgressWidget
-    }
+    private val guestItinProgressWidget by bindView<ItinFetchProgressWidget>(R.id.guest_itin_progress_widget)
 
     private var hasAddGuestItinErrors = false
     @VisibleForTesting

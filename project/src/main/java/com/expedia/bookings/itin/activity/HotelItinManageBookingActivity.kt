@@ -14,25 +14,16 @@ import com.expedia.bookings.itin.widget.HotelItinManageBookingHelp
 import com.expedia.bookings.itin.widget.HotelItinCustomerSupportDetails
 import com.expedia.bookings.itin.widget.HotelItinRoomDetails
 import com.expedia.bookings.itin.widget.HotelItinToolbar
+import com.expedia.bookings.utils.bindView
 
 class HotelItinManageBookingActivity : HotelItinBaseActivity() {
 
-    val roomDetailsView: HotelItinRoomDetails by lazy {
-        findViewById(R.id.widget_hotel_itin_room_details) as HotelItinRoomDetails
-    }
-    val toolbar: HotelItinToolbar by lazy {
-        findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
-    }
-    val manageBookingButton: Button by lazy {
-        findViewById(R.id.itin_hotel_manage_booking_button) as Button
-    }
+    val roomDetailsView by bindView<HotelItinRoomDetails>(R.id.widget_hotel_itin_room_details)
+    val toolbar by bindView<HotelItinToolbar>(R.id.widget_hotel_itin_toolbar)
+    val manageBookingButton by bindView<Button>(R.id.itin_hotel_manage_booking_button)
     lateinit var itinCardDataHotel: ItinCardDataHotel
-    val hotelManageBookingHelpView: HotelItinManageBookingHelp by lazy {
-        findViewById(R.id.widget_hotel_itin_manage_booking_help) as HotelItinManageBookingHelp
-    }
-    val hotelCustomerSupportDetailsView: HotelItinCustomerSupportDetails by lazy {
-        findViewById(R.id.widget_hotel_itin_customer_support) as HotelItinCustomerSupportDetails
-    }
+    val hotelManageBookingHelpView by bindView<HotelItinManageBookingHelp>(R.id.widget_hotel_itin_manage_booking_help)
+    val hotelCustomerSupportDetailsView by bindView<HotelItinCustomerSupportDetails>(R.id.widget_hotel_itin_customer_support)
 
     companion object {
         private const val ID_EXTRA = "ITINID"

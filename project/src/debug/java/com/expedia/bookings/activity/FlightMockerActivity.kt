@@ -60,23 +60,23 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun getViews() {
-        statusSpinner = findViewById(R.id.confirmation_status_spinner) as Spinner
+        statusSpinner = findViewById<Spinner>(R.id.confirmation_status_spinner)
         statusSpinner.adapter = makeList()
-        multiConfCB = findViewById(R.id.multi_confirmation_cb) as CheckBox
-        redEyeCB = findViewById(R.id.red_eye_cb) as CheckBox
-        multiSegCB = findViewById(R.id.multi_segment_cb) as CheckBox
+        multiConfCB = findViewById<CheckBox>(R.id.multi_confirmation_cb)
+        redEyeCB = findViewById<CheckBox>(R.id.red_eye_cb)
+        multiSegCB = findViewById<CheckBox>(R.id.multi_segment_cb)
         multiSegCB.setOnClickListener(this)
-        layoverCB = findViewById(R.id.layover_24_hours_cb) as CheckBox
-        seatingAvailableCB = findViewById(R.id.seating_available_cb) as CheckBox
+        layoverCB = findViewById<CheckBox>(R.id.layover_24_hours_cb)
+        seatingAvailableCB = findViewById<CheckBox>(R.id.seating_available_cb)
         seatingAvailableCB.setOnClickListener(this)
-        seatingSelectedCB = findViewById(R.id.seats_selected_cb) as CheckBox
+        seatingSelectedCB = findViewById<CheckBox>(R.id.seats_selected_cb)
         seatingSelectedCB.setOnClickListener(this)
-        multiSeatingCB = findViewById(R.id.multi_seats_cb) as CheckBox
-        arrivalTerminalCB = findViewById(R.id.arrival_terminal_cb) as CheckBox
-        departureTerminalCB = findViewById(R.id.depart_terminal_cb) as CheckBox
-        buildBtn = findViewById(R.id.flight_mock_build_btn) as TextView
+        multiSeatingCB = findViewById<CheckBox>(R.id.multi_seats_cb)
+        arrivalTerminalCB = findViewById<CheckBox>(R.id.arrival_terminal_cb)
+        departureTerminalCB = findViewById<CheckBox>(R.id.depart_terminal_cb)
+        buildBtn = findViewById<TextView>(R.id.flight_mock_build_btn)
         buildBtn.setOnClickListener(this)
-        opperatedBy = findViewById(R.id.opperated_by_cb) as CheckBox
+        opperatedBy = findViewById<CheckBox>(R.id.opperated_by_cb)
     }
 
     private fun seatsSelected() = if (seatingSelectedCB.isChecked) {

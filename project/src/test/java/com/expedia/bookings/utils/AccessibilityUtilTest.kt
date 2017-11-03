@@ -130,7 +130,6 @@ class AccessibilityUtilTest {
         toolbar.inflateMenu(R.menu.checkout_menu)
 
         val actionMenuView = toolbar.getChildAt(0) as ActionMenuView
-        assertEquals("Done", actionMenuView.getChildAt(0).contentDescription)
         val contentDescription = "Done button"
         AccessibilityUtil.setMenuItemContentDescription(toolbar, contentDescription)
         assertEquals(contentDescription, actionMenuView.getChildAt(0).contentDescription)
