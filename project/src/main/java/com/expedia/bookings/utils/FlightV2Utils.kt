@@ -329,7 +329,7 @@ object FlightV2Utils {
         else return null
     }
 
-    @JvmStatic fun getSelectedClassesString(context: Context, flightTripDetails: FlightTripDetails): String {
+    @JvmStatic fun getSelectedClassesString(context: Context, flightTripDetails: FlightTripDetails, isContDesc: Boolean): String {
         var selectedSeatClassList: MutableList<String> = ArrayList()
         val basicEconomyAvailableAndCorrespondingLeg: Pair<Boolean, Int> = getBasicEconomyLeg(flightTripDetails.legs)
 
@@ -343,10 +343,9 @@ object FlightV2Utils {
         selectedSeatClassList = selectedSeatClassList.distinct().toMutableList()
 
         var selectedClassText = ""
+
         if (selectedSeatClassList.size == 1) {
-            selectedClassText = Phrase.from(context.getString(R.string.flight_selected_classes_one_class_TEMPLATE))
-                    .put("class", selectedSeatClassList[0])
-                    .format().toString()
+            selectedClassText = selectedSeatClassList[0]
         } else if (selectedSeatClassList.size == 2) {
             selectedClassText = Phrase.from(context.getString(R.string.flight_selected_classes_two_class_TEMPLATE))
                     .put("class_one", selectedSeatClassList[0]).put("class_two", selectedSeatClassList[1])
@@ -364,8 +363,13 @@ object FlightV2Utils {
                         .format().toString()
             }
         } else {
-            selectedClassText = context.getString(R.string.flight_selected_classes_mixed_classes)
+            selectedClassText = context.getString(R.string.flight_cabin_mixed_classes)
         }
+
+        if (!isContDesc) {
+            selectedClassText = StringBuilder(context.getString(R.string.flight_selecting_class_prefix)).append(selectedClassText).toString()
+        }
+
         return selectedClassText
     }
 

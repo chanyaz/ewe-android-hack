@@ -56,6 +56,7 @@ class FareFamilyViewModelTest {
         val fromLabelVisibilitySubscriber = TestSubscriber<Boolean>()
         val travellerTextSubscriber = TestSubscriber<String>()
         val selectedColorTestSubscriber = TestSubscriber<Int>()
+        val contentDescriptionTestSubscriber = TestSubscriber<String>()
 
         sut.deltaPriceObservable.subscribe(deltaPriceSubscriber)
         sut.selectedClassObservable.subscribe(selectedClassSubscriber)
@@ -63,11 +64,13 @@ class FareFamilyViewModelTest {
         sut.selectedClassColorObservable.subscribe(selectedColorTestSubscriber)
         sut.fareFamilyTitleObservable.subscribe(fareFamilyTitleSubscriber)
         sut.travellerObservable.subscribe(travellerTextSubscriber)
+        sut.contentDescriptionObservable.subscribe(contentDescriptionTestSubscriber)
         sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable(2))
         assertEquals("+$2", deltaPriceSubscriber.onNextEvents[0])
         assertEquals("Selected: Economy", selectedClassSubscriber.onNextEvents[0])
         assertEquals("Upgrade your flights", fareFamilyTitleSubscriber.onNextEvents[0])
         assertEquals("4 travelers", travellerTextSubscriber.onNextEvents[0])
+        assertEquals("Upgrade your flights from $2 for 4 travelers, Current selection is Economy",contentDescriptionTestSubscriber.onNextEvents[0])
         assertEquals(ContextCompat.getColor(activity, R.color.default_text_color), selectedColorTestSubscriber.onNextEvents[0])
         assertTrue(fromLabelVisibilitySubscriber.onNextEvents[0])
     }
@@ -79,18 +82,21 @@ class FareFamilyViewModelTest {
         val fareFamilyTitleSubscriber = TestSubscriber<String>()
         val fromLabelVisibilitySubscriber = TestSubscriber<Boolean>()
         val selectedColorTestSubscriber = TestSubscriber<Int>()
+        val contentDescriptionTestSubscriber = TestSubscriber<String>()
 
         sut.deltaPriceObservable.subscribe(deltaPriceSubscriber)
         sut.selectedClassObservable.subscribe(selectedClassSubscriber)
         sut.fromLabelVisibility.subscribe(fromLabelVisibilitySubscriber)
         sut.fareFamilyTitleObservable.subscribe(fareFamilyTitleSubscriber)
         sut.selectedClassColorObservable.subscribe(selectedColorTestSubscriber)
+        sut.contentDescriptionObservable.subscribe(contentDescriptionTestSubscriber)
         sut.selectedFareFamilyObservable.onNext(getFareFamilyDetail(1)[0])
 
         sut.tripObservable.onNext(tripResponseWithFareFamilySelected(2))
         assertEquals("",deltaPriceSubscriber.onNextEvents[0])
         assertEquals("Change fare class", selectedClassSubscriber.onNextEvents[0])
         assertEquals("You've selected Economy", fareFamilyTitleSubscriber.onNextEvents[0])
+        assertEquals("You have selected Economy, Double tap to change fare class",contentDescriptionTestSubscriber.onNextEvents[0])
         assertEquals(ContextCompat.getColor(activity, R.color.app_primary), selectedColorTestSubscriber.onNextEvents[0])
         assertFalse(fromLabelVisibilitySubscriber.onNextEvents[0])
     }

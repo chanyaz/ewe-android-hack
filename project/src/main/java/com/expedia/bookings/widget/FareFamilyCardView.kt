@@ -6,12 +6,14 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setFocusForView
+import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.subscribeTextColor
-import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeContentDescription
 import com.expedia.vm.FareFamilyViewModel
 
 
@@ -31,7 +33,11 @@ class FareFamilyCardView(context: Context, attrs: AttributeSet) : CardView(conte
         vm.fareFamilyTitleObservable.subscribeText(fareFamilyTitle)
         vm.travellerObservable.subscribeTextAndVisibility(travellerTextView)
         vm.widgetVisibilityObservable.subscribeVisibility(this)
+        vm.contentDescriptionObservable.subscribeContentDescription(this)
         subscribeOnClick(vm.fareFamilyCardClickObserver)
+        vm.tripObservable.filter { it.isFareFamilyUpgraded }.subscribe {
+            this.setFocusForView()
+        }
     }
 
     init {

@@ -247,6 +247,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             } else {
                 flightFareFamilyDetailsWidget.visibility = View.GONE
                 flightFareFamilyDetailsWidget.translationY = (flightFareFamilyDetailsWidget.height).toFloat()
+                fareFamilyCardView.setFocusForView()
             }
         }
     }

@@ -13,6 +13,8 @@ import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import android.support.v4.content.ContextCompat
+import com.expedia.bookings.data.Money
+import rx.Observable
 import java.util.Locale
 
 class FareFamilyViewModel(private val context: Context) {
@@ -27,6 +29,7 @@ class FareFamilyViewModel(private val context: Context) {
     val deltaPriceObservable = PublishSubject.create<String>()
     val selectedClassColorObservable = PublishSubject.create<Int>()
     val fareFamilyCardClickObserver = PublishSubject.create<Unit>()
+    val contentDescriptionObservable = PublishSubject.create<String>()
     val fromLabelVisibility = PublishSubject.create<Boolean>()
     val travellerObservable = PublishSubject.create<String>()
     val updateTripObserver = PublishSubject.create<Pair<String, FlightTripResponse.FareFamilyDetails>>()
@@ -35,20 +38,33 @@ class FareFamilyViewModel(private val context: Context) {
     init {
         tripObservable.subscribe { trip ->
             val fareFamilyDetail = getDeltaPricingFareFamily(trip.fareFamilyList?.fareFamilyDetails)
+            val isRoundTrip = Db.getFlightSearchParams().isRoundTrip()
+
             if (fareFamilyDetail != null) {
                 widgetVisibilityObservable.onNext(isUserBucketedForFareFamily && !trip.getOffer().isSplitTicket)
                 if (!trip.isFareFamilyUpgraded) {
-                    selectedClassObservable.onNext(FlightV2Utils.getSelectedClassesString(context, trip.details))
+                    selectedClassObservable.onNext(FlightV2Utils.getSelectedClassesString(context, trip.details, false))
                     deltaPriceObservable.onNext(FlightV2Utils.getDeltaPricing(fareFamilyDetail.deltaTotalPrice, fareFamilyDetail.deltaPositive))
                     fromLabelVisibility.onNext(true)
                     travellerObservable.onNext(StrUtils.formatMultipleTravelerString(context, Db.getFlightSearchParams().guests))
                     fareFamilyTitleObservable.onNext(
-                            if (Db.getFlightSearchParams().isRoundTrip()) {
+                            if (isRoundTrip) {
                                 context.getString(R.string.flight_fare_family_upgrade_flight_roundtrip_label)
                             } else {
                                 context.getString(R.string.flight_fare_family_upgrade_flight_oneway_label)
                             })
                     selectedClassColorObservable.onNext(ContextCompat.getColor(context, R.color.default_text_color))
+                    contentDescriptionObservable.onNext(
+                            Phrase.from(context,
+                                    if (isRoundTrip) {
+                                        R.string.flight_fare_family_upgrade_round_trip_flight_cont_desc_TEMPLATE
+                                    } else {
+                                        R.string.flight_fare_family_upgrade_one_way_flight_cont_desc_TEMPLATE
+                                    })
+                                    .put("amount", Money.getFormattedMoneyFromAmountAndCurrencyCode(fareFamilyDetail.deltaTotalPrice.amount, fareFamilyDetail.deltaTotalPrice.currencyCode))
+                                    .put("guest", StrUtils.formatTravelerString(context, Db.getFlightSearchParams().guests))
+                                    .put("class", FlightV2Utils.getSelectedClassesString(context, trip.details, true)).format().toString())
+
                 } else {
                     selectedClassObservable.onNext(context.getString(R.string.flight_change_fare_class))
                     deltaPriceObservable.onNext("")
@@ -69,8 +85,12 @@ class FareFamilyViewModel(private val context: Context) {
         })
                 .filter { it.isFareFamilyUpgraded }
                 .subscribe {
+                    val fareFamilyName = Strings.capitalize(it.fareFamilyName, Locale.US)
                     fareFamilyTitleObservable.onNext(Phrase.from(context, R.string.flight_fare_family_fare_label_TEMPLATE).put("fare_family_name",
-                            Strings.capitalize(it.fareFamilyName, Locale.US)).format().toString())
+                            fareFamilyName).format().toString())
+                    contentDescriptionObservable.onNext(Phrase.from(context, R.string.flight_fare_family_change_cont_desc_TEMPLATE)
+                            .put("fare_family_name", fareFamilyName)
+                            .format().toString())
                 }
 
         selectedFareFamilyObservable.withLatestFrom(tripObservable, { fareDetails, tripResponse ->
