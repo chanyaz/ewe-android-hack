@@ -16,6 +16,7 @@ import com.google.gson.Gson
 import retrofit2.Call
 import java.util.concurrent.CountDownLatch
 
+// https://android.jlelse.eu/kotlin-and-retrofit-2-tutorial-with-working-codes-333a4422a890
 class WhatsNewFragment : Fragment() {
 
     val listView: ListView by bindView(R.id.list_to_be)
