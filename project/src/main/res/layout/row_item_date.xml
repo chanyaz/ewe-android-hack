@@ -9,14 +9,18 @@
     android:layout_margin="10dp"
     android:layout_height="match_parent">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_gray"/>
     <TextView
         android:id="@+id/label12"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:textColor="@color/gray5"
+        android:textStyle="bold"
+        android:layout_marginTop="25dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="25dp"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/gray7"
         tools:text="dummy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

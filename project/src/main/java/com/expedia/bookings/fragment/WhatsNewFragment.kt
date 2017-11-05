@@ -29,7 +29,7 @@ class WhatsNewFragment : Fragment() {
         listView.adapter = adapter
     }
 
-    private fun dummyData(): Array<CustomPojo>? {
+    /*private fun dummyData(): Array<CustomPojo>? {
         val data = """
         [
             {
@@ -55,6 +55,39 @@ class WhatsNewFragment : Fragment() {
                 "monthAndYear": "September, 2017",
                 "featureList": [
                     "Get a quick history of all searches you've made recently to continue from where you left off, right on your app's home screen! "
+                ]
+            }
+        ]
+        """
+        return Gson().fromJson(data, Array<CustomPojo>::class.java)
+    }*/
+    private fun dummyData(): Array<CustomPojo>? {
+        val data = """
+        [
+            {
+                "monthAndYear": "July, 2017",
+                "featureList": []
+            },
+            {
+                "monthAndYear": "April, 2017",
+                "featureList": []
+            },
+            {
+                "monthAndYear": "August, 2017",
+                "featureList": [
+                    {
+                        "featureName": "Business class Tickets!!",
+                        "featureDetails": "Now you get the conveience of booking business class tickets right from the your favorite travel app!"
+                    }
+                ]
+            },
+            {
+                "monthAndYear": "September, 2017",
+                "featureList": [
+                    {
+                        "featureName": "Upsell!!",
+                        "featureDetails": "Expedia apps now give you the option to see the difference in prices that you are paying and the prices for an upgraded seat!"
+                    }
                 ]
             }
         ]
