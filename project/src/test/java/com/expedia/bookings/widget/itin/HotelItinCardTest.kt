@@ -186,7 +186,6 @@ class HotelItinCardTest {
         val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
         sut.bind(itinCardData)
 
-        testSubscriber.requestMore(100L)
         testSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue(Property.RoomUpgradeType.HAS_UPGRADE_OFFERS)
@@ -206,7 +205,6 @@ class HotelItinCardTest {
         val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl("https:://www.notarealurl.com").build()
         sut.bind(itinCardData)
 
-        testSubscriber.requestMore(100L)
         testSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue(Property.RoomUpgradeType.NO_UPGRADE_OFFERS)

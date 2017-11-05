@@ -3,20 +3,19 @@ package com.expedia.vm.test.traveler
 import android.app.Activity
 import android.text.Editable
 import com.expedia.bookings.data.TravelerName
-import com.expedia.vm.traveler.TravelerNameViewModel
-import org.junit.runner.RunWith;
-import org.junit.Test
-import kotlin.test.assertFalse
-import kotlin.test.assertEquals
-
-import com.expedia.bookings.test.robolectric.RobolectricRunner;
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
+import com.expedia.vm.traveler.TravelerNameViewModel
 import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -44,7 +43,7 @@ class TravelerNameViewModelTest {
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(TravelerName())
 
-        val testSubscriber = TestSubscriber<String>(1)
+        val testSubscriber = TestSubscriber<String>()
         nameVM.firstNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.middleNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.lastNameViewModel.textSubject.subscribe(testSubscriber)
@@ -65,7 +64,7 @@ class TravelerNameViewModelTest {
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(name)
 
-        val testSubscriber = TestSubscriber<String>(1)
+        val testSubscriber = TestSubscriber<String>()
         nameVM.firstNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.middleNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.lastNameViewModel.textSubject.subscribe(testSubscriber)
@@ -100,7 +99,7 @@ class TravelerNameViewModelTest {
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(name)
 
-        val testSubscriber = TestSubscriber<Boolean>(1)
+        val testSubscriber = TestSubscriber<Boolean>()
         nameVM.firstNameViewModel.errorSubject.subscribe(testSubscriber)
         nameVM.middleNameViewModel.errorSubject.subscribe(testSubscriber)
         nameVM.lastNameViewModel.errorSubject.subscribe(testSubscriber)

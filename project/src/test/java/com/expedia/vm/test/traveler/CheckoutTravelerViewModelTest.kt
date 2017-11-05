@@ -25,7 +25,6 @@ class CheckoutTravelerViewModelTest {
     val mockTravelerProvider = MockTravelerProvider()
     lateinit var testViewModel: TravelersViewModel
     lateinit var searchParams: PackageSearchParams
-    private var LOTS_MORE: Long = 100
 
     @Before
     fun setUp() {
@@ -129,11 +128,6 @@ class CheckoutTravelerViewModelTest {
 
         mockTravelerProvider.updateDBWithMockTravelers(1, testCompleteTraveler)
         testViewModel.updateCompletionStatus()
-
-        testAllTravelersComplete.requestMore(LOTS_MORE)
-        testInvalidTravelers.requestMore(LOTS_MORE)
-        testEmptyTravelers.requestMore(LOTS_MORE)
-        testTravelerCompleteness.requestMore(LOTS_MORE)
 
         testAllTravelersComplete.assertReceivedOnNext(expectedAllTravelersComplete)
         testEmptyTravelers.assertReceivedOnNext(expectedEmptyTravelers)

@@ -4,9 +4,9 @@ import android.app.Activity
 import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Location
-import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.Traveler
 import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.PaymentViewModel
 import org.joda.time.LocalDate
@@ -22,7 +22,6 @@ import kotlin.test.assertEquals
 class AbstractCheckoutViewModelTest {
     var testViewModel: AbstractCheckoutViewModel by Delegates.notNull()
     var activity : Activity by Delegates.notNull()
-    private var LOTS_MORE: Long = 100
 
     @Before
     fun before() {
@@ -51,7 +50,6 @@ class AbstractCheckoutViewModelTest {
         testViewModel.paymentCompleted.onNext(getBillingInfo())
         testViewModel.cvvCompleted.onNext("123")
 
-        testSubscriber.requestMore(LOTS_MORE)
         assertEquals(3, testSubscriber.onNextEvents[0].travelers.size)
 
         travelers = arrayListOf(getTraveler(), getTraveler(), getTraveler(), getTraveler())
@@ -59,7 +57,6 @@ class AbstractCheckoutViewModelTest {
         testViewModel.paymentCompleted.onNext(getBillingInfo())
         testViewModel.cvvCompleted.onNext("123")
 
-        testSubscriber.requestMore(LOTS_MORE)
         assertEquals(4, testSubscriber.onNextEvents[0].travelers.size)
 
         testViewModel.clearTravelers.onNext(Unit)
@@ -76,7 +73,6 @@ class AbstractCheckoutViewModelTest {
         testViewModel.paymentCompleted.onNext(getBillingInfo())
         testViewModel.cvvCompleted.onNext("123")
 
-        testSubscriber.requestMore(LOTS_MORE)
         assertEquals("123 street", testSubscriber.onNextEvents[0].toQueryMap()["streetAddress"])
         assertEquals("apt 69", testSubscriber.onNextEvents[0].toQueryMap()["streetAddress2"])
     }

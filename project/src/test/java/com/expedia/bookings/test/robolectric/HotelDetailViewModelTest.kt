@@ -248,7 +248,6 @@ class HotelDetailViewModelTest {
 
         makeResortFeeResponse(vm)
 
-        testSubscriber.requestMore(100)
         assertEquals("20.00 USD", testSubscriber.onNextEvents[1])
         assertEquals("total fee", context.getString(vm.getFeeTypeText()))
     }
@@ -263,7 +262,6 @@ class HotelDetailViewModelTest {
 
         makeResortFeeResponse(vm)
 
-        testSubscriber.requestMore(100)
         assertEquals("$20", testSubscriber.onNextEvents[1])
     }
 

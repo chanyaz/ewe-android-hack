@@ -1,6 +1,5 @@
 package com.expedia.bookings.test
 
-import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -10,12 +9,9 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
-import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import okhttp3.logging.HttpLoggingInterceptor
@@ -39,7 +35,6 @@ import kotlin.test.fail
 @RunWith(RobolectricRunner::class)
 class FlightSearchViewModelTest {
 
-    private val LOTS_MORE: Long = 100
     private val context = RuntimeEnvironment.application
 
     var server: MockWebServer = MockWebServer()
@@ -234,7 +229,6 @@ class FlightSearchViewModelTest {
         sut.isRoundTripSearchObservable.onNext(true)
         sut.searchParamsObservable.onNext(makeSearchParams())
         sut.performSearchObserver.onNext(Unit)
-        testSubscriber.requestMore(LOTS_MORE)
         testSubscriber.assertValueCount(1)
         assertNotNull(testSubscriber.onNextEvents[0])
     }

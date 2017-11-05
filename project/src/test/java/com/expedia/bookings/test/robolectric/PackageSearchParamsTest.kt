@@ -21,7 +21,6 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class PackageSearchParamsTest {
     var vm: PackageSearchViewModel by Delegates.notNull()
-    private var LOTS_MORE: Long = 100
     var activity : Activity by Delegates.notNull()
 
     @Before
@@ -241,14 +240,10 @@ class PackageSearchParamsTest {
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(3)).build() as PackageSearchParams)
 
-        searchParamsSubscriber.requestMore(LOTS_MORE)
         assertEquals(expectedSearchParams[0].endDate, searchParamsSubscriber.onNextEvents[0].endDate)
         assertEquals(expectedSearchParams[1].endDate, searchParamsSubscriber.onNextEvents[1].endDate)
-        noDatesSubscriber.requestMore(LOTS_MORE)
         noDatesSubscriber.assertReceivedOnNext(expectedDates)
-        maxRangeSubscriber.requestMore(LOTS_MORE)
         maxRangeSubscriber.assertReceivedOnNext(expectedRangeErrors)
-        noOriginSubscriber.requestMore(LOTS_MORE)
         noOriginSubscriber.assertReceivedOnNext(expectedOrigins)
     }
 

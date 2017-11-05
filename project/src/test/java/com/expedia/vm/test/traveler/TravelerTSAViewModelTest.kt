@@ -66,7 +66,7 @@ class TravelerTSAViewModelTest {
     @Test
     fun testUpdateTravelerGenderErrorReset() {
         tsaVM = TravelerTSAViewModel(traveler, activity)
-        val testSubscriber = TestSubscriber<Boolean>(1)
+        val testSubscriber = TestSubscriber<Boolean>()
         tsaVM.genderViewModel.errorSubject.subscribe(testSubscriber)
         tsaVM.genderViewModel.errorSubject.onNext(true)
 
@@ -81,7 +81,7 @@ class TravelerTSAViewModelTest {
         traveler.birthDate = TEST_BIRTH_DATE
         tsaVM = TravelerTSAViewModel(traveler, activity)
 
-        val testSubscriber = TestSubscriber<LocalDate>(1)
+        val testSubscriber = TestSubscriber<LocalDate>()
         tsaVM.dateOfBirthViewModel.birthDateSubject.subscribe(testSubscriber)
 
         assertEquals(TEST_BIRTH_DATE, testSubscriber.onNextEvents[0])
@@ -157,7 +157,7 @@ class TravelerTSAViewModelTest {
         traveler.gender = TEST_GENDER
         tsaVM = TravelerTSAViewModel(traveler, activity)
 
-        val testSubscriber = TestSubscriber<Traveler.Gender>(1)
+        val testSubscriber = TestSubscriber<Traveler.Gender>()
         tsaVM.genderViewModel.genderSubject.subscribe(testSubscriber)
 
         assertEquals(TEST_GENDER, testSubscriber.onNextEvents[0])

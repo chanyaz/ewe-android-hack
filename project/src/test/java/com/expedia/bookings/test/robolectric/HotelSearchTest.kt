@@ -45,7 +45,6 @@ class HotelSearchTest {
 
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
     var vm: HotelSearchViewModel by Delegates.notNull()
-    private var LOTS_MORE: Long = 100
     var activity : Activity by Delegates.notNull()
 
     lateinit var hotelSearchManager: HotelSearchManager
@@ -101,8 +100,6 @@ class HotelSearchTest {
         vm.datesUpdated(lastSelectableDate, lastSelectableDate)
         vm.searchObserver.onNext(Unit)
 
-        testSubscriber.requestMore(LOTS_MORE)
-        errorSubscriber.requestMore(LOTS_MORE)
         assertEquals(testSubscriber.onNextEvents[0].checkOut, expected[0].checkOut)
         assertEquals(testSubscriber.onNextEvents[1].checkOut, expected[1].checkOut)
         errorSubscriber.assertValue(activity.resources.getString(R.string.error_date_too_far))

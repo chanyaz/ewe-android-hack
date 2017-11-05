@@ -46,7 +46,7 @@ class PackageCheckoutOverviewViewModelTest {
         val datesTestSubscriber = TestSubscriber<String>()
         val travelerTestSubscriber = TestSubscriber<String>()
 
-        val urlTestSubscriber = TestSubscriber<List<String>>(1)
+        val urlTestSubscriber = TestSubscriber<List<String>>()
 
         viewmodel.cityTitle.subscribe(cityTestSubscriber)
         viewmodel.datesTitle.subscribe(datesTestSubscriber)

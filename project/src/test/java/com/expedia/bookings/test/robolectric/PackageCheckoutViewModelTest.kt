@@ -31,8 +31,6 @@ class PackageCheckoutViewModelTest {
     var serviceRule = ServicesRule(PackageServices::class.java)
         @Rule get
 
-    private var LOTS_MORE: Long = 100
-
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -54,7 +52,6 @@ class PackageCheckoutViewModelTest {
                 arrayListOf(getTraveler()), "", "", "", "", "123", true)
         testViewModel.checkoutParams.onNext(params)
 
-        testSubscriber.requestMore(LOTS_MORE)
         testSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
 
         testSubscriber.assertValueCount(1)

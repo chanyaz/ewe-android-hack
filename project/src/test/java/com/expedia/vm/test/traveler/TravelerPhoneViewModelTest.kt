@@ -5,13 +5,11 @@ import android.text.Editable
 import com.expedia.bookings.data.Phone
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.TextView
 import com.expedia.vm.traveler.TravelerPhoneViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -73,7 +71,7 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        val testSubscriber = TestSubscriber<String>(1)
+        val testSubscriber = TestSubscriber<String>()
         phoneVm.phoneViewModel.textSubject.subscribe(testSubscriber)
 
         assertEquals(TEST_NUMBER, testSubscriber.onNextEvents[0])
@@ -87,7 +85,7 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        val testSubscriber = TestSubscriber<Boolean>(1)
+        val testSubscriber = TestSubscriber<Boolean>()
         phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertFalse(phoneVm.validate())
@@ -100,7 +98,7 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(Phone())
 
-        val testSubscriber = TestSubscriber<Boolean>(1)
+        val testSubscriber = TestSubscriber<Boolean>()
         phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertFalse(phoneVm.validate())
@@ -115,7 +113,7 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        val testSubscriber = TestSubscriber<Boolean>(1)
+        val testSubscriber = TestSubscriber<Boolean>()
         phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertTrue(phoneVm.validate())

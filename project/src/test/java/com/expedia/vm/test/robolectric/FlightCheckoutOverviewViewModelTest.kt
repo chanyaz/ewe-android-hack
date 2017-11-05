@@ -35,9 +35,9 @@ class FlightCheckoutOverviewViewModelTest {
                 .adults(1).build() as FlightSearchParams
 
 
-        val titleTestSubscriber = TestSubscriber<String>(4)
-        val checkInOutTestSubscriber = TestSubscriber<Pair<String, String>>(1)
-        val urlTestSubscriber = TestSubscriber<List<String>>(1)
+        val titleTestSubscriber = TestSubscriber<String>()
+        val checkInOutTestSubscriber = TestSubscriber<Pair<String, String>>()
+        val urlTestSubscriber = TestSubscriber<List<String>>()
         val subTitleTestSubscriber = TestSubscriber<String>()
 
         viewmodel.cityTitle.subscribe(titleTestSubscriber)

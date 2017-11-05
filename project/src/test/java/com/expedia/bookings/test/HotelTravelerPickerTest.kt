@@ -23,7 +23,7 @@ class HotelTravelerPickerTest {
 
     @Test
     fun defaults() {
-        val testSubscriber = TestSubscriber<TravelerParams>(1)
+        val testSubscriber = TestSubscriber<TravelerParams>()
         vm.travelerParamsObservable.subscribe(testSubscriber)
 
         testSubscriber.assertValueCount(1)

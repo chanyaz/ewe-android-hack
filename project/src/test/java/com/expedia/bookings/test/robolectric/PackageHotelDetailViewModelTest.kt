@@ -86,7 +86,6 @@ class PackageHotelDetailViewModelTest {
 
         makeResortFeeResponse(vm)
 
-        testSubscriber.requestMore(100)
         assertEquals("$20", testSubscriber.onNextEvents[1])
         assertEquals("per night", context.getString(vm.getFeeTypeText()))
     }
