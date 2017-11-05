@@ -12,16 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider_gray"/>
+
         <com.expedia.bookings.widget.TextView
             app:textStyle="bold"
             android:id="@+id/label12"
             android:textSize="24sp"
             android:layout_width="match_parent"
-            android:paddingTop="10dp"
+            android:textColor="@color/gray8"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             tools:text="dummy"

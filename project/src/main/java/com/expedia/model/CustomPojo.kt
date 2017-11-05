@@ -1,6 +1,6 @@
 package com.expedia.model
 
-open class CustomPojo (var monthAndYear: String, var featureList: Array<String>) {
+open class CustomPojo (var monthAndYear: String, var featureList: Array<FeaturePojo>) {
 
     init {
         println("Customer initialized with value ${monthAndYear}")
@@ -8,7 +8,7 @@ open class CustomPojo (var monthAndYear: String, var featureList: Array<String>)
 
     override fun toString() = "$monthAndYear" + "\n" + listToString(featureList)
 
-    fun listToString(list : Array<String>): String {
+    fun listToString(list : Array<FeaturePojo>): String {
         var string = ""
         for (item in list) {
             string += "       -" + item

@@ -13,6 +13,7 @@ open class CustomListAdapter(data: Array<CustomPojo>, context: Context) : BaseAd
 
     var list = ArrayList<String>()
     var headerPos = ArrayList<Number>()
+    var namePos = ArrayList<Number>()
 
     init {
         for (pojo in data){
@@ -21,7 +22,9 @@ open class CustomListAdapter(data: Array<CustomPojo>, context: Context) : BaseAd
                 headerPos.add(list.size - 1)
 
                 for (s in pojo.featureList) {
-                    list.add("• " + s)
+                    list.add(s.featureName)
+                    namePos.add(list.size - 1)
+                    list.add(s.featureDetails)
                 }
             }
         }
@@ -34,16 +37,18 @@ open class CustomListAdapter(data: Array<CustomPojo>, context: Context) : BaseAd
     }
 
     override fun getViewTypeCount(): Int {
-        return 2
+        return 3
     }
 
     override fun getItemViewType(position: Int): Int {
-        when{
-            headerPos.contains(position) -> {
-                return 0
-            }
+        // 0 is date, 2 is heading, 1 is item
+        if (headerPos.contains(position)) {
+            return 0
+        } else if (namePos.contains(position)) {
+            return 2
+        } else {
+            return 1
         }
-        return 1
     }
 
     override fun getItem(position: Int): Any {
@@ -60,10 +65,12 @@ open class CustomListAdapter(data: Array<CustomPojo>, context: Context) : BaseAd
         val vh: ListRowHolder
         val viewType = getItemViewType(position)
         if (convertView == null) {
-            if(viewType == 0) {
+            if(viewType == 2) {
                 view = mInflater?.inflate(R.layout.row_item_header, parent, false)
-            } else {
+            } else if(viewType ==1) {
                 view = mInflater?.inflate(R.layout.row_item, parent, false)
+            } else {
+                view = mInflater?.inflate(R.layout.row_item_date, parent, false)
             }
             vh = ListRowHolder(view)
             view?.setTag(vh)
