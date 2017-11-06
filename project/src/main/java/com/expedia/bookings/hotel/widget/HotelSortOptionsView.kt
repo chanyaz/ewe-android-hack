@@ -13,6 +13,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.utils.bindView
+import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
@@ -46,6 +47,8 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
 
         sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                sortByButtonGroup.contentDescription = Phrase.from(context, R.string.filter_sort_by_content_description_TEMPLATE)
+                        .put("sort", resources.getString(sortByAdapter.getItem(position).resId)).format().toString()
                 sortSelectedSubject.onNext(sortByAdapter.getItem(position))
             }
 
