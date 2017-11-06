@@ -2,6 +2,7 @@ package com.expedia.bookings.test.stepdefs.phone.hotel;
 
 import java.util.Map;
 
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import org.joda.time.LocalDate;
@@ -17,6 +18,7 @@ public class SearchScreenSteps {
 	@When("^I search for hotels and choose a specific location$")
 	public void searchAndSelectSpecificLocation(Map<String, String> searchOpts) throws Throwable {
 		enterDestination(searchOpts.get("location"));
+		Common.delay(1);
 		SearchScreen.selectSpecificLocation(searchOpts.get("suggestion"));
 	}
 
