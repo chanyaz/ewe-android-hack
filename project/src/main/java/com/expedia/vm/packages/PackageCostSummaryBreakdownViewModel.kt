@@ -3,8 +3,10 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.StrUtils
@@ -22,7 +24,7 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
             val breakdowns = arrayListOf<CostSummaryBreakdownRow>()
             // Hotel + Flights    $330
             breakdowns.add(
-                    makeHotelsAndFlightsRow(packageDetails.pricing.basePrice.formattedPrice)
+                    makeHotelsAndFlightsRow(getPriceFormat(packageDetails.pricing.basePrice))
             )
 
             // 1 room, 6 nights, 2 guests
@@ -33,12 +35,12 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
 
             // Taxes and Fees     $50
             breakdowns.add(
-                    makeTaxesAndFeesRow(packageDetails.pricing.totalTaxesAndFees.formattedPrice,
+                    makeTaxesAndFeesRow(getPriceFormat(packageDetails.pricing.totalTaxesAndFees),
                             packageDetails.pricing.taxesAndFeesIncluded))
 
             if (!packageDetails.pricing.savings.isZero && !packageDetails.pricing.savings.isLessThanZero) {
                 // Bundle Discount    -$200
-                breakdowns.add(makeTotalSavingRow(packageDetails.pricing.savings.formattedPrice))
+                breakdowns.add(makeTotalSavingRow(getPriceFormat(packageDetails.pricing.savings)))
             }
 
             if (packageDetails.pricing.hasResortFee() && PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
@@ -55,11 +57,11 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
 
             if (!packageDetails.pricing.hasResortFee() || PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
                 // Bundle Total     $380
-                breakdowns.add(makeBundleTotalRow(createTrip.bundleTotal.formattedPrice))
+                breakdowns.add(makeBundleTotalRow(getPriceFormat(createTrip.bundleTotal)))
             }
             if (packageDetails.pricing.hasResortFee()) {
                 // Total Due Today  $900
-                breakdowns.add(makeTotalDueTodayRow(createTrip.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedPrice, PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()))
+                breakdowns.add(makeTotalDueTodayRow(getPriceFormat(createTrip.tripTotalPayableIncludingFeeIfZeroPayableByPoints()), PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()))
             }
 
             if (packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
@@ -150,5 +152,10 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
 
     override fun trackBreakDownClicked() {
         PackagesTracking().trackBundleOverviewCostBreakdownClick()
+    }
+
+    private fun getPriceFormat(money: Money): String{
+        return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) money.formattedWholePrice
+               else money.formattedPrice
     }
 }
