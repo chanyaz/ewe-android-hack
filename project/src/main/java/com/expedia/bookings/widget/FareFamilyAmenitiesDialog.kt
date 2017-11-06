@@ -46,7 +46,7 @@ class FareFamilyAmenitiesDialog(context: Context, attrs: AttributeSet) : LinearL
 
                 for (amenity in amenityMap) {
                     amenitiesList.addView(getPrimaryAmenityView(FareFamilyAmenityItemViewModel(
-                            FlightV2Utils.getAmenityDrawable(context, amenity.key, viewModel.fareFamilyComponents), amenity.value)))
+                            FlightV2Utils.getAmenityResourceType(context, amenity.key, amenity.value, viewModel.fareFamilyComponents), amenity.value)))
                 }
             }
         }

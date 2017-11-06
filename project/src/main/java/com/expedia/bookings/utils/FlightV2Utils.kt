@@ -458,9 +458,11 @@ object FlightV2Utils {
     @JvmStatic fun getBagsAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
         var resourceId = R.drawable.flight_upsell_cross_icon
         var dispVal = ""
+        var amenityCategory : FlightAmenityCategory? = null
+        var amenityValue = context.resources.getString(R.string.amenity_checked_bags)
         val bagAmenities = FlightBagAmenity.values()
         for (bagAmenity in bagAmenities) {
-            val amenityCategory = getAmenityCategory(context.resources.getString(bagAmenity.key), fareFamilyComponents)
+            amenityCategory = getAmenityCategory(context.resources.getString(bagAmenity.key), fareFamilyComponents)
             if (amenityCategory != null) {
                 if (amenityCategory == FlightAmenityCategory.CHARGEABLE) {
                     dispVal = context.resources.getString(R.string.filter_price_cheap)
@@ -468,6 +470,9 @@ object FlightV2Utils {
                     dispVal = getBagsAmenityCount(context, bagAmenity)
                     if (dispVal.isNullOrBlank()) {
                         resourceId = R.drawable.flight_upsell_tick_icon
+                    } else {
+                        amenityValue = Phrase.from(context.resources.getQuantityString(R.plurals.checked_bags_template, dispVal.toInt()))
+                                .put("number", dispVal.toInt()).format().toString()
                     }
                 } else {
                     resourceId = R.drawable.flight_upsell_cross_icon
@@ -475,15 +480,16 @@ object FlightV2Utils {
                 break
             }
         }
-        return AmenityResourceType(resourceId, dispVal)
+        return AmenityResourceType(resourceId, dispVal, getAmenityContentDesc(context, amenityValue, amenityCategory))
     }
 
     @JvmStatic fun getCarryOnBagAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
         var resourceId = 0
         var dispVal = ""
         val amenities = FlightCarryOnBagAmenity.values()
+        var amenityCategory : FlightAmenityCategory? = null
         for (amenity in amenities) {
-            val amenityCategory = getAmenityCategory(context.resources.getString(amenity.key), fareFamilyComponents)
+            amenityCategory = getAmenityCategory(context.resources.getString(amenity.key), fareFamilyComponents)
             if (amenityCategory != null) {
                 val resourceType = getAmenityDrawable(context, amenityCategory)
                 resourceId = resourceType.resourceId
@@ -491,15 +497,16 @@ object FlightV2Utils {
                 break
             }
         }
-        return AmenityResourceType(resourceId, dispVal)
+        return AmenityResourceType(resourceId, dispVal, getAmenityContentDesc(context, context.resources.getString(R.string.amenity_carry_on_bag), amenityCategory))
     }
 
     @JvmStatic fun getSeatSelectionAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
         var resourceId = R.drawable.flight_upsell_cross_icon
         var dispVal = ""
         val seatSelectionAmenities = FlightSeatReservationAmenity.values()
+        var amenityCategory : FlightAmenityCategory? = null
         for (seatSelectionAmenity in seatSelectionAmenities) {
-            val amenityCategory = getAmenityCategory(context.resources.getString(seatSelectionAmenity.key), fareFamilyComponents)
+            amenityCategory = getAmenityCategory(context.resources.getString(seatSelectionAmenity.key), fareFamilyComponents)
             if (amenityCategory != null) {
                 val resourceType = getAmenityDrawable(context, amenityCategory)
                 resourceId = resourceType.resourceId
@@ -507,10 +514,10 @@ object FlightV2Utils {
                 break
             }
         }
-        return AmenityResourceType(resourceId, dispVal)
+        return AmenityResourceType(resourceId, dispVal, getAmenityContentDesc(context, context.resources.getString(R.string.amenity_seat_choice), amenityCategory))
     }
 
-    @JvmStatic fun getAmenityDrawable(context: Context, amenityKey: String, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
+    @JvmStatic fun getAmenityResourceType(context: Context, amenityKey: String, amenityValue: String, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
         var resourceId = R.drawable.flight_upsell_cross_icon
         var dispVal = ""
         val amenityCategory = getAmenityCategory(amenityKey, fareFamilyComponents)
@@ -519,7 +526,20 @@ object FlightV2Utils {
             resourceId = resourceType.resourceId
             dispVal = resourceType.dispVal
         }
-        return AmenityResourceType(resourceId, dispVal)
+        return AmenityResourceType(resourceId, dispVal, getAmenityContentDesc(context, amenityValue, amenityCategory))
+    }
+
+    private fun getAmenityContentDesc(context: Context, amenityValue: String, amenityCategory: FlightAmenityCategory?): String{
+        val stringResId: Int
+        when (amenityCategory) {
+            FlightAmenityCategory.CHARGEABLE ->
+                stringResId = R.string.amenity_chargeable_cont_desc_TEMPLATE
+            FlightAmenityCategory.INCLUDED ->
+                stringResId = R.string.amenity_included_cont_desc_TEMPLATE
+            else ->
+                stringResId = R.string.amenity_not_available_cont_desc_TEMPLATE
+        }
+        return Phrase.from(context.getString(stringResId)).put("amenity_name", amenityValue).format().toString()
     }
 
     private fun getBagsAmenityCount(context: Context, bagAmenity: FlightBagAmenity): String {
@@ -543,7 +563,7 @@ object FlightV2Utils {
                 else -> R.drawable.flight_upsell_cross_icon
             }
         }
-        return AmenityResourceType(resourceId, strVal)
+        return AmenityResourceType(resourceId, strVal, "")
     }
 
     private fun getAmenityCategory(amenityKey: String, fareFamilyComponents: HashMap<String, HashMap<String, String>>): FlightAmenityCategory? {

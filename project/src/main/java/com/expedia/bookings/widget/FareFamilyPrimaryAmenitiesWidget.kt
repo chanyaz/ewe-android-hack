@@ -26,8 +26,7 @@ class FareFamilyPrimaryAmenitiesWidget(context: Context, attrs: AttributeSet): L
     }
 
     fun displayPrimaryAmenities() {
-        addPrimaryAmenityView(FareFamilyAmenityItemViewModel(
-                FlightV2Utils.getBagsAmenityResource(context, viewModel.fareFamilyComponents),
+        addPrimaryAmenityView(FareFamilyAmenityItemViewModel(FlightV2Utils.getBagsAmenityResource(context, viewModel.fareFamilyComponents),
                 context.resources.getString(R.string.amenity_checked_bags)))
 
         val amenityResourceType = FlightV2Utils.getCarryOnBagAmenityResource(context, viewModel.fareFamilyComponents)
@@ -37,8 +36,7 @@ class FareFamilyPrimaryAmenitiesWidget(context: Context, attrs: AttributeSet): L
         }
 
         addPrimaryAmenityView(FareFamilyAmenityItemViewModel(
-                FlightV2Utils.getSeatSelectionAmenityResource(context, viewModel.fareFamilyComponents),
-                context.resources.getString(R.string.amenity_seat_choice)))
+                FlightV2Utils.getSeatSelectionAmenityResource(context, viewModel.fareFamilyComponents), context.resources.getString(R.string.amenity_seat_choice)))
     }
 
     fun addPrimaryAmenityView(viewModel: FareFamilyAmenityItemViewModel) {

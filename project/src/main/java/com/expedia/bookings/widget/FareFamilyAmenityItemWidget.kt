@@ -21,7 +21,7 @@ class FareFamilyAmenityItemWidget(context: Context, attrs: AttributeSet): Linear
     }
 
     var viewModel: FareFamilyAmenityItemViewModel by notNullAndObservable { vm ->
-        val(resourceId, displayVal) = vm.resourceType
+        val(resourceId, displayVal, contDesc) = vm.resourceType
         if(!displayVal.isNullOrBlank()) {
             amenityTextIcon.background = ContextCompat.getDrawable(context, R.drawable.flight_upsell_oval_icon)
             amenityTextIcon.text = displayVal
@@ -32,6 +32,7 @@ class FareFamilyAmenityItemWidget(context: Context, attrs: AttributeSet): Linear
             amenityIcon.visibility = View.VISIBLE
             amenityTextIcon.visibility = View.GONE
         }
+        this.contentDescription = contDesc
         amenityName.text = vm.amenityDispName
     }
 }

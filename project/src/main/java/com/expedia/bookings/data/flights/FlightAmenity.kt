@@ -25,4 +25,4 @@ enum class FlightAmenityCategory(val key: Int, val dispStr: Int) {
     UNKNOWN(R.string.amenity_key_family_unknown, R.string.fare_family_unknown)
 }
 
-data class AmenityResourceType(val resourceId: Int, val dispVal: String)
+data class AmenityResourceType(val resourceId: Int, val dispVal: String, val contentDescription: String)

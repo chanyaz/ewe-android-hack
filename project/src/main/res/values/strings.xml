@@ -4721,6 +4721,18 @@
     <string name="amenity_carry_on_bag">Carry on Bag</string>
     <string name="amenity_seat_choice">Seat Choice</string>
 
+    <!-- Amenities Content Description-->
+    <!-- Cont Desc for charged amenities Example: Seat Choice available for a fee-->
+    <string name="amenity_chargeable_cont_desc_TEMPLATE">{amenity_name} available for a fee</string>
+    <!-- Cont Desc for included amenities Example: Seat Choice available -->
+    <string name="amenity_included_cont_desc_TEMPLATE">{amenity_name} available</string>
+    <!-- Cont Desc for unavailable amenities Example: Seat Choice not available-->
+    <string name="amenity_not_available_cont_desc_TEMPLATE">{amenity_name} not available</string>
+    <plurals name="checked_bags_template">
+        <item quantity="one">{number} Checked Bag</item>
+        <item quantity="other">{number} Checked Bags</item>
+    </plurals>
+
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">show more</string>
 
