@@ -38,7 +38,6 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
     val numberOfTravelersSubject = PublishSubject.create<Int>()
     val formattedTravelersStringSubject = PublishSubject.create<String>()
     val showTripProtectionMessage = BehaviorSubject.create<Boolean>(false)
-    val krazyglueDestinationObservable = PublishSubject.create<String>()
     val krazyglueHotelsObservable = PublishSubject.create<List<KrazyglueResponse.KrazyglueHotel>>()
     val flightCheckoutResponseObservable = PublishSubject.create<FlightCheckoutResponse>()
     val itinDetailsResponseObservable = PublishSubject.create<FlightItinDetailsResponse>()
@@ -154,7 +153,6 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
         return object : Observer<KrazyglueResponse> {
             override fun onNext(response: KrazyglueResponse) {
                 if (response.success) {
-                    krazyglueDestinationObservable.onNext(response.destinationName)
                     krazyglueHotelsObservable.onNext(response.krazyglueHotels)
                 }
             }

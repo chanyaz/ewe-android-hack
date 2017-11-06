@@ -75,22 +75,13 @@ class KrazyglueWidgetTest {
     }
 
     @Test
-    fun testVisibilityGONEWhenFeatureToggleONAndBucketingONwithoutHotelResults() {
-        enableKrazyglueTest(activity)
-        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
-        assertEquals(View.GONE, krazyglueWidget.visibility)
-        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf())
-        assertEquals(View.GONE, krazyglueWidget.visibility)
-    }
-
-    @Test
     fun testVisibilityVISIBLEWhenFeatureToggleONAndBucketingON() {
         enableKrazyglueTest(activity)
         setDbFlightSearch()
 
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
-        assertEquals(View.GONE, krazyglueWidget.visibility)
+        assertEquals(View.VISIBLE, krazyglueWidget.visibility)
         krazyglueWidget.viewModel.hotelsObservable.onNext(getKrazyGlueHotels())
         assertEquals(View.VISIBLE, krazyglueWidget.visibility)
     }

@@ -64,7 +64,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
 
         if (isKrazyglueOnFlightsConfirmationEnabled(context)) {
             vm.krazyglueHotelsObservable.subscribe(krazyglueWidget.viewModel.hotelsObservable)
-            vm.krazyglueDestinationObservable.subscribe(krazyglueWidget.viewModel.cityObservable)
+            vm.destinationObservable.subscribe(krazyglueWidget.viewModel.cityObservable)
         }
     }
 
