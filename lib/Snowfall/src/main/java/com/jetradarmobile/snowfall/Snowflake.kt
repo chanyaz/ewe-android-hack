@@ -42,18 +42,22 @@ internal class Snowflake(val params: Params) {
   }
   private val randomizer by lazy { Randomizer() }
 
+  var shouldRecycleFalling = true
+  private var stopped = false;
+
   init {
     reset()
   }
 
   internal fun reset(positionY: Double? = null) {
+    shouldRecycleFalling = true
     size = randomizer.randomInt(params.sizeMinInPx, params.sizeMaxInPx, gaussian = true)
     if (params.image != null) {
       bitmap = Bitmap.createScaledBitmap(params.image, size, size, false)
     }
 
     val speed = ((size - params.sizeMinInPx).toFloat() / (params.sizeMaxInPx - params.sizeMinInPx) *
-            (params.speedMax - params.speedMin) + params.speedMin)
+        (params.speedMax - params.speedMin) + params.speedMin)
     val angle = toRadians(randomizer.randomDouble(params.angleMax) * randomizer.randomSignum())
     speedX = speed * sin(angle)
     speedY = speed * cos(angle)
@@ -72,11 +76,25 @@ internal class Snowflake(val params: Params) {
     }
   }
 
+  fun isStillFalling(): Boolean {
+    return (shouldRecycleFalling || (positionY > 0 && positionY < params.parentHeight))
+  }
+
   fun update() {
     positionX += speedX
     positionY += speedY
     if (positionY > params.parentHeight) {
-      reset(positionY = -size.toDouble())
+      if (shouldRecycleFalling) {
+        if (stopped) {
+          stopped = false
+          reset()
+        } else {
+          reset(positionY = -size.toDouble())
+        }
+      } else {
+        positionY = params.parentHeight + size.toDouble()
+        stopped = true;
+      }
     }
     if (params.fadingEnabled) {
       paint.alpha = (alpha * ((params.parentHeight - positionY).toFloat() / params.parentHeight)).toInt()
@@ -92,16 +110,16 @@ internal class Snowflake(val params: Params) {
   }
 
   data class Params(
-          val parentWidth: Int,
-          val parentHeight: Int,
-          val image: Bitmap?,
-          val alphaMin: Int,
-          val alphaMax: Int,
-          val angleMax: Int,
-          val sizeMinInPx: Int,
-          val sizeMaxInPx: Int,
-          val speedMin: Int,
-          val speedMax: Int,
-          val fadingEnabled: Boolean,
-          val alreadyFalling: Boolean)
+      val parentWidth: Int,
+      val parentHeight: Int,
+      val image: Bitmap?,
+      val alphaMin: Int,
+      val alphaMax: Int,
+      val angleMax: Int,
+      val sizeMinInPx: Int,
+      val sizeMaxInPx: Int,
+      val speedMin: Int,
+      val speedMax: Int,
+      val fadingEnabled: Boolean,
+      val alreadyFalling: Boolean)
 }
