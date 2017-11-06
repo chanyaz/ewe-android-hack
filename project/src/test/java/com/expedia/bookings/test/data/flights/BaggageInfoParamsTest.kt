@@ -20,7 +20,7 @@ class BaggageInfoParamsTest {
         expectedResult.add(getExpectedHashMap(("1")))
         val flightSegments = ArrayList<FlightLeg.FlightSegment>()
         flightSegments.add(getFlightSegment())
-        flightLeg.flightSegments = flightSegments
+        flightLeg.segments = flightSegments
         val receivedResult = baggageInfoParams.makeBaggageParams(flightLeg)
         assertEquals(expectedResult, receivedResult)
     }
@@ -35,7 +35,7 @@ class BaggageInfoParamsTest {
         val flightSegments = ArrayList<FlightLeg.FlightSegment>()
         flightSegments.add(getFlightSegment())
         flightSegments.add(getFlightSegment())
-        flightLeg.flightSegments = flightSegments
+        flightLeg.segments = flightSegments
         val receivedResult = baggageInfoParams.makeBaggageParams(flightLeg)
         assertEquals(expectedResult, receivedResult)
     }

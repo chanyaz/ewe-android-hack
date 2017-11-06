@@ -10,10 +10,13 @@ class BaggageInfoParams {
 
     fun makeBaggageParams(flightLeg: FlightLeg): ArrayList<HashMap<String, String>> {
         if (flightLeg.jsonBaggageFeesUrl != null) {
+            flightLeg.jsonBaggageFeesUrl.formData.forEachIndexed { index, hashMap ->
+                hashMap.put("traveldate", DateUtils.toMMddyyyy(flightLeg.segments[index].departureTime))
+            }
             return flightLeg.jsonBaggageFeesUrl.formData
         } else {
             baggageParams = ArrayList<HashMap<String, String>>()
-            val flightSegment = flightLeg.flightSegments
+            val flightSegment = flightLeg.segments
             for ((index, value) in flightSegment.withIndex()) {
                 val baggageParam = HashMap<String, String>()
                 baggageParam.put("originapt", value.arrivalAirportCode)
