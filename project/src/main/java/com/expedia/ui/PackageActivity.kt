@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
 import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.vm.packages.PackageSearchType
 
@@ -74,6 +75,16 @@ class PackageActivity : AbstractAppCompatActivity() {
 
                         val rate = Db.getPackageSelectedRoom().rateInfo.chargeableRateInfo
                         packagePresenter.bundlePresenter.totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
+
+                    } else if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT) && isBackFlowFromOverviewEnabled(this)) {
+                        Db.getPackageParams().currentFlights.set(1, Db.getPackageParams().defaultFlights.get(1))
+
+                        packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectInbound()
+                        packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+
+                        packagePresenter.bundlePresenter.totalPriceWidget.resetPriceWidget()
+                        val packagePrice = Db.getPackageSelectedOutboundFlight().packageOfferModel.price
+                        packagePresenter.bundlePresenter.totalPriceWidget.viewModel.setPriceValues(packagePrice.packageTotalPrice, packagePrice.tripSavings)
 
                     } else if (packagePresenter.backStack.size == 2) {
                         Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights

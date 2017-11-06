@@ -4028,6 +4028,8 @@
     <string name="package_change_hotel_room">Change hotel room</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">Change flights</string>
+    <!-- Package Start Over -->
+    <string name="package_start_over">Start Over</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">Paying with Expedia+ points</string>

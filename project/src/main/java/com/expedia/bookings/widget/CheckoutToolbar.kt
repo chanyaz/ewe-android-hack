@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v7.view.menu.ActionMenuItemView
+import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
@@ -19,7 +20,7 @@ import com.expedia.vm.CheckoutToolbarViewModel
 import rx.Observable
 import kotlin.properties.Delegates
 
-class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs), ToolbarListener {
+class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs), ToolbarListener, MenuBuilder.Callback {
     var menuItem: MenuItem by Delegates.notNull()
     var currentFocus: View? = null
     var toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
@@ -85,6 +86,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
 
     init {
         inflateMenu(R.menu.checkout_menu)
+        setMenuCallbacks(null, this)
         menuItem = menu.findItem(R.id.menu_done)
         menuItem.isVisible = false
         menuItem.setOnMenuItemClickListener { menuItem ->
@@ -145,6 +147,14 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
 
     override fun enableRightActionButton(enable: Boolean) {
         viewModel.enableMenuItem.onNext(enable)
+    }
+
+    override fun onMenuModeChange(menu: MenuBuilder?) {
+        viewModel.overflowClicked.onNext(Unit)
+    }
+
+    override fun onMenuItemSelected(menu: MenuBuilder?, item: MenuItem?): Boolean {
+        return false
     }
 
 }
