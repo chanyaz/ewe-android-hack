@@ -99,7 +99,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         viewModel.itinDetailsResponseObservable.onNext(response)
         hotelCrossSell.viewModel.itinDetailsResponseObservable.onNext(response)
         toolbar.viewModel.bindTripId(response.responseData.tripId ?: "")
-        val expediaRewards = response.getTotalPoints()
+        val expediaRewards = response.responseData.rewardList?.firstOrNull()?.totalPoints?.toString()
         viewModel.setRewardsPoints.onNext(Optional(expediaRewards))
     }
 
@@ -122,15 +122,15 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     private fun setCardViewModelsFromItinResponse(response: FlightItinDetailsResponse) {
-        val outbound = response.getFirstFlightOutboundLeg()
-        val inbound = response.getLastFlightInboundLeg()
+        val outbound = response.responseData.flights.firstOrNull()?.legs?.firstOrNull()
+        val inbound = response.responseData.flights.lastOrNull()?.legs?.getOrNull(1)
 
         var flightTitle = FlightV2Utils.getDepartureToArrivalTitleFromItinResponseLeg(context, outbound)
         var flightSubTitle = FlightV2Utils.getDepartureToArrivalSubtitleFromItinResponseLeg(context, outbound)
         var flightUrl = outbound?.airlineLogoURL ?: ""
         var flightDepartureDateTitle = FlightV2Utils.getDepartureOnDateStringFromItinResponseLeg(context, outbound)
         outboundFlightCard.viewModel = FlightConfirmationCardViewModel(flightTitle, flightSubTitle, flightUrl, flightDepartureDateTitle)
-        val isRoundTrip = response.isRoundTrip()
+        val isRoundTrip = response.responseData.flights.firstOrNull()?.legs?.size ?: 0 > 1
         viewModel.inboundCardVisibility.onNext(isRoundTrip)
         if (inbound != outbound && isRoundTrip) {
             flightTitle = FlightV2Utils.getDepartureToArrivalTitleFromItinResponseLeg(context, inbound)

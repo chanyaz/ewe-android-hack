@@ -121,11 +121,11 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
 
     private fun setupItinResponseSubscription() {
         itinDetailsResponseObservable.subscribe { response ->
-            var email = response.getMainTravelerEmail()
-            val itinNumber = response.getItinNumber()
-            val isQualified = response.getIsAirAttachQualified()
-            val destinationCity = response.getOutboundDestinationCity() ?: ""
-            val numberOfGuests = response.getNumberOfPassengers()
+            var email = response.responseData.flights.firstOrNull()?.passengers?.firstOrNull()?.emailAddress ?: ""
+            val itinNumber = response.responseData.tripNumber?.toString()
+            val isQualified = response.responseData.airAttachQualificationInfo.airAttachQualified
+            val destinationCity = response.responseData.flights.firstOrNull()?.legs?.firstOrNull()?.segments?.last()?.arrivalLocation?.city ?: ""
+            val numberOfGuests = response.responseData.flights[0].passengers.size
             val itinNumberMessage = Phrase.from(context, R.string.itinerary_sent_to_confirmation_TEMPLATE)
                     .put("itinerary", itinNumber)
                     .put("email", if (email.isEmpty()) context.getString(R.string.itinerary_default_email_message) else email)
@@ -138,7 +138,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
             if (!userStateManager.isUserAuthenticated() && !ExpediaBookingApp.isRobolectric()) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
-            tripTotalPriceSubject.onNext(response.getTripTotalPrice())
+            tripTotalPriceSubject.onNext(response.responseData.totalTripPrice?.totalFormatted)
 
             val hasInsurance = response.responseData.insurance != null
             showTripProtectionMessage.onNext(hasInsurance)

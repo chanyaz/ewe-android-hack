@@ -28,7 +28,7 @@ class HotelCrossSellViewModel(context: Context) {
         }
 
         itinDetailsResponseObservable.subscribe { response ->
-            val isQualifed = response.getIsAirAttachQualified()
+            val isQualifed = response.responseData.airAttachQualificationInfo.airAttachQualified
             if (isQualifed) {
                 val expirationDate = response.responseData.airAttachQualificationInfo.offerExpiresTime.airAttachExpirationTime()
                 setDaysRemainingText(context, expirationDate)
