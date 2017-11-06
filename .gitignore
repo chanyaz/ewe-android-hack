@@ -50,3 +50,6 @@ project/okhttp
 # Fastlane generated files
 fastlane/metadata
 fastlane/report.xml
+
+#Android Studio Layout Inspector files
+/captures
