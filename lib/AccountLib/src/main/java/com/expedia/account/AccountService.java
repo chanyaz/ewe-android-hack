@@ -108,8 +108,8 @@ public class AccountService {
 		this.api = adapter.create(ExpediaAccountApi.class);
 	}
 
-	public Observable<AccountResponse> signIn(String email, String password) {
-		return api.signIn(email, password, true /*staySignedIn*/, getCommonParams());
+	public Observable<AccountResponse> signIn(String email, String password, String recaptchaResponseToken) {
+		return api.signIn(email, password, true /*staySignedIn*/, recaptchaResponseToken, getCommonParams());
 	}
 
 	public Observable<AccountResponse> signInProfileOnly() {
@@ -123,7 +123,7 @@ public class AccountService {
 	 */
 	public Observable<AccountResponse> createUser(PartialUser user) {
 		return api.createUser(user.email, user.password, user.firstName, user.lastName,
-				user.expediaEmailOptin, true /*staySignedIn*/, user.enrollInLoyalty, getCommonParams());
+			user.expediaEmailOptin, true /*staySignedIn*/, user.enrollInLoyalty, user.recaptchaResponseToken, getCommonParams());
 	}
 
 	private Map<String, String> getCommonParams() {

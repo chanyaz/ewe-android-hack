@@ -19,6 +19,7 @@ public interface ExpediaAccountApi {
 		@Field("email") String email,
 		@Field("password") String password,
 		@Field("staySignedIn") boolean staySignedIn,
+		@Field("recaptchaResponseToken") String recaptchaResponseToken,
 		@FieldMap Map<String, String> extraParams
 	);
 
@@ -39,6 +40,7 @@ public interface ExpediaAccountApi {
 		@Field("expediaEmailOptin") boolean expediaEmailOptin,
 		@Field("staySignedIn") boolean staySignedIn,
 		@Field("enrollInLoyalty") boolean enrollInLoyalty,
+		@Field("recaptchaResponseToken") String recaptchaResponseToken,
 		@FieldMap Map<String, String> extraParams
 	);
 

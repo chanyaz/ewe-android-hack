@@ -36,7 +36,8 @@ public class AccountResponse {
 
 	public enum SignInError {
 		INVALID_CREDENTIALS,
-		ACCOUNT_LOCKED
+		ACCOUNT_LOCKED,
+		GENERIC
 	}
 
 	public String tuid;
@@ -51,10 +52,15 @@ public class AccountResponse {
 	 * @return
 	 */
 	public SignInError SignInFailureError() {
-		if (detailedStatusMsg != null && detailedStatusMsg.equalsIgnoreCase("Login limit exceeded")) {
-			return SignInError.ACCOUNT_LOCKED;
+		if (detailedStatusMsg != null) {
+			if (detailedStatusMsg.equalsIgnoreCase("Login limit exceeded")) {
+				return SignInError.ACCOUNT_LOCKED;
+			}
+			else if (detailedStatusMsg.equalsIgnoreCase("EmailNotFound") || detailedStatusMsg.equalsIgnoreCase("WrongPassword")) {
+				return SignInError.INVALID_CREDENTIALS;
+			}
 		}
-		return SignInError.INVALID_CREDENTIALS;
+		return SignInError.GENERIC;
 	}
 
 	/**

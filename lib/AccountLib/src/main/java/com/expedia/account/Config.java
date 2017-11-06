@@ -50,6 +50,7 @@ public class Config {
 	boolean enableSinglePageSignUp = false;
 	boolean shouldAutoEnrollUserInRewards = false;
 	boolean hasUserRewardsEnrollmentCheck = false;
+	boolean enableRecaptcha = false;
 	CharSequence tosText;
 	CharSequence marketingText;
 	CharSequence signInMessagingText;
@@ -58,6 +59,7 @@ public class Config {
 	String signupString;
 
 	String facebookAppId;
+	String recaptchaAPIKey;
 
 	FragmentActivity parentActivity;
 
@@ -208,6 +210,16 @@ public class Config {
 
 	public Config setSignupString(String signupText) {
 		this.signupString = signupText;
+		return this;
+	}
+
+	public Config setEnableRecaptcha(boolean enableRecaptcha) {
+		this.enableRecaptcha = enableRecaptcha;
+		return this;
+	}
+
+	public Config setRecaptchaAPIKey(String recaptchaAPIKey) {
+		this.recaptchaAPIKey = recaptchaAPIKey;
 		return this;
 	}
 

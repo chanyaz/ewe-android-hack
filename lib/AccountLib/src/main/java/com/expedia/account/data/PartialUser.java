@@ -5,6 +5,7 @@ public class PartialUser {
 	public String firstName;
 	public String lastName;
 	public String password;
+	public String recaptchaResponseToken;
 
 	public boolean expediaEmailOptin = false;
 	public boolean enrollInLoyalty = false;

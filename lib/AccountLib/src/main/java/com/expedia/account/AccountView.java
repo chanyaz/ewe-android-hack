@@ -1,5 +1,6 @@
 package com.expedia.account;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,8 @@ import com.expedia.account.presenter.OffScreenBottomTransition;
 import com.expedia.account.presenter.RightToLeftTransition;
 import com.expedia.account.presenter.SlideInBottomTransition;
 import com.expedia.account.presenter.SlideUpTransition;
+import com.expedia.account.recaptcha.Recaptcha;
+import com.expedia.account.recaptcha.RecaptchaHandler;
 import com.expedia.account.singlepage.SinglePageSignUpLayout;
 import com.expedia.account.util.AccessibilityUtil;
 import com.expedia.account.util.Events;
@@ -1104,11 +1107,22 @@ public class AccountView extends BufferedPresenter {
 	}
 
 	private void showSignInErrorGeneric(AccountResponse.SignInError signInError) {
-		int errorMessage = (signInError == AccountResponse.SignInError.ACCOUNT_LOCKED) ? R.string.acct__Sign_in_locked
-			: R.string.acct__Sign_in_failed;
-		int errorTitle =
-			(signInError == AccountResponse.SignInError.ACCOUNT_LOCKED) ? R.string.acct__Sign_in_locked_TITLE
-				: R.string.acct__Sign_in_failed_TITLE;
+		int errorMessage;
+		int errorTitle;
+
+		if (signInError == AccountResponse.SignInError.ACCOUNT_LOCKED) {
+			errorMessage = R.string.acct__Sign_in_locked;
+			errorTitle = R.string.acct__Sign_in_locked_TITLE;
+		}
+		else if (signInError == AccountResponse.SignInError.INVALID_CREDENTIALS) {
+			errorMessage = R.string.acct__Sign_in_failed;
+			errorTitle = R.string.acct__Sign_in_failed_TITLE;
+		}
+		else {
+			errorMessage = R.string.acct__Sign_in_failed_generic;
+			errorTitle = R.string.acct__Sign_in_failed_TITLE;
+		}
+
 		new AlertDialog.Builder(getContext())
 			.setTitle(errorTitle)
 			.setMessage(
@@ -1223,9 +1237,9 @@ public class AccountView extends BufferedPresenter {
 				}
 			}
 		}
-		else {
-			showCreateAccountErrorGeneric();
-		}
+
+		// Catch all for anything else. (E.g. reCaptcha token error, which mAPI returns a response with a null errorCode)
+		showCreateAccountErrorGeneric();
 	}
 
 	private void showCreateAccountErrorGeneric() {
@@ -1414,9 +1428,9 @@ public class AccountView extends BufferedPresenter {
 	// Sign In
 	///////////////////////////////////////////////////////////////////////////
 
-	private void doSignIn(final String email, final String password) {
+	private void doSignIn(final String email, final String password, final String recaptchaResponseToken) {
 		show(STATE_LOADING_SIGN_IN);
-		mCurrentDownload = getService().signIn(email, password)
+		mCurrentDownload = getService().signIn(email, password, recaptchaResponseToken)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new Subscriber<AccountResponse>() {
@@ -1472,8 +1486,9 @@ public class AccountView extends BufferedPresenter {
 	// Create Account
 	///////////////////////////////////////////////////////////////////////////
 
-	private void doCreateAccount() {
+	private void doCreateAccount(String recaptchaResponseToken) {
 		final PartialUser user = Db.getNewUser();
+		user.recaptchaResponseToken = recaptchaResponseToken;
 		mCurrentDownload = getService().createUser(user)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
@@ -1529,6 +1544,38 @@ public class AccountView extends BufferedPresenter {
 		}
 	}
 
+	private class SigninHandler implements RecaptchaHandler {
+		private String email;
+		private String password;
+
+		private SigninHandler(String email, String password) {
+			this.email = email;
+			this.password = password;
+		}
+
+		@Override
+		public void onSuccess(String recaptchaResponseToken) {
+			doSignIn(email, password, recaptchaResponseToken);
+		}
+
+		@Override
+		public void onFailure() {
+			doSignIn(email, password, null);
+		}
+	}
+
+	private class CreateAccountHandler implements RecaptchaHandler {
+		@Override
+		public void onSuccess(String recaptchaResponseToken) {
+			doCreateAccount(recaptchaResponseToken);
+		}
+
+		@Override
+		public void onFailure() {
+			doCreateAccount(null);
+		}
+	}
+
 	///////////////////////////////////////////////////////////////////////////
 	// Otto
 	///////////////////////////////////////////////////////////////////////////
@@ -1536,7 +1583,13 @@ public class AccountView extends BufferedPresenter {
 	@Subscribe
 	public void otto(Events.SignInButtonClicked e) {
 		handleKeyBoardVisibilityChanges = false;
-		doSignIn(e.email, e.password);
+		if (mConfig.enableRecaptcha) {
+			SigninHandler handler = new SigninHandler(e.email, e.password);
+			Recaptcha.recaptchaCheck((Activity) getContext(), mConfig.recaptchaAPIKey, handler);
+		}
+		else {
+			doSignIn(e.email, e.password, null);
+		}
 		vHeaderLayout.showSpecialMessage(false);
 	}
 
@@ -1631,7 +1684,14 @@ public class AccountView extends BufferedPresenter {
 		} else {
 			show(STATE_LOADING_ACCOUNT);
 		}
-		doCreateAccount();
+
+		if (mConfig.enableRecaptcha) {
+			CreateAccountHandler handler = new CreateAccountHandler();
+			Recaptcha.recaptchaCheck((Activity) getContext(), mConfig.recaptchaAPIKey, handler);
+		}
+		else {
+			doCreateAccount(null);
+		}
 	}
 
 	@Subscribe

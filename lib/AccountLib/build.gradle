@@ -41,6 +41,7 @@ dependencies {
 
     compile 'com.jakewharton.timber:timber:3.1.0'
     compile "com.google.android.gms:play-services-auth:${rootProject.ext.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-safetynet:${rootProject.ext.googlePlayServicesVersion}"
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.1.1'

@@ -27,7 +27,7 @@ public class MockExpediaAccountApi implements ExpediaAccountApi {
 
 	@Override
 	public Observable<AccountResponse> createUser(String email, String password, String firstName, String lastName,
-		boolean expediaEmailOptin, boolean staySignedIn, boolean enrollInLoyalty, Map<String, String> extraParams) {
+		boolean expediaEmailOptin, boolean staySignedIn, boolean enrollInLoyalty, String recaptchaResponseToken, Map<String, String> extraParams) {
 
 		AccountResponse response = new AccountResponse();
 
@@ -69,7 +69,7 @@ public class MockExpediaAccountApi implements ExpediaAccountApi {
 
 	@Override
 	public Observable<AccountResponse> signIn(String email, String password, boolean staySignedIn,
-		Map<String, String> extraParams) {
+		String recaptchaResponseToken, Map<String, String> extraParams) {
 
 		AccountResponse response = new AccountResponse();
 
