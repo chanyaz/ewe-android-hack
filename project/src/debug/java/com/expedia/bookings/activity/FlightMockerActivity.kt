@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.Spinner
+import android.widget.SpinnerAdapter
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -15,6 +16,7 @@ import com.expedia.bookings.data.trips.TicketingStatus
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity
 import com.expedia.bookings.server.TripParser
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -25,24 +27,27 @@ import java.io.InputStreamReader
 
 class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var statusSpinner: Spinner
-    private lateinit var multiConfCB: CheckBox
-    private lateinit var redEyeCB: CheckBox
-    private lateinit var multiSegCB: CheckBox
-    private lateinit var layoverCB: CheckBox
-    private lateinit var seatingAvailableCB: CheckBox
-    private lateinit var seatingSelectedCB: CheckBox
-    private lateinit var multiSeatingCB: CheckBox
-    private lateinit var arrivalTerminalCB: CheckBox
-    private lateinit var departureTerminalCB: CheckBox
-    private lateinit var buildBtn: TextView
-    private lateinit var opperatedBy: CheckBox
+    private val statusSpinner: Spinner by bindView(R.id.confirmation_status_spinner)
+    private val multiConfCB: CheckBox by bindView(R.id.multi_confirmation_cb)
+    private val redEyeCB: CheckBox by bindView(R.id.red_eye_cb)
+    private val multiSegCB: CheckBox by bindView(R.id.multi_segment_cb)
+    private val layoverCB: CheckBox by bindView(R.id.layover_24_hours_cb)
+    private val seatingAvailableCB: CheckBox by bindView(R.id.seating_available_cb)
+    private val seatingSelectedCB: CheckBox by bindView(R.id.seats_selected_cb)
+    private val multiSeatingCB: CheckBox by bindView(R.id.multi_seats_cb)
+    private val arrivalTerminalCB: CheckBox by bindView(R.id.arrival_terminal_cb)
+    private val departureTerminalCB: CheckBox by bindView(R.id.depart_terminal_cb)
+    private val buildBtn: TextView by bindView(R.id.flight_mock_build_btn)
+    private val operatedBy: CheckBox by bindView(R.id.operated_by_cb)
+    private val flightStatusSpinner: Spinner by bindView(R.id.flight_status_spinner)
+
+    private lateinit var card: ItinCardDataFlight
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flight_mocker)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        getViews()
+        setupViews()
     }
 
     override fun onResume() {
@@ -59,24 +64,23 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun getViews() {
-        statusSpinner = findViewById<Spinner>(R.id.confirmation_status_spinner)
+    private fun setupViews() {
         statusSpinner.adapter = makeList()
-        multiConfCB = findViewById<CheckBox>(R.id.multi_confirmation_cb)
-        redEyeCB = findViewById<CheckBox>(R.id.red_eye_cb)
-        multiSegCB = findViewById<CheckBox>(R.id.multi_segment_cb)
         multiSegCB.setOnClickListener(this)
-        layoverCB = findViewById<CheckBox>(R.id.layover_24_hours_cb)
-        seatingAvailableCB = findViewById<CheckBox>(R.id.seating_available_cb)
         seatingAvailableCB.setOnClickListener(this)
-        seatingSelectedCB = findViewById<CheckBox>(R.id.seats_selected_cb)
         seatingSelectedCB.setOnClickListener(this)
-        multiSeatingCB = findViewById<CheckBox>(R.id.multi_seats_cb)
-        arrivalTerminalCB = findViewById<CheckBox>(R.id.arrival_terminal_cb)
-        departureTerminalCB = findViewById<CheckBox>(R.id.depart_terminal_cb)
-        buildBtn = findViewById<TextView>(R.id.flight_mock_build_btn)
         buildBtn.setOnClickListener(this)
-        opperatedBy = findViewById<CheckBox>(R.id.opperated_by_cb)
+        flightStatusSpinner.adapter = makeFlightStatusList()
+    }
+
+    private fun makeFlightStatusList(): SpinnerAdapter {
+        val list = ArrayList<String>()
+        list.add("Pre 24 hours")
+        list.add("On time")
+        list.add("Late")
+        list.add("Cancelled")
+        list.add("Early")
+        return ArrayAdapter(this, android.R.layout.simple_spinner_item, list)
     }
 
     private fun seatsSelected() = if (seatingSelectedCB.isChecked) {
@@ -87,7 +91,9 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun buildAndLaunch() {
-        val card = ItinCardDataFlight(fetchTripFlight(), 0)
+        card = ItinCardDataFlight(fetchTripFlight(), 0)
+        //flight stats stuff need to be done on Json instead later
+        flightStatsMagic()
         val manager = ItineraryManager.getInstance()
         card.id = "flightMock"
         manager.itinCardData.add(card)
@@ -95,6 +101,17 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
                 ActivityOptionsCompat
                         .makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left_complete)
                         .toBundle())
+    }
+
+    private fun flightStatsMagic() {
+        val flight = card.flightLeg.getSegment(0)
+        when (flightStatusSpinner.selectedItem.toString()) {
+            "Pre 24 hours" -> flight.mFlightHistoryId = -1
+            "Cancelled" -> flight.mFlightHistoryId = -91
+            "On time" -> flight.mFlightHistoryId = -92
+            "Late" -> flight.mFlightHistoryId = -93
+            "Early" -> flight.mFlightHistoryId = -94
+        }
     }
 
 
@@ -199,23 +216,19 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
                 val seatD2 = Seat(assigned = "23D")
                 seatList.add(seatD2)
                 val seatE2 = Seat(assigned = "23E")
-                seatList.add(seatC)
+                seatList.add(seatE2)
             }
             JSONUtils.putJSONableList(firstSeg, "seatList", seatList)
         }
 
         JSONUtils.putEnum(flight, "ticketingStatus", mTicketingStatus)
 
-        if (opperatedBy.isChecked) {
-            firstSeg.put("operatedByAirCarrierName","AirNeo" )
+        if (operatedBy.isChecked) {
+            firstSeg.put("operatedByAirCarrierName", "AirNeo Enterprise Express")
         }
 
         val tripObj = tripParser.parseTrip(obj)
         val tripComponent = tripObj.tripComponents[0]
-        return if (tripComponent is TripFlight) {
-            tripComponent
-        } else {
-            null
-        }
+        return tripComponent as? TripFlight
     }
 }

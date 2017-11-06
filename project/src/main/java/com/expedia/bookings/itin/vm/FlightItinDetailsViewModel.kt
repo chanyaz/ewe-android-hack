@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.trips.ItinCardDataFlight
@@ -108,28 +109,66 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                     redEyeDaysSB.append(segment.daySpan())
                     redEyeDays = redEyeDaysSB.toString()
                 }
-                createSegmentSummaryWidgetsSubject.onNext(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
-                        leg.airlineLogoURL,
-                        FormatUtils.formatFlightNumber(segment, context),
-                        operatedBy,
-                        getScheduledDepartureTime(segment),
-                        getScheduledArrivalTime(segment),
-                        segment.originWaypoint.airport.mAirportCode ?: "",
-                        segment.originWaypoint.airport.mCity ?: "",
-                        segment.destinationWaypoint.airport.mAirportCode ?: "",
-                        segment.destinationWaypoint.airport.mCity ?: "",
-                        departureTerminal,
-                        departureGate,
-                        arrivalTerminal,
-                        arrivalGate,
-                        seats,
-                        cabinCodeBuilder.toString(),
-                        confirmSeats,
-                        redEyeDays,
-                        segment.mStatusCode,
-                        getEstimatedGateDepartureTime(segment),
-                        getEstimatedGateArrivalTime(segment)
-                ))
+                if (BuildConfig.DEBUG) {
+                    var depart = segment.originWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED)
+                    var arrival =  segment.destinationWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED)
+                    when (segment.mFlightHistoryId) {
+                        -91 -> segment.mStatusCode = Flight.STATUS_CANCELLED
+                        -93 -> depart = depart.plusMinutes(20)
+                        -94 -> depart = depart.plusMinutes(-20)
+                        -1 -> {
+                            depart = null
+                            arrival = null
+                        }
+                    }
+
+                    createSegmentSummaryWidgetsSubject.onNext(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
+                            leg.airlineLogoURL,
+                            FormatUtils.formatFlightNumber(segment, context),
+                            operatedBy,
+                            segment.originWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED),
+                            segment.destinationWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED),
+                            segment.originWaypoint.airport.mAirportCode ?: "",
+                            segment.originWaypoint.airport.mCity ?: "",
+                            segment.destinationWaypoint.airport.mAirportCode ?: "",
+                            segment.destinationWaypoint.airport.mCity ?: "",
+                            departureTerminal,
+                            departureGate,
+                            arrivalTerminal,
+                            arrivalGate,
+                            seats,
+                            cabinCodeBuilder.toString(),
+                            confirmSeats,
+                            redEyeDays,
+                            segment.mStatusCode,
+                            depart,
+                            arrival
+                    ))
+                }
+                else {
+                    createSegmentSummaryWidgetsSubject.onNext(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
+                            leg.airlineLogoURL,
+                            FormatUtils.formatFlightNumber(segment, context),
+                            operatedBy,
+                            getScheduledDepartureTime(segment),
+                            getScheduledArrivalTime(segment),
+                            segment.originWaypoint.airport.mAirportCode ?: "",
+                            segment.originWaypoint.airport.mCity ?: "",
+                            segment.destinationWaypoint.airport.mAirportCode ?: "",
+                            segment.destinationWaypoint.airport.mCity ?: "",
+                            departureTerminal,
+                            departureGate,
+                            arrivalTerminal,
+                            arrivalGate,
+                            seats,
+                            cabinCodeBuilder.toString(),
+                            confirmSeats,
+                            redEyeDays,
+                            segment.mStatusCode,
+                            getEstimatedGateDepartureTime(segment),
+                            getEstimatedGateArrivalTime(segment)
+                    ))
+                }
 
                 val layoverDuration = segment.layoverDuration
                 if (!layoverDuration.isNullOrEmpty()) {

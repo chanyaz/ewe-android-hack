@@ -195,7 +195,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/opperated_by_cb"
+        android:id="@+id/operated_by_cb"
         android:layout_alignParentRight="true"
         android:layout_below="@id/depart_terminal_cb"/>
 
@@ -205,7 +205,23 @@
         android:layout_below="@id/depart_terminal_cb"
         android:text="Has Opperated by Carrier"
         style="@style/FlightItinMock"
-        android:layout_alignBottom="@id/opperated_by_cb"
+        android:layout_alignBottom="@id/operated_by_cb"
+        android:gravity="center"/>
+
+    <Spinner
+        android:id="@+id/flight_status_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/operated_by_cb" />
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/operated_by_cb"
+        android:text="Flight's Status"
+        style="@style/FlightItinMock"
+        android:layout_alignBottom="@id/flight_status_spinner"
         android:gravity="center"/>
 
     <com.expedia.bookings.widget.TextView
