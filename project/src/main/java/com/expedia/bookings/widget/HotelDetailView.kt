@@ -1,11 +1,13 @@
 package com.expedia.bookings.widget
 
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
+import android.support.design.widget.BottomSheetBehavior
+import android.support.design.widget.CoordinatorLayout
+import android.support.v4.widget.NestedScrollView
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionManager
@@ -13,19 +15,15 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.widget.ScrollView
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionListenerAdapter
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.widget.HotelDetailContentView
 import com.expedia.bookings.hotel.widget.HotelDetailGalleryView
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -33,6 +31,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
+import com.facebook.stetho.common.LogUtil
 import kotlin.properties.Delegates
 
 val DESCRIPTION_ANIMATION = 150L
@@ -52,13 +51,15 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private val contentView: HotelDetailContentView by bindView(R.id.hotel_detail_content_view)
 
+    private val nestedScrollView: NestedScrollView by bindView(R.id.nested_scrollview)
+
     val bottomButtonWidget: HotelBottomButtonWidget by bindView(R.id.bottom_button_widget)
     private val gradientHeight = context.resources.getDimension(R.dimen.hotel_detail_gradient_height)
 
     private val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
 
-    private val detailContainer: ScrollView by bindView(R.id.detail_container)
-    private val constraintView: ConstraintLayout by bindView(R.id.content_constraint_container)
+//    private val detailContainer: ScrollView by bindView(R.id.detail_container)
+    private val coordinatorLayout: CoordinatorLayout by bindView(R.id.content_constraint_container)
     private var galleryExpanded = false
 
     private var statusBarHeight = 0
@@ -67,9 +68,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private var resortOutAnimator: ObjectAnimator by Delegates.notNull()
     private var bottomButtonInAnimator: ObjectAnimator by Delegates.notNull()
     private var bottomButtonOutAnimator: ObjectAnimator by Delegates.notNull()
-
-    private var galleryCollapsedConstraintSet = ConstraintSet()
-    private var galleryFullScreenConstraintSet = ConstraintSet()
+    private var behavior: BottomSheetBehavior<NestedScrollView>
 
     private var alreadyTrackedGalleryClick = false
 
@@ -118,7 +117,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
-        setViewVisibilities()
+//        setViewVisibilities()
     }
 
     init {
@@ -127,10 +126,35 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         toolBarHeight = Ui.getToolbarSize(getContext())
         Ui.showTransparentStatusBar(getContext())
 
+        behavior = BottomSheetBehavior.from(nestedScrollView)
+
+        behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+                when(newState){
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        collapseGallery()
+                    }
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        collapseGallery()
+                    }
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        expandGallery()
+                    }
+                }
+
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                // React to dragging events
+            }
+        })
+
         toolbarHeightOffset = statusBarHeight.toFloat() + toolBarHeight
         hotelDetailsToolbar.toolbar.setNavigationOnClickListener { view ->
             if (hotelDetailsToolbar.navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
                 collapseGallery()
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
             } else
                 (getContext() as Activity).onBackPressed()
         }
@@ -169,12 +193,12 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        galleryCollapsedConstraintSet.clone(constraintView)
-        galleryFullScreenConstraintSet.clone(context, R.layout.hotel_detail_view_expanded_gallery)
+//        galleryCollapsedConstraintSet.clone(constraintWrapper)
+//        galleryFullScreenConstraintSet.clone(context, R.layout.hotel_detail_view_expanded_gallery)
     }
 
     fun resetViews() {
-        detailContainer.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+//        detailContainer.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
         hotelDetailsToolbar.toolBarBackground.alpha = 0f
         hotelDetailsToolbar.toolBarGradient.translationY = 0f
         resortFeeWidget.visibility = View.GONE
@@ -186,15 +210,16 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     fun refresh() {
-        detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+//        detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         bottomButtonWidget.translationY = 0f
-        detailContainer.post {
-            detailContainer.scrollTo(0, 0)
-        }
+//        detailContainer.post {
+//            detailContainer.scrollTo(0, 0)
+//        }
     }
 
     fun collapseGallery() {
         galleryView.collapse()
+//        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         if (!bottomButtonInAnimator.isRunning && bottomButtonWidget.translationY != 0f) {
             bottomButtonInAnimator.startDelay = 100
             bottomButtonInAnimator.start()
@@ -206,11 +231,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     galleryExpanded = false
                 }
             })
-            TransitionManager.beginDelayedTransition(constraintView, collapseTransition)
+            TransitionManager.beginDelayedTransition(coordinatorLayout, collapseTransition)
         } else {
             galleryExpanded = false
         }
-        galleryCollapsedConstraintSet.applyTo(constraintView)
+//        galleryCollapsedConstraintSet.applyTo(coordinatorLayout)
 
         hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
         hotelDetailsToolbar.navIcon.parameter = 0f
@@ -218,6 +243,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun expandGallery() {
         galleryView.expand()
+        behavior.state = BottomSheetBehavior.STATE_HIDDEN
         if (!bottomButtonOutAnimator.isRunning && bottomButtonWidget.translationY != bottomButtonContainerHeight.toFloat()) {
             bottomButtonOutAnimator.start()
         }
@@ -228,11 +254,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     galleryExpanded = true
                 }
             })
-            TransitionManager.beginDelayedTransition(constraintView, expandTransition)
+            TransitionManager.beginDelayedTransition(coordinatorLayout, expandTransition)
         } else {
             galleryExpanded = true
         }
-        galleryFullScreenConstraintSet.applyTo(constraintView)
+//        galleryFullScreenConstraintSet.applyTo(constraintWrapper)
 
         hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_gallery_cont_desc)
         hotelDetailsToolbar.navIcon.parameter = 1f
@@ -262,45 +288,45 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun scrollToRoom(animate: Boolean) {
-        val scrollToAmount = contentView.getRoomContainerScrollPosition() - toolbarHeightOffset + detailContainer.scrollY
-        val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.scrollY, scrollToAmount.toInt())
-
-        smoothScrollAnimation.duration = if (animate) SELECT_ROOM_ANIMATION else 0
-        smoothScrollAnimation.interpolator = (AccelerateDecelerateInterpolator())
-        smoothScrollAnimation.addUpdateListener({ animation ->
-            val scrollTo = animation.animatedValue as Int
-            detailContainer.scrollTo(0, scrollTo)
-        })
-
-        smoothScrollAnimation.start()
-
-        contentView.focusRoomsForAlly()
+//        val scrollToAmount = contentView.getRoomContainerScrollPosition() - toolbarHeightOffset + detailContainer.scrollY
+//        val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.scrollY, scrollToAmount.toInt())
+//
+//        smoothScrollAnimation.duration = if (animate) SELECT_ROOM_ANIMATION else 0
+//        smoothScrollAnimation.interpolator = (AccelerateDecelerateInterpolator())
+//        smoothScrollAnimation.addUpdateListener({ animation ->
+//            val scrollTo = animation.animatedValue as Int
+//            detailContainer.scrollTo(0, scrollTo)
+//        })
+//
+//        smoothScrollAnimation.start()
+//
+//        contentView.focusRoomsForAlly()
     }
 
-    private fun setViewVisibilities() {
-        val yoffset = detailContainer.scrollY
-
-        hotelDetailsToolbar.toolBarBackground.alpha = AlphaCalculator.fadeInAlpha(startPoint = toolbarHeightOffset,
-                endPoint = toolbarHeightOffset / 2, currentPoint = contentView.getPriceContainerYScreenLocation().toFloat())
-        contentView.handleScrollWithOffset(yoffset, toolbarHeightOffset)
-
-        showToolbarGradient()
-        val shouldShowResortFee = shouldShowResortView()
-        if (shouldShowResortFee && !resortInAnimator.isRunning && resortFeeWidget.translationY != 0f) {
-            resortFeeWidget.visibility = View.VISIBLE
-            resortInAnimator.start()
-        } else if (!shouldShowResortFee && !resortOutAnimator.isRunning && resortFeeWidget.translationY != resortViewHeight.toFloat()) {
-            resortOutAnimator.start()
-        }
-
-        if (!bottomButtonInAnimator.isRunning && bottomButtonWidget.translationY != 0f && !areRoomsVisible()
-                && !viewmodel.hotelSoldOut.value && !galleryExpanded) {
-            bottomButtonInAnimator.start()
-        } else if (!bottomButtonOutAnimator.isRunning && bottomButtonWidget.translationY != bottomButtonContainerHeight.toFloat()
-                && (areRoomsVisible() && !viewmodel.hotelSoldOut.value || galleryExpanded)) {
-            bottomButtonOutAnimator.start()
-        }
-    }
+//    private fun setViewVisibilities() {
+//        val yoffset = detailContainer.scrollY
+//
+//        hotelDetailsToolbar.toolBarBackground.alpha = AlphaCalculator.fadeInAlpha(startPoint = toolbarHeightOffset,
+//                endPoint = toolbarHeightOffset / 2, currentPoint = contentView.getPriceContainerYScreenLocation().toFloat())
+//        contentView.handleScrollWithOffset(yoffset, toolbarHeightOffset)
+//
+//        showToolbarGradient()
+//        val shouldShowResortFee = shouldShowResortView()
+//        if (shouldShowResortFee && !resortInAnimator.isRunning && resortFeeWidget.translationY != 0f) {
+//            resortFeeWidget.visibility = View.VISIBLE
+//            resortInAnimator.start()
+//        } else if (!shouldShowResortFee && !resortOutAnimator.isRunning && resortFeeWidget.translationY != resortViewHeight.toFloat()) {
+//            resortOutAnimator.start()
+//        }
+//
+//        if (!bottomButtonInAnimator.isRunning && bottomButtonWidget.translationY != 0f && !areRoomsVisible()
+//                && !viewmodel.hotelSoldOut.value && !galleryExpanded) {
+//            bottomButtonInAnimator.start()
+//        } else if (!bottomButtonOutAnimator.isRunning && bottomButtonWidget.translationY != bottomButtonContainerHeight.toFloat()
+//                && (areRoomsVisible() && !viewmodel.hotelSoldOut.value || galleryExpanded)) {
+//            bottomButtonOutAnimator.start()
+//        }
+//    }
 
     private fun areRoomsVisible(): Boolean {
         return contentView.isRoomContainerInBounds((screenSize.y / 2).toFloat(), toolbarHeightOffset)

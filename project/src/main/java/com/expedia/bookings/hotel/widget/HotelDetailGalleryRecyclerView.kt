@@ -15,12 +15,12 @@ import rx.subjects.PublishSubject
 class HotelDetailGalleryRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
     val galleryScrolledSubject = PublishSubject.create<Int>()
 
-    private val layoutManager = object: LinearLayoutManager(context, HORIZONTAL, false) {
+    private val layoutManager = object: LinearLayoutManager(context, VERTICAL, false) {
         var canA11yScroll = false
 
         override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
             if (state.hasTargetScrollPosition()) {
-                return AndroidUtils.getScreenSize(getContext()).x
+                return 0
             } else {
                 return 0
             }

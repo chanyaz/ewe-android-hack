@@ -3,40 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:layout="http://schemas.android.com/tools">
 
-    <ScrollView
-        android:id="@+id/detail_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none">
+    <!--<ScrollView-->
+        <!--android:id="@+id/detail_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:fillViewport="true"-->
+        <!--android:scrollbars="none">-->
 
-        <android.support.constraint.ConstraintLayout
+        <android.support.design.widget.CoordinatorLayout
             android:id="@+id/content_constraint_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.expedia.bookings.hotel.widget.HotelDetailGalleryView
-                android:id="@+id/detail_hotel_gallery"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/gallery_height"
-                android:background="@color/gray900"
-                android:orientation="vertical"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                <com.expedia.bookings.hotel.widget.HotelDetailGalleryView
+                    android:id="@+id/detail_hotel_gallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray900"
+                    android:orientation="vertical" />
 
-
-            <com.expedia.bookings.hotel.widget.HotelDetailContentView
-                android:id="@+id/hotel_detail_content_view"
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/nested_scrollview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/detail_hotel_gallery"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                android:layout_height="match_parent"
+                app:behavior_hideable="true"
+                app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+                android:background="@color/white">
 
-        </android.support.constraint.ConstraintLayout>
+                <com.expedia.bookings.hotel.widget.HotelDetailContentView
+                    android:id="@+id/hotel_detail_content_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-    </ScrollView>
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.design.widget.CoordinatorLayout>
+
+    <!--</ScrollView>-->
 
     <com.expedia.bookings.widget.ResortFeeWidget
         android:id="@+id/resort_fee_widget"
