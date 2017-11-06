@@ -229,10 +229,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
-	public void launchAppIntroScreen(Context context) {
-		throw new UnsupportedOperationException("App intro not supported.");
-	}
-
 	@Override
 	public boolean isFacebookTrackingEnabled() {
 		return true;

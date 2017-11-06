@@ -83,8 +83,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isAppIntroEnabled();
 
-	void launchAppIntroScreen(Context context);
-
 	boolean isLOBIconCenterAligned();
 
 	//return 0 if logo is not required on launch screen

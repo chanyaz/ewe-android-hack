@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +20,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
@@ -205,7 +207,8 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			@Override
 			public void run() {
 				if (showNewUserOnboarding()) {
-					ProductFlavorFeatureConfiguration.getInstance().launchAppIntroScreen(RouterActivity.this);
+					Intent intent = new Intent(RouterActivity.this, OnboardingActivity.class);
+					startActivity(intent);
 				}
 				else {
 					if (destination == LaunchDestination.LAUNCH_SCREEN) {
