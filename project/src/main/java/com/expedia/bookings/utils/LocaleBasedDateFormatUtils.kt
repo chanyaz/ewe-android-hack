@@ -84,6 +84,14 @@ object LocaleBasedDateFormatUtils {
         }
     }
 
+    @JvmStatic fun dateTimeToyyyyMMMd(date: DateTime): String {
+        if (isUserBucketed) {
+            return formatDateTimeBasedOnLocale(date, "yyyy-MM-d")
+        } else {
+            return date.toString("yyyy-MM-d")
+        }
+    }
+
     private fun formatLocalDateBasedOnLocale(date: LocalDate, pattern: String): String {
         var formattedDate: String
         try {

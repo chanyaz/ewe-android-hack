@@ -38,8 +38,28 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 		setId(parent.getUniqueId() + ":" + mLegNumber);
 	}
 
+
+	public DateTime getTripStartDate() {
+		return (getTripComponent()).getParentTrip().getStartDate();
+	}
+
+	public DateTime getTripEndDate() {
+		return (getTripComponent()).getParentTrip().getEndDate();
+	}
+
 	public String getBaggageInfoUrl() {
 		return ((TripFlight) getTripComponent()).getAdditionalAirlineFees();
+	}
+	public int getLegCount() {
+		return ((TripFlight) getTripComponent()) .getFlightTrip().getLegCount();
+	}
+
+	public boolean isSplitTicket() {
+		return ((TripFlight) getTripComponent()) .getFlightTrip().isSplitTicket();
+	}
+
+	public String getOrderNumber() {
+		return ((TripFlight) getTripComponent()).getOrderNumber();
 	}
 
 	public int getLegNumber() {

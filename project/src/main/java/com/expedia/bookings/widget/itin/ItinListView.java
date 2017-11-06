@@ -771,7 +771,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			OmnitureTracking.trackItinCar(getContext());
 			break;
 		case FLIGHT:
-			OmnitureTracking.trackItinFlight(getContext());
+			OmnitureTracking.trackItinFlight(getContext(), null);
 			break;
 		case HOTEL:
 			OmnitureTracking.trackItinHotel(getContext());

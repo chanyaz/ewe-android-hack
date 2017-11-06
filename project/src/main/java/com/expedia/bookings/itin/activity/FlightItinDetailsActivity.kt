@@ -98,6 +98,8 @@ class FlightItinDetailsActivity : AppCompatActivity() {
 
     private var confirmationViewModel: FlightItinConfirmationViewModel by Delegates.notNull()
 
+    private var trackingFired = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultTripComponents()
@@ -109,12 +111,15 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         itinToolbar.viewModel = toolbarViewModel
         confirmationViewModel = FlightItinConfirmationViewModel(this)
         itinConfirmationWidget.viewModel = confirmationViewModel
-        OmnitureTracking.trackItinFlight(this)
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.onResume()
+        if(!trackingFired) {
+            OmnitureTracking.trackItinFlight(this, viewModel.createOmnitureTrackingValues())
+            trackingFired = true
+        }
     }
 
     override fun onBackPressed() {

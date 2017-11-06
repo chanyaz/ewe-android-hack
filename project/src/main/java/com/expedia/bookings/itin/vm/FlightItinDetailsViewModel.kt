@@ -12,6 +12,7 @@ import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.utils.FormatUtils
 import org.joda.time.DateTime
+import org.joda.time.Days
 import rx.subjects.PublishSubject
 
 class FlightItinDetailsViewModel(private val context: Context, private val itinId: String) {
@@ -63,6 +64,24 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     fun updateBaggageInfoUrl() {
         val url = itinCardDataFlight.baggageInfoUrl
         createBaggageInfoWebviewWidgetSubject.onNext(url);
+    }
+
+    fun createOmnitureTrackingValues(): HashMap<String, String?> {
+        val duration = calculateTripDuration(itinCardDataFlight)
+        val daysUntilTrip = calculateDaysUntilTripStart(itinCardDataFlight)
+        val orderAndTripNumbers = buildOrderNumberAndItinNumberString(itinCardDataFlight)
+        val tripStartDate = LocaleBasedDateFormatUtils.dateTimeToyyyyMMMd(itinCardDataFlight.tripStartDate)
+        val tripEndDate = LocaleBasedDateFormatUtils.dateTimeToyyyyMMMd(itinCardDataFlight.tripEndDate)
+        val productString = buildFlightProductString(itinCardDataFlight)
+        val valueMap = HashMap<String, String?>()
+        valueMap.put("duration", duration)
+        valueMap.put("daysUntilTrip", daysUntilTrip)
+        valueMap.put("orderAndTripNumbers", orderAndTripNumbers)
+        valueMap.put("tripStartDate", tripStartDate)
+        valueMap.put("tripEndDate", tripEndDate)
+        valueMap.put("productString", productString)
+
+        return valueMap
     }
 
     @VisibleForTesting
@@ -250,5 +269,75 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
             else -> context.getString(R.string.seat_selection_not_available)
         }
     }
+
+    //Helper methods below for calculating Omniture tracking values
+
+    fun calculateTripDuration(trip: ItinCardDataFlight): String? {
+        if (trip.tripStartDate != null && trip.tripEndDate != null) {
+            val tripStartDate = trip.tripStartDate.withTimeAtStartOfDay()
+            val tripEndDate = trip.tripEndDate.withTimeAtStartOfDay()
+            if (tripStartDate == tripEndDate) {
+                return "0.0"
+            } else {
+                return (Days.daysBetween(tripStartDate, tripEndDate).days + 1).toString()
+            }
+        } else {
+            return null
+        }
+    }
+
+    fun calculateDaysUntilTripStart(trip: ItinCardDataFlight): String? {
+        val now = DateTime.now()
+        if (trip.tripStartDate != null) {
+            val tripStartDate = trip.tripStartDate.withTimeAtStartOfDay()
+            var daysUntil = Days.daysBetween(now, tripStartDate).days
+            if (daysUntil >= 1) {
+                daysUntil += 1 //this accounts for today
+                return daysUntil.toString()
+            } else {
+                return "0.0"
+            }
+        } else {
+            return null
+        }
+    }
+
+    fun buildOrderNumberAndItinNumberString(trip: ItinCardDataFlight): String {
+        val travelRecordLocator = trip.orderNumber ?: "NA"
+        val itinNumber = trip.tripNumber ?: "NA"
+        val orderItinstring = StringBuilder()
+            orderItinstring.append(travelRecordLocator)
+                    .append("|")
+                    .append(itinNumber)
+
+        return orderItinstring.toString()
+    }
+
+    fun buildFlightProductString(trip: ItinCardDataFlight): String {
+        val tripType = getTripType(trip)
+        val airlineCode = trip.flightLeg.firstAirlineCode ?: ""
+        val productString = StringBuilder()
+        productString.append(";Flight:")
+                .append(airlineCode)
+                .append(":")
+                .append(tripType)
+                .append(";;")
+        return productString.toString()
+    }
+
+    fun getTripType(trip: ItinCardDataFlight): String {
+        val numLegs = trip.legCount
+        if (!trip.isSplitTicket) {
+            when (numLegs) {
+                1 -> return "OW"
+                2 -> return "RT"
+                else -> return "MD"
+            }
+        }
+        else {
+            return "ST"
+        }
+    }
+
 
 }

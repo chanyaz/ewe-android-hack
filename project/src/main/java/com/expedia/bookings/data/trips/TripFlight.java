@@ -24,6 +24,7 @@ public class TripFlight extends TripComponent {
 	private TicketingStatus mTicketingStatus = TicketingStatus.NONE;
 	private String mCheckInLink;
 	private String mAdditionalAirlineFees;
+	private String mOrderNumber;
 
 	public TripFlight() {
 		super(Type.FLIGHT);
@@ -75,6 +76,14 @@ public class TripFlight extends TripComponent {
 
 	public void setDestinationRegionId(String destinationRegionId) {
 		mDestinationRegionId = destinationRegionId;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		mOrderNumber = orderNumber;
+	}
+
+	public String getOrderNumber() {
+		return mOrderNumber;
 	}
 
 	public String getCheckInLink() {

@@ -1,17 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -109,6 +97,18 @@ import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import kotlin.NotImplementedError;
 
 import static com.expedia.bookings.utils.FeatureUtilKt.isMaterialFormsEnabled;
@@ -2548,12 +2548,40 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackItinFlight(Context context) {
+	public static void trackItinFlight(Context context, Map trip) {
 		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_FLIGHT);
+		if (userStateManager.isUserAuthenticated()) {
+			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
+			if (!usersTripComponentTypeEventString.isEmpty()) {
+				s.setEvents("event63" + "," + usersTripComponentTypeEventString);
+				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
+			}
+			else {
+				s.setEvents("event63");
+			}
+		}
+		if (trip != null) {
+			s.setProducts(String.valueOf(trip.get("productString")));
+			s.setProp(8, String.valueOf(trip.get("orderAndTripNumbers")));
+
+			if (String.valueOf(trip.get("duration")) != null) {
+				s.setEvar(6, String.valueOf(trip.get("duration")));
+			}
+			if (String.valueOf(trip.get("tripStartDate")) != null) {
+				s.setProp(5, String.valueOf(trip.get("tripStartDate")));
+			}
+			if (String.valueOf(trip.get("tripEndDate")) != null) {
+				s.setProp(6, String.valueOf(trip.get("tripEndDate")));
+			}
+			if (String.valueOf(trip.get("daysUntilTrip")) != null) {
+				s.setEvar(5, String.valueOf(trip.get("daysUntilTrip")));
+			}
+		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
 		trackAbacusTest(s, AbacusUtils.TripsFlightsNewdesign);
-		s.setEvents("event63");
+		s.setProp(2, "itinerary");
+		s.setEvar(2, "D=c2");
 		s.track();
 	}
 

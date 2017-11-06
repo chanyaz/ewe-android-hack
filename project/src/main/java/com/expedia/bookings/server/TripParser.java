@@ -459,6 +459,9 @@ public class TripParser {
 			}
 		}
 
+		//Parse order number also called travelRecordLocator(TRL)
+		flight.setOrderNumber(obj.optString("orderNumber"));
+
 		// Parse destination regionId
 		flight.setDestinationRegionId(obj.optString("destinationRegionId"));
 
