@@ -75,7 +75,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 toDate = params.endDate.toString(),
                 adults = params.adults,
                 childAges = params.childAges,
-                infantsInSeats = params.infantsInSeats)
+                infantsInSeats = params.infantsInSeats,
+                flightPIID = if (params.isChangePackageSearch()) params.latestSelectedFlightPIID else null)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { it.setup() }
@@ -96,6 +97,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 childAges = params.childAges,
                 infantsInSeats = params.infantsInSeats,
                 hotelId = params.hotelId,
+                flightPIID = if (params.isChangePackageSearch()) params.latestSelectedFlightPIID else null,
                 anchorTotalPrice = params.latestSelectedProductOfferPrice?.packageTotalPrice?.amount,
                 currencyCode = params.latestSelectedProductOfferPrice?.packageTotalPrice?.currencyCode)
                 .observeOn(observeOn)

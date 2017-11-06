@@ -62,6 +62,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         } else {
             Db.setPackageFlightBundle(Db.getPackageSelectedOutboundFlight(), flight)
             params.currentFlights[1] = flight.legId
+            params.latestSelectedFlightPIID = Db.getPackageResponse().getSelectedFlightPIID(params.currentFlights[0], params.currentFlights[1])
         }
         params.selectedLegId = flight.departureLeg
         params.packagePIID = flight.packageOfferModel.piid

@@ -74,6 +74,7 @@ interface PackageApi {
             @Query("legIndex") legIndex: Int? = null,
             @Query("legId[0]") outboundLegId: String? = null,
             @Query("legId[1]") inboundLegId: String? = null,
+            @Query("flightPIID") flightPIID: String? = null,
             @Query("anchorTotalPrice") anchorTotalPrice: BigDecimal? = null,
             @Query("currencyCode") currencyCode: String? = null): Observable<MultiItemApiSearchResponse>
 }

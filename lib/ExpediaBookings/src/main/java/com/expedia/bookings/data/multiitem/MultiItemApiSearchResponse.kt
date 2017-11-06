@@ -178,4 +178,12 @@ data class MultiItemApiSearchResponse(
             }
         }
 
+    override fun getSelectedFlightPIID(outboundLegId: String?, inboundLegId: String?): String? {
+        if (outboundLegId == null || inboundLegId == null) {
+            return null
+        }
+        return flights.values.firstOrNull { flightOffer ->
+            flightOffer.legIds[0] == outboundLegId && flightOffer.legIds[1] == inboundLegId
+        }?.piid
+    }
 }

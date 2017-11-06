@@ -67,6 +67,12 @@ public class PackageSearchResponse extends PackageBaseApiResponse implements Bun
 		return packageResult.flightsPackage.flights;
 	}
 
+	@Nullable
+	@Override
+	public String getSelectedFlightPIID(String outboundLegId, String inboundLegId) {
+		return null;
+	}
+
 	public static class PackageInfo {
 		public HotelCheckinDate hotelCheckinDate;
 		public HotelCheckoutDate hotelCheckoutDate;
