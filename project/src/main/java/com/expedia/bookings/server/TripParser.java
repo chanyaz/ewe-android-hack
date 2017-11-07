@@ -24,7 +24,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.Gender;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.trips.BookingStatus;
@@ -46,7 +45,6 @@ import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.data.trips.TripHotelRoom;
 import com.expedia.bookings.data.trips.TripPackage;
 import com.expedia.bookings.data.trips.TripRails;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -663,20 +661,16 @@ public class TripParser {
 				}
 			}
 			activity.setGuestCount(guestCount);
-			if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidLXVoucherRedemption)) {
-				String voucherPrintURL = "";
-				String e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
-				if (obj.optInt("activityCategoryID") == 2) {
-					voucherPrintURL = e3EndpointUrl + "things-to-do/voucher/?tripid=" + tripJson.optString("tripId") + "&id=" + obj.optString("uniqueID");
-				}
-				else {
-					voucherPrintURL = e3EndpointUrl + "itinerary-print?tripid=" + tripJson.optString("tripId") + "&itineraryNumber=" + tripJson.optString("tripNumber") + "&id=" + obj.optString("uniqueID");
-				}
-				activity.setVoucherPrintUrl(voucherPrintURL);
+
+			String voucherPrintURL = "";
+			String e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
+			if (obj.optInt("activityCategoryID") == 2) {
+				voucherPrintURL = e3EndpointUrl + "things-to-do/voucher/?tripid=" + tripJson.optString("tripId") + "&id=" + obj.optString("uniqueID");
 			}
 			else {
-				activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
+				voucherPrintURL = e3EndpointUrl + "itinerary-print?tripid=" + tripJson.optString("tripId") + "&itineraryNumber=" + tripJson.optString("tripNumber") + "&id=" + obj.optString("uniqueID");
 			}
+			activity.setVoucherPrintUrl(voucherPrintURL);
 			activity.setImageUrl(imageUrl);
 
 			// Parse travelers
