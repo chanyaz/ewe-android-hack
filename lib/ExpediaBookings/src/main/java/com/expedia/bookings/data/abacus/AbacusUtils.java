@@ -20,6 +20,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppLXRTROnSearchAndDetails = new ABTest(10000);
 	public static final ABTest EBAndroidAppLXCrossSellOnHotelConfirmationTest = new ABTest(10556);
 	public static final ABTest EBAndroidAppSmartLockTest = new ABTest(11269);
+	public static final ABTest EBAndroidAppDisabledSTPStateHotels = new ABTest(15923);
 	public static final ABTest EBAndroidAppBringUniversalCheckoutToLX = new ABTest(12630);
 	public static final ABTest EBAndroidAppLXFilterSearch = new ABTest(12689);
 	public static final ABTest EBAndroidAppLXDisablePOISearch = new ABTest(13050);
@@ -152,6 +153,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLXFirstActivityListingExpanded.getKey());
 		testIDs.add(EBAndroidAppLXRTROnSearchAndDetails.getKey());
 		testIDs.add(EBAndroidAppLXCrossSellOnHotelConfirmationTest.getKey());
+		testIDs.add(EBAndroidAppDisabledSTPStateHotels.getKey());
 		testIDs.add(EBAndroidAppSmartLockTest.getKey());
 		testIDs.add(EBAndroidAppOfferInsuranceInFlightSummary.getKey());
 		testIDs.add(EBAndroidAppFareFamilyFlightSummary.getKey());
