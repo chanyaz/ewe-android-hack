@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.widget
 
 import android.content.Context
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
@@ -31,7 +32,7 @@ class ItinWebviewInfoWidget(context: Context, attrs: AttributeSet?) : LinearLayo
                 }
                 if (url != null) {
                     buttonText.setOnClickListener {
-                        context.startActivity(buildWebViewIntent(text, url).intent)
+                        context.startActivity(buildWebViewIntent(text, url).intent, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
                         OmnitureTracking.trackItinFlightBaggageInfoClicked()
                     }
                 }

@@ -43,6 +43,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.flight_itin_card_details,
 		R.anim.slide_out_left_complete,
 		R.anim.slide_in_left_complete,
+		R.anim.slide_up_partially,
 		R.layout.activity_hotel,
 		R.layout.hotel_detail_view_collapsed_gallery,
 		R.layout.hotel_detail_content_view,
