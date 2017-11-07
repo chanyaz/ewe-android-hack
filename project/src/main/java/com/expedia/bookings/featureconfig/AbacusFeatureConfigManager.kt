@@ -47,14 +47,14 @@ class AbacusFeatureConfigManager {
 
         private fun useOverride(context: Context, abacusTest: ABTest): Boolean {
             if (isForceBucketed(context, abacusTest)) {
-                return true;
+                return true
             }
 
             if (isDebugOverride(context, abacusTest)) {
                 return true
             }
 
-            return false;
+            return false
         }
 
         private fun isDebugOverride(context: Context, abacusTest: ABTest): Boolean {

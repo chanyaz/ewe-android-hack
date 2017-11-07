@@ -90,7 +90,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppHotelCheckinCheckoutDatesInline = new ABTest(15344);
 	public static final ABTest HotelShowSoldOutResults = new ABTest(15730);
 	public static final ABTest EBAndroidAppHotelPayLaterCreditCardMessaging = new ABTest(15925);
-	public static final ABTest HotelEnableInfositeChangeDate = new ABTest(15220);
+	public static final ABTest HotelEnableInfositeChangeDate = new ABTest(15220, true);
 
 	// Cars Web View Tests
 	public static final ABTest EBAndroidAppCarsFlexView = new ABTest(14632);

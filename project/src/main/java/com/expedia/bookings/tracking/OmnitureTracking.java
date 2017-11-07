@@ -792,9 +792,7 @@ public class OmnitureTracking {
 		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelGroupRoomRate);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_dateless_infosite)) {
-			trackAbacusTest(s, AbacusUtils.HotelEnableInfositeChangeDate);
-		}
+		trackAbacusTest(s, AbacusUtils.HotelEnableInfositeChangeDate);
 
 		// Send the tracking data
 		s.track();

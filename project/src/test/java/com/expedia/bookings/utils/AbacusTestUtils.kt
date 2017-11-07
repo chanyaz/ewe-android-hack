@@ -27,14 +27,17 @@ object AbacusTestUtils {
         Db.setAbacusResponse(abacusResponse)
     }
 
+    @JvmStatic fun bucketTestAndEnableRemoteFeature(context: Context,  test: ABTest) {
+        SettingUtils.save(context, test.key.toString(), AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+        val abacusResponse = AbacusResponse()
+        abacusResponse.updateABTestForDebug(test.key, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+        Db.setAbacusResponse(abacusResponse)
+    }
+
     @JvmStatic fun bucketTestAndEnableFeature(context: Context, abacusTest: ABTest, @StringRes featureKey: Int) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(abacusTest.key, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
         Db.setAbacusResponse(abacusResponse)
-        SettingUtils.save(context, featureKey, true)
-    }
-
-    @JvmStatic fun enableFeature(context: Context, @StringRes featureKey: Int) {
         SettingUtils.save(context, featureKey, true)
     }
 
