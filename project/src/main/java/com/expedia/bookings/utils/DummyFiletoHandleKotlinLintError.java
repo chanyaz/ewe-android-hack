@@ -1331,7 +1331,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.docked_outbound_flight_selection,
 		R.layout.docked_outbound_flight_selection_v2,
 		R.layout.widget_docked_outbound_flight_selection_v2,
-		R.string.itinerary_default_email_message,
+		R.string.itinerary_sent_to_your_email_confirmation_TEMPLATE,
 		R.layout.baggage_info_child,
 		R.layout.baggage_info_parent,
 		R.string.spinner_text_baggage_info_fetching,

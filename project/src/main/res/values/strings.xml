@@ -3972,7 +3972,8 @@
     <string name="flight_overview_header_TEMPLATE">{departureairportcode} to {arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} sent to {email}</string>
-    <string name="itinerary_default_email_message">your email.</string>
+    <!-- Itinerary summary text- Itinerary number sent to the your email, e.g. #12344 sent to your email.-->
+    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">#{itinerary} sent to your email.</string>
 
     <!--Rail search screen title-->
     <string name="trains">Trains</string>

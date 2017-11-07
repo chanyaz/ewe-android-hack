@@ -125,9 +125,11 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
             val isQualified = response.responseData.airAttachQualificationInfo.airAttachQualified
             val destinationCity = response.responseData.flights.firstOrNull()?.legs?.firstOrNull()?.segments?.last()?.arrivalLocation?.city ?: ""
             val numberOfGuests = response.responseData.flights[0].passengers.size
-            val itinNumberMessage = Phrase.from(context, R.string.itinerary_sent_to_confirmation_TEMPLATE)
+            val itinConfirmationTemplateWithEmail = if (email.isEmpty()) {
+                Phrase.from(context, R.string.itinerary_sent_to_your_email_confirmation_TEMPLATE)
+            } else Phrase.from(context, R.string.itinerary_sent_to_confirmation_TEMPLATE).put("email", email)
+            val itinNumberMessage = itinConfirmationTemplateWithEmail
                     .put("itinerary", itinNumber)
-                    .put("email", if (email.isEmpty()) context.getString(R.string.itinerary_default_email_message) else email)
                     .format().toString()
             itinNumberMessageObservable.onNext(itinNumberMessage)
             val itinContentDescription = Phrase.from(context, R.string.confirmation_number_TEMPLATE)
