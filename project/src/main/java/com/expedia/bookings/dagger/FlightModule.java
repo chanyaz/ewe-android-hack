@@ -84,8 +84,8 @@ public final class FlightModule {
 
 	@Provides
 	@FlightScope
-	KrazyglueServices provideKrazyglueServices(EndpointProvider endpointProvider, Interceptor interceptor, OkHttpClient client) {
+	KrazyglueServices provideKrazyglueServices(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getKrazyglueEndpointUrl();
-		return new KrazyglueServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new KrazyglueServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }

@@ -2,7 +2,6 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.google.gson.GsonBuilder
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import retrofit2.Retrofit
@@ -12,7 +11,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-class KrazyglueServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class KrazyglueServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val krazyglueApi: KrazyglueApi by lazy {
         val gson = GsonBuilder()
@@ -23,7 +22,7 @@ class KrazyglueServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .client(okHttpClient.newBuilder().build())
                 .build()
 
         adapter.create(KrazyglueApi::class.java)
