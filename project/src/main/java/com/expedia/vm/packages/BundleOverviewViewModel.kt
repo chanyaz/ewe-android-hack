@@ -13,10 +13,11 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
-import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.utils.PackageResponseUtils
+import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.google.gson.Gson
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
@@ -45,6 +46,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val stepOneTextObservable = BehaviorSubject.create<String>()
     val stepOneContentDescriptionObservable = BehaviorSubject.create<String>()
     val stepTwoTextObservable = BehaviorSubject.create<String>()
+    val stepThreeTextObservale = PublishSubject.create<String>()
     val cancelSearchSubject = BehaviorSubject.create<Unit>()
     val airlineFeePackagesWarningTextObservable = PublishSubject.create<String>()
 
@@ -78,8 +80,9 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         }
 
         searchParamsChangeObservable.subscribe {
-            stepOneTextObservable.onNext(context.getString(R.string.step_one))
-            stepTwoTextObservable.onNext(context.getString(R.string.step_two))
+            stepOneTextObservable.onNext(getStepText(1))
+            stepTwoTextObservable.onNext(getStepText(2))
+            stepThreeTextObservale.onNext(getStepText(3))
         }
 
         createTripObservable.subscribe { trip ->
@@ -102,6 +105,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("destination", Db.getPackageParams().destination?.hierarchyInfo?.airport?.airportCode)
                     .format().toString()
             stepTwoTextObservable.onNext(stepTwo)
+            stepThreeTextObservale.onNext("")
             setAirlineFeeTextOnBundleOverview()
         }
 
@@ -123,6 +127,13 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         } else {
             return ProductSearchType.OldPackageSearch
         }
+    }
+
+    private fun getStepText(stepNumber: Number) = when (stepNumber) {
+        1 -> context.getString(R.string.step_one)
+        2 -> if (isBreadcrumbsPackagesEnabled(context)) context.getString(R.string.step_two_variation) else context.getString(R.string.step_two)
+        3 -> if (isBreadcrumbsPackagesEnabled(context)) context.getString(R.string.step_three) else ""
+        else -> ""
     }
 
     fun makeResultsObserver(type: PackageSearchType): Observer<BundleSearchResponse> {
@@ -173,8 +184,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     val retryFun = fun() {
                         if (type.equals(PackageSearchType.HOTEL)) {
                             hotelParamsObservable.onNext(Db.getPackageParams())
-                        }
-                        else {
+                        } else {
                             flightParamsObservable.onNext(Db.getPackageParams())
                         }
                     }
@@ -187,7 +197,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         }
     }
 
-    fun setAirlineFeeTextOnBundleOverview(){
+    fun setAirlineFeeTextOnBundleOverview() {
         if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
             airlineFeePackagesWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
         } else {

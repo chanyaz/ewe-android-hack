@@ -69,3 +69,8 @@ fun isMIDCheckoutEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppMIDCheckout) &&
             FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_mid_checkout)
 }
+
+fun isBreadcrumbsPackagesEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav) &&
+            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_breadcrumbs)
+}

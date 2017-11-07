@@ -4443,8 +4443,13 @@ public class OmnitureTracking {
 		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO, null);
 	}
 
-	public static void trackPackagesViewBundleLoad() {
-		trackPackagePageLoadEventStandard(PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD, null);
+	public static void trackPackagesViewBundleLoad(boolean isFirstBundleLaunch) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD + "\" pageLoad");
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD, null);
+		if (isFirstBundleLaunch) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav);
+		}
+		s.track();
 	}
 
 	public static void trackPackagesBundlePageLoad(PackageCreateTripResponse.PackageDetails packageDetails, PageUsableData pageUsableData) {

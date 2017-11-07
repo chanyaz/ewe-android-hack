@@ -2,13 +2,17 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.SuggestionStrUtils
+import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observable
@@ -79,19 +83,48 @@ class FlightToolbarViewModel(private val context: Context) {
             stateOrCountry = getCountry(country)
         }
 
-        val resultsOutboundTitle: String = Phrase.from(context, R.string.package_flight_outbound_toolbar_title_TEMPLATE)
-                .put("cityname", cityName)
-                .put("stateorcountry", stateOrCountry)
-                .put("airportcode", airportCode)
-                .format()
-                .toString()
-        val resultsInboundTitle: String = Phrase.from(context, R.string.package_flight_inbound_toolbar_title_TEMPLATE)
-                .put("cityname", cityName)
-                .put("stateorcountry", stateOrCountry)
-                .put("airportcode", airportCode)
-                .format()
-                .toString()
+        val resultsOutboundTitle: String = getResultsTitle(cityName, stateOrCountry, airportCode, true)
+        val resultsInboundTitle: String = getResultsTitle(cityName, stateOrCountry, airportCode, false)
+
         return if (!isOutboundSearch) resultsInboundTitle else resultsOutboundTitle
+    }
+
+    private fun getResultsTitle(cityName: String, stateOrCountry: String, airportCode: String, isOutbound: Boolean): String {
+        if (shouldShowBreadcrumbsInToolbarTitle()) {
+            if (isOutbound) {
+                return Phrase.from(context, R.string.flight_to_outbound_breadcrumbs_TEMPLATE)
+                        .put("destination", cityName)
+                        .format()
+                        .toString()
+
+            } else {
+                return Phrase.from(context, R.string.flight_to_inbound_breadcrumbs_TEMPLATE)
+                        .put("origin", cityName)
+                        .format()
+                        .toString()
+            }
+
+        } else {
+            if (isOutbound) {
+                return Phrase.from(context, R.string.package_flight_outbound_toolbar_title_TEMPLATE)
+                        .put("cityname", cityName)
+                        .put("stateorcountry", stateOrCountry)
+                        .put("airportcode", airportCode)
+                        .format()
+                        .toString()
+            } else {
+                return Phrase.from(context, R.string.package_flight_inbound_toolbar_title_TEMPLATE)
+                        .put("cityname", cityName)
+                        .put("stateorcountry", stateOrCountry)
+                        .put("airportcode", airportCode)
+                        .format()
+                        .toString()
+            }
+        }
+    }
+
+    private fun shouldShowBreadcrumbsInToolbarTitle(): Boolean {
+        return (isBreadcrumbsPackagesEnabled(context) && !Db.getPackageParams().isChangePackageSearch())
     }
 
     private fun getSubtitle(date: LocalDate, numTravelers: Int): String {

@@ -1354,6 +1354,14 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.airline,
 		R.string.itin_flight_manage_booking_header,
 		R.layout.manage_booking_flight_itin,
+		R.string.package_flight_inbound_toolbar_title_TEMPLATE,
+		R.string.package_flight_outbound_toolbar_title_TEMPLATE,
+		R.string.package_hotel_results_header_TEMPLATE,
+		R.string.step_three,
+		R.string.step_two_variation,
+		R.string.flight_to_inbound_breadcrumbs_TEMPLATE,
+		R.string.flight_to_outbound_breadcrumbs_TEMPLATE,
+		R.string.package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt,
 		R.integer.suggest_min_query_length

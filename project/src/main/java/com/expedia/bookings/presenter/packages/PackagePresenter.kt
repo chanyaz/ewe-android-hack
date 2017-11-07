@@ -340,7 +340,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(searchPresenter.toolbar)
                 bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().reset()
             } else {
-                trackViewBundlePageLoad()
+                trackViewBundlePageLoad(true)
             }
 
             val params = bundlePresenter.bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
@@ -418,8 +418,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         PackagesTracking().trackDestinationSearchInit(PackagesPageUsableData.SEARCH.pageUsableData)
     }
 
-    fun trackViewBundlePageLoad() {
-        PackagesTracking().trackViewBundlePageLoad()
+    fun trackViewBundlePageLoad(isFirstBundleLaunch: Boolean = false){
+        PackagesTracking().trackViewBundlePageLoad(isFirstBundleLaunch)
     }
 
     fun showBundleOverView() {

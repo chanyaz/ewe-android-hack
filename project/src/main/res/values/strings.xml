@@ -3738,6 +3738,10 @@
     <string name="step_one">Step 1: Select hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Step 2: Select flights</string>
+    <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
+    <string name="step_two_variation">Step 2: Select outbound flight</string>
+    <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
+    <string name="step_three">Step 3: Select inbound flight</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">Unreal Deal</string>
     <!-- package hotel results unreal deal message for freeHotel -->
@@ -3875,12 +3879,18 @@
     <string name="select_return_flight">Select return flight</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Flight to %1$s</string>
+    <!-- Flight overview - Step 2: flight to template (breadcrumbs) E.g. Step 2: Flight to London -->
+    <string name="flight_to_outbound_breadcrumbs_TEMPLATE">Step 2: Flight to {destination}</string>
+    <!-- Flight overview - Step 3: flight to template (breadcrumbs) E.g. Step 3: Flight to London -->
+    <string name="flight_to_inbound_breadcrumbs_TEMPLATE">Step 3: Flight to {origin}</string>
     <!-- Inbound to template, E.g. Inbound to Kathmandu, Nepal (KTM) -->
     <string name="package_flight_inbound_toolbar_title_TEMPLATE">Inbound to {cityname}, {stateorcountry} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
     <string name="package_hotel_results_toolbar_title_TEMPLATE">Hotels in %s</string>
+    <!-- Toolbar text for hotel results with breadcrumbs, E.g. Step 1: Hotels in London -->
+    <string name="package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE">Step 1: Hotels in {destination}</string>
     <!-- Description for infant travelers sitting in lap -->
     <string name="in_lap">In Lap</string>
     <!-- Description for infant travelers sitting in seat -->

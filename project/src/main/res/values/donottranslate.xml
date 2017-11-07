@@ -130,6 +130,7 @@
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_enable_krazy_glue_on_flights_confirmation">preference_enable_krazy_glue_on_flights_confirmation</string>
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
+    <string name="preference_packages_breadcrumbs">preference_packages_breadcrumbs</string>
     <string name="preference_switch_to_from_flight_locations">preference_switch_to_from_flight_locations</string>
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
     <string name="preference_trips_new_flights_design">preference_trips_new_flights_design</string>

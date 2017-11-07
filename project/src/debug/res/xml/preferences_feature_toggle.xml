@@ -126,6 +126,11 @@
             android:summary="Packages MID API"
             android:title="Packages MID API" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_packages_breadcrumbs"
+            android:summary="Packages Breadcrumbs"
+            android:title="Packages Breadcrumbs" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

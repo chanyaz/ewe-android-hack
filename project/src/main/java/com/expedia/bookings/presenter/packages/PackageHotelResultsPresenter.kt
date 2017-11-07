@@ -10,6 +10,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.hotel.vm.PackageHotelResultsViewModel
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelClientFilterView
@@ -19,6 +20,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
 import com.expedia.vm.PackageFilterViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
+import com.squareup.phrase.Phrase
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
@@ -29,7 +31,14 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
 
         vm.titleSubject.subscribe {
-            toolbarTitle.text = context.getString(R.string.package_hotel_results_toolbar_title_TEMPLATE, it)
+            if (shouldShowBreadcrumbsInToolbarTitle()) {
+                toolbarTitle.text = Phrase.from(context, R.string.package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE)
+                        .put("destination", it)
+                        .format()
+                        .toString()
+            } else {
+                toolbarTitle.text = context.getString(R.string.package_hotel_results_toolbar_title_TEMPLATE, it)
+            }
         }
 
         vm.subtitleSubject.subscribe {
@@ -51,6 +60,10 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         mapViewModel.mapInitializedObservable.subscribe {
             setMapToInitialState(Db.getPackageParams()?.destination)
         }
+    }
+
+    private fun shouldShowBreadcrumbsInToolbarTitle(): Boolean {
+        return (isBreadcrumbsPackagesEnabled(context) && !Db.getPackageParams().isChangePackageSearch())
     }
 
     override fun inflate() {

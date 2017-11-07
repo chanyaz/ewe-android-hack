@@ -26,6 +26,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
 
     val stepOneText: TextView by bindView(R.id.step_one_text)
     val stepTwoText: TextView by bindView(R.id.step_two_text)
+    val stepThreeText: TextView by bindView(R.id.step_three_text)
     val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.package_bundle_hotel_widget)
     val outboundFlightWidget: OutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
     val inboundFlightWidget: InboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
@@ -91,6 +92,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         vm.stepOneTextObservable.subscribeText(stepOneText)
         vm.stepOneContentDescriptionObservable.subscribe { stepOneText.contentDescription = it }
         vm.stepTwoTextObservable.subscribeText(stepTwoText)
+        vm.stepThreeTextObservale.subscribeTextAndVisibility(stepThreeText)
         vm.airlineFeePackagesWarningTextObservable.subscribeTextAndVisibility(packageAirlineFeeWarningTextView)
 
         vm.cancelSearchSubject.subscribe {

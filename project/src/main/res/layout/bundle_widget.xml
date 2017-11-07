@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/card_view_container_margin"
+        android:layout_marginBottom="12dp"
         android:layout_marginRight="@dimen/card_view_container_margin"
         android:animateLayoutChanges="true"
         android:foreground="?android:attr/selectableItemBackground"
@@ -45,6 +46,15 @@
         android:animateLayoutChanges="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:minHeight="64dp" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/step_three_text"
+        style="@style/HeaderTextAboveCardviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:text="@string/step_three" />
 
     <com.expedia.bookings.widget.packages.InboundFlightWidget
         android:id="@+id/package_bundle_inbound_flight_widget"
