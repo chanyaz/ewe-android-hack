@@ -307,15 +307,6 @@
                 android:visibility="gone" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/best_price_guarantee"
-                style="@style/HotelDetailsInfoLeft"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/price_guarantee"
-                android:textColor="@color/light_text_color"
-                android:visibility="gone" />
-
-            <com.expedia.bookings.widget.TextView
                 android:id="@+id/etp_info_text"
                 style="@style/ETPInfoTextLeft"
                 android:layout_width="match_parent"

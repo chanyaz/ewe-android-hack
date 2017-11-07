@@ -111,9 +111,6 @@ public class PointOfSale {
 	// Whether or not to require a rules & restrictions checkbox for this POS
 	private boolean mRequiresRulesRestrictionsCheckbox;
 
-	// Whether or not we should show the best price guarantee
-	private boolean mDisplayBestPriceGuarantee;
-
 	//Whether we should show last name first
 	private boolean mShowLastNameFirst;
 
@@ -662,10 +659,6 @@ public class PointOfSale {
 		return mRequiresRulesRestrictionsCheckbox;
 	}
 
-	public boolean displayBestPriceGuarantee() {
-		return mDisplayBestPriceGuarantee;
-	}
-
 	public boolean showLastNameFirst() {
 		return mShowLastNameFirst;
 	}
@@ -774,10 +767,6 @@ public class PointOfSale {
 
 	public String getInsuranceUrl() {
 		return getPosLocale().getInsuranceUrl();
-	}
-
-	public String getBestPriceGuaranteeUrl() {
-		return getPosLocale().getBestPriceGuaranteePolicyUrl();
 	}
 
 	public String getTermsAndConditionsUrl() {
@@ -1364,7 +1353,6 @@ public class PointOfSale {
 		pos.mDistanceUnit = data.optString("distanceUnit", "").equals("miles") ? DistanceUnit.MILES
 			: DistanceUnit.KILOMETERS;
 		pos.mRequiresRulesRestrictionsCheckbox = data.optBoolean("explicitConsentRequired");
-		pos.mDisplayBestPriceGuarantee = data.optBoolean("shouldDisplayBestPriceGuarantee");
 		pos.mShowLastNameFirst = data.optBoolean("shouldShowLastNameFirst");
 		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");

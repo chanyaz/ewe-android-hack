@@ -31,15 +31,6 @@
             android:text="@string/privacy_policy" />
 
         <View
-            android:id="@+id/best_price_guarantee_divider"
-            style="@style/LegalInformationDivider.Grey" />
-
-        <TextView
-            android:id="@+id/best_price_guarantee"
-            style="@style/LegalInformationHeader"
-            android:text="?attr/skin_bestPriceGuaranteeString" />
-
-        <View
             android:id="@+id/atol_information_divider"
             style="@style/LegalInformationDivider.Grey" />
 

@@ -106,7 +106,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     @VisibleForTesting val singleMessageContainer: ViewGroup by bindView(R.id.single_message_container)
     private val freeCancellation: TextView by bindView(R.id.free_cancellation)
-    private val bestPriceGuarantee: TextView by bindView(R.id.best_price_guarantee)
     private val etpInfoText: TextView by bindView(R.id.etp_info_text)
     private val etpInfoTextSmall: TextView by bindView(R.id.etp_info_text_small)
 
@@ -290,13 +289,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             !(hasETP && hasFreeCancellation) && !hotelSoldOut
         }.subscribeVisibility(singleMessageContainer)
 
-        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hotelSoldOut ->
-            (hasETP || hasFreeCancellation || hasBestPriceGuarantee) && !hotelSoldOut
+        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut ->
+            (hasETP || hasFreeCancellation) && !hotelSoldOut
         }.subscribeVisibility(etpAndFreeCancellationMessagingContainer)
-
-        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.isUserRatingAvailableObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hasUserReviews, hotelSoldOut ->
-            !hasETP && !hasFreeCancellation && hasBestPriceGuarantee && !hasUserReviews && !hotelSoldOut
-        }.subscribeVisibility(bestPriceGuarantee)
 
 
         vm.ratingContainerBackground.subscribeBackground(ratingContainer)

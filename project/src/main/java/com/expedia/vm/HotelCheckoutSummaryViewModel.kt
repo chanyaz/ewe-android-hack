@@ -53,7 +53,6 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val propertyServiceSurcharge = BehaviorSubject.create<Optional<Money>>()
     val taxStatusType = BehaviorSubject.create<String>()
     val extraGuestFees = BehaviorSubject.create<Money>()
-    val isBestPriceGuarantee = BehaviorSubject.create<Boolean>(false)
     val priceChangeMessage = BehaviorSubject.create<String>()
     val isPriceChange = BehaviorSubject.create<Boolean>(false)
     val priceChangeIconResourceId = BehaviorSubject.create<Int>()
@@ -121,7 +120,6 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             extraGuestFees.onNext(rate.extraGuestFees)
 
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
-            isBestPriceGuarantee.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee() && room.isMerchant)
 
             roomHeaderImage.onNext(it.newHotelProductResponse.largeThumbnailUrl)
             createTripConsumed.onNext(Unit)

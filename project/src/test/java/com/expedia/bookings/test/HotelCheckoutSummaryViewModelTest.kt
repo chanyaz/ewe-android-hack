@@ -108,7 +108,6 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals("$0", sut.dueNowAmount.value)
         assertFalse(sut.showFeesPaidAtHotel.value)
         assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toString()), rate.currencyCode).formattedMoney, sut.feesPaidAtHotel.value)
-        assertTrue(sut.isBestPriceGuarantee.value)
         assertEquals(testNewDataSubscriber.onNextEvents.size, 1)
         assertEquals("Free cancellation", testTextSubscriber.onNextEvents[0])
         assertNull(sut.burnAmountShownOnHotelCostBreakdown.value)

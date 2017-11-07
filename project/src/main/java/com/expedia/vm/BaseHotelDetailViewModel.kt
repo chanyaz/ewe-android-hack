@@ -92,7 +92,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     var isBucketForHideStrikeThroughPrice = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
     val hasETPObservable = BehaviorSubject.create<Boolean>(false)
     val hasFreeCancellationObservable = BehaviorSubject.create<Boolean>()
-    val hasBestPriceGuaranteeObservable = BehaviorSubject.create<Boolean>()
     val renovationObservable = BehaviorSubject.create<Boolean>()
     val hotelRenovationObservable = BehaviorSubject.create<Pair<String, String>>()
     val hotelPayLaterInfoObservable = BehaviorSubject.create<Pair<String, List<HotelOffersResponse.HotelRoomResponse>>>()
@@ -552,7 +551,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         hotelPriceContentDesc.onNext(getHotelPriceContentDescription(isStrikeThroughPriceGreaterThanPriceToShowUsers))
 
         hasFreeCancellationObservable.onNext(hasFreeCancellation(offerResponse))
-        hasBestPriceGuaranteeObservable.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee())
         val hasETPOffer = hasEtpOffer(offerResponse)
         hasETPObservable.onNext(hasETPOffer)
 

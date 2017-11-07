@@ -55,7 +55,6 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
     val totalFees: android.widget.TextView by bindView(R.id.total_fees)
     val totalPriceWithTaxAndFees: android.widget.TextView by bindView(R.id.total_price_with_tax_and_fees)
     val amountDueTodayLabel: android.widget.TextView by bindView(R.id.amount_due_today_label)
-    val bestPriceGuarantee: android.widget.TextView by bindView(R.id.best_price_guarantee)
     val costSummary: LinearLayout by bindView(R.id.cost_summary)
     val priceChangeLayout: LinearLayout by bindView(R.id.price_change_container)
     val priceChange: android.widget.TextView by bindView(R.id.price_change_text)
@@ -114,7 +113,6 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         viewModel.isPayLaterOrResortCase.subscribeVisibility(totalPriceWithTax)
         viewModel.feesPaidAtHotel.subscribeText(totalFees)
         viewModel.tripTotalPrice.subscribeText(totalPriceWithTax)
-        viewModel.isBestPriceGuarantee.subscribeVisibility(bestPriceGuarantee)
         viewModel.isPriceChange.subscribeVisibility(priceChangeLayout)
         viewModel.priceChangeMessage.subscribeText(priceChange)
         viewModel.priceChangeIconResourceId.subscribe { resourceId ->

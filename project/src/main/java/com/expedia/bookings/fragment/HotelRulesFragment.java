@@ -105,24 +105,6 @@ public class HotelRulesFragment extends Fragment {
 			}
 		});
 
-		// Best Price Guarantee
-		TextView guarantee = Ui.findView(view, R.id.best_price_guarantee);
-		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
-			guarantee.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-					builder.setUrl(PointOfSale.getPointOfSale().getBestPriceGuaranteeUrl());
-					builder.setTitle(Ui.obtainThemeResID(getActivity(), R.attr.skin_bestPriceGuaranteeString));
-					startActivity(builder.getIntent());
-				}
-			});
-		}
-		else {
-			guarantee.setVisibility(View.GONE);
-			Ui.findView(view, R.id.best_price_guarantee_divider).setVisibility(View.GONE);
-		}
-
 		// ATOL Information for UK pos
 		TextView atolInformation = Ui.findView(view, R.id.atol_information);
 		if (PointOfSale.getPointOfSale().showAtolInfo()) {

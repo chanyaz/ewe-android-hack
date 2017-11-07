@@ -34,9 +34,6 @@ class PointOfSaleLocale(private val data: JSONObject) {
         data.optString("insuranceURL", null)
     }
 
-    /** The url for the best price guarantee policy (if available in the POS) */
-    val bestPriceGuaranteePolicyUrl by lazy { data.optString("bestPriceGuaranteePolicyURL", null) }
-
     /** The rules & restrictions disclaimer for every hotel booking */
     val hotelBookingStatement by lazy { data.optString("hotelBookingStatement", null) }
 

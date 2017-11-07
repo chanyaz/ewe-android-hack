@@ -102,12 +102,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/best_price_guarantee"
-            style="@style/HotelCheckoutSummaryCommon.Common"
-            android:drawableLeft="@drawable/ic_hotel_check"
-            android:drawablePadding="8dp"
-            android:text="@string/price_guarantee" />
     </LinearLayout>
 
     <View
