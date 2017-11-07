@@ -373,3 +373,29 @@ Feature: Package Search
     And I click on edit icon and select "Change hotel"
     Then Validate that hotel SRP screen is displayed
     Then Validate that number of results shown and present are equal
+
+  @Packages @PackageSearch @Prod
+  Scenario: Verify if the previous state is retained in Packages even when user navigates between different LOBs
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    When I make a packages search with following parameters
+      | source              | SFO                                    |
+      | destination         | KTM                                    |
+      | source_suggest      | SFO - San Francisco Intl.              |
+      | destination_suggest | Kathmandu, Nepal (KTM-Tribhuvan Intl.) |
+      | start_date          | 5                                      |
+      | end_date            | 10                                     |
+      | adults              | 2                                      |
+      | child               | 2                                      |
+    Then Validate that hotel SRP screen is displayed
+    And I press back following number of times: 3
+    And I launch "Flights" LOB
+    And I press back
+    And I launch "Bundle Deals" LOB
+    Then Validate search form retains details of search for packages
+      | source              | SFO - San Francisco Intl.              |
+      | destination         | Kathmandu, Nepal (KTM-Tribhuvan Intl.) |
+      | start_date          | 5                                      |
+      | end_date            | 10                                     |
+      | numberOfNights      | (5 nights)                             |
+      | totalTravelers      | 4 travelers                            |
