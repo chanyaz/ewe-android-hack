@@ -13,6 +13,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
@@ -30,6 +31,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     val hotelName = BehaviorSubject.create<String>()
     val hotelStarRating = BehaviorSubject.create<Float>()
     val hotelStarRatingVisibility = BehaviorSubject.create<Boolean>()
+    val hotelStarRatingContentDescription= BehaviorSubject.create<String>()
     val strikethroughPrice = BehaviorSubject.create<CharSequence>()
     private val price = BehaviorSubject.create<CharSequence>()
     val fromPrice = BehaviorSubject.create<CharSequence>("")
@@ -51,6 +53,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     val offersObserver = endlessObserver<HotelOffersResponse> { response ->
         hotelName.onNext(response.hotelName)
         hotelStarRating.onNext(response.hotelStarRating.toFloat())
+        hotelStarRatingContentDescription.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, response.hotelStarRating.toInt()))
         hotelStarRatingVisibility.onNext(response.hotelStarRating > 0)
         price.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, false, !response.isPackage))
         strikethroughPrice.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, true, !response.isPackage))

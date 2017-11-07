@@ -18,6 +18,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.PermissionsUtils.havePermissionToAccessLocation
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -83,6 +84,7 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
         //Hook outputs for View
         vm.hotelName.subscribeText(toolBarTitle)
         vm.hotelStarRating.subscribeRating(toolBarRating)
+        vm.hotelStarRatingContentDescription.subscribeContentDescription(toolBarRating)
         vm.hotelStarRatingVisibility.subscribeVisibility(toolBarRating)
         vm.strikethroughPrice.subscribeText(selectRoomStrikethroughPrice)
         vm.strikethroughPriceVisibility.subscribeVisibility(selectRoomStrikethroughPrice)
