@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.CheckoutToolbarViewModel
 import com.larvalabs.svgandroid.widget.SVGView
 
@@ -34,6 +35,8 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     val checkoutOverviewFloatingToolbar: CheckoutOverviewHeader by bindView(R.id.checkout_overview_floating_toolbar)
     val secureIcon: SVGView by bindView(R.id.secure_lock_icon)
     var customTitle: TextView? = null
+    var customSubtitle: TextView? = null
+    var secureIconContainer: LinearLayout? = null
     val isSecureIconActive = isSecureIconEnabled(context)
 
     var isHideToolbarView = false
@@ -61,7 +64,15 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         if (isSecureIconActive) {
             LayoutUtils.setSVG(secureIcon, R.raw.lock_icon)
             customTitle = findViewById<TextView>(R.id.checkout_custom_title)
-            toolbar.viewModel.toolbarCustomTitle.subscribeText(customTitle)
+            customSubtitle = findViewById<TextView>(R.id.checkout_custom_subtitle)
+            secureIconContainer = findViewById<LinearLayout>(R.id.secure_icon_container)
+            secureIconContainer?.visibility = View.VISIBLE
+            customTitle?.let {
+                toolbar.viewModel.toolbarCustomTitle.subscribeText(it)
+            }
+            customSubtitle?.let {
+                toolbar.viewModel.toolbarCustomSubtitle.subscribeTextAndVisibility(it)
+            }
         }
     }
 
@@ -101,7 +112,9 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     }
 
     fun toggleCollapsingToolBar(enable: Boolean) {
-        checkoutOverviewFloatingToolbar.visibility = if (enable && isExpandable) View.VISIBLE else View.GONE
+        val showFloatingToolbar = enable && isExpandable
+        secureIconContainer?.visibility = if (isSecureIconActive && showFloatingToolbar) View.GONE else View.VISIBLE
+        checkoutOverviewFloatingToolbar.visibility = if (showFloatingToolbar) View.VISIBLE else View.GONE
         appBarLayout.isActivated = enable
         nestedScrollView.isNestedScrollingEnabled = enable
         collapsingToolbarLayout.isTitleEnabled = enable
@@ -118,6 +131,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
             isFullyExpanded = percentage == 0f
 
             if (isHideToolbarView) {
+                secureIconContainer?.visibility = View.GONE
                 if (percentage == 1f) {
                     if (!isDisabled) {
                         checkoutOverviewHeaderToolbar.visibility = View.VISIBLE

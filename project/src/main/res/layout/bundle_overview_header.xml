@@ -38,8 +38,11 @@
                 app:contentInsetStartWithNavigation="0dp" >
 
                 <LinearLayout
+                    android:id="@+id/secure_icon_container"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:gravity="left|center_vertical"
                     android:orientation="horizontal">
 
                     <com.larvalabs.svgandroid.widget.SVGView
@@ -51,11 +54,26 @@
                         android:contentDescription="@string/secure_lock_accessibility"
                         android:layout_marginRight="10dp" />
 
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/checkout_custom_title"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
                         android:layout_height="wrap_content"
-                        style="@style/ToolbarTitleTextAppearance"/>
+                        android:layout_width="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/checkout_custom_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/ToolbarTitleTextAppearance"/>
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/checkout_custom_subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            style="@style/ToolbarSubtitleTextAppearance"/>
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.packages.CheckoutOverviewHeader

@@ -33,7 +33,11 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
             }
         }
         vm.toolbarSubtitle.subscribe {
-            subtitle = it
+            if (isSecureIconEnabled(context)) {
+                vm.toolbarCustomSubtitle.onNext(it)
+            } else {
+                subtitle = it
+            }
         }
         vm.menuTitle.subscribe {
             menuItem.title = it

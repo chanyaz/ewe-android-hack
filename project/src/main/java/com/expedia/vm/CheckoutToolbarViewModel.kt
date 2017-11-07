@@ -22,6 +22,7 @@ class CheckoutToolbarViewModel(val context: Context) {
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContentDesc = PublishSubject.create<String>()
     val toolbarCustomTitle = PublishSubject.create<String>()
+    val toolbarCustomSubtitle = PublishSubject.create<String>()
 
     // outputs
     val doneClicked = PublishSubject.create<Unit>()

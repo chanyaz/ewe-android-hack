@@ -198,8 +198,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 resetScrollSpaceHeight()
                 scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(overviewLayoutListener)
                 if (isSecureIconEnabled(context)) {
-                    bundleOverviewHeader.secureIcon.visibility = View.GONE
-                    bundleOverviewHeader.customTitle?.visibility = View.GONE
+                    bundleOverviewHeader.secureIconContainer?.visibility = View.GONE
+                    bundleOverviewHeader.customSubtitle?.visibility = View.VISIBLE
                 }
             } else {
                 scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(overviewLayoutListener)
@@ -234,10 +234,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             super.endTransition(forward)
             if (forward) {
                 checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
-                if(isSecureIconEnabled(context)) {
-                    bundleOverviewHeader.secureIcon.visibility = View.VISIBLE
-                    bundleOverviewHeader.customTitle?.visibility = View.VISIBLE
-                }
             } else {
                 checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
             }
@@ -254,6 +250,11 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             if (forward) {
                 checkoutPresenter.adjustScrollingSpace(bottomContainer)
                 checkoutPresenter.travelersPresenter.updateAllTravelerStatuses()
+                if (isSecureIconEnabled(context)) {
+                    bundleOverviewHeader.secureIconContainer?.visibility = View.VISIBLE
+                    bundleOverviewHeader.secureIcon.visibility = View.VISIBLE
+                    bundleOverviewHeader.customSubtitle?.visibility = View.GONE
+                }
             } else {
                 trackShowBundleOverview()
             }
