@@ -65,6 +65,11 @@
         android:title="CheckOut Features">
 
         <CheckBoxPreference
+            android:key="@string/preference_enable_disabled_stp_hotels"
+            android:summary="Enable Disabled STP state for hotels"
+            android:title="Disabled STP state for hotels" />
+
+        <CheckBoxPreference
             android:key="@string/preference_enable_universal_checkout_on_lx"
             android:summary="Bring universal checkout to LX"
             android:title="Enable Universal Checkout on LX" />

@@ -25,6 +25,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		// Hotel Features
 		initializeFeatureCheck(R.string.preference_dateless_infosite);
+		initializeFeatureCheck(R.string.preference_enable_disabled_stp_hotels);
 
 		// Login Features
 		initializeFeatureCheck(R.string.preference_enable_smart_lock);

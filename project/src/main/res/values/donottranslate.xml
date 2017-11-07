@@ -132,6 +132,7 @@
     <string name="preference_mock_flights">preference_mock_flights</string>
     <string name="preference_new_carnival_notifications">preference_new_carnival_notifications</string>
     <string name="preference_flight_delta_pricing">preference_flight_delta_pricing</string>
+    <string name="preference_enable_disabled_stp_hotels">preference_enable_disabled_stp_hotels</string>
     <string name="preference_enable_production_abacus">preference_enable_production_abacus</string>
     <string name="pay_later_credit_card_messaging">pay_later_credit_card_messaging</string>
 
