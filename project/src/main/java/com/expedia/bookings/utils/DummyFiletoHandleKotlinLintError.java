@@ -1317,7 +1317,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.activity_flight_mocker,
 		R.string.itin_flight_summary_arrives_on_TEMPLATE,
 		R.string.error_package_search_red_eye_flight_message,
-		R.string.carnival_sdk_debug_key,
+		R.string.carnival_sdk_key,
 		R.string.itin_flight_traveller_info,
 		R.string.itin_flight_details_manage_booking_heading,
 		R.drawable.ic_traveler_icon,

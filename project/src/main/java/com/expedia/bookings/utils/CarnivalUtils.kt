@@ -41,7 +41,7 @@ open class CarnivalUtils {
         appContext = context
         if (isFeatureToggledOn()) {
             initialized = true
-            Carnival.startEngine(appContext, appContext.getString(R.string.carnival_sdk_debug_key))
+            Carnival.startEngine(appContext, appContext.getString(R.string.carnival_sdk_key))
         }
     }
 
