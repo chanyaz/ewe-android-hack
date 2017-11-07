@@ -80,4 +80,11 @@ public class CommonSteps {
 		Common.pressBack();
 	}
 
+	@And("^I press back following number of times: (\\d+)$")
+	public void hitBackNumberOfTimes(int number) {
+		for (int iterator = 0 ; iterator < number ; iterator++) {
+			Common.pressBack();
+		}
+	}
+
 }
