@@ -22,8 +22,10 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
+import com.expedia.bookings.travelgraph.vm.TravelGraphViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -143,6 +145,8 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         }
     }
 
+    private lateinit var travelGraphViewModel: TravelGraphViewModel
+
     override fun inflate() {
         View.inflate(context, R.layout.widget_hotel_search, this)
         shopWithPointsWidget = swpWidgetStub.inflate().findViewById<ShopWithPointsWidget>(R.id.widget_points_details)
@@ -154,6 +158,9 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         suggestionListShownSubject.subscribe {
             suggestionListFocused = true
         }
+
+        val tgService = Ui.getApplication(context).hotelComponent().travelGraphServices()
+        travelGraphViewModel = TravelGraphViewModel(context, tgService)
     }
 
     override fun onFinishInflate() {
@@ -224,6 +231,12 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     fun resetSearchOptions() {
         if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)) {
             advancedOptionsViewModel.resetSearchOptionsObservable.onNext(Unit)
+        }
+    }
+
+    fun fetchUserSearchHistory() {
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_user_search_history)) {
+            travelGraphViewModel.fetchUserHistory()
         }
     }
 

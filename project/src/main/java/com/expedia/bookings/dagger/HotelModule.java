@@ -1,20 +1,22 @@
 package com.expedia.bookings.dagger;
 
-import com.expedia.bookings.hotel.util.HotelInfoManager;
-import com.expedia.bookings.hotel.util.HotelSearchManager;
-import com.expedia.bookings.services.ItinTripServices;
 import javax.inject.Named;
+
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.payment.PaymentModel;
+import com.expedia.bookings.hotel.util.HotelInfoManager;
+import com.expedia.bookings.hotel.util.HotelSearchManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.HotelServices;
+import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.bookings.services.travelgraph.TravelGraphServices;
 import com.expedia.bookings.services.urgency.UrgencyServices;
 import com.expedia.bookings.tracking.hotel.ClientLogTracker;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder;
@@ -38,7 +40,8 @@ import rx.schedulers.Schedulers;
 public final class HotelModule {
 	@Provides
 	@HotelScope
-	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new HotelServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
@@ -57,23 +60,36 @@ public final class HotelModule {
 
 	@Provides
 	@HotelScope
-	UrgencyServices provideUrgencyService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	UrgencyServices provideUrgencyService(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getUrgencyEndpointUrl();
 		return new UrgencyServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@HotelScope
-	ReviewsServices provideHotelReviewsServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	ReviewsServices provideHotelReviewsServices(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getReviewsEndpointUrl();
 		return new ReviewsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@HotelScope
-	LoyaltyServices provideLoyaltyServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	LoyaltyServices provideLoyaltyServices(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new LoyaltyServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@HotelScope
+	TravelGraphServices provideTravelGraphServices(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor,
+		@Named("TravelGraphInterceptor") Interceptor tgRequestInterceptor) {
+		final String endpoint = endpointProvider.getTravelGraphEndpointUrl();
+		return new TravelGraphServices(endpoint, client, interceptor, tgRequestInterceptor,
+			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
@@ -84,7 +100,8 @@ public final class HotelModule {
 
 	@Provides
 	@HotelScope
-	ItinTripServices provideItinTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	ItinTripServices provideItinTripServices(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ItinTripServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
@@ -104,13 +121,15 @@ public final class HotelModule {
 
 	@Provides
 	@HotelScope
-	IPaymentWidgetViewModel providePaymentWidgetViewModel(Context context, PaymentModel<HotelCreateTripResponse> paymentModel, IPayWithPointsViewModel payWithPointsViewModel) {
+	IPaymentWidgetViewModel providePaymentWidgetViewModel(Context context,
+		PaymentModel<HotelCreateTripResponse> paymentModel, IPayWithPointsViewModel payWithPointsViewModel) {
 		return new PaymentWidgetViewModel<>(context, paymentModel, payWithPointsViewModel);
 	}
 
 	@Provides
 	@HotelScope
-	ShopWithPointsViewModel provideShopWithPointsViewModel(Context context, PaymentModel<HotelCreateTripResponse> paymentModel, UserLoginStateChangedModel userLoginChangedModel) {
+	ShopWithPointsViewModel provideShopWithPointsViewModel(Context context,
+		PaymentModel<HotelCreateTripResponse> paymentModel, UserLoginStateChangedModel userLoginChangedModel) {
 		return new ShopWithPointsViewModel(context, paymentModel, userLoginChangedModel);
 	}
 

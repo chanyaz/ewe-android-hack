@@ -52,6 +52,13 @@
     <!-- Gaia api key -->
     <string name="gaia_prod_api_key">8c6e14d4-7e69-41b3-aa60-601a7f6dc971</string>
 
+    <!-- Travel graph client Id -->
+    <string name="tg_client_id">androidHotel</string>
+
+    <!-- Travel graph client tokens -->
+    <string name="tg_prod_client_token">NThlZDQyNzEtYjk1MC00MmQxLWE0N2QtZDk5Njc4MDVjNzg2</string>
+    <string name="tg_int_client_token">MTI4MmZmMmItMzJiNy00ZWNiLTlhZmUtOGVlZTA3MDkyYWEy</string>
+
     <!-- Lawyer labels for UK ATOL information -->
     <string name="lawyer_label_atol_information">ATOL Information</string>
     <string name="lawyer_label_atol_long_message">Flight-Plus arrangements created on the UK Expedia mobile app are financially protected by the Civil Aviation Authority (under Expedia, Inc.\&apos;s ATOL number 5788). But ATOL protection does not apply to all flight and hotel services listed on this mobile app. Please ask us to confirm what protection may apply to your booking. If you do not receive an ATOL Certificate then your booking will not be ATOL protected. Please see our general terms and conditions for further details on ATOL or for more information about financial protection and the ATOL Certificate go to: &lt;a href="http://www.atol.org.uk/ATOLCertificate"&gt;www.atol.org.uk/ATOLCertificate&lt;/a&gt;</string>
@@ -127,6 +134,7 @@
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
     <string name="preference_trips_new_flights_design">preference_trips_new_flights_design</string>
     <string name="preference_trips_new_flights_managing_booking_design">preference_trips_new_flights_managing_booking_design</string>
+    <string name="preference_user_search_history">preference_user_search_history</string>
     <string name="preference_soft_prompt_permission">preference_soft_prompt_permission</string>
     <string name="preference_show_flights_checkout_webview">preference_show_flights_checkout_webview</string>
     <string name="preference_launch_all_trip_notifications">preference_launch_all_trip_notifications</string>

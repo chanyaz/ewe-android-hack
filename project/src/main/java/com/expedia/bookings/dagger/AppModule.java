@@ -18,6 +18,7 @@ import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.http.TravelGraphRequestInterceptor;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.server.EndpointProvider;
@@ -218,7 +219,8 @@ public class AppModule {
 
 	private String getPageName(Request request) {
 		String pageName = request.url().encodedPath().replaceAll("/", "_");
-		if (pageName.contains("flight_search") && AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
+		if (pageName.contains("flight_search") && AbacusFeatureConfigManager
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
 			FormBody body = (FormBody) request.body();
 
 			for (int index = body.size(); index > 0; index--) {
@@ -307,6 +309,12 @@ public class AppModule {
 				return response;
 			}
 		};
+	}
+
+	@Provides
+	@Named("TravelGraphInterceptor")
+	Interceptor provideTravelGraphInterceptor(final Context context, final EndpointProvider endpointProvider) {
+		return new TravelGraphRequestInterceptor(context, endpointProvider);
 	}
 
 	@Provides

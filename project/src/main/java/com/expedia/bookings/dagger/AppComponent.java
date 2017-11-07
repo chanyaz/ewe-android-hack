@@ -65,6 +65,9 @@ public interface AppComponent {
 	@Named("ESSInterceptor")
 	Interceptor essRequestInterceptor();
 
+	@Named("TravelGraphInterceptor")
+	Interceptor travelGraphInterceptor();
+
 	AbacusServices abacus();
 
 	ClientLogServices clientLog();

@@ -15,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.DeviceType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.server.EndPoint;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -60,10 +61,10 @@ public class ServicesUtil {
 	}
 
 	private static void addBuildInfo(StringBuilder sb, String key, String value) {
-			sb.append(key);
-			sb.append(':');
-			sb.append(value);
-			sb.append(';');
+		sb.append(key);
+		sb.append(':');
+		sb.append(value);
+		sb.append(';');
 	}
 
 	public static String generateClientId(Context context) {
@@ -117,6 +118,7 @@ public class ServicesUtil {
 
 	/**
 	 * Convenience method that generates an AccountLib.AccountService from EB configuration.
+	 *
 	 * @param context
 	 * @return
 	 */
@@ -138,7 +140,8 @@ public class ServicesUtil {
 			// User location
 			android.location.Location bestLastLocation = LocationServices.getLastBestLocation(context, 0);
 			if (bestLastLocation != null) {
-				return distortCoordinates(bestLastLocation.getLatitude()) + "," + distortCoordinates(bestLastLocation.getLongitude());
+				return distortCoordinates(bestLastLocation.getLatitude()) + "," + distortCoordinates(
+					bestLastLocation.getLongitude());
 			}
 		}
 		return null;
@@ -165,5 +168,16 @@ public class ServicesUtil {
 			return DeviceType.TABLET;
 		}
 		return DeviceType.PHONE;
+	}
+
+	public static String getTravelGraphClientId(Context context) {
+		return context.getResources().getString(R.string.tg_client_id);
+	}
+
+	public static String getTravelGraphToken(Context context, EndPoint endPoint) {
+		if (EndPoint.INTEGRATION == endPoint) {
+			return context.getResources().getString(R.string.tg_int_client_token);
+		}
+		return context.getResources().getString(R.string.tg_prod_client_token);
 	}
 }

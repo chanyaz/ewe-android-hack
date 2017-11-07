@@ -22,11 +22,11 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.model.UserLoginStateChangedModel
 
 class UserStateManager @JvmOverloads constructor(private val context: Context,
-                       private val userLoginStateChangedModel: UserLoginStateChangedModel,
-                       private val notificationManager: NotificationManager,
-                       private val accountManager: AccountManager = AccountManager.get(context),
-                       val userSource: UserSource = UserSource(context),
-                       private val loggingProvider: ExceptionLoggingProvider = ExceptionLoggingProvider()) {
+                                                 private val userLoginStateChangedModel: UserLoginStateChangedModel,
+                                                 private val notificationManager: NotificationManager,
+                                                 private val accountManager: AccountManager = AccountManager.get(context),
+                                                 val userSource: UserSource = UserSource(context),
+                                                 private val loggingProvider: ExceptionLoggingProvider = ExceptionLoggingProvider()) {
     private val SAVED_INFO_FILENAME = "user.dat"
 
     private val accountType: String by lazy {
@@ -48,8 +48,7 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
         if (restrictedProfileSource.isRestrictedProfile()) {
             val restrictedProfileIntent = RestrictedProfileActivity.createIntent(context)
             activity.startActivity(restrictedProfileIntent)
-        }
-        else {
+        } else {
             val activeAccount = loginProvider.getAccountsByType(accountType)?.firstOrNull()
 
             if (activeAccount != null) {
@@ -66,6 +65,16 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
 
     fun signOut() {
         performSignOut(true)
+    }
+
+    fun getExpediaUserId(): String? {
+        if (isUserAuthenticated()) {
+            val user = userSource.user
+            if (user != null) {
+                return user.expediaUserId
+            }
+        }
+        return null
     }
 
     private fun performSignOut(clearCookies: Boolean) {
@@ -88,8 +97,7 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
             if (userSource.user == null) {
                 try {
                     userSource.loadUser()
-                }
-                catch (e: Exception) {
+                } catch (e: Exception) {
                     loggingProvider.logException(e)
                     return false
                 }

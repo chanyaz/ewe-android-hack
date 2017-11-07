@@ -1,0 +1,368 @@
+{
+    "metadata": {
+        "transactionGUID": "d97a635b35724bd68a79e1250d8f96ce",
+        "userContext": {
+            "siteId": 1,
+            "expUserId": "73956838",
+            "guid": "112736e5-286e-40d5-a59c-1d276d149131"
+        }
+    },
+    "message": "OK",
+    "results": [
+        {
+            "product": "HOTEL",
+            "action": "SEARCH",
+            "items": [
+                {
+                    "id": "1-73956838-London (and vicinity), England, United Kingdom-178279-2018-08-14-2018-08-15",
+                    "startDateUTCTimestamp": 1534230000000,
+                    "lastViewedDateUTCTimestamp": 1510170833596,
+                    "endDateUTCTimestamp": 1534316400000,
+                    "price": {
+                        "amount": 156.35,
+                        "currency": "USD"
+                    },
+                    "searchInfo": {
+                        "numberOfRooms": 1,
+                        "numberOfTravelers": 1,
+                        "searchRegion": {
+                            "id": "178279",
+                            "type": "multi_city_vicinity",
+                            "name": "London (and vicinity), England, United Kingdom",
+                            "shortName": "London (and vicinity)",
+                            "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/90000/90848-London.jpg"
+                        },
+                        "roomList": [
+                            {
+                                "roomOccupants": {
+                                    "numberOfAdults": 1,
+                                    "agesOfChildren": [],
+                                    "numberOfOccupants": 1
+                                }
+                            }
+                        ],
+                        "allRegions": [
+                            {
+                                "id": "178279",
+                                "type": "multi_city_vicinity",
+                                "name": "London (and vicinity), England, United Kingdom",
+                                "shortName": "London (and vicinity)",
+                                "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/90000/90848-London.jpg"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "1-73956838-London (and vicinity), England, United Kingdom-178279-2018-11-13-2018-11-14",
+                    "startDateUTCTimestamp": 1542096000000,
+                    "lastViewedDateUTCTimestamp": 1510170279206,
+                    "endDateUTCTimestamp": 1542182400000,
+                    "price": {
+                        "amount": 162.15,
+                        "currency": "USD"
+                    },
+                    "searchInfo": {
+                        "numberOfRooms": 1,
+                        "numberOfTravelers": 1,
+                        "searchRegion": {
+                            "id": "178279",
+                            "type": "multi_city_vicinity",
+                            "name": "London (and vicinity), England, United Kingdom",
+                            "shortName": "London (and vicinity)",
+                            "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/90000/90848-London.jpg"
+                        },
+                        "roomList": [
+                            {
+                                "roomOccupants": {
+                                    "numberOfAdults": 1,
+                                    "agesOfChildren": [],
+                                    "numberOfOccupants": 1
+                                }
+                            }
+                        ],
+                        "allRegions": [
+                            {
+                                "id": "178279",
+                                "type": "multi_city_vicinity",
+                                "name": "London (and vicinity), England, United Kingdom",
+                                "shortName": "London (and vicinity)",
+                                "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/90000/90848-London.jpg"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "1-73956838-London (and vicinity), England, United Kingdom-178279-2018-07-24-2018-07-25",
+                    "startDateUTCTimestamp": 1532415600000,
+                    "lastViewedDateUTCTimestamp": 1510163405745,
+                    "endDateUTCTimestamp": 1532502000000,
+                    "price": {
+                        "amount": 176.41,
+                        "currency": "USD"
+                    },
+                    "searchInfo": {
+                        "numberOfRooms": 1,
+                        "numberOfTravelers": 1,
+                        "searchRegion": {
+                            "id": "178279",
+                            "type": "multi_city_vicinity",
+                            "name": "London (and vicinity), England, United Kingdom",
+                            "shortName": "London (and vicinity)",
+                            "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/90000/90848-London.jpg"
+                        },
+                        "roomList": [
+                            {
+                                "roomOccupants": {
+                                    "numberOfAdults": 1,
+                                    "agesOfChildren": [],
+                                    "numberOfOccupants": 1
+                                }
+                            }
+                        ],
+                        "allRegions": [
+                            {
+                                "id": "178279",
+                                "type": "multi_city_vicinity",
+                                "name": "London (and vicinity), England, United Kingdom",
+                                "shortName": "London (and vicinity)",
+                                "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/90000/90848-London.jpg"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "1-73956838-Jakarta (and vicinity), Indonesia-178269-2018-07-24-2018-07-25",
+                    "startDateUTCTimestamp": 1532415600000,
+                    "lastViewedDateUTCTimestamp": 1510163385528,
+                    "endDateUTCTimestamp": 1532502000000,
+                    "price": {
+                        "amount": 48.58,
+                        "currency": "USD"
+                    },
+                    "searchInfo": {
+                        "numberOfRooms": 1,
+                        "numberOfTravelers": 1,
+                        "searchRegion": {
+                            "id": "178269",
+                            "type": "multi_city_vicinity",
+                            "name": "Jakarta (and vicinity), Indonesia",
+                            "shortName": "Jakarta (and vicinity)"
+                        },
+                        "roomList": [
+                            {
+                                "roomOccupants": {
+                                    "numberOfAdults": 1,
+                                    "agesOfChildren": [],
+                                    "numberOfOccupants": 1
+                                }
+                            }
+                        ],
+                        "allRegions": [
+                            {
+                                "id": "178269",
+                                "type": "multi_city_vicinity",
+                                "name": "Jakarta (and vicinity), Indonesia",
+                                "shortName": "Jakarta (and vicinity)"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "1-73956838-Bangkok (and vicinity), Thailand-178236-2018-07-17-2018-07-18",
+                    "startDateUTCTimestamp": 1531810800000,
+                    "lastViewedDateUTCTimestamp": 1510162059426,
+                    "endDateUTCTimestamp": 1531897200000,
+                    "price": {
+                        "amount": 50.44,
+                        "currency": "USD"
+                    },
+                    "searchInfo": {
+                        "numberOfRooms": 1,
+                        "numberOfTravelers": 1,
+                        "searchRegion": {
+                            "id": "178236",
+                            "type": "multi_city_vicinity",
+                            "name": "Bangkok (and vicinity), Thailand",
+                            "shortName": "Bangkok (and vicinity)",
+                            "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/109000/109529-Bangkok.jpg"
+                        },
+                        "roomList": [
+                            {
+                                "roomOccupants": {
+                                    "numberOfAdults": 1,
+                                    "agesOfChildren": [],
+                                    "numberOfOccupants": 1
+                                }
+                            }
+                        ],
+                        "allRegions": [
+                            {
+                                "id": "178236",
+                                "type": "multi_city_vicinity",
+                                "name": "Bangkok (and vicinity), Thailand",
+                                "shortName": "Bangkok (and vicinity)",
+                                "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/109000/109529-Bangkok.jpg"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "1-73956838-Bangkok (and vicinity), Thailand-178236-2018-04-25-2018-04-26",
+                    "startDateUTCTimestamp": 1524639600000,
+                    "lastViewedDateUTCTimestamp": 1510160002664,
+                    "endDateUTCTimestamp": 1524726000000,
+                    "price": {
+                        "amount": 46.41,
+                        "currency": "USD"
+                    },
+                    "searchInfo": {
+                        "numberOfRooms": 1,
+                        "numberOfTravelers": 1,
+                        "searchRegion": {
+                            "id": "178236",
+                            "type": "multi_city_vicinity",
+                            "name": "Bangkok (and vicinity), Thailand",
+                            "shortName": "Bangkok (and vicinity)",
+                            "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/109000/109529-Bangkok.jpg"
+                        },
+                        "roomList": [
+                            {
+                                "roomOccupants": {
+                                    "numberOfAdults": 1,
+                                    "agesOfChildren": [],
+                                    "numberOfOccupants": 1
+                                }
+                            }
+                        ],
+                        "allRegions": [
+                            {
+                                "id": "178236",
+                                "type": "multi_city_vicinity",
+                                "name": "Bangkok (and vicinity), Thailand",
+                                "shortName": "Bangkok (and vicinity)",
+                                "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/109000/109529-Bangkok.jpg"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "1-73956838-Chicago (and vicinity), Illinois, United States of America-178248-2017-11-21-2017-11-22",
+                    "startDateUTCTimestamp": 1511251200000,
+                    "lastViewedDateUTCTimestamp": 1510094851839,
+                    "endDateUTCTimestamp": 1511337600000,
+                    "price": {
+                        "amount": 67.29,
+                        "currency": "USD"
+                    },
+                    "searchInfo": {
+                        "numberOfRooms": 1,
+                        "numberOfTravelers": 1,
+                        "searchRegion": {
+                            "id": "178248",
+                            "type": "multi_city_vicinity",
+                            "name": "Chicago (and vicinity), Illinois, United States of America",
+                            "shortName": "Chicago (and vicinity)",
+                            "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/23000/23716-Chicago.jpg"
+                        },
+                        "roomList": [
+                            {
+                                "roomOccupants": {
+                                    "numberOfAdults": 1,
+                                    "agesOfChildren": [],
+                                    "numberOfOccupants": 1
+                                }
+                            }
+                        ],
+                        "allRegions": [
+                            {
+                                "id": "178248",
+                                "type": "multi_city_vicinity",
+                                "name": "Chicago (and vicinity), Illinois, United States of America",
+                                "shortName": "Chicago (and vicinity)",
+                                "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/23000/23716-Chicago.jpg"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "1-73956838-Chicago (and vicinity), Illinois, United States of America-178248-2018-02-13-2018-02-14",
+                    "startDateUTCTimestamp": 1518508800000,
+                    "lastViewedDateUTCTimestamp": 1510094811824,
+                    "endDateUTCTimestamp": 1518595200000,
+                    "price": {
+                        "amount": 122.93,
+                        "currency": "USD"
+                    },
+                    "searchInfo": {
+                        "numberOfRooms": 1,
+                        "numberOfTravelers": 1,
+                        "searchRegion": {
+                            "id": "178248",
+                            "type": "multi_city_vicinity",
+                            "name": "Chicago (and vicinity), Illinois, United States of America",
+                            "shortName": "Chicago (and vicinity)",
+                            "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/23000/23716-Chicago.jpg"
+                        },
+                        "roomList": [
+                            {
+                                "roomOccupants": {
+                                    "numberOfAdults": 1,
+                                    "agesOfChildren": [],
+                                    "numberOfOccupants": 1
+                                }
+                            }
+                        ],
+                        "allRegions": [
+                            {
+                                "id": "178248",
+                                "type": "multi_city_vicinity",
+                                "name": "Chicago (and vicinity), Illinois, United States of America",
+                                "shortName": "Chicago (and vicinity)",
+                                "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/23000/23716-Chicago.jpg"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "1-73956838-San Antonio (and vicinity), Texas, United States of America-178303-2018-05-08-2018-05-09",
+                    "startDateUTCTimestamp": 1525762800000,
+                    "lastViewedDateUTCTimestamp": 1510080229791,
+                    "endDateUTCTimestamp": 1525849200000,
+                    "price": {
+                        "amount": 92.85,
+                        "currency": "USD"
+                    },
+                    "searchInfo": {
+                        "numberOfRooms": 1,
+                        "numberOfTravelers": 1,
+                        "searchRegion": {
+                            "id": "178303",
+                            "type": "multi_city_vicinity",
+                            "name": "San Antonio (and vicinity), Texas, United States of America",
+                            "shortName": "San Antonio (and vicinity)",
+                            "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/21000/21843-Japanese-Tea-Gardens-Sunken-Gardens.jpg"
+                        },
+                        "roomList": [
+                            {
+                                "roomOccupants": {
+                                    "numberOfAdults": 1,
+                                    "agesOfChildren": [],
+                                    "numberOfOccupants": 1
+                                }
+                            }
+                        ],
+                        "allRegions": [
+                            {
+                                "id": "178303",
+                                "type": "multi_city_vicinity",
+                                "name": "San Antonio (and vicinity), Texas, United States of America",
+                                "shortName": "San Antonio (and vicinity)",
+                                "imageURL": "https://a.travel-assets.com/findyours-php/viewfinder/images/res30/21000/21843-Japanese-Tea-Gardens-Sunken-Gardens.jpg"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

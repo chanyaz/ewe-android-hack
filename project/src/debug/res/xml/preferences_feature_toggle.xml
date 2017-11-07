@@ -5,6 +5,11 @@
         android:layout="@layout/preference_category_title"
         android:title="Hotel Features">
 
+        <CheckBoxPreference
+            android:key="@string/preference_user_search_history"
+            android:summary="Enable TG user search history"
+            android:title="Enable TG user search history" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -70,7 +70,8 @@ public class EndpointProvider {
 	public String getAbacusEndpointUrl() {
 		// Always point to production if release
 
-		if (BuildConfig.RELEASE || FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_production_abacus)) {
+		if (BuildConfig.RELEASE || FeatureToggleUtil
+			.isFeatureEnabled(context, R.string.preference_enable_production_abacus)) {
 			return getE3EndpointUrl();
 		}
 
@@ -165,7 +166,8 @@ public class EndpointProvider {
 
 	public String getRailWebViewEndpointUrl() {
 		String railsMcicidTag = "mcicid=App.Rails.WebView";
-		String railWebViewUrl = getE3EndpointUrl() + PointOfSale.getPointOfSale().getRailUrlInfix() + "?" + railsMcicidTag;
+		String railWebViewUrl =
+			getE3EndpointUrl() + PointOfSale.getPointOfSale().getRailUrlInfix() + "?" + railsMcicidTag;
 		return railWebViewUrl;
 	}
 
@@ -183,6 +185,25 @@ public class EndpointProvider {
 		}
 		return endpoint;
 	}
+
+	public String getTravelGraphEndpointUrl() {
+		String endpoint;
+		switch (getEndPoint()) {
+		case MOCK_MODE:
+			endpoint = getCustomServerAddress();
+			break;
+		case INTEGRATION:
+			endpoint = "https://wwwexpediacom.integration.sb.karmalab.net/api/travelgraph/v1/";
+			break;
+		case PRODUCTION:
+			endpoint = "https://www.expedia.com/api/travelgraph/v1/";
+			break;
+		default:
+			endpoint = "https://www.expedia.com/api/travelgraph/v1/";
+		}
+		return endpoint;
+	}
+
 
 	/**
 	 * Returns the base suggestion server url, based on dev settings
@@ -241,11 +262,11 @@ public class EndpointProvider {
 	public String getSmartOfferServiceEndpoint() {
 		String endpoint;
 		switch (getEndPoint()) {
-			case MOCK_MODE:
-				endpoint = getCustomServerAddress();
-				break;
-			default:
-				endpoint = SMART_OFFER_SERVICE_ENDPOINT;
+		case MOCK_MODE:
+			endpoint = getCustomServerAddress();
+			break;
+		default:
+			endpoint = SMART_OFFER_SERVICE_ENDPOINT;
 		}
 		return endpoint;
 	}

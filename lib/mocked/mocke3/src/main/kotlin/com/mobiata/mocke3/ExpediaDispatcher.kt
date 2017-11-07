@@ -22,10 +22,10 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private val satelliteServiceRequestDispatcher = SatelliteApiRequestDispatcher(fileOpener)
     private val cardFeeServiceRequestDispatcher = CardFeeServiceRequestDispatcher(fileOpener)
     private val sosApiRequestDispatcher = SOSApiRequestDispatcher(fileOpener)
+    private val travelGraphRequestDispatcher = TravelGraphApiRequestDispatcher(fileOpener)
 
     @Throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
-
         if (!doesRequestHaveValidUserAgent(request)) {
             throw UnsupportedOperationException("Valid user-agent not passed. I expect to see a user-agent resembling: ExpediaBookings/x.x.x (EHad; Mobiata)" + request)
         }
@@ -44,6 +44,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return railApiRequestDispatcher.dispatch(request)
         }
 
+        //TravelGraph API
+        if (TravelGraphApiRequestMatcher.isTravelGraphRequest(request.path)) {
+            return travelGraphRequestDispatcher.dispatch(request)
+        }
+
         // Packages API
         if (request.path.startsWith("/getpackages/v1") || request.path.startsWith("/api/packages")) {
             return packagesApiRequestDispatcher.dispatch(request)
@@ -53,7 +58,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         if (request.path.startsWith("/api/multiitem/v1")) {
             return multiItemApiRequestDispatcher.dispatch(request)
         }
-        
+
         // Hotels API
         if (request.path.startsWith("/m/api/hotel") || request.path.startsWith("/api/m/trip/coupon") || request.path.startsWith("/api/m/trip/remove/coupon")) {
             return hotelRequestDispatcher.dispatch(request)
@@ -115,7 +120,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         }
 
         // Expedia Suggest
-        if (request.path.startsWith("/hint/es") || request.path.startsWith("/api/v4") ) {
+        if (request.path.startsWith("/hint/es") || request.path.startsWith("/api/v4")) {
             return dispatchSuggest(request)
         }
 
@@ -207,7 +212,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         params.put("offerExpiresTimeRaw", DateTime().plusDays(2).toString())
 
         var responseCode = 200
-        when(fileName) {
+        when (fileName) {
             "error_trip_response" -> responseCode = 403
             "error_bad_request_trip_response" -> responseCode = 400
         }
@@ -481,7 +486,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private fun dispatchCalculatePoints(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)
         val tripParams = params["tripId"]?.split("|") ?: listOf(params["tripId"])
-        val response = makeResponse("/m/api/trip/calculatePoints/"+ tripParams[0] +".json")
+        val response = makeResponse("/m/api/trip/calculatePoints/" + tripParams[0] + ".json")
         if (tripParams.size > 1) {
             response.setBodyDelay(tripParams[1]?.toLong() ?: 0, TimeUnit.MILLISECONDS)
         }

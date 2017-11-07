@@ -8,6 +8,7 @@ import com.expedia.bookings.presenter.hotel.HotelResultsPresenter;
 import com.expedia.bookings.presenter.hotel.HotelSearchPresenter;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.bookings.services.travelgraph.TravelGraphServices;
 import com.expedia.bookings.widget.BucksWidget;
 import com.expedia.bookings.widget.CouponWidget;
 import com.expedia.bookings.widget.PayWithPointsWidget;
@@ -38,6 +39,7 @@ public interface HotelComponent {
 	void inject(HotelResultsPresenter hotelResultsPresenter);
 
 	SuggestionV4Services suggestionsService();
+	TravelGraphServices travelGraphServices();
 	ReviewsServices reviewsServices();
 	IPayWithPointsViewModel payWithPointsViewModel();
 }

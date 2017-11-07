@@ -22,6 +22,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		addPreferencesFromResource(R.xml.preferences_feature_toggle);
 
 		// Hotel Features
+		initializeFeatureCheck(R.string.preference_user_search_history);
 		initializeFeatureCheck(R.string.preference_enable_disabled_stp_hotels);
 
 		// Login Features
