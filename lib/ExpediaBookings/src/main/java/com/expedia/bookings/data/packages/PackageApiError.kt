@@ -17,6 +17,7 @@ class PackageApiError {
         pkg_too_many_children_in_lap,
         pkg_hotel_no_longer_available,
         pkg_error_code_not_mapped,
+        pkg_search_from_date_too_near,
 
         //TODO to be removed, needs to be handled properly
         mid_could_not_find_results,
