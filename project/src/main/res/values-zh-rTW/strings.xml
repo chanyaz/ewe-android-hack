@@ -175,10 +175,6 @@
     <string name="select_start_date">選擇開始日期</string>
 
     <!-- LX -->
-    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} - {to_date}</string>
-    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date}到 {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">搜尋活動</string>
     <!--LX Search widget header text -->
@@ -644,6 +640,17 @@
     <string name="sort_and_filter_cont_desc">排序和篩選按鈕</string>
     <!-- "Done" list header label -->
     <string name="Done">完成</string>
+
+    <!-- Baggage Info Accessibility -->
+    <string name="spinner_text_baggage_info_fetching">正在取得行李資訊</string>
+    <!--Baggage Info Airline Message Example: (Prices may be cheaper if purchased online with Virgin America)-->
+    <string name="baggage_info_airline_message_TEMPLATE">(在線上向{airline_name}購買可能會比較便宜)</string>
+    <!--Baggage Fees when purchased at airport-->
+    <string name="baggage_fees_purchased_airport">在機場購買時所需支付的行李費：</string>
+    <!--Baggage Fee Info-->
+    <string name="baggage_fee_info">行李費資訊</string>
+    <!--Airline-->
+    <string name="airline">航空公司</string>
 
     <!-- Select your fare label -->
     <string name="select_your_fare">選擇您想要的票價</string>
@@ -1411,6 +1418,12 @@
     <string name="itin_flight_summary_terminal_TEMPLATE">航廈：{terminal}</string>
     <!-- Flight itin summary widget gate template. Gate {gate} (e.g., Gate 1A)-->
     <string name="itin_flight_summary_gate_TEMPLATE">登機門：{gate}</string>
+    <!-- Flight itin summary widget new departure title -->
+    <string name="itin_flight_summary_new_departure_title">新的出發時間</string>
+    <!-- Flight itin summary widget scheduled departure title -->
+    <string name="itin_flight_summary_scheduled_title">表訂</string>
+    <!-- Flight itin summary widget new arrival title -->
+    <string name="itin_flight_summary_new_arrival_title">新的抵達時間</string>
     <!-- displayed when seats aren't selectable -->
     <string name="seat_selection_not_available">無法選擇座位</string>
     <!-- displayed when seats are selectable -->
@@ -1423,6 +1436,20 @@
     <string name="itin_flight_layover_TEMPLATE">轉機停留時間：{layover}</string>
     <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">總計時間：{duration}</string>
+    <!--Flight itin baggage information text-->
+    <string name="itin_baggage_info_button_text">行李資訊</string>
+    <!--Flight itin traveller info widget heading-->
+    <string name="itin_flight_traveller_info">旅客資訊</string>
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_details_manage_booking_heading">管理預訂</string>
+    <!--Flight itin segment summary flight status indicator text - cancelled-->
+    <string name="itin_flight_summary_status_indicator_text_cancelled">已取消</string>
+    <!--Flight itin segment summary flight status indicator text - on time-->
+    <string name="itin_flight_summary_status_indicator_text_on_time">準時</string>
+    <!--Flight itin segment summary flight status indicator text template - delayed by. Delayed by {duration} (e.g., Delayed by 30m)-->
+    <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">延遲 {duration}</string>
+    <!--Flight itin segment summary flight status indicator text - early departure-->
+    <string name="itin_flight_summary_status_indicator_text_early_departure">提早起飛</string>
 
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
@@ -1749,21 +1776,15 @@
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
 
     <!-- Calendar instructions -->
-    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
     <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} \u0020-\u0020 {enddate}</string>
-    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
-    <string name="start_to_end_date_range_cont_desc_TEMPLATE">{startdate}至 {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (單程)</string>
     <!-- Calendar instructions rail start date selected -->
     <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
     <string name="calendar_instructions_date_range_flight_select_return_date">下一步：選擇還車日期</string>
-    <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} - {enddate}，{guests}</string>
+
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}，{guests}</string>
 
@@ -1925,6 +1946,8 @@
     <string name="cost_summary">費用明細</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} 預訂費用</string>
+    <!-- Booking Fee -->
+    <string name="booking_fee">預訂費用</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="payment_method_fee">手續費</string>
     <!-- Flight -->
@@ -2259,6 +2282,8 @@
     <string name="split_ticket_rules_cancellation_policy">如果只變更或取消其中一個班機，另外一個班機不會自動作出相對應的變動。變更另外一個班機也可能須要支付手續費。</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;出發&lt;/a&gt;和&lt;a href=\"{returnlink}\"&gt;回程&lt;/a&gt;班機分別有各自的行李費</string>
+    <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
+    <string name="evolable_terms_condition_TEMPLATE">此機票預訂是透過 &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt; 進行。&lt;br&gt;須遵守供應商的&lt;a href=\"{evolable_terms_condition_link}\"&gt;條款和條件&lt;/a&gt;。</string>
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">取消</string>
@@ -2386,6 +2411,8 @@
     <string name="DONE">完成</string>
     <!-- Button label for dismissing the flight fare family amenities dialog -->
     <string name="OK">確定</string>
+    <!--Label to view details -->
+    <string name="view_details">查看詳細資訊</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">地圖</string>
     <!-- Label for sort hotels in hotel list -->
@@ -2798,7 +2825,7 @@
     <!-- Itinerary number label content description -->
     <string name="itinerary_number_cont_desc">行程編號</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_TEMPLATE">如果您對預訂有任何疑問，請聯絡 {brand}，電話：。{phone}</string>
+    <string name="contact_phone_TEMPLATE">如果您對預訂有任何疑問，請聯絡 {brand}，電話：{phone}</string>
     <!-- Webview title for password recovery -->
     <string name="title_forgot_password">忘記密碼</string>
 
@@ -3943,6 +3970,7 @@
     <string name="flight_overview_header_TEMPLATE">{departureairportcode} 到 {arrivalairportcode}，{dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} 已傳送到 {email}</string>
+    <string name="itinerary_default_email_message">您的電子郵件地址。</string>
 
     <!--Rail search screen title-->
     <string name="trains">火車</string>
@@ -4278,17 +4306,32 @@
     <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">很抱歉，&lt;b&gt;{fare_family_name}&lt;/b&gt;已搶訂一空。請嘗試其他票價選項。我們會先回復至您原先選擇的班機票價。</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
     <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">很抱歉，&lt;b&gt;{fare_family_name}&lt;/b&gt;已搶訂一空。請嘗試其他票價選項。我們會先回復至您原先選擇的班機票價。</string>
-    <!-- Label for fare family upgrade option. Example. Change your fare -->
-    <string name="flight_fare_family_fare_label">變更票價艙等</string>
+    <!-- Label for fare family upgrade option. Example. You've selected Comfort+  -->
+    <string name="flight_fare_family_fare_label_TEMPLATE">您已選擇 {fare_family_name}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">機位升等</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">機位升等</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">最低</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
+    <string name="flight_selected_classes_one_class_TEMPLATE">已選擇：{class}</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">已選擇：{class_one}，{class_two}</string>
+    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
+    <string name="flight_selected_classes_mixed_classes">已選擇：多種艙等</string>
+    <!-- Label for change fare class subtext,  Example. Change fare class -->
+    <string name="flight_change_fare_class">變更票價等級</string>
 
+
+    <!-- Generic date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="start_dash_end_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Generic date range template with guests. E.g. May 12 - May 15, 2 guestss -->
+    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} - {enddate}，{guests}</string>
+    <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="start_to_end_date_range_cont_desc_TEMPLATE">{startdate} 至 {enddate}</string>
+    <!-- Generic Content Description text for date ranges plus guests template. Example May 12 to May 15, 2 guests -->
+    <string name="start_to_end_plus_guests_cont_desc_TEMPLATE">{startdate} 至 {enddate}，{guests}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">新增 1 位成人旅客</string>
     <!--Traveler widget adults minus button content description-->

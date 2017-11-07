@@ -175,10 +175,6 @@
     <string name="select_start_date">Sélectionner une date de début</string>
 
     <!-- LX -->
-    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} - {to_date}</string>
-    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">Du {from_date} au {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Recherche d\&apos;activités</string>
     <!--LX Search widget header text -->
@@ -644,6 +640,17 @@
     <string name="sort_and_filter_cont_desc">Bouton pour trier et filtrer</string>
     <!-- "Done" list header label -->
     <string name="Done">Terminé</string>
+
+    <!-- Baggage Info Accessibility -->
+    <string name="spinner_text_baggage_info_fetching">Récupération des informations sur les bagages</string>
+    <!--Baggage Info Airline Message Example: (Prices may be cheaper if purchased online with Virgin America)-->
+    <string name="baggage_info_airline_message_TEMPLATE">(ces frais peuvent être inférieurs si vous effectuez l\&apos;achat en ligne auprès de {airline_name})</string>
+    <!--Baggage Fees when purchased at airport-->
+    <string name="baggage_fees_purchased_airport">Frais de bagages si achetés à l\&apos;aéroport :</string>
+    <!--Baggage Fee Info-->
+    <string name="baggage_fee_info">Infos frais de bagages</string>
+    <!--Airline-->
+    <string name="airline">Compagnie aérienne</string>
 
     <!-- Select your fare label -->
     <string name="select_your_fare">Sélectionnez votre tarif</string>
@@ -1411,6 +1418,12 @@
     <string name="itin_flight_summary_terminal_TEMPLATE">Terminal {terminal}</string>
     <!-- Flight itin summary widget gate template. Gate {gate} (e.g., Gate 1A)-->
     <string name="itin_flight_summary_gate_TEMPLATE">Porte {gate}</string>
+    <!-- Flight itin summary widget new departure title -->
+    <string name="itin_flight_summary_new_departure_title">Nouveau départ</string>
+    <!-- Flight itin summary widget scheduled departure title -->
+    <string name="itin_flight_summary_scheduled_title">Prévu</string>
+    <!-- Flight itin summary widget new arrival title -->
+    <string name="itin_flight_summary_new_arrival_title">Nouvelle arrivée</string>
     <!-- displayed when seats aren't selectable -->
     <string name="seat_selection_not_available">Sélection des sièges non disponible</string>
     <!-- displayed when seats are selectable -->
@@ -1423,6 +1436,20 @@
     <string name="itin_flight_layover_TEMPLATE">Escale de {layover}</string>
     <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">Durée totale : {duration}</string>
+    <!--Flight itin baggage information text-->
+    <string name="itin_baggage_info_button_text">Informations sur les bagages</string>
+    <!--Flight itin traveller info widget heading-->
+    <string name="itin_flight_traveller_info">Informations sur le voyageur</string>
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_details_manage_booking_heading">Gérer la réservation</string>
+    <!--Flight itin segment summary flight status indicator text - cancelled-->
+    <string name="itin_flight_summary_status_indicator_text_cancelled">Annulé</string>
+    <!--Flight itin segment summary flight status indicator text - on time-->
+    <string name="itin_flight_summary_status_indicator_text_on_time">À l\&apos;heure</string>
+    <!--Flight itin segment summary flight status indicator text template - delayed by. Delayed by {duration} (e.g., Delayed by 30m)-->
+    <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">Retard de {duration}</string>
+    <!--Flight itin segment summary flight status indicator text - early departure-->
+    <string name="itin_flight_summary_status_indicator_text_early_departure">Décollage en avance</string>
 
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
@@ -1749,21 +1776,15 @@
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
 
     <!-- Calendar instructions -->
-    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
     <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} \u0020-\u0020 {enddate}</string>
-    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
-    <string name="start_to_end_date_range_cont_desc_TEMPLATE">du {startdate} au {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (aller simple)</string>
     <!-- Calendar instructions rail start date selected -->
     <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
     <string name="calendar_instructions_date_range_flight_select_return_date">Suivant : choisir une date de retour</string>
-    <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
@@ -1925,6 +1946,8 @@
     <string name="cost_summary">Récapitulatif du prix</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">Frais de réservation {brand}</string>
+    <!-- Booking Fee -->
+    <string name="booking_fee">Frais de réservation</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="payment_method_fee">Frais associés au moyen de paiement</string>
     <!-- Flight -->
@@ -2259,6 +2282,8 @@
     <string name="split_ticket_rules_cancellation_policy">Tout changement ou annulation de l\&apos;un de vos vols n\&apos;impactera pas automatiquement l\&apos;autre vol. Le changement de l\&apos;autre vol peut entraîner des frais supplémentaires.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">Des frais de bagages distincts s\&apos;appliquent aux vols &lt;a href=\"{departurelink}\"&gt;Aller&lt;/a&gt; et &lt;a href=\"{returnlink}\"&gt;Retour&lt;/a&gt;.</string>
+    <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
+    <string name="evolable_terms_condition_TEMPLATE">La réservation de ce vol est effectuée par le biais de &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;.&lt;br&gt;Les &lt;a href=\"{evolable_terms_condition_link}\"&gt;conditions d\&apos;utilisation&lt;/a&gt; du prestataire s\&apos;appliquent.</string>
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">Annuler</string>
@@ -2386,6 +2411,8 @@
     <string name="DONE">OK</string>
     <!-- Button label for dismissing the flight fare family amenities dialog -->
     <string name="OK">OK</string>
+    <!--Label to view details -->
+    <string name="view_details">Afficher les détails</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Plan</string>
     <!-- Label for sort hotels in hotel list -->
@@ -3943,6 +3970,7 @@
     <string name="flight_overview_header_TEMPLATE">De {departureairportcode} à {arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">N° {itinerary} envoyé à {email}</string>
+    <string name="itinerary_default_email_message">votre adresse e-mail.</string>
 
     <!--Rail search screen title-->
     <string name="trains">Trains</string>
@@ -4278,17 +4306,32 @@
     <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Désolés, la classe demandée (&lt;b&gt;{fare_family_name}&lt;/b&gt;) n\&apos;est plus disponible sur notre site. Veuillez réessayer avec un tarif différent. Les tarifs correspondant à votre choix de classe initial seront affichés à nouveau.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
     <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Désolés, la classe demandée (&lt;b&gt;{fare_family_name}&lt;/b&gt;) n\&apos;est plus disponible sur notre site. Veuillez réessayer avec un tarif différent. Les tarifs correspondant à votre choix de classe initial seront affichés à nouveau.</string>
-    <!-- Label for fare family upgrade option. Example. Change your fare -->
-    <string name="flight_fare_family_fare_label">Modifier votre tarif</string>
+    <!-- Label for fare family upgrade option. Example. You've selected Comfort+  -->
+    <string name="flight_fare_family_fare_label_TEMPLATE">Vous avez sélectionné {fare_family_name}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">Surclasser vos vols</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">Surclasser votre vol</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">À partir de</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
+    <string name="flight_selected_classes_one_class_TEMPLATE">Classe choisie :{class}</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">Classes choisies : {class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
+    <string name="flight_selected_classes_mixed_classes">Classes choisies : Mixtes</string>
+    <!-- Label for change fare class subtext,  Example. Change fare class -->
+    <string name="flight_change_fare_class">Modifier la classe du billet</string>
 
+
+    <!-- Generic date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="start_dash_end_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Generic date range template with guests. E.g. May 12 - May 15, 2 guestss -->
+    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="start_to_end_date_range_cont_desc_TEMPLATE">Du {startdate} au {enddate}</string>
+    <!-- Generic Content Description text for date ranges plus guests template. Example May 12 to May 15, 2 guests -->
+    <string name="start_to_end_plus_guests_cont_desc_TEMPLATE">De {startdate} à {enddate}, {guests}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">Ajouter un voyageur adulte</string>
     <!--Traveler widget adults minus button content description-->
