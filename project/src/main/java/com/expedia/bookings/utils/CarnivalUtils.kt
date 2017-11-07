@@ -179,7 +179,7 @@ open class CarnivalUtils {
         }
     }
 
-    private fun isFeatureToggledOn(): Boolean = FeatureToggleUtil.isFeatureEnabled(appContext, R.string.preference_new_carnival_notifications) && ProductFlavorFeatureConfiguration.getInstance().isCarnivalEnabled
+    private fun isFeatureToggledOn(): Boolean = ProductFlavorFeatureConfiguration.getInstance().isCarnivalEnabled
 
     open fun setAttributes(attributes: AttributeMap, eventName: String) {
         Carnival.logEvent(eventName)
