@@ -4,25 +4,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    app:cardBackgroundColor="@color/gray1"
     android:padding="10dp"
     android:layout_margin="10dp"
     android:layout_height="match_parent">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider_gray"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:layout_gravity="left"
+        android:id="@+id/avatarImageView"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="18dp"
+        android:src="@drawable/dot"/>
     <TextView
         android:id="@+id/label12"
         android:textSize="14sp"
         android:textColor="@color/gray5"
         android:textStyle="bold"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        tools:text="dummy"
-        android:layout_width="match_parent"
+        android:paddingLeft="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_toRightOf="@id/avatarImageView"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

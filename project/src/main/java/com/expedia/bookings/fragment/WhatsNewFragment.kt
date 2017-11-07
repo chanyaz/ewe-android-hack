@@ -32,13 +32,14 @@ class WhatsNewFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val latch = CountDownLatch(1)
+        /*val latch = CountDownLatch(1)
         Thread(Runnable {
             b = getFeatures().execute().body()
             latch.countDown()
         }).start()
         latch.await()
-        val data = b?.features
+        val data = b?.features*/
+        val data = dummyData()
         val listData = Array<CustomPojo>(data!!.size, { i -> data.get(i) })
         val adapter = CustomListAdapter(data = listData, context = this.context)
         listView.adapter = adapter
@@ -70,6 +71,10 @@ class WhatsNewFragment : Fragment() {
                     {
                         "featureName": "Upsell!!",
                         "featureDetails": "Expedia apps now give you the option to see the difference in prices that you are paying and the prices for an upgraded seat!"
+                    },
+                    {
+                        "featureName": "LX on Expedia+",
+                        "featureDetails": "You can use you Expedia Loyalty Points now to even book Local Activities. Go Crazy!"
                     }
                 ]
             }

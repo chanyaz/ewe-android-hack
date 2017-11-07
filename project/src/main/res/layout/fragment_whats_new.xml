@@ -16,7 +16,7 @@
             android:layout_gravity="center"
             android:layout_width="160dp"
             android:layout_height="100dp"
-            android:src="@drawable/image_rr"/>
+            android:src="@drawable/whatsnew"/>
 
         <ListView
             android:id="@+id/list_to_be"
