@@ -38,7 +38,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFreeCancellationTooltip = new ABTest(14513);
 	public static final ABTest EBAndroidAppAPIMAuth = new ABTest(14654);
 	public static final ABTest EBAndroidPopulateCardholderName = new ABTest(14525);
-	public static final ABTest EBAndroidAppSecureCheckoutIcon = new ABTest(14202);
+	public static final ABTest EBAndroidAppSecureCheckoutIcon = new ABTest(16112);
 	public static final ABTest EBAndroidAppFlightFlexEnabled = new ABTest(15247);
 	public static final ABTest EBAndroidAppLocaleBasedDateFormatting = new ABTest(15316);
 	public static final ABTest EBAndroidAppHideApacBillingAddressFields = new ABTest(12622);

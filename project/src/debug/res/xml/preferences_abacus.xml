@@ -369,9 +369,9 @@
             android:defaultValue="-1"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="14202"
+            android:key="16112"
             android:summary="%s"
-            android:title="Checkout secure icon AB test - 14202" />
+            android:title="Checkout secure icon AB test - 16112" />
 
         <ListPreference
             android:defaultValue="-1"
