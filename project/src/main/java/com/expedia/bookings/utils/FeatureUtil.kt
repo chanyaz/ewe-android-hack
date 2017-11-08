@@ -5,10 +5,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 
-fun isMaterialFormsEnabled(): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-}
-
 fun isFlexEnabled(): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFlexEnabled)
 }
@@ -22,7 +18,7 @@ fun isSecureIconEnabled(context: Context): Boolean {
 }
 
 fun isFrequentFlyerNumberForFlightsEnabled(): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)&& isMaterialFormsEnabled()
+    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
 }
 
 fun isMidAPIEnabled(context: Context): Boolean {

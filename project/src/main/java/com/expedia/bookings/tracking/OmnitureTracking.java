@@ -96,6 +96,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
+<<<<<<< HEAD
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -110,8 +111,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import kotlin.NotImplementedError;
-
-import static com.expedia.bookings.utils.FeatureUtilKt.isMaterialFormsEnabled;
 import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
 
 /**
@@ -1550,9 +1549,7 @@ public class OmnitureTracking {
 		s.setAppState(pageName);
 		s.setEvar(18, pageName);
 
-		if (isMaterialFormsEnabled()) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppHideApacBillingAddressFields);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHideApacBillingAddressFields);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
 
 		s.track();
