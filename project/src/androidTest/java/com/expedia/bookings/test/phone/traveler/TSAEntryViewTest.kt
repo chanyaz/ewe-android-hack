@@ -55,7 +55,6 @@ class TSAEntryViewTest {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
                     .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
 
-            assertTrue(tsaEntryView.materialFormTestEnabled)
             val textInputLayout = tsaEntryView.findViewById<View>(R.id.edit_birth_date_text_layout_btn)
             assertNotNull(textInputLayout)
 
@@ -98,8 +97,6 @@ class TSAEntryViewTest {
         uiThreadTestRule.runOnUiThread {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
                     .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
-
-            assertTrue(tsaEntryView.materialFormTestEnabled)
 
             val genderEditText = tsaEntryView.findViewById<View>(R.id.edit_gender_btn) as TravelerEditText
             assertNotNull(genderEditText)

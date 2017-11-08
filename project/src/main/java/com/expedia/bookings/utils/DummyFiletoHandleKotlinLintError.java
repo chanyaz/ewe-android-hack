@@ -498,7 +498,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.material_spinner_item,
 		R.layout.material_text_input,
 		R.layout.flight_travelers_presenter_view_stub,
-		R.layout.tsa_entry_view,
 		R.layout.material_reversed_name_entry_view,
 		R.layout.phone_entry_view,
 		R.layout.spinner_dropdown_item,
