@@ -51,9 +51,9 @@ public class TextView extends android.widget.TextView {
 		final int color = a.getColor(R.styleable.TextView_drawableTintColor, 0);
 		a.recycle();
 
-		if (textStyle > 0) {
+		//if (textStyle > 0) {
 			setTypefaceByStyle(this, textStyle);
-		}
+		//}
 		if (color != 0 && getCompoundDrawables()[0] != null) {
 			setTintedDrawable(getCompoundDrawables()[0], color);
 		}
