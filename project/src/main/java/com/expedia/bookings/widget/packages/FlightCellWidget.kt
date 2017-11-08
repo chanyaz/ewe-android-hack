@@ -23,7 +23,6 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
     val flightTimeTextView: TextView by bindView(R.id.flight_time_detail_text_view)
     val priceTextView: TextView by bindView(R.id.price_text_view)
     val flightDurationTextView: TextView by bindView(R.id.flight_duration_text_view)
-    val flightLayoverWidget: FlightLayoverWidget by bindView(R.id.custom_flight_layover_widget)
     val flightAirlineWidget: FlightAirlineWidget by bindView(R.id.flight_airline_widget)
     val bestFlightView: ViewGroup by bindView(R.id.package_best_flight)
     val flightEarnMessage: TextView by bindView(R.id.flight_earn_message_text_view)
@@ -45,16 +44,6 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
         flightTimeTextView.text = viewModel.flightTime
         priceTextView.text = viewModel.price()
         flightDurationTextView.text = viewModel.duration
-        val flight = viewModel.layover
-        if (viewModel.isUserBucketedInHideFSRInfographicTest()) {
-            flightLayoverWidget.visibility = View.GONE
-            val cabinCodeLayoutParams = flightCabinCodeTextView.layoutParams as MarginLayoutParams
-            cabinCodeLayoutParams.topMargin = resources.getDimension(R.dimen.layover_bar_padding).toInt()
-            flightCabinCodeTextView.layoutParams = cabinCodeLayoutParams
-        }
-        else {
-            flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
-        }
         flightAirlineWidget.update(viewModel.airline, viewModel.isEarnMessageVisible(viewModel.earnMessage))
         viewModel.updateflightCabinPreferenceObservable.subscribe {
             if (viewModel.getFlightCabinPreferenceVisibility()) {
