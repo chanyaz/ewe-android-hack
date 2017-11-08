@@ -24,27 +24,19 @@ class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         firstName.viewModel = vm.firstNameViewModel
         middleName?.viewModel = vm.middleNameViewModel
         lastName.viewModel = vm.lastNameViewModel
-
-        if (materialFormTestEnabled) {
-            firstName.subscribeMaterialFormsError(firstName.viewModel.errorSubject, R.string.first_name_validation_error_message)
-            middleName?.let {
-                it.subscribeMaterialFormsError(it.viewModel.errorSubject, R.string.middle_name_validation_error_message)
-            }
-            lastName.subscribeMaterialFormsError(lastName.viewModel.errorSubject, R.string.last_name_validation_error_message)
+        firstName.subscribeMaterialFormsError(firstName.viewModel.errorSubject, R.string.first_name_validation_error_message)
+        middleName?.let {
+            it.subscribeMaterialFormsError(it.viewModel.errorSubject, R.string.middle_name_validation_error_message)
         }
-
+        lastName.subscribeMaterialFormsError(lastName.viewModel.errorSubject, R.string.last_name_validation_error_message)
     }
 
     init {
-        val layout = if (materialFormTestEnabled) {
-            if (PointOfSale.getPointOfSale().showLastNameFirst() || PointOfSale.getPointOfSale().hideMiddleName()) {
-                R.layout.material_reversed_name_entry_view
-            } else {
-                R.layout.material_name_entry_view
-            }
-        } else {
-            R.layout.name_entry_view
-        }
+        val layout = if (PointOfSale.getPointOfSale().showLastNameFirst() || PointOfSale.getPointOfSale().hideMiddleName()) {
+                    R.layout.material_reversed_name_entry_view
+                } else {
+                    R.layout.material_name_entry_view
+                }
         View.inflate(context, layout, this)
         orientation = VERTICAL
     }
