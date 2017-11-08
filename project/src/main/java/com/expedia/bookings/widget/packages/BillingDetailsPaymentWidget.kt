@@ -112,12 +112,10 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             addressState.updatePaddingForOldApi()
             creditCardCvv.updatePaddingForOldApi()
             creditCardPostalCode.updatePaddingForOldApi()
-            if (materialFormTestEnabled)  {
-                expirationDate.updatePaddingForOldApi()
-                editCountryEditText?.updatePaddingForOldApi()
-                addressLineOne.updatePaddingForOldApi()
-                addressLineTwo.updatePaddingForOldApi()
-            }
+            expirationDate.updatePaddingForOldApi()
+            editCountryEditText?.updatePaddingForOldApi()
+            addressLineOne.updatePaddingForOldApi()
+            addressLineTwo.updatePaddingForOldApi()
         }
     }
 
