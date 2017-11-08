@@ -1,64 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!--
-         Suggested locations to search that are given to the user.  Order doesn't matter
-		as these are all shuffled before displaying anyways.
-    -->
-    <string-array name="suggestions">
-        <item>@string/suggestion_times_square</item>
-        <item>@string/suggestion_boston</item>
-        <item>@string/suggestion_los_angeles</item>
-        <item>@string/suggestion_venice</item>
-        <item>@string/suggestion_miami</item>
-        <item>@string/suggestion_london</item>
-        <item>@string/suggestion_las_vegas</item>
-        <item>@string/suggestion_paris</item>
-        <item>@string/suggestion_minneapolis</item>
-        <item>@string/suggestion_san_francisco</item>
-    </string-array>
-
-    <!--
-    Region id, latitude, longitude for each suggestion as supplied by <id>, <lat>, <lng> in this search
-	http://suggest.expedia.com/hint/es/v1/ac/en_US/times+square?type=30
-    -->
-    <string-array name="suggestion_region_ids" tools:ignore="MissingTranslation">
-        <item>6002082</item>
-        <item>178239</item>
-        <item>178280</item>
-        <item>6068500</item>
-        <item>178286</item>
-        <item>178279</item>
-        <item>178276</item>
-        <item>179898</item>
-        <item>2426</item>
-        <item>178305</item>
-    </string-array>
-    <string-array name="suggestion_latitudes" tools:ignore="MissingTranslation">
-        <item>40.756390</item>
-        <item>42.357690</item>
-        <item>34.050720</item>
-        <item>33.991979</item>
-        <item>25.771780</item>
-        <item>51.507538</item>
-        <item>36.170460</item>
-        <item>48.862720</item>
-        <item>44.976910</item>
-        <item>37.787400</item>
-    </string-array>
-    <string-array name="suggestion_longitudes" tools:ignore="MissingTranslation">
-        <item>-73.986690</item>
-        <item>-71.063240</item>
-        <item>-118.254770</item>
-        <item>-118.479395</item>
-        <item>-80.190090</item>
-        <item>-0.127804</item>
-        <item>-115.143490</item>
-        <item>2.343750</item>
-        <item>-93.272120</item>
-        <item>-122.408200</item>
-    </string-array>
-
     <string-array name="country_names">
         <item>@string/country_af</item>
         <item>@string/country_al</item>

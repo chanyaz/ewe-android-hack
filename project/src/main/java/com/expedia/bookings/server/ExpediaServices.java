@@ -1,6 +1,5 @@
 package com.expedia.bookings.server;
 
-import com.crashlytics.android.Crashlytics;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieManager;
@@ -30,6 +29,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -52,13 +52,10 @@ import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.SuggestResponse;
-import com.expedia.bookings.data.SuggestionResultType;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
@@ -198,113 +195,6 @@ public class ExpediaServices implements DownloadListener {
 	public void clearCookies() {
 		Log.d("Cookies: Clearing!");
 		mCookieManager.clear();
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Expedia Suggest API
-	//
-	// Documentation:
-	// https://confluence/display/POS/Expedia+Suggest+API+Family
-	//
-	// Examples (hotels):
-	// http://suggest.expedia.com/hint/es/v1/ac/en_US/bellagio?type=30
-	// http://suggest.expedia.com/hint/es/v1/ac/es_MX/seattle?type=30
-	//
-	// Examples (flights):
-	// http://suggest.expedia.com/hint/es/v1/ac/en_US/new%20york?type=95&lob=Flights
-
-	private enum SuggestType {
-		AUTOCOMPLETE,
-		NEARBY,
-		HID,
-		RID
-	}
-
-	public SuggestResponse suggest(String query, int flags) {
-		if (query == null || query.length() < getMinSuggestQueryLength()) {
-			return null;
-		}
-
-		String url = NetUtils.formatUrl(getSuggestUrl(4, SuggestType.AUTOCOMPLETE) + query);
-
-		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-
-		SuggestResponseHandler responseHandler = new SuggestResponseHandler();
-
-		if ((flags & F_FLIGHTS) != 0) {
-			// 95 is all regions (AIRPORT, CITY, MULTICITY, NEIGHBORHOOD, POI, METROCODE)
-			params.add(new BasicNameValuePair("regiontype", "95"));
-			params.add(new BasicNameValuePair("lob", "Flights"));
-			params.add(new BasicNameValuePair("features", "nearby_airport"));
-
-			responseHandler.setType(SuggestResponseHandler.Type.FLIGHTS);
-		}
-		else {
-			// 255 is regions(95 Default) + hotels(128) + addresses(32)
-			int regionType = SuggestionResultType.HOTEL | SuggestionResultType.AIRPORT | SuggestionResultType.CITY |
-				SuggestionResultType.NEIGHBORHOOD | SuggestionResultType.POINT_OF_INTEREST
-				| SuggestionResultType.REGION;
-			params.add(new BasicNameValuePair("regiontype", "" + regionType));
-			params.add(new BasicNameValuePair("lob", "hotels"));
-			responseHandler.setType(SuggestResponseHandler.Type.HOTELS);
-			params.add(new BasicNameValuePair("features", "ta_hierarchy"));
-		}
-
-		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
-		params.add(new BasicNameValuePair("client", ServicesUtil.generateClient(mContext)));
-
-		Request.Builder get = createHttpGet(url, params);
-		get.addHeader("Accept", "application/json");
-
-		// Some logging before passing the request along^M
-		Log.d(TAG_REQUEST, "Autosuggest request: " + url + "?" + NetUtils.getParamsForLogging(params));
-
-		return doRequest(get, responseHandler, 0);
-	}
-
-	/**
-	 * Get the minimum number of characters required to provide drop down auto fill results.
-	 * This is useful for languages like Japanese where Tokyo is spelt with 2 characters.
-	 *
-	 * @return min number of characters considered to be a valid query
-	 */
-	private int getMinSuggestQueryLength() {
-		if (mContext != null) {
-			return mContext.getResources().getInteger(R.integer.suggest_min_query_length);
-		}
-		else {
-			return 3;
-		}
-	}
-
-	private String getSuggestUrl(int version, SuggestType type) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(mEndpointProvider.getEssEndpointUrl());
-		sb.append("api/");
-		// Version #
-		sb.append("v" + Integer.toString(version) + "/");
-
-		// Type
-		switch (type) {
-		case AUTOCOMPLETE:
-			sb.append("typeahead/");
-			break;
-		case NEARBY:
-			sb.append("nearby/");
-			break;
-		case HID:
-			sb.append("hid/");
-			break;
-		}
-
-		return sb.toString();
-	}
-
-	private String getGaiaNearbySuggestUrl() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(mEndpointProvider.getGaiaEndpointUrl());
-		sb.append("/v1/features/");
-		return sb.toString();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

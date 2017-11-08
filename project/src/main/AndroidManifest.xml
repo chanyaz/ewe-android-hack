@@ -361,13 +361,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- Search autocomplete components -->
-
-        <provider
-            android:name="com.expedia.bookings.content.AutocompleteProvider"
-            android:authorities="@string/authority_autocomplete_hotel"
-            android:exported="false" />
-
         <!-- Tracking -->
 
         <!-- Google Play Campaign Tracking -->

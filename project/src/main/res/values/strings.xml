@@ -2389,20 +2389,7 @@
 
     <!-- This is a special case for rails senior age greater than 62 -->
     <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62+&lt;/b&gt; years old</string>
-
-    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-    <!-- Suggestion to search Times Square -->
-    <string name="suggestion_times_square">Times Square, New York, NY</string>
-    <string name="suggestion_boston">Boston, MA</string>
-    <string name="suggestion_los_angeles">Los Angeles, CA</string>
-    <string name="suggestion_venice">Venice Beach Park, Venice, CA</string>
-    <string name="suggestion_miami">Miami, FL</string>
-    <string name="suggestion_london">London, UK</string>
-    <string name="suggestion_las_vegas">Las Vegas, NV</string>
-    <string name="suggestion_paris">Paris, France</string>
-    <string name="suggestion_minneapolis">Minneapolis, MN</string>
-    <string name="suggestion_san_francisco">San Francisco, CA</string>
-
+    
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Search</string>

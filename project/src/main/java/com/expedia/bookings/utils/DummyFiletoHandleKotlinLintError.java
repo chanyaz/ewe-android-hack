@@ -1357,6 +1357,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.itin_flight_manage_booking_header,
 		R.layout.manage_booking_flight_itin,
 		//Please add your string above this line to avoid conflicts
-		R.layout.fragment_dialog_soft_prompt
+		R.layout.fragment_dialog_soft_prompt,
+		R.integer.suggest_min_query_length
 	};
 }

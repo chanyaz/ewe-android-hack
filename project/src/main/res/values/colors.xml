@@ -15,7 +15,6 @@
     <!-- Action Bar colors -->
     <color name="launch_actionbar_bg_color">@color/exp_old_launch</color>
     <color name="action_bar_selected_tab_underline_color">#FFED18</color>
-    <color name="actionbar_suggestion_text_color">@color/actionbar_text</color>
     <color name="actionbar_terminal_text_ctx">#F3F3F3</color>
     <color name="actionbar_text_color">#dddfe1</color>
     <color name="actionbar_text_color_disabled">#90FFFFFF</color>
@@ -162,7 +161,6 @@
     <color name="window_background_dark">#2D3742</color>
     <color name="calendar_instruction_text_color">#717171</color>
 
-    <color name="suggestion_row_divider">#FF4F4F4F</color>
     <color name="hotel_cell_primary_color">#3D4552</color>
     <color name="hotel_price_text_color">#064192</color>
     <color name="hotel_price_sale_text_color">@color/success_green</color>
