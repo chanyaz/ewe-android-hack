@@ -51,16 +51,6 @@ public class TelephoneSpinner extends Spinner {
 		}
 	}
 
-	public void update(String countryCode, String countryName) {
-		TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) getAdapter();
-		for (int i = 0; i < adapter.getCount() - 1; i++) {
-			if (countryCode.equalsIgnoreCase("" + adapter.getCountryCode(i)) && (TextUtils.isEmpty(countryName)
-				|| countryName.equalsIgnoreCase(adapter.getCountryName(i)))) {
-				setSelection(i);
-			}
-		}
-	}
-
 	public int getSelectedTelephoneCountryCode() {
 		int position = getSelectedItemPosition();
 		if (position == AdapterView.INVALID_POSITION) {

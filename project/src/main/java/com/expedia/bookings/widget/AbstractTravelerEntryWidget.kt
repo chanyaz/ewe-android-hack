@@ -88,22 +88,12 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         nameEntryView.lastName.addOnFocusChangeListener(this)
         emailEntryView.emailAddress.addOnFocusChangeListener(this)
         phoneEntryView.phoneNumber.addOnFocusChangeListener(this)
-        if (phoneEntryView.materialFormTestEnabled) {
-            phoneEntryView.phoneEditBox?.setOnFocusChangeListener { view, hasFocus ->
-                if (hasFocus) {
-                    Ui.hideKeyboard(this)
-                    phoneEntryView.phoneEditBox?.performClick()
-                }
-                onFocusChange(view, hasFocus)
+        phoneEntryView.phoneEditBox?.setOnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                Ui.hideKeyboard(this)
+                phoneEntryView.phoneEditBox?.performClick()
             }
-        } else {
-            phoneEntryView.phoneSpinner.setOnFocusChangeListener { view, hasFocus ->
-                if (hasFocus) {
-                    Ui.hideKeyboard(this)
-                    phoneEntryView.phoneSpinner.performClick()
-                }
-                onFocusChange(view, hasFocus)
-            }
+            onFocusChange(view, hasFocus)
         }
     }
 

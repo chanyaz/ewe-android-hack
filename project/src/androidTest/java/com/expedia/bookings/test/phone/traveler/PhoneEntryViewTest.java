@@ -64,7 +64,6 @@ public class PhoneEntryViewTest {
 			public void run() {
 				PhoneEntryView phoneEntryView = (PhoneEntryView) LayoutInflater.from(activityTestRule.getActivity())
 					.inflate(R.layout.test_phone_entry_view, null);
-				assertTrue(phoneEntryView.getMaterialFormTestEnabled());
 				TextInputLayout textInputLayout = (TextInputLayout) phoneEntryView
 					.findViewById(R.id.edit_phone_layout_number);
 				assertNotNull(textInputLayout);
