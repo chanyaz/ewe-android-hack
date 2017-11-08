@@ -7,8 +7,6 @@ import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
@@ -77,9 +75,9 @@ public class TuneUtils {
 		if (trackingProvider != null) {
 			TuneEvent event = new TuneEvent("hotel_infosite");
 			TuneEventItem eventItem = new TuneEventItem("hotel_infosite_item");
-			final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-mm-dd");
-			LocalDate checkInDate = dtf.parseDateTime(hotelOffersResponse.checkInDate).toLocalDate();
-			LocalDate checkOutDate = dtf.parseDateTime(hotelOffersResponse.checkOutDate).toLocalDate();
+			LocalDate checkInDate = new LocalDate(hotelOffersResponse.checkInDate);
+			LocalDate checkOutDate = new LocalDate(hotelOffersResponse.checkOutDate);
+
 			int stayDuration = JodaUtils.daysBetween(checkInDate, checkOutDate);
 			eventItem.withAttribute1(hotelOffersResponse.hotelCity)
 				.withQuantity(stayDuration);
