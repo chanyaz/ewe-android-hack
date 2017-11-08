@@ -61,7 +61,6 @@ public class NameEntryViewTest {
 		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
 			.inflate(R.layout.test_name_entry_view, null);
 
-		assertTrue(nameEntryView.getMaterialFormTestEnabled());
 		TextInputLayout textInputLayout = (TextInputLayout) nameEntryView.findViewById(R.id.first_name_layout_input);
 		assertNotNull(textInputLayout);
 	}

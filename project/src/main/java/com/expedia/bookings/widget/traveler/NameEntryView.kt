@@ -8,7 +8,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerNameViewModel
@@ -18,7 +17,6 @@ class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(conte
     val firstName: TravelerEditText by bindView(R.id.first_name_input)
     val middleName: TravelerEditText? by bindOptionalView(R.id.middle_name_input)
     val lastName: TravelerEditText by bindView(R.id.last_name_input)
-    val materialFormTestEnabled = isMaterialFormsEnabled()
 
     var viewModel: TravelerNameViewModel by notNullAndObservable { vm ->
         firstName.viewModel = vm.firstNameViewModel
