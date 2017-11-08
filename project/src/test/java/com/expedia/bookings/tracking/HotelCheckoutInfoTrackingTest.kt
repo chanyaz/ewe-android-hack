@@ -1,6 +1,7 @@
 package com.expedia.bookings.test
 
 import android.app.Application
+import android.support.annotation.StringRes
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
@@ -34,13 +35,12 @@ class HotelCheckoutInfoTrackingTest {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
-
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun disabledSTPStateBucketedTrackingCallFiredWhenFeatureToggleON() {
+    fun testDisabledSTPStateBucketedTrackingCallFiredWhenFeatureToggleON() {
 
-        enableDisabledSTPStateFeatureFlag(true)
-        enableDisabledSTPStateABTest(true)
+        enableFeatureFlag(true, R.string.preference_enable_disabled_stp_hotels)
+        enableABTest(true, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
@@ -52,10 +52,10 @@ class HotelCheckoutInfoTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun disabledSTPStateControlTrackingCallFiredWhenFeatureToggleON() {
+    fun testDisabledSTPStateControlTrackingCallFiredWhenFeatureToggleON() {
 
-        enableDisabledSTPStateFeatureFlag(true)
-        enableDisabledSTPStateABTest(false)
+        enableFeatureFlag(true, R.string.preference_enable_disabled_stp_hotels)
+        enableABTest(false, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
@@ -65,13 +65,12 @@ class HotelCheckoutInfoTrackingTest {
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
-
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun disabledSTPStateBucketedTrackingCallNotFiredWhenFeatureToggleOFF() {
+    fun testDisabledSTPStateBucketedTrackingCallNotFiredWhenFeatureToggleOFF() {
 
-        enableDisabledSTPStateFeatureFlag(false)
-        enableDisabledSTPStateABTest(true)
+        enableFeatureFlag(false, R.string.preference_enable_disabled_stp_hotels)
+        enableABTest(true, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
 
         trackPageLoadHotelCheckoutInfo()
         OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "15923.0.0")), mockAnalyticsProvider)
@@ -80,19 +79,72 @@ class HotelCheckoutInfoTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun disabledSTPStateControlTrackingCallNotFiredWhenFeatureToggleOFF() {
+    fun testDisabledSTPStateControlTrackingCallNotFiredWhenFeatureToggleOFF() {
 
-        enableDisabledSTPStateFeatureFlag(false)
-        enableDisabledSTPStateABTest(false)
+        enableFeatureFlag(false, R.string.preference_enable_disabled_stp_hotels)
+        enableABTest(false, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
 
         trackPageLoadHotelCheckoutInfo()
         OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "15923.0.0")), mockAnalyticsProvider)
         OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "15923.0.1")), mockAnalyticsProvider)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMaterialFormsBucketedTrackingCallFiredWhenFeatureToggleON() {
 
-    private fun enableDisabledSTPStateABTest(enable: Boolean) {
-        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key,
+        enableFeatureFlag(true, R.string.preference_enable_hotel_material_forms)
+        enableABTest(true, AbacusUtils.EBAndroidAppHotelMaterialForms.key)
+
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        trackPageLoadHotelCheckoutInfo()
+
+        val expectedEvars = mapOf(34 to "16138.0.1")
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMaterialFormsControlTrackingCallFiredWhenFeatureToggleON() {
+
+        enableFeatureFlag(true, R.string.preference_enable_hotel_material_forms)
+        enableABTest(false, AbacusUtils.EBAndroidAppHotelMaterialForms.key)
+
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        trackPageLoadHotelCheckoutInfo()
+
+        val expectedEvars = mapOf(34 to "16138.0.0")
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMaterialFormsBucketedTrackingCallNotFiredWhenFeatureToggleOFF() {
+
+        enableFeatureFlag(false, R.string.preference_enable_hotel_material_forms)
+        enableABTest(true, AbacusUtils.EBAndroidAppHotelMaterialForms.key)
+
+        trackPageLoadHotelCheckoutInfo()
+        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "16138.0.0")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "16138.0.1")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMaterialFormsControlTrackingCallNotFiredWhenFeatureToggleOFF() {
+
+        enableFeatureFlag(false, R.string.preference_enable_hotel_material_forms)
+        enableABTest(false, AbacusUtils.EBAndroidAppHotelMaterialForms.key)
+
+        trackPageLoadHotelCheckoutInfo()
+        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "16138.0.0")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "16138.0.1")), mockAnalyticsProvider)
+    }
+
+    private fun enableABTest(enable: Boolean, ABTestKey: Int) {
+        Db.getAbacusResponse().updateABTestForDebug(ABTestKey,
                 if (enable) AbacusUtils.DefaultVariant.BUCKETED.ordinal else AbacusUtils.DefaultVariant.CONTROL.ordinal)
     }
 
@@ -102,8 +154,7 @@ class HotelCheckoutInfoTrackingTest {
         HotelTracking.trackPageLoadHotelCheckoutInfo(createTripResponse, params, PageUsableData())
     }
 
-    private fun enableDisabledSTPStateFeatureFlag(enable: Boolean) {
-        SettingUtils.save(context, R.string.preference_enable_disabled_stp_hotels, enable)
+    private fun enableFeatureFlag(enable: Boolean, @StringRes featureKey: Int) {
+        SettingUtils.save(context, featureKey, enable)
     }
-
 }

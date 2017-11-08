@@ -48,6 +48,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppShowFlightsCheckoutWebview = new ABTest(15371);
 	public static final ABTest TripsFlightsNewdesign = new ABTest(14655);
 	public static final ABTest EBAndroidAppDisplayEligibleCardsOnPaymentForm = new ABTest(15682);
+	public static final ABTest EBAndroidAppHotelMaterialForms = new ABTest(16138);
 
 	// Rail tests
 	public static final ABTest EBAndroidRailHybridAppForDEEnabled = new ABTest(15102);
@@ -230,6 +231,7 @@ public class AbacusUtils {
 		testIDs.add(HotelEnableInfositeChangeDate.getKey());
 		testIDs.add(EBAndroidAppFlightsFrenchLegalBaggageInfo.getKey());
 		testIDs.add(EBAndroidAppAccountRecaptcha.getKey());
+		testIDs.add(EBAndroidAppHotelMaterialForms.getKey());
 
 		return testIDs;
 	}

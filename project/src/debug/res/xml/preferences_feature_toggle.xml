@@ -89,6 +89,11 @@
             android:summary="Enable credit card messaging for pay later"
             android:title="Enable credit card messaging pay later" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_enable_hotel_material_forms"
+            android:summary="Enable Hotel Material Forms"
+            android:title="Enable Hotel Material Forms" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

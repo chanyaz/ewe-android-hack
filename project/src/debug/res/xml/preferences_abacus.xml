@@ -453,6 +453,14 @@
             android:summary="%s"
             android:title="Show Krazy Glue on Flights Confirmation - 15790" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="16138"
+            android:summary="%s"
+            android:title="Hotel Material Forms - 15790" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
