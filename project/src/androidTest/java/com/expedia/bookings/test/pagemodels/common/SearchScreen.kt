@@ -325,6 +325,7 @@ object SearchScreen {
 
     @JvmStatic private fun selectSuggestion(viewMatcher: Matcher<View>) {
         suggestionList().perform(ViewActions.waitForViewToDisplay())
+        waitForSuggestions(hasDescendant(withId(R.id.suggestion_text_container)));
 
         suggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS))
         suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, click()))
