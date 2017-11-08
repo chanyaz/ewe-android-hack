@@ -40,6 +40,36 @@ class BaggageInfoParamsTest {
         assertEquals(expectedResult, receivedResult)
     }
 
+    @Test
+    fun testJsonBaggageFeeUrlParam() {
+        val flightLeg = FlightLeg()
+        val baggageInfoParams = BaggageInfoParams()
+        var expectedResult = ArrayList<HashMap<String, String>>()
+        expectedResult.add(getExpectedHashMap("1"))
+        expectedResult.add(getExpectedHashMap("2"))
+        val flightSegments = ArrayList<FlightLeg.FlightSegment>()
+        flightSegments.add(getFlightSegment())
+        flightSegments.add(getFlightSegment())
+        flightLeg.segments = flightSegments
+        flightLeg.jsonBaggageFeesUrl = getJsonBaggageFreeUrl()
+        val receivedResult = baggageInfoParams.makeBaggageParams(flightLeg)
+        assertEquals(expectedResult, receivedResult)
+    }
+
+    private fun getJsonBaggageFreeUrl(): FlightLeg.BaggageInfoFormData {
+        var baggageInfoFormData = FlightLeg.BaggageInfoFormData()
+        baggageInfoFormData.requestPath = "https://www.expedia.com/api/flight/baggagefees"
+        var hashMap = getExpectedHashMap("1")
+        hashMap.put("traveldate", "23/10/17")
+        var baggageFormData = ArrayList<HashMap<String, String>>()
+        baggageFormData.add(hashMap)
+        hashMap = getExpectedHashMap("2")
+        hashMap.put("traveldate", "23/10/17")
+        baggageFormData.add(hashMap)
+        baggageInfoFormData.formData = baggageFormData
+        return baggageInfoFormData
+    }
+
     private fun getFlightSegment(): FlightLeg.FlightSegment {
         val flightSegment = FlightLeg.FlightSegment()
         flightSegment.arrivalAirportCode = "LHR"

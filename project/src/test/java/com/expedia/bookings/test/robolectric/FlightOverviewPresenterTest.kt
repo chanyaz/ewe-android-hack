@@ -494,6 +494,44 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
+    fun testOutboundWidgetBaggageFlightLegUpdate() {
+        createExpectedFlightLeg()
+        var flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
+        val summaryWidgetViewModel = widget.flightSummary.viewmodel
+        summaryWidgetViewModel.params.onNext(setupFlightSearchParams())
+        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        val updatedInboundFlightLegSubjectTestSubscriber = TestSubscriber<FlightLeg>()
+        flightSummaryWidget.viewmodel.updatedOutboundFlightLegSubject.subscribe(updatedInboundFlightLegSubjectTestSubscriber)
+        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
+        outboundFlightWidget.baggageFeesButton.performClick()
+        updatedInboundFlightLegSubjectTestSubscriber.assertValueCount(0)
+
+        //After new create trip
+        summaryWidgetViewModel.tripResponse.onNext(getFlightCreateTripResponse())
+        outboundFlightWidget.baggageFeesButton.performClick()
+        updatedInboundFlightLegSubjectTestSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testInboundWidgetBaggageFlightLegUpdate() {
+        createExpectedFlightLeg()
+        var flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
+        val summaryWidgetViewModel = widget.flightSummary.viewmodel
+        summaryWidgetViewModel.params.onNext(setupFlightSearchParams())
+        val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
+        val updatedInboundFlightLegSubjectTestSubscriber = TestSubscriber<FlightLeg>()
+        flightSummaryWidget.viewmodel.updatedOutboundFlightLegSubject.subscribe(updatedInboundFlightLegSubjectTestSubscriber)
+        prepareBundleWidgetViewModel(inboundFlightWidget.viewModel)
+        inboundFlightWidget.baggageFeesButton.performClick()
+        updatedInboundFlightLegSubjectTestSubscriber.assertValueCount(0)
+
+        //After new create trip
+        summaryWidgetViewModel.tripResponse.onNext(getFlightCreateTripResponse())
+        inboundFlightWidget.baggageFeesButton.performClick()
+        updatedInboundFlightLegSubjectTestSubscriber.assertValueCount(1)
+    }
+
+    @Test
     fun testOutboundWidgetPaymentInfoClick() {
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
