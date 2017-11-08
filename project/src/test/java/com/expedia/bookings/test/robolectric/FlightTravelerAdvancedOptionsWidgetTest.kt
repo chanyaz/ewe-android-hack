@@ -132,34 +132,6 @@ class FlightTravelerAdvancedOptionsWidgetTest {
     }
 
     @Test
-    fun testSeatPreferenceSpinners() {
-        widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
-        val seatPreferenceSpinner = widget.seatPreferenceSpinner
-        val adapter = SeatPreferenceSpinnerAdapter(context)
-        seatPreferenceSpinner.adapter = adapter
-        widget.viewModel = setupViewModel()
-
-        assertEquals("Aisle", seatPreferenceSpinner.selectedItem)
-        seatPreferenceSpinner.setSelection(1)
-
-        assertEquals("Window", seatPreferenceSpinner.selectedItem)
-    }
-
-    @Test
-    fun testSeatAssistanceSpinner() {
-        widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
-        val assistanceSpinner = widget.assistancePreferenceSpinner
-        val adapter = AssistanceTypeSpinnerAdapter(context)
-        assistanceSpinner.adapter = adapter
-        widget.viewModel = setupViewModel()
-
-        assertEquals("Wheelchair (immobile)", assistanceSpinner.selectedItem)
-
-        assistanceSpinner.setSelection(0)
-        assertEquals("No Special Assistance Required", assistanceSpinner.selectedItem)
-    }
-
-    @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testKnownTravelerNumberIconContentDescription() {
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget

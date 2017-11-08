@@ -16,8 +16,6 @@ import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.widget.TextViewExtensions;
 import com.mobiata.android.util.Ui;
 
-import static com.expedia.bookings.utils.FeatureUtilKt.isMaterialFormsEnabled;
-
 public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 
 	private final int mTextViewId;
@@ -98,18 +96,13 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 		View retView;
 		if (convertView == null) {
 			retView = Ui.inflate(mTextViewId, parent, false);
-		}
-		else {
+		} else {
 			retView = convertView;
 		}
-
 		TextView tv = Ui.findView(retView, android.R.id.text1);
 		tv.setText(HtmlCompat.fromHtml(String.format(mFormatString, getItem(position))));
 		TextViewExtensions.Companion.setTextColorBasedOnPosition(tv, mCurrentPosition, position);
-		if (isMaterialFormsEnabled()) {
-			tv.setSingleLine(false);
-		}
-
+		tv.setSingleLine(false);
 		return retView;
 	}
 
