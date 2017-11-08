@@ -873,7 +873,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.itin_hotel_manage_booking_hotel_help_text_TEMPLATE,
 		R.string.itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE,
 		R.layout.widget_hotel_itin_manage_booking_help,
-		R.layout.email_entry_view,
 		R.string.total_fee,
 		R.string.additional_fees_at_check_in,
 		R.string.non_us_resort_fee_format_TEMPLATE,
