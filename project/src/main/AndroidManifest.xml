@@ -359,10 +359,6 @@
             android:name="com.expedia.bookings.content.AutocompleteProvider"
             android:authorities="@string/authority_autocomplete_hotel"
             android:exported="false" />
-        <provider
-            android:name="com.expedia.bookings.content.AirportAutocompleteProvider"
-            android:authorities="@string/authority_autocomplete_airport"
-            android:exported="false" />
 
         <!-- Tracking -->
 
