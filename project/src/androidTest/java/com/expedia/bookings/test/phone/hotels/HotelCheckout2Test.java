@@ -21,6 +21,8 @@ import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescr
 
 import junit.framework.Assert;
 
+import java.util.concurrent.TimeUnit;
+
 import static android.support.test.espresso.action.ViewActions.click;
 
 public class HotelCheckout2Test extends HotelTestCase {
@@ -62,6 +64,7 @@ public class HotelCheckout2Test extends HotelTestCase {
 		Assert.assertEquals(Db.getTripBucket().getHotelV2().mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id");
 		HotelScreen.clickSignIn();
 		HotelScreen.signIn();
+		EspressoUtils.waitForViewNotYetInLayoutToDisplay(CheckoutViewModel.toolBarMatcher(), 10, TimeUnit.SECONDS);
 		Assert.assertEquals(Db.getTripBucket().getHotelV2().mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id_signed_in");
 	}
 

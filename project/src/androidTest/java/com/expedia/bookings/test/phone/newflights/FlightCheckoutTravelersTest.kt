@@ -156,6 +156,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         signInButton.perform(waitForViewToDisplay())
         Common.closeSoftKeyboard(CheckoutViewModel.password())
         signInButton.perform(click())
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(android.R.id.button1), 10, TimeUnit.SECONDS)
         onView(withId(android.R.id.button1)).perform(ViewActions.click())
 
         PackageScreen.travelerInfo().perform(click())
