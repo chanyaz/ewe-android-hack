@@ -124,7 +124,6 @@
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
     <string name="preference_switch_to_from_flight_locations">preference_switch_to_from_flight_locations</string>
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
-    <string name="preference_show_baggage_info_flights">preference_show_baggage_info_flights</string>
     <string name="preference_trips_new_flights_design">preference_trips_new_flights_design</string>
     <string name="preference_dateless_infosite">preference_dateless_infosite</string>
     <string name="preference_soft_prompt_permission">preference_soft_prompt_permission</string>

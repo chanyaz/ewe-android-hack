@@ -16,7 +16,6 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
@@ -57,7 +56,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val paymentFeeInfoClickSubject = PublishSubject.create<Unit>()
     val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
     val showBaggageInfoSubject = PublishSubject.create<FlightLeg>()
-    val showBaggageInfoFlightLob = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsFrenchLegalBaggageInfo,R.string.preference_show_baggage_info_flights) && (lob == LineOfBusiness.FLIGHTS_V2)
+    val showBaggageInfoFlightLob = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsFrenchLegalBaggageInfo) && (lob == LineOfBusiness.FLIGHTS_V2)
     lateinit var baggageUrl: String
     lateinit var updatedFlightLeg: FlightLeg
 

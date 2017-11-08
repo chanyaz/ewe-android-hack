@@ -32,11 +32,6 @@
             android:title="Flight rate details from cache (i.e. remove fullscreen progress)" />
 
         <CheckBoxPreference
-            android:key="@string/preference_show_baggage_info_flights"
-            android:summary="French Legal Baggage Info Flights"
-            android:title="French Legal Baggage Info Flights"  />
-
-        <CheckBoxPreference
             android:key="@string/preference_flight_delta_pricing"
             android:summary="Delta Pricing"
             android:title="Delta pricing" />

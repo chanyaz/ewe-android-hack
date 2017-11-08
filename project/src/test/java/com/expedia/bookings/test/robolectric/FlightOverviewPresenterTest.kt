@@ -409,7 +409,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testOutboundBaggageFeeInfoEmptyCharge() {
-        SettingUtils.save(activity.baseContext, R.string.preference_show_baggage_info_flights, true)
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
         val outboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
@@ -424,7 +423,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testInboundBaggageFeeInfoError() {
-        SettingUtils.save(activity.baseContext, R.string.preference_show_baggage_info_flights, true)
         createExpectedFlightLeg()
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
         val inboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
@@ -438,7 +436,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testInboundBaggageFeeInfoEmptyCharge() {
-        SettingUtils.save(activity.baseContext, R.string.preference_show_baggage_info_flights, true)
         createExpectedFlightLeg()
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
         val inboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
@@ -453,7 +450,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testOutboundBaggageFeeInfoError() {
-        SettingUtils.save(activity.baseContext, R.string.preference_show_baggage_info_flights, true)
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
         val outboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
