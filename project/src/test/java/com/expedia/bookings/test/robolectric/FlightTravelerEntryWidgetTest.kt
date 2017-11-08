@@ -88,13 +88,6 @@ class FlightTravelerEntryWidgetTest {
     }
 
     @Test
-    fun testPassportErrorMessage() {
-        givenMaterialForm(false)
-
-        assertEquals("Select a passport country", widget.passportCountrySpinner.errorMessage)
-    }
-
-    @Test
     fun testEmailErrorMessage() {
         givenMaterialForm(false)
 

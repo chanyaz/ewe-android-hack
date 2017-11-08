@@ -24,7 +24,6 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     private val TAG_DATE_PICKER = "TAG_DATE_PICKER"
 
     val dateOfBirth: TravelerEditText by bindView(R.id.edit_birth_date_text_btn)
-    var genderSpinner: TravelerSpinner? = null
     var genderEditText: TravelerEditText? = null
 
     var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->

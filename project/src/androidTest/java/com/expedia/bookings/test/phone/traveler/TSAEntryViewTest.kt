@@ -243,14 +243,6 @@ class TSAEntryViewTest {
         assertEquals("Enter valid date of birth", tsaEntryView.dateOfBirth.errorContDesc)
     }
 
-    @Test
-    fun genderErrorState() {
-        tsaEntryView = activityTestRule.root as TSAEntryView
-
-        //test for accessibility content description
-        assertEquals("Select a gender", tsaEntryView.genderSpinner?.errorMessage)
-    }
-
     private fun assertViewFocusabilityIsFalse(view: View) {
         assertFalse(view.isFocusable)
         assertFalse(view.isFocusableInTouchMode)

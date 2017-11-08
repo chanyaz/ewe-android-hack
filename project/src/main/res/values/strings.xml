@@ -2162,9 +2162,6 @@
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Loading traveler information…</string>
 
-    <!-- Passport label -->
-    <string name="passport_country_colon">Passport:</string>
-
     <!-- Seat types -->
     <!-- Window seating preference -->
     <string name="window">Window</string>
@@ -4584,7 +4581,6 @@
     <string name="date_of_birth_validation_error_message">Enter valid date of birth</string>
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">Select a gender</string>
-    <string name="passport_validation_error_message">Select a passport country</string>
     <!-- Itin screen message for adding a guest trip button-->
     <string name="itin_sign_in_add_guest_trip_button_text">Manually add guest booked trip</string>
     <!-- Itinerary number error message -->
