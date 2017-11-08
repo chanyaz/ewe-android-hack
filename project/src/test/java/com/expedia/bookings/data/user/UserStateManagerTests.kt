@@ -21,7 +21,6 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.model.UserLoginStateChangedModel
 import okhttp3.Cookie
@@ -463,6 +462,33 @@ class UserStateManagerTests {
         assertTrue(testUserStateManager.isUserLoggedInToAccountManager())
     }
 
+    @Test
+    fun testIsUserAuthenticatedLogsExceptionWhenThrown() {
+        val testManager = Mockito.mock(AccountManager::class.java)
+        val accountType = RuntimeEnvironment.application.getString(R.string.expedia_account_type_identifier)
+        val tokenType = RuntimeEnvironment.application.getString(R.string.expedia_account_token_type_tuid_identifier)
+
+        val testAccount = Account("Test", "Test")
+
+        UserLoginTestUtil.createEmptyUserDataFile()
+
+        Mockito.`when`(testManager.getAccountsByType(accountType)).thenReturn(arrayOf(testAccount))
+        Mockito.`when`(testManager.peekAuthToken(testAccount, tokenType)).thenReturn("AuthToken")
+
+        val loggingProvider = TestExceptionLoggingProvider()
+
+        val testUserStateManager = UserStateManager(
+                RuntimeEnvironment.application,
+                UserLoginStateChangedModel(),
+                notificationManager,
+                testManager,
+                UserSource(RuntimeEnvironment.application),
+                loggingProvider)
+
+        assertFalse(testUserStateManager.isUserAuthenticated())
+        assertTrue(loggingProvider.didLogException)
+    }
+
     private fun givenSignedInAsUser(user: User) {
         UserLoginTestUtil.setupUserAndMockLogin(user, userStateManager)
     }
@@ -581,6 +607,15 @@ class UserStateManagerTests {
 
         override fun forceAccountRefresh() {
             didCallForceAccountRefresh = true
+        }
+    }
+
+    private class TestExceptionLoggingProvider: ExceptionLoggingProvider() {
+        var didLogException = false
+            private set
+
+        override fun logException(throwable: Throwable) {
+            didLogException = true
         }
     }
 }

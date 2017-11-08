@@ -7,6 +7,7 @@ import com.mobiata.android.Log
 import com.mobiata.android.util.IoUtils
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
 import java.io.FileNotFoundException
 
 open class UserSource(val context: Context,
@@ -15,6 +16,9 @@ open class UserSource(val context: Context,
         val PASSWORD = "M2MBDdEjbFTXTgNynBY2uvMPcUd8g3k9"
         val SAVED_INFO_FILENAME = "user.dat"
     }
+
+    private val userFileHandle: File
+        get() = context.getFileStreamPath(SAVED_INFO_FILENAME)
 
     open var user: User? = null
         get() {
@@ -37,7 +41,7 @@ open class UserSource(val context: Context,
     open fun loadUser() {
         Log.d("Loading saved user.")
 
-        val file = context.getFileStreamPath(SAVED_INFO_FILENAME)
+        val file = userFileHandle
 
         if (!file.exists()) {
             throw FileNotFoundException("The file user.dat doesn't exist.")
@@ -50,6 +54,7 @@ open class UserSource(val context: Context,
         val results = fileCipher.loadSecureData(file)
 
         if (results.isNullOrEmpty()) {
+            file.delete()
             throw Exception("Contents of decrypted user.dat file are null or empty.")
         }
 
@@ -57,6 +62,7 @@ open class UserSource(val context: Context,
             user = User(JSONObject(results))
         }
         catch (e: JSONException) {
+            file.delete()
             Log.e("Could not restore saved user info.", e)
             throw e
         }
@@ -67,10 +73,9 @@ open class UserSource(val context: Context,
         Log.d("Saving user.")
 
         val data = user?.toJson()?.toString()
-        val pathToSave = context.getFileStreamPath(SAVED_INFO_FILENAME)
 
         if (data == null) {
-            pathToSave.delete()
+            userFileHandle.delete()
         }
         else {
             if (ExpediaBookingApp.isRobolectric()) {
@@ -80,7 +85,7 @@ open class UserSource(val context: Context,
                     throw IllegalStateException("Unable to save temp user.dat file.")
                 }
             } else if (fileCipher.isInitialized) {
-                fileCipher.saveSecureData(pathToSave, data)
+                fileCipher.saveSecureData(userFileHandle, data)
             }
         }
     }

@@ -15,6 +15,7 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.model.UserLoginStateChangedModel
+import com.mobiata.android.util.IoUtils
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
@@ -61,6 +62,11 @@ class UserLoginTestUtil {
 
         @JvmStatic
         fun mockUser(): User = this.mockUser(LoyaltyMembershipTier.TOP)
+
+        @JvmStatic
+        fun createEmptyUserDataFile() {
+            IoUtils.writeStringToFile("user.dat", "", RuntimeEnvironment.application)
+        }
 
         private fun getContext(): Activity = Robolectric.buildActivity(Activity::class.java).create().get()
     }

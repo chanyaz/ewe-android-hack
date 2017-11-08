@@ -25,7 +25,8 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
                        private val userLoginStateChangedModel: UserLoginStateChangedModel,
                        private val notificationManager: NotificationManager,
                        private val accountManager: AccountManager = AccountManager.get(context),
-                       val userSource: UserSource = UserSource(context)) {
+                       val userSource: UserSource = UserSource(context),
+                       private val loggingProvider: ExceptionLoggingProvider = ExceptionLoggingProvider()) {
     private val SAVED_INFO_FILENAME = "user.dat"
 
     private val accountType: String by lazy {
@@ -85,7 +86,13 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
     fun isUserAuthenticated(): Boolean {
         if (isUserLoggedInOnDisk() && isUserLoggedInToAccountManager()) {
             if (userSource.user == null) {
-                userSource.loadUser()
+                try {
+                    userSource.loadUser()
+                }
+                catch (e: Exception) {
+                    loggingProvider.logException(e)
+                    return false
+                }
             }
 
             return true

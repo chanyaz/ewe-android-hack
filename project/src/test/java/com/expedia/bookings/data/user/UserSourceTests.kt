@@ -2,7 +2,7 @@ package com.expedia.bookings.data.user
 
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.mobiata.android.util.IoUtils
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import org.json.JSONException
 import org.junit.After
 import org.junit.Rule
@@ -49,7 +49,7 @@ class UserSourceTests {
         val testFileCipher = TestFileCipher("whatever", " { tuid: 1 }")
         val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
 
-        createEmptyUserDataFile()
+        UserLoginTestUtil.createEmptyUserDataFile()
 
         assertNotNull(userSource.user)
     }
@@ -82,7 +82,7 @@ class UserSourceTests {
         val testFileCipher = TestFileCipher(null, "")
         val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
 
-        createEmptyUserDataFile()
+        UserLoginTestUtil.createEmptyUserDataFile()
 
         expectedException.expect(Exception::class.java)
         expectedException.expectMessage("FileCipher unable to initialize to decrypt user.dat")
@@ -95,7 +95,7 @@ class UserSourceTests {
         val testFileCipher = TestFileCipher("whatever", "")
         val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
 
-        createEmptyUserDataFile()
+        UserLoginTestUtil.createEmptyUserDataFile()
 
         expectedException.expect(Exception::class.java)
         expectedException.expectMessage("Contents of decrypted user.dat file are null or empty.")
@@ -104,11 +104,23 @@ class UserSourceTests {
     }
 
     @Test
+    fun testLoadUserDeletesUserFileWhenEmpty() {
+        val testFileCipher = TestFileCipher("whatever", "")
+        val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
+
+        UserLoginTestUtil.createEmptyUserDataFile()
+
+        assertTrue(RuntimeEnvironment.application.getFileStreamPath("user.dat").exists())
+        assertNull(userSource.user)
+        assertFalse(RuntimeEnvironment.application.getFileStreamPath("user.dat").exists())
+    }
+
+    @Test
     fun testLoadUserThrowsExceptionWhenUnableToCreateUserFromJSON() {
         val testFileCipher = TestFileCipher("whatever", "invalid JSON")
         val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
 
-        createEmptyUserDataFile()
+        UserLoginTestUtil.createEmptyUserDataFile()
 
         expectedException.expect(JSONException::class.java)
 
@@ -116,11 +128,23 @@ class UserSourceTests {
     }
 
     @Test
+    fun testLoadUserDeletesUserFileWhenUnableToCreateUserFromJSON() {
+        val testFileCipher = TestFileCipher("whatever", "invalid JSON")
+        val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
+
+        UserLoginTestUtil.createEmptyUserDataFile()
+
+        assertTrue(RuntimeEnvironment.application.getFileStreamPath("user.dat").exists())
+        assertNull(userSource.user)
+        assertFalse(RuntimeEnvironment.application.getFileStreamPath("user.dat").exists())
+    }
+
+    @Test
     fun testLoadUserPopulatesUserWhenSuccessful() {
         val testFileCipher = TestFileCipher("whatever", " { tuid: 1 }")
         val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
 
-        createEmptyUserDataFile()
+        UserLoginTestUtil.createEmptyUserDataFile()
 
         userSource.loadUser()
 
@@ -159,9 +183,5 @@ class UserSourceTests {
         userSource.user = null
 
         assertFalse(RuntimeEnvironment.application.getFileStreamPath("user.dat").exists())
-    }
-
-    private fun createEmptyUserDataFile() {
-        IoUtils.writeStringToFile("user.dat", "", RuntimeEnvironment.application)
     }
 }
