@@ -54,6 +54,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <com.expedia.bookings.itin.widget.FlightItinMapWidget
+                android:id="@+id/widget_itin_flight_map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp" />
+
             <com.expedia.bookings.itin.widget.FlightItinBookingDetailsWidget
                 android:id="@+id/widget_flight_itin_booking_details"
                 android:layout_width="match_parent"

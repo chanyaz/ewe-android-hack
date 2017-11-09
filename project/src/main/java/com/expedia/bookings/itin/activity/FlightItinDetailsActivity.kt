@@ -8,17 +8,19 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightItinBagaggeInfoViewModel
+import com.expedia.bookings.itin.vm.FlightItinBookingInfoViewModel
 import com.expedia.bookings.itin.vm.FlightItinConfirmationViewModel
 import com.expedia.bookings.itin.vm.FlightItinDetailsViewModel
 import com.expedia.bookings.itin.vm.FlightItinLayoverViewModel
+import com.expedia.bookings.itin.vm.FlightItinMapWidgetViewModel
 import com.expedia.bookings.itin.vm.FlightItinSegmentSummaryViewModel
 import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
 import com.expedia.bookings.itin.vm.FlightItinTotalDurationViewModel
-import com.expedia.bookings.itin.vm.FlightItinBookingInfoViewModel
-import com.expedia.bookings.itin.widget.ItinTimeDurationWidget
 import com.expedia.bookings.itin.widget.FlightItinBookingDetailsWidget
+import com.expedia.bookings.itin.widget.FlightItinMapWidget
 import com.expedia.bookings.itin.widget.FlightItinSegmentSummaryWidget
 import com.expedia.bookings.itin.widget.ItinConfirmationWidget
+import com.expedia.bookings.itin.widget.ItinTimeDurationWidget
 import com.expedia.bookings.itin.widget.ItinToolbar
 import com.expedia.bookings.itin.widget.ItinWebviewInfoWidget
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -79,24 +81,26 @@ class FlightItinDetailsActivity : AppCompatActivity() {
             flightBookingDetailsWidget.viewModel = FlightItinBookingInfoViewModel(this)
             flightBookingDetailsWidget.viewModel.updateBookingInfoWidget(params)
         }
+        vm.itinCardDataFlightObservable.subscribe(flightItinMapWidgetViewModel.itinCardDataObservable)
     }
+
     private val itinConfirmationWidget by bindView<ItinConfirmationWidget>(R.id.widget_itin_flight_confirmation_cardview)
     private val itinToolbar by bindView<ItinToolbar>(R.id.widget_flight_itin_toolbar)
-
     private val flightBookingDetailsWidget: FlightItinBookingDetailsWidget by bindView(R.id.widget_flight_itin_booking_details)
+    private val flightSummaryContainer by bindView<LinearLayout>(R.id.flight_itin_summary_container)
+    private val flightTotalDurationWidget: ItinTimeDurationWidget by bindView(R.id.widget_itin_flight_total_duration_cardview)
+    private val flightItinBaggageInfoWidget: ItinWebviewInfoWidget by bindView(R.id.widget_itin_webview_info_cardview)
+    private val flightItinMapWidget by bindView<FlightItinMapWidget>(R.id.widget_itin_flight_map)
 
+    private var confirmationViewModel: FlightItinConfirmationViewModel by Delegates.notNull()
+    private val flightItinMapWidgetViewModel by lazy {
+        FlightItinMapWidgetViewModel()
+    }
     var toolbarViewModel: FlightItinToolbarViewModel by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
             finishActivity()
         }
     }
-    private val flightSummaryContainer by bindView<LinearLayout>(R.id.flight_itin_summary_container)
-
-    private val flightTotalDurationWidget: ItinTimeDurationWidget by bindView(R.id.widget_itin_flight_total_duration_cardview)
-
-    private val flightItinBaggageInfoWidget: ItinWebviewInfoWidget by bindView(R.id.widget_itin_webview_info_cardview)
-
-    private var confirmationViewModel: FlightItinConfirmationViewModel by Delegates.notNull()
 
     private var trackingFired = false
 
@@ -111,6 +115,7 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         itinToolbar.viewModel = toolbarViewModel
         confirmationViewModel = FlightItinConfirmationViewModel(this)
         itinConfirmationWidget.viewModel = confirmationViewModel
+        flightItinMapWidget.viewModel = flightItinMapWidgetViewModel
     }
 
     override fun onResume() {

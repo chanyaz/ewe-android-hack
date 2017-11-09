@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import android.app.Activity
 import android.content.Context
+import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TicketingStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -34,6 +35,7 @@ class FlightItinDetailsViewModelTest {
     lateinit private var dateTime: DateTime
 
     val itinCardDataValidSubscriber = TestSubscriber<Unit>()
+    val itinCardDataSubscriber = TestSubscriber<ItinCardDataFlight>()
     val updateToolbarSubscriber = TestSubscriber<ItinToolbarViewModel.ToolbarParams>()
     val clearLegSummaryContainerSubscriber = TestSubscriber<Unit>()
     val createLegSummaryWidgetsSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
@@ -53,17 +55,20 @@ class FlightItinDetailsViewModelTest {
     @Test
     fun testUpdateItinCardDataFlightNull() {
         sut.itinCardDataNotValidSubject.subscribe(itinCardDataValidSubscriber)
+        sut.itinCardDataFlightObservable.subscribe(itinCardDataSubscriber)
 
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
         whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(null)
         sut.itineraryManager = mockItinManager
         sut.updateItinCardDataFlight()
         itinCardDataValidSubscriber.assertValue(Unit)
+        itinCardDataSubscriber.assertValueCount(0)
     }
 
     @Test
     fun testUpdateItinCardDataFlightNotNull() {
         sut.itinCardDataNotValidSubject.subscribe(itinCardDataValidSubscriber)
+        sut.itinCardDataFlightObservable.subscribe(itinCardDataSubscriber)
 
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
         val testItinCardData = ItinCardDataFlightBuilder().build()
@@ -71,6 +76,8 @@ class FlightItinDetailsViewModelTest {
         sut.itineraryManager = mockItinManager
         sut.updateItinCardDataFlight()
         itinCardDataValidSubscriber.assertNoValues()
+        itinCardDataSubscriber.assertValueCount(1)
+        itinCardDataSubscriber.assertValue(testItinCardData)
         assertEquals(testItinCardData, sut.itinCardDataFlight)
     }
 

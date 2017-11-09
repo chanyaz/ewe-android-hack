@@ -2183,11 +2183,12 @@ public class OmnitureTracking {
 	private static final String ITIN_TRIP_REFRESH_CALL_MADE = "App.Itinerary.Call.Made";
 	private static final String ITIN_TRIP_REFRESH_CALL_SUCCESS = "App.Itinerary.Call.Success";
 	private static final String ITIN_TRIP_REFRESH_CALL_FAILURE = "App.Itinerary.Call.Failure";
+	private static final String ITIN_NEW_FLIGHT_DIRECTIONS = "App.Itinerary.Flight.Directions";
+	private static final String ITIN_NEW_FLIGHT_TERMINAL_MAPS = "App.Itinerary.Flight.TerminalMaps";
 	private static final String ITIN_HOTEL_MAP_DIRECTIONS = "App.Map.Directions.Drive";
 	private static final String ITIN_HOTEL_MAP_PAN = "App.Map.Directions.Pan";
 	private static final String ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn";
 	private static final String ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut";
-
 
 	public static void trackItinTripRefreshCallMade() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_MADE);
@@ -2209,6 +2210,16 @@ public class OmnitureTracking {
 		s.setEvents("event288");
 		s.setProp(36, error);
 		s.trackLink(null, "o", "Trips Call", null, null);
+	}
+
+	public static void trackItinNewFlightDirections() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_NEW_FLIGHT_DIRECTIONS);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinNewFlightTerminalMaps() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_NEW_FLIGHT_TERMINAL_MAPS);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
 	public static void trackItinEmpty() {

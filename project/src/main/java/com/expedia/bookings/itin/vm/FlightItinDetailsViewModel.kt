@@ -21,6 +21,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     lateinit var itinCardDataFlight: ItinCardDataFlight
     var itineraryManager: ItineraryManager = ItineraryManager.getInstance()
 
+    val itinCardDataFlightObservable = PublishSubject.create<ItinCardDataFlight>()
     val itinCardDataNotValidSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
     val updateToolbarSubject: PublishSubject<ItinToolbarViewModel.ToolbarParams> = PublishSubject.create<ItinToolbarViewModel.ToolbarParams>()
     val createSegmentSummaryWidgetsSubject: PublishSubject<FlightItinSegmentSummaryViewModel.SummaryWidgetParams> = PublishSubject.create<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
@@ -46,6 +47,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
         if (freshItinCardDataFlight == null) {
             itinCardDataNotValidSubject.onNext(Unit)
         } else {
+            itinCardDataFlightObservable.onNext(freshItinCardDataFlight)
             itinCardDataFlight = freshItinCardDataFlight
         }
     }

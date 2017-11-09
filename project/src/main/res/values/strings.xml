@@ -1433,6 +1433,10 @@
     <string name="confirm_seat_selection">Confirm or change seats with airline</string>
     <!-- displayed when seats can be selected but have not yet -->
     <string name="select_seat_prompt">No seats selected</string>
+    <!-- Flight itin terminal maps bottom sheet title -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_title">Map options</string>
+    <!-- Flight itin terminal maps bottom sheet airport text template. (e.g., SFO terminal map) -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_airport_text_TEMPLATE">{airport} terminal map</string>
     <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Arrives on {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
@@ -1523,6 +1527,8 @@
 
 
     <!-- Action Buttons -->
+    <!-- action button to launch terminal maps bottom sheet -->
+    <string name="itin_action_terminal_maps">Terminal Maps</string>
     <string name="itin_action_directions">Directions</string>
     <string name="itin_action_call_hotel">Call Hotel</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
