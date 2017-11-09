@@ -96,8 +96,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-<<<<<<< HEAD
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
