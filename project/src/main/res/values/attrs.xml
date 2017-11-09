@@ -19,13 +19,9 @@
             <enum name="bold" value="1" />
             <enum name="italic" value="2" />
             <enum name="black" value="8" />
-            <enum name="condensed" value="16" />
             <enum name="light" value="32" />
             <enum name="medium" value="64" />
             <enum name="thin" value="128" />
-            <enum name="condensed_bold" value="256" />
-            <enum name="condensed_light" value="512" />
-            <enum name="expedia_light" value="1024" />
         </attr>
         <attr name="drawableTintColor" format="reference"/>
     </declare-styleable>

@@ -25,10 +25,6 @@ public class FontCache {
 		ROBOTO_BOLD("fonts/Roboto-Bold.ttf"),
 		ROBOTO_REGULAR("fonts/Roboto-Regular.ttf"),
 		SIGNERICA_FAT("fonts/Signerica_Fat.ttf"),
-		ROBOTO_CONDENSED_BOLD("fonts/RobotoCondensed-Bold.ttf"),
-		ROBOTO_CONDENSED_LIGHT("fonts/RobotoCondensed-Light.ttf"),
-		ROBOTO_CONDENSED_REGULAR("fonts/RobotoCondensed-Regular.ttf"),
-		EXPEDIASANS_LIGHT("fonts/ExpediaSans-Light.ttf"),
 		EXPEDIASANS_REGULAR("fonts/ExpediaSans-Regular.ttf"),
 		;
 
