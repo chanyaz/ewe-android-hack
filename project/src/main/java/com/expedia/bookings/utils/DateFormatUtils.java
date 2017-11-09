@@ -10,12 +10,9 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
-import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.squareup.phrase.Phrase;
 
 /**
@@ -168,21 +165,6 @@ public class DateFormatUtils {
 	}
 
 	public static String formatLocalDateToEEEMMMdBasedOnLocale(LocalDate date) {
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLocaleBasedDateFormatting)) {
-			return LocaleBasedDateFormatUtils.localDateToEEEMMMd(date);
-		}
-		else {
-			String pattern = "EEE, MMM d";
-			String bestDateTimePattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), pattern);
-			String formattedDate;
-			try {
-				formattedDate = date.toString(bestDateTimePattern);
-			}
-			catch (Exception e) {
-				formattedDate = date.toString(pattern);
-			}
-			return formattedDate;
-		}
+		return LocaleBasedDateFormatUtils.localDateToEEEMMMd(date);
 	}
-
 }
