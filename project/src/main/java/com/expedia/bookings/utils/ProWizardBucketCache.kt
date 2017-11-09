@@ -13,7 +13,7 @@ class ProWizardBucketCache {
         val NO_BUCKET_VALUE = -1
 
         private val ABACUS_FILE_NAME = "abacus_prefs"
-        private val PREFS_PRO_WIZARD_BUCKET = "proWizardBucket"
+        private val PREFS_PRO_WIZARD_BUCKET = AbacusUtils.ProWizardTest.key.toString()
 
         @JvmStatic fun cacheBucket(context: Context, testValue: Int) {
             val editor = context.getSharedPreferences(ABACUS_FILE_NAME, Context.MODE_PRIVATE).edit()

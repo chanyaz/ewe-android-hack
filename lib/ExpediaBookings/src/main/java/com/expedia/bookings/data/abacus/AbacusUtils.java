@@ -107,7 +107,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652);
 
 	// Launch
-	public static final ABTest ProWizardTest = new ABTest(15594);
+	public static final ABTest ProWizardTest = new ABTest(16136);
 
 	// Soft Prompt
 	public static final ABTest EBAndroidAppSoftPromptLocation = new ABTest(15119);

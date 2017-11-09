@@ -290,9 +290,9 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
-            android:key="15594"
+            android:key="16136"
             android:summary="%s"
-            android:title="ProWizard Launch/Search - 15594" />
+            android:title="ProWizard Launch/Search - 16136" />
 
     </PreferenceCategory>
 
