@@ -299,7 +299,10 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
 
         vm.ratingContainerBackground.subscribeBackground(ratingContainer)
-        vm.isUserRatingAvailableObservable.filter { it }.subscribe { ratingContainer.subscribeOnClick(vm.reviewsClickedSubject) }
+        vm.isUserRatingAvailableObservable.filter { it }.subscribe {
+            ratingContainer.contentDescription = context.resources.getString(R.string.accessibility_cont_desc_user_rating_button)
+            ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
+        }
         vm.isUserRatingAvailableObservable.filter { !it }.subscribe { ratingContainer.unsubscribeOnClick() }
 
         etpInfoText.subscribeOnClick(vm.payLaterInfoContainerClickObserver)

@@ -1369,6 +1369,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt,
-		R.integer.suggest_min_query_length
+		R.integer.suggest_min_query_length,
+		R.string.accessibility_cont_desc_user_rating_button
 	};
 }
