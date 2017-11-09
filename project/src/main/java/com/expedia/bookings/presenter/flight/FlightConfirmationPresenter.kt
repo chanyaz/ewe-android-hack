@@ -34,7 +34,6 @@ import com.expedia.vm.flights.FlightConfirmationViewModel
 
 class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
-    val confirmationContainer: LinearLayout by bindView(R.id.confirmation_container)
     val itinNumber: TextView by bindView(R.id.itin_number)
     val tripBookedMessage: TextView by bindView(R.id.trip_booked_message)
     val destination: TextView by bindView(R.id.destination)
@@ -84,7 +83,6 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         }
         toolbar.viewModel = ConfirmationToolbarViewModel(context)
 
-        confirmationContainer.setPadding(0, Ui.getStatusBarHeight(context), 0, 0)
         tripBookedMessage.setText(R.string.trip_is_booked)
     }
 

@@ -19,6 +19,7 @@
 
         <!-- Results -->
         <item name="spinner_text_color_drawable">@drawable/traveler_text_color</item>
+        <item name="colorPrimaryDark">@color/app_status_bar_color</item>
 
         <!-- Checkout -->
         <item name="traveler_toolbar_text">@string/traveler_information</item>

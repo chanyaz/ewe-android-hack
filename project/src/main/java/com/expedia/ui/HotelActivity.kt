@@ -39,7 +39,7 @@ class HotelActivity : AbstractAppCompatActivity() {
         super.onCreate(savedInstanceState)
         hotelComponentInjector.inject(this)
         setContentView(R.layout.activity_hotel)
-        Ui.showTransparentStatusBar(this)
+        //Ui.showTransparentStatusBar(this)
         val mapState = savedInstanceState?.getBundle(Constants.HOTELS_MAP_STATE)
         resultsMapView.onCreate(mapState)
         detailsMapView.onCreate(mapState)

@@ -300,7 +300,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
         }
     }
 
-    override fun onFinishInflate() {
+    /*override fun onFinishInflate() {
         super.onFinishInflate()
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
@@ -308,7 +308,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             val lp = filterContainer.layoutParams as android.widget.FrameLayout.LayoutParams
             lp.topMargin = lp.topMargin + statusBarHeight
         }
-    }
+    }*/
 
     init {
         View.inflate(getContext(), R.layout.widget_package_flight_filter, this)

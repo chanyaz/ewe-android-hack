@@ -35,7 +35,7 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.itin_gallery)
-        Ui.showTransparentStatusBar(this)
+        //Ui.showTransparentStatusBar(this)
         setUpGallery()
         setUpToolbar()
         OmnitureTracking.trackHotelItinGalleryOpen()

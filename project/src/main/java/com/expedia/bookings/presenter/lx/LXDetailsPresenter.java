@@ -245,9 +245,9 @@ public class LXDetailsPresenter extends Presenter {
 			}
 		});
 
-		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		/*int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		toolbarBackground.getLayoutParams().height += statusBarHeight;
-		toolbar.setPadding(0, statusBarHeight, 0, 0);
+		toolbar.setPadding(0, statusBarHeight, 0, 0);*/
 	}
 
 	void setToolbarTitles(String title) {

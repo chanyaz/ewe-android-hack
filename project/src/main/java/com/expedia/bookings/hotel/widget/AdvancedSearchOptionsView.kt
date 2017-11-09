@@ -54,11 +54,6 @@ class AdvancedSearchOptionsView(context: Context, attrs: AttributeSet?) : Linear
     }
 
     override fun onFinishInflate() {
-        val statusBarHeight = Ui.getStatusBarHeight(context)
-        if (statusBarHeight > 0) {
-            toolbar.setPadding(0, statusBarHeight, 0, 0)
-        }
-
         val sortList = DisplaySort.values().toMutableList()
         sortList.remove(DisplaySort.DISTANCE)
         sortList.remove(DisplaySort.PACKAGE_DISCOUNT)

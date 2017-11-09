@@ -63,7 +63,6 @@ class LXMapView(context: Context, attrs: AttributeSet) : FrameLayout(context, at
         if (statusBarHeight > 0) {
             toolBar.setPadding(0, statusBarHeight, 0, 0)
         }
-        Ui.showTransparentStatusBar(context)
         toolBar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolBarBackground.layoutParams.height += statusBarHeight
         toolBar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)

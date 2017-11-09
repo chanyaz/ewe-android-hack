@@ -116,7 +116,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         View.inflate(getContext(), R.layout.hotel_detail_view, this)
         statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarHeight = Ui.getToolbarSize(getContext())
-        Ui.showTransparentStatusBar(getContext())
+        //Ui.showTransparentStatusBar(getContext())
 
         toolbarHeightOffset = statusBarHeight.toFloat() + toolBarHeight
         hotelDetailsToolbar.toolbar.setNavigationOnClickListener { view ->

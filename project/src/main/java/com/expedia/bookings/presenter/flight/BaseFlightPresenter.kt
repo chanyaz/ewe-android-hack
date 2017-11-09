@@ -99,7 +99,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             show(filter)
             filter.viewModelBase.resetFilterTracking.onNext(Unit)
         }
-        alignViewWithStatusBar(presenter)
+        //alignViewWithStatusBar(presenter)
         presenter
     }
 
@@ -118,7 +118,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
                 show(paymentFeeInfoWebView)
             }
         }
-        alignViewWithStatusBar(presenter)
+        //alignViewWithStatusBar(presenter)
         presenter
     }
 
@@ -145,10 +145,10 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val statusBarHeight = Ui.getStatusBarHeight(context)
+        /*val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
-        }
+        }*/
         addTransition(listToFiltersTransition)
         addTransition(baggageFeeTransition)
         addTransition(paymentFeeTransition)
@@ -297,14 +297,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         toolbar.navigationIcon = navIcon
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
         setupToolbarMenu()
-    }
-
-    private fun alignViewWithStatusBar(view: View) {
-        val statusBarHeight = Ui.getStatusBarHeight(context)
-        if (statusBarHeight > 0) {
-            val lp = view.layoutParams as LayoutParams
-            lp.topMargin = lp.topMargin + statusBarHeight
-        }
     }
 
     open fun disableSlidingWidget(isDisabled: Boolean) {

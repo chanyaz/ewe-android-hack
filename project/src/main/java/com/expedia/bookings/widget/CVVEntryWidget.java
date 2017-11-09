@@ -109,13 +109,13 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 		// Set this up to listen to the credit card IME
 		mCreditCardInputSection.setListener(this);
 
-		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		/*int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
 			int color = Ui.obtainThemeColor(getContext(), R.attr.primary_color);
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 			addView(Ui.setUpStatusBar(getContext(), toolbar, null, color));
-		}
+		}*/
 
 		updateActionBar();
 

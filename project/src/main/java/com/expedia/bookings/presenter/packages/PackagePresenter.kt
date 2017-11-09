@@ -91,10 +91,10 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     val bundleLoadingView: View by lazy {
         val bundleLoadingView = bundlePresenter.findViewById<View>(R.id.bundle_loading_view)
-        val statusBarHeight = Ui.getStatusBarHeight(context)
+        /*val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             bundleLoadingView.setPadding(0, statusBarHeight, 0, 0)
-        }
+        }*/
         bundleLoadingView
     }
     val bundlePresenter: PackageOverviewPresenter by lazy {

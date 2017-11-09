@@ -19,7 +19,7 @@ class FlightActivity : AbstractAppCompatActivity() {
         Ui.getApplication(this).defaultFlightComponents()
         Ui.getApplication(this).defaultTravelerComponent()
         setContentView(R.layout.flight_activity)
-        Ui.showTransparentStatusBar(this)
+        //Ui.showTransparentStatusBar(this)
         if (intent.hasExtra(Codes.SEARCH_PARAMS)) {
             handleDeeplink()
         } else {

@@ -50,12 +50,12 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
         View.inflate(context, R.layout.widget_hotel_reviews, this)
         //Allow retaining of all the tab views
         viewPager.offscreenPageLimit = Integer.MAX_VALUE
-        val statusBarHeight = Ui.getStatusBarHeight(getContext())
+        /*val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
             val color = Ui.obtainThemeColor(context, R.attr.primary_color)
             val statusBar = Ui.setUpStatusBar(context, toolbar, reviewsContainer, color)
             addView(statusBar)
-        }
+        }*/
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_cont_desc)
 
         toolbar.setNavigationOnClickListener {

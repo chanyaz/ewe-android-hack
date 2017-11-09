@@ -12,7 +12,4 @@ class RailErrorPresenter(context: Context, attr: AttributeSet): BaseErrorPresent
         return viewmodel as RailErrorViewModel
     }
 
-    override fun setupStatusBar() {
-        // Do nothing
-    }
 }

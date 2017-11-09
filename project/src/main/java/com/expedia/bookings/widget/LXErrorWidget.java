@@ -63,8 +63,8 @@ public class LXErrorWidget extends FrameLayout {
 			}
 		});
 
-		int statusBarHeight = Ui.getStatusBarHeight(getContext());
-		toolbar.setPadding(0, statusBarHeight, 0, 0);
+		/*int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		toolbar.setPadding(0, statusBarHeight, 0, 0);*/
 	}
 
 	public void bind(final ApiError error) {

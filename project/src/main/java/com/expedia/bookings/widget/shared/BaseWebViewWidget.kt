@@ -28,7 +28,6 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val webView: WebView by bindView(R.id.web_view)
     val progressView: ProgressBar by bindView(R.id.webview_progress_view)
-    val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
 
     var webClient = object : WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
@@ -69,7 +68,6 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         View.inflate(getContext(), R.layout.widget_web_view, this)
         this.orientation = LinearLayout.VERTICAL
         toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
-        setToolbarPadding()
 
         webView.setWebViewClient(webClient)
         webView.settings.javaScriptEnabled = true
@@ -83,12 +81,6 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
     open fun setExitButtonOnClickListener(listener: OnClickListener) {
         toolbar.setNavigationOnClickListener(listener)
-    }
-
-    open fun setToolbarPadding() {
-        if (statusBarHeight > 0) {
-            toolbar.setPadding(0, statusBarHeight, 0, 0)
-        }
     }
 
     open fun toggleLoading(loading: Boolean) {

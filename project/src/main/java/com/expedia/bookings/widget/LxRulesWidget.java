@@ -102,9 +102,6 @@ public class LxRulesWidget extends LinearLayout {
 		toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance);
 		toolbar.setSubtitleTextAppearance(getContext(), R.style.ToolbarSubtitleTextAppearance);
 		toolbar.setBackgroundColor(Ui.obtainThemeColor(getContext(), R.attr.primary_color));
-
-		int statusBarHeight = Ui.getStatusBarHeight(getContext());
-		toolbar.setPadding(0, statusBarHeight, 0, 0);
 	}
 
 	private void updateCancellationPolicyDisplayText(int freeCancellationMinHours) {

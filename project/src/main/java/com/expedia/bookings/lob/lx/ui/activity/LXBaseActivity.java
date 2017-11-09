@@ -72,7 +72,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		lxPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
 		lxPresenter.setUserBucketedForRTRTest(isUserBucketedForRTRTest && !isGroundTransport);
 		detailsMapView.onCreate(savedInstanceState);
-		Ui.showTransparentStatusBar(this);
+		//Ui.showTransparentStatusBar(this);
 		handleNavigationViaDeepLink();
 	}
 

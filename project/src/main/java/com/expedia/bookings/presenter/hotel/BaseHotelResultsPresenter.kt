@@ -315,12 +315,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     override fun onFinishInflate() {
         // add the view of same height as of status bar
-        val statusBarHeight = Ui.getStatusBarHeight(context)
+        /*val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
             val lp = recyclerView.layoutParams as FrameLayout.LayoutParams
             lp.topMargin = lp.topMargin + statusBarHeight
-        }
+        }*/
 
         addDefaultTransition(defaultTransition)
         addTransition(mapToResultsTransition)

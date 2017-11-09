@@ -96,12 +96,12 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
             optionLabel.visibility = View.VISIBLE
         }
 
-        val statusBarHeight = Ui.getStatusBarHeight(getContext())
+        /*val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
             val statusBar = Ui.setUpStatusBar(context, toolbar, filterContainer, color)
             addView(statusBar)
-        }
+        }*/
 
         toolbar.inflateMenu(R.menu.cars_lx_filter_menu)
         toolbar.title = resources.getString(R.string.sort_and_filter)

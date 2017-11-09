@@ -35,9 +35,9 @@ public class LoadingOverlayWidget extends LinearLayout {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		/*int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		overlayTitleContainer.getLayoutParams().height += statusBarHeight;
-		overlayTitleContainer.setPadding(0, statusBarHeight, 0, 0);
+		overlayTitleContainer.setPadding(0, statusBarHeight, 0, 0);*/
 	}
 
 	public void animate(boolean forward) {

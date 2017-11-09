@@ -37,7 +37,7 @@ class PackageActivity : AbstractAppCompatActivity() {
         Ui.getApplication(this).defaultPackageComponents()
         Ui.getApplication(this).defaultTravelerComponent()
         setContentView(R.layout.package_activity)
-        Ui.showTransparentStatusBar(this)
+        //Ui.showTransparentStatusBar(this)
         isCrossSellPackageOnFSREnabled = intent.getBooleanExtra(Constants.INTENT_PERFORM_HOTEL_SEARCH, false)
     }
 

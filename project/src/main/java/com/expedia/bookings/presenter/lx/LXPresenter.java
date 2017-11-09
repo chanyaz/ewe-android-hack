@@ -210,10 +210,7 @@ public class LXPresenter extends Presenter {
 
 		@Override
 		public void startTransition(boolean forward) {
-			final int parentHeight = getHeight();
-			detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext());
-			float pos = forward ? parentHeight + detailsHeight : detailsHeight;
-			detailsPresenter.setTranslationY(pos);
+			detailsHeight = getHeight();
 			resultsPresenter.setVisibility(View.VISIBLE);
 			detailsPresenter.animationStart(!forward);
 			detailsPresenter.setVisibility(VISIBLE);

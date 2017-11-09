@@ -65,11 +65,11 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
         }
         toolBarRating.visibility = View.VISIBLE
 
-        val statusBarHeight = Ui.getStatusBarHeight(context)
+        /*val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             toolBar.setPadding(0, statusBarHeight, 0, 0)
-        }
-        Ui.showTransparentStatusBar(context)
+        }*/
+        //Ui.showTransparentStatusBar(context)
         toolBar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
 
         val navIcon: ArrowXDrawable = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)

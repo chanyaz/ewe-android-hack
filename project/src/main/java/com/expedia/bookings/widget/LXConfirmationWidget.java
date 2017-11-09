@@ -150,9 +150,9 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		reservationConfirmation.setText(res.getString(R.string.lx_successful_checkout_reservation_label));
 		itineraryNumber.setText(res.getString(R.string.successful_checkout_TEMPLATE, event.checkoutResponse.newTrip.itineraryNumber));
 
-		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		/*int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
-		textContainer.setPadding(0, statusBarHeight, 0, 0);
+		textContainer.setPadding(0, statusBarHeight, 0, 0);*/
 
 		FontCache.setTypeface(confirmationText, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(emailText, FontCache.Font.ROBOTO_LIGHT);

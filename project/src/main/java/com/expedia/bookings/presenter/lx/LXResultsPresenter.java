@@ -213,10 +213,10 @@ public class LXResultsPresenter extends Presenter {
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXFilterSearch);
 
 		setupToolbar();
-		int toolbarSize = Ui.getStatusBarHeight(getContext());
+		/*int toolbarSize = Ui.getStatusBarHeight(getContext());
 		if (toolbarSize > 0) {
 			themeResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
-		}
+		}*/
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 		sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 	}
@@ -543,9 +543,9 @@ public class LXResultsPresenter extends Presenter {
 			}
 		});
 
-		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		/*int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		toolbarBackground.getLayoutParams().height += statusBarHeight;
-		toolbar.setPadding(0, statusBarHeight, 0, 0);
+		toolbar.setPadding(0, statusBarHeight, 0, 0);*/
 		toolBarDetailText.setText(getResources().getString(R.string.lx_getting_current_location));
 	}
 

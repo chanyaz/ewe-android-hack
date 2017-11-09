@@ -20,7 +20,7 @@ class PackageFlightActivity : AbstractAppCompatActivity() {
             return
         }
         setContentView(R.layout.package_flight_activity)
-        Ui.showTransparentStatusBar(this)
+        //Ui.showTransparentStatusBar(this)
     }
 
     override fun onBackPressed() {

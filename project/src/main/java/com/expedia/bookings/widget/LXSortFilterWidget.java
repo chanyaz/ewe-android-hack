@@ -109,13 +109,6 @@ public class LXSortFilterWidget extends LinearLayout {
 		MenuItem item = toolbar.getMenu().findItem(R.id.apply_check);
 		setupToolBarCheckmark(item);
 
-		int statusBarHeight = Ui.getStatusBarHeight(getContext());
-		if (statusBarHeight > 0) {
-			int color = getContext().getResources()
-				.getColor(Ui.obtainThemeResID(getContext(), R.attr.primary_color));
-			toolbarBackgroundView = Ui.setUpStatusBar(getContext(), null, null, color);
-			addView(toolbarBackgroundView, 0);
-		}
 		// Reset Popularity sort as default.
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);

@@ -384,11 +384,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		});
 
 
-		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		/*int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
 			int color = Ui.obtainThemeColor(getContext(), R.attr.primary_color);
 			addView(Ui.setUpStatusBar(getContext(), toolbar, scrollView, color));
-		}
+		}*/
 	}
 
 	public void resetMenuButton() {

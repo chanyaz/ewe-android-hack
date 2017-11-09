@@ -17,6 +17,7 @@
         <item name="android:colorPrimaryDark">@color/app_primary_dark</item>
         <item name="android:colorButtonNormal">@color/app_primary</item>
         <item name="colorAccent">@color/app_primary</item>
+        <item name="colorPrimaryDark">@color/app_status_bar_color</item>
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_lx</item>
 
         <item name="map_pin_drawable">@drawable/map_marker_green</item>

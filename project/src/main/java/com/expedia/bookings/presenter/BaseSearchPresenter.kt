@@ -9,6 +9,7 @@ import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -92,7 +93,6 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     val toolBarTitle: TextView by bindView(R.id.title)
     lateinit var shopWithPointsWidget: ShopWithPointsWidget
 
-    val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val mRootWindow by lazy { (context as Activity).window }
     val mRootView by lazy { mRootWindow.decorView.findViewById<View>(android.R.id.content) }
     val primaryColor by lazy {
@@ -230,6 +230,12 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
     init {
         inflate()
+        /*ViewCompat.setOnApplyWindowInsetsListener(toolbar) { toolbar, insets ->
+            toolbar.setPadding(0, insets.systemWindowInsetTop, 0, 0)
+            //setUpStatusBar(insets.systemWindowInsetTop)
+            insets.consumeSystemWindowInsets()
+        }*/
+
         setUpStatusBar()
 
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
@@ -518,15 +524,16 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     open fun getToolbarsHeight(): Int {
-        return Ui.toolbarSizeWithStatusBar(context)
+        return Ui.getToolbarSize(context)
     }
 
     open fun setUpStatusBar() {
-        val statusBarHeight = Ui.getStatusBarHeight(context)
+        /*val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             val statusBar = Ui.setUpStatusBar(context, toolbar, null, primaryColor)
             addView(statusBar)
-        }
+        }*/
+
     }
 
     open fun shouldSaveSuggestionHierarchyChildInfo(): Boolean {

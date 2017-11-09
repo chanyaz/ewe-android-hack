@@ -14,10 +14,6 @@ class RailSearchLegalInfoWebView(context: Context, attrs: AttributeSet) : BaseWe
         toolbar.setTitle(R.string.rail_search_legal_web_view_heading)
     }
 
-    override fun setToolbarPadding() {
-        // Do nothing
-    }
-
     fun loadUrl() {
         webView.loadUrl(url)
     }

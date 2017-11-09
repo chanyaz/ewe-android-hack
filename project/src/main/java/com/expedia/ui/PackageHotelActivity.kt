@@ -36,7 +36,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
             return
         }
         setContentView(R.layout.package_hotel_activity)
-        Ui.showTransparentStatusBar(this)
+        //Ui.showTransparentStatusBar(this)
         resultsMapView.onCreate(savedInstanceState)
         detailsMapView.onCreate(savedInstanceState)
 

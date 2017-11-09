@@ -54,11 +54,11 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
 
-        val statusBarHeight = Ui.getStatusBarHeight(getContext())
+        /*val statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarBackground.layoutParams.height += statusBarHeight
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
-        }
+        }*/
 
     }
 

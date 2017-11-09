@@ -48,7 +48,6 @@ class PackageConfirmationPresenter(context: Context, attributeSet: AttributeSet)
 
     init {
         View.inflate(context, R.layout.package_confirmation_presenter, this)
-        confirmationContainer.setPadding(0, Ui.toolbarSizeWithStatusBar(context), 0, 0)
         viewItinButton.setOnClickListener {
             (context as AppCompatActivity).finish()
             NavUtils.goToItin(context)

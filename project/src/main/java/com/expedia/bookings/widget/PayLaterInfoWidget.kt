@@ -32,20 +32,20 @@ class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
     val depositPolicySecondView: LinearLayout by bindView(R.id.deposit_terms_second_view)
     val earnTextLayout: LinearLayout by bindView(R.id.earn_text_layout)
 
-    val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
+    //val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val toolBarHeight by lazy { Ui.getToolbarSize(context) }
 
 
     init {
         View.inflate(getContext(), R.layout.widget_pay_later_info, this)
-        if (statusBarHeight > 0) {
+        /*if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
-        }
+        }*/
         toolbar.setNavigationOnClickListener { view ->
             val activity = getContext() as AppCompatActivity
             activity.onBackPressed()
         }
-        container.setPadding(0, toolBarHeight + statusBarHeight, 0, 0)
+        container.setPadding(0, toolBarHeight, 0, 0)
         earnText.text = resources.getString(R.string.etp_pay_now_earn_text)
         earnTextLayout.visibility = if (earnText.text.equals("")) View.GONE else View.VISIBLE
     }
