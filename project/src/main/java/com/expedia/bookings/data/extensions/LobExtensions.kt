@@ -6,12 +6,13 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.isHotelMaterialForms
 import com.expedia.bookings.utils.isMaterialFormsEnabled
 
 class LineOfBusinessExtensions {
     companion object {
         fun isUniversalCheckout(lob: LineOfBusiness, context: Context): Boolean {
-            return lob == LineOfBusiness.FLIGHTS_V2 || lob == LineOfBusiness.PACKAGES || (isLXUniversalCheckout(context) && lob == LineOfBusiness.LX)
+            return lob == LineOfBusiness.FLIGHTS_V2 || lob == LineOfBusiness.PACKAGES || (isLXUniversalCheckout(context) && lob == LineOfBusiness.LX) || lob == LineOfBusiness.HOTELS
         }
 
         private fun isLXUniversalCheckout(context: Context): Boolean {
@@ -33,5 +34,5 @@ fun LineOfBusiness.hasBillingInfo(): Boolean {
 }
 
 fun LineOfBusiness.isMaterialFormEnabled(context: Context) : Boolean {
-    return LineOfBusinessExtensions.isUniversalCheckout(this, context) && isMaterialFormsEnabled()
+    return LineOfBusinessExtensions.isUniversalCheckout(this, context) && (isMaterialFormsEnabled() || (this == LineOfBusiness.HOTELS && isHotelMaterialForms(context)))
 }

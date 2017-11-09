@@ -128,6 +128,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	protected UserStateManager userStateManager;
 
 	private boolean listenToScroll = true;
+	private boolean hotelMaterialFormTestEnabled = FeatureUtilKt.isHotelMaterialForms(getContext());
 
 	@Override
 	protected void onFinishInflate() {
@@ -136,7 +137,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		userStateManager = Ui.getApplication(getContext()).appComponent().userStateManager();
 		setupToolbar();
 
-		paymentStub = (ViewStub) findViewById(R.id.payment_info_card_view_stub);
+		if (hotelMaterialFormTestEnabled) {
+			paymentStub = (ViewStub) findViewById(R.id.material_payment_view_stub);
+		} else {
+			paymentStub = (ViewStub) findViewById(R.id.payment_info_card_view_stub);
+		}
 		paymentInfoCardView = (PaymentWidget) paymentStub.inflate();
 		addTransition(defaultToExpanded);
 		addTransition(defaultToReady);
