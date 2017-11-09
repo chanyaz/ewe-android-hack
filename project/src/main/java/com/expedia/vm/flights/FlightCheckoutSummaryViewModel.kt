@@ -6,7 +6,7 @@ import android.text.SpannableStringBuilder
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
@@ -44,7 +44,6 @@ class FlightCheckoutSummaryViewModel(val context: Context) {
     }
 
     fun isEvolableEnabled(): Boolean {
-        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-                AbacusUtils.EBAndroidAppFlightsEvolable, R.string.preference_flights_evolable)
+        return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
     }
 }

@@ -97,7 +97,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val showMoreInfoOnOverview = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
     val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
     val isUserBucketedForFareFamily = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
-    val isUserEvolableBucketed = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsEvolable, R.string.preference_flights_evolable)
+    val isUserEvolableBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById<ViewStub>(R.id.error_presenter_stub)

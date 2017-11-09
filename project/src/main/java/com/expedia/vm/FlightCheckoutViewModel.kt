@@ -12,11 +12,11 @@ import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.safeSubscribeOptional
@@ -34,7 +34,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
     // outputs
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>()
     val showNoInternetRetryDialog = PublishSubject.create<Unit>()
-    val isUserEvolableBucketed = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsEvolable, R.string.preference_flights_evolable)
+    val isUserEvolableBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
 
     init {
         val pointOfSale = PointOfSale.getPointOfSale()

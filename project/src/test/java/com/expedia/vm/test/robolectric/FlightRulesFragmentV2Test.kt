@@ -15,7 +15,6 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.text.HtmlCompat
-import com.mobiata.android.util.SettingUtils
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -54,7 +53,6 @@ class FlightRulesFragmentV2Test {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testEvolableFlightRulesText() {
-        SettingUtils.save(activity, R.string.preference_flights_evolable, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsEvolable)
         Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
         ExpediaSupportFragmentTestUtil.startFragment(activity.supportFragmentManager, testFragment)
@@ -65,7 +63,6 @@ class FlightRulesFragmentV2Test {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testEvolablePenaltyRulesText() {
-        SettingUtils.save(activity, R.string.preference_flights_evolable, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsEvolable)
         Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
         ExpediaSupportFragmentTestUtil.startFragment(activity.supportFragmentManager, testFragment)

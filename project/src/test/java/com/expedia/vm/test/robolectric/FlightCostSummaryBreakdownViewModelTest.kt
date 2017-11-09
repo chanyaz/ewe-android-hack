@@ -19,7 +19,6 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -264,7 +263,6 @@ class FlightCostSummaryBreakdownViewModelTest {
     @Test
     fun testBookingFeeTitleForEvolable() {
         setupSystemUnderTest()
-        SettingUtils.save(activity, R.string.preference_flights_evolable, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsEvolable)
         givenGoodTripResponse()
 

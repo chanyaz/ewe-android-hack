@@ -5103,8 +5103,7 @@ public class OmnitureTracking {
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSubpubChange);
 
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightsEvolable,
-			R.string.preference_flights_evolable)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(sContext, AbacusUtils.EBAndroidAppFlightsEvolable)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsEvolable);
 		}
 

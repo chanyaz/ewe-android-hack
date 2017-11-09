@@ -42,7 +42,6 @@ import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
 import com.expedia.vm.packages.PackageSearchType
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
@@ -571,7 +570,6 @@ class FlightOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testEvolableTermsConditionInfo() {
-        SettingUtils.save(context, R.string.preference_flights_evolable, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsEvolable)
         createExpectedFlightLeg()
         val createTripResponse = getFlightCreateTripResponse()

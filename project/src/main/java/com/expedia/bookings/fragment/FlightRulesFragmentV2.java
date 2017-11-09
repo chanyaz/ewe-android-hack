@@ -14,8 +14,8 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightLeg;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.text.HtmlCompat;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.phrase.Phrase;
@@ -29,8 +29,7 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		flightCreateTripResponse = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppFlightsEvolable,
-			R.string.preference_flights_evolable)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.EBAndroidAppFlightsEvolable)) {
 			fetchEvolableDetails();
 		}
 	}

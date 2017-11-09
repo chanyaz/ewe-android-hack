@@ -10,7 +10,6 @@ import com.expedia.bookings.data.flights.FlightTripDetails.PassengerCategory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.squareup.phrase.Phrase
@@ -132,7 +131,6 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
     }
 
     fun isEvolableEnabled(): Boolean {
-        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-                AbacusUtils.EBAndroidAppFlightsEvolable, R.string.preference_flights_evolable)
+        return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
     }
 }
