@@ -78,7 +78,7 @@ Feature: Search Suggestions for packages
     And I click on source search button
     When I type "SFO" in the packages source search box
     And I select "SFO - San Francisco Intl." from suggestions
-    And I type "LAS" and select the location "Las Vegas Strip, Las Vegas, NV"
+    And I type "LAS" and select the location "Las Vegas Strip, NV"
     Then Validate the "TypeAhead" API request query params for following parameters for packages
       | locale                      | en_US                          |
       | regiontype                  | 95                             |

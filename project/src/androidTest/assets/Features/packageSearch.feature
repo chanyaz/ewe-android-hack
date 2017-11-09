@@ -382,7 +382,7 @@ Feature: Package Search
       | source              | SFO                                    |
       | destination         | KTM                                    |
       | source_suggest      | SFO - San Francisco Intl.              |
-      | destination_suggest | Kathmandu, Nepal (KTM-Tribhuvan Intl.) |
+      | destination_suggest | Kathmandu Valley, Nepal                |
       | start_date          | 5                                      |
       | end_date            | 10                                     |
       | adults              | 2                                      |
@@ -394,7 +394,7 @@ Feature: Package Search
     And I launch "Bundle Deals" LOB
     Then Validate search form retains details of search for packages
       | source              | SFO - San Francisco Intl.              |
-      | destination         | Kathmandu, Nepal (KTM-Tribhuvan Intl.) |
+      | destination         | Kathmandu Valley, Nepal                |
       | start_date          | 5                                      |
       | end_date            | 10                                     |
       | numberOfNights      | (5 nights)                             |
