@@ -730,10 +730,10 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     companion object {
         private const val TOOLBAR_ANIM_DURATION = 200L
 
-        private const val NUMBER_OF_TABS = 3
-        private const val PAGER_POS_LAUNCH = 0
-        private const val PAGER_POS_ITIN = 1
-        private const val PAGER_POS_ACCOUNT = 2
+        const val NUMBER_OF_TABS = 3
+        const val PAGER_POS_LAUNCH = 0
+        const val PAGER_POS_ITIN = 1
+        const val PAGER_POS_ACCOUNT = 2
 
         @JvmField val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
         @JvmField val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
