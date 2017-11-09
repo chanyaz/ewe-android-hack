@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
@@ -128,6 +129,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	protected UserStateManager userStateManager;
 
 	private boolean listenToScroll = true;
+	private boolean hotelMaterialFormTestEnabled = FeatureUtilKt.isHotelMaterialForms(getContext());
 
 	@Override
 	protected void onFinishInflate() {
@@ -137,6 +139,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		setupToolbar();
 
 		paymentStub = (ViewStub) findViewById(R.id.payment_info_card_view_stub);
+		if (hotelMaterialFormTestEnabled) {
+			paymentStub.setLayoutResource(R.layout.material_payment_widget_v2);
+		}
 		paymentInfoCardView = (PaymentWidget) paymentStub.inflate();
 		addTransition(defaultToExpanded);
 		addTransition(defaultToReady);
@@ -154,6 +159,33 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.getViewmodel().getMenuVisibility().subscribe(toolbar.getViewModel().getMenuVisibility());
 		paymentInfoCardView.getViewmodel().getEnableMenuItem().subscribe(toolbar.getViewModel().getEnableMenuItem());
 		paymentInfoCardView.getVisibleMenuWithTitleDone().subscribe(toolbar.getViewModel().getVisibleMenuWithTitleDone());
+
+		if (FeatureUtilKt.isHotelMaterialForms(getContext())) {
+			paymentInfoCardView.getViewmodel().getMenuVisibility().subscribe(new Observer<Boolean>() {
+				@Override
+				public void onCompleted() {
+
+				}
+
+				@Override
+				public void onError(Throwable e) {
+
+				}
+
+				@Override
+				public void onNext(Boolean isShowing) {
+					int color;
+					if (isShowing) {
+						color = ContextCompat.getColor(getContext(), R.color.white);
+					}
+					else {
+						color = ContextCompat.getColor(getContext(), R.color.gray100);
+					}
+					scrollView.setBackgroundColor(color);
+				}
+			});
+		}
+
 		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getFormFilledIn());
 		toolbar.getViewModel().getDoneClicked().subscribe(new Observer<Unit>() {
 			@Override

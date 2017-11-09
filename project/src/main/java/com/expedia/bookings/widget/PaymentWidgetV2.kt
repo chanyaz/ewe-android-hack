@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -8,9 +9,13 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.extensions.isMaterialFormEnabled
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.utils.getPaymentType
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.animation.AlphaCalculator
@@ -19,6 +24,7 @@ import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isDisplayCardsOnPaymentForm
+import com.expedia.bookings.utils.isHotelMaterialForms
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeText
@@ -114,6 +120,9 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         }
         if (shouldDisplayCardsListOnPaymentForm) {
             updateViewsForDisplayingCardsList()
+        }
+        if (isHotelMaterialForms) {
+            sectionBillingInfo.updateMaterialPostalFieldErrorAndHint(PointOfSale.getPointOfSale().pointOfSaleId)
         }
     }
 

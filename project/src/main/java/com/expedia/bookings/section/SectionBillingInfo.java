@@ -12,10 +12,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -31,10 +33,12 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.data.utils.CreditCardLuhnCheckUtil;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
@@ -219,6 +223,27 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
 			mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
 		}
+	}
+
+	public void updateMaterialPostalFieldErrorAndHint(PointOfSaleId pointOfSaleId) {
+		int postalHintString;
+		int postalErrorString;
+		TextInputLayout postalLayout = findViewById(R.id.material_edit_address_postal_code);
+		if (pointOfSaleId.equals(ProductFlavorFeatureConfiguration.getInstance().getUSPointOfSaleId())) {
+			postalHintString = R.string.address_zip_code_hint;
+			postalErrorString = R.string.error_enter_a_zip_code;
+			mEditPostalCode.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
+		}
+		else {
+			postalHintString = R.string.address_postal_code_hint;
+			postalErrorString = R.string.error_enter_a_valid_postal_code;
+			mEditPostalCode.getField().setInputType(InputType.TYPE_CLASS_TEXT);
+		}
+
+		if (postalLayout != null) {
+			postalLayout.setHint(getContext().getString(postalHintString));
+		}
+		mValidPostalCode.setErrorString(getContext().getString(postalErrorString));
 	}
 
 	//////////////////////////////////////
