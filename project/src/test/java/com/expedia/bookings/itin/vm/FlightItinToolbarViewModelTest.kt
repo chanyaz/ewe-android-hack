@@ -1,7 +1,9 @@
 package com.expedia.bookings.itin.vm
 
 import android.app.Activity
+import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +22,7 @@ class FlightItinToolbarViewModelTest {
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        sut = FlightItinToolbarViewModel(activity)
+        sut = FlightItinToolbarViewModel()
     }
 
     @Test
@@ -32,7 +34,9 @@ class FlightItinToolbarViewModelTest {
         toolbarTitleSubscriber.assertNoValues()
         toolbarSubTitleSubscriber.assertNoValues()
         shareIconSubscriber.assertNoValues()
-        sut.updateWidget(ItinToolbarViewModel.ToolbarParams("Vancouver", "Aug 21", true))
+        val destination = Phrase.from(activity, R.string.itin_flight_toolbar_title_TEMPLATE).
+                put("destination", "Vancouver").format().toString()
+        sut.updateWidget(ItinToolbarViewModel.ToolbarParams(destination, "Aug 21", true))
         toolbarTitleSubscriber.assertValue("Flight to Vancouver")
         toolbarSubTitleSubscriber.assertValue("Aug 21")
         shareIconSubscriber.assertValue(true)

@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import android.app.Activity
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TicketingStatus
@@ -20,6 +21,7 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import com.squareup.phrase.Phrase
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
@@ -93,7 +95,9 @@ class FlightItinDetailsViewModelTest {
         whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
         sut.itineraryManager = mockItinManager
         sut.onResume()
-        updateToolbarSubscriber.assertValue(ItinToolbarViewModel.ToolbarParams("Las Vegas", startDate, true))
+        val destination = Phrase.from(activity, R.string.itin_flight_toolbar_title_TEMPLATE).
+                put("destination", "Las Vegas").format().toString()
+        updateToolbarSubscriber.assertValue(ItinToolbarViewModel.ToolbarParams(destination, startDate, true))
     }
 
     @Test

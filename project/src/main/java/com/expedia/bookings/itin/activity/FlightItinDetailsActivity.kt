@@ -78,7 +78,7 @@ class FlightItinDetailsActivity : AppCompatActivity() {
             itinConfirmationWidget.viewModel.updateWidget(params)
         }
         vm.createBookingInfoWidgetSubject.subscribe { params ->
-            flightBookingDetailsWidget.viewModel = FlightItinBookingInfoViewModel(this)
+            flightBookingDetailsWidget.viewModel = FlightItinBookingInfoViewModel(this, intent.getStringExtra(FlightItinDetailsActivity.FLIGHT_ITIN_ID))
             flightBookingDetailsWidget.viewModel.updateBookingInfoWidget(params)
         }
         vm.itinCardDataFlightObservable.subscribe(flightItinMapWidgetViewModel.itinCardDataObservable)
@@ -111,7 +111,7 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         viewModel = FlightItinDetailsViewModel(this, intent.getStringExtra(FlightItinDetailsActivity.FLIGHT_ITIN_ID))
-        toolbarViewModel = FlightItinToolbarViewModel(this)
+        toolbarViewModel = FlightItinToolbarViewModel()
         itinToolbar.viewModel = toolbarViewModel
         confirmationViewModel = FlightItinConfirmationViewModel(this)
         itinConfirmationWidget.viewModel = confirmationViewModel

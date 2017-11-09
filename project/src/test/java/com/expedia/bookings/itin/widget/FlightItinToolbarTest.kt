@@ -22,7 +22,7 @@ class FlightItinToolbarTest {
     fun setup() {
         context = RuntimeEnvironment.application
         sut = LayoutInflater.from(context).inflate(R.layout.test_widget_itin_toolbar, null) as ItinToolbar
-        sut.viewModel = FlightItinToolbarViewModel(context)
+        sut.viewModel = FlightItinToolbarViewModel()
     }
 
     @Test

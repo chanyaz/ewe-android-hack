@@ -31,7 +31,7 @@ class FlightItinBookingDetailsWidgetTest {
         context = RuntimeEnvironment.application
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         sut = LayoutInflater.from(activity).inflate(R.layout.test_flight_itin_booking_details_widget, null) as FlightItinBookingDetailsWidget
-        sut.viewModel = FlightItinBookingInfoViewModel(activity)
+        sut.viewModel = FlightItinBookingInfoViewModel(activity, "TEST_ITIN_ID")
         params = FlightItinBookingInfoViewModel.WidgetParams(
                 "Jim Bob",
                 false,

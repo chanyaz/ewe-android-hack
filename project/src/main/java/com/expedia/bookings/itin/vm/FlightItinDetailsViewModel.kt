@@ -12,6 +12,7 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.utils.FormatUtils
+import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.Days
 import rx.subjects.PublishSubject
@@ -59,7 +60,8 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     }
 
     private fun updateToolbar() {
-        val destinationCity = itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: ""
+        val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE).
+                put("destination", itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: "").format().toString()
         val startDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataFlight.startDate).capitalize()
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(destinationCity, startDate, !itinCardDataFlight.isSharedItin))
     }

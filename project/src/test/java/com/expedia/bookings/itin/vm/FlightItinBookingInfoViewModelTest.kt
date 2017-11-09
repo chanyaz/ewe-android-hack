@@ -35,7 +35,7 @@ class FlightItinBookingInfoViewModelTest {
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        sut = FlightItinBookingInfoViewModel(activity)
+        sut = FlightItinBookingInfoViewModel(activity, "TEST_ITIN_ID")
         url = "expedia.com"
         context = RuntimeEnvironment.application
     }
