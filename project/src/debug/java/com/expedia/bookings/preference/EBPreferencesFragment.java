@@ -65,6 +65,16 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 				}
 			});
 
+			String retainPrevFlightSearchParamsKey = getString(R.string.preference_enable_retain_prev_flight_search_params);
+			final CheckBoxPreference retainPrevFlightSearchParamsPreference = (CheckBoxPreference) findPreference(retainPrevFlightSearchParamsKey);
+			retainPrevFlightSearchParamsPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+				@Override
+				public boolean onPreferenceChange(Preference preference, Object newValue) {
+					SettingUtils.save(getActivity(), getString(R.string.preference_enable_retain_prev_flight_search_params), (boolean)newValue);
+					return true;
+				}
+			});
+
 			String picassoKey = getString(R.string.preference_enable_picasso_logging);
 			CheckBoxPreference picassoPreference = (CheckBoxPreference) findPreference(picassoKey);
 			picassoPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -87,7 +97,6 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 					return true;
 				}
 			});
-
 		}
 	}
 

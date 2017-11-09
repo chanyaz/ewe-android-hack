@@ -40,6 +40,12 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="@string/preference_enable_retain_prev_flight_search_params"
+            android:summary="Retain previous Flight search params"
+            android:title="Enable Retain previous Flight search" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="@string/preference_enable_picasso_logging"
             android:summary="Show detailed logging of Picasso activity."
             android:title="Enable Picasso Logging" />

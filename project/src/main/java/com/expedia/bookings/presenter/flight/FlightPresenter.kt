@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
@@ -66,6 +67,7 @@ import com.expedia.util.updateVisibility
 import com.expedia.util.Optional
 import com.expedia.util.subscribeVisibility
 import com.mobiata.android.Log
+import com.mobiata.android.util.SettingUtils
 import rx.Observer
 import java.util.Date
 
@@ -523,7 +525,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             addTransition(overviewToConfirmation)
         }
 
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
+        if (BuildConfig.DEBUG && SettingUtils.get(context, R.string.preference_enable_retain_prev_flight_search_params, false)) {
             SearchParamsHistoryUtil.loadPreviousFlightSearchParams(context, loadSuccess, loadFailed)
         } else {
             searchViewModel.isReadyForInteractionTracking.onNext(Unit)

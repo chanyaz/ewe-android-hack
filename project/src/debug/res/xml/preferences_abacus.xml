@@ -189,14 +189,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="14297"
-            android:summary="%s"
-            android:title="Retain previous Flight search params - 14297" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="15185"
             android:summary="%s"
             android:title="Advance Search Filters on SRP - 15185" />

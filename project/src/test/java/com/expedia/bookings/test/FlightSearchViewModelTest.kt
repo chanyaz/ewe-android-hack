@@ -9,7 +9,6 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
@@ -362,39 +361,6 @@ class FlightSearchViewModelTest {
         sut.isRoundTripSearchObservable.onNext(true)
         sut.performSearchObserver.onNext(Unit)
         assertEquals(sut.searchParamsObservable.value.legNo, 0)
-    }
-
-    @Test
-    fun testParamsNotSavedIfNotBucketedToRetainParamsABTest() {
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightRetainSearchParams)
-        givenMockServer()
-        givenDefaultTravelerComponent()
-        createSystemUnderTest()
-        givenParamsHaveDestination()
-        givenParamsHaveOrigin()
-        givenValidStartAndEndDates()
-        sut.isRoundTripSearchObservable.onNext(true)
-        sut.performSearchObserver.onNext(Unit)
-        SearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedParams ->
-            assertNull(loadedParams)
-        })
-
-    }
-
-    @Test
-    fun testParamsSavedIfBucketedToRetainParamsABTest() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightRetainSearchParams)
-        givenMockServer()
-        givenDefaultTravelerComponent()
-        createSystemUnderTest()
-        givenParamsHaveDestination()
-        givenParamsHaveOrigin()
-        givenValidStartAndEndDates()
-        sut.isRoundTripSearchObservable.onNext(true)
-        sut.performSearchObserver.onNext(Unit)
-        SearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedParams ->
-            assertNotNull(loadedParams)
-        })
     }
 
     @Test

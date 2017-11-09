@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
@@ -25,6 +26,7 @@ import com.expedia.util.FlightCalendarRules
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.vm.flights.AdvanceSearchFilter
+import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observable
@@ -160,7 +162,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             Db.setFlightSearchParams(flightSearchParams)
             searchParamsObservable.onNext(flightSearchParams)
             FlightsV2Tracking.trackSearchClick(flightSearchParams)
-            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
+            if (BuildConfig.DEBUG && SettingUtils.get(context, R.string.preference_enable_retain_prev_flight_search_params, false)) {
                 SearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }
             if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
