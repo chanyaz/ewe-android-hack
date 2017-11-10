@@ -175,10 +175,6 @@
     <string name="select_start_date">Valitse alkamispäivä</string>
 
     <!-- LX -->
-    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} – {to_date}</string>
-    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} – {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Hae aktiviteetteja</string>
     <!--LX Search widget header text -->
@@ -644,6 +640,17 @@
     <string name="sort_and_filter_cont_desc">Järjestä ja suodata -painike</string>
     <!-- "Done" list header label -->
     <string name="Done">Valmis</string>
+
+    <!-- Baggage Info Accessibility -->
+    <string name="spinner_text_baggage_info_fetching">Tietoa matkatavaroiden noutamisesta</string>
+    <!--Baggage Info Airline Message Example: (Prices may be cheaper if purchased online with Virgin America)-->
+    <string name="baggage_info_airline_message_TEMPLATE">(Maksut voivat olla halvempia, kun ostat verkossa lentoyhtiöltä {airline_name})</string>
+    <!--Baggage Fees when purchased at airport-->
+    <string name="baggage_fees_purchased_airport">Matkatavaramaksut, kun maksu suoritetaan lentokentällä:</string>
+    <!--Baggage Fee Info-->
+    <string name="baggage_fee_info">Tietoa matkatavaramaksuista</string>
+    <!--Airline-->
+    <string name="airline">Lentoyhtiö</string>
 
     <!-- Select your fare label -->
     <string name="select_your_fare">Valitse hinta</string>
@@ -1411,6 +1418,12 @@
     <string name="itin_flight_summary_terminal_TEMPLATE">Terminaali {terminal}</string>
     <!-- Flight itin summary widget gate template. Gate {gate} (e.g., Gate 1A)-->
     <string name="itin_flight_summary_gate_TEMPLATE">Portti {gate}</string>
+    <!-- Flight itin summary widget new departure title -->
+    <string name="itin_flight_summary_new_departure_title">Uusi lähtöaika</string>
+    <!-- Flight itin summary widget scheduled departure title -->
+    <string name="itin_flight_summary_scheduled_title">Alkuperäinen</string>
+    <!-- Flight itin summary widget new arrival title -->
+    <string name="itin_flight_summary_new_arrival_title">Uusi tuloaika</string>
     <!-- displayed when seats aren't selectable -->
     <string name="seat_selection_not_available">Istuinpaikan valinta ei saatavilla</string>
     <!-- displayed when seats are selectable -->
@@ -1423,6 +1436,20 @@
     <string name="itin_flight_layover_TEMPLATE">Välilasku: {layover}</string>
     <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">Kesto yhteensä: {duration}</string>
+    <!--Flight itin baggage information text-->
+    <string name="itin_baggage_info_button_text">Matkatavaratiedot</string>
+    <!--Flight itin traveller info widget heading-->
+    <string name="itin_flight_traveller_info">Matkustajan tiedot</string>
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_details_manage_booking_heading">Hallitse varausta</string>
+    <!--Flight itin segment summary flight status indicator text - cancelled-->
+    <string name="itin_flight_summary_status_indicator_text_cancelled">Peruutettu</string>
+    <!--Flight itin segment summary flight status indicator text - on time-->
+    <string name="itin_flight_summary_status_indicator_text_on_time">Ajoissa</string>
+    <!--Flight itin segment summary flight status indicator text template - delayed by. Delayed by {duration} (e.g., Delayed by 30m)-->
+    <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">Viivästyy {duration}</string>
+    <!--Flight itin segment summary flight status indicator text - early departure-->
+    <string name="itin_flight_summary_status_indicator_text_early_departure">Aikainen lähtö</string>
 
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
@@ -1749,21 +1776,15 @@
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
 
     <!-- Calendar instructions -->
-    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_TEMPLATE">{startdate} – {enddate}</string>
     <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
     <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} \u0020-\u0020 {enddate}</string>
-    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
-    <string name="start_to_end_date_range_cont_desc_TEMPLATE">{startdate} –&gt; {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (yhdensuuntainen)</string>
     <!-- Calendar instructions rail start date selected -->
     <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
     <string name="calendar_instructions_date_range_flight_select_return_date">Seuraavaksi: valitse palautuspäivä</string>
-    <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate}–{enddate}, {guests}</string>
+
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
@@ -1925,6 +1946,8 @@
     <string name="cost_summary">Hintayhteenveto</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand}n varausmaksu</string>
+    <!-- Booking Fee -->
+    <string name="booking_fee">Varausmaksu</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="payment_method_fee">Maksutapamaksu</string>
     <!-- Flight -->
@@ -2259,6 +2282,8 @@
     <string name="split_ticket_rules_cancellation_policy">Jos jompaankumpaan lentoon tehdään muutoksia tai se peruutetaan, tämä ei automaattisesti vaikuta toiseen lentoon. Toiseen lentoon tehdyistä muutoksista saatetaan veloittaa.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;Lähtö-&lt;/a&gt; ja &lt;a href=\"{returnlink}\"&gt;paluulennoilla&lt;/a&gt; on eri matkatavaramaksut</string>
+    <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
+    <string name="evolable_terms_condition_TEMPLATE">Tämä lento on varattu &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;n kautta.&lt;br&gt;Myyjän &lt;a href=\"{evolable_terms_condition_link}\"&gt;ehtoja ja rajoituksia&lt;/a&gt; sovelletaan.</string>
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">Peruuta</string>
@@ -2386,6 +2411,8 @@
     <string name="DONE">VALMIS</string>
     <!-- Button label for dismissing the flight fare family amenities dialog -->
     <string name="OK">OK</string>
+    <!--Label to view details -->
+    <string name="view_details">Katso tiedot</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Kartta</string>
     <!-- Label for sort hotels in hotel list -->
@@ -3927,7 +3954,7 @@
         <item quantity="one">{seats} istuinpaikka jäljellä</item>
         <item quantity="other">{seats} istuinpaikkaa jäljellä</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">Matkatavaratiedot</string>
+    <string name="package_flight_overview_baggage_fees">Tietoa matkatavaramaksuista</string>
     <string name="package_flight_overview_select_flight">Valitse tämä lento</string>
     <string name="package_flight_overview_bundle_total_label">Pakettimatka yhteensä</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money} per henkilö</string>
@@ -3943,6 +3970,7 @@
     <string name="flight_overview_header_TEMPLATE">{departureairportcode}–{arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">No. {itinerary} lähetetty osoitteeseen {email}</string>
+    <string name="itinerary_default_email_message">sähköpostiisi.</string>
 
     <!--Rail search screen title-->
     <string name="trains">Junat</string>
@@ -4278,17 +4306,32 @@
     <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Pahoittelut, &lt;b&gt;{fare_family_name}&lt;/b&gt; on loppuunmyyty. Yritä uudelleen eri lentoluokalla. Lentosi palautetaan alkuperäiseen lentoluokkaan.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
     <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Pahoittelut, &lt;b&gt;{fare_family_name}&lt;/b&gt; on loppuunmyyty. Yritä uudelleen eri lentoluokalla. Lentosi palautetaan alkuperäiseen lentoluokkaan.</string>
-    <!-- Label for fare family upgrade option. Example. Change your fare -->
-    <string name="flight_fare_family_fare_label">Vaihda lentoluokkaasi</string>
+    <!-- Label for fare family upgrade option. Example. You've selected Comfort+  -->
+    <string name="flight_fare_family_fare_label_TEMPLATE">Valitsit luokan {fare_family_name}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">Korota lentoluokkaasi</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">Korota lentoluokkaasi</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Alkaen</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
+    <string name="flight_selected_classes_one_class_TEMPLATE">Valittu: {class}</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">Valittu: {class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
+    <string name="flight_selected_classes_mixed_classes">Valittu: Sekalaiset lentoluokat</string>
+    <!-- Label for change fare class subtext,  Example. Change fare class -->
+    <string name="flight_change_fare_class">Vaihda hintaluokkaa</string>
 
+
+    <!-- Generic date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="start_dash_end_date_range_TEMPLATE">{startdate} – {enddate}</string>
+    <!-- Generic date range template with guests. E.g. May 12 - May 15, 2 guestss -->
+    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} – {enddate}, {guests}</string>
+    <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="start_to_end_date_range_cont_desc_TEMPLATE">{startdate} viiva {enddate}</string>
+    <!-- Generic Content Description text for date ranges plus guests template. Example May 12 to May 15, 2 guests -->
+    <string name="start_to_end_plus_guests_cont_desc_TEMPLATE">{startdate} viiva {enddate}, {guests}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">Lisää yksi aikuinen matkustaja</string>
     <!--Traveler widget adults minus button content description-->

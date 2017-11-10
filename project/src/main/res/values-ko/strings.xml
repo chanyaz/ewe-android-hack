@@ -175,10 +175,6 @@
     <string name="select_start_date">시작 날짜 선택</string>
 
     <!-- LX -->
-    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} ~ {to_date}</string>
-    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date}부터 {to_date}까지</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">즐길거리 검색</string>
     <!--LX Search widget header text -->
@@ -579,7 +575,7 @@
     <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
     <string name="checkout_traveler_title_TEMPLATE">여행객 {travelernumber} ({passengerycategory})</string>
     <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
-    <string name="traveler_age_range_TEMPLATE">{range} {category}</string>
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">만 18+</string>
     <!-- Youth age label on flight checkout traveler summary card -->
@@ -644,6 +640,17 @@
     <string name="sort_and_filter_cont_desc">정렬 및 필터 버튼</string>
     <!-- "Done" list header label -->
     <string name="Done">완료</string>
+
+    <!-- Baggage Info Accessibility -->
+    <string name="spinner_text_baggage_info_fetching">수하물 정보 가져오는 중</string>
+    <!--Baggage Info Airline Message Example: (Prices may be cheaper if purchased online with Virgin America)-->
+    <string name="baggage_info_airline_message_TEMPLATE">({airline_name}에서 온라인으로 구입하면 가격이 더 저렴할 수 있습니다.)</string>
+    <!--Baggage Fees when purchased at airport-->
+    <string name="baggage_fees_purchased_airport">공항에서 구입할 경우 수하물 요금:</string>
+    <!--Baggage Fee Info-->
+    <string name="baggage_fee_info">수하물 요금 정보</string>
+    <!--Airline-->
+    <string name="airline">항공사</string>
 
     <!-- Select your fare label -->
     <string name="select_your_fare">요금 선택</string>
@@ -1411,6 +1418,12 @@
     <string name="itin_flight_summary_terminal_TEMPLATE">터미널 {terminal}</string>
     <!-- Flight itin summary widget gate template. Gate {gate} (e.g., Gate 1A)-->
     <string name="itin_flight_summary_gate_TEMPLATE">게이트 {gate}</string>
+    <!-- Flight itin summary widget new departure title -->
+    <string name="itin_flight_summary_new_departure_title">변경된 출발 시간</string>
+    <!-- Flight itin summary widget scheduled departure title -->
+    <string name="itin_flight_summary_scheduled_title">원래 시간</string>
+    <!-- Flight itin summary widget new arrival title -->
+    <string name="itin_flight_summary_new_arrival_title">변경된 도착 시간</string>
     <!-- displayed when seats aren't selectable -->
     <string name="seat_selection_not_available">좌석 선택 불가</string>
     <!-- displayed when seats are selectable -->
@@ -1423,6 +1436,20 @@
     <string name="itin_flight_layover_TEMPLATE">{layover} 대기</string>
     <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">총 소요 시간: {duration}</string>
+    <!--Flight itin baggage information text-->
+    <string name="itin_baggage_info_button_text">수하물 정보</string>
+    <!--Flight itin traveller info widget heading-->
+    <string name="itin_flight_traveller_info">여행객 정보</string>
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_details_manage_booking_heading">예약 관리</string>
+    <!--Flight itin segment summary flight status indicator text - cancelled-->
+    <string name="itin_flight_summary_status_indicator_text_cancelled">결항됨</string>
+    <!--Flight itin segment summary flight status indicator text - on time-->
+    <string name="itin_flight_summary_status_indicator_text_on_time">정시 도착</string>
+    <!--Flight itin segment summary flight status indicator text template - delayed by. Delayed by {duration} (e.g., Delayed by 30m)-->
+    <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">{duration} 지연</string>
+    <!--Flight itin segment summary flight status indicator text - early departure-->
+    <string name="itin_flight_summary_status_indicator_text_early_departure">일찍 출발</string>
 
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
@@ -1749,21 +1776,15 @@
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
 
     <!-- Calendar instructions -->
-    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
     <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} \u0020-\u0020 {enddate}</string>
-    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
-    <string name="start_to_end_date_range_cont_desc_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate}(편도)</string>
     <!-- Calendar instructions rail start date selected -->
     <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
     <string name="calendar_instructions_date_range_flight_select_return_date">다음 단계: 오는 날짜 선택</string>
-    <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
@@ -1925,6 +1946,8 @@
     <string name="cost_summary">비용 요약</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} 예약 수수료</string>
+    <!-- Booking Fee -->
+    <string name="booking_fee">예약 수수료</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="payment_method_fee">결제 방법에 따른 수수료</string>
     <!-- Flight -->
@@ -2259,6 +2282,8 @@
     <string name="split_ticket_rules_cancellation_policy">항공편 중 하나를 변경 또는 취소하는 경우 나머지 다른 항공편이 자동으로 변경되지는 않습니다. 다른 항공편에 대한 변경에는 요금이 부과될 수 있습니다.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;가는편&lt;/a&gt; 및 &lt;a href=\"{returnlink}\"&gt;오는편&lt;/a&gt;에는 고유한 수하물 요금이 있습니다.</string>
+    <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
+    <string name="evolable_terms_condition_TEMPLATE">이 항공편 예약은 &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;에서 수행됩니다.&lt;br&gt;공급업체의 &lt;a href=\"{evolable_terms_condition_link}\"&gt;이용약관&lt;/a&gt;이 적용됩니다.</string>
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">취소</string>
@@ -2386,6 +2411,8 @@
     <string name="DONE">완료</string>
     <!-- Button label for dismissing the flight fare family amenities dialog -->
     <string name="OK">확인</string>
+    <!--Label to view details -->
+    <string name="view_details">세부 정보 보기</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">지도</string>
     <!-- Label for sort hotels in hotel list -->
@@ -3943,6 +3970,7 @@
     <string name="flight_overview_header_TEMPLATE">{departureairportcode} 출발 {arrivalairportcode} 도착, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">일정 번호 {itinerary}: {email} 주소로 전송됨</string>
+    <string name="itinerary_default_email_message">고객님 이메일 주소로 전송됨</string>
 
     <!--Rail search screen title-->
     <string name="trains">기차</string>
@@ -4040,7 +4068,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} 출발 {arrival} 도착</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4278,17 +4306,32 @@
     <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">죄송합니다. &lt;b&gt;{fare_family_name}&lt;/b&gt;의 경우 현재 매진입니다. 다른 요금 옵션으로 다시 시도해 주세요. 처음 선택하신 요금으로 되돌리는 중입니다.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
     <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">죄송합니다. &lt;b&gt;{fare_family_name}&lt;/b&gt;의 경우 현재 매진입니다. 다른 요금 옵션으로 다시 시도해 주세요. 처음 선택하신 요금으로 되돌리는 중입니다.</string>
-    <!-- Label for fare family upgrade option. Example. Change your fare -->
-    <string name="flight_fare_family_fare_label">요금 변경</string>
+    <!-- Label for fare family upgrade option. Example. You've selected Comfort+  -->
+    <string name="flight_fare_family_fare_label_TEMPLATE">선택하신 등급은 {fare_family_name}입니다.</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">항공편 업그레이드</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">항공편 업그레이드</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">최저</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
+    <string name="flight_selected_classes_one_class_TEMPLATE">현재 좌석 등급: {class}</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">현재 좌석 등급: {class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
+    <string name="flight_selected_classes_mixed_classes">현재 좌석 등급: 혼합된 좌석 등급</string>
+    <!-- Label for change fare class subtext,  Example. Change fare class -->
+    <string name="flight_change_fare_class">좌석 등급 변경</string>
 
+
+    <!-- Generic date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="start_dash_end_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Generic date range template with guests. E.g. May 12 - May 15, 2 guestss -->
+    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="start_to_end_date_range_cont_desc_TEMPLATE">{startdate}부터 {enddate}까지</string>
+    <!-- Generic Content Description text for date ranges plus guests template. Example May 12 to May 15, 2 guests -->
+    <string name="start_to_end_plus_guests_cont_desc_TEMPLATE">{startdate}부터 {enddate}까지, {guests}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">성인 1명 추가</string>
     <!--Traveler widget adults minus button content description-->

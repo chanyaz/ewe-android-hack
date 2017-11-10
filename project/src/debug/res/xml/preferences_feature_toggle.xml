@@ -129,15 +129,4 @@
 
 </PreferenceCategory>
 
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="New Carnival App Notifications">
-
-        <CheckBoxPreference
-            android:key="@string/preference_new_carnival_notifications"
-            android:summary="Allow new Carnival in-app and push notifications"
-            android:title="Enable new Carnival notifications" />
-
-    </PreferenceCategory>
-
 </PreferenceScreen>

@@ -81,6 +81,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 PackageApiError.Code.pkg_too_many_children_in_lap,
                 PackageApiError.Code.pkg_no_flights_available,
                 PackageApiError.Code.pkg_hotel_no_longer_available,
+                PackageApiError.Code.pkg_search_from_date_too_near,
                 PackageApiError.Code.mid_could_not_find_results,
                 PackageApiError.Code.pkg_invalid_checkin_checkout_dates -> {
                     imageObservable.onNext(R.drawable.error_default)

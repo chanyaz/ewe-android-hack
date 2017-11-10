@@ -175,10 +175,6 @@
     <string name="select_start_date">出発日を選択</string>
 
     <!-- LX -->
-    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} ～ {to_date}</string>
-    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} ～ {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">現地ツアーを検索</string>
     <!--LX Search widget header text -->
@@ -644,6 +640,17 @@
     <string name="sort_and_filter_cont_desc">並び替え &amp; 絞り込みボタン</string>
     <!-- "Done" list header label -->
     <string name="Done">完了</string>
+
+    <!-- Baggage Info Accessibility -->
+    <string name="spinner_text_baggage_info_fetching">手荷物情報を取得しています</string>
+    <!--Baggage Info Airline Message Example: (Prices may be cheaper if purchased online with Virgin America)-->
+    <string name="baggage_info_airline_message_TEMPLATE">({airline_name}のオンライン サイトで購入するとお得な場合あり)</string>
+    <!--Baggage Fees when purchased at airport-->
+    <string name="baggage_fees_purchased_airport">空港で購入する場合の手荷物料金 :</string>
+    <!--Baggage Fee Info-->
+    <string name="baggage_fee_info">手荷物料金情報</string>
+    <!--Airline-->
+    <string name="airline">航空会社</string>
 
     <!-- Select your fare label -->
     <string name="select_your_fare">運賃を選択する</string>
@@ -1411,6 +1418,12 @@
     <string name="itin_flight_summary_terminal_TEMPLATE">ターミナル {terminal}</string>
     <!-- Flight itin summary widget gate template. Gate {gate} (e.g., Gate 1A)-->
     <string name="itin_flight_summary_gate_TEMPLATE">ゲート {gate}</string>
+    <!-- Flight itin summary widget new departure title -->
+    <string name="itin_flight_summary_new_departure_title">最新の出発時刻</string>
+    <!-- Flight itin summary widget scheduled departure title -->
+    <string name="itin_flight_summary_scheduled_title">予定時刻</string>
+    <!-- Flight itin summary widget new arrival title -->
+    <string name="itin_flight_summary_new_arrival_title">最新の到着時刻</string>
     <!-- displayed when seats aren't selectable -->
     <string name="seat_selection_not_available">座席指定不可</string>
     <!-- displayed when seats are selectable -->
@@ -1423,6 +1436,20 @@
     <string name="itin_flight_layover_TEMPLATE">乗継時間 : {layover}</string>
     <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">合計所要時間 : {duration}</string>
+    <!--Flight itin baggage information text-->
+    <string name="itin_baggage_info_button_text">手荷物情報</string>
+    <!--Flight itin traveller info widget heading-->
+    <string name="itin_flight_traveller_info">旅行者情報</string>
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_details_manage_booking_heading">予約の管理</string>
+    <!--Flight itin segment summary flight status indicator text - cancelled-->
+    <string name="itin_flight_summary_status_indicator_text_cancelled">キャンセル済</string>
+    <!--Flight itin segment summary flight status indicator text - on time-->
+    <string name="itin_flight_summary_status_indicator_text_on_time">定刻</string>
+    <!--Flight itin segment summary flight status indicator text template - delayed by. Delayed by {duration} (e.g., Delayed by 30m)-->
+    <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">{duration}遅延</string>
+    <!--Flight itin segment summary flight status indicator text - early departure-->
+    <string name="itin_flight_summary_status_indicator_text_early_departure">早めに出発</string>
 
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
@@ -1749,21 +1776,15 @@
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
 
     <!-- Calendar instructions -->
-    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_TEMPLATE">{startdate} ～ {enddate}</string>
     <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
     <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} ～ {enddate}</string>
-    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
-    <string name="start_to_end_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (片道)</string>
     <!-- Calendar instructions rail start date selected -->
     <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
     <string name="calendar_instructions_date_range_flight_select_return_date">次に、帰りの日付を選択</string>
-    <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} - {enddate}、{guests}</string>
+
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}、{guests}</string>
 
@@ -1925,6 +1946,8 @@
     <string name="cost_summary">料金の概要</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand}予約手数料</string>
+    <!-- Booking Fee -->
+    <string name="booking_fee">予約手数料</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="payment_method_fee">お支払い方法に対する手数料</string>
     <!-- Flight -->
@@ -2259,6 +2282,8 @@
     <string name="split_ticket_rules_cancellation_policy">万一どちらかのフライトが変更あるいはキャンセルされた場合でも、残りのフライトが自動的に変更されることはありませんのでご注意ください。残りのフライトの変更には手数料がかかる場合があります。</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;行きの便&lt;/a&gt;および&lt;a href=\"{returnlink}\"&gt;帰りの便&lt;/a&gt;には、それぞれの手荷物料金が適用されます。</string>
+    <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
+    <string name="evolable_terms_condition_TEMPLATE">この航空券のご予約は&lt;a href=\"{evolable_asia_link}\"&gt;エボラブルアジア&lt;/a&gt;を通じて行われ、&lt;br&gt;サプライヤーの&lt;a href=\"{evolable_terms_condition_link}\"&gt;規則および制限&lt;/a&gt;が適用されます。</string>
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">キャンセル</string>
@@ -2386,6 +2411,8 @@
     <string name="DONE">完了</string>
     <!-- Button label for dismissing the flight fare family amenities dialog -->
     <string name="OK">OK</string>
+    <!--Label to view details -->
+    <string name="view_details">詳細を表示</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">マップ</string>
     <!-- Label for sort hotels in hotel list -->
@@ -3705,7 +3732,7 @@
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">ステップ 2 : 航空券を選択する</string>
     <!-- package hotel results unreal deal text label -->
-    <string name="unreal_deal_text">超目玉セール</string>
+    <string name="unreal_deal_text">トラベルセット割</string>
     <!-- package hotel results unreal deal message for freeHotel -->
     <string name="free_hotel_deal">同時予約で、このホテルが無料に !</string>
     <!-- package hotel results unreal deal message for freeFlight -->
@@ -3943,6 +3970,7 @@
     <string name="flight_overview_header_TEMPLATE">{departureairportcode} → {arrivalairportcode}、出発日 : {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">旅程番号 {itinerary} が {email} に送信されました</string>
+    <string name="itinerary_default_email_message">ご利用のEメールアドレス</string>
 
     <!--Rail search screen title-->
     <string name="trains">鉄道</string>
@@ -4239,7 +4267,7 @@
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">通常料金から {percentage} 割引。\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
-    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">超目玉セール {unrealdeal}\u0020</string>
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">トラベルセット割 {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
     <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">出発地 {departureairport}、到着地 {arrivalairport}。所要時間 {durationhours} {durationmins}。\u0020</string>
     <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
@@ -4278,17 +4306,32 @@
     <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">申し訳ございません。&lt;b&gt;{fare_family_name}&lt;/b&gt;は完売しています。別の運賃オプションで再度お試しください。航空券を元の運賃オプションに戻します。</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
     <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">申し訳ございません。&lt;b&gt;{fare_family_name}&lt;/b&gt;は完売しています。別の運賃オプションで再度お試しください。航空券を元の運賃オプションに戻します。</string>
-    <!-- Label for fare family upgrade option. Example. Change your fare -->
-    <string name="flight_fare_family_fare_label">座席クラスを変更する</string>
+    <!-- Label for fare family upgrade option. Example. You've selected Comfort+  -->
+    <string name="flight_fare_family_fare_label_TEMPLATE">{fare_family_name}を選択済み</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">フライトのアップグレード</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">フライトのアップグレード</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">最低料金</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}、{class_two}</string>
+    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
+    <string name="flight_selected_classes_one_class_TEMPLATE">選択済み : {class}</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">選択済み : {class_one}、{class_two}</string>
+    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
+    <string name="flight_selected_classes_mixed_classes">選択済み : 複数のクラス</string>
+    <!-- Label for change fare class subtext,  Example. Change fare class -->
+    <string name="flight_change_fare_class">運賃クラスを変更する</string>
 
+
+    <!-- Generic date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="start_dash_end_date_range_TEMPLATE">{startdate} ～ {enddate}</string>
+    <!-- Generic date range template with guests. E.g. May 12 - May 15, 2 guestss -->
+    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} ～ {enddate}、{guests}</string>
+    <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="start_to_end_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
+    <!-- Generic Content Description text for date ranges plus guests template. Example May 12 to May 15, 2 guests -->
+    <string name="start_to_end_plus_guests_cont_desc_TEMPLATE">{startdate} から {enddate} まで、{guests}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">大人 1 名の旅行者を追加します</string>
     <!--Traveler widget adults minus button content description-->
