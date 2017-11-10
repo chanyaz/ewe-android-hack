@@ -40,6 +40,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isHideApacBillingFieldsEnabled
+import com.expedia.bookings.utils.isHotelMaterialForms
 import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.isPopulateCardholderNameEnabled
 import com.expedia.bookings.utils.setFocusForView
@@ -94,6 +95,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
     val populateCardholderNameTestEnabled = isPopulateCardholderNameEnabled(context)
     val hideApacBillingFieldsEnabled = isHideApacBillingFieldsEnabled()
+    val isHotelMaterialForms = isHotelMaterialForms(context)
 
     private val userStateManager: UserStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
@@ -133,7 +135,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             sectionBillingInfo.setLineOfBusiness(lob)
             sectionLocation.setLineOfBusiness(lob)
             storedCreditCardList.setLineOfBusiness(lob)
-            if (lob == LineOfBusiness.HOTELS && !materialFormTestEnabled) {
+            if (lob == LineOfBusiness.HOTELS && !materialFormTestEnabled && !isHotelMaterialForms) {
                 creditCardNumber.setHint(R.string.credit_debit_card_hint)
             }
             sectionBillingInfo.setErrorStrings()
@@ -224,7 +226,11 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == View.VISIBLE) {
             if (!materialFormTestEnabled) {
-                creditCardNumber.setHint(R.string.credit_debit_card_hint)
+                if (getLineOfBusiness() == LineOfBusiness.HOTELS && !isHotelMaterialForms) {
+                    creditCardNumber.setHint(R.string.credit_debit_card_hint)
+                } else if (getLineOfBusiness() != LineOfBusiness.HOTELS) {
+                    creditCardNumber.setHint(R.string.credit_debit_card_hint)
+                }
             }
         }
     }

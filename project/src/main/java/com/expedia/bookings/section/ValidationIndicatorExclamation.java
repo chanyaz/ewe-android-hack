@@ -3,6 +3,7 @@ package com.expedia.bookings.section;
 import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
+import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.widget.TextViewExtensionsKt;
@@ -44,8 +45,7 @@ public class ValidationIndicatorExclamation<Data> extends
 
 	@Override
 	protected void onPostValidate(TextView field, boolean isValid, boolean force) {
-		boolean materialFormTestEnabled = FeatureUtilKt.isMaterialFormsEnabled();
-		if (materialFormTestEnabled && Strings.isNotEmpty(mErrorString) && (TextViewExtensionsKt.getParentTextInputLayout(field) != null)) {
+		if (Strings.isNotEmpty(mErrorString) && (TextViewExtensionsKt.getParentTextInputLayout(field) != null)) {
 			TextViewExtensionsKt.setMaterialFormsError(field, isValid, mErrorString, mDropDownInt);
 		}
 		else {

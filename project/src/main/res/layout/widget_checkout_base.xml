@@ -6,6 +6,7 @@
         android:id="@+id/checkout_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/gray100"
         android:paddingTop="?attr/actionBarSize">
 
         <LinearLayout
@@ -86,13 +87,13 @@
                     android:layout_marginTop="12dp"
                     android:layout="?attr/paymentWidgetLayout" />
 
-                <ViewStub
-                    android:id="@+id/material_payment_view_stub"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inflatedId="@+id/payment_info_card_view"
-                    android:layout_marginTop="12dp"
-                    android:layout="@layout/material_payment_widget_v2" />
+                <!--<ViewStub-->
+                    <!--android:id="@+id/material_payment_view_stubB"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:inflatedId="@+id/payment_info_card_view"-->
+                    <!--android:layout_marginTop="12dp"-->
+                    <!--android:layout="@layout/material_payment_widget_v2" />-->
 
                 <com.expedia.bookings.widget.FrameLayout
                     android:id="@+id/coupon_container"

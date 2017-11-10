@@ -9,10 +9,13 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.extensions.isMaterialFormEnabled
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.utils.getPaymentType
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.animation.AlphaCalculator
@@ -39,8 +42,6 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     val rewardWidget: ViewStub by bindView(R.id.reward_widget_stub)
     val validCardsList: LinearLayout by bindView(R.id.valid_cards_list)
     val greyCardIcon: ImageView by bindView(R.id.display_credit_card_brand_icon_grey)
-    var defaultCreditCardNumberLayout: TextInputLayout? = null
-    var postalCodeLayout: TextInputLayout ?= null
     var paymentSplitsType = PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
     var isRewardsRedeemable: Boolean = false
     var isFullPayableWithPoints: Boolean = false
@@ -105,10 +106,9 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         viewmodel.resetCardList.subscribe {
             undimAllCards(validCardsList)
         }
-
         viewmodel.lineOfBusiness.subscribe { lob ->
-            if (lob.isMaterialFormEnabled(context)) {
-                setupMaterialForm()
+            if (lob == LineOfBusiness.HOTELS) {
+                sectionBillingInfo.updateMaterialPostalFieldErrorAndHint(PointOfSale.getPointOfSale().pointOfSaleId)
             }
         }
     }
@@ -217,11 +217,5 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             }
         }
         return false
-    }
-
-    private fun setupMaterialForm() {
-        sectionLocation.removeNonMaterialFields()
-        defaultCreditCardNumberLayout = findViewById<TextInputLayout>(R.id.material_edit_credit_card_number)
-        postalCodeLayout = findViewById<TextInputLayout>(R.id.material_edit_address_postal_code)
     }
 }
