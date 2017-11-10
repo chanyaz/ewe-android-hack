@@ -441,6 +441,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         params.packagePIID = offer.productKey
         params.ratePlanCode = offer.ratePlanCode
         params.roomTypeCode = offer.roomTypeCode
+        params.inventoryType = offer.supplierType
         params.latestSelectedProductOfferPrice = Db.getPackageResponse().getCurrentOfferPrice()
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
