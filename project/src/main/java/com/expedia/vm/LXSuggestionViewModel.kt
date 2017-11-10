@@ -17,7 +17,7 @@ class LXSuggestionViewModel(val context: Context) {
     val iconObservable = BehaviorSubject.create<Int>()
     val cityNameVisibility = BehaviorSubject.create<Boolean>()
     val suggestionSelected = PublishSubject.create<SearchSuggestion>()
-
+    val contentDescriptionObservable = PublishSubject.create<Int>()
     // Inputs
     val suggestionObserver = BehaviorSubject.create<SuggestionV4>()
 
@@ -28,13 +28,16 @@ class LXSuggestionViewModel(val context: Context) {
             if (suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON) {
                 cityNameVisibility.onNext(true)
                 iconObservable.onNext(R.drawable.recents)
+                contentDescriptionObservable.onNext(R.string.recent_searched_location)
             } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON){
                 //TODO
                 iconObservable.onNext(R.drawable.ic_suggest_current_location)
                 cityNameVisibility.onNext(false)
+                contentDescriptionObservable.onNext(R.string.current_location);
             } else {
                 cityNameVisibility.onNext(true)
                 iconObservable.onNext(R.drawable.search_type_icon)
+                contentDescriptionObservable.onNext(R.string.suggested_location);
             }
         }
     }

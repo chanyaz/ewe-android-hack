@@ -127,6 +127,7 @@
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_pay_later_only_to_confirm">Only needed to confirm your booking</string>
     <!--Text for selected card -->
+    <string name="checkout_activated_card">Selected</string>
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">Saved {cardtype} …{cardno}</string>
@@ -2493,7 +2494,10 @@
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <!-- Accessibility text for location suggestions -->
     <string name="current_location">Current Location</string>
+    <string name="recent_searched_location">Recent Searched Location</string>
+    <string name="suggested_location">Suggested Location</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Visible Map Area</string>
 

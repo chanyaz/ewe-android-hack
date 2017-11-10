@@ -105,8 +105,15 @@ public class StoredCreditCardList extends LinearLayout {
 		for (int i = 0; i < mStoredCardList.getChildCount(); i++) {
 			ContactDetailsCompletenessStatusImageView statusIcon = (ContactDetailsCompletenessStatusImageView) mStoredCardList
 				.getChildAt(i).findViewById(R.id.card_info_status_icon);
-			statusIcon.setStatus(
-				i == position ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.DEFAULT);
+			if (i == position) {
+				statusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
+				statusIcon.setContentDescription(getContext().getString(R.string.checkout_activated_card));
+			}
+			else {
+				statusIcon.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
+				statusIcon.setContentDescription(null);
+			}
+
 		}
 	}
 

@@ -150,6 +150,9 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		}
 		tv.setCompoundDrawablesWithIntrinsicBounds(imgRes, 0, 0, 0);
 		tv.setText(storedCardText);
+		if (rStatus.getStatus().equals(ContactDetailsCompletenessStatus.COMPLETE)) {
+			rStatus.setContentDescription(getContext().getString(R.string.checkout_activated_card));
+		}
 		return retView;
 	}
 

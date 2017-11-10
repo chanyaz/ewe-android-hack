@@ -37,6 +37,8 @@ public class DummyFileToHandleIndirectResourceLintError {
 		R.style.FlightFareFamilyAmenityIcon,
 		R.string.roundtrip_with_brackets,
 		R.string.flight_outbound_label,
-		R.bool.tablet
+		R.bool.tablet,
+		R.string.recent_searched_location,
+		R.string.suggested_location
 	};
 }

@@ -64,6 +64,9 @@ class LXSuggestionViewHolder(val root: ViewGroup, val vm : LXSuggestionViewModel
         vm.iconObservable.subscribe { imageSource ->
             dropdownImage.setImageResource(imageSource)
         }
+        vm.contentDescriptionObservable.subscribe { contentDescription ->
+            dropdownImage.contentDescription = root.context.getString(contentDescription);
+        }
 
         vm.cityNameObservable.subscribeText(cityName)
         vm.cityNameVisibility.subscribeVisibility(cityName)
