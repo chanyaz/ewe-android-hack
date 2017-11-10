@@ -64,6 +64,8 @@ class HotelCheckoutSummaryViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun happy() {
+        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
+                AbacusUtils.DefaultVariant.CONTROL.ordinal)
         givenHappyHotelProductResponse()
         setup()
         val testTextSubscriber = TestSubscriber<String>()
@@ -327,7 +329,6 @@ class HotelCheckoutSummaryViewModelTest {
     fun testCheckOmnitureTrackingForHotelCheckinCheckoutDateInline() {
         createTripResponse = mockHotelServiceTestRule.getPriceChangeDownCreateTripResponse()
         val params = HotelPresenterTestUtil.getDummyHotelSearchParams(context)
-        val expectedEvars = mapOf(34 to "15344.0.1")
         Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
                 AbacusUtils.DefaultVariant.BUCKETED.ordinal)
 
@@ -335,26 +336,52 @@ class HotelCheckoutSummaryViewModelTest {
 
         HotelTracking.trackPageLoadHotelCheckoutInfo(createTripResponse, params, PageUsableData())
 
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key), mockAnalyticsProvider)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testCheckOmnitureTrackingForHotelPayLaterMessaging() {
-        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key,
-                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
-        SettingUtils.save(context, context.getString(R.string.pay_later_credit_card_messaging), true)
+    fun testCheckOmnitureTrackingForHotelPayLaterMessagingWithNonPayLaterResponse() {
+        setABTestAndFeaturetoggleForPayLaterMessaging(true, true)
+        performHotelTrackingWithPayLaterResponse(false)
 
-        createTripResponse = mockHotelServiceTestRule.getPriceChangeDownCreateTripResponse()
-        val params = HotelPresenterTestUtil.getDummyHotelSearchParams(context)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key), mockAnalyticsProvider)
+    }
 
-        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCheckOmnitureTrackingForHotelPayLaterMessagingWithPayLaterResponse() {
+        setABTestAndFeaturetoggleForPayLaterMessaging(true, true)
+        performHotelTrackingWithPayLaterResponse(true)
 
-        HotelTracking.trackPageLoadHotelCheckoutInfo(createTripResponse, params, PageUsableData())
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key), mockAnalyticsProvider)
+    }
 
-        val expectedEvars = mapOf(34 to "15344.0.0|15925.0.1")
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCheckOmnitureTrackingForHotelPayLaterMessagingWithPayLaterResponseAndWithFeatureToggleTurnedOff() {
+        setABTestAndFeaturetoggleForPayLaterMessaging(true, false)
+        performHotelTrackingWithPayLaterResponse(true)
 
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCheckOmnitureTrackingForHotelPayLaterMessagingWithAbacusTestAsControl() {
+        setABTestAndFeaturetoggleForPayLaterMessaging(false, true)
+        performHotelTrackingWithPayLaterResponse(true)
+
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCheckOmnitureTrackingForHotelPayLaterMessagingWithAbacusTestAsControlAndFeatureToggleTurnedOff() {
+        setABTestAndFeaturetoggleForPayLaterMessaging(false, false)
+        performHotelTrackingWithPayLaterResponse(true)
+
+        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key), mockAnalyticsProvider)
     }
 
     private fun setPOS(pos: PointOfSaleId) {
@@ -415,5 +442,26 @@ class HotelCheckoutSummaryViewModelTest {
         } else {
             AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
         }
+    }
+
+    private fun setABTestAndFeaturetoggleForPayLaterMessaging(payLaterAbTest: Boolean, featureToggle: Boolean) {
+        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key,
+                if (payLaterAbTest) AbacusUtils.DefaultVariant.BUCKETED.ordinal else AbacusUtils.DefaultVariant.CONTROL.ordinal)
+        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
+                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+
+        SettingUtils.save(context, context.getString(R.string.pay_later_credit_card_messaging), featureToggle)
+    }
+
+    private fun performHotelTrackingWithPayLaterResponse(payLaterResponse: Boolean) {
+        if (payLaterResponse) {
+            createTripResponse = mockHotelServiceTestRule.getPayLaterOfferCreateTripResponse()
+            createTripResponse.newHotelProductResponse.hotelRoomResponse.depositRequired = false
+        } else {
+            createTripResponse = mockHotelServiceTestRule.getPriceChangeDownCreateTripResponse()
+        }
+        val params = HotelPresenterTestUtil.getDummyHotelSearchParams(context)
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+        HotelTracking.trackPageLoadHotelCheckoutInfo(createTripResponse, params, PageUsableData())
     }
 }

@@ -1047,7 +1047,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFreeCancellationTooltip);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline);
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.pay_later_credit_card_messaging)) {
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.pay_later_credit_card_messaging) && isPayLaterHotel(trip)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging);
 		}
 
@@ -1058,6 +1058,12 @@ public class OmnitureTracking {
 
 		addStandardHotelV2Fields(s, searchParams);
 		s.track();
+	}
+
+	private static boolean isPayLaterHotel(HotelCreateTripResponse trip) {
+		boolean isPayLater = trip.newHotelProductResponse.hotelRoomResponse.isPayLater;
+		boolean hasDeposit = trip.newHotelProductResponse.hotelRoomResponse.depositRequired;
+		return isPayLater && !hasDeposit;
 	}
 
 	public static void trackTripSummaryClick() {
