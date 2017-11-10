@@ -44,7 +44,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppLXOfferLevelCancellationPolicySupport = new ABTest(15246);
 	public static final ABTest EBAndroidAppAllowUnknownCardTypes = new ABTest(15457);
 	public static final ABTest EBAndroidAppShowFlightsCheckoutWebview = new ABTest(15371);
-	public static final ABTest TripsFlightsNewdesign = new ABTest(14655);
+	public static final ABTest TripsFlightsNewdesign = new ABTest(14655, true);
 	public static final ABTest EBAndroidAppDisplayEligibleCardsOnPaymentForm = new ABTest(15682);
 	public static final ABTest EBAndroidAppHotelMaterialForms = new ABTest(16138);
 
