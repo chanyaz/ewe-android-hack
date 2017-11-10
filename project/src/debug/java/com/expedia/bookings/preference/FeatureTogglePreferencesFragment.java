@@ -49,13 +49,12 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		//Itin Features
 		initializeFeatureCheck(R.string.preference_trips_new_flights_design);
 
-		// Permission Request
+		// Other
 		initializeFeatureCheck(R.string.preference_soft_prompt_permission);
-
-		// Carnival Notifications
 		initializeFeatureCheck(R.string.preference_new_carnival_notifications);
+		initializeFeatureCheck(R.string.feature_holiday_fun);
 
-			//Make sure to init the Carnival SDK if we turn on that feature so we don't have to restart the app.
+		//Make sure to init the Carnival SDK if we turn on that feature so we don't have to restart the app.
 		Preference carnivalCheckBox = findPreference(getResources().getString(R.string.preference_new_carnival_notifications));
 		carnivalCheckBox.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 

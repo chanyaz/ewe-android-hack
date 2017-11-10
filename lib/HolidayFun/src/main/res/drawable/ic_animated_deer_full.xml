@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_deer_full_snow">
+    <target
+        android:animation="@animator/rotate_ear_left"
+        android:name="left_ear"/>
+    <target
+        android:animation="@animator/rotate_ear_right"
+        android:name="right_ear"/>
+
+</animated-vector>

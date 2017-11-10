@@ -4,10 +4,14 @@ import android.content.Context
 import android.content.pm.PackageInfo
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
+import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withProps
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -16,9 +20,13 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DebugInfoUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.google.android.gms.common.GoogleApiAvailability
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.not
 import org.joda.time.DateTimeZone
 import org.junit.Before
 import org.junit.Test
@@ -95,14 +103,32 @@ class OmnitureTrackingTest {
 
         OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, false, false, false, false, PageUsableData(), false)
 
-        OmnitureTestUtils.assertStateTracked(
+        assertStateTracked(
             "App.Hotels.Infosite",
-            Matchers.allOf(
-                OmnitureMatchers.withProps(mapOf(5 to "2017-10-15", 6 to "2017-10-16")),
-                OmnitureMatchers.withEvars(mapOf(6 to "1"))),
+            allOf(
+                withProps(mapOf(5 to "2017-10-15", 6 to "2017-10-16")),
+                withEvars(mapOf(6 to "1"))),
             mockAnalyticsProvider)
 
         DateTimeZone.setDefault(originalDefaultTimeZone)
+    }
+
+    @Test
+    fun holidayPromoImpressionIsTrackedOnLaunchScreen() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.HolidayFun, R.string.feature_holiday_fun)
+
+        OmnitureTracking.trackPageLoadLaunchScreen(0)
+
+        assertStateTracked("App.LaunchScreen", withEventsString("event330"), mockAnalyticsProvider)
+
+        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.HolidayFun, R.string.feature_holiday_fun)
+    }
+
+    @Test
+    fun holidayPromoImpressionIsNotTrackedWhenNotBucketed() {
+        OmnitureTracking.trackPageLoadLaunchScreen(0)
+
+        assertStateTracked("App.LaunchScreen", not(withEventsString("event330")), mockAnalyticsProvider)
     }
 
 //    @Test

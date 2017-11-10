@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bear_height">40dp</dimen>
+    <dimen name="bear_up">-18dp</dimen>
+    <dimen name="bear_down">20dp</dimen>
+    <dimen name="deer_up">-13dp</dimen>
+    <dimen name="deer_down">20dp</dimen>
+</resources>

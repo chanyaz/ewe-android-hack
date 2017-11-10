@@ -294,6 +294,14 @@
             android:summary="%s"
             android:title="ProWizard Launch/Search - 16136" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="15996"
+            android:summary="%s"
+            android:title="Holiday Fun! - 15996" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -23,6 +23,7 @@ import com.expedia.bookings.animation.ActivityTransitionUtil
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
 import com.expedia.bookings.data.Property
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.collections.Collection
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
@@ -35,6 +36,7 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
@@ -82,7 +84,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
     }
 
     private val fabAnimOut: ObjectAnimator by lazy {
-        val fabAnimOut = ObjectAnimator.ofFloat(fab, "translationY", fabHeightAndBottomMargin)
+        val fabAnimOut = ObjectAnimator.ofFloat(fab, "translationY", getFabHeightAndBottomMargin())
         fabAnimOut.interpolator = AccelerateDecelerateInterpolator()
         fabAnimOut
     }
@@ -93,9 +95,16 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         Ui.getToolbarSize(context).toFloat()
     }
 
-    val fabHeightAndBottomMargin by lazy {
-        context.resources.getDimensionPixelSize(R.dimen.new_launch_fab_height).toFloat() +
+    private fun getFabHeightAndBottomMargin(): Float {
+        val normalHeightAndBottomMargin = context.resources.getDimensionPixelSize(R.dimen.new_launch_fab_height).toFloat() +
                 context.resources.getDimensionPixelSize(R.dimen.new_launch_screen_fab_bottom_margin).toFloat()
+        val extraHeightForHolidayFun = -context.resources.getDimensionPixelSize(R.dimen.bear_up).toFloat() +
+                context.resources.getDimensionPixelSize(R.dimen.bear_height).toFloat()
+
+        return if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.HolidayFun, R.string.feature_holiday_fun))
+            normalHeightAndBottomMargin + extraHeightForHolidayFun
+        else
+            normalHeightAndBottomMargin
     }
 
     val launchListWidget: LaunchListWidget by bindView(R.id.launch_list_widget)
@@ -139,6 +148,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
                 hideLobAndDarkView()
             }
         }
+        (fab.layoutParams as MarginLayoutParams).bottomMargin = getFabHeightAndBottomMargin().toInt() - resources.getDimensionPixelSize(R.dimen.new_launch_fab_height)
         val gestureDetector: GestureDetector = GestureDetector(context, gestureListener)
 
         darkView.setOnTouchListener { view, motionEvent ->
@@ -313,7 +323,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         if (fab.visibility != VISIBLE) {
             fab.visibility = VISIBLE
         }
-        if ((fab.translationY >= fabHeightAndBottomMargin)
+        if ((fab.translationY >= getFabHeightAndBottomMargin())
                 && !fabAnimIn.isRunning) {
             fabAnimIn.start()
         }

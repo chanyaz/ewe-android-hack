@@ -119,25 +119,23 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-    android:layout="@layout/preference_category_title"
-    android:title="Soft Prompt Permission">
-
-    <CheckBoxPreference
-        android:key="@string/preference_soft_prompt_permission"
-        android:summary="Show soft prompt permission request"
-        android:title="Enable Soft Prompt Permission Request" />
-
-</PreferenceCategory>
-
-    <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="New Carnival App Notifications">
+        android:title="Other">
+
+        <CheckBoxPreference
+            android:key="@string/preference_soft_prompt_permission"
+            android:summary="Show soft prompt permission request"
+            android:title="Enable Soft Prompt Permission Request" />
 
         <CheckBoxPreference
             android:key="@string/preference_new_carnival_notifications"
             android:summary="Allow new Carnival in-app and push notifications"
             android:title="Enable new Carnival notifications" />
 
+        <CheckBoxPreference
+            android:key="@string/feature_holiday_fun"
+            android:summary="Let it snow!"
+            android:title="Holiday Fun" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -275,6 +275,12 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
 	}
 
+	public static void trackHolidayPromotionClick() {
+		ADMS_Measurement s = createTrackLinkEvent("App.LS.HolidayPromo");
+		s.setEvents("event331");
+		s.trackLink(null, "o", "Holiday Promotion", null, null);
+	}
+
 	public enum OmnitureEventName {
 		REWARD_PROGRAM_NAME,
 		HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE,
@@ -3101,6 +3107,10 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountSinglePageSignUp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
+
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.HolidayFun, R.string.feature_holiday_fun)) {
+			s.setEvents("event330");
+		}
 
 		if (userStateManager.isUserAuthenticated()) {
 			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();

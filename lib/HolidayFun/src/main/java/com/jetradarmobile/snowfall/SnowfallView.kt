@@ -23,6 +23,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.util.AttributeSet
 import android.view.View
+import com.expedia.holidayfun.R
 
 class SnowfallView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val DEFAULT_SNOWFLAKES_NUM = 200

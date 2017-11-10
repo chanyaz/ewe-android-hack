@@ -41,6 +41,7 @@ import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
+import com.expedia.holidayfun.widget.HolidayFunCoordinator
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
 import com.expedia.bookings.launch.widget.ProWizardLaunchTabView
 import com.expedia.bookings.model.PointOfSaleStateModel
@@ -131,6 +132,12 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
     private val bottomNavTabLayout by bindView<TabLayout>(R.id.bottom_tab_layout)
 
+    private val holidayFunCoordinator: HolidayFunCoordinator by lazy {
+        HolidayFunCoordinator(
+                findViewById(R.id.holiday_fun_widget),
+                findViewById(R.id.snowfall))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).appComponent().inject(this)
@@ -198,6 +205,8 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 requestLocationPermission(this)
             }
         }
+
+        holidayFunCoordinator.setAnalyticsListener { OmnitureTracking.trackHolidayPromotionClick() }
 
         val lastLocation = LocationServices.getLastBestLocation(this, 0)
         CarnivalUtils.getInstance().trackLaunch(
@@ -497,6 +506,12 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 }
                 SettingUtils.save(this, PREF_USER_ENTERS_FROM_SIGNIN, false)
             }
+        }
+
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.HolidayFun, R.string.feature_holiday_fun)) {
+            holidayFunCoordinator.visibility = View.VISIBLE
+        } else {
+            holidayFunCoordinator.visibility = View.GONE
         }
     }
 
