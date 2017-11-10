@@ -108,6 +108,7 @@ public class AbacusUtils {
 
 	// Launch
 	public static final ABTest ProWizardTest = new ABTest(16136);
+	public static final ABTest HolidayFun = new ABTest(15996);
 
 	// Soft Prompt
 	public static final ABTest EBAndroidAppSoftPromptLocation = new ABTest(15119);
@@ -192,6 +193,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightFrequentFlyerNumber.getKey());
 		testIDs.add(EBAndroidAppAccountSinglePageSignUp.getKey());
 		testIDs.add(ProWizardTest.getKey());
+		testIDs.add(HolidayFun.getKey());
 		testIDs.add(EBAndroidPopulateCardholderName.getKey());
 		testIDs.add(EBAndroidAppSecureCheckoutIcon.getKey());
 		testIDs.add(EBAndroidAppPackagesMidApi.getKey());

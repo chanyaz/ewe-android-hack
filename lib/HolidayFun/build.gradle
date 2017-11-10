@@ -1,0 +1,19 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+dependencies {
+  compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+
+  testCompile 'junit:junit:4.12'
+  def roboVersion = '3.2.2'
+  testCompile "org.robolectric:robolectric:${roboVersion}"
+}
+
+android {
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
+
+  defaultConfig {
+    minSdkVersion 21
+  }
+}
