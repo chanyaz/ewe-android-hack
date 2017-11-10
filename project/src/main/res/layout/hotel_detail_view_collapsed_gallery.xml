@@ -4,23 +4,49 @@
     xmlns:layout="http://schemas.android.com/tools">
 
     <!--<ScrollView-->
-        <!--android:id="@+id/detail_container"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:fillViewport="true"-->
-        <!--android:scrollbars="none">-->
+    <!--android:id="@+id/detail_container"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:fillViewport="true"-->
+    <!--android:scrollbars="none">-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/content_constraint_container"
+            android:fillViewport="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-                <com.expedia.bookings.hotel.widget.HotelDetailGalleryView
-                    android:id="@+id/detail_hotel_gallery"
+            <com.expedia.bookings.hotel.widget.HotelDetailGalleryView
+                android:id="@+id/detail_hotel_gallery"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray900"
+                android:orientation="vertical"
+                android:visibility="gone"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_hotel_gallery"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/gray900"
-                    android:orientation="vertical" />
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_close"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/com_facebook_close"/>
+
+            </RelativeLayout>
 
             <android.support.v4.widget.NestedScrollView
                 android:id="@+id/nested_scrollview"
@@ -36,26 +62,50 @@
                     android:layout_height="wrap_content" />
 
             </android.support.v4.widget.NestedScrollView>
+
+            <LinearLayout
+                app:layout_anchor="@+id/nested_scrollview"
+                app:layout_anchorGravity="top|end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/packages_hotel_count_background">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/tv_total_count"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
         </android.support.design.widget.CoordinatorLayout>
 
-    <!--</ScrollView>-->
+        <!--</ScrollView>-->
 
-    <com.expedia.bookings.widget.ResortFeeWidget
-        android:id="@+id/resort_fee_widget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom" />
+        <com.expedia.bookings.widget.ResortFeeWidget
+            android:id="@+id/resort_fee_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom" />
 
-    <com.expedia.bookings.widget.HotelBottomButtonWidget
-        android:id="@+id/bottom_button_widget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical"/>
+        <com.expedia.bookings.widget.HotelBottomButtonWidget
+            android:id="@+id/bottom_button_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"/>
 
-    <com.expedia.bookings.widget.HotelDetailsToolbar
-        android:id="@+id/hotel_details_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <com.expedia.bookings.widget.HotelDetailsToolbar
+            android:id="@+id/hotel_details_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
 </merge>

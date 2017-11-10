@@ -12,12 +12,14 @@ import android.widget.ProgressBar
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.widget.TextView
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
 class HotelDetailGalleryViewHolder(val root: View) : RecyclerView.ViewHolder(root) {
     private val progressBar by lazy { root.findViewById<ProgressBar>(R.id.gallery_item_progress_bar) }
     private val imageView by lazy {root.findViewById<ImageView>(R.id.gallery_item_image_view) }
+    private val caption by lazy {root.findViewById<TextView>(R.id.tv_caption)}
 
     private lateinit var mediaItem: HotelMedia
     private var soldOut: Boolean = false
@@ -35,6 +37,7 @@ class HotelDetailGalleryViewHolder(val root: View) : RecyclerView.ViewHolder(roo
         this.itemPosition = itemPosition
         this.totalItemCount = totalItemCount
         this.soldOut = soldOut
+        this.caption.setText(media.description)
         if (media.isPlaceHolder) {
             media.loadErrorImage(imageView, callback, media.fallbackImage)
         } else {

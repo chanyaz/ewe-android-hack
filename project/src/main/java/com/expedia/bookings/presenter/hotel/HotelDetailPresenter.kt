@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
+import android.support.design.widget.BottomSheetBehavior
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -138,10 +139,14 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     }
 
     override fun back(): Boolean {
-        if (hotelDetailView.hotelDetailsToolbar.navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
-            hotelDetailView.collapseGallery()
+        if(hotelDetailView.getBottomSheetBehavior().state == BottomSheetBehavior.STATE_HIDDEN){
+            hotelDetailView.getBottomSheetBehavior().state = BottomSheetBehavior.STATE_COLLAPSED
             return true
         }
+//        if (hotelDetailView.hotelDetailsToolbar.navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
+//            hotelDetailView.collapseGallery()
+//            return true
+//        }
         return super.back()
     }
 
