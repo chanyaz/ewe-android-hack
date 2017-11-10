@@ -3,9 +3,7 @@ package com.expedia.bookings.preference;
 
 import android.os.Bundle;
 import android.support.v7.preference.CheckBoxPreference;
-import android.support.v7.preference.Preference;
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.CarnivalUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 
 public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
@@ -51,22 +49,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		// Other
 		initializeFeatureCheck(R.string.preference_soft_prompt_permission);
-		initializeFeatureCheck(R.string.preference_new_carnival_notifications);
-		initializeFeatureCheck(R.string.feature_holiday_fun);
-
-		//Make sure to init the Carnival SDK if we turn on that feature so we don't have to restart the app.
-		Preference carnivalCheckBox = findPreference(getResources().getString(R.string.preference_new_carnival_notifications));
-		carnivalCheckBox.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				if ((boolean) newValue) {
-					CarnivalUtils.getInstance().initialize(getContext());
-				}
-
-				return true;
-			}
-		});
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

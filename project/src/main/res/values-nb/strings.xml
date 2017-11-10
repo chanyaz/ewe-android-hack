@@ -175,10 +175,6 @@
     <string name="select_start_date">Velg startdato</string>
 
     <!-- LX -->
-    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_TEMPLATE">{from_date}-{to_date}</string>
-    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} til {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Søk etter aktiviteter</string>
     <!--LX Search widget header text -->
@@ -644,6 +640,17 @@
     <string name="sort_and_filter_cont_desc">Knapp for sortering og filtrering</string>
     <!-- "Done" list header label -->
     <string name="Done">Fullført</string>
+
+    <!-- Baggage Info Accessibility -->
+    <string name="spinner_text_baggage_info_fetching">Henter bagasjeinfo</string>
+    <!--Baggage Info Airline Message Example: (Prices may be cheaper if purchased online with Virgin America)-->
+    <string name="baggage_info_airline_message_TEMPLATE">(Prisene kan være lavere hvis du kjøper online hos {airline_name})</string>
+    <!--Baggage Fees when purchased at airport-->
+    <string name="baggage_fees_purchased_airport">Bagasjeavgifter når du betaler på flyplassen:</string>
+    <!--Baggage Fee Info-->
+    <string name="baggage_fee_info">Informasjon om bagasjeavgift</string>
+    <!--Airline-->
+    <string name="airline">Flyselskap</string>
 
     <!-- Select your fare label -->
     <string name="select_your_fare">Velg billettype</string>
@@ -1411,6 +1418,12 @@
     <string name="itin_flight_summary_terminal_TEMPLATE">Terminal {terminal}</string>
     <!-- Flight itin summary widget gate template. Gate {gate} (e.g., Gate 1A)-->
     <string name="itin_flight_summary_gate_TEMPLATE">Gate {gate}</string>
+    <!-- Flight itin summary widget new departure title -->
+    <string name="itin_flight_summary_new_departure_title">Ny avgangstid</string>
+    <!-- Flight itin summary widget scheduled departure title -->
+    <string name="itin_flight_summary_scheduled_title">I rute</string>
+    <!-- Flight itin summary widget new arrival title -->
+    <string name="itin_flight_summary_new_arrival_title">Ny ankomsttid</string>
     <!-- displayed when seats aren't selectable -->
     <string name="seat_selection_not_available">Setevalget er ikke tilgjengelig</string>
     <!-- displayed when seats are selectable -->
@@ -1423,6 +1436,20 @@
     <string name="itin_flight_layover_TEMPLATE">{layover} mellomlanding</string>
     <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">Samlet varighet: {duration}</string>
+    <!--Flight itin baggage information text-->
+    <string name="itin_baggage_info_button_text">Bagasjeinformasjon</string>
+    <!--Flight itin traveller info widget heading-->
+    <string name="itin_flight_traveller_info">Reisendes informasjon</string>
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_details_manage_booking_heading">Administrer bestillingen</string>
+    <!--Flight itin segment summary flight status indicator text - cancelled-->
+    <string name="itin_flight_summary_status_indicator_text_cancelled">Kansellert</string>
+    <!--Flight itin segment summary flight status indicator text - on time-->
+    <string name="itin_flight_summary_status_indicator_text_on_time">I rute</string>
+    <!--Flight itin segment summary flight status indicator text template - delayed by. Delayed by {duration} (e.g., Delayed by 30m)-->
+    <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">Forsinket i {duration}</string>
+    <!--Flight itin segment summary flight status indicator text - early departure-->
+    <string name="itin_flight_summary_status_indicator_text_early_departure">Tidlig avreise</string>
 
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
@@ -1749,8 +1776,6 @@
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
 
     <!-- Calendar instructions -->
-    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_TEMPLATE">{startdate}–{enddate}</string>
     <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
     <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">Fra {startdate} til {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
@@ -1759,9 +1784,7 @@
     <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
     <string name="calendar_instructions_date_range_flight_select_return_date">Neste: Velg returdato</string>
-    <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate}-{enddate}, {guests}</string>
+
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
@@ -1923,6 +1946,8 @@
     <string name="cost_summary">Kostnadoversikt</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand}-bestillingsgebyr</string>
+    <!-- Booking Fee -->
+    <string name="booking_fee">Bestillingsgebyr</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="payment_method_fee">Betalingsgebyr</string>
     <!-- Flight -->
@@ -2257,6 +2282,8 @@
     <string name="split_ticket_rules_cancellation_policy">Hvis én av flyvingene dine endres eller kanselleres, vil ikke den andre flyvningen oppdateres automatisk. Endringer i den andre flyvningen kan medføre at du blir belastet en avgift.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;Avreise-&lt;/a&gt; og &lt;a href=\"{returnlink}\"&gt;returflyvningene&lt;/a&gt; har separate bagasjeavgifter</string>
+    <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
+    <string name="evolable_terms_condition_TEMPLATE">Denne flyreisen bestilles gjennom &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;.&lt;br&gt;Leverandørens &lt;a href=\"{evolable_terms_condition_link}\"&gt;betingelser og vilkår&lt;/a&gt; gjelder.</string>
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">Avbryt</string>
@@ -2384,6 +2411,8 @@
     <string name="DONE">FULLFØRT</string>
     <!-- Button label for dismissing the flight fare family amenities dialog -->
     <string name="OK">OK</string>
+    <!--Label to view details -->
+    <string name="view_details">Vis detaljer</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Kart</string>
     <!-- Label for sort hotels in hotel list -->
@@ -3941,6 +3970,7 @@
     <string name="flight_overview_header_TEMPLATE">Fra {departureairportcode} til {arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">Nr. {itinerary} sendt til {email}</string>
+    <string name="itinerary_default_email_message">e-postadressen din.</string>
 
     <!--Rail search screen title-->
     <string name="trains">Tog</string>
@@ -4276,19 +4306,32 @@
     <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Beklager, &lt;b&gt;{fare_family_name}&lt;/b&gt; er nå utsolgt. Prøv igjen med et annet prisalternativ. Flyvningen din endres til det opprinnelige prisvalget.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
     <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Beklager, &lt;b&gt;{fare_family_name}&lt;/b&gt; er nå utsolgt. Prøv igjen med et annet prisalternativ. Flyvningene dine endres til det opprinnelige prisvalget.</string>
-    <!-- Label for fare family upgrade option. Example. Change your fare -->
-    <string name="flight_fare_family_fare_label">Endre billettprisen din</string>
+    <!-- Label for fare family upgrade option. Example. You've selected Comfort+  -->
+    <string name="flight_fare_family_fare_label_TEMPLATE">Du har valgt {fare_family_name}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">Oppgrader flyvningene dine</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">Oppgrader flyvningen din</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Fra</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
+    <string name="flight_selected_classes_one_class_TEMPLATE">Valgt klasse: {class}</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">Valgt klasse: {class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
+    <string name="flight_selected_classes_mixed_classes">Valgte klasser: blandede klasser</string>
+    <!-- Label for change fare class subtext,  Example. Change fare class -->
+    <string name="flight_change_fare_class">Endre prisklasse</string>
 
+
+    <!-- Generic date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="start_dash_end_date_range_TEMPLATE">{startdate} -– {enddate}</string>
+    <!-- Generic date range template with guests. E.g. May 12 - May 15, 2 guestss -->
+    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} – {enddate}, {guests}</string>
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="start_to_end_date_range_cont_desc_TEMPLATE">Fra {startdate} til {enddate}</string>
+    <!-- Generic Content Description text for date ranges plus guests template. Example May 12 to May 15, 2 guests -->
+    <string name="start_to_end_plus_guests_cont_desc_TEMPLATE">Fra {startdate} til {enddate}, {guests}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">Legg til én voksen reisende</string>
     <!--Traveler widget adults minus button content description-->

@@ -35,7 +35,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
 
     @Before
     fun setup() {
-        SettingUtils.save(context, R.string.preference_new_carnival_notifications, true)
         initialize(context)
         attributesToSend = AttributeMap()
     }

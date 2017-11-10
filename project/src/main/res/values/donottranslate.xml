@@ -33,8 +33,7 @@
     <string name="tune_sdk_app_conversion_key">3670b78dab0046d263b4fb15329d5129</string>
 
     <!--Carnival SDK Key-->
-    <!--<string name="carnival_sdk_key">d8f3ab6e39c645b0bd2fbb192e6158e6042233c0</string>-->
-    <string name="carnival_sdk_debug_key">813a3ca4a2bdd97c7a3fd967417d37e006d96dec</string>
+    <string name="carnival_sdk_key">d8f3ab6e39c645b0bd2fbb192e6158e6042233c0</string>
 
     <!-- Google reCAPTCHA Site Key -->
     <string name="recaptcha_sdk_site_key">6LeAzS8UAAAAAKQWXjjM5yUyfRvGCRk7joa_gfXG</string>
@@ -132,7 +131,6 @@
     <string name="preference_show_flights_checkout_webview">preference_show_flights_checkout_webview</string>
     <string name="preference_launch_all_trip_notifications">preference_launch_all_trip_notifications</string>
     <string name="preference_mock_flights">preference_mock_flights</string>
-    <string name="preference_new_carnival_notifications">preference_new_carnival_notifications</string>
     <string name="preference_flight_delta_pricing">preference_flight_delta_pricing</string>
     <string name="preference_enable_disabled_stp_hotels">preference_enable_disabled_stp_hotels</string>
     <string name="preference_enable_production_abacus">preference_enable_production_abacus</string>
