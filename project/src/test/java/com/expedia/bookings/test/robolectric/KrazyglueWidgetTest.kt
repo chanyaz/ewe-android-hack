@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
@@ -13,6 +14,7 @@ import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.presenter.shared.KrazyglueHotelViewHolder
 import com.expedia.bookings.presenter.shared.KrazyglueWidget
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.shared.KrazyglueHotelsListAdapter
 import com.expedia.bookings.presenter.shared.KrazyglueSeeMoreViewHolder
 import com.expedia.bookings.test.OmnitureMatchers
@@ -28,6 +30,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -35,11 +38,11 @@ import kotlin.test.assertEquals
 class KrazyglueWidgetTest {
 
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
-    private var activity: Activity by Delegates.notNull()
+    private var activity: AppCompatActivity by Delegates.notNull()
 
     @Before
     fun setup() {
-        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
     }
 
     @Test
@@ -164,8 +167,8 @@ class KrazyglueWidgetTest {
     fun testHotelBindsDataCorrectly() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         val hotelView = LayoutInflater.from(activity).inflate(R.layout.krazyglue_hotel_view, null)
-
-        val viewHolder = KrazyglueHotelViewHolder(hotelView)
+        val hotelSearchObservable = BehaviorSubject.create<HotelSearchParams>(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
+        val viewHolder = KrazyglueHotelViewHolder(hotelView, hotelSearchObservable)
         val hotel = getKrazyGlueHotel("21222", "San Francisco Hotel")
         viewHolder.viewModel.hotelObservable.onNext(hotel)
 
@@ -173,6 +176,7 @@ class KrazyglueWidgetTest {
         assertEquals("4.0", hotelView.findViewById<TextView>(R.id.hotel_guest_rating).text)
         assertEquals("330$", hotelView.findViewById<TextView>(R.id.hotel_strike_through_price).text)
         assertEquals("220$", hotelView.findViewById<TextView>(R.id.hotel_price_per_night).text)
+        assertEquals("21222", viewHolder.viewModel.hotelId)
         assertEquals(View.VISIBLE, hotelView.findViewById<TextView>(R.id.hotel_guest_rating).visibility)
     }
 
@@ -204,10 +208,11 @@ class KrazyglueWidgetTest {
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
         (krazyglueWidget.hotelsRecyclerView.adapter as KrazyglueHotelsListAdapter).destinationDateObservable.onNext(DateTime().plusDays(8))
 
+        krazyglueWidget.viewModel.hotelSearchParamsObservable.onNext(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
         krazyglueWidget.viewModel.hotelsObservable.onNext(getKrazyGlueHotels())
-        krazyglueWidget.hotelsRecyclerView.measure(0, 0);
+        krazyglueWidget.hotelsRecyclerView.measure(0, 0)
         krazyglueWidget.hotelsRecyclerView.layout(0, 0, 100, 10000)
-        (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(0) as KrazyglueHotelViewHolder).onClick(krazyglueWidget)
+        (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(0) as KrazyglueHotelViewHolder).itemView.performClick()
         val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
 
         assertKrazyGlueClickTracking(expectedEvars)

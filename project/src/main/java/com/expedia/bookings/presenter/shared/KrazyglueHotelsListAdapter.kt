@@ -8,11 +8,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.KrazyglueResponse
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import rx.subjects.PublishSubject
 import org.joda.time.DateTime
 import rx.subjects.BehaviorSubject
 
-class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<KrazyglueResponse.KrazyglueHotel>>, val destinationDateObservable: BehaviorSubject<DateTime>, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<KrazyglueResponse.KrazyglueHotel>>, val destinationDateObservable: BehaviorSubject<DateTime>, val hotelSearchParams: BehaviorSubject<HotelSearchParams>, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     enum class KrazyglueViewHolderType {
         LOADING_VIEW,
@@ -65,7 +66,7 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
         when (getKrazyGlueViewHolderTypeFromInt(viewType)) {
             KrazyglueViewHolderType.HOTEL_VIEW_HOLDER -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.krazyglue_hotel_view, parent, false)
-                return KrazyglueHotelViewHolder(view as ViewGroup)
+                return KrazyglueHotelViewHolder(view as ViewGroup, hotelSearchParams)
             }
             KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.krazyglue_see_more_hotel_view, parent, false)

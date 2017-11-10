@@ -501,6 +501,22 @@ class FlightCheckoutViewTest {
         assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.phone", flightPresenter.webCheckoutView.webView.settings.userAgentString)
     }
 
+    @Test
+    fun testSearchParamsReachesKrazyglueViewModel() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
+        SettingUtils.save(activity.applicationContext, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+
+        val testSearchParamsSubscriber = TestSubscriber<FlightSearchParams>()
+        flightPresenter.confirmationPresenter.viewModel.flightSearchParamsObservable.subscribe(testSearchParamsSubscriber)
+        val searchParams = setupFlightSearchParams()
+        flightPresenter.searchViewModel.searchParamsObservable.onNext(searchParams)
+
+        testSearchParamsSubscriber.assertValueCount(1)
+        testSearchParamsSubscriber.assertValue(searchParams)
+    }
+
     private fun setFlightPresenterAndFlightServices() {
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
         flightPresenter.flightServices = flightServices
