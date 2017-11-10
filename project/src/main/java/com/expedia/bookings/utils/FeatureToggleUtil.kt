@@ -18,15 +18,12 @@ class FeatureToggleUtil {
         @JvmStatic fun isFeatureEnabled(context: Context, @StringRes featureKey: Int): Boolean {
             // enforcing everyone to clean the feature toggle before feature start showing in RC
             if (BuildConfig.RELEASE) return false
-            val isFeatureEnabled = SettingUtils.get(context, featureKey, false)
-            return isFeatureEnabled
+            return SettingUtils.get(context, featureKey, false)
         }
 
         private fun isTestBucketed(context: Context, abTest: ABTest): Boolean {
-            val isTestBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(abTest)
-            return isTestBucketed
+            return AbacusFeatureConfigManager.isUserBucketedForTest(context,abTest)
         }
-
     }
 }
 
