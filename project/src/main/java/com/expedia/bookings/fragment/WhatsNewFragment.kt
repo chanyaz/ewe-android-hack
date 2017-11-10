@@ -32,14 +32,14 @@ class WhatsNewFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*val latch = CountDownLatch(1)
+        val latch = CountDownLatch(1)
         Thread(Runnable {
             b = getFeatures().execute().body()
             latch.countDown()
         }).start()
         latch.await()
-        val data = b?.features*/
-        val data = dummyData()
+        val data = b?.features
+        //val data = dummyData()
         val listData = Array<CustomPojo>(data!!.size, { i -> data.get(i) })
         val adapter = CustomListAdapter(data = listData, context = this.context)
         listView.adapter = adapter

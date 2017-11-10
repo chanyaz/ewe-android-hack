@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    app:cardElevation="0dp">
 
 
-        <com.expedia.bookings.widget.TextView
-            app:textStyle="bold"
-            android:id="@+id/label12"
-            android:textSize="24sp"
-            android:layout_width="match_parent"
-            android:textColor="@color/gray8"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_marginTop="15dp"
-            tools:text="dummy"
-            android:layout_height="wrap_content" />
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/label12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/gray8"
+        android:textSize="24sp"
+        app:textStyle="bold"
+        tools:text="dummy" />
 
+    <LinearLayout
+        android:id="@+id/vertical_sep"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical">
 
+    </LinearLayout>
 
 
 </android.support.v7.widget.CardView>
