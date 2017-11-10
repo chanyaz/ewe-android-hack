@@ -19,6 +19,10 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
+/**
+ * @deprecated please stop using this class and only use the .kt version
+ */
+@Deprecated
 public class HotelSearchParams implements JSONable {
 
 	private static final String SEARCH_PARAMS_KEY = "searchParams";
