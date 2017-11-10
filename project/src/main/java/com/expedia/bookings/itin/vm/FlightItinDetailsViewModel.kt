@@ -7,6 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.data.Flight
@@ -70,8 +71,8 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
         val duration = calculateTripDuration(itinCardDataFlight)
         val daysUntilTrip = calculateDaysUntilTripStart(itinCardDataFlight)
         val orderAndTripNumbers = buildOrderNumberAndItinNumberString(itinCardDataFlight)
-        val tripStartDate = LocaleBasedDateFormatUtils.dateTimeToyyyyMMMd(itinCardDataFlight.tripStartDate)
-        val tripEndDate = LocaleBasedDateFormatUtils.dateTimeToyyyyMMMd(itinCardDataFlight.tripEndDate)
+        val tripStartDate = JodaUtils.format(itinCardDataFlight.tripStartDate, "yyyy-MM-dd")
+        val tripEndDate = JodaUtils.format(itinCardDataFlight.tripEndDate, "yyyy-MM-dd")
         val productString = buildFlightProductString(itinCardDataFlight)
         val valueMap = HashMap<String, String?>()
         valueMap.put("duration", duration)

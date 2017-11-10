@@ -5,6 +5,7 @@ import android.content.Context
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TicketingStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.flightlib.data.Airport
@@ -522,8 +523,8 @@ class FlightItinDetailsViewModelTest {
         val testItinCardData = ItinCardDataFlightBuilder().build()
         sut.itinCardDataFlight = testItinCardData
         val startDate = DateTime.now().plusDays(30)
-        val formattedStartDate = LocaleBasedDateFormatUtils.dateTimeToyyyyMMMd(startDate)
-        val endDate = LocaleBasedDateFormatUtils.dateTimeToyyyyMMMd(startDate.plusDays(7))
+        val formattedStartDate = JodaUtils.format(startDate, "yyyy-MM-dd")
+        val endDate = JodaUtils.format(startDate.plusDays(7), "yyyy-MM-dd")
         val expectedValues = HashMap<String, String?>()
         expectedValues.put("duration", "8")
         expectedValues.put("productString", ";Flight:UA:OW;;")
