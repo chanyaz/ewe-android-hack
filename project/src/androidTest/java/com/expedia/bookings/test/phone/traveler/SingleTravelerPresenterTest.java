@@ -10,20 +10,10 @@ import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel;
-
-import kotlin.Unit;
-
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -46,30 +36,6 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.traveler_picker_widget);
-	}
-
-	@Test
-	public void testGenderErrorShowsWhenUserEntersIncorrectGender() throws Throwable {
-		addTravelerToDb(new Traveler());
-
-		setTravelerViewModelForEmptyTravelers(1);
-		EspressoUser.clickOnView(R.id.traveler_default_state);
-		TravelerDetails.enterFirstName(testFirstName);
-		TravelerDetails.enterLastName(testLastName);
-		TravelerDetails.enterEmail(testEmail);
-		Espresso.closeSoftKeyboard();
-		TravelerDetails.enterPhoneNumber(testPhone);
-		Espresso.closeSoftKeyboard();
-		TravelerDetails.selectBirthDate(06, 20, 1990);
-		TravelerDetails.selectGender(testGender);
-		uiThreadTestRule.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				testTravelersPresenter.getDoneClicked().onNext(Unit.INSTANCE);
-			}
-		});
-
-		onView(CustomMatchers.withCompoundDrawable(R.drawable.invalid)).check(matches(isDisplayed()));
 	}
 
 	@Test
@@ -157,7 +123,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 			}
 		});
 		EspressoUser.clickOnView(R.id.traveler_default_state);
-		EspressoUtils.assertViewHasCompoundDrawable(R.id.first_name_input, R.drawable.invalid);
+
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.textinput_error, R.string.first_name_validation_error_message);
 	}
 
 	@Test
@@ -180,7 +147,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.last_name_input, testLastName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testPhone);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_birth_date_text_btn, testBirthDay);
-		onView(withId(R.id.passport_country_spinner)).check(matches(hasDescendant(withText(testPassport))));
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.passport_country_btn, testPassport);
 	}
 
 	@Test
@@ -198,8 +165,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		});
 
 		Espresso.closeSoftKeyboard();
-		onView(withId(R.id.passport_country_spinner)).check(matches(hasDescendant(withText(testEmptyPassport))));
 
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.passport_country_btn, "");
 	}
 
 	@Test

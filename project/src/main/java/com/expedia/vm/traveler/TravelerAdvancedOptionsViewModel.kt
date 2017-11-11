@@ -2,7 +2,6 @@ package com.expedia.vm.traveler
 
 import android.content.Context
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
@@ -20,7 +19,6 @@ class TravelerAdvancedOptionsViewModel(val context: Context) {
 
     val seatPreferenceSubject = BehaviorSubject.create<Traveler.SeatPreference>()
     val assistancePreferenceSubject = BehaviorSubject.create<Traveler.AssistanceType>()
-    val materialFormTestEnabled = isMaterialFormsEnabled()
     val seatPreferenceObserver = endlessObserver<Traveler.SeatPreference> { seatPref ->
         traveler.seatPreference = seatPref
     }

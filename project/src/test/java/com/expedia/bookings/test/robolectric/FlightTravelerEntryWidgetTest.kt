@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import android.support.design.widget.TextInputLayout
 import android.support.v4.app.FragmentActivity
 import android.view.View
 import android.view.ViewStub
@@ -24,6 +25,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
+import com.expedia.vm.traveler.TravelerEmailViewModel
 import com.mobiata.android.util.SettingUtils
 import junit.framework.Assert.assertFalse
 import org.junit.Before
@@ -63,7 +65,7 @@ class FlightTravelerEntryWidgetTest {
 
     @Test
     fun testMaterialPassportCountryIsNotCountryCode() {
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, true)
 
         val editBoxForDialog = widget.findViewById<View>(R.id.passport_country_btn) as EditText
@@ -80,31 +82,35 @@ class FlightTravelerEntryWidgetTest {
 
     @Test
     fun testInvalidPassportCountrySetsEmptyString() {
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, showPassport = true)
-
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).passportCountrySubject.onNext("2KA9$%@!@")
+
         assertEquals("", widget.passportCountryEditBox.text.toString())
     }
 
     @Test
     fun testPassportErrorMessage() {
-        givenMaterialForm(false)
+        givenMaterialForm()
+        widget.viewModel = FlightTravelerEntryWidgetViewModel(activity, 0, BehaviorSubject.create(true), TravelerCheckoutStatus.CLEAN)
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).passportValidSubject.onNext(false)
 
-        assertEquals("Select a passport country", widget.passportCountrySpinner.errorMessage)
+        assertEquals("Select a passport country", (widget.passportCountryEditBox.parent.parent as TextInputLayout).error)
     }
 
     @Test
     fun testEmailErrorMessage() {
-        givenMaterialForm(false)
+        givenMaterialForm()
+        widget.emailEntryView.viewModel = TravelerEmailViewModel(Traveler(), activity)
+        widget.emailEntryView.viewModel.errorSubject.onNext(true)
 
-        assertEquals("Enter a valid email address", widget.emailEntryView.emailAddress.errorContDesc)
+        assertEquals("Enter a valid email address", (widget.emailEntryView.emailAddress.parent.parent as TextInputLayout).error)
     }
 
     @Test
     @Config(qualifiers="fr")
     fun testMaterialGenderNonEnglishLanguage() {
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, true)
         widget.tsaEntryView.genderEditText?.performClick()
         val testAlert = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
@@ -116,7 +122,7 @@ class FlightTravelerEntryWidgetTest {
 
     @Test
     fun testNumberOfErrorsIsCorrectPrimaryTraveler() {
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, true)
         traveler = Traveler()
         widget.onTravelerChosen(traveler)
@@ -150,7 +156,7 @@ class FlightTravelerEntryWidgetTest {
 
     @Test
     fun testNumberOfErrorIsCorrectForNonPrimaryTraveler() {
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(1, showPassport = false)
         traveler = Traveler()
         widget.onTravelerChosen(traveler)
@@ -175,7 +181,7 @@ class FlightTravelerEntryWidgetTest {
 
     @Test
     fun testEmailEntryView() {
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.onTravelerChosen(traveler)
 
@@ -197,7 +203,7 @@ class FlightTravelerEntryWidgetTest {
 
     @Test
     fun testMaterialOnAddNewTravelerValidation() {
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.onTravelerChosen(Traveler())
 
@@ -221,7 +227,7 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMultipleTravelerEntryPersists() {
         setPOS(PointOfSaleId.UNITED_STATES)
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         traveler = getIncompleteTraveler()
         widget.onTravelerChosen(traveler)
@@ -238,7 +244,7 @@ class FlightTravelerEntryWidgetTest {
 
     @Test
     fun testAdvancedOptionsContentDescription() {
-        givenMaterialForm(true)
+        givenMaterialForm()
         val expandAdvancedOptionsContDesc = widget.context.resources.getString(R.string.expand_advanced_button_cont_desc)
         val collapseAdvancedOptionsContDesc = widget.context.resources.getString(R.string.collapse_advanced_button_cont_desc)
         assertEquals(expandAdvancedOptionsContDesc, widget.advancedOptionsText.contentDescription)
@@ -254,7 +260,7 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardShowEmailAndPhoneDefaultLayout() {
         setPOS(PointOfSaleId.UNITED_STATES)
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(true)
         widget.viewModel.showPhoneNumberObservable.onNext(true)
@@ -267,7 +273,7 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardShowEmailNoPhoneDefaultLayout() {
         setPOS(PointOfSaleId.UNITED_STATES)
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(true)
         widget.viewModel.showPhoneNumberObservable.onNext(false)
@@ -279,7 +285,7 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardShowPhoneNoEmailDefaultLayout() {
         setPOS(PointOfSaleId.UNITED_STATES)
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(false)
         widget.viewModel.showPhoneNumberObservable.onNext(true)
@@ -291,7 +297,7 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardNoPhoneNoEmailDefaultLayout() {
         setPOS(PointOfSaleId.UNITED_STATES)
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(false)
         widget.viewModel.showPhoneNumberObservable.onNext(false)
@@ -303,7 +309,7 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardShowEmailAndPhoneReversedLayout() {
         setPOS(PointOfSaleId.JAPAN)
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(true)
         widget.viewModel.showPhoneNumberObservable.onNext(true)
@@ -316,7 +322,7 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardNoEmailShowPhonePhoneReversedLayout() {
         setPOS(PointOfSaleId.JAPAN)
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(false)
         widget.viewModel.showPhoneNumberObservable.onNext(true)
@@ -328,7 +334,7 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardShowEmailNoPhoneReversedLayout() {
         setPOS(PointOfSaleId.JAPAN)
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(true)
         widget.viewModel.showPhoneNumberObservable.onNext(false)
@@ -340,7 +346,7 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardNoPhoneNoEmailReversedLayout() {
         setPOS(PointOfSaleId.JAPAN)
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(false)
         widget.viewModel.showPhoneNumberObservable.onNext(false)
@@ -352,7 +358,7 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTravelerButtonHasReversedName() {
         setPOS(PointOfSaleId.JAPAN)
-        givenMaterialForm(true)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.resetStoredTravelerSelection()
 
@@ -364,7 +370,7 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTravelerButtonHasDefaultNameOrder() {
         setPOS(PointOfSaleId.UNITED_STATES)
-        givenMaterialForm(false)
+        givenMaterialForm()
         setupViewModel(0, false)
         widget.resetStoredTravelerSelection()
 
@@ -375,7 +381,7 @@ class FlightTravelerEntryWidgetTest {
     @Test
     fun testGetTravelerReturnsTravelerIfEmpty() {
         Db.clear()
-        givenMaterialForm(true)
+        givenMaterialForm()
         assertEquals(2, Db.getTravelers().size)
         assertEquals(12345, Db.getTravelers()[0].tuid)
 
@@ -389,13 +395,7 @@ class FlightTravelerEntryWidgetTest {
         assertEquals(Traveler().tuid, testTraveler.tuid)
     }
 
-    private fun givenMaterialForm(isMaterialForm: Boolean, isFFNEnabled: Boolean = false) {
-        if (isFFNEnabled) {
-            AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
-        } else if (isMaterialForm) {
-            AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        }
-
+    private fun givenMaterialForm() {
         val viewStub = activity.findViewById<View>(R.id.traveler_presenter_stub) as ViewStub
         travelerPresenter = viewStub.inflate() as FlightTravelersPresenter
         widget = travelerPresenter.travelerEntryWidget as FlightTravelerEntryWidget

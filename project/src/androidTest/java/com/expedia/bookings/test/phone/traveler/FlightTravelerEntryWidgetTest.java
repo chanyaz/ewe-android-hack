@@ -26,14 +26,12 @@ import rx.subjects.BehaviorSubject;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.AllOf.allOf;
@@ -44,7 +42,7 @@ public class FlightTravelerEntryWidgetTest {
 	private FlightTravelerEntryWidget entryWidget;
 	private FlightTravelerEntryWidgetViewModel testVM;
 
-	protected final String testEmptyPassport = "Passport: Country";
+	protected final String testEmptyPassport = "";
 	private Context context = InstrumentationRegistry.getTargetContext();
 
 	@Rule
@@ -72,9 +70,8 @@ public class FlightTravelerEntryWidgetTest {
 
 		TravelerDetails.clickAdvanced();
 		EspressoUtils.assertViewIsDisplayed(R.id.redress_number);
-		EspressoUtils.assertViewIsDisplayed(R.id.passport_country_spinner);
+		EspressoUtils.assertViewIsDisplayed(R.id.passport_country_btn);
 		onView(allOf(withSpinnerText(testEmptyPassport)));
-		onView(allOf(withSpinnerText(testEmptyPassport), withCompoundDrawable(R.drawable.ic_error_blue))).check(doesNotExist());
 	}
 
 	@Test
@@ -89,13 +86,13 @@ public class FlightTravelerEntryWidgetTest {
 
 		onView(withId(R.id.first_name_input)).perform(click());
 		onView(withId(R.id.last_name_input)).perform(click());
-		onView(withId(R.id.first_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)));
+		onView(withId(R.id.first_name_layout_input)).check(matches(hasDescendant(withText(R.string.first_name_validation_error_message))));
 
 		onView(withId(R.id.edit_email_address)).perform(click());
-		onView(withId(R.id.last_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)));
+		onView(withId(R.id.last_name_layout_input)).check(matches(hasDescendant(withText(R.string.last_name_validation_error_message))));
 
 		onView(withId(R.id.edit_phone_number)).perform(click());
-		onView(withId(R.id.edit_email_address)).check(matches(withCompoundDrawable(R.drawable.invalid)));
+		onView(withId(R.id.edit_email_layout_address)).check(matches(hasDescendant(withText(R.string.email_validation_error_message))));
 	}
 
 	@Test
@@ -117,7 +114,7 @@ public class FlightTravelerEntryWidgetTest {
 	@Test
 	public void testPointOfSaleCountryAtTopOfPassportListBelowPlaceholder() throws Throwable {
 		String pointOfSaleCountry = context.getString(PointOfSale.getPointOfSale().getCountryNameResId());
-		String testPointOfSalePassport = "Passport: " + pointOfSaleCountry;
+		String testPointOfSalePassport = pointOfSaleCountry;
 
 		Db.getTravelers().add(new Traveler());
 		BehaviorSubject<Boolean> showPassportCountryObservable = BehaviorSubject.create();
@@ -128,11 +125,11 @@ public class FlightTravelerEntryWidgetTest {
 
 		setViewModel(testVM);
 
-		onView(withId(R.id.passport_country_spinner)).check(matches(allOf(hasDescendant(withText(testEmptyPassport)), isDisplayed())));
-		onView(withId(R.id.passport_country_spinner)).perform(click());
-		onData(allOf(is(instanceOf(String.class)), is(pointOfSaleCountry))).atPosition(1).check(matches(isDisplayed()));
-		onData(anything()).atPosition(1).perform(click());
-		onView(withId(R.id.passport_country_spinner)).check(matches(hasDescendant(withText(testPointOfSalePassport))));
+		onView(withId(R.id.passport_country_btn)).check(matches((withText(""))));
+		onView(withId(R.id.passport_country_btn)).perform(click());
+		onData(allOf(is(instanceOf(String.class)), is(pointOfSaleCountry))).atPosition(0).check(matches(isDisplayed()));
+		onData(anything()).atPosition(0).perform(click());
+		onView(withId(R.id.passport_country_btn)).check(matches((withText(testPointOfSalePassport))));
 	}
 
 	private void setViewModel(final FlightTravelerEntryWidgetViewModel viewModel) throws Throwable {

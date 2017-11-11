@@ -54,7 +54,6 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
 
     @Test
     fun testTravelerErrorsClearedAfterSignIn() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         flightSearchAndGoToCheckout()
 
         PackageScreen.travelerInfo().perform(ViewActions.click())
@@ -146,7 +145,7 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         TravelerDetails.enterPhoneNumber("4155554321")
         Espresso.closeSoftKeyboard()
         TravelerDetails.selectBirthDate(1989, 6, 9)
-        TravelerDetails.selectGender("Male")
+        TravelerDetails.materialSelectGender("Male")
         TravelerDetails.clickAdvanced()
         TravelerDetails.enterRedressNumber("1234567")
         TravelerDetails.clickDone()

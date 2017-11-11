@@ -65,7 +65,7 @@ public class FlightsCheckoutScreenSteps {
 				TravelerDetails.selectBirthDate(year,month,date);
 				break;
 			case "gender":
-				TravelerDetails.selectGender(parameters.get("gender"));
+				TravelerDetails.materialSelectGender(parameters.get("gender"));
 				break;
 			case "passport":
 				selectPassport(parameters.get("passport"));

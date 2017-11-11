@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.hideErrorTextViewFromHoverFocus
 
 fun TextView.addErrorExclamation() {
@@ -80,13 +79,11 @@ class TextViewExtensions {
     companion object {
         fun setTextColorBasedOnPosition(tv: TextView, currentPosition: Int, position: Int) {
             val context = tv.context
-            if (isMaterialFormsEnabled()) {
-                var textColor = ContextCompat.getColor(context, R.color.default_text_color)
-                if (currentPosition == position ) {
-                    textColor = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
-                }
-                tv.setTextColor(textColor)
+            var textColor = ContextCompat.getColor(context, R.color.default_text_color)
+            if (currentPosition == position) {
+                textColor = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
             }
+            tv.setTextColor(textColor)
         }
     }
 }

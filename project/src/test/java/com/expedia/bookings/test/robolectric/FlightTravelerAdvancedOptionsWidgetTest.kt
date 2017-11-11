@@ -7,15 +7,11 @@ import android.widget.EditText
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
-import com.expedia.bookings.section.AssistanceTypeSpinnerAdapter
-import com.expedia.bookings.section.SeatPreferenceSpinnerAdapter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerAdvancedOptionsWidget
 import com.expedia.vm.traveler.TravelerAdvancedOptionsViewModel
@@ -39,7 +35,6 @@ class FlightTravelerAdvancedOptionsWidgetTest {
 
     @Before
     fun setup() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
         context = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         context.setTheme(R.style.V2_Theme_Packages)
@@ -49,7 +44,6 @@ class FlightTravelerAdvancedOptionsWidgetTest {
 
     @Test
     fun testAssistancePreferenceForMaterialForms() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         val editBoxForDialog = widget.findViewById<View>(R.id.edit_assistance_preference_button) as EditText
         widget.viewModel = setupViewModel()
@@ -77,7 +71,6 @@ class FlightTravelerAdvancedOptionsWidgetTest {
 
     @Test
     fun testAssistancePreferenceFocusabilityForMaterialForms() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         val assistancePreferenceField = widget.findViewById<View>(R.id.edit_assistance_preference_button) as EditText
 
@@ -86,7 +79,6 @@ class FlightTravelerAdvancedOptionsWidgetTest {
 
     @Test
     fun testSeatPreferenceForMaterialForms() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         val editBoxForDialog = widget.findViewById<View>(R.id.edit_seat_preference_button) as EditText
         widget.viewModel = setupViewModel()
@@ -115,7 +107,6 @@ class FlightTravelerAdvancedOptionsWidgetTest {
 
     @Test
     fun testSeatPreferenceFocusabilityForMaterialForms() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         val seatPreferenceField = widget.findViewById<View>(R.id.edit_seat_preference_button) as EditText
 
@@ -124,7 +115,6 @@ class FlightTravelerAdvancedOptionsWidgetTest {
 
     @Test
     fun testContactAirlineMessageForMaterialForms() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         val contactAirlineMessage = widget.findViewById<View>(R.id.contact_airline_text) as TextView
         assertEquals(View.VISIBLE, contactAirlineMessage.visibility)
@@ -134,29 +124,27 @@ class FlightTravelerAdvancedOptionsWidgetTest {
     @Test
     fun testSeatPreferenceSpinners() {
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
-        val seatPreferenceSpinner = widget.seatPreferenceSpinner
-        val adapter = SeatPreferenceSpinnerAdapter(context)
-        seatPreferenceSpinner.adapter = adapter
+        val seatPreferenceSpinner = widget.seatPreferenceEditBox
         widget.viewModel = setupViewModel()
 
-        assertEquals("Aisle", seatPreferenceSpinner.selectedItem)
-        seatPreferenceSpinner.setSelection(1)
+        assertEquals("Prefers: Aisle Seat", seatPreferenceSpinner.text.toString())
 
-        assertEquals("Window", seatPreferenceSpinner.selectedItem)
+        widget.viewModel.seatPreferenceSubject.onNext(Traveler.SeatPreference.WINDOW)
+
+        assertEquals("Prefers: Window Seat", seatPreferenceSpinner.text.toString())
     }
 
     @Test
     fun testSeatAssistanceSpinner() {
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
-        val assistanceSpinner = widget.assistancePreferenceSpinner
-        val adapter = AssistanceTypeSpinnerAdapter(context)
-        assistanceSpinner.adapter = adapter
+        val assistanceSpinner = widget.assistancePreferenceEditBox
         widget.viewModel = setupViewModel()
 
-        assertEquals("Wheelchair (immobile)", assistanceSpinner.selectedItem)
+        assertEquals("Wheelchair (immobile)", assistanceSpinner.text.toString())
 
-        assistanceSpinner.setSelection(0)
-        assertEquals("No Special Assistance Required", assistanceSpinner.selectedItem)
+        widget.viewModel.assistancePreferenceSubject.onNext(Traveler.AssistanceType.BLIND_WITH_SEEING_EYE_DOG)
+
+        assertEquals("Blind with guide dog", assistanceSpinner.text.toString())
     }
 
     @Test
@@ -169,7 +157,6 @@ class FlightTravelerAdvancedOptionsWidgetTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testKnownTravelerNumberIconContentDescriptionForMaterialForms() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         assertEquals("What is a known traveler number?", widget.travelerNumberIcon.contentDescription)
     }
@@ -184,7 +171,6 @@ class FlightTravelerAdvancedOptionsWidgetTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testRedressNumberIconContentDescriptionForMaterialForms() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         assertEquals("What is a redress number?", widget.redressNumberIcon.contentDescription)
     }

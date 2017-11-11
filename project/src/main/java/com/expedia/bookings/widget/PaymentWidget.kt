@@ -40,7 +40,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isHideApacBillingFieldsEnabled
-import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.isPopulateCardholderNameEnabled
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
@@ -84,7 +83,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val filledInCardStatus: ContactDetailsCompletenessStatusImageView by bindView(R.id.filled_in_card_status)
     val spacerAboveFilledInCardDetailsMiniView: View by bindView(R.id.spacer_above_filled_in_card_details_mini_view)
     val pwpSmallIcon: ImageView? by bindOptionalView(R.id.pwp_small_icon)
-    val materialFormTestEnabled = isMaterialFormsEnabled()
     val filledIn = PublishSubject.create<Boolean>()
     val visibleMenuWithTitleDone = PublishSubject.create<Unit>()
     val toolbarTitle = PublishSubject.create<String>()
@@ -605,7 +603,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
             if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(forward) else updateLegacyToolbarMenu(!forward)
             viewmodel.showingPaymentForm.onNext(forward)
-            if (materialFormTestEnabled && hideApacBillingFieldsEnabled) {
+            if (hideApacBillingFieldsEnabled) {
                 if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
                 else viewmodel.clearHiddenBillingAddress.onNext(Unit)
             }
@@ -641,7 +639,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             viewmodel.showingPaymentForm.onNext(forward)
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
             if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(forward) else updateLegacyToolbarMenu(!forward)
-            if (materialFormTestEnabled && hideApacBillingFieldsEnabled) {
+            if (hideApacBillingFieldsEnabled) {
                 if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
                 else viewmodel.clearHiddenBillingAddress.onNext(Unit)
             }

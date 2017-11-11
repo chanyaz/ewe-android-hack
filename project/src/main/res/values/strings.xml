@@ -2077,8 +2077,6 @@
     <string name="save_traveler">Save Traveler</string>
     <!-- no thanks -->
     <string name="no_thanks">No Thanks</string>
-    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
-    <string name="advanced">Advanced</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Advanced (optional)</string>
     <string name="contact_airline_message">Please contact airline to confirm requests</string>
@@ -2165,13 +2163,9 @@
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Error</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">Prefers %1$s Seat</string>
     <string name="prefers_seat_colored_TEMPLATE2">Prefers: %1$s Seat</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Loading traveler information…</string>
-
-    <!-- Passport label -->
-    <string name="passport_country_colon">Passport:</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->

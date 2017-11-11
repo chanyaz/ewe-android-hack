@@ -5,16 +5,13 @@ import android.content.Context
 import android.content.DialogInterface
 import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.View
-import android.widget.AdapterView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.section.GenderSpinnerAdapter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerTSAViewModel
@@ -27,70 +24,37 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     private val TAG_DATE_PICKER = "TAG_DATE_PICKER"
 
     val dateOfBirth: TravelerEditText by bindView(R.id.edit_birth_date_text_btn)
-    var genderSpinner: TravelerSpinner? = null
     var genderEditText: TravelerEditText? = null
-
-    val materialFormTestEnabled = isMaterialFormsEnabled()
 
     var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->
         dateOfBirth.viewModel = vm.dateOfBirthViewModel
-        if (materialFormTestEnabled) {
-            genderEditText?.viewModel = vm.genderViewModel
-            vm.genderViewModel.genderSubject.subscribe { gender ->
-                val adapter = GenderSpinnerAdapter(context)
-                val position = adapter.getGenderPosition(gender)
-                if (position == 0) {
-                    genderEditText?.setText("")
-                } else {
-                    genderEditText?.setText(adapter.getItem(position))
-                }
+        genderEditText?.viewModel = vm.genderViewModel
+        vm.genderViewModel.genderSubject.subscribe { gender ->
+            val adapter = GenderSpinnerAdapter(context)
+            val position = adapter.getGenderPosition(gender)
+            if (position == 0) {
+                genderEditText?.setText("")
+            } else {
+                genderEditText?.setText(adapter.getItem(position))
             }
-        } else {
-            genderSpinner?.viewModel = vm.genderViewModel
-            vm.genderViewModel.genderSubject.subscribe { gender ->
-                val adapter = genderSpinner?.adapter as GenderSpinnerAdapter
-                genderSpinner?.onItemSelectedListener = null
-                genderSpinner?.setSelection(adapter.getGenderPosition(gender))
-                genderSpinner?.onItemSelectedListener = GenderItemSelectedListener()
-            }
-            genderSpinner?.onItemSelectedListener = GenderItemSelectedListener()
-
         }
-
         vm.dateOfBirthViewModel.birthErrorTextSubject.subscribe { text ->
             showBirthdateErrorDialog(text)
         }
         vm.genderViewModel.errorSubject.subscribe { hasError ->
-            if (!materialFormTestEnabled) {
-                (genderSpinner?.adapter as GenderSpinnerAdapter).setErrorVisible(hasError)
-                genderSpinner?.valid = !hasError
-            } else {
-                genderEditText?.subscribeMaterialFormsError(vm.genderViewModel.errorSubject, R.string.gender_validation_error_message,
-                        R.drawable.material_dropdown)
-            }
-        }
-
-        if (materialFormTestEnabled) {
-            dateOfBirth.subscribeMaterialFormsError(dateOfBirth.viewModel.errorSubject, R.string.date_of_birth_validation_error_message,
+            genderEditText?.subscribeMaterialFormsError(vm.genderViewModel.errorSubject, R.string.gender_validation_error_message,
                     R.drawable.material_dropdown)
         }
+
+        dateOfBirth.subscribeMaterialFormsError(dateOfBirth.viewModel.errorSubject, R.string.date_of_birth_validation_error_message,
+                R.drawable.material_dropdown)
     }
 
     init {
-        if (materialFormTestEnabled) {
-            View.inflate(context, R.layout.material_tsa_entry_view, this)
-            genderEditText = this.findViewById<TravelerEditText>(R.id.edit_gender_btn)
-            genderEditText?.setOnClickListener {
-                showGenderAlertDialog()
-            }
-        } else {
-            View.inflate(context, R.layout.tsa_entry_view, this)
-            gravity = Gravity.BOTTOM
-            genderSpinner = this.findViewById<TravelerSpinner>(R.id.edit_gender_spinner)
-            val genderAdapter = GenderSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_dropdown_item)
-            genderSpinner?.adapter = genderAdapter
-            genderSpinner?.errorMessage = context.getString(R.string.gender_validation_error_message)
-
+        View.inflate(context, R.layout.material_tsa_entry_view, this)
+        genderEditText = this.findViewById<TravelerEditText>(R.id.edit_gender_btn)
+        genderEditText?.setOnClickListener {
+            showGenderAlertDialog()
         }
         orientation = HORIZONTAL
         fragmentActivity = context as FragmentActivity
@@ -113,21 +77,6 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
 
     override fun handleDateChosen(year: Int, month: Int, day: Int, formattedDate: String) {
         viewModel.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate(year, month, day))
-    }
-
-    private inner class GenderItemSelectedListener : AdapterView.OnItemSelectedListener {
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-            //do nothing
-        }
-
-        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            val adapter = genderSpinner?.adapter as GenderSpinnerAdapter
-            viewModel.genderViewModel.genderSubject.onNext(adapter.getGender(position))
-            val gender = adapter.getGender(position)
-            if (gender != Traveler.Gender.GENDER) {
-                (genderSpinner?.adapter as GenderSpinnerAdapter).setErrorVisible(false)
-            }
-        }
     }
 
     private inner class DateOfBirthClickListener(val dateSetListener: DatePickerDialogFragment.DateChosenListener) : OnClickListener {
@@ -161,11 +110,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     }
 
     fun isValidGender(): Boolean {
-        if (materialFormTestEnabled) {
-            return genderEditText?.text?.isNotEmpty() ?: false
-        } else {
-            return genderSpinner?.selectedItemPosition != 0
-        }
+        return genderEditText?.text?.isNotEmpty() ?: false
     }
 
 }

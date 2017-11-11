@@ -46,8 +46,6 @@ class PhoneEntryViewTest {
 
     @Before
     fun setup() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         themedContext = Robolectric.buildActivity(android.support.v4.app.FragmentActivity::class.java).create().get()
         themedContext.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(appContext).defaultTravelerComponent()
@@ -56,8 +54,6 @@ class PhoneEntryViewTest {
 
     @Test
     fun testCountryCodeChangesFromDialogSelection() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val editBoxForDialog = widget.findViewById<View>(R.id.material_edit_phone_number_country_code) as EditText
         widget.viewModel = setupViewModelWithPhone()
@@ -79,8 +75,6 @@ class PhoneEntryViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPointOfSaleCountryCodeUsedIfNoneProvided() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val editBoxForDialog = widget.findViewById<View>(R.id.material_edit_phone_number_country_code) as EditText
         widget.viewModel = setupViewModelWithPhone()
@@ -92,8 +86,6 @@ class PhoneEntryViewTest {
 
     @Test
     fun testMaterialPhoneNumberReturnsEmptyIfNull() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
@@ -106,8 +98,6 @@ class PhoneEntryViewTest {
 
     @Test
     fun testMaterialPhoneNumberNotFormattedIfUnderSixNumbers() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
@@ -137,8 +127,6 @@ class PhoneEntryViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPhoneNumberFormattedIfOverFiveNumbers() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
@@ -172,8 +160,6 @@ class PhoneEntryViewTest {
 
     @Test
     fun testMaterialPhoneNumberNotFormattedWhenStartsWithOneUnderSixNumbers() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
@@ -203,8 +189,6 @@ class PhoneEntryViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPhoneNumberFormattedWhenStartsWithOneOverFiveNumbers() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
@@ -234,8 +218,6 @@ class PhoneEntryViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPhoneNumberNotFormattedIfNotUsPos() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         SettingUtils.save(appContext, R.string.PointOfSaleKey, PointOfSaleId.MEXICO.id.toString())
         PointOfSale.onPointOfSaleChanged(appContext)
 
@@ -247,18 +229,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
-    fun testPhoneNumberNotFormattedIfNotMaterial() {
-
-        widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
-        widget.viewModel = setupViewModelWithPhone()
-
-        assertEquals("0987654321", phoneNumberField.text.toString())
-    }
-
-    @Test
     fun testCountryCodeFocusabilityRemainsFalse() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneCountryCode = widget.phoneEditBox as AccessibleEditTextForSpinner
 

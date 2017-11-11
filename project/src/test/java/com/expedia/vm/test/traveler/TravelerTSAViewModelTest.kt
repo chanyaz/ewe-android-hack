@@ -70,9 +70,7 @@ class TravelerTSAViewModelTest {
         tsaVM.genderViewModel.errorSubject.subscribe(testSubscriber)
         tsaVM.genderViewModel.errorSubject.onNext(true)
 
-        assertEquals(false, testSubscriber.onNextEvents[0],
-                "Gender error needs to be reset upon updating traveler, Mingle #7645")
-        assertEquals(true, testSubscriber.onNextEvents[1])
+        assertEquals(true, testSubscriber.onNextEvents[0])
     }
 
     @Test

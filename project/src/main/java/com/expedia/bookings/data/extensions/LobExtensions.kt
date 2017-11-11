@@ -7,7 +7,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.isHotelMaterialForms
-import com.expedia.bookings.utils.isMaterialFormsEnabled
 
 class LineOfBusinessExtensions {
     companion object {
@@ -34,5 +33,5 @@ fun LineOfBusiness.hasBillingInfo(): Boolean {
 }
 
 fun LineOfBusiness.isMaterialFormEnabled(context: Context) : Boolean {
-    return (LineOfBusinessExtensions.isUniversalCheckout(this, context) && (isMaterialFormsEnabled()) || (this == LineOfBusiness.HOTELS && isHotelMaterialForms(context)))
+    return (LineOfBusinessExtensions.isUniversalCheckout(this, context) || (this == LineOfBusiness.HOTELS && isHotelMaterialForms(context)))
 }

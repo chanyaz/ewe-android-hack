@@ -17,6 +17,8 @@ import com.expedia.bookings.test.rules.PlaygroundRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.traveler.TSAEntryView
 import com.expedia.bookings.widget.traveler.TravelerEditText
+import com.expedia.vm.traveler.BaseTravelerValidatorViewModel
+import com.expedia.vm.traveler.DateOfBirthViewModel
 import com.expedia.vm.traveler.TravelerTSAViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -41,21 +43,15 @@ class TSAEntryViewTest {
 
     @Before
     fun setUp() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal)
-
         Ui.getApplication(InstrumentationRegistry.getTargetContext()).defaultTravelerComponent()
     }
 
     @Test
     @Throws(Throwable::class)
     fun testMaterialForm() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         uiThreadTestRule.runOnUiThread {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
                     .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
-
-            assertTrue(tsaEntryView.materialFormTestEnabled)
             val textInputLayout = tsaEntryView.findViewById<View>(R.id.edit_birth_date_text_layout_btn)
             assertNotNull(textInputLayout)
 
@@ -65,8 +61,6 @@ class TSAEntryViewTest {
     @Test
     @Throws(Throwable::class)
     fun testMaterialGenderFocusability() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         uiThreadTestRule.runOnUiThread {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
                     .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
@@ -79,8 +73,6 @@ class TSAEntryViewTest {
     @Test
     @Throws(Throwable::class)
     fun testMaterialDateOfBirthFocusability() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         uiThreadTestRule.runOnUiThread {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
                     .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
@@ -93,14 +85,10 @@ class TSAEntryViewTest {
     @Test
     @Throws(Throwable::class)
     fun testMaterialFormGender() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
         uiThreadTestRule.runOnUiThread {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
                     .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
-
-            assertTrue(tsaEntryView.materialFormTestEnabled)
-
             val genderEditText = tsaEntryView.findViewById<View>(R.id.edit_gender_btn) as TravelerEditText
             assertNotNull(genderEditText)
 
@@ -118,8 +106,6 @@ class TSAEntryViewTest {
     @Test
     @Throws(Throwable::class)
     fun testMaterialFormInvalidGenderOptions() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         uiThreadTestRule.runOnUiThread {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
                     .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
@@ -151,8 +137,6 @@ class TSAEntryViewTest {
     @Test
     @Throws(Throwable::class)
     fun testMaterialFormValidGenderOptions() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-
         uiThreadTestRule.runOnUiThread {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
                     .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
@@ -240,18 +224,18 @@ class TSAEntryViewTest {
 
     @Test
     fun birthDateErrorState() {
-        tsaEntryView = activityTestRule.root as TSAEntryView
+        uiThreadTestRule.runOnUiThread {
+            val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
+                    .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
 
-        //test for accessibility content description
-        assertEquals("Enter valid date of birth", tsaEntryView.dateOfBirth.errorContDesc)
-    }
+            val dateOfBirthView = tsaEntryView.findViewById<View>(R.id.edit_birth_date_text_btn) as TravelerEditText
+            val tsaVM = TravelerTSAViewModel(Traveler(), activityTestRule.activity)
+            tsaEntryView.viewModel = tsaVM
+            tsaVM.dateOfBirthViewModel.errorSubject.onNext(true)
 
-    @Test
-    fun genderErrorState() {
-        tsaEntryView = activityTestRule.root as TSAEntryView
+            assertEquals("Enter valid date of birth", (dateOfBirthView.parent.parent as TextInputLayout).error)
+        }
 
-        //test for accessibility content description
-        assertEquals("Select a gender", tsaEntryView.genderSpinner?.errorMessage)
     }
 
     private fun assertViewFocusabilityIsFalse(view: View) {

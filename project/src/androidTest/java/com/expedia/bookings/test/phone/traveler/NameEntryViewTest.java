@@ -14,10 +14,8 @@ import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.TravelerName;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.traveler.NameEntryView;
@@ -48,21 +46,16 @@ public class NameEntryViewTest {
 
 	@Before
 	public void setUp() {
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
-
 		nameView = (NameEntryView) activityTestRule.getRoot();
 		Ui.getApplication(InstrumentationRegistry.getTargetContext()).defaultTravelerComponent();
 	}
 
 	@Test
 	public void testMaterialForm() throws Throwable {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
-
 		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
 			.inflate(R.layout.test_name_entry_view, null);
-
-		assertTrue(nameEntryView.getMaterialFormTestEnabled());
 		TextInputLayout textInputLayout = (TextInputLayout) nameEntryView.findViewById(R.id.first_name_layout_input);
+
 		assertNotNull(textInputLayout);
 	}
 
@@ -114,30 +107,21 @@ public class NameEntryViewTest {
 		});
 
 		//test for accessibility content description
-		assertEquals("Enter first name using letters only", nameView.getFirstName().getErrorContDesc());
-		assertEquals("Enter middle name using letters only", nameView.getMiddleName().getErrorContDesc());
-		assertEquals("Enter last name using letters only (minimum 2 characters)", nameView.getLastName().getErrorContDesc());
-
-		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
-			nameView.getFirstName().getErrorIcon());
-		assertEquals(nameView.getMiddleName().getCompoundDrawables()[2],
-			nameView.getMiddleName().getErrorIcon());
-		assertEquals(nameView.getLastName().getCompoundDrawables()[2],
-			nameView.getLastName().getErrorIcon());
+		assertEquals("Enter first name using letters only", ((TextInputLayout) nameView.getFirstName().getParent().getParent()).getError());
+		assertEquals("Enter middle name using letters only", ((TextInputLayout) nameView.getMiddleName().getParent().getParent()).getError());
+		assertEquals("Enter last name using letters only (minimum 2 characters)", ((TextInputLayout) nameView.getLastName().getParent().getParent()).getError());
 
 		onView(withId(R.id.first_name_input)).perform(typeText(testFirstName));
 		onView(withId(R.id.middle_name_input)).perform(typeText(testMiddleInitial));
 		onView(withId(R.id.last_name_input)).perform(typeText(testLastName));
 
-		assertEquals(nameView.getFirstName().getCompoundDrawables()[2], null);
-		assertEquals(nameView.getMiddleName().getCompoundDrawables()[2], null);
-		assertEquals(nameView.getLastName().getCompoundDrawables()[2], null);
+		assertNull(((TextInputLayout) nameView.getFirstName().getParent().getParent()).getError());
+		assertNull(((TextInputLayout) nameView.getMiddleName().getParent().getParent()).getError());
+		assertNull(((TextInputLayout) nameView.getLastName().getParent().getParent()).getError());
 	}
 
 	@Test
 	public void testMiddleNameError() throws Throwable {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
-
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -155,8 +139,6 @@ public class NameEntryViewTest {
 				assertEquals("Enter middle name using letters only", textInputLayout.getError());
 			}
 		});
-
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
 	}
 
 	@Test
@@ -175,7 +157,6 @@ public class NameEntryViewTest {
 
 	@Test
 	public void testMaterialReversedNameLayout() throws Throwable {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		SettingUtils.save(activityTestRule.getActivity(), R.string.PointOfSaleKey, Integer.toString(PointOfSaleId.HONG_KONG.getId()));
 		PointOfSale.onPointOfSaleChanged(activityTestRule.getActivity());
 
@@ -195,8 +176,6 @@ public class NameEntryViewTest {
 
 	@Test
 	public void testMaterialNameLayoutOrder() throws Throwable {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
-
 		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
 			.inflate(R.layout.test_name_entry_view, null);
 

@@ -55,8 +55,9 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         Espresso.closeSoftKeyboard()
         TravelerDetails.clickDone()
         Common.delay(1)
-        onView(withId(R.id.first_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
-        onView(withId(R.id.last_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
+
+        onView(withText(R.string.first_name_validation_error_message)).check(matches(isDisplayed()))
+        onView(withText(R.string.last_name_validation_error_message)).check(matches(isDisplayed()))
 
         Common.pressBack()
         onView(withId(R.id.additional_traveler_container)).perform(waitForViewToDisplay())
@@ -82,8 +83,8 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         onView(allOf(isDescendantOfA(withId(R.id.main_traveler_container)), withText("11/01/1985"))).perform(click())
         onView(withText("Edit Traveler 1 (Adult)")).perform(waitForViewToDisplay())
         Espresso.closeSoftKeyboard()
-        EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.first_name_input, R.drawable.invalid)
-        EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.last_name_input, R.drawable.invalid)
+        onView(withText(R.string.first_name_validation_error_message)).check(doesNotExist())
+        onView(withText(R.string.last_name_validation_error_message)).check(doesNotExist())
         Common.pressBack()
 
         onView(withText("Traveler details")).perform(waitForViewToDisplay())
@@ -91,15 +92,15 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         Espresso.closeSoftKeyboard()
         TravelerDetails.clickDone()
         Common.delay(1)
-        onView(withId(R.id.first_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
-        onView(withId(R.id.last_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
+        onView(withText(R.string.first_name_validation_error_message)).check(matches(isDisplayed()))
+        onView(withText(R.string.last_name_validation_error_message)).check(matches(isDisplayed()))
 
 
         Common.pressBack()
         EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
         Espresso.closeSoftKeyboard()
-        EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.first_name_input, R.drawable.invalid)
-        EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.last_name_input, R.drawable.invalid)
+        onView(withText(R.string.first_name_validation_error_message)).check(doesNotExist())
+        onView(withText(R.string.last_name_validation_error_message)).check(doesNotExist())
         Common.pressBack()
 
         EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
@@ -167,10 +168,10 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         onView(allOf(isDescendantOfA(withId(R.id.main_traveler_container)), withText("Enter missing traveler details"))).perform(click())
 
         onView(withText("Edit Traveler 1 (Adult)")).perform(waitForViewToDisplay())
-        EspressoUtils.assertViewIsDisplayed(R.id.passport_country_spinner)
-        onView(withId(R.id.passport_country_spinner)).perform(click())
+        EspressoUtils.assertViewIsDisplayed(R.id.passport_country_btn)
+        onView(withId(R.id.passport_country_btn)).perform(click())
         onData(allOf<String>(`is`<Any>(instanceOf<Any>(String::class.java)), `is`<String>("Afghanistan"))).perform(click())
-        EspressoUtils.assertViewWithTextIsDisplayed("Passport: Afghanistan")
+        EspressoUtils.assertViewWithTextIsDisplayed("Afghanistan")
         Common.pressBack()
         onView(withId(android.R.id.button1)).perform(ViewActions.click())
 

@@ -180,7 +180,7 @@ class FlightsAirAttachTest : NewFlightTestCase() {
         TravelerDetails.enterEmail("test@gmail.com")
         Espresso.closeSoftKeyboard()
         TravelerDetails.selectBirthDate(1989, 6, 9)
-        TravelerDetails.selectGender("Male")
+        TravelerDetails.materialSelectGender("Male")
         TravelerDetails.clickAdvanced()
         TravelerDetails.enterRedressNumber("1234567")
         PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
@@ -194,7 +194,7 @@ class FlightsAirAttachTest : NewFlightTestCase() {
         TravelerDetails.enterFirstName("First")
         TravelerDetails.enterLastName("Child")
         TravelerDetails.selectBirthDate(DateTime.now().minusYears(10).get(DateTimeFieldType.year()), 6, 9)
-        TravelerDetails.selectGender("Male")
+        TravelerDetails.materialSelectGender("Male")
 
         TravelerDetails.clickDone()
 
@@ -205,7 +205,7 @@ class FlightsAirAttachTest : NewFlightTestCase() {
         TravelerDetails.enterFirstName("Second")
         TravelerDetails.enterLastName("Child")
         TravelerDetails.selectBirthDate(DateTime.now().minusYears(10).get(DateTimeFieldType.year()), 6, 9)
-        TravelerDetails.selectGender("Female")
+        TravelerDetails.materialSelectGender("Female")
 
         TravelerDetails.clickDone()
     }

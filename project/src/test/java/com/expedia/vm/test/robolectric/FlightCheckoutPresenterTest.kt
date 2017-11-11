@@ -109,7 +109,6 @@ class FlightCheckoutPresenterTest {
 
     @Test
     fun materialPaymentWidget() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         setupCheckout()
 
         assertNotNull(checkout.paymentWidget)
@@ -117,7 +116,6 @@ class FlightCheckoutPresenterTest {
 
     @Test
     fun materialPaymentWidgetColorsBackground() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         setupCheckout()
         checkout.paymentWidget.showPaymentForm(false)
         assertEquals(checkout.scrollView.background, ContextCompat.getDrawable(activity.applicationContext, R.color.white))
@@ -208,7 +206,7 @@ class FlightCheckoutPresenterTest {
 
     private fun setupCheckout(isFrequentFlyerEnabled: Boolean = false) {
         if (isFrequentFlyerEnabled) {
-            AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+            AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
         }
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.flight_checkout_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)

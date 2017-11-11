@@ -24,7 +24,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppBringUniversalCheckoutToLX = new ABTest(12630);
 	public static final ABTest EBAndroidAppLXFilterSearch = new ABTest(12689);
 	public static final ABTest EBAndroidAppLXDisablePOISearch = new ABTest(13050);
-	public static final ABTest EBAndroidAppUniversalCheckoutMaterialForms = new ABTest(12721);
 	public static final ABTest EBAndroidAppFlightsConfirmationItinSharing = new ABTest(14137);
 	public static final ABTest EBAndroidAppLXNavigateToSRP = new ABTest(13152);
 	public static final ABTest EBAndroidAppCheckoutButtonText = new ABTest(13480);
@@ -165,7 +164,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppCheckoutButtonText.getKey());
 		testIDs.add(EBAndroidAppLXDisablePOISearch.getKey());
 		testIDs.add(EBAndroidAppFlightsSeatClassAndBookingCode.getKey());
-		testIDs.add(EBAndroidAppUniversalCheckoutMaterialForms.getKey());
 		testIDs.add(EBAndroidAppFreeCancellationTooltip.getKey());
 		testIDs.add(EBAndroidAppFlightsConfirmationItinSharing.getKey());
 		testIDs.add(EBAndroidAppFlightByotSearch.getKey());

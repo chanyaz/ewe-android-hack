@@ -202,7 +202,7 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
         TravelerDetails.enterEmail("test@gmail.com")
         Espresso.closeSoftKeyboard()
         TravelerDetails.selectBirthDate(1989, 6, 9)
-        TravelerDetails.selectGender("Male")
+        TravelerDetails.materialSelectGender("Male")
         TravelerDetails.clickAdvanced()
         TravelerDetails.enterRedressNumber("1234567")
     }

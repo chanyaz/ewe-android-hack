@@ -151,11 +151,12 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			@Override
 			public void run() {
 				testTravelersPresenter.getDoneClicked().onNext(Unit.INSTANCE);
+				assertEquals(4, testTravelersPresenter.getTravelerEntryWidget().getNumberOfInvalidFields());
 			}
 		});
-		assertEquals(4, testTravelersPresenter.getTravelerEntryWidget().getNumberOfInvalidFields());
 
 		TravelerDetails.enterLastName(testLastName);
+		EspressoUser.scrollToView(R.id.edit_email_address);
 		TravelerDetails.enterEmail(testEmail);
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
@@ -315,20 +316,19 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUser.clickOnText(expectedFilledTravelerOneText);
 		Espresso.closeSoftKeyboard();
-		EspressoUser.scrollToView(R.id.passport_country_spinner);
-		EspressoUtils.assertViewWithTextIsDisplayed(testEmptyPassport);
-		EspressoUser.clickOnView(R.id.passport_country_spinner);
+		EspressoUser.scrollToView(R.id.passport_country_btn);
+		EspressoUser.clickOnView(R.id.passport_country_btn);
 		onData(allOf(is(instanceOf(String.class)), is(pointOfSaleCountry))).atPosition(1).check(matches(isDisplayed()));
 		onData(allOf(is(instanceOf(String.class)), is("Afghanistan"))).perform(click());
-		EspressoUtils.assertViewWithTextIsDisplayed("Passport: Afghanistan");
+		EspressoUtils.assertViewWithTextIsDisplayed("Afghanistan");
 		travelerPresenterBack();
 
 		EspressoUser.clickOnText(expectedFilledTravelerTwoText);
 		onView(withText("Please use the Roman alphabet")).check(matches(isDisplayed()));
 		onView(withText("OK")).perform(click());
 		Espresso.closeSoftKeyboard();
-		EspressoUser.scrollToView(R.id.passport_country_spinner);
-		EspressoUtils.assertViewWithTextIsDisplayed(testEmptyPassport);
+		EspressoUser.scrollToView(R.id.passport_country_btn);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.passport_country_btn, "");
 		onView(withText("Passport: Afghanistan")).check(doesNotExist());
 		travelerPresenterBack();
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.id.traveler_default_state, R.drawable.invalid);

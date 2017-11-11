@@ -98,7 +98,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		Espresso.closeSoftKeyboard();
 		TravelerDetails.selectBirthDate(1989, 6, 9);
 		Espresso.closeSoftKeyboard();
-		TravelerDetails.selectGender("Male");
+		TravelerDetails.materialSelectGender("Male");
 		Espresso.closeSoftKeyboard();
 
 		TravelerDetails.clickAdvanced();
@@ -110,7 +110,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(withText("Deaf with hearing dog")).perform(waitForViewToDisplay(), click());
 		Common.closeSoftKeyboard(onView(withId(R.id.first_name_input)));
 		PackageScreen.clickSeatPreference();
-		onView(withText("Window")).perform(waitForViewToDisplay(), click());
+		onView(withText("Prefers: Window Seat")).perform(waitForViewToDisplay(), click());
 
 		TravelerDetails.clickDone();
 		PackageScreen.enterPaymentInfo();
@@ -163,7 +163,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		TravelerDetails.selectBirthDate(1989, 6, 9);
 		Espresso.closeSoftKeyboard();
-		TravelerDetails.selectGender("Male");
+		TravelerDetails.materialSelectGender("Male");
 		Espresso.closeSoftKeyboard();
 		TravelerDetails.clickDone();
 

@@ -188,7 +188,6 @@ class TravelerSummaryViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNameIsReversedBasedOnPos() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         SettingUtils.save(activity, R.string.PointOfSaleKey, PointOfSaleId.JAPAN.id.toString())
         PointOfSale.onPointOfSaleChanged(activity)
 

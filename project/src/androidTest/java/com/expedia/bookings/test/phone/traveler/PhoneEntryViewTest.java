@@ -14,9 +14,6 @@ import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Phone;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
-import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
@@ -27,9 +24,9 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static junit.framework.Assert.assertTrue;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -49,22 +46,17 @@ public class PhoneEntryViewTest {
 
 	@Before
 	public void setup() {
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
-
 		Context context = InstrumentationRegistry.getTargetContext();
 		Ui.getApplication(context).defaultTravelerComponent();
 	}
 
 	@Test
 	public void testMaterialForm() throws Throwable {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
-
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				PhoneEntryView phoneEntryView = (PhoneEntryView) LayoutInflater.from(activityTestRule.getActivity())
 					.inflate(R.layout.test_phone_entry_view, null);
-				assertTrue(phoneEntryView.getMaterialFormTestEnabled());
 				TextInputLayout textInputLayout = (TextInputLayout) phoneEntryView
 					.findViewById(R.id.edit_phone_layout_number);
 				assertNotNull(textInputLayout);
@@ -109,7 +101,7 @@ public class PhoneEntryViewTest {
 		});
 
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testNumber);
-		EspressoUtils.assertViewWithTextIsDisplayed(android.R.id.text1, "+" + testCodeString);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.material_edit_phone_number_country_code, "+" + testCodeString);
 	}
 
 	@Test
@@ -126,12 +118,9 @@ public class PhoneEntryViewTest {
 			}
 		});
 
-		//test for accessibility content description
-		assertEquals("Enter a valid phone number", phoneEntryView.getPhoneNumber().getErrorContDesc());
-
-		onView(CustomMatchers.withCompoundDrawable(R.drawable.invalid)).check(matches(isDisplayed()));
+		onView(withId(R.id.edit_phone_layout_number)).check(matches(hasDescendant(withText(R.string.phone_validation_error_message))));
 
 		onView(withId(R.id.edit_phone_number)).perform(typeText(testNumber));
-		onView(CustomMatchers.withCompoundDrawable(R.drawable.invalid)).check(doesNotExist());
+		onView(withId(R.id.textinput_error)).check(doesNotExist());
 	}
 }

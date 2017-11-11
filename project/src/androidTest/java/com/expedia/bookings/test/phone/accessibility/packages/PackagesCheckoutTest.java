@@ -42,7 +42,7 @@ public class PackagesCheckoutTest extends PackageTestCase {
 		onView(withId(R.id.last_name_input)).check(matches(withInfoText(" Last Name, Bear, ")));
 		onView(withId(R.id.edit_email_address))
 			.check(matches(withInfoText(" Email Address (for confirmation), noah@mobiata.com, ")));
-		onView(withId(R.id.edit_phone_number)).check(matches(withInfoText(" Phone Number, 7732025862, ")));
+		onView(withId(R.id.edit_phone_number)).check(matches(withInfoText(" Phone Number, 773-202-5862, ")));
 		onView(withId(R.id.edit_birth_date_text_btn)).check(matches(withInfoText(" Date of Birth, Jan 1, 1900, ")));
 		onView(withId(R.id.redress_number)).check(matches(withInfoText(" Redress # (if applicable), 1234567, ")));
 		Common.pressBack();

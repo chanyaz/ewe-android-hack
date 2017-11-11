@@ -364,7 +364,6 @@ class PackageCheckoutTest {
 
     @Test
     fun testRefreshedUserAccountDoesNotCrashBeforeOpeningPaymentWidget() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         createTrip()
         checkout.onUserAccountRefreshed()
 

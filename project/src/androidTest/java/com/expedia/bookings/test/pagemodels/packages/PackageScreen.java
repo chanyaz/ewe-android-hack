@@ -31,7 +31,6 @@ import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
@@ -330,7 +329,7 @@ public class PackageScreen {
 		TravelerDetails.enterPhoneNumber("7732025862");
 		Espresso.closeSoftKeyboard();
 		TravelerDetails.selectBirthDate(9, 6, 1989);
-		TravelerDetails.selectGender("Male");
+		TravelerDetails.materialSelectGender("Male");
 
 		TravelerDetails.clickAdvanced();
 		TravelerDetails.enterRedressNumber("1234567");
@@ -341,7 +340,7 @@ public class PackageScreen {
 	// TODO Probably want to move these methods somewhere else.
 	public static void closeDateErrorDialog() {
 		onView(withId(android.R.id.button1)).perform(waitForViewToDisplay());
-		onView(withId(android.R.id.button1)).inRoot(isDialog()).perform(click());
+		onView(withId(android.R.id.button1)).perform(click());
 	}
 
 	public static void clickLegalInformation() {
@@ -360,11 +359,11 @@ public class PackageScreen {
 	}
 
 	public static void clickSpecialAssistance() {
-		onView(withId(R.id.edit_assistance_preference_spinner)).perform(click());
+		onView(withId(R.id.edit_assistance_preference_button)).perform(click());
 	}
 
 	public static void clickSeatPreference() {
-		onView(withId(R.id.edit_seat_preference_spinner)).perform(click());
+		onView(withId(R.id.edit_seat_preference_button)).perform(click());
 	}
 
 	public static void enterCreditCard() {

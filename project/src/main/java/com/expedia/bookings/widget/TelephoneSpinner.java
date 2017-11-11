@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -48,16 +47,6 @@ public class TelephoneSpinner extends Spinner {
 		View child = getChildAt(0);
 		if (child instanceof TextView) {
 			((TextView) child).setText(String.format(Locale.getDefault(), "+%d", getSelectedTelephoneCountryCode()));
-		}
-	}
-
-	public void update(String countryCode, String countryName) {
-		TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) getAdapter();
-		for (int i = 0; i < adapter.getCount() - 1; i++) {
-			if (countryCode.equalsIgnoreCase("" + adapter.getCountryCode(i)) && (TextUtils.isEmpty(countryName)
-				|| countryName.equalsIgnoreCase(adapter.getCountryName(i)))) {
-				setSelection(i);
-			}
 		}
 	}
 

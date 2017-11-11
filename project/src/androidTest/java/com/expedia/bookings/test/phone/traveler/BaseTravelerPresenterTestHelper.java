@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.traveler;
 
+import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.vm.traveler.FlightTravelersViewModel;
 import java.util.ArrayList;
@@ -58,10 +59,10 @@ public class BaseTravelerPresenterTestHelper {
 	protected final String testLastName = "Grouch";
 	protected final String testEmail = "Grouch@gmail.com";
 	protected final String testChildLastName = "Grouch Jr.";
-	protected final String testPhone = "7732025862";
+	protected final String testPhone = "773-202-5862";
 	protected final String testBirthDay = "Jan 27, 1991";
-	protected final String testPassport = "Passport: Vietnam";
-	protected final String testEmptyPassport = "Passport: Country";
+	protected final String testPassport = "Vietnam";
+	protected final String testEmptyPassport = "";
 	protected final String testGender = "Gender";
 
 	protected final String expectedMainText = "Main Traveler";
@@ -153,6 +154,7 @@ public class BaseTravelerPresenterTestHelper {
 		TravelerDetails.enterFirstName(testFirstName);
 		TravelerDetails.enterLastName(testLastName);
 		if (withEmail) {
+			EspressoUser.scrollToView(R.id.edit_email_address);
 			TravelerDetails.enterEmail(testEmail);
 		}
 		Espresso.closeSoftKeyboard();

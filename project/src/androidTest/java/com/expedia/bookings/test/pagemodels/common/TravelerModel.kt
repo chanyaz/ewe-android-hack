@@ -29,7 +29,6 @@ object TravelerModel {
         @JvmStatic fun email(): ViewInteraction {return onView(withId(R.id.edit_email_address))}
         @JvmStatic fun phoneNumber(): ViewInteraction {return onView(withId(R.id.edit_phone_number))}
         @JvmStatic fun birthDate(): ViewInteraction {return onView(withId(R.id.edit_birth_date_text_btn))}
-        @JvmStatic fun genderSpinner(): ViewInteraction {return onView(withId(R.id.edit_gender_spinner))}
         @JvmStatic fun genderButton(): ViewInteraction {return onView(withId(R.id.edit_gender_btn))}
         @JvmStatic fun redressNumber(): ViewInteraction {return onView(withId(R.id.redress_number))}
         @JvmStatic fun doneButton(): ViewInteraction {return onView(withId(R.id.menu_done))}
@@ -60,11 +59,6 @@ object TravelerModel {
             datePicker().perform(waitForViewToDisplay())
             datePicker().perform(PickerActions.setDate(year, month, day))
             datePickerDoneButton().perform(click())
-        }
-
-        @JvmStatic fun selectGender(gender: String){
-            genderSpinner().perform(click())
-            onView(allOf(isDescendantOfA(withClassName(endsWith("ListView"))), withClassName(endsWith("CheckedTextView")), withText(gender))).perform(click())
         }
 
         @JvmStatic fun enterRedressNumber(redressNumber: String){

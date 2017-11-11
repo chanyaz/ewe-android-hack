@@ -64,7 +64,6 @@ class BillingDetailsPaymentWidgetTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.billing_details_payment_widget, null) as BillingDetailsPaymentWidget
         billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
     }
@@ -380,43 +379,6 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
-    fun testChangeOfBillingCountryStateRequirement() {
-        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
-        billingDetailsPaymentWidget.cardInfoContainer.performClick()
-
-        Db.getTripBucket().clear(LineOfBusiness.PACKAGES)
-
-        val info = BillingInfo()
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
-
-        info.setNumberAndDetectType("345104799171123", activity)
-        info.nameOnCard = "Expedia Chicago"
-        info.expirationDate = cardExpiry
-        info.securityCode = "1234"
-
-        val location = givenLocation()
-        info.location = location
-        info.location.countryCode = "SWE"
-        info.location.stateCode = ""
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-
-        assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
-
-        info.location.countryCode = "CAN"
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
-
-        info.location.countryCode = "USA"
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
-
-        info.location.stateCode = "CA"
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
-    }
-
-    @Test
     fun testCreditCardExclamationMark() {
         val incompleteCCNumberInfo = BillingInfo(getIncompleteCCBillingInfo())
         billingDetailsPaymentWidget.sectionBillingInfo.bind(incompleteCCNumberInfo)
@@ -440,10 +402,12 @@ class BillingDetailsPaymentWidgetTest {
 
     @Test
     fun testNumberOfErrorsCorrect() {
+        givenMaterialPaymentBillingWidget()
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         val incompleteBillingInfo = BillingInfo(getIncompleteCCBillingInfo())
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
         incompleteBillingInfo.location.stateCode = ""
         incompleteBillingInfo.location.postalCode = ""
-        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         billingDetailsPaymentWidget.sectionBillingInfo.bind(incompleteBillingInfo)
         billingDetailsPaymentWidget.sectionLocation.bind(incompleteBillingInfo.location)
 
@@ -454,24 +418,6 @@ class BillingDetailsPaymentWidgetTest {
         assertEquals(1, numSectionBillingErrors)
         assertEquals(2, numSectionLocationErrors)
         assertEquals(3, totalNumberOfErrors)
-    }
-
-    @Test
-    fun testPostalCodeNotRequired() {
-//        reference ExpediaPaymentPostalCodeOptionalCountries for list of countries not requiring postal code
-        val incompleteBillingInfo = getCompleteBillingInfo()
-        incompleteBillingInfo.location.countryCode = "SYR"
-        incompleteBillingInfo.location.postalCode = ""
-
-        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(incompleteBillingInfo)
-        billingDetailsPaymentWidget.sectionLocation.bind(incompleteBillingInfo.location)
-
-        assertTrue(billingDetailsPaymentWidget.sectionLocation.performValidation())
-
-        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
-
-        assertTrue(billingDetailsPaymentWidget.sectionLocation.performValidation())
     }
 
     @Test
@@ -982,7 +928,6 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     private fun givenMaterialPaymentBillingWidget() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as BillingDetailsPaymentWidget
         billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)

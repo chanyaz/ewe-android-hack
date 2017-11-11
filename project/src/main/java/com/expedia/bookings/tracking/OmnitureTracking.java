@@ -110,8 +110,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import kotlin.NotImplementedError;
-
-import static com.expedia.bookings.utils.FeatureUtilKt.isMaterialFormsEnabled;
 import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
 
 /**
@@ -1575,9 +1573,7 @@ public class OmnitureTracking {
 		s.setAppState(pageName);
 		s.setEvar(18, pageName);
 
-		if (isMaterialFormsEnabled()) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppHideApacBillingAddressFields);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHideApacBillingAddressFields);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
 
 		s.track();
@@ -4142,7 +4138,6 @@ public class OmnitureTracking {
 		addPackagesCommonFields(s);
 		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue(), true, hotelSupplierType);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		s.track();
 	}
 
@@ -4992,8 +4987,6 @@ public class OmnitureTracking {
 		// date variables 5, 6
 		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
-
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSecureCheckoutIcon);
 		s.track();

@@ -329,14 +329,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="12721"
-            android:summary="%s"
-            android:title="Universal Checkout Forms test - 12721" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="14513"
             android:summary="%s"
             android:title="Free Cancellation Tooltip - 14513" />

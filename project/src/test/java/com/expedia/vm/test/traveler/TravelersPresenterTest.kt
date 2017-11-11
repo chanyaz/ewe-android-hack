@@ -78,7 +78,7 @@ class TravelersPresenterTest {
 
     @Test
     fun testFrequentFlyerWidgetHiddenForPackages() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
         Db.setTravelers(getMockTravelers(0))
         setupPresenterAndViewModel(LineOfBusiness.PACKAGES)
         resetAndUpdateTravelers()
@@ -97,7 +97,7 @@ class TravelersPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testRightDataShownInAdvancedOptionsWhenMultipleTravelerIsPresent() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
         var travelers = getMockTravelers(2)
         Db.setTravelers(travelers)
         setupPresenterAndViewModel(LineOfBusiness.FLIGHTS_V2)

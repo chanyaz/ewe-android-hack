@@ -62,7 +62,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
         Ui.getApplication(context).defaultFlightComponents()
 
 
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
         widget = LayoutInflater.from(activity).inflate(R.layout.test_flight_entry_widget, null) as FlightTravelerEntryWidget
         Db.clear()
         Db.getTravelers().add(traveler)

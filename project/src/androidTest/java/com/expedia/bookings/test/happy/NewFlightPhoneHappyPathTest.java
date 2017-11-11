@@ -81,7 +81,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	@Test
 	public void testNewFlightHappyPathWithMaterialForms() throws Throwable {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		SearchScreen.origin().perform(click());
 		SearchScreen.selectFlightOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
@@ -174,7 +173,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 //		assertLegalInformation();
 //		Common.pressBack();
 
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
 	}
 
 	@Test
