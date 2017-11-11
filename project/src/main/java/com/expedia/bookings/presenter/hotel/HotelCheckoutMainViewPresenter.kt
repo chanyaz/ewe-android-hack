@@ -291,9 +291,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     }
 
 
-    private fun shouldLogToCrashlytics() : Boolean {
+    private fun shouldLogToCrashlytics(): Boolean {
         return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout)
-                && !PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled
+                && PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled
     }
 
     private fun logWebViewTestToCrashlytics(message: String) {

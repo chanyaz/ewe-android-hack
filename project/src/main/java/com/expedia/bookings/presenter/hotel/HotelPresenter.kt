@@ -151,7 +151,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val webCheckoutView: WebCheckoutView by lazy {
         val webCheckoutView = webCheckoutViewStub.inflate() as WebCheckoutView
         val hotelWebCheckoutViewViewModel = HotelWebCheckoutViewViewModel(context)
-        hotelWebCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(hotelServices, paymentModel)
+        hotelWebCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(hotelServices, null)
         setUpCreateTripErrorHandling(hotelWebCheckoutViewViewModel.createTripViewModel)
         webCheckoutView.viewModel = hotelWebCheckoutViewViewModel
 
