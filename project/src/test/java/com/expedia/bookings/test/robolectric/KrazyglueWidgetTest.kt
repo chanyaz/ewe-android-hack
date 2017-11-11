@@ -13,12 +13,16 @@ import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.presenter.shared.KrazyglueHotelViewHolder
 import com.expedia.bookings.presenter.shared.KrazyglueWidget
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.presenter.shared.KrazyglueHotelsListAdapter
+import com.expedia.bookings.presenter.shared.KrazyglueSeeMoreViewHolder
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.TextView
+import com.expedia.vm.KrazyglueHotelSeeMoreHolderViewModel
 import com.mobiata.android.util.SettingUtils
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -97,13 +101,63 @@ class KrazyglueWidgetTest {
     }
 
     @Test
-    fun testFourHotelsInRecyclerView() {
+    fun testFourHotelsPlusSeeMoreCountInRecyclerView() {
         enableKrazyglueTest(activity)
         setDbFlightSearch()
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
         krazyglueWidget.viewModel.hotelsObservable.onNext(getKrazyGlueHotels())
-        assertEquals(4, krazyglueWidget.hotelsRecyclerView.adapter.itemCount)
+        assertEquals(5, krazyglueWidget.hotelsRecyclerView.adapter.itemCount)
+    }
+
+    @Test
+    fun testSeeMoreHotelDisplayPositionWithABTestVariantFront() {
+        enableKrazyglueTestWithABTestVariant(activity)
+        setDbFlightSearch()
+        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
+
+        krazyglueWidget.viewModel.hotelsObservable.onNext(getKrazyGlueHotels())
+        val krazyglueAdapter = krazyglueWidget.hotelsRecyclerView.adapter as KrazyglueHotelsListAdapter
+        
+        assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER, krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(0)))
+        assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.HOTEL_VIEW_HOLDER,krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(4)))
+    }
+
+    @Test
+    fun testSeeMoreHotelDisplayPositionWithABTestVariantEnd() {
+        enableKrazyglueTestWithABTestVariant(activity, false)
+        setDbFlightSearch()
+        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
+
+        krazyglueWidget.viewModel.hotelsObservable.onNext(getKrazyGlueHotels())
+        val krazyglueAdapter = krazyglueWidget.hotelsRecyclerView.adapter as KrazyglueHotelsListAdapter
+
+        assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.HOTEL_VIEW_HOLDER, krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(0)))
+        assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER,krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(4)))
+    }
+
+    @Test
+    fun testOfferValidFunctionalityInSeeMoreHotel() {
+        var departureDate = DateTime().plusDays(2)
+        var seeMoreHotelViewModel = KrazyglueHotelSeeMoreHolderViewModel(activity, departureDate)
+
+        assertEquals("Offer expires in 2 days", seeMoreHotelViewModel.getOfferValidDate())
+
+        departureDate = DateTime().plusDays(8)
+        seeMoreHotelViewModel = KrazyglueHotelSeeMoreHolderViewModel(activity, departureDate)
+
+        assertEquals("Offer expires in 7 days", seeMoreHotelViewModel.getOfferValidDate())
+    }
+
+    @Test
+    fun testSeeMoreHotelDataBinding() {
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        val seeMoreHotel = LayoutInflater.from(activity).inflate(R.layout.krazyglue_see_more_hotel_view, null)
+        var departureDate = DateTime().plusDays(8)
+
+        KrazyglueSeeMoreViewHolder(seeMoreHotel, activity,departureDate)
+
+        assertEquals("Offer expires in 7 days", seeMoreHotel.findViewById<TextView>(R.id.hotel_offer_expire).text)
     }
 
     @Test
@@ -144,14 +198,15 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testKrazyGlueClickTracking() {
-        enableKrazyglueTest(activity)
+        enableKrazyglueTestWithABTestVariant(activity, false)
         setDbFlightSearch()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
+        (krazyglueWidget.hotelsRecyclerView.adapter as KrazyglueHotelsListAdapter).destinationDateObservable.onNext(DateTime().plusDays(8))
 
         krazyglueWidget.viewModel.hotelsObservable.onNext(getKrazyGlueHotels())
         krazyglueWidget.hotelsRecyclerView.measure(0, 0);
-        krazyglueWidget.hotelsRecyclerView.layout(0, 0, 100, 10000);
+        krazyglueWidget.hotelsRecyclerView.layout(0, 0, 100, 10000)
         (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(0) as KrazyglueHotelViewHolder).onClick(krazyglueWidget)
         val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
 
@@ -212,5 +267,10 @@ class KrazyglueWidgetTest {
     private fun enableKrazyglueTest(activity: Activity?) {
         SettingUtils.save(activity, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
+    }
+
+    private fun enableKrazyglueTestWithABTestVariant(activity: Activity?, displaySeeMoreFront: Boolean = true) {
+        SettingUtils.save(activity, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsKrazyglue, if (displaySeeMoreFront) 1 else 2 )
     }
 }

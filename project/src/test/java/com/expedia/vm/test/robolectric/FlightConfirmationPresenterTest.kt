@@ -196,8 +196,16 @@ class FlightConfirmationPresenterTest {
     }
 
     @Test
-    fun testKrazyglueEnabled() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
+    fun testKrazyglueEnabledWithBucketVariantOne() {
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsKrazyglue, 1)
+        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
+
+        assertTrue(isKrazyglueOnFlightsConfirmationEnabled(activity))
+    }
+
+    @Test
+    fun testKrazyglueEnabledWithBucketVariantTwo() {
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsKrazyglue, 2)
         SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
 
         assertTrue(isKrazyglueOnFlightsConfirmationEnabled(activity))
