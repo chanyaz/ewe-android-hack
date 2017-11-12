@@ -25,18 +25,28 @@ class AnimatedHolidayFunWidget(context: Context, attrs: AttributeSet) : FrameLay
     }
 
     fun popDown(completionHandler: () -> Unit) {
+        deer.stopDrawableAnimation()
+        bear.stopDrawableAnimation()
         deer.animate().translationY(deerDownY).withEndAction {
             completionHandler()
-        }.start()
-        bear.animate().translationY(bearDownY).start()
+        }
+        bear.animate().translationY(bearDownY)
     }
 
     fun popUp() {
         deer.animate().translationY(deerUpY).withEndAction {
-            (deer.drawable as AnimatedVectorDrawable).start()
+            deer.startDrawableAnimation()
         }
         bear.animate().translationY(bearUpY).setStartDelay(150).withEndAction {
-            (bear.drawable as AnimatedVectorDrawable).start()
-        }.start()
+            bear.startDrawableAnimation()
+        }
+    }
+
+    private fun ImageView.startDrawableAnimation() {
+        (drawable as AnimatedVectorDrawable).start()
+    }
+
+    private fun ImageView.stopDrawableAnimation() {
+        (drawable as AnimatedVectorDrawable).stop()
     }
 }
