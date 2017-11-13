@@ -37,10 +37,12 @@ import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isDisplayCardsOnPaymentForm
 import com.expedia.bookings.utils.isCreditCardMessagingForPayLaterEnabled
+import com.expedia.bookings.widget.NumberMaskEditText
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.StoredCreditCardList
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
+import com.expedia.bookings.widget.setMaterialFormsError
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.PayWithPointsViewModel
 import com.expedia.vm.PaymentViewModel
@@ -98,11 +100,10 @@ class PaymentWidgetV2Test {
 
     @Before
     fun setup() {
-
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm, AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm, AbacusUtils.EBAndroidAppAllowUnknownCardTypes, AbacusUtils.EBAndroidAppHotelMaterialForms)
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         viewModel = PaymentViewModel(activity)
         sut.viewmodel = viewModel
@@ -402,6 +403,16 @@ class PaymentWidgetV2Test {
         assertAllCardsAreNotDimmed()
     }
 
+    @Test
+    fun testMaterialPaymentFormErrorStates() {
+        setupHotelMaterialForms()
+        sut.sectionBillingInfo.performValidation()
+        assertEquals("Enter a valid card number", sut.creditCardNumber.errorMessage)
+        assertEquals("Enter a valid month and year", sut.expirationDate.errorMessage)
+        assertEquals("Enter a valid zip code", sut.creditCardPostalCode.errorMessage)
+        assertEquals("Enter name as it appears on the card", sut.creditCardName.errorMessage)
+    }
+
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
         assertEquals(paymentInfo, paymentTileInfo.text)
         assertEquals(paymentOption, paymentTileOption.text)
@@ -568,5 +579,23 @@ class PaymentWidgetV2Test {
         return validFormsOfPayment
     }
 
-}
+    private fun setupHotelMaterialForms() {
+        AbacusTestUtils.bucketTestAndEnableFeature(getContext(), AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.Theme_Hotels_Default)
+        Ui.getApplication(activity).defaultHotelComponents()
+        sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
+        viewModel = PaymentViewModel(activity)
+        sut.viewmodel = viewModel
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+        shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel, UserLoginStateChangedModel())
+        val payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.applicationContext)
+        sut.paymentWidgetViewModel = PaymentWidgetViewModel(activity.application, paymentModel, payWithPointsViewModel)
 
+        paymentTileInfo = sut.findViewById<View>(R.id.card_info_name) as TextView
+        paymentTileOption = sut.findViewById<View>(R.id.card_info_expiration) as TextView
+        paymentTileIcon = sut.findViewById<View>(R.id.card_info_icon) as ImageView
+        pwpSmallIcon = sut.findViewById<View>(R.id.pwp_small_icon) as ImageView
+        storedCardList = sut.findViewById<View>(R.id.stored_creditcard_list) as StoredCreditCardList
+    }
+}

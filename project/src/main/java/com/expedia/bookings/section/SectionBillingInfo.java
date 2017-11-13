@@ -234,10 +234,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		if (pointOfSaleId.equals(ProductFlavorFeatureConfiguration.getInstance().getUSPointOfSaleId())) {
 			postalHintString = R.string.address_zip_code_hint;
 			postalErrorString = R.string.error_enter_a_zip_code;
+			mEditPostalCode.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
 		}
 		else {
 			postalHintString = R.string.address_postal_code_hint;
 			postalErrorString = R.string.error_enter_a_valid_postal_code;
+			mEditPostalCode.getField().setInputType(InputType.TYPE_CLASS_TEXT);
 		}
 
 		if (postalLayout != null) {
