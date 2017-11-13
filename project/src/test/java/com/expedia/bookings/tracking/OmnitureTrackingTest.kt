@@ -115,13 +115,13 @@ class OmnitureTrackingTest {
 
     @Test
     fun holidayPromoImpressionIsTrackedOnLaunchScreen() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.HolidayFun, R.string.feature_holiday_fun)
+        AbacusTestUtils.bucketTests(AbacusUtils.HolidayFun)
 
         OmnitureTracking.trackPageLoadLaunchScreen(0)
 
         assertStateTracked("App.LaunchScreen", withEventsString("event330"), mockAnalyticsProvider)
 
-        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.HolidayFun, R.string.feature_holiday_fun)
+        AbacusTestUtils.unbucketTests(AbacusUtils.HolidayFun)
     }
 
     @Test

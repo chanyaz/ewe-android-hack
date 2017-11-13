@@ -28,6 +28,7 @@ import com.expedia.bookings.data.collections.Collection
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
@@ -101,7 +102,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         val extraHeightForHolidayFun = -context.resources.getDimensionPixelSize(R.dimen.bear_up).toFloat() +
                 context.resources.getDimensionPixelSize(R.dimen.bear_height).toFloat()
 
-        return if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.HolidayFun, R.string.feature_holiday_fun))
+        return if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HolidayFun))
             normalHeightAndBottomMargin + extraHeightForHolidayFun
         else
             normalHeightAndBottomMargin

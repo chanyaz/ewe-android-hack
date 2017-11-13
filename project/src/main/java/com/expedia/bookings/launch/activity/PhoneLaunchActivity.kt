@@ -508,7 +508,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             }
         }
 
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.HolidayFun, R.string.feature_holiday_fun)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.HolidayFun)) {
             holidayFunCoordinator.visibility = View.VISIBLE
         } else {
             holidayFunCoordinator.visibility = View.GONE

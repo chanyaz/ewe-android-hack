@@ -25,9 +25,8 @@ class PhoneLaunchActivityTest {
 
     @Test
     fun startingHolidayFunIsTrackedInOmniture() {
-        val context = RuntimeEnvironment.application
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.HolidayFun, R.string.feature_holiday_fun)
+        AbacusTestUtils.bucketTests(AbacusUtils.HolidayFun)
 
         val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().postCreate(null).resume().get()
         activity.findViewById<View>(R.id.holiday_fun_widget).callOnClick()
@@ -36,7 +35,7 @@ class PhoneLaunchActivityTest {
 
         activity.finish()
 
-        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.HolidayFun, R.string.feature_holiday_fun)
+        AbacusTestUtils.unbucketTests(AbacusUtils.HolidayFun)
     }
 
     @Test
