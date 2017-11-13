@@ -470,6 +470,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 }
             }
             if (forward) suggestionListShownSubject.onNext(Unit)
+            scrollView.contentDescription = context.resources.getText(R.string.suggested_location_list);
         }
     }
 

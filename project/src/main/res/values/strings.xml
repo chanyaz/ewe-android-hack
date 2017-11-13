@@ -2504,6 +2504,8 @@
     <string name="current_location">Current Location</string>
     <string name="recent_searched_location">Recent Searched Location</string>
     <string name="suggested_location">Suggested Location</string>
+    <!-- To notify the section suggested locations while navigating using talkback -->
+    <string name="suggested_location_list">Suggested Locations</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Visible Map Area</string>
 
