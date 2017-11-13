@@ -107,7 +107,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             undimAllCards(validCardsList)
         }
         viewmodel.lineOfBusiness.subscribe { lob ->
-            if (lob == LineOfBusiness.HOTELS) {
+            if (lob == LineOfBusiness.HOTELS && isHotelMaterialForms) {
                 sectionBillingInfo.updateMaterialPostalFieldErrorAndHint(PointOfSale.getPointOfSale().pointOfSaleId)
             }
         }

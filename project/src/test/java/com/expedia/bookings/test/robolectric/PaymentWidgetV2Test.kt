@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
+import android.text.InputType
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -11,6 +12,7 @@ import android.widget.ListView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.user.User
@@ -42,6 +44,7 @@ import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.StoredCreditCardList
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
+import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.setMaterialFormsError
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.PayWithPointsViewModel
@@ -407,10 +410,41 @@ class PaymentWidgetV2Test {
     fun testMaterialPaymentFormErrorStates() {
         setupHotelMaterialForms()
         sut.sectionBillingInfo.performValidation()
-        assertEquals("Enter a valid card number", sut.creditCardNumber.errorMessage)
-        assertEquals("Enter a valid month and year", sut.expirationDate.errorMessage)
-        assertEquals("Enter a valid zip code", sut.creditCardPostalCode.errorMessage)
-        assertEquals("Enter name as it appears on the card", sut.creditCardName.errorMessage)
+        assertEquals("Enter a valid card number", sut.creditCardNumber.getParentTextInputLayout()!!.error)
+        assertEquals("Enter a valid month and year", sut.expirationDate.getParentTextInputLayout()!!.error)
+        assertEquals("Enter name as it appears on the card", sut.creditCardName.getParentTextInputLayout()!!.error)
+    }
+
+    @Test
+    fun testMaterialZipCode() {
+        setToUKPOS(false)
+        setupHotelMaterialForms()
+        assertEquals("Zip Code", sut.creditCardPostalCode.getParentTextInputLayout()!!.hint)
+        assertEquals(InputType.TYPE_CLASS_NUMBER, sut.creditCardPostalCode.inputType)
+    }
+
+    @Test
+    fun testMaterialPostalCode() {
+        setToUKPOS(true)
+        setupHotelMaterialForms()
+        assertEquals("Postal Code", sut.creditCardPostalCode.getParentTextInputLayout()!!.hint)
+        assertEquals(InputType.TYPE_CLASS_TEXT, sut.creditCardPostalCode.inputType)
+    }
+
+    @Test
+    fun testMaterialZipCodeError() {
+        setToUKPOS(false)
+        setupHotelMaterialForms()
+        sut.sectionBillingInfo.performValidation()
+        assertEquals("Enter a valid zip code", sut.creditCardPostalCode.getParentTextInputLayout()!!.error)
+    }
+
+    @Test
+    fun testMaterialPostalCodeError() {
+        setToUKPOS(true)
+        setupHotelMaterialForms()
+        sut.sectionBillingInfo.performValidation()
+        assertEquals("Enter a valid postal code", sut.creditCardPostalCode.getParentTextInputLayout()!!.error)
     }
 
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
@@ -584,7 +618,7 @@ class PaymentWidgetV2Test {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
-        sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
+        sut = android.view.LayoutInflater.from(activity).inflate(R.layout.material_payment_widget_v2, null) as PaymentWidgetV2
         viewModel = PaymentViewModel(activity)
         sut.viewmodel = viewModel
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
@@ -597,5 +631,14 @@ class PaymentWidgetV2Test {
         paymentTileIcon = sut.findViewById<View>(R.id.card_info_icon) as ImageView
         pwpSmallIcon = sut.findViewById<View>(R.id.pwp_small_icon) as ImageView
         storedCardList = sut.findViewById<View>(R.id.stored_creditcard_list) as StoredCreditCardList
+
+        sut.viewmodel.lineOfBusiness.onNext(LineOfBusiness.HOTELS)
+        sut.viewmodel.emptyBillingInfo.onNext(Unit)
+    }
+
+    private fun setToUKPOS(shouldSet: Boolean) {
+        val pointOfSale = if (shouldSet) PointOfSaleId.UNITED_KINGDOM else PointOfSaleId.UNITED_STATES
+        SettingUtils.save(activity, "point_of_sale_key", pointOfSale.id.toString())
+        PointOfSale.onPointOfSaleChanged(activity)
     }
 }
