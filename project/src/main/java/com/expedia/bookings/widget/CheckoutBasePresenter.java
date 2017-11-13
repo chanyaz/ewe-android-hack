@@ -612,6 +612,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 			listenToScroll = !forward;
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle() : getToolbarTitle());
+			if (forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
+			}
 		}
 
 		@Override
@@ -656,6 +659,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
 				resetMenuButton();
 
+			}
+			if (forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 			}
 		}
 

@@ -320,11 +320,9 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			}
 
 			if (PointOfSale.getPointOfSale().showLastNameFirst()) {
-				lastName.requestFocus();
 				Ui.showKeyboard(lastName, null);
 			}
 			else {
-				firstName.requestFocus();
 				Ui.showKeyboard(firstName, null);
 			}
 			filledIn.onNext(isCompletelyFilled());
