@@ -63,7 +63,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val recycler: RecyclerView by bindView(R.id.recycler_hotel_gallery)
 
     val hotelGalleryFilterWidget: HotelGalleryFilterWidget by bindView(R.id.ll_filterView)
-
     val imageGalleryCount: TextView by bindView(R.id.tv_total_count)
 
     private val contentView: HotelDetailContentView by bindView(R.id.hotel_detail_content_view)
@@ -94,6 +93,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         resortFeeWidget.feeType.visibility = if (vm.showFeeType()) View.VISIBLE else View.GONE
         resortFeeWidget.feeType.setText(vm.getFeeTypeText())
 
+        hotelGalleryFilterWidget.setVM(vm)
+
+        vm.filterObservable.subscribe {
+            imageGalleryCount.setText(it.toString() + " Images")
+        }
         vm.hotelOffersSubject.subscribe {
             hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
         }
@@ -126,7 +130,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             galleryView.setGalleryItems(galleryUrls)
             var adapter = HotelDetailGalleryAdapter()
             adapter.setMedia(galleryUrls)
-            imageGalleryCount.setText(galleryUrls.size.toString() + " Images")
+            adapter.galleryItemClickedSubject.subscribe {
+                getBottomSheetBehavior().state = BottomSheetBehavior.STATE_HIDDEN
+            }
             recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             recycler.adapter = adapter
 
@@ -188,6 +194,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 // React to dragging events
+                setViewVisibilities()
             }
         })
 

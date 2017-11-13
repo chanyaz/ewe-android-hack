@@ -5,15 +5,18 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.hotel.widget.HotelDetailGalleryAdapter
 import com.expedia.bookings.utils.bindView
+import com.expedia.vm.BaseHotelDetailViewModel
 import com.mobiata.android.util.Ui
 import com.wefika.flowlayout.FlowLayout
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.properties.Delegates
 
 /**
  * Created by nbirla on 13/11/17.
@@ -50,6 +53,7 @@ class HotelGalleryFilterWidget(context: Context, attrs: AttributeSet?) : Expanda
     val unexpanded: TextView by bindView(R.id.unexpanded)
     val expanded: LinearLayout by bindView(R.id.expanded)
     val flowLayout: FlowLayout by bindView(R.id.fl_gallery)
+    var vm: BaseHotelDetailViewModel by Delegates.notNull()
 
     init {
         View.inflate(getContext(), R.layout.hotel_gallery_filter_widget, this)
@@ -60,15 +64,17 @@ class HotelGalleryFilterWidget(context: Context, attrs: AttributeSet?) : Expanda
         if (expand) {
             background = null
             expanded.visibility = View.VISIBLE
+            unexpanded.setRightDrawable(R.drawable.ic_picker_arrow_down_enabled)
 
         } else {
             setBackgroundResource(R.drawable.card_background)
             expanded.visibility = View.GONE
+            unexpanded.setRightDrawable(R.drawable.ic_picker_arrow_up_enabled)
         }
     }
 
-    open fun setupGalleryFilters(galleryUrls: ArrayList<HotelMedia>, adapter : HotelDetailGalleryAdapter){
-
+    fun setupGalleryFilters(galleryUrls: ArrayList<HotelMedia>, adapter : HotelDetailGalleryAdapter){
+        vm.filterObservable.onNext(adapter.itemCount)
         unexpanded.setOnClickListener {
             setExpanded(!isExpanded)
         }
@@ -77,6 +83,7 @@ class HotelGalleryFilterWidget(context: Context, attrs: AttributeSet?) : Expanda
             clearAllFilters()
             clearAll.visibility = View.GONE
             adapter.setFilters(emptyList())
+            vm.filterObservable.onNext(adapter.itemCount)
             unexpanded.setText("Filter")
         }
 
@@ -98,6 +105,7 @@ class HotelGalleryFilterWidget(context: Context, attrs: AttributeSet?) : Expanda
                 clearAll.visibility = if(isAnyFilterSelected()) View.VISIBLE else View.GONE
                 var filters = getSelectedFilters()
                 adapter.setFilters(filters)
+                vm.filterObservable.onNext(adapter.itemCount)
                 if(filters.size == 0){
                     unexpanded.setText("Filter")
                 } else {
@@ -108,7 +116,11 @@ class HotelGalleryFilterWidget(context: Context, attrs: AttributeSet?) : Expanda
         }
     }
 
-    open fun isAnyFilterSelected() : Boolean{
+    fun setVM(vm: BaseHotelDetailViewModel){
+        this.vm = vm
+    }
+
+    fun isAnyFilterSelected() : Boolean{
         var i = 0
         while(i < flowLayout.childCount){
             val view = flowLayout.getChildAt(i) as TextView
@@ -119,7 +131,7 @@ class HotelGalleryFilterWidget(context: Context, attrs: AttributeSet?) : Expanda
         return false
     }
 
-    open fun getSelectedFilters() : List<String>{
+    fun getSelectedFilters() : List<String>{
         val filters = ArrayList<String>()
         var i = 0
         while(i < flowLayout.childCount){

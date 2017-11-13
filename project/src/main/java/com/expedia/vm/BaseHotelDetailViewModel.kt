@@ -83,6 +83,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val sectionBodyObservable = BehaviorSubject.create<String>()
     val showBookByPhoneObservable = BehaviorSubject.create<Boolean>(false)
     val galleryObservable = PublishSubject.create<ArrayList<HotelMedia>>()
+    val filterObservable = PublishSubject.create<Int>()
 
     val commonAmenityTextObservable = BehaviorSubject.create<String>()
 

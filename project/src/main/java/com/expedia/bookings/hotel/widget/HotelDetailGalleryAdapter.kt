@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.vm.BaseHotelDetailViewModel
 import rx.subjects.PublishSubject
+import kotlin.properties.Delegates
 
 class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHolder>() {
     val galleryItemClickedSubject = PublishSubject.create<Unit>()
