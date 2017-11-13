@@ -39,6 +39,7 @@
         android:layout_gravity="right"
         android:tint="@color/gray700"
         android:src="@drawable/read_more"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:importantForAccessibility="no"/>
 
 </com.expedia.bookings.widget.LXDetailSectionDataWidget>
