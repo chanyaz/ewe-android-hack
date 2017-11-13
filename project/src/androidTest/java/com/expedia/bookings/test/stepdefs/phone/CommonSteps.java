@@ -56,6 +56,10 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR.getKey(),
 					AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
+		if (list.contains("FlightTravelerFormRevamp")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp.getKey(),
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
 
 		Db.setAbacusResponse(abacusResponse);
 	}

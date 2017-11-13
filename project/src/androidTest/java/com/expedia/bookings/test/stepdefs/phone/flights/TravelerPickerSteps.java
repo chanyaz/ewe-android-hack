@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -27,6 +28,70 @@ public class TravelerPickerSteps {
 		onView(withId(R.id.adult)).check(matches(withText(containsString("Adults"))));
 		for (int i = 1; i < 5; i++) {
 			SearchScreen.incrementAdultsButton();
+		}
+	}
+
+	@Then("^I increase the adult count by: (\\d+)$")
+	public void increaseAdultTravelerCount(int number) throws Throwable {
+		for (int i = 0; i < number; i++) {
+			SearchScreen.incrementAdultTravelerButton()
+				.perform(ViewActions.waitForViewToDisplay(), click());
+		}
+	}
+
+	@Then("^I increase the youth count by: (\\d+)$")
+	public void increaseYouthTravelerCount(int number) throws Throwable {
+		for (int i = 0; i < number; i++) {
+			SearchScreen.incrementYouthTravelerButton()
+				.perform(ViewActions.waitForViewToDisplay(), click());
+		}
+	}
+
+	@Then("^I increase the child count by: (\\d+)$")
+	public void increaseChildTravelerCount(int number) throws Throwable {
+		for (int i = 0; i < number; i++) {
+			SearchScreen.incrementChildTravelerButton()
+				.perform(ViewActions.waitForViewToDisplay(), click());
+		}
+	}
+
+	@Then("^I increase the infant count by: (\\d+)$")
+	public void increaseInfantTravelerCount(int number) throws Throwable {
+		for (int i = 0; i < number; i++) {
+			SearchScreen.incrementInfantTravelerButton()
+				.perform(ViewActions.waitForViewToDisplay(), click());
+		}
+	}
+
+	@Then("^I decrease the adult count by: (\\d+)$")
+	public void decreaseAdultTravelerCount(int number) throws Throwable {
+		for (int i = 0; i < number; i++) {
+			SearchScreen.decrementAdultTravelerButton()
+				.perform(ViewActions.waitForViewToDisplay(), click());
+		}
+	}
+
+	@Then("^I decrease the youth count by: (\\d+)$")
+	public void decreaseYouthTravelerCount(int number) throws Throwable {
+		for (int i = 0; i < number; i++) {
+			SearchScreen.decrementYouthTravelerButton()
+				.perform(ViewActions.waitForViewToDisplay(), click());
+		}
+	}
+
+	@Then("^I decrease the child count by: (\\d+)$")
+	public void decreaseChildTravelerCount(int number) throws Throwable {
+		for (int i = 0; i < number; i++) {
+			SearchScreen.decrementChildTravelerButton()
+				.perform(ViewActions.waitForViewToDisplay(), click());
+		}
+	}
+
+	@Then("^I decrease the infant count by: (\\d+)$")
+	public void decreaseInfantTravelerCount(int number) throws Throwable {
+		for (int i = 0; i < number; i++) {
+			SearchScreen.decrementInfantTravelerButton()
+				.perform(ViewActions.waitForViewToDisplay(), click());
 		}
 	}
 

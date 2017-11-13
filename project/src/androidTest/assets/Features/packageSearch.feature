@@ -399,3 +399,51 @@ Feature: Package Search
       | end_date            | 10                                     |
       | numberOfNights      | (5 nights)                             |
       | totalTravelers      | 4 travelers                            |
+
+  @Packages @PackageSearch
+  Scenario: UI fields validation for travellers on new revamp Traveler form
+    Given I launch the App
+    And I bucket the following tests
+      | FlightTravelerFormRevamp |
+    And I launch "Bundle Deals" LOB
+    When I enter source and destination for packages
+      | source              | SFO                                    |
+      | destination         | KTM                                    |
+      | source_suggest      | SFO - San Francisco Intl.              |
+      | destination_suggest | Kathmandu, Nepal (KTM-Tribhuvan Intl.) |
+    And I choose date from calendar widget
+      | start_date          | 5                                      |
+      | end_date            | 10                                     |
+    And I click on Done button
+    And I click on guest button
+    And I increase the adult count by: 3
+    When I press done
+    Then 4 traveler count is as selected by user
+    And I click on guest button
+    And I decrease the adult count by: 2
+    When I press done
+    Then 2 traveler count is as selected by user
+    And I click on guest button
+    And I increase the youth count by: 2
+    When I press done
+    Then 4 traveler count is as selected by user
+    And I click on guest button
+    And I decrease the youth count by: 1
+    When I press done
+    Then 3 traveler count is as selected by user
+    And I click on guest button
+    And I increase the child count by: 2
+    When I press done
+    Then 5 traveler count is as selected by user
+    And I click on guest button
+    And I decrease the child count by: 1
+    When I press done
+    Then 4 traveler count is as selected by user
+    And I click on guest button
+    And I increase the infant count by: 2
+    When I press done
+    Then 6 traveler count is as selected by user
+    And I click on guest button
+    And I decrease the infant count by: 1
+    When I press done
+    Then 5 traveler count is as selected by user
