@@ -5050,10 +5050,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
-
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSearchResultCaching);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSearchResultCaching);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
 		s.track();
