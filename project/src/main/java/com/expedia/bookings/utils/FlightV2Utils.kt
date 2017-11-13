@@ -343,33 +343,31 @@ object FlightV2Utils {
         selectedSeatClassList = selectedSeatClassList.distinct().toMutableList()
 
         var selectedClassText = ""
-        var resId = 0
 
         if (selectedSeatClassList.size == 1) {
-            selectedClassText = if (isContDesc) selectedSeatClassList[0] else Phrase.from(context.getString(R.string.flight_selected_classes_one_class_TEMPLATE))
-                    .put("class", selectedSeatClassList[0])
-                    .format().toString()
+            selectedClassText = selectedSeatClassList[0]
         } else if (selectedSeatClassList.size == 2) {
-            resId = if (isContDesc) R.string.flight_selected_classes_two_class_cont_desc_TEMPLATE else R.string.flight_selected_classes_two_class_TEMPLATE
-            selectedClassText = Phrase.from(context.getString(resId))
+            selectedClassText = Phrase.from(context.getString(R.string.flight_selected_classes_two_class_TEMPLATE))
                     .put("class_one", selectedSeatClassList[0]).put("class_two", selectedSeatClassList[1])
                     .format().toString()
         } else if (basicEconomyAvailableAndCorrespondingLeg.first) {
-            resId = if (isContDesc) R.string.flight_selected_classes_two_class_cont_desc_TEMPLATE else R.string.flight_selected_classes_two_class_TEMPLATE
             if (basicEconomyAvailableAndCorrespondingLeg.second == 0) {
-                selectedClassText = Phrase.from(context.getString(resId))
+                selectedClassText = Phrase.from(context.getString(R.string.flight_selected_classes_two_class_TEMPLATE))
                         .put("class_one", context.resources.getString(R.string.cabin_code_basic_economy))
                         .put("class_two", context.resources.getString(R.string.flight_cabin_mixed_classes))
                         .format().toString()
             } else {
-                resId = if (isContDesc) R.string.flight_selected_classes_two_class_cont_desc_TEMPLATE else R.string.flight_selected_classes_two_class_TEMPLATE
-                selectedClassText = Phrase.from(context.getString(resId))
+                selectedClassText = Phrase.from(context.getString(R.string.flight_selected_classes_two_class_TEMPLATE))
                         .put("class_one", context.resources.getString(R.string.flight_cabin_mixed_classes))
                         .put("class_two", context.resources.getString(R.string.cabin_code_basic_economy))
                         .format().toString()
             }
         } else {
-            selectedClassText = context.getString(if (isContDesc) R.string.flight_cabin_mixed_classes else R.string.flight_selected_classes_mixed_classes)
+            selectedClassText = context.getString(R.string.flight_cabin_mixed_classes)
+        }
+
+        if (!isContDesc) {
+            selectedClassText = StringBuilder(context.getString(R.string.flight_selecting_class_prefix)).append(selectedClassText).toString()
         }
 
         return selectedClassText
