@@ -47,11 +47,13 @@ object PackageUtil {
 
         val pointOfSaleId = PointOfSale.getPointOfSale().pointOfSaleId
         if (pointOfSaleId == PointOfSaleId.SINGAPORE ||
+                pointOfSaleId == PointOfSaleId.MALAYSIA ||
+                pointOfSaleId == PointOfSaleId.JAPAN ||
+                pointOfSaleId == PointOfSaleId.HONG_KONG ||
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_SINGAPORE ||
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_JAPAN ||
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_MALAYSIA ||
-                pointOfSaleId == PointOfSaleId.MALAYSIA ||
-                pointOfSaleId == PointOfSaleId.JAPAN) {
+                pointOfSaleId == PointOfSaleId.AIRASIAGO_HONG_KONG ) {
             return R.string.nav_hotel_plus_flight
         }
 
@@ -66,7 +68,6 @@ object PackageUtil {
         }
 
         if (pointOfSaleId == PointOfSaleId.CANADA ||
-                pointOfSaleId == PointOfSaleId.HONG_KONG ||
                 pointOfSaleId == PointOfSaleId.TRAVELOCITY_CA) {
             return R.string.nav_flight_plus_hotel
         }
