@@ -21,8 +21,10 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionListenerAdapter
+import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.AlphaCalculator
@@ -39,6 +41,7 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.facebook.stetho.common.LogUtil
+import com.wefika.flowlayout.FlowLayout
 import kotlin.properties.Delegates
 
 val DESCRIPTION_ANIMATION = 150L
@@ -58,6 +61,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val galleryView: HotelDetailGalleryView by bindView(R.id.detail_hotel_gallery)
 
     val recycler: RecyclerView by bindView(R.id.recycler_hotel_gallery)
+
+    val hotelGalleryFilterWidget: HotelGalleryFilterWidget by bindView(R.id.ll_filterView)
 
     val imageGalleryCount: TextView by bindView(R.id.tv_total_count)
 
@@ -130,7 +135,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     getBottomSheetBehavior().state = BottomSheetBehavior.STATE_EXPANDED
                 }
             }
-
+            hotelGalleryFilterWidget.setupGalleryFilters(galleryUrls, adapter)
         }
 
         vm.scrollToRoom.subscribe { scrollToRoom(false) }

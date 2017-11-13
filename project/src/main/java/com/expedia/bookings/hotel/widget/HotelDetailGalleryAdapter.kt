@@ -11,10 +11,32 @@ class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHol
     val galleryItemClickedSubject = PublishSubject.create<Unit>()
 
     private var mediaList: List<HotelMedia> = emptyList()
+    private var dataList = ArrayList<HotelMedia>()
+    private var filter: List<String> = emptyList()
     private var soldOut = false
 
     fun setMedia(mediaList: List<HotelMedia>) {
         this.mediaList = mediaList
+        setFilters(emptyList())
+    }
+
+    fun setFilters(filters: List<String>){
+        this.filter = filters
+        updateDataListBasedOnFilters()
+    }
+
+    private fun updateDataListBasedOnFilters(){
+        dataList.clear()
+
+        if(filter.isEmpty()){
+            dataList.addAll(mediaList)
+        } else{
+            for (hotel : HotelMedia in mediaList){
+                if(filter.contains(hotel.description)){
+                    dataList.add(hotel)
+                }
+            }
+        }
         notifyDataSetChanged()
     }
 
@@ -33,11 +55,11 @@ class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHol
     }
 
     override fun onBindViewHolder(holder: HotelDetailGalleryViewHolder?, position: Int) {
-        val media = mediaList[position]
+        val media = dataList[position]
         holder?.bind(media, soldOut, position, itemCount)
     }
 
     override fun getItemCount(): Int {
-       return mediaList.size
+       return dataList.size
     }
 }
