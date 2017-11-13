@@ -207,8 +207,6 @@
     <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
 
     <!-- Package Results -->
-    <dimen name="layover_bar_text_size">@dimen/temporary_font_size_small</dimen>
-    <dimen name="layover_bar_padding">4dp</dimen>
 
     <!-- Material Checkout Forms-->
     <dimen name="traveler_select_item_padding">12dp</dimen>

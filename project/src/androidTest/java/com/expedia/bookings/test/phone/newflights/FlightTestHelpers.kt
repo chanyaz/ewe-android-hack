@@ -18,7 +18,6 @@ object FlightTestHelpers {
                 "9:00 pm - 11:00 pm")
         EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), resultPosition, R.id.flight_duration_text_view, "2h 0m (Nonstop)")
         EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), resultPosition, R.id.price_text_view, "$696")
-        EspressoUtils.assertViewWithIdIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), resultPosition, R.id.custom_flight_layover_widget)
     }
 
     @JvmStatic fun assertFlightOutboundForOneWay() {
@@ -28,7 +27,6 @@ object FlightTestHelpers {
                 "6:40 am - 7:49 am")
         EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), resultPosition, R.id.flight_duration_text_view, "1h 9m (Nonstop)")
         EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), resultPosition, R.id.price_text_view, "$696")
-        EspressoUtils.assertViewWithIdIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), resultPosition, R.id.custom_flight_layover_widget)
     }
 
     @JvmStatic fun assertFlightInbound() {
@@ -37,7 +35,6 @@ object FlightTestHelpers {
         EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), resultPosition, R.id.flight_time_detail_text_view, "5:40 pm - 8:15 pm")
         EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), resultPosition, R.id.flight_duration_text_view, "2h 35m (Nonstop)")
         EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), resultPosition, R.id.price_text_view, "$696")
-        EspressoUtils.assertViewWithIdIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), resultPosition, R.id.custom_flight_layover_widget)
     }
 
     @JvmStatic fun assertDockedOutboundFlightSelectionWidget() {

@@ -27,7 +27,6 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     abstract fun getFlightCabinPreferenceVisibility(): Boolean
     abstract fun isEarnMessageVisible(earnMessage: String): Boolean
     abstract fun getFlightDetailCardContDescriptionStringID(): Int
-    abstract fun isUserBucketedInHideFSRInfographicTest() : Boolean
 
     fun getFlightContentDesc(isBestFlightVisible: Boolean): CharSequence {
         val result = SpannableBuilder()

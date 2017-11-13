@@ -66,14 +66,12 @@ public class PackageFlightsResultsTest extends PackageTestCase {
 			"9:00 am - 11:12 am");
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), position, R.id.flight_duration_text_view, "5h 12m (Nonstop)");
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), position, R.id.price_text_view, "+$0");
-		EspressoUtils.assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), position, R.id.custom_flight_layover_widget);
 	}
 
 	private void assertFlightInbound(int position) {
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), position, R.id.flight_time_detail_text_view, "1:45 pm - 10:00 pm");
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), position, R.id.flight_duration_text_view, "5h 15m (Nonstop)");
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), position, R.id.price_text_view, "+$0");
-		EspressoUtils.assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), position, R.id.custom_flight_layover_widget);
 	}
 
 	private void assertOutboundCardExpands() {

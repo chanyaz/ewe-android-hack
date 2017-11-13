@@ -40,9 +40,5 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboun
     override fun getFlightDetailCardContDescriptionStringID(): Int {
         return R.string.flight_detail_card_cont_desc_without_price_diff_TEMPLATE
     }
-
-    override fun isUserBucketedInHideFSRInfographicTest(): Boolean {
-        return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightHideFSRInfographic)
-    }
 }
 

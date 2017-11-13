@@ -130,16 +130,6 @@
                         android:layout_weight="1" />
                 </LinearLayout>
 
-                <com.expedia.bookings.widget.packages.FlightLayoverWidget
-                    android:id="@+id/custom_flight_layover_widget"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    app:duration_bar_color="@color/packages_primary_color"
-                    app:duration_bar_padding="@dimen/layover_bar_padding"
-                    app:layover_background="@drawable/flight_layover_pattern_bg"
-                    app:location_text_color="@color/packages_primary_color"
-                    app:location_text_size="@dimen/layover_bar_text_size" />
-
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/flight_class_text_view"
                     style="@style/Core.Text.200.LightColor"
@@ -147,6 +137,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:layout_marginTop="4dp"
                     android:visibility="gone"
                     tools:text="Flight Cabin Class text: this message is to test the max length of string"
                     tools:visibility="visible" />

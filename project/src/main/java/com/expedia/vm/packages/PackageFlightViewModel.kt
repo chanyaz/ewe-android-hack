@@ -31,8 +31,4 @@ class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractF
     override fun getFlightDetailCardContDescriptionStringID(): Int {
         return R.string.flight_detail_card_cont_desc_with_price_diff_TEMPLATE
     }
-
-    override fun isUserBucketedInHideFSRInfographicTest(): Boolean {
-        return false
-    }
 }
