@@ -26,17 +26,15 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
 
     var viewModel: CheckoutToolbarViewModel by notNullAndObservable { vm ->
         vm.toolbarTitle.subscribe {
-            if (isSecureIconEnabled(context)) {
-                vm.toolbarCustomTitle.onNext(it)
-            } else {
-                title = it
-            }
+            title = it
         }
         vm.toolbarSubtitle.subscribe {
-            if (isSecureIconEnabled(context)) {
-                vm.toolbarCustomSubtitle.onNext(it)
-            } else {
-                subtitle = it
+            subtitle = it
+        }
+        if (isSecureIconEnabled(context)) {
+            vm.toolbarTitle.subscribe(vm.toolbarCustomTitle)
+            vm.hideToolbarTitle.subscribe {
+                title = ""
             }
         }
         vm.menuTitle.subscribe {

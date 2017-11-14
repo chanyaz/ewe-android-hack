@@ -199,7 +199,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(overviewLayoutListener)
                 if (isSecureIconEnabled(context)) {
                     bundleOverviewHeader.secureIconContainer?.visibility = View.GONE
-                    bundleOverviewHeader.customSubtitle?.visibility = View.VISIBLE
                 }
             } else {
                 scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(overviewLayoutListener)
@@ -251,9 +250,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 checkoutPresenter.adjustScrollingSpace(bottomContainer)
                 checkoutPresenter.travelersPresenter.updateAllTravelerStatuses()
                 if (isSecureIconEnabled(context)) {
+                    bundleOverviewHeader.toolbar.viewModel.hideToolbarTitle.onNext(Unit)
                     bundleOverviewHeader.secureIconContainer?.visibility = View.VISIBLE
-                    bundleOverviewHeader.secureIcon.visibility = View.VISIBLE
-                    bundleOverviewHeader.customSubtitle?.visibility = View.GONE
                 }
             } else {
                 trackShowBundleOverview()
@@ -416,6 +414,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutPresenter.paymentWidget.viewmodel.enableMenuItem.subscribe(bundleOverviewHeader.toolbar.viewModel.enableMenuItem)
         checkoutPresenter.paymentWidget.visibleMenuWithTitleDone.subscribe(bundleOverviewHeader.toolbar.viewModel.visibleMenuWithTitleDone)
         checkoutPresenter.paymentWidget.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
+        checkoutPresenter.paymentWidget.toolbarTitle.subscribe { bundleOverviewHeader.toolbar.viewModel.hideToolbarTitle.onNext(Unit) }
     }
 
     private fun setupTravelerWidgetSubscriptions() {
@@ -424,6 +423,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutPresenter.travelersPresenter.travelerEntryWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
         checkoutPresenter.travelersPresenter.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
         checkoutPresenter.travelersPresenter.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
+        checkoutPresenter.travelersPresenter.toolbarTitleSubject.subscribe { bundleOverviewHeader.toolbar.viewModel.hideToolbarTitle.onNext(Unit) }
     }
 
     private fun setupClickListeners() {

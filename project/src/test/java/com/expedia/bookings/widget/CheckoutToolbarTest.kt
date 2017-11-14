@@ -93,14 +93,14 @@ class CheckoutToolbarTest {
     }
 
     @Test
-    fun testCustomToolbarSubtitle() {
+    fun testHideToolbarTitle() {
         setSecureIconABTest()
         getToolbar()
-        val toolbarCustomSubtitleTestSubscriber = TestSubscriber.create<String>()
-        toolbar.viewModel.toolbarCustomSubtitle.subscribe(toolbarCustomSubtitleTestSubscriber )
+        val hideToolbarTitleTestSubscriber = TestSubscriber.create<Unit>()
+        toolbar.viewModel.hideToolbarTitle.subscribe(hideToolbarTitleTestSubscriber)
 
-        toolbar.viewModel.toolbarSubtitle.onNext("test subtitle")
-        toolbarCustomSubtitleTestSubscriber.assertValue("test subtitle")
+        toolbar.viewModel.hideToolbarTitle.onNext(Unit)
+        assertEquals("", toolbar.title)
     }
 
     @Test

@@ -49,7 +49,6 @@
                         android:layout_width="13dp"
                         android:layout_height="22dp"
                         android:id="@+id/secure_lock_icon"
-                        android:visibility="gone"
                         android:focusable="true"
                         android:contentDescription="@string/secure_lock_accessibility"
                         android:layout_marginRight="10dp" />
@@ -65,12 +64,6 @@
                             android:layout_height="wrap_content"
                             style="@style/ToolbarTitleTextAppearance"/>
 
-                        <com.expedia.bookings.widget.TextView
-                            android:id="@+id/checkout_custom_subtitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            style="@style/ToolbarSubtitleTextAppearance"/>
                     </LinearLayout>
 
 

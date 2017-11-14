@@ -1,6 +1,8 @@
 package com.expedia.vm.test.robolectric
 
+import android.app.Activity
 import android.view.LayoutInflater
+import android.view.View.VISIBLE
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.SuggestionV4
@@ -10,6 +12,7 @@ import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -21,6 +24,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.CheckoutToolbar
@@ -47,6 +51,7 @@ class FlightCheckoutToolbarTest {
     private var toolbar: CheckoutToolbar by Delegates.notNull()
     private val context = RuntimeEnvironment.application
     lateinit var travelerValidator: TravelerValidator
+    lateinit var activity: Activity
 
 
     @Before fun before() {
@@ -57,7 +62,7 @@ class FlightCheckoutToolbarTest {
         travelerValidator.updateForNewSearch(Db.getFlightSearchParams())
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.flight_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
-        val activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
+        activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
         overview = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         checkout = overview.getCheckoutPresenter()
         toolbar = overview.bundleOverviewHeader.toolbar
@@ -115,6 +120,34 @@ class FlightCheckoutToolbarTest {
         checkout.openTravelerPresenter()
 
         assertFalse(toolbar.menuItem.isVisible)
+    }
+
+    @Test
+    fun testBucketedSecureIconTestHidesNativeToolbarTitleInPaymentWidget() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
+        overview = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
+        checkout = overview.getCheckoutPresenter()
+        toolbar = overview.bundleOverviewHeader.toolbar
+        overview.showCheckout()
+        checkout.paymentWidget.cardInfoContainer.performClick()
+        checkout.paymentWidget.showPaymentForm(false)
+
+        assertEquals("", toolbar.title)
+    }
+
+
+    @Test
+    fun testBucketedSecureIconTestHidesNativeToolbarTitleInTravelerWidget() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
+        setTravelersInDb(0)
+        overview = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
+        checkout = overview.getCheckoutPresenter()
+        toolbar = overview.bundleOverviewHeader.toolbar
+        overview.showCheckout()
+        checkout.paymentWidget.cardInfoContainer.performClick()
+        checkout.paymentWidget.showPaymentForm(false)
+
+        assertEquals("", toolbar.title)
     }
 
     private fun setupDb() {
