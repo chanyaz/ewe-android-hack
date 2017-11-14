@@ -40,7 +40,7 @@
 
                 <ImageView
                     android:id="@+id/iv_close"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_above="@+id/ll_filterView"
                     android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/ll_filterView"
                     android:layout_alignParentRight="true"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_marginRight="10dp">
 
                     <com.expedia.bookings.widget.TextView

@@ -92,12 +92,17 @@ class HotelGalleryFilterWidget(context: Context, attrs: AttributeSet?) : Expanda
 
         var set = getFilters(galleryUrls)
         for(filter : String in set){
+
             var tv = TextView(context)
             tv.text = filter
             tv.tag = filter
-            tv.layoutParams = FlowLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            var params = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            params.setMargins(5,5,5,5)
+            tv.layoutParams = params
+
             var buttonDrawable = resources.getDrawable(R.drawable.selector_packages_hotel_gallery_filter)
             buttonDrawable.mutate()
+
             tv.background = buttonDrawable;
             tv.setTextColor(resources.getColor(R.color.white))
             tv.setOnClickListener {
@@ -112,7 +117,12 @@ class HotelGalleryFilterWidget(context: Context, attrs: AttributeSet?) : Expanda
                     unexpanded.setText("Filter " + "(" + filters.size + ")")
                 }
             }
-            flowLayout.addView(tv)
+
+            var ll = LinearLayout(context)
+            ll.layoutParams = FlowLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            ll.addView(tv)
+
+            flowLayout.addView(ll)
         }
     }
 
@@ -123,8 +133,8 @@ class HotelGalleryFilterWidget(context: Context, attrs: AttributeSet?) : Expanda
     fun isAnyFilterSelected() : Boolean{
         var i = 0
         while(i < flowLayout.childCount){
-            val view = flowLayout.getChildAt(i) as TextView
-            if(view.isSelected)
+            val view = flowLayout.getChildAt(i) as LinearLayout
+            if(view.getChildAt(0).isSelected)
                 return true
             i++
         }
@@ -135,7 +145,7 @@ class HotelGalleryFilterWidget(context: Context, attrs: AttributeSet?) : Expanda
         val filters = ArrayList<String>()
         var i = 0
         while(i < flowLayout.childCount){
-            val view = flowLayout.getChildAt(i) as TextView
+            val view = (flowLayout.getChildAt(i) as LinearLayout).getChildAt(0) as TextView
             if(view.isSelected){
                 filters.add(view.getTag() as String)
             }
@@ -155,7 +165,7 @@ class HotelGalleryFilterWidget(context: Context, attrs: AttributeSet?) : Expanda
     private fun clearAllFilters(){
         var i = 0
         while(i < flowLayout.childCount){
-            val view = flowLayout.getChildAt(i) as TextView
+            val view = (flowLayout.getChildAt(i) as LinearLayout).getChildAt(0) as TextView
             view.isSelected = false
             i++
         }
