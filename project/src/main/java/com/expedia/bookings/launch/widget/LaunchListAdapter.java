@@ -37,6 +37,7 @@ import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.ProWizardBucketCache;
@@ -66,7 +67,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
 			|| itemViewKey == LaunchDataItem.AIR_ATTACH_VIEW
 			|| itemViewKey == LaunchDataItem.ITIN_VIEW
-			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS;
+			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS
+			|| itemViewKey == LaunchDataItem.LAST_MINUTE_DEALS;
 	}
 
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
@@ -161,8 +163,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (viewType == LaunchDataItem.MEMBER_ONLY_DEALS) {
 			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
 			view.setOnClickListener(new MemberDealClickListener());
-			BigImageLaunchViewModel vm = getMemberDealViewModel();
-			vm.setBackgroundUrl(getMemberDealHomeScreenImageUrl());
+			BigImageLaunchViewModel vm = getDealViewModel(R.drawable.ic_member_deals_icon,
+				R.color.member_deal_background_gradient,
+				R.string.member_deal_title, R.string.member_deal_subtitle);
+			vm.setBackgroundUrl(getBigImageResizedUrl(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl()));
 			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
 			memberDealBackgroundUrlSubject.subscribe(vm.getBackgroundUrlChangeSubject());
 			holder.bind(vm);
@@ -173,6 +177,18 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.section_collection_list_card, parent, false);
 			return new CollectionViewHolder(view);
+		}
+
+		if (viewType == LaunchDataItem.LAST_MINUTE_DEALS) {
+			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
+			BigImageLaunchViewModel vm = getDealViewModel(R.drawable.ic_last_minute_deals_icon,
+				R.color.last_minute_deal_background_gradient, R.string.last_minute_deal_title,
+				R.string.last_minute_deal_subtitle);
+			vm.setBackgroundUrl(getBigImageResizedUrl(
+				PointOfSale.getPointOfSale().getmLastMinuteDealImageUrl()));
+			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
+			holder.bind(vm);
+			return new BigImageLaunchViewHolder(view);
 		}
 
 		throw new RuntimeException("Could not find view type");
@@ -301,10 +317,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			if (showMemberDeal()) {
 				items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
 			}
+			if (showLastMinuteDeal()) {
+				items.add(new LaunchDataItem(LaunchDataItem.LAST_MINUTE_DEALS));
+			}
 			items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
 		}
 		return items;
 	}
+
 
 	public void setListData(List<LaunchDataItem> objects, String headerTitle) {
 		staticCards = makeStaticCards();
@@ -341,7 +361,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	public void onPOSChange() {
 		posSubject.onNext(Unit.INSTANCE);
-		memberDealBackgroundUrlSubject.onNext(getMemberDealHomeScreenImageUrl());
+		memberDealBackgroundUrlSubject
+			.onNext(getBigImageResizedUrl(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl()));
 	}
 
 	public void onHasInternetConnectionChange(boolean enabled) {
@@ -394,17 +415,19 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			context.getString(R.string.Create_Account));
 	}
 
-	private BigImageLaunchViewModel getMemberDealViewModel() {
-		return new BigImageLaunchViewModel(R.drawable.ic_member_deals_icon,
-			R.color.member_deal_background_gradient,
-			R.string.member_deal_title,
-			R.string.member_deal_subtitle);
+
+	private BigImageLaunchViewModel getDealViewModel(int lastMinuteDealsIcon, int backgroundGradient,
+		int title, int subtitle) {
+		return new BigImageLaunchViewModel(lastMinuteDealsIcon,
+			backgroundGradient,
+			title,
+			subtitle);
 	}
 
-	private String getMemberDealHomeScreenImageUrl() {
-		Akeakamai akeakamai = new Akeakamai(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl());
-		akeakamai.resizeExactly(context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_width),
-			context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_height));
+	private String getBigImageResizedUrl(String imageUrl) {
+		Akeakamai akeakamai = new Akeakamai(imageUrl);
+		akeakamai.resizeExactly(context.getResources().getDimensionPixelSize(R.dimen.launch_big_image_card_width),
+			context.getResources().getDimensionPixelSize(R.dimen.launch_big_image_card_height));
 		return akeakamai.build();
 	}
 
@@ -444,12 +467,19 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean userBucketedForAirAttach() {
-		return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
+		return AbacusFeatureConfigManager
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 	}
 
 	private boolean showMemberDeal() {
 		return userStateManager.isUserAuthenticated() &&
-			AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
+			AbacusFeatureConfigManager
+				.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
+	}
+
+	private boolean showLastMinuteDeal() {
+		return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppLastMinuteDeals,
+			R.string.preference_enable_last_minute_deals);
 	}
 
 	private boolean showProWizard() {

@@ -29,8 +29,8 @@
     <dimen name="launch_tile_margin_top">8dp</dimen>
     <dimen name="launch_tile_padding">@dimen/home_screen_card_view_container_margin</dimen>
     <dimen name="launch_toolbar_elevation">10dp</dimen>
-    <dimen name="launch_mod_card_width">336dp</dimen>
-    <dimen name="launch_mod_card_height">147dp</dimen>
+    <dimen name="launch_big_image_card_width">336dp</dimen>
+    <dimen name="launch_big_image_card_height">136dp</dimen>
     <dimen name="launch_list_padding_to_pro_wizard">@dimen/home_screen_card_view_container_margin</dimen>
     <item name="launch_sign_in_placeholder_alpha" type="dimen" format="float">0.3</item>
     <dimen name="launch_pro_wizard_tab_height">56dp</dimen>

@@ -145,6 +145,7 @@
     <string name="preference_enable_production_abacus">preference_enable_production_abacus</string>
     <string name="pay_later_credit_card_messaging">pay_later_credit_card_messaging</string>
     <string name="preference_enable_hotel_material_forms">preference_enable_hotel_material_forms</string>
+    <string name="preference_enable_last_minute_deals">preference_enable_last_minute_deals</string>
     <string name="preference_enable_trips_flight_alerts">preference_enable_trips_flight_alerts</string>
     <string name="preference_enable_mid_checkout">preference_enable_mid_checkout</string>
 

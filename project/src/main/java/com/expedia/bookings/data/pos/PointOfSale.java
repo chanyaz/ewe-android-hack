@@ -75,6 +75,9 @@ public class PointOfSale {
 	// The Image Url of the POS for home screen Member Only Deal
 	private String mMemberDealCardImageUrl;
 
+	// The Last Minute Deal Image Url for home screen
+	private String mLastMinuteDealImageUrl;
+
 	// The POS's TPID (Travel Product Identifier)
 	private int mTPID;
 
@@ -529,6 +532,10 @@ public class PointOfSale {
 
 	public String getmMemberDealCardImageUrl() {
 		return mMemberDealCardImageUrl;
+	}
+
+	public String getmLastMinuteDealImageUrl() {
+		return mLastMinuteDealImageUrl;
 	}
 
 	public int getTpid() {
@@ -1319,6 +1326,7 @@ public class PointOfSale {
 		// Server access
 		pos.mUrl = data.optString("url", null);
 		pos.mMemberDealCardImageUrl = data.optString("memberDealCardImageUrl", null);
+		pos.mLastMinuteDealImageUrl = data.optString("lastMinuteDealsCardImageUrl", null);
 		pos.mTPID = data.optInt("TPID");
 		pos.mSiteId = data.optInt("siteId", INVALID_SITE_ID);
 		pos.mEAPID = data.optInt("EAPID", INVALID_EAPID);

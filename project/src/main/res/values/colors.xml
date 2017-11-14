@@ -485,6 +485,9 @@
     <color name="hotel_sort_filter_area_price">#2970cc</color>
     <color name="hotel_sort_filter_area_price_disabled">#800558c4</color>
 
+    <!-- Last Minute Deal colors-->
+    <color name="last_minute_deal_background_gradient">@color/exp_brand_blue_65</color>
+
     <!--New User Onboarding colors-->
     <color name="onboarding_page_background_gradient">@color/exp_brand_blue_65</color>
     <color name="onboarding_circle_color">@color/white_50</color>

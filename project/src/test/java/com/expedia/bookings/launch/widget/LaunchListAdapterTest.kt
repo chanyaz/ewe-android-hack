@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
+import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import org.junit.After
 import org.junit.Before
@@ -69,8 +70,9 @@ class LaunchListAdapterTest {
     }
 
     @Test
-    fun itemViewPosition_showingHotels_signedInItin_memberDeals_popularHotels() {
+    fun itemViewPosition_showingHotels_signedInItin_memberDeals__last_minute_deals() {
         givenMemberDealsCardEnabled()
+        givenLastMinuteDealIsEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -85,14 +87,18 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, fourthPosition)
 
         val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
+
+        val sixthPosition = sut.getItemViewType(5)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
+
     }
 
     @Test
-    fun itemViewPosition_showingHotels_signInCard_memberDeals_popularHotels() {
+    fun itemViewPosition_showingHotels_signInCard_memberDeals() {
         givenMemberDealsCardEnabled()
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
@@ -111,7 +117,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
-    fun itemViewPosition_showing_hotels_airAttach_memberDeals_popularHotels() {
+    fun itemViewPosition_showing_hotels_airAttach_memberDeals() {
         givenAirAttachCardEnabled()
         givenMemberDealsCardEnabled()
         createSystemUnderTest()
@@ -417,19 +423,21 @@ class LaunchListAdapterTest {
     @Test
     fun onBindViewHolder_FullWidthViews() {
         createSystemUnderTest()
+        givenLastMinuteDealIsEnabled()
         givenWeHaveCurrentLocationAndHotels(numberOfHotels = 6)
 
         assertViewHolderIsFullSpan(0) // lob view
         assertViewHolderIsFullSpan(1) // sign in view
-        assertViewHolderIsFullSpan(2) // header view
+        assertViewHolderIsFullSpan(2)
+        assertViewHolderIsFullSpan(3) // header view
 
         // hotel cells
-        assertViewHolderIsFullSpan(3)
-        assertViewHolderIsHalfSpan(4)
+        assertViewHolderIsFullSpan(4)
         assertViewHolderIsHalfSpan(5)
         assertViewHolderIsHalfSpan(6)
         assertViewHolderIsHalfSpan(7)
-        assertViewHolderIsFullSpan(8)
+        assertViewHolderIsHalfSpan(8)
+        assertViewHolderIsFullSpan(9)
     }
 
     @Test
@@ -633,6 +641,11 @@ class LaunchListAdapterTest {
 
     private fun givenMemberDealsCardEnabled() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen, 1)
+    }
+
+    private fun givenLastMinuteDealIsEnabled() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLastMinuteDeals, 1)
+        SettingUtils.save(context, R.string.preference_enable_last_minute_deals, true)
     }
 
     private fun givenAirAttachCardEnabled() {

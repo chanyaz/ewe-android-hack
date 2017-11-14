@@ -14,8 +14,8 @@ public class AbacusUtils {
 	 * participating in the AB Test.
 	 */
 
-	public static final ABTest ExpediaAndroidAppAATestSep2015 =  new ABTest(11455);
-	public static final ABTest EBAndroidAppLXCategoryABTest =  new ABTest(9165);
+	public static final ABTest ExpediaAndroidAppAATestSep2015 = new ABTest(11455);
+	public static final ABTest EBAndroidAppLXCategoryABTest = new ABTest(9165);
 	public static final ABTest EBAndroidAppLXFirstActivityListingExpanded = new ABTest(9467);
 	public static final ABTest EBAndroidAppLXRTROnSearchAndDetails = new ABTest(10000);
 	public static final ABTest EBAndroidAppLXCrossSellOnHotelConfirmationTest = new ABTest(10556);
@@ -30,6 +30,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppCheckoutButtonText = new ABTest(13480);
 	public static final ABTest EBAndroidAppShowAirAttachMessageOnLaunchScreen = new ABTest(13345);
 	public static final ABTest EBAndroidAppShowMemberPricingCardOnLaunchScreen = new ABTest(13697);
+	public static final ABTest EBAndroidAppLastMinuteDeals = new ABTest(15844);
 	public static final ABTest EBAndroidAppHotelUpgrade = new ABTest(13196);
 	public static final ABTest EBAndroidAppItinHotelRedesign = new ABTest(14741);
 	public static final ABTest TripsHotelScheduledNotificationsV2 = new ABTest(15315);
@@ -171,6 +172,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelUrgencyMessage.getKey());
 		testIDs.add(EBAndroidAppLXNavigateToSRP.getKey());
 		testIDs.add(EBAndroidAppShowMemberPricingCardOnLaunchScreen.getKey());
+		testIDs.add(EBAndroidAppLastMinuteDeals.getKey());
 		testIDs.add(EBAndroidAppHotelUpgrade.getKey());
 		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview.getKey());
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR.getKey());

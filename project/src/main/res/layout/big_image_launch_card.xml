@@ -36,14 +36,13 @@
                 android:id="@+id/big_image_icons"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:tint="@color/white"
                 tools:src="@drawable/ic_member_deals_icon"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/big_image_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:textColor="@color/white"
                 android:gravity="center_horizontal"
                 style="@style/Core.Text.600"
@@ -56,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:gravity="center_horizontal"
-                style="@style/Core.Text.300"
+                style="@style/Core.Text.200"
                 tools:text="@string/member_deal_subtitle"/>
         </LinearLayout>
     </RelativeLayout>

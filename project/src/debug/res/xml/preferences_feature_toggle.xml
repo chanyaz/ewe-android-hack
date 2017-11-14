@@ -12,6 +12,18 @@
 
     </PreferenceCategory>
 
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Home Screen Feature">
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_last_minute_deals"
+            android:summary="Enable Last Minute Deals"
+            android:title="Enable Last Minute Deals" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
         android:title="Flights Features">
