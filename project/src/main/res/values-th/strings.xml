@@ -124,7 +124,10 @@
     <string name="checkout_tap_to_edit">แตะเพื่อแก้ไข</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_payment_options">บัตรเครดิต, จ่ายด้วยคะแนน</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_pay_later_only_to_confirm">ใช้เพื่อยืนยันการจองของคุณเท่านั้น</string>
     <!--Text for selected card -->
+    <string name="checkout_activated_card">เลือกแล้ว</string>
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">บันทึก {cardtype} …{cardno}</string>
@@ -2283,7 +2286,12 @@
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;เที่ยวบินขาไป&lt;/a&gt; และ &lt;a href=\"{returnlink}\"&gt;เที่ยวบินขากลับ&lt;/a&gt; มีค่าธรรมเนียมสัมภาระที่แยกออกจากกัน</string>
     <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
-    <string name="evolable_terms_condition_TEMPLATE">คุณจองเที่ยวบินนี้ผ่าน &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;&lt;br&gt;เป็นไปตาม&lt;a href=\"{evolable_terms_condition_link}\"&gt;ข้อตกลงและเงื่อนไข&lt;/a&gt;ของซัพพลายเออร์</string>
+    <string name="evolable_terms_condition_TEMPLATE">คุณจองเที่ยวบินนี้ผ่าน &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;&lt;br&gt;เป็นไปตาม&lt;a href=\"{evolable_terms_condition_link}\"&gt;ข้อกำหนดและเงื่อนไข&lt;/a&gt;ของซัพพลายเออร์</string>
+    <!-- Legal Information Screen: Evolable Cancellation Info -->
+    <string name="evolable_legal_cancellation_info_TEMPLATE">ค่าธรรมเนียมการยกเลิกจะแตกต่างกันไปขึ้นอยู่กับค่าโดยสาร เส้นทาง เวลาและวันที่ทำการยกเลิก โปรดดู&lt;a href=\"{cancellation_charge_link}\"&gt;ข้อกำหนดและเงื่อนไขของ Evolable Asia&lt;/a&gt;&lt;br&gt;</string>
+    <!-- Legal Information Screen: Evolable Refund Info -->
+    <string name="evolable_legal_refund_info">ในกรณีที่ขอเงินคืน จะมีการเรียกเก็บค่าธรรมเนียมการขอเงินคืนเป็นจำนวน 430 เยน (หรือ 500 เยนสำหรับเที่ยวบิน Skymark) ต่อเที่ยวบิน โดยเรียกเก็บเพิ่มจากค่าธรรมเนียมการยกเลิก</string>
+
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">ยกเลิก</string>
@@ -2486,7 +2494,10 @@
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <!-- Accessibility text for location suggestions -->
     <string name="current_location">ตำแหน่งปัจจุบัน</string>
+    <string name="recent_searched_location">สถานที่ตั้งที่ค้นหาล่าสุด</string>
+    <string name="suggested_location">สถานที่ตั้งแนะนำ</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">แผนที่ที่กำลังดู</string>
 
@@ -3970,7 +3981,8 @@
     <string name="flight_overview_header_TEMPLATE">{departureairportcode} ไปยัง {arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">ส่ง #{itinerary} ไปยัง {email} แล้ว</string>
-    <string name="itinerary_default_email_message">อีเมลของคุณ</string>
+    <!-- Itinerary summary text- Itinerary number sent to the your email, e.g. #12344 sent to your email.-->
+    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">ส่งแผนการเดินทางหมายเลข #{itinerary} ไปยังอีเมลของคุณแล้ว</string>
 
     <!--Rail search screen title-->
     <string name="trains">รถไฟ</string>
@@ -4310,17 +4322,20 @@
     <string name="flight_fare_family_fare_label_TEMPLATE">ชั้นโดยสารที่เลือก {fare_family_name}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">อัพเกรดเที่ยวบินของคุณ</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flight from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_one_way_flight_cont_desc_TEMPLATE">อัพเกรดเที่ยวบิน เริ่มที่ {amount} สำหรับผู้โดยสาร {guest} ท่าน, เที่ยวบินที่เลือกไว้ในขณะนี้คือเที่ยวบินชั้น {class}</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_round_trip_flight_cont_desc_TEMPLATE">อัพเกรดเที่ยวบิน เริ่มที่ {amount} สำหรับผู้โดยสาร {guest} ท่าน, เที่ยวบินที่เลือกไว้ในขณะนี้คือเที่ยวบินชั้น {class}</string>
+    <!-- Label for fare family upgrade option. Example. You have selected Economy, Double tap to change fare class-->
+    <string name="flight_fare_family_change_cont_desc_TEMPLATE">คุณเลือก {fare_family_name} ไว้, แตะสองครั้งเพื่อเปลี่ยนชั้นโดยสาร</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">อัพเกรดเที่ยวบินของคุณ</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">เริ่มที่</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">ชั้นโดยสารที่เลือก:{class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">ชั้นโดยสารที่เลือก: {class_one}{class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">ชั้นโดยสารที่เลือก: ชั้นโดยสารผสม
-</string>
+    <!-- Label for Selected:  Example. Selected: -->
+    <string name="flight_selecting_class_prefix">ชั้นโดยสารที่เลือก:\u0020</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">เปลี่ยนชั้นโดยสาร</string>
 
@@ -4714,5 +4729,10 @@
     <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
     <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">เพราะคุณจองเที่ยวบิน เรามีส่วนลดพิเศษสำหรับโรงแรมที่ร่วมรายการใน {city} ให้กับคุณ</string>
 
+    <!-- See more section offer string which would look like Offer expires in 2 days -->
+    <plurals name="krazy_glue_offer_expire_TEMPLATE">
+        <item quantity="one">ข้อเสนอจะหมดอายุใน {no_of_days} วัน</item>
+        <item quantity="other">ข้อเสนอจะหมดอายุใน {no_of_days} วัน</item>
+    </plurals>
 
 </resources>

@@ -124,7 +124,10 @@
     <string name="checkout_tap_to_edit">Zum Bearbeiten tippen</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_payment_options">Kreditkarte, mit Punkten zahlen</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_pay_later_only_to_confirm">Nur erforderlich, um Ihre Buchung zu bestätigen</string>
     <!--Text for selected card -->
+    <string name="checkout_activated_card">Ausgewählte Kreditkarte</string>
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} wurde gespeichert</string>
@@ -2284,6 +2287,11 @@
     <string name="split_ticket_baggage_fees_TEMPLATE">Für &lt;a href=\"{departurelink}\"&gt;Hin-&lt;/a&gt; und &lt;a href=\"{returnlink}\"&gt;Rückflüge&lt;/a&gt; fallen jeweils eigene Gepäckgebühren an.</string>
     <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
     <string name="evolable_terms_condition_TEMPLATE">Diese Flugbuchung erfolgt durch &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;.&lt;br&gt;Es gelten die &lt;a href=\"{evolable_terms_condition_link}\"&gt;Geschäftsbedingungen&lt;/a&gt; des Anbieters.</string>
+    <!-- Legal Information Screen: Evolable Cancellation Info -->
+    <string name="evolable_legal_cancellation_info_TEMPLATE">Die Stornierungsgebühren variieren je nach Tarif, Flugstrecke, Zeit und Datum der Stornierung. Weitere Informationen finden Sie in den &lt;a href=\"{cancellation_charge_link}\"&gt;Geschäftsbedingungen von Evolable Asia&lt;/a&gt;.&lt;br&gt;</string>
+    <!-- Legal Information Screen: Evolable Refund Info -->
+    <string name="evolable_legal_refund_info">Zusätzlich zu den Stornierungsgebühren werden für alle Tickets Gebühren für die Rückerstattung in Höhe von 430 Yen (oder 500 Yen für Skymark-Flüge) in Rechnung gestellt.</string>
+
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">Abbrechen</string>
@@ -2486,7 +2494,10 @@
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <!-- Accessibility text for location suggestions -->
     <string name="current_location">Standort</string>
+    <string name="recent_searched_location">Kürzlich gesuchter Standort</string>
+    <string name="suggested_location">Vorgeschlagener Standort</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Karte</string>
 
@@ -3970,7 +3981,8 @@
     <string name="flight_overview_header_TEMPLATE">Von {departureairportcode} nach {arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">Nr. {itinerary} gesendet an {email}</string>
-    <string name="itinerary_default_email_message">Ihre E-Mail-Adresse.</string>
+    <!-- Itinerary summary text- Itinerary number sent to the your email, e.g. #12344 sent to your email.-->
+    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">Nr. {itinerary} an Ihre E-Mail gesendet.</string>
 
     <!--Rail search screen title-->
     <string name="trains">Züge</string>
@@ -4310,16 +4322,20 @@
     <string name="flight_fare_family_fare_label_TEMPLATE">Sie haben {fare_family_name} ausgewählt</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">Upgraden Sie Ihre Flüge</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flight from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_one_way_flight_cont_desc_TEMPLATE">Upgraden Sie Ihren Flug ab {amount} für {guest}, Ihre aktuelle Auswahl ist {class}</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_round_trip_flight_cont_desc_TEMPLATE">Upgraden Sie Ihre Flüge ab {amount} für {guest}, Ihre aktuelle Auswahl ist {class}</string>
+    <!-- Label for fare family upgrade option. Example. You have selected Economy, Double tap to change fare class-->
+    <string name="flight_fare_family_change_cont_desc_TEMPLATE">Sie haben {fare_family_name} ausgewählt, zur Änderung der Kabinenklasse zweimal tippen</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">Upgraden Sie Ihren Flug</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Ab</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">Ausgewählt: {class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">Ausgewählt: {class_one}, {class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">Ausgewählt: Gemischte Klassen</string>
+    <!-- Label for Selected:  Example. Selected: -->
+    <string name="flight_selecting_class_prefix">Aktuelle Auswahl:\u0020</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Kabinenklasse ändern</string>
 
@@ -4713,5 +4729,10 @@
     <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
     <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">Da Sie einen Flug gebucht haben, sparen Sie bei ausgewählten Hotels in {city}.</string>
 
+    <!-- See more section offer string which would look like Offer expires in 2 days -->
+    <plurals name="krazy_glue_offer_expire_TEMPLATE">
+        <item quantity="one">Angebot gilt noch {no_of_days} Tag</item>
+        <item quantity="other">Angebot gilt noch {no_of_days} Tage</item>
+    </plurals>
 
 </resources>

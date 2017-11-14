@@ -124,7 +124,10 @@
     <string name="checkout_tap_to_edit">タップして編集</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_payment_options">クレジットカード、ポイントで支払い</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_pay_later_only_to_confirm">ご予約の確認に必要です</string>
     <!--Text for selected card -->
+    <string name="checkout_activated_card">選択しています</string>
     <string name="checkout_selected_card">{cardtype}…{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">保存済み {cardtype} (カード番号 {cardno})</string>
@@ -2283,7 +2286,12 @@
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;行きの便&lt;/a&gt;および&lt;a href=\"{returnlink}\"&gt;帰りの便&lt;/a&gt;には、それぞれの手荷物料金が適用されます。</string>
     <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
-    <string name="evolable_terms_condition_TEMPLATE">この航空券のご予約は&lt;a href=\"{evolable_asia_link}\"&gt;エボラブルアジア&lt;/a&gt;を通じて行われ、&lt;br&gt;サプライヤーの&lt;a href=\"{evolable_terms_condition_link}\"&gt;規則および制限&lt;/a&gt;が適用されます。</string>
+    <string name="evolable_terms_condition_TEMPLATE">この航空券のご予約は&lt;a href=\"{evolable_asia_link}\"&gt;エボラブルアジア&lt;/a&gt;を通じて行われ、&lt;br&gt;サプライヤーの&lt;a href=\"{evolable_terms_condition_link}\"&gt;利用規約&lt;/a&gt;が適用されます。</string>
+    <!-- Legal Information Screen: Evolable Cancellation Info -->
+    <string name="evolable_legal_cancellation_info_TEMPLATE">キャンセル手数料は料金、ルート、キャンセルの日付により異なります。&lt;a href=\"{cancellation_charge_link}\"&gt;エボラブルアジアの利用規約&lt;/a&gt;を参照してください。&lt;br&gt;</string>
+    <!-- Legal Information Screen: Evolable Refund Info -->
+    <string name="evolable_legal_refund_info">航空券のキャンセルには 430 円 (スカイマークの航空券の場合は 500 円) のキャンセル手数料が発生します。</string>
+
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">キャンセル</string>
@@ -2486,7 +2494,10 @@
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <!-- Accessibility text for location suggestions -->
     <string name="current_location">現在地</string>
+    <string name="recent_searched_location">最近検索したロケーション</string>
+    <string name="suggested_location">おすすめのロケーション</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">表示マップエリア</string>
 
@@ -3970,7 +3981,8 @@
     <string name="flight_overview_header_TEMPLATE">{departureairportcode} → {arrivalairportcode}、出発日 : {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">旅程番号 {itinerary} が {email} に送信されました</string>
-    <string name="itinerary_default_email_message">ご利用のEメールアドレス</string>
+    <!-- Itinerary summary text- Itinerary number sent to the your email, e.g. #12344 sent to your email.-->
+    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">旅程番号 {itinerary} がEメールで送信されました。</string>
 
     <!--Rail search screen title-->
     <string name="trains">鉄道</string>
@@ -4310,16 +4322,20 @@
     <string name="flight_fare_family_fare_label_TEMPLATE">{fare_family_name}を選択済み</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">フライトのアップグレード</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flight from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_one_way_flight_cont_desc_TEMPLATE">{guest} 名様の搭乗クラスのアップグレードには、{amount}以上の料金が追加でかかります。現在のクラスは{class}です</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_round_trip_flight_cont_desc_TEMPLATE">{guest} 名様の搭乗クラスのアップグレードには、{amount}以上の料金が追加でかかります。現在のクラスは{class}です</string>
+    <!-- Label for fare family upgrade option. Example. You have selected Economy, Double tap to change fare class-->
+    <string name="flight_fare_family_change_cont_desc_TEMPLATE">現在、{fare_family_name}を選択しています。料金クラスを変更するには 2 回タップしてください</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">フライトのアップグレード</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">最低料金</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">選択済み : {class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">選択済み : {class_one}、{class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">選択済み : 複数のクラス</string>
+    <!-- Label for Selected:  Example. Selected: -->
+    <string name="flight_selecting_class_prefix">選択済み :\u0020</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}、{class_two}</string>
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">運賃クラスを変更する</string>
 
@@ -4713,5 +4729,10 @@
     <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
     <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">航空券を予約した人だけ ! {city}の対象ホテルをお得に予約 !</string>
 
+    <!-- See more section offer string which would look like Offer expires in 2 days -->
+    <plurals name="krazy_glue_offer_expire_TEMPLATE">
+        <item quantity="one">プロモーション終了まであと {no_of_days} 日</item>
+        <item quantity="other">プロモーション終了まであと {no_of_days} 日</item>
+    </plurals>
 
 </resources>
