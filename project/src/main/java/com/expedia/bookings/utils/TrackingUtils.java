@@ -7,6 +7,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.FacebookEvents;
 import com.tune.Tune;
+import com.tune.ma.application.TuneActivityLifecycleCallbacks;
 
 import static com.expedia.bookings.activity.ExpediaBookingApp.isAutomation;
 
@@ -17,6 +18,7 @@ public class TrackingUtils {
 			FacebookEvents.init(app);
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled()) {
+				app.registerActivityLifecycleCallbacks(new TuneActivityLifecycleCallbacks());
 				String advertiserID = app.getString(R.string.tune_sdk_app_advertiser_id);
 				String conversionKey = app.getString(R.string.tune_sdk_app_conversion_key);
 
