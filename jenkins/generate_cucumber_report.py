@@ -2,7 +2,7 @@
 import json
 import os.path
 import sys
-
+from sets import Set
 
 def write_to_error_file(string_to_write):
     """Writes to the errorRecordFile in append mode.
@@ -15,6 +15,9 @@ def write_to_error_file(string_to_write):
 
 def generateTestcasesHTML(featureTestcasesJson, failedTestcaseImageDirectoryPath, failed_test_case_count):
     testCaseReport = []
+    global failedTags
+    global currentTag
+
     for testcase in featureTestcasesJson:
         testcaseId = testcase['id']
         testcaseName = testcase['name']
@@ -35,6 +38,7 @@ def generateTestcasesHTML(featureTestcasesJson, failedTestcaseImageDirectoryPath
             write_to_error_file("\t*" + testcaseName)
             failed_test_case_count = failed_test_case_count + 1
             testcaseStatusFormatted = '<a target="_blank" href="' + failedTestcaseImageDirectoryPath + '/' + testcaseId + '.png">failed</a>'
+            failedTags+=","+currentTag
         else:
             testcaseStatusFormatted = testcaseStatus
         testCaseReport.append("""\n
@@ -307,9 +311,16 @@ def main():
     allConnectedDevicesStr = sys.argv[1].strip()
     allFeatureResults = []
     failed_test_case_count = 0
+
+    global failedTags
+    global currentTag
+    failedTags = ""
+    currentTag = ""
+
     if os.path.exists('project/build/outputs/errorRecordFile.html'):  # sanity check to create fresh file on new test run
         os.remove('project/build/outputs/errorRecordFile.html')
     for deviceIdentifier in allConnectedDevicesStr.split(','):
+        currentTag = deviceIdentifier
         testCasesReportJsonFilePath = 'project/build/outputs/' + deviceIdentifier + '/cucumber-htmlreport/cucumber.json'
         failedTestcaseImageDirectoryPath = deviceIdentifier + '/cucumber-images'
         if os.path.exists(testCasesReportJsonFilePath):
@@ -357,6 +368,7 @@ def main():
                     </div>
                     """.format(deviceIdentifier=deviceIdentifier))
                 write_to_error_file('Something went wrong for tag : ' + deviceIdentifier)
+                failedTags+="," + str(deviceIdentifier)
         else:
             allFeatureResults.append("""\n
                     <div class="cucumber-feature">
@@ -365,10 +377,16 @@ def main():
                     """.format(deviceIdentifier=deviceIdentifier))
             write_to_error_file(
                 'Something went wrong!! Could not find cucumber.json file for tag : ' + deviceIdentifier)
+            failedTags+="," + str(deviceIdentifier)
     generateCompleteReportHTML(allFeatureResults)
     if os.path.exists('project/build/outputs/errorRecordFile.txt'):
         write_to_error_file("<br><br>Number of failed test cases : " + str(failed_test_case_count))
 
+    failedTags = Set(failedTags[1:].split(",")) #remove duplicates. Happens if more than 1 test for the same tag has failed.
+    failedTags = ",".join(failedTags)
+    failedTagsFile = open('project/build/outputs/failedTagsFile.txt', 'a')
+    failedTagsFile.write(failedTags)
+    failedTagsFile.close()
 
 if __name__ == "__main__":
     main()

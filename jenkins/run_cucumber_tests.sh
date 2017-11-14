@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 #!/bin/ksh
 
-# Making debug by default as false
-debug="false"
+# Defaults
+debug="false" # Making debug by default as false
+declare -i maxReRuns=2 # integer, 0 is the first run, 1 is the rerun, etc...
 
 while echo $1 | grep -q ^-; do
     eval $( echo $1 | sed 's/^-//' )=$2
@@ -15,6 +16,11 @@ packageName=$package
 tags=$tags
 debug=$debug
 noclean=$noclean
+
+parentDir=`pwd`"/project/build/outputs"
+failedTagsFile="$parentDir/failedTagsFile.txt"
+failureArchive="$parentDir/FailureArchive"
+
 
 if [ -z "$flavor" ]; then
    echo "Missing Flavor"
@@ -31,7 +37,11 @@ if [ -z "$tags" ]; then
    exit 1
 fi
 
-echo "Running Cucumber UI tests on $flavor"
+if [ ! -z "$maxreruns" ]; then
+    maxReRuns=$maxreruns
+fi
+
+echo "Running Cucumber UI tests on $flavor with a maximum of $maxReRuns re-runs"
 
 function createDummyFilesOnDevice() {
     device=$1
@@ -165,9 +175,6 @@ function devices() {
 function runTestsOnDevice() {
     device=$1
     tags=$2
-    #uninstall existing build
-    uninstallBuild $device
-    installBuild $device
     tags=$(echo ${tags} | sed 's/,/ /g')
     read -a tagsArrLocal <<<$tags
     for (( i=0; i<${#tagsArrLocal[@]}; i++ )) ; do
@@ -210,7 +217,25 @@ function distributingTagsOverDevices() {
     done
 }
 
-tagsForEachDeviceArr=()
+function archiveTagFailuresAndRemoveReport() {
+    currentRunTags=$1
+    currentRun=$2
+    echo "Removing Report and ${currentRunTags} folders"
+
+    rm $parentDir"/errorRecordFile.txt"
+    rm $parentDir"/UITestReport.html"
+    cp $failedTagsFile "$failureArchive/failedTagsFile_run${currentRun}.txt"
+    echo "" > $failedTagsFile
+
+    currentRunTags=$(echo ${currentRunTags} | sed 's/,/ /g')
+    read -a currentRunTagsArr <<<$currentRunTags
+    for (( i=0; i<${#currentRunTagsArr[@]}; i++ )) ; do
+        echo "Move $parentDir/${currentRunTagsArr[i]} to $parentDir/Archive/${currentRunTagsArr[i]}_run$currentRun"
+        mv "$parentDir/${currentRunTagsArr[i]}" "$failureArchive/${currentRunTagsArr[i]}_run$currentRun"
+    done
+    sleep 1
+}
+
 deviceIdentifierArr=()
 devicesCount=0
 
@@ -226,24 +251,54 @@ fi
 
 #Building Debug and Android Test Debug
 build
-#Distribute tags over devices to run in parallel
-distributingTagsOverDevices ${tags} ${devicesCount}
-for (( i=0; i<${#tagsForEachDeviceArr[@]}; i++ )) ; do
-    #Trimming first character(+) and replacing space with comma(,)
-    tagsToRun=$(echo ${tagsForEachDeviceArr[i]} | sed 's/ /,/g')
-    echo "Trigerring on device" ${deviceIdentifierArr[i]} "with tags" $tagsToRun
-    runOnDevicesStr+=" "${deviceIdentifierArr[i]}
-    runTestsOnDevice ${deviceIdentifierArr[i]} $tagsToRun &
-    echo "Trigerred"
+
+#install
+for DEVICE in "${deviceIdentifierArr[@]}" ; do
+    uninstallBuild ${DEVICE}
+    installBuild ${DEVICE}
+
+    # Need to re-enable data/wifi on devices, which used to run espresso tests in addition to cucumber.
+    adb -s ${DEVICE} shell svc data enable
+    adb -s ${DEVICE} shell svc wifi enable
+    wait
 done
 
-wait
-echo "Done"
+runTags=$tags
+initialTags=$tags
+touch $failedTagsFile
+mkdir $failureArchive
 
-#Get list of devices on which automation was run, runOnDevicesStr is comma separated list of device identifier
-runOnDevicesStr=$(echo ${runOnDevicesStr} | sed 's/ /,/g')
-tags=$(echo ${tags} | sed 's/ /,/g')
-python jenkins/generate_cucumber_report.py $tags
+for (( run=0; ${run}<=${maxReRuns}; run++ )) ; do
+    tagsForEachDeviceArr=()
+    if [ ! -z $(cat $failedTagsFile) ]; then
+        runTags=$(cat $failedTagsFile)
+        archiveTagFailuresAndRemoveReport $runTags $(($run-1))
+    fi
+
+    wait
+
+    #Distribute tags over devices to run in parallel
+    distributingTagsOverDevices ${runTags} ${devicesCount}
+    for (( i=0; i<${#tagsForEachDeviceArr[@]}; i++ )) ; do
+        #Trimming first character(+) and replacing space with comma(,)
+        tagsToRun=$(echo ${tagsForEachDeviceArr[i]} | sed 's/ /,/g')
+        echo "Trigerring on device" ${deviceIdentifierArr[i]} "with tags" $tagsToRun
+        runOnDevicesStr+=" "${deviceIdentifierArr[i]}
+
+        runTestsOnDevice ${deviceIdentifierArr[i]} $tagsToRun &
+        echo "Trigerred"
+    done
+
+    wait
+
+    python jenkins/generate_cucumber_report.py $initialTags
+
+    wait
+
+    if [ -z $(cat $failedTagsFile) ]; then
+        break
+    fi
+done
 
 # If errorRecordFile is present, output the error and mark the build fail
 if [ -f project/build/outputs/errorRecordFile.txt ]
