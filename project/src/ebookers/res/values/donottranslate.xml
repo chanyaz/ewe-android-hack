@@ -19,8 +19,7 @@
     <string name="tune_sdk_app_conversion_key">228c80cd100c2f4bc041146f24c4c326</string>
 
     <!--Carnival SDK Key-->
-    <!--<string name="carnival_sdk_key">35b50e5581bfd0065fbd72eeacacbe8b5807b060</string>-->
-    <string name="carnival_sdk_debug_key">6c7c785a35709dfd5068b981d8c7accca957ec9c</string>
+    <string name="carnival_sdk_key">35b50e5581bfd0065fbd72eeacacbe8b5807b060</string>
 
     <!-- Deeplink URLs for app shortcuts -->
     <string name="deeplink_trips">bukr://trips</string>
