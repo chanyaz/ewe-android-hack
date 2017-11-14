@@ -124,7 +124,10 @@
     <string name="checkout_tap_to_edit">Klik untuk mengubah</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_payment_options">Kartu kredit, bayar dengan poin</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_pay_later_only_to_confirm">Hanya dibutuhkan untuk mengonfrmasi pemesanan Anda</string>
     <!--Text for selected card -->
+    <string name="checkout_activated_card">Dipilih</string>
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">Hemat {cardtype} …{cardno}</string>
@@ -2283,7 +2286,12 @@
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">Penerbangan &lt;a href=\"{departurelink}\"&gt;berangkat&lt;/a&gt; dan &lt;a href=\"{returnlink}\"&gt;kembali&lt;/a&gt; memiliki biaya bagasinya sendiri-sendiri</string>
     <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
-    <string name="evolable_terms_condition_TEMPLATE">Pemesanan penerbangan ini dibuat melalui &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;.&lt;br&gt;Berlaku &lt;a href=\"{evolable_terms_condition_link}\"&gt;syarat dan ketentuan&lt;/a&gt; supplier.</string>
+    <string name="evolable_terms_condition_TEMPLATE">Pemesanan penerbangan ini dibuat melalui &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;.&lt;br&gt;Berlaku &lt;a href=\"{evolable_terms_condition_link}\"&gt;Syarat dan Ketentuan&lt;/a&gt; supplier.</string>
+    <!-- Legal Information Screen: Evolable Cancellation Info -->
+    <string name="evolable_legal_cancellation_info_TEMPLATE">Denda Pembatalan berbeda menurut harga, rute, waktu, dan tanggal pembatalan. Harap lihat &lt;a href=\"{cancellation_charge_link}\"&gt;syarat dan ketentuan Evolable Asia&lt;/a&gt;.&lt;br&gt;</string>
+    <!-- Legal Information Screen: Evolable Refund Info -->
+    <string name="evolable_legal_refund_info">Semua tiket tunduk pada Denda Refund sebesar 430 yen (atau 500 yen untuk penerbangan Skymark) per penerbangan, selain Denda Pembatalan.</string>
+
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">Batal</string>
@@ -2486,7 +2494,10 @@
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <!-- Accessibility text for location suggestions -->
     <string name="current_location">Lokasi Saat Ini</string>
+    <string name="recent_searched_location">Lokasi Terakhir Dicari</string>
+    <string name="suggested_location">Lokasi yang Disarankan</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Area Tampilan Peta</string>
 
@@ -3970,7 +3981,8 @@
     <string name="flight_overview_header_TEMPLATE">{departureairportcode} hingga {arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">No. {itinerary} telah dikirim ke {email}</string>
-    <string name="itinerary_default_email_message">email Anda.</string>
+    <!-- Itinerary summary text- Itinerary number sent to the your email, e.g. #12344 sent to your email.-->
+    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">nomor{itinerary} dikirim ke email Anda.</string>
 
     <!--Rail search screen title-->
     <string name="trains">Kereta</string>
@@ -4310,16 +4322,20 @@
     <string name="flight_fare_family_fare_label_TEMPLATE">Anda telah memilih {fare_family_name}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">Upgrade penerbangan Anda</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flight from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_one_way_flight_cont_desc_TEMPLATE">Upgrade penerbangan Anda dari {amount} untuk {guest}, Pilihan saat ini adalah {class}</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_round_trip_flight_cont_desc_TEMPLATE">Upgrade penerbangan dari {amount} untuk {guest}, Pilihan saat ini adalah {class}</string>
+    <!-- Label for fare family upgrade option. Example. You have selected Economy, Double tap to change fare class-->
+    <string name="flight_fare_family_change_cont_desc_TEMPLATE">Anda telah memilih {fare_family_name}, Ketuk dua kali untuk mengubah kelas harga</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">Upgrade penerbangan Anda</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Dari</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">Dipilih:{class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">Dipilih: {class_one}, {class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">Dipilih: Kelas campuran</string>
+    <!-- Label for Selected:  Example. Selected: -->
+    <string name="flight_selecting_class_prefix">Dipilih:\u0020</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Ubah kelas harga</string>
 
@@ -4713,5 +4729,10 @@
     <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
     <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">Karena Anda memesan penerbangan, hemat untuk hotel tertentu di {city}</string>
 
+    <!-- See more section offer string which would look like Offer expires in 2 days -->
+    <plurals name="krazy_glue_offer_expire_TEMPLATE">
+        <item quantity="one">Penawaran tinggal {no_of_days} hari lagi</item>
+        <item quantity="other">Penawaran tinggal {no_of_days} hari lagi</item>
+    </plurals>
 
 </resources>
