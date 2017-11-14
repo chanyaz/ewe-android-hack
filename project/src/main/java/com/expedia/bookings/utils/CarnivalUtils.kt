@@ -218,6 +218,12 @@ open class CarnivalUtils {
         }
     }
 
+    fun toggleNotifications(enableNotifications: Boolean) {
+        if (isFeatureToggledOn() && initialized) {
+            Carnival.setInAppNotificationsEnabled(enableNotifications)
+        }
+    }
+
     fun clearUserInfo() {
         setUserInfo(null, null)
     }

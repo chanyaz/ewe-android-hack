@@ -108,6 +108,7 @@ public class AccountLibActivity extends AppCompatActivity
 		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 
 		Config.InitialState startState = Config.InitialState.SignIn;
+		CarnivalUtils.getInstance().toggleNotifications(false);
 
 		Intent intent = getIntent();
 		if (intent.hasExtra(ARG_BUNDLE)) {
@@ -188,6 +189,11 @@ public class AccountLibActivity extends AppCompatActivity
 		userLoggedInWithFacebook = false;
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		CarnivalUtils.getInstance().toggleNotifications(true);
+	}
 
 	@Override
 	public void onBackPressed() {

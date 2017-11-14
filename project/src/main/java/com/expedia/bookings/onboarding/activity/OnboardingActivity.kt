@@ -22,7 +22,7 @@ import com.expedia.bookings.enums.OnboardingPagerState
 import com.expedia.bookings.onboarding.LeftRightFlingListener
 import com.expedia.bookings.onboarding.adapter.OnboardingPagerAdapter
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
@@ -58,6 +58,7 @@ class OnboardingActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
+        CarnivalUtils.getInstance().toggleNotifications(false)
 
         viewPager.adapter = pagerAdapter
         viewPager.setPageSwipingEnabled(false)
@@ -210,6 +211,11 @@ class OnboardingActivity: AppCompatActivity() {
         })
         subtitle.startAnimation(animateView1)
         title.startAnimation(animateView2)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        CarnivalUtils.getInstance().toggleNotifications(true)
     }
 
     enum class FlingType {
