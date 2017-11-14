@@ -89,5 +89,6 @@ class FareFamilyItemWidget(context: Context, attrs: AttributeSet) : LinearLayout
         showMoreContainer.subscribeOnClick(showMoreClickObserver)
         fareFamilyAmenitiesDialogView.viewModel.fareFamilyNameSubject.onNext(fareFamilyName)
         fareFamilyAmenitiesDialogView.viewModel.fareFamilyCabinClassNameSubject.onNext(viewModel.cabinClass)
+        fareFamilyClassHeader.contentDescription = viewModel.getContentDescription()
     }
 }

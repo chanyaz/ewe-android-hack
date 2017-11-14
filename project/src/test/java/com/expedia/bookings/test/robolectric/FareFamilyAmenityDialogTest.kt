@@ -66,17 +66,17 @@ class FareFamilyAmenityDialogTest {
     @Test
     fun testPrimaryAmenitiesContDesc() {
         var primaryAmenity = (widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.getChildAt(0))
-        assertEquals("Checked Bags available for a fee", primaryAmenity.contentDescription)
+        assertEquals("Checked Bags available for a fee.  ", primaryAmenity.contentDescription)
         primaryAmenity = (widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.getChildAt(1) as FareFamilyAmenityItemWidget)
-        assertEquals("Carry on Bag available", primaryAmenity.contentDescription)
+        assertEquals("Carry on Bag available.  ", primaryAmenity.contentDescription)
         primaryAmenity = (widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.getChildAt(2) as FareFamilyAmenityItemWidget)
-        assertEquals("Seat Choice available", primaryAmenity.contentDescription)
+        assertEquals("Seat Choice available.  ", primaryAmenity.contentDescription)
     }
 
     @Test
     fun testOtherAmenitiesContDesc() {
-        assertEquals("Seat Choice available", (widget.fareFamilyAmenitiesDialogView.amenitiesList.getChildAt(2) as FareFamilyAmenityItemWidget).contentDescription)
-        assertEquals("Priority Boarding available for a fee", (widget.fareFamilyAmenitiesDialogView.amenitiesList.getChildAt(7) as FareFamilyAmenityItemWidget).contentDescription)
+        assertEquals("Seat Choice available.  ", (widget.fareFamilyAmenitiesDialogView.amenitiesList.getChildAt(2) as FareFamilyAmenityItemWidget).contentDescription)
+        assertEquals("Priority Boarding available for a fee.  ", (widget.fareFamilyAmenitiesDialogView.amenitiesList.getChildAt(7) as FareFamilyAmenityItemWidget).contentDescription)
     }
 
     @Test

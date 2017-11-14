@@ -35,6 +35,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.payment_and_baggage_fees_may_apply,
 		R.string.accessibility_purchase_button,
 		R.string.flight_hour_min_duration_template_cont_desc,
+		R.string.fare_family_item_cont_desc_TEMPLATE,
+		R.string.fare_family_item_cont_desc_price_TEMPLATE,
 		R.string.flight_min_duration_template_cont_desc,
 		R.anim.slide_out_right_no_fill_after,
 		R.string.itin_flight_toolbar_title_TEMPLATE,

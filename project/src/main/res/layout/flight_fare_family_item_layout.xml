@@ -12,6 +12,7 @@
         android:id="@+id/fare_family_radio_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
         android:clickable="true" />
 
     <LinearLayout
@@ -29,6 +30,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:importantForAccessibility="noHideDescendants"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -47,6 +49,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:importantForAccessibility="noHideDescendants"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -79,6 +82,7 @@
             </LinearLayout>
 
             <com.expedia.bookings.widget.FareFamilyPrimaryAmenitiesWidget
+                android:importantForAccessibility="noHideDescendants"
                 android:id="@+id/fare_family_primary_amenities_widget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

@@ -4719,16 +4719,19 @@
 
     <!-- Amenities Content Description-->
     <!-- Cont Desc for charged amenities Example: Seat Choice available for a fee-->
-    <string name="amenity_chargeable_cont_desc_TEMPLATE">{amenity_name} available for a fee</string>
+    <string name="amenity_chargeable_cont_desc_TEMPLATE">{amenity_name} available for a fee. \u0020</string>
     <!-- Cont Desc for included amenities Example: Seat Choice available -->
-    <string name="amenity_included_cont_desc_TEMPLATE">{amenity_name} available</string>
+    <string name="amenity_included_cont_desc_TEMPLATE">{amenity_name} available. \u0020</string>
     <!-- Cont Desc for unavailable amenities Example: Seat Choice not available-->
-    <string name="amenity_not_available_cont_desc_TEMPLATE">{amenity_name} not available</string>
+    <string name="amenity_not_available_cont_desc_TEMPLATE">{amenity_name} not available. \u0020</string>
     <plurals name="checked_bags_template">
         <item quantity="one">{number} Checked Bag</item>
         <item quantity="other">{number} Checked Bags</item>
     </plurals>
-
+    <!-- Cont Desc for fare family item Example: Classic, cabin Econonmy--> 
+    <string name="fare_family_item_cont_desc_TEMPLATE">{fare_family_name}, cabin {cabin_code}. \u0020</string> 
+    <!-- Cont Desc for fare family item Example: This fare is available for an additional $20, roundtrip for 2 travelers--> 
+    <string name="fare_family_item_cont_desc_price_TEMPLATE">This fare is available for an additional {delta}, {trip_type} for {guests}. \u0020</string>  
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">show more</string>
 

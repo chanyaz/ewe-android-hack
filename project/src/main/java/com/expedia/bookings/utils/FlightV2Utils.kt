@@ -515,6 +515,17 @@ object FlightV2Utils {
         return AmenityResourceType(resourceId, dispVal, getAmenityContentDesc(context, context.resources.getString(R.string.amenity_seat_choice), amenityCategory))
     }
 
+    @JvmStatic fun getPrimaryAmenitiesContainerContDesc(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>): String {
+        val contDesc = StringBuilder()
+        contDesc.append(getBagsAmenityResource(context, fareFamilyComponents).contentDescription)
+        val amenityResourceType = FlightV2Utils.getCarryOnBagAmenityResource(context, fareFamilyComponents)
+        if (!(amenityResourceType.dispVal.isNullOrBlank() && amenityResourceType.resourceId == 0)) {
+            contDesc.append(amenityResourceType.contentDescription)
+        }
+        contDesc.append(getSeatSelectionAmenityResource(context, fareFamilyComponents).contentDescription)
+        return contDesc.toString()
+    }
+
     @JvmStatic fun getAmenityResourceType(context: Context, amenityKey: String, amenityValue: String, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
         var resourceId = R.drawable.flight_upsell_cross_icon
         var dispVal = ""
