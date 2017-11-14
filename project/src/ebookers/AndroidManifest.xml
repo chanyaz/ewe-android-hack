@@ -33,6 +33,7 @@
                 <data android:host="hotelSearch" />
                 <data android:host="flightSearch" />
                 <data android:host="carSearch"/>
+                <data android:host="railSearch"/>
                 <data android:host="activitySearch"/>
                 <data android:host="signIn"/>
                 <data android:host="supportEmail"/>

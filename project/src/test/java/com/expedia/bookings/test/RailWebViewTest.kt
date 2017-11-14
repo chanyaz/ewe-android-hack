@@ -1,6 +1,7 @@
 package com.expedia.bookings.test
 
 import android.app.Activity
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
@@ -19,7 +20,9 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import com.expedia.bookings.R
 import com.expedia.bookings.rail.activity.RailActivity
+import com.expedia.bookings.server.EndpointProvider
 import com.expedia.ui.LOBWebViewActivity
+import org.junit.Ignore
 import kotlin.test.assertTrue
 
 /**
@@ -30,7 +33,6 @@ class RailWebViewTest {
 
     private var shadowApplication: ShadowApplication? = null
     private var activity: Activity by Delegates.notNull()
-    private val RAILS_TAB_WEB_VIEW_URL = "https://www.expedia.de/bahn?mcicid=App.Rails.WebView";
 
     @Before
     fun before() {
@@ -44,7 +46,8 @@ class RailWebViewTest {
     fun railsLaunchButtonOpensWebViewinDE() {
         setPOSWithRailWebViewEnabled(PointOfSaleId.GERMANY.id.toString())
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidRailHybridAppForDEEnabled)
-        verifyRailsWebViewIsLaunched()
+        val intentUrl = verifyRailsWebViewIsLaunched()
+        assertTrue(intentUrl.startsWith("https://www.expedia.de/bahn?mcicid=App.Rails.WebView"))
     }
 
     @Test
@@ -53,6 +56,24 @@ class RailWebViewTest {
         setPOSWithRailWebViewEnabled(PointOfSaleId.UNITED_KINGDOM.id.toString())
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidRailHybridAppForDEEnabled)
         verifyRailsAppViewIsLaunched()
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun railsLaunchButtonOpensWebViewInUK() {
+        setPOSWithRailWebViewEnabled(PointOfSaleId.UNITED_KINGDOM.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidRailHybridAppForUKEnabled)
+        val intentUrl = verifyRailsWebViewIsLaunched()
+        assertTrue(intentUrl.startsWith("https://www.expedia.co.uk/trains?mcicid=App.Rails.WebView"))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EBOOKERS))
+    fun railsLaunchButtonOpensWebViewInUKForEbookers() {
+        setPOSWithRailWebViewEnabled(PointOfSaleId.EBOOKERS_UNITED_KINGDOM.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidRailHybridAppForUKEnabled)
+        val intentUrl = verifyRailsWebViewIsLaunched()
+        assertTrue(intentUrl.startsWith("https://www.ebookers.com/trains?mcicid=App.Rails.WebView"))
     }
 
     private fun goToRails() {
@@ -65,14 +86,15 @@ class RailWebViewTest {
         PointOfSale.onPointOfSaleChanged(activity)
     }
 
-    private fun verifyRailsWebViewIsLaunched() {
+    private fun verifyRailsWebViewIsLaunched() : String {
         goToRails()
         val intent = shadowApplication!!.nextStartedActivity
         val intentUrl = intent.getStringExtra("ARG_URL")
 
         assertEquals(LOBWebViewActivity::class.java.name, intent.component.className)
-        assertTrue(intentUrl.startsWith(RAILS_TAB_WEB_VIEW_URL))
+        assertTrue(intentUrl.contains(PointOfSale.getPointOfSale().getRailUrlInfix()))
         assertTrue(intentUrl.contains("&adobe_mc="))
+        return intentUrl
     }
 
     private fun verifyRailsAppViewIsLaunched() {

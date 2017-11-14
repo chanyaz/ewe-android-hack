@@ -154,9 +154,9 @@ public class NavUtils {
 	public static void goToRail(Context context, Bundle animOptions, int expediaFlags) {
 		sendKillActivityBroadcast(context);
 		RailWebViewTracking.trackAppRailWebViewABTest();
-		boolean isAbTestEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(
-			PointOfSale.getPointOfSale().getRailsWebViewABTestID());
-		if (PointOfSale.getPointOfSale().supportsRailsWebView() && isAbTestEnabled) {
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		boolean isAbTestEnabled = !pos.isRailsWebViewBehindABTest() || AbacusFeatureConfigManager.isUserBucketedForTest(pos.getRailsWebViewABTestID());
+		if (pos.supportsRailsWebView() && isAbTestEnabled) {
 			LOBWebViewActivity.IntentBuilder builder = new LOBWebViewActivity.IntentBuilder(context);
 			EndpointProvider endpointProvider = Ui.getApplication(context).appComponent().endpointProvider();
 			builder.setUrl(endpointProvider.getRailWebViewEndpointUrl());

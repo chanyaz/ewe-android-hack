@@ -55,7 +55,9 @@ class LaunchLobViewModel(val context: Context, val hasInternetConnectionChangeSu
             lobs.add(LobInfo.TRANSPORT)
         }
 
-        if (pos.supports(LineOfBusiness.RAILS) || (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidRailHybridAppForDEEnabled) && PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.GERMANY)) {
+        val isPosSupportingRails = pos.supports(LineOfBusiness.RAILS)
+                       || (pos.supportsRailsWebView() && (!pos.isRailsWebViewBehindABTest || AbacusFeatureConfigManager.isUserBucketedForTest(pos.railsWebViewABTestID)))
+        if (isPosSupportingRails) {
             lobs.add(LobInfo.RAILS)
         }
 

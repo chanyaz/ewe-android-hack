@@ -735,6 +735,10 @@ public class PointOfSale {
 		return mRailsWebViewABTestID;
 	}
 
+	public boolean isRailsWebViewBehindABTest() {
+		return mRailsWebViewABTestID.getKey() != 0;
+	}
+
 	public String getCarsTabWebViewURL() {
 		return getPosLocale().getCarsTabWebViewURL();
 	}
