@@ -2,4 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Development Facebook app id -->
     <string name="facebook_app_id">10153749298520458</string>
+    <!--Carnival SDK Key-->
+    <string name="carnival_sdk_key">5f2d266a64dbb4e655556b5a8c971a8327c446fd</string>
 </resources>
