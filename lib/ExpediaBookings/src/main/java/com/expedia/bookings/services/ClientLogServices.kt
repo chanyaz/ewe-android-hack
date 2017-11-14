@@ -2,6 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.clientlog.EmptyResponse
+import com.expedia.bookings.data.clientlog.ThumborClientLog
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -43,6 +44,13 @@ class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 				.subscribeOn(subscribeOn)
 				.subscribe(makeEmptyObserver())
 	}
+
+    override fun thumborClientLog(thumborClientLog: ThumborClientLog) {
+        clientLogApi.thumborClientLog(thumborClientLog.pageName, thumborClientLog.imageBytesDownloaded, thumborClientLog.numberOfImages, thumborClientLog.bucket)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(makeEmptyObserver())
+    }
 
 	//This endpoint doesn't return json so it will always onError
 	private fun makeEmptyObserver() : Observer<EmptyResponse>  {

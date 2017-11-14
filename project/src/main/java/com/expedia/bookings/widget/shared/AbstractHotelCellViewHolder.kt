@@ -22,8 +22,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.ColorBuilder
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -123,26 +126,30 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
                 // Because of prefetch search results get bound before they are laid out.
                 var onLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
                 onLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
-                    PicassoHelper.Builder(itemView.context)
-                            .setPlaceholder(R.drawable.results_list_placeholder)
-                            .setError(R.drawable.room_fallback)
-                            .setCacheEnabled(false)
-                            .setTarget(target).setTag(PICASSO_TAG)
-                            .build()
-                            .load(HotelMedia(url).getBestUrls(imageView.width / 2))
+                    loadImage(url)
                     imageView.viewTreeObserver.removeOnGlobalLayoutListener(onLayoutListener)
                 }
-
                 imageView.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
             } else {
-                PicassoHelper.Builder(itemView.context)
-                        .setPlaceholder(R.drawable.results_list_placeholder)
-                        .setError(R.drawable.room_fallback)
-                        .setCacheEnabled(false)
-                        .setTarget(target).setTag(PICASSO_TAG)
-                        .build()
-                        .load(HotelMedia(url).getBestUrls(imageView.width / 2))
+                loadImage(url)
             }
+        }
+    }
+
+    private fun loadImage(url: String) {
+        val builder = PicassoHelper.Builder(itemView.context)
+                .setPlaceholder(R.drawable.results_list_placeholder)
+                .setError(R.drawable.room_fallback)
+                .setCacheEnabled(false)
+                .setTarget(target).setTag(PICASSO_TAG)
+                .build()
+
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(itemView.context, AbacusUtils.EBAndroidAppHotelMediaHubSmartImagingService)) {
+            // Providing a better image for Thumbor
+            builder.load(PicassoHelper.generateSizedSmartCroppedUrl(HotelMedia(url).getUrl(HotelMedia.Size.Y), imageView.width / 2, imageView.height / 2).plus(Constants.THUMBOR_URL_PARAM_FOR_TRACKING_BUCKETED))
+        }
+        else {
+            builder.load(HotelMedia(url).getBestUrls(imageView.width / 2).map { it.plus(Constants.THUMBOR_URL_PARAM_FOR_TRACKING_CONTROL) })
         }
     }
 

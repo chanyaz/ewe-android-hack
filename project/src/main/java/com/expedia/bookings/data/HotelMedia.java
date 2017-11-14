@@ -13,10 +13,11 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.IMedia;
-import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
@@ -29,7 +30,6 @@ import com.mobiata.android.json.JSONable;
  *
  */
 public class HotelMedia implements JSONable, IMedia {
-
 /*
 	 * The suffixes for different image sizes is documented here:
 	 * https://team.mobiata.com/wiki/EAN_Servers#Expedia_Hotels_Image_Derivatives
@@ -205,8 +205,8 @@ public class HotelMedia implements JSONable, IMedia {
 	}
 
 	@Override
-	public void loadImage(ImageView imageView, PicassoTarget target, int defaultResId) {
-		fillImageView(imageView, defaultResId, target);
+	public void loadImage(ImageView imageView, PicassoTarget target, int defaultResId, boolean fullScreen) {
+		fillImageView(imageView, defaultResId, target, fullScreen);
 	}
 
 	@Override
@@ -301,75 +301,47 @@ public class HotelMedia implements JSONable, IMedia {
 	 * downloaded in the background. This variation allows the caller to hook a callback.
 	 */
 	private void fillImageView(final ImageView view, final int placeholderResId,
+		final PicassoTarget target, final boolean fullScreen) {
+
+		// Do this OnPreDraw so that we are sure we have the imageView's width
+		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				view.getViewTreeObserver().removeOnPreDrawListener(this);
+				int height;
+				if (fullScreen) {
+					height = view.getHeight()/4;
+				}
+				else {
+					height = view.getHeight()/2;
+				}
+				fillImageView(view, view.getWidth()/2, height, placeholderResId, target);
+				return true;
+			}
+		});
+	}
+
+	private void fillImageView(final ImageView view, final int width, final int height, final int placeholderResId,
 		final PicassoTarget target) {
-
-		// Do this OnPreDraw so that we are sure we have the imageView's width
-		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-			@Override
-			public boolean onPreDraw() {
-				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				fillImageView(view, view.getWidth()/2, placeholderResId, target);
-				return true;
-			}
-		});
+		PicassoHelper builder = new PicassoHelper.Builder(view.getContext()).setCacheEnabled(false)
+			.setPlaceholder(placeholderResId)
+			.setTarget(target).build();
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(view.getContext(), AbacusUtils.EBAndroidAppHotelMediaHubSmartImagingService)) {
+			builder.load(PicassoHelper.generateSizedSmartCroppedUrl(getUrl(HotelMedia.Size.Y), width, height) + Constants.THUMBOR_URL_PARAM_FOR_TRACKING_BUCKETED);
+		}
+		else {
+			List<String> imageURLs = getBestUrls(width);
+			imageURLs = appendParam(imageURLs);
+			builder.load(imageURLs);
+		}
 	}
 
-	public void fillImageView(final ImageView view, final int placeholderResId,
-		final PaletteCallback callback, final String tag) {
-
-		// Do this OnPreDraw so that we are sure we have the imageView's width
-		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-			@Override
-			public boolean onPreDraw() {
-				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				fillImageView(view, view.getWidth()/2, placeholderResId, callback, tag);
-				return true;
-			}
-		});
-	}
-
-	/**
-	 * Creates a UrlBitmapDrawable with appropriately sized Media (falling back to lower resolutions
-	 * if necessary), and stuffs it into the passed ImageView. The Media will be
-	 * downloaded in the background.
-	 */
-	public void fillImageView(final ImageView view, final int width, final int placeholderResId) {
-		new PicassoHelper.Builder(view).setPlaceholder(placeholderResId).build()
-			.load(getBestUrls(width));
-	}
-
-	private void fillImageView(final ImageView view, final int width, final int placeholderResId,
-		final PicassoTarget target) {
-		new PicassoHelper.Builder(view.getContext()).setCacheEnabled(false).setPlaceholder(placeholderResId).setTarget(target).build()
-			.load(getBestUrls(width));
-	}
-
-	private void fillImageView(final ImageView view, final int width, final int placeholderResId,
-		final PaletteCallback callback, final String tag) {
-		new PicassoHelper.Builder(view).setPlaceholder(placeholderResId).applyPaletteTransformation(
-			callback).setTag(tag).build().load(getBestUrls(width));
-	}
-	/**
-	 * This is a specialized variant on fillImageView, where the ImageView wants to
-	 * hold a HeaderBitmapDrawable.
-	 *
-	 * @see{fillImageView()}
-	 */
-	public void fillHeaderBitmapDrawable(final ImageView view, final HeaderBitmapDrawable drawable,
-		final int placeholderResId) {
-		view.setImageDrawable(drawable);
-
-		// Do this OnPreDraw so that we are sure we have the imageView's width
-		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-			@Override
-			public boolean onPreDraw() {
-				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				List<String> urls = getBestUrls(view.getWidth());
-				new PicassoHelper.Builder(view.getContext()).setPlaceholder(placeholderResId).setTarget(
-					drawable.getPicassoTarget()).build().load(urls);
-				return true;
-			}
-		});
+	private List<String> appendParam(List<String> imageURLs) {
+		List<String> urlWithParam = new ArrayList<>();
+		for (String imageUrl: imageURLs) {
+			urlWithParam.add(imageUrl + Constants.THUMBOR_URL_PARAM_FOR_TRACKING_CONTROL);
+		}
+		return urlWithParam;
 	}
 
 	@Override

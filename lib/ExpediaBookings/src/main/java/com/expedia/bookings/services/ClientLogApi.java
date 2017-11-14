@@ -28,4 +28,12 @@ public interface ClientLogApi {
 	@POST("/cl/data/app-impressions.json?batch=false")
 	Observable<EmptyResponse> deepLinkMarketingIdlog(
 		@QueryMap Map<String, String> queryParams);
+
+	@GET(ClientLogConstants.CLIENT_LOG_URL)
+	Observable<EmptyResponse> thumborClientLog(
+		@Query("pageName") String pageName,
+		@Query("imageBytesDownloaded") Long imageBytesDownloaded,
+		@Query("numberOfImages") int numberOfImages,
+		@Query("bucket") int bucket);
+
 }

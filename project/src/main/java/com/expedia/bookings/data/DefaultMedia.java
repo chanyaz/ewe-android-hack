@@ -27,7 +27,7 @@ public class DefaultMedia implements IMedia {
 	}
 
 	@Override
-	public void loadImage(ImageView imageView, PicassoTarget target, int defaultResId) {
+	public void loadImage(ImageView imageView, PicassoTarget target, int defaultResId, boolean fullScreen) {
 		imageView.setContentDescription(imageCaption);
 		new PicassoHelper.Builder(imageView)
 			.setPlaceholder(defaultResId)

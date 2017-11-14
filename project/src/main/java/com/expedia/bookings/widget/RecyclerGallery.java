@@ -346,7 +346,7 @@ public class RecyclerGallery extends RecyclerView {
 			}
 			else {
 				media.loadImage(holder.mImageView, holder.callback,
-					mMode == MODE_CENTER ? media.getPlaceHolderId() : 0);
+					mMode == MODE_CENTER ? media.getPlaceHolderId() : 0, false);
 			}
 			if (enableProgressBarOnImageViews) {
 				holder.progressBar.setVisibility(View.VISIBLE);

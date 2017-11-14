@@ -12,6 +12,7 @@ class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHol
 
     private var mediaList: List<HotelMedia> = emptyList()
     private var soldOut = false
+    private var fullScreen = false
 
     fun setMedia(mediaList: List<HotelMedia>) {
         this.mediaList = mediaList
@@ -25,6 +26,10 @@ class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHol
         }
     }
 
+    fun isFullScreen(fullScreen: Boolean) {
+        this.fullScreen = fullScreen
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HotelDetailGalleryViewHolder {
         val root = LayoutInflater.from(parent.context).inflate(R.layout.hotel_detail_gallery_view_holder, parent, false)
         val vh = HotelDetailGalleryViewHolder(root)
@@ -34,7 +39,7 @@ class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHol
 
     override fun onBindViewHolder(holder: HotelDetailGalleryViewHolder?, position: Int) {
         val media = mediaList[position]
-        holder?.bind(media, soldOut, position, itemCount)
+        holder?.bind(media, soldOut, position, itemCount, fullScreen)
     }
 
     override fun getItemCount(): Int {

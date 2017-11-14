@@ -1,24 +1,35 @@
 package com.expedia.bookings.bitmaps;
 
+import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.utils.Constants;
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
+import com.squareup.pollexor.Thumbor;
+import com.squareup.pollexor.ThumborUrlBuilder;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class PicassoHelper implements Target, Callback {
 	// We allow you to define a series of URLs to try (in order, from 0 and up).
@@ -47,12 +58,32 @@ public class PicassoHelper implements Target, Callback {
 	private String mTag;
 
 	private Picasso mPicasso;
+	static final String THUMBOR_ENDPOINT = "https://thumbnails.expedia.com/g";
+	private static Thumbor thumbor = Thumbor.create(THUMBOR_ENDPOINT);
+	private static long imageContentLength;
+	private static int numberOfImagesDownloaded;
+	private static boolean recordImageLength;
 
-	public static void init(Context context, OkHttpClient client) {
+	public static void init(final Context context, OkHttpClient client) {
 		if (!ExpediaBookingApp.isAutomation()) {
-
+			client = client.newBuilder().addInterceptor(new Interceptor() {
+				@Override
+				public Response intercept(Chain chain) throws IOException {
+					Request request = chain.request();
+					Response response = chain.proceed(request);
+					boolean bucketed = AbacusFeatureConfigManager
+						.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelMediaHubSmartImagingService);
+					boolean shouldTrackSize = request.url().toString().contains(
+						bucketed ? Constants.THUMBOR_URL_PARAM_FOR_TRACKING_BUCKETED
+							: Constants.THUMBOR_URL_PARAM_FOR_TRACKING_CONTROL);
+					if (shouldTrackSize && response.cacheResponse() == null) {
+						addImageContentLength(response.body().contentLength());
+					}
+					return response;
+				}
+			}).build();
+			
 			OkHttp3Downloader okHttpDownloader = new OkHttp3Downloader(client);
-
 			boolean isLoggingEnabled = SettingUtils
 				.get(context, context.getString(R.string.preference_enable_picasso_logging), false);
 
@@ -61,12 +92,28 @@ public class PicassoHelper implements Target, Callback {
 				.build();
 			picasso.setLoggingEnabled(isLoggingEnabled);
 			Picasso.setSingletonInstance(picasso);
+
 		}
 	}
 
-	private PicassoHelper(Context context) {
+	private static void addImageContentLength(long contentLength) {
+		if (recordImageLength) {
+			imageContentLength += contentLength;
+			numberOfImagesDownloaded++;
+		}
+	}
+
+	protected PicassoHelper(Context context) {
 		mContext = context;
 		mPicasso = Picasso.with(context);
+	}
+
+	public static String generateSizedSmartCroppedUrl(String originalUrl, int width, int height) {
+		ThumborUrlBuilder thumborBuilder = thumbor.buildImage(originalUrl.replace("https://", "").trim());
+		thumborBuilder.resize(width, height);
+		thumborBuilder.smart();
+		thumborBuilder.filter(ThumborUrlBuilder.format(ThumborUrlBuilder.ImageFormat.WEBP));
+		return thumborBuilder.toUrl().replace("/unsafe", "");
 	}
 
 	public void load(List<String> urls) {
@@ -82,6 +129,19 @@ public class PicassoHelper implements Target, Callback {
 	public void load(int resId) {
 		mResId = resId;
 		retrieveImage();
+	}
+
+	public static Pair<Long, Integer> stopRecordingImageLength() {
+		recordImageLength = false;
+		Pair<Long, Integer> returnPair = new Pair(imageContentLength, numberOfImagesDownloaded);
+		// Reset
+		imageContentLength = 0;
+		numberOfImagesDownloaded = 0;
+		return returnPair;
+	}
+
+	public static void startRecordingImageLength() {
+		recordImageLength = true;
 	}
 
 	private void loadImage(RequestCreator requestCreator) {

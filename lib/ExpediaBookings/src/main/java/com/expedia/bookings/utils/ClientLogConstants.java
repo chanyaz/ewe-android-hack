@@ -8,4 +8,6 @@ public class ClientLogConstants {
 	public static final String MOBILE_DATA = "MobileData";
 	public static final String CLIENT_LOG_URL = "/cl/1x1.gif?live=true";
 	public static final String DEVICE_TYPE = "android";
+	public static final String THUMBOR_HOTEL_RESULTS_IMAGES_SIZE = "page.Hotel.Thumbor.Results.Size";
+	public static final String THUMBOR_HOTEL_DETAILS_IMAGES_SIZE = "page.Hotel.Thumbor.Details.Size";
 }

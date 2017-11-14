@@ -30,7 +30,7 @@ class HotelDetailGalleryViewHolder(val root: View) : RecyclerView.ViewHolder(roo
         ColorMatrixColorFilter(colorMatrix)
     }
 
-    fun bind(media: HotelMedia, soldOut: Boolean, itemPosition: Int, totalItemCount: Int) {
+    fun bind(media: HotelMedia, soldOut: Boolean, itemPosition: Int, totalItemCount: Int, fullScreen: Boolean) {
         this.mediaItem = media
         this.itemPosition = itemPosition
         this.totalItemCount = totalItemCount
@@ -38,7 +38,7 @@ class HotelDetailGalleryViewHolder(val root: View) : RecyclerView.ViewHolder(roo
         if (media.isPlaceHolder) {
             media.loadErrorImage(imageView, callback, media.fallbackImage)
         } else {
-            media.loadImage(imageView, callback, 0)
+            media.loadImage(imageView, callback, 0, fullScreen)
         }
         progressBar.visibility = View.VISIBLE
 

@@ -17,6 +17,7 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.LineOfBusiness
@@ -29,6 +30,8 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.extension.component1
+import com.expedia.bookings.extension.component2
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.deeplink.HotelDeepLinkHandler
 import com.expedia.bookings.hotel.deeplink.HotelLandingPage
@@ -580,11 +583,23 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
+    private fun logThumborImageSize(pageName: String) {
+        val (totalImageSize, numberOfImages) = PicassoHelper.stopRecordingImageLength()
+        val bucket = if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelMediaHubSmartImagingService)) 1 else 0
+        hotelClientLogTracker.trackThumborClientLog(pageName, totalImageSize, numberOfImages, bucket)
+    }
+
     private val searchArgbEvaluator = ArgbEvaluator()
     private val searchToResults = object : Presenter.Transition(HotelSearchPresenter::class.java, HotelResultsPresenter::class.java, AccelerateDecelerateInterpolator(), 500) {
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            if (forward) {
+                PicassoHelper.startRecordingImageLength()
+            }
+            else {
+                logThumborImageSize(ClientLogConstants.THUMBOR_HOTEL_RESULTS_IMAGES_SIZE)
+            }
             loadingOverlay.visibility = View.GONE
             searchPresenter.visibility = View.VISIBLE
             resultsPresenter.visibility = View.VISIBLE
@@ -619,9 +634,11 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private val resultsToDetail = object : LeftToRightTransition(this, HotelResultsPresenter::class.java, HotelDetailPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             if (forward) {
+                PicassoHelper.startRecordingImageLength()
                 detailPresenter.hotelDetailView.refresh()
                 hotelDetailViewModel.datesChanged = false
             } else {
+                logThumborImageSize(ClientLogConstants.THUMBOR_HOTEL_DETAILS_IMAGES_SIZE)
                 detailPresenter.hotelDetailView.resetViews()
                 if (hotelDetailViewModel.datesChanged
                         && hotelDetailViewModel.changeDateParams != null) {
@@ -687,6 +704,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private val detailsToWebCheckoutView = object : Transition(HotelDetailPresenter::class.java, WebCheckoutView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            if (forward) {
+                logThumborImageSize(ClientLogConstants.THUMBOR_HOTEL_DETAILS_IMAGES_SIZE)
+            }
             detailPresenter.setInverseVisibility(forward)
             webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
             webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
@@ -736,7 +756,11 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (!forward) {
+                logThumborImageSize(ClientLogConstants.THUMBOR_HOTEL_DETAILS_IMAGES_SIZE)
                 detailPresenter.hotelDetailView.resetViews()
+            }
+            else {
+                PicassoHelper.startRecordingImageLength()
             }
             loadingOverlay.visibility = View.GONE
             searchPresenter.animationStart(!forward)
@@ -766,6 +790,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private val detailsToCheckout = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelCheckoutPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            if (forward) {
+                logThumborImageSize(ClientLogConstants.THUMBOR_HOTEL_DETAILS_IMAGES_SIZE)
+            }
             checkoutDialog.hide()
         }
 
@@ -817,6 +844,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             super.endTransition(forward)
             if (!forward) {
                 trackHotelDetail()
+            }
+            else {
+                logThumborImageSize(ClientLogConstants.THUMBOR_HOTEL_DETAILS_IMAGES_SIZE)
             }
         }
     }
@@ -908,6 +938,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         hotelDetailViewModel.hotelOffersSubject.subscribe { response ->
             loadingOverlay.animate(false)
             loadingOverlay.visibility = View.GONE
+            logThumborImageSize(ClientLogConstants.THUMBOR_HOTEL_RESULTS_IMAGES_SIZE)
             if (currentState != detailPresenter::class.java.name) {
                 show(detailPresenter)
                 detailPresenter.showDefault()

@@ -113,4 +113,8 @@ public class Constants {
 	public static final String MESO_DEV_DESTINATION_TEPLATEID = "11749411";
 //	public static final String MESO_PROD_HOTEL_TEMPLATEID = "11754433";
 //	public static final String MESO_PROD_DESTINATION_TEPLATEID = "";
+
+	// Params for help in tracking thumbor image sizes
+	public static final String THUMBOR_URL_PARAM_FOR_TRACKING_BUCKETED = "?thumbor=true";
+	public static final String THUMBOR_URL_PARAM_FOR_TRACKING_CONTROL = "?thumbor=false";
 }

@@ -30,10 +30,12 @@ class HotelDetailGalleryView(context: Context, attrs: AttributeSet?) : RelativeL
     private val galleryAdapter = HotelDetailGalleryAdapter()
 
     private var mediaList: ArrayList<HotelMedia> = ArrayList()
+    private var fullScreen = false
 
     init {
         View.inflate(context, R.layout.hotel_detail_gallery_view, this)
-
+        val a = context.obtainStyledAttributes(attrs, R.styleable.HotelDetailGallery, 0, 0)
+        fullScreen = a.getBoolean(R.styleable.HotelDetailGallery_full_screen, false)
         if (!isInEditMode) {
             galleryAdapter.galleryItemClickedSubject.subscribe(galleryClickedSubject)
 
@@ -48,6 +50,7 @@ class HotelDetailGalleryView(context: Context, attrs: AttributeSet?) : RelativeL
     fun setGalleryItems(list: ArrayList<HotelMedia>) {
         this.mediaList = list
         galleryRecyclerView.adapter = galleryAdapter
+        galleryAdapter.isFullScreen(fullScreen)
         galleryAdapter.setMedia(list)
 
         if (list.isNotEmpty()) {

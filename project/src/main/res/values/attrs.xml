@@ -378,5 +378,8 @@
 
         <attr name="android:textAllCaps"/>
     </declare-styleable>
+    <declare-styleable name="HotelDetailGallery">
+        <attr name="full_screen" format="boolean" />
+    </declare-styleable>
 
 </resources>
