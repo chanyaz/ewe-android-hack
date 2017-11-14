@@ -27,6 +27,7 @@ import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import javax.inject.Inject
+import com.expedia.bookings.utils.isCreditCardMessagingForPayLaterEnabled
 
 class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
 
@@ -48,9 +49,11 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         vm.paymentSplitsWithTripTotalAndTripResponse.map { it.isCardRequired() }.subscribeEnabled(sectionCreditCardContainer)
         vm.paymentSplitsWithTripTotalAndTripResponse.subscribe {
             var hotelResponse = (it.tripResponse as HotelCreateTripResponse)
-            val shouldShowPayLater = hotelResponse.newHotelProductResponse.hotelRoomResponse.isPayLater &&
-            !hotelResponse.newHotelProductResponse.hotelRoomResponse.depositRequired
-            viewmodel.shouldShowPayLaterMessaging.onNext(shouldShowPayLater)
+            if (isCreditCardMessagingForPayLaterEnabled(context)) {
+                val shouldShowPayLater = hotelResponse.newHotelProductResponse.hotelRoomResponse.isPayLater &&
+                        !hotelResponse.newHotelProductResponse.hotelRoomResponse.depositRequired
+                viewmodel.shouldShowPayLaterMessaging.onNext(shouldShowPayLater)
+            }
             viewmodel.isRedeemable.onNext(it.tripResponse.isRewardsRedeemable())
             viewmodel.splitsType.onNext(it.paymentSplits.paymentSplitsType())
             isRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
