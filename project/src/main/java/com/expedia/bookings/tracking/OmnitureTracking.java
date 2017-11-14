@@ -2202,11 +2202,14 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Trips Call", null, null);
 	}
 
-	public static void trackItinTripRefreshCallSuccess(boolean tripHasHotel) {
+	public static void trackItinTripRefreshCallSuccess(boolean tripHasHotel, boolean tripHasFlight) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_SUCCESS);
 		s.setEvents("event287");
 		if (tripHasHotel) {
 			trackAbacusTest(s, AbacusUtils.TripsHotelScheduledNotificationsV2);
+		}
+		if (tripHasFlight) {
+			trackAbacusTest(s, AbacusUtils.TripsNewFlightAlerts);
 		}
 		s.trackLink(null, "o", "Trips Call", null, null);
 	}

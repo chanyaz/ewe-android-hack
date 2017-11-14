@@ -2,6 +2,7 @@ package com.expedia.bookings.data.trips
 
 import android.content.Context
 import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
@@ -64,14 +65,25 @@ class ItineraryManagerTest {
     fun testOmnitureTrackingTripRefreshCallSuccessWithHotel() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.bucketTests(AbacusUtils.TripsHotelScheduledNotificationsV2)
-        OmnitureTracking.trackItinTripRefreshCallSuccess(true)
+        OmnitureTracking.trackItinTripRefreshCallSuccess(true, false)
         assertLinkTrackedWithExposure("Trips Call", "App.Itinerary.Call.Success", "event287", "15315.0.1", mockAnalyticsProvider)
     }
 
     @Test
-    fun testOmnitureTrackingTripRefreshCallSuccessWithoutHotel() {
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.LASTMINUTE, MultiBrand.TRAVELOCITY,
+            MultiBrand.ORBITZ, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.CHEAPTICKETS,
+            MultiBrand.EBOOKERS, MultiBrand.VOYAGES))
+    fun testOmnitureTrackingTripRefreshCallSuccessWithFlight() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        OmnitureTracking.trackItinTripRefreshCallSuccess(false)
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsNewFlightAlerts, R.string.preference_enable_trips_flight_alerts)
+        OmnitureTracking.trackItinTripRefreshCallSuccess(false, true)
+        assertLinkTrackedWithExposure("Trips Call", "App.Itinerary.Call.Success", "event287", "16205.0.1", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOmnitureTrackingTripRefreshCallSuccessWithoutHotelorFlight() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        OmnitureTracking.trackItinTripRefreshCallSuccess(false, false)
         assertLinkTracked("Trips Call", "App.Itinerary.Call.Success", "event287", mockAnalyticsProvider)
     }
 

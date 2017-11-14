@@ -592,6 +592,14 @@
             android:key="14201"
             android:title="Itin share button icon or text - 14201"/>
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="16205"
+            android:summary="%s"
+            android:title="New Flight Alerts - 16205" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -255,6 +255,15 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		return false;
 	}
 
+	public boolean hasFlight () {
+		for (TripComponent component : getTripComponents(true)) {
+			if (component.getType() == Type.FLIGHT) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public List<Insurance> getTripInsurance() {
 		return mTripInsurance;
 	}
