@@ -95,6 +95,10 @@ public class FlightLeg {
 		flightLeg.destinationCity = flightLeg.flightSegments.get(flightLeg.flightSegments.size() - 1).arrivalCity;
 		flightLeg.destinationAirportCode = flightLeg.flightSegments.get(flightLeg.flightSegments.size() - 1).arrivalAirportCode;
 		flightLeg.baggageFeesUrl = multiItemFlightLeg.getBaggageFeesUrl();
+		flightLeg.mayChargeObFees = multiItemFlightLeg.getHasObFees();
+		AirlineMessageModel airlineMessageModel = new AirlineMessageModel();
+		airlineMessageModel.airlineFeeLink = multiItemFlightLeg.getObFeesUrl();
+		flightLeg.airlineMessageModel = airlineMessageModel;
 		return flightLeg;
 	}
 
