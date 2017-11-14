@@ -124,7 +124,10 @@
     <string name="checkout_tap_to_edit">탭하여 수정</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_payment_options">신용카드, 포인트로 결제</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_pay_later_only_to_confirm">예약 확정용으로만 필요</string>
     <!--Text for selected card -->
+    <string name="checkout_activated_card">선택됨</string>
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} 저장됨</string>
@@ -2284,6 +2287,11 @@
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;가는편&lt;/a&gt; 및 &lt;a href=\"{returnlink}\"&gt;오는편&lt;/a&gt;에는 고유한 수하물 요금이 있습니다.</string>
     <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
     <string name="evolable_terms_condition_TEMPLATE">이 항공편 예약은 &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;에서 수행됩니다.&lt;br&gt;공급업체의 &lt;a href=\"{evolable_terms_condition_link}\"&gt;이용약관&lt;/a&gt;이 적용됩니다.</string>
+    <!-- Legal Information Screen: Evolable Cancellation Info -->
+    <string name="evolable_legal_cancellation_info_TEMPLATE">취소 수수료는 요금, 항로 및 취소 날짜와 시간에 따라 달라집니다. &lt;a href=\"{cancellation_charge_link}\"&gt;Evolable Asia의 이용약관&lt;/a&gt;을 참조해 주세요.&lt;br&gt;</string>
+    <!-- Legal Information Screen: Evolable Refund Info -->
+    <string name="evolable_legal_refund_info">모든 티켓에는 취소 수수료 이외에도 항공편당 430엔(Skymark 항공편의 경우 500엔)의 환불 수수료가 적용됩니다.</string>
+
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">취소</string>
@@ -2486,7 +2494,10 @@
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <!-- Accessibility text for location suggestions -->
     <string name="current_location">현재 위치</string>
+    <string name="recent_searched_location">최근 검색된 위치</string>
+    <string name="suggested_location">제안된 위치</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">지도에서 보이는 영역</string>
 
@@ -3970,7 +3981,8 @@
     <string name="flight_overview_header_TEMPLATE">{departureairportcode} 출발 {arrivalairportcode} 도착, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">일정 번호 {itinerary}: {email} 주소로 전송됨</string>
-    <string name="itinerary_default_email_message">고객님 이메일 주소로 전송됨</string>
+    <!-- Itinerary summary text- Itinerary number sent to the your email, e.g. #12344 sent to your email.-->
+    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">고객님 이메일로 #{itinerary} 전송이 완료되었습니다.</string>
 
     <!--Rail search screen title-->
     <string name="trains">기차</string>
@@ -4310,16 +4322,20 @@
     <string name="flight_fare_family_fare_label_TEMPLATE">선택하신 등급은 {fare_family_name}입니다.</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">항공편 업그레이드</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flight from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_one_way_flight_cont_desc_TEMPLATE">{guest}에 대해 {amount}인 항공편 업그레이드입니다. 현재 선택된 항목은 {class}입니다.</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_round_trip_flight_cont_desc_TEMPLATE">{guest}에 대해 {amount}인 항공편 업그레이드입니다. 현재 선택된 항목은 {class}입니다.</string>
+    <!-- Label for fare family upgrade option. Example. You have selected Economy, Double tap to change fare class-->
+    <string name="flight_fare_family_change_cont_desc_TEMPLATE">선택하신 항목은 {fare_family_name}입니다. 좌석 등급을 바꾸려면 두 번 탭하세요.</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">항공편 업그레이드</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">최저</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">현재 좌석 등급: {class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">현재 좌석 등급: {class_one}, {class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">현재 좌석 등급: 혼합된 좌석 등급</string>
+    <!-- Label for Selected:  Example. Selected: -->
+    <string name="flight_selecting_class_prefix">선택된 항목:\u0020</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">좌석 등급 변경</string>
 
@@ -4713,5 +4729,10 @@
     <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
     <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">항공을 예약하신 고객님께는 {city}의 엄선된 호텔을 할인해 드립니다.</string>
 
+    <!-- See more section offer string which would look like Offer expires in 2 days -->
+    <plurals name="krazy_glue_offer_expire_TEMPLATE">
+        <item quantity="one">{no_of_days}일 후 혜택이 만료됩니다!</item>
+        <item quantity="other">{no_of_days}일 후 혜택이 만료됩니다!</item>
+    </plurals>
 
 </resources>

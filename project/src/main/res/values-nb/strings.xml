@@ -124,7 +124,10 @@
     <string name="checkout_tap_to_edit">Trykk for å endre</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_payment_options">Kredittkort, betal med poeng</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_pay_later_only_to_confirm">Kun nødvendig for å bekrefte bestillingen din</string>
     <!--Text for selected card -->
+    <string name="checkout_activated_card">Valgt</string>
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">Lagret {cardtype} …{cardno}</string>
@@ -2284,6 +2287,11 @@
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;Avreise-&lt;/a&gt; og &lt;a href=\"{returnlink}\"&gt;returflyvningene&lt;/a&gt; har separate bagasjeavgifter</string>
     <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
     <string name="evolable_terms_condition_TEMPLATE">Denne flyreisen bestilles gjennom &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;.&lt;br&gt;Leverandørens &lt;a href=\"{evolable_terms_condition_link}\"&gt;betingelser og vilkår&lt;/a&gt; gjelder.</string>
+    <!-- Legal Information Screen: Evolable Cancellation Info -->
+    <string name="evolable_legal_cancellation_info_TEMPLATE">Avbestillingsgebyret vil variere avhengig av pris, rute, tidspunkt og dato for avbestilling. Vi ber deg lese &lt;a href=\"{cancellation_charge_link}\"&gt;Evolable Asias betingelser og vilkår&lt;/a&gt;.&lt;br&gt;</string>
+    <!-- Legal Information Screen: Evolable Refund Info -->
+    <string name="evolable_legal_refund_info">Alle billetter vil pålegges et refusjonsgebyr på 430 yen (eller 500 yen for Skymark-flyreiser) per flyreise, i tillegg til avbestillingsgebyret.</string>
+
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">Avbryt</string>
@@ -2486,7 +2494,10 @@
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <!-- Accessibility text for location suggestions -->
     <string name="current_location">Plassering</string>
+    <string name="recent_searched_location">Sted du nylig har søkt etter</string>
+    <string name="suggested_location">Forslag til sted</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Kartområde</string>
 
@@ -3970,7 +3981,8 @@
     <string name="flight_overview_header_TEMPLATE">Fra {departureairportcode} til {arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">Nr. {itinerary} sendt til {email}</string>
-    <string name="itinerary_default_email_message">e-postadressen din.</string>
+    <!-- Itinerary summary text- Itinerary number sent to the your email, e.g. #12344 sent to your email.-->
+    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">#{itinerary} er sendt til e-posten din.</string>
 
     <!--Rail search screen title-->
     <string name="trains">Tog</string>
@@ -4310,16 +4322,20 @@
     <string name="flight_fare_family_fare_label_TEMPLATE">Du har valgt {fare_family_name}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">Oppgrader flyvningene dine</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flight from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_one_way_flight_cont_desc_TEMPLATE">Oppgrader flyreisen din fra {amount} for {guest}, nåværende valg er {class}</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_round_trip_flight_cont_desc_TEMPLATE">Oppgrader flyreisene dine fra {amount} for {guest}, nåværende valg er {class}</string>
+    <!-- Label for fare family upgrade option. Example. You have selected Economy, Double tap to change fare class-->
+    <string name="flight_fare_family_change_cont_desc_TEMPLATE">Du har valgt {fare_family_name}, trykk to ganger for å endre prisklasse.</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">Oppgrader flyvningen din</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Fra</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">Valgt klasse: {class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">Valgt klasse: {class_one}, {class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">Valgte klasser: blandede klasser</string>
+    <!-- Label for Selected:  Example. Selected: -->
+    <string name="flight_selecting_class_prefix">Valgt:\u0020</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Endre prisklasse</string>
 
@@ -4708,10 +4724,15 @@
 
     <!-- Confirmation widget Strings -->
     <string name="flight_itin_confirmation_status_label">Bekreftelse</string>
-    <string name="flight_itin_cancelled_status_label">Avbrutt</string>
+    <string name="flight_itin_cancelled_status_label">Kansellert</string>
     <string name="flight_itin_in_progress_status_label">Billettbehandling pågår</string>
     <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
     <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">Fordi du bestilte en flyreise, kan du spare penger på utvalgte hoteller i {city}</string>
 
+    <!-- See more section offer string which would look like Offer expires in 2 days -->
+    <plurals name="krazy_glue_offer_expire_TEMPLATE">
+        <item quantity="one">Tilbudet utløper om {no_of_days} dag</item>
+        <item quantity="other">Tilbudet utløper om {no_of_days} dager</item>
+    </plurals>
 
 </resources>

@@ -124,7 +124,10 @@
     <string name="checkout_tap_to_edit">Klicka för att redigera</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_payment_options">Kreditkort, betala med poäng</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_pay_later_only_to_confirm">Behövs endast för att bekräfta din bokning</string>
     <!--Text for selected card -->
+    <string name="checkout_activated_card">Valt</string>
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">Sparat {cardtype} …{cardno}</string>
@@ -2284,6 +2287,11 @@
     <string name="split_ticket_baggage_fees_TEMPLATE">Separata bagageavgifter gäller för &lt;a href=\"{departurelink}\"&gt;avresan&lt;/a&gt; och &lt;a href=\"{returnlink}\"&gt;återresan&lt;/a&gt;</string>
     <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
     <string name="evolable_terms_condition_TEMPLATE">Flygbokningen utfördes genom &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;.&lt;br&gt;Leverantörens &lt;a href=\"{evolable_terms_condition_link}\"&gt;regler och villkor&lt;/a&gt; gäller.</string>
+    <!-- Legal Information Screen: Evolable Cancellation Info -->
+    <string name="evolable_legal_cancellation_info_TEMPLATE">Avbokningsavgiften varierar beroende på pris, resväg, tid och datum för avbokning. Vi hänvisar till &lt;a href=\"{cancellation_charge_link}\"&gt;Evolable Asias regler och villkor&lt;/a&gt;.&lt;br&gt;</string>
+    <!-- Legal Information Screen: Evolable Refund Info -->
+    <string name="evolable_legal_refund_info">För alla biljetter tillkommer en återbetalningsavgift på 430 yen (eller 500 yen för Skymark-flyg) per flyg, i tillägg till avbokningsavgiften.</string>
+
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">Avbryt</string>
@@ -2486,7 +2494,10 @@
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <!-- Accessibility text for location suggestions -->
     <string name="current_location">Nuvarande plats</string>
+    <string name="recent_searched_location">Nyligen sökta platser</string>
+    <string name="suggested_location">Rekommenderade platser</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Synligt kartområde</string>
 
@@ -3970,7 +3981,8 @@
     <string name="flight_overview_header_TEMPLATE">{departureairportcode} till {arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">{itinerary} skickades till {email}</string>
-    <string name="itinerary_default_email_message">din e-postadress.</string>
+    <!-- Itinerary summary text- Itinerary number sent to the your email, e.g. #12344 sent to your email.-->
+    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">{itinerary} har skickats till din e-post.</string>
 
     <!--Rail search screen title-->
     <string name="trains">Tåg</string>
@@ -4309,17 +4321,21 @@
     <!-- Label for fare family upgrade option. Example. You've selected Comfort+  -->
     <string name="flight_fare_family_fare_label_TEMPLATE">Du har valt {fare_family_name}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_roundtrip_label">Uppgradera dina flyg</string>
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">Uppgradera dina flygresor</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flight from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_one_way_flight_cont_desc_TEMPLATE">Uppgradera din flygresa från {amount} för {guest}, det nuvarande valet är {class}</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights from $2 for 2 travellers, Current selection is economy -->
+    <string name="flight_fare_family_upgrade_round_trip_flight_cont_desc_TEMPLATE">Uppgradera dina flygresor från {amount} för {guest}, det nuvarande valet är {class}</string>
+    <!-- Label for fare family upgrade option. Example. You have selected Economy, Double tap to change fare class-->
+    <string name="flight_fare_family_change_cont_desc_TEMPLATE">Du har valt {fare_family_name}, dubbelklicka för att ändra prisklass</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">Uppgradera ditt flyg</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Från</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected: Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">Valt: {class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected: Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">Valt: {class_one}{class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">Valt: blandade klasser</string>
+    <!-- Label for Selected:  Example. Selected: -->
+    <string name="flight_selecting_class_prefix">Valt:\u0020</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Byt kabinklass</string>
 
@@ -4713,5 +4729,10 @@
     <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
     <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">Eftersom du bokade ett flyg kan du spara på utvalda hotell i {city}</string>
 
+    <!-- See more section offer string which would look like Offer expires in 2 days -->
+    <plurals name="krazy_glue_offer_expire_TEMPLATE">
+        <item quantity="one">Erbjudandet går ut om {no_of_days} dag</item>
+        <item quantity="other">Erbjudandet går ut om {no_of_days} dagar</item>
+    </plurals>
 
 </resources>
