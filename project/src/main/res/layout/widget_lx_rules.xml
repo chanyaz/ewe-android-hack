@@ -64,7 +64,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/cancellation_policy_text_view"
-            style="@style/LegalInformationTextView"
+            style="@style/LXLegalInformationTextView"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp" />
 
