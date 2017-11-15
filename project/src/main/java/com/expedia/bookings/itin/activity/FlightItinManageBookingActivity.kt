@@ -6,21 +6,21 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
-import com.expedia.bookings.itin.vm.ManageBookingFlightItinViewModel
+import com.expedia.bookings.itin.vm.FlightItinManageBookingViewModel
 import com.expedia.bookings.itin.widget.ItinToolbar
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 
-class ManageBookingFlightItinActivity : AppCompatActivity() {
+class FlightItinManageBookingActivity : AppCompatActivity() {
 
     companion object {
         private const val ITIN_ID = "ITIN_ID"
 
         @JvmStatic
         fun createIntent(context: Context, id: String): Intent {
-            val intent = Intent(context, ManageBookingFlightItinActivity::class.java)
-            intent.putExtra(ManageBookingFlightItinActivity.ITIN_ID, id)
+            val intent = Intent(context, FlightItinManageBookingActivity::class.java)
+            intent.putExtra(FlightItinManageBookingActivity.ITIN_ID, id)
             return intent
         }
     }
@@ -31,17 +31,17 @@ class ManageBookingFlightItinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.manage_booking_flight_itin)
-        viewModel = ManageBookingFlightItinViewModel(this)
+        viewModel = FlightItinManageBookingViewModel(this, intent.getStringExtra(FlightItinManageBookingActivity.ITIN_ID))
         toolbarViewModel = FlightItinToolbarViewModel()
         itinToolbar.viewModel = toolbarViewModel
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.setUp(intent.getStringExtra(ManageBookingFlightItinActivity.ITIN_ID))
+        viewModel.setUp()
     }
 
-    var viewModel: ManageBookingFlightItinViewModel by notNullAndObservable { vm ->
+    var viewModel: FlightItinManageBookingViewModel by notNullAndObservable { vm ->
         vm.itinCardDataNotValidSubject.subscribe {
             finishActivity()
         }

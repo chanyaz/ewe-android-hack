@@ -4,9 +4,8 @@ import android.content.Context
 import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
-import com.expedia.bookings.itin.activity.ManageBookingFlightItinActivity
+import com.expedia.bookings.itin.activity.FlightItinManageBookingActivity
 import com.expedia.bookings.utils.FeatureToggleUtil
-import org.bouncycastle.asn1.ua.DSTU4145NamedCurves.params
 import rx.subjects.PublishSubject
 
 open class FlightItinBookingInfoViewModel(private val context: Context, private val itinId: String) {
@@ -40,7 +39,7 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
         ))
 
         val webViewIntent = buildWebViewIntent(R.string.itin_flight_details_manage_booking_heading, url, "manage_reservation")?.intent
-        val manageBookingIntent = ManageBookingFlightItinActivity.createIntent(context, itinId)
+        val manageBookingIntent = FlightItinManageBookingActivity.createIntent(context, itinId)
         val intent = if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_trips_new_flights_managing_booking_design)) manageBookingIntent else webViewIntent
         manageBookingCardViewWidgetVM.updateCardView(params = ItinLinkOffCardViewViewModel.CardViewParams(
                 context.getString(R.string.itin_hotel_manage_booking_header),

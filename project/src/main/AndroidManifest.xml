@@ -179,7 +179,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.expedia.bookings.itin.activity.ManageBookingFlightItinActivity"
+            android:name="com.expedia.bookings.itin.activity.FlightItinManageBookingActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/ItinTheme"
