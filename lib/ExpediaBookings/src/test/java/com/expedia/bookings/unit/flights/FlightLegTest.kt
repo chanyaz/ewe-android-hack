@@ -34,46 +34,53 @@ class FlightLegTest {
 
         assertEquals(flightLeg.packageOfferModel.urgencyMessage.ticketsLeft, 7)
 
-        assertEquals(flightLeg.carrierName, "American Airlines")
-        assertEquals(flightLeg.arrivalDateTimeISO, "2017-09-12T07:05:00.000-07:00")
-        assertEquals(flightLeg.carrierCode, "AA")
-        assertEquals(flightLeg.departureDateTimeISO, "2017-09-12T05:00:00.000-07:00")
-        assertEquals(flightLeg.durationHour, 2)
-        assertEquals(flightLeg.durationMinute, 20)
-        assertEquals(flightLeg.elapsedDays, 0)
-        assertEquals(flightLeg.hasLayover, false)
+        assertEquals(flightLeg.carrierName, "United")
+        assertEquals(flightLeg.arrivalDateTimeISO, "2017-12-14T07:35:00.000+01:00")
+        assertEquals(flightLeg.carrierCode, "UA")
+        assertEquals(flightLeg.departureDateTimeISO, "2017-12-13T09:10:00.000-08:00")
+        assertEquals(flightLeg.durationHour, 13)
+        assertEquals(flightLeg.durationMinute, 25)
+        assertEquals(flightLeg.elapsedDays, 1)
+        assertEquals(flightLeg.hasLayover, true)
         assertEquals(flightLeg.legId, "a13b0ab1eea2bd1d7f4cba76a857ec4b")
         assertEquals(flightLeg.departureLeg, "a13b0ab1eea2bd1d7f4cba76a857ec4b")
-        assertEquals(flightLeg.stopCount, 0)
+        assertEquals(flightLeg.stopCount, 1)
 
-        assertEquals(flightLeg.airlines.size, 1)
-        assertEquals(flightLeg.airlines[0].airlineName, "American Airlines")
-        assertEquals(flightLeg.airlines[0].airlineLogoUrl, "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/s/AA_sq.jpg")
+        assertEquals(flightLeg.airlines.size, 2)
+        assertEquals(flightLeg.airlines[0].airlineName, "United")
+        assertEquals(flightLeg.airlines[0].airlineLogoUrl, "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/s/UA_sq.jpg")
 
-        assertEquals(flightLeg.flightSegments.size, 1)
-        assertEquals(flightLeg.flightSegments[0].airplaneType, "Boeing 737")
-        assertEquals(flightLeg.flightSegments[0].flightNumber, "6962")
-        assertEquals(flightLeg.flightSegments[0].carrier, "American Airlines")
-        assertEquals(flightLeg.flightSegments[0].airlineCode, "AA")
-        assertEquals(flightLeg.flightSegments[0].airlineLogoURL, "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/s/AA_sq.jpg")
-        assertEquals(flightLeg.flightSegments[0].departureCity, "San Francisco")
-        assertEquals(flightLeg.flightSegments[0].departureAirportCode, "SFO")
-        assertEquals(flightLeg.flightSegments[0].departureDateTimeISO, "2017-09-12T05:00:00.000-07:00")
-        assertEquals(flightLeg.flightSegments[0].arrivalCity, "Seattle")
-        assertEquals(flightLeg.flightSegments[0].arrivalAirportCode, "SEA")
-        assertEquals(flightLeg.flightSegments[0].arrivalDateTimeISO, "2017-09-12T07:05:00.000-07:00")
-        assertEquals(flightLeg.flightSegments[0].durationHours, 2)
-        assertEquals(flightLeg.flightSegments[0].durationMinutes, 20)
-        assertEquals(flightLeg.flightSegments[0].layoverDurationHours, 0)
-        assertEquals(flightLeg.flightSegments[0].layoverDurationMinutes, 0)
+        assertEquals(flightLeg.flightSegments.size, 2)
+        assertEquals(flightLeg.flightSegments[0].airplaneType, "Boeing 757-200")
+        assertEquals(flightLeg.flightSegments[0].flightNumber, "1075")
+        assertEquals(flightLeg.flightSegments[0].carrier, "United")
+        assertEquals(flightLeg.flightSegments[0].airlineCode, "UA")
+        assertEquals(flightLeg.flightSegments[0].airlineLogoURL, "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/s/UA_sq.jpg")
+        assertEquals(flightLeg.flightSegments[0].departureCity, "Las Vegas")
+        assertEquals(flightLeg.flightSegments[0].departureAirportCode, "LAS")
+        assertEquals(flightLeg.flightSegments[0].departureDateTimeISO, "2017-12-13T09:10:00.000-08:00")
+        assertEquals(flightLeg.flightSegments[0].arrivalCity, "Newark")
+        assertEquals(flightLeg.flightSegments[0].arrivalAirportCode, "EWR")
+        assertEquals(flightLeg.flightSegments[0].arrivalDateTimeISO, "2017-12-13T16:59:00.000-05:00")
+        assertEquals(flightLeg.flightSegments[0].durationHours, 4)
+        assertEquals(flightLeg.flightSegments[0].durationMinutes, 49)
+        assertEquals(flightLeg.flightSegments[0].layoverDurationHours, 1)
+        assertEquals(flightLeg.flightSegments[0].layoverDurationMinutes, 16)
         assertEquals(flightLeg.flightSegments[0].elapsedDays, 0)
     }
 
     @Test
     fun testConvertMultiItemFlightDeltaPriceNegative() {
         val flightLeg = FlightLeg.convertMultiItemFlightLeg("a13b0ab1eea2bd1d7f4cba76a857ec4b", dummyFlightOffer(), dummyMultiItemFlightLeg(), dummyMultiItemOffer(-130))
-        assertEquals(flightLeg.packageOfferModel.price.differentialPriceFormatted, "-$130")
+        assertEquals("-$130", flightLeg.packageOfferModel.price.differentialPriceFormatted)
         assertFalse(flightLeg.packageOfferModel.price.deltaPositive)
+    }
+
+    @Test
+    fun testConvertMultiItemFlightDeltaPriceZero() {
+        val flightLeg = FlightLeg.convertMultiItemFlightLeg("a13b0ab1eea2bd1d7f4cba76a857ec4b", dummyFlightOffer(), dummyMultiItemFlightLeg(), dummyMultiItemOffer(0))
+        assertEquals("$0", flightLeg.packageOfferModel.price.differentialPriceFormatted)
+        assertTrue(flightLeg.packageOfferModel.price.deltaPositive)
     }
 
     private fun dummyFlightOffer(): FlightOffer {
@@ -109,41 +116,74 @@ class FlightLegTest {
         {
           "segments": [
             {
-              "airlineCode": "AA",
-              "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif",
-              "airlineName": "American Airlines",
-              "airplaneType": {
-                "code": "737",
-                "description": "Boeing 737"
-              },
-              "arrivalAirportCode": "SEA",
-              "arrivalCity": "Seattle",
-              "arrivalDateTime": "2017-09-12T07:05:00.000-07:00",
-              "bookingCode": " O",
-              "cabinClass": "coach",
-              "departureAirportCode": "SFO",
-              "departureCity": "San Francisco",
-              "departureDateTime": "2017-09-12T05:00:00.000-07:00",
-              "distance": {
-                "distance": 679.0,
-                "unit": "mi"
-              },
+              "departureAirportCode": "LAS",
+              "arrivalAirportCode": "EWR",
+              "departureCity": "Las Vegas",
+              "arrivalCity": "Newark",
+              "departureDateTime": "2017-12-13T09:10:00.000-08:00",
+              "arrivalDateTime": "2017-12-13T16:59:00.000-05:00",
+              "flightNumber": "1075",
+              "airlineCode": "UA",
+              "bookingCode": " S",
+              "airlineName": "United",
               "duration": {
-                "minutes": 20,
-                "hours": 2
+                "minutes": 49,
+                "hours": 4
+              },
+              "layoverDuration": {
+                "minutes": 16,
+                "hours": 1
               },
               "elapsedDays": 0,
-              "flightNumber": "6962",
-              "operatedByAirlineName": "Alaska Airlines",
-              "operatingAirlineCode": "AS"
+              "distance": {
+                "unit": "mi",
+                "distance": 2225.0
+              },
+              "cabinClass": "coach",
+              "airplaneType": {
+                "code": "752",
+                "description": "Boeing 757-200"
+              },
+              "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/UA.gif"
+            },
+            {
+              "departureAirportCode": "EWR",
+              "arrivalAirportCode": "CDG",
+              "departureCity": "Newark",
+              "arrivalCity": "Paris",
+              "departureDateTime": "2017-12-13T18:15:00.000-05:00",
+              "arrivalDateTime": "2017-12-14T07:35:00.000+01:00",
+              "flightNumber": "57",
+              "airlineCode": "UA",
+              "bookingCode": " S",
+              "airlineName": "United",
+              "duration": {
+                "minutes": 20,
+                "hours": 7
+              },
+              "elapsedDays": 1,
+              "distance": {
+                "unit": "mi",
+                "distance": 3629.0
+              },
+              "cabinClass": "coach",
+              "airplaneType": {
+                "code": "764",
+                "description": "Boeing 767"
+              },
+              "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/UA.gif"
             }
           ],
-          "stops": 0,
+          "stops": 1,
+          "hasObFees": false,
+          "baggageFeesUrl": "/Flights-BagFeesFilterByAC?originapt=LAS&destinationapt=CDG&cabinclass=coach&mktgcarrier=UA&bookingclass=+S&farebasis&opcarrier=UA&traveldate=2017-12-13&flightnumber=1075",
+          "airlineCode": "UA",
+          "airlineName": "United",
           "duration": {
-            "minutes": 20,
-            "hours": 2
+            "minutes": 25,
+            "hours": 13
           },
-          "elapsedDays": 0
+          "elapsedDays": 1
         }
         """
         return Gson().fromJson(multiItemFlightLeg, MultiItemFlightLeg::class.java)

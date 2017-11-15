@@ -88,7 +88,7 @@ public class FlightLeg {
 		flightLeg.durationHour = multiItemFlightLeg.getDuration().getHours();
 		flightLeg.durationMinute = multiItemFlightLeg.getDuration().getMinutes();
 		flightLeg.elapsedDays = multiItemFlightLeg.getElapsedDays();
-		flightLeg.hasLayover = multiItemFlightLeg.getStops() > 1;
+		flightLeg.hasLayover = multiItemFlightLeg.getStops() > 0;
 		flightLeg.legId = flightLegId;
 		flightLeg.departureLeg = flightLegId;
 		flightLeg.stopCount = multiItemFlightLeg.getStops();
