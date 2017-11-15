@@ -16,6 +16,7 @@ import kotlin.properties.Delegates
 
 class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     // Inputs
+    val infositeApiErrorObserver = PublishSubject.create<ApiError>()
     val apiErrorObserver = PublishSubject.create<ApiError>()
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
     var error: ApiError by Delegates.notNull()
@@ -164,6 +165,14 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     makeDefaultError()
                 }
             }
+        }
+
+        infositeApiErrorObserver.subscribe {
+            error = it
+            makeDefaultError()
+            val errorCodeString = error.errorCode?.name ?: ApiError.Code.UNMAPPED_ERROR.name
+
+            HotelTracking.trackHotelDetailError(errorCodeString)
         }
 
         paramsSubject.subscribe(endlessObserver { params ->

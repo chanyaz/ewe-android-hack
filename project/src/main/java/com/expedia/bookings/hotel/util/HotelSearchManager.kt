@@ -4,6 +4,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
 import rx.subjects.PublishSubject
@@ -13,7 +14,7 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
     val successSubject = PublishSubject.create<HotelSearchResponse>()
     val errorSubject = PublishSubject.create<ApiError>()
     val noResultsSubject = PublishSubject.create<Unit>()
-    val noInternetSubject = PublishSubject.create<Unit>()
+    val retrofitErrorSubject = PublishSubject.create<RetrofitError>()
 
     val apiCompleteSubject = PublishSubject.create<Unit>()
 
@@ -78,8 +79,9 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
 
         override fun onError(e: Throwable?) {
             fetchingResults = false
-            if (RetrofitUtils.isNetworkError(e) && !prefetchSearch) {
-                noInternetSubject.onNext(Unit)
+            if (!prefetchSearch) {
+                val retrofitError = RetrofitUtils.getRetrofitError(e)
+                retrofitErrorSubject.onNext(retrofitError)
             }
         }
     }

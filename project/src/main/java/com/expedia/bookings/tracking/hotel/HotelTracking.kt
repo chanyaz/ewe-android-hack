@@ -178,6 +178,10 @@ open class HotelTracking {
             OmnitureTracking.trackHotelDetailGalleryClick()
         }
 
+        fun trackHotelDetailError(errorMessage: String) {
+            OmnitureTracking.trackHotelV2InfositeError(errorMessage)
+        }
+
         fun trackTravelerPickerClick(text: String) {
             OmnitureTracking.trackHotelTravelerPickerClick(text)
         }

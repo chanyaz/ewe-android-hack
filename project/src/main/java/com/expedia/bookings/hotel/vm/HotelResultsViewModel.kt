@@ -15,6 +15,7 @@ import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.trackingString
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
@@ -98,8 +99,9 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             searchApiErrorObservable.onNext(error)
         }
 
-        hotelSearchManager.noInternetSubject.subscribe {
-            HotelTracking.trackHotelsNoResult("NetworkError")
+        hotelSearchManager.retrofitErrorSubject.subscribe { retrofitError ->
+            HotelTracking.trackHotelsNoResult(retrofitError.trackingString())
+
             val cancelFun = fun() {
                 showHotelSearchViewObservable.onNext(Unit)
             }

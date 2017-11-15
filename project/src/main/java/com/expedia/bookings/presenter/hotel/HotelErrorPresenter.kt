@@ -80,5 +80,4 @@ class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPres
             }
         }
     }
-
 }

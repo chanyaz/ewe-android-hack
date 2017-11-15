@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.trackingString
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelInfoToolbarViewModel
 import com.squareup.phrase.Phrase
@@ -33,7 +34,7 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
 
     val fetchInProgressSubject = PublishSubject.create<Unit>()
     val fetchCancelledSubject = PublishSubject.create<Unit>()
-    val apiErrorSubject = PublishSubject.create<ApiError>()
+    val infositeApiErrorSubject = PublishSubject.create<ApiError>()
     val dateChangedParamSubject = PublishSubject.create<HotelSearchParams>()
 
     private var swpEnabled = false
@@ -195,33 +196,16 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
     }
 
     private fun registerErrorSubscriptions() {
-        apiSubscriptions.add(hotelInfoManager.errorSubject.subscribe(apiErrorSubject))
+        apiSubscriptions.add(hotelInfoManager.apiErrorSubject.subscribe(infositeApiErrorSubject))
 
-        apiSubscriptions.add(hotelInfoManager.offerRetrofitError.subscribe { error ->
-            if (cachedParams == null) {
-                fetchCancelledSubject.onNext(Unit)
-            } else {
-                val retryFun = { fetchOffers(cachedParams!!, hotelId) }
-                if (error == RetrofitError.NO_INTERNET) {
-                    handleNoInternet(retryFun)
-                } else {
-                    handleTimeOut(retryFun)
-                }
-            }
+        apiSubscriptions.add(hotelInfoManager.offerRetrofitErrorSubject.subscribe { retrofitError ->
+            val retryFun = { fetchOffers(cachedParams!!, hotelId) }
+            handleRetrofitError(retrofitError, retryFun)
         })
 
-        apiSubscriptions.add(hotelInfoManager.infoRetrofitError.subscribe { error ->
-            if (cachedParams == null) {
-                fetchCancelledSubject.onNext(Unit)
-            } else {
-                val retryFun = { hotelInfoManager.fetchInfo(cachedParams!!, hotelId) }
-
-                if (error == RetrofitError.NO_INTERNET) {
-                    handleNoInternet(retryFun)
-                } else {
-                    handleTimeOut(retryFun)
-                }
-            }
+        apiSubscriptions.add(hotelInfoManager.infoRetrofitErrorSubject.subscribe { retrofitError ->
+            val retryFun = { hotelInfoManager.fetchInfo(cachedParams!!, hotelId) }
+            handleRetrofitError(retrofitError, retryFun)
         })
 
         apiSubscriptions.add(hotelInfoManager.soldOutSubject.subscribe {
@@ -231,6 +215,20 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
                 hotelInfoManager.fetchInfo(cachedParams!!, hotelId)
             }
         })
+    }
+
+    private fun handleRetrofitError(retrofitError: RetrofitError, retryFun: () -> Unit) {
+        HotelTracking.trackHotelDetailError(retrofitError.trackingString())
+
+        if (cachedParams == null) {
+            fetchCancelledSubject.onNext(Unit)
+        } else {
+            when (retrofitError) {
+                RetrofitError.NO_INTERNET -> handleNoInternet(retryFun)
+                RetrofitError.TIMEOUT -> handleTimeOut(retryFun)
+                RetrofitError.UNKNOWN -> fetchCancelledSubject.onNext(Unit)
+            }
+        }
     }
 
     private fun handleNoInternet(retryFun: () -> Unit) {

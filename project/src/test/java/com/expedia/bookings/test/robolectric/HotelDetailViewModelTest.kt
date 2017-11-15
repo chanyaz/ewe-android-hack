@@ -3,7 +3,9 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -24,6 +26,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -31,10 +34,12 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.RetrofitError
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.mobiata.android.util.SettingUtils
+import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -70,6 +75,7 @@ class HotelDetailViewModelTest {
     private var context: Context by Delegates.notNull()
 
     private val mockHotelInfoManager = TestHotelInfoManager()
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before fun before() {
         context = RuntimeEnvironment.application
@@ -104,6 +110,8 @@ class HotelDetailViewModelTest {
         soldOutOffer.latitude = 101.0
         soldOutOffer.longitude = 152.0
         soldOutOffer.hotelRoomResponse = emptyList()
+
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -617,17 +625,84 @@ class HotelDetailViewModelTest {
         mockHotelInfoManager.fetchOffersCalled.subscribe(testFetchOfferSub)
 
         vm.hotelOffersSubject.subscribe(testSuccessSub)
-        vm.apiErrorSubject.subscribe(testErrorSub)
+        vm.infositeApiErrorSubject.subscribe(testErrorSub)
 
         vm.fetchOffers(createSearchParams(), "12345")
         testFetchOfferSub.assertValueCount(1)
         testErrorSub.assertValueCount(0)
 
-        mockHotelInfoManager.errorSubject.onNext(ApiError())
+        mockHotelInfoManager.apiErrorSubject.onNext(ApiError())
         testErrorSub.assertValueCount(1)
         testSuccessSub.assertValueCount(0)
     }
 
+    @Test
+    fun testApiErrorObservable() {
+        val testSubscriber = TestSubscriber<ApiError>()
+        vm.infositeApiErrorSubject.subscribe(testSubscriber)
+
+        mockHotelInfoManager.apiErrorSubject.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+
+        testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        testSubscriber.assertValueCount(1)
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.onNextEvents[0].errorCode)
+    }
+
+    @Test
+    fun testInfoRxNetworkErrorTracking() {
+        mockHotelInfoManager.infoRetrofitErrorSubject.onNext(RetrofitError.NO_INTERNET)
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Infosite.Error",
+                Matchers.allOf(
+                        OmnitureMatchers.withProps(mapOf(2 to "hotels", 36 to "NetworkError")),
+                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 18 to "App.Hotels.Infosite.Error"))),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testInfoRxTimeOutErrorTracking() {
+        mockHotelInfoManager.infoRetrofitErrorSubject.onNext(RetrofitError.TIMEOUT)
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Infosite.Error",
+                Matchers.allOf(
+                        OmnitureMatchers.withProps(mapOf(2 to "hotels", 36 to "NetworkTimeOut")),
+                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 18 to "App.Hotels.Infosite.Error"))),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testInfoRxUnknownErrorTracking() {
+        mockHotelInfoManager.infoRetrofitErrorSubject.onNext(RetrofitError.UNKNOWN)
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Infosite.Error",
+                Matchers.allOf(
+                        OmnitureMatchers.withProps(mapOf(2 to "hotels", 36 to "UnknownRetrofitError")),
+                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 18 to "App.Hotels.Infosite.Error"))),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOfferRxNetworkErrorTracking() {
+        mockHotelInfoManager.offerRetrofitErrorSubject.onNext(RetrofitError.NO_INTERNET)
+
+        assertInfoSiteErrorTracking("NetworkError")
+    }
+
+    @Test
+    fun testOfferRxTimeOutErrorTracking() {
+        mockHotelInfoManager.offerRetrofitErrorSubject.onNext(RetrofitError.TIMEOUT)
+
+        assertInfoSiteErrorTracking("NetworkTimeOut")
+    }
+
+    @Test
+    fun testOfferRxUnknownErrorTracking() {
+        mockHotelInfoManager.offerRetrofitErrorSubject.onNext(RetrofitError.UNKNOWN)
+
+        assertInfoSiteErrorTracking("UnknownRetrofitError")
+    }
+
+    @Test
     fun testChangeDate() {
         val originalStartDate = LocalDate()
         val originalEndDate = LocalDate(1)
@@ -776,7 +851,15 @@ class HotelDetailViewModelTest {
         PointOfSale.onPointOfSaleChanged(RuntimeEnvironment.application)
     }
 
-    private class TestHotelInfoManager() :
+    private fun assertInfoSiteErrorTracking(errorMessage: String) {
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Infosite.Error",
+                Matchers.allOf(
+                        OmnitureMatchers.withProps(mapOf(2 to "hotels", 36 to errorMessage)),
+                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 18 to "App.Hotels.Infosite.Error"))),
+                mockAnalyticsProvider)
+    }
+
+    private class TestHotelInfoManager :
             HotelInfoManager(Mockito.mock(HotelServices::class.java)) {
         val fetchOffersCalled = PublishSubject.create<Unit>()
         val fetchInfoCalled = PublishSubject.create<Unit>()

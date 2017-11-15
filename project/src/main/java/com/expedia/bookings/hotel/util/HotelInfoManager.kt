@@ -8,17 +8,16 @@ import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
 import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
 
 open class HotelInfoManager(private val hotelServices: HotelServices) {
 
     val offerSuccessSubject = PublishSubject.create<HotelOffersResponse>()
     val infoSuccessSubject = PublishSubject.create<HotelOffersResponse>()
 
-    val offerRetrofitError = PublishSubject.create<RetrofitError>()
-    val infoRetrofitError = PublishSubject.create<RetrofitError>()
+    val offerRetrofitErrorSubject = PublishSubject.create<RetrofitError>()
+    val infoRetrofitErrorSubject = PublishSubject.create<RetrofitError>()
 
-    val errorSubject = PublishSubject.create<ApiError>()
+    val apiErrorSubject = PublishSubject.create<ApiError>()
     val soldOutSubject = PublishSubject.create<Unit>()
 
     open fun fetchOffers(params: HotelSearchParams, hotelId: String) {
@@ -38,7 +37,7 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
                 } else if (!response.hasErrors()) {
                     offerSuccessSubject.onNext(response)
                 } else {
-                   errorSubject.onNext(response.firstError)
+                   apiErrorSubject.onNext(response.firstError)
                 }
             }
         }
@@ -47,8 +46,8 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
         }
 
         override fun onError(e: Throwable?) {
-            val error = RetrofitUtils.getRetrofitError(e)
-            error?.let { offerRetrofitError.onNext(error) }
+            val retrofitError = RetrofitUtils.getRetrofitError(e)
+            offerRetrofitErrorSubject.onNext(retrofitError)
         }
     }
 
@@ -57,6 +56,8 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
             response?.let { response ->
                 if (!response.hasErrors()) {
                     infoSuccessSubject.onNext(response)
+                } else {
+                    apiErrorSubject.onNext(response.firstError)
                 }
             }
         }
@@ -65,8 +66,8 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
         }
 
         override fun onError(e: Throwable?) {
-            val error = RetrofitUtils.getRetrofitError(e)
-            error?.let { infoRetrofitError.onNext(error) }
+            val retrofitError = RetrofitUtils.getRetrofitError(e)
+            infoRetrofitErrorSubject.onNext(retrofitError)
         }
     }
 }

@@ -217,6 +217,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SEARCH_THIS_AREA = "App.Hotels.Search.AreaSearch";
 	private static final String HOTELSV2_DETAILS_PAGE = "App.Hotels.Infosite";
 	private static final String HOTELSV2_SOLD_OUT_PAGE = "App.Hotels.Infosite.SoldOut";
+	private static final String HOTELSV2_DETAILS_ERROR = "App.Hotels.Infosite.Error";
 	private static final String HOTEL_URGENCY_COMPRESSION_SCORE = "HOT.SR.RegionCompression.Score.";
 
 	private static final String HOTELSV2_DETAILS_ETP = "App.Hotels.IS.Select.";
@@ -795,6 +796,20 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.HotelEnableInfositeChangeDate);
 
 		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackHotelV2InfositeError(String errorMessage) {
+		String pageName = HOTELSV2_DETAILS_ERROR;
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageload");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		s.setProp(36, errorMessage);
+
 		s.track();
 	}
 

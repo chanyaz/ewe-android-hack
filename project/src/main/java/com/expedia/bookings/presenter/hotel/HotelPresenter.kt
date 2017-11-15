@@ -911,10 +911,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             show(searchPresenter)
         }
 
-        hotelDetailViewModel.apiErrorSubject.subscribe { error ->
+        hotelDetailViewModel.infositeApiErrorSubject.subscribe { error ->
             loadingOverlay.animate(false)
             loadingOverlay.visibility = View.GONE
-            errorPresenter.getViewModel().apiErrorObserver.onNext(error)
+            errorPresenter.getViewModel().infositeApiErrorObserver.onNext(error)
             show(errorPresenter)
         }
 
@@ -930,7 +930,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             }
             detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(response)
         }
-
 
         hotelDetailViewModel.roomSelectedSubject.subscribe { offer ->
             checkoutPresenter.hotelCheckoutWidget.markRoomSelected()

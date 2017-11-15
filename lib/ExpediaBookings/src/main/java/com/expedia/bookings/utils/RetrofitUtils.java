@@ -1,7 +1,5 @@
 package com.expedia.bookings.utils;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
@@ -11,7 +9,6 @@ public class RetrofitUtils {
 		return e instanceof IOException;
 	}
 
-	@Nullable
 	public static RetrofitError getRetrofitError(Throwable e) {
 		if (isNetworkError(e)) {
 			return RetrofitError.NO_INTERNET;
@@ -19,7 +16,7 @@ public class RetrofitUtils {
 		else if (isTimeoutException(e)) {
 			return RetrofitError.TIMEOUT;
 		}
-		return null;
+		return RetrofitError.UNKNOWN;
 	}
 
 	private static boolean isTimeoutException(Throwable e) {

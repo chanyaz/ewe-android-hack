@@ -1,18 +1,22 @@
 package com.expedia.bookings.hotel.vm
 
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.util.HotelSearchManager
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.testutils.JSONResourceReader
 import com.squareup.phrase.Phrase
+import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -30,6 +34,7 @@ class HotelResultsViewModelTest {
 
     lateinit var sut: HotelResultsViewModel
     val mockSearchProvider = HotelSearchManager(null)
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     val happyParams = makeHappyParams()
     val filterParams = makeFilterParams()
@@ -41,6 +46,7 @@ class HotelResultsViewModelTest {
     @Before
     fun setup() {
         sut = HotelResultsViewModel(context, mockSearchProvider)
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -274,6 +280,27 @@ class HotelResultsViewModelTest {
                 "FAILURE: Expected 'to' text to be explicit")
     }
 
+    @Test
+    fun testResultsRxNetworkErrorTracking() {
+        mockSearchProvider.retrofitErrorSubject.onNext(RetrofitError.NO_INTERNET)
+
+        assertResultsErrorTracking("NetworkError")
+    }
+
+    @Test
+    fun testResultsRxTimeOutErrorTracking() {
+        mockSearchProvider.retrofitErrorSubject.onNext(RetrofitError.TIMEOUT)
+
+        assertResultsErrorTracking("NetworkTimeOut")
+    }
+
+    @Test
+    fun testResultsRxUnknownErrorTracking() {
+        mockSearchProvider.retrofitErrorSubject.onNext(RetrofitError.UNKNOWN)
+
+        assertResultsErrorTracking("UnknownRetrofitError")
+    }
+
     private fun makeHappyParams(): HotelSearchParams {
         return makeParams("", "")
     }
@@ -309,5 +336,13 @@ class HotelResultsViewModelTest {
         val resourceReader = JSONResourceReader(filePath)
         val searchResponse = resourceReader.constructUsingGson(HotelSearchResponse::class.java)
         return searchResponse
+    }
+
+    private fun assertResultsErrorTracking(errorMessage: String) {
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Search.NoResults",
+                Matchers.allOf(
+                        OmnitureMatchers.withProps(mapOf(2 to "hotels", 36 to errorMessage)),
+                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 18 to "App.Hotels.Search.NoResults"))),
+                mockAnalyticsProvider)
     }
 }

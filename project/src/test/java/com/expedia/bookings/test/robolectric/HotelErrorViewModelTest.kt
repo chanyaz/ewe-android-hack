@@ -293,6 +293,73 @@ class HotelErrorViewModelTest {
         validateOmnitureTracking("App.Hotels.Search.NoResults", "UNMAPPED_ERROR")
     }
 
+    @Test fun observableInfositeNoCodeApiErrorObserver() {
+        val imageId = R.drawable.error_default
+        val errorMessage = Phrase.from(RuntimeEnvironment.application, R.string.error_server_TEMPLATE)
+                .put("brand", BuildConfig.brand)
+                .format()
+                .toString()
+        val buttonText = RuntimeEnvironment.application.getString(R.string.retry)
+
+        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+
+        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+
+        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+
+        val error = ApiError()
+        subjectUnderTest.infositeApiErrorObserver.onNext(error)
+
+        errorImageObservableTestSubscriber.assertValues(imageId)
+        errorMessageObservableTestSubscriber.assertValues(errorMessage)
+        errorButtonObservableTestSubscriber.assertValues(buttonText)
+
+        val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
+
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
+        defaultErrorObservableTestSubscriber.assertValues(Unit)
+
+        validateOmnitureTracking("App.Hotels.Infosite.Error", "UNMAPPED_ERROR")
+    }
+
+    @Test fun observableInfositeApiErrorObserver() {
+        val imageId = R.drawable.error_default
+        val errorMessage = Phrase.from(RuntimeEnvironment.application, R.string.error_server_TEMPLATE)
+                .put("brand", BuildConfig.brand)
+                .format()
+                .toString()
+        val buttonText = RuntimeEnvironment.application.getString(R.string.retry)
+
+        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+
+        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+
+        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+
+        val error = ApiError()
+        error.errorCode = ApiError.Code.REGION_BLOCKED
+        subjectUnderTest.infositeApiErrorObserver.onNext(error)
+
+        errorImageObservableTestSubscriber.assertValues(imageId)
+        errorMessageObservableTestSubscriber.assertValues(errorMessage)
+        errorButtonObservableTestSubscriber.assertValues(buttonText)
+
+        val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
+
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
+        defaultErrorObservableTestSubscriber.assertValues(Unit)
+
+        validateOmnitureTracking("App.Hotels.Infosite.Error", "REGION_BLOCKED")
+    }
+
     private fun validateImageErrorMessageButtonTextForError(imageId: Int, errorMessage: String, buttonText: String, errorCode: ApiError.Code) {
         val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
         subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
@@ -331,8 +398,8 @@ class HotelErrorViewModelTest {
         OmnitureTestUtils.assertStateTracked(
                 pageName,
                 Matchers.allOf(
-                        OmnitureMatchers.withEvars(mapOf(18 to pageName, 2 to "D=c2")),
-                        OmnitureMatchers.withProps(mapOf(36 to error, 2 to "hotels"))),
+                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 18 to pageName)),
+                        OmnitureMatchers.withProps(mapOf(2 to "hotels", 36 to error))),
                 mockAnalyticsProvider)
     }
 
