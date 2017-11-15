@@ -140,9 +140,10 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     }
 
     fun onReactToLocationRequest() {
-        phoneLaunchWidget.hasInternetConnection.onNext(true)
-        onReactToUserActive()
-        return
+        if (view != null) {
+            phoneLaunchWidget.hasInternetConnection.onNext(true)
+            onReactToUserActive()
+        }
     }
 
     // Hotel search in collection location
