@@ -145,6 +145,7 @@
     <string name="pay_later_credit_card_messaging">pay_later_credit_card_messaging</string>
     <string name="preference_enable_hotel_material_forms">preference_enable_hotel_material_forms</string>
     <string name="preference_enable_trips_flight_alerts">preference_enable_trips_flight_alerts</string>
+    <string name="preference_enable_mid_checkout">preference_enable_mid_checkout</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

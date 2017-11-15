@@ -64,3 +64,8 @@ fun isHotelMaterialForms(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelMaterialForms) &&
             FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_hotel_material_forms)
 }
+
+fun isMIDCheckoutEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppMIDCheckout) &&
+            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_mid_checkout)
+}

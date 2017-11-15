@@ -89,6 +89,11 @@
             android:summary="Enable Hotel Material Forms"
             android:title="Enable Hotel Material Forms" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_enable_mid_checkout"
+            android:summary="Enable MID Checkout"
+            android:title="Enable MID Checkout" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
