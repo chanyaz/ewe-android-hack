@@ -11,6 +11,7 @@ import com.expedia.bookings.services.FlightServices;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.KrazyglueServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.bookings.services.TNSService;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.PaymentViewModel;
@@ -38,6 +39,13 @@ public final class FlightModule {
 	BaggageInfoService provideBaggageInfoService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new BaggageInfoService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@FlightScope
+	TNSService provideTNSService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new TNSService(endpoint, client, interceptor, Schedulers.io(), Schedulers.io());
 	}
 
 	@Provides
