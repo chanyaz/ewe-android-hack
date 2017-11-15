@@ -92,6 +92,8 @@ class FlightItinDetailsViewModelTest {
         val now = DateTime.now()
         val startTime = now.plusDays(30)
         val startDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(startTime).capitalize()
+        val segments = testItinCardData.flightLeg.segments
+        testItinCardData.flightLeg.segments[segments.size-1].destinationWaypoint = TestWayPoint("LAS", "Las Vegas", dateTime)
         whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
         sut.itineraryManager = mockItinManager
         sut.onResume()
