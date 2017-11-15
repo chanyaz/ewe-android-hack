@@ -5,11 +5,6 @@
         android:layout="@layout/preference_category_title"
         android:title="Hotel Features">
 
-        <CheckBoxPreference
-            android:key="@string/preference_dateless_infosite"
-            android:summary="Enable change date functionality"
-            android:title="Enable Hotel Dateless Infosite" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
