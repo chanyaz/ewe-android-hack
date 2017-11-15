@@ -148,6 +148,7 @@
     <string name="preference_enable_last_minute_deals">preference_enable_last_minute_deals</string>
     <string name="preference_enable_trips_flight_alerts">preference_enable_trips_flight_alerts</string>
     <string name="preference_enable_mid_checkout">preference_enable_mid_checkout</string>
+    <string name="preference_enable_lx_mod">preference_enable_lx_mod</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

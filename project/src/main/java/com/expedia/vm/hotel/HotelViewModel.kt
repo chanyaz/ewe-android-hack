@@ -258,8 +258,8 @@ open class HotelViewModel(private val context: Context) {
 
     private fun getMemberDealUrgencyMessage(): UrgencyMessage? {
         if (hasMemberDeal(hotel)) {
-            return UrgencyMessage(R.drawable.ic_hotel_member, R.color.hotel_member_pricing_bg_color,
-                    resources.getString(R.string.member_pricing), R.color.hotel_member_pricing_text_color)
+            return UrgencyMessage(R.drawable.ic_member_badge, R.color.member_pricing_flag_bg_color,
+                    resources.getString(R.string.member_pricing), R.color.member_pricing_text_color)
         }
         return null
     }

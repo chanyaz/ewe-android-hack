@@ -166,10 +166,10 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         }
     }
 
-    fun lxDetails(activityId: String?, location: String?, startDate: LocalDate?, endDate: LocalDate?,
+    fun lxDetails(activityId: String?, location: String?, startDate: LocalDate?, endDate: LocalDate?, promoPricingEnabled: Boolean,
                   observer: Observer<ActivityDetailsResponse>): Subscription {
         return lxApi.activityDetails(activityId, location, DateUtils.convertToLXDate(startDate),
-                DateUtils.convertToLXDate(endDate))
+                DateUtils.convertToLXDate(endDate), promoPricingEnabled)
                 .observeOn(this.observeOn)
                 .subscribeOn(this.subscribeOn)
                 .doOnNext(HANDLE_ACTIVITY_DETAILS_ERROR)
@@ -295,6 +295,8 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
             activity.price = Money(activity.fromPriceValue, currencyCode)
             activity.originalPrice = Money(activity.fromOriginalPriceValue, currencyCode)
             activity.title = Strings.escapeQuotes(activity.title)
+            activity.mipOriginalPrice = Money(activity.mipFromOriginalPriceValue, currencyCode)
+            activity.mipPrice = Money(activity.mipFromPriceValue, currencyCode)
         }
     }
 

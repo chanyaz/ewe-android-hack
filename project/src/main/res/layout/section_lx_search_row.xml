@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/results_card_view"
     style="@style/MaterialCardView"
     android:layout_width="match_parent"
@@ -33,6 +34,38 @@
             android:layout_height="67dp"
             android:layout_gravity="bottom"
             android:background="@drawable/lx_result_list_gradient_bottom" />
+
+        <LinearLayout
+            android:id="@+id/urgency_message_layout_lx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp"
+            android:paddingTop="5dp"
+            android:orientation="horizontal"
+            android:background="@color/member_pricing_flag_bg_color"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/urgency_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:src="@drawable/ic_member_badge"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/urgency_message"
+                style="@style/Core.Text.200"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/member_pricing_text_color"
+                android:text="@string/member_pricing"
+                tools:text="SUPER LONG TEXT" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/activity_details"

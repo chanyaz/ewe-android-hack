@@ -735,6 +735,13 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
+            android:key="16098"
+            android:title="LX MOD Banner - 16098" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
             android:key="15246"
             android:title="LX Offer Level Cancellation Support - 15246" />
 

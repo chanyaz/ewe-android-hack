@@ -1,8 +1,6 @@
 package com.expedia.bookings.data.lx
 
 import com.expedia.bookings.data.BaseSearchParams
-import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Strings
 import org.joda.time.LocalDate

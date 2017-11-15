@@ -28,6 +28,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		// Login Features
 		initializeFeatureCheck(R.string.preference_enable_smart_lock);
 		initializeFeatureCheck(R.string.preference_enable_activity_map);
+		initializeFeatureCheck(R.string.preference_enable_lx_mod);
 
 		//Flight Features
 

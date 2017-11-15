@@ -31,9 +31,9 @@ public class LXOfferSelectedTests {
 		ticket.count = 2;
 		tickets.add(ticket);
 
-		LXOfferSelected a = new LXOfferSelected("123456", offer, tickets, "region123");
+		LXOfferSelected a = new LXOfferSelected("123456", offer, tickets, "region123", "2");
 
 		String expectedSerializedJson = gson.toJson(a);
-		assertEquals(expectedSerializedJson, "{\"activityId\":\"123456\",\"activityItemId\":\"183619\",\"activityDate\":\"2015-02-24T07:30:00\",\"tickets\":[{\"ticketId\":\"90042\",\"code\":\"Adult\",\"count\":2}],\"allDayActivity\":false,\"amount\":\"260.00\",\"regionId\":\"region123\"}");
+		assertEquals(expectedSerializedJson, "{\"activityId\":\"123456\",\"activityItemId\":\"183619\",\"activityDate\":\"2015-02-24T07:30:00\",\"tickets\":[{\"ticketId\":\"90042\",\"code\":\"Adult\",\"count\":2}],\"allDayActivity\":false,\"amount\":\"260.00\",\"regionId\":\"region123\",\"promotionId\":\"2\"}");
 	}
 }

@@ -1692,6 +1692,8 @@ public class OmnitureTracking {
 			s.setProp(1, Integer.toString(lxSearchResponse.activities.size()));
 		}
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidLXMOD);
+
 		// Send the tracking data
 		s.track();
 	}

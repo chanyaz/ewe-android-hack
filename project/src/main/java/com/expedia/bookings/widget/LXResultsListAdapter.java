@@ -10,13 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -104,6 +107,8 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			super(itemView);
 			ButterKnife.inject(this, itemView);
 			itemView.setOnClickListener(this);
+			lxModTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(itemView.getContext(), AbacusUtils.EBAndroidLXMOD,
+					R.string.preference_enable_lx_mod);
 		}
 
 		@InjectView(R.id.activity_title)
@@ -133,6 +138,11 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		@InjectView(R.id.lx_card_top_gradient)
 		View cardGradientOnTop;
 
+		@InjectView(R.id.urgency_message_layout_lx)
+		LinearLayout urgencyMessage;
+
+		private boolean lxModTestEnabled;
+
 		@Override
 		public void onClick(View v) {
 			LXActivity activity = (LXActivity) v.getTag();
@@ -141,12 +151,23 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 		public void bind(LXActivity activity) {
 			itemView.setTag(activity);
+			urgencyMessage.setVisibility(View.GONE);
+			if (activity.modPricingEnabled(lxModTestEnabled)) {
+				if (activity.mipDiscountPercentage >= 5) {
+					urgencyMessage.setVisibility(View.VISIBLE);
+				}
+				LXDataUtils.bindPriceAndTicketType(itemView.getContext(), activity.fromPriceTicketCode, activity.mipPrice,
+						activity.mipOriginalPrice, activityPrice, fromPriceTicketType);
+				LXDataUtils.bindOriginalPrice(itemView.getContext(), activity.mipOriginalPrice, activityOriginalPrice);
+			}
+			else {
+				LXDataUtils.bindPriceAndTicketType(itemView.getContext(), activity.fromPriceTicketCode, activity.price,
+						activity.originalPrice, activityPrice, fromPriceTicketType);
+				LXDataUtils.bindOriginalPrice(itemView.getContext(), activity.originalPrice, activityOriginalPrice);
+			}
 			// Remove the extra margin that card view adds for pre-L devices.
 			cardView.setPreventCornerOverlap(false);
 			activityTitle.setText(activity.title);
-			LXDataUtils.bindPriceAndTicketType(itemView.getContext(), activity.fromPriceTicketCode, activity.price,
-				activity.originalPrice, activityPrice, fromPriceTicketType);
-			LXDataUtils.bindOriginalPrice(itemView.getContext(), activity.originalPrice, activityOriginalPrice);
 			LXDataUtils.bindDuration(itemView.getContext(), activity.duration, activity.isMultiDuration, duration);
 
 			List<String> imageURLs = Images
@@ -189,6 +210,5 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				cardGradientOnTop.setVisibility(View.GONE);
 			}
 		};
-
 	}
 }

@@ -126,8 +126,8 @@
     <color name="hotel_urgency_message_color">#E2934A</color>
     <color name="hotel_tonight_only_color">#4A90E2</color>
     <color name="hotel_mobile_exclusive_color">#E2624A</color>
-    <color name="hotel_member_pricing_text_color">#00355F</color>
-    <color name="hotel_member_pricing_bg_color">#FFC60B</color>
+    <color name="member_pricing_text_color">#00355F</color>
+    <color name="member_pricing_flag_bg_color">#FFC60B</color>
     <color name="hotel_coupon_code_error_message_color">@color/error_red</color>
     <color name="hotel_earn_message_text_color">@color/gray700</color>
     <color name="hotel_detail_earn_message_text_color">@color/gray700</color>

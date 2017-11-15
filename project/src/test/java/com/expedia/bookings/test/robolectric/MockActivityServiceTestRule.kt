@@ -21,7 +21,7 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
         val observer = TestSubscriber<ActivityDetailsResponse>()
 
         services?.lxDetails(activityId, activityId, LocalDate.now().plusDays(4),
-                LocalDate.now().plusDays(6), observer)
+                LocalDate.now().plusDays(6), false, observer)
         observer.awaitTerminalEvent()
         return observer.onNextEvents[0]
     }

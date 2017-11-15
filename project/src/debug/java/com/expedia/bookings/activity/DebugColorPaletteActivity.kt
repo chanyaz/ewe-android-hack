@@ -82,8 +82,8 @@ class DebugColorPaletteActivity : AppCompatActivity() {
                 DebugColorPaletteItem(colorId = R.color.hotel_urgency_message_color),
                 DebugColorPaletteItem(colorId = R.color.hotel_tonight_only_color),
                 DebugColorPaletteItem(colorId = R.color.hotel_mobile_exclusive_color),
-                DebugColorPaletteItem(colorId = R.color.hotel_member_pricing_text_color),
-                DebugColorPaletteItem(colorId = R.color.hotel_member_pricing_bg_color),
+                DebugColorPaletteItem(colorId = R.color.member_pricing_text_color),
+                DebugColorPaletteItem(colorId = R.color.member_pricing_flag_bg_color),
                 DebugColorPaletteItem(colorId = R.color.hotel_coupon_code_error_message_color))
     }
 }

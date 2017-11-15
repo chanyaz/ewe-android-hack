@@ -150,7 +150,7 @@ public class LXServicesTest {
 		TestSubscriber<ActivityDetailsResponse> observer = new TestSubscriber<>();
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		serviceRule.getServices().lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
+		serviceRule.getServices().lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), false, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -170,7 +170,7 @@ public class LXServicesTest {
 
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		serviceRule.getServices().lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
+		serviceRule.getServices().lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), true, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertCompleted();
@@ -244,7 +244,7 @@ public class LXServicesTest {
 		serviceRule.getServer().enqueue(new MockResponse().setBody("{Unexpected}"));
 		TestSubscriber<ActivityDetailsResponse> observer = new TestSubscriber<>();
 
-		serviceRule.getServices().lxDetails(new LXActivity().id, null, null, null, observer);
+		serviceRule.getServices().lxDetails(new LXActivity().id, null, null, null, false, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
@@ -366,7 +366,7 @@ public class LXServicesTest {
 		offer.availabilityInfoOfSelectedDate = new AvailabilityInfo();
 		offer.availabilityInfoOfSelectedDate.availabilities = new ActivityAvailabilities();
 		offer.availabilityInfoOfSelectedDate.availabilities.valueDate = "2020-06-01 00:00:00";
-		LXOfferSelected selectedOffer = new LXOfferSelected(activityId, offer, Collections.<Ticket>emptyList(), "");
+		LXOfferSelected selectedOffer = new LXOfferSelected(activityId, offer, Collections.<Ticket>emptyList(), "", "");
 		List<LXOfferSelected> offersSelected = Arrays.asList(selectedOffer);
 		createTripParams.offersSelected(offersSelected);
 	}

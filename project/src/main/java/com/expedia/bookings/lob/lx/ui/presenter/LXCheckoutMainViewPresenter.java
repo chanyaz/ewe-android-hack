@@ -244,7 +244,7 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 	@Override
 	public void doCreateTrip() {
 		cleanup();
-		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), lxState.originalTotalPrice(), createTripObserver);
+		createTripSubscription = lxServices.createTrip(lxState.createTripParams(getContext()), lxState.originalTotalPrice(), createTripObserver);
 	}
 
 	@Override

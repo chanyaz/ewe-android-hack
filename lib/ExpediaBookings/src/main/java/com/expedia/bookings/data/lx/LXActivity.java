@@ -23,6 +23,10 @@ public class LXActivity {
 	public String fromOriginalPriceValue;
 	// True if the offers have different durations.
 	public boolean isMultiDuration;
+	public String mipFromOriginalPriceValue;
+	public String mipFromPriceValue;
+	public String discountType;
+	public int mipDiscountPercentage;
 
 	//Utility Members
 	public String location;
@@ -33,6 +37,8 @@ public class LXActivity {
 	public Money originalPrice;
 	public transient int popularityForClientSort;
 	public int recommendationScore;
+	public Money mipOriginalPrice;
+	public Money mipPrice;
 
 	public List<LXImage> getImages() {
 		List<LXImage> images = new ArrayList<>();
@@ -43,5 +49,9 @@ public class LXActivity {
 			images.add(new LXImage(mediumImageURL, LXImage.ImageSize.MEDIUM));
 		}
 		return images;
+	}
+
+	public boolean modPricingEnabled(boolean modTestEnabled) {
+		return modTestEnabled && mipDiscountPercentage != 0;
 	}
 }

@@ -65,6 +65,11 @@
             android:summary="Activity Infosite Map."
             android:title="Enable Activity Infosite Map" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_enable_lx_mod"
+            android:summary="LX MOD"
+            android:title="LX MOD" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

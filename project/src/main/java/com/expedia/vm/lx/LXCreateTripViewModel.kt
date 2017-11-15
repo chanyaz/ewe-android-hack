@@ -28,7 +28,7 @@ class LXCreateTripViewModel(val context: Context) : BaseCreateTripViewModel() {
 
         performCreateTrip.subscribe {
             showCreateTripDialogObservable.onNext(true)
-            lxServices.createTripV2(lxState.createTripParams(), lxState.originalTotalPrice(), makeCreateTripResponseObserver())
+            lxServices.createTripV2(lxState.createTripParams(context), lxState.originalTotalPrice(), makeCreateTripResponseObserver())
         }
     }
 
