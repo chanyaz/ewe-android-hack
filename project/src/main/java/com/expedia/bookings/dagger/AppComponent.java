@@ -8,6 +8,7 @@ import android.content.Context;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.fragment.AccountSettingsFragment;
 import com.expedia.bookings.hotel.util.HotelGalleryManager;
+import com.expedia.bookings.itin.services.FlightRegistrationHandler;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
@@ -18,6 +19,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.SatelliteServices;
+import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
@@ -86,4 +88,7 @@ public interface AppComponent {
 
 	SatelliteServices satelliteServices();
 	HotelGalleryManager hotelGalleryManager();
+
+	TNSServices tnsService();
+	FlightRegistrationHandler flightRegistrationService();
 }

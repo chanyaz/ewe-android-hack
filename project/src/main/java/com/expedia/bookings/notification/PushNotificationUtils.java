@@ -484,6 +484,7 @@ public class PushNotificationUtils {
 		sLocStringMap.put("S_Push_baggage_BAGGAGE", R.string.S_Push_baggage_BAGGAGE);
 		sLocStringMap.put("S_Push_Hey_VALUE_your_booking_is_confirmed", R.string.S_Push_Hey_VALUE_your_booking_is_confirmed);
 		sLocStringMap.put("S_Push_Your_booking_is_confirmed_View_it_in_app", R.string.S_Push_Your_booking_is_confirmed_View_it_in_app);
+		sLocStringMap.put("Flight_is_Delayed", R.string.flight_notification_delayed_flight_TEMPLATE);
 
 
 		//Add the FlightTrack push keys and strings for shared itins.

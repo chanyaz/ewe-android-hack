@@ -20,6 +20,22 @@ open class UserSource(val context: Context,
     private val userFileHandle: File
         get() = context.getFileStreamPath(SAVED_INFO_FILENAME)
 
+    val tuid: Long?
+        get() {
+            if (user?.tuidString.isNullOrEmpty()) {
+                return 0
+            }
+            return user?.tuidString?.toLongOrNull()
+        }
+
+    val expUserId: Long?
+        get() {
+            if (user?.expediaUserId.isNullOrEmpty()) {
+                return 0
+            }
+            return user?.expediaUserId?.toLongOrNull()
+        }
+
     open var user: User? = null
         get() {
             if (field == null) {

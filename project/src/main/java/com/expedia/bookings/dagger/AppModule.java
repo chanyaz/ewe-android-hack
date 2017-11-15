@@ -16,9 +16,11 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.http.TravelGraphRequestInterceptor;
+import com.expedia.bookings.itin.services.FlightRegistrationHandler;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.server.EndpointProvider;
@@ -28,6 +30,7 @@ import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.SatelliteServices;
+import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
@@ -312,6 +315,26 @@ public class AppModule {
 	}
 
 	@Provides
+	@Named("HmacInterceptorWithUserAgent")
+	Interceptor provideHmacInterceptorWithUserAgent(final Context context, final EndpointProvider endpointProvider) {
+		return new Interceptor() {
+			@Override
+			public Response intercept(Interceptor.Chain chain) throws IOException {
+				Request.Builder request = chain.request().newBuilder();
+				String xDate = HMACUtil.getXDate(DateTime.now(DateTimeZone.UTC));
+				String salt = HMACUtil.generateSalt(16);
+				request.addHeader("Authorization",
+					HMACUtil.getAuthorization(context, chain.request().url(), chain.request().method(), xDate, salt));
+				request.addHeader("x-date", xDate);
+				request.addHeader("salt", salt);
+				request.addHeader("User-Agent", ServicesUtil.generateUserAgentString());
+				Response response = chain.proceed(request.build());
+				return response;
+			}
+		};
+	}
+
+	@Provides
 	@Named("TravelGraphInterceptor")
 	Interceptor provideTravelGraphInterceptor(final Context context, final EndpointProvider endpointProvider) {
 		return new TravelGraphRequestInterceptor(context, endpointProvider);
@@ -339,6 +362,21 @@ public class AppModule {
 		return new SatelliteServices(endpointProvider.getSatelliteEndpointUrl(), client, interceptor,
 			satelliteInterceptor, hmacInterceptor,
 			AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@Singleton
+	TNSServices provideTNSServices(EndpointProvider endpointProvider, OkHttpClient client,
+		@Named("HmacInterceptorWithUserAgent") Interceptor hmacInterceptorWithUserAgent) {
+		return new TNSServices(endpointProvider.getTNSEndpoint(), client, hmacInterceptorWithUserAgent,
+			Schedulers.io(), Schedulers.io());
+	}
+
+	@Provides
+	@Singleton
+	FlightRegistrationHandler provideFlightRegistrationService(TNSServices tnsServices,
+		UserStateManager userStateManager, Context context) {
+		return new FlightRegistrationHandler(context, tnsServices, userStateManager.getUserSource());
 	}
 
 	@Provides
