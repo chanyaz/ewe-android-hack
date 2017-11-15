@@ -593,7 +593,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			paymentInfoCardView
 				.setVisibility(forward ? GONE : paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
 			couponContainer
-				.setVisibility(!forward ? View.VISIBLE : currentExpandedCard instanceof CouponWidget ? VISIBLE : GONE);
+				.setVisibility(!forward ? View.VISIBLE : currentExpandedCard instanceof AbstractCouponWidget ? VISIBLE : GONE);
 			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			disclaimerText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			depositPolicyText.setVisibility(forward ? View.GONE : View.VISIBLE);

@@ -26,7 +26,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val errorObservable = PublishSubject.create<ApiError>()
     val errorShowDialogObservable = PublishSubject.create<ApiError>()
     val errorRemoveCouponShowDialogObservable = PublishSubject.create<ApiError>()
-    val errorMessageObservable = PublishSubject.create<String>()
+    val errorMessageObservable = BehaviorSubject.create<String>()
     val discountObservable = PublishSubject.create<String>()
     val couponParamsObservable = BehaviorSubject.create<HotelApplyCouponParameters>()
     val couponRemoveObservable = PublishSubject.create<String>()

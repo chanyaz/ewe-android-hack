@@ -27,7 +27,7 @@ fun TextView.removeErrorExclamation(newDrawableRight: Drawable?) {
     this.setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1], newDrawableRight, drawables[3])
 }
 
-fun TextView.setMaterialFormsError(isValid: Boolean, errorMessage: String, rightDrawableId: Int) {
+fun TextView.setMaterialFormsError(isValid: Boolean, errorMessage: String, rightDrawableId: Int = 0) {
     setRightDrawable(rightDrawableId)
 
     val parentTextInputLayout = this.getParentTextInputLayout() ?: return

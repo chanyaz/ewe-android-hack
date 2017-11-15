@@ -2880,6 +2880,11 @@
     <string name="coupon_submit_button">Submit</string>
     <!-- Coupon submit button for accessibility -->
     <string name="coupon_submit_button_ally">Submit Button</string>
+    <!-- Coupon apply button -->
+    <string name="coupon_apply_button">Apply</string>
+    <!-- Coupon apply button for accessibility -->
+    <string name="coupon_apply_button_ally">Apply Button</string>
+
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->

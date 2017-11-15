@@ -27,6 +27,8 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isHotelMaterialForms
+import com.expedia.bookings.widget.MaterialFormsCouponWidget
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
@@ -55,7 +57,11 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget by Delegates.notNull()
     var offer: HotelOffersResponse.HotelRoomResponse by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
-    val couponCardView = CouponWidget(context, attr)
+    val couponCardView = if (isHotelMaterialForms(context)) {
+        MaterialFormsCouponWidget(context, attr)
+    } else {
+        CouponWidget(context, attr)
+    }
     var hasDiscount = false
     val backPressedAfterUserWithEffectiveSwPAvailableSignedOut = PublishSubject.create<Unit>()
     val pageUsableData = PageUsableData()
