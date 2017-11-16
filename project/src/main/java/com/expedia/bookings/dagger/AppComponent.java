@@ -18,6 +18,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.SatelliteServices;
+import com.expedia.bookings.itin.services.TNSServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
@@ -86,4 +87,6 @@ public interface AppComponent {
 
 	SatelliteServices satelliteServices();
 	HotelGalleryManager hotelGalleryManager();
+
+	TNSServices tnsService();
 }
