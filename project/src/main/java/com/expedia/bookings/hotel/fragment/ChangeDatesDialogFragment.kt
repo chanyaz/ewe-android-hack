@@ -15,12 +15,13 @@ import android.view.ViewGroup
 import android.view.Window
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
+import com.expedia.bookings.model.HotelStayDates
 import com.expedia.bookings.widget.TextView
 import rx.Subscription
 import rx.subjects.PublishSubject
 
 class ChangeDatesDialogFragment : DialogFragment() {
-    val datesChangedSubject = PublishSubject.create<Pair<LocalDate, LocalDate>>()
+    val datesChangedSubject = PublishSubject.create<HotelStayDates>()
 
     private lateinit var rules: HotelCalendarRules
 
@@ -28,8 +29,8 @@ class ChangeDatesDialogFragment : DialogFragment() {
     internal lateinit var pickerView: HotelChangeDateCalendarPicker
     private lateinit var doneButton: TextView
 
-    private var initialDates = Pair<LocalDate?, LocalDate?>(null, null)
-    private var newDates = Pair<LocalDate?, LocalDate?>(null, null)
+    private var initialDates: HotelStayDates? = null
+    private var newDates: HotelStayDates? = null
 
     private var userTappedDone = false
     private var dateSubscription: Subscription? = null
@@ -55,7 +56,7 @@ class ChangeDatesDialogFragment : DialogFragment() {
         dateSubscription = pickerView.datesUpdatedSubject.subscribe { dates ->
             newDates = dates
         }
-        pickerView.setDates(initialDates.first, initialDates.second)
+        pickerView.setDates(initialDates)
         doneButton.setOnClickListener {
             userTappedDone = true
             dismiss()
@@ -76,14 +77,17 @@ class ChangeDatesDialogFragment : DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
-        if (userTappedDone && newDates.first != null && newDates.second != null) {
-            datesChangedSubject.onNext(Pair(newDates.first!!, newDates.second!!))
+        val dates = newDates
+        if (userTappedDone && dates != null && !dates.sameHotelStayDates(initialDates)) {
+            if (dates.getStartDate() != null && dates.getEndDate() != null) {
+                datesChangedSubject.onNext(newDates)
+            }
         }
         userTappedDone = false
         pickerView.hideToolTip()
     }
 
-    fun presetDates(startDate: LocalDate?, endDate: LocalDate?) {
-        initialDates = Pair(startDate, endDate)
+    fun presetDates(hotelStayDates: HotelStayDates?) {
+        initialDates = hotelStayDates
     }
 }

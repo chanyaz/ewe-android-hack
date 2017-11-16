@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
+import com.expedia.bookings.model.HotelStayDates
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.utils.CalendarShortDateRenderer
 import com.expedia.bookings.utils.FontCache
@@ -17,7 +18,7 @@ import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 
 class HotelChangeDateCalendarPicker(context: Context, attrs: AttributeSet?) : CalendarPicker(context, attrs) {
-    val datesUpdatedSubject = PublishSubject.create<Pair<LocalDate?, LocalDate?>>()
+    val datesUpdatedSubject = PublishSubject.create<HotelStayDates>()
     val doneEnabledSubject = PublishSubject.create<Boolean>()
 
     lateinit var directions: HotelCalendarDirections
@@ -52,12 +53,12 @@ class HotelChangeDateCalendarPicker(context: Context, attrs: AttributeSet?) : Ca
                     }
 
                 } else {
-                    datesUpdatedSubject.onNext(Pair(start, end))
+                    datesUpdatedSubject.onNext(HotelStayDates(start, end))
                 }
 
                 doneEnabledSubject.onNext(start != null)
             } else {
-                datesUpdatedSubject.onNext(Pair(start, end))
+                datesUpdatedSubject.onNext(HotelStayDates(start, end))
             }
         }
 
@@ -66,9 +67,9 @@ class HotelChangeDateCalendarPicker(context: Context, attrs: AttributeSet?) : Ca
         }
     }
 
-    fun setDates(startDate: LocalDate?, endDate: LocalDate?) {
-        setSelectedDates(startDate, endDate)
-        updateInstructions(startDate, endDate)
+    fun setDates(hotelStayDates: HotelStayDates?) {
+        setSelectedDates(hotelStayDates?.getStartDate(), hotelStayDates?.getEndDate())
+        updateInstructions(hotelStayDates?.getStartDate(), hotelStayDates?.getEndDate())
     }
 
     private fun updateInstructions(startDate: LocalDate?, endDate: LocalDate?) {

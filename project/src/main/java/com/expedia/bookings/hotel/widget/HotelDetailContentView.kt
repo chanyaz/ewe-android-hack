@@ -34,6 +34,7 @@ import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
+import com.expedia.bookings.model.HotelStayDates
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
@@ -420,12 +421,16 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     fun showChangeDatesDialog() {
         val dialogFragment = ChangeDatesDialogFragment()
-        dialogFragment.datesChangedSubject.subscribe { dates ->
-            (viewModel as? HotelDetailViewModel)?.changeDates(dates.first, dates.second)
+        dialogFragment.datesChangedSubject.subscribe { stayDates ->
+            val startDate = stayDates.getStartDate()
+            val endDate = stayDates.getEndDate()
+            if (startDate != null && endDate != null) {
+                (viewModel as? HotelDetailViewModel)?.changeDates(startDate, endDate)
+            }
         }
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
 
-        dialogFragment.presetDates(viewModel.checkInDate, viewModel.checkOutDate)
+        dialogFragment.presetDates(HotelStayDates(viewModel.checkInDate, viewModel.checkOutDate))
         dialogFragment.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
     }
 
