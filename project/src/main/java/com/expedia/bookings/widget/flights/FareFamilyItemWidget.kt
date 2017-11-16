@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FareFamilyAmenitiesDialog
@@ -53,6 +54,7 @@ class FareFamilyItemWidget(context: Context, attrs: AttributeSet) : LinearLayout
         builder.setView(fareFamilyAmenitiesDialogView)
         builder.setPositiveButton(context.getString(R.string.OK), { dialog, which ->
             dialog.dismiss()
+            AccessibilityUtil.delayedFocusToView(showMoreContainer,0)
         })
         val dialog: AlertDialog = builder.create()
         dialog.setCancelable(true)
