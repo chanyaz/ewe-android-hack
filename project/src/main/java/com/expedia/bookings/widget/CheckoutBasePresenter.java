@@ -187,6 +187,23 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 
 		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getFormFilledIn());
+		paymentInfoCardView.getToolbarNavIconFocusObservable().subscribe(new Observer<Boolean>() {
+			@Override
+			public void onCompleted() {
+
+			}
+			@Override
+			public void onError(Throwable e) {
+
+			}
+			@Override
+			public void onNext(Boolean isFocused) {
+				if (isFocused) {
+					AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
+				}
+			}
+		});
+
 		toolbar.getViewModel().getDoneClicked().subscribe(new Observer<Unit>() {
 			@Override
 			public void onCompleted() {

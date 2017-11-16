@@ -90,6 +90,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val doneClicked = PublishSubject.create<Unit>()
     val focusedView = PublishSubject.create<View>()
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
+    val toolbarNavIconFocusObservable = PublishSubject.create<Boolean>()
     val populateCardholderNameTestEnabled = isPopulateCardholderNameEnabled(context)
     val hideApacBillingFieldsEnabled = isHideApacBillingFieldsEnabled()
 
@@ -629,7 +630,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 temporarilySavedCardIsSelected(false, Db.getTemporarilySavedCard())
                 filledIn.onNext(isCompletelyFilled())
             }
-            if (forward) Ui.showKeyboard(creditCardNumber, null) else Ui.hideKeyboard(this@PaymentWidget)
+            if (!forward) Ui.hideKeyboard(this@PaymentWidget)
             storedCreditCardList.bind()
             trackAnalytics()
             if (!forward) {
@@ -642,6 +643,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (hideApacBillingFieldsEnabled) {
                 if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
                 else viewmodel.clearHiddenBillingAddress.onNext(Unit)
+            }
+            if (forward) {
+                toolbarNavIconFocusObservable.onNext(true);
             }
         }
     }
