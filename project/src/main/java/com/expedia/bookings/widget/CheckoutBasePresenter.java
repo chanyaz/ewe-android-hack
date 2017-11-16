@@ -160,7 +160,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.getViewmodel().getEnableMenuItem().subscribe(toolbar.getViewModel().getEnableMenuItem());
 		paymentInfoCardView.getVisibleMenuWithTitleDone().subscribe(toolbar.getViewModel().getVisibleMenuWithTitleDone());
 
-		if (FeatureUtilKt.isHotelMaterialForms(getContext())) {
+		if (hotelMaterialFormTestEnabled) {
 			paymentInfoCardView.getViewmodel().getMenuVisibility().subscribe(new Observer<Boolean>() {
 				@Override
 				public void onCompleted() {

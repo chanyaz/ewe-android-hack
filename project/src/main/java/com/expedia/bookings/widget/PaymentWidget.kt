@@ -40,7 +40,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isHideApacBillingFieldsEnabled
-import com.expedia.bookings.utils.isHotelMaterialForms
 import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.isPopulateCardholderNameEnabled
 import com.expedia.bookings.utils.setFocusForView
@@ -95,7 +94,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
     val populateCardholderNameTestEnabled = isPopulateCardholderNameEnabled(context)
     val hideApacBillingFieldsEnabled = isHideApacBillingFieldsEnabled()
-    val isHotelMaterialForms = isHotelMaterialForms(context)
 
     private val userStateManager: UserStateManager = Ui.getApplication(context).appComponent().userStateManager()
 

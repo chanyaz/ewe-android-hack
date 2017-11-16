@@ -414,6 +414,7 @@ class PaymentWidgetV2Test {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialZipCode() {
         setToUKPOS(false)
         setupHotelMaterialForms()
@@ -422,6 +423,7 @@ class PaymentWidgetV2Test {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPostalCode() {
         setToUKPOS(true)
         setupHotelMaterialForms()
@@ -430,6 +432,7 @@ class PaymentWidgetV2Test {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialZipCodeError() {
         setToUKPOS(false)
         setupHotelMaterialForms()
@@ -438,6 +441,7 @@ class PaymentWidgetV2Test {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPostalCodeError() {
         setToUKPOS(true)
         setupHotelMaterialForms()
