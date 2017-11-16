@@ -1,6 +1,6 @@
-package com.expedia.bookings.services
+package com.expedia.bookings.itin.services
 
-import com.expedia.bookings.data.flights.*
+import com.expedia.bookings.itin.data.*
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -11,11 +11,8 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-/**
- * Created by napandey on 11/15/17.
- */
 
-class TNSService(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+open class TNSServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     private val tnsAPI: TNSApi by lazy {
         val gson = GsonBuilder().create()
@@ -32,19 +29,12 @@ class TNSService(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
 
     var tnsRegisterUserDeviceSubscription: Subscription? = null
 
-    fun registerForFlights(applicationName: String, user: User, flights: List<Flight>, token: String, observer: Observer<TNSRegisterDeviceResponse>): Subscription {
+    fun registerForFlights(applicationName: String, user: TNSUser, flights: List<TNSFlight>, token: String, observer: Observer<TNSRegisterDeviceResponse>): Subscription {
         tnsRegisterUserDeviceSubscription?.unsubscribe()
 
-        var requestBody = TNSRegisterUserDeviceRequestBody();
+        val courier = Courier("gcm", applicationName, token);
 
-        var courier: Courier = Courier();
-        courier.group = "gcm"
-        courier.name = applicationName
-        courier.token = token
-
-        requestBody.courier = courier
-        requestBody.user = user
-        requestBody.flights = flights
+        val requestBody = TNSRegisterUserDeviceRequestBody(courier, flights, user);
 
         tnsRegisterUserDeviceSubscription = tnsAPI.registerUserDevice(requestBody)
                 .observeOn(observeOn)
