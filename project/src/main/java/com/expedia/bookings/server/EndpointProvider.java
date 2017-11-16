@@ -186,21 +186,20 @@ public class EndpointProvider {
 		return endpoint;
 	}
 
-
 	public String getTravelGraphEndpointUrl() {
 		String endpoint;
 		switch (getEndPoint()) {
-			case MOCK_MODE:
-				endpoint = getCustomServerAddress();
-				break;
-			case INTEGRATION:
-				endpoint = "https://wwwexpediacom.integration.sb.karmalab.net/api/travelgraph/v1/";
-				break;
-			case PRODUCTION:
-				endpoint = "https://www.expedia.com/api/travelgraph/v1/";
-				break;
-			default:
-				endpoint = "https://www.expedia.com/api/travelgraph/v1/";
+		case MOCK_MODE:
+			endpoint = getCustomServerAddress();
+			break;
+		case INTEGRATION:
+			endpoint = "https://wwwexpediacom.integration.sb.karmalab.net/api/travelgraph/v1/";
+			break;
+		case PRODUCTION:
+			endpoint = "https://www.expedia.com/api/travelgraph/v1/";
+			break;
+		default:
+			endpoint = "https://www.expedia.com/api/travelgraph/v1/";
 		}
 		return endpoint;
 	}
@@ -208,7 +207,6 @@ public class EndpointProvider {
 	public String getTNSEndpoint() {
 		String endpoint;
 		switch (getEndPoint()) {
-			case INTEGRATION:
 			case DEV:
 				endpoint = "http://trip-notification-service.us-west-2.test.expedia.com/";
 				break;
