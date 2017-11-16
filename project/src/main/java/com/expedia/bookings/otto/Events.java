@@ -204,32 +204,32 @@ public class Events {
 
 		public LXNewSearchParamsAvailable(String locationName, String airportCode, LocalDate startDate,
 			LocalDate endDate,
-			SearchType searchType) {
+			SearchType searchType, boolean modQualified) {
 			lxSearchParams = (LxSearchParams)new LxSearchParams.Builder()
 				.searchType(SearchType.EXPLICIT_SEARCH).imageCode(airportCode)
-				.location(locationName).startDate(startDate).endDate(endDate).build();
+				.location(locationName).modQualified(modQualified).startDate(startDate).endDate(endDate).build();
 		}
 
-		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate) {
+		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, boolean modQualified) {
 			lxSearchParams = (LxSearchParams) new LxSearchParams.Builder()
-				.searchType(SearchType.EXPLICIT_SEARCH).location(locationName).startDate(startDate).endDate(endDate)
+				.searchType(SearchType.EXPLICIT_SEARCH).location(locationName).modQualified(modQualified).startDate(startDate).endDate(endDate)
 				.build();
 		}
 
-		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, String filters) {
+		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, String filters, boolean modQualified) {
 			if (filters == null) {
 				filters = "";
 			}
 			lxSearchParams = (LxSearchParams)new LxSearchParams.Builder()
 				.searchType(SearchType.EXPLICIT_SEARCH).filters(
-					filters).location(locationName).startDate(startDate).endDate(endDate).build();
+					filters).location(locationName).modQualified(modQualified).startDate(startDate).endDate(endDate).build();
 		}
 
 		public LXNewSearchParamsAvailable(String activityId, String locationName, LocalDate startDate,
-			LocalDate endDate) {
+			LocalDate endDate, boolean modQualified) {
 			lxSearchParams = (LxSearchParams) new LxSearchParams.Builder()
 				.searchType(SearchType.EXPLICIT_SEARCH).activityId(
-					activityId).location(locationName).startDate(startDate).endDate(endDate).build();
+					activityId).location(locationName).modQualified(modQualified).startDate(startDate).endDate(endDate).build();
 		}
 	}
 

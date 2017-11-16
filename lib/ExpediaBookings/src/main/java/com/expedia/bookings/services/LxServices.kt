@@ -52,7 +52,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
     }
 
     fun lxCategorySearch(searchParams: LxSearchParams, observer: Observer<LXSearchResponse>): Subscription {
-        return lxApi.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate())
+        return lxApi.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate(), searchParams.modQualified)
                 .doOnNext(HANDLE_SEARCH_ERROR)
                 .doOnNext(ACTIVITIES_MONEY_TITLE)
                 .doOnNext(PUT_POPULARITY_COUNTER_FOR_SORT)
@@ -70,7 +70,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
     }
 
     fun lxSearch(searchParams: LxSearchParams): Observable<LXSearchResponse> {
-        return lxApi.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate())
+        return lxApi.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate(), searchParams.modQualified)
                 .observeOn(this.observeOn)
                 .subscribeOn(this.subscribeOn)
                 .doOnNext(HANDLE_SEARCH_ERROR)

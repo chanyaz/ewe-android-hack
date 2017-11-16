@@ -46,12 +46,14 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 
 	public static final String EXTRA_IS_GROUND_TRANSPORT = "IS_GROUND_TRANSPORT";
 	private boolean isGroundTransport;
+	private boolean modQualified;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Ui.getApplication(this).defaultLXComponents();
 		Ui.getApplication(this).defaultTravelerComponent();
+		modQualified = Ui.getApplication(this).appComponent().userStateManager().isUserAuthenticated();
 
 		Intent intent = getIntent();
 		isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);
@@ -88,7 +90,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		Events.post(new Events.LXShowLoadingAnimation());
 		LxSearchParams currentLocationSearchParams = new LxSearchParams("", LocalDate.now(),
 			LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range)),
-			SearchType.DEFAULT_SEARCH, "", "", "");
+			SearchType.DEFAULT_SEARCH, "", "", "", modQualified);
 
 		Observable<SuggestionV4> currentLocationSuggestionObservable =
 			Ui.getApplication(this).lxComponent().currentLocationSuggestionObservable();
@@ -136,15 +138,15 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 					return true;
 				}
 				else if (navigateToResults) {
-					Events.post(new Events.LXNewSearchParamsAvailable(location, startDate, endDate));
+					Events.post(new Events.LXNewSearchParamsAvailable(location, startDate, endDate, modQualified));
 					return true;
 				}
 				else if (navigateToResultsFromDeepLink) {
-					Events.post(new Events.LXNewSearchParamsAvailable(location, startDate, endDate, filters));
+					Events.post(new Events.LXNewSearchParamsAvailable(location, startDate, endDate, filters, modQualified));
 					return true;
 				}
 				else if (navigateToDetailsFromDeepLink) {
-					Events.post(new Events.LXNewSearchParamsAvailable(activityId, location, startDate, endDate));
+					Events.post(new Events.LXNewSearchParamsAvailable(activityId, location, startDate, endDate, modQualified));
 					return true;
 				}
 				if (!ProWizardBucketCache.isBucketed(getApplicationContext())) {

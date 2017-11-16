@@ -12,6 +12,7 @@ import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
+import com.expedia.bookings.utils.Ui;
 
 import rx.Observer;
 
@@ -44,10 +45,11 @@ public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV
 
 	@Override
 	public void onNext(SuggestionV4 suggestion) {
+		boolean modQualified = Ui.getApplication(this.context).appComponent().userStateManager().isUserAuthenticated();
 		if (currentLocationSearchParams != null) {
 			Events.post(new Events.LXNewSearchParamsAvailable(suggestion.regionNames.fullName,
 				currentLocationSearchParams.getActivityStartDate(),
-				currentLocationSearchParams.getActivityEndDate()));
+				currentLocationSearchParams.getActivityEndDate(), modQualified));
 			currentLocationSearchParams = null;
 		}
 	}

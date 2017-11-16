@@ -5,7 +5,7 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Strings
 import org.joda.time.LocalDate
 
-open class LxSearchParams(val location: String, val activityStartDate: LocalDate, val activityEndDate: LocalDate, val searchType:SearchType, val filters: String, val activityId: String?, val imageCode: String?) : BaseSearchParams(null, null, 0, emptyList(), activityStartDate, activityEndDate) {
+open class LxSearchParams(val location: String, val activityStartDate: LocalDate, val activityEndDate: LocalDate, val searchType:SearchType, val filters: String, val activityId: String?, val imageCode: String?, val modQualified: Boolean) : BaseSearchParams(null, null, 0, emptyList(), activityStartDate, activityEndDate) {
 
     companion object {
         val lxMaxStay: Int = 0;
@@ -18,6 +18,7 @@ open class LxSearchParams(val location: String, val activityStartDate: LocalDate
         var filters = ""
         var activityId = ""
         var imageCode = ""
+        var modQualified = false
 
         fun imageCode(pkg: String): Builder {
             this.imageCode = pkg
@@ -44,11 +45,16 @@ open class LxSearchParams(val location: String, val activityStartDate: LocalDate
             return this
         }
 
+        fun modQualified(modQualified: Boolean): Builder {
+            this.modQualified = modQualified
+            return this
+        }
+
         override fun build(): LxSearchParams {
             val location = if (Strings.isNotEmpty(location)) location else destinationLocation?.regionNames?.fullName ?: throw IllegalArgumentException()
             val activityStartDate = startDate ?: throw IllegalArgumentException()
             val activityEndDate = endDate ?: throw IllegalArgumentException()
-            val params = LxSearchParams(location, activityStartDate, activityEndDate, searchType, filters, activityId, imageCode)
+            val params = LxSearchParams(location, activityStartDate, activityEndDate, searchType, filters, activityId, imageCode, modQualified)
             return params
         }
 

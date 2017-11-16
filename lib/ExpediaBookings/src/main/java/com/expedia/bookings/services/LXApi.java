@@ -32,7 +32,8 @@ public interface LXApi {
 	Observable<LXSearchResponse> searchLXActivities(
 		@Query("location") String location,
 		@Query("startDate") String startDate,
-		@Query("endDate") String endDate);
+		@Query("endDate") String endDate,
+		@Query("modQualified") boolean modQualified);
 
 	@GET("/lx/api/activity")
 	@Headers("Cache-Control: no-cache")

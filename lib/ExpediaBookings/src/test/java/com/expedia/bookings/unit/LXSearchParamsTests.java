@@ -17,6 +17,7 @@ public class LXSearchParamsTests {
 		String location = "San Fransisco";
 		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location(location)
 			.imageCode("SFO")
+			.modQualified(true)
 			.searchType(SearchType.EXPLICIT_SEARCH)
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(14)).build();
@@ -27,6 +28,7 @@ public class LXSearchParamsTests {
 		assertEquals(SearchType.EXPLICIT_SEARCH, searchParams.getSearchType());
 		assertEquals("", searchParams.getFilters());
 		assertEquals("", searchParams.getActivityId());
+		assertEquals(true, searchParams.getModQualified());
 	}
 
 	@Test

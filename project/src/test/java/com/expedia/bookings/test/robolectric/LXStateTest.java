@@ -17,9 +17,10 @@ public class LXStateTest {
 		LocalDate expectedStart = LocalDate.now();
 		LocalDate expectedEnd = expectedStart.plusDays(14);
 		String expectedLocation = "Test";
+		boolean expectedModQualification = true;
 
 		LxSearchParams params = (LxSearchParams) new LxSearchParams.Builder().location(expectedLocation)
-			.startDate(expectedStart).endDate(expectedEnd).build();
+			.modQualified(true).startDate(expectedStart).endDate(expectedEnd).build();
 
 		LXState lxState = new LXState();
 
@@ -28,6 +29,7 @@ public class LXStateTest {
 		Assert.assertEquals(expectedLocation, stateSearchParams.getLocation());
 		Assert.assertEquals(expectedStart, stateSearchParams.getActivityStartDate());
 		Assert.assertEquals(expectedEnd, stateSearchParams.getActivityEndDate());
+		Assert.assertEquals(expectedModQualification, stateSearchParams.getModQualified());
 	}
 
 }

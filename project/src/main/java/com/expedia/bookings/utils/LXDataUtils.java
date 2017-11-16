@@ -243,9 +243,11 @@ public class LXDataUtils {
 	public static LxSearchParams fromFlightParams(Context context, FlightTrip trip) {
 		FlightLeg firstLeg = trip.getLeg(0);
 		LocalDate checkInDate = new LocalDate(firstLeg.getLastWaypoint().getBestSearchDateTime());
+		boolean modQualified = Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated();
 
 		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().searchType(SearchType.EXPLICIT_SEARCH)
 			.location(formatAirport(context, firstLeg.getAirport(false)))
+			.modQualified(modQualified)
 			.startDate(checkInDate)
 			.endDate(checkInDate.plusDays(14)).build();
 		return searchParams;
@@ -256,9 +258,11 @@ public class LXDataUtils {
 	}
 
 	public static LxSearchParams fromHotelParams(Context context, LocalDate checkInDate, LocalDate checkOutDate, Location location) {
+		boolean modQualified = Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated();
 		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder()
 			.searchType(SearchType.EXPLICIT_SEARCH)
 			.location(formatLocation(context, location))
+			.modQualified(modQualified)
 			.startDate(checkInDate)
 			.endDate(checkOutDate).build();
 
@@ -283,7 +287,7 @@ public class LXDataUtils {
 		return c.getResources().getString(R.string.lx_destination_TEMPLATE, location.getCity(), Strings.isEmpty(location.getStateCode()) ? location.getCountryCode() : location.getStateCode());
 	}
 
-	public static LxSearchParams buildLXSearchParamsFromDeeplink(ActivityDeepLink activityDeepLink) {
+	public static LxSearchParams buildLXSearchParamsFromDeeplink(ActivityDeepLink activityDeepLink, Context context) {
 		LocalDate startDate = LocalDate.now();
 		if (activityDeepLink.getStartDate() != null) {
 			startDate = activityDeepLink.getStartDate();
@@ -303,8 +307,9 @@ public class LXDataUtils {
 		if (activityDeepLink.getActivityID() != null) {
 			activityId = activityDeepLink.getActivityID();
 		}
+		boolean modQualified = Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated();
 		return new LxSearchParams(location, DateUtils.ensureDateIsTodayOrInFuture(startDate),
-			DateUtils.ensureDateIsTodayOrInFuture(endDate), SearchType.EXPLICIT_SEARCH, filters, activityId, "");
+			DateUtils.ensureDateIsTodayOrInFuture(endDate), SearchType.EXPLICIT_SEARCH, filters, activityId, "", modQualified);
 	}
 
 	public static boolean isActivityGT(List<String> activityCategories) {

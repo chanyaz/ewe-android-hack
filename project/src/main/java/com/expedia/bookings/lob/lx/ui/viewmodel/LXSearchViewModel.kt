@@ -8,6 +8,7 @@ import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.LxCalendarRules
+import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import org.joda.time.LocalDate
@@ -34,7 +35,8 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val searchObserver = endlessObserver<Unit> {
         if (getParamsBuilder().areRequiredParamsFilled()) {
-            val lxSearchParams = getParamsBuilder().build()
+            var modQualified = Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated()
+            val lxSearchParams = getParamsBuilder().modQualified(modQualified).build()
             searchParamsObservable.onNext(lxSearchParams)
         } else {
             if (!getParamsBuilder().hasDestinationLocation()) {

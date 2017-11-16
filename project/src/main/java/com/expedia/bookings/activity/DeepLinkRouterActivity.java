@@ -309,7 +309,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private boolean handleActivitySearch(ActivityDeepLink activityDeepLink) {
 
 		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
-			LxSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(activityDeepLink);
+			LxSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(activityDeepLink, this);
 			LXNavUtils.goToActivities(this, null, searchParams, NavUtils.FLAG_DEEPLINK);
 		}
 		else {
