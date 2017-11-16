@@ -126,7 +126,7 @@
             android:ellipsize="start"
             android:gravity="center_vertical|right"
             android:maxLines="1"
-            android:textColor="#BEB2C2"
+            android:textColor="#ffffff"
             android:textScaleX=".8"
             app:minTextSize="5sp" />
 
