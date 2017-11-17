@@ -141,7 +141,7 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 		SpannableStringBuilder builder = new SpannableStringBuilder();
 		if (flightCreateTripResponse != null) {
 			String cancellationText = Phrase.from(getContext(), R.string.evolable_legal_cancellation_info_TEMPLATE)
-				.put("cancellation_charge_link", flightLeg.evolableCancellationChargeUrl)
+				.put("cancellation_charge_link", flightLeg.evolablePenaltyRulesUrl)
 				.format().toString();
 
 			builder = StrUtils.getSpannableTextByColor(cancellationText,
