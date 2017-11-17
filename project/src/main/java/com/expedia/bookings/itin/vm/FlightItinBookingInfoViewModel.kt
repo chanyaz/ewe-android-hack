@@ -6,22 +6,24 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.FlightItinManageBookingActivity
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.itin.activity.FlightItinTravelerInfoActivity
 import rx.subjects.PublishSubject
 
 open class FlightItinBookingInfoViewModel(private val context: Context, private val itinId: String) {
     data class WidgetParams(
             val travelerNames: String,
             val isShared: Boolean,
-            val url: String?
+            val url: String?,
+            val cardId: String
     )
 
     fun updateBookingInfoWidget(widgetParams: WidgetParams) {
         widgetSharedSubject.onNext(widgetParams.isShared)
-        updateCardViewVMs(widgetParams.travelerNames, widgetParams.url)
+        updateCardViewVMs(widgetParams.travelerNames, widgetParams.url, widgetParams.cardId)
 
     }
 
-    private fun updateCardViewVMs(travelerNames: CharSequence, url: String?) {
+    private fun updateCardViewVMs(travelerNames: CharSequence, url: String?, cardId: String) {
         additionalInfoCardViewWidgetVM.updateCardView(params = ItinLinkOffCardViewViewModel.CardViewParams(
                 context.getString(R.string.itin_hotel_details_additional_info_heading),
                 null,
@@ -31,11 +33,11 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
         ))
 
         travelerInfoCardViewWidgetVM.updateCardView(params = ItinLinkOffCardViewViewModel.CardViewParams(
-                context.getString(R.string.itin_flight_traveller_info),
+                context.getString(R.string.itin_flight_traveler_info),
                 travelerNames,
                 true,
                 R.drawable.ic_traveler_icon,
-                null
+                FlightItinTravelerInfoActivity.createIntent(context, cardId)
         ))
 
         val webViewIntent = buildWebViewIntent(R.string.itin_flight_details_manage_booking_heading, url, "manage_reservation")?.intent

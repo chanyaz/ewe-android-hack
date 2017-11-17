@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView style="@style/MaterialCardView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="11dp"
+    android:layout_marginRight="11dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/traveler_name_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:textColor="@color/gray900"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Frank Funston" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/traveler_infant_text_view"
+                style="@style/FlightItinTravelerInfoSubtext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/traveler_name_text_view"
+                tools:text="(Infant in lap)"
+                tools:visibility="visible" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/traveler_ticket_number"
+                style="@style/FlightItinTravelerInfoSubtext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/traveler_infant_text_view"
+                tools:text="Ticket # 345678901123"
+                tools:visibility="visible" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:id="@+id/traveler_info_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/itin_card_summary_divider_color"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/traveler_email_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/email_textView"
+                    style="@style/FlightItinTravelerInfoMainText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/itin_traveler_email_text"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/traveler_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="right"
+                    app:layout_constraintLeft_toRightOf="@+id/email_textView"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:text="frank.funston@gmail.com" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/traveler_phone_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/traveler_email_container"
+                tools:visibility="visible">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/phone_textView"
+                    style="@style/FlightItinTravelerInfoMainText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/itin_traveler_phone_text"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/traveler_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="right"
+                    app:layout_constraintLeft_toRightOf="@+id/phone_textView"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:text="+1 (206) 123-4567" />
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

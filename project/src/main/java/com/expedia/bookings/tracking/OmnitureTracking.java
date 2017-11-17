@@ -2585,6 +2585,24 @@ public class OmnitureTracking {
 		}
 	}
 
+	public static void trackItinTravelerInfo() {
+		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT_TRAVELER_INFO + "\" pageLoad" );
+		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_FLIGHT_TRAVELER_INFO);
+		if (userStateManager.isUserAuthenticated()) {
+			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
+			if (!usersTripComponentTypeEventString.isEmpty()) {
+				s.setEvents("event63" + "," + usersTripComponentTypeEventString);
+				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
+			}
+			else {
+				s.setEvents("event63");
+			}
+		}
+		s.setProp(2, "itinerary");
+		s.setEvar(2, "D=c2");
+		s.track();
+	}
+
 	public static void trackItinFlight(Context context, Map trip) {
 		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_FLIGHT);

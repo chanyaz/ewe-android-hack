@@ -257,12 +257,13 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
 
     @VisibleForTesting
     fun updateBookingInfoWidget() {
-        val travelerNames  = itinCardDataFlight.travelerFirstAndLastNames
+        val travelerNames  = itinCardDataFlight.travelersFullName
         val isShared = itinCardDataFlight.isSharedItin
         createBookingInfoWidgetSubject.onNext(FlightItinBookingInfoViewModel.WidgetParams(
                 travelerNames,
                 isShared,
-                itinCardDataFlight.detailsUrl
+                itinCardDataFlight.detailsUrl,
+                itinCardDataFlight.id
         ))
     }
 

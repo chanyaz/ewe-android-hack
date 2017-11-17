@@ -1442,7 +1442,7 @@
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">ข้อมูลสัมภาระ</string>
     <!--Flight itin traveller info widget heading-->
-    <string name="itin_flight_traveller_info">ข้อมูลผู้เดินทาง</string>
+    <string name="itin_flight_traveler_info">ข้อมูลผู้เดินทาง</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">จัดการการจอง</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->

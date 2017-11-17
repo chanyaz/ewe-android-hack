@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView style="@style/MaterialCardView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="11dp"
+    android:layout_marginRight="11dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/known_traveler_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.expedia.bookings.widget.TextView
+                style="@style/FlightItinTravelerInfoMainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="@string/itin_known_traveler_number_text" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/known_traveler_number"
+                style="@style/FlightItinTravelerInfoSubtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Ticket # 345678901123" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/redress_number_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.expedia.bookings.widget.TextView
+                style="@style/FlightItinTravelerInfoMainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="@string/itin_traveler_redress_number" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/traveler_redress_number"
+                style="@style/FlightItinTravelerInfoSubtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="8866554422" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/special_requests_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                style="@style/FlightItinTravelerInfoMainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="@string/itin_traveler_special_assistance_requests_text" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/special_request"
+                style="@style/FlightItinTravelerInfoSubtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Blind with seeing eye dog" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                style="@style/FlightItinTravelerInfoMainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="@string/itin_frequent_flyer_text" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/itin_frequent_flyer_plan"
+                    style="@style/FlightItinTravelerInfoSubtext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="Alaska Mileage Plan" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/itin_frequent_flyer_number"
+                    style="@style/FlightItinTravelerInfoSubtext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    app:layout_constraintLeft_toRightOf="@+id/itin_frequent_flyer_plan"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:visibility="gone"
+                    tools:text="123456789"
+                    tools:visibility="visible"/>
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/itin_card_summary_divider_color" />
+
+        <com.expedia.bookings.widget.TextView
+            style="@style/FlightItinTravelerInfoSubtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/itin_traveler_contact_air_to_confirm_text" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

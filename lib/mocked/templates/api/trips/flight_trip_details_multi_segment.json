@@ -180,6 +180,54 @@
         "fulfillmentMethod": "ETICKET",
         "passengers": [
           {
+            "typeCode":"ADULT",
+            "typeLocalized":"Adult",
+            "firstName":"Philip",
+            "middleName":"J",
+            "lastName":"Fry",
+            "fullName":"Philip J. Fry",
+            "age":26,
+            "gender":"Male",
+            "dateOfBirth":"1989-4-12",
+            "TSARedressNumber":"123456789",
+            "TSAKnownTravelerNumber": "987654321",
+            "phoneNumbers":[
+              {
+                "countryCode":"1",
+                "phone":"9899482855"
+              }
+            ],
+            "ticketNumbers":[
+              "0067586790127"
+            ],
+            "frequentFlyerPlans":[
+              {
+                "airlineCode":"DL",
+                "programCode":"DL-SKY",
+                "programName":"Delta SkyMiles",
+                "membershipNumber":"9304336499"
+              }
+            ],
+            "seats":[
+              {
+                "assigned":"30C",
+                "seatPreference":"",
+                "seatPreferenceLocalized":"Unknown",
+                "smokingAllowed":false,
+                "legIndex":0,
+                "segmentIndex":0
+              },
+              {
+                "assigned":"36F",
+                "seatPreference":"",
+                "seatPreferenceLocalized":"Unknown",
+                "smokingAllowed":false,
+                "legIndex":1,
+                "segmentIndex":0
+              }
+            ]
+          },
+          {
             "typeCode": "ADULT",
             "typeLocalized": "Adult",
             "title": "",

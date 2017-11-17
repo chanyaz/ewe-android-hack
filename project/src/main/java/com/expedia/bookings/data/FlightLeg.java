@@ -45,6 +45,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	private String mFareType;
 
+	private String mAirLineCode;
+
 	private boolean mIsFreeCancellable;
 
 	// split ticket fare details

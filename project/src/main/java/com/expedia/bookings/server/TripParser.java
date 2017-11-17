@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.Activity;
@@ -26,6 +27,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership;
 import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.FlightConfirmation;
@@ -45,6 +47,7 @@ import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.data.trips.TripHotelRoom;
 import com.expedia.bookings.data.trips.TripPackage;
 import com.expedia.bookings.data.trips.TripRails;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -729,13 +732,35 @@ public class TripParser {
 		return retVal;
 	}
 
-	private Traveler parseTraveler(JSONObject obj) {
+	@VisibleForTesting
+	public Traveler parseTraveler(JSONObject obj) {
 		Traveler traveler = new Traveler();
 		traveler.setFirstName(obj.optString("firstName"));
 		traveler.setMiddleName(obj.optString("middleName"));
 		traveler.setLastName(obj.optString("lastName"));
 		traveler.setFullName(obj.optString("fullName"));
 		traveler.setAge(obj.optInt("age"));
+		traveler.setKnownTravelerNumber(obj.optString("TSAKnownTravelerNumber"));
+		traveler.setRedressNumber(obj.optString("TSARedressNumber"));
+		traveler.setTicketNumbers(JSONUtils.getStringList(obj, "ticketNumbers"));
+		traveler.setSpecialAssistanceOptions(JSONUtils.getStringList(obj, "specialAssistanceOptions"));
+		traveler.setEmail(obj.optString("emailAddress"));
+		JSONArray frequentFlyerArray = obj.optJSONArray("frequentFlyerPlans");
+		if (frequentFlyerArray != null && frequentFlyerArray.length() > 0) {
+			for (int i = 0; i < frequentFlyerArray.length(); i++) {
+				JSONObject currentFrequentFlyer = frequentFlyerArray.optJSONObject(i);
+				TravelerFrequentFlyerMembership frequentFlyerMembership = new TravelerFrequentFlyerMembership();
+				frequentFlyerMembership.setMembershipNumber(currentFrequentFlyer.optString("membershipNumber"));
+				frequentFlyerMembership.setPlanCode(currentFrequentFlyer.optString("programCode"));
+				frequentFlyerMembership.setAirlineCode(currentFrequentFlyer.optString("airlineCode"));
+				frequentFlyerMembership.setProgramName(currentFrequentFlyer.optString("programName"));
+				traveler.addFrequentFlyerMembership(frequentFlyerMembership);
+			}
+		}
+		String typeCode = obj.optString("typeCode");
+			if (typeCode.equals(PassengerCategory.INFANT_IN_LAP.name())) {
+				traveler.setPassengerCategory(PassengerCategory.INFANT_IN_LAP);
+			}
 
 		String gender = obj.optString("gender");
 		if ("Male".equals(gender)) {

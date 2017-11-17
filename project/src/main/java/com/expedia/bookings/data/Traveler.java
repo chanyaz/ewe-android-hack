@@ -50,7 +50,9 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private LocalDate mBirthDate;
 	private String mRedressNumber;
 	private String mKnownTravelerNumber;
+	private List<String> mTicketNumbers;
 	private List<String> mPassportCountries;
+	private List<String> mSpecialAssistanceOptions;
 	private SeatPreference mSeatPreference = SeatPreference.WINDOW;
 	private AssistanceType mAssistance = AssistanceType.NONE;
 	private PassengerCategory mPassengerCategory;
@@ -137,10 +139,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public String getFullName() {
 		return mName.getFullName();
-	}
-
-	public String getFirstAndLastName() {
-		return mName.getFirstAndLastName();
 	}
 
 	public String getReversedFullName() {
@@ -243,6 +241,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		else {
 			return SeatPreference.WINDOW;
 		}
+	}
+
+	public List<String> getTicketNumbers() {
+		return mTicketNumbers;
 	}
 
 	public String getSeatPreferenceString(Context context) {
@@ -406,6 +408,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mName.setLastName(lastName);
 	}
 
+	public void setTicketNumbers(List<String> ticketNumbers) {
+		mTicketNumbers = ticketNumbers;
+	}
+
 	/**
 	 * Note that setFullName was added for Itins where we get fullname back from the server.
 	 * Calling setFullName WILL NOT change the values of first/middle/last name.
@@ -482,6 +488,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 
 		mPassportCountries.add(passportCountry);
+	}
+
+	public List<String> getSpecialAssistanceOptions() {
+		return mSpecialAssistanceOptions;
+	}
+
+	public void setSpecialAssistanceOptions(List<String> mSpecialAssistanceOptions) {
+		this.mSpecialAssistanceOptions = mSpecialAssistanceOptions;
 	}
 
 	public void setSeatPreference(SeatPreference pref) {
@@ -581,6 +595,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			obj.putOpt("redressNumber", mRedressNumber);
 			obj.putOpt("knownTravelerNumber", mKnownTravelerNumber);
 			JSONUtils.putStringList(obj, "passportCountries", mPassportCountries);
+			JSONUtils.putStringList(obj, "ticketNumbers", mTicketNumbers);
 			JSONUtils.putEnum(obj, "seatPreference", mSeatPreference);
 			JSONUtils.putEnum(obj, "assistance", mAssistance);
 			JSONUtils.putJSONableStringMap(obj, "frequentFlyerMemberships", frequentFlyerMemberships);
@@ -626,6 +641,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mKnownTravelerNumber = obj.optString("knownTravelerNumber");
 		frequentFlyerMemberships = JSONUtils.getJSONableStringMap(obj, "frequentFlyerMemberships", TravelerFrequentFlyerMembership.class, new HashMap<String, TravelerFrequentFlyerMembership>());
 
+		mTicketNumbers =  JSONUtils.getStringList(obj, "ticketNumbers");
 		mPassportCountries = JSONUtils.getStringList(obj, "passportCountries");
 		setSeatPreference(JSONUtils.getEnum(obj, "seatPreference", SeatPreference.class));
 		mAssistance = JSONUtils.getEnum(obj, "assistance", AssistanceType.class);

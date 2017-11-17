@@ -42,17 +42,17 @@ class ItinCardDataFlightTest {
     }
 
     @Test
-    fun testGetTravelerFirstAndLastName() {
+    fun testGetTravelersFullNames() {
         val trip = (testItinCardData.tripComponent as TripFlight)
-        var names =  testItinCardData.travelerFirstAndLastNames
+        var names =  testItinCardData.travelersFullName
         assertEquals(names, "Girija Balachandran")
         val newTraveler = Traveler()
         newTraveler.firstName = "Jim"
         newTraveler.middleName = "T"
         newTraveler.lastName = "Bob"
         trip.addTraveler(newTraveler)
-        names = testItinCardData.travelerFirstAndLastNames
-        assertEquals(names, "Girija Balachandran, Jim Bob")
+        names = testItinCardData.travelersFullName
+        assertEquals(names, "Girija Balachandran, Jim T Bob")
     }
 
     fun setBookingStatus(bookingStatus: BookingStatus) {

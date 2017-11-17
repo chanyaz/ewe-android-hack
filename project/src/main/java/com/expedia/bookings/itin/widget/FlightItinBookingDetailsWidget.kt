@@ -1,6 +1,5 @@
 package com.expedia.bookings.itin.widget
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v4.app.ActivityOptionsCompat
@@ -40,8 +39,11 @@ class FlightItinBookingDetailsWidget(context: Context, attr: AttributeSet?) : Li
         if (intent != null) context.startActivity(intent, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
     }
 
-    private fun setTravelerInfoOnClick() = travelerInfoCard.setOnClickListener {
+    private fun setTravelerInfoOnClick(intent: Intent?) = travelerInfoCard.setOnClickListener {
         OmnitureTracking.trackItinFlightTravelerInfo()
+        if (intent != null) context.startActivity(intent, ActivityOptionsCompat
+                .makeCustomAnimation(context, R.anim.slide_in_right, R.anim.slide_out_left_complete)
+                .toBundle())
     }
 
     var viewModel: FlightItinBookingInfoViewModel by notNullAndObservable { vm ->
@@ -60,7 +62,7 @@ class FlightItinBookingDetailsWidget(context: Context, attr: AttributeSet?) : Li
         }
         vm.travelerInfoCardViewWidgetVM.cardViewParamsSubject.subscribe { params ->
             setUpCardView(params, travelerInfoCard)
-            setTravelerInfoOnClick()
+            setTravelerInfoOnClick(params.intent)
         }
     }
 

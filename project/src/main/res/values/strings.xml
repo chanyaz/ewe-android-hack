@@ -1445,8 +1445,28 @@
     <string name="itin_flight_total_duration_TEMPLATE">Total Duration: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Baggage information</string>
-    <!--Flight itin traveller info widget heading-->
-    <string name="itin_flight_traveller_info">Traveler information</string>
+    <!--Flight itin traveler info widget heading-->
+    <string name="itin_flight_traveler_info">Traveler information</string>
+    <!--Flight itin traveler preferences heading -->
+    <string name="itin_flight_traveler_preferences">Preferences</string>
+    <!--Flight itin Known traveler number text -->
+    <string name="itin_known_traveler_number_text">Known traveler number</string>
+    <!--Flight itin traveler redress number text-->
+    <string name="itin_traveler_redress_number">Redress number</string>
+    <!--Flight itin traveler Special assistance requests text-->
+    <string name="itin_traveler_special_assistance_requests_text">Special assistance requests</string>
+    <!--Flight itin traveler Frequent Flyer information text-->
+    <string name="itin_frequent_flyer_text">Frequent Flyer information</string>
+    <!--Flight itin traveler contact to confirm request text-->
+    <string name="itin_traveler_contact_air_to_confirm_text">Please contact airline to confirm requests</string>
+    <!--Flight itin traveler email text -->
+    <string name="itin_traveler_email_text">Email</string>
+    <!--Flight itin traveler phone text -->
+    <string name="itin_traveler_phone_text">Phone</string>
+    <!--Flight itin traveler ticket number (e.g. Ticket # 345678901123)-->
+    <string name="itin_traveler_ticket_number_TEMPLATE">Ticket # {number}</string>
+    <!--Flight itein traveler infant in seat text -->
+    <string name="itin_traveler_infant_in_seat_text">(Infant in lap)</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">Manage booking</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->

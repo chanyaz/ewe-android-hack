@@ -128,17 +128,6 @@ class TravelerNameTest {
         assertTrue(oscarTwo.isEmpty)
     }
 
-    @Test
-    fun testGetFirstAndLastName() {
-        val oscarOne = getTestName(oscarFirstName, oscarMiddleName, oscarLastName)
-        val oscarTwo = getTestName(oscarFirstName, null, oscarLastName)
-
-        val expectedName = "$oscarFirstName $oscarLastName"
-
-        assertEquals(expectedName, oscarOne.firstAndLastName)
-        assertEquals(expectedName, oscarTwo.firstAndLastName)
-    }
-
     private fun getTestName(first: String?, middle: String?, last: String?): TravelerName {
         val travelerName = TravelerName()
         travelerName.firstName = first

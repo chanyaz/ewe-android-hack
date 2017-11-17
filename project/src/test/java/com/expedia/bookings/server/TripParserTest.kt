@@ -184,6 +184,21 @@ class TripParserTest {
         assertEquals(parsedTripHotel.rooms[0].roomType, clonedTripHotel.rooms[0].roomType)
     }
 
+    @Test
+    fun testParseTraveler() {
+        val tripParser = TripParser()
+        val array = getPassengersJson()
+        val firstTraveler = tripParser.parseTraveler(array.getJSONObject(0))
+        val secondTraveler = tripParser.parseTraveler(array.getJSONObject(1))
+        assertEquals("123456789", firstTraveler.redressNumber)
+        assertEquals("", secondTraveler.redressNumber)
+        assertEquals("987654321", firstTraveler.knownTravelerNumber)
+        assertEquals("", secondTraveler.knownTravelerNumber)
+        assertEquals(1, firstTraveler.frequentFlyerMemberships.size)
+        assertEquals(0, secondTraveler.frequentFlyerMemberships.size)
+
+    }
+
     private fun getHotelTripJsonWithISO8061dateString(checkInDate: String, checkOutDate: String): JSONObject {
         val hotelTripJsonObj = getHotelTripJson()
 
@@ -226,7 +241,14 @@ class TripParserTest {
         return flight
     }
 
-
+    private fun getPassengersJson(): JSONArray {
+        val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trip_details_multi_segment.json"))).readUtf8()
+        val jsonObject = JSONObject(data)
+        val responseData = jsonObject.getJSONObject("responseData")
+        val flight = responseData.getJSONArray("flights").getJSONObject(0)
+        val passengers = flight.getJSONArray("passengers")
+        return passengers
+    }
 
     private fun createFlightTripResponse() {
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trips_summary_with_insurance.json"))).readUtf8()
@@ -382,6 +404,11 @@ class TripParserTest {
         assertEquals(flight.assignedSeats, "")
         assertEquals(flight.cabinCode, "Economy / Coach")
         assertEquals(flight.seats, emptyList())
+    }
+
+    @Test
+    fun testPassengerParser() {
+        val tripParser = TripParser()
     }
 
     private fun getHotelNoRoomsJSON(): JSONObject {

@@ -4,12 +4,10 @@ import android.app.Activity
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Matchers
-import org.mockito.Mockito
-import org.mockito.internal.matchers.Any
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
@@ -52,10 +50,12 @@ class FlightItinBookingInfoViewModelTest {
         createPriceSummarySubject.assertNoValues()
         createManageBookingSubject.assertNoValues()
         createTravelerlInfoSubject.assertNoValues()
+        val testItinCardData = ItinCardDataFlightBuilder().build()
         sut.updateBookingInfoWidget(FlightItinBookingInfoViewModel.WidgetParams(
                 "Jim Bob",
                 false,
-                "expedia.com"
+                "expedia.com",
+                testItinCardData.id
         ))
         createWidgetSharedSubject.assertValue(false)
         createTravelerlInfoSubject.assertValueCount(1)

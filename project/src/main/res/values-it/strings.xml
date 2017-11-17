@@ -1442,7 +1442,7 @@
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Informazioni sui bagagli</string>
     <!--Flight itin traveller info widget heading-->
-    <string name="itin_flight_traveller_info">Dati del viaggiatore</string>
+    <string name="itin_flight_traveler_info">Dati del viaggiatore</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">Gestisci la tua prenotazione</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->

@@ -9,6 +9,7 @@ class TravelerFrequentFlyerMembership : JSONable {
     lateinit var membershipNumber : String
     lateinit var planCode : String
     lateinit var airlineCode : String
+    var programName = ""
     var frequentFlyerPlanID = ""
 
     override fun toJson(): JSONObject? {
@@ -18,6 +19,7 @@ class TravelerFrequentFlyerMembership : JSONable {
             obj.putOpt("membershipNumber", membershipNumber)
             obj.putOpt("planCode", planCode)
             obj.putOpt("airlineCode", airlineCode)
+            obj.putOpt("programName", programName)
             return obj
         } catch (e : JSONException) {
             Log.e("Could not convert TravelerFrequentFlyerMembership to JSON", e)
@@ -30,6 +32,7 @@ class TravelerFrequentFlyerMembership : JSONable {
         membershipNumber = obj.optString("membershipNumber", null)
         planCode = obj.optString("planCode", null)
         airlineCode = obj.optString("airlineCode", null)
+        programName = obj.optString("programName", null)
         return true
     }
 

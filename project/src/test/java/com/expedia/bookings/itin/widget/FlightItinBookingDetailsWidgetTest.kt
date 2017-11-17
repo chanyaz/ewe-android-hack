@@ -10,6 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.itin.vm.FlightItinBookingInfoViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,12 +31,14 @@ class FlightItinBookingDetailsWidgetTest {
     fun before() {
         context = RuntimeEnvironment.application
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        val testItinCardData = ItinCardDataFlightBuilder().build()
         sut = LayoutInflater.from(activity).inflate(R.layout.test_flight_itin_booking_details_widget, null) as FlightItinBookingDetailsWidget
         sut.viewModel = FlightItinBookingInfoViewModel(activity, "TEST_ITIN_ID")
         params = FlightItinBookingInfoViewModel.WidgetParams(
                 "Jim Bob",
                 false,
-                null
+                null,
+                testItinCardData.id
         )
         sut.viewModel.updateBookingInfoWidget(params)
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
@@ -74,7 +77,7 @@ class FlightItinBookingDetailsWidgetTest {
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
         sut.travelerInfoCard.performClick()
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.TravelerInfo", mockAnalyticsProvider)
-        assertEquals(context.getString(R.string.itin_flight_traveller_info), sut.travelerInfoCard.getHeadingText())
+        assertEquals(context.getString(R.string.itin_flight_traveler_info), sut.travelerInfoCard.getHeadingText())
         assertEquals("Jim Bob", sut.travelerInfoCard.getSubHeadingText())
         assertEquals(View.VISIBLE, sut.travelerInfoCard.getSubheadingVisibility())
     }

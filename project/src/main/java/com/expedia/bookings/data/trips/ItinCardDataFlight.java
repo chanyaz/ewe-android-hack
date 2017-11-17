@@ -243,11 +243,11 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 		return true;
 	}
 
-	public String getTravelerFirstAndLastNames() {
+	public String getTravelersFullName() {
 		List<Traveler> travelerList = ((TripFlight) getTripComponent()).getTravelers();
 		List<String> stringList = new ArrayList();
 		for (Traveler traveler : travelerList) {
-			stringList.add(traveler.getFirstAndLastName());
+			stringList.add(traveler.getFullName());
 		}
 		return TextUtils.join(", ", stringList);
 	}

@@ -1442,7 +1442,7 @@
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Thông tin hành lý</string>
     <!--Flight itin traveller info widget heading-->
-    <string name="itin_flight_traveller_info">Thông tin khách</string>
+    <string name="itin_flight_traveler_info">Thông tin khách</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">Quản lý đặt phòng</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
