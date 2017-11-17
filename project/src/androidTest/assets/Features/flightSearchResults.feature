@@ -375,7 +375,7 @@ Feature: Flights Search Results
       | adultsPerRoom[1]    | 1                                        |
       | numberOfRooms       | 1                                        |
       | toDate              | 20                                       |
-      | originId            | 178279                                   |
+      | originId            | 5392460                                   |
 
   @Flights @EBOnly
   Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters with modifying parameters

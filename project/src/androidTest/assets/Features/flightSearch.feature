@@ -390,7 +390,7 @@ Feature: Flights Search
       | adults              | 2                                        |
       | child               | 2                                        |
     And I wait for results to load
-    Then Validate the flight Search API request query data for following parameters
+    Then Validate the "flight Search" API request query data for following parameters
       | maxOfferCount                         | 1600                          |
       | cabinClassPreference                  | COACH                         |
       | childTravelerAge                      | 10                            |
@@ -409,7 +409,7 @@ Feature: Flights Search
     And I click on Done button
     Then I can trigger flights search
     And I wait for results to load
-    Then Validate the flight Search API request query data for following parameters
+    Then Validate the "flight Search" API request query data for following parameters
       | maxOfferCount                         | 1600                          |
       | cabinClassPreference                  | PREMIUM_COACH                 |
       | childTravelerAge                      | 10                            |

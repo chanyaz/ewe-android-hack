@@ -297,7 +297,7 @@ Feature: Package Search
       | adultsPerRoom[1]        | 2                           |
       | numberOfRooms           | 1                           |
       | toDate                  | 30                          |
-      | originId                | 178305                      |
+      | originId                | 6000581                      |
       | childrenPerRoom[1]      | 2                           |
       | childAges[1][1]         | 10                          |
       | childAges[1][2]         | 10                          |

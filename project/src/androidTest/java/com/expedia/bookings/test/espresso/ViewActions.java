@@ -393,7 +393,7 @@ public final class ViewActions {
 	}
 
 	public static ViewAction waitForViewToDisplay() {
-		return waitFor(isDisplayed(), 20, TimeUnit.SECONDS);
+		return waitFor(isDisplayed(), 30, TimeUnit.SECONDS);
 	}
 
 	public static ViewAction waitForViewToCompletelyDisplay() {
