@@ -4618,8 +4618,8 @@
     <string name="member_deal_loading_page_header">正在搜索优惠…</string>
     <string name="member_deals_toolbar_title">会员价</string>
     <string name="continue_booking">继续预订</string>
-    <string name="member_deal_hotel_only">仅酒店</string>
-    <string name="member_deal_toolbar_close_cont_desc">关闭会员价窗口</string>
+    <string name="deals_hotel_only">仅酒店</string>
+    <string name="deals_toolbar_close_cont_desc">关闭会员价窗口</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">我们如何确定排序顺序</string>

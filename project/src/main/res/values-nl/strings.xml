@@ -4618,8 +4618,8 @@
     <string name="member_deal_loading_page_header">Op zoek naar deals …</string>
     <string name="member_deals_toolbar_title">Klantenprijzen</string>
     <string name="continue_booking">Doorgaan met boeken</string>
-    <string name="member_deal_hotel_only">Alleen hotel</string>
-    <string name="member_deal_toolbar_close_cont_desc">Klantenprijzenvenster sluiten</string>
+    <string name="deals_hotel_only">Alleen hotel</string>
+    <string name="deals_toolbar_close_cont_desc">Klantenprijzenvenster sluiten</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Hoe bepalen wij de sorteervolgorde?</string>

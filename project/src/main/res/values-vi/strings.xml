@@ -4618,8 +4618,8 @@
     <string name="member_deal_loading_page_header">Đang tìm ưu đãi…</string>
     <string name="member_deals_toolbar_title">Giá thành viên</string>
     <string name="continue_booking">Tiếp tục đặt</string>
-    <string name="member_deal_hotel_only">Chỉ khách sạn</string>
-    <string name="member_deal_toolbar_close_cont_desc">Đóng màn hình giá thành viên</string>
+    <string name="deals_hotel_only">Chỉ khách sạn</string>
+    <string name="deals_toolbar_close_cont_desc">Đóng màn hình giá thành viên</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Cách xác định thứ tự sắp xếp</string>

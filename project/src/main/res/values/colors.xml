@@ -480,8 +480,8 @@
     <color name="card_fee_text_color">@color/gray500</color>
 
     <!-- Member Only Deals colors-->
-    <color name="member_deal_background_gradient">@color/exp_launch_secondary_blue_70</color>
-    <color name="member_deal_destination_card_text">@color/gray800</color>
+    <color name="member_deals_background_gradient">@color/exp_launch_secondary_blue_70</color>
+    <color name="member_deals_destination_card_text">@color/gray800</color>
     <color name="hotel_sort_filter_area_price">#2970cc</color>
     <color name="hotel_sort_filter_area_price_disabled">#800558c4</color>
 

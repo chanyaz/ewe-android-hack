@@ -12,7 +12,7 @@
         android:background="@color/new_launch_toolbar_background_color"
         android:minHeight="?attr/actionBarSize"
         app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:navigationContentDescription="@string/member_deal_toolbar_close_cont_desc"
+        app:navigationContentDescription="@string/deals_toolbar_close_cont_desc"
         app:title="@string/member_deals_toolbar_title"
         app:titleTextColor="@color/white"
         app:titleTextAppearance="@style/ToolbarTitleTextAppearance"

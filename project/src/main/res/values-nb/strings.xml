@@ -4618,8 +4618,8 @@
     <string name="member_deal_loading_page_header">Søker etter tilbud …</string>
     <string name="member_deals_toolbar_title">Medlemspris</string>
     <string name="continue_booking">Fortsett bestillingen</string>
-    <string name="member_deal_hotel_only">Kun hotell</string>
-    <string name="member_deal_toolbar_close_cont_desc">Lukk medlemsprissiden</string>
+    <string name="deals_hotel_only">Kun hotell</string>
+    <string name="deals_toolbar_close_cont_desc">Lukk medlemsprissiden</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Slik bestemmes sorteringsrekkefølgen</string>

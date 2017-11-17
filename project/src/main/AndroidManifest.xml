@@ -220,7 +220,7 @@
             tools:ignore="UnusedAttribute" />
 
         <activity
-            android:name="com.expedia.bookings.mia.activity.MemberDealActivity"
+            android:name="com.expedia.bookings.mia.activity.MemberDealsActivity"
             android:label="Member Deals"
             android:launchMode="singleTop"
             android:resizeableActivity="false"

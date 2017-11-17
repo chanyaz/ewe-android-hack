@@ -1,10 +1,10 @@
 package com.expedia.bookings.data.sos
 
-class MemberDealResponse {
+class DealsResponse {
     var offerInfo: OfferInfo? = null
     var offerErrorInfo: ErrorInfo? = null
     var debugInformation: DebugInformation? = null
-    var destinations: List<MemberDealDestination>? = null
+    var destinations: List<DealsDestination>? = null
         internal set
 
     fun hasError(): Boolean {

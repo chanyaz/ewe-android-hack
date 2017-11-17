@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tool="http://schemas.android.com/tools"
-    android:id="@+id/member_deal_cardview"
+    android:id="@+id/deals_cardview"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -23,14 +23,14 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/member_deal_background"
+                android:id="@+id/deals_background"
                 android:layout_width="match_parent"
                 android:layout_height="134dp"
                 android:scaleType="matrix"
                 tool:background="@color/exp_launch_blue"/>
 
             <View
-                android:id="@+id/member_deal_foreground"
+                android:id="@+id/deals_foreground"
                 android:layout_width="match_parent"
                 android:layout_height="134dp"/>
 
@@ -44,7 +44,7 @@
                 android:paddingRight="25dp">
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/member_deal_city"
+                    android:id="@+id/deals_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
@@ -53,7 +53,7 @@
                     tool:text="city"/>
 
                 <TextView
-                    android:id="@+id/member_deal_date"
+                    android:id="@+id/deals_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -63,7 +63,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/member_deal_discount_percentage"
+                android:id="@+id/deals_discount_percentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -81,7 +81,7 @@
         </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/member_deal_text_layout"
+            android:id="@+id/deals_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -92,24 +92,24 @@
             android:background="@color/white">
 
             <TextView
-                android:id="@+id/member_deal_condition"
+                android:id="@+id/deals_condition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/member_deal_hotel_only"
+                android:text="@string/deals_hotel_only"
                 style="@style/Core.Text.200"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical|left"
-                android:textColor="@color/member_deal_destination_card_text"/>
+                android:textColor="@color/member_deals_destination_card_text"/>
 
             <LinearLayout
-                android:id="@+id/member_deal_price_layout"
+                android:id="@+id/deals_price_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center_vertical">
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/member_deal_strike_through_price"
+                    android:id="@+id/deals_strike_through_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:alpha=".7"
@@ -119,7 +119,7 @@
                     tool:text="$100"/>
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/member_deal_price_per_night"
+                    android:id="@+id/deals_price_per_night"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/Core.Text.300.Medium"

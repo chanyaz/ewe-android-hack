@@ -33,7 +33,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
-import com.expedia.bookings.mia.activity.MemberDealActivity;
+import com.expedia.bookings.mia.activity.MemberDealsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
@@ -164,7 +164,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
 			view.setOnClickListener(new MemberDealClickListener());
 			BigImageLaunchViewModel vm = getDealViewModel(R.drawable.ic_member_deals_icon,
-				R.color.member_deal_background_gradient,
+				R.color.member_deals_background_gradient,
 				R.string.member_deal_title, R.string.member_deal_subtitle);
 			vm.setBackgroundUrl(getBigImageResizedUrl(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl()));
 			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
@@ -415,7 +415,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			context.getString(R.string.Create_Account));
 	}
 
-
 	private BigImageLaunchViewModel getDealViewModel(int lastMinuteDealsIcon, int backgroundGradient,
 		int title, int subtitle) {
 		return new BigImageLaunchViewModel(lastMinuteDealsIcon,
@@ -526,7 +525,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private class MemberDealClickListener implements View.OnClickListener {
 		@Override
 		public void onClick(View v) {
-			Intent intent = new Intent(context, MemberDealActivity.class);
+			Intent intent = new Intent(context, MemberDealsActivity.class);
 			context.startActivity(intent);
 			OmnitureTracking.trackLaunchMemberPricing();
 		}

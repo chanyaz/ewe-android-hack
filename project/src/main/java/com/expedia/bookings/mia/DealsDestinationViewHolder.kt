@@ -17,26 +17,26 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelSearchParams
-import com.expedia.bookings.mia.vm.MemberDealDestinationViewModel
+import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.*
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
-class MemberDealDestinationViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
-    val cityView: TextView by bindView(R.id.member_deal_city)
-    val dateView: TextView by bindView(R.id.member_deal_date)
-    val discountView: TextView by bindView(R.id.member_deal_discount_percentage)
-    val strikePriceView: TextView by bindView(R.id.member_deal_strike_through_price)
-    val priceView: TextView by bindView(R.id.member_deal_price_per_night)
-    val bgImageView: ImageView by bindView(R.id.member_deal_background)
-    val gradient: View by bindView(R.id.member_deal_foreground)
-    val cardView: CardView by bindView(R.id.member_deal_cardview)
+class DealsDestinationViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
+    val cityView: TextView by bindView(R.id.deals_city)
+    val dateView: TextView by bindView(R.id.deals_date)
+    val discountView: TextView by bindView(R.id.deals_discount_percentage)
+    val strikePriceView: TextView by bindView(R.id.deals_strike_through_price)
+    val priceView: TextView by bindView(R.id.deals_price_per_night)
+    val bgImageView: ImageView by bindView(R.id.deals_background)
+    val gradient: View by bindView(R.id.deals_foreground)
+    val cardView: CardView by bindView(R.id.deals_cardview)
     lateinit var searchParams: HotelSearchParams
     lateinit var discountPercent: String
 
     val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
 
-    fun bind(vm: MemberDealDestinationViewModel) {
+    fun bind(vm: DealsDestinationViewModel) {
         cityView.text = vm.cityName
         dateView.text = vm.dateRangeText
         discountView.text = vm.percentSavingsText
@@ -45,10 +45,10 @@ class MemberDealDestinationViewHolder(private val view: View): RecyclerView.View
         Picasso.with(view.context).load(vm.backgroundUrl).error(vm.backgroundFallback).placeholder(vm.backgroundPlaceHolder).into(target)
         searchParams = setSearchParams(vm)
         discountPercent = vm.discountPercent
-        cardView.contentDescription = getMemberDealContentDesc()
+        cardView.contentDescription = getDealsContentDesc()
     }
 
-    fun setSearchParams(vm: MemberDealDestinationViewModel): HotelSearchParams {
+    fun setSearchParams(vm: DealsDestinationViewModel): HotelSearchParams {
         val params = HotelSearchParams()
         params.regionId = vm.regionId
         params.checkInDate = vm.startDate
@@ -60,7 +60,7 @@ class MemberDealDestinationViewHolder(private val view: View): RecyclerView.View
         return params
     }
 
-    fun getMemberDealContentDesc(): CharSequence {
+    fun getDealsContentDesc(): CharSequence {
         val result = SpannableBuilder()
 
         result.append(cityView.text.toString() + ".")
@@ -83,7 +83,7 @@ class MemberDealDestinationViewHolder(private val view: View): RecyclerView.View
                     .toString())
         }
 
-        result.append(Phrase.from(view.context, R.string.member_deal_hotel_only).format().toString())
+        result.append(Phrase.from(view.context, R.string.deals_hotel_only).format().toString())
 
         return result.build()
     }
@@ -103,7 +103,7 @@ class MemberDealDestinationViewHolder(private val view: View): RecyclerView.View
                     val bitmapHeight = bitmap.height.toFloat()
                     val scaleRatio = imageViewWidth / bitmapWidth
                     matrix.setScale(scaleRatio, scaleRatio)
-                    val shift = bitmapHeight * scaleRatio * Constants.MOD_IMAGE_SHIFT
+                    val shift = bitmapHeight * scaleRatio * Constants.SOS_IMAGE_SHIFT
                     matrix.postTranslate(0.5f, shift + 0.5f)
                     bgImageView.imageMatrix = matrix
                     return true

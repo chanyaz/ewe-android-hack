@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.sos.MemberDealDestination
+import com.expedia.bookings.data.sos.DealsDestination
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -13,7 +13,7 @@ import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 
-class MemberDealDestinationViewModel(val context: Context, val leadingHotel: MemberDealDestination.Hotel, val currency: String?) {
+class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDestination.Hotel, val currency: String?) {
 
     val backgroundUrl: String? by lazy {
         getBackgroundImageUrl(leadingHotel.destination?.regionID)
@@ -64,7 +64,7 @@ class MemberDealDestinationViewModel(val context: Context, val leadingHotel: Mem
             return null
         }
 
-        return Constants.MOD_DESTINATION_IMAGE_BASE_URL.replace("{regionId}", leadingHotel.destination?.regionID!!)
+        return Constants.SOS_DESTINATION_IMAGE_BASE_URL.replace("{regionId}", leadingHotel.destination?.regionID!!)
     }
 
     fun getDateRangeText(startDate: LocalDate?, endDate: LocalDate?): String {

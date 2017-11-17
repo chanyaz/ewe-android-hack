@@ -4618,8 +4618,8 @@
     <string name="member_deal_loading_page_header">Suche nach Angeboten läuft …</string>
     <string name="member_deals_toolbar_title">Mitgliederpreise</string>
     <string name="continue_booking">Mit der Buchung fortfahren</string>
-    <string name="member_deal_hotel_only">Nur Hotel</string>
-    <string name="member_deal_toolbar_close_cont_desc">Seite für Mitgliederpreise schließen</string>
+    <string name="deals_hotel_only">Nur Hotel</string>
+    <string name="deals_toolbar_close_cont_desc">Seite für Mitgliederpreise schließen</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">So bestimmen wir die Sortierfolge</string>

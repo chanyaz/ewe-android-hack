@@ -8,16 +8,16 @@ import android.support.v7.widget.Toolbar
 import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.mia.MemberDealListAdapter
-import com.expedia.bookings.mia.MemberDealResponseProvider
+import com.expedia.bookings.mia.MemberDealsResponseProvider
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.HotelNavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 
-class MemberDealActivity : AppCompatActivity() {
+class MemberDealsActivity : AppCompatActivity() {
 
-    private lateinit var memberDealResponseProvider: MemberDealResponseProvider
+    private lateinit var memberDealResponseProvider: MemberDealsResponseProvider
     private lateinit var adapter: MemberDealListAdapter
     val recyclerView by bindView<RecyclerView>(R.id.member_deal_recycler_view)
 
@@ -39,21 +39,13 @@ class MemberDealActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        memberDealResponseProvider = MemberDealResponseProvider(Ui.getApplication(this).appComponent().smartOfferService())
-        memberDealResponseProvider.memberDealResponseSubject.subscribe(adapter.resultSubject)
-    }
-
-    override fun onStart() {
-        super.onStart()
+        memberDealResponseProvider = MemberDealsResponseProvider(Ui.getApplication(this).appComponent().smartOfferService())
+        memberDealResponseProvider.dealsResponseSubject.subscribe(adapter.resultSubject)
     }
 
     override fun onResume() {
         super.onResume()
         memberDealResponseProvider.fetchDeals()
         OmnitureTracking.trackMemberPricingPageLoad()
-    }
-
-    override fun onStop() {
-        super.onStop()
     }
 }

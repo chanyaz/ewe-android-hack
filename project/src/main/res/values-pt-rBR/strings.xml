@@ -4618,8 +4618,8 @@
     <string name="member_deal_loading_page_header">Buscando ofertas…</string>
     <string name="member_deals_toolbar_title">Preços para associados</string>
     <string name="continue_booking">Continuar com a reserva</string>
-    <string name="member_deal_hotel_only">Somente hotel</string>
-    <string name="member_deal_toolbar_close_cont_desc">Fechar tela de preços para associados</string>
+    <string name="deals_hotel_only">Somente hotel</string>
+    <string name="deals_toolbar_close_cont_desc">Fechar tela de preços para associados</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Como determinamos a ordem de ordenação</string>

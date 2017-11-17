@@ -2,7 +2,7 @@ package com.expedia.bookings.data.sos
 
 import java.math.BigDecimal
 
-class MemberDealDestination {
+class DealsDestination {
     internal var destinationInfo: DestinationInfo? = null
     internal var hotelPricingSummary: HotelPricingSummary? = null
     var hotels: List<Hotel>? = null

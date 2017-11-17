@@ -1031,7 +1031,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.air_attach_variant2_string1_TEMPLATE,
 		R.string.air_attach_variant1_string,
 		R.string.air_attach_variant2_string2,
-		R.layout.member_deal_card,
+		R.layout.deals_card,
 		R.layout.member_deal_header,
 		R.layout.member_deal_loading_cell,
 		R.dimen.hotel_results_last_price_buffer,

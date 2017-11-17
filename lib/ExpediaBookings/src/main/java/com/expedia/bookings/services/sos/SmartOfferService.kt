@@ -1,7 +1,8 @@
 package com.expedia.bookings.services.sos
 
-import com.expedia.bookings.data.sos.MemberDealRequest
-import com.expedia.bookings.data.sos.MemberDealResponse
+import com.expedia.bookings.data.sos.LastMinuteDealsRequest
+import com.expedia.bookings.data.sos.MemberDealsRequest
+import com.expedia.bookings.data.sos.DealsResponse
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -26,11 +27,19 @@ class SmartOfferService(endpoint: String, okHttpClient: OkHttpClient, intercepto
         adapter.create(SmartOfferApi::class.java)
     }
 
-    fun fetchMemberDeals(request: MemberDealRequest,
-                         dealsObserver: Observer<MemberDealResponse>) : Subscription {
+    fun fetchMemberDeals(request: MemberDealsRequest,
+                         dealsObserver: Observer<DealsResponse>) : Subscription {
 
         return api.memberDeals(request.siteId, request.locale, request.productType, request.groupBy,
                 request.destinationLimit, request.clientId)
+                .subscribeOn(subscribeOn)
+                .observeOn(observeOn)
+                .subscribe(dealsObserver)
+    }
+
+    fun fetchLastMinuteDeals(request: LastMinuteDealsRequest,
+                             dealsObserver: Observer<DealsResponse>) : Subscription {
+        return api.lastMinuteDeals(request.siteId, request.locale, request.groupBy, request.productType, request.destinationLimit, request.clientId, request.stayDateRanges)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(dealsObserver)

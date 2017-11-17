@@ -3,29 +3,26 @@ package com.expedia.bookings.mia
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.sos.MemberDealDestination
-import com.expedia.bookings.data.sos.MemberDealResponse
-import com.expedia.bookings.mia.activity.MemberDealActivity
-import com.expedia.bookings.mia.vm.MemberDealDestinationViewModel
+import com.expedia.bookings.data.sos.DealsDestination
+import com.expedia.bookings.data.sos.DealsResponse
+import com.expedia.bookings.mia.activity.MemberDealsActivity
+import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.NavUtils
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
-import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
 import rx.subjects.BehaviorSubject
 import java.util.ArrayList
 
 class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var listData: List<MemberDealDestination> = emptyList()
+    private var listData: List<DealsDestination> = emptyList()
     private var currency: String? = null
     private var loading = true
-    val resultSubject = BehaviorSubject.create<MemberDealResponse>()
+    val resultSubject = BehaviorSubject.create<DealsResponse>()
     val headerTextChangeSubject = BehaviorSubject.create<String>()
 
     init {
@@ -59,11 +56,11 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
             return holder
         }
         else if (viewType == itemType.DESTINATION_CARD.ordinal) {
-            val view = LayoutInflater.from(context).inflate(R.layout.member_deal_card, parent, false)
-            val holder = MemberDealDestinationViewHolder(view)
+            val view = LayoutInflater.from(context).inflate(R.layout.deals_card, parent, false)
+            val holder = DealsDestinationViewHolder(view)
 
             view.setOnClickListener { v ->
-                val memberDealActivity = context as MemberDealActivity
+                val memberDealActivity = context as MemberDealsActivity
                 val animOptions = AnimUtils.createActivityScaleBundle(memberDealActivity.currentFocus)
                 HotelNavUtils.goToHotels(this.context, holder.searchParams, animOptions, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
             }
@@ -79,11 +76,11 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
         if (holder is MemberDealHeaderViewHolder) {
             headerTextChangeSubject.subscribeText(holder.headerText)
         }
-        if (holder is MemberDealDestinationViewHolder) {
+        if (holder is DealsDestinationViewHolder) {
             val destination = listData[position - 1]
             val leadingHotel = destination.getLeadingHotel()
             if (leadingHotel != null) {
-                val vm = MemberDealDestinationViewModel(context, leadingHotel, currency)
+                val vm = DealsDestinationViewModel(context, leadingHotel, currency)
                 holder.bind(vm)
             }
         }
@@ -112,10 +109,10 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
         }
     }
 
-    private fun generateLoadingCells (count: Int): List<MemberDealDestination> {
-        val listLoading = ArrayList<MemberDealDestination>()
+    private fun generateLoadingCells (count: Int): List<DealsDestination> {
+        val listLoading = ArrayList<DealsDestination>()
         for (i in 1..count) {
-            listLoading.add(MemberDealDestination())
+            listLoading.add(DealsDestination())
         }
         return listLoading
     }

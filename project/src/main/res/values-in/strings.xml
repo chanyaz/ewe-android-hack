@@ -4618,8 +4618,8 @@
     <string name="member_deal_loading_page_header">Mencari promo…</string>
     <string name="member_deals_toolbar_title">Harga Member</string>
     <string name="continue_booking">Lanjutkan Pemesanan</string>
-    <string name="member_deal_hotel_only">Hanya Hotel</string>
-    <string name="member_deal_toolbar_close_cont_desc">Tutup layar harga member</string>
+    <string name="deals_hotel_only">Hanya Hotel</string>
+    <string name="deals_toolbar_close_cont_desc">Tutup layar harga member</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Cara kami menentukan urutan</string>

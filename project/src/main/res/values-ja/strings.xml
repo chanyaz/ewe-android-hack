@@ -4618,8 +4618,8 @@
     <string name="member_deal_loading_page_header">詳細を検索中…</string>
     <string name="member_deals_toolbar_title">会員価格</string>
     <string name="continue_booking">予約を続ける</string>
-    <string name="member_deal_hotel_only">ホテル</string>
-    <string name="member_deal_toolbar_close_cont_desc">会員価格画面を閉じる</string>
+    <string name="deals_hotel_only">ホテル</string>
+    <string name="deals_toolbar_close_cont_desc">会員価格画面を閉じる</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">並び替え順の定義</string>

@@ -23,7 +23,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
-import com.expedia.bookings.mia.activity.MemberDealActivity;
+import com.expedia.bookings.mia.activity.MemberDealsActivity;
 import com.expedia.bookings.rail.activity.RailActivity;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.tracking.RailWebViewTracking;
@@ -114,7 +114,7 @@ public class NavUtils {
 
 	public static void goToMemberPricing(Context context) {
 		sendKillActivityBroadcast(context);
-		Intent intent = new Intent(context, MemberDealActivity.class);
+		Intent intent = new Intent(context, MemberDealsActivity.class);
 		context.startActivity(intent);
 	}
 

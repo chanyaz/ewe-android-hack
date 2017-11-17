@@ -7,11 +7,11 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
-class MemberDealDestinationTest {
+class DealsDestinationTest {
 
     @Test
     fun testHotelHasLeadingPrice() {
-        val hotel = MemberDealDestination().Hotel()
+        val hotel = DealsDestination().Hotel()
         hotel.offerMarkers = arrayListOf("LEADIN_PRICE",
                 "HIGHEST_STAR_RATING")
         assertTrue(hotel.hasLeadingPrice())
@@ -19,7 +19,7 @@ class MemberDealDestinationTest {
 
     @Test
     fun testHotelHasNoLeadingPrice() {
-        val hotel = MemberDealDestination().Hotel()
+        val hotel = DealsDestination().Hotel()
         hotel.offerMarkers = arrayListOf("HIGHEST_DISCOUNT",
                 "HIGHEST_STAR_RATING")
         assertFalse(hotel.hasLeadingPrice())
@@ -27,7 +27,7 @@ class MemberDealDestinationTest {
 
     @Test
     fun testDestinationHasLeadingHotel() {
-        val destination = MemberDealDestination()
+        val destination = DealsDestination()
         destination.hotels  = getHotelListWithLeadingHotel()
         assertNotEquals(null, destination.getLeadingHotel())
         assertTrue(destination.getLeadingHotel()!!.hasLeadingPrice())
@@ -35,29 +35,29 @@ class MemberDealDestinationTest {
 
     @Test
     fun testDestinationHasNoLeadingHotel() {
-        val destination = MemberDealDestination()
+        val destination = DealsDestination()
         destination.hotels  = getHotelListWithoutLeadingHotel()
         assertEquals(null, destination.getLeadingHotel())
     }
 
-    fun getHotelListWithLeadingHotel(): List<MemberDealDestination.Hotel> {
-        val hotels = ArrayList<MemberDealDestination.Hotel>()
-        val leadingHotel = MemberDealDestination().Hotel()
+    fun getHotelListWithLeadingHotel(): List<DealsDestination.Hotel> {
+        val hotels = ArrayList<DealsDestination.Hotel>()
+        val leadingHotel = DealsDestination().Hotel()
         leadingHotel.offerMarkers = arrayListOf("LEADIN_PRICE")
         hotels.add(leadingHotel)
-        val notLeadingHotel = MemberDealDestination().Hotel()
+        val notLeadingHotel = DealsDestination().Hotel()
         notLeadingHotel.offerMarkers = arrayListOf("HIGHEST_DISCOUNT")
         hotels.add(notLeadingHotel)
 
         return hotels
     }
 
-    fun getHotelListWithoutLeadingHotel(): List<MemberDealDestination.Hotel> {
-        val hotels = ArrayList<MemberDealDestination.Hotel>()
-        val leadingHotel = MemberDealDestination().Hotel()
+    fun getHotelListWithoutLeadingHotel(): List<DealsDestination.Hotel> {
+        val hotels = ArrayList<DealsDestination.Hotel>()
+        val leadingHotel = DealsDestination().Hotel()
         leadingHotel.offerMarkers = arrayListOf("HIGHEST_STAR_RATING")
         hotels.add(leadingHotel)
-        val notLeadingHotel = MemberDealDestination().Hotel()
+        val notLeadingHotel = DealsDestination().Hotel()
         notLeadingHotel.offerMarkers = arrayListOf("HIGHEST_DISCOUNT")
         hotels.add(notLeadingHotel)
 
