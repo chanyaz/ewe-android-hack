@@ -431,7 +431,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
         hotelRatingObservable.onNext(offerResponse.hotelStarRating.toFloat())
         hotelRatingObservableVisibility.onNext(offerResponse.hotelStarRating > 0)
-        hotelRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, offerResponse.hotelStarRating.toInt()))
+        hotelRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, offerResponse.hotelStarRating))
 
         allRoomsSoldOut.onNext(CollectionUtils.isEmpty(offerResponse.hotelRoomResponse))
 

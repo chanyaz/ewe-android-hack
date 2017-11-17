@@ -174,7 +174,7 @@ open class HotelViewModel(private val context: Context) {
 
     fun getRatingContentDesc(hotel: Hotel): String {
         val phrase: Phrase
-        val hotelStarRatingContentDescription = HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toInt())
+        val hotelStarRatingContentDescription = HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toDouble())
 
         if (hotel.hotelStarRating.toInt() <= 0 && hotel.hotelGuestRating <= 0f) {
             phrase = Phrase.from(context, R.string.hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE)

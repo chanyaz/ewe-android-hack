@@ -53,7 +53,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     val offersObserver = endlessObserver<HotelOffersResponse> { response ->
         hotelName.onNext(response.hotelName)
         hotelStarRating.onNext(response.hotelStarRating.toFloat())
-        hotelStarRatingContentDescription.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, response.hotelStarRating.toInt()))
+        hotelStarRatingContentDescription.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, response.hotelStarRating))
         hotelStarRatingVisibility.onNext(response.hotelStarRating > 0)
         price.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, false, !response.isPackage))
         strikethroughPrice.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, true, !response.isPackage))

@@ -10,6 +10,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extension.isWholeNumber
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.LocalDateTypeAdapter
 import com.expedia.util.LoyaltyUtil
@@ -127,12 +128,12 @@ class HotelsV2DataUtil {
             return HotelSearchParams(suggestionV4, localCheckInDate, localCheckoutDate, numAdultsPerHotelRoom, listOfChildTravelerAges, shopWithPoints = true, filterUnavailable = filterUnavailable)
         }
 
-        fun getHotelRatingContentDescription(context: Context, hotelStarRating: Int): String {
+        fun getHotelRatingContentDescription(context: Context, hotelStarRating: Double): String {
             if (hotelStarRating <= 0) return ""
             var contDesc: String
             if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
                 var stringID: Int = 0
-                when (hotelStarRating) {
+                when (hotelStarRating.toInt()) {
                     1 -> stringID = R.string.star_circle_rating_one_cont_desc
                     2 -> stringID = R.string.star_circle_rating_two_cont_desc
                     3 -> stringID = R.string.star_circle_rating_three_cont_desc
@@ -142,8 +143,8 @@ class HotelsV2DataUtil {
                 contDesc = context.getString(stringID)
 
             } else {
-                contDesc = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, hotelStarRating))
-                        .put("rating", hotelStarRating)
+                contDesc = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, hotelStarRating.toInt()))
+                        .put("rating", if (hotelStarRating.isWholeNumber()) hotelStarRating.toInt().toString() else hotelStarRating.toString())
                         .format()
                         .toString()
             }
