@@ -1364,6 +1364,11 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_to_inbound_breadcrumbs_TEMPLATE,
 		R.string.flight_to_outbound_breadcrumbs_TEMPLATE,
 		R.string.package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE,
+		R.string.itin_flight_customer_support_header_text_TEMPLATE,
+		R.string.itin_flight_customer_support_site_header_TEMPLATE,
+		R.string.itin_flight_customer_support_site_toolbar_header,
+		R.string.itin_flight_itinerary_number_TEMPLATE,
+		R.layout.widget_flight_itin_customer_support,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt,
 		R.integer.suggest_min_query_length

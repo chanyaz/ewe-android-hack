@@ -2184,6 +2184,8 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_CALL_HOTEL = "App.Itinerary.Hotel.Manage.Call.Hotel";
 	private static final String ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia";
 	private static final String ITIN_HOTEL_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Hotel.Manage.CSP";
+	private static final String ITIN_FLIGHT_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Flight.Manage.CSP";
+	private static final String ITIN_FLIGHT_CALL_EXPEDIA = "App.Itinerary.Flight.Manage.Call.Expedia";
 	private static final String ITIN_TRIP_REFRESH_CALL_MADE = "App.Itinerary.Call.Made";
 	private static final String ITIN_TRIP_REFRESH_CALL_SUCCESS = "App.Itinerary.Call.Success";
 	private static final String ITIN_TRIP_REFRESH_CALL_FAILURE = "App.Itinerary.Call.Failure";
@@ -2536,6 +2538,16 @@ public class OmnitureTracking {
 
 	public static void trackItinHotelOpenSupportWebsite() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_OPEN_SUPPORT_WEBSITE);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinFlightOpenSupportWebsite() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_OPEN_SUPPORT_WEBSITE);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinFlightCallSupport() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CALL_EXPEDIA);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
