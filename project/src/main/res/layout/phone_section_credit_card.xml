@@ -94,7 +94,7 @@
             android:layout_marginTop="7dp"
             android:text="@string/Authorized_Signature"
             android:textAllCaps="true"
-            android:textColor="#ffffff"
+            android:textColor="#D6D6D6"
             android:textSize="8dp" />
 
     </LinearLayout>
@@ -157,7 +157,8 @@
         android:layout_below="@id/signature_strip_frame"
         android:ellipsize="end"
         android:gravity="right"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:textColor="#D6D6D6" />
 
     <!-- Visa, AMEX, etc. logo -->
 
