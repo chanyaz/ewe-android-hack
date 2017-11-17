@@ -352,10 +352,10 @@ Feature: Flights Search Results
       | GetPackagesV1       |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | source              | LHR                                      |
+      | destination         | LAS                                      |
+      | source_suggest      | London, England, UK                      |
+      | destination_suggest | Las Vegas, NV                            |
       | start_date          | 15                                       |
       | end_date            | 20                                       |
       | adults              | 1                                        |
@@ -368,17 +368,17 @@ Feature: Flights Search Results
       | packageType         | fh                                       |
     Then Validate the getPackages API request form data for following parameters
       | fromDate            | 15                                       |
-      | destinationId       | 6000184                                  |
-      | ttla                | DEL                                      |
-      | ftla                | SFO                                      |
+      | destinationId       | 6139100                                  |
+      | ttla                | LAS                                      |
+      | ftla                | LHR                                      |
       | packageTripType     | 2                                        |
       | adultsPerRoom[1]    | 1                                        |
       | numberOfRooms       | 1                                        |
       | toDate              | 20                                       |
-      | originId            | 178305                                   |
+      | originId            | 178279                                   |
 
   @Flights @EBOnly
-  Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters
+  Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters with modifying parameters
     Given I launch the App
     And I bucket the following tests
       | FlightXSellPackage  |

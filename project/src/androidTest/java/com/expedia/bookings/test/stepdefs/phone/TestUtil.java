@@ -19,6 +19,7 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
 import com.expedia.bookings.widget.flights.FlightListAdapter;
 

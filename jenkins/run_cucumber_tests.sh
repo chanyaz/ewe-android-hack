@@ -163,7 +163,7 @@ function runTestsOnDevice() {
         echo "tag trigerred " ${tagSingle}
         runCucumberTests $device $tagSingle
         publishHTMLReport $device $tagSingle
-        sleep 4
+        sleep 10
     done
 
 }

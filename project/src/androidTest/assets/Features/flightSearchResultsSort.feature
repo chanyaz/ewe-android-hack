@@ -1,6 +1,6 @@
 Feature: Sorting of Flight results
 
-  @Prod @Flights @FlightSort
+  @Prod @Flights @FlightSortSet1
   Scenario: Verify flight results are sorted by price by default
     Given I launch the App
     And I launch "Flights" LOB
@@ -9,8 +9,8 @@ Feature: Sorting of Flight results
       | destination         | DEL                                      |
       | source_suggest      | San Francisco, CA                        |
       | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 25                                       |
+      | start_date          | 15                                        |
+      | end_date            | 20                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
@@ -19,7 +19,7 @@ Feature: Sorting of Flight results
     Then "Price" sorting is shown as selected
 
 
-  @Prod @Flights @FlightSort
+  @Prod @Flights @FlightSortSet1
   Scenario: Verify flight results can be sorted by departure time
     Given I launch the App
     And I launch "Flights" LOB
@@ -28,8 +28,8 @@ Feature: Sorting of Flight results
       | destination         | DEL                                      |
       | source_suggest      | San Francisco, CA                        |
       | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 25                                       |
+      | start_date          | 15                                        |
+      | end_date            | 20                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
@@ -40,7 +40,7 @@ Feature: Sorting of Flight results
     Then flight results are sorted by "Departure time"
 
 
-  @Prod @Flights @FlightSort
+  @Prod @Flights @FlightSortSet2
   Scenario: Verify flight results can be sorted by arrival time
     Given I launch the App
     And I launch "Flights" LOB
@@ -50,7 +50,7 @@ Feature: Sorting of Flight results
       | source_suggest      | San Francisco, CA                        |
       | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
       | start_date          | 5                                        |
-      | end_date            | 25                                       |
+      | end_date            | 10                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
@@ -61,7 +61,7 @@ Feature: Sorting of Flight results
     Then flight results are sorted by "Arrival time"
 
 
-  @Prod @Flights @FlightSort
+  @Prod @Flights @FlightSortSet2
   Scenario: Verify flight results can be sorted by flight duration
     Given I launch the App
     And I launch "Flights" LOB
@@ -71,7 +71,7 @@ Feature: Sorting of Flight results
       | source_suggest      | San Francisco, CA                        |
       | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
       | start_date          | 5                                        |
-      | end_date            | 25                                       |
+      | end_date            | 10                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load

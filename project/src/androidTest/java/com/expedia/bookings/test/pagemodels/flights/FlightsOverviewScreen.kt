@@ -8,7 +8,9 @@ import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.ViewActions
+import java.util.concurrent.TimeUnit
 
 object FlightsOverviewScreen {
 
@@ -28,6 +30,7 @@ object FlightsOverviewScreen {
     fun priceChangeTextView() = onView(withText(R.string.price_change_text))
 
     @JvmStatic fun clickOnCheckoutButton(): ViewInteraction {
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.checkout_button), 30, TimeUnit.SECONDS)
         return onView(withId(R.id.checkout_button)).perform(click());
     }
 }
