@@ -563,6 +563,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         if (isUserBucketedForFareFamily) {
             flightOverviewPresenter.fareFamilyCardView.visibility = View.GONE
         }
+        if (isUserEvolableBucketed) {
+            flightOverviewPresenter.flightSummary.evolableTermsConditionTextView.visibility = View.GONE
+        }
     }
 
     val searchArgbEvaluator = ArgbEvaluator()
