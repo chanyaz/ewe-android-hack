@@ -376,7 +376,7 @@ public class SearchScreenSteps {
 
 	@And("^Wait for checkout screen to load after createTrip")
 	public void waitForCheckoutToLoadAfterCreateTrip() throws Throwable {
-		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.checkout_button), 10, TimeUnit.SECONDS);
+		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.checkout_button), 40, TimeUnit.SECONDS);
 	}
 
 	@Then("^Validate search form retains details of search for packages")
