@@ -23,7 +23,7 @@ class HotelItinImage(context: Context, attr: AttributeSet?) : LinearLayout(conte
     }
 
     fun setUpWidget(itinCardDataHotel: ItinCardDataHotel) {
-        if (itinCardDataHotel.property.thumbnail.originalUrl.isNotBlank()) {
+        if (!itinCardDataHotel.property.thumbnail.originalUrl.isNullOrBlank()) {
             val hotelMedia = HotelMedia(itinCardDataHotel.property.thumbnail.originalUrl)
             PicassoHelper.Builder(hotelImageView)
                     .setPlaceholder(R.drawable.room_fallback)
