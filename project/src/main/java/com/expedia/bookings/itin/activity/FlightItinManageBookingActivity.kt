@@ -5,8 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.vm.FlightItinCustomerSupportDetailsViewModel
 import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
 import com.expedia.bookings.itin.vm.FlightItinManageBookingViewModel
+import com.expedia.bookings.itin.widget.FlightItinCustomerSupportDetails
 import com.expedia.bookings.itin.widget.ItinToolbar
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -26,6 +28,7 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
     }
 
     private val itinToolbar by bindView<ItinToolbar>(R.id.manage_booking_flight_itin_toolbar)
+    private val customerSupportDetails by bindView<FlightItinCustomerSupportDetails>(R.id.flight_itin_customer_support_widget)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +50,10 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
         }
         vm.updateToolbarSubject.subscribe { params ->
             itinToolbar.viewModel.updateWidget(params)
+        }
+        vm.customerSupportDetailsSubject.subscribe { params ->
+            customerSupportDetails.viewModel = FlightItinCustomerSupportDetailsViewModel()
+            customerSupportDetails.viewModel.updateWidget(params)
         }
     }
 

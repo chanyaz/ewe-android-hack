@@ -1469,6 +1469,8 @@
     <string name="itin_traveler_infant_in_seat_text">(Infant in lap)</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">Manage booking</string>
+    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_flight_customer_support_header_text_TEMPLATE">Contact {brand} if you need help managing this itinerary.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">Cancelled</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -1479,6 +1481,12 @@
     <string name="itin_flight_summary_status_indicator_text_early_departure">Early departure</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_manage_booking_header">Manage Booking</string>
+    <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_flight_itinerary_number_TEMPLATE">Itinerary # {itin_number}</string>
+    <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} customer support</string>
+    <!--Flight customer support website toolbar header-->
+    <string name="itin_flight_customer_support_site_toolbar_header">Customer service</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}d {hours}h {minutes}m</string>

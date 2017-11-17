@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import android.app.Activity
 import android.content.Context
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -17,6 +18,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.`when` as whenever
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
@@ -29,6 +31,7 @@ class FlightItinManageBookingViewModelTest {
     val itinCardDataValidSubscriber = TestSubscriber<Unit>()
     val itinCardDataSubscriber = TestSubscriber<ItinCardDataFlight>()
     val updateToolbarSubscriber = TestSubscriber<ItinToolbarViewModel.ToolbarParams>()
+    val customerSupportDetailSubscriber = TestSubscriber<ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams>()
 
     @Before
     fun setup() {
@@ -47,7 +50,7 @@ class FlightItinManageBookingViewModelTest {
         whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
         sut.itineraryManager = mockItinManager
         sut.updateItinCardDataFlight()
-        
+
         itinCardDataValidSubscriber.assertNoValues()
         itinCardDataSubscriber.assertValueCount(1)
         itinCardDataSubscriber.assertValue(testItinCardData)
@@ -72,7 +75,7 @@ class FlightItinManageBookingViewModelTest {
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
         val testItinCardData = ItinCardDataFlightBuilder().build()
         val segments = testItinCardData.flightLeg.segments
-        testItinCardData.flightLeg.segments[segments.size-1].destinationWaypoint = TestWayPoint("Las Vegas")
+        testItinCardData.flightLeg.segments[segments.size - 1].destinationWaypoint = TestWayPoint("Las Vegas")
         whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
         sut.itineraryManager = mockItinManager
         sut.setUp()
@@ -82,6 +85,25 @@ class FlightItinManageBookingViewModelTest {
                 put("destination", "Las Vegas").format().toString()
 
         updateToolbarSubscriber.assertValue(ItinToolbarViewModel.ToolbarParams(title, destinationCity, false))
+    }
+
+    @Test
+    fun testCustomerSupportDetails() {
+        sut.customerSupportDetailsSubject.subscribe(customerSupportDetailSubscriber)
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        testItinCardData.tripComponent.parentTrip.tripNumber = "123456789"
+        testItinCardData.tripComponent.parentTrip.customerSupport.supportPhoneNumberDomestic = "+1-866-230-3837"
+        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
+        sut.itineraryManager = mockItinManager
+        sut.setUp()
+
+        val header = Phrase.from(context, R.string.itin_flight_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+        val itineraryNumb = Phrase.from(context, R.string.itin_flight_itinerary_number_TEMPLATE).put("itin_number", "123456789").format().toString()
+        val customerSupportNumber = "+1-866-230-3837"
+        val customerSupportButton = Phrase.from(context, R.string.itin_flight_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+        val customerSupportURL = "http://www.expedia.com/service/"
+        customerSupportDetailSubscriber.assertValue(ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams(header, itineraryNumb, customerSupportNumber, customerSupportButton, customerSupportURL))
     }
 
     class TestWayPoint(val city: String) : Waypoint(ACTION_UNKNOWN) {
