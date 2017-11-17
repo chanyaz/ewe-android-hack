@@ -498,6 +498,14 @@ class PackagesTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackInfositeError() {
+        sut.trackInfositeError("ErrorType")
+        val controlEvar = mapOf(18 to "App.Package.Infosite.Error")
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackCheckoutError() {
         sut.trackCheckoutError(ApiError(ApiError.Code.UNMAPPED_ERROR))
         val controlEvar = mapOf(18 to "App.Package.Checkout.Error")

@@ -4131,6 +4131,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE = "App.Package.Flight.Search.Filter.";
 	private static final String PACKAGES_FLIGHT_AIRLINES = "App.Package.Flight.Search.Filter.Airline";
 
+	private static final String PACKAGES_INFOSITE_ERROR = "App.Package.Infosite.Error";
 	private static final String PACKAGES_SEARCH_ERROR = "App.Package.Hotels-Search.NoResults";
 	private static final String PACKAGES_CHECKOUT_ERROR = "App.Package.Checkout.Error";
 	private static final String PACKAGES_CHECKOUT_ERROR_RETRY = "App.Package.CKO.Error.Retry";
@@ -4295,6 +4296,7 @@ public class OmnitureTracking {
 		if (response.getHotelResultsCount() > 0) {
 			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_RESULT_LOAD + "\"");
 			s.setAppState(PACKAGES_HOTEL_SEARCH_RESULT_LOAD);
+			s.setEvar(18, PACKAGES_HOTEL_SEARCH_RESULT_LOAD);
 			addPackagesCommonFields(s);
 			s.setEvents("event12,event53");
 			s.setProp(1, String.valueOf(response.getHotelResultsCount()));
@@ -4563,6 +4565,13 @@ public class OmnitureTracking {
 	public static void trackPackagesSearchError(String errorType) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_SEARCH_ERROR + "\" pageLoad...");
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_SEARCH_ERROR);
+		s.setProp(36, errorType);
+		s.track();
+	}
+
+	public static void trackPackagesInfositeError(String errorType) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_INFOSITE_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_INFOSITE_ERROR);
 		s.setProp(36, errorType);
 		s.track();
 	}

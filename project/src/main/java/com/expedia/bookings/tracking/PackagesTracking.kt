@@ -228,6 +228,10 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesSearchError(errorType)
     }
 
+    fun trackInfositeError(errorType: String) {
+        OmnitureTracking.trackPackagesInfositeError(errorType)
+    }
+
     fun trackCheckoutError(error: ApiError) {
         OmnitureTracking.trackPackagesCheckoutError(createCheckoutError(error))
     }

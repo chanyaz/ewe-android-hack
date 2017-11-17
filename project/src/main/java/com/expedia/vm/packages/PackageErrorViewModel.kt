@@ -123,7 +123,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
         hotelOffersApiErrorObserver.subscribe {
             error = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
-            PackagesTracking().trackSearchError(it.toString())
+            PackagesTracking().trackInfositeError(it.toString())
             when (it) {
                 ApiError.Code.PACKAGE_SEARCH_ERROR -> {
                     imageObservable.onNext(R.drawable.error_search)
