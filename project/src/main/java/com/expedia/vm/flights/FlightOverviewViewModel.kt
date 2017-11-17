@@ -22,6 +22,10 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
         return selectedFlight.isBasicEconomy
     }
 
+    override fun shouldShowDeltaPositive(): Boolean {
+        return false
+    }
+
     private fun getBundleLabelText(selectedFlight: FlightLeg): String {
         return selectedFlight.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context, true) ?: ""
     }

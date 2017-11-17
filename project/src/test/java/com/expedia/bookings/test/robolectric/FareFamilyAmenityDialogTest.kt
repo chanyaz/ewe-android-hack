@@ -6,13 +6,17 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FareFamilyAmenityItemWidget
 import com.expedia.bookings.widget.flights.FareFamilyItemWidget
 import com.expedia.vm.flights.FareFamilyItemViewModel
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,6 +38,7 @@ class FareFamilyAmenityDialogTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(activity).defaultFlightComponents()
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_fare_family_item_layout, null) as FareFamilyItemWidget
+        addFlightSearchParams()
         widget.bindViewModel(getViewModel())
     }
 
@@ -126,5 +131,36 @@ class FareFamilyAmenityDialogTest {
         )
 
         return FareFamilyItemViewModel(activity, fareFamilyDetails, false, PublishSubject.create())
+    }
+
+    private fun addFlightSearchParams() {
+        val origin = getFakeSuggestion("SFO")
+        val destination = getFakeSuggestion("SEA")
+        val params = FlightSearchParams.Builder(100, 500)
+                .origin(origin)
+                .destination(destination)
+                .startDate(LocalDate.now().withYear(2019).withMonthOfYear(9).withDayOfMonth(6))
+                .endDate(LocalDate.now().withYear(2021).withMonthOfYear(9).withDayOfMonth(6))
+                .adults(1).build() as FlightSearchParams
+        Db.setFlightSearchParams(params)
+    }
+
+    private fun getFakeSuggestion(airportCode: String) : SuggestionV4 {
+        val suggestion = SuggestionV4()
+        val hierarchyInfo = SuggestionV4.HierarchyInfo()
+        val airport = SuggestionV4.Airport()
+        airport.airportCode = airportCode
+        hierarchyInfo.airport = airport
+        val country = SuggestionV4.Country()
+        country.name = ""
+        hierarchyInfo.country = country
+        suggestion.hierarchyInfo = hierarchyInfo
+
+        val regionName = SuggestionV4.RegionNames()
+        regionName.shortName = "San Francisco, CA (SFO-San Francisco Intl.)"
+        regionName.displayName = "San Francisco, CA (<B>SFO</B>-San Francisco Intl.)"
+        regionName.fullName = "San Francisco, CA, United States (<B>SFO</B>-San Francisco Intl.)"
+        suggestion.regionNames = regionName
+        return suggestion
     }
 }

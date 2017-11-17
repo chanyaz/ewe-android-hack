@@ -26,6 +26,9 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
     override fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean {
         return false
     }
+    override fun shouldShowDeltaPositive(): Boolean {
+        return true
+    }
 
     fun updateOBFees(selectedFlight: FlightLeg) {
         resetPaymentFeeViews()

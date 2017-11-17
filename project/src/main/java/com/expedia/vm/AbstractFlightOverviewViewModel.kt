@@ -33,6 +33,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     abstract val showEarnMessage: BehaviorSubject<Boolean>
     abstract val showSeatClassAndBookingCode: BehaviorSubject<Boolean>
 
+    abstract fun shouldShowDeltaPositive(): Boolean
     abstract fun pricePerPersonString(selectedFlight: FlightLeg): String
     abstract fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean
 
@@ -80,7 +81,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
                 .put("price", pricePerPerson)
                 .format().toString()
         }
-        if (selectedFlight.packageOfferModel.price.deltaPositive) {
+        if (selectedFlight.packageOfferModel.price.deltaPositive && shouldShowDeltaPositive()) {
             urgencyMessage.append("+" + pricePerPersonMessage)
         } else {
             urgencyMessage.append(pricePerPersonMessage)
