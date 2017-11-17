@@ -452,7 +452,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="16138"
             android:summary="%s"
-            android:title="Hotel Material Forms - 15790" />
+            android:title="Hotel Material Forms - 16138" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
