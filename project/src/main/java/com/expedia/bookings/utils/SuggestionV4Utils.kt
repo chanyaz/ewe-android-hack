@@ -119,15 +119,4 @@ object SuggestionV4Utils {
             }
         }
     }
-
-    /**
-     * Get the minimum number of characters required to provide drop down auto fill results.
-     * This is useful for languages like Japanese where Tokyo is spelt with 2 characters.
-     * Used for languages: Chinese, Korean, and Japanese
-
-     * @return min number of characters to start a query
-     */
-    @JvmStatic fun getMinSuggestQueryLength(context: Context): Int {
-        return context.resources.getInteger(R.integer.suggest_min_query_length)
-    }
 }

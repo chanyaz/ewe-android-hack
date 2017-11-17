@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- Auto complete settings -->
-    <integer name="suggest_min_query_length">1</integer>
-
-</resources>

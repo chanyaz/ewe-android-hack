@@ -23,6 +23,7 @@ import java.util.ArrayList
 abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsService: SuggestionV4Services,
                                           locationObservable: Observable<Location>?,
                                           val shouldShowCurrentLocation: Boolean, val rawQueryEnabled: Boolean) {
+    private val minSuggestionQueryByteLength = 3
     private val currentLocationText = context.getString(R.string.current_location)
     // Outputs
     val suggestionsObservable = BehaviorSubject.create<List<SuggestionV4>>()
@@ -42,7 +43,8 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     // Inputs
     val queryObserver = endlessObserver<String> { query ->
         lastQuery = query
-        if (query.isNotBlank() && !query.equals(currentLocationText) && (isSuggestionOnOneCharEnabled() || query.length >= SuggestionV4Utils.getMinSuggestQueryLength(context))) {
+        if (query.isNotBlank() && !query.equals(currentLocationText) &&
+                (isSuggestionOnOneCharEnabled() || query.toByteArray().size >= minSuggestionQueryByteLength)) {
             getSuggestionService(query)
         } else {
             if (showSuggestionsAndLabel()) {
