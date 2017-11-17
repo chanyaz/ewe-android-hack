@@ -50,7 +50,7 @@ class FlightItinMapWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         super.onFinishInflate()
         itinActionsButtons.viewModel.leftButtonClickedObservable.subscribe {
             val fragmentManager = (context as FragmentActivity).supportFragmentManager
-            val terminalMapsDialog = FlightItinTerminalMapBottomSheet.newInstance(viewModel.itinCardDataObservable.value.flightLeg?.getSegment(0)?.originWaypoint?.airport?.mAirportCode, viewModel.itinCardDataObservable.value.flightLeg?.getSegment(0)?.destinationWaypoint?.airport?.mAirportCode)
+            val terminalMapsDialog = FlightItinTerminalMapBottomSheet.newInstance(viewModel.itinCardDataObservable.value.flightLeg?.firstWaypoint?.airport?.mAirportCode, viewModel.itinCardDataObservable.value.flightLeg?.lastWaypoint?.airport?.mAirportCode)
             terminalMapsDialog.show(fragmentManager, TERMINAL_MAP_BOTTOM_SHEET_TAG)
             OmnitureTracking.trackItinNewFlightTerminalMaps()
         }
