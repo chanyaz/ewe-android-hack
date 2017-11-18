@@ -1,22 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.concurrent.PriorityBlockingQueue;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.json.JSONException;
@@ -45,17 +28,14 @@ import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.data.TNSFlight;
-import com.expedia.bookings.itin.data.TNSRegisterDeviceResponse;
-import com.expedia.bookings.itin.data.TNSUser;
+import com.expedia.bookings.itin.services.TNSServices;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
-import com.expedia.bookings.itin.services.TNSServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
@@ -69,7 +49,22 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 
-import rx.Observer;
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.concurrent.PriorityBlockingQueue;
 import rx.functions.Action1;
 
 /**
@@ -1893,14 +1888,10 @@ public class ItineraryManager implements JSONable {
 					userTuid = user.getPrimaryTraveler().getTuid();
 				}
 			}
-
-			String appName = ProductFlavorFeatureConfiguration.getInstance().getAppNameForMobiataPushNameHeader();
-			TNSUser user = new TNSUser(siteId, (int) userTuid);
-
 			if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(mContext, AbacusUtils.TripsNewFlightAlerts,
 				R.string.preference_enable_trips_flight_alerts)) {
 				/*
-                    Business As Usual
+					Business As Usual
                  */
 				JSONObject payload = PushNotificationUtils
 					.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
@@ -1912,30 +1903,8 @@ public class ItineraryManager implements JSONable {
 					new PushRegistrationResponseHandler(mContext), payload, regId);
 				Log.d(LOGGING_TAG,
 					"registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
-
-                /*
-                Un-register the device with the new system
-
-                 */
-				tnsServices.registerForFlights(appName, user, new ArrayList<TNSFlight>(), regId,
-					new Observer<TNSRegisterDeviceResponse>() {
-						@Override
-						public void onCompleted() {
-
-						}
-
-						@Override
-						public void onError(Throwable e) {
-
-						}
-
-						@Override
-						public void onNext(TNSRegisterDeviceResponse tnsRegisterDeviceResponse) {
-							Log.d(LOGGING_TAG,
-								"registerForPushNotifications response:" + (tnsRegisterDeviceResponse == null ? "null"
-									: tnsRegisterDeviceResponse.getStatus()));
-						}
-					});
+//					Un-register the device with the new system
+				tnsServices.registerForFlights(new ArrayList<TNSFlight>(), null);
 
 			}
 			else {
@@ -1958,25 +1927,7 @@ public class ItineraryManager implements JSONable {
                 Register the device with the new system
 
                  */
-				tnsServices.registerForFlights(appName, user, getFlightsForNewSystem(), regId,
-					new Observer<TNSRegisterDeviceResponse>() {
-						@Override
-						public void onCompleted() {
-
-						}
-
-						@Override
-						public void onError(Throwable e) {
-
-						}
-
-						@Override
-						public void onNext(TNSRegisterDeviceResponse tnsRegisterDeviceResponse) {
-							Log.d(LOGGING_TAG,
-								"registerForPushNotifications response:" + (tnsRegisterDeviceResponse == null ? "null"
-									: tnsRegisterDeviceResponse.getStatus()));
-						}
-					});
+				tnsServices.registerForFlights(getFlightsForNewSystem(), null);
 
 
 			}

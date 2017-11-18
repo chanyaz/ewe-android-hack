@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import android.content.Context;
 
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.itin.services.TNSServices;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.expedia.bookings.notification.NotificationManager;
 
@@ -15,7 +16,7 @@ import dagger.Provides;
 public final class UserModule {
 	@Provides
 	@Singleton
-	UserStateManager provideUserStateManager(Context context, UserLoginStateChangedModel userLoginStateChangedModel, NotificationManager notificationManager) {
+	UserStateManager provideUserStateManager(Context context, UserLoginStateChangedModel userLoginStateChangedModel, NotificationManager notificationManager, TNSServices tnsServices) {
 		return new UserStateManager(context, userLoginStateChangedModel, notificationManager);
 	}
 }
