@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.itin.services.TNSServices
 import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.server.ExpediaServices
 import com.expedia.bookings.utils.CarnivalUtils
@@ -26,7 +27,11 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
                                                  private val notificationManager: NotificationManager,
                                                  private val accountManager: AccountManager = AccountManager.get(context),
                                                  val userSource: UserSource = UserSource(context),
-                                                 private val loggingProvider: ExceptionLoggingProvider = ExceptionLoggingProvider()) {
+                                                 private val loggingProvider: ExceptionLoggingProvider = ExceptionLoggingProvider()
+                                                 ) {
+
+    lateinit private var tnsServices: TNSServices
+
     private val SAVED_INFO_FILENAME = "user.dat"
 
     private val accountType: String by lazy {
@@ -42,6 +47,7 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
     @JvmOverloads
     fun signIn(activity: Activity, options: Bundle? = null, restrictedProfileSource: RestrictedProfileSource? = null, loginProvider: AccountLoginProvider? = null) {
         performSignIn(activity, options, restrictedProfileSource ?: RestrictedProfileSource(activity), loginProvider ?: AccountLoginProvider(accountManager))
+        tnsServices.registerForUserDevice(null)
     }
 
     private fun performSignIn(activity: Activity, options: Bundle?, restrictedProfileSource: RestrictedProfileSource, loginProvider: AccountLoginProvider) {

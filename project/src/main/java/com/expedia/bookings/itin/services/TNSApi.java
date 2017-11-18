@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.services;
 
 import com.expedia.bookings.itin.data.TNSRegisterDeviceResponse;
+import com.expedia.bookings.itin.data.TNSRegisterUserDeviceFlightsRequestBody;
 import com.expedia.bookings.itin.data.TNSRegisterUserDeviceRequestBody;
 
 import retrofit2.http.Body;
@@ -18,6 +19,6 @@ interface TNSApi {
 
 	@POST("/register/user/device/flights")
 	Observable<TNSRegisterDeviceResponse> registerUserDeviceFlights(
-		@Body TNSRegisterUserDeviceRequestBody body
+		@Body TNSRegisterUserDeviceFlightsRequestBody body
 	);
 }

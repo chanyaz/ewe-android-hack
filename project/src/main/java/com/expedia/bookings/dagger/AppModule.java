@@ -345,9 +345,9 @@ public class AppModule {
 	@Provides
 	@Singleton
 	TNSServices provideTNSService(EndpointProvider endpointProvider, OkHttpClient client,
-								  @Named("HmacInterceptor") Interceptor hmacInterceptor) {
+								  @Named("HmacInterceptor") Interceptor hmacInterceptor, final Context context) {
 		return new TNSServices(endpointProvider.getTNSEndpoint(), client, hmacInterceptor,
-				AndroidSchedulers.mainThread(), Schedulers.io());
+				AndroidSchedulers.mainThread(), Schedulers.io(), context);
 	}
 
 	@Provides

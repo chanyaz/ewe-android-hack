@@ -1,8 +1,10 @@
 package com.expedia.bookings.itin.data
 
-class TNSRegisterUserDeviceRequestBody(val courier: Courier, val flights: List<TNSFlight>, val user: TNSUser)
+class TNSRegisterUserDeviceFlightsRequestBody(val courier: Courier, val flights: List<TNSFlight>, val user: TNSUser)
 
-class TNSUser(val siteid: Int, val tuid: Int)
+class TNSRegisterUserDeviceRequestBody(val courier: Courier, val user: TNSUser)
+
+class TNSUser(val siteid: Int, val tuid: String)
 
 class Courier(val group: String, val name: String, val token: String)
 
