@@ -2,9 +2,11 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import java.util.concurrent.TimeUnit;
 
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
@@ -160,6 +162,16 @@ public class FlightsSearchResultsSingleCellSteps {
 	@Then("^basic economy on cell (\\d+) isDisplayed : (true|false)$")
 	public void lookForBasicEconomy(int cellNumber, boolean isDisplayed) throws Throwable {
 		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.flight_class_text_view,isDisplayed,true);
+	}
+
+	@Then("^Validate \"(.*?)\" is present on every result on FSR for isOutBound : (true|false)$")
+	public void validatePreferredClassOnFlightSearchResults(String preferredClass, boolean outBound) throws Throwable {
+		ViewInteraction outBoundFlightList = FlightsScreen.outboundFlightList();
+		ViewInteraction inBoundFlightList = FlightsScreen.inboundFlightList();
+		int numberOfResults = outBound ? EspressoUtils.getListCount(outBoundFlightList) : EspressoUtils.getListCount(inBoundFlightList);
+		for (int count = 1; count < numberOfResults; count++) {
+			checkString(count, R.id.flight_class_text_view, preferredClass, outBound);
+		}
 	}
 }
 

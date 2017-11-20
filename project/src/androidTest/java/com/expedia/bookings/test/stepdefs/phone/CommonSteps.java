@@ -71,6 +71,10 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightFlexEnabled.getKey(),
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
+		if (list.contains("FlightShowMoreInfo")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview.getKey(),
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
 		Db.setAbacusResponse(abacusResponse);
 	}
 
