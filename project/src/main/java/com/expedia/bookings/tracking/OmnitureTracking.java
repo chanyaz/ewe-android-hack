@@ -4694,6 +4694,7 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_KRAZY_GLUE_WEB_TRACKING_LINK = "mip.hot.kg.expedia.conf";
 	private static final String FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK = "Krazyglue Click";
 	private static final String FLIGHTS_V2_KRAZY_GLUE_HOTEL_CLICKED = "mip.hot.app.kg.flight.conf.HSR.tile";
+	private static final String FLIGHTS_V2_KRAZY_GLUE_SEE_MORE_CLICKED = "mip.hot.app.kg.flight.conf.HSR.see_more";
 
 	private static Pair<com.expedia.bookings.data.flights.FlightLeg,
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
@@ -4946,6 +4947,17 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, rfrrString);
 		s.setProp(16, rfrrString);
+		s.setEvar(65, Constants.KRAZY_GLUE_PARTNER_ID);
+		s.setEvents("event83");
+
+		s.trackLink(null, "o", FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK, null, null);
+	}
+
+	public static void trackFlightsKrazyGlueSeeMoreClick() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK + "\" interaction...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_KRAZY_GLUE_SEE_MORE_CLICKED);
+		s.setProp(16, FLIGHTS_V2_KRAZY_GLUE_SEE_MORE_CLICKED);
 		s.setEvar(65, Constants.KRAZY_GLUE_PARTNER_ID);
 		s.setEvents("event83");
 

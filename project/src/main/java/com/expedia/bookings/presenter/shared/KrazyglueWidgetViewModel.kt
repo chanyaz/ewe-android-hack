@@ -18,5 +18,4 @@ class KrazyglueWidgetViewModel(context: Context) {
                 .put("city", it)
                 .format().toString()
     }
-    val destinationObservable = BehaviorSubject.create<DateTime>()
 }

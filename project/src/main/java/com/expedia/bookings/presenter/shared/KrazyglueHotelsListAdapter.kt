@@ -10,10 +10,9 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import rx.subjects.PublishSubject
-import org.joda.time.DateTime
 import rx.subjects.BehaviorSubject
 
-class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<KrazyglueResponse.KrazyglueHotel>>, val destinationDateObservable: BehaviorSubject<DateTime>, val hotelSearchParams: BehaviorSubject<HotelSearchParams>, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<KrazyglueResponse.KrazyglueHotel>>, val hotelSearchParams: BehaviorSubject<HotelSearchParams>, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     enum class KrazyglueViewHolderType {
         LOADING_VIEW,
@@ -24,7 +23,11 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         var viewType = getKrazyGlueViewHolderTypeFromInt(holder.itemViewType)
         when (viewType) {
-            KrazyglueViewHolderType.HOTEL_VIEW_HOLDER -> (holder as KrazyglueHotelViewHolder).viewModel.hotelObservable.onNext(hotels[getHotelPositionBasedOnABTest(position)])
+            KrazyglueViewHolderType.HOTEL_VIEW_HOLDER ->  {
+                val hotelPosition = getHotelPositionBasedOnABTest(position)
+                (holder as KrazyglueHotelViewHolder).viewModel.hotelObservable.onNext(hotels[hotelPosition])
+                holder.trackingPosition = hotelPosition + 1
+            }
         }
     }
 
@@ -70,11 +73,10 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
             }
             KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.krazyglue_see_more_hotel_view, parent, false)
-                return KrazyglueSeeMoreViewHolder(view as ViewGroup, context, destinationDateObservable.value)
+                return KrazyglueSeeMoreViewHolder(view as ViewGroup, context, hotelSearchParams)
             }
             else -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.krazyglue_placeholder_hotel_cell
-                        , parent, false)
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.krazyglue_placeholder_hotel_cell, parent, false)
                 return KrazyglueLoadingViewHolder(view)
             }
         }

@@ -165,6 +165,10 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightsKrazyglueClick(position)
     }
 
+    fun trackKrazyglueSeeMoreClicked() {
+        OmnitureTracking.trackFlightsKrazyGlueSeeMoreClick()
+    }
+
     @JvmStatic fun trackCheckoutSelectTraveler() {
         OmnitureTracking.trackFlightCheckoutSelectTraveler()
     }

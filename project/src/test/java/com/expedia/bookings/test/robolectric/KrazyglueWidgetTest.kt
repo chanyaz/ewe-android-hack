@@ -104,13 +104,13 @@ class KrazyglueWidgetTest {
     }
 
     @Test
-    fun testFourHotelsPlusSeeMoreCountInRecyclerView() {
+    fun testThreeHotelsPlusSeeMoreCountInRecyclerView() {
         enableKrazyglueTest(activity)
         setDbFlightSearch()
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
         krazyglueWidget.viewModel.hotelsObservable.onNext(getKrazyGlueHotels())
-        assertEquals(5, krazyglueWidget.hotelsRecyclerView.adapter.itemCount)
+        assertEquals(4, krazyglueWidget.hotelsRecyclerView.adapter.itemCount)
     }
 
     @Test
@@ -136,15 +136,15 @@ class KrazyglueWidgetTest {
         val krazyglueAdapter = krazyglueWidget.hotelsRecyclerView.adapter as KrazyglueHotelsListAdapter
 
         assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.HOTEL_VIEW_HOLDER, krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(0)))
-        assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER,krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(4)))
+        assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER,krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(3)))
     }
 
     @Test
     fun testOfferValidFunctionalityInSeeMoreHotel() {
-        var departureDate = DateTime().plusDays(2)
+        var departureDate = DateTime().plusDays(1)
         var seeMoreHotelViewModel = KrazyglueHotelSeeMoreHolderViewModel(activity, departureDate)
 
-        assertEquals("Offer expires in 2 days", seeMoreHotelViewModel.getOfferValidDate())
+        assertEquals("Offer expires in 1 day", seeMoreHotelViewModel.getOfferValidDate())
 
         departureDate = DateTime().plusDays(8)
         seeMoreHotelViewModel = KrazyglueHotelSeeMoreHolderViewModel(activity, departureDate)
@@ -156,11 +156,11 @@ class KrazyglueWidgetTest {
     fun testSeeMoreHotelDataBinding() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         val seeMoreHotel = LayoutInflater.from(activity).inflate(R.layout.krazyglue_see_more_hotel_view, null)
-        var departureDate = DateTime().plusDays(8)
+        val hotelSearchParamsObservable = BehaviorSubject.create<HotelSearchParams>(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
 
-        KrazyglueSeeMoreViewHolder(seeMoreHotel, activity,departureDate)
+        KrazyglueSeeMoreViewHolder(seeMoreHotel, activity, hotelSearchParamsObservable)
 
-        assertEquals("Offer expires in 7 days", seeMoreHotel.findViewById<TextView>(R.id.hotel_offer_expire).text)
+        assertEquals("Offer expires in 1 day", seeMoreHotel.findViewById<TextView>(R.id.hotel_offer_expire).text)
     }
 
     @Test
@@ -194,37 +194,83 @@ class KrazyglueWidgetTest {
         val expectedProps = mapOf(2 to "krazyglue",
                 4 to "DTW",
                 16 to "mip.hot.kg.expedia.conf")
-        val expectedProducts = "Hotel:11111;;,Hotel:99999;;,Hotel:55555;;,Hotel:77777;;"
+        val expectedProducts = "Hotel:11111;;,Hotel:99999;;,Hotel:55555;;"
 
         FlightsV2Tracking.trackKrazyglueExposure(getKrazyGlueHotels())
         assertKrazyglueExposure(expectedEvars, expectedProducts, expectedProps)
     }
 
     @Test
-    fun testKrazyGlueClickTracking() {
+    fun testKrazyglueClickTrackingOnFirstHotelVariantEnd() {
+        enableKrazyglueTestWithABTestVariant(activity)
+        setDbFlightSearch()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
+        setupKrazyglueRecycler(krazyglueWidget)
+        (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(1) as KrazyglueHotelViewHolder).itemView.performClick()
+        val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
+
+        assertKrazyglueClickTracking(expectedEvars, "tile1")
+    }
+
+    @Test
+    fun testKrazyglueClickTrackingOnFirstHotelVariantFront() {
         enableKrazyglueTestWithABTestVariant(activity, false)
         setDbFlightSearch()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
-        (krazyglueWidget.hotelsRecyclerView.adapter as KrazyglueHotelsListAdapter).destinationDateObservable.onNext(DateTime().plusDays(8))
-
-        krazyglueWidget.viewModel.hotelSearchParamsObservable.onNext(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
-        krazyglueWidget.viewModel.hotelsObservable.onNext(getKrazyGlueHotels())
-        krazyglueWidget.hotelsRecyclerView.measure(0, 0)
-        krazyglueWidget.hotelsRecyclerView.layout(0, 0, 100, 10000)
+        setupKrazyglueRecycler(krazyglueWidget)
         (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(0) as KrazyglueHotelViewHolder).itemView.performClick()
         val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
 
-        assertKrazyGlueClickTracking(expectedEvars)
+        assertKrazyglueClickTracking(expectedEvars, "tile1")
+    }
+
+    @Test
+    fun testKrazyglueClickTrackingOnLastHotelVariantEnd() {
+        enableKrazyglueTestWithABTestVariant(activity)
+        setDbFlightSearch()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
+        setupKrazyglueRecycler(krazyglueWidget)
+        (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(3) as KrazyglueHotelViewHolder).itemView.performClick()
+        val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
+
+        assertKrazyglueClickTracking(expectedEvars, "tile3")
+    }
+
+    @Test
+    fun testKrazyglueClickTrackingOnLastHotelVariantFront() {
+        enableKrazyglueTestWithABTestVariant(activity, false)
+        setDbFlightSearch()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
+        setupKrazyglueRecycler(krazyglueWidget)
+        (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(2) as KrazyglueHotelViewHolder).itemView.performClick()
+        val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
+
+        assertKrazyglueClickTracking(expectedEvars, "tile3")
+    }
+
+    @Test
+    fun testKrazyglueSeeMoreClickTracking() {
+        enableKrazyglueTestWithABTestVariant(activity)
+        setDbFlightSearch()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
+        setupKrazyglueRecycler(krazyglueWidget)
+        (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(0) as KrazyglueSeeMoreViewHolder).itemView.performClick()
+        val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
+
+        assertKrazyglueClickTracking(expectedEvars, "see_more")
     }
 
     private fun getKrazyGlueHotels(): List<KrazyglueResponse.KrazyglueHotel> {
         val firstKrazyHotel = getKrazyGlueHotel("11111", "Mariot")
         val secondKrazyHotel = getKrazyGlueHotel("99999", "Cosmopolitan")
         val thirdKrazyHotel = getKrazyGlueHotel("55555", "Holiday Inn")
-        val fourthKrazyGlueHotel = getKrazyGlueHotel("77777", "Motel 8")
 
-        return listOf(firstKrazyHotel, secondKrazyHotel, thirdKrazyHotel, fourthKrazyGlueHotel)
+        return listOf(firstKrazyHotel, secondKrazyHotel, thirdKrazyHotel)
     }
 
     private fun getKrazyGlueHotel(hotelID: String, hoteName: String): KrazyglueResponse.KrazyglueHotel {
@@ -258,15 +304,22 @@ class KrazyglueWidgetTest {
         Db.setFlightSearchParams(paramsBuilder.build())
     }
 
+    private fun setupKrazyglueRecycler(krazyglueWidget: KrazyglueWidget) {
+        krazyglueWidget.viewModel.hotelSearchParamsObservable.onNext(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
+        krazyglueWidget.viewModel.hotelsObservable.onNext(getKrazyGlueHotels())
+        krazyglueWidget.hotelsRecyclerView.measure(2000, 2000)
+        krazyglueWidget.hotelsRecyclerView.layout(100, 100, 100, 100)
+    }
+
     private fun assertKrazyglueExposure(expectedEvars: Map<Int, String>, expectedProducts: String, expectedProps: Map<Int, String>) {
         OmnitureTestUtils.assertStateTracked("App.Kg.expedia.conf", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
         OmnitureTestUtils.assertStateTracked("App.Kg.expedia.conf", OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
         OmnitureTestUtils.assertStateTracked("App.Kg.expedia.conf", OmnitureMatchers.withProductsString(expectedProducts), mockAnalyticsProvider)
     }
 
-    private fun assertKrazyGlueClickTracking(expectedEvars: Map<Int, String>) {
-        OmnitureTestUtils.assertLinkTracked("Krazyglue Click", "mip.hot.app.kg.flight.conf.HSR.tile1", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
-        OmnitureTestUtils.assertLinkTracked("Krazyglue Click", "mip.hot.app.kg.flight.conf.HSR.tile1", OmnitureMatchers.withEventsString("event83"), mockAnalyticsProvider)
+    private fun assertKrazyglueClickTracking(expectedEvars: Map<Int, String>, expectedSuffix: String) {
+        OmnitureTestUtils.assertLinkTracked("Krazyglue Click", "mip.hot.app.kg.flight.conf.HSR.$expectedSuffix", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Krazyglue Click", "mip.hot.app.kg.flight.conf.HSR.$expectedSuffix", OmnitureMatchers.withEventsString("event83"), mockAnalyticsProvider)
     }
 
     private fun enableKrazyglueTest(activity: Activity?) {

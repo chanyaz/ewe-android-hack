@@ -2,30 +2,33 @@ package com.expedia.bookings.presenter.shared
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.view.ContextMenu
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.navigation.HotelNavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeText
 import com.expedia.vm.KrazyglueHotelSeeMoreHolderViewModel
-import org.joda.time.DateTime
+import rx.subjects.BehaviorSubject
 
-class KrazyglueSeeMoreViewHolder(itemView: View, val context: Context, departureDate: DateTime) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+class KrazyglueSeeMoreViewHolder(itemView: View, val context: Context, val searchParams: BehaviorSubject<HotelSearchParams>) : RecyclerView.ViewHolder(itemView) {
 
     val offerText: TextView by bindView(R.id.hotel_offer_expire)
 
     val viewModel: KrazyglueHotelSeeMoreHolderViewModel by lazy {
-        KrazyglueHotelSeeMoreHolderViewModel(context, departureDate)
+        KrazyglueHotelSeeMoreHolderViewModel(context, searchParams.value.checkIn.toDateTimeAtCurrentTime())
     }
 
     init {
         offerText.text = viewModel.getOfferValidDate()
+        itemView.setOnClickListener {
+            FlightsV2Tracking.trackKrazyglueSeeMoreClicked()
+            val flags = NavUtils.FLAG_PINNED_SEARCH_RESULTS or NavUtils.FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK
+            HotelNavUtils.goToHotelsV2Params(it.context, searchParams.value, null, flags)
+        }
     }
 
-    override fun onClick(p0: View?) {
-//        TODO: go onto hotels activity
-    }
 }
 

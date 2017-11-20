@@ -37,7 +37,7 @@ class KrazyglueWidget(context: Context, attr: AttributeSet?) : LinearLayout(cont
         if (!isWidgetEnabled()) {
             visibility = View.GONE
         } else {
-            hotelsRecyclerView.adapter = KrazyglueHotelsListAdapter(viewModel.hotelsObservable, viewModel.destinationObservable, viewModel.hotelSearchParamsObservable, context)
+            hotelsRecyclerView.adapter = KrazyglueHotelsListAdapter(viewModel.hotelsObservable, viewModel.hotelSearchParamsObservable, context)
             hotelsRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             val snapHelper = PagerSnapHelper()
             snapHelper.attachToRecyclerView(hotelsRecyclerView)

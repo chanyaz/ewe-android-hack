@@ -20,7 +20,7 @@ class KrazyglueHotelSeeMoreHolderViewModel(val context: Context, val departureDa
             noOfDays = noOfDaysBeforeTraveling
         }
 
-        return Phrase.from(context.getResources().getQuantityString(R.plurals.krazy_glue_offer_expire_TEMPLATE, noOfDaysBeforeTraveling))
+        return Phrase.from(context.resources.getQuantityString(R.plurals.krazy_glue_offer_expire_TEMPLATE, noOfDays))
                 .put("no_of_days", noOfDays)
                 .format().toString()
     }

@@ -34,6 +34,7 @@ class KrazyglueHotelViewHolder(itemView: View, val searchParams: BehaviorSubject
     val hotelImageView: ImageView by bindView(R.id.hotel_imageview)
     var hotelStarRating: StarRatingBar by Delegates.notNull()
     val hotelStrikeThroughPrice: TextView by bindView(R.id.hotel_strike_through_price)
+    var trackingPosition = adapterPosition
 
     init {
         hotelStarRating = itemView.findViewById<StarRatingBar>(if (shouldShowCircleForRatings()) R.id.hotel_circle_rating else R.id.hotel_star_rating)
@@ -41,7 +42,7 @@ class KrazyglueHotelViewHolder(itemView: View, val searchParams: BehaviorSubject
         hotelStarRating.setStarColor(ContextCompat.getColor(itemView.context, R.color.hotelsv2_detail_star_color))
         hotelStrikeThroughPrice.paintFlags = hotelStrikeThroughPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         itemView.setOnClickListener {
-            FlightsV2Tracking.trackKrazyglueHotelClicked(adapterPosition + 1)
+            FlightsV2Tracking.trackKrazyglueHotelClicked(trackingPosition)
             searchParams.value.origin?.hotelId = viewModel.hotelId
             val flags = NavUtils.FLAG_PINNED_SEARCH_RESULTS or NavUtils.FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK
             HotelNavUtils.goToHotelsV2Params(it.context, searchParams.value, null, flags)

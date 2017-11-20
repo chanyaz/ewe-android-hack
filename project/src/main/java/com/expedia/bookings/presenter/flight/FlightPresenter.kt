@@ -346,8 +346,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
             confirmationPresenter.viewModel.setRewardsPoints.onNext(Optional(expediaRewards))
-            val departureDateOfFirstOutboundFlight = (trip as FlightCreateTripResponse).details.legs.get(0).segments.get(0).departureTimeRaw
-            confirmationPresenter.krazyglueWidget.viewModel.destinationObservable.onNext(DateTime.parse(departureDateOfFirstOutboundFlight))
         }
         createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
         createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
