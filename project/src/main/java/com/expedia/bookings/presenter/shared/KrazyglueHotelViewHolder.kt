@@ -7,9 +7,12 @@ import android.view.View
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.navigation.HotelNavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeTextAndVisibility
@@ -19,8 +22,9 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.util.subscribeStarRating
 import kotlin.properties.Delegates
 import com.expedia.vm.KrazyglueHotelViewHolderViewModel
+import rx.subjects.BehaviorSubject
 
-class KrazyglueHotelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+class KrazyglueHotelViewHolder(itemView: View, val searchParams: BehaviorSubject<HotelSearchParams>) : RecyclerView.ViewHolder(itemView){
 
     val hotelNameTextView: TextView by bindView(R.id.hotel_name_text_view)
     val hotelGuestRating: TextView by bindView(R.id.hotel_guest_rating)
@@ -36,6 +40,12 @@ class KrazyglueHotelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
         hotelStarRating.visibility = View.VISIBLE
         hotelStarRating.setStarColor(ContextCompat.getColor(itemView.context, R.color.hotelsv2_detail_star_color))
         hotelStrikeThroughPrice.paintFlags = hotelStrikeThroughPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        itemView.setOnClickListener {
+            FlightsV2Tracking.trackKrazyglueHotelClicked(adapterPosition + 1)
+            searchParams.value.origin?.hotelId = viewModel.hotelId
+            val flags = NavUtils.FLAG_PINNED_SEARCH_RESULTS or NavUtils.FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK
+            HotelNavUtils.goToHotelsV2Params(it.context, searchParams.value, null, flags)
+        }
     }
 
     val viewModel: KrazyglueHotelViewHolderViewModel by lazy {
@@ -60,8 +70,4 @@ class KrazyglueHotelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
         vm
     }
 
-    override fun onClick(p0: View?) {
-//        TODO: go onto hotels activity
-        FlightsV2Tracking.trackKrazyglueHotelClicked(adapterPosition + 1)
-    }
 }

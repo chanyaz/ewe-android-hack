@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.hotel.deeplink.HotelExtras
+import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.ui.HotelActivity
 
@@ -53,6 +54,12 @@ class HotelNavUtils : NavUtils() {
 
             if (expediaFlags and MEMBER_ONLY_DEAL_SEARCH != 0) {
                 intent.putExtra(Codes.MEMBER_ONLY_DEALS, true)
+            }
+
+            if (expediaFlags and FLAG_PINNED_SEARCH_RESULTS != 0) {
+                intent.putExtra(HotelExtras.LANDING_PAGE, HotelLandingPage.RESULTS.id)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.putExtra(Codes.FROM_DEEPLINK, true)
             }
 
             val routingTarget = HotelActivity::class.java

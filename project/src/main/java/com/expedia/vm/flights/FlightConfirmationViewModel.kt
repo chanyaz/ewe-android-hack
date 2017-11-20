@@ -5,7 +5,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.KrazyglueResponse
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -16,10 +18,12 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.utils.HMACUtil
+import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.util.Optional
 import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
+import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -39,6 +43,8 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
     val formattedTravelersStringSubject = PublishSubject.create<String>()
     val showTripProtectionMessage = BehaviorSubject.create<Boolean>(false)
     val krazyglueHotelsObservable = PublishSubject.create<List<KrazyglueResponse.KrazyglueHotel>>()
+    val flightSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
+    val krazyGlueHotelSearchParamsObservable = PublishSubject.create<HotelSearchParams>()
     val flightCheckoutResponseObservable = PublishSubject.create<FlightCheckoutResponse>()
     val itinDetailsResponseObservable = PublishSubject.create<FlightItinDetailsResponse>()
 
@@ -115,6 +121,14 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
 
             destinationObservable.onNext(destinationCity)
             numberOfTravelersSubject.onNext(numberOfGuests)
+        }
+
+        if (isKrazyglueEnabled) {
+            Observable.zip(flightCheckoutResponseObservable, flightSearchParamsObservable,  { response, params ->
+                val flightLegs = response.getFirstFlightTripDetails().getLegs()
+                val hotelSearchParams = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(context, flightLegs, params)
+                krazyGlueHotelSearchParamsObservable.onNext(hotelSearchParams)
+            }).subscribe()
         }
     }
 

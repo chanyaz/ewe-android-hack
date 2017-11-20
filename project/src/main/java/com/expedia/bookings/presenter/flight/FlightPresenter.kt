@@ -368,6 +368,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         searchViewModel.searchParamsObservable.subscribe(presenter.hotelCrossSell.viewModel.searchParamsObservable)
         searchViewModel.isRoundTripSearchObservable.subscribe(presenter.viewModel.inboundCardVisibility)
+        searchViewModel.searchParamsObservable.subscribe(presenter.viewModel.flightSearchParamsObservable)
         presenter
     }
 
