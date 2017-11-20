@@ -34,6 +34,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.accessibility_cont_desc_role_error,
 		R.layout.package_hotel_cell,
 		R.string.property_fee,
+		R.layout.widget_google_maps_lite,
 		R.layout.widget_hotel_results,
 		R.string.accessibility_announcement_package_banner_TEMPLATE,
 		R.string.payment_and_baggage_fees_may_apply,
