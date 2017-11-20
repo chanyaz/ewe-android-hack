@@ -57,6 +57,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
+import com.expedia.bookings.utils.isHotelMaterialForms
 
 open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(context, attr), View.OnFocusChangeListener {
     val cardInfoContainer: ViewGroup by bindView(R.id.card_info_container)
@@ -93,6 +94,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val toolbarNavIconFocusObservable = PublishSubject.create<Boolean>()
     val populateCardholderNameTestEnabled = isPopulateCardholderNameEnabled(context)
     val hideApacBillingFieldsEnabled = isHideApacBillingFieldsEnabled()
+    var hotelMaterialFormEnabled = false
 
     private val userStateManager: UserStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
@@ -134,6 +136,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             storedCreditCardList.setLineOfBusiness(lob)
             sectionBillingInfo.setErrorStrings()
             sectionLocation.setErrorStrings()
+            hotelMaterialFormEnabled = lob.isMaterialFormEnabled(context) && lob == LineOfBusiness.HOTELS
             if (lob.isMaterialFormEnabled(context)) {
                 sectionBillingInfo.setMaterialDropdownResources()
             }
@@ -218,7 +221,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     override fun addVisibilitySubscriptions() {
         super.addVisibilitySubscriptions()
-        if (!viewmodel.newCheckoutIsEnabled.value) {
+        if (!viewmodel.newCheckoutIsEnabled.value && !hotelMaterialFormEnabled) {
             addVisibilitySubscription(creditCardNumber.subscribeTextChange(formFilledSubscriber))
             addVisibilitySubscription(creditCardName.subscribeTextChange(formFilledSubscriber))
             addVisibilitySubscription(creditCardPostalCode.subscribeTextChange(formFilledSubscriber))
@@ -554,7 +557,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             storedCreditCardList.bind()
             if (!forward) validateAndBind()
             else viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true || Db.getTemporarilySavedCard() != null))
-            if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(!forward) else updateLegacyToolbarMenu(forward)
+            updateToolbarMenu(forward, forward, !forward)
         }
     }
 
@@ -568,7 +571,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
-    protected fun updateUniversalToolbarMenu(forward: Boolean) {
+    protected open fun updateUniversalToolbarMenu(forward: Boolean, enableMenuItem: Boolean = true) {
         if (forward || currentState == PaymentOption::class.java.name) {
             visibleMenuWithTitleDone.onNext(Unit)
             viewmodel.enableMenuItem.onNext(true)
@@ -602,7 +605,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 filledIn.onNext(isCompletelyFilled())
             }
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
-            if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(forward) else updateLegacyToolbarMenu(!forward)
+            updateToolbarMenu(forward, !forward, forward)
             viewmodel.showingPaymentForm.onNext(forward)
             if (hideApacBillingFieldsEnabled) {
                 if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
@@ -639,7 +642,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             }
             viewmodel.showingPaymentForm.onNext(forward)
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
-            if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(forward) else updateLegacyToolbarMenu(!forward)
+            updateToolbarMenu(forward, !forward, forward)
             if (hideApacBillingFieldsEnabled) {
                 if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
                 else viewmodel.clearHiddenBillingAddress.onNext(Unit)
@@ -779,5 +782,15 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 .append(" ")
                 .append(context.getString(R.string.accessibility_announcement_please_review_and_resubmit))
         announceForAccessibility(announcementString)
+    }
+
+    private fun updateToolbarMenu(movingState: Boolean, enableMenuItem: Boolean, toolBarStateForNonHotelLOBUniversalCheckout: Boolean) {
+        if (hotelMaterialFormEnabled) {
+            updateUniversalToolbarMenu(movingState, enableMenuItem)
+        } else if (viewmodel.newCheckoutIsEnabled.value) {
+            updateUniversalToolbarMenu(toolBarStateForNonHotelLOBUniversalCheckout)
+        } else {
+            updateLegacyToolbarMenu(enableMenuItem)
+        }
     }
 }

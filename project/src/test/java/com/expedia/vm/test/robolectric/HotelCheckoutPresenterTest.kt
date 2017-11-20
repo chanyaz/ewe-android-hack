@@ -15,6 +15,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.MaterialFormsCouponWidget
 import junit.framework.Assert.assertTrue
+import com.expedia.bookings.widget.CheckoutBasePresenter
+import com.expedia.bookings.widget.TravelerContactDetailsWidget
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -84,6 +86,53 @@ class HotelCheckoutPresenterTest {
         checkout.toolbar.onMenuItemClicked(activity, "Apply Button")
 
         doneClickedSubscriber.assertValueCount(2)
+    }
+
+    @Test
+    fun testTravelerWidgetToolbarWithHotelMaterialABTestOn() {
+        setupHotelMaterialForms()
+        checkout.show(CheckoutBasePresenter.Ready())
+        val travelerContactDetailsWidget = (LayoutInflater.from(activity).inflate(R.layout.test_traveler_contact_details_widget, null) as TravelerContactDetailsWidget)
+        checkout.toolbar.viewModel.expanded.onNext(travelerContactDetailsWidget)
+        checkout.mainContactInfoCardView.setExpanded(true)
+
+        assertEquals("Done", checkout.menuDone.title.toString())
+    }
+
+    @Test
+    fun testTravelerWidgetToolbarWithHotelMaterialABTestOff() {
+        val doneMenuVisibilitySubscriber = TestSubscriber<Unit>()
+        checkout.toolbar.viewModel.visibleMenuWithTitleDone.subscribe(doneMenuVisibilitySubscriber)
+
+
+        checkout.show(CheckoutBasePresenter.Ready())
+        val travelerContactDetailsWidget = (LayoutInflater.from(activity).inflate(R.layout.test_traveler_contact_details_widget, null) as TravelerContactDetailsWidget)
+        checkout.toolbar.viewModel.expanded.onNext(travelerContactDetailsWidget)
+        checkout.mainContactInfoCardView.setExpanded(true)
+
+        assertEquals("Next", checkout.menuDone.title.toString())
+    }
+
+    @Test
+    fun testCouponWidgetToolbarWhenExpandedWithHotelMaterialABTestTurnedOn() {
+        setupHotelMaterialForms()
+        checkout.show(CheckoutBasePresenter.Ready())
+        val couponWidget = LayoutInflater.from(activity).inflate(R.layout.test_material_forms_coupon_widget_stub, null) as MaterialFormsCouponWidget
+        checkout.toolbar.viewModel.expanded.onNext(couponWidget)
+
+        assertEquals("Apply", checkout.menuDone.title.toString())
+    }
+
+    @Test
+    fun testCouponWidgetToolbarWhenExpandedWithHotelMaterialABTestTurnedOff() {
+        val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
+        checkout = checkoutView.hotelCheckoutWidget
+
+        checkout.show(CheckoutBasePresenter.Ready())
+        val couponWidget = LayoutInflater.from(activity).inflate(R.layout.coupon_widget_stub, null) as CouponWidget
+        checkout.toolbar.viewModel.expanded.onNext(couponWidget)
+
+        assertEquals("Submit", checkout.menuDone.title.toString())
     }
 
     private fun setupHotelMaterialForms() {

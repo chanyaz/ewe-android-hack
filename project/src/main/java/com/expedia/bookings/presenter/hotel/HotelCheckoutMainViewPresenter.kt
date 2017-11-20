@@ -57,7 +57,8 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget by Delegates.notNull()
     var offer: HotelOffersResponse.HotelRoomResponse by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
-    val couponCardView = if (isHotelMaterialForms(context)) {
+    val hotelMaterialFormEnabled = isHotelMaterialForms(context)
+    val couponCardView = if (hotelMaterialFormEnabled) {
         MaterialFormsCouponWidget(context, attr)
     } else {
         CouponWidget(context, attr)
@@ -147,6 +148,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         summaryContainer.addView(hotelCheckoutSummaryWidget)
 
         mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELS)
+        mainContactInfoCardView.hotelMaterialFormTestEnabled = hotelMaterialFormEnabled
 
         couponContainer.addView(couponCardView)
         couponCardView.setToolbarListener(toolbar)

@@ -42,8 +42,9 @@ import com.expedia.bookings.utils.isCreditCardMessagingForPayLaterEnabled
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.StoredCreditCardList
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.accessibility.AccessibleEditText
+import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.getParentTextInputLayout
+import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.PayWithPointsViewModel
 import com.expedia.vm.PaymentViewModel
@@ -135,7 +136,6 @@ class PaymentWidgetV2Test {
         latch.await(10, TimeUnit.SECONDS)
         setUserWithStoredCard()
         testPaymentTileInfo("Paying with Points & Visa 4111", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), View.VISIBLE)
-
         //WithoutPayingWithPoints
         paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
         setUserWithStoredCard()
@@ -402,6 +402,43 @@ class PaymentWidgetV2Test {
         sut.paymentOptionCreditDebitCard.performClick()
 
         assertAllCardsAreNotDimmed()
+    }
+
+    @Test
+    fun testToolbarForHotelUniversalCheckoutWithHotelMaterialFormsTurnedOn() {
+        setupHotelMaterialForms()
+        val doneMenuVisibilitySubscriber = TestSubscriber<Unit>()
+        sut.visibleMenuWithTitleDone.subscribe(doneMenuVisibilitySubscriber)
+
+        sut.show(PaymentWidget.PaymentOption())
+        sut.show(PaymentWidget.PaymentDetails())
+        sut.paymentOptionCreditDebitCard.performClick()
+
+        assertEquals(1, doneMenuVisibilitySubscriber.onNextEvents.size)
+    }
+
+    @Test
+    fun testToolbarDoesNotChangeWhenUserEnterPaymentDetailsWithHotelMaterialFormsTurnedOn() {
+        setupHotelMaterialForms()
+        val nextMenuVisibilitySubscriber = TestSubscriber<Boolean>()
+        sut.filledIn.subscribe(nextMenuVisibilitySubscriber)
+
+        sut.paymentOptionCreditDebitCard.performClick()
+        sut.creditCardNumber.setText("44444444444")
+
+        assertEquals(0, nextMenuVisibilitySubscriber.onNextEvents.size)
+    }
+
+    @Test
+    fun testToolbarForHotelUniversalCheckoutWithHotelMaterialFormsTurnedOff() {
+        val doneMenuVisibilitySubscriber = TestSubscriber<Unit>()
+        sut.visibleMenuWithTitleDone.subscribe(doneMenuVisibilitySubscriber)
+
+        sut.show(PaymentWidget.PaymentOption())
+        sut.show(PaymentWidget.PaymentDetails())
+        sut.paymentOptionCreditDebitCard.performClick()
+
+        assertEquals(0, doneMenuVisibilitySubscriber.onNextEvents.size)
     }
 
     @Test

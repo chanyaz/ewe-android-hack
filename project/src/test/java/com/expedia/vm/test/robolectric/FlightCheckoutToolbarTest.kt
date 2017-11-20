@@ -2,16 +2,8 @@ package com.expedia.vm.test.robolectric
 
 import android.app.Activity
 import android.view.LayoutInflater
-import android.view.View.VISIBLE
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
-import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.TripBucketItemFlightV2
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.BillingInfo
-import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
@@ -40,6 +32,14 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.TripBucketItemFlightV2
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.LineOfBusiness
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -65,6 +65,7 @@ class FlightCheckoutToolbarTest {
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
         overview = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         checkout = overview.getCheckoutPresenter()
+        overview.getCheckoutPresenter().getPaymentWidgetViewModel().lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
         toolbar = overview.bundleOverviewHeader.toolbar
     }
 

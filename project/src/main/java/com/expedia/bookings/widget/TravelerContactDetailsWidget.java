@@ -93,6 +93,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	public CompositeSubscription compositeSubscription = new CompositeSubscription();
 
 	private UserStateManager userStateManager;
+	public boolean hotelMaterialFormTestEnabled = false;
 
 	@Override
 	protected void onFinishInflate() {
@@ -138,7 +139,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	@Override
 	protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
 		super.onVisibilityChanged(changedView, visibility);
-		if (visibility == View.VISIBLE) {
+		if (visibility == View.VISIBLE && !hotelMaterialFormTestEnabled) {
 			compositeSubscription = new CompositeSubscription();
 			compositeSubscription.add(RxKt.subscribeTextChange(firstName, formFilledSubscriber));
 			compositeSubscription.add(RxKt.subscribeTextChange(lastName, formFilledSubscriber));
@@ -299,6 +300,9 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	@Override
 	public void setExpanded(boolean expand, boolean animate) {
 		super.setExpanded(expand, animate);
+		if (hotelMaterialFormTestEnabled) {
+			mToolbarListener.showRightActionButton(true);
+		}
 		travelerContactInfoContainer.setVisibility(expand ? GONE : VISIBLE);
 		sectionTravelerInfo.setVisibility(expand ? VISIBLE : GONE);
 		if (expand) {
@@ -325,7 +329,9 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			else {
 				Ui.showKeyboard(firstName, null);
 			}
-			filledIn.onNext(isCompletelyFilled());
+			if (!hotelMaterialFormTestEnabled) {
+				filledIn.onNext(isCompletelyFilled());
+			}
 		}
 		else {
 			bind();

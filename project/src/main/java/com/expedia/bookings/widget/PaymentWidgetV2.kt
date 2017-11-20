@@ -111,6 +111,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
                 sectionBillingInfo.updateMaterialPostalFieldErrorAndHint(PointOfSale.getPointOfSale().pointOfSaleId)
             }
         }
+        hotelMaterialFormEnabled = isHotelMaterialForms
         viewmodel
     }
 
@@ -148,6 +149,21 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         } else {
             paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
             viewmodel.enableMenuItem.onNext(true)
+        }
+    }
+
+    override fun updateUniversalToolbarMenu(forward: Boolean, enableMenuItem: Boolean) {
+        super.updateUniversalToolbarMenu(forward, enableMenuItem)
+        if (enableMenuItem) {
+            viewmodel.enableMenuItem.onNext(isComplete())
+        }
+        if (forward) {
+            payWithPointsViewModel.hasPwpEditBoxFocus.onNext(false)
+        } else {
+            if (enableMenuItem) {
+                visibleMenuWithTitleDone.onNext(Unit)
+            }
+            paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
         }
     }
 
