@@ -31,7 +31,7 @@ class FlightCheckoutResponse() : FlightTripResponse() {
 
     val currencyCode: String? = null
     val orderId: String? = null
-    val totalChargesPrice: Money? = null
+    var totalChargesPrice: Money? = null
 
     @SerializedName("mobileAirAttachQualifier")
     val airAttachInfo: AirAttachInfo? = null
