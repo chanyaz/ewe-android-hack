@@ -27,7 +27,7 @@ import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class PackageConfirmationViewModel(private val context: Context) {
+open class PackageConfirmationViewModel(private val context: Context) {
     val showConfirmation = PublishSubject.create<Pair<String?, String>>()
     val setRewardsPoints = PublishSubject.create<String>()
 
@@ -61,7 +61,7 @@ class PackageConfirmationViewModel(private val context: Context) {
                     .format().toString()
             itinNumberMessageObservable.onNext(itinNumberMessage)
             if (!userStateManager.isUserAuthenticated()) {
-                ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
+                getItineraryManager().addGuestTrip(email, itinNumber)
             }
         }
 
@@ -113,5 +113,9 @@ class PackageConfirmationViewModel(private val context: Context) {
                 throw OnErrorNotImplementedException(e)
             }
         }
+    }
+
+    open fun getItineraryManager(): ItineraryManager {
+        return ItineraryManager.getInstance()
     }
 }
