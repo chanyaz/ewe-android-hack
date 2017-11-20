@@ -25,12 +25,12 @@ import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.ScaleTransition;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
@@ -191,8 +191,7 @@ public class LXDetailsPresenter extends Presenter {
 
 	public void onActivitySelected(LXActivity lxActivity) {
 		this.lxActivity = lxActivity;
-		boolean lxModTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidLXMOD,
-				R.string.preference_enable_lx_mod);
+		boolean lxModTestEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidLXMOD);
 
 		boolean modPricingEnabled = lxActivity.modPricingEnabled(lxModTestEnabled);
 		showActivityDetails(lxActivity.id, lxActivity.title, lxState.searchParams.getLocation(),
@@ -201,8 +200,7 @@ public class LXDetailsPresenter extends Presenter {
 
 	@Subscribe
 	public void onActivitySelectedRetry(Events.LXActivitySelectedRetry event) {
-		boolean lxModTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidLXMOD,
-				R.string.preference_enable_lx_mod);
+		boolean lxModTestEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidLXMOD);
 
 		boolean modPricingEnabled = lxActivity.modPricingEnabled(lxModTestEnabled);
 		showActivityDetails(lxState.activity.id, lxState.activity.title, lxState.searchParams.getLocation(),

@@ -18,8 +18,8 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -107,8 +107,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			super(itemView);
 			ButterKnife.inject(this, itemView);
 			itemView.setOnClickListener(this);
-			lxModTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(itemView.getContext(), AbacusUtils.EBAndroidLXMOD,
-					R.string.preference_enable_lx_mod);
+			lxModTestEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidLXMOD);
 		}
 
 		@InjectView(R.id.activity_title)
