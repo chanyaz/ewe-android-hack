@@ -38,7 +38,7 @@ import static org.hamcrest.CoreMatchers.not;
 
 public class PackagePhoneHappyPathTest extends PackageTestCase {
 
-	@Test
+/*	@Test
 	public void testPackagePhoneHappyPath() throws Throwable {
 		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
@@ -119,7 +119,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		CheckoutViewModel.performSlideToPurchase();
 
 		assertConfirmation();
-	}
+	}*/
 
 	@Test
 	public void testPackagePhoneHappyPathSignedIn() throws Throwable {
