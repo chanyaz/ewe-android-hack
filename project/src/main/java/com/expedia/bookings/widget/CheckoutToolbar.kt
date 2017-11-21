@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.annotation.VisibleForTesting
 import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -88,24 +89,31 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
         menuItem = menu.findItem(R.id.menu_done)
         menuItem.isVisible = false
         menuItem.setOnMenuItemClickListener { it ->
-            when (it.title) {
-                context.getString(R.string.coupon_submit_button),
-                context.getString(R.string.coupon_submit_button_ally)-> {
-                    viewModel.doneClicked.onNext(Unit)
-                }
-                context.getString(R.string.done) -> {
-                    viewModel.doneClicked.onNext(Unit)
-                }
-                context.getString(R.string.next) -> {
-                    viewModel.nextClicked.onNext(Unit)
-                }
-            }
-            true
+            onMenuItemClicked(context, it.title)
         }
 
         toolbarNavIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         navigationIcon = toolbarNavIcon
         setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun onMenuItemClicked(context: Context, title: CharSequence): Boolean {
+        when (title) {
+            context.getString(R.string.coupon_apply_button),
+            context.getString(R.string.coupon_apply_button_ally),
+            context.getString(R.string.coupon_submit_button),
+            context.getString(R.string.coupon_submit_button_ally) -> {
+                viewModel.doneClicked.onNext(Unit)
+            }
+            context.getString(R.string.done) -> {
+                viewModel.doneClicked.onNext(Unit)
+            }
+            context.getString(R.string.next) -> {
+                viewModel.nextClicked.onNext(Unit)
+            }
+        }
+        return true
     }
 
     val toggleMenuObserver = endlessObserver<Boolean> { visible ->

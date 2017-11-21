@@ -12,11 +12,15 @@ import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.CouponWidget
+import com.expedia.bookings.widget.MaterialFormsCouponWidget
+import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -51,6 +55,35 @@ class HotelCheckoutPresenterTest {
         assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.gray100))
         checkout.paymentInfoCardView.viewmodel.menuVisibility.onNext(false)
         assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.gray100))
+    }
+
+    @Test
+    fun testMaterialCouponWidgetInflatedOnMaterialFormsBucketedAndFeatureToggleON() {
+        setupHotelMaterialForms()
+        assertTrue(checkout.couponCardView is MaterialFormsCouponWidget)
+    }
+
+    @Test
+    fun testOldCouponWidgetInflatedOnMaterialFormsBucketedAndFeatureToggleOFF() {
+        assertTrue(checkout.couponCardView is CouponWidget)
+    }
+
+    @Test
+    fun testMaterialCouponWidgetApplyFiresDone() {
+        val doneClickedSubscriber = TestSubscriber<Unit>()
+
+        setupHotelMaterialForms()
+        checkout.toolbar.viewModel.doneClicked.subscribe { doneClickedSubscriber.onNext(Unit) }
+
+        doneClickedSubscriber.assertValueCount(0)
+
+        checkout.toolbar.onMenuItemClicked(activity, "Apply")
+
+        doneClickedSubscriber.assertValueCount(1)
+
+        checkout.toolbar.onMenuItemClicked(activity, "Apply Button")
+
+        doneClickedSubscriber.assertValueCount(2)
     }
 
     private fun setupHotelMaterialForms() {
