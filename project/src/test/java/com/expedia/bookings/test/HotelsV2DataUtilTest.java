@@ -48,7 +48,7 @@ public class HotelsV2DataUtilTest {
 		LocalDate checkIn = new LocalDate("2015-10-20");
 		LocalDate checkOut = new LocalDate("2015-10-25");
 		int numAdults = 2;
-		HotelSearchParams v2params = (HotelSearchParams) new HotelSearchParams.Builder(0, 500, true)
+		HotelSearchParams v2params = (HotelSearchParams) new HotelSearchParams.Builder(0, 500)
 			.destination(suggestionV4)
 			.startDate(checkIn)
 			.endDate(checkOut)
@@ -197,7 +197,7 @@ public class HotelsV2DataUtilTest {
 		children.add(7);
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.coordinates = new SuggestionV4.LatLng();
-		HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(0, 500, true)
+		HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(0, 500)
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5))
 			.endDate(LocalDate.now().plusDays(15))

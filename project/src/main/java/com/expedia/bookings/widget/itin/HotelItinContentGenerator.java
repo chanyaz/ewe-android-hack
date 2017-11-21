@@ -76,7 +76,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			Ui.getApplication(getContext()).hotelComponent().inject(this);
 			SuggestionV4 destination = new SuggestionV4();
 			destination.gaiaId = data.getProperty().getPropertyId();
-			HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(28, 300, true)
+			HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(28, 300)
 				.startDate(data.getStartDate().toLocalDate())
 				.endDate(data.getEndDate() != null ? data.getEndDate().toLocalDate()
 					: data.getStartDate().plusDays(1).toLocalDate())

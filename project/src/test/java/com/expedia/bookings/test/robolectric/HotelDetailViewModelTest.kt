@@ -718,7 +718,7 @@ class HotelDetailViewModelTest {
         vm.dateChangedParamSubject.subscribe(testDateChangedParamSubject)
 
         val destination = SuggestionV4()
-        val originalParams = HotelSearchParams.Builder(0, 0, true)
+        val originalParams = HotelSearchParams.Builder(0, 0)
                 .destination(destination)
                 .startDate(originalStartDate)
                 .endDate(originalEndDate)

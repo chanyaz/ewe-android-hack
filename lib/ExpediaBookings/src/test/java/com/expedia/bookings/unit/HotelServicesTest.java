@@ -90,7 +90,7 @@ public class HotelServicesTest {
 		suggestion.coordinates = new SuggestionV4.LatLng();
 		suggestion.coordinates.lat = 0;
 		suggestion.coordinates.lng = 0;
-		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0, 0, true)
+		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0, 0)
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
@@ -119,7 +119,7 @@ public class HotelServicesTest {
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.gaiaId = "7732025862";
 		suggestion.coordinates = new SuggestionV4.LatLng();
-		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0, 0, true)
+		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0, 0)
 			.neighborhood(expectedNeighborhoodId)
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
@@ -151,7 +151,7 @@ public class HotelServicesTest {
 		suggestion.coordinates.lat = 41.87;
 		suggestion.coordinates.lng = 87.62;
 		suggestion.gaiaId = "0";
-		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0, 0, true)
+		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0, 0)
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
@@ -481,7 +481,7 @@ public class HotelServicesTest {
 	private HotelSearchParams givenHappyHotelSearchParams() {
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.coordinates = new SuggestionV4.LatLng();
-		return (HotelSearchParams) new HotelSearchParams.Builder(0, 0, true)
+		return (HotelSearchParams) new HotelSearchParams.Builder(0, 0)
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5))
 			.endDate(LocalDate.now().plusDays(15))

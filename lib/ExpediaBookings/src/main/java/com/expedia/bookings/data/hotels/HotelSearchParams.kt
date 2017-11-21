@@ -75,7 +75,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         return null
     }
 
-    class Builder(maxStay: Int, maxRange: Int, val filterUnavailable: Boolean = true) : BaseSearchParams.Builder(maxStay, maxRange) {
+    class Builder(maxStay: Int, maxRange: Int): BaseSearchParams.Builder(maxStay, maxRange) {
         private var isPackage: Boolean = false
         private var shopWithPoints: Boolean = false
         private var priceRange: PriceRange? = null
@@ -84,6 +84,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         private var neighborhoodRegionId: String? = null
         private var vipOnly: Boolean = false
         private var userSort: SortType? = null
+        private var filterUnavailable: Boolean = true
 
         override fun destination(city: SuggestionV4?): Builder {
             this.destinationLocation = city?.copy() ?: null
@@ -130,11 +131,16 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             return this
         }
 
+        fun filterUnavailable(filterUnavailable: Boolean): Builder {
+            this.filterUnavailable = filterUnavailable
+            return this
+        }
+
         fun clearUserSort() {
             this.userSort = null
         }
 
-        fun from(params: HotelSearchParams) : Builder {
+        fun from(params: HotelSearchParams): Builder {
             destination(params.suggestion)
             forPackage(params.forPackage)
             shopWithPoints(params.shopWithPoints)
@@ -150,6 +156,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             children(params.children)
             startDate(params.checkIn)
             endDate(params.checkOut)
+            filterUnavailable(params.filterUnavailable)
             return this
         }
 
