@@ -40,6 +40,7 @@ public class DummyFileToHandleIndirectResourceLintError {
 		R.bool.tablet,
 		R.string.recent_searched_location,
 		R.string.suggested_location,
-		R.string.suggested_location_list
+		R.string.suggested_location_list,
+		R.string.flight_notification_delayed_flight
 	};
 }

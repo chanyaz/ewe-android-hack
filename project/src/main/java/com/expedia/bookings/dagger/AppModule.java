@@ -28,6 +28,7 @@ import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.SatelliteServices;
+import com.expedia.bookings.itin.services.TNSServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
@@ -339,6 +340,14 @@ public class AppModule {
 		return new SatelliteServices(endpointProvider.getSatelliteEndpointUrl(), client, interceptor,
 			satelliteInterceptor, hmacInterceptor,
 			AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@Singleton
+	TNSServices provideTNSService(EndpointProvider endpointProvider, OkHttpClient client,
+								  @Named("HmacInterceptor") Interceptor hmacInterceptor, final Context context) {
+		return new TNSServices(endpointProvider.getTNSEndpoint(), client, hmacInterceptor,
+				AndroidSchedulers.mainThread(), Schedulers.io(), context);
 	}
 
 	@Provides
