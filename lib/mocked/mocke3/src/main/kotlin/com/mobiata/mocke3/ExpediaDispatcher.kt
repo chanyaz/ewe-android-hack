@@ -69,6 +69,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return dispatchBaggageInfo(request)
         }
 
+        //TNS User API
+        if (request.path.contains("m/api/register/user")) {
+            return dispatchTNSResonse(request)
+        }
+
         // Flights API
         if (request.path.contains("/api/flight")) {
             return flightApiRequestDispatcher.dispatch(request)
@@ -404,6 +409,10 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
     private fun dispatchBaggageInfo(request: RecordedRequest): MockResponse {
         return makeResponse("api/flight/baggageFeeInfo.json")
+    }
+
+    private fun dispatchTNSResonse(request: RecordedRequest): MockResponse {
+        return makeResponse("api/trips/tns_registration_user_response.json")
     }
 
     private fun dispatchGaiaSuggest(request: RecordedRequest): MockResponse {
