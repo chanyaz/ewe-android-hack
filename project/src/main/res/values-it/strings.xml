@@ -1433,6 +1433,10 @@
     <string name="confirm_seat_selection">Per confermare o cambiare il posto, contatta la compagnia aerea</string>
     <!-- displayed when seats can be selected but have not yet -->
     <string name="select_seat_prompt">Nessun posto selezionato</string>
+    <!-- Flight itin terminal maps bottom sheet title -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_title">Opzioni mappa</string>
+    <!-- Flight itin terminal maps bottom sheet airport text template. (e.g., SFO terminal map) -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_airport_text_TEMPLATE">Mappa del terminal di {airport}</string>
     <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Arriva {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
@@ -1442,7 +1446,7 @@
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Informazioni sui bagagli</string>
     <!--Flight itin traveller info widget heading-->
-    <string name="itin_flight_traveler_info">Dati del viaggiatore</string>
+    <string name="itin_flight_traveller_info">Dati del viaggiatore</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">Gestisci la tua prenotazione</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
@@ -1453,7 +1457,8 @@
     <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">Ritardato di {duration}</string>
     <!--Flight itin segment summary flight status indicator text - early departure-->
     <string name="itin_flight_summary_status_indicator_text_early_departure">Partenza in anticipo</string>
-
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_manage_booking_header">Gestisci prenotazione</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}g {hours}h {minutes}m</string>
@@ -1523,6 +1528,8 @@
 
 
     <!-- Action Buttons -->
+    <!-- action button to launch terminal maps bottom sheet -->
+    <string name="itin_action_terminal_maps">Mappe del terminal</string>
     <string name="itin_action_directions">Indicazioni</string>
     <string name="itin_action_call_hotel">Chiama hotel</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -2070,8 +2077,6 @@
     <string name="save_traveler">Salva viaggiatore</string>
     <!-- no thanks -->
     <string name="no_thanks">No, grazie</string>
-    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
-    <string name="advanced">Avanzate</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Opzioni avanzate (facoltativo)</string>
     <string name="contact_airline_message">Contatta la compagnia aerea per confermare le tue richieste</string>
@@ -2158,13 +2163,9 @@
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Errore</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">Preferenza posto: %1$s</string>
     <string name="prefers_seat_colored_TEMPLATE2">Preferenza posto: %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Stiamo caricando i dati sul viaggiatore…</string>
-
-    <!-- Passport label -->
-    <string name="passport_country_colon">Passaporto:</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2383,19 +2384,6 @@
     <!-- This is a special case for rails senior age greater than 62 -->
     <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62+&lt;/b&gt; anni</string>
 
-    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-    <!-- Suggestion to search Times Square -->
-    <string name="suggestion_times_square">Times Square, New York</string>
-    <string name="suggestion_boston">Boston, Massachusetts</string>
-    <string name="suggestion_los_angeles">Los Angeles, California</string>
-    <string name="suggestion_venice">Venice Beach Park, Venice, California</string>
-    <string name="suggestion_miami">Miami, Florida</string>
-    <string name="suggestion_london">Londra, Regno Unito</string>
-    <string name="suggestion_las_vegas">Las Vegas, Nevada</string>
-    <string name="suggestion_paris">Parigi, Francia</string>
-    <string name="suggestion_minneapolis">Minneapolis, Minnesota</string>
-    <string name="suggestion_san_francisco">San Francisco, California</string>
-
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Cerca</string>
@@ -2498,6 +2486,8 @@
     <string name="current_location">Posizione attuale</string>
     <string name="recent_searched_location">Località cercata di recente</string>
     <string name="suggested_location">Località consigliata</string>
+    <!-- To notify the section suggested locations while navigating using talkback -->
+    <string name="suggested_location_list">Località consigliate</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Mappa</string>
 
@@ -2884,6 +2874,11 @@
     <string name="coupon_submit_button">Invia</string>
     <!-- Coupon submit button for accessibility -->
     <string name="coupon_submit_button_ally">Pulsante "Invia"</string>
+    <!-- Coupon apply button -->
+    <string name="coupon_apply_button">Applica</string>
+    <!-- Coupon apply button for accessibility -->
+    <string name="coupon_apply_button_ally">Pulsante "Applica"</string>
+
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3742,6 +3737,10 @@
     <string name="step_one">1: seleziona l\&apos;hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">2: seleziona i voli</string>
+    <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
+    <string name="step_two_variation">2: scegli il volo di andata</string>
+    <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
+    <string name="step_three">3: scegli il volo di ritorno</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">Offerta incredibile</string>
     <!-- package hotel results unreal deal message for freeHotel -->
@@ -3879,12 +3878,18 @@
     <string name="select_return_flight">Seleziona volo di ritorno</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Volo per %1$s</string>
+    <!-- Flight overview - Step 2: flight to template (breadcrumbs) E.g. Step 2: Flight to London -->
+    <string name="flight_to_outbound_breadcrumbs_TEMPLATE">2: volo per {destination}</string>
+    <!-- Flight overview - Step 3: flight to template (breadcrumbs) E.g. Step 3: Flight to London -->
+    <string name="flight_to_inbound_breadcrumbs_TEMPLATE">3: volo per {origin}</string>
     <!-- Inbound to template, E.g. Inbound to Kathmandu, Nepal (KTM) -->
     <string name="package_flight_inbound_toolbar_title_TEMPLATE">Volo di ritorno per {cityname}, {stateorcountry} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
     <string name="package_hotel_results_toolbar_title_TEMPLATE">Hotel a %s</string>
+    <!-- Toolbar text for hotel results with breadcrumbs, E.g. Step 1: Hotels in London -->
+    <string name="package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE">1: hotel a {destination}</string>
     <!-- Description for infant travelers sitting in lap -->
     <string name="in_lap">In braccio</string>
     <!-- Description for infant travelers sitting in seat -->
@@ -4491,6 +4496,8 @@
     <string name="accessibility_cont_desc_opens_dialog">Apertura finestra di dialogo</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">disattivata</string>
+    <!-- Content Description for Rating Button -->
+    <string name="accessibility_cont_desc_user_rating_button">Pulsante per vedere il giudizio degli ospiti</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Il prezzo è di {activity_price} {ticket_type}</string>
@@ -4621,6 +4628,10 @@
     <string name="deals_hotel_only">Solo hotel</string>
     <string name="deals_toolbar_close_cont_desc">Chiudi la pagina con le tariffe per soli iscritti</string>
 
+    <!-- Last Minute Deal -->
+    <string name="last_minute_deal_title">Offerte last-minute</string>
+    <string name="last_minute_deal_subtitle">Sogni di partire? Dai un\&apos;occhiata a queste tariffe last-minute</string>
+
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Come funziona il nostro ordinamento</string>
     <!-- Checkout validation error message for credit card number-->
@@ -4711,6 +4722,21 @@
     <string name="amenity_carry_on_bag">Bagaglio a mano</string>
     <string name="amenity_seat_choice">Scelta del posto</string>
 
+    <!-- Amenities Content Description-->
+    <!-- Cont Desc for charged amenities Example: Seat Choice available for a fee-->
+    <string name="amenity_chargeable_cont_desc_TEMPLATE">{amenity_name} disponibile a pagamento. \u0020</string>
+    <!-- Cont Desc for included amenities Example: Seat Choice available -->
+    <string name="amenity_included_cont_desc_TEMPLATE">{amenity_name} disponibile. \u0020</string>
+    <!-- Cont Desc for unavailable amenities Example: Seat Choice not available-->
+    <string name="amenity_not_available_cont_desc_TEMPLATE">{amenity_name} non disponibile. \u0020</string>
+    <plurals name="checked_bags_template">
+        <item quantity="one">{number} bagaglio da stiva</item>
+        <item quantity="other">{number} bagagli da stiva</item>
+    </plurals>
+    <!-- Cont Desc for fare family item Example: Classic, cabin Econonmy--> 
+    <string name="fare_family_item_cont_desc_TEMPLATE">{fare_family_name}, classe {cabin_code}. \u0020</string> 
+    <!-- Cont Desc for fare family item Example: This fare is available for an additional $20, roundtrip for 2 travelers--> 
+    <string name="fare_family_item_cont_desc_price_TEMPLATE">Questa tariffa è disponibile con un supplemento di {delta}, {trip_type} per {guests}. \u0020</string>  
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">Mostra altro</string>
 

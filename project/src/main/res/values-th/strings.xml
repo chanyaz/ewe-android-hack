@@ -1433,6 +1433,10 @@
     <string name="confirm_seat_selection">กรุณายืนยันหรือเปลี่ยนแปลงที่นั่งกับสายการบินอีกครั้ง</string>
     <!-- displayed when seats can be selected but have not yet -->
     <string name="select_seat_prompt">ไม่ได้เลือกที่นั่ง</string>
+    <!-- Flight itin terminal maps bottom sheet title -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_title">ตัวเลือกแผนที่</string>
+    <!-- Flight itin terminal maps bottom sheet airport text template. (e.g., SFO terminal map) -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_airport_text_TEMPLATE">แผนที่อาคารผู้โดยสารสนามบิน {airport}</string>
     <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
     <string name="itin_flight_summary_arrives_on_TEMPLATE">มาถึง {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
@@ -1442,7 +1446,7 @@
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">ข้อมูลสัมภาระ</string>
     <!--Flight itin traveller info widget heading-->
-    <string name="itin_flight_traveler_info">ข้อมูลผู้เดินทาง</string>
+    <string name="itin_flight_traveller_info">ข้อมูลผู้เดินทาง</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">จัดการการจอง</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
@@ -1453,7 +1457,8 @@
     <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">ช้า {duration}</string>
     <!--Flight itin segment summary flight status indicator text - early departure-->
     <string name="itin_flight_summary_status_indicator_text_early_departure">ออกเดินทางก่อนเวลา</string>
-
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_manage_booking_header">จัดการการจอง</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}ว. {hours}ชม. {minutes}น.</string>
@@ -1523,6 +1528,8 @@
 
 
     <!-- Action Buttons -->
+    <!-- action button to launch terminal maps bottom sheet -->
+    <string name="itin_action_terminal_maps">แผนที่อาคารผู้โดยสาร</string>
     <string name="itin_action_directions">เส้นทาง</string>
     <string name="itin_action_call_hotel">โทรหาโรงแรม</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -2070,8 +2077,6 @@
     <string name="save_traveler">บันทึกผู้เดินทาง</string>
     <!-- no thanks -->
     <string name="no_thanks">ไม่ ขอบคุณ</string>
-    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
-    <string name="advanced">ตัวเลือกขั้นสูง</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">ข้อมูลเพิ่มเติม (ไม่บังคับ)</string>
     <string name="contact_airline_message">โปรดติดต่อสายการบินเพื่อยืนยันคำขอพิเศษ</string>
@@ -2158,13 +2163,9 @@
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">เกิดข้อผิดพลาด</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">ชอบที่นั่ง%1$s</string>
     <string name="prefers_seat_colored_TEMPLATE2">ต้องการ: %1$s ที่นั่ง</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">กำลังโหลดข้อมูลผู้เดินทาง…</string>
-
-    <!-- Passport label -->
-    <string name="passport_country_colon">หนังสือเดินทาง:</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2383,19 +2384,6 @@
     <!-- This is a special case for rails senior age greater than 62 -->
     <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62+&lt;/b&gt; ปี</string>
 
-    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-    <!-- Suggestion to search Times Square -->
-    <string name="suggestion_times_square">ไทม์แสควร์, นิวยอร์ก, NY</string>
-    <string name="suggestion_boston">บอสตัน, MA</string>
-    <string name="suggestion_los_angeles">ลอสแอนเจลิส, CA</string>
-    <string name="suggestion_venice">สวนสาธารณะหาดเวนิส, เวนิส, CA</string>
-    <string name="suggestion_miami">ไมแอมี, FL</string>
-    <string name="suggestion_london">ลอนดอน, UK</string>
-    <string name="suggestion_las_vegas">ลาสเวกัส, NV</string>
-    <string name="suggestion_paris">ปารีส, ฝรั่งเศส</string>
-    <string name="suggestion_minneapolis">มินนีแอโพลิส, MN</string>
-    <string name="suggestion_san_francisco">ซานฟรานซิสโก, CA</string>
-
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">ค้นหา</string>
@@ -2498,6 +2486,8 @@
     <string name="current_location">ตำแหน่งปัจจุบัน</string>
     <string name="recent_searched_location">สถานที่ตั้งที่ค้นหาล่าสุด</string>
     <string name="suggested_location">สถานที่ตั้งแนะนำ</string>
+    <!-- To notify the section suggested locations while navigating using talkback -->
+    <string name="suggested_location_list">สถานที่แนะนำ</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">แผนที่ที่กำลังดู</string>
 
@@ -2884,6 +2874,11 @@
     <string name="coupon_submit_button">ส่ง</string>
     <!-- Coupon submit button for accessibility -->
     <string name="coupon_submit_button_ally">ปุ่มส่ง</string>
+    <!-- Coupon apply button -->
+    <string name="coupon_apply_button">ใช้</string>
+    <!-- Coupon apply button for accessibility -->
+    <string name="coupon_apply_button_ally">ปุ่มเพิ่มรหัสคูปอง</string>
+
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3742,6 +3737,10 @@
     <string name="step_one">ขั้นที่ 1: เลือกโรงแรม</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">ขั้นที่ 2: เลือกเที่ยวบิน</string>
+    <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
+    <string name="step_two_variation">ขั้นที่ 2: เลือกเที่ยวบินขาออก</string>
+    <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
+    <string name="step_three">ขั้นที่ 3: เลือกเที่ยวบินขาเข้า</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">ดีลถูกเหลือเชื่อ</string>
     <!-- package hotel results unreal deal message for freeHotel -->
@@ -3879,12 +3878,18 @@
     <string name="select_return_flight">เลือกเที่ยวบินขากลับ</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">เที่ยวบินไปยัง %1$s</string>
+    <!-- Flight overview - Step 2: flight to template (breadcrumbs) E.g. Step 2: Flight to London -->
+    <string name="flight_to_outbound_breadcrumbs_TEMPLATE">ขั้นที่ 2: เที่ยวบินสู่ {destination}</string>
+    <!-- Flight overview - Step 3: flight to template (breadcrumbs) E.g. Step 3: Flight to London -->
+    <string name="flight_to_inbound_breadcrumbs_TEMPLATE">ขั้นที่ 3: เที่ยวบินสู่ {origin}</string>
     <!-- Inbound to template, E.g. Inbound to Kathmandu, Nepal (KTM) -->
     <string name="package_flight_inbound_toolbar_title_TEMPLATE">เดินทางมาถึง {cityname}, {stateorcountry} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
     <string name="package_hotel_results_toolbar_title_TEMPLATE">โรงแรมใน%s</string>
+    <!-- Toolbar text for hotel results with breadcrumbs, E.g. Step 1: Hotels in London -->
+    <string name="package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE">ขั้นที่ 1: โรงแรมใน {destination}</string>
     <!-- Description for infant travelers sitting in lap -->
     <string name="in_lap">นั่งตัก</string>
     <!-- Description for infant travelers sitting in seat -->
@@ -4491,6 +4496,8 @@
     <string name="accessibility_cont_desc_opens_dialog">เปิดกล่องโต้ตอบ</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">ปิดใช้งาน</string>
+    <!-- Content Description for Rating Button -->
+    <string name="accessibility_cont_desc_user_rating_button">ปุ่มให้คะแนนรีวิว</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">ราคา {activity_price} {ticket_type}</string>
@@ -4621,6 +4628,10 @@
     <string name="deals_hotel_only">เฉพาะโรงแรม</string>
     <string name="deals_toolbar_close_cont_desc">ปิดหน้าจอราคาสำหรับสมาชิก</string>
 
+    <!-- Last Minute Deal -->
+    <string name="last_minute_deal_title">ดีลนาทีสุดท้าย</string>
+    <string name="last_minute_deal_subtitle">อยากไปเที่ยวไหน จองทริปราคาถูกนาทีสุดท้ายได้เลย!</string>
+
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">วิธีการจัดเรียงผลการค้นหาโรงแรม</string>
     <!-- Checkout validation error message for credit card number-->
@@ -4711,6 +4722,21 @@
     <string name="amenity_carry_on_bag">สัมภาระถือขึ้นเครื่อง</string>
     <string name="amenity_seat_choice">เลือกที่นั่ง</string>
 
+    <!-- Amenities Content Description-->
+    <!-- Cont Desc for charged amenities Example: Seat Choice available for a fee-->
+    <string name="amenity_chargeable_cont_desc_TEMPLATE">{amenity_name} (มีค่าบริการ) \u0020</string>
+    <!-- Cont Desc for included amenities Example: Seat Choice available -->
+    <string name="amenity_included_cont_desc_TEMPLATE">{amenity_name} (มีบริการ) \u0020</string>
+    <!-- Cont Desc for unavailable amenities Example: Seat Choice not available-->
+    <string name="amenity_not_available_cont_desc_TEMPLATE">{amenity_name} (ไม่มีบริการ) \u0020</string>
+    <plurals name="checked_bags_template">
+        <item quantity="one">{number}สัมภาระเช็คอิน</item>
+        <item quantity="other">{number}สัมภาระเช็คอิน</item>
+    </plurals>
+    <!-- Cont Desc for fare family item Example: Classic, cabin Econonmy--> 
+    <string name="fare_family_item_cont_desc_TEMPLATE">{fare_family_name}, ชั้นโดยสาร {cabin_code} \u0020</string> 
+    <!-- Cont Desc for fare family item Example: This fare is available for an additional $20, roundtrip for 2 travelers--> 
+    <string name="fare_family_item_cont_desc_price_TEMPLATE">การเดินทางนี้มีค่าใช้จ่ายเพิ่มเติม {delta}, {trip_type} สำหรับ {guests} คน \u0020</string>  
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">แสดงเพิ่มเติม</string>
 
