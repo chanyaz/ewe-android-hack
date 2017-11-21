@@ -40,6 +40,7 @@ import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.itin.services.TNSServices
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
 import com.expedia.holidayfun.widget.HolidayFunCoordinator
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
@@ -164,6 +165,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 SettingUtils.save(this, PREF_USER_ENTERS_FROM_SIGNIN, true)
             }
         }
+
+        val tnsServices: TNSServices = Ui.getApplication(this).appComponent().tnsService()
+        tnsServices.registerForUserDevice(null)
 
         val lineOfBusiness = intent.getSerializableExtra(Codes.LOB_NOT_SUPPORTED) as LineOfBusiness?
         if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {

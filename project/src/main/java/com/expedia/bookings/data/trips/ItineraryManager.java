@@ -1,22 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.concurrent.PriorityBlockingQueue;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.json.JSONException;
@@ -38,12 +21,15 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.itin.data.TNSFlight;
+import com.expedia.bookings.itin.services.TNSServices;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.NotificationManager;
@@ -51,6 +37,7 @@ import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Ui;
@@ -62,6 +49,22 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.concurrent.PriorityBlockingQueue;
 import rx.functions.Action1;
 
 /**
@@ -106,6 +109,8 @@ public class ItineraryManager implements JSONable {
 	private Context mContext;
 	private UserStateManager userStateManager;
 	private NotificationManager notificationManager;
+
+	private TNSServices tnsServices;
 
 	// Don't try refreshing too often
 	private long mLastUpdateTime;
@@ -372,6 +377,8 @@ public class ItineraryManager implements JSONable {
 		mContext = context;
 		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 		notificationManager = Ui.getApplication(context).appComponent().notificationManager();
+
+		tnsServices = Ui.getApplication(context).appComponent().tnsService();
 
 		loadStartAndEndTimes();
 
@@ -952,7 +959,8 @@ public class ItineraryManager implements JSONable {
 			Log.d(LOGGING_TAG, "ItineraryManager sync started too soon since last one; ignoring.");
 			return false;
 		}
-		else if (mTrips != null && mTrips.size() == 0 && !userStateManager.isUserAuthenticated() && !hasFetchSharedInQueue()) {
+		else if (mTrips != null && mTrips.size() == 0 && !userStateManager.isUserAuthenticated()
+			&& !hasFetchSharedInQueue()) {
 			Log.d(LOGGING_TAG,
 				"ItineraryManager sync called, but there are no guest nor shared trips and the user is not logged in, so"
 					+
@@ -1114,7 +1122,8 @@ public class ItineraryManager implements JSONable {
 		@Override
 		protected void onPreExecute() {
 			if (mTrips == null) {
-				Log.i(LOGGING_TAG, "Sync called with mTrips == null. Loading trips from disk and generating itin cards before other operations in queue.");
+				Log.i(LOGGING_TAG,
+					"Sync called with mTrips == null. Loading trips from disk and generating itin cards before other operations in queue.");
 				TaskPriorityQueue queueWithLoadFromDiskFirst = new TaskPriorityQueue();
 				queueWithLoadFromDiskFirst.add(new Task(Operation.LOAD_FROM_DISK));
 				queueWithLoadFromDiskFirst.add(new Task(Operation.GENERATE_ITIN_CARDS));
@@ -1452,9 +1461,9 @@ public class ItineraryManager implements JSONable {
 						if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
 							if (response.getErrors().size() > 0) {
 								Log.w(LOGGING_TAG,
-										"Tried to load guest trip, but failed, so we're removing it.  Email="
-												+ trip.getGuestEmailAddress() + " itinKey="
-												+ trip.getItineraryKey());
+									"Tried to load guest trip, but failed, so we're removing it.  Email="
+										+ trip.getGuestEmailAddress() + " itinKey="
+										+ trip.getItineraryKey());
 								mTrips.remove(trip.getItineraryKey());
 								isTripGuestAndFailedToRetrieve = true;
 							}
@@ -1857,7 +1866,7 @@ public class ItineraryManager implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Push Notifications
 
-	private PushNotificationRegistrationResponse registerForPushNotifications() {
+	private void registerForPushNotifications() {
 
 		Log.d(LOGGING_TAG, "ItineraryManager.registerForPushNotifications");
 
@@ -1879,20 +1888,69 @@ public class ItineraryManager implements JSONable {
 					userTuid = user.getPrimaryTraveler().getTuid();
 				}
 			}
+			if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(mContext, AbacusUtils.TripsNewFlightAlerts,
+				R.string.preference_enable_trips_flight_alerts)) {
+				JSONObject payload = PushNotificationUtils
+					.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
+						getItinFlights(false), getItinFlights(true));
 
-			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
-				getItinFlights(false), getItinFlights(true));
+				Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
+				Log.d(LOGGING_TAG, "registering with old alert system");
+				PushNotificationRegistrationResponse resp = services.registerForPushNotifications(
+					new PushRegistrationResponseHandler(mContext), payload, regId);
+				Log.d(LOGGING_TAG,
+					"registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
+				//ensuring that we are not listening to any flights on new system
+				tnsServices.registerForFlights(new ArrayList<TNSFlight>(), null);
+			}
+			else {
+				//ensure that we are not listening to any flights on old system
+				JSONObject payload = PushNotificationUtils
+					.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
+						new ArrayList<Flight>(), new ArrayList<Flight>());
 
-			Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
+				Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
+				Log.d(LOGGING_TAG, "registering with new alert system");
+				PushNotificationRegistrationResponse resp = services.registerForPushNotifications(
+					new PushRegistrationResponseHandler(mContext), payload, regId);
+				Log.d(LOGGING_TAG,
+					"registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
 
-			PushNotificationRegistrationResponse resp = services.registerForPushNotifications(
-				new PushRegistrationResponseHandler(mContext), payload, regId);
+				tnsServices.registerForFlights(getFlightsForNewSystem(), null);
+			}
 
-			Log.d(LOGGING_TAG, "registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
-			return resp;
+		}
+	}
+
+	private TNSFlight getFlightToAdd(Flight flight) {
+		TNSFlight flightToAdd = new TNSFlight(flight.getPrimaryFlightCode().mAirlineCode,
+			JodaUtils.format(flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
+				"yyyy-MM-dd HH:mm:ss"),
+			JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
+				"yyyy-MM-dd HH:mm:ss"),
+			JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
+				"yyyy-MM-dd"),
+			flight.getDestinationWaypoint().mAirportCode,
+			flight.getPrimaryFlightCode().mNumber,
+			flight.getOriginWaypoint().mAirportCode);
+			return flightToAdd;
+	}
+
+	private List<TNSFlight> getFlightsForNewSystem() {
+
+		List<TNSFlight> flights = new ArrayList<>();
+		List<Flight> actualFlights = getItinFlights(false);
+		List<Flight> sharedFlights = getItinFlights(true);
+		for (Flight flight : actualFlights) {
+			TNSFlight flightToAdd = getFlightToAdd(flight);
+			flights.add(flightToAdd);
 		}
 
-		return null;
+		for (Flight sharedFlight : sharedFlights) {
+			TNSFlight flightToAdd = getFlightToAdd(sharedFlight);
+			flights.add(flightToAdd);
+		}
+		return flights;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

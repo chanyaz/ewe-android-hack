@@ -1,0 +1,14 @@
+{
+  "activityId": "zyx1278",
+  "courier": {
+    "group": "gcm",
+    "name": "ExpediaBookings",
+    "token": "1234",
+    "uniqueIdentifier": "ABC123"
+  },
+  "user": {
+    "guid": "DEF456",
+    "siteid": 1,
+    "tuid": 567
+  }
+}
