@@ -186,4 +186,20 @@ data class MultiItemApiSearchResponse(
             flightOffer.legIds[0] == outboundLegId && flightOffer.legIds[1] == inboundLegId
         }?.piid
     }
+
+    override fun getFlightPIIDFromSelectedHotel(hotelKey: String?): String? {
+        if (hotelKey == null) {
+            return null
+        }
+        val offer = offers.firstOrNull { offer ->
+            offer.searchedOffer.productKey == hotelKey
+        }
+        val flightOfferReference = offer?.packagedOffers?.firstOrNull {
+            it.productType == ProductType.Air
+        }
+        if (flightOfferReference != null) {
+            return flights[flightOfferReference.productKey]?.piid
+        }
+        return null
+    }
 }

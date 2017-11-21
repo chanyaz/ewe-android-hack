@@ -23,6 +23,7 @@ class HotelTest {
 
         assertEquals(hotel.isPackage, true)
         assertEquals(hotel.hotelId, "3818880")
+        assertEquals(hotel.hotelPid, "hotel-0")
         assertEquals(hotel.localizedName, "The Cosmopolitan Of Las Vegas")
         assertEquals(hotel.address, "3708 Las Vegas Blvd S")
         assertEquals(hotel.city, "Las Vegas")

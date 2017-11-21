@@ -97,7 +97,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 childAges = params.childAges,
                 infantsInSeats = params.infantsInSeats,
                 hotelId = params.hotelId,
-                flightPIID = if (params.isChangePackageSearch()) params.latestSelectedFlightPIID else null,
+                flightPIID = params.latestSelectedFlightPIID,
                 anchorTotalPrice = params.latestSelectedProductOfferPrice?.packageTotalPrice?.amount,
                 currencyCode = params.latestSelectedProductOfferPrice?.packageTotalPrice?.currencyCode)
                 .observeOn(observeOn)

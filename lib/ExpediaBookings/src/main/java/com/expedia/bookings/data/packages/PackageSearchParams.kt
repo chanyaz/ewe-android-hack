@@ -38,7 +38,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
     val originId: String?
         get() {
-            return  origin?.hierarchyInfo?.airport?.multicity ?: origin?.gaiaId ?: origin?.hierarchyInfo?.airport?.regionId
+            return origin?.gaiaId ?: origin?.hierarchyInfo?.airport?.regionId
         }
 
     val destinationId: String?
@@ -113,7 +113,6 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
     fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
         if (pageType != null) params.put("pageType", pageType)
-        // TODO Xselling packages: In Flights module we have gaiaId so we have to set originId with gaiaId
         params.put("originId", originId)
         params.put("destinationId", destinationId)
         params.put("ftla", origin?.hierarchyInfo?.airport?.airportCode)

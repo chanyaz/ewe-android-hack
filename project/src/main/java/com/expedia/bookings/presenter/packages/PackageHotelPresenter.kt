@@ -248,6 +248,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         selectedPackageHotel = hotel
         val params = Db.getPackageParams()
         params.hotelId = hotel.hotelId
+        params.latestSelectedFlightPIID = Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotel.hotelPid)
         params.latestSelectedProductOfferPrice = hotel.packageOfferModel.price
         val packageHotelOffers = if (isMidAPIEnabled(context)) {
             getMIDRoomSearch(params)

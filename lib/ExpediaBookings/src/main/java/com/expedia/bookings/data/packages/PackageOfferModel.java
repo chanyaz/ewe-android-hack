@@ -36,7 +36,7 @@ public class PackageOfferModel {
 
 		Money deltaPricePerPerson = multiItemOffer.getPrice().deltaPricePerPerson();
 		if (deltaPricePerPerson != null) {
-			price.differentialPriceFormatted = deltaPricePerPerson.getFormattedMoneyFromAmountAndCurrencyCode();
+			price.differentialPriceFormatted = deltaPricePerPerson.getFormattedMoney(Money.F_NO_DECIMAL);
 			price.deltaPositive = BigDecimal.ZERO.compareTo(deltaPricePerPerson.amount) <= 0;
 		}
 

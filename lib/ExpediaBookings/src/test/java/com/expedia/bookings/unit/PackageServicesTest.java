@@ -464,6 +464,31 @@ public class PackageServicesTest {
 		Assert.assertNull(response.getSelectedFlightPIID("484e6292832e2ace56acb0c2d202c6fd", "wrong_id"));
 	}
 
+	@Test
+	public void testGetFlightPIIDFromSelectedHotel() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.build();
+
+		service.packageSearch(params, ProductSearchType.MultiItemHotels).subscribe(observer);
+		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals("v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1", response.getFlightPIIDFromSelectedHotel(response.getHotels().get(0).hotelPid));
+		Assert.assertNull(response.getFlightPIIDFromSelectedHotel("hotel-ZERO"));
+		Assert.assertNull(response.getFlightPIIDFromSelectedHotel(null));
+	}
 
 	private SuggestionV4 getDummySuggestion()  {
 		SuggestionV4 suggestion = new SuggestionV4();

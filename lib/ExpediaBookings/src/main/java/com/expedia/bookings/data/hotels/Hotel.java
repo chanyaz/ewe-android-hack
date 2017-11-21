@@ -93,6 +93,7 @@ public class Hotel {
 	public static Hotel convertMultiItemHotel(HotelOffer multiItemHotel, MultiItemOffer offer) {
 		Hotel hotel = new Hotel();
 		hotel.hotelId = multiItemHotel.getId();
+		hotel.hotelPid = offer.getSearchedOffer().getProductKey();
 		hotel.localizedName = multiItemHotel.getName();
 		if (multiItemHotel.getAddress() != null) {
 			hotel.address = multiItemHotel.getAddress().getFirstAddressLine();
