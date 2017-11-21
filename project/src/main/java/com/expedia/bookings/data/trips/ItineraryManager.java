@@ -29,6 +29,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.itin.data.TNSFlight;
+import com.expedia.bookings.itin.services.TNSServices;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.NotificationManager;
@@ -1917,8 +1918,12 @@ public class ItineraryManager implements JSONable {
 
 				tnsServices.registerForFlights(getFlightsForNewSystem(), null);
 			}
+
 		}
 	}
+
+
+
 
 	private TNSFlight getFlightToAdd(Flight flight) {
 		TNSFlight flightToAdd = new TNSFlight(flight.getPrimaryFlightCode().mAirlineCode,
@@ -1941,6 +1946,12 @@ public class ItineraryManager implements JSONable {
 		List<Flight> sharedFlights = getItinFlights(true);
 		for (Flight flight : actualFlights) {
 			TNSFlight flightToAdd = getFlightToAdd(flight);
+			flights.add(flightToAdd);
+		}
+
+
+		for (Flight sharedFlight : sharedFlights) {
+			TNSFlight flightToAdd = getFlightToAdd(sharedFlight);
 			flights.add(flightToAdd);
 		}
 		return flights;
