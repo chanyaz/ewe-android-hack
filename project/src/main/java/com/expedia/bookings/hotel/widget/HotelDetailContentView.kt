@@ -51,11 +51,8 @@ import com.expedia.bookings.widget.HotelInfoView
 import com.expedia.bookings.widget.HotelRoomCardView
 import com.expedia.bookings.widget.HotelRoomDetailView
 import com.expedia.bookings.widget.HotelRoomHeaderView
-import com.expedia.bookings.widget.HotelRoomRateView
 import com.expedia.bookings.widget.LocationMapImageView
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.animation.ResizeHeightAnimator
-import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeBackground
 import com.expedia.util.subscribeBackgroundResource
@@ -69,7 +66,6 @@ import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.HotelRoomHeaderViewModel
-import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import rx.Observable
 import rx.Observer
@@ -412,11 +408,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             if (roomContainer.childCount >= 0) {
                 val roomRateView = roomContainer.getChildAt(0)
                 roomRateView?.let { roomView ->
-                    if (viewModel.shouldGroupAndSortRoom()) {
-                        roomView.requestFocus()
-                    } else {
-                        (roomView as HotelRoomRateView).row.requestFocus()
-                    }
+                    roomView.requestFocus()
                 }
             }
         }, 400L)
@@ -446,11 +438,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                             payLater: Boolean) {
         val fadeRoomsOutAnimation = AlphaAnimation(1f, 0f)
         fadeRoomsOutAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
-        if (viewModel.shouldGroupAndSortRoom()) {
-            fadeRoomsOutAnimation.setAnimationListener(getGroupedRoomAnimationListener(roomList, payLater))
-        } else {
-            fadeRoomsOutAnimation.setAnimationListener(getRoomAnimationListener(roomList, topValueAddList, payLater))
-        }
+        fadeRoomsOutAnimation.setAnimationListener(getGroupedRoomAnimationListener(roomList, payLater))
         roomContainer.startAnimation(fadeRoomsOutAnimation)
     }
 
@@ -483,8 +471,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         val groupedRooms = viewModel.groupAndSortRoomList(roomListToUse)
         val viewModels = ArrayList<HotelRoomDetailViewModel>()
         var roomOptionCount = 0
-
-        for ((roomType, roomResponses) in groupedRooms) {
+        for ((_, roomResponses) in groupedRooms) {
             if (roomResponses.count() >= 0) {
                 val cardView = Ui.inflate<HotelRoomCardView>(R.layout.hotel_room_card_view, roomContainer, false)
                 var roomCount = if (roomResponses.count() > 1) 0 else -1
@@ -492,7 +479,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                 val roomResponse = roomResponses[0]
                 val header = getRoomHeaderView(roomResponse, roomCount)
 
-                header.roomImageClickedSubject.subscribe(RoomImageClickObserver(roomResponse.roomTypeCode))
+                header.roomImageClickedSubject.subscribe(RoomImageClickObserver(roomResponse.roomGroupingKey()))
                 cardView.addViewToContainer(header)
 
                 for (roomResponse in roomResponses) {
@@ -579,7 +566,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                 HotelTracking.trackLinkHotelRoomBookClick(detail.viewModel.hotelRoomResponse, detail.viewModel.hasETP)
             }
 
-            if (detail.viewModel.hotelRoomResponse.rateInfo.chargeableRateInfo?.airAttached ?: false) {
+            if (detail.viewModel.hotelRoomResponse.rateInfo.chargeableRateInfo?.airAttached == true) {
                 HotelTracking.trackLinkHotelAirAttachEligible(detail.viewModel.hotelRoomResponse, detail.viewModel.hotelId)
             }
         }
@@ -591,75 +578,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         return detail
     }
 
-    private fun getRoomAnimationListener(roomList: List<HotelOffersResponse.HotelRoomResponse>, topValueAddList: List<String>,
-                                         payLater: Boolean): Animation.AnimationListener {
-        val fadeOutRoomListener = object : AnimationListenerAdapter() {
-            override fun onAnimationEnd(p0: Animation?) {
-                createRoomViews(roomList, topValueAddList, payLater)
-            }
-        }
-        return fadeOutRoomListener
-    }
-
-    private fun createRoomViews(roomList: List<HotelOffersResponse.HotelRoomResponse>, topValueAddList: List<String>, payLater: Boolean) {
-        val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(roomList.size)
-        val fadeInRoomsAnimation = AlphaAnimation(0f, 1f)
-        fadeInRoomsAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
-
-        fadeInRoomsAnimation.setAnimationListener(object : AnimationListenerAdapter() {
-            override fun onAnimationStart(animation: Animation?) {
-                hotelRoomRateViewModels.first().expandRoomObservable.onNext(Unit)
-                hotelRoomRateViewModels.drop(1).forEach { vm -> vm.collapseRoomObservable.onNext(Unit) }
-            }
-        })
-
-        recycleRoomImageViews()
-        roomContainer.removeAllViews()
-
-        roomList.forEachIndexed { roomResponseIndex, room ->
-            val roomOffer = if (payLater) room.payLaterOffer else room
-            val view = getHotelRoomRowView(roomResponseIndex, roomOffer, topValueAddList[roomResponseIndex])
-            addViewToRoomContainer(view)
-            hotelRoomRateViewModels.add(view.viewModel)
-        }
-        viewModel.lastExpandedRowIndexObservable.onNext(-1)
-        viewModel.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
-        roomContainer.startAnimation(fadeInRoomsAnimation)
-
-        //set focus on first room row for accessibility
-        (roomContainer.getChildAt(0) as HotelRoomRateView).row.isFocusableInTouchMode = true
-    }
-
-    private fun getHotelRoomRowView(roomIndex: Int, roomResponse: HotelOffersResponse.HotelRoomResponse,
-                                    uniqueValueAdd: String): HotelRoomRateView {
-        val hasETP = viewModel.hasETPObservable.value
-        val view = HotelRoomRateView(context)
-        view.viewModel = HotelRoomRateViewModel(context, viewModel.hotelOffersResponse.hotelId,
-                roomResponse, uniqueValueAdd, roomIndex,
-                viewModel.rowExpandingObservable, hasETP, viewModel.getLOB())
-        view.animateRoom.subscribe(rowAnimation)
-        view.viewModel.depositTermsClickedObservable.subscribe {
-            viewModel.depositInfoContainerClickObservable.onNext(Pair(viewModel.hotelOffersResponse.hotelCountry, roomResponse))
-        }
-        view.viewModel.roomSelectedObservable.subscribe { roomPair ->
-            val (index, roomResponse) = roomPair
-            viewModel.roomSelectedSubject.onNext(roomResponse)
-            viewModel.selectedRoomIndex = index
-        }
-        return view
-    }
-
-    private val rowAnimation = endlessObserver<Pair<HotelRoomRateView, Boolean>> { pair ->
-        val room = pair.first
-        val animate = pair.second
-        val resizeAnimator = ResizeHeightAnimator(if (animate) ANIMATION_DURATION else 0)
-        resizeAnimator.addViewSpec(room.roomHeaderImageContainer, room.roomHeaderImageHeight)
-        resizeAnimator.addViewSpec(room.roomInfoHeader, room.roomInfoHeaderTextHeight)
-        resizeAnimator.addViewSpec(room.roomInfoDivider, room.roomInfoDividerHeight)
-        resizeAnimator.addViewSpec(room.roomInfoChevron, room.roomInfoChevronHeight)
-        resizeAnimator.start()
-    }
-
     private fun addViewToRoomContainer(roomView: View) {
         val parent = roomView.parent
         if (parent != null) {
@@ -669,21 +587,10 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     }
 
     private fun recycleRoomImageViews() {
-        val groupedRoom = viewModel.shouldGroupAndSortRoom()
         for (index in 0..(roomContainer.childCount - 1)) {
-            if (groupedRoom) {
-                val header = roomContainer.getChildAt(index) as? HotelRoomHeaderView
-                header?.recycleImageView()
-            } else {
-                val room = roomContainer.getChildAt(index) as HotelRoomRateView
-                recycleImageView(room.roomHeaderImage)
-            }
+            val header = roomContainer.getChildAt(index) as? HotelRoomHeaderView
+            header?.recycleImageView()
         }
-    }
-
-    private fun recycleImageView(imageView: ImageView) {
-        imageView.drawable?.callback = null
-        imageView.setImageDrawable(null)
     }
 
     private fun priceViewAlpha(ratio: Float) {

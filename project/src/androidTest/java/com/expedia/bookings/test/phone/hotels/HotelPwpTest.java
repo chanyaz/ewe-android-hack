@@ -7,9 +7,8 @@ import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.PaymentOptionsScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
-
-import static com.expedia.bookings.test.pagemodels.hotels.HotelScreen.pickRoom;
 
 public class HotelPwpTest extends HotelTestCase {
 
@@ -24,8 +23,8 @@ public class HotelPwpTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
-		HotelScreen.clickSelectRoom();
-		pickRoom("happypath_pwp_points_only");
+		HotelInfoSiteScreen.clickStickySelectRoom();
+		HotelInfoSiteScreen.bookRoomType("happypath_pwp_points_only");
 		CheckoutViewModel.signInOnCheckout("singlecard@mobiata.com", "password");
 		CheckoutViewModel.assertEarnPointsText("You are a valued member");
 		CheckoutViewModel.assertPurchaseTotalText("You are using 2,395 ($2,394.88) Expedia+ points");
@@ -69,8 +68,8 @@ public class HotelPwpTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
-		HotelScreen.clickSelectRoom();
-		pickRoom("happypath_pwp_points_with_card");
+		HotelInfoSiteScreen.clickStickySelectRoom();
+		HotelInfoSiteScreen.bookRoomType("happypath_pwp_points_with_card");
 		CheckoutViewModel.signInOnCheckout("singlecard@mobiata.com", "password");
 		CheckoutViewModel.assertEarnPointsText("earn 795 points");
 		CheckoutViewModel.assertPurchaseTotalText("You are using 3,600 ($3,600) Expedia+ points\nYour card will be charged $794.88");
@@ -100,8 +99,8 @@ public class HotelPwpTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
-		HotelScreen.clickSelectRoom();
-		pickRoom("happypath_pwp_points_with_card");
+		HotelInfoSiteScreen.clickStickySelectRoom();
+		HotelInfoSiteScreen.bookRoomType("happypath_pwp_points_with_card");
 		CheckoutViewModel.signInOnCheckout("singlecard@mobiata.com", "password");
 		CheckoutViewModel.clickPaymentInfo();
 		PaymentOptionsScreen.clickAmountForPointsCalculation();

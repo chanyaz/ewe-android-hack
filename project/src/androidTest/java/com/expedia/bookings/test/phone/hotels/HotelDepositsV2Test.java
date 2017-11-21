@@ -8,6 +8,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -19,9 +20,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.pagemodels.hotels.HotelScreen.addRoom;
 import static com.expedia.bookings.test.pagemodels.hotels.HotelScreen.clickPayLater;
-import static com.expedia.bookings.test.pagemodels.hotels.HotelScreen.waitForDetailsLoaded;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
@@ -31,7 +30,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 	public void testInfoWithDepositRequired() throws Throwable {
 		goToResults();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort");
-		waitForDetailsLoaded();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
 
 		//assert book no pay later info screen
 		onView(withId(R.id.etp_info_text)).perform(click());
@@ -50,12 +49,12 @@ public class HotelDepositsV2Test extends HotelTestCase {
 		Common.pressBack();
 
 		//assert Deposit terms info screen
-		waitForDetailsLoaded();
-		HotelScreen.clickSelectRoom();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
+		HotelInfoSiteScreen.clickStickySelectRoom();
 		clickPayLater();
 		Common.delay(1);
 
-		onView(withId(R.id.deposit_terms_buttons)).perform(click());
+		onView(withId(R.id.deposit_terms_text_view)).perform(click());
 
 		onView(allOf(withText("You will be charged deposits by the property based on the following schedule. Any remaining amount will be due upon arrival:"),
 			isDescendantOfA(hasSibling(withText("Reserve with deposit")))))
@@ -74,12 +73,11 @@ public class HotelDepositsV2Test extends HotelTestCase {
 			.check(matches(isDisplayed()));
 		Common.pressBack();
 
-		waitForDetailsLoaded();
-		addRoom();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
 		clickPayLater();
 		Common.delay(1);
+		HotelInfoSiteScreen.bookFirstRoom();
 
-		HotelScreen.selectRoom();
 		Common.delay(2);
 
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.amount_due_today_label, "Due to Expedia today");
@@ -89,14 +87,13 @@ public class HotelDepositsV2Test extends HotelTestCase {
 
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.price_type_text_view, "Due to Expedia today");
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.price_text_view, "$0");
-
 	}
 
 	@Test
 	public void testInfoWithoutDepositNotRequired() throws Throwable {
 		goToResults();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort_with_free_cancellation");
-		waitForDetailsLoaded();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
 
 		//assert book no pay later info screen
 		onView(withId(R.id.etp_info_text_small)).perform(click());
@@ -111,13 +108,13 @@ public class HotelDepositsV2Test extends HotelTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.no_charges_text, "Expedia will not charge you.");
 		Common.pressBack();
 
-		waitForDetailsLoaded();
-		HotelScreen.clickSelectRoom();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
+		HotelInfoSiteScreen.clickStickySelectRoom();
 		Common.delay(2);
 		clickPayLater();
 
 		//We don't show deposit terms link if there is no deposit required
-		onView(withId(R.id.deposit_terms_buttons)).check(matches(not(isDisplayed())));
+		onView(withId(R.id.deposit_terms_text_view)).check(matches(not(isDisplayed())));
 
 	}
 

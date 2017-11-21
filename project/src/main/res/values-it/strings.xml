@@ -2743,8 +2743,6 @@
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
     <string name="urgency_destination_description_TEMPLATE">{destination} è una destinazione molto richiesta nelle date selezionate</string>
 
-    <!-- The text we use to show room info for expanded room -->
-    <string name="room_information">Informazioni sulla camera</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">Pulsante per accedere alle informazioni sulla camera</string>
     <!-- The text we use to message that the room in non-refundable -->
@@ -2773,12 +2771,8 @@
     <string name="view_room_button_text">Visualizza camera</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Prenota</string>
-    <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
-    <string name="view_room_button_content_description_TEMPLATE">Consulta i dettagli della camera, {room}</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">Include %s</string>
-    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
-    <string name="book_room_button_content_description_TEMPLATE">Prenota, {room}</string>
     <!-- Room description alert dialog title -->
     <string name="room_description_title">Descrizione della camera</string>
     <!-- Renovation Notice -->
@@ -4681,11 +4675,6 @@
 
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">Opzione {number}</string>
-
-    <!-- Content description for double tap action to collapse HIS room info -->
-    <string name="collapse_room_info_cont_desc">Comprimi</string>
-    <!-- Content description for double tap action to expand HIS room info -->
-    <string name="expand_room_info_cont_desc">Espandi</string>
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}. Pulsante</string>

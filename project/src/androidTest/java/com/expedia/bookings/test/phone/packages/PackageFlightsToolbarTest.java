@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
@@ -33,7 +34,7 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 		SearchScreen.selectDates(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
 		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit, MI (DTW)")))));

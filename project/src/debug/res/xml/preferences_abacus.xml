@@ -23,14 +23,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="14591"
-            android:title="Hotel Grouped Room Rate Offer - 14591" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="15637"
             android:summary="%s"
             android:title="Hotel Auto Suggest Same as Web - 15637" />

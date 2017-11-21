@@ -14,6 +14,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SpannableBuilder
@@ -163,8 +164,8 @@ class SearchScreenTest : HotelTestCase() {
         SearchScreen.selectGuestsButton().check(matches(isDisplayed()))
 
         SearchScreen.searchButton().perform(click())
-        HotelScreen.waitForDetailsLoaded()
-        HotelScreen.selectRoomButton().check(matches(isDisplayed()))
+        HotelInfoSiteScreen.waitForDetailsLoaded()
+        HotelInfoSiteScreen.stickySelectRoomButton().check(matches(isDisplayed()))
     }
 
     private fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {

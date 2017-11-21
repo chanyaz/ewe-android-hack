@@ -12,6 +12,7 @@ import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -23,14 +24,12 @@ import junit.framework.Assert;
 
 import java.util.concurrent.TimeUnit;
 
-import static android.support.test.espresso.action.ViewActions.click;
-
 public class HotelCheckout2Test extends HotelTestCase {
 	@Test
 	public void testCouponIsClearedEachCreateTrip() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");
-		HotelScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 
 		//a11y test for cost summary
 		onView(withId(R.id.cost_summary)).check(matches(withContentDescription("Total with Tax $135.81 Due to Expedia today $0  Cost summary information Button")));
@@ -46,9 +45,8 @@ public class HotelCheckout2Test extends HotelTestCase {
 		Espresso.pressBack();
 		Espresso.pressBack();
 		HotelScreen.selectHotel("happypath");
-		HotelScreen.selectRoomButton().perform(click());
-		HotelScreen.clickRoom("happypath_2_night_stay_0");
-		HotelScreen.clickAddRoom();
+		HotelInfoSiteScreen.clickStickySelectRoom();
+		HotelInfoSiteScreen.bookRoomType("happypath_2_night_stay_0");
 
 		// Pick a different room, should refresh createTrip with a new price
 		CheckoutViewModel.scrollView().perform(ViewActions.swipeDown());
@@ -60,13 +58,11 @@ public class HotelCheckout2Test extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("tealeaf_id");
 		Common.delay(1);
-		HotelScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 		Assert.assertEquals(Db.getTripBucket().getHotelV2().mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id");
 		HotelScreen.clickSignIn();
 		HotelScreen.signIn();
 		EspressoUtils.waitForViewNotYetInLayoutToDisplay(CheckoutViewModel.toolBarMatcher(), 10, TimeUnit.SECONDS);
 		Assert.assertEquals(Db.getTripBucket().getHotelV2().mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id_signed_in");
 	}
-
-
 }

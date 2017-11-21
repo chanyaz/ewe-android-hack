@@ -7,6 +7,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
 public class HotelDetailVipTest extends HotelTestCase {
@@ -14,12 +15,12 @@ public class HotelDetailVipTest extends HotelTestCase {
 	public void testVIPHotel() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("vip_hotel");
-		HotelScreen.waitForDetailsLoaded();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
 		HotelScreen.clickVIPAccess();
 		Common.delay(2);
 		EspressoUtils.assertViewWithTextIsDisplayed(getActivity().getString(R.string.vip_access_message));
 		Common.pressBack();
-		HotelScreen.waitForDetailsLoaded();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
 		EspressoUtils.assertViewIsDisplayed(R.id.vip_access_message_container);
 	}
 }

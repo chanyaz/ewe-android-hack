@@ -11,6 +11,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
@@ -50,7 +51,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		HotelScreen.selectHotel("Package Happy Path");
 
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 
 		Common.pressBack();
 
@@ -155,10 +156,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.searchPackage();
 		HotelScreen.selectHotel("Package Happy Path");
 
-		HotelScreen.clickRoom("happy_outbound_flight");
-		PackageScreen.clickAddRoom();
-
-		//HotelScreen.selectRoom();
+		HotelInfoSiteScreen.bookRoomType("happy_outbound_flight");
 
 		Common.delay(1);
 		Common.pressBack();
@@ -206,6 +204,4 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.inboundFlightBundleContainer().perform(click());
 		PackageScreen.inboundFlightDetailsContainer().check(matches(CoreMatchers.not(isCompletelyDisplayed())));
 	}
-
-
 }

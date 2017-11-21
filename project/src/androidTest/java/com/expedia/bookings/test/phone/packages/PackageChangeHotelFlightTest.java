@@ -10,6 +10,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
@@ -36,10 +37,10 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		onView(withText("Change hotel room")).perform(click());
 		Common.delay(1);
 
-		HotelScreen.selectRoomButton().perform(click());
+		HotelInfoSiteScreen.clickStickySelectRoom();
 		Common.delay(1);
-		HotelScreen.clickRoom("change_hotel_room");
-		PackageScreen.clickAddRoom();
+		HotelInfoSiteScreen.bookRoomType("change_hotel_room");
+
 		Common.delay(2);
 		assertAfterChange();
 
@@ -52,10 +53,9 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		HotelScreen.selectHotel("Price Change");
 		Common.delay(1);
 
-		HotelScreen.selectRoomButton().perform(click());
+		HotelInfoSiteScreen.clickStickySelectRoom();
 		Common.delay(1);
-		HotelScreen.clickRoom("change_hotel");
-		PackageScreen.clickAddRoom();
+		HotelInfoSiteScreen.bookRoomType("change_hotel");
 		Common.delay(1);
 		assertAfterChange();
 

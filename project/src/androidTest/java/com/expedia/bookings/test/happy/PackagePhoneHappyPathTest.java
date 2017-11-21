@@ -13,6 +13,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
@@ -62,7 +63,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertHotelInfoSite();
 		reviews();
 
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 
 		PackageScreen.flightList().perform(waitForViewToDisplay());
 		assertBundlePrice("$1,931.69", "View your bundle");
@@ -135,7 +136,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(withId(R.id.widget_bundle_overview)).check(matches(isDisplayed()));
 		PackageScreen.clickHotelBundle();
 		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 		Common.delay(1);
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
