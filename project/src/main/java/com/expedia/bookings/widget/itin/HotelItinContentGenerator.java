@@ -76,7 +76,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			Ui.getApplication(getContext()).hotelComponent().inject(this);
 			SuggestionV4 destination = new SuggestionV4();
 			destination.gaiaId = data.getProperty().getPropertyId();
-			HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(28, 300, true)
+			HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(28, 300)
 				.startDate(data.getStartDate().toLocalDate())
 				.endDate(data.getEndDate() != null ? data.getEndDate().toLocalDate()
 					: data.getStartDate().plusDays(1).toLocalDate())
@@ -629,6 +629,9 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			notifications.add(generateGetReadyNotification());
 			notifications.add(generateActivityCrossSellNotification());
 		}
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.EBAndroidLXNotifications)) {
+			notifications.add(generateActivityInTripNotification());
+		}
 		return notifications;
 	}
 
@@ -636,6 +639,9 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		ArrayList<Notification> notifications = new ArrayList<Notification>();
 		notifications.add(generateCheckinNotification());
 		notifications.add(generateCheckoutNotification());
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.EBAndroidLXNotifications)) {
+			notifications.add(generateActivityInTripNotification());
+		}
 		return notifications;
 	}
 
@@ -892,6 +898,49 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		String body = Phrase.from(getContext(), R.string.hotel_book_activities_cross_sell_notification_body_TEMPLATE)
 			.put("destination", data.getPropertyCity())
 			.format().toString();
+		notification.setBody(body);
+
+		return notification;
+	}
+
+	public Notification generateActivityInTripNotification() {
+		ItinCardDataHotel data = getItinCardData();
+		TripHotel hotel = (TripHotel) data.getTripComponent();
+
+		String itinId = data.getId();
+
+		DateTime startDate = roundTime(data.getStartDate());
+		DateTime endDate = roundTime(data.getEndDate());
+
+		MutableDateTime trigger = startDate.toMutableDateTime();
+
+		if (startDate.getHourOfDay() >=  8  && startDate.getHourOfDay() <=  18) {
+			trigger.addHours(2);
+		}
+		else {
+			trigger.setHourOfDay(10);
+		}
+		long triggerTimeMillis = trigger.getMillis();
+
+		trigger = endDate.toMutableDateTime();
+		trigger.setHourOfDay(23);
+		trigger.setMinuteOfHour(59);
+		long expirationTimeMillis = trigger.getMillis();
+
+		Notification notification = new Notification(itinId + "_activityCross", itinId, triggerTimeMillis);
+		notification.setNotificationType(NotificationType.HOTEL_ACTIVITY_IN_TRIP);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
+		notification.setFlags(Notification.FLAG_LOCAL);
+		notification.setIconResId(R.drawable.ic_stat_expedia);
+
+		String title = getContext().getString(R.string.things_to_do_near_hotel);
+
+		notification.setTicker(title);
+		notification.setTitle(title);
+
+		String body = Phrase.from(getContext(), R.string.hotel_book_activities_in_trip_notification_body_TEMPLATE)
+				.put("firstname", hotel.getPrimaryTraveler().getFirstName())
+				.format().toString();
 		notification.setBody(body);
 
 		return notification;

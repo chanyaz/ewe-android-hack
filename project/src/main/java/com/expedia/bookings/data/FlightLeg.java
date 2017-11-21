@@ -5,6 +5,7 @@ import org.joda.time.Duration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.trips.ItinFlightLegTime;
 import com.expedia.bookings.data.trips.ItinShareInfo;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.utils.DateUtils;
@@ -51,6 +52,36 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	// split ticket fare details
 	private Money mTotalFare;
+
+	private String numberOfStops;
+
+	private ItinFlightLegTime legDepartureTime;
+
+	private ItinFlightLegTime legArrivaltime;
+
+	public ItinFlightLegTime getLegDepartureTime() {
+		return legDepartureTime;
+	}
+
+	public void setLegDepartureTime(ItinFlightLegTime legDepartureTime) {
+		this.legDepartureTime = legDepartureTime;
+	}
+
+	public ItinFlightLegTime getLegArrivaltime() {
+		return legArrivaltime;
+	}
+
+	public void setLegArrivaltime(ItinFlightLegTime legArrivaltime) {
+		this.legArrivaltime = legArrivaltime;
+	}
+
+	public String getNumberOfStops() {
+		return numberOfStops;
+	}
+
+	public void setNumberOfStops(String numberOfStops) {
+		this.numberOfStops = numberOfStops;
+	}
 
 	public Money getTotalFare() {
 		return mTotalFare;
@@ -321,7 +352,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 			JSONObject obj = new JSONObject();
 			obj.putOpt("legId", mLegId);
 			JSONUtils.putJSONableList(obj, "segments", mSegments);
-			JSONUtils.putJSONable(obj, "shareInfo", mShareInfo);
+			JSONUtils.putJSONable(obj, "legArrivaltime", legArrivaltime);
+			JSONUtils.putJSONable(obj, "legDepartureTime", legDepartureTime);
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
 			obj.putOpt("duration", mDuration);
 			obj.putOpt("hasBagFee", mHasBagFee);
@@ -329,6 +361,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 			obj.putOpt("isFreeCancellable", mIsFreeCancellable);
 			obj.put("userCheckedIn", mUserCheckedIn);
 			obj.putOpt("airlineLogoURL", airlineLogoURL);
+			obj.putOpt("numberOfStops", numberOfStops);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -342,6 +375,14 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mSegments = JSONUtils.getJSONableList(obj, "segments", Flight.class);
 		mShareInfo = JSONUtils.getJSONable(obj, "shareInfo", ItinShareInfo.class);
 		mShareInfo = mShareInfo == null ? new ItinShareInfo() : mShareInfo;
+		legArrivaltime = JSONUtils.getJSONable(obj, "legArrivaltime", ItinFlightLegTime.class);
+		if (legArrivaltime == null) {
+			legArrivaltime = new ItinFlightLegTime();
+		}
+		legDepartureTime = JSONUtils.getJSONable(obj, "legDepartureTime", ItinFlightLegTime.class);
+		if (legDepartureTime == null) {
+			legDepartureTime = new ItinFlightLegTime();
+		}
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
 		mDuration = obj.optString("duration");
 		mHasBagFee = obj.optBoolean("hasBagFee", false);
@@ -349,6 +390,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mIsFreeCancellable = obj.optBoolean("isFreeCancellable");
 		mUserCheckedIn = obj.optBoolean("userCheckedIn");
 		airlineLogoURL = obj.optString("airlineLogoURL");
+		numberOfStops = obj.optString("numberOfStops");
 		return true;
 	}
 

@@ -168,13 +168,13 @@ open class HotelViewModel(private val context: Context) {
         return getMobileExclusiveUrgencyMessage()
     }
 
-    open fun hasMemberDeal(hotel: Hotel): Boolean {
+    open fun hasMemberDeal(): Boolean {
         return hotel.isMemberDeal && userStateManager.isUserAuthenticated()
     }
 
     fun getRatingContentDesc(hotel: Hotel): String {
         val phrase: Phrase
-        val hotelStarRatingContentDescription = HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toInt())
+        val hotelStarRatingContentDescription = HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toDouble())
 
         if (hotel.hotelStarRating.toInt() <= 0 && hotel.hotelGuestRating <= 0f) {
             phrase = Phrase.from(context, R.string.hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE)
@@ -257,9 +257,9 @@ open class HotelViewModel(private val context: Context) {
     }
 
     private fun getMemberDealUrgencyMessage(): UrgencyMessage? {
-        if (hasMemberDeal(hotel)) {
-            return UrgencyMessage(R.drawable.ic_member_badge, R.color.member_pricing_flag_bg_color,
-                    resources.getString(R.string.member_pricing), R.color.member_pricing_text_color)
+        if (hasMemberDeal()) {
+            return UrgencyMessage(R.drawable.ic_member_only_tag, R.color.brand_secondary,
+                    resources.getString(R.string.member_pricing), R.color.brand_primary)
         }
         return null
     }

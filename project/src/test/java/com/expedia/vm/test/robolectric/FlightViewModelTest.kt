@@ -97,14 +97,13 @@ class FlightViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDeltaPrice() {
-        SettingUtils.save(context, R.string.preference_flight_delta_pricing, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsDeltaPricing)
         createExpectedFlightLeg(true)
         flightLeg.packageOfferModel.price.deltaPositive = true
         flightLeg.packageOfferModel.price.deltaPrice = Money("4", "USD")
         flightLeg.packageOfferModel.price.deltaPrice.roundedAmount = BigDecimal("4")
         sut = FlightViewModel(getContext(), flightLeg, false)
-        assertEquals("+$4", sut.price())
+        assertEquals("+ $4", sut.price())
 
         sut = FlightViewModel(getContext(), flightLeg, true)
         assertEquals("$201", sut.price())

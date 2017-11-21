@@ -16,16 +16,16 @@ import com.google.maps.android.geometry.Bounds;
 public class HotelMapClusterAlgorithm extends NonHierarchicalDistanceBasedAlgorithm {
 
 	@Override
-	public Set<? extends Cluster<MapItem>> getClusters(double zoom) {
+	public Set<? extends Cluster<HotelMapMarker>> getClusters(double zoom) {
 
 		final int discreteZoom = (int) zoom;
 
 		final double zoomSpecificSpan = MAX_DISTANCE_AT_ZOOM / Math.pow(2, discreteZoom) / 256;
 
 		final Set<QuadItem> visitedCandidates = new HashSet<QuadItem>();
-		final Set<Cluster<MapItem>> results = new HashSet<Cluster<MapItem>>();
+		final Set<Cluster<HotelMapMarker>> results = new HashSet<Cluster<HotelMapMarker>>();
 		final Map<QuadItem, Double> distanceToCluster = new HashMap<QuadItem, Double>();
-		final Map<QuadItem, StaticCluster<MapItem>> itemToCluster = new HashMap<QuadItem, StaticCluster<MapItem>>();
+		final Map<QuadItem, StaticCluster<HotelMapMarker>> itemToCluster = new HashMap<QuadItem, StaticCluster<HotelMapMarker>>();
 
 		synchronized (mQuadTree) {
 			for (QuadItem candidate : mItems) {
@@ -52,7 +52,7 @@ public class HotelMapClusterAlgorithm extends NonHierarchicalDistanceBasedAlgori
 					distanceToCluster.put(candidate, 0d);
 					continue;
 				}
-				StaticCluster<MapItem> cluster = new StaticCluster<MapItem>(candidate.mClusterItem.getPosition());
+				StaticCluster<HotelMapMarker> cluster = new StaticCluster<HotelMapMarker>(candidate.mClusterItem.getPosition());
 				results.add(cluster);
 
 				for (QuadItem clusterItem : clusterItems) {

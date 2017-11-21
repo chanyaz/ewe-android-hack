@@ -10,15 +10,14 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
 
 public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
@@ -27,7 +26,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 	public void testETPHotelWithoutFreeCancellationHavingRenovation() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort");
-		HotelScreen.waitForDetailsLoaded();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
 
 		assertViewsBasedOnETPAndFreeCancellation(true, false);
 		onView(withId(R.id.detail_container)).perform(ViewActions.swipeDown());
@@ -38,7 +37,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 	public void testNonETPHotelWithoutFreeCancellation() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");
-		HotelScreen.waitForDetailsLoaded();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
 
 		assertViewsBasedOnETPAndFreeCancellation(false, false);
 	}
@@ -47,7 +46,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 	public void testNonETPHotelWithFreeCancellation() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_non_etp_with_free_cancellation");
-		HotelScreen.waitForDetailsLoaded();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
 
 		assertViewsBasedOnETPAndFreeCancellation(false, true);
 	}
@@ -87,12 +86,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 			HotelScreen.commonAmenitiesText().perform(scrollTo()).check(matches(isDisplayed()));
 		}
 
-		HotelScreen.addRoom().perform(scrollTo());
-		Common.delay(1);
-		onView(allOf(withId(R.id.room_header_image), isDisplayed())).perform(swipeUp());
-		Common.delay(1);
-		onView(allOf(withId(R.id.room_header_image), isDisplayed())).perform(swipeUp());
-		Common.delay(1);
+		HotelInfoSiteScreen.clickStickySelectRoom();
 		HotelScreen.etpPlaceholder().check(matches(hasETP ? isDisplayed() : not(isDisplayed())));
 		HotelScreen.payNowAndLaterOptions().check(matches(hasETP ? isDisplayed() : not(isDisplayed())));
 

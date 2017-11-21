@@ -160,7 +160,79 @@ Feature: Flights Overview
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
     Then basic economy link with text "Please Read Important Flight Restrictions" isDisplayed : true
-    
+
+  @Flights @FlightsOverview @Prod
+  Scenario: Intercept Flight Search and Overview API call and validate request parameters for SubPub and Flex
+    Given I launch the App
+    And I set the POS to "Singapore"
+    And I bucket the following tests
+     | FlightSubpub |
+     | FlightFlex   |
+    And I launch "Flights" LOB
+    And I want to intercept these calls
+     | FlightSearch |
+    When I make a flight search with following parameters
+     | source              | SFO                                      |
+     | destination         | DEL                                      |
+     | source_suggest      | San Francisco, CA                        |
+     | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+     | start_date          | 15                                        |
+     | end_date            | 20                                       |
+     | adults              | 2                                        |
+     | child               | 2                                        |
+    And I wait for results to load
+    Then Validate the "flight Search" API request query data for following parameters
+     | featureOverride                       | SubPub                          |
+     | cabinClassPreference                  | COACH                           |
+     | maxOfferCount                         | 1600                            |
+     | childTravelerAge                      | 10                              |
+     | lccAndMerchantFareCheckoutAllowed     | true                            |
+     | sourceType                            | mobileapp                       |
+    And I wait for results to load
+    And I want to intercept these calls
+     | FlightCreateTrip |
+    And I select outbound flight at position 1 and reach inbound FSR
+    And I wait for inbound flights results to load
+    And I select inbound flight at position 1 and reach overview
+    Then Validate the "flight CreateTrip" API request query data for following parameters
+     | featureOverride                       | SubPub                          |
+     | withInsurance                         | true                            |
+     | sourceType                            | mobileapp                       |
+     | mobileFlexEnabled                     | true                            |
+    And Close price change Alert dialog if it is visible
+    And I click on checkout button
+
+  @Flights @FlightsOverview
+  Scenario: Verify price details on cost summary popup on Flights Overview for Subpub.
+    Given I launch the App
+    And I bucket the following tests
+         | FlightSubpub |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+    And I wait for results to load
+    And I select outbound flight at position 1 and reach inbound FSR
+    And I wait for inbound flights results to load
+    And I select inbound flight at position 1 and reach overview
+    And Close price change Alert dialog if it is visible
+    Then I click on trip total link
+    Then validate following detailed information is present on cost summary screen
+      | Adult 1 details     | $689.00 |
+      | Flight              | $620.46 |
+      | Taxes & Fees        | $68.54  |
+      | Booking Fee         | $7.00   |
+      | Expedia Discount    | -$1.70  |
+      | Total Due Today     | $696.00  |
+    And I click on Done button
+
+
   @Flights @FlightsOverview
   Scenario: Verify the price decrease dialog box appears on price change.
     Given I launch the App

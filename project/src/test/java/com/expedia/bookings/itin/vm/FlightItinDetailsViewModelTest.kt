@@ -504,35 +504,6 @@ class FlightItinDetailsViewModelTest {
     }
 
     @Test
-    fun getTripDuration() {
-        var testItinCardData = ItinCardDataFlightBuilder().build()
-        sut.itinCardDataFlight = testItinCardData
-        val duration = sut.calculateTripDuration(testItinCardData)
-        assertEquals("8", duration )
-    }
-
-    @Test
-    fun getDaysUntilTrip() {
-        val testItinCardData = ItinCardDataFlightBuilder().build()
-        val daysUntil = sut.calculateDaysUntilTripStart(testItinCardData)
-        assertEquals("30", daysUntil)
-    }
-
-    @Test
-    fun buildOrderNumberAndItinNumberString() {
-        val testItinCardData = ItinCardDataFlightBuilder().build()
-        val orderNumberAndItinNumber = sut.buildOrderNumberAndItinNumberString(testItinCardData)
-        assertEquals("8063550177859|7238007847306", orderNumberAndItinNumber)
-    }
-
-    @Test
-    fun buildProductString() {
-        val testItinCardData = ItinCardDataFlightBuilder().build(false,true)
-        val productString = sut.buildFlightProductString(testItinCardData)
-        assertEquals(";Flight:UA:RT;;", productString)
-    }
-
-    @Test
     fun createOmnitureValues() {
         val testItinCardData = ItinCardDataFlightBuilder().build()
         sut.itinCardDataFlight = testItinCardData

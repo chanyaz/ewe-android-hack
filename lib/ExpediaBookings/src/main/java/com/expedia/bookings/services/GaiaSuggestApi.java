@@ -16,5 +16,6 @@ public interface GaiaSuggestApi {
 		@Query("lob") String lob,
 		@Query("sortBy") String sortBy,
 		@Query("locale") String locale,
-		@Query("site") Integer site);
+		@Query("site") Integer site,
+		@Query("geoVersion") String version);
 }

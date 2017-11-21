@@ -150,6 +150,13 @@ public class HotelOffersResponse extends BaseApiResponse {
 			}
 			return "";
 		}
+
+		public String roomGroupingKey() {
+			if (roomTypeCode != null) {
+				return roomTypeCode;
+			}
+			return productKey;
+		}
 	}
 
 	public static class BedTypes {

@@ -6,6 +6,7 @@ import org.junit.Test;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
@@ -28,7 +29,7 @@ public class PackageFlightPresenterTest extends PackageTestCase {
 		PackageScreen.hotelDetailsToolbar().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 
 		//select outbound
 		assertSlidingBundleWidgetHotelSelected();

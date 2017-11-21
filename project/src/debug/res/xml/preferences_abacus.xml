@@ -23,14 +23,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="14591"
-            android:title="Hotel Grouped Room Rate Offer - 14591" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="15637"
             android:summary="%s"
             android:title="Hotel Auto Suggest Same as Web - 15637" />
@@ -102,9 +94,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="16243"
+            android:key="16345"
             android:summary="%s"
-            android:title="Flights Evolable - 16243" />
+            android:title="Flights Evolable - 16345" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -161,14 +153,6 @@
             android:key="14241"
             android:summary="%s"
             android:title="AA test for flights - 14241" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="13843"
-            android:summary="%s"
-            android:title="Search form validation - 13843" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -257,6 +241,14 @@
             android:key="15602"
             android:summary="%s"
             android:title="Delta Pricing on flights - 15602" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="16212"
+            android:summary="%s"
+            android:title="WebView Improvements Baggage Info - 16212" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -299,9 +291,9 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
-            android:key="15996"
+            android:key="16318"
             android:summary="%s"
-            android:title="Holiday Fun! - 15996" />
+            android:title="Holiday Fun! - 16318" />
 
     </PreferenceCategory>
 
@@ -357,7 +349,7 @@
             android:key="15823"
             android:summary="%s"
             android:title="Hotels Web Checkout AB text - 15823" />
-        
+
         <ListPreference
             android:defaultValue="-1"
             android:entries="@array/abacus_default_choices"
@@ -658,7 +650,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="15452"
+            android:key="16282"
             android:title="Packages New POS Launch" />
 
         <ListPreference
@@ -668,6 +660,22 @@
             android:summary="%s"
             android:key="15835"
             android:title="Packages Breadcrumbs for navigation"/>
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:summary="%s"
+            android:key="16223"
+            android:title="Packages Breadcrumbs - Move Bundle Overview Bar"/>
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:summary="%s"
+            android:key="16314"
+            android:title="Packages MISRealWorldGeo: RWG Migration - 16314"/>
 
     </PreferenceCategory>
 
@@ -736,6 +744,13 @@
             android:summary="%s"
             android:key="15246"
             android:title="LX Offer Level Cancellation Support - 15246" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="16311"
+            android:title="LX Notifications for Hotel Customers - 16311" />
 
     </PreferenceCategory>
 

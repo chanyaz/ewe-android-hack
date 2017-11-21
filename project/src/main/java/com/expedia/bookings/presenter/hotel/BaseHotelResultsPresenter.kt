@@ -49,7 +49,7 @@ import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransiti
 import com.expedia.bookings.hotel.map.HotelMapClusterAlgorithm
 import com.expedia.bookings.hotel.map.HotelMapClusterRenderer
 import com.expedia.bookings.hotel.map.HotelMarkerIconGenerator
-import com.expedia.bookings.hotel.map.MapItem
+import com.expedia.bookings.hotel.map.HotelMapMarker
 import com.expedia.bookings.hotel.vm.BaseHotelResultsViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -125,7 +125,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open val searchThisArea: Button? = null
     var isMapReady = false
 
-    var clusterManager: ClusterManager<MapItem>? = null
+    var clusterManager: ClusterManager<HotelMapMarker>? = null
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
@@ -159,7 +159,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     val hotelIconFactory = HotelMarkerIconGenerator(context)
 
-    var mapItems = arrayListOf<MapItem>()
+    var mapItems = arrayListOf<HotelMapMarker>()
     var hotels = emptyList<Hotel>()
 
     private val ANIMATION_DURATION_FILTER = 500
@@ -191,23 +191,21 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    private fun selectMarker(mapItem: MapItem, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
+    private fun selectMarker(hotelMapMarker: HotelMapMarker, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
         if (clusterManager == null) {
             return
         }
-        clusterManager!!.clearItems()
-        clusterManager!!.addItems(mapItems)
         clearPreviousMarker()
-        mapItem.isSelected = true
-        val selectedMarker = hotelMapClusterRenderer.getMarker(mapItem)
-        if (!mapItem.hotel.isSoldOut) {
-            selectedMarker?.setIcon(mapItem.getHotelMarkerIcon())
+        hotelMapMarker.isSelected = true
+        val selectedMarker = hotelMapClusterRenderer.getMarker(hotelMapMarker)
+        if (!hotelMapMarker.hotel.isSoldOut) {
+            selectedMarker?.setIcon(hotelMapMarker.getHotelMarkerIcon())
         }
         selectedMarker?.showInfoWindow()
         if (shouldZoom) {
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(mapItem.position, googleMap?.cameraPosition?.zoom!!))
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(hotelMapMarker.position, googleMap?.cameraPosition?.zoom!!))
         }
-        mapViewModel.mapPinSelectSubject.onNext(mapItem)
+        mapViewModel.mapPinSelectSubject.onNext(hotelMapMarker)
         if (animateCarousel && currentState == ResultsMap::class.java.name) {
             animateMapCarouselIn()
         }
@@ -340,7 +338,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 return true
             }
         } else if (ResultsList().javaClass.name == currentState) {
-            clearMarkers(false)
+            clearMarkers()
         } else if (ResultsMap().javaClass.name == currentState) {
             trackMapToList()
         }
@@ -411,7 +409,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    fun clearMarkers(setUpMap: Boolean = true) {
+    fun clearMarkers() {
         if (clusterManager == null) {
             return
         }
@@ -419,7 +417,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         clusterManager!!.clearItems()
         clusterMarkers()
         mapCarouselContainer.visibility = View.INVISIBLE
-        if (setUpMap) setUpMap()
     }
 
     fun createMarkers() {
@@ -432,7 +429,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
         hotels.forEach { hotel ->
-            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
+            val mapItem = HotelMapMarker(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
             mapItems.add(mapItem)
             clusterManager!!.addItem(mapItem)
         }
@@ -501,7 +498,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         recyclerView.addOnScrollListener(scrollListener)
         recyclerView.addOnItemTouchListener(touchListener)
 
-        mapCarouselRecycler.mapSubject.subscribe { hotel ->
+        mapCarouselRecycler.showingHotelSubject.subscribe { hotel ->
             val markersForHotel = mapItems.filter { it.hotel.hotelId == hotel.hotelId }
             if (markersForHotel.isNotEmpty()) {
                 val marker = markersForHotel.first()
@@ -593,32 +590,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     override fun onMapReady(googleMap: GoogleMap?) {
         MapsInitializer.initialize(context)
         this.googleMap = googleMap
-        setUpMap()
-        if (havePermissionToAccessLocation(context)) {
-            googleMap?.isMyLocationEnabled = true
-        }
-        val uiSettings = googleMap?.uiSettings
-        //Explicitly disallow map-cluttering ui (but keep the gestures)
-        if (uiSettings != null) {
-            uiSettings.isCompassEnabled = false
-            uiSettings.isMapToolbarEnabled = false
-            uiSettings.isZoomControlsEnabled = false
-            uiSettings.isMyLocationButtonEnabled = false
-            uiSettings.isIndoorLevelPickerEnabled = false
-        }
-
-        googleMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-
-            override fun getInfoWindow(marker: Marker): View? {
-                val activity = context as AppCompatActivity
-                val v = activity.layoutInflater.inflate(R.layout.marker_window, null)
-                return v
-            }
-
-            override fun getInfoContents(marker: Marker): View? {
-                return null
-            }
-        })
+        initMapClusterManagement()
+        initMapListeners()
+        initMapSettings()
         mapView.viewTreeObserver.addOnGlobalLayoutListener(mapViewLayoutReadyListener)
     }
 
@@ -636,27 +610,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    private fun setUpMap() {
+    private fun initMapClusterManagement() {
         clusterManager = ClusterManager(context, googleMap)
         clusterManager!!.setAlgorithm(HotelMapClusterAlgorithm())
         hotelMapClusterRenderer = HotelMapClusterRenderer(context, googleMap, clusterManager!!, mapViewModel.clusterChangeSubject)
         clusterManager!!.setRenderer(hotelMapClusterRenderer)
-        var currentZoom = -1f
-
-        googleMap?.setOnCameraChangeListener { position ->
-            synchronized(currentZoom) {
-                if (Math.abs(currentZoom) != Math.abs(position.zoom)) {
-                    val selectedHotels = mapItems.filter { it.isSelected }.map { it.hotel }
-                    (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(selectedHotels)
-                    clusterMarkers()
-                    currentZoom = position.zoom
-                }
-                if (Strings.equals(currentState, ResultsMap::class.java.name)) {
-                    showSearchThisArea()
-                }
-            }
-        }
-        googleMap?.setOnMarkerClickListener(clusterManager!!)
 
         clusterManager!!.setOnClusterItemClickListener {
             trackMapPinTap()
@@ -683,6 +641,51 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             })
             true
         }
+    }
+
+    private fun initMapListeners() {
+        var currentZoom = -1f
+
+        googleMap?.setOnCameraChangeListener { position ->
+            synchronized(currentZoom) {
+                if (Math.abs(currentZoom - position.zoom) > .5) {
+                    clusterMarkers()
+                    currentZoom = position.zoom
+                }
+            }
+            if (Strings.equals(currentState, ResultsMap::class.java.name)) {
+                showSearchThisArea()
+            }
+        }
+        googleMap?.setOnMarkerClickListener(clusterManager!!)
+    }
+
+    private fun initMapSettings() {
+        if (havePermissionToAccessLocation(context)) {
+            googleMap?.isMyLocationEnabled = true
+        }
+        val uiSettings = googleMap?.uiSettings
+        //Explicitly disallow map-cluttering ui (but keep the gestures)
+        if (uiSettings != null) {
+            uiSettings.isCompassEnabled = false
+            uiSettings.isMapToolbarEnabled = false
+            uiSettings.isZoomControlsEnabled = false
+            uiSettings.isMyLocationButtonEnabled = false
+            uiSettings.isIndoorLevelPickerEnabled = false
+        }
+
+        googleMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+
+            override fun getInfoWindow(marker: Marker): View? {
+                val activity = context as AppCompatActivity
+                val v = activity.layoutInflater.inflate(R.layout.marker_window, null)
+                return v
+            }
+
+            override fun getInfoContents(marker: Marker): View? {
+                return null
+            }
+        })
     }
 
     private fun clearPreviousMarker() {
@@ -864,6 +867,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 updateViewModelState(ResultsList::class.java.name)
             } else {
                 updateViewModelState(ResultsMap::class.java.name)
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
             }
         }
     }

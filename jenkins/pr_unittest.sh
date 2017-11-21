@@ -23,20 +23,7 @@ function prepareLocalMavenRepo() {
 function setUpForPythonScripts() {
 # do python scripts related setup only if we are running in CI context and a special feature requiring python setup is asked for
   if [[ $isJenkins && ("$isPRPoliceEnabled" == "true" || "$isUnitTestsFeedbackBotEnabled" == "true") ]]; then
-    export PYTHONIOENCODING=utf-8
-
-    if [ ! -d 'virtualenv' ]; then
-        virtualenv -p python2.7 virtualenv
-    fi
-
-    source ./virtualenv/bin/activate
-
-    pip install --upgrade "pip"
-    pip install enum
-    pip install "github3.py==1.0.0.a4"
-    pip install slackclient
-    pip install "lxml==3.5.0"
-    pip install python-dateutil
+    source tools/setup_python_env.sh enum "github3.py==1.0.0.a4" slackclient "lxml==3.5.0" python-dateutil
 
     # exit if finds 'needs-human' label
     python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_ACCESS_TOKEN $ghprbPullId

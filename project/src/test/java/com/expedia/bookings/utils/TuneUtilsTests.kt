@@ -8,9 +8,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.data.packages.PackageSearchResponse
+import com.expedia.bookings.data.packages.*
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -21,6 +19,7 @@ import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.math.BigDecimal
 import kotlin.test.*
 
 @RunWith(RobolectricRunner::class)
@@ -258,6 +257,54 @@ class TuneUtilsTests {
         assertEquals(LocalDate.now().toDate(), provider.trackedEvent?.date1)
         assertEquals(LocalDate.now().plusDays(4).toDate(), provider.trackedEvent?.date2)
         assertEquals("AA|\$|829|RT|12345-54321:DL|\$|430|RT|12345-54321", provider.trackedEvent?.eventItems?.first()?.attribute5)
+    }
+
+    @Test
+    fun testTrackPackageConfirmation() {
+        setupTuneProvider()
+
+        val checkoutResponse = PackageCheckoutResponse()
+        val packageSearchParams = PackageSearchParams(null, null, LocalDate.now(), LocalDate.now().plusDays(1),1, listOf(),false)
+
+        val packageDetails = PackageCreateTripResponse.PackageDetails()
+        packageDetails.hotel = HotelCreateTripResponse.HotelProductResponse()
+        packageDetails.hotel.checkInDate = LocalDate.now().toString()
+        packageDetails.hotel.checkOutDate = LocalDate.now().plusDays(1).toString()
+        packageDetails.hotel.hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
+        packageDetails.hotel.hotelRoomResponse.rateInfo = HotelOffersResponse.RateInfo()
+        packageDetails.hotel.hotelRoomResponse.rateInfo.chargeableRateInfo = HotelRate()
+        packageDetails.hotel.hotelRoomResponse.rateInfo.chargeableRateInfo.averageRate = 89f
+        packageDetails.hotel.hotelCity = "San Francisco"
+        packageDetails.hotel.hotelId = "12345"
+        packageDetails.hotel.hotelName = "Holiday Inn"
+        packageDetails.pricing = PackageCreateTripResponse.Pricing()
+        packageDetails.pricing.packageTotal = Money()
+        packageDetails.pricing.packageTotal.amount = BigDecimal(750.99)
+        packageDetails.pricing.packageTotal.currencyCode = "USD"
+
+        val flightSegment = FlightLeg.FlightSegment()
+        flightSegment.flightNumber = "Dl25"
+        val flightSegments = listOf(flightSegment)
+        val flightLeg = FlightLeg()
+        flightLeg.flightSegments = flightSegments
+        val flightLegList = listOf(flightLeg)
+
+        packageSearchParams.flightLegList = flightLegList
+        checkoutResponse.packageDetails = packageDetails
+
+        TuneUtils.trackPackageConfirmation(checkoutResponse, packageSearchParams)
+
+        assertEquals("package_confirmation", provider.trackedEvent?.eventName)
+        assertEquals("package_confirmation_item", provider.trackedEvent?.eventItems?.first()?.itemname)
+        assertEquals(750.99, provider.trackedEvent?.revenue)
+        assertEquals(89.00, provider.trackedEvent?.eventItems?.first()?.unitPrice)
+        assertEquals("San Francisco", provider.trackedEvent?.eventItems?.first()?.attribute1)
+        assertEquals("Dl25", provider.trackedEvent?.eventItems?.first()?.attribute2)
+        assertEquals(LocalDate.now().toDate(), provider.trackedEvent?.date1)
+        assertEquals(LocalDate.now().plusDays(1).toDate(), provider.trackedEvent?.date2)
+        assertEquals(1, provider.trackedEvent?.quantity)
+        assertEquals("12345", provider.trackedEvent?.contentId)
+        assertEquals("Holiday Inn", provider.trackedEvent?.contentType)
     }
 
     private fun setupTuneProvider(membershipTier: LoyaltyMembershipTier = LoyaltyMembershipTier.BASE, isLoggedIn: Boolean = false) {

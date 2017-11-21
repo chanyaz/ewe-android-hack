@@ -10,6 +10,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
@@ -38,7 +39,7 @@ public class PackagesFlightsTest extends PackageTestCase {
 		Common.delay(1);
 		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookRoomType("happy_outbound_flight");
 		Common.delay(1);
 		PackageScreen.flightList().check(matches(atFlightListPosition(1, withContentDescription(
 			"Best Flight. cheap • short • popular departure.  Flight time is 9:00 am to 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops SFO to HNL. 5 hours 12 minutes.  Button"))));
@@ -47,7 +48,6 @@ public class PackagesFlightsTest extends PackageTestCase {
 		PackageScreen.selectFlight(1);
 		onView(allOf(withId(R.id.flight_segment_layover_duration), hasSibling(withText("Layover in (SAN) San Diego")))).check(matches(withContentDescription("48 minutes")));
 		onView(allOf(withId(R.id.flight_duration), hasSibling(withText("Hawaiian Airlines 497 • Boeing 737-900")))).check(matches(withContentDescription("4 hour 37 minutes")));
-
 	}
 
 	@Test
@@ -59,9 +59,8 @@ public class PackagesFlightsTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(click());
 
 		HotelScreen.selectHotel("Package Happy Path");
-		HotelScreen.selectRoomButton().perform(click());
-		HotelScreen.clickRoom("Packages Flights Show More Airlines");
-		PackageScreen.selectRoom();
+		HotelInfoSiteScreen.clickStickySelectRoom();
+		HotelInfoSiteScreen.bookRoomType("Packages Flights Show More Airlines");
 
 		PackageScreen.flightList().perform(waitForViewToDisplay());
 		// Open flights filter

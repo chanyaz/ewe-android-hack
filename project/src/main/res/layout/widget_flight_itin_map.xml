@@ -18,6 +18,14 @@
         android:orientation="vertical">
 
         <!--map goes here-->
+        <com.expedia.bookings.itin.widget.GoogleMapsLiteMapView
+            android:id="@+id/widget_flight_itin_map"
+            android:layout_width="match_parent"
+            android:layout_height="126dp"
+            android:clickable="true"
+            android:contentDescription="@string/itin_flight_details_map_view_content_description"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <!--terminal map and directions buttons-->
         <com.expedia.bookings.itin.widget.ItinActionButtons

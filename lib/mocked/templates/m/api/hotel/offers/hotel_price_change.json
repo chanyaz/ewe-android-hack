@@ -114,14 +114,14 @@
           "priceAdjustments": [],
           "checkoutPriceType": "total",
           "airAttached": false,
-          "roomTypeCode": "200410806",
+          "roomTypeCode": "hotel_price_change_down",
           "ratePlanCode": "202384972"
         }
       },
       "valueAdds": [],
       "quotedOccupancy": "4",
       "minGuestAge": "0",
-      "roomTypeCode": "200410806",
+      "roomTypeCode": "hotel_price_change_down",
       "ratePlanCode": "202384972",
       "isPayLater": false
     },
@@ -225,14 +225,14 @@
           "priceAdjustments": [],
           "checkoutPriceType": "total",
           "airAttached": false,
-          "roomTypeCode": "200410806",
+          "roomTypeCode": "hotel_price_change_up",
           "ratePlanCode": "202384972"
         }
       },
       "valueAdds": [],
       "quotedOccupancy": "4",
       "minGuestAge": "0",
-      "roomTypeCode": "200410806",
+      "roomTypeCode": "hotel_price_change_up",
       "ratePlanCode": "202384972",
       "isPayLater": false
     },
@@ -336,14 +336,14 @@
           "priceAdjustments": [],
           "checkoutPriceType": "total",
           "airAttached": false,
-          "roomTypeCode": "200410806",
+          "roomTypeCode": "hotel_price_change_checkout",
           "ratePlanCode": "202384972"
         }
       },
       "valueAdds": [],
       "quotedOccupancy": "4",
       "minGuestAge": "0",
-      "roomTypeCode": "200410806",
+      "roomTypeCode": "hotel_price_change_checkout",
       "ratePlanCode": "202384972",
       "isPayLater": false
     },
@@ -465,7 +465,7 @@
           ],
           "checkoutPriceType": "totalPriceWithMandatoryFees",
           "airAttached": false,
-          "roomTypeCode": "339879",
+          "roomTypeCode": "hotel_price_change_with_user_preferences",
           "ratePlanCode": "204699502",
           "showResortFeeMessage": true,
           "resortFeeInclusion": true,
@@ -475,7 +475,7 @@
       "valueAdds": [],
       "quotedOccupancy": "4",
       "minGuestAge": "0",
-      "roomTypeCode": "200410806",
+      "roomTypeCode": "hotel_price_change_with_user_preferences",
       "ratePlanCode": "202384972",
       "isPayLater": false
     }

@@ -4,9 +4,12 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
@@ -18,13 +21,16 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
+import static com.expedia.bookings.test.stepdefs.phone.flights.SortSteps.getFlightTimeAtPosition;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.core.AllOf.allOf;
 
@@ -128,10 +134,35 @@ public class SearchResultsScreenSteps {
 		return stringBuilder.toString();
 	}
 
-
 	@Then("^Validate that XSell Package Banner is not displayed$")
 	public void validateXSellPackageNotDisplayed() throws Throwable {
 		xSellPackageBanner().check(doesNotExist());
+	}
+
+	@Then("^Validate flight time field at cell (\\d+) has \"(.*?)\"$")
+	public void validateFlightCellElapsedDays(int cellNumber, String flightTime) {
+		onView(allOf(withId(R.id.list_view), (isDescendantOfA(withId(R.id.widget_flight_outbound)))))
+			.perform(RecyclerViewActions.scrollToPosition(cellNumber))
+			.check(RecyclerViewAssertions.assertionOnItemAtPosition(cellNumber, hasDescendant(
+				allOf(withId(R.id.flight_time_detail_text_view), withText(containsString(flightTime))))));
+	}
+
+	@Then("^Verify if any flight has elapsed time$")
+	public void verifyFlightHasElapsedDays() {
+		ViewInteraction recyclerViewInteraction = onView(allOf(withId(R.id.list_view), (isDescendantOfA(withId(R.id.widget_flight_outbound)))));
+		assert (checkFlightTimeInFSR(recyclerViewInteraction, "[-?,+?]\\d\\d?[d]"));
+	}
+
+	public boolean checkFlightTimeInFSR(ViewInteraction recyclerViewInteraction, String stringToMatch) {
+		int items = EspressoUtils.getListCount(recyclerViewInteraction);
+		for (int index = 1; index < items; index++) {
+			recyclerViewInteraction.perform(RecyclerViewActions.scrollToPosition(index));
+			String flightTime = getFlightTimeAtPosition(index, recyclerViewInteraction).toString();
+			if (flightTime.contains(stringToMatch)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

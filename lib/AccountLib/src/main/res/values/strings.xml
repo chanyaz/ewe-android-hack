@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">Sign In</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Sign in with Facebook</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Sign up with Facebook</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">Create a new {brand} account</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Back</string>
     <!-- "X" button content description -->
@@ -48,7 +44,7 @@
 
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
-    <string name="acct__Create_Account">Create Account</string>
+    <string name="acct__Create_Account">Create an account</string>
     <string name="acct__Passwords_must_match">Passwords must match</string>
     <string name="acct__Password_length_error_message">Password must be from {minlen} to {maxlen} characters long</string>
 

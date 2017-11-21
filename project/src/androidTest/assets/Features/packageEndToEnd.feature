@@ -82,8 +82,8 @@ Feature: Package End To End
       | end_date          | 20                |
       | totalTravelers    | 4 travelers       |
 
-  @Packages @PackageEtoE @Prod @WIP
-  Scenario: Validate bundle traveler info on all screens after modifying search"
+  @Packages @PackageEtoE @Prod
+  Scenario: Validate bundle traveler info on all screens after modifying search
     Given I launch the App
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters

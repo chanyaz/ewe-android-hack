@@ -34,7 +34,7 @@ class HotelItinLocationDetailsTest {
     @Test
     fun testMapWidget() {
         locationDetailsWidget.setupWidget(itinCardDataHotel)
-        assertEquals(View.VISIBLE, locationDetailsWidget.locationMapImageView.visibility)
+        assertEquals(View.VISIBLE, locationDetailsWidget.mapView.visibility)
         assertEquals(locationDetailsWidget.addressLine1.text, itinCardDataHotel.propertyLocation.streetAddressString)
         assertEquals(locationDetailsWidget.addressLine2.text, itinCardDataHotel.propertyLocation.toTwoLineAddressFormattedString())
         assertEquals(locationDetailsWidget.actionButtons.getmLeftButton().text, itinCardDataHotel.localPhone)
@@ -50,7 +50,7 @@ class HotelItinLocationDetailsTest {
         AbacusTestUtils.bucketTests(AbacusUtils.TripsHotelMap)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         locationDetailsWidget.setupWidget(itinCardDataHotel)
-        locationDetailsWidget.locationMapImageView.performClick()
+        locationDetailsWidget.mapView.performClick()
 
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Map", mockAnalyticsProvider)
     }
@@ -65,5 +65,4 @@ class HotelItinLocationDetailsTest {
 
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Directions", mockAnalyticsProvider)
     }
-
 }

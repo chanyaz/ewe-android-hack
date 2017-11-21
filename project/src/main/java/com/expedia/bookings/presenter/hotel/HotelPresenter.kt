@@ -52,6 +52,7 @@ import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
@@ -241,13 +242,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             viewModel.hotelSoldOutWithHotelId.subscribe(resultsPresenter.adapter.hotelSoldOut)
             viewModel.hotelSoldOutWithHotelId.subscribe(resultsPresenter.mapViewModel.hotelSoldOutWithIdObserver)
         }
-
-        hotelDetailViewModel.dateChangedParamSubject.subscribe { newParams ->
-            updateSearchParams(newParams)
-            hotelSearchManager.reset()
-            resultsViewModel.paramsSubject.onNext(newParams)
-        }
-
         presenter
     }
 
@@ -632,10 +626,16 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     private val resultsToDetail = object : LeftToRightTransition(this, HotelResultsPresenter::class.java, HotelDetailPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
-            if (!forward) {
-                detailPresenter.hotelDetailView.resetViews()
-            } else {
+            if (forward) {
                 detailPresenter.hotelDetailView.refresh()
+                hotelDetailViewModel.datesChanged = false
+            } else {
+                detailPresenter.hotelDetailView.resetViews()
+                if (hotelDetailViewModel.datesChanged
+                        && hotelDetailViewModel.changeDateParams != null) {
+                    updateSearchParams(hotelDetailViewModel.changeDateParams!!)
+                    resultsViewModel.paramsSubject.onNext(hotelDetailViewModel.changeDateParams)
+                }
             }
             super.startTransition(forward)
         }
@@ -740,7 +740,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    private val searchToDetails = object : ScaleTransition(this, HotelSearchPresenter::class.java, HotelDetailPresenter::class.java) {
+    private val searchToDetails = object : LeftToRightTransition(this, HotelSearchPresenter::class.java, HotelDetailPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (!forward) {
@@ -899,7 +899,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun initDetailViewModel() {
-        hotelDetailViewModel = HotelDetailViewModel(context, hotelInfoManager)
+        hotelDetailViewModel = HotelDetailViewModel(context, hotelInfoManager, hotelSearchManager)
 
         hotelDetailViewModel.fetchInProgressSubject.subscribe {
             loadingOverlay.visibility = View.VISIBLE
@@ -993,7 +993,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             handleGenericSearch(params)
         }
         handler.hotelIdToResultsSubject.subscribe { params ->
-            updateSearchForDeepLink(params, updateDestination = false)
+            val shouldUpdateDestination = params.updateSearchDestination && isKrazyglueOnFlightsConfirmationEnabled(context)
+            updateSearchForDeepLink(params, updateDestination = shouldUpdateDestination)
             handleHotelIdSearch(params, goToResults = true)
         }
 

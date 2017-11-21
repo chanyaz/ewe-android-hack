@@ -6,6 +6,7 @@ import org.junit.Test;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
@@ -39,7 +40,7 @@ public class PackageCostBreakdownTest extends PackageTestCase {
 		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
 
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 		Common.delay(1);
 
 		Common.delay(1);

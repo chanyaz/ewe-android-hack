@@ -693,7 +693,7 @@
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">Prisene er for én vei per person, fra</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
-    <string name="package_prices_taxes_fees_included_label">Totalpris tur-retur (inkludert skatter og avgifter), per person – for hotell og flyvninger</string>
+    <string name="package_prices_taxes_fees_included_label">Totalpris tur-retur (inkludert skatter og avgifter), per person – for hotell og flyreiser</string>
     <!-- Label indicating the price include hotel, flight-->
     <string name="package_prices_roundtrip_person_minimum_fsr_label">Prisene er for tur-retur per person, fra • inkluderer hotell og flyreiser</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
@@ -1433,6 +1433,10 @@
     <string name="confirm_seat_selection">Bekreft eller endre sete hos flyselskapet</string>
     <!-- displayed when seats can be selected but have not yet -->
     <string name="select_seat_prompt">Ingen seter er valgt</string>
+    <!-- Flight itin terminal maps bottom sheet title -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_title">Kartalternativer</string>
+    <!-- Flight itin terminal maps bottom sheet airport text template. (e.g., SFO terminal map) -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_airport_text_TEMPLATE">Terminalkart for {airport}</string>
     <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Ankommer den {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
@@ -1441,10 +1445,32 @@
     <string name="itin_flight_total_duration_TEMPLATE">Samlet varighet: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Bagasjeinformasjon</string>
-    <!--Flight itin traveller info widget heading-->
+    <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">Reisendes informasjon</string>
+    <!--Flight itin traveler preferences heading -->
+    <string name="itin_flight_traveler_preferences">Preferanser</string>
+    <!--Flight itin Known traveler number text -->
+    <string name="itin_known_traveler_number_text">«Known traveler number»</string>
+    <!--Flight itin traveler redress number text-->
+    <string name="itin_traveler_redress_number">Redress-nummer</string>
+    <!--Flight itin traveler Special assistance requests text-->
+    <string name="itin_traveler_special_assistance_requests_text">Forespørsler om spesiell assistanse</string>
+    <!--Flight itin traveler Frequent Flyer information text-->
+    <string name="itin_frequent_flyer_text">Flybonusinformasjon</string>
+    <!--Flight itin traveler contact to confirm request text-->
+    <string name="itin_traveler_contact_air_to_confirm_text">Kontakt flyselskapet for å bekrefte tilleggsønsker</string>
+    <!--Flight itin traveler email text -->
+    <string name="itin_traveler_email_text">E-post</string>
+    <!--Flight itin traveler phone text -->
+    <string name="itin_traveler_phone_text">Telefon</string>
+    <!--Flight itin traveler ticket number (e.g. Ticket # 345678901123)-->
+    <string name="itin_traveler_ticket_number_TEMPLATE">Billettnr. {number}</string>
+    <!--Flight itein traveler infant in seat text -->
+    <string name="itin_traveler_infant_in_seat_text">(Spedbarn på fanget)</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">Administrer bestillingen</string>
+    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_flight_customer_support_header_text_TEMPLATE">Ta kontakt med {brand} hvis du trenger hjelp til å administrere reiseruten din.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">Kansellert</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -1453,7 +1479,14 @@
     <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">Forsinket i {duration}</string>
     <!--Flight itin segment summary flight status indicator text - early departure-->
     <string name="itin_flight_summary_status_indicator_text_early_departure">Tidlig avreise</string>
-
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_manage_booking_header">Administrer bestillingen</string>
+    <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_flight_itinerary_number_TEMPLATE">Reiserutenummer: {itin_number}</string>
+    <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} kundeservice</string>
+    <!--Flight customer support website toolbar header-->
+    <string name="itin_flight_customer_support_site_toolbar_header">Kundeservice</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} d {hours} t {minutes} min</string>
@@ -1523,6 +1556,8 @@
 
 
     <!-- Action Buttons -->
+    <!-- action button to launch terminal maps bottom sheet -->
+    <string name="itin_action_terminal_maps">Kart over terminal</string>
     <string name="itin_action_directions">Veibeskrivelser</string>
     <string name="itin_action_call_hotel">Ring hotell</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -2070,8 +2105,6 @@
     <string name="save_traveler">Lagre reisende</string>
     <!-- no thanks -->
     <string name="no_thanks">Nei, takk</string>
-    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
-    <string name="advanced">Avansert</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Avansert (valgfritt)</string>
     <string name="contact_airline_message">Kontakt flyselskapet for å bekrefte tilleggsønsker</string>
@@ -2158,13 +2191,9 @@
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Feil</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">Foretrukket sete: %1$s</string>
     <string name="prefers_seat_colored_TEMPLATE2">Foretrukket sete: %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Henter informasjon om reisende…</string>
-
-    <!-- Passport label -->
-    <string name="passport_country_colon">Pass:</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2383,19 +2412,6 @@
     <!-- This is a special case for rails senior age greater than 62 -->
     <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62 år eller eldre&lt;/b&gt;</string>
 
-    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-    <!-- Suggestion to search Times Square -->
-    <string name="suggestion_times_square">Times Square, New York, NY</string>
-    <string name="suggestion_boston">Boston, MA</string>
-    <string name="suggestion_los_angeles">Los Angeles, CA</string>
-    <string name="suggestion_venice">Venice Beach Park, Venice, CA</string>
-    <string name="suggestion_miami">Miami, FL</string>
-    <string name="suggestion_london">London, Storbritannia</string>
-    <string name="suggestion_las_vegas">Las Vegas, NV</string>
-    <string name="suggestion_paris">Paris, Frankrike</string>
-    <string name="suggestion_minneapolis">Minneapolis, MN</string>
-    <string name="suggestion_san_francisco">San Francisco, CA</string>
-
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Søk</string>
@@ -2498,6 +2514,8 @@
     <string name="current_location">Plassering</string>
     <string name="recent_searched_location">Sted du nylig har søkt etter</string>
     <string name="suggested_location">Forslag til sted</string>
+    <!-- To notify the section suggested locations while navigating using talkback -->
+    <string name="suggested_location_list">Anbefalte steder</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Kartområde</string>
 
@@ -2884,6 +2902,11 @@
     <string name="coupon_submit_button">Send</string>
     <!-- Coupon submit button for accessibility -->
     <string name="coupon_submit_button_ally">Knapp for innsending</string>
+    <!-- Coupon apply button -->
+    <string name="coupon_apply_button">Bruk</string>
+    <!-- Coupon apply button for accessibility -->
+    <string name="coupon_apply_button_ally">Bruk-knapp</string>
+
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3742,12 +3765,16 @@
     <string name="step_one">Trinn 1: Velg hotell</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Trinn 2: Velg flyreiser</string>
+    <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
+    <string name="step_two_variation">Trinn 2: Velg utgående flyreise</string>
+    <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
+    <string name="step_three">Trinn 3: Velg innkommende flyreise</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">Utrolig tilbud</string>
     <!-- package hotel results unreal deal message for freeHotel -->
     <string name="free_hotel_deal">Få hotellet gratis ved å bestille dette sammen</string>
     <!-- package hotel results unreal deal message for freeFlight -->
-    <string name="free_flight_deal">Bestill og spar 100% på flyvningen din.</string>
+    <string name="free_flight_deal">Bestill og spar 100 % på flyreisen din.</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
     <string name="hotel_deal_TEMPLATE">Bestill og spar {price} ({savings}%)</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
@@ -3879,12 +3906,18 @@
     <string name="select_return_flight">Velg returflyvning</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Flyvning til %1$s</string>
+    <!-- Flight overview - Step 2: flight to template (breadcrumbs) E.g. Step 2: Flight to London -->
+    <string name="flight_to_outbound_breadcrumbs_TEMPLATE">Trinn 2: Flyreise til {destination}</string>
+    <!-- Flight overview - Step 3: flight to template (breadcrumbs) E.g. Step 3: Flight to London -->
+    <string name="flight_to_inbound_breadcrumbs_TEMPLATE">Trinn 3: Flyreise til {origin}</string>
     <!-- Inbound to template, E.g. Inbound to Kathmandu, Nepal (KTM) -->
-    <string name="package_flight_inbound_toolbar_title_TEMPLATE">Innkommende flyvning til {cityname} i {stateorcountry} ({airportcode})</string>
+    <string name="package_flight_inbound_toolbar_title_TEMPLATE">Innkommende flyreise til {cityname} i {stateorcountry} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
     <string name="package_hotel_results_toolbar_title_TEMPLATE">Hoteller i %s</string>
+    <!-- Toolbar text for hotel results with breadcrumbs, E.g. Step 1: Hotels in London -->
+    <string name="package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE">Trinn 1: Hoteller i {destination}</string>
     <!-- Description for infant travelers sitting in lap -->
     <string name="in_lap">På fang</string>
     <!-- Description for infant travelers sitting in seat -->
@@ -4260,8 +4293,8 @@
     <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">Flytiden er på {time}, med en prisforskjell på {pricedifference}. Flyreisen er med {airline}. Flytiden er på {hours} {minutes}, med {stops} mellomlandinger\u0020</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Flytiden er på {time}, med en pris på {price}. Flyreisen er med {airline}. Flytiden er på {hours} {minutes} med {stops} mellomlandinger\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} med stjernerangering på {starrating} av 5. Gjestevurdering på {guestrating} av 5. Pris {price}. Inkluderer hotell og flyvninger\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} med stjernerangering på {starrating} av 5. Gjestevurdering på {guestrating} av 5. Pris {price}. Inkluderer hotell og flyvninger.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} med stjernerangering på {starrating} av 5. Gjestevurdering på {guestrating} av 5.  \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
@@ -4491,6 +4524,8 @@
     <string name="accessibility_cont_desc_opens_dialog">Åpner dialogvindu</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">deaktivert</string>
+    <!-- Content Description for Rating Button -->
+    <string name="accessibility_cont_desc_user_rating_button">Gjestevurdering-knapp</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Prisen er {activity_price} {ticket_type}</string>
@@ -4621,6 +4656,10 @@
     <string name="deals_hotel_only">Kun hotell</string>
     <string name="deals_toolbar_close_cont_desc">Lukk medlemsprissiden</string>
 
+    <!-- Last Minute Deal -->
+    <string name="last_minute_deal_title">Restplasstilbud</string>
+    <string name="last_minute_deal_subtitle">Har du lyst til å reise vekk? Sjekk ut de lave restplassprisene</string>
+
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Slik bestemmes sorteringsrekkefølgen</string>
     <!-- Checkout validation error message for credit card number-->
@@ -4711,6 +4750,21 @@
     <string name="amenity_carry_on_bag">håndbagasje</string>
     <string name="amenity_seat_choice">Setevalg</string>
 
+    <!-- Amenities Content Description-->
+    <!-- Cont Desc for charged amenities Example: Seat Choice available for a fee-->
+    <string name="amenity_chargeable_cont_desc_TEMPLATE">{amenity_name} er tilgjengelig mot et gebyr. \u0020</string>
+    <!-- Cont Desc for included amenities Example: Seat Choice available -->
+    <string name="amenity_included_cont_desc_TEMPLATE">{amenity_name} er tilgjengelig. \u0020</string>
+    <!-- Cont Desc for unavailable amenities Example: Seat Choice not available-->
+    <string name="amenity_not_available_cont_desc_TEMPLATE">{amenity_name} er ikke tilgjengelig. \u0020</string>
+    <plurals name="checked_bags_template">
+        <item quantity="one">{number}innsjekket bagasje</item>
+        <item quantity="other">{number}innsjekket bagasje</item>
+    </plurals>
+    <!-- Cont Desc for fare family item Example: Classic, cabin Econonmy--> 
+    <string name="fare_family_item_cont_desc_TEMPLATE">{fare_family_name}, kabin {cabin_code}. \u0020</string> 
+    <!-- Cont Desc for fare family item Example: This fare is available for an additional $20, roundtrip for 2 travelers--> 
+    <string name="fare_family_item_cont_desc_price_TEMPLATE">Denne prisen er tilgjengelig mot et tilleggsgebyr på {delta}, {trip_type} for {guests}. \u0020</string>  
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">vis mer</string>
 

@@ -163,6 +163,33 @@ class FlightItinMapWidgetTest {
         assertEquals(View.GONE, sut.cardView.visibility)
     }
 
+    @Test
+    fun testMapVisible() {
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        sut.viewModel.itinCardDataObservable.onNext(testItinCardData)
+
+        assertEquals(View.VISIBLE, sut.mapView.visibility)
+    }
+
+    @Test
+    fun testMapNotVisible() {
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        testItinCardData.flightLeg.segments[0].originWaypoint = TestWayPoint("")
+        testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("")
+        sut.viewModel.itinCardDataObservable.onNext(testItinCardData)
+
+        assertEquals(View.GONE, sut.mapView.visibility)
+    }
+
+    @Test
+    fun testMapOnClick() {
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        sut.viewModel.itinCardDataObservable.onNext(testItinCardData)
+
+        sut.mapView.performClick()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.Map", mockAnalyticsProvider)
+    }
+
     class TestWayPoint(val code: String) : Waypoint(ACTION_UNKNOWN) {
         override fun getAirport(): Airport? {
             val airport = Airport()

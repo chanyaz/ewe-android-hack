@@ -33,6 +33,9 @@ public class CommonSteps {
 			case "Australia":
 				Common.setPOS(PointOfSaleId.AUSTRALIA);
 				break;
+			case "Singapore":
+				Common.setPOS(PointOfSaleId.SINGAPORE);
+				break;
 		}
 	}
 
@@ -60,7 +63,14 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp.getKey(),
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
-
+		if (list.contains("FlightSubpub")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightSubpubChange.getKey(),
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
+		if (list.contains("FlightFlex")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightFlexEnabled.getKey(),
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
 		Db.setAbacusResponse(abacusResponse);
 	}
 

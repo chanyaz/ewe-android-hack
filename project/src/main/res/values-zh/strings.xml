@@ -1433,6 +1433,10 @@
     <string name="confirm_seat_selection">与航空公司确认或变更座位</string>
     <!-- displayed when seats can be selected but have not yet -->
     <string name="select_seat_prompt">未选择座位</string>
+    <!-- Flight itin terminal maps bottom sheet title -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_title">可选示意图</string>
+    <!-- Flight itin terminal maps bottom sheet airport text template. (e.g., SFO terminal map) -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_airport_text_TEMPLATE">{airport}航站楼示意图</string>
     <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
     <string name="itin_flight_summary_arrives_on_TEMPLATE">到达时间：{date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
@@ -1441,10 +1445,32 @@
     <string name="itin_flight_total_duration_TEMPLATE">总时长：{duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">行李信息</string>
-    <!--Flight itin traveller info widget heading-->
+    <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">旅客信息</string>
+    <!--Flight itin traveler preferences heading -->
+    <string name="itin_flight_traveler_preferences">首选设置</string>
+    <!--Flight itin Known traveler number text -->
+    <string name="itin_known_traveler_number_text">已知旅客编号</string>
+    <!--Flight itin traveler redress number text-->
+    <string name="itin_traveler_redress_number">身份纠正识别号</string>
+    <!--Flight itin traveler Special assistance requests text-->
+    <string name="itin_traveler_special_assistance_requests_text">特殊协助要求</string>
+    <!--Flight itin traveler Frequent Flyer information text-->
+    <string name="itin_frequent_flyer_text">飞行常客信息</string>
+    <!--Flight itin traveler contact to confirm request text-->
+    <string name="itin_traveler_contact_air_to_confirm_text">请联系航空公司以确认请求</string>
+    <!--Flight itin traveler email text -->
+    <string name="itin_traveler_email_text">电子邮件</string>
+    <!--Flight itin traveler phone text -->
+    <string name="itin_traveler_phone_text">电话</string>
+    <!--Flight itin traveler ticket number (e.g. Ticket # 345678901123)-->
+    <string name="itin_traveler_ticket_number_TEMPLATE">票号 {number}</string>
+    <!--Flight itein traveler infant in seat text -->
+    <string name="itin_traveler_infant_in_seat_text">（怀抱婴儿）</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">管理订单</string>
+    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_flight_customer_support_header_text_TEMPLATE">如需行程管理方面的协助，请联系 {brand}。</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">已取消</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -1453,7 +1479,14 @@
     <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">延误 {duration}</string>
     <!--Flight itin segment summary flight status indicator text - early departure-->
     <string name="itin_flight_summary_status_indicator_text_early_departure">提前出发</string>
-
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_manage_booking_header">管理订单</string>
+    <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_flight_itinerary_number_TEMPLATE">行程编号 {itin_number}</string>
+    <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} 客户支持</string>
+    <!--Flight customer support website toolbar header-->
+    <string name="itin_flight_customer_support_site_toolbar_header">客户服务</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} 天 {hours} 小时 {minutes} 分钟</string>
@@ -1523,6 +1556,8 @@
 
 
     <!-- Action Buttons -->
+    <!-- action button to launch terminal maps bottom sheet -->
+    <string name="itin_action_terminal_maps">航站楼示意图</string>
     <string name="itin_action_directions">路线</string>
     <string name="itin_action_call_hotel">致电酒店</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -2045,7 +2080,7 @@
     <!--Address Province hint-->
     <string name="address_province_hint">省/市/自治区</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">县（可选）</string>
+    <string name="address_county_hint">县/州/省（可选）</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2070,8 +2105,6 @@
     <string name="save_traveler">保存旅客</string>
     <!-- no thanks -->
     <string name="no_thanks">不，谢谢</string>
-    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
-    <string name="advanced">高级选项</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">高级选项（可选）</string>
     <string name="contact_airline_message">请联系航空公司以确认请求</string>
@@ -2158,13 +2191,9 @@
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">错误</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">偏好%1$s的座位</string>
     <string name="prefers_seat_colored_TEMPLATE2">偏好：%1$s的座位</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">正在加载旅客信息…</string>
-
-    <!-- Passport label -->
-    <string name="passport_country_colon">护照：</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2383,19 +2412,6 @@
     <!-- This is a special case for rails senior age greater than 62 -->
     <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62 岁&lt;/b&gt;以上</string>
 
-    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-    <!-- Suggestion to search Times Square -->
-    <string name="suggestion_times_square">纽约时代广场</string>
-    <string name="suggestion_boston">马萨诸塞州波士顿</string>
-    <string name="suggestion_los_angeles">加利福尼亚州洛杉矶</string>
-    <string name="suggestion_venice">加利福尼亚州威尼斯海滩公园</string>
-    <string name="suggestion_miami">佛罗里达州迈阿密</string>
-    <string name="suggestion_london">英国伦敦</string>
-    <string name="suggestion_las_vegas">内华达州拉斯维加斯</string>
-    <string name="suggestion_paris">法国巴黎</string>
-    <string name="suggestion_minneapolis">明尼苏达州明尼阿波利斯</string>
-    <string name="suggestion_san_francisco">加利福尼亚州旧金山</string>
-
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">搜索</string>
@@ -2498,6 +2514,8 @@
     <string name="current_location">当前位置</string>
     <string name="recent_searched_location">最近搜索地点</string>
     <string name="suggested_location">建议地点</string>
+    <!-- To notify the section suggested locations while navigating using talkback -->
+    <string name="suggested_location_list">建议地点</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">可见地图区域</string>
 
@@ -2884,6 +2902,11 @@
     <string name="coupon_submit_button">提交</string>
     <!-- Coupon submit button for accessibility -->
     <string name="coupon_submit_button_ally">提交按钮</string>
+    <!-- Coupon apply button -->
+    <string name="coupon_apply_button">使用</string>
+    <!-- Coupon apply button for accessibility -->
+    <string name="coupon_apply_button_ally">使用按钮</string>
+
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3742,6 +3765,10 @@
     <string name="step_one">第 1 步：选酒店</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">第 2 步：选航班</string>
+    <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
+    <string name="step_two_variation">第 2 步：选择去程航班</string>
+    <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
+    <string name="step_three">第 3 步：选择返程航班</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">超值机 + 酒优惠</string>
     <!-- package hotel results unreal deal message for freeHotel -->
@@ -3879,12 +3906,18 @@
     <string name="select_return_flight">选择回程航班</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">飞往%1$s的航班</string>
+    <!-- Flight overview - Step 2: flight to template (breadcrumbs) E.g. Step 2: Flight to London -->
+    <string name="flight_to_outbound_breadcrumbs_TEMPLATE">第 2 步：飞往{destination}</string>
+    <!-- Flight overview - Step 3: flight to template (breadcrumbs) E.g. Step 3: Flight to London -->
+    <string name="flight_to_inbound_breadcrumbs_TEMPLATE">第 3 步：飞往{origin}</string>
     <!-- Inbound to template, E.g. Inbound to Kathmandu, Nepal (KTM) -->
     <string name="package_flight_inbound_toolbar_title_TEMPLATE">返回{cityname}，{stateorcountry}（{airportcode}）</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}，{travelers}</string>
     <!-- Toolbar text for hotel results -->
     <string name="package_hotel_results_toolbar_title_TEMPLATE">%s的酒店</string>
+    <!-- Toolbar text for hotel results with breadcrumbs, E.g. Step 1: Hotels in London -->
+    <string name="package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE">第 1 步：{destination}的酒店</string>
     <!-- Description for infant travelers sitting in lap -->
     <string name="in_lap">怀抱</string>
     <!-- Description for infant travelers sitting in seat -->
@@ -4260,8 +4293,8 @@
     <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">航班出发时间 {time}，价差为{pricedifference}。搭乘{airline}航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">航班出发时间 {time}，价差为{price}。搭乘{airline}航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。价格{price}。含酒店和机票\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。价格{price}。含酒店和机票。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
@@ -4491,6 +4524,8 @@
     <string name="accessibility_cont_desc_opens_dialog">打开对话框</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">已禁用</string>
+    <!-- Content Description for Rating Button -->
+    <string name="accessibility_cont_desc_user_rating_button">用户评分按钮</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">价格为 {activity_price}{ticket_type}</string>
@@ -4621,6 +4656,10 @@
     <string name="deals_hotel_only">仅酒店</string>
     <string name="deals_toolbar_close_cont_desc">关闭会员价窗口</string>
 
+    <!-- Last Minute Deal -->
+    <string name="last_minute_deal_title">最后时限优惠</string>
+    <string name="last_minute_deal_subtitle">想要度假出游？快看看最后时限低价</string>
+
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">我们如何确定排序顺序</string>
     <!-- Checkout validation error message for credit card number-->
@@ -4711,6 +4750,21 @@
     <string name="amenity_carry_on_bag">手提行李</string>
     <string name="amenity_seat_choice">座位选择</string>
 
+    <!-- Amenities Content Description-->
+    <!-- Cont Desc for charged amenities Example: Seat Choice available for a fee-->
+    <string name="amenity_chargeable_cont_desc_TEMPLATE">付费可享{amenity_name}。\u0020</string>
+    <!-- Cont Desc for included amenities Example: Seat Choice available -->
+    <string name="amenity_included_cont_desc_TEMPLATE">{amenity_name}可用。\u0020</string>
+    <!-- Cont Desc for unavailable amenities Example: Seat Choice not available-->
+    <string name="amenity_not_available_cont_desc_TEMPLATE">{amenity_name}不可用。\u0020</string>
+    <plurals name="checked_bags_template">
+        <item quantity="one">{number} 件托运行李</item>
+        <item quantity="other">{number} 件托运行李</item>
+    </plurals>
+    <!-- Cont Desc for fare family item Example: Classic, cabin Econonmy--> 
+    <string name="fare_family_item_cont_desc_TEMPLATE">{fare_family_name}，客舱：{cabin_code}。\u0020</string> 
+    <!-- Cont Desc for fare family item Example: This fare is available for an additional $20, roundtrip for 2 travelers--> 
+    <string name="fare_family_item_cont_desc_price_TEMPLATE">该票价需额外支付 {delta}（{trip_type}，{guests} 人）。\u0020</string>  
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">显示更多</string>
 

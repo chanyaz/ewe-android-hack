@@ -41,6 +41,13 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         }
     }
 
+    override fun getRoundTripStringResourceId(): Int {
+        if (PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee())
+            return R.string.prices_roundtrip_minimum_label
+        else
+            return R.string.prices_roundtrip_label
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         when (viewType) {
             ViewTypes.BEST_FLIGHT_VIEW.ordinal -> {
@@ -82,10 +89,6 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
 
     override fun adjustPosition(): Int {
         return if (shouldShowBestFlight) 2 else (if (isChangePackageSearch) 0 else 1)
-    }
-
-    override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
-        return PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()
     }
 
     override fun getPriceDescriptorMessageIdForFSR(): Int? {

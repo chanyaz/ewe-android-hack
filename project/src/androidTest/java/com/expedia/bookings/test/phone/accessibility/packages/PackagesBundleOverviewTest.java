@@ -8,6 +8,7 @@ import android.support.test.espresso.ViewInteraction;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
@@ -58,7 +59,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 
 		onView(withId(R.id.hotel_star_rating_bar)).check(matches(hasContentDescription()));
 
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 
 		Common.pressBack();
 		checkBundleOverviewHotelContentDescription("Package Happy Path");

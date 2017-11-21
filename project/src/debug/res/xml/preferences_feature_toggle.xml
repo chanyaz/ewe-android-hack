@@ -38,11 +38,6 @@
             android:summary="Flight rate details from cache"
             android:title="Flight rate details from cache (i.e. remove fullscreen progress)" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_flight_delta_pricing"
-            android:summary="Delta Pricing"
-            android:title="Delta pricing" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -85,12 +80,7 @@
             android:key="@string/preference_show_flights_checkout_webview"
             android:summary="Show Flights Checkout Webview"
             android:title="Show Flights Checkout Webview" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_krazy_glue_on_flights_confirmation"
-            android:summary="Enable Krazy Glue on Flights Confirmation"
-            android:title="Enable Krazy Glue on Flights Confirmation" />
-
+        
         <CheckBoxPreference
             android:key="@string/pay_later_credit_card_messaging"
             android:summary="Enable credit card messaging for pay later"
@@ -143,17 +133,16 @@
             android:summary="Packages Breadcrumbs"
             android:title="Packages Breadcrumbs" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_packages_breadcrumbs_move_bundle_overview"
+            android:summary="Packages Breadcrumbs - Move Bundle Overview Bar"
+            android:title="Packages Breadcrumbs - Move Bundle Overview Bar" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_packages_mis_real_world_geo"
+            android:summary="Packages RWG Migration"
+            android:title="Packages MISRealWorldGeo" />
+
     </PreferenceCategory>
-
-    <PreferenceCategory
-    android:layout="@layout/preference_category_title"
-    android:title="Soft Prompt Permission">
-
-    <CheckBoxPreference
-        android:key="@string/preference_soft_prompt_permission"
-        android:summary="Show soft prompt permission request"
-        android:title="Enable Soft Prompt Permission Request" />
-
-</PreferenceCategory>
 
 </PreferenceScreen>

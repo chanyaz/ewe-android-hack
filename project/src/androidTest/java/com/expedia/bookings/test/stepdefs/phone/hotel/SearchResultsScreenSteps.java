@@ -1,6 +1,6 @@
 package com.expedia.bookings.test.stepdefs.phone.hotel;
 
-import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSite;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelSearchResults;
 
@@ -22,7 +22,7 @@ public class SearchResultsScreenSteps {
 	@And("^I click on a hotel with a vip label$")
 	public void iClickOnTheVipLabel() throws Throwable {
 		HotelSearchResults.uPlusVipLabel().click();
-		HotelInfoSite.waitForPageToLoad();
+		HotelInfoSiteScreen.waitForPageToLoad();
 	}
 
 	@And("^I wait for hotel search results to load$")

@@ -17,5 +17,6 @@ public interface SuggestApi {
 		@Query("features") String features,
 		@Query("lob") String lineOfBusiness,
 		@Query("max_results") Integer maxResults,
-		@Query("guid") String guid);
+		@Query("guid") String guid,
+		@Query("ab") String abTest);
 }

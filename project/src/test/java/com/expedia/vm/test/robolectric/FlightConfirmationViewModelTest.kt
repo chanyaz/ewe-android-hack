@@ -23,6 +23,7 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
@@ -39,6 +40,7 @@ import org.robolectric.shadows.ShadowApplication
 import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -100,7 +102,7 @@ class FlightConfirmationViewModelTest {
         crossSellWidgetView.assertValue(false)
     }
 
-    fun getCheckoutResponse(dateOfExpiration: String, totalPrice: Money? = Money("100", "USD")): FlightCheckoutResponse {
+    fun getCheckoutResponse(dateOfExpiration: String, totalPrice: Money? = Money("100", "USD"), hasAirAttach: Boolean = true): FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         setFlightLeg(response)
@@ -121,7 +123,7 @@ class FlightConfirmationViewModelTest {
         timeField.isAccessible = true
 
         timeField.set(offerTimeField , dateOfExpiration)
-        boolField.set(qualifierObject, true)
+        boolField.set(qualifierObject, hasAirAttach)
         timeRemainingField.set(qualifierObject, offerTimeField )
 
         val priceField = response.javaClass.getDeclaredField("totalChargesPrice")
@@ -260,8 +262,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testFlightSearchParamsBecomeHotelSearchParamsForKrazyglue() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
-        SettingUtils.save(activity.applicationContext, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
         vm = FlightConfirmationViewModel(activity)
         val hotelSearchParamsTestSubscriber = TestSubscriber<HotelSearchParams>()
         vm.krazyGlueHotelSearchParamsObservable.subscribe(hotelSearchParamsTestSubscriber)
@@ -272,6 +273,28 @@ class FlightConfirmationViewModelTest {
 
         hotelSearchParamsTestSubscriber.assertValueCount(1)
         assertTrue(hotelSearchParamsTestSubscriber.onNextEvents[0] is HotelSearchParams)
+    }
+
+    @Test
+    fun testAirAttachVisibilityWithKrazyglueTurnedOn() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
+        vm = FlightConfirmationViewModel(activity)
+
+        val checkoutResponse = getCheckoutResponse(DateTime.now().toString())
+        vm = FlightConfirmationViewModel(activity)
+        vm.confirmationObservable.onNext(Pair(checkoutResponse, customerEmail))
+
+        assertFalse(vm.crossSellWidgetVisibility.value)
+    }
+
+    @Test
+    fun testAirAttachVisibilityWithKrazyglueTurnedOff() {
+        val checkoutResponse = getCheckoutResponse(DateTime.now().toString(), hasAirAttach = true)
+
+        vm = FlightConfirmationViewModel(activity)
+        vm.confirmationObservable.onNext(Pair(checkoutResponse, customerEmail))
+
+        assertTrue(vm.crossSellWidgetVisibility.value)
     }
 
     private fun setUpInsuranceProductInResponse(checkoutResponse: FlightCheckoutResponse) {

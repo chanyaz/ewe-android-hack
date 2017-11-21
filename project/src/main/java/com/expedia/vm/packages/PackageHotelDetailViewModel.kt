@@ -123,6 +123,10 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
         PackagesTracking().trackHotelDetailGalleryClick()
     }
 
+    override fun trackHotelDetailRoomGalleryClick() {
+        PackagesTracking().trackHotelDetailRoomGalleryClick()
+    }
+
     override fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
         return priceToShowCustomerObservable.value + context.getString(R.string.price_per_person)
     }

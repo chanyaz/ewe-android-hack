@@ -37,13 +37,6 @@
             android:layout_gravity="center_vertical|right"
             android:layout_margin="10dp" />
 
-        <com.expedia.bookings.widget.MaskView
-            android:id="@+id/mask_cvv_widget"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:exposedPadding="-4dp"
-            app:exposedView="@+id/cvv_text_view"/>
-
         <!-- Input buttons at bottom -->
 
         <com.expedia.bookings.section.CreditCardInputSection

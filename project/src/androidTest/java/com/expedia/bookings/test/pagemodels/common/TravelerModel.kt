@@ -36,6 +36,7 @@ object TravelerModel {
         @JvmStatic fun datePickerDoneButton(): ViewInteraction {return onView(withId(R.id.datePickerDoneButton))}
         @JvmStatic fun advancedOptions(): ViewInteraction {return onView(withId(R.id.traveler_advanced_options_button))}
         @JvmStatic fun knownTravelerNumber(): ViewInteraction {return onView(withId(R.id.traveler_number))}
+        @JvmStatic fun passportCountry(): ViewInteraction {return onView(withId(R.id.passport_country_layout_btn))}
 
         @JvmStatic fun enterFirstName(firstName: String){
             firstName().perform(typeText(firstName))

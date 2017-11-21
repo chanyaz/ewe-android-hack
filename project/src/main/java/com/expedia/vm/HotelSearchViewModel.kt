@@ -41,8 +41,8 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     private val rules = HotelCalendarRules(context)
     private val calendarInstructions = HotelCalendarDirections(context)
 
-    private val hotelParamsBuilder = HotelSearchParams.Builder(rules.getMaxSearchDurationDays(),
-            rules.getMaxDateRange(), !AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelShowSoldOutResults))
+    private val hotelParamsBuilder = HotelSearchParams.Builder(rules.getMaxSearchDurationDays(), rules.getMaxDateRange())
+            .filterUnavailable(!AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelShowSoldOutResults))
     private var prefetchParams: HotelSearchParams? = null
 
     // Inputs

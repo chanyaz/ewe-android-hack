@@ -7,7 +7,8 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 
-class MapItem(val context: Context, val pos: LatLng, val hotel: Hotel, val hotelIconGenerator: HotelMarkerIconGenerator) : ClusterItem {
+class HotelMapMarker(val context: Context, val pos: LatLng, val hotel: Hotel,
+                     val hotelIconGenerator: HotelMarkerIconGenerator) : ClusterItem {
 
     var isSelected = false
     var isClustered = false
@@ -37,5 +38,4 @@ class MapItem(val context: Context, val pos: LatLng, val hotel: Hotel, val hotel
     override fun getPosition(): LatLng? {
         return pos
     }
-
 }

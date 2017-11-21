@@ -24,7 +24,7 @@ class HMACUtilTests {
         val url = HttpUrl.Builder().scheme("https").host("www.expedia.com").build()
         val method = "GET"
         val userName = context.getString(R.string.exp_u)
-        val expectedAuthString = "hmac username=\"$userName\",algorithm=\"hmac-sha1\",headers=\"request-line x-date salt\",signature=\"gtQ/p2XxSVfK3tUDuF88vDyXbWo=\""
+        val expectedAuthString = "hmac username=\"$userName\",algorithm=\"hmac-sha1\",headers=\"request-line x-date salt\",signature=\"GI7T6jfxRzNLWQyy/C7pfxcu2p0=\""
         val authString = HMACUtil.getAuthorization(context, url, method, xDate, salt)
 
         assertEquals(expectedAuthString, authString)

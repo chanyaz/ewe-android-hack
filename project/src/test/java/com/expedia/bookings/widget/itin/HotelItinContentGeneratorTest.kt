@@ -510,6 +510,38 @@ class HotelItinContentGeneratorTest {
     }
 
     @Test
+    fun activityInTripNotificationDoesShowTripsWhenBucketed() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidLXNotifications)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(3)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(3, notifications.size)
+        verify(hotelItinGenerator, Mockito.times(1)).generateActivityInTripNotification()
+    }
+
+    @Test
+    fun activityInTripNotificationDoesNotShowWhenNotBuckted() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidLXNotifications)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(3)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(2, notifications.size)
+        verify(hotelItinGenerator, Mockito.times(0)).generateActivityInTripNotification()
+    }
+
+    @Test
+    fun testDoesInTripNotificationFireAtRightTime() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidLXNotifications)
+        val checkInTime = mTodayAtNoon.plusDays(10)
+        val checkOutTime = mTodayAtNoon.plusDays(20)
+        val lxNotificationTime = roundTime(checkInTime.plusHours(2))
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(notifications.get(2).triggerTimeMillis, lxNotificationTime.millis)
+    }
+
+    @Test
     fun testNotificationExpTimings() {
         AbacusTestUtils.bucketTests(AbacusUtils.TripsHotelScheduledNotificationsV2)
         val checkInTime = mTodayAtNoon.minusDays(5)

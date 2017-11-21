@@ -7,7 +7,6 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -24,6 +23,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.util.HotelInfoManager
+import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
@@ -36,7 +36,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.RetrofitError
 import com.expedia.vm.BaseHotelDetailViewModel
-import com.expedia.vm.HotelRoomRateViewModel
+import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.mobiata.android.util.SettingUtils
 import org.hamcrest.Matchers
@@ -75,11 +75,12 @@ class HotelDetailViewModelTest {
     private var context: Context by Delegates.notNull()
 
     private val mockHotelInfoManager = TestHotelInfoManager()
+    private val mockHotelSearchManager = Mockito.mock(HotelSearchManager::class.java)
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before fun before() {
         context = RuntimeEnvironment.application
-        vm = HotelDetailViewModel(RuntimeEnvironment.application, mockHotelInfoManager)
+        vm = HotelDetailViewModel(context, mockHotelInfoManager, mockHotelSearchManager)
 
         offer1 = HotelOffersResponse()
         offer1.hotelId = "hotel1"
@@ -224,7 +225,6 @@ class HotelDetailViewModelTest {
         assertEquals("Regularly ${vm.strikeThroughPriceObservable.value}, now ${vm.priceToShowCustomerObservable.value}.\u0020Original price discounted ${vm.discountPercentageObservable.value.first}.\u0020",
                 testSubscriberText.onNextEvents[0])
     }
-
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
@@ -457,47 +457,20 @@ class HotelDetailViewModelTest {
         testSub.assertReceivedOnNext(expected)
     }
 
-    //  TODO: Fix the test.
-    //      @Test fun expandNextAvailableRoomOnSoldOut() {
-    //        vm.hotelOffersSubject.onNext(offer1)
-    //
-    //        val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>()
-    //        (1..3).forEach {
-    //            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create(), endlessObserver { }))
-    //        }
-    //        vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
-    //
-    //        val expandRoom0TestSubscriber = TestSubscriber.create<Boolean>()
-    //        hotelRoomRateViewModels.get(0).expandRoomObservable.subscribe(expandRoom0TestSubscriber)
-    //        val expandRoom1TestSubscriber = TestSubscriber.create<Boolean>()
-    //        hotelRoomRateViewModels.get(1).expandRoomObservable.subscribe(expandRoom1TestSubscriber)
-    //        val expandRoom2TestSubscriber = TestSubscriber.create<Boolean>()
-    //        hotelRoomRateViewModels.get(2).expandRoomObservable.subscribe(expandRoom2TestSubscriber)
-    //
-    //        vm.rowExpandingObservable.onNext(0)
-    //        vm.selectedRoomSoldOut.onNext(Unit)
-    //
-    //        vm.rowExpandingObservable.onNext(1)
-    //        vm.selectedRoomSoldOut.onNext(Unit)
-    //
-    //        expandRoom0TestSubscriber.assertNoValues()
-    //        expandRoom1TestSubscriber.assertValues(false)
-    //        expandRoom2TestSubscriber.assertValues(false)
-    //    }
-
     @Test fun allRoomsSoldOutSignal() {
         vm.hotelOffersSubject.onNext(offer1)
 
         val hotelSoldOutTestSubscriber = TestSubscriber.create<Boolean>()
         vm.hotelSoldOut.subscribe(hotelSoldOutTestSubscriber)
 
-        val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>()
+        val hotelRoomDetailViewModels = ArrayList<HotelRoomDetailViewModel>()
         (1..20).forEach {
-            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create(), false, LineOfBusiness.HOTELS))
+            hotelRoomDetailViewModels.add(HotelRoomDetailViewModel(RuntimeEnvironment.application,
+                    offer1.hotelRoomResponse.first(), offer1.hotelId, 0, 0, true))
         }
-        vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+        vm.hotelRoomDetailViewModelsObservable.onNext(hotelRoomDetailViewModels)
 
-        hotelRoomRateViewModels.forEach {
+        hotelRoomDetailViewModels.forEach {
             it.roomSoldOut.onNext(true)
         }
 
@@ -547,7 +520,7 @@ class HotelDetailViewModelTest {
     }
 
     @Test
-    fun groupAndSortRoom() {
+    fun testGroupAndSortRoom() {
         val roomResponse = createRoomResponseList()
         val sorted = vm.groupAndSortRoomList(roomResponse)
         assertEquals(3, sorted.count())
@@ -566,6 +539,39 @@ class HotelDetailViewModelTest {
         assertEquals(sorted["3"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 15.toFloat())
         assertEquals(sorted["2"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 20.toFloat())
         assertEquals(sorted["2"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 100.toFloat())
+    }
+
+    @Test
+    fun testGroupAndSortNoRoomTypeCode() {
+        var roomTypeCode1 = createRoomResponse("typeCode", 20.toFloat())
+        var roomTypeCode2 = createRoomResponse("typeCode", 10.toFloat())
+
+        val productKey1 = createRoomResponse(null, 40.toFloat())
+        val productKey2 = createRoomResponse(null, 30.toFloat())
+        productKey1.productKey = "productKey"
+        productKey2.productKey = "productKey"
+
+        val productKey3 = createRoomResponse(null, 60.toFloat())
+        val productKey4 = createRoomResponse(null, 50.toFloat())
+        productKey3.productKey = "productKey2"
+        productKey4.productKey = "productKey2"
+
+
+        val roomResponse = listOf(productKey2, roomTypeCode2,
+                productKey4, roomTypeCode1,
+                productKey3, productKey1)
+
+        val sorted = vm.groupAndSortRoomList(roomResponse)
+
+        assertEquals(3, sorted.count())
+        assertEquals(sorted["typeCode"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
+        assertEquals(sorted["typeCode"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 20.toFloat())
+
+        assertEquals(sorted["productKey"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 30.toFloat())
+        assertEquals(sorted["productKey"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 40.toFloat())
+
+        assertEquals(sorted["productKey2"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 50.toFloat())
+        assertEquals(sorted["productKey2"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 60.toFloat())
     }
 
     @Test
@@ -709,16 +715,14 @@ class HotelDetailViewModelTest {
 
         val testParamsSub = TestSubscriber.create<HotelSearchParams>()
         val testFetchInProgressSub = TestSubscriber.create<Unit>()
-        val testDateChangedParamSubject = TestSubscriber.create<HotelSearchParams>()
 
         vm.hotelId = "test"
 
         vm.paramsSubject.subscribe(testParamsSub)
         vm.fetchInProgressSubject.subscribe(testFetchInProgressSub)
-        vm.dateChangedParamSubject.subscribe(testDateChangedParamSubject)
 
         val destination = SuggestionV4()
-        val originalParams = HotelSearchParams.Builder(0, 0, true)
+        val originalParams = HotelSearchParams.Builder(0, 0)
                 .destination(destination)
                 .startDate(originalStartDate)
                 .endDate(originalEndDate)
@@ -737,12 +741,8 @@ class HotelDetailViewModelTest {
         assertEquals(newStartDate, newParams.last().startDate)
         assertEquals(newEndDate, newParams.last().endDate)
 
-        newParams = testDateChangedParamSubject.onNextEvents
-
-        assertEquals(1, newParams.count())
-        assertEquals(newStartDate, newParams.first().startDate)
-        assertEquals(newEndDate, newParams.first().endDate)
-
+        assertEquals(newStartDate, vm.changeDateParams!!.startDate)
+        assertEquals(newEndDate, vm.changeDateParams!!.endDate)
         testFetchInProgressSub.assertValueCount(1)
     }
 
@@ -771,7 +771,7 @@ class HotelDetailViewModelTest {
         vm.showAirAttachSWPImageObservable.onNext(airAttach)
     }
 
-    private fun createRoomResponse(roomTypeCode: String, priceToShowUser: Float) : HotelOffersResponse.HotelRoomResponse {
+    private fun createRoomResponse(roomTypeCode: String?, priceToShowUser: Float) : HotelOffersResponse.HotelRoomResponse {
         val room = HotelOffersResponse.HotelRoomResponse()
         room.roomTypeCode = roomTypeCode
 

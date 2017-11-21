@@ -34,6 +34,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		//Packages Features
 		initializeFeatureCheck(R.string.preference_packages_mid_api);
 		initializeFeatureCheck(R.string.preference_packages_breadcrumbs);
+		initializeFeatureCheck(R.string.preference_packages_breadcrumbs_move_bundle_overview);
 
 		//Universal Checkout Features
 		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
@@ -44,15 +45,11 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		//Flight Features
 		initializeFeatureCheck(R.string.preference_flight_rate_detail_from_cache);
-		initializeFeatureCheck(R.string.preference_enable_krazy_glue_on_flights_confirmation);
 
 		//Itin Features
 		initializeFeatureCheck(R.string.preference_trips_new_flights_design);
 		initializeFeatureCheck(R.string.preference_trips_new_flights_managing_booking_design);
 		initializeFeatureCheck(R.string.preference_enable_trips_flight_alerts);
-
-		// Other
-		initializeFeatureCheck(R.string.preference_soft_prompt_permission);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

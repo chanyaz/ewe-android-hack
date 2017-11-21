@@ -1433,6 +1433,10 @@
     <string name="confirm_seat_selection">Bevestig of wijzig zitplaatsen via de airline</string>
     <!-- displayed when seats can be selected but have not yet -->
     <string name="select_seat_prompt">Geen stoelen geselecteerd</string>
+    <!-- Flight itin terminal maps bottom sheet title -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_title">Kaartopties</string>
+    <!-- Flight itin terminal maps bottom sheet airport text template. (e.g., SFO terminal map) -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_airport_text_TEMPLATE">Terminalkaart van {airport}</string>
     <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Komt aan op {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
@@ -1441,10 +1445,32 @@
     <string name="itin_flight_total_duration_TEMPLATE">Totale reisduur: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Info over bagage</string>
-    <!--Flight itin traveller info widget heading-->
+    <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">Reizigersinfo</string>
+    <!--Flight itin traveler preferences heading -->
+    <string name="itin_flight_traveler_preferences">Voorkeuren</string>
+    <!--Flight itin Known traveler number text -->
+    <string name="itin_known_traveler_number_text">Known Traveler-nummer</string>
+    <!--Flight itin traveler redress number text-->
+    <string name="itin_traveler_redress_number">Redress-nummer</string>
+    <!--Flight itin traveler Special assistance requests text-->
+    <string name="itin_traveler_special_assistance_requests_text">Verzoeken om speciale assistentie</string>
+    <!--Flight itin traveler Frequent Flyer information text-->
+    <string name="itin_frequent_flyer_text">Frequent flyer-info</string>
+    <!--Flight itin traveler contact to confirm request text-->
+    <string name="itin_traveler_contact_air_to_confirm_text">Neem contact op met de airline om verzoeken te bevestigen</string>
+    <!--Flight itin traveler email text -->
+    <string name="itin_traveler_email_text">E-mail</string>
+    <!--Flight itin traveler phone text -->
+    <string name="itin_traveler_phone_text">Telefoon</string>
+    <!--Flight itin traveler ticket number (e.g. Ticket # 345678901123)-->
+    <string name="itin_traveler_ticket_number_TEMPLATE">Ticketnr. {number}</string>
+    <!--Flight itein traveler infant in seat text -->
+    <string name="itin_traveler_infant_in_seat_text">(Baby op schoot)</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">Boeking beheren</string>
+    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_flight_customer_support_header_text_TEMPLATE">Neem contact op met {brand} als je hulp nodig hebt bij dit reisplan.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">Geannuleerd</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -1453,7 +1479,14 @@
     <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">{duration} vertraging</string>
     <!--Flight itin segment summary flight status indicator text - early departure-->
     <string name="itin_flight_summary_status_indicator_text_early_departure">Vroege vertrektijd</string>
-
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_manage_booking_header">Boeking beheren</string>
+    <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_flight_itinerary_number_TEMPLATE">Reisplannr. {itin_number}</string>
+    <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_flight_customer_support_site_header_TEMPLATE">Klantenservice van {brand}</string>
+    <!--Flight customer support website toolbar header-->
+    <string name="itin_flight_customer_support_site_toolbar_header">Klantenservice</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} d. {hours} u. {minutes} min.</string>
@@ -1523,6 +1556,8 @@
 
 
     <!-- Action Buttons -->
+    <!-- action button to launch terminal maps bottom sheet -->
+    <string name="itin_action_terminal_maps">Terminalkaarten</string>
     <string name="itin_action_directions">Route</string>
     <string name="itin_action_call_hotel">Bel het hotel</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -2070,8 +2105,6 @@
     <string name="save_traveler">Reiziger opslaan</string>
     <!-- no thanks -->
     <string name="no_thanks">Nee, bedankt</string>
-    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
-    <string name="advanced">Geavanceerd</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Geavanceerd (optioneel)</string>
     <string name="contact_airline_message">Neem contact op met de airline om verzoeken te bevestigen</string>
@@ -2158,13 +2191,9 @@
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Fout</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">Voorkeur voor stoel bij %1$s</string>
     <string name="prefers_seat_colored_TEMPLATE2">Voorkeur: stoel %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Bezig met laden reizigersinformatie…</string>
-
-    <!-- Passport label -->
-    <string name="passport_country_colon">Paspoort:</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2383,19 +2412,6 @@
     <!-- This is a special case for rails senior age greater than 62 -->
     <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62+&lt;/b&gt; jaar oud</string>
 
-    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-    <!-- Suggestion to search Times Square -->
-    <string name="suggestion_times_square">Times Square, New York, New York</string>
-    <string name="suggestion_boston">Boston, Massachusetts</string>
-    <string name="suggestion_los_angeles">Los Angeles, Californië</string>
-    <string name="suggestion_venice">Venice Beach Park, Venice, Californië</string>
-    <string name="suggestion_miami">Miami, Florida</string>
-    <string name="suggestion_london">Londen, VK</string>
-    <string name="suggestion_las_vegas">Las Vegas, Nevada</string>
-    <string name="suggestion_paris">Parijs, Frankrijk</string>
-    <string name="suggestion_minneapolis">Minneapolis, Minnesota</string>
-    <string name="suggestion_san_francisco">San Francisco, Californië</string>
-
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Zoeken</string>
@@ -2498,6 +2514,8 @@
     <string name="current_location">Huidige locatie</string>
     <string name="recent_searched_location">Recent gezochte locatie</string>
     <string name="suggested_location">Voorgestelde locatie</string>
+    <!-- To notify the section suggested locations while navigating using talkback -->
+    <string name="suggested_location_list">Voorgestelde locaties</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Zichtbaar kaartgebied</string>
 
@@ -2884,6 +2902,11 @@
     <string name="coupon_submit_button">Versturen</string>
     <!-- Coupon submit button for accessibility -->
     <string name="coupon_submit_button_ally">Verzendknop</string>
+    <!-- Coupon apply button -->
+    <string name="coupon_apply_button">Toepassen</string>
+    <!-- Coupon apply button for accessibility -->
+    <string name="coupon_apply_button_ally">Knop voor toepassen</string>
+
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3742,6 +3765,10 @@
     <string name="step_one">Stap 1: Selecteer hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Stap 2: Selecteer vluchten</string>
+    <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
+    <string name="step_two_variation">Stap 2: Selecteer heenvlucht</string>
+    <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
+    <string name="step_three">Stap 3: Selecteer terugvlucht</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">Dwaze Deal</string>
     <!-- package hotel results unreal deal message for freeHotel -->
@@ -3879,12 +3906,18 @@
     <string name="select_return_flight">Selecteer terugvlucht</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Vlucht naar %1$s</string>
+    <!-- Flight overview - Step 2: flight to template (breadcrumbs) E.g. Step 2: Flight to London -->
+    <string name="flight_to_outbound_breadcrumbs_TEMPLATE">Step 2: Vlucht naar {destination}</string>
+    <!-- Flight overview - Step 3: flight to template (breadcrumbs) E.g. Step 3: Flight to London -->
+    <string name="flight_to_inbound_breadcrumbs_TEMPLATE">Step 3: Vlucht naar {origin}</string>
     <!-- Inbound to template, E.g. Inbound to Kathmandu, Nepal (KTM) -->
     <string name="package_flight_inbound_toolbar_title_TEMPLATE">Terugvlucht naar {cityname}, {stateorcountry} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
     <string name="package_hotel_results_toolbar_title_TEMPLATE">Hotels in %s</string>
+    <!-- Toolbar text for hotel results with breadcrumbs, E.g. Step 1: Hotels in London -->
+    <string name="package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE">Stap 1: Hotels in {destination}</string>
     <!-- Description for infant travelers sitting in lap -->
     <string name="in_lap">Op schoot</string>
     <!-- Description for infant travelers sitting in seat -->
@@ -4260,8 +4293,8 @@
     <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">Vliegtijd is {time} met een prijsverschil van {pricedifference}. Vlucht met {airline} De vluchtduur is {hours} {minutes} met {stops} tussenstops\u0020</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Vliegtijd is {time} met prijs {price}. Vlucht met {airline} De vluchtduur is {hours} {minutes} met {stops} tussenstops\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} met een gastenscore van {starrating} / 5. Gastenscore van {guestrating} / 5. Prijs {price}. Inclusief hotel en vluchten\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} met een gastenscore van {starrating} / 5. Gastenscore van {guestrating} / 5. Prijs {price}. Inclusief hotel en vluchten.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} met een gastenscore van {starrating} / 5. Gastenscore van {guestrating} / 5.  \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
@@ -4491,6 +4524,8 @@
     <string name="accessibility_cont_desc_opens_dialog">Opent dialoogvenster</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">utgeschakeld</string>
+    <!-- Content Description for Rating Button -->
+    <string name="accessibility_cont_desc_user_rating_button">Gastenscoreknop</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Prijs is {activity_price}{ticket_type}</string>
@@ -4621,6 +4656,10 @@
     <string name="deals_hotel_only">Alleen hotel</string>
     <string name="deals_toolbar_close_cont_desc">Klantenprijzenvenster sluiten</string>
 
+    <!-- Last Minute Deal -->
+    <string name="last_minute_deal_title">Lastminutedeals</string>
+    <string name="last_minute_deal_subtitle">Wil je op reis? Bekijk onze lage lastminuteprijzen</string>
+
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Hoe bepalen wij de sorteervolgorde?</string>
     <!-- Checkout validation error message for credit card number-->
@@ -4711,6 +4750,21 @@
     <string name="amenity_carry_on_bag">Handbagage</string>
     <string name="amenity_seat_choice">Stoelkeuze</string>
 
+    <!-- Amenities Content Description-->
+    <!-- Cont Desc for charged amenities Example: Seat Choice available for a fee-->
+    <string name="amenity_chargeable_cont_desc_TEMPLATE">{amenity_name} beschikbaar tegen een toeslag. \u0020</string>
+    <!-- Cont Desc for included amenities Example: Seat Choice available -->
+    <string name="amenity_included_cont_desc_TEMPLATE">{amenity_name} beschikbaar. \u0020</string>
+    <!-- Cont Desc for unavailable amenities Example: Seat Choice not available-->
+    <string name="amenity_not_available_cont_desc_TEMPLATE">{amenity_name} niet beschikbaar. \u0020</string>
+    <plurals name="checked_bags_template">
+        <item quantity="one">{number} stuk ruimbagage</item>
+        <item quantity="other">{number} stuks ruimbagage</item>
+    </plurals>
+    <!-- Cont Desc for fare family item Example: Classic, cabin Econonmy--> 
+    <string name="fare_family_item_cont_desc_TEMPLATE">{fare_family_name}, cabine {cabin_code}. \u0020</string> 
+    <!-- Cont Desc for fare family item Example: This fare is available for an additional $20, roundtrip for 2 travelers--> 
+    <string name="fare_family_item_cont_desc_price_TEMPLATE">Dit tarief is beschikbaar tegen {delta} extra, {trip_type} voor {guests}. \u0020</string>  
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">Meer tonen</string>
 

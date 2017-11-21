@@ -15,14 +15,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.expedia.bookings.widget.LocationMapImageView
+            <com.expedia.bookings.itin.widget.GoogleMapsLiteMapView
                 android:id="@+id/widget_hotel_itin_map"
                 android:layout_width="match_parent"
                 android:layout_height="126dp"
-                android:background="@color/gray200"
-                android:contentDescription="@string/itin_hotel_details_map_view_content_description"
-                android:focusable="false"
-                android:scaleType="centerCrop" />
+                android:clickable="true"
+                android:contentDescription="@string/itin_hotel_details_map_view_content_description" />
 
             <LinearLayout
                 android:id="@+id/widget_hotel_itin_address"

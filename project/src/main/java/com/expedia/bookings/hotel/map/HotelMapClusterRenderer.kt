@@ -19,7 +19,7 @@ import com.google.maps.android.ui.IconGenerator
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
-class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clusterManager: ClusterManager<MapItem>?, clusterChangeSubject: PublishSubject<Unit>) : DefaultClusterRenderer<MapItem>(context, map, clusterManager, clusterChangeSubject) {
+class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clusterManager: ClusterManager<HotelMapMarker>?, clusterChangeSubject: PublishSubject<Unit>) : DefaultClusterRenderer<HotelMapMarker>(context, map, clusterManager, clusterChangeSubject) {
     private val clusterIconGenerator = IconGenerator(context)
     private val clusterCountText: TextView
     private val clusterRangeText: TextView
@@ -32,10 +32,10 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         clusterRangeText = multiHotel.findViewById<TextView>(R.id.price_range)
     }
 
-    override fun onBeforeClusterItemRendered(mapItem: MapItem, markerOptions: MarkerOptions?) {
-        mapItem.isClustered = false
-        val icon = mapItem.getHotelMarkerIcon()
-        val formattedPrice = mapItem.price?.getDisplayMoney(false, !mapItem.hotel.isPackage)
+    override fun onBeforeClusterItemRendered(hotelMapMarker: HotelMapMarker, markerOptions: MarkerOptions?) {
+        hotelMapMarker.isClustered = false
+        val icon = hotelMapMarker.getHotelMarkerIcon()
+        val formattedPrice = hotelMapMarker.price?.getDisplayMoney(false, !hotelMapMarker.hotel.isPackage)
 
         val contDesc = Phrase.from(context, R.string.hotel_map_pin_price_cont_desc_TEMPLATE)
                 .put("price" , formattedPrice?.formattedMoney ?: "")
@@ -43,7 +43,7 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         markerOptions?.icon(icon)?.title(contDesc)
     }
 
-    override fun onBeforeClusterRendered(cluster: Cluster<MapItem>, markerOptions: MarkerOptions) {
+    override fun onBeforeClusterRendered(cluster: Cluster<HotelMapMarker>, markerOptions: MarkerOptions) {
         val selected = cluster.items.filter { it.isSelected }
         selected.forEach { it.isClustered = false }
         val notSelected = cluster.items.filter { !it.isSelected }
@@ -65,11 +65,11 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         markerOptions.icon(icon)
     }
 
-    override fun shouldRenderAsCluster(cluster: Cluster<MapItem>): Boolean {
+    override fun shouldRenderAsCluster(cluster: Cluster<HotelMapMarker>): Boolean {
         return cluster.size > 10
     }
 
-    fun createClusterMarkerIcon(context: Context, factory: IconGenerator, cluster: Cluster<MapItem>): BitmapDescriptor {
+    fun createClusterMarkerIcon(context: Context, factory: IconGenerator, cluster: Cluster<HotelMapMarker>): BitmapDescriptor {
         var minPrice = Int.MAX_VALUE
         var minFormattedPrice: Money? = null
         val clusterExcludingSoldOut = cluster.items.filter { !it.hotel.isSoldOut }

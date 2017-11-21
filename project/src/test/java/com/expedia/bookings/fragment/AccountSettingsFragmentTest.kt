@@ -175,19 +175,19 @@ class AccountSettingsFragmentTest {
         clickViewWithTextInSection("Expedia Website", R.id.section_contact_us)
         assertIntentFiredToViewUri(PointOfSale.getPointOfSale().websiteUrl)
 
-        clickViewWithTextInSection("App Support", R.id.section_contact_us)
+        clickViewWithTextInSection(activity.resources.getString(R.string.app_support), R.id.section_contact_us)
         assertIntentFiredToOpenWebviewWithUri(ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(activity))
 
-        clickViewWithTextInSection("Rate our app!", R.id.section_communicate)
+        clickViewWithTextInSection(activity.resources.getString(R.string.rate_our_app), R.id.section_communicate)
         assertIntentFiredToViewUri("market://details?id=" + activity.packageName)
 
-        clickViewWithTextInSection("Terms and Conditions", R.id.section_legal)
+        clickViewWithTextInSection(activity.resources.getString(R.string.terms_and_conditions), R.id.section_legal)
         assertIntentFiredToOpenWebviewWithUri(PointOfSale.getPointOfSale().termsAndConditionsUrl)
 
-        clickViewWithTextInSection("Privacy Policy", R.id.section_legal)
+        clickViewWithTextInSection(activity.resources.getString(R.string.info_label_privacy_policy), R.id.section_legal)
         assertIntentFiredToOpenWebviewWithUri(PointOfSale.getPointOfSale().privacyPolicyUrl)
 
-        clickViewWithTextInSection("Open Source Software Licenses", R.id.section_legal)
+        clickViewWithTextInSection(activity.resources.getString(R.string.open_source_software_licenses), R.id.section_legal)
         assertIntentFiredToViewOSSLicenses()
 
         fragment.view?.findViewById<View>(R.id.logo)?.performClick()
@@ -272,7 +272,7 @@ class AccountSettingsFragmentTest {
 
         assertCountryViewDisplayed(expectedCountryCode, expectedFlagResId, R.id.second_row_country)
 
-        clickViewWithTextInSection("Booking Support", R.id.section_contact_us)
+        clickViewWithTextInSection(activity.resources.getString(R.string.booking_support), R.id.section_contact_us)
         clickPhoneSupportButton()
 
         val userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()

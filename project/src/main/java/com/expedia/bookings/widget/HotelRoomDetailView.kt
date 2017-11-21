@@ -16,7 +16,6 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomDetailViewModel
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.HotelValueAdd
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -34,11 +33,12 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
     private val valueAddsContainer: LinearLayout by bindView(R.id.value_adds_container)
     private val earnMessageTextView: TextView by bindView(R.id.earn_message_text_view)
     private val mandatoryFeeTextView: TextView by bindView(R.id.mandatory_fee_text_view)
+    private val memberOnlyDealTag: ImageView by bindView(R.id.member_only_deal_tag)
     private val discountPercentageTextView: TextView by bindView(R.id.discount_percentage_text_view)
     private val payLaterPriceTextView: TextView by bindView(R.id.pay_later_price_text_view)
     private val depositTermsTextView: TextView by bindView(R.id.deposit_terms_text_view)
     private val strikeThroughTextView: TextView by bindView(R.id.strike_through_price_text_view)
-    private val pricePerNightTextView: TextView by bindView(R.id.price_per_night_text_view)
+    private val priceTextView: TextView by bindView(R.id.price_text_view)
     private val pricePerDescriptorTextView: TextView by bindView(R.id.price_per_descriptor_text_view)
     private val taxFeeDescriptorTextView: TextView by bindView(R.id.tax_fee_descriptor)
     private val hotelRoomRowButton: HotelRoomRateActionButton by bindView(R.id.hotel_room_row_button)
@@ -53,16 +53,12 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         View.inflate(context, R.layout.hotel_room_detail, this)
 
         hotelRoomRowButton.showBookButton()
-        hotelRoomRowButton.setBookButtonText(context.getString(R.string.select))
 
         val infoIcon = ContextCompat.getDrawable(context, R.drawable.details_info).mutate()
         infoIcon.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
         depositTermsTextView.setCompoundDrawablesWithIntrinsicBounds(infoIcon, null, null, null)
 
         strikeThroughTextView.paintFlags = strikeThroughTextView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-
-        pricePerNightTextView.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
-        pricePerDescriptorTextView.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
 
         val urgencyIconDrawable = ContextCompat.getDrawable(context, R.drawable.urgency).mutate()
         urgencyIconDrawable.setColorFilter(ContextCompat.getColor(context, R.color.hotel_urgency_message_color), PorterDuff.Mode.SRC_IN)
@@ -89,7 +85,10 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         }
         earnMessageTextView.setTextAndVisibility(viewModel.earnMessageString)
         mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
+        memberOnlyDealTag.updateVisibility(viewModel.showMemberOnlyDealTag)
         discountPercentageTextView.setTextAndVisibility(viewModel.discountPercentageString)
+        discountPercentageTextView.setBackground(viewModel.discountPercentageBackground)
+        discountPercentageTextView.setTextColor(viewModel.discountPercentageTextColor)
         payLaterPriceTextView.setTextAndVisibility(viewModel.payLaterPriceString)
         depositTermsTextView.updateVisibility(viewModel.showDepositTerm)
         depositTermsTextView.subscribeOnClick(depositTermsClickedSubject)
@@ -98,11 +97,11 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         val isAirAttached = viewModel.hotelRoomResponse.rateInfo.chargeableRateInfo.airAttached
 
         if (isShopWithPoints || !isAirAttached &&
-            !AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
+            !AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
             strikeThroughTextView.setTextAndVisibility(viewModel.strikeThroughString)
         }
 
-        pricePerNightTextView.setTextAndVisibility(viewModel.pricePerNightString)
+        priceTextView.setTextAndVisibility(viewModel.priceString)
         pricePerDescriptorTextView.setTextAndVisibility(viewModel.pricePerDescriptorString)
         mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
 
@@ -110,10 +109,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
 
         hotelRoomRowButton.bookButtonClickedSubject.subscribe(hotelRoomRowClickedSubject)
 
-        if (viewModel.isPackage) {
-            hotelRoomRowButton.setSelectButtonText(context.getString(R.string.select))
-            hotelRoomRowButton.showViewRoomButton()
-        }
+        hotelRoomRowButton.setBookButtonText(viewModel.hotelRoomRowButtonString)
 
         viewModel.roomSoldOut.subscribe { soldOut ->
             if (soldOut) {

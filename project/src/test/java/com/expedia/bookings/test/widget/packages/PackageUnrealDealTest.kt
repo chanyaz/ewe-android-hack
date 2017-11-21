@@ -52,7 +52,7 @@ class PackageUnrealDealTest {
         packageHotelHolder.bindHotelData(hotel)
         Assert.assertTrue(packageHotelHolder.unrealDealMessage.visibility.equals(View.VISIBLE))
         Assert.assertEquals("Get your hotel for free by booking together.", packageHotelHolder.unrealDealMessage.text)
-        assertEquals("Unreal Deal Get your hotel for free by booking together. happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights Old price $27 Button",
+        assertEquals("Unreal Deal Get your hotel for free by booking together. happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights. Old price $27 Button",
                 packageHotelHolder.cardView.contentDescription.toString())
     }
 
@@ -67,7 +67,7 @@ class PackageUnrealDealTest {
         packageHotelHolder.bindHotelData(hotel)
         Assert.assertTrue(packageHotelHolder.unrealDealMessage.visibility.equals(View.VISIBLE))
         Assert.assertEquals("Book this and save 100% on your flight.", packageHotelHolder.unrealDealMessage.text)
-        assertEquals("Unreal Deal Book this and save 100% on your flight. happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights Old price $27 Button",
+        assertEquals("Unreal Deal Book this and save 100% on your flight. happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights. Old price $27 Button",
                 packageHotelHolder.cardView.contentDescription.toString())
     }
 
@@ -83,7 +83,7 @@ class PackageUnrealDealTest {
         packageHotelHolder.bindHotelData(hotel)
         Assert.assertTrue(packageHotelHolder.unrealDealMessage.visibility.equals(View.VISIBLE))
         Assert.assertEquals("1 free night when you book with a flight.", packageHotelHolder.unrealDealMessage.text)
-        assertEquals("Unreal Deal 1 free night when you book with a flight. happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights Old price $27 Button",
+        assertEquals("Unreal Deal 1 free night when you book with a flight. happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights. Old price $27 Button",
                 packageHotelHolder.cardView.contentDescription.toString())
     }
 
@@ -97,7 +97,7 @@ class PackageUnrealDealTest {
         packageHotelHolder.bindHotelData(hotel)
         Assert.assertTrue(packageHotelHolder.unrealDealMessage.visibility.equals(View.VISIBLE))
         Assert.assertEquals("Book this and save $110 (20%)", packageHotelHolder.unrealDealMessage.text)
-        assertEquals("Unreal Deal Book this and save $110 (20%) happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights Old price $27 Button",
+        assertEquals("Unreal Deal Book this and save $110 (20%) happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights. Old price $27 Button",
                 packageHotelHolder.cardView.contentDescription.toString())
     }
 

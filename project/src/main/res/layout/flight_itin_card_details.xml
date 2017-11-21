@@ -23,14 +23,13 @@
         android:background="@color/gray100"
         android:fadingEdge="none">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:orientation="vertical"
-            android:paddingBottom="20dp"
-            android:paddingTop="20dp">
+            android:paddingBottom="19dp"
+            android:paddingTop="19dp">
 
             <com.expedia.bookings.itin.widget.ItinConfirmationWidget
                 android:id="@+id/widget_itin_flight_confirmation_cardview"
@@ -41,8 +40,7 @@
                 android:id="@+id/flight_itin_summary_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="12dp" />
+                android:orientation="vertical" />
 
             <com.expedia.bookings.itin.widget.ItinTimeDurationWidget
                 android:id="@+id/widget_itin_flight_total_duration_cardview"
@@ -57,8 +55,7 @@
             <com.expedia.bookings.itin.widget.FlightItinMapWidget
                 android:id="@+id/widget_itin_flight_map"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="12dp" />
+                android:layout_height="wrap_content" />
 
             <com.expedia.bookings.itin.widget.FlightItinBookingDetailsWidget
                 android:id="@+id/widget_flight_itin_booking_details"
@@ -66,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="11dp"
                 android:layout_marginRight="11dp"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="19dp" />
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
 </LinearLayout>

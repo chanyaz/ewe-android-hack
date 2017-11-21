@@ -46,7 +46,7 @@ import com.google.maps.android.quadtree.PointQuadTree;
  * <p>
  * Clusters have the center of the first element (not the centroid of the items within it).
  */
-public class NonHierarchicalDistanceBasedAlgorithm implements Algorithm<MapItem> {
+public class NonHierarchicalDistanceBasedAlgorithm implements Algorithm<HotelMapMarker> {
 	public static final int MAX_DISTANCE_AT_ZOOM = 100; // essentially 100 dp.
 
 	/**
@@ -62,7 +62,7 @@ public class NonHierarchicalDistanceBasedAlgorithm implements Algorithm<MapItem>
 	protected static final SphericalMercatorProjection PROJECTION = new SphericalMercatorProjection(1);
 
 	@Override
-	public void addItem(MapItem item) {
+	public void addItem(HotelMapMarker item) {
 		final QuadItem quadItem = new QuadItem(item);
 		synchronized (mQuadTree) {
 			mItems.add(quadItem);
@@ -71,8 +71,8 @@ public class NonHierarchicalDistanceBasedAlgorithm implements Algorithm<MapItem>
 	}
 
 	@Override
-	public void addItems(Collection<MapItem> items) {
-		for (MapItem item : items) {
+	public void addItems(Collection<HotelMapMarker> items) {
+		for (HotelMapMarker item : items) {
 			addItem(item);
 		}
 	}
@@ -86,19 +86,19 @@ public class NonHierarchicalDistanceBasedAlgorithm implements Algorithm<MapItem>
 	}
 
 	@Override
-	public void removeItem(MapItem item) {
+	public void removeItem(HotelMapMarker item) {
 		// TODO: delegate QuadItem#hashCode and QuadItem#equals to its item.
 		throw new UnsupportedOperationException("NonHierarchicalDistanceBasedAlgorithm.remove not implemented");
 	}
 
 	@Override
-	public Set<? extends Cluster<MapItem>> getClusters(double zoom) {
+	public Set<? extends Cluster<HotelMapMarker>> getClusters(double zoom) {
 		final int discreteZoom = (int) zoom;
 
 		final double zoomSpecificSpan = MAX_DISTANCE_AT_ZOOM / Math.pow(2, discreteZoom) / 256;
 
 		final Set<QuadItem> visitedCandidates = new HashSet<QuadItem>();
-		final Set<Cluster<MapItem>> results = new HashSet<Cluster<MapItem>>();
+		final Set<Cluster<HotelMapMarker>> results = new HashSet<Cluster<HotelMapMarker>>();
 		final Map<QuadItem, Double> distanceToCluster = new HashMap<QuadItem, Double>();
 		final Map<QuadItem, StaticCluster> itemToCluster = new HashMap<QuadItem, StaticCluster>();
 
@@ -119,7 +119,7 @@ public class NonHierarchicalDistanceBasedAlgorithm implements Algorithm<MapItem>
 					distanceToCluster.put(candidate, 0d);
 					continue;
 				}
-				StaticCluster cluster = new StaticCluster<MapItem>(candidate.mClusterItem.getPosition());
+				StaticCluster cluster = new StaticCluster<HotelMapMarker>(candidate.mClusterItem.getPosition());
 				results.add(cluster);
 
 				for (QuadItem clusterItem : clusterItems) {
@@ -144,8 +144,8 @@ public class NonHierarchicalDistanceBasedAlgorithm implements Algorithm<MapItem>
 	}
 
 	@Override
-	public Collection<MapItem> getItems() {
-		final List items = new ArrayList<MapItem>();
+	public Collection<HotelMapMarker> getItems() {
+		final List items = new ArrayList<HotelMapMarker>();
 		synchronized (mQuadTree) {
 			for (QuadItem quadItem : mItems) {
 				items.add(quadItem.mClusterItem);
@@ -167,13 +167,13 @@ public class NonHierarchicalDistanceBasedAlgorithm implements Algorithm<MapItem>
 			p.y - halfSpan, p.y + halfSpan);
 	}
 
-	protected static class QuadItem implements PointQuadTree.Item, Cluster<MapItem> {
-		public final MapItem mClusterItem;
+	protected static class QuadItem implements PointQuadTree.Item, Cluster<HotelMapMarker> {
+		public final HotelMapMarker mClusterItem;
 		private final Point mPoint;
 		private final LatLng mPosition;
-		private Set<MapItem> singletonSet;
+		private Set<HotelMapMarker> singletonSet;
 
-		private QuadItem(MapItem item) {
+		private QuadItem(HotelMapMarker item) {
 			mClusterItem = item;
 			mPosition = item.getPosition();
 			mPoint = PROJECTION.toPoint(mPosition);
@@ -191,7 +191,7 @@ public class NonHierarchicalDistanceBasedAlgorithm implements Algorithm<MapItem>
 		}
 
 		@Override
-		public Set<MapItem> getItems() {
+		public Set<HotelMapMarker> getItems() {
 			return singletonSet;
 		}
 

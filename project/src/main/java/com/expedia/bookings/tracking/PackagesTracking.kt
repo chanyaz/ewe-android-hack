@@ -91,6 +91,7 @@ class PackagesTracking {
     fun trackCheckoutPaymentConfirmation(response: PackageCheckoutResponse, hotelSupplierType: String, pageUsableData: PageUsableData, packageParams: PackageSearchParams) {
         OmnitureTracking.trackPackagesConfirmation(response, hotelSupplierType, pageUsableData)
         CarnivalUtils.getInstance().trackPackagesConfirmation(packageParams)
+        TuneUtils.trackPackageConfirmation(response, packageParams)
     }
 
     fun trackFlightRoundTripLoad(isOutBound: Boolean, packageParams: PackageSearchParams, pageUsableData: PageUsableData) {
@@ -125,6 +126,10 @@ class PackagesTracking {
 
     fun trackHotelDetailGalleryClick() {
         OmnitureTracking.trackPackageHotelDetailGalleryClick()
+    }
+
+    fun trackHotelDetailRoomGalleryClick() {
+        OmnitureTracking.trackPackageHotelDetailRoomGalleryClick()
     }
 
     fun trackHotelReviewPageLoad() {
@@ -226,6 +231,10 @@ class PackagesTracking {
 
     fun trackSearchError(errorType: String) {
         OmnitureTracking.trackPackagesSearchError(errorType)
+    }
+
+    fun trackInfositeError(errorType: String) {
+        OmnitureTracking.trackPackagesInfositeError(errorType)
     }
 
     fun trackCheckoutError(error: ApiError) {

@@ -141,7 +141,7 @@ public class SortSteps {
 		return price;
 	}
 
-	public AtomicReference<String> getFlightTimeAtPosition(int pos, ViewInteraction viewInteraction) {
+	public static AtomicReference<String> getFlightTimeAtPosition(int pos, ViewInteraction viewInteraction) {
 		AtomicReference<String> time = new AtomicReference<>();
 		viewInteraction
 			.perform(ViewActions.waitForViewToDisplay(), ViewActions.getFlightTimeAtPosition(pos, time));

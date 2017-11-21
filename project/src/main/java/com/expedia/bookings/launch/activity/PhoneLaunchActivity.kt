@@ -40,6 +40,7 @@ import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.itin.services.TNSServices
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
 import com.expedia.holidayfun.widget.HolidayFunCoordinator
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
@@ -57,7 +58,6 @@ import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.LXNavUtils
@@ -159,11 +159,14 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             isLocationPermissionPending = savedInstanceState.getBoolean("is_location_permission_pending", false)
         }
 
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             loginStateSubsciption = userLoginStateChangedModel.userLoginStateChanged.distinctUntilChanged().filter { isSignIn -> isSignIn == true }.subscribe {
                 SettingUtils.save(this, PREF_USER_ENTERS_FROM_SIGNIN, true)
             }
         }
+
+        val tnsServices: TNSServices = Ui.getApplication(this).appComponent().tnsService()
+        tnsServices.registerForUserDevice(null)
 
         val lineOfBusiness = intent.getSerializableExtra(Codes.LOB_NOT_SUPPORTED) as LineOfBusiness?
         if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
@@ -196,7 +199,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
 
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             if (shouldShowSoftPrompt()) {
                 requestLocationPermissionViaSoftPrompt()
             }
@@ -403,6 +406,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     @Synchronized private fun gotoWaterfall() {
+        holidayFunCoordinator.showCallToAction()
 
         if (pagerPosition != PAGER_POS_LAUNCH) {
             pagerPosition = PAGER_POS_LAUNCH
@@ -419,6 +423,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     @Synchronized private fun gotoItineraries() {
+        holidayFunCoordinator.hideCallToAction()
 
         if (pagerPosition != PAGER_POS_ITIN) {
 
@@ -457,6 +462,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     @Synchronized private fun gotoAccount() {
+        holidayFunCoordinator.hideCallToAction()
         if (userStateManager.isUserAuthenticated()) {
             accountFragment?.refreshUserInfo()
         }
@@ -499,7 +505,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this))
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             if (SettingUtils.get(this, PREF_USER_ENTERS_FROM_SIGNIN, false)) {
                 if (shouldShowSoftPrompt()) {
                     requestLocationPermissionViaSoftPrompt()

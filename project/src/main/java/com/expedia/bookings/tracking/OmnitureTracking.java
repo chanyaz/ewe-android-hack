@@ -227,6 +227,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_DETAIL_SELECT_ROOM = "App.Hotels.Infosite.SelectRoom";
 	private static final String HOTELSV2_MAP_SELECT_ROOM = "App.Hotels.IS.Map.SelectRoom";
 	private static final String HOTELSV2_DETAIL_GALLERY_CLICK = "App.Hotels.IS.Gallery.Hotel";
+	private static final String HOTELSV2_DETAIL_ROOM_GALLERY_CLICK = "App.Hotels.IS.Gallery.Room";
 	private static final String HOTELSV2_DETAIL_CHANGE_DATE = "App.Hotels.IS.ChangeDates";
 
 	private static final String HOTELSV2_REVIEWS = "App.Hotels.Reviews";
@@ -790,8 +791,8 @@ public class OmnitureTracking {
 
 		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelGroupRoomRate);
 		trackAbacusTest(s, AbacusUtils.HotelEnableInfositeChangeDate);
+		trackAbacusTest(s, AbacusUtils.HotelRoomImageGallery);
 
 		// Send the tracking data
 		s.track();
@@ -914,6 +915,16 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_GALLERY_CLICK + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_GALLERY_CLICK);
+
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+
+		s.trackLink(null, "o", "Gallery View", null, null);
+	}
+
+	public static void trackHotelDetailRoomGalleryClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_ROOM_GALLERY_CLICK + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_ROOM_GALLERY_CLICK);
 
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 
@@ -2171,6 +2182,7 @@ public class OmnitureTracking {
 	private static final String ITIN_FLIGHT_TRAVELER_INFO = "App.Itinerary.Flight.TravelerInfo";
 	private static final String ITIN_FLIGHT_INFO_ADDITIONAL = "App.Itinerary.Flight.Info.Additional";
 	private static final String ITIN_FLIGHT_PRICE_SUMMARY = "App.Itinerary.Flight.PriceSummary";
+	private static final String ITIN_FLIGHT_MAP_OPEN = "App.Itinerary.Flight.Map";
 	private static final String ITIN_CAR = "App.Itinerary.Car";
 	private static final String ITIN_CAR_DIRECTIONS = "App.Itinerary.Car.Directions";
 	private static final String ITIN_CAR_CALL = "App.Itinerary.Car.Call";
@@ -2539,6 +2551,11 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
+	public static void trackItinFlightExpandMap() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_MAP_OPEN);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
 	public static void trackItinHotelCallHotel() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL_HOTEL);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
@@ -2647,6 +2664,41 @@ public class OmnitureTracking {
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
 		trackAbacusTest(s, AbacusUtils.TripsFlightsNewdesign);
+		s.setProp(2, "itinerary");
+		s.setEvar(2, "D=c2");
+		s.track();
+	}
+
+	public static void trackItinFlightManageBookingActivity(Context context, Map trip) {
+		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT_MANAGE_BOOKING + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_FLIGHT_MANAGE_BOOKING);
+		if (userStateManager.isUserAuthenticated()) {
+			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
+			if (!usersTripComponentTypeEventString.isEmpty()) {
+				s.setEvents("event63" + "," + usersTripComponentTypeEventString);
+				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
+			}
+			else {
+				s.setEvents("event63");
+			}
+		}
+		if (trip != null) {
+			s.setProducts(String.valueOf(trip.get("productString")));
+			s.setProp(8, String.valueOf(trip.get("orderAndTripNumbers")));
+
+			if (String.valueOf(trip.get("duration")) != null) {
+				s.setEvar(6, String.valueOf(trip.get("duration")));
+			}
+			if (String.valueOf(trip.get("tripStartDate")) != null) {
+				s.setProp(5, String.valueOf(trip.get("tripStartDate")));
+			}
+			if (String.valueOf(trip.get("tripEndDate")) != null) {
+				s.setProp(6, String.valueOf(trip.get("tripEndDate")));
+			}
+			if (String.valueOf(trip.get("daysUntilTrip")) != null) {
+				s.setEvar(5, String.valueOf(trip.get("daysUntilTrip")));
+			}
+		}
 		s.setProp(2, "itinerary");
 		s.setEvar(2, "D=c2");
 		s.track();
@@ -2792,6 +2844,7 @@ public class OmnitureTracking {
 	private static final String NOTIFICATION_DESKTOP_BOOKING_CONFIRMATION = "Itinerary.Purchase.Confirmation";
 	private static final String NOTIFICATION_HOTEL_GET_READY = "Itinerary.Hotel.GetReady";
 	private static final String NOTIFICATION_HOTEL_ACTIVITY_CROSSSEll = "Itinerary.Hotel.CrossSell.Activity";
+	private static final String NOTIFICATION_HOTEL_ACTIVITY_IN_TRIP = "Itinerary.Hotel.InTrip.Activity";
 
 	public static void trackNotificationClick(Notification notification) {
 		String link = setItinNotificationLink(notification);
@@ -2860,6 +2913,9 @@ public class OmnitureTracking {
 			break;
 		case HOTEL_ACTIVITY_CROSSSEll:
 			link = NOTIFICATION_HOTEL_ACTIVITY_CROSSSEll;
+			break;
+		case HOTEL_ACTIVITY_IN_TRIP:
+			link = NOTIFICATION_HOTEL_ACTIVITY_IN_TRIP;
 			break;
 		default:
 			link = "Itinerary." + type.name();
@@ -3168,6 +3224,10 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountSinglePageSignUp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
+
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_last_minute_deals)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppLastMinuteDeals);
+		}
 
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(sContext, AbacusUtils.HolidayFun)) {
 			s.setEvents("event330");
@@ -4110,6 +4170,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTEL_DETAILS_MAP = "App.Package.Infosite.Map";
 	private static final String PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM = "App.Package.IS.Map.SelectRoom";
 	private static final String PACKAGES_HOTELS_DETAIL_GALLERY_CLICK = "App.Package.Hotels.IS.Gallery.Hotel";
+	private static final String PACKAGES_HOTELS_DETAIL_ROOM_GALLERY_CLICK = "App.Package.Hotels.IS.Gallery.Room";
 
 	private static final String PACKAGES_HOTELS_SEARCH_REFINE = "App.Package.Hotels.Search.Filter";
 	private static final String PACKAGES_HOTELS_SORT_BY_TEMPLATE = "App.Package.Hotels.Search.Sort.";
@@ -4131,6 +4192,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE = "App.Package.Flight.Search.Filter.";
 	private static final String PACKAGES_FLIGHT_AIRLINES = "App.Package.Flight.Search.Filter.Airline";
 
+	private static final String PACKAGES_INFOSITE_ERROR = "App.Package.Infosite.Error";
 	private static final String PACKAGES_SEARCH_ERROR = "App.Package.Hotels-Search.NoResults";
 	private static final String PACKAGES_CHECKOUT_ERROR = "App.Package.Checkout.Error";
 	private static final String PACKAGES_CHECKOUT_ERROR_RETRY = "App.Package.CKO.Error.Retry";
@@ -4295,6 +4357,7 @@ public class OmnitureTracking {
 		if (response.getHotelResultsCount() > 0) {
 			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_RESULT_LOAD + "\"");
 			s.setAppState(PACKAGES_HOTEL_SEARCH_RESULT_LOAD);
+			s.setEvar(18, PACKAGES_HOTEL_SEARCH_RESULT_LOAD);
 			addPackagesCommonFields(s);
 			s.setEvents("event12,event53");
 			s.setProp(1, String.valueOf(response.getHotelResultsCount()));
@@ -4468,8 +4531,18 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Gallery View", null, null);
 	}
 
+	public static void trackPackageHotelDetailRoomGalleryClick() {
+		Log.d(TAG, "Tracking \"" + PACKAGES_HOTELS_DETAIL_ROOM_GALLERY_CLICK + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(PACKAGES_HOTELS_DETAIL_ROOM_GALLERY_CLICK);
+
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+
+		s.trackLink(null, "o", "Gallery View", null, null);
+	}
+
 	public static void trackPackagesHotelReviewPageLoad() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_REVIEWS, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_REVIEWS, null);
 	}
 
 	public static void trackPackagesHotelReviewCategoryChange(String category) {
@@ -4478,11 +4551,11 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelResortFeeInfo() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO, null);
 	}
 
 	public static void trackPackagesHotelRenovationInfo() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO, null);
 	}
 
 	public static void trackPackagesViewBundleLoad(boolean isFirstBundleLaunch) {
@@ -4553,7 +4626,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelMapViewClick() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_MAP, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_MAP, null);
 	}
 
 	public static void trackPackagesHotelMapSelectRoomClick() {
@@ -4563,6 +4636,13 @@ public class OmnitureTracking {
 	public static void trackPackagesSearchError(String errorType) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_SEARCH_ERROR + "\" pageLoad...");
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_SEARCH_ERROR);
+		s.setProp(36, errorType);
+		s.track();
+	}
+
+	public static void trackPackagesInfositeError(String errorType) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_INFOSITE_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_INFOSITE_ERROR);
 		s.setProp(36, errorType);
 		s.track();
 	}
@@ -4934,9 +5014,7 @@ public class OmnitureTracking {
 		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_krazy_glue_on_flights_confirmation)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
 
 		s.track();
 	}
@@ -5109,7 +5187,6 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAATest);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchFormValidation);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAdvanceSearch);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
@@ -5117,6 +5194,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSearchResultCaching);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel);
 		s.track();
 	}
 
@@ -5166,10 +5244,7 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR);
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSubpubChange);
-
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(sContext, AbacusUtils.EBAndroidAppFlightsEvolable)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsEvolable);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsEvolable);
 
 		s.track();
 	}
@@ -5196,6 +5271,7 @@ public class OmnitureTracking {
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
 			setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsDeltaPricing);
 		s.track();
 	}
 
@@ -5271,6 +5347,7 @@ public class OmnitureTracking {
 		setDateValues(s, departureDate, returnDate);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCheckoutButtonText);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsBaggageWebViewHideAd);
 
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_rate_detail_from_cache)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache);

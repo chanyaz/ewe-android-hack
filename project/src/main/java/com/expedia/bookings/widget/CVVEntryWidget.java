@@ -42,7 +42,6 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 
 	private CVVTextView mCVVTextView;
 	private TextView mCVVPromptTextView;
-	private MaskView mCVVMaskView;
 	private SVGView svgAmexLogo;
 	private SVGView svgAmexHead;
 
@@ -101,7 +100,6 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 		mCVVTextView = Ui.findView(v, R.id.cvv_text_view);
 		mCreditCardInputSection = Ui.findView(v, R.id.credit_card_input_section);
 		mCVVPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
-		mCVVMaskView = Ui.findView(v, R.id.mask_cvv_widget);
 		svgAmexLogo = Ui.findView(v, R.id.svg_amex_logo);
 		svgAmexHead = Ui.findView(v, R.id.svg_amex_head);
 
@@ -231,7 +229,6 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 		mMinCvvLen = amex ? 4 : 3;
 
 		syncBookButtonState();
-		mCVVMaskView.invalidate();
 	}
 
 	private String getFirstCharacter(String input) {

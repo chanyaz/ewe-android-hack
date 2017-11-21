@@ -9,6 +9,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
@@ -33,7 +34,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		HotelScreen.selectHotel();
 		reviews();
 		launchFullMap();
-		HotelScreen.selectRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.enterTravelerInfo();
@@ -49,7 +50,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 	public void testNewHotelPhoneHappyPathLoggedInCustomer() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel();
-		HotelScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 		CheckoutViewModel.clickDone();
 
 		HotelScreen.doLogin();
@@ -69,9 +70,8 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");
 
-		HotelScreen.selectRoomButton().perform(click());
-		HotelScreen.clickRoom("happypath_2_night_stay_0");
-		HotelScreen.clickAddRoom();
+		HotelInfoSiteScreen.clickStickySelectRoom();
+		HotelInfoSiteScreen.bookRoomType("happypath_2_night_stay_0");
 
 		CheckoutViewModel.enterSingleCardLoginDetails();
 
@@ -87,9 +87,8 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");
 
-		HotelScreen.selectRoomButton().perform(click());
-		HotelScreen.clickRoom("happypath_0");
-		HotelScreen.clickAddRoom();
+		HotelInfoSiteScreen.clickStickySelectRoom();
+		HotelInfoSiteScreen.bookRoomType("happypath_0");
 
 		CheckoutViewModel.clickLogin();
 		CheckoutViewModel.enterUsername("nostoredcards@mobiata.com");

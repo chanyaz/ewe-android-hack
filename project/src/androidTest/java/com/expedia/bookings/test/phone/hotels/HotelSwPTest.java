@@ -8,6 +8,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.common.TripsScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -50,7 +51,6 @@ public class HotelSwPTest extends PhoneTestCase {
 			SearchScreen.doGenericHotelSearch();
 		}
 		HotelScreen.selectHotel("happypath");
-		HotelScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 	}
-
 }

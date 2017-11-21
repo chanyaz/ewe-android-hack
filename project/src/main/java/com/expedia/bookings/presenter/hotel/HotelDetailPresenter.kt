@@ -8,7 +8,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.DepositTermsInfoWidget
 import com.expedia.bookings.widget.HotelDetailView

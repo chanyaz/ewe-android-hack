@@ -3,6 +3,9 @@ package com.expedia.bookings.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
@@ -131,37 +134,25 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 	}
 
 	private void load() {
-		BufferedReader reader = null;
 		try {
 			if (!storage.exists()) {
 				return;
 			}
-
 			TypeToken token = new TypeToken<HashMap<String, HashMap<String, Cookie>>>() {
 			};
-			reader = new BufferedReader(new FileReader(storage));
-			HashMap<String, HashMap<String, Cookie>> savedCookies = gson.fromJson(reader, token.getType());
-			reader.close();
-
-			if (savedCookies == null) {
-				return;
+			JsonParser jsonParser = new JsonParser();
+			JsonElement cookieJsonElement = jsonParser.parse(new FileReader(storage));
+			if (!(cookieJsonElement instanceof JsonNull)) {
+				HashMap<String, HashMap<String, Cookie>> savedCookies = gson.fromJson(cookieJsonElement, token.getType());
+				if (savedCookies == null) {
+					return;
+				}
+				cookieStore.putAll(savedCookies);
 			}
-
-			cookieStore.putAll(savedCookies);
 		}
 		catch (Exception e) {
 			storage.delete();
 			throw new RuntimeException(e);
-		}
-		finally {
-			try {
-				if (reader != null) {
-					reader.close();
-				}
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -289,5 +280,4 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 		cookieStore.put(posUrl, cookies);
 		save();
 	}
-
 }

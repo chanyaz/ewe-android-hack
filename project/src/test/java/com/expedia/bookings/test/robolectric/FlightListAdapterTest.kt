@@ -2,7 +2,6 @@ package com.expedia.bookings.test.robolectric
 
 import android.view.View
 import android.widget.FrameLayout
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
@@ -10,6 +9,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -17,7 +17,6 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.ui.FlightActivity
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -68,6 +67,33 @@ class FlightListAdapterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun flightResultsHeaderRoundTripForDeltaPricing() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsDeltaPricing)
+        createSystemUnderTest()
+        givenRoundTripFlight()
+        isOutboundSearch = false
+        val headerViewHolder = createHeaderViewHolder()
+        sut.onBindViewHolder(headerViewHolder, 0)
+        assertEquals("Additional price per person for inbound flight", headerViewHolder.priceHeader.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun flightResultsHeaderRoundTripForDeltaPricingInAUPOS() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsDeltaPricing)
+        val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
+        setPointOfSale(PointOfSaleId.AUSTRALIA)
+        createSystemUnderTest()
+        givenRoundTripFlight()
+        isOutboundSearch = false
+        val headerViewHolder = createHeaderViewHolder()
+        sut.onBindViewHolder(headerViewHolder, 0)
+        assertEquals("Additional price per person for inbound flight", headerViewHolder.priceHeader.text)
+        setPointOfSale(initialPOSID)
+    }
+
+    @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun flightResultsHeaderRoundTrip() {
         createSystemUnderTest()
@@ -99,6 +125,7 @@ class FlightListAdapterTest {
 
     @Test
     fun flightResultsHeaderReturnMinPrice() {
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightsDeltaPricing)
         configurePointOfSale()
         createSystemUnderTest()
         givenRoundTripFlight()
@@ -106,7 +133,6 @@ class FlightListAdapterTest {
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals("Prices roundtrip, per person, from", headerViewHolder.priceHeader.text)
     }
-
 
     @Test
     fun flightResultsAdvanceSearchFilterHeader() {
@@ -221,5 +247,9 @@ class FlightListAdapterTest {
         airlines.add(airline1)
         airlines.add(airline2)
         flightLeg.airlines = airlines
+    }
+
+    private fun setPointOfSale(posId: PointOfSaleId) {
+        PointOfSaleTestConfiguration.configurePOS(activity, "ExpediaSharedData/ExpediaPointOfSaleConfig.json", Integer.toString(posId.id), false)
     }
 }

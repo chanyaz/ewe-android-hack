@@ -41,6 +41,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 import com.expedia.bookings.widget.flights.FlightListAdapter;
 import com.mobiata.flightlib.data.Airport;
 
@@ -450,6 +451,28 @@ public class CustomMatchers {
 
 				String hint = error.toString();
 
+				return expectedErrorText.equals(hint);
+			}
+
+			@Override
+			public void describeTo(Description description) {
+			}
+		};
+	}
+
+	public static Matcher<View> hasTextInputLayoutAccesibilityEditText(final String expectedErrorText) {
+		return new TypeSafeMatcher<View>() {
+
+			@Override
+			public boolean matchesSafely(View view) {
+				if (!(view instanceof AccessibleEditText)) {
+					return false;
+				}
+				CharSequence error = ((AccessibleEditText) view).getErrorMessage();
+				if (error == null) {
+					return expectedErrorText.equalsIgnoreCase("");
+				}
+				String hint = error.toString();
 				return expectedErrorText.equals(hint);
 			}
 

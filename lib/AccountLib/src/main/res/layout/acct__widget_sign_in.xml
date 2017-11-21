@@ -147,7 +147,7 @@
                 android:layout_height="@dimen/acct__sign_in_button_height"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="1dp"
-                android:text="@string/acct__Create_a_new_brand_account"
+                android:text="@string/acct__Create_Account"
                 android:textColor="@color/acct__default_flavor_text"
                 tools:text="Create a new Expedia account"/>
 

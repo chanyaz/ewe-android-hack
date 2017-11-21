@@ -2,12 +2,11 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/single_page_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/acct__white"
-        android:fillViewport="true" >
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,68 +18,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="vertical" >
-
-                <Button
-                    android:id="@+id/sign_up_with_facebook_button"
-                    style="@style/Widget.AppCompat.Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/acct__sign_in_button_height"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginLeft="@dimen/acct__form_fields_horizontal_margin"
-                    android:layout_marginRight="@dimen/acct__form_fields_horizontal_margin"
-                    android:background="@drawable/acct__bg_btn_facebook"
-                    android:textColor="@color/acct__btn_facebook_text"
-                    android:text="@string/acct__Sign_Up_with_Facebook" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="13dp"
-                    android:layout_marginLeft="@dimen/acct__form_fields_horizontal_margin"
-                    android:layout_marginRight="@dimen/acct__form_fields_horizontal_margin">
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@color/acct__single_page_separate_line_color"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:text="@string/acct__or"
-                        android:textColor="@color/acct__single_page_separate_line_color" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@color/acct__single_page_separate_line_color" />
-
-                </LinearLayout>
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
 
                 <com.expedia.account.singlepage.SinglePageEmailNamePasswordLayout
                     android:id="@+id/single_page_email_name_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
-                    android:paddingRight="16dp" />
+                    android:paddingRight="16dp"/>
             </LinearLayout>
 
             <com.expedia.account.singlepage.SinglePageTOSLayout
                 android:id="@+id/single_page_tos_layout"
                 android:layout_height="wrap_content"
-                android:layout_width="@dimen/acct__max_width" />
+                android:layout_width="@dimen/acct__max_width"/>
 
         </LinearLayout>
 

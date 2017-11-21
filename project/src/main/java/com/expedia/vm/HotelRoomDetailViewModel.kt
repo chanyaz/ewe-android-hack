@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.text.SpannableString
 import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
@@ -22,6 +23,7 @@ import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
@@ -35,12 +37,7 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
 
     val optionString: SpannableString? get() = createOptionString()
 
-    val cancellationString: String
-        get() = if (hotelRoomResponse.hasFreeCancellation) {
-            context.resources.getString(R.string.free_cancellation)
-        } else {
-            context.resources.getString(R.string.non_refundable)
-        }
+    val cancellationString: String get() = createCancellationString()
 
     val cancellationTimeString: String? get() = createCancellationTimeString()
 
@@ -48,30 +45,37 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
 
     val mandatoryFeeString: String? get() = createMandatoryFeeString()
 
-    val discountPercentageString: String?
-        get() = if (!isPackage && chargeableRateInfo.isDiscountPercentNotZero
-                && !(hotelLoyaltyInfo?.isBurnApplied ?: false) && !chargeableRateInfo.isShowAirAttached()) {
-            context.resources.getString(R.string.percent_off_TEMPLATE, HotelUtils.getDiscountPercent(chargeableRateInfo))
+    val showMemberOnlyDealTag: Boolean get() = hotelRoomResponse.isMemberDeal && Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated()
+
+    val discountPercentageString: String? get() = createDiscountPercentageString()
+
+    val discountPercentageBackground: Drawable
+        get() = if (showMemberOnlyDealTag) {
+            ContextCompat.getDrawable(context, R.drawable.member_only_discount_percentage_background)
         } else {
-            null
+            ContextCompat.getDrawable(context, R.drawable.discount_percentage_background)
+        }
+
+    val discountPercentageTextColor: Int
+        get() = if (showMemberOnlyDealTag) {
+            ContextCompat.getColor(context, R.color.brand_primary)
+        } else {
+            ContextCompat.getColor(context, R.color.white)
         }
 
     val payLaterPriceString: String? get() = createPayLaterPriceString()
 
     val showDepositTerm: Boolean get() = isPayLater && haveDepositTerm
 
-    val strikeThroughString: String?
-        get() = if (!isPayLater && chargeableRateInfo.isStrikeThroughPriceValid) {
-            chargeableRateInfo.getDisplayMoney(true, true).formattedMoney
-        } else {
-            null
-        }
+    val strikeThroughString: String? get() = createStrikeThroughString()
 
-    val pricePerNightString: String? get() = createPricePerNightString()
+    val priceString: String? get() = createPriceString()
 
     val taxFeeDescriptorString: String? get() = createTaxFeeDescriptorString()
 
     val pricePerDescriptorString: String? get() = createPricePerDescriptorString()
+
+    val hotelRoomRowButtonString: String get() = if (isPackage) context.getString(R.string.book_room_button_text) else context.getString(R.string.select)
 
     val roomLeftString: String? get() = createRoomLeftString()
 
@@ -82,7 +86,7 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
 
     private val currencyCode = chargeableRateInfo.currencyCode
     private val isPayLater = hotelRoomResponse.isPayLater
-    private val priceToShowUser = chargeableRateInfo.getDisplayMoney(false, true).formattedMoney
+    private val moneyToShowUser = chargeableRateInfo.getDisplayMoney(false, !isPackage)
     private val isTotalPrice = chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES
     private val haveDepositTerm = hotelRoomResponse.depositPolicy != null && !hotelRoomResponse.depositPolicy.isEmpty()
 
@@ -123,8 +127,9 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
                 detailString = "  (" + detailString + ")"
                 val span = SpannableString(optionString + detailString)
 
+                val lightTextColor = ContextCompat.getColor(context, R.color.light_text_color)
                 span.setSpan(AbsoluteSizeSpan(smallTextSize), optionString.length, optionString.length + detailString.length, SPAN_INCLUSIVE_INCLUSIVE)
-                span.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.light_text_color)), optionString.length, optionString.length + detailString.length, SPAN_INCLUSIVE_INCLUSIVE)
+                span.setSpan(ForegroundColorSpan(lightTextColor), optionString.length, optionString.length + detailString.length, SPAN_INCLUSIVE_INCLUSIVE)
 
                 return span
             } else {
@@ -136,6 +141,14 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
             }
         }
         return null
+    }
+
+    private fun createCancellationString(): String {
+        if (hotelRoomResponse.hasFreeCancellation) {
+            return context.resources.getString(R.string.free_cancellation)
+        } else {
+            return context.resources.getString(R.string.non_refundable)
+        }
     }
 
     private fun createCancellationTimeString(): String? {
@@ -164,9 +177,18 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
         return null
     }
 
+    private fun createDiscountPercentageString(): String? {
+        val isApplyingDiscount = (hotelLoyaltyInfo?.isBurnApplied ?: false) || chargeableRateInfo.isShowAirAttached()
+        if (!isPackage && chargeableRateInfo.isDiscountPercentNotZero && !isApplyingDiscount) {
+            return context.resources.getString(R.string.percent_off_TEMPLATE, HotelUtils.getDiscountPercent(chargeableRateInfo))
+        } else {
+            return null
+        }
+    }
+
     private fun createPayLaterPriceString(): String? {
         if (isPayLater) {
-            val sb = StringBuilder(priceToShowUser)
+            val sb = StringBuilder(moneyToShowUser.formattedMoney)
 
             if (!isTotalPrice) {
                 sb.append(context.resources.getString(R.string.per_night))
@@ -176,7 +198,15 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
         return null
     }
 
-    private fun createPricePerNightString(): String? {
+    private fun createStrikeThroughString(): String? {
+        if (!isPayLater && chargeableRateInfo.isStrikeThroughPriceValid) {
+            return chargeableRateInfo.getDisplayMoney(true, true).formattedMoney
+        } else {
+            return null
+        }
+    }
+
+    private fun createPriceString(): String? {
         if (isPayLater) {
             if (haveDepositTerm) {
                 return null
@@ -186,12 +216,16 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
                 return Phrase.from(context, R.string.room_rate_pay_later_due_now).put("amount", depositAmountMoney.formattedMoney).format().toString()
             }
         } else {
-            return priceToShowUser
+            if (isPackage && moneyToShowUser.amount >= BigDecimal.ZERO) {
+                return Phrase.from(context, R.string.plus_price_TEMPLATE).put("price", moneyToShowUser.formattedMoney).format().toString()
+            } else {
+                return moneyToShowUser.formattedMoney
+            }
         }
     }
 
     private fun createTaxFeeDescriptorString(): String? {
-        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
         if (bucketedToShowPriceDescriptorProminence) {
             val priceType = hotelRoomResponse.rateInfo.chargeableRateInfo.getUserPriceType()
             return when (priceType) {
@@ -205,7 +239,7 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     }
 
     private fun createPricePerDescriptorString(): String? {
-        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
         if (!isPayLater && bucketedToShowPriceDescriptorProminence) {
             val priceType = hotelRoomResponse.rateInfo?.chargeableRateInfo?.getUserPriceType()
             return when (priceType) {

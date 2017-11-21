@@ -14,6 +14,7 @@ import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
@@ -166,7 +167,6 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		clickDone();
 		assertBestFlightOnTop();
 		Log.d(TAG, " filterAllResults finished");
-
 	}
 
 	private void assertFlightResultsFiltered() {
@@ -186,7 +186,6 @@ public class PackageFlightFilterTest extends PackageTestCase {
 			.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 2, R.id.flight_time_detail_text_view,
 				"9:50 am - 11:40 pm");
 		Log.d(TAG, " assertFlightResultsFiltered finished");
-
 	}
 
 	private void checkBestFlightNotDisplayed() {
@@ -247,7 +246,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(click());
 
 		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookRoomType("happy_outbound_flight");
 
 		PackageScreen.flightList().perform(waitForViewToDisplay());
 		openFlightFilter();

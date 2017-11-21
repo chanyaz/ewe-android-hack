@@ -10,7 +10,7 @@
         android:id="@+id/itin_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/itin_bg_dark_transparent"
+        android:background="@color/flights_confirmation_itin_bar_color"
         android:focusable="false"
         android:gravity="center"
         android:paddingBottom="6dp"

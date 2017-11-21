@@ -175,7 +175,8 @@ public class AccountLibActivity extends AppCompatActivity
 		// signing in if the reCaptcha token is enforced in the API
 		if (ProductFlavorFeatureConfiguration.getInstance().isRecaptchaEnabled() &&
 			(AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppAccountRecaptcha) ||
-			Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppAccountRecaptcha) == null)) {
+			Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppAccountRecaptcha) == null) &&
+			!ExpediaBookingApp.isAutomation()) {
 
 			config.setEnableRecaptcha(true);
 			config.setRecaptchaAPIKey(getString(R.string.recaptcha_sdk_site_key));

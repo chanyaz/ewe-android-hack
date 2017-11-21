@@ -1433,6 +1433,10 @@
     <string name="confirm_seat_selection">항공사를 통해 좌석 확인 또는 변경</string>
     <!-- displayed when seats can be selected but have not yet -->
     <string name="select_seat_prompt">선택된 좌석 없음</string>
+    <!-- Flight itin terminal maps bottom sheet title -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_title">지도 옵션</string>
+    <!-- Flight itin terminal maps bottom sheet airport text template. (e.g., SFO terminal map) -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_airport_text_TEMPLATE">{airport} 터미널 지도</string>
     <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
     <string name="itin_flight_summary_arrives_on_TEMPLATE">{date} 도착</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
@@ -1441,10 +1445,32 @@
     <string name="itin_flight_total_duration_TEMPLATE">총 소요 시간: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">수하물 정보</string>
-    <!--Flight itin traveller info widget heading-->
+    <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">여행객 정보</string>
+    <!--Flight itin traveler preferences heading -->
+    <string name="itin_flight_traveler_preferences">기본 설정</string>
+    <!--Flight itin Known traveler number text -->
+    <string name="itin_known_traveler_number_text">알려진 여행객 번호</string>
+    <!--Flight itin traveler redress number text-->
+    <string name="itin_traveler_redress_number">리드레스 번호</string>
+    <!--Flight itin traveler Special assistance requests text-->
+    <string name="itin_traveler_special_assistance_requests_text">특별 도움 요청</string>
+    <!--Flight itin traveler Frequent Flyer information text-->
+    <string name="itin_frequent_flyer_text">항공 마일리지 정보</string>
+    <!--Flight itin traveler contact to confirm request text-->
+    <string name="itin_traveler_contact_air_to_confirm_text">요청 사항을 확정하시려면 항공사에 문의해 주세요.</string>
+    <!--Flight itin traveler email text -->
+    <string name="itin_traveler_email_text">이메일</string>
+    <!--Flight itin traveler phone text -->
+    <string name="itin_traveler_phone_text">전화</string>
+    <!--Flight itin traveler ticket number (e.g. Ticket # 345678901123)-->
+    <string name="itin_traveler_ticket_number_TEMPLATE">티켓 번호: {number}</string>
+    <!--Flight itein traveler infant in seat text -->
+    <string name="itin_traveler_infant_in_seat_text">(무릎에 유아)</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">예약 관리</string>
+    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_flight_customer_support_header_text_TEMPLATE">이 일정 관리에 대해 도움이 필요하시면 {brand}에 연락해 주세요.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">결항됨</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -1453,7 +1479,14 @@
     <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">{duration} 지연</string>
     <!--Flight itin segment summary flight status indicator text - early departure-->
     <string name="itin_flight_summary_status_indicator_text_early_departure">일찍 출발</string>
-
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_manage_booking_header">예약 관리</string>
+    <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_flight_itinerary_number_TEMPLATE">일정 번호: {itin_number}</string>
+    <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} 고객 지원</string>
+    <!--Flight customer support website toolbar header-->
+    <string name="itin_flight_customer_support_site_toolbar_header">고객 서비스</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}일 {hours}시간 {minutes}분</string>
@@ -1523,6 +1556,8 @@
 
 
     <!-- Action Buttons -->
+    <!-- action button to launch terminal maps bottom sheet -->
+    <string name="itin_action_terminal_maps">터미널 지도</string>
     <string name="itin_action_directions">길 안내</string>
     <string name="itin_action_call_hotel">호텔에 전화하기</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -2070,8 +2105,6 @@
     <string name="save_traveler">여행객 저장</string>
     <!-- no thanks -->
     <string name="no_thanks">나중에 하기</string>
-    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
-    <string name="advanced">고급 옵션</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">추가 사항(선택 사항)</string>
     <string name="contact_airline_message">요청 사항을 확정하시려면 항공사에 문의해 주세요.</string>
@@ -2158,13 +2191,9 @@
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">오류</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">%1$s 좌석 선호</string>
     <string name="prefers_seat_colored_TEMPLATE2">%1$s 좌석 선호</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">여행객 정보 로드 중…</string>
-
-    <!-- Passport label -->
-    <string name="passport_country_colon">여권:</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2383,19 +2412,6 @@
     <!-- This is a special case for rails senior age greater than 62 -->
     <string name="senior_age_greater_than_sixth_two">&lt;b&gt;만 62세 이상&lt;/b&gt;</string>
 
-    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-    <!-- Suggestion to search Times Square -->
-    <string name="suggestion_times_square">타임스 스퀘어, 뉴욕</string>
-    <string name="suggestion_boston">보스턴, 매사추세츠</string>
-    <string name="suggestion_los_angeles">LA, 캘리포니아</string>
-    <string name="suggestion_venice">베니스 비치 파크, 베니스, 캘리포니아</string>
-    <string name="suggestion_miami">마이애미, 플로리다</string>
-    <string name="suggestion_london">런던, 영국</string>
-    <string name="suggestion_las_vegas">라스베이거스, 네바다</string>
-    <string name="suggestion_paris">파리, 프랑스</string>
-    <string name="suggestion_minneapolis">미니애폴리스, 미네소타</string>
-    <string name="suggestion_san_francisco">샌프란시스코, 캘리포니아</string>
-
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">검색</string>
@@ -2498,6 +2514,8 @@
     <string name="current_location">현재 위치</string>
     <string name="recent_searched_location">최근 검색된 위치</string>
     <string name="suggested_location">제안된 위치</string>
+    <!-- To notify the section suggested locations while navigating using talkback -->
+    <string name="suggested_location_list">제안된 위치</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">지도에서 보이는 영역</string>
 
@@ -2884,6 +2902,11 @@
     <string name="coupon_submit_button">제출</string>
     <!-- Coupon submit button for accessibility -->
     <string name="coupon_submit_button_ally">제출 버튼</string>
+    <!-- Coupon apply button -->
+    <string name="coupon_apply_button">적용하기</string>
+    <!-- Coupon apply button for accessibility -->
+    <string name="coupon_apply_button_ally">적용하기 버튼</string>
+
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3742,6 +3765,10 @@
     <string name="step_one">1단계: 호텔 선택</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">2단계: 항공 선택</string>
+    <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
+    <string name="step_two_variation">2단계: 가는 항공편 선택</string>
+    <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
+    <string name="step_three">3단계: 오는 항공편 선택</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">상상 초월 특가</string>
     <!-- package hotel results unreal deal message for freeHotel -->
@@ -3879,12 +3906,18 @@
     <string name="select_return_flight">오는 항공편 선택</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">%1$s행 항공편</string>
+    <!-- Flight overview - Step 2: flight to template (breadcrumbs) E.g. Step 2: Flight to London -->
+    <string name="flight_to_outbound_breadcrumbs_TEMPLATE">2단계: {destination}행 항공편</string>
+    <!-- Flight overview - Step 3: flight to template (breadcrumbs) E.g. Step 3: Flight to London -->
+    <string name="flight_to_inbound_breadcrumbs_TEMPLATE">3단계: {origin}행 항공편</string>
     <!-- Inbound to template, E.g. Inbound to Kathmandu, Nepal (KTM) -->
     <string name="package_flight_inbound_toolbar_title_TEMPLATE">{stateorcountry} {cityname}({airportcode})행 오는 항공편</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
     <string name="package_hotel_results_toolbar_title_TEMPLATE">%s 호텔</string>
+    <!-- Toolbar text for hotel results with breadcrumbs, E.g. Step 1: Hotels in London -->
+    <string name="package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE">1단계: {destination} 호텔</string>
     <!-- Description for infant travelers sitting in lap -->
     <string name="in_lap">무릎에</string>
     <!-- Description for infant travelers sitting in seat -->
@@ -4260,8 +4293,8 @@
     <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">항공편 시간은 {time}이며, 요금 차액은 {pricedifference}입니다. 운항사는 {airline}입니다. 소요 시간은 {hours} {minutes}이며, {stops}번 경유합니다.\u0020</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">항공편 시간은 {time}이며, 요금은 {price}입니다. 운항사는 {airline}입니다. 소요 시간은 {hours} {minutes}이며, {stops}번 경유합니다.\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="packages_hotel_details_cont_desc_TEMPLATE">5성급 중 {starrating}성급의 {hotel}. 고객 평점 5점 만점 중 {guestrating}점. 가격 {price}. 호텔 및 항공 포함\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">5성급 중 {starrating}성급의 {hotel}. 고객 평점 5점 만점 중 {guestrating}점. 가격 {price}. 호텔 및 항공 포함.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">5성급 중 {starrating}성급의 {hotel}. 고객 평점 5점 만점 중 {guestrating}점.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
@@ -4491,6 +4524,8 @@
     <string name="accessibility_cont_desc_opens_dialog">대화상자 열림</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">지원 불가</string>
+    <!-- Content Description for Rating Button -->
+    <string name="accessibility_cont_desc_user_rating_button">고객 평점 버튼</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">요금은 {ticket_type} {activity_price}입니다.</string>
@@ -4621,6 +4656,10 @@
     <string name="deals_hotel_only">호텔</string>
     <string name="deals_toolbar_close_cont_desc">회원가 화면 닫기</string>
 
+    <!-- Last Minute Deal -->
+    <string name="last_minute_deal_title">마감 특가 상품</string>
+    <string name="last_minute_deal_subtitle">훌쩍 떠나고 싶으세요? 마감 특가 상품을 확인해 보세요.</string>
+
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">정렬 순서가 결정되는 방식</string>
     <!-- Checkout validation error message for credit card number-->
@@ -4711,6 +4750,21 @@
     <string name="amenity_carry_on_bag">휴대 수하물</string>
     <string name="amenity_seat_choice">좌석 선택</string>
 
+    <!-- Amenities Content Description-->
+    <!-- Cont Desc for charged amenities Example: Seat Choice available for a fee-->
+    <string name="amenity_chargeable_cont_desc_TEMPLATE">유료로 {amenity_name} 가능 \u0020</string>
+    <!-- Cont Desc for included amenities Example: Seat Choice available -->
+    <string name="amenity_included_cont_desc_TEMPLATE">{amenity_name} 가능 \u0020</string>
+    <!-- Cont Desc for unavailable amenities Example: Seat Choice not available-->
+    <string name="amenity_not_available_cont_desc_TEMPLATE">{amenity_name} 불가능 \u0020</string>
+    <plurals name="checked_bags_template">
+        <item quantity="one">위탁 수하물 {number}개</item>
+        <item quantity="other">위탁 수하물 {number}개</item>
+    </plurals>
+    <!-- Cont Desc for fare family item Example: Classic, cabin Econonmy--> 
+    <string name="fare_family_item_cont_desc_TEMPLATE">{fare_family_name}, 좌석: {cabin_code} \u0020</string> 
+    <!-- Cont Desc for fare family item Example: This fare is available for an additional $20, roundtrip for 2 travelers--> 
+    <string name="fare_family_item_cont_desc_price_TEMPLATE">{delta} 추가하면 {guests}에 대한 {trip_type} 예약이 이 요금으로 가능합니다. \u0020</string>  
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">자세히 보기</string>
 

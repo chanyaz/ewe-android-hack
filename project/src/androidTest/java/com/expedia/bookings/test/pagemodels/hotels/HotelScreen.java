@@ -7,11 +7,9 @@ import org.joda.time.LocalDate;
 
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.CVVEntryScreen;
@@ -24,14 +22,10 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isSelected;
-import static android.support.test.espresso.matcher.ViewMatchers.withChild;
-import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
@@ -42,7 +36,7 @@ import static org.hamcrest.Matchers.not;
  * Deprecated by Stan Palguyev on Sept 20, 2017
  * This class is too large for it's own good. I'm deprecating it before moving the methods out, in order
  * for the crossed out class name to serve as a reminder that we need to clean this up
- * It should be broken down into HotelInfoSite, HotelSearchResults and SortAndFilter classes at the very least.
+ * It should be broken down into HotelInfoSiteScreen, HotelSearchResults and SortAndFilter classes at the very least.
  * There should only be one class per page.
  * Cleanup work is pending.
  */
@@ -125,17 +119,6 @@ public class HotelScreen {
 		return onView(withId(R.id.common_amenities_text));
 	}
 
-	public static ViewInteraction expandedFreeCancellation() {
-		return onView(
-			allOf(withId(R.id.expanded_free_cancellation_text_view),
-				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-	}
-
-	public static ViewInteraction expandedBedType() {
-		return onView(
-			allOf(withId(R.id.expanded_bed_type_text_view), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-	}
-
 	public static void clickRenoInfo() {
 		onView(withId(R.id.renovation_container)).perform(scrollTo(), click());
 	}
@@ -199,54 +182,6 @@ public class HotelScreen {
 			isDescendantOfA(withId(R.id.dynamic_feedback_container))));
 	}
 
-	public static ViewInteraction stickySelectRoom() {
-		return onView(
-			allOf(withId(R.id.sticky_bottom_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
-		);
-	}
-
-	public static ViewInteraction addRoom() {
-		return onView(
-			allOf(withId(R.id.hotel_book_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
-		);
-	}
-
-	public static ViewInteraction viewRoom(String roomName) {
-		return onView(
-			allOf(
-				withId(R.id.view_room_button),
-				withParent(allOf(
-					withId(R.id.hotel_room_row_button),
-					withParent(allOf(
-						withId(R.id.earn_row_button_container),
-						hasSibling(allOf(
-							withId(R.id.parent_room_type_and_price_container),
-							withChild(allOf(
-								withId(R.id.room_type_text_view), withText(roomName))))))))),
-				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-	}
-
-	public static void clickSelectRoom() {
-		waitForDetailsLoaded();
-		stickySelectRoom().perform(click());
-	}
-
-	public static void selectFirstRoom() {
-		waitForDetailsLoaded();
-		stickySelectRoom().perform(click());
-		addRoom().perform(click());
-	}
-
-	public static void clickAddRoom() {
-		waitForDetailsLoaded();
-		addRoom().perform(click());
-	}
-
-	public static void clickViewRoom(String roomName) {
-		waitForDetailsLoaded();
-		viewRoom(roomName).perform(scrollTo(), click());
-	}
-
 	public static void scrollToPropertyInfoContainer() {
 		propertyInfoContainer().perform(scrollTo());
 	}
@@ -284,10 +219,6 @@ public class HotelScreen {
 
 	public static void waitForMapDisplayed() {
 		hotelResultsMap().perform(waitForViewToDisplay());
-	}
-
-	public static void waitForDetailsLoaded() {
-		onView(withId(R.id.hotel_detail)).perform(waitForViewToDisplay());
 	}
 
 	public static void waitForErrorDisplayed() {
@@ -334,21 +265,11 @@ public class HotelScreen {
 	public static void selectHotel(String name) throws Throwable {
 		waitForResultsLoaded();
 		hotelResultsList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(name)), click()));
-		HotelScreen.waitForDetailsLoaded();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
 	}
 
 	public static void selectHotel() throws Throwable {
 		selectHotel("happypath");
-	}
-
-	public static void selectRoom() throws Throwable {
-		HotelScreen.clickAddRoom();
-		Common.delay(2);
-	}
-
-	public static void pickRoom(String name) {
-		HotelScreen.clickViewRoom(name);
-		HotelScreen.clickAddRoom();
 	}
 
 	public static void sortFilter() {
@@ -404,11 +325,6 @@ public class HotelScreen {
 		CVVEntryScreen.clickBookButton();
 	}
 
-
-	public static ViewInteraction selectRoomButton() throws Throwable {
-		return onView(withId(R.id.sticky_bottom_button));
-	}
-
 	public static void clickVIPAccess() {
 		onView(withId(R.id.vip_access_message_container)).perform(click());
 	}
@@ -448,9 +364,4 @@ public class HotelScreen {
 		CVVEntryScreen.enterCVV("123");
 		CVVEntryScreen.clickBookButton();
 	}
-
-	public static void clickRoom(String room) {
-		onView(withText(room)).perform(scrollTo(), click());
-	}
-
 }

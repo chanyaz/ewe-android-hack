@@ -22,6 +22,7 @@ class FlightItinTravelerInfoWidget(context: Context, attr: AttributeSet?): Linea
     @VisibleForTesting val divider: View by bindView(R.id.traveler_info_divider)
     @VisibleForTesting val emailContainer: View by bindView(R.id.traveler_email_container)
     @VisibleForTesting val phoneContainer: View by bindView(R.id.traveler_phone_container)
+    private val phoneEmailContainer: View by bindView(R.id.email_phone_container)
 
     var viewModel: FlightTravelerInfoViewModel by notNullAndObservable { vm ->
         vm.travelerNameSubject.subscribe {
@@ -38,6 +39,7 @@ class FlightItinTravelerInfoWidget(context: Context, attr: AttributeSet?): Linea
                 emailContainer.visibility = View.VISIBLE
                 travelerEmail.text = it
                 divider.visibility = View.VISIBLE
+                phoneEmailContainer.visibility = View.VISIBLE
             }
         }
         vm.infantInLapSubject.subscribe {
@@ -49,6 +51,7 @@ class FlightItinTravelerInfoWidget(context: Context, attr: AttributeSet?): Linea
                 phoneContainer.visibility = View.VISIBLE
                 travelerPhone.text = it
                 divider.visibility = View.VISIBLE
+                phoneEmailContainer.visibility = View.VISIBLE
             }
         }
     }
@@ -59,6 +62,7 @@ class FlightItinTravelerInfoWidget(context: Context, attr: AttributeSet?): Linea
         emailContainer.visibility = View.GONE
         travelerTicketNumber.visibility = View.GONE
         infantText.visibility = View.GONE
+        phoneEmailContainer.visibility = View.GONE
     }
     init {
         View.inflate(context, R.layout.itin_traveler_info_widget, this)
