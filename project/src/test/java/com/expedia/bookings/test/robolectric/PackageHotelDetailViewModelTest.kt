@@ -29,6 +29,7 @@ import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.ArrayList
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -76,6 +77,32 @@ class PackageHotelDetailViewModelTest {
         assertEquals("${searchParams.guests} guests", testViewModel.searchInfoGuestsObservable.value)
     }
 
+    @Test
+    fun testBundlePricing() {
+        val vm = PackageHotelDetailViewModel(RuntimeEnvironment.application)
+        val bundlePricePerPersonTestSubscriber = TestSubscriber<Money>()
+        val bundleTotalPriceObservableTestSubscriber = TestSubscriber<Money>()
+        val bundleSavingsTestSubscriber = TestSubscriber<Money>()
+        val offer = makePackageOffer()
+        vm.hotelOffersSubject.onNext(offer)
+        vm.addViewsAfterTransition()
+
+        vm.bundlePricePerPersonObservable.subscribe(bundlePricePerPersonTestSubscriber)
+        vm.bundleSavingsObservable.subscribe(bundleSavingsTestSubscriber)
+        vm.bundleTotalPriceObservable.subscribe(bundleTotalPriceObservableTestSubscriber)
+
+        bundlePricePerPersonTestSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+        assertEquals(BigDecimal(25.toDouble()), bundlePricePerPersonTestSubscriber.onNextEvents[0].amount)
+        assertEquals("USD", bundlePricePerPersonTestSubscriber.onNextEvents[0].currency)
+
+        assertEquals(BigDecimal(20.toDouble()), bundleSavingsTestSubscriber.onNextEvents[0].amount)
+        assertEquals("USD", bundleSavingsTestSubscriber.onNextEvents[0].currency)
+
+        assertEquals(BigDecimal(90.toDouble()), bundleTotalPriceObservableTestSubscriber.onNextEvents[0].amount)
+        assertEquals("USD", bundleTotalPriceObservableTestSubscriber.onNextEvents[0].currency)
+    }
+
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun resortFeeShowsForPackages() {
         CurrencyUtils.initMap(RuntimeEnvironment.application)
@@ -91,6 +118,12 @@ class PackageHotelDetailViewModelTest {
     }
 
     private fun makeResortFeeResponse(vm: BaseHotelDetailViewModel) {
+        val offer = makePackageOffer()
+        vm.hotelOffersSubject.onNext(offer)
+        vm.addViewsAfterTransition()
+    }
+
+    private fun makePackageOffer(): HotelOffersResponse? {
         offer1.hotelRoomResponse.clear()
         val packageSearchParams = PackageSearchParams.Builder(30, 330)
                 .adults(1)
@@ -108,6 +141,8 @@ class PackageHotelDetailViewModelTest {
         packageHotelOffer.packagePricing.hotelPricing = PackageOffersResponse.HotelPricing()
         packageHotelOffer.packagePricing.hotelPricing.mandatoryFees = PackageOffersResponse.MandatoryFees()
         packageHotelOffer.packagePricing.hotelPricing.mandatoryFees.feeTotal = Money(20, "USD")
+        packageHotelOffer.packagePricing.packageTotal = Money(90, "USD")
+        packageHotelOffer.packagePricing.savings = Money( 20, "USD")
         packageHotelOffer.cancellationPolicy = PackageOffersResponse.CancellationPolicy()
         packageHotelOffer.cancellationPolicy.hasFreeCancellation = false
         packageHotelOffer.pricePerPerson = Money()
@@ -115,10 +150,7 @@ class PackageHotelDetailViewModelTest {
         packageHotelOffer.pricePerPerson.currencyCode = "USD"
         packageOffer.packageHotelOffers = arrayListOf(packageHotelOffer)
 
-        val offer = HotelOffersResponse.convertToHotelOffersResponse(offer1, HotelOffersResponse.convertPSSHotelRoomResponse(packageOffer), packageSearchParams.startDate.toString(), packageSearchParams.endDate.toString())
-
-        vm.hotelOffersSubject.onNext(offer)
-        vm.addViewsAfterTransition()
+        return HotelOffersResponse.convertToHotelOffersResponse(offer1, HotelOffersResponse.convertPSSHotelRoomResponse(packageOffer), packageSearchParams.startDate.toString(), packageSearchParams.endDate.toString())
     }
 
     private fun makeHotel(): ArrayList<HotelOffersResponse.HotelRoomResponse> {
