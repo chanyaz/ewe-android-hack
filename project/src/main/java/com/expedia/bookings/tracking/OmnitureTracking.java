@@ -3013,6 +3013,7 @@ public class OmnitureTracking {
 	private static final String NEW_USER_ONBOARDING_LOYALTY = "App.Onboarding.Loyalty";
 	private static final String NEW_USER_ONBOARDING_GO_SIGNIN = "App.Onboarding.SignIn";
 	private static final String PENDING_POINTS_TAP = "App.PointsToolTip.Tap";
+	private static final String LEGACY_USER_APP_UPDATE_TAP = "App.LS.Package.AppUpdate";
 
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
@@ -3343,6 +3344,18 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 
+	public static void trackForceUpgradeBanner() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(LAUNCH_SCREEN_PACKAGE_NAVIGATION);
+		s.setEvents("event335");
+		s.track();
+	}
+
+	public static void trackAppUpgradeClick() {
+		ADMS_Measurement s = createTrackLinkEvent(LEGACY_USER_APP_UPDATE_TAP);
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
 	public static void trackClickClearPrivateData() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_CLEAR_DATA);
 		s.trackLink(null, "o", "Accounts", null, null);
@@ -3385,6 +3398,7 @@ public class OmnitureTracking {
 	private static final String LAUNCH_SEARCH = "Launch.Search";
 	private static final String LAUNCH_DEALS_TILE = "App.LS.Promo";
 	private static final String LAUNCH_MESSAGING = "Launch.TopDeals.Hotel";
+	private static final String LAUNCH_SCREEN_PACKAGE_NAVIGATION = "App.LS.Srch.Package";
 
 	private static final String HOTEL_LOB_NAVIGATION = "Hotel";
 	private static final String FLIGHT_LOB_NAVIGATION = "Flight";

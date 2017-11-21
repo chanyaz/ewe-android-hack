@@ -104,6 +104,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesBreadcrumbsForNav = new ABTest(15835);
 	public static final ABTest EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs = new ABTest(16223);
 	public static final ABTest EBAndroidAppPackagesMISRealWorldGeo = new ABTest(16314);
+	public static final ABTest EBAndroidAppPackagesShowForceUpdateDialog = new ABTest(16283);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountSinglePageSignUp = new ABTest(13923);
@@ -234,6 +235,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppPackagesMISRealWorldGeo.getKey());
 		testIDs.add(EBAndroidAppFlightsBaggageWebViewHideAd.getKey());
 		testIDs.add(EBAndroidLXNotifications.getKey());
+		testIDs.add(EBAndroidAppPackagesShowForceUpdateDialog.getKey());
 
 		return testIDs;
 	}

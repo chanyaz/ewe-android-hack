@@ -25,6 +25,11 @@ fun isMidAPIEnabled(context: Context): Boolean {
     return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
 }
 
+fun isPackageForceUpdateEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog) &&
+            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_force_upgrade_for_pss_clients)
+}
+
 fun isHideApacBillingFieldsEnabled(): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHideApacBillingAddressFields)
 }

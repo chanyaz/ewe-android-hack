@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -95,23 +92,7 @@ public class AboutUtils {
 	public void rateApp() {
 		OmnitureTracking.trackClickRateApp();
 
-		Uri uri = Uri.parse("market://details?id=" + mActivity.getPackageName());
-		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-
-		// To count with Play market backstack, After pressing back button,
-		// to taken back to our application, we need to add following flags to intent.
-		//noinspection deprecation
-		goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-			Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET |
-			Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-
-		try {
-			mActivity.startActivity(goToMarket);
-		}
-		catch (ActivityNotFoundException e) {
-			mActivity.startActivity(new Intent(Intent.ACTION_VIEW,
-				Uri.parse("http://play.google.com/store/apps/details?id=" + mActivity.getPackageName())));
-		}
+		PlayStoreUtil.openPlayStore(mActivity);
 	}
 
 	public static void openWebsite(Context context, String url, boolean useExternalBrowser) {

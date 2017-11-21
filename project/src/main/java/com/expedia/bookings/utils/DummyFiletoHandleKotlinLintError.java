@@ -191,6 +191,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.free_hotel_deal,
 		R.string.free_flight_deal,
 		R.string.hotel_deal_TEMPLATE,
+		R.string.packages_invalid_user_title_label,
+		R.string.packages_invalid_user_text_label,
 		R.plurals.free_one_night_hotel_deal_TEMPLATE,
 		R.string.rent_a_car_TEMPLATE,
 		R.color.itin_toolbar_text,

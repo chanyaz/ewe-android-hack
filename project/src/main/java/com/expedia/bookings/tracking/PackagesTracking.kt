@@ -285,4 +285,12 @@ class PackagesTracking {
         val eSourceErrorId = error.errorInfo?.sourceErrorId ?: error.errorCode
         return "$errorType$eSource$eSourceErrorId"
     }
+
+    fun trackAppUpgradeClick() {
+        OmnitureTracking.trackAppUpgradeClick()
+    }
+
+    fun trackForceUpgradeBanner() {
+        OmnitureTracking.trackForceUpgradeBanner()
+    }
 }

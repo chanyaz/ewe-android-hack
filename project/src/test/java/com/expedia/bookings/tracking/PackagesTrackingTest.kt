@@ -576,6 +576,21 @@ class PackagesTrackingTest {
         OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.Edit.Item", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackAppUpgradeClick() {
+        sut.trackAppUpgradeClick()
+        val controlEvar = mapOf(28 to "App.LS.Package.AppUpdate")
+        OmnitureTestUtils.assertLinkTracked("App Landing", "App.LS.Package.AppUpdate", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackForceUpgradeBanner() {
+        sut.trackForceUpgradeBanner()
+        OmnitureTestUtils.assertStateTracked("App.LS.Srch.Package", OmnitureMatchers.withEventsString("event335"), mockAnalyticsProvider)
+    }
+
     private fun getDummyPackageSearchParams(): PackageSearchParams {
         return PackageSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                 context.resources.getInteger(R.integer.max_calendar_selectable_date_range))
