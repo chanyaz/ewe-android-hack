@@ -105,6 +105,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesEnablePOS = new ABTest(16282);
 	public static final ABTest EBAndroidAppPackagesBreadcrumbsForNav = new ABTest(15835);
 	public static final ABTest EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs = new ABTest(16223);
+	public static final ABTest EBAndroidAppPackagesMISRealWorldGeo = new ABTest(15496);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountSinglePageSignUp = new ABTest(13923);
@@ -236,6 +237,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppMIDCheckout.getKey());
 		testIDs.add(EBAndroidAppPackagesBreadcrumbsForNav.getKey());
 		testIDs.add(EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs.getKey());
+		testIDs.add(EBAndroidAppPackagesMISRealWorldGeo.getKey());
 
 		return testIDs;
 	}

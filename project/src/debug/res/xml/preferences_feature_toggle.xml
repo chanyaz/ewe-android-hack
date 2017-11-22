@@ -148,6 +148,11 @@
             android:summary="Packages Breadcrumbs - Move Bundle Overview Bar"
             android:title="Packages Breadcrumbs - Move Bundle Overview Bar" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_packages_mis_real_world_geo"
+            android:summary="Packages RWG Migration"
+            android:title="Packages MISRealWorldGeo" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

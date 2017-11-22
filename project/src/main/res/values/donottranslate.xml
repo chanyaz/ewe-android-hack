@@ -132,6 +132,7 @@
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
     <string name="preference_packages_breadcrumbs">preference_packages_breadcrumbs</string>
     <string name="preference_packages_breadcrumbs_move_bundle_overview">preference_packages_breadcrumbs_move_bundle_overview</string>
+    <string name="preference_packages_mis_real_world_geo">preference_packages_mis_real_world_geo</string>
     <string name="preference_switch_to_from_flight_locations">preference_switch_to_from_flight_locations</string>
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
     <string name="preference_trips_new_flights_design">preference_trips_new_flights_design</string>
