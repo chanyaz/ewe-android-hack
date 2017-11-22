@@ -309,7 +309,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                     }
                     val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers.getBundleRoomResponse(), packageHotelOffers.getHotelCheckInDate(), packageHotelOffers.getHotelCheckOutDate())
 
-                    PackageResponseUtils.saveHotelOfferResponse(context, hotelOffers, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
+                    PackageResponseUtils.packageHotelRoomResponse = hotelOffers
                     loadingOverlay.animate(false)
                     detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
                     detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)

@@ -13,11 +13,11 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.isMidAPIEnabled
-import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.google.gson.Gson
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
@@ -150,12 +150,12 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                         val currentFlights = arrayOf(response.getFlightLegs()[0].legId, response.getFlightLegs()[1].legId)
                         Db.getPackageParams().currentFlights = currentFlights
                         Db.getPackageParams().defaultFlights = currentFlights.copyOf()
-                        PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE)
+                        PackageResponseUtils.packageHotelResponse = response
                     } else {
                         if (type == PackageSearchType.OUTBOUND_FLIGHT) {
-                            PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE)
+                            PackageResponseUtils.packageOutboundFlightResponse = response
                         } else {
-                            PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE)
+                            PackageResponseUtils.packageInboundFlightResponse = response
                         }
                         flightResultsObservable.onNext(type)
                     }
