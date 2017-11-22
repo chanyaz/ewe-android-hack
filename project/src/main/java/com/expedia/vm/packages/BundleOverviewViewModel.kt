@@ -13,7 +13,7 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
-import com.expedia.bookings.utils.PackageResponseUtils
+import com.expedia.bookings.utils.PackageResponseStore
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
@@ -150,12 +150,12 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                         val currentFlights = arrayOf(response.getFlightLegs()[0].legId, response.getFlightLegs()[1].legId)
                         Db.getPackageParams().currentFlights = currentFlights
                         Db.getPackageParams().defaultFlights = currentFlights.copyOf()
-                        PackageResponseUtils.packageHotelResponse = response
+                        PackageResponseStore.packageHotelResponse = response
                     } else {
                         if (type == PackageSearchType.OUTBOUND_FLIGHT) {
-                            PackageResponseUtils.packageOutboundFlightResponse = response
+                            PackageResponseStore.packageOutboundFlightResponse = response
                         } else {
-                            PackageResponseUtils.packageInboundFlightResponse = response
+                            PackageResponseStore.packageInboundFlightResponse = response
                         }
                         flightResultsObservable.onNext(type)
                     }

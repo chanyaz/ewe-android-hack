@@ -23,7 +23,7 @@ import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.PackageResponseUtils
+import com.expedia.bookings.utils.PackageResponseStore
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
@@ -87,9 +87,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
             val params = Db.getPackageParams()
             params.selectedLegId = null
-            Db.setPackageResponse(PackageResponseUtils.packageOutboundFlightResponse)
+            Db.setPackageResponse(PackageResponseStore.packageOutboundFlightResponse)
         } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
-            Db.setPackageResponse(PackageResponseUtils.packageInboundFlightResponse)
+            Db.setPackageResponse(PackageResponseStore.packageInboundFlightResponse)
         }
 
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_FLIGHT)

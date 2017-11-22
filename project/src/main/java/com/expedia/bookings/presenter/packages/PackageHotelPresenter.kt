@@ -44,7 +44,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.PackageResponseUtils
+import com.expedia.bookings.utils.PackageResponseStore
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
@@ -309,7 +309,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                     }
                     val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers.getBundleRoomResponse(), packageHotelOffers.getHotelCheckInDate(), packageHotelOffers.getHotelCheckOutDate())
 
-                    PackageResponseUtils.packageHotelRoomResponse = hotelOffers
+                    PackageResponseStore.packageHotelRoomResponse = hotelOffers
                     loadingOverlay.animate(false)
                     detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
                     detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
