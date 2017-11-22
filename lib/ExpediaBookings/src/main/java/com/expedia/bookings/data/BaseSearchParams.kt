@@ -49,6 +49,16 @@ open class BaseSearchParams(val origin: SuggestionV4?, val destination: Suggesti
             return this
         }
 
+        /*fun adults(adultsList: List<Int>): Builder {
+            this.adultsList = adultsList
+            return this
+        }
+
+        fun childrenList(childrenList: List<List<Int>>): Builder {
+            this.childrenList = childrenList
+            return this
+        }*/
+
         abstract fun build(): BaseSearchParams
 
         abstract fun areRequiredParamsFilled(): Boolean

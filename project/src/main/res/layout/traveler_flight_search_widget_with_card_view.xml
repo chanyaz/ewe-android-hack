@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView style="@style/MaterialCardView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true">
+
+    <com.expedia.bookings.widget.FlightTravelerWidgetV2
+        android:id="@+id/traveler_card"
+        style="@style/MaterialCardTextView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_search_card_height"
+        app:input_icon="@drawable/search_form_icon_person"
+        app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+        app:input_text="@string/hotel_search_guest_default_text" />
+</android.support.v7.widget.CardView>

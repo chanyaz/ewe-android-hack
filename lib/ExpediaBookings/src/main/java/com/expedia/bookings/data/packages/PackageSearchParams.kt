@@ -11,6 +11,14 @@ import kotlin.properties.Delegates
 
 open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?, startDate: LocalDate, endDate: LocalDate?, adults: Int, children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String? = null) : AbstractFlightSearchParams(origin, destination, adults, children, startDate, endDate, infantSeatingInLap) {
 
+    constructor(origin: SuggestionV4, destination: SuggestionV4, startDate: LocalDate, endDate: LocalDate, adults: Int, children: List<Int>, infantSeatingInLap: Boolean, adultsList: List<Int>, childrenList: List<List<Int>>, flightCabinClass: String? = null) : this(origin, destination, startDate, endDate, adults, children, infantSeatingInLap) {
+        this.adultsList = adultsList
+        this.childrenList = childrenList
+    }
+
+    override val guests: Int
+        get() = if (adultsList.isEmpty()) super.guests else adultsList.sum() + childrenList.flatMap { it }.size
+
     var pageType: String? = null
     var searchProduct: String? = null
     var packagePIID: String? = null
@@ -30,6 +38,9 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
     //MID variables
     var latestSelectedOfferInfo: PackageSelectedOfferInfo = PackageSelectedOfferInfo()
+
+    var adultsList: List<Int> = emptyList()
+    var childrenList: List<List<Int>> = emptyList()
 
     val originId: String?
         get() {
@@ -60,12 +71,26 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
 
         private var flightCabinClass: String? = null
+
+        var adultsList: List<Int> = emptyList()
+        var childrenList: List<List<Int>> = emptyList()
+
+        fun adultsList(adultsList: List<Int>): Builder {
+            this.adultsList = adultsList
+            return this
+        }
+
+        fun childrenList(childrenList: List<List<Int>>): Builder {
+            this.childrenList = childrenList
+            return this
+        }
+
         override fun build(): PackageSearchParams {
             val flightOrigin = originLocation ?: throw IllegalArgumentException()
             val flightDestination = destinationLocation ?: throw IllegalArgumentException()
             val checkInDate = startDate ?: throw IllegalArgumentException()
             val checkOutDate = endDate ?: throw IllegalArgumentException()
-            return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap, flightCabinClass)
+            return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap, adultsList, childrenList, flightCabinClass)
         }
 
         override fun areRequiredParamsFilled(): Boolean {
@@ -112,12 +137,30 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         params.put("ttla", destination?.hierarchyInfo?.airport?.airportCode)
         params.put("fromDate", startDate.toString())
         params.put("toDate", endDate.toString())
-        params.put("numberOfRooms", numberOfRooms)
-        params.put("adultsPerRoom[1]", adults)
-        if (children.size > 0) {
-            params.put("childrenPerRoom[1]", children.size)
-            makeChildrenAgesParams(params, "childAges[1]", children, 1)
+        if (false) {
+            params.put("numberOfRooms", numberOfRooms)
+            params.put("adultsPerRoom[1]", adults)
+            if (children.size > 0) {
+                params.put("childrenPerRoom[1]", children.size)
+                makeChildrenAgesParams(params, "childAges[1]", children, 1)
+            }
+        } else {
+            params.put("numberOfRooms", adultsList.filter { it != 0 }.size)
+            adultsList.mapIndexed { index, i ->
+                if (i != 0) {
+                    params.put("adultsPerRoom[${index + 1}]", i)
+                }
+            }
+            if (childrenList.isNotEmpty()) {
+                childrenList.mapIndexed { index, list ->
+                    if (list.isNotEmpty()) {
+                        params.put("childrenPerRoom[${index + 1}]", list.size)
+                        list.mapIndexed { indexTwo, i -> params.put("childAges[${index + 1}][${indexTwo + 1}]", i) }
+                    }
+                }
+            }
         }
+
         if (searchProduct != null) params.put("searchProduct", searchProduct)
         if (packagePIID != null) params.put("packagePIID", packagePIID)
         if (selectedLegId != null) params.put("selectedLegId", selectedLegId)

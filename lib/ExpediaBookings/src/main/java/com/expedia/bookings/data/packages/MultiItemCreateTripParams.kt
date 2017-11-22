@@ -8,8 +8,8 @@ class MultiItemCreateTripParams(val flightPIID: String,
                                 val totalPrice: PackageOfferModel.PackagePrice,
                                 val startDate: String,
                                 val endDate: String,
-                                val adults: Int,
-                                val childAges: String?,
+                                val adults: List<Int>,
+                                val childAges: List<List<Int>>,
                                 val infantsInSeats: Boolean?) {
     companion object {
         fun fromPackageSearchParams(searchParams: PackageSearchParams): MultiItemCreateTripParams {
@@ -22,8 +22,8 @@ class MultiItemCreateTripParams(val flightPIID: String,
                     searchParams.latestSelectedOfferInfo.productOfferPrice ?: throw IllegalArgumentException(),
                     searchParams.latestSelectedOfferInfo.hotelCheckInDate ?: throw IllegalArgumentException(),
                     searchParams.latestSelectedOfferInfo.hotelCheckOutDate ?: throw IllegalArgumentException(),
-                    searchParams.adults,
-                    searchParams.childAges,
+                    searchParams.adultsList,
+                    searchParams.childrenList,
                     searchParams.infantsInSeats)
         }
     }

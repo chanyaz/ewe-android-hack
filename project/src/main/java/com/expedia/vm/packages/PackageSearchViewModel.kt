@@ -114,6 +114,19 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
     }
 
+    override fun updateTraveler() {
+        super.updateTraveler()
+        if (true) {
+            multipleRoomTravelerObservable.subscribe { travelerParamList ->
+                val adults = travelerParamList.map { it.numberOfAdults }
+                val children = travelerParamList.map { it.childrenAges + it.seniorAges + it.youthAges }
+                getParamsBuilder().adultsList(adults)
+                getParamsBuilder().childrenList(children)
+                requiredSearchParamsObserver.onNext(Unit)
+            }
+        }
+    }
+
     private fun setupViewModelFromPastSearch(pastSearchParams: PackageSearchParams) {
         val currentDate = LocalDate.now()
         val invalidDates = pastSearchParams.startDate.isBefore(currentDate) || pastSearchParams.endDate?.isBefore(currentDate) ?: false

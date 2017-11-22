@@ -278,8 +278,10 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
 }
 
 fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int, maxRange: Int): HotelSearchParams {
+    val adults = if (packageParams.adultsList.isNotEmpty()) packageParams.adultsList.sum() else packageParams.adults
+    val children = if (packageParams.childrenList.isNotEmpty()) packageParams.childrenList.flatMap { it } else packageParams.children
     val builder = HotelSearchParams.Builder(maxStay, maxRange).destination(packageParams.destination)
-            .startDate(packageParams.startDate).endDate(packageParams.endDate).adults(packageParams.adults)
-            .children(packageParams.children) as HotelSearchParams.Builder
+            .startDate(packageParams.startDate).endDate(packageParams.endDate).adults(adults)
+            .children(children) as HotelSearchParams.Builder
     return builder.forPackage(true).build()
 }

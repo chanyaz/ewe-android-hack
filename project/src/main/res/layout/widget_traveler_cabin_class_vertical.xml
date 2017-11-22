@@ -10,12 +10,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:id="@+id/room_count_label_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:paddingRight="5dp"
+            android:visibility="gone">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/room_count_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="4dp"
+                android:textColor="@color/blue1" />
+
+        </LinearLayout>
+
         <ViewStub
             android:id="@+id/traveler_flight_stub"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_search_card_height"
             android:layout="@layout/traveler_flight_search_widget"
             app:input_text="@string/package_search_traveler_default_text" />
+
         <ViewStub
             android:id="@+id/traveler_stub"
             android:layout_width="match_parent"

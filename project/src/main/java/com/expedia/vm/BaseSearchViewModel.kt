@@ -34,6 +34,8 @@ abstract class BaseSearchViewModel(val context: Context) {
     val errorMaxDurationObservable = PublishSubject.create<String>()
     val errorMaxRangeObservable = PublishSubject.create<String>()
     val travelersObservable = BehaviorSubject.create<TravelerParams>()
+    val multipleRoomTravelerObservable = PublishSubject.create<List<TravelerParams>>()
+    //val addRemoveTravelerObservable = PublishSubject.create<TravelerParams>()
     val errorOriginSameAsDestinationObservable = PublishSubject.create<String>()
     val hasValidDatesObservable = PublishSubject.create<Boolean>()
 
@@ -47,6 +49,14 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     init {
         updateTraveler()
+        /*addRemoveTravelerObservable.subscribe { travelerParams ->
+            val numberOfAdults = travelerParams.numberOfAdults + travelersObservable.value.numberOfAdults
+            val childrenAges = travelerParams.childrenAges + travelersObservable.value.childrenAges
+            val youthAges = travelerParams.youthAges + travelersObservable.value.youthAges
+            val seniorAges = travelerParams.seniorAges + travelersObservable.value.seniorAges
+            val newParams = TravelerParams(numberOfAdults, childrenAges, youthAges, seniorAges)
+            travelersObservable.onNext(newParams)
+        }*/
     }
 
     abstract fun getCalendarRules(): CalendarRules

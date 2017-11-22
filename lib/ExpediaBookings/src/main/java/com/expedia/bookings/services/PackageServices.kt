@@ -75,8 +75,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 destinationId = params.destinationId,
                 fromDate = params.startDate.toString(),
                 toDate = params.endDate.toString(),
-                adults = params.adults,
-                childAges = params.childAges,
+                adults = getAdultsStringForMIDSearch(params.adultsList),
+                childAges = getChildrenStringForMIDSearch(params.childrenList),
                 infantsInSeats = params.infantsInSeats,
                 flightPIID = if (params.isChangePackageSearch()) params.latestSelectedOfferInfo.flightPIID else null,
                 cabinClass = params.flightCabinClass)
@@ -96,8 +96,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 destinationId = params.destinationId,
                 fromDate = params.startDate.toString(),
                 toDate = params.endDate.toString(),
-                adults = params.adults,
-                childAges = params.childAges,
+                adults = getAdultsStringForMIDSearch(params.adultsList),
+                childAges = getChildrenStringForMIDSearch(params.childrenList),
                 infantsInSeats = params.infantsInSeats,
                 hotelId = params.latestSelectedOfferInfo.hotelId,
                 flightPIID = params.latestSelectedOfferInfo.flightPIID,
@@ -118,8 +118,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 destinationId = params.destinationId,
                 fromDate = params.startDate.toString(),
                 toDate = params.endDate.toString(),
-                adults = params.adults,
-                childAges = params.childAges,
+                adults = getAdultsStringForMIDSearch(params.adultsList),
+                childAges = getChildrenStringForMIDSearch(params.childrenList),
                 infantsInSeats = params.infantsInSeats,
                 hotelId = params.latestSelectedOfferInfo.hotelId,
                 ratePlanCode = params.latestSelectedOfferInfo.ratePlanCode,
@@ -151,8 +151,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 destinationId = params.destinationId,
                 fromDate = params.startDate.toString(),
                 toDate = params.endDate.toString(),
-                adults = params.adults,
-                childAges = params.childAges,
+                adults = getAdultsStringForMIDSearch(params.adultsList),
+                childAges = getChildrenStringForMIDSearch(params.childrenList),
                 infantsInSeats = params.infantsInSeats,
                 hotelId = params.latestSelectedOfferInfo.hotelId,
                 ratePlanCode = params.latestSelectedOfferInfo.ratePlanCode,
@@ -173,6 +173,14 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                     }
                 }
                 .map { it }
+    }
+
+    private fun getAdultsStringForMIDSearch(adults: List<Int>): String {
+        return adults.filter { it != 0 }.joinToString(separator = ",")
+    }
+
+    private fun getChildrenStringForMIDSearch(children: List<List<Int>>): String {
+        return children.filter { it.isNotEmpty() }.map { it.joinToString(",") }.joinToString("_")
     }
 
     //PSS API
@@ -269,7 +277,15 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
     }
 
     fun createTrip(body: PackageCreateTripParams): Observable<PackageCreateTripResponse> {
-        return packageApi.createTrip(body.productKey, body.destinationId, body.numOfAdults, body.isInfantsInSeat, body.childAges, body.flexEnabled)
+        val test = mutableMapOf<String, String>()
+        body.occupants().forEachIndexed { i, roomOccupant ->
+            test.put("roomOccupants[$i].numberOfAdultGuests", roomOccupant.numOfAdults.toString())
+            test.put("roomOccupants[$i].infantsInSeat", roomOccupant.infantsInLap.toString())
+            roomOccupant.childAges.forEach { age ->
+                test.put("roomOccupants[$i].childGuestAge", age.toString())
+            }
+        }
+        return packageApi.createTrip(body.productKey, body.destinationId, test, body.flexEnabled)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
@@ -286,11 +302,11 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 body.inventoryType,
                 body.ratePlanCode,
                 body.roomTypeCode,
-                body.adults,
+                getAdultsStringForMIDSearch(body.adults),
                 body.startDate,
                 body.endDate,
                 body.totalPrice.packageTotalPrice.amount,
-                body.childAges,
+                getChildrenStringForMIDSearch(body.childAges),
                 body.infantsInSeats)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

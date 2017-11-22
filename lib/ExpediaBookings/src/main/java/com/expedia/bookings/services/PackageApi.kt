@@ -39,7 +39,7 @@ interface PackageApi {
     fun hotelInfo(
             @Query("hotelId") hotelId: String): Observable<HotelOffersResponse>
 
-    @FormUrlEncoded
+    /*@FormUrlEncoded
     @POST("/api/packages/createTrip")
     fun createTrip(
             @Field("productKey") productKey: String,
@@ -47,6 +47,15 @@ interface PackageApi {
             @Query("roomOccupants[0].numberOfAdultGuests") numberOfAdults: Int,
             @Query("roomOccupants[0].infantsInSeat") infantInSeat: Boolean,
             @Query("roomOccupants[0].childGuestAge") childAges: List<Int>,
+            @Query("mobileFlexEnabled") flexEnabled: Boolean): Observable<PackageCreateTripResponse>*/
+
+    @FormUrlEncoded
+    @POST("/api/packages/createTrip")
+    fun createTrip(
+            @Field("productKey") productKey: String,
+            @Query("destinationId") destId: String,
+            //@Query("roomOccupants") occupants: List<PackageCreateTripRoomParam>,
+            @FieldMap roomOccupants: Map<String, String>,
             @Query("mobileFlexEnabled") flexEnabled: Boolean): Observable<PackageCreateTripResponse>
 
     @FormUrlEncoded
@@ -66,7 +75,7 @@ interface PackageApi {
             @Query("destinationId") destinationId: String?,
             @Query("fromDate") fromDate: String,
             @Query("toDate") toDate: String,
-            @Query("adults") adults: Int,
+            @Query("adults") adults: String,
             @Query("childAges") childAges: String?,
             @Query("infantsInSeats") infantsInSeats: Boolean?,
             @Query("hotelId") hotelId: String? = null,
@@ -86,7 +95,7 @@ interface PackageApi {
                             @Query("inventoryType") inventoryType: String,
                             @Query("ratePlanCode") ratePlanCode: String,
                             @Query("roomTypeCode") roomTypeCode: String,
-                            @Query("adults") adults: Int,
+                            @Query("adults") adults: String,
                             @Query("checkInDate") checkInDate: String,
                             @Query("checkOutDate") checkOutDate: String,
                             @Query("totalPrice") totalPrice: BigDecimal,

@@ -5,8 +5,11 @@ import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewStub
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
@@ -19,6 +22,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.shared.widget.SuggestionAdapter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
@@ -31,7 +35,6 @@ import com.expedia.bookings.utils.isPackagesMISRealWorldGeoEnabled
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.packages.PackageSuggestionAdapter
-import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
 import com.expedia.util.PackageUtil
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
@@ -39,9 +42,17 @@ import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.packages.PackageSearchViewModel
 import com.expedia.vm.packages.PackageSuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
+import rx.Observable
+import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
 open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
+    val addRoomButton by bindView<com.expedia.bookings.widget.TextView>(R.id.add_room)
+    val removeRoomButton by bindView<com.expedia.bookings.widget.TextView>(R.id.remove_room)
+    //val containerForMoreRooms by bindView<LinearLayout>(R.id.temp_for_rooms)
+
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).packageComponent().suggestionsService()
     }
@@ -55,9 +66,6 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
         }
     }
 
-    private var originSuggestionAdapter: BaseSuggestionAdapter by Delegates.notNull()
-    private var destinationSuggestionAdapter: BaseSuggestionAdapter by Delegates.notNull()
-
     val flightCabinClassStub: ViewStub by bindView(R.id.flight_cabin_class_stub)
     val flightCabinClassWidget by lazy {
         val cabinClassWidget = flightCabinClassStub.inflate().findViewById<FlightCabinClassWidget>(R.id.flight_cabin_class_widget)
@@ -65,24 +73,51 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
         cabinClassWidget
     }
 
+    lateinit var travelerWidgetOne: TravelerWidgetV2
+    lateinit var travelerWidgetTwo: TravelerWidgetV2
+
+    val travelerSubjectOne = BehaviorSubject.create<TravelerParams>(defaultTravelerParam())
+    val travelerSubjectTwo = BehaviorSubject.create<TravelerParams>(defaultTravelerParam())
+    val travelerSubjectInitial = BehaviorSubject.create<TravelerParams>(defaultTravelerParam())
+
+    private fun defaultTravelerParam(): TravelerParams {
+        return TravelerParams(0, emptyList(), emptyList(), emptyList())
+    }
+
+    private var originSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
+    private var destinationSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
+    val travelerWidgetsContainer: LinearLayout by bindView(R.id.traveler_widgets_container)
     val widgetTravelerAndCabinClassStub: ViewStub by bindView(R.id.widget_traveler_and_cabin_clas_stub)
+    val widgetTravelerAndCabinClassStubOne: ViewStub by bindView(R.id.widget_traveler_and_cabin_class_stub_1)
+    val widgetTravelerAndCabinClassStubTwo: ViewStub by bindView(R.id.widget_traveler_and_cabin_class_stub_2)
 
     var searchViewModel: PackageSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
-        travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
+        if (false) {
+            travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
+        } else {
+            travelerWidgetV2.travelersSubject.subscribe(travelerSubjectInitial)
+            Observable.combineLatest(travelerSubjectInitial, travelerSubjectOne, travelerSubjectTwo, { one, two, three ->
+                Log.d("Testingggg", "combinelatest called")
+                /*val adults = one.numberOfAdults + two.numberOfAdults + three.numberOfAdults
+                val childrenList = one.childrenAges + two.childrenAges + three.childrenAges
+                val youthList = one.youthAges + two.youthAges + three.youthAges
+                val seniorList = one.seniorAges + two.seniorAges + three.seniorAges
+                vm.travelersObservable.onNext(TravelerParams(adults, childrenList, youthList, seniorList))*/
+                vm.multipleRoomTravelerObservable.onNext(listOf(one, two, three))
+            }).subscribe()
+        }
         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         if (isMidAPIEnabled(context) && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFFPremiumClass)) {
             flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
         }
-        vm.formattedOriginObservable.subscribe {
-            text ->
+        vm.formattedOriginObservable.subscribe { text ->
             originCardView.setText(text)
             originCardView.contentDescription = Phrase.from(context, R.string.search_flying_from_destination_cont_desc_TEMPLATE)
                     .put("from_destination", text)
                     .format().toString()
         }
-        vm.formattedDestinationObservable.subscribe {
-            text ->
+        vm.formattedDestinationObservable.subscribe { text ->
             if (text.isNotEmpty()) {
                 destinationCardView.setText(text)
                 destinationCardView.contentDescription =
@@ -97,8 +132,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
                 destinationCardView.contentDescription = getDestinationSearchBoxPlaceholderText()
             }
         }
-        vm.dateAccessibilityObservable.subscribe {
-            text ->
+        vm.dateAccessibilityObservable.subscribe { text ->
             calendarWidgetV2.contentDescription = text
         }
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
@@ -156,81 +190,162 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
         widgetTravelerAndCabinClassStub.inflate()
         if (isFHCPackageWebViewEnabled(context)) {
             showTabOptionsOnSearchForm = true
-        }
-    }
-
-    override fun inflate() {
-        val view = View.inflate(context, R.layout.widget_base_flight_search, this)
-        val packageTitleText = view.findViewById<TextView>(R.id.title)
-        packageTitleText.text = resources.getString(PackageUtil.packageTitle(context))
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        if (isFHCPackageWebViewEnabled(context)) {
-            initializeToolbarTabs()
-        }
-    }
-
-    override fun getSuggestionHistoryFileName(): String {
-        val isRWGEnabled = isPackagesMISRealWorldGeoEnabled(context)
-        if (isCustomerSelectingOrigin) {
-            if (isRWGEnabled) return SuggestionV4Utils.RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE_V2
-            else return SuggestionV4Utils.RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE
-        } else {
-            if (isRWGEnabled) return SuggestionV4Utils.RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE_V2
-            else return SuggestionV4Utils.RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE
-        }
-    }
-
-    override fun getSuggestionViewModel(): BaseSuggestionAdapterViewModel {
-        return if (isCustomerSelectingOrigin) originSuggestionViewModel else destinationSuggestionViewModel
-    }
-
-    override fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        return if (isCustomerSelectingOrigin) originSuggestionAdapter else destinationSuggestionAdapter
-    }
-
-    override fun getSearchViewModel(): BaseSearchViewModel {
-        return searchViewModel
-    }
-
-    override fun getOriginSearchBoxPlaceholderText(): String {
-        return context.resources.getString(R.string.fly_from_hint)
-    }
-
-    override fun getDestinationSearchBoxPlaceholderText(): String {
-        return context.resources.getString(R.string.fly_to_hint)
-    }
-
-    override fun getLineOfBusiness(): LineOfBusiness {
-        return LineOfBusiness.PACKAGES
-    }
-
-    private fun initializeToolbarTabs() {
-        tabs.visibility = View.VISIBLE
-        tabs.addTab(tabs.newTab().setText(R.string.nav_hotel_plus_flight))
-        tabs.addTab(tabs.newTab().setText(R.string.nav_hotel_plus_flight_plus_car))
-
-        var hasFHCTabBeenClickedOnce = false
-
-        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                // do nothing
+            val travelerWidgetInitial = LayoutInflater.from(context).inflate(R.layout.widget_traveler_cabin_class_vertical, null)
+            travelerWidgetsContainer.addView(travelerWidgetInitial)
+            /* widgetTravelerAndCabinClassStub.layoutResource = R.layout.widget_traveler_cabin_class_vertical
+        widgetTravelerAndCabinClassStub.inflate()*/
+            if (true) {
+                // TODO
+                travelerWidgetInitial.findViewById<View>(R.id.room_count_label_container).visibility = View.VISIBLE
+                //travelerWidgetInitial.findViewById<View>(R.id.room_count_remove).visibility = View.GONE
+                travelerWidgetInitial.findViewById<com.expedia.bookings.widget.TextView>(R.id.room_count_label).text = "Room 1"
+                addRoomButton.visibility = View.VISIBLE
+                addRoomButton.setOnClickListener { addMoreTravelers() }
+                removeRoomButton.setOnClickListener { removeRoom() }
             }
+            /*travelerSubjectInitial.subscribe { Log.d("Testinggg", "travelerSubjectInitial") }
+        travelerSubjectOne.subscribe { Log.d("Testinggg", "travelerSubjectOne") }
+        travelerSubjectTwo.subscribe { Log.d("Testinggg", "travelerSubjectTwo") }*/
+        }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                // do nothing
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                val isFHPackageSearch = tab.position == 0
-                searchViewModel.isFHPackageSearch = isFHPackageSearch
-                if (!isFHPackageSearch && !hasFHCTabBeenClickedOnce) {
-                    hasFHCTabBeenClickedOnce = true
-                    PackagesTracking().trackFHCTabClick()
+        var additionalRooms = 0
+        private fun addMoreTravelers() {
+            when (additionalRooms) {
+                0 -> {
+                    val vertical = LayoutInflater.from(context).inflate(R.layout.widget_traveler_cabin_class_vertical, null) as LinearLayout
+                    /*widgetTravelerAndCabinClassStubOne.layoutResource = R.layout.widget_traveler_cabin_class_vertical
+                widgetTravelerAndCabinClassStubOne.inflate()*/
+                    travelerWidgetsContainer.addView(vertical)
+                    //val test = findViewById<View>(R.id.widget_traveler_cabin_class_view_1)
+                    travelerWidgetOne = testInflate(vertical)
+                    travelerWidgetOne.travelersSubject.subscribe(travelerSubjectOne)
+                    travelerWidgetOne.traveler.getViewModel().lob = getLineOfBusiness()
+                    vertical.findViewById<View>(R.id.room_count_label_container).visibility = View.VISIBLE
+                    vertical.findViewById<com.expedia.bookings.widget.TextView>(R.id.room_count_label).text = "Room 2"
+                    removeRoomButton.visibility = View.VISIBLE
+                    Log.d("Testingggg", "state " + travelerSubjectInitial.values.size + " " + travelerSubjectOne.values.size + " " + travelerSubjectOne.values.size)
+                }
+                1 -> {
+                    val vertical = LayoutInflater.from(context).inflate(R.layout.widget_traveler_cabin_class_vertical, null) as LinearLayout
+                    travelerWidgetsContainer.addView(vertical)
+                    /*widgetTravelerAndCabinClassStubTwo.layoutResource = R.layout.widget_traveler_cabin_class_vertical
+                widgetTravelerAndCabinClassStubTwo.inflate()
+                val test = findViewById<View>(R.id.widget_traveler_cabin_class_view_2)*/
+                    travelerWidgetTwo = testInflate(vertical)
+                    travelerWidgetTwo.travelersSubject.subscribe(travelerSubjectTwo)
+                    travelerWidgetTwo.traveler.getViewModel().lob = getLineOfBusiness()
+                    vertical.findViewById<View>(R.id.room_count_label_container).visibility = View.VISIBLE
+                    vertical.findViewById<com.expedia.bookings.widget.TextView>(R.id.room_count_label).text = "Room 3"
+                    addRoomButton.visibility = View.GONE
+                    Log.d("Testingggg", "state " + travelerSubjectInitial.values.size + " " + travelerSubjectOne.values.size + " " + travelerSubjectTwo.values.size)
                 }
             }
-        })
+            additionalRooms++
+        }
+
+        private fun removeRoom() {
+            travelerWidgetsContainer.removeViewAt(travelerWidgetsContainer.childCount - 1)
+            addRoomButton.visibility = View.VISIBLE
+            additionalRooms--
+            when (additionalRooms) {
+                1 -> travelerSubjectTwo.onNext(defaultTravelerParam())
+                0 -> {
+                    travelerSubjectOne.onNext(defaultTravelerParam())
+                    removeRoomButton.visibility = View.GONE
+                }
+            }
+        }
+
+        private fun testInflate(view: View): TravelerWidgetV2 {
+            val layout = if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) R.id.traveler_flight_stub else R.id.traveler_stub
+            return view.findViewById<ViewStub>(layout).inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card) as TravelerWidgetV2
+        }
+
+        /*private fun addMoreTravelers() {
+        val layout = if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) R.layout.traveler_flight_search_widget_with_card_view else R.layout.traveler_search_widget
+        val widget = LayoutInflater.from(context).inflate(layout, null)
+        val travelerWidget = widget.findViewById<TravelerWidgetV2>(R.id.traveler_card)
+        travelerWidget.traveler.getViewModel().showSeatingPreference = true
+        travelerWidget.traveler.getViewModel().lob = getLineOfBusiness()
+
+        travelerWidget.travelersSubject.subscribe(searchViewModel.addRemoveTravelerObservable)
+
+        containerForMoreRooms.addView(widget)
+    }*/
+
+        override fun inflate() {
+            val view = View.inflate(context, R.layout.widget_base_flight_search, this)
+            val packageTitleText = view.findViewById<TextView>(R.id.title)
+            packageTitleText.text = resources.getString(PackageUtil.packageTitle(context))
+        }
+
+        override fun onFinishInflate() {
+            super.onFinishInflate()
+            if (isFHCPackageWebViewEnabled(context)) {
+                initializeToolbarTabs()
+            }
+        }
+
+        override fun getSuggestionHistoryFileName(): String {
+            val isRWGEnabled = isPackagesMISRealWorldGeoEnabled(context)
+            if (isCustomerSelectingOrigin) {
+                if (isRWGEnabled) return SuggestionV4Utils.RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE_V2
+                else return SuggestionV4Utils.RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE
+            } else {
+                if (isRWGEnabled) return SuggestionV4Utils.RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE_V2
+                else return SuggestionV4Utils.RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE
+            }
+        }
+
+        override fun getSuggestionViewModel(): BaseSuggestionAdapterViewModel {
+            return if (isCustomerSelectingOrigin) originSuggestionViewModel else destinationSuggestionViewModel
+        }
+
+        override fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder> {
+            return if (isCustomerSelectingOrigin) originSuggestionAdapter else destinationSuggestionAdapter
+        }
+
+        override fun getSearchViewModel(): BaseSearchViewModel {
+            return searchViewModel
+        }
+
+        override fun getOriginSearchBoxPlaceholderText(): String {
+            return context.resources.getString(R.string.fly_from_hint)
+        }
+
+        override fun getDestinationSearchBoxPlaceholderText(): String {
+            return context.resources.getString(R.string.fly_to_hint)
+        }
+
+        override fun getLineOfBusiness(): LineOfBusiness {
+            return LineOfBusiness.PACKAGES
+        }
+
+        private fun initializeToolbarTabs() {
+            tabs.visibility = View.VISIBLE
+            tabs.addTab(tabs.newTab().setText(R.string.nav_hotel_plus_flight))
+            tabs.addTab(tabs.newTab().setText(R.string.nav_hotel_plus_flight_plus_car))
+
+            var hasFHCTabBeenClickedOnce = false
+
+            tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    // do nothing
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    // do nothing
+                }
+
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    val isFHPackageSearch = tab.position == 0
+                    searchViewModel.isFHPackageSearch = isFHPackageSearch
+                    if (!isFHPackageSearch && !hasFHCTabBeenClickedOnce) {
+                        hasFHCTabBeenClickedOnce = true
+                        PackagesTracking().trackFHCTabClick()
+                    }
+                }
+            })
+        }
     }
 }

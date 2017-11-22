@@ -179,11 +179,58 @@
                             app:input_text="@string/select_dates" />
                     </android.support.v7.widget.CardView>
 
+                    <LinearLayout
+                        android:id="@+id/traveler_widgets_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
                     <ViewStub
                         android:id="@+id/widget_traveler_and_cabin_clas_stub"
                         android:inflatedId="@+id/widget_traveler_cabin_clas_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+
+                    <ViewStub
+                        android:id="@+id/widget_traveler_and_cabin_class_stub_1"
+                        android:inflatedId="@+id/widget_traveler_cabin_class_view_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <ViewStub
+                        android:id="@+id/widget_traveler_and_cabin_class_stub_2"
+                        android:inflatedId="@+id/widget_traveler_cabin_class_view_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <!--<LinearLayout
+                        android:id="@+id/temp_for_rooms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />-->
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right">
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/add_room"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add Room"
+                            android:textColor="@color/blue1"
+                            android:visibility="gone" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/remove_room"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Remove Room"
+                            android:textColor="@color/blue1"
+                            android:paddingLeft="5dp"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/flight_advanced_search_card_view"
