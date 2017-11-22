@@ -669,6 +669,14 @@
             android:key="15835"
             android:title="Packages Breadcrumbs for navigation"/>
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:summary="%s"
+            android:key="16223"
+            android:title="Packages Breadcrumbs - Move Bundle Overview Bar"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
