@@ -1,10 +1,10 @@
 package com.expedia.vm.test.traveler
 
 import android.app.Activity
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -164,7 +164,7 @@ class TravelerTSAViewModelTest {
 
     @Test
     fun testUpdateTravelerInvalidPassengerCategory() {
-        Db.setPackageParams(PackageSearchParams(SuggestionV4(), SuggestionV4(), TEST_START_DATE, TEST_END_DATE, 1, emptyList<Int>(), false))
+        PackageResponseStore.packageParams = PackageSearchParams(SuggestionV4(), SuggestionV4(), TEST_START_DATE, TEST_END_DATE, 1, emptyList<Int>(), false)
         travelerValidator.updateForNewSearch(getTestParams())
         setAgeEnteredAtSearch(1, PassengerCategory.INFANT_IN_SEAT)
         traveler.birthDate = LocalDate.now().minusYears(18)
@@ -219,7 +219,7 @@ class TravelerTSAViewModelTest {
 
     private fun setSearchParams() {
         val searchParams = getTestParams()
-        Db.setPackageParams(searchParams)
+        PackageResponseStore.packageParams = searchParams
         travelerValidator.updateForNewSearch(searchParams)
     }
 

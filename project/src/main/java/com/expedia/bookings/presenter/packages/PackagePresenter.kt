@@ -21,6 +21,7 @@ import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
@@ -99,7 +100,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             pageUsableData.markPageLoadStarted(startTime)
         }
         presenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
-            val packagePrice = Db.getPackageResponse().getCurrentOfferPrice() ?: return@subscribe
+            val packagePrice = PackageResponseStore.packageResponse.getCurrentOfferPrice() ?: return@subscribe
 
             val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                     packagePrice.tripSavings.currencyCode)
@@ -118,7 +119,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             pageUsableData.markAllViewsLoaded(Date().time)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
-            PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType), pageUsableData, Db.getPackageParams())
+            PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(PackageResponseStore.packageSelectedRoom.supplierType), pageUsableData, PackageResponseStore.packageParams)
         }
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
@@ -203,7 +204,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         searchPresenter.searchViewModel.searchParamsObservable.subscribe { params ->
             PackagesPageUsableData.HOTEL_RESULTS.pageUsableData.markPageLoadStarted()
             // Starting a new search clear previous selection
-            Db.clearPackageSelection()
+            PackageResponseStore.clearPackageSelection()
             travelerManager.updateDbTravelers(params)
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             bundlePresenter.bundleWidget.viewModel.hotelParamsObservable.onNext(params)

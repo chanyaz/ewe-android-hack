@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripResponse
@@ -16,6 +15,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
@@ -76,7 +76,7 @@ class PackagePriceChangeTest {
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         setUpPackageDb()
-        travelerValidator.updateForNewSearch(Db.getPackageParams())
+        travelerValidator.updateForNewSearch(PackageResponseStore.packageParams)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
         overview = activity.findViewById<View>(R.id.package_overview_presenter) as PackageOverviewPresenter
         checkout = overview.getCheckoutPresenter()
@@ -226,16 +226,16 @@ class PackagePriceChangeTest {
     private fun setUpPackageDb() {
         val hotel = Hotel()
         hotel.packageOfferModel = PackageOfferModel()
-        Db.setPackageSelectedHotel(hotel, HotelOffersResponse.HotelRoomResponse())
+        PackageResponseStore.setPackageSelectedHotel(hotel, HotelOffersResponse.HotelRoomResponse())
 
         val outboundFlight = FlightLeg()
-        Db.setPackageSelectedOutboundFlight(outboundFlight)
+        PackageResponseStore.packageSelectedOutboundFlight = outboundFlight
 
         setPackageSearchParams(1, emptyList(), false)
     }
 
     private fun setPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean) {
-        Db.setPackageParams(getPackageSearchParams(adults, children, infantsInLap))
+        PackageResponseStore.packageParams = getPackageSearchParams(adults, children, infantsInLap)
     }
 
     private fun getPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean): PackageSearchParams {
@@ -277,7 +277,7 @@ class PackagePriceChangeTest {
         legs.add(flightLeg)
         flightTripDetails.legs = legs
         flightProduct.details = flightTripDetails
-        Db.setPackageSelectedOutboundFlight(legs.first())
+        PackageResponseStore.packageSelectedOutboundFlight = legs.first()
         return flightProduct
     }
 
@@ -294,7 +294,7 @@ class PackagePriceChangeTest {
         hotel.hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
         val dbHotel = Hotel()
         dbHotel.hotelId = "forOmnitureStability"
-        Db.setPackageSelectedHotel(dbHotel, hotel.hotelRoomResponse)
+        PackageResponseStore.setPackageSelectedHotel(dbHotel, hotel.hotelRoomResponse)
         return hotel
     }
 }

@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.traveler;
 
+import com.expedia.bookings.data.packages.PackageResponseStore;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.vm.traveler.FlightTravelersViewModel;
@@ -182,7 +183,7 @@ public class BaseTravelerPresenterTestHelper {
 			.adults(adults)
 			.children(children)
 			.build();
-		Db.setPackageParams(packageParams);
+		PackageResponseStore.setPackageParams(packageParams);
 		return packageParams;
 	}
 

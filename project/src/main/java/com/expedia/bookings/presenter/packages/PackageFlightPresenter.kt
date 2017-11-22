@@ -13,9 +13,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
@@ -23,7 +23,6 @@ import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.PackageResponseStore
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
@@ -54,21 +53,23 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     private val flightOverviewSelected = endlessObserver<FlightLeg> { flight ->
-        val params = Db.getPackageParams()
+        val params = PackageResponseStore.packageParams ?: return@endlessObserver
         if (flight.outbound) {
-            Db.setPackageSelectedOutboundFlight(flight)
+            com.expedia.bookings.data.packages.PackageResponseStore.packageSelectedOutboundFlight = flight
             params.currentFlights[0] = flight.legId
         } else {
-            Db.setPackageFlightBundle(Db.getPackageSelectedOutboundFlight(), flight)
+            PackageResponseStore.packageSelectedOutboundFlight?.let {
+                PackageResponseStore.setPackageFlightBundle(it, flight)
+            }
             params.currentFlights[1] = flight.legId
-            params.latestSelectedFlightPIID = Db.getPackageResponse().getSelectedFlightPIID(params.currentFlights[0], params.currentFlights[1])
+            params.latestSelectedFlightPIID = PackageResponseStore.packageResponse?.getSelectedFlightPIID(params.currentFlights[0], params.currentFlights[1])
         }
         params.selectedLegId = flight.departureLeg
         params.packagePIID = flight.packageOfferModel.piid
         params.latestSelectedProductOfferPrice = flight.packageOfferModel.price
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_FLIGHT)
-        val response = Db.getPackageResponse()
-        response.setCurrentOfferPrice(flight.packageOfferModel.price)
+        val response = PackageResponseStore.packageResponse
+        response?.setCurrentOfferPrice(flight.packageOfferModel.price)
 
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
@@ -85,16 +86,16 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         val activity = (context as AppCompatActivity)
         val intent = activity.intent
         if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
-            val params = Db.getPackageParams()
+            val params = com.expedia.bookings.data.packages.PackageResponseStore.packageParams
             params.selectedLegId = null
-            Db.setPackageResponse(PackageResponseStore.packageOutboundFlightResponse)
+            com.expedia.bookings.data.packages.PackageResponseStore.packageResponse = PackageResponseStore.packageOutboundFlightResponse
         } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
-            Db.setPackageResponse(PackageResponseStore.packageInboundFlightResponse)
+            com.expedia.bookings.data.packages.PackageResponseStore.packageResponse = PackageResponseStore.packageInboundFlightResponse
         }
 
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_FLIGHT)
-        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
-        val bestPlusAllFlights = Db.getPackageResponse().getFlightLegs().filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
+        val isOutboundSearch = com.expedia.bookings.data.packages.PackageResponseStore.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
+        val bestPlusAllFlights = com.expedia.bookings.data.packages.PackageResponseStore.packageResponse.getFlightLegs().filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
 
         // move bestFlight to the first place of the list
         val bestFlight = bestPlusAllFlights.find { it.isBestFlight }
@@ -103,16 +104,16 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         if (bestFlight != null) {
             allFlights.add(0, bestFlight)
         }
-        val flightListAdapter = PackageFlightListAdapter(context, resultsPresenter.flightSelectedSubject, Db.getPackageParams().isChangePackageSearch())
+        val flightListAdapter = PackageFlightListAdapter(context, resultsPresenter.flightSelectedSubject, com.expedia.bookings.data.packages.PackageResponseStore.packageParams.isChangePackageSearch())
         resultsPresenter.setAdapter(flightListAdapter)
 
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         resultsPresenter.resultsViewModel.flightResultsObservable.onNext(allFlights)
 
-        if (!isOutboundResultsPresenter() && Db.getPackageSelectedOutboundFlight() != null) {
-            resultsPresenter.outboundFlightSelectedSubject.onNext(Db.getPackageSelectedOutboundFlight())
+        if (!isOutboundResultsPresenter() && com.expedia.bookings.data.packages.PackageResponseStore.packageSelectedOutboundFlight != null) {
+            resultsPresenter.outboundFlightSelectedSubject.onNext(com.expedia.bookings.data.packages.PackageResponseStore.packageSelectedOutboundFlight)
         }
-        val numTravelers = Db.getPackageParams().guests
+        val numTravelers = com.expedia.bookings.data.packages.PackageResponseStore.packageParams.guests
         overviewPresenter.vm.selectedFlightLegSubject.subscribe { selectedFlight ->
             overviewPresenter.paymentFeesMayApplyTextView.setOnClickListener {
                 if (!selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()) {
@@ -125,20 +126,20 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         }
         overviewPresenter.vm.numberOfTravelers.onNext(numTravelers)
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
-        val destinationOrOrigin = if (isOutboundResultsPresenter()) Db.getPackageParams().destination else Db.getPackageParams().origin
+        val destinationOrOrigin = if (isOutboundResultsPresenter()) com.expedia.bookings.data.packages.PackageResponseStore.packageParams.destination else com.expedia.bookings.data.packages.PackageResponseStore.packageParams.origin
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         toolbarViewModel.regionNames.onNext(destinationOrOrigin?.regionNames)
         toolbarViewModel.country.onNext(destinationOrOrigin?.hierarchyInfo?.country?.name)
         toolbarViewModel.airport.onNext(destinationOrOrigin?.hierarchyInfo?.airport?.airportCode)
         toolbarViewModel.travelers.onNext(numTravelers)
-        toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.getPackageParams().startDate else Db.getPackageParams().endDate as LocalDate)
+        toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) com.expedia.bookings.data.packages.PackageResponseStore.packageParams.startDate else com.expedia.bookings.data.packages.PackageResponseStore.packageParams.endDate as LocalDate)
         toolbarViewModel.lob.onNext(getLineOfBusiness())
         if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView()) {
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
             bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
         }
         overviewPresenter.vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
-        Db.getPackageParams().flightLegList = allFlights
+        com.expedia.bookings.data.packages.PackageResponseStore.packageParams.flightLegList = allFlights
         trackFlightResultsLoad()
     }
 
@@ -177,10 +178,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         val intent = activity.intent
         if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
             addBackFlowTransition()
-            selectedFlightResults.onNext(Db.getPackageSelectedOutboundFlight())
+            selectedFlightResults.onNext(com.expedia.bookings.data.packages.PackageResponseStore.packageSelectedOutboundFlight)
         } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
             addBackFlowTransition()
-            selectedFlightResults.onNext(Db.getPackageFlightBundle().second)
+            selectedFlightResults.onNext(com.expedia.bookings.data.packages.PackageResponseStore.packageFlightBundle.second)
         } else {
             super.addResultOverViewTransition()
             show(resultsPresenter)
@@ -198,10 +199,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         show(overviewPresenter)
     }
 
-    override fun isOutboundResultsPresenter(): Boolean = Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
+    override fun isOutboundResultsPresenter(): Boolean = com.expedia.bookings.data.packages.PackageResponseStore.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
 
     override fun trackFlightOverviewLoad() {
-        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
+        val isOutboundSearch = com.expedia.bookings.data.packages.PackageResponseStore.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
         PackagesTracking().trackFlightRoundTripDetailsLoad(isOutboundSearch)
     }
 
@@ -210,8 +211,8 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun trackFlightResultsLoad() {
-        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
-        PackagesTracking().trackFlightRoundTripLoad(isOutboundSearch, Db.getPackageParams(), if (isOutboundSearch) PackagesPageUsableData.FLIGHT_OUTBOUND.pageUsableData else PackagesPageUsableData.FLIGHT_INBOUND.pageUsableData)
+        val isOutboundSearch = com.expedia.bookings.data.packages.PackageResponseStore.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
+        PackagesTracking().trackFlightRoundTripLoad(isOutboundSearch, com.expedia.bookings.data.packages.PackageResponseStore.packageParams, if (isOutboundSearch) PackagesPageUsableData.FLIGHT_OUTBOUND.pageUsableData else PackagesPageUsableData.FLIGHT_INBOUND.pageUsableData)
     }
 
     private val backFlowDefaultTransition = object : DefaultTransition(FlightResultsListViewPresenter::class.java.name) {

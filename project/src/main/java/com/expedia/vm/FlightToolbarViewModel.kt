@@ -2,13 +2,11 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.SuggestionStrUtils
@@ -124,7 +122,7 @@ class FlightToolbarViewModel(private val context: Context) {
     }
 
     private fun shouldShowBreadcrumbsInToolbarTitle(): Boolean {
-        return (isBreadcrumbsPackagesEnabled(context) && !Db.getPackageParams().isChangePackageSearch())
+        return (isBreadcrumbsPackagesEnabled(context) && !PackageResponseStore.packageParams.isChangePackageSearch())
     }
 
     private fun getSubtitle(date: LocalDate, numTravelers: Int): String {

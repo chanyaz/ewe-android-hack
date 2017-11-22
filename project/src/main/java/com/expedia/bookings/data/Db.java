@@ -12,14 +12,10 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Process;
 import android.text.TextUtils;
-import android.util.Pair;
 
 import com.expedia.bookings.data.abacus.AbacusResponse;
-import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.hotels.Hotel;
-import com.expedia.bookings.data.hotels.HotelOffersResponse;
-import com.expedia.bookings.data.multiitem.BundleSearchResponse;
-import com.expedia.bookings.data.packages.PackageSearchParams;
+import com.expedia.bookings.data.packages.PackageResponseStore;
 import com.expedia.bookings.data.trips.TripBucket;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
@@ -107,16 +103,7 @@ public class Db {
 
 	private String mAbacusGuid;
 
-	private PackageSearchParams mPackageParams;
 	private com.expedia.bookings.data.flights.FlightSearchParams mFlightSearchParams;
-	private BundleSearchResponse mPackageResponse;
-	private Hotel mPackageSelectedHotel;
-	private HotelOffersResponse.HotelRoomResponse mPackageSelectedRoom;
-	private FlightLeg mPackageSelectedOutboundFlight;
-
-	//Package outbound and inbound flight pair
-	//Save inbound flight in this pair, to avoid stale inbound info if outbound is changed
-	private Pair<FlightLeg, FlightLeg> mPackageFlightBundle;
 
 	private SignInTypeEnum signInTypeEnum = null;
 
@@ -136,80 +123,13 @@ public class Db {
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
 
-	public static PackageSearchParams getPackageParams() {
-		return sDb.mPackageParams;
-	}
-
 	public static com.expedia.bookings.data.flights.FlightSearchParams getFlightSearchParams() {
 		return sDb.mFlightSearchParams;
 	}
 
-	public static void setPackageSelectedHotel(Hotel packageSelectedHotel, HotelOffersResponse.HotelRoomResponse packageSelectedRoom) {
-		sDb.mPackageSelectedHotel = packageSelectedHotel;
-		sDb.mPackageSelectedRoom = packageSelectedRoom;
-	}
-
-	public static Hotel getPackageSelectedHotel() {
-		return sDb.mPackageSelectedHotel;
-	}
-
-	public static void clearPackageHotelSelection () {
-		sDb.mPackageSelectedHotel = null;
-		sDb.mPackageSelectedRoom = null;
-	}
-
-	public static void clearPackageHotelRoomSelection() {
-		if (sDb.mPackageSelectedRoom != null) {
-			sDb.mPackageSelectedRoom.ratePlanCode = null;
-			sDb.mPackageSelectedRoom.roomTypeCode = null;
-		}
-	}
-
-	public static void clearPackageFlightSelection() {
-		sDb.mPackageSelectedOutboundFlight = null;
-		sDb.mPackageFlightBundle = null;
-	}
-
-	public static void clearPackageSelection() {
-		clearPackageHotelSelection();
-		clearPackageFlightSelection();
-	}
-
-	public static HotelOffersResponse.HotelRoomResponse getPackageSelectedRoom() {
-		return sDb.mPackageSelectedRoom;
-	}
-
-	public static FlightLeg getPackageSelectedOutboundFlight() {
-		return sDb.mPackageSelectedOutboundFlight;
-	}
-
-	public static void setPackageSelectedOutboundFlight(FlightLeg mPackageSelectedFlight) {
-		sDb.mPackageSelectedOutboundFlight = mPackageSelectedFlight;
-	}
-
-	public static Pair<FlightLeg, FlightLeg> getPackageFlightBundle() {
-		return sDb.mPackageFlightBundle;
-	}
-
-	public static void setPackageFlightBundle(FlightLeg outbound, FlightLeg inbound) {
-		sDb.mPackageFlightBundle = new Pair<>(outbound, inbound);
-	}
-
-	public static void setPackageParams(PackageSearchParams params) {
-		sDb.mPackageParams = params;
-	}
-
 	public static void setFlightSearchParams(com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
-		sDb.mPackageParams = null;
+		PackageResponseStore.setPackageParams(null);
 		sDb.mFlightSearchParams = flightSearchParams;
-	}
-
-	public static BundleSearchResponse getPackageResponse() {
-		return sDb.mPackageResponse;
-	}
-
-	public static void setPackageResponse(BundleSearchResponse hotelPackage) {
-		sDb.mPackageResponse = hotelPackage;
 	}
 
 	public static void setAbacusGuid(String guid) {

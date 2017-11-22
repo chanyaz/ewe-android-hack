@@ -22,8 +22,8 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
-import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -31,7 +31,6 @@ import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.shared.KrazyglueHotelsListAdapter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
@@ -70,7 +69,6 @@ import com.expedia.util.Optional
 import com.expedia.util.subscribeVisibility
 import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
-import org.joda.time.DateTime
 import rx.Observer
 import java.util.Date
 
@@ -444,7 +442,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             travelerManager.updateDbTravelers(params)
             // Starting a new search clear previous selection
-            Db.clearPackageFlightSelection()
+            PackageResponseStore.clearPackageFlightSelection()
             outBoundPresenter.clearBackStack()
             outBoundPresenter.showResults()
             show(outBoundPresenter, Presenter.FLAG_CLEAR_TOP)

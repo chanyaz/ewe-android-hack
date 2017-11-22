@@ -1,11 +1,11 @@
 package com.expedia.vm.test.robolectric
 
 import android.content.Context
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -31,7 +31,7 @@ class PackageCheckoutOverviewViewModelTest {
         packageDetails.pricing.bundleTotal = Money(1000, "USD")
         packageDetails.pricing.packageTotal = Money(950, "USD")
         val hotel = HotelCreateTripResponse.HotelProductResponse()
-        Db.setPackageParams(PackageSearchParams(SuggestionV4(), SuggestionV4(), LocalDate.now(), LocalDate.now(), 1, emptyList<Int>(), false))
+        PackageResponseStore.packageParams = PackageSearchParams(SuggestionV4(), SuggestionV4(), LocalDate.now(), LocalDate.now(), 1, emptyList<Int>(), false)
         hotel.largeThumbnailUrl = "/testurl"
         hotel.hotelCity = "New York"
         hotel.hotelStateProvince = "NY"
@@ -69,7 +69,7 @@ class PackageCheckoutOverviewViewModelTest {
         val country = SuggestionV4.Country()
         country.name = "Japan"
         hierarchyInfo.country = country
-        Db.getPackageParams().destination?.hierarchyInfo = hierarchyInfo
+        PackageResponseStore.packageParams.destination?.hierarchyInfo = hierarchyInfo
         viewmodel.tripResponseSubject.onNext(trip)
 
         cityTestSubscriber.assertValueCount(2)

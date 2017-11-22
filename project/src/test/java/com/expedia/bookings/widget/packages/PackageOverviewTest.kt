@@ -4,13 +4,13 @@ import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.presenter.Presenter
@@ -18,14 +18,12 @@ import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
@@ -137,9 +135,9 @@ class PackageOverviewTest {
     }
 
     private fun getExpectedHotelRowContDescription(expandState: String): String {
-        val params = Db.getPackageParams()
+        val params = PackageResponseStore.packageParams
         return Phrase.from(activity, R.string.select_hotel_selected_cont_desc_TEMPLATE)
-                .put("hotel", Db.getPackageSelectedHotel()?.localizedName ?: "")
+                .put("hotel", PackageResponseStore.packageSelectedHotel?.localizedName ?: "")
                 .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))
                 .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                 .put("guests", StrUtils.formatGuestString(activity, params.guests))
@@ -149,7 +147,7 @@ class PackageOverviewTest {
     }
 
     private fun getExpectedFlightRowContDescription(expandState: String): String {
-        val params = Db.getPackageParams()
+        val params = PackageResponseStore.packageParams
         return Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE)
                 .put("flight", StrUtils.formatAirportCodeCityName(params.origin))
                 .put("datetraveler", testTravelerInfoText)
@@ -176,14 +174,14 @@ class PackageOverviewTest {
     private fun setUpPackageDb() {
         val hotel = Hotel()
         hotel.packageOfferModel = PackageOfferModel()
-        Db.setPackageSelectedHotel(hotel, HotelOffersResponse.HotelRoomResponse())
+        PackageResponseStore.setPackageSelectedHotel(hotel, HotelOffersResponse.HotelRoomResponse())
         val outboundFlight = FlightLeg()
-        Db.setPackageSelectedOutboundFlight(outboundFlight)
+        PackageResponseStore.packageSelectedOutboundFlight = outboundFlight
         setPackageSearchParams(1, emptyList(), false)
     }
 
     private fun setPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean) {
-        Db.setPackageParams(getPackageSearchParams(adults, children, infantsInLap))
+        PackageResponseStore.packageParams = getPackageSearchParams(adults, children, infantsInLap)
     }
 
     private fun getPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean): PackageSearchParams {
@@ -215,7 +213,7 @@ class PackageOverviewTest {
     }
 
     private fun givenPackageSearchParamsWithPiid() : PackageSearchParams {
-        val searchParams = Db.getPackageParams()
+        val searchParams = PackageResponseStore.packageParams
         searchParams.packagePIID = "123"
         return searchParams
     }

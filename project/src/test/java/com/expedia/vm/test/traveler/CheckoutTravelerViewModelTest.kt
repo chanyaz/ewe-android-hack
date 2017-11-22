@@ -4,6 +4,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -143,7 +144,7 @@ class CheckoutTravelerViewModelTest {
                 .origin(SuggestionV4())
                 .destination(SuggestionV4())
                 .build() as PackageSearchParams
-        Db.setPackageParams(packageParams)
+        PackageResponseStore.packageParams = packageParams
         return packageParams
     }
 }

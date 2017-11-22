@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.hotel.vm.PackageHotelResultsViewModel
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
@@ -58,12 +58,12 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
 
         mapViewModel.mapInitializedObservable.subscribe {
-            setMapToInitialState(Db.getPackageParams()?.destination)
+            setMapToInitialState(PackageResponseStore.packageParams?.destination)
         }
     }
 
     private fun shouldShowBreadcrumbsInToolbarTitle(): Boolean {
-        return (isBreadcrumbsPackagesEnabled(context) && !Db.getPackageParams().isChangePackageSearch())
+        return (isBreadcrumbsPackagesEnabled(context) && !PackageResponseStore.packageParams.isChangePackageSearch())
     }
 
     override fun inflate() {

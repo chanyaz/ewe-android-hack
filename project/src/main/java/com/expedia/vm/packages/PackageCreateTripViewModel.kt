@@ -7,6 +7,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
@@ -28,7 +29,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
         tripParams.subscribe { params ->
             //When changing room, packageHotelOffers uses the old piid, with default associated flights
             //We need to update this to use the selected flights piid
-            val hotel = Db.getPackageSelectedHotel()
+            val hotel = PackageResponseStore.packageSelectedHotel
             hotel.packageOfferModel.piid = params.productKey
         }
 
@@ -60,7 +61,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                     bundleDatesObservable.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
                             .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkInDate)))
                             .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkOutDate)))
-                            .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests))
+                            .put("guests", StrUtils.formatGuestString(context, PackageResponseStore.packageParams.guests))
                             .format()
                             .toString())
                 }

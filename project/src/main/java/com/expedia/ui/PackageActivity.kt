@@ -9,6 +9,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
@@ -52,7 +53,7 @@ class PackageActivity : AbstractAppCompatActivity() {
         when (resultCode) {
             Activity.RESULT_CANCELED -> {
                 val obj = packagePresenter.backStack.peek()
-                if (Db.getPackageParams().isChangePackageSearch() && obj !is Intent) {
+                if (PackageResponseStore.packageParams.isChangePackageSearch() && obj !is Intent) {
                     onBackPressed()
                 } else {
                     if (isCrossSellPackageOnFSREnabled) {
@@ -63,17 +64,17 @@ class PackageActivity : AbstractAppCompatActivity() {
                     PackagesTracking().trackViewBundlePageLoad()
 
                     if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
-                        Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
+                        PackageResponseStore.packageParams.currentFlights = PackageResponseStore.packageParams.defaultFlights
 
                         //revert bundle view to be the state loaded outbound flights
                         packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectOutbound()
                         packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
 
-                        val rate = Db.getPackageSelectedRoom().rateInfo.chargeableRateInfo
+                        val rate = PackageResponseStore.packageSelectedRoom.rateInfo.chargeableRateInfo
                         packagePresenter.bundlePresenter.totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
 
                     } else if (packagePresenter.backStack.size == 2) {
-                        Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
+                        PackageResponseStore.packageParams.currentFlights = PackageResponseStore.packageParams.defaultFlights
 
                         //revert bundle view to be the state loaded hotels
                         packagePresenter.bundlePresenter.totalPriceWidget.resetPriceWidget()
@@ -98,7 +99,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                         packagePresenter.hotelOffersErrorObservable.onNext(errorCode)
                     } else {
                         //is is change hotel search, call createTrip, otherwise start outbound flight search
-                        if (!Db.getPackageParams().isChangePackageSearch()) {
+                        if (!PackageResponseStore.packageParams.isChangePackageSearch()) {
                             PackagesPageUsableData.FLIGHT_OUTBOUND.pageUsableData.markPageLoadStarted()
                             packageFlightSearch()
                             val intent = Intent(this, PackageHotelActivity::class.java)
@@ -119,24 +120,24 @@ class PackageActivity : AbstractAppCompatActivity() {
                     PackagesPageUsableData.FLIGHT_INBOUND.pageUsableData.markPageLoadStarted()
                     packageFlightSearch()
                     packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-                    packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
+                    packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(PackageResponseStore.packageSelectedOutboundFlight)
 
                     val intent = Intent(this, PackageFlightActivity::class.java)
                     intent.putExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT, true)
                     intent.putExtra(Constants.REQUEST, Constants.PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE)
                     packagePresenter.backStack.push(intent)
 
-                    if (Db.getPackageParams().isChangePackageSearch()) {
+                    if (PackageResponseStore.packageParams.isChangePackageSearch()) {
                         changedOutboundFlight = true
                     }
                     packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
-                    packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageSelectedOutboundFlight())
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(PackageResponseStore.packageSelectedOutboundFlight)
                 }
             }
 
             Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE -> when (resultCode) {
                 Activity.RESULT_OK -> {
-                    if (!Db.getPackageParams().isChangePackageSearch()) {
+                    if (!PackageResponseStore.packageParams.isChangePackageSearch()) {
                         PackagesPageUsableData.RATE_DETAILS.pageUsableData.markPageLoadStarted()
                         val intent = Intent(this, PackageFlightActivity::class.java)
                         intent.putExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT, true)
@@ -151,13 +152,13 @@ class PackageActivity : AbstractAppCompatActivity() {
                     packagePresenter.bundlePresenter.getCheckoutPresenter().toolbarDropShadow.visibility = View.GONE
 
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
+                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(PackageResponseStore.packageFlightBundle.second)
 
                     packageCreateTrip()
                     packagePresenter.showBundleOverView()
                     packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
                     packagePresenter.bundlePresenter.setToolbarNavIcon(false)
-                    packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageFlightBundle().second)
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(PackageResponseStore.packageFlightBundle.second)
                 }
             }
         }
@@ -165,14 +166,14 @@ class PackageActivity : AbstractAppCompatActivity() {
 
     override fun onBackPressed() {
         //for change package path
-        if (packagePresenter.backStack.peek() is PackageOverviewPresenter && Db.getPackageParams()?.isChangePackageSearch() ?: false) {
+        if (packagePresenter.backStack.peek() is PackageOverviewPresenter && PackageResponseStore.packageParams?.isChangePackageSearch() ?: false) {
             if (changedOutboundFlight) {
                 changedOutboundFlight = false
-                val outbound = Db.getPackageFlightBundle().first
-                val inbound = Db.getPackageFlightBundle().second
-                Db.getPackageParams().packagePIID = inbound.packageOfferModel.piid
-                Db.getPackageParams().currentFlights[0] = outbound.legId
-                Db.setPackageSelectedOutboundFlight(outbound)
+                val outbound = PackageResponseStore.packageFlightBundle.first
+                val inbound = PackageResponseStore.packageFlightBundle.second
+                PackageResponseStore.packageParams.packagePIID = inbound.packageOfferModel.piid
+                PackageResponseStore.packageParams.currentFlights[0] = outbound.legId
+                PackageResponseStore.packageSelectedOutboundFlight = outbound
                 packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(outbound)
             }
             packagePresenter.bundlePresenter.bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
@@ -211,14 +212,14 @@ class PackageActivity : AbstractAppCompatActivity() {
 
     private fun packageFlightSearch() {
         PackagesTracking().trackViewBundlePageLoad()
-        packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
+        packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(PackageResponseStore.packageParams)
     }
 
     private fun packageCreateTrip() {
         packagePresenter.bundleLoadingView.visibility = View.GONE
-        Db.getPackageParams().pageType = null
+        PackageResponseStore.packageParams.pageType = null
         changedOutboundFlight = false
-        val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
+        val params = PackageCreateTripParams.fromPackageSearchParams(PackageResponseStore.packageParams)
         if (params.isValid) {
             getCreateTripViewModel().reset()
             params.flexEnabled = isFlexEnabled()

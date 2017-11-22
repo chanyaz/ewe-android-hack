@@ -14,7 +14,6 @@ import android.view.animation.AnimationUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
@@ -214,13 +213,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
 
         bundleSlidingWidget.animationFinished.subscribe {
-            resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
+            resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(com.expedia.bookings.data.packages.PackageResponseStore.packageResponse))
         }
     }
 
     private fun bindData() {
-        dataAvailableSubject.onNext(Db.getPackageResponse())
-        val currencyCode = Db.getPackageResponse().getCurrencyCode()
+        dataAvailableSubject.onNext(com.expedia.bookings.data.packages.PackageResponseStore.packageResponse)
+        val currencyCode = com.expedia.bookings.data.packages.PackageResponseStore.packageResponse.getCurrencyCode()
         if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
         }
@@ -246,14 +245,14 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         PackagesPageUsableData.HOTEL_INFOSITE.pageUsableData.markPageLoadStarted()
         selectedPackageHotel = hotel
-        val params = Db.getPackageParams()
+        val params = com.expedia.bookings.data.packages.PackageResponseStore.packageParams
         params.hotelId = hotel.hotelId
-        params.latestSelectedFlightPIID = Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotel.hotelPid)
+        params.latestSelectedFlightPIID = com.expedia.bookings.data.packages.PackageResponseStore.packageResponse.getFlightPIIDFromSelectedHotel(hotel.hotelPid)
         params.latestSelectedProductOfferPrice = hotel.packageOfferModel.price
         val packageHotelOffers = if (isMidAPIEnabled(context)) {
             getMIDRoomSearch(params)
         } else {
-            getPSSRoomSearch(hotel.packageOfferModel.piid, hotel.hotelId, params.startDate.toString(), params.endDate.toString(), Db.getPackageSelectedRoom()?.ratePlanCode, Db.getPackageSelectedRoom()?.roomTypeCode, params.adults, params.children.firstOrNull())
+            getPSSRoomSearch(hotel.packageOfferModel.piid, hotel.hotelId, params.startDate.toString(), params.endDate.toString(), com.expedia.bookings.data.packages.PackageResponseStore.packageSelectedRoom?.ratePlanCode, com.expedia.bookings.data.packages.PackageResponseStore.packageSelectedRoom?.roomTypeCode, params.adults, params.children.firstOrNull())
         }
         getDetails(hotel.hotelId, packageHotelOffers)
         PackagesTracking().trackHotelMapCarouselPropertyClick()
@@ -298,7 +297,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         bundleSlidingWidget.bundlePriceWidget.disable()
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(null)
         bundleSlidingWidget.bundlePriceWidget.setOnClickListener(null)
-        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(com.expedia.bookings.data.packages.PackageResponseStore.packageParams, resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
         val info = packageServices.hotelInfo(hotelId)
 
         Observable.zip(packageHotelOffers.doOnError {}, info.doOnError {},
@@ -388,7 +387,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 val countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
                 val currencyCode = CurrencyUtils.currencyForLocale(countryCode)
                 bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPersonObservable.onNext(Money(BigDecimal("0.00"), currencyCode).formattedMoney)
-                Db.clearPackageHotelRoomSelection()
+                com.expedia.bookings.data.packages.PackageResponseStore.clearPackageHotelRoomSelection()
             } else {
                 detailPresenter.hotelDetailView.refresh()
             }
@@ -436,21 +435,21 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private val selectedRoomObserver = endlessObserver<HotelOffersResponse.HotelRoomResponse> { offer ->
-        Db.setPackageSelectedHotel(selectedPackageHotel, offer)
+        com.expedia.bookings.data.packages.PackageResponseStore.setPackageSelectedHotel(selectedPackageHotel, offer)
         updatePackagePrice(offer)
-        val params = Db.getPackageParams()
+        val params = com.expedia.bookings.data.packages.PackageResponseStore.packageParams
         params.packagePIID = offer.productKey
         params.ratePlanCode = offer.ratePlanCode
         params.roomTypeCode = offer.roomTypeCode
         params.inventoryType = offer.supplierType
-        params.latestSelectedProductOfferPrice = Db.getPackageResponse().getCurrentOfferPrice()
+        params.latestSelectedProductOfferPrice = com.expedia.bookings.data.packages.PackageResponseStore.packageResponse.getCurrentOfferPrice()
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
     }
 
     private fun updatePackagePrice(offer: HotelOffersResponse.HotelRoomResponse) {
-        val response = Db.getPackageResponse()
+        val response = com.expedia.bookings.data.packages.PackageResponseStore.packageResponse
         val currentOfferPrice = PackageOfferModel.PackagePrice()
         currentOfferPrice.packageTotalPrice = offer.rateInfo.chargeableRateInfo.packageTotalPrice
         currentOfferPrice.tripSavings = offer.rateInfo.chargeableRateInfo.packageSavings
@@ -471,7 +470,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 addDefaultTransition(defaultResultsTransition)
                 show(resultsPresenter)
                 resultsPresenter.showDefault()
-                resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+                resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(com.expedia.bookings.data.packages.PackageResponseStore.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
                 trackEventSubject.onNext(Unit)
             }
             PackageHotelActivity.Screen.DETAILS_ONLY -> {

@@ -3,9 +3,9 @@ package com.expedia.bookings.test
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -108,12 +108,12 @@ class PackageConfirmationViewModelTest {
         val checkOutDate = LocalDate()
         val vm = PackageConfirmationViewModel(activity)
         val params = PackageSearchParams(origin, destination, checkInDate, checkOutDate, 1, ArrayList<Int>(), false)
-        Db.setPackageParams(params)
+        PackageResponseStore.packageParams = params
 
         val leg = FlightLeg()
         leg.destinationAirportCode = "SEA"
         leg.destinationAirportLocalName = "Tacoma Intl."
-        Db.setPackageFlightBundle(leg, FlightLeg())
+        PackageResponseStore.setPackageFlightBundle(leg, FlightLeg())
 
         vm.searchForCarRentalsForTripObserver(activity).onNext(null)
         val intent = shadowApplication!!.nextStartedActivity

@@ -2,7 +2,7 @@ package com.expedia.ui
 
 import android.os.Bundle
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.presenter.packages.PackageFlightPresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -14,7 +14,7 @@ class PackageFlightActivity : AbstractAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Db.getPackageParams() == null) {
+        if (PackageResponseStore.packageParams == null) {
             setResult(Constants.PACKAGE_PARAMS_NULL_RESTORE)
             finish()
             return

@@ -1,5 +1,18 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -53,6 +66,7 @@ import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.packages.PackageCheckoutResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.data.packages.PackageResponseStore;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.rail.requests.RailSearchRequest;
@@ -97,19 +111,8 @@ import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import kotlin.NotImplementedError;
+
 import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
 
 /**
@@ -4147,12 +4150,12 @@ public class OmnitureTracking {
 	private static void addPackagesCommonFields(ADMS_Measurement s) {
 		s.setProp(2, PACKAGES_LOB);
 		s.setEvar(2, "D=c2");
-		s.setProp(3, "pkg:" + Db.getPackageParams().getOrigin().hierarchyInfo.airport.airportCode);
+		s.setProp(3, "pkg:" + PackageResponseStore.getPackageParams().getOrigin().hierarchyInfo.airport.airportCode);
 		s.setEvar(3, "D=c3");
-		s.setProp(4, "pkg:" + Db.getPackageParams().getDestination().hierarchyInfo.airport.airportCode + ":" + Db
+		s.setProp(4, "pkg:" + PackageResponseStore.getPackageParams().getDestination().hierarchyInfo.airport.airportCode + ":" + PackageResponseStore
 			.getPackageParams().getDestination().gaiaId);
 		s.setEvar(4, "D=c4");
-		setDateValues(s, Db.getPackageParams().getStartDate(), Db.getPackageParams().getEndDate());
+		setDateValues(s, PackageResponseStore.getPackageParams().getStartDate(), PackageResponseStore.getPackageParams().getEndDate());
 	}
 
 	/**
@@ -4192,12 +4195,12 @@ public class OmnitureTracking {
 		 */
 		productString.append(";RT:FLT+HOT;");
 
-		int numTravelers = Db.getPackageParams().getAdults() + Db.getPackageParams().getNumberOfSeatedChildren();
+		int numTravelers = PackageResponseStore.getPackageParams().getAdults() + PackageResponseStore.getPackageParams().getNumberOfSeatedChildren();
 		productString.append(numTravelers + ";" + productPrice + ";;");
 
 		String eVarNumber = isConfirmation ? "eVar30" : "eVar63";
 		String flightInventoryType =
-			FlightV2Utils.isFlightMerchant(Db.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
+			FlightV2Utils.isFlightMerchant(PackageResponseStore.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
 
 		if (addEvarInventory) {
 			String packageSupplierType =
@@ -4209,14 +4212,15 @@ public class OmnitureTracking {
 		String eVar30DurationString = null;
 		if (isConfirmation) {
 			eVar30DurationString =
-				":" + Db.getPackageParams().getStartDate().toString(EVAR30_DATE_FORMAT) + "-" + Db.getPackageParams()
+				":" + PackageResponseStore.getPackageParams().getStartDate().toString(EVAR30_DATE_FORMAT) + "-" + PackageResponseStore
+					.getPackageParams()
 					.getEndDate().toString(EVAR30_DATE_FORMAT);
 			productString.append(eVar30DurationString);
 		}
 
 		productString.append(",;");
 
-		productString.append("Flight:" + Db.getPackageSelectedOutboundFlight().carrierCode + ":RT;");
+		productString.append("Flight:" + PackageResponseStore.getPackageSelectedOutboundFlight().carrierCode + ":RT;");
 		// We do not expose breakdown prices, so we should hardcode to 0.00
 		productString.append(numTravelers + ";0.00;;");
 
@@ -4226,18 +4230,19 @@ public class OmnitureTracking {
 
 		if (isConfirmation) {
 			productString.append(
-				":FLT:" + Db.getPackageParams().getOrigin().hierarchyInfo.airport.airportCode + "-" + Db
+				":FLT:" + PackageResponseStore.getPackageParams().getOrigin().hierarchyInfo.airport.airportCode + "-" + PackageResponseStore
 					.getPackageParams().getDestination().hierarchyInfo.airport.airportCode);
 			productString.append(eVar30DurationString);
 		}
 
 		productString.append(",;");
 
-		productString.append("Hotel:" + Db.getPackageSelectedHotel().hotelId + ";");
+		productString.append("Hotel:" + PackageResponseStore.getPackageSelectedHotel().hotelId + ";");
 		String duration = "0";
-		if (Db.getPackageParams().getEndDate() != null) {
+		if (PackageResponseStore.getPackageParams().getEndDate() != null) {
 			duration = Integer.toString(
-				JodaUtils.daysBetween(Db.getPackageParams().getStartDate(), Db.getPackageParams().getEndDate()));
+				JodaUtils.daysBetween(
+					PackageResponseStore.getPackageParams().getStartDate(), PackageResponseStore.getPackageParams().getEndDate()));
 		}
 		productString.append(duration);
 		productString.append(";0.00;;");
@@ -4314,14 +4319,14 @@ public class OmnitureTracking {
 				1R = num of rooms booked, since we don't support multi-room booking on the app yet hard coding it.
 				RT = Round Trip package
 		 	*/
-			int children = getChildCount(Db.getPackageParams().getChildren());
-			int infantInLap = getInfantInLap(Db.getPackageParams().getChildren(),
-				Db.getPackageParams().getInfantSeatingInLap());
-			int youth = getYouthCount(Db.getPackageParams().getChildren());
-			int infantInseat = (Db.getPackageParams().getChildren().size() - (infantInLap + youth + children));
+			int children = getChildCount(PackageResponseStore.getPackageParams().getChildren());
+			int infantInLap = getInfantInLap(PackageResponseStore.getPackageParams().getChildren(),
+				PackageResponseStore.getPackageParams().getInfantSeatingInLap());
+			int youth = getYouthCount(PackageResponseStore.getPackageParams().getChildren());
+			int infantInseat = (PackageResponseStore.getPackageParams().getChildren().size() - (infantInLap + youth + children));
 
 			StringBuilder evar47String = new StringBuilder("PKG|1R|RT|");
-			evar47String.append("A" + Db.getPackageParams().getAdults() + "|");
+			evar47String.append("A" + PackageResponseStore.getPackageParams().getAdults() + "|");
 			if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
 				evar47String.append("C" + children + "|");
 				evar47String.append("YTH" + youth + "|");
@@ -4329,16 +4334,17 @@ public class OmnitureTracking {
 				evar47String.append("IS" + infantInseat);
 			}
 			else {
-				evar47String.append("C" + Db.getPackageParams().getChildren().size() + "|");
-				evar47String.append("L" + (Db.getPackageParams().getChildren().size() - Db.getPackageParams()
+				evar47String.append("C" + PackageResponseStore.getPackageParams().getChildren().size() + "|");
+				evar47String.append("L" + (PackageResponseStore.getPackageParams().getChildren().size() - PackageResponseStore
+					.getPackageParams()
 					.getNumberOfSeatedChildren()));
 			}
 
 			s.setEvar(47, evar47String.toString());
 
 			// Freeform location
-			if (!TextUtils.isEmpty(Db.getPackageParams().getDestination().regionNames.fullName)) {
-				s.setEvar(48, Db.getPackageParams().getDestination().regionNames.fullName);
+			if (!TextUtils.isEmpty(PackageResponseStore.getPackageParams().getDestination().regionNames.fullName)) {
+				s.setEvar(48, PackageResponseStore.getPackageParams().getDestination().regionNames.fullName);
 			}
 			addPageLoadTimeTrackingEvents(s, pageUsableData);
 		}

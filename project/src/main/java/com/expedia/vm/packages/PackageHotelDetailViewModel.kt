@@ -2,11 +2,11 @@ package com.expedia.vm.packages
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -30,8 +30,8 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
         paramsSubject.subscribe { params ->
             val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
             val dates = Phrase.from(context, R.string.start_dash_end_date_range_TEMPLATE)
-                    .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))
-                    .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate())))
+                    .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(PackageResponseStore.packageResponse.getHotelCheckInDate())))
+                    .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(PackageResponseStore.packageResponse.getHotelCheckOutDate())))
                     .format().toString()
             searchInfoObservable.onNext(dates)
             searchDatesObservable.onNext(dates)

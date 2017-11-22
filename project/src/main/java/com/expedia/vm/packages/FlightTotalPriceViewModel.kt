@@ -2,7 +2,7 @@ package com.expedia.vm.packages
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
@@ -21,7 +21,7 @@ class FlightTotalPriceViewModel(context: Context) : AbstractUniversalCKOTotalPri
                     .put("savings", savingsPriceObservable.value)
                     .format().toString()
         } else if (isExpanded) {
-            val params = Db.getPackageParams()
+            val params = PackageResponseStore.packageParams
             Phrase.from(context, R.string.trip_overview_price_widget_expanded_TEMPLATE)
                     .put("city_name", StrUtils.formatCity(params.destination))
                     .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))

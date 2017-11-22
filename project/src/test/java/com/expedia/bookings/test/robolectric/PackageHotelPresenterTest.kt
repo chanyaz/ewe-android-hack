@@ -23,8 +23,8 @@ import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import java.io.File
 import java.util.concurrent.TimeUnit
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -122,7 +122,7 @@ class PackageHotelPresenterTest {
                 .children(listOf(16, 10, 1))
                 .build() as PackageSearchParams
 
-        Db.setPackageParams(params)
+        PackageResponseStore.packageParams = params
     }
 
     private fun searchPackages() {

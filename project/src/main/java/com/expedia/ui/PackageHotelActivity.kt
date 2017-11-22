@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter
@@ -28,7 +27,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Db.getPackageParams() == null) {
+        if (com.expedia.bookings.data.packages.PackageResponseStore.packageParams == null) {
             setResult(Constants.PACKAGE_PARAMS_NULL_RESTORE)
             restorePackageActivityForNullParams = true
             finish()
@@ -41,20 +40,20 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
 
         if (intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
             // back to hotel room, should also be able to back to hotel results
-            Db.setPackageResponse(PackageResponseStore.packageHotelResponse)
+            com.expedia.bookings.data.packages.PackageResponseStore.packageResponse = PackageResponseStore.packageHotelResponse
             val hotelOffers = PackageResponseStore.packageHotelRoomResponse
-            hotelsPresenter.selectedPackageHotel = Db.getPackageSelectedHotel()
-            hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+            hotelsPresenter.selectedPackageHotel = com.expedia.bookings.data.packages.PackageResponseStore.packageSelectedHotel
+            hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(com.expedia.bookings.data.packages.PackageResponseStore.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.max_calendar_selectable_date_range)))
             hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
             hotelsPresenter.detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS)
-            hotelsPresenter.resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.max_calendar_selectable_date_range)))
-            hotelsPresenter.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
+            hotelsPresenter.resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(com.expedia.bookings.data.packages.PackageResponseStore.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+            hotelsPresenter.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(com.expedia.bookings.data.packages.PackageResponseStore.packageResponse))
 
         } else if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             // change hotel room
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS_ONLY)
-            hotelsPresenter.hotelSelectedObserver.onNext(Db.getPackageSelectedHotel())
+            hotelsPresenter.hotelSelectedObserver.onNext(com.expedia.bookings.data.packages.PackageResponseStore.packageSelectedHotel)
 
         } else {
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.RESULTS)

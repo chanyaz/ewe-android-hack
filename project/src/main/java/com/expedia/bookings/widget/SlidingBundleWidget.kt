@@ -15,9 +15,9 @@ import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.presenter.packages.BundleWidget
@@ -202,30 +202,30 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     fun updateBundleViews(product: String) {
-        bundleOverViewWidget.viewModel.hotelParamsObservable.onNext(Db.getPackageParams())
+        bundleOverViewWidget.viewModel.hotelParamsObservable.onNext(PackageResponseStore.packageParams)
         bundleOverViewWidget.viewModel.hotelResultsObservable.onNext(Unit)
 
         if (product == Constants.PRODUCT_FLIGHT) {
-            bundleOverViewWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
-            val type = if (Db.getPackageParams().isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+            bundleOverViewWidget.viewModel.flightParamsObservable.onNext(PackageResponseStore.packageParams)
+            val type = if (PackageResponseStore.packageParams.isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
             bundleOverViewWidget.viewModel.flightResultsObservable.onNext(type)
 
-            if (!Db.getPackageParams().isOutboundSearch(isMidAPIEnabled(context)) && Db.getPackageSelectedOutboundFlight() != null) {
+            if (!PackageResponseStore.packageParams.isOutboundSearch(isMidAPIEnabled(context)) && PackageResponseStore.packageSelectedOutboundFlight != null) {
                 bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-                bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
+                bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(PackageResponseStore.packageSelectedOutboundFlight)
                 bundleOverViewWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             }
-            if (Db.getPackageSelectedHotel() != null) {
+            if (PackageResponseStore.packageSelectedHotel != null) {
                 bundleOverViewWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
             }
             updateBundlePricing()
         }
 
-        if (Db.getPackageParams()?.pageType == Constants.PACKAGE_CHANGE_HOTEL) {
+        if (PackageResponseStore.packageParams?.pageType == Constants.PACKAGE_CHANGE_HOTEL) {
             bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-            bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
+            bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(PackageResponseStore.packageSelectedOutboundFlight)
             bundleOverViewWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-            bundleOverViewWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
+            bundleOverViewWidget.inboundFlightWidget.viewModel.flight.onNext(PackageResponseStore.packageFlightBundle.second)
         }
     }
 
@@ -248,7 +248,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     private fun updateBundlePricing() {
-        val packagePrice: PackageOfferModel.PackagePrice = Db.getPackageResponse().getCurrentOfferPrice() ?: return
+        val packagePrice: PackageOfferModel.PackagePrice = PackageResponseStore.packageResponse.getCurrentOfferPrice() ?: return
         if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
             bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
         }

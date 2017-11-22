@@ -2,7 +2,6 @@ package com.expedia.vm.packages
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageApiError
@@ -54,7 +53,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
 
     init {
         hotelParamsObservable.subscribe { params ->
-            Db.setPackageParams(params)
+            com.expedia.bookings.data.packages.PackageResponseStore.packageParams = params
             val cityName = StrUtils.formatCity(params.destination)
             toolbarTitleObservable.onNext(java.lang.String.format(context.getString(R.string.your_trip_to_TEMPLATE), cityName))
             toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
@@ -101,8 +100,8 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             stepOneContentDescriptionObservable.onNext(stepOneContentDesc)
 
             val stepTwo = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE)
-                    .put("origin", Db.getPackageParams().origin?.hierarchyInfo?.airport?.airportCode)
-                    .put("destination", Db.getPackageParams().destination?.hierarchyInfo?.airport?.airportCode)
+                    .put("origin", com.expedia.bookings.data.packages.PackageResponseStore.packageParams.origin?.hierarchyInfo?.airport?.airportCode)
+                    .put("destination", com.expedia.bookings.data.packages.PackageResponseStore.packageParams.destination?.hierarchyInfo?.airport?.airportCode)
                     .format().toString()
             stepTwoTextObservable.onNext(stepTwo)
             stepThreeTextObservale.onNext("")
@@ -144,12 +143,12 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 } else if (response.getHotels().isEmpty()) {
                     errorObservable.onNext(PackageApiError.Code.search_response_null)
                 } else {
-                    Db.setPackageResponse(response)
+                    com.expedia.bookings.data.packages.PackageResponseStore.packageResponse = response
                     if (type == PackageSearchType.HOTEL) {
                         hotelResultsObservable.onNext(Unit)
                         val currentFlights = arrayOf(response.getFlightLegs()[0].legId, response.getFlightLegs()[1].legId)
-                        Db.getPackageParams().currentFlights = currentFlights
-                        Db.getPackageParams().defaultFlights = currentFlights.copyOf()
+                        com.expedia.bookings.data.packages.PackageResponseStore.packageParams.currentFlights = currentFlights
+                        com.expedia.bookings.data.packages.PackageResponseStore.packageParams.defaultFlights = currentFlights.copyOf()
                         PackageResponseStore.packageHotelResponse = response
                     } else {
                         if (type == PackageSearchType.OUTBOUND_FLIGHT) {
@@ -183,9 +182,9 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 } else if (RetrofitUtils.isNetworkError(throwable)) {
                     val retryFun = fun() {
                         if (type.equals(PackageSearchType.HOTEL)) {
-                            hotelParamsObservable.onNext(Db.getPackageParams())
+                            hotelParamsObservable.onNext(com.expedia.bookings.data.packages.PackageResponseStore.packageParams)
                         } else {
-                            flightParamsObservable.onNext(Db.getPackageParams())
+                            flightParamsObservable.onNext(com.expedia.bookings.data.packages.PackageResponseStore.packageParams)
                         }
                     }
                     val cancelFun = fun() {

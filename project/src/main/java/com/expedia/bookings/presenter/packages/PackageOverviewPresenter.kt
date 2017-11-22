@@ -11,6 +11,7 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -112,7 +113,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             resetBundleTotalTax()
             bundleWidget.collapseBundleWidgets()
-            val params = Db.getPackageParams()
+            val params = PackageResponseStore.packageParams
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
             params.searchProduct = null
             bundleWidget.viewModel.hotelParamsObservable.onNext(params)
@@ -128,7 +129,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             bundleWidget.collapseBundleWidgets()
             totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             resetBundleTotalTax()
-            val params = Db.getPackageParams()
+            val params = PackageResponseStore.packageParams
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
             val intent = Intent(context, PackageHotelActivity::class.java)
             intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
@@ -145,7 +146,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             resetBundleTotalTax()
             bundleWidget.collapseBundleWidgets()
-            val params = Db.getPackageParams()
+            val params = PackageResponseStore.packageParams
             params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
             params.searchProduct = Constants.PRODUCT_FLIGHT
             params.selectedLegId = null
@@ -164,7 +165,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     private fun setCheckoutHeaderOverviewDates() {
-        val params = Db.getPackageParams()
+        val params = PackageResponseStore.packageParams
         val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
 
         //set the package start and end date
@@ -211,7 +212,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     override fun trackCheckoutPageLoad() {
-        PackagesTracking().trackCheckoutStart(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType))
+        PackagesTracking().trackCheckoutStart(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails, Strings.capitalizeFirstLetter(PackageResponseStore.packageSelectedRoom.supplierType))
     }
 
     override fun trackPaymentCIDLoad() {

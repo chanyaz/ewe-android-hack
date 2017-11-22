@@ -11,8 +11,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
@@ -139,7 +139,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     fun openHotels() {
-        Db.clearPackageHotelRoomSelection()
+        PackageResponseStore.clearPackageHotelRoomSelection()
         val intent = Intent(context, PackageHotelActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
@@ -191,11 +191,11 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun loadingContentDescription(): String {
-        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().startDate)
-        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().endDate!!)
-        val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
+        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(PackageResponseStore.packageParams.startDate)
+        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(PackageResponseStore.packageParams.endDate!!)
+        val guests = StrUtils.formatGuestString(context, PackageResponseStore.packageParams.guests)
         return Phrase.from(context, R.string.select_hotel_searching_cont_desc_TEMPLATE)
-                .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
+                .put("destination", StrUtils.formatCityName(PackageResponseStore.packageParams.destination))
                 .put("startdate", startDate)
                 .put("enddate", endDate)
                 .put("guests", guests)
@@ -204,11 +204,11 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun contentDescription(): String {
-        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().startDate)
-        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().endDate!!)
-        val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
+        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(PackageResponseStore.packageParams.startDate)
+        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(PackageResponseStore.packageParams.endDate!!)
+        val guests = StrUtils.formatGuestString(context, PackageResponseStore.packageParams.guests)
         return Phrase.from(context, R.string.select_hotel_cont_desc_TEMPLATE)
-                .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
+                .put("destination", StrUtils.formatCityName(PackageResponseStore.packageParams.destination))
                 .put("startdate", startDate)
                 .put("enddate", endDate)
                 .put("guests", guests)
@@ -217,12 +217,12 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun selectedCardContentDescription(): String {
-        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().startDate)
-        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().endDate!!)
-        val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
+        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(PackageResponseStore.packageParams.startDate)
+        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(PackageResponseStore.packageParams.endDate!!)
+        val guests = StrUtils.formatGuestString(context, PackageResponseStore.packageParams.guests)
         val expandState = if (mainContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
         return Phrase.from(context, R.string.select_hotel_selected_cont_desc_TEMPLATE)
-                .put("hotel", Db.getPackageSelectedHotel()?.localizedName ?: "")
+                .put("hotel", PackageResponseStore.packageSelectedHotel?.localizedName ?: "")
                 .put("startdate", startDate)
                 .put("enddate", endDate)
                 .put("guests", guests)

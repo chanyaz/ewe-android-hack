@@ -15,12 +15,12 @@ import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
@@ -37,7 +37,6 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.BaseCheckoutPresenter
@@ -87,7 +86,7 @@ class PackageCheckoutTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultPackageComponents()
         travelerValidator = Ui.getApplication(RuntimeEnvironment.application).travelerComponent().travelerValidator()
         setUpPackageDb()
-        travelerValidator.updateForNewSearch(Db.getPackageParams())
+        travelerValidator.updateForNewSearch(PackageResponseStore.packageParams)
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
@@ -375,7 +374,7 @@ class PackageCheckoutTest {
     }
 
     private fun createTrip() {
-        checkout.travelerManager.updateDbTravelers(Db.getPackageParams())
+        checkout.travelerManager.updateDbTravelers(PackageResponseStore.packageParams)
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         checkout.getCreateTripViewModel().createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
 
@@ -460,16 +459,16 @@ class PackageCheckoutTest {
     private fun setUpPackageDb() {
         val hotel = Hotel()
         hotel.packageOfferModel = PackageOfferModel()
-        Db.setPackageSelectedHotel(hotel, HotelOffersResponse.HotelRoomResponse())
+        PackageResponseStore.setPackageSelectedHotel(hotel, HotelOffersResponse.HotelRoomResponse())
 
         val outboundFlight = FlightLeg()
-        Db.setPackageSelectedOutboundFlight(outboundFlight)
+        PackageResponseStore.packageSelectedOutboundFlight = outboundFlight
 
         setPackageSearchParams(1, emptyList(), false)
     }
 
     private fun setPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean) {
-        Db.setPackageParams(getPackageSearchParams(adults, children, infantsInLap))
+        PackageResponseStore.packageParams = getPackageSearchParams(adults, children, infantsInLap)
     }
 
     private fun getPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean): PackageSearchParams {
@@ -505,7 +504,7 @@ class PackageCheckoutTest {
     }
 
     private fun createTripWithResortFee() {
-        checkout.travelerManager.updateDbTravelers(Db.getPackageParams())
+        checkout.travelerManager.updateDbTravelers(PackageResponseStore.packageParams)
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         checkout.getCreateTripViewModel().createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
 

@@ -5,13 +5,13 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageOffersResponse
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.presenter.packages.PackageFlightPresenter
@@ -257,17 +257,17 @@ class SlidingBundleWidgetTest {
 
     private fun setPackageResponseHotels() {
         buildPackagesSearchParams()
-        Db.setPackageParams(params)
+        PackageResponseStore.packageParams = params
         searchHotels()
         hotelResponse = hotelObserver.onNextEvents.get(0)
-        Db.setPackageResponse(hotelResponse)
+        PackageResponseStore.packageResponse = hotelResponse
     }
 
     private fun setPackageResponseOutboundFlight() {
         buildPackagesSearchParams()
         searchHotels()
         hotelResponse = hotelObserver.onNextEvents.get(0)
-        Db.setPackageResponse(hotelResponse)
+        PackageResponseStore.packageResponse = hotelResponse
 
         params.packagePIID = hotelResponse.getHotels()[0].hotelId
         params.currentFlights = arrayOf("legs")
@@ -276,18 +276,18 @@ class SlidingBundleWidgetTest {
         searchRooms()
         roomResponse = offerObserver.onNextEvents[0]
         addCurrentOfferToDB(roomResponse.getBundleRoomResponse()[0])
-        Db.setPackageSelectedHotel(hotelResponse.getHotels().get(0), roomResponse.getBundleRoomResponse()[0])
+        PackageResponseStore.setPackageSelectedHotel(hotelResponse.getHotels().get(0), roomResponse.getBundleRoomResponse()[0])
 
         params.packagePIID = "happy_outbound_flight"
         params.numberOfRooms = "1"
         params.searchProduct = Constants.PRODUCT_FLIGHT
         params.currentFlights = arrayOf("legs")
         params.isOutboundSearch(true)
-        Db.setPackageParams(params)
+        PackageResponseStore.packageParams = params
         searchFLights()
         flightResponse  = flightObserver.onNextEvents.get(0)
         flightResponse.setCurrentOfferPrice(flightObserver.onNextEvents[0].getFlightLegs()[0].packageOfferModel.price)
-        Db.setPackageResponse(flightResponse)
+        PackageResponseStore.packageResponse = flightResponse
     }
 
     private fun searchRooms() {
@@ -306,7 +306,7 @@ class SlidingBundleWidgetTest {
     }
 
     private fun addCurrentOfferToDB(offer: HotelOffersResponse.HotelRoomResponse) {
-        var response = Db.getPackageResponse()
+        var response = PackageResponseStore.packageResponse
         val price = PackageOfferModel.PackagePrice()
         price.packageTotalPrice = offer.rateInfo.chargeableRateInfo.packageTotalPrice
         price.tripSavings = offer.rateInfo.chargeableRateInfo.packageSavings

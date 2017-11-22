@@ -1,13 +1,13 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.testrule.ServicesRule
@@ -215,7 +215,7 @@ class BundleOverviewViewModelTests {
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
-        Db.setPackageParams(packageParams)
+        PackageResponseStore.packageParams = packageParams
         return packageParams
     }
 

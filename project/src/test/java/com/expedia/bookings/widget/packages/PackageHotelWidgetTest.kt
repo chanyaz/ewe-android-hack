@@ -3,10 +3,10 @@ package com.expedia.bookings.widget.packages
 import android.app.Activity
 import android.content.Intent
 import android.view.View
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -42,7 +42,7 @@ class PackageHotelWidgetTest {
         val checkOutDate = LocalDate()
 
         val params = PackageSearchParams(origin, destination, checkInDate, checkOutDate, 1, ArrayList<Int>(), false)
-        Db.setPackageParams(params)
+        PackageResponseStore.packageParams = params
 
         testHotelWidget = PackageBundleHotelWidget(activity, null)
         testHotelWidget.viewModel = BundleHotelViewModel(activity)
@@ -74,7 +74,7 @@ class PackageHotelWidgetTest {
                 .origin(testOrigin)
                 .destination(SuggestionV4())
                 .build() as PackageSearchParams
-        Db.setPackageParams(packageParams)
+        PackageResponseStore.packageParams = packageParams
     }
 
     @Test
@@ -144,7 +144,7 @@ class PackageHotelWidgetTest {
         room.roomThumbnailUrl = ""
         room.hasFreeCancellation = true
         room.freeCancellationWindowDate = "2016-02-01 11:59"
-        Db.setPackageSelectedHotel(hotel, room)
+        PackageResponseStore.setPackageSelectedHotel(hotel, room)
 
         testHotelWidget.canExpand = true
         testHotelWidget.isRowClickable = true

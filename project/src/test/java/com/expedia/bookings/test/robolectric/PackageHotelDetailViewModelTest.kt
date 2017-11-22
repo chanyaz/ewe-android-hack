@@ -1,13 +1,13 @@
 package com.expedia.bookings.test.robolectric
 
 import android.content.Context
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageOffersResponse
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.test.MultiBrand
@@ -65,12 +65,12 @@ class PackageHotelDetailViewModelTest {
         response.packageInfo.hotelCheckinDate.isoDate = "2016-09-07"
         response.packageInfo.hotelCheckoutDate = PackageSearchResponse.HotelCheckoutDate()
         response.packageInfo.hotelCheckoutDate.isoDate = "2016-09-08"
-        Db.setPackageResponse(response)
+        PackageResponseStore.packageResponse = response
         testViewModel.paramsSubject.onNext(searchParams)
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 
-        val dates = LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())) + " - " +
-                LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate()))
+        val dates = LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(PackageResponseStore.packageResponse.getHotelCheckInDate())) + " - " +
+                LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(PackageResponseStore.packageResponse.getHotelCheckOutDate()))
         assertEquals(dates, testViewModel.searchDatesObservable.value)
         assertEquals(dates, testViewModel.searchInfoObservable.value)
         assertEquals("${searchParams.guests} guests", testViewModel.searchInfoGuestsObservable.value)

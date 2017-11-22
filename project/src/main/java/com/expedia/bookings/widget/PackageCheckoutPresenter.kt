@@ -7,6 +7,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.tracking.PackagesTracking
@@ -66,7 +67,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
     }
 
     override fun updateDbTravelers() {
-        val params = Db.getPackageParams()
+        val params = PackageResponseStore.packageParams
         travelerManager.updateDbTravelers(params)
         resetTravelers()
     }

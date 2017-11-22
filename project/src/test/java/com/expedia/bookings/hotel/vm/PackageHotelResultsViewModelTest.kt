@@ -1,9 +1,9 @@
 package com.expedia.bookings.hotel.vm
 
 import android.support.v7.app.AppCompatActivity
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.packages.PackageResponseStore
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.joda.time.LocalDate
@@ -23,7 +23,7 @@ class PackageHotelResultsViewModelTest {
 
     @Test
     fun testPackageSearchResponse() {
-        Db.setPackageParams(setUpParams())
+        PackageResponseStore.packageParams = setUpParams()
         val activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
 
         val titleSubscriber = TestSubscriber<String>()
@@ -45,7 +45,7 @@ class PackageHotelResultsViewModelTest {
                 .startDate(LocalDate.parse("2025-08-18"))
                 .endDate(LocalDate.parse("2025-08-19"))
                 .build() as PackageSearchParams
-        Db.setPackageParams(packageParams)
+        PackageResponseStore.packageParams = packageParams
         return packageParams
     }
 
