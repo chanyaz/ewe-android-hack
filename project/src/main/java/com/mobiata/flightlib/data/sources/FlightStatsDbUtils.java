@@ -127,23 +127,35 @@ public class FlightStatsDbUtils {
 		}
 
 		if (createDb) {
-			// Open your local db as the input stream
-			InputStream myInput = context.getAssets().open(DB_ASSET_NAME);
+			InputStream myInput = null;
+			OutputStream myOutput = null;
+			try {
+				// Open your local db as the input stream
+				myInput = context.getAssets().open(DB_ASSET_NAME);
 
-			// Open the empty db as the output stream
-			OutputStream myOutput = new FileOutputStream(dbFile);
+				// Open the empty db as the output stream
+				myOutput = new FileOutputStream(dbFile);
 
-			// transfer bytes from the inputfile to the outputfile
-			byte[] buffer = new byte[1024];
-			int length;
-			while ((length = myInput.read(buffer)) > 0) {
-				myOutput.write(buffer, 0, length);
+				// transfer bytes from the inputfile to the outputfile
+				byte[] buffer = new byte[1024];
+				int length;
+				while ((length = myInput.read(buffer)) > 0) {
+					myOutput.write(buffer, 0, length);
+				}
 			}
-
-			// Close the streams
-			myOutput.flush();
-			myOutput.close();
-			myInput.close();
+			catch (Exception ex) {
+				Log.e("Error handling the streams.");
+			}
+			finally {
+				// Close the streams
+				if (myOutput != null) {
+					myOutput.flush();
+					myOutput.close();
+				}
+				if (myInput != null) {
+					myInput.close();
+				}
+			}
 
 			// Write out the current version # of the db
 			Calendar appBuildTime = AndroidUtils.getAppBuildDate(context);
