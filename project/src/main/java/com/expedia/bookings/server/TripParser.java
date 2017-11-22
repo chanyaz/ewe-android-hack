@@ -32,6 +32,7 @@ import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
+import com.expedia.bookings.data.trips.ItinFlightLegTime;
 import com.expedia.bookings.data.trips.OccupantSelectedRoomOptions;
 import com.expedia.bookings.data.trips.OtherOccupantInfo;
 import com.expedia.bookings.data.trips.PrimaryOccupant;
@@ -505,8 +506,10 @@ public class TripParser {
 			// Fetch the sharable link at the flight leg level.
 			leg.getShareInfo().setSharableDetailsUrl(legJson.optString("sharableFlightLegURL").replace("/api/", "/m/"));
 			leg.setLegDuration(legJson.optString("duration"));
+			leg.setNumberOfStops(legJson.optString("numberOfStops"));
 			leg.setAirlineLogoURL(legJson.optString("airlineLogoURL"));
-
+			leg.setLegArrivaltime(parseItinFlightLegTime(legJson.optJSONObject("legArrivaltime")));
+			leg.setLegDepartureTime(parseItinFlightLegTime(legJson.optJSONObject("legDepartureTime")));
 			JSONArray segmentsArr = legJson.optJSONArray("segments");
 			for (int b = 0; b < segmentsArr.length(); b++) {
 				JSONObject segmentJson = segmentsArr.optJSONObject(b);
@@ -994,6 +997,15 @@ public class TripParser {
 			return waypoint;
 		}
 
+		return null;
+	}
+
+	private ItinFlightLegTime parseItinFlightLegTime(JSONObject obj) {
+		if (obj != null) {
+			ItinFlightLegTime flightLegTime = new ItinFlightLegTime();
+			flightLegTime.fromJson(obj);
+			return flightLegTime;
+		}
 		return null;
 	}
 }

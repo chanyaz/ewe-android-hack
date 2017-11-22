@@ -3,8 +3,11 @@ package com.expedia.bookings.itin.vm
 import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.trips.TripFlight
+import com.expedia.bookings.itin.data.FlightItinLegsDetailData
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
@@ -17,11 +20,13 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
     val itinCardDataFlightObservable = PublishSubject.create<ItinCardDataFlight>()
     val updateToolbarSubject = PublishSubject.create<ItinToolbarViewModel.ToolbarParams>()
     val customerSupportDetailsSubject = PublishSubject.create<ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams>()
+    val flightLegDetailWidgetLegDataSubject = PublishSubject.create<ArrayList<FlightItinLegsDetailData>>()
 
     fun setUp() {
         updateItinCardDataFlight()
         updateToolbar()
         updateCustomerSupportDetails()
+        createFlightLegDetailWidgetData()
     }
 
     fun updateItinCardDataFlight() {
@@ -52,5 +57,24 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
         val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE).
                 put("destination", itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: "").format().toString()
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(title, destinationCity, false))
+    }
+
+    private fun createFlightLegDetailWidgetData() {
+        val list = ArrayList<FlightItinLegsDetailData>()
+        val flightLegsList = (itinCardDataFlight.tripComponent as TripFlight).flightTrip.legs
+
+        for (leg: FlightLeg in flightLegsList) {
+            val departureAirportCode = leg.firstWaypoint.mAirportCode
+            val arrivalAirportCode = leg.lastWaypoint.mAirportCode
+            val imgPath = leg.airlineLogoURL
+            val numbOfStops = leg.numberOfStops
+            val departureMonthDay = leg.legDepartureTime.localizedMediumDate
+            val departureTime = leg.legDepartureTime.localizedShortTime
+            val arrivalMonthDay = leg.legArrivaltime.localizedMediumDate
+            val arrivalTime = leg.legArrivaltime.localizedShortTime
+            val flightItinLegsDetailData = FlightItinLegsDetailData(imgPath, departureAirportCode, arrivalAirportCode, departureMonthDay, departureTime, arrivalMonthDay, arrivalTime, numbOfStops)
+            list.add(flightItinLegsDetailData)
+        }
+        flightLegDetailWidgetLegDataSubject.onNext(list)
     }
 }

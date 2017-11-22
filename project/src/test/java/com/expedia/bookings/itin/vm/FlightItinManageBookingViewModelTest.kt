@@ -6,6 +6,8 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.trips.TripFlight
+import com.expedia.bookings.itin.data.FlightItinLegsDetailData
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
@@ -126,6 +128,35 @@ class FlightItinManageBookingViewModelTest {
         val values = sut.createOmnitureTrackingValues()
 
         assertEquals(expectedValues, values)
+    }
+
+    fun testCreateFlightLegDetailWidgetData() {
+        val flightLegDetailWidgetSubject = TestSubscriber<ArrayList<FlightItinLegsDetailData>>()
+        sut.flightLegDetailWidgetLegDataSubject.subscribe(flightLegDetailWidgetSubject)
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val legs = (testItinCardData.tripComponent as TripFlight).flightTrip.legs
+        val leg = legs[legs.size - 1]
+
+        val imgPath = "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif"
+        leg.airlineLogoURL = imgPath
+        leg.firstWaypoint.mAirportCode = "SFO"
+        leg.lastWaypoint.mAirportCode = "SEA"
+        leg.legDepartureTime.localizedMediumDate = "Dec 13"
+        leg.legDepartureTime.localizedShortTime = "11:39pm"
+        leg.legArrivaltime.localizedMediumDate = "Dec 13"
+        leg.legArrivaltime.localizedShortTime = "12:19pm"
+        leg.numberOfStops = "1"
+
+
+        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
+        sut.itineraryManager = mockItinManager
+        sut.setUp()
+
+        val list = ArrayList<FlightItinLegsDetailData>()
+        val flightItinLegsDetailData = FlightItinLegsDetailData(imgPath, "SFO", "SEA", "Dec 13", "11:39pm", "Dec 13", "12:19pm", "1")
+        list.add(flightItinLegsDetailData)
+        flightLegDetailWidgetSubject.assertValue(list)
     }
 
     class TestWayPoint(val city: String) : Waypoint(ACTION_UNKNOWN) {

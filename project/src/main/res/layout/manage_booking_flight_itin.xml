@@ -42,6 +42,12 @@
                 android:textStyle="normal"
                 android:fontFamily="sans-serif-medium" />
 
+            <com.expedia.bookings.itin.widget.FlightItinLegsDetailWidget
+                android:id="@+id/manage_booking_itin_flight_leg_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"/>
+
             <com.expedia.bookings.itin.widget.FlightItinCustomerSupportDetails
                 android:id="@+id/flight_itin_customer_support_widget"
                 android:layout_width="match_parent"

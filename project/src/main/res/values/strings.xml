@@ -1493,6 +1493,25 @@
     <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} customer support</string>
     <!--Flight customer support website toolbar header-->
     <string name="itin_flight_customer_support_site_toolbar_header">Customer service</string>
+    <!--Flight itin, flight leg detail widget title. {departure} to {arrival} (eg., SFO to SEA)-->
+    <string name="itin_flight_leg_detail_widget_title_TEMPLATE">{departure} to {arrival}</string>
+    <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_TEMPLATE">{departure_date_time} - {arrival_date_time} · {stops}</string>
+    <!--Flight itin, flight leg detail widget sub title date time template. {date} {time} (eg., Aug 20 8:00am)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
+    <!--Flight itin, flight leg detail widget Nonstop text-->
+    <string name="itin_flight_leg_detail_widget_nonstop">Nonstop</string>
+    <!--Flight itin, flight leg detail widget "to" text-->
+    <string name="itin_flight_leg_detail_widget_to_text">to</string>
+    <!--Flight itin, flight leg detail widget "-" text-->
+    <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
+
+    <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
+    <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
+    <item quantity="zero">Nonstop</item>
+    <item quantity="one">%s stop</item>
+    <item quantity="other">%s stops</item>
+    </plurals>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}d {hours}h {minutes}m</string>
