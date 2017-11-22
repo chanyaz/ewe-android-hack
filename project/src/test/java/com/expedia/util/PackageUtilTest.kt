@@ -128,41 +128,6 @@ class PackageUtilTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testPackageSINGAPORELOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.SINGAPORE)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testPackageMALAYSIALOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.MALAYSIA)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testPackageAUSTRALIALOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.AUSTRALIA)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testPackageNEW_ZEALNDLOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.NEW_ZEALND)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testPackageCANADALOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.CANADA)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageUNITED_STATESLOBDisabled() {
         RoboTestHelper.setPOS(PointOfSaleId.UNITED_STATES)
         assertFalse(PackageUtil.isPackageLOBUnderABTest)

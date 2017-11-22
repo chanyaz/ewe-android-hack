@@ -13,12 +13,8 @@ object PackageUtil {
     val isPackageLOBUnderABTest: Boolean
         get() {
             val pointOfSaleId = PointOfSale.getPointOfSale().pointOfSaleId
-            return pointOfSaleId == PointOfSaleId.SINGAPORE ||
-                    pointOfSaleId == PointOfSaleId.MALAYSIA ||
-                    pointOfSaleId == PointOfSaleId.AUSTRALIA ||
-                    pointOfSaleId == PointOfSaleId.NEW_ZEALND ||
-                    pointOfSaleId == PointOfSaleId.CANADA ||
-                    pointOfSaleId == PointOfSaleId.HONG_KONG ||
+            return pointOfSaleId == PointOfSaleId.GERMANY ||
+                    pointOfSaleId == PointOfSaleId.THAILAND ||
                     pointOfSaleId == PointOfSaleId.TRAVELOCITY_CA ||
                     pointOfSaleId == PointOfSaleId.WOTIF ||
                     pointOfSaleId == PointOfSaleId.WOTIF_NZ ||
