@@ -59,7 +59,7 @@ class PackagesTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelReviewPageLoad() {
         sut.trackHotelReviewPageLoad()
-        val controlEvar = mapOf(18 to "App.Package.Reviews")
+        val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
@@ -67,7 +67,7 @@ class PackagesTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelResortFeeInfoClick() {
         sut.trackHotelResortFeeInfoClick()
-        val controlEvar = mapOf(18 to "App.Package.ResortFeeInfo")
+        val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
@@ -75,7 +75,7 @@ class PackagesTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelRenovationInfoClick() {
         sut.trackHotelRenovationInfoClick()
-        val controlEvar = mapOf(18 to "App.Package.RenovationInfo")
+        val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
@@ -91,7 +91,7 @@ class PackagesTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelDetailMapViewClick() {
         sut.trackHotelDetailMapViewClick()
-        val controlEvar = mapOf(18 to "App.Package.Infosite.Map")
+        val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 

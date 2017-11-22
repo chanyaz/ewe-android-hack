@@ -4471,7 +4471,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelReviewPageLoad() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_REVIEWS, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_REVIEWS, null);
 	}
 
 	public static void trackPackagesHotelReviewCategoryChange(String category) {
@@ -4480,11 +4480,11 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelResortFeeInfo() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO, null);
 	}
 
 	public static void trackPackagesHotelRenovationInfo() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO, null);
 	}
 
 	public static void trackPackagesViewBundleLoad(boolean isFirstBundleLaunch) {
@@ -4555,7 +4555,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelMapViewClick() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_MAP, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_MAP, null);
 	}
 
 	public static void trackPackagesHotelMapSelectRoomClick() {
