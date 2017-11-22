@@ -10,6 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightItinBookingInfoViewModel
 import com.expedia.bookings.itin.vm.ItinLinkOffCardViewViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 
@@ -25,7 +26,9 @@ class FlightItinBookingDetailsWidget(context: Context, attr: AttributeSet?) : Li
     }
 
     private fun setManageBookingOnClick(intent: Intent?) = manageBookingCard.setOnClickListener {
-        OmnitureTracking.trackItinFlightManageBooking()
+        if (!FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_trips_new_flights_managing_booking_design)) {
+            OmnitureTracking.trackItinFlightManageBooking()
+        }
         if (intent != null) context.startActivity(intent, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
     }
 

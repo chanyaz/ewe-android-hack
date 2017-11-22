@@ -34,13 +34,6 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
         }
     }
 
-    private fun updateToolbar() {
-        val title = context.getString(R.string.itin_flight_manage_booking_header)
-        val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE).
-                put("destination", itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: "").format().toString()
-        updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(title, destinationCity, false))
-    }
-
     fun updateCustomerSupportDetails() {
         val header = Phrase.from(context, R.string.itin_flight_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         val itineraryNumb = Phrase.from(context, R.string.itin_flight_itinerary_number_TEMPLATE).put("itin_number", itinCardDataFlight.tripNumber).format().toString()
@@ -48,5 +41,16 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
         val customerSupportButton = Phrase.from(context, R.string.itin_flight_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         val customerSupportURL = itinCardDataFlight.tripComponent.parentTrip.customerSupport.supportUrl
         customerSupportDetailsSubject.onNext(ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams(header, itineraryNumb, customerSupportNumber, customerSupportButton, customerSupportURL))
+    }
+
+    fun createOmnitureTrackingValues(): HashMap<String, String?> {
+        return FlightItinOmnitureUtils().createOmnitureTrackingValues(itinCardDataFlight)
+    }
+
+    private fun updateToolbar() {
+        val title = context.getString(R.string.itin_flight_manage_booking_header)
+        val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE).
+                put("destination", itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: "").format().toString()
+        updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(title, destinationCity, false))
     }
 }

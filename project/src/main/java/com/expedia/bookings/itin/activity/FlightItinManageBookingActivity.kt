@@ -10,6 +10,7 @@ import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
 import com.expedia.bookings.itin.vm.FlightItinManageBookingViewModel
 import com.expedia.bookings.itin.widget.FlightItinCustomerSupportDetails
 import com.expedia.bookings.itin.widget.ItinToolbar
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -29,6 +30,7 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
 
     private val itinToolbar by bindView<ItinToolbar>(R.id.manage_booking_flight_itin_toolbar)
     private val customerSupportDetails by bindView<FlightItinCustomerSupportDetails>(R.id.flight_itin_customer_support_widget)
+    private var trackingFired = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,10 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.setUp()
+        if(!trackingFired) {
+            OmnitureTracking.trackItinFlightManageBookingActivity(this, viewModel.createOmnitureTrackingValues())
+            trackingFired = true
+        }
     }
 
     var viewModel: FlightItinManageBookingViewModel by notNullAndObservable { vm ->

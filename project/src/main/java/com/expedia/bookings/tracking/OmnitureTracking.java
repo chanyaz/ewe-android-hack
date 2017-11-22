@@ -2663,6 +2663,41 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackItinFlightManageBookingActivity(Context context, Map trip) {
+		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT_MANAGE_BOOKING + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_FLIGHT_MANAGE_BOOKING);
+		if (userStateManager.isUserAuthenticated()) {
+			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
+			if (!usersTripComponentTypeEventString.isEmpty()) {
+				s.setEvents("event63" + "," + usersTripComponentTypeEventString);
+				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
+			}
+			else {
+				s.setEvents("event63");
+			}
+		}
+		if (trip != null) {
+			s.setProducts(String.valueOf(trip.get("productString")));
+			s.setProp(8, String.valueOf(trip.get("orderAndTripNumbers")));
+
+			if (String.valueOf(trip.get("duration")) != null) {
+				s.setEvar(6, String.valueOf(trip.get("duration")));
+			}
+			if (String.valueOf(trip.get("tripStartDate")) != null) {
+				s.setProp(5, String.valueOf(trip.get("tripStartDate")));
+			}
+			if (String.valueOf(trip.get("tripEndDate")) != null) {
+				s.setProp(6, String.valueOf(trip.get("tripEndDate")));
+			}
+			if (String.valueOf(trip.get("daysUntilTrip")) != null) {
+				s.setEvar(5, String.valueOf(trip.get("daysUntilTrip")));
+			}
+		}
+		s.setProp(2, "itinerary");
+		s.setEvar(2, "D=c2");
+		s.track();
+	}
+
 	public static void trackItinFlightCheckIn(String airlineCode, boolean isSplitTicket, int tripLegs) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN);
 		s.setEvents("event95");

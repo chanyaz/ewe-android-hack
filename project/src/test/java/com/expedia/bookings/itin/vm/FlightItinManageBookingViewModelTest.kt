@@ -7,10 +7,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.flightlib.data.Airport
 import com.mobiata.flightlib.data.Waypoint
 import com.squareup.phrase.Phrase
+import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -104,6 +106,26 @@ class FlightItinManageBookingViewModelTest {
         val customerSupportButton = Phrase.from(context, R.string.itin_flight_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         val customerSupportURL = "http://www.expedia.com/service/"
         customerSupportDetailSubscriber.assertValue(ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams(header, itineraryNumb, customerSupportNumber, customerSupportButton, customerSupportURL))
+    }
+
+    @Test
+    fun createOmnitureValues() {
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        sut.itinCardDataFlight = testItinCardData
+        val startDate = DateTime.now().plusDays(30)
+        val formattedStartDate = JodaUtils.format(startDate, "yyyy-MM-dd")
+        val endDate = JodaUtils.format(startDate.plusDays(7), "yyyy-MM-dd")
+        val expectedValues = HashMap<String, String?>()
+        expectedValues.put("duration", "8")
+        expectedValues.put("productString", ";Flight:UA:OW;;")
+        expectedValues.put("tripStartDate", formattedStartDate)
+        expectedValues.put("daysUntilTrip", "30")
+        expectedValues.put("tripEndDate", endDate)
+        expectedValues.put("orderAndTripNumbers", "8063550177859|7238007847306")
+
+        val values = sut.createOmnitureTrackingValues()
+
+        assertEquals(expectedValues, values)
     }
 
     class TestWayPoint(val city: String) : Waypoint(ACTION_UNKNOWN) {
