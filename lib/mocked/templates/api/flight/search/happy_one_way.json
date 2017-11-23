@@ -503,6 +503,254 @@
           }
         }
       ]
+    },
+    {
+      "legId": "leg12",
+      "travelDuration": "PT20H35M",
+      "elapsedDays": 2,
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=DEL&cabinclass=3&mktgcarrier=UA&opcarrier=LH&farebasis=QV3PXOW&bookingclass=S&travelDate=2017-12-27&flightNumber=8828&langid=1033",
+      "segments": [
+        {
+          "departureTime": "December 27, 2017 3:25:00 PM",
+          "departureTimeEpochSeconds": 1514417100,
+          "departureTimeRaw": "2017-12-27T15:25:00.000-08:00",
+          "departureTimeZoneOffsetSeconds": -28800,
+          "arrivalTime": "December 28, 2017 11:15:00 AM",
+          "arrivalTimeEpochSeconds": 1514456100,
+          "arrivalTimeRaw": "2017-12-28T11:15:00.000+01:00",
+          "arrivalTimeZoneOffsetSeconds": 3600,
+          "arrivalAirportCode": "FRA",
+          "arrivalAirportLocation": "Frankfurt, DEU",
+          "arrivalAirportTimeZoneName": "Europe/Berlin",
+          "arrivalAirportLatitude": 50.050978,
+          "arrivalAirportLongitude": 8.571705,
+          "arrivalAirportName": "Frankfurt Intl.",
+          "arrivalAirportAddress": {
+            "city": "Frankfurt",
+            "state": " Germany",
+            "country": "DEU"
+          },
+          "departureAirportCode": "SFO",
+          "departureAirportLocation": "San Francisco, USA",
+          "departureAirportTimeZoneName": "America/Los_Angeles",
+          "departureAirportLatitude": 37.61594,
+          "departureAirportLongitude": -122.387996,
+          "departureAirportName": "San Francisco Intl.",
+          "departureAirportAddress": {
+            "city": "San Francisco",
+            "state": " CA",
+            "country": "USA"
+          },
+          "airlineName": "United",
+          "airlineCode": "UA",
+          "externalAirlineCode": "UA",
+          "flightNumber": "8828",
+          "operatingAirlineName": "Lufthansa",
+          "operatingAirlineCode": "LH",
+          "equipmentCode": "388",
+          "equipmentDescription": "Airbus Industrie A380-800 Passenger",
+          "duration": "PT10H50M",
+          "elapsedDays": 1,
+          "stops": 0,
+          "meal": "Meal",
+          "providerCode": "Sabre",
+          "hasSeatMap": true,
+          "groundTime": "PT2H5M"
+        },
+        {
+          "departureTime": "December 28, 2017 1:20:00 PM",
+          "departureTimeEpochSeconds": 1514463600,
+          "departureTimeRaw": "2017-12-28T13:20:00.000+01:00",
+          "departureTimeZoneOffsetSeconds": 3600,
+          "arrivalTime": "December 29, 2017 1:30:00 AM",
+          "arrivalTimeEpochSeconds": 1514491200,
+          "arrivalTimeRaw": "2017-12-29T01:30:00.000+05:30",
+          "arrivalTimeZoneOffsetSeconds": 19800,
+          "arrivalAirportCode": "DEL",
+          "arrivalAirportLocation": "Delhi, IND",
+          "arrivalAirportTimeZoneName": "Asia/Kolkata",
+          "arrivalAirportLatitude": 28.555741,
+          "arrivalAirportLongitude": 77.086145,
+          "arrivalAirportName": "Indira Gandhi Intl.",
+          "arrivalAirportAddress": {
+            "city": "Delhi",
+            "state": " India",
+            "country": "IND"
+          },
+          "departureAirportCode": "FRA",
+          "departureAirportLocation": "Frankfurt, DEU",
+          "departureAirportTimeZoneName": "Europe/Berlin",
+          "departureAirportLatitude": 50.050978,
+          "departureAirportLongitude": 8.571705,
+          "departureAirportName": "Frankfurt Intl.",
+          "departureAirportAddress": {
+            "city": "Frankfurt",
+            "state": " Germany",
+            "country": "DEU"
+          },
+          "airlineName": "United",
+          "airlineCode": "UA",
+          "externalAirlineCode": "UA",
+          "flightNumber": "8906",
+          "operatingAirlineName": "Lufthansa",
+          "operatingAirlineCode": "LH",
+          "equipmentCode": "388",
+          "equipmentDescription": "Airbus Industrie A380-800 Passenger",
+          "duration": "PT7H40M",
+          "elapsedDays": 1,
+          "stops": 0,
+          "meal": "Meal",
+          "providerCode": "Sabre",
+          "hasSeatMap": true
+        }
+      ],
+      "freeCancellationBy": {
+        "raw": "2017-11-23T23:59:00Z",
+        "localized": "Nov 23, 2017 11:59:00 PM",
+        "epochSeconds": 1511481540,
+        "timeZoneOffsetSeconds": 0,
+        "localizedShortDate": "Thu, 23 Nov",
+        "localizedMediumDate": "Nov 23, 2017",
+        "localizedFullDate": "Thursday, November 23, 2017",
+        "localizedLongDate": "November 23, 2017",
+        "localizedShortTime": "11:59 PM"
+      },
+      "isBasicEconomy": false,
+      "isRefundable": false,
+      "isNonStop": false,
+      "jsonBaggageFeesUrl": {
+        "requestPath": "https://www.expedia.com/api/flight/baggagefees",
+        "formData": [
+          {
+            "bookingclass": " S",
+            "originapt": "SFO",
+            "segmentnumber": "1",
+            "traveldate": "12/27/2017",
+            "flightnumber": "8828",
+            "destinationapt": "FRA",
+            "opcarrier": "LH",
+            "cabinclass": "3",
+            "mktgcarrier": "UA"
+          },
+          {
+            "bookingclass": " S",
+            "originapt": "FRA",
+            "segmentnumber": "2",
+            "traveldate": "12/28/2017",
+            "flightnumber": "8906",
+            "destinationapt": "DEL",
+            "opcarrier": "LH",
+            "cabinclass": "3",
+            "mktgcarrier": "UA"
+          }
+        ]
+      }
+    },
+    {
+      "legId": "leg13",
+      "travelDuration": "PT23H53M",
+      "elapsedDays": 1,
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=DEL&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=QV3PXOW&bookingclass=Q&travelDate=2017-12-27&flightNumber=5692&langid=1033",
+      "segments": [
+        {
+          "departureTime": "December 28, 2017 11:55:00 PM",
+          "departureTimeEpochSeconds": 1514485500,
+          "departureTimeRaw": "2017-12-28T23:55:00.000+05:30",
+          "departureTimeZoneOffsetSeconds": 19800,
+          "arrivalTime": "December 27, 2017 10:32:00 AM",
+          "arrivalTimeEpochSeconds": 1514399520,
+          "arrivalTimeRaw": "2017-12-27T10:32:00.000-08:00",
+          "arrivalTimeZoneOffsetSeconds": -28800,
+          "arrivalAirportCode": "DEL",
+          "arrivalAirportLocation": "Delhi, IND",
+          "arrivalAirportTimeZoneName": "Asia/Kolkata",
+          "arrivalAirportLatitude": 28.555741,
+          "arrivalAirportLongitude": 77.086145,
+          "arrivalAirportName": "Indira Gandhi Intl.",
+          "arrivalAirportAddress": {
+            "city": "Delhi",
+            "state": " India",
+            "country": "IND"
+          },
+          "departureAirportCode": "SFO",
+          "departureAirportLocation": "San Francisco, USA",
+          "departureAirportTimeZoneName": "America/Los_Angeles",
+          "departureAirportLatitude": 37.61594,
+          "departureAirportLongitude": -122.387996,
+          "departureAirportName": "San Francisco Intl.",
+          "departureAirportAddress": {
+            "city": "San Francisco",
+            "state": " CA",
+            "country": "USA"
+          },
+          "airlineName": "Delta",
+          "airlineCode": "DL",
+          "externalAirlineCode": "DL",
+          "flightNumber": "5692",
+          "operatingAirlineName": "COMPASS DBA DELTA CONNECTION",
+          "equipmentCode": "E75",
+          "equipmentDescription": "Embraer 175",
+          "duration": "PT2H26M",
+          "elapsedDays": 1,
+          "stops": 0,
+          "meal": "Lunch",
+          "providerCode": "Sabre",
+          "hasSeatMap": true,
+          "groundTime": "PT30M"
+        }
+      ],
+      "freeCancellationBy": {
+        "raw": "2017-11-23T23:59:00Z",
+        "localized": "Nov 23, 2017 11:59:00 PM",
+        "epochSeconds": 1511481540,
+        "timeZoneOffsetSeconds": 0,
+        "localizedShortDate": "Thu, 23 Nov",
+        "localizedMediumDate": "Nov 23, 2017",
+        "localizedFullDate": "Thursday, November 23, 2017",
+        "localizedLongDate": "November 23, 2017",
+        "localizedShortTime": "11:59 PM"
+      },
+      "isBasicEconomy": false,
+      "isRefundable": true,
+      "isNonStop": false,
+      "jsonBaggageFeesUrl": {
+        "requestPath": "https://www.expedia.com/api/flight/baggagefees",
+        "formData": [
+          {
+            "bookingclass": " Q",
+            "originapt": "SFO",
+            "segmentnumber": "1",
+            "traveldate": "12/27/2017",
+            "flightnumber": "5692",
+            "destinationapt": "SEA",
+            "opcarrier": "",
+            "cabinclass": "3",
+            "mktgcarrier": "DL"
+          },
+          {
+            "bookingclass": " Q",
+            "originapt": "SEA",
+            "segmentnumber": "2",
+            "traveldate": "12/27/2017",
+            "flightnumber": "142",
+            "destinationapt": "AMS",
+            "opcarrier": "",
+            "cabinclass": "3",
+            "mktgcarrier": "DL"
+          },
+          {
+            "bookingclass": " Q",
+            "originapt": "AMS",
+            "segmentnumber": "3",
+            "traveldate": "12/28/2017",
+            "flightnumber": "7534",
+            "destinationapt": "DEL",
+            "opcarrier": "9W",
+            "cabinclass": "3",
+            "mktgcarrier": "DL"
+          }
+        ]
+      }
     }
   ],
   "obFeesDetails": "http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033",
@@ -1518,6 +1766,194 @@
       "isInternational": false,
       "legIds": [
         "leg11"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "create_trip_price_increase",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696",
+        "roundedAmount": "696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "discountAmount": {
+        "amount": "-3.00",
+        "formattedPrice": "($3.00)",
+        "formattedWholePrice": "($3)",
+        "currencyCode": "USD"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg12"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "create_trip_price_increase",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696",
+        "roundedAmount": "696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "discountAmount": {
+        "amount": "-3.00",
+        "formattedPrice": "($3.00)",
+        "formattedWholePrice": "($3)",
+        "currencyCode": "USD"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg13"
       ],
       "mayChargeOBFees": false,
       "numberOfTickets": 1,

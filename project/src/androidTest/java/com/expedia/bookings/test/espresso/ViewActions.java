@@ -273,8 +273,25 @@ public final class ViewActions {
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				View cell = ((RecyclerView) view).getChildAt(position);
-				TextView timeView = (TextView) cell.findViewById(R.id.flight_time_detail_text_view);
+				RecyclerView recyclerView = (RecyclerView) view;
+
+				@SuppressWarnings("unchecked")
+				RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(position);
+				if (null == viewHolder) {
+					throw new PerformException.Builder().withActionDescription(this.toString())
+						.withViewDescription(HumanReadables.describe(view))
+						.withCause(new IllegalStateException("No view holder at position: " + position))
+						.build();
+				}
+
+				View viewAtPosition = viewHolder.itemView;
+				if (null == viewAtPosition) {
+					throw new PerformException.Builder().withActionDescription(this.toString())
+						.withViewDescription(HumanReadables.describe(viewAtPosition))
+						.withCause(new IllegalStateException("No view at position: " + position)).build();
+				}
+
+				TextView timeView = (TextView) viewAtPosition.findViewById(R.id.flight_time_detail_text_view);
 				time.set((String) timeView.getText());
 			}
 
