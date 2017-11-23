@@ -4,10 +4,10 @@ import android.content.Context
 import android.location.Location
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionType
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.Constants
@@ -90,7 +90,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     private fun getGaiaNearbySuggestions(location: Location): Observable<MutableList<SuggestionV4>> {
         return suggestionsService
                 .suggestNearbyGaia(location.latitude, location.longitude, getNearbySortTypeForGaia(),
-                        getLineOfBusinessForGaia(), PointOfSale.getSuggestLocaleIdentifier(), PointOfSale.getPointOfSale().siteId)
+                        getLineOfBusinessForGaia(), PointOfSale.getSuggestLocaleIdentifier(), PointOfSale.getPointOfSale().siteId, isMISForRealWorldEnabled())
                 .map { it ->
                     SuggestionV4Utils.convertToSuggestionV4(it)
                 }
@@ -204,6 +204,10 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     abstract fun getSuggestionHistoryFile(): String
 
     abstract fun getLineOfBusinessForGaia(): String
+
+    open fun isMISForRealWorldEnabled(): Boolean {
+        return false
+    }
 
     abstract fun getNearbySortTypeForGaia(): String
 
