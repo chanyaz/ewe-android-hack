@@ -53,7 +53,6 @@ import com.squareup.phrase.Phrase;
 import kotlin.Unit;
 import rx.observers.TestSubscriber;
 
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -544,30 +543,7 @@ public class FlightSearchPresenterTest {
 	}
 
 	@Test
-	public void testSearchValidationStepByStep() {
-		initializeWidget();
-		FlightSearchViewModel vm = widget.getSearchViewModel();
-		TestSubscriber<Unit> errorNoDestinationTestSubscriber = new TestSubscriber();
-		TestSubscriber<Unit> errorNoOriginObservableTestSubscriber = new TestSubscriber();
-		TestSubscriber<Unit> errorNoDatesObservableTestSubscriber = new TestSubscriber();
-
-		vm.getErrorNoDestinationObservable().subscribe(errorNoDestinationTestSubscriber);
-		vm.getErrorNoOriginObservable().subscribe(errorNoOriginObservableTestSubscriber);
-		vm.getErrorNoDatesObservable().subscribe(errorNoDatesObservableTestSubscriber);
-
-		vm.getPerformSearchObserver().onNext(Unit.INSTANCE);
-		errorNoOriginObservableTestSubscriber.assertValueCount(1);
-		errorNoDestinationTestSubscriber.assertValueCount(0);
-		errorNoDatesObservableTestSubscriber.assertValueCount(0);
-
-		assertNull(widget.getDestinationCardView().getCompoundDrawables()[2]);
-		assertNull(widget.getOriginCardView().getCompoundDrawables()[2]);
-		assertNull(widget.getCalendarWidgetV2().getCompoundDrawables()[2]);
-	}
-
-	@Test
 	public void testSearchValidationConcurrent() {
-		RoboTestHelper.INSTANCE.bucketTests(AbacusUtils.EBAndroidAppFlightSearchFormValidation);
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
 		TestSubscriber<Unit> errorNoDestinationTestSubscriber = new TestSubscriber();

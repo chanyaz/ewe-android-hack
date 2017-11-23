@@ -26,7 +26,6 @@ import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -125,24 +124,17 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                     put("travelers", noOfTravelers).format().toString()
         }
 
-        val isUserBucketedInSearchFormValidation = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)
         vm.errorNoDestinationObservable.subscribe {
             AnimUtils.doTheHarlemShake(destinationCardView)
-            if (isUserBucketedInSearchFormValidation) {
-                destinationCardView.setEndDrawable(errorDrawable)
-            }
+            destinationCardView.setEndDrawable(errorDrawable)
         }
         vm.errorNoOriginObservable.subscribe {
             AnimUtils.doTheHarlemShake(originCardView)
-            if (isUserBucketedInSearchFormValidation) {
-                originCardView.setEndDrawable(errorDrawable)
-            }
+            originCardView.setEndDrawable(errorDrawable)
         }
         vm.errorNoDatesObservable.subscribe {
             AnimUtils.doTheHarlemShake(calendarWidgetV2)
-            if (isUserBucketedInSearchFormValidation) {
-                calendarWidgetV2.setEndDrawable(errorDrawable)
-            }
+            calendarWidgetV2.setEndDrawable(errorDrawable)
         }
         vm.formattedOriginObservable.subscribe { text ->
             originCardView.setText(text)
@@ -219,11 +211,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                     }).subscribe()
         }
 
-        if (isUserBucketedInSearchFormValidation) {
-            Observable.combineLatest(vm.hasValidDatesObservable, vm.errorNoDatesObservable, { hasValidDates, invalidDates -> hasValidDates }).subscribe { hasValidDates ->
-                calendarWidgetV2.setEndDrawable(if (hasValidDates) null else errorDrawable)
-            }
-        }
+    Observable.combineLatest(vm.hasValidDatesObservable, vm.errorNoDatesObservable, { hasValidDates, invalidDates -> hasValidDates }).subscribe { hasValidDates ->
+        calendarWidgetV2.setEndDrawable(if (hasValidDates) null else errorDrawable)
+    }
 
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
