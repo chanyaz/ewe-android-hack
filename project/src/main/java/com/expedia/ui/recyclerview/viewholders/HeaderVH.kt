@@ -14,7 +14,12 @@ class HeaderVH(root : View) : ItemVH<String>(root) {
 
     val headerView: TextView by bindView(R.id.label_header)
 
+    init {
+        headerView.setOnClickListener(this)
+    }
+
     override fun bindData(v: String) {
         headerView.text = v
+        headerView.setTag(v)
     }
 }

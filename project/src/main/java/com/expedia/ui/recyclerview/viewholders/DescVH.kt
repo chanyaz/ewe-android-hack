@@ -18,8 +18,13 @@ class DescVH(root : View) : ItemVH<String>(root) {
     val descView: TextView by bindView(R.id.label_desc)
     val sep: LinearLayout by bindView(R.id.vertical_sep)
 
+    init {
+        descView.setOnClickListener(this)
+    }
+
     override fun bindData(v: String) {
         descView.text = v
+        descView.setTag(v)
 
         if(getFeedItem()!!.getExpandState() == FeedItem.ExpandState.EXPANDED){
             sep.visibility = View.VISIBLE

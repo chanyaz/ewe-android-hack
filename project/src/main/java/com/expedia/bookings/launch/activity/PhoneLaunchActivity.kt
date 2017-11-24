@@ -545,7 +545,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 PAGER_POS_ITIN -> frag = ItinItemListFragment.newInstance(jumpToItinId, true)
                 PAGER_POS_LAUNCH -> frag = PhoneLaunchFragment()
                 PAGER_POS_ACCOUNT -> frag = AccountSettingsFragment()
-                PAGER_POS_NEW -> frag = WhatsNewFragment()
+                PAGER_POS_NEW -> frag = WhatsNewFragmentGLA()
                 else -> throw RuntimeException("Position out of bounds position=" + position)
             }
 

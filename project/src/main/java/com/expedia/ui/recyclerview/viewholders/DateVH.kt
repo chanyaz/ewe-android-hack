@@ -15,7 +15,12 @@ class DateVH(root : View) : ItemVH<String>(root) {
 
     val dateView: TextView by bindView(R.id.label12)
 
+    init {
+        dateView.setOnClickListener(this)
+    }
+
     override fun bindData(v: String) {
         dateView.text = v
+        dateView.setTag(v)
     }
 }

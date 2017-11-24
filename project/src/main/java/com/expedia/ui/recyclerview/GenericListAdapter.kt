@@ -7,18 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.ui.recyclerview.interfaces.HolderAdapterBridge
 import com.expedia.ui.recyclerview.interfaces.RecyclerViewContract
+import com.expedia.ui.recyclerview.viewholders.VHWrapper
+import rx.subjects.PublishSubject
 
 /**
  * Created by nbirla on 15/11/17.
  */
-class GenericListAdapter(var itemList: FeedItemList, val contract: RecyclerViewContract) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), VHClickable, HolderAdapterBridge {
+class GenericListAdapter(var itemList: FeedItemList, val contract: RecyclerViewContract) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), HolderAdapterBridge {
 
-    var clickCallback: VHClickable? = null
+    var clickSubject: PublishSubject<VHWrapper>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
 
         val viewHolder = contract.createHolder(LayoutInflater.from(parent!!.getContext()), parent, viewType)
-        viewHolder.setVHClickCallback(this)
+        viewHolder.setVHClickCallback(clickSubject)
         return viewHolder
 
     }
@@ -52,13 +54,8 @@ class GenericListAdapter(var itemList: FeedItemList, val contract: RecyclerViewC
         return itemList.size
     }
 
-    fun setVHClickCallback(clickCallback: VHClickable) {
-        this.clickCallback = clickCallback
-    }
-
-
-    override fun onViewHolderClicked(holder: ItemVH<*>, view: View) {
-        clickCallback!!.onViewHolderClicked(holder, view);
+    fun setVHClickSubject(clickSubject: PublishSubject<VHWrapper>){
+        this.clickSubject = clickSubject
     }
 
     override fun notifyVHChanged(position: Int) {

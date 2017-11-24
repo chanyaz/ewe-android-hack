@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.model.CustomPojo
@@ -14,7 +15,9 @@ import com.expedia.ui.recyclerview.FeedItem
 import com.expedia.ui.recyclerview.FeedItemList
 import com.expedia.ui.recyclerview.GenericListAdapter
 import com.expedia.ui.recyclerview.ItemTypeHandler
+import com.expedia.ui.recyclerview.viewholders.VHWrapper
 import com.google.gson.Gson
+import rx.subjects.PublishSubject
 
 /**
  * Created by nbirla on 24/11/17.
@@ -51,6 +54,27 @@ class WhatsNewFragmentGLA : Fragment() {
         val adapter = GenericListAdapter(feedItemList, ItemTypeHandler.CONTRACT);
         listView.layoutManager = LinearLayoutManager(getContext())
         listView.adapter = adapter
+
+        val clickSubject = PublishSubject.create<VHWrapper>()
+
+        adapter.setVHClickSubject(clickSubject)
+
+        clickSubject.subscribe {
+            when(it.view.id){
+                R.id.label12 -> {
+                    val m = it.view.getTag() as String
+                    Toast.makeText(activity, m, Toast.LENGTH_SHORT).show()
+                }
+                R.id.label_header ->{
+                    val m = it.view.getTag() as String
+                    Toast.makeText(activity, m, Toast.LENGTH_SHORT).show()
+                }
+                R.id.label_desc -> {
+                    val m = it.view.getTag() as String
+                    Toast.makeText(activity, m, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun dummyData(): Array<CustomPojo>? {

@@ -5,6 +5,8 @@ import android.view.View
 import butterknife.ButterKnife
 import com.expedia.ui.recyclerview.interfaces.VHClickable
 import com.expedia.ui.recyclerview.interfaces.HolderAdapterBridge
+import com.expedia.ui.recyclerview.viewholders.VHWrapper
+import rx.subjects.PublishSubject
 
 /**
  * Created by nbirla on 15/11/17.
@@ -13,7 +15,7 @@ abstract class ItemVH<V>(val root: View) : RecyclerView.ViewHolder(root), View.O
 
     protected var adapterBridge: HolderAdapterBridge? = null
     private var feedItem: FeedItem<V>? = null
-    private var clickCallback: VHClickable? = null
+    var clickSubject: PublishSubject<VHWrapper>? = null
 
     init {
         ButterKnife.inject(this, root);
@@ -36,15 +38,13 @@ abstract class ItemVH<V>(val root: View) : RecyclerView.ViewHolder(root), View.O
     }
 
     override fun onClick(v: View) {
-        clickCallback!!.onViewHolderClicked(this, v)
+        if(clickSubject != null) {
+            clickSubject!!.onNext(VHWrapper(v, this))
+        }
     }
 
-    fun setVHClickCallback(callback: VHClickable) {
-        this.clickCallback = callback
-    }
-
-    fun getVHClickable(): VHClickable? {
-        return clickCallback
+    fun setVHClickCallback(clickSubject: PublishSubject<VHWrapper>?) {
+        this.clickSubject = clickSubject
     }
 
     fun setGLAdapterBridge(adapterBridge: HolderAdapterBridge) {
