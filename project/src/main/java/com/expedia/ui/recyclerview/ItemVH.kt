@@ -2,6 +2,7 @@ package com.expedia.ui.recyclerview
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import butterknife.ButterKnife
 import com.expedia.ui.recyclerview.interfaces.VHClickable
 import com.expedia.ui.recyclerview.interfaces.HolderAdapterBridge
 
@@ -14,12 +15,16 @@ abstract class ItemVH<V>(val root: View) : RecyclerView.ViewHolder(root), View.O
     private var feedItem: FeedItem<V>? = null
     private var clickCallback: VHClickable? = null
 
+    init {
+        ButterKnife.inject(this, root);
+    }
+
     fun getParent(): View {
         return root
     }
 
     fun bindFeedItem(feedItem: FeedItem<*>) {
-        val feedItem = FeedItem<V>(feedItem.viewType, feedItem.getBindingData() as V)
+        val feedItem = FeedItem<V>(feedItem as FeedItem<V>)
         this.feedItem = feedItem
         bindData(feedItem.getBindingData())
     }

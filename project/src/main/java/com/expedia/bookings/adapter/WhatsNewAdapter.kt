@@ -60,7 +60,7 @@ class WhatsNewAdapter : RecyclerView.Adapter<WhatsNewAdapter.WhatsNewViewHolder>
 
                 var diff = position - lastDatePos
                 diff = diff/2
-                val tv = holder!!.itemView.findViewById<TextView>(R.id.label12)
+                val tv = holder!!.itemView.findViewById<TextView>(R.id.label_header)
 
                 tv.text = item.featureList.get(diff).featureName
 

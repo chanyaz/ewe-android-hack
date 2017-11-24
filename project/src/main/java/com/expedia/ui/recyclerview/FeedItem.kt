@@ -9,10 +9,22 @@ class FeedItem<D>(val viewType: String, val d: D) {
         NONE, EXPANDED, EXPANDING, COLLAPSING, COLLAPSED
     }
 
+    constructor(feeditem :FeedItem<D>) : this(feeditem.viewType, feeditem.getBindingData()) {
+        this.state = feeditem.state
+
+        if(feeditem.id != null) {
+            this.id = feeditem.id
+        }
+
+        if(feeditem.priorityType != null){
+            this.priorityType = feeditem.priorityType
+        }
+    }
+
     private var id: String? = null
     private var priorityType: String? = null
 
-    var state = ExpandState.COLLAPSED
+    private var state : ExpandState = ExpandState.COLLAPSED
 
     fun getId(): String? {
         return id

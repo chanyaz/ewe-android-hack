@@ -4,9 +4,13 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.expedia.bookings.R
 import com.expedia.ui.javademo.interfaces.RecyclerViewContract
 import com.expedia.ui.recyclerview.ItemTypeHandler.ItemViewType
+import com.expedia.ui.recyclerview.viewholders.DateVH
+import com.expedia.ui.recyclerview.viewholders.DescVH
 import com.expedia.ui.recyclerview.viewholders.EmptyItemVH
+import com.expedia.ui.recyclerview.viewholders.HeaderVH
 
 
 /**
@@ -16,7 +20,7 @@ class ItemTypeHandler {
 
     enum class ItemViewType(val id: Int) {
 
-        NONE(-1);
+        NONE(-1), DATEVH(0), HEADERVH(1), DESCVH(2);
 
         companion object {
             fun getItemViewType(name: String): ItemViewType {
@@ -57,26 +61,36 @@ class ItemTypeHandler {
         }
     }
 
-    class Contract : com.expedia.ui.recyclerview.interfaces.RecyclerViewContract {
+    companion object {
 
-        override fun createHolder(inflater: LayoutInflater, parent: ViewGroup, type: Int): ItemVH<Any> {
-            val itemViewType = ItemViewType.getItemViewType(type)
-            var itemHolder: ItemVH<*>
+        val CONTRACT = object : com.expedia.ui.recyclerview.interfaces.RecyclerViewContract{
+            override fun createHolder(inflater: LayoutInflater, parent: ViewGroup, type: Int): ItemVH<*> {
+                val itemViewType = ItemViewType.getItemViewType(type)
+                var itemHolder: ItemVH<*>
 
-            when(itemViewType){
-
-                else -> {
-                    itemHolder = EmptyItemVH(View(inflater.context))
+                when (itemViewType) {
+                    ItemViewType.DATEVH -> {
+                        itemHolder = DateVH(inflater.inflate(R.layout.row_item_date, parent, false));
+                    }
+                    ItemViewType.HEADERVH -> {
+                        itemHolder = HeaderVH(inflater.inflate(R.layout.row_item_header, parent, false));
+                    }
+                    ItemViewType.DESCVH -> {
+                        itemHolder = DescVH(inflater.inflate(R.layout.row_item, parent, false));
+                    }
+                    else -> {
+                        itemHolder = EmptyItemVH(View(inflater.context))
+                    }
                 }
+
+                return itemHolder
             }
 
-            return itemHolder
-        }
+            override fun getViewType(type: String): Int {
+                return ItemViewType.getViewType(type)
+            }
 
-        override fun getViewType(type: String): Int {
-            return ItemViewType.getViewType(type)
         }
-
     }
 
 }

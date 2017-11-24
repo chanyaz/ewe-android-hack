@@ -38,6 +38,7 @@ import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.WhatsNewFragment
+import com.expedia.bookings.fragment.WhatsNewFragmentGLA
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
