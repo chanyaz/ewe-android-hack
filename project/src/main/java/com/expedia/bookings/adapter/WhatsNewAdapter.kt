@@ -3,6 +3,7 @@ package com.expedia.bookings.adapter
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
@@ -38,13 +39,13 @@ class WhatsNewAdapter : RecyclerView.Adapter<WhatsNewAdapter.WhatsNewViewHolder>
     }
 
     override fun onBindViewHolder(holder: WhatsNewViewHolder?, position: Int) {
-        var viewType = getItemViewType(position)
-        var tv = holder!!.itemView.findViewById<TextView>(R.id.label12)
+        val viewType = getItemViewType(position)
         when(viewType){
             VIEW_TYPE_DATE -> {
                 var pos = datePos.indexOf(position)
+                val tv = holder!!.itemView.findViewById<TextView>(R.id.label12)
 
-                tv.setText(data.get(pos).monthAndYear)
+                tv.text = data.get(pos).monthAndYear
             }
             VIEW_TYPE_HEADER -> {
                 var lastDatePos = 0
@@ -59,10 +60,13 @@ class WhatsNewAdapter : RecyclerView.Adapter<WhatsNewAdapter.WhatsNewViewHolder>
 
                 var diff = position - lastDatePos
                 diff = diff/2
+                val tv = holder!!.itemView.findViewById<TextView>(R.id.label12)
 
-                tv.setText(item.featureList.get(diff).featureName)
+                tv.text = item.featureList.get(diff).featureName
 
             } else -> {
+                val tv = holder!!.itemView.findViewById<TextView>(R.id.label_desc)
+                val sep = holder!!.itemView.findViewById<LinearLayout>(R.id.vertical_sep)
                 var lastDatePos = 0
 
                 for(item in datePos){
@@ -73,10 +77,15 @@ class WhatsNewAdapter : RecyclerView.Adapter<WhatsNewAdapter.WhatsNewViewHolder>
                 var pos = datePos.indexOf(lastDatePos)
                 var item = data.get(pos)
 
-                var diff = position - lastDatePos
+                var diff = position/2 - lastDatePos
                 diff = diff/2
+                tv.text = item.featureList.get(diff).featureDetails
 
-                tv.setText(item.featureList.get(diff).featureDetails)
+                if(position == itemCount - 1){
+                    sep.visibility = View.GONE
+                } else{
+                    sep.visibility = View.VISIBLE
+                }
             }
         }
     }
