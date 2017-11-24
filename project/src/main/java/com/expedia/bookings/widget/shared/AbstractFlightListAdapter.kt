@@ -48,13 +48,14 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         isRoundTripSearchSubject.subscribe({ isRoundTripSearch = it })
     }
 
-    abstract protected fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean
     abstract protected fun showAllFlightsHeader(): Boolean
     abstract fun adjustPosition(): Int
     abstract protected fun showAdvanceSearchFilterHeader(): Boolean
     abstract protected fun isShowOnlyNonStopSearch(): Boolean
     abstract protected fun isShowOnlyRefundableSearch(): Boolean
     abstract protected fun getPriceDescriptorMessageIdForFSR(): Int?
+    abstract fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): AbstractFlightViewModel
+    abstract protected fun getRoundTripStringResourceId(): Int
 
     @UiThread
     open fun setNewFlights(flights: List<FlightLeg>) {
@@ -91,8 +92,6 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
     override fun getItemCount(): Int {
         return flights.size + adjustPosition()
     }
-
-    abstract fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): AbstractFlightViewModel
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when (holder) {
@@ -174,8 +173,8 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
                 priceHeader.text = context.resources.getString(priceDescriptorInFSRMessageId)
                 priceHeader.visibility = View.VISIBLE
             } else {
-                val roundTripStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_roundtrip_minimum_label else R.string.prices_roundtrip_label
-                val oneWayStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_oneway_minimum_label else R.string.prices_oneway_label
+                val roundTripStringResId = getRoundTripStringResourceId()
+                val oneWayStringResId = if (PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_oneway_minimum_label else R.string.prices_oneway_label
                 val priceHeaderText = context.resources.getString(if (isRoundTripSearch) roundTripStringResId else oneWayStringResId)
                 val advanceSearchFilterHeaderText = FlightV2Utils.getAdvanceSearchFilterHeaderString(context, isShowOnlyNonStopSearch(), isShowOnlyRefundableSearch(), priceHeaderText)
                 if (showAdvanceSearchFilterHeader() && Strings.isNotEmpty(advanceSearchFilterHeaderText)) {

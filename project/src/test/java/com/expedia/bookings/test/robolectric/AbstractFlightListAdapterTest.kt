@@ -420,10 +420,6 @@ class AbstractFlightListAdapterTest {
             return false
         }
 
-        override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
-            return false
-        }
-
         override fun showAllFlightsHeader(): Boolean {
             return false
         }
@@ -440,6 +436,8 @@ class AbstractFlightListAdapterTest {
             return true
         }
 
-
+        override fun getRoundTripStringResourceId(): Int {
+            return R.string.prices_roundtrip_label
+        }
     }
 }

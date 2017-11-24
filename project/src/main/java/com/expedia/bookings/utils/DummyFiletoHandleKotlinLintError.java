@@ -646,6 +646,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.loading_flights_from_400_airlines,
 		R.string.prices_roundtrip_minimum_label,
 		R.string.prices_roundtrip_label,
+		R.string.delta_price_roundtrip_inbound_label,
 		R.string.prices_oneway_minimum_label,
 		R.string.prices_oneway_label,
 		R.string.loading_flights,
