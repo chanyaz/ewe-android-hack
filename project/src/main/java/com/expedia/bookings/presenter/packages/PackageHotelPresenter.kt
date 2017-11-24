@@ -49,6 +49,7 @@ import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.FrameLayout
@@ -57,6 +58,9 @@ import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.bookings.widget.SlidingBundleWidgetListener
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.endlessObserver
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.packages.PackageHotelDetailViewModel
@@ -206,6 +210,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val currencyCode = Db.getPackageResponse().getCurrencyCode()
         if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+            if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+                bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text_new))
+            }
         }
         val zero = Money(BigDecimal(0), currencyCode)
         bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(zero)
@@ -224,6 +231,14 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         loadingOverlay.setBackground(R.color.packages_primary_color)
         val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this)
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
+
+        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+            resultsPresenter.bundlePriceWidgetTop.setOnClickListener { show(bundleSlidingWidget) }
+            bundleSlidingWidget.bundlePriceWidget.viewModel.perPersonTextLabelObservable.subscribeVisibility(resultsPresenter.bundlePriceWidgetTop.bundlePerPersonText)
+            bundleSlidingWidget.bundlePriceFooter.viewModel.totalPriceObservable.subscribeTextAndVisibility(resultsPresenter.bundlePriceWidgetTop.bundleTotalPrice)
+            bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.subscribeText(resultsPresenter.bundlePriceWidgetTop.bundleTitleText)
+            bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPersonObservable.subscribeText(resultsPresenter.bundlePriceWidgetTop.bundleTotalPrice)
+        }
     }
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
@@ -251,9 +266,15 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val hideBundlePriceOverviewObserver: Observer<Boolean> = endlessObserver { hide ->
         if (!hide) {
             bundleSlidingWidget.visibility = VISIBLE
+            if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+                resultsPresenter.bundlePriceWidgetTop.visibility = View.VISIBLE
+            }
             bundleSlidingWidget.startAnimation(slideUpAnimation)
         } else {
             bundleSlidingWidget.startAnimation(slideDownAnimation)
+            if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+                resultsPresenter.bundlePriceWidgetTop.visibility = View.GONE
+            }
         }
     }
 
@@ -281,6 +302,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         bundleSlidingWidget.bundlePriceWidget.disable()
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(null)
         bundleSlidingWidget.bundlePriceWidget.setOnClickListener(null)
+        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+            resultsPresenter.bundlePriceWidgetTop.setOnClickListener(null)
+        }
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
         val info = packageServices.hotelInfo(hotelId)
 
@@ -350,6 +374,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
                     show(bundleSlidingWidget)
                 }
+                if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+                    resultsPresenter.bundlePriceWidgetTop.setOnClickListener { show(bundleSlidingWidget) }
+                }
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
@@ -404,6 +431,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 enableSlidingWidget()
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar)
                 trackEventSubject.onNext(Unit)
+                if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+                    resultsPresenter.bundlePriceWidgetTop.setOnClickListener { show(bundleSlidingWidget) }
+                }
             }
         }
 

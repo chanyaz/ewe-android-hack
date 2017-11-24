@@ -32,8 +32,16 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
 
     fun getPSSHotelSearchResponse(): BundleSearchResponse {
         val observer = TestSubscriber<BundleSearchResponse>()
-        val params = PackageSearchParams.Builder(0, 0).destination(getOriginDestSuggestions().first).origin(getOriginDestSuggestions().second)
-                .adults(1).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(2)).build() as PackageSearchParams
+        val params = PackageSearchParams.Builder(26, 329)
+                .infantSeatingInLap(true)
+                .origin(getOriginDestSuggestions().second)
+                .destination(getOriginDestSuggestions().first)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .adults(1)
+                .children(listOf(16, 10, 1))
+                .build() as PackageSearchParams
+
         Db.setPackageParams(params)
 
         services?.packageSearch(params, ProductSearchType.OldPackageSearch)!!.subscribe(observer)

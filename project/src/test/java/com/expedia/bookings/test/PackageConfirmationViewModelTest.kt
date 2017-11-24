@@ -139,11 +139,11 @@ class PackageConfirmationViewModelTest {
 
         assertEquals(destinationTestSubscriber.onNextEvents[0], "London")
         assertEquals(destinationTitleTestSubscriber.onNextEvents[0], "London")
-        assertEquals(destinationSubTitleTestSubscriber.onNextEvents[0], "Feb 2 - Feb 4, 1 guest")
+        assertEquals(destinationSubTitleTestSubscriber.onNextEvents[0], "Feb 2 - Feb 4, 4 guests")
         assertEquals(outboundFlightCardTestSubscriber.onNextEvents[0], "Flight to (happyDest) London")
-        assertEquals(outboundFlightCardSubTitleTestSubscriber.onNextEvents[0], "Jul 10 at 08:20:00, 1 traveler")
+        assertEquals(outboundFlightCardSubTitleTestSubscriber.onNextEvents[0], "Jul 10 at 08:20:00, 4 travelers")
         assertEquals(inboundFlightCardTitleTestSubscriber.onNextEvents[0], "Flight to (happyOrigin) Paris")
-        assertEquals(inboundFlightCardSubTitleTestSubscriber.onNextEvents[0], "Jul 22 at 08:20:00, 1 traveler")
+        assertEquals(inboundFlightCardSubTitleTestSubscriber.onNextEvents[0], "Jul 22 at 08:20:00, 4 travelers")
         assertEquals(itinNumberMessageOTestSubscriber.onNextEvents[0], "#11111111 sent to expedia.imt@gmail.com")
     }
 

@@ -1374,6 +1374,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE,
 		R.string.itin_flight_customer_support_header_text_TEMPLATE,
 		R.string.itin_flight_customer_support_site_header_TEMPLATE,
+		R.string.search_bundle_total_text_new,
 		R.string.itin_flight_customer_support_site_toolbar_header,
 		R.string.itin_flight_itinerary_number_TEMPLATE,
 		R.layout.widget_flight_itin_customer_support,
@@ -1398,6 +1399,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_booking_statement_TEMPLATE,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt,
+		R.layout.bundle_price_top,
 		R.drawable.ic_member_only_tag,
 		R.string.accessibility_cont_desc_user_rating_button,
 		R.layout.last_minute_deal_activity,

@@ -3,33 +3,29 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter
-import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.utils.Ui
-import com.mobiata.mocke3.ExpediaDispatcher
-import com.mobiata.mocke3.FileSystemOpener
-import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
-import java.io.File
-import java.util.concurrent.TimeUnit
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
-import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.AbacusTestUtils
 import org.junit.Rule
 import org.robolectric.RuntimeEnvironment
+import kotlin.test.assertEquals
 
 
 @RunWith(RobolectricRunner::class)
@@ -40,10 +36,10 @@ class PackageHotelPresenterTest {
     lateinit var params: PackageSearchParams
     val context = RuntimeEnvironment.application
 
-    val packageServiceRule = ServicesRule(PackageServices::class.java)
+    val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
+    lateinit var hotelResponse: BundleSearchResponse
 
-    var observer = TestSubscriber<BundleSearchResponse>()
 
     @Before
     fun setup() {
@@ -56,16 +52,14 @@ class PackageHotelPresenterTest {
     @Test
     fun testPackageSearchParamsTracked() {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-
-        buildPackagesSearchParams()
-        searchPackages()
+        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
 
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
                 null) as PackageHotelPresenter
 
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
-        widget.dataAvailableSubject.onNext(observer.onNextEvents[0])
+        widget.dataAvailableSubject.onNext(hotelResponse)
         widget.trackEventSubject.onNext(Unit)
 
         val expectedEvars = mapOf(
@@ -78,16 +72,14 @@ class PackageHotelPresenterTest {
     @Test
     fun testPackageSearchParamsTrackedWithNewTravelerForm() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-
-        buildPackagesSearchParams()
-        searchPackages()
+        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
 
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
                 null) as PackageHotelPresenter
 
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
-        widget.dataAvailableSubject.onNext(observer.onNextEvents[0])
+        widget.dataAvailableSubject.onNext(hotelResponse)
         widget.trackEventSubject.onNext(Unit)
 
         val expectedEvars = mapOf(
@@ -96,41 +88,21 @@ class PackageHotelPresenterTest {
         OmnitureTestUtils.assertStateTracked(withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    fun testBundleTotalPriceWidgetTopVisibility() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs, R.string.preference_packages_breadcrumbs_move_bundle_overview)
+        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
+        Db.setPackageResponse(hotelResponse)
 
-    private fun getDummySuggestion(): SuggestionV4 {
-        val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = ""
-        suggestion.regionNames.fullName = ""
-        suggestion.regionNames.shortName = ""
-        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestion.hierarchyInfo!!.airport!!.airportCode = "happy"
-        suggestion.hierarchyInfo!!.airport!!.multicity = "happy"
-        return suggestion
-    }
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse))
 
-    private fun buildPackagesSearchParams() {
-        params = PackageSearchParams.Builder(26, 329)
-                .infantSeatingInLap(true)
-                .origin(getDummySuggestion())
-                .destination(getDummySuggestion())
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1))
-                .adults(1)
-                .children(listOf(16, 10, 1))
-                .build() as PackageSearchParams
-
-        Db.setPackageParams(params)
-    }
-
-    private fun searchPackages() {
-        val root = File("../lib/mocked/templates").canonicalPath
-        val opener = FileSystemOpener(root)
-        packageServiceRule.server.setDispatcher(ExpediaDispatcher(opener))
-
-        packageServiceRule.services!!.packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(observer)
-        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        assertEquals(View.VISIBLE, widget.resultsPresenter.bundlePriceWidgetTop.visibility)
+        assertEquals("/person", widget.resultsPresenter.bundlePriceWidgetTop.bundlePerPersonText.text)
+        assertEquals("$0.00", widget.resultsPresenter.bundlePriceWidgetTop.bundleTotalPrice.text)
+        assertEquals("View your trip", widget.resultsPresenter.bundlePriceWidgetTop.bundleTitleText.text)
+        assertEquals(View.VISIBLE, widget.resultsPresenter.bundlePriceWidgetTop.bundleInfoIcon.visibility)
     }
 }
