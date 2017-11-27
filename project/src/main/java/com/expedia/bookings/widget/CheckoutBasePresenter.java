@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v7.widget.CardView;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -30,10 +31,12 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
@@ -41,6 +44,8 @@ import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.bookings.widget.traveler.TravelerSummaryCard;
+import com.expedia.util.ViewKt;
 import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.mobiata.android.Log;
@@ -77,6 +82,17 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@InjectView(R.id.main_contact_info_card_view)
 	public TravelerContactDetailsWidget mainContactInfoCardView;
+
+	@InjectView(R.id.traveler_default_state_card_view)
+	public CardView travelerSummaryCardView;
+
+	@InjectView(R.id.traveler_default_state)
+	public TravelerSummaryCard travelerSummaryCard;
+
+	public AbstractTravelersPresenter travelerPresenter;
+
+	@InjectView(R.id.traveler_presenter_stub)
+	public ViewStub travelerViewStub;
 
 	public ViewStub paymentStub;
 
@@ -129,7 +145,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	protected UserStateManager userStateManager;
 
 	private boolean listenToScroll = true;
-	private boolean hotelMaterialFormTestEnabled = FeatureUtilKt.isHotelMaterialForms(getContext());
+	private boolean hotelMaterialFormTestEnabled = LobExtensionsKt.isMaterialHotelEnabled(getLineOfBusiness(), getContext());
 
 	@Override
 	protected void onFinishInflate() {
@@ -569,11 +585,23 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 							.setVisibility(forward ? VISIBLE : INVISIBLE);
 					}
 				}
+				else if (v == travelerViewStub) {
+					if (hotelMaterialFormTestEnabled) {
+						ViewKt.updateVisibility(travelerViewStub, forward);
+					}
+				}
 				else {
 					v.setVisibility(forward ? VISIBLE : INVISIBLE);
 				}
 			}
 			summaryContainer.setVisibility(VISIBLE);
+			if (hotelMaterialFormTestEnabled) {
+				mainContactInfoCardView.setVisibility(GONE);
+				ViewKt.updateVisibility(travelerSummaryCardView, forward);
+			}
+			else {
+				travelerSummaryCardView.setVisibility(GONE);
+			}
 		}
 
 		@Override

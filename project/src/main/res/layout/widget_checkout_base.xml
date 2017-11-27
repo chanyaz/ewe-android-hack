@@ -80,6 +80,31 @@
                     android:layout_marginTop="12dp"/>
 
                 <ViewStub
+                    android:id="@+id/traveler_presenter_stub"
+                    android:inflatedId="@+id/traveler_presenter"
+                    android:layout="?attr/traveler_presenter"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:background="@color/gray100"
+                    android:visibility="gone" />
+
+                <android.support.v7.widget.CardView
+                    style="@style/MaterialCardView"
+                    android:id="@+id/traveler_default_state_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    app:cardUseCompatPadding="true"
+                    android:visibility="gone">
+
+                    <com.expedia.bookings.widget.traveler.TravelerSummaryCard
+                        android:id="@+id/traveler_default_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </android.support.v7.widget.CardView>
+
+                <ViewStub
                     android:id="@+id/payment_info_card_view_stub"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

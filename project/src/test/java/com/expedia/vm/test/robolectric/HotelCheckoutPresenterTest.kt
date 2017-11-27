@@ -4,20 +4,30 @@ import android.graphics.drawable.ColorDrawable
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
+import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.MaterialFormsCouponWidget
+import com.expedia.vm.HotelCreateTripViewModel
 import junit.framework.Assert.assertTrue
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.TravelerContactDetailsWidget
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -30,6 +40,11 @@ import kotlin.test.assertEquals
 class HotelCheckoutPresenterTest {
     private var checkout: HotelCheckoutMainViewPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
+    val loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
+        @Rule get
+
+    val mockHotelServices: MockHotelServiceTestRule = MockHotelServiceTestRule()
+        @Rule get
 
     @Before
     fun setup() {
@@ -40,6 +55,8 @@ class HotelCheckoutPresenterTest {
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
         checkout = checkoutView.hotelCheckoutWidget
         checkout.paymentInfoCardView.viewmodel.lineOfBusiness.onNext(LineOfBusiness.HOTELS)
+        checkout.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
+        goToCheckout()
     }
 
     @Test
@@ -134,6 +151,19 @@ class HotelCheckoutPresenterTest {
 
         assertEquals("Submit", checkout.menuDone.title.toString())
     }
+    
+    fun testMaterialTravelerWidget() {
+        setupHotelMaterialForms()
+
+        assertEquals(View.VISIBLE, checkout.travelerSummaryCardView.visibility)
+        assertEquals(View.GONE, checkout.mainContactInfoCardView.visibility)
+    }
+
+    @Test
+    fun testTravelerWidget() {
+        assertEquals(View.VISIBLE, checkout.mainContactInfoCardView.visibility)
+        assertEquals(View.GONE, checkout.travelerSummaryCardView.visibility)
+    }
 
     private fun setupHotelMaterialForms() {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
@@ -142,6 +172,15 @@ class HotelCheckoutPresenterTest {
         AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
         checkout = checkoutView.hotelCheckoutWidget
+        checkout.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
         checkout.paymentInfoCardView.viewmodel.lineOfBusiness.onNext(LineOfBusiness.HOTELS)
+        goToCheckout()
+    }
+
+    private fun goToCheckout() {
+        checkout.createTripViewmodel = HotelCreateTripViewModel(mockHotelServices.services!!,
+                PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
+        checkout.showCheckout(HotelOffersResponse.HotelRoomResponse())
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripResponse())
     }
 }

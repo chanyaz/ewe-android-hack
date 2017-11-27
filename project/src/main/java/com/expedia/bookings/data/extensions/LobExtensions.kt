@@ -33,5 +33,9 @@ fun LineOfBusiness.hasBillingInfo(): Boolean {
 }
 
 fun LineOfBusiness.isMaterialFormEnabled(context: Context) : Boolean {
-    return (LineOfBusinessExtensions.isUniversalCheckout(this, context) || (this == LineOfBusiness.HOTELS && isHotelMaterialForms(context)))
+    return (LineOfBusinessExtensions.isUniversalCheckout(this, context) || this.isMaterialHotelEnabled(context))
+}
+
+fun LineOfBusiness.isMaterialHotelEnabled(context: Context): Boolean {
+    return this == LineOfBusiness.HOTELS && isHotelMaterialForms(context)
 }

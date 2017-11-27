@@ -22,7 +22,7 @@
 
         <!-- Checkout -->
         <item name="traveler_toolbar_text">@string/traveler_information</item>
-        <item name="traveler_presenter">@layout/lx_traveler_presenter_view_stub</item>
+        <item name="traveler_presenter">@layout/hotel_traveler_presenter_view_stub</item>
         <item name="checkout_card_view_style">@style/CheckoutCardView</item>
         <item name="paymentWidgetLayout">@layout/payment_widget_v2</item>
         <item name="toolbar_title_style">@style/ToolbarTitleTextAppearance</item>
