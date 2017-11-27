@@ -5,7 +5,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
@@ -15,7 +14,6 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.flights.FlightFareFamilyViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -47,7 +45,6 @@ class FlightFareFamilyViewModelTest {
         flightCreateTripResponse = createTripResponseObserver.onNextEvents[0]
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.NewLaunchTheme)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
         sut = FlightFareFamilyViewModel(activity)
     }
 

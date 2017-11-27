@@ -5,8 +5,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.FlightTripResponse.FareFamilyDetails
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -14,7 +12,6 @@ import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.data.Money
-import rx.Observable
 import java.util.Locale
 
 class FareFamilyViewModel(private val context: Context) {
@@ -33,7 +30,6 @@ class FareFamilyViewModel(private val context: Context) {
     val fromLabelVisibility = PublishSubject.create<Boolean>()
     val travellerObservable = PublishSubject.create<String>()
     val updateTripObserver = PublishSubject.create<Pair<String, FlightTripResponse.FareFamilyDetails>>()
-    val isUserBucketedForFareFamily = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
 
     init {
         tripObservable.subscribe { trip ->
@@ -41,7 +37,7 @@ class FareFamilyViewModel(private val context: Context) {
             val isRoundTrip = Db.getFlightSearchParams().isRoundTrip()
 
             if (fareFamilyDetail != null) {
-                widgetVisibilityObservable.onNext(isUserBucketedForFareFamily && !trip.getOffer().isSplitTicket)
+                widgetVisibilityObservable.onNext(!trip.getOffer().isSplitTicket)
                 if (!trip.isFareFamilyUpgraded) {
                     selectedClassObservable.onNext(FlightV2Utils.getSelectedClassesString(context, trip.details, false))
                     deltaPriceObservable.onNext(FlightV2Utils.getDeltaPricing(fareFamilyDetail.deltaTotalPrice, fareFamilyDetail.deltaPositive))

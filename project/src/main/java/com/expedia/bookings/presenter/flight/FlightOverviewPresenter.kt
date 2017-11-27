@@ -64,7 +64,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
     val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
     val overviewPageUsableData = PageUsableData()
-    val isUserBucketedForFareFamily = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
 
     private val basicEconomyInfoWebView: BasicEconomyInfoWebView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.basic_economy_info_web_view)
@@ -125,18 +124,16 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             }
         }
 
-        if (isUserBucketedForFareFamily) {
-            flightFareFamilyDetailsWidget.viewModel.doneButtonObservable.withLatestFrom(
-                    flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, flightFareFamilyDetailsWidget.viewModel.choosingFareFamilyObservable, {
-                unit, selectedFareFamily, choosingFareFamily ->
-                object {
-                    val selectedFareFamily = selectedFareFamily
-                    val choosingFareFamily = choosingFareFamily
-                }
-            }).filter { it.selectedFareFamily.fareFamilyCode != it.choosingFareFamily.fareFamilyCode }.subscribe {
-                flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable.onNext(it.choosingFareFamily)
-                fareFamilyCardView.viewModel.selectedFareFamilyObservable.onNext(it.choosingFareFamily)
+        flightFareFamilyDetailsWidget.viewModel.doneButtonObservable.withLatestFrom(
+                flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, flightFareFamilyDetailsWidget.viewModel.choosingFareFamilyObservable, {
+            unit, selectedFareFamily, choosingFareFamily ->
+            object {
+                val selectedFareFamily = selectedFareFamily
+                val choosingFareFamily = choosingFareFamily
             }
+        }).filter { it.selectedFareFamily.fareFamilyCode != it.choosingFareFamily.fareFamilyCode }.subscribe {
+            flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable.onNext(it.choosingFareFamily)
+            fareFamilyCardView.viewModel.selectedFareFamilyObservable.onNext(it.choosingFareFamily)
         }
 
         fareFamilyCardView.viewModel.fareFamilyCardClickObserver.withLatestFrom(
@@ -213,9 +210,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             flightSummary.freeCancellationInfoTextView.visibility = View.GONE
             flightSummary.freeCancellationMoreInfoIcon.clearAnimation()
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(offerInsuranceInFlightSummary)
-            if (isUserBucketedForFareFamily) {
-                flightFareFamilyDetailsWidget.visibility = View.INVISIBLE
-            }
+            flightFareFamilyDetailsWidget.visibility = View.INVISIBLE
         }
     }
 
@@ -299,15 +294,13 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
         insuranceWidget.viewModel.tripObservable.onNext(tripResponse)
-        if (isUserBucketedForFareFamily) {
-            fareFamilyCardView.viewModel.tripObservable.onNext(tripResponse)
-            flightFareFamilyDetailsWidget.viewModel.tripObservable.onNext(tripResponse)
-            if (tripResponse.isFareFamilyUpgraded || tripResponse.createTripStatus == FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE) {
-                trackShowBundleOverview()
-            }
-            if (tripResponse.details.legs != null) {
-                flightSummary.viewmodel.tripResponse.onNext(tripResponse)
-            }
+        fareFamilyCardView.viewModel.tripObservable.onNext(tripResponse)
+        flightFareFamilyDetailsWidget.viewModel.tripObservable.onNext(tripResponse)
+        if (tripResponse.isFareFamilyUpgraded || tripResponse.createTripStatus == FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE) {
+            trackShowBundleOverview()
+        }
+        if (tripResponse.details.legs != null) {
+            flightSummary.viewmodel.tripResponse.onNext(tripResponse)
         }
         viewModel.showBasicEconomyMessageObservable.onNext(shouldShowBasicEconomyMessage(tripResponse))
         basicEconomyInfoWebView.loadData(tripResponse.details.basicEconomyFareRules)

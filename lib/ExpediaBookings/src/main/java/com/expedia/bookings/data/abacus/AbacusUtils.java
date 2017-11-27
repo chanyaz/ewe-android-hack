@@ -57,7 +57,6 @@ public class AbacusUtils {
 
 	// Flight tests
 	public static final ABTest EBAndroidAppOfferInsuranceInFlightSummary = new ABTest(12268);
-	public static final ABTest EBAndroidAppFareFamilyFlightSummary = new ABTest(15074);
 	public static final ABTest EBAndroidAppFlightByotSearch = new ABTest(13202);
 	public static final ABTest EBAndroidAppFlightsSeatClassAndBookingCode = new ABTest(12763);
 	public static final ABTest EBAndroidAppSimplifyFlightShopping = new ABTest(13514);
@@ -159,7 +158,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppDisabledSTPStateHotels.getKey());
 		testIDs.add(EBAndroidAppSmartLockTest.getKey());
 		testIDs.add(EBAndroidAppOfferInsuranceInFlightSummary.getKey());
-		testIDs.add(EBAndroidAppFareFamilyFlightSummary.getKey());
 		testIDs.add(EBAndroidAppBringUniversalCheckoutToLX.getKey());
 		testIDs.add(EBAndroidAppLXFilterSearch.getKey());
 		testIDs.add(EBAndroidAppCheckoutButtonText.getKey());

@@ -5367,10 +5367,7 @@ public class OmnitureTracking {
 
 		StringBuilder eventStringBuilder = new StringBuilder(s.getEvents());
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFareFamilyFlightSummary);
-		//This tracking should be done only when user is bucketed for Fare Family AB test
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
-			&& isFareFamilyAvailable) {
+		if (isFareFamilyAvailable) {
 			eventStringBuilder.append(isFareFamilySelected ? ",event275" : ",event274");
 		}
 

@@ -6,7 +6,6 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -15,7 +14,6 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.flights.FareFamilyItemWidget
 import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
@@ -54,7 +52,6 @@ class FareFamilyItemWidgetTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(activity).defaultTravelerComponent()
         Ui.getApplication(activity).defaultFlightComponents()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
         fareFamilyWidget = LayoutInflater.from(activity).inflate(R.layout.fare_family_details_stub, null) as FlightFareFamilyWidget
         fareFamilyWidget.viewModel = FlightFareFamilyViewModel(activity)
     }

@@ -76,6 +76,7 @@ class FlightOverviewPresenterTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(context).defaultTravelerComponent()
         Ui.getApplication(context).defaultFlightComponents()
+        Db.setFlightSearchParams(setupFlightSearchParams())
         val validator = Ui.getApplication(context).travelerComponent().travelerValidator()
         validator.updateForNewSearch(setupFlightSearchParams())
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
@@ -86,7 +87,6 @@ class FlightOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFareFamilyWidgetVisibility() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         val testSubscriber = TestSubscriber.create<FlightCreateTripResponse>()
         val params = FlightCreateTripParams.Builder().productKey("happy_fare_family_round_trip").build()
@@ -98,7 +98,6 @@ class FlightOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFareFamilyCreateTripFiring() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         val cardViewViewModel = widget.fareFamilyCardView.viewModel
         val detailsViewModel = widget.flightFareFamilyDetailsWidget.viewModel
@@ -129,7 +128,6 @@ class FlightOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFareFamilyUnavailableError() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         val testSubscriber = TestSubscriber.create<FlightCreateTripResponse>()
         val params = FlightCreateTripParams.Builder().productKey("fare_family_unavailable_error").build()
@@ -238,7 +236,6 @@ class FlightOverviewPresenterTest {
     fun testResetCheckout() {
         val flightCheckoutPresenter = widget.getCheckoutPresenter()
         Db.loadTripBucket(context)
-        Db.setFlightSearchParams(setupFlightSearchParams())
         val createTripResponse = getFlightCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
         flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(Optional(createTripResponse))
@@ -251,7 +248,6 @@ class FlightOverviewPresenterTest {
     @Test
     fun testBasicEconomyMessageVisibility() {
         Db.loadTripBucket(context)
-        Db.setFlightSearchParams(setupFlightSearchParams())
         val createTripResponse = getFlightCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
 
@@ -271,7 +267,6 @@ class FlightOverviewPresenterTest {
 //    @Test
 //    fun testBasicEconomyMessageClick() {
 //        Db.loadTripBucket(context)
-//        Db.setFlightSearchParams(setupFlightSearchParams())
 //        val createTripResponse = getFlightCreateTripResponse()
 //        createTripResponse.details.legs[0].isBasicEconomy = true
 //        Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))

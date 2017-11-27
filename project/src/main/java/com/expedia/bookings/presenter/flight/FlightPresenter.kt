@@ -70,7 +70,6 @@ import com.expedia.util.Optional
 import com.expedia.util.subscribeVisibility
 import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
-import org.joda.time.DateTime
 import rx.Observer
 import java.util.Date
 
@@ -92,11 +91,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     lateinit var travelerManager: TravelerManager
     lateinit var createTripBuilder: FlightCreateTripParams.Builder
 
-    val isByotEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)
+    val isByotEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch)
     val pageUsableData = PageUsableData()
-    val showMoreInfoOnOverview = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
-    val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
-    val isUserBucketedForFareFamily = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
+    val showMoreInfoOnOverview = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+    val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)
     val isUserEvolableBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
 
     val errorPresenter: FlightErrorPresenter by lazy {
@@ -256,9 +254,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchViewModel.searchParamsObservable.subscribe((presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         searchViewModel.isRoundTripSearchObservable.subscribeVisibility(presenter.flightSummary.inboundFlightWidget)
         searchViewModel.searchParamsObservable.subscribe { params ->
-            if (showMoreInfoOnOverview || isUserBucketedForFareFamily) {
-                presenter.flightSummary.viewmodel.params.onNext(params)
-            }
+            presenter.flightSummary.viewmodel.params.onNext(params)
             if (params.returnDate != null) {
                 presenter.flightSummary.inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
             }
@@ -556,9 +552,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
                     .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
         }
-        if (isUserBucketedForFareFamily) {
-            flightOverviewPresenter.fareFamilyCardView.visibility = View.GONE
-        }
+        flightOverviewPresenter.fareFamilyCardView.visibility = View.GONE
         if (isUserEvolableBucketed) {
             flightOverviewPresenter.flightSummary.evolableTermsConditionTextView.visibility = View.GONE
         }

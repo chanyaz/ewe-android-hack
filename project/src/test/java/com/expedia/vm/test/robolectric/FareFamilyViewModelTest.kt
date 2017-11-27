@@ -8,7 +8,6 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -16,7 +15,6 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.FareFamilyViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -42,7 +40,6 @@ class FareFamilyViewModelTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.NewLaunchTheme)
 
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
         Db.setFlightSearchParams(setupFlightSearchParams())
         sut = FareFamilyViewModel(activity)
     }
