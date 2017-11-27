@@ -38,11 +38,6 @@
             android:summary="Flight rate details from cache"
             android:title="Flight rate details from cache (i.e. remove fullscreen progress)" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_flight_delta_pricing"
-            android:summary="Delta Pricing"
-            android:title="Delta pricing" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
