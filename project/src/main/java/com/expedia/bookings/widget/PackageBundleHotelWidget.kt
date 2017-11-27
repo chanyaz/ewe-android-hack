@@ -203,6 +203,10 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 .toString()
     }
 
+    override fun loadingStateContentDescription(): String? {
+        return context.getText(R.string.accessibility_cont_desc_searching_for_hotels).toString()
+    }
+
     override fun contentDescription(): String {
         val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().startDate)
         val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().endDate!!)

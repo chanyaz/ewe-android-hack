@@ -1395,8 +1395,8 @@ public class DummyFiletoHandleKotlinLintError {
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt,
 		R.drawable.ic_member_only_tag,
-
 		R.string.accessibility_cont_desc_user_rating_button,
-		R.layout.last_minute_deal_activity
+		R.layout.last_minute_deal_activity,
+		R.string.accessibility_cont_desc_searching_for_hotels
 	};
 }
