@@ -16,8 +16,6 @@
     <string name="acct__Sign_In">Sign In</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Sign in with Facebook</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Sign up with Facebook</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Back</string>
     <!-- "X" button content description -->

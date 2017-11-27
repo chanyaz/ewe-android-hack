@@ -17,9 +17,6 @@ import com.expedia.account.util.Events
 
 class SinglePageSignUpLayout(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) {
 
-    private val vSignUpWithFacebookButton: Button by lazy {
-        findViewById<Button>(R.id.sign_up_with_facebook_button)
-    }
     private val vEmailNamePasswordLayout: SinglePageEmailNamePasswordLayout by lazy {
         findViewById<SinglePageEmailNamePasswordLayout>(R.id.single_page_email_name_password)
     }
@@ -49,10 +46,6 @@ class SinglePageSignUpLayout(context: Context, attrs: AttributeSet): FrameLayout
                 vEmailNamePasswordLayout.forceCheckAllFields()
                 vTOSLayout.forceCheckTermOfUseCheckbox()
             }
-        }
-
-        vSignUpWithFacebookButton.setOnClickListener {
-            Events.post(Events.SignInWithFacebookButtonClicked())
         }
 
         vTOSLayout.termOfUseCheckedSubject.subscribe { checked ->

@@ -87,8 +87,6 @@ public class AccountView extends BufferedPresenter {
 	private boolean mFocusLastName = false;
 	private boolean handleKeyBoardVisibilityChanges = true;
 
-	private boolean facebookSignInViaSinglePage = false;
-
 	private static final String TAG = "AccountView";
 
 	private Observer<Boolean> mNextButtonController = new Observer<Boolean>() {
@@ -529,48 +527,6 @@ public class AccountView extends BufferedPresenter {
 				}
 			}
 		));
-
-		// Single Page <-> Facebook API Host
-		addTransition(new CompoundTransition(
-			STATE_SINGLE_PAGE_SIGN_UP, STATE_FACEBOOK_API_HOST,
-			new ReportProgressTransition(0f, 0.33f),
-			new LeftToRightTransition(this, SinglePageSignUpLayout.class.getName(), FacebookAPIHostLayout.class.getName()),
-			new LeftToRightTransition(this, Toolbar.class.getName(), FacebookAPIHostLayout.class.getName()),
-			new Transition() {
-				@Override
-				public void startTransition(boolean forward) {
-					if (forward) {
-						vFacebookAPIHostLayout.setTranslationY(0f);
-						vFacebookAPIHostLayout.setMessage(R.string.acct__fb_attempting_sign_in);
-						vSinglePageWhiteBackground.setVisibility(View.GONE);
-						vSinglePageSignUpLayout.removeKeyboardChangeListener();
-					}
-					Utils.hideKeyboard(AccountView.this);
-				}
-
-				@Override
-				public void finalizeTransition(boolean forward) {
-					if (forward) {
-						facebookSignInViaSinglePage = true;
-						if(mFacebookHelper != null) {
-							mFacebookHelper.doFacebookLogin();
-						}
-					} else {
-						if (mConfig != null) {
-							AnalyticsListener analyticsListener = mConfig.getAnalyticsListener();
-							if (analyticsListener != null) {
-								analyticsListener.userViewedSinglePage();
-							}
-						}
-						facebookSignInViaSinglePage = false;
-						vSinglePageWhiteBackground.setVisibility(View.VISIBLE);
-						vSinglePageSignUpLayout.addKeyboardChangeListener();
-						vSignInLayout.enableButtons();
-					}
-				}
-			}
-		));
-
 
 		// SignIn <-> Facebook API Host
 		addTransition(new CompoundTransition(
@@ -1139,10 +1095,7 @@ public class AccountView extends BufferedPresenter {
 	///////////////////////////////////////////////////////////////////////////
 
 	public void onFacebookError() {
-		 if (mConfig != null && mConfig.enableSinglePageSignUp && facebookSignInViaSinglePage) {
-			 show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
-		}
-		else if (mConfig != null) {
+		if (mConfig != null) {
 			mConfig.initialState = STATE_SIGN_IN;
 			show(STATE_SIGN_IN, FLAG_CLEAR_BACKSTACK);
 		}
@@ -1151,9 +1104,6 @@ public class AccountView extends BufferedPresenter {
 	public void onFacebookCancel() {
 		if (mConfig != null && STATE_FACEBOOK_API_HOST.equals(mConfig.initialState)) {
 			back();
-		}
-		else if (mConfig != null && mConfig.enableSinglePageSignUp && facebookSignInViaSinglePage) {
-			show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
 		}
 		else {
 			show(STATE_SIGN_IN, FLAG_CLEAR_BACKSTACK);
