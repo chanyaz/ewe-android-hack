@@ -695,7 +695,7 @@
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">Total price roundtrip (including taxes and fees), per person - for hotel and flights</string>
     <!-- Label indicating the price include hotel, flight-->
-    <string name="package_prices_roundtrip_person_minimum_fsr_label">Prices roundtrip, per person, from • includes hotel and flights</string>
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">Price per person for hotel and roundtrip flight from…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Sold Out</string>
 
