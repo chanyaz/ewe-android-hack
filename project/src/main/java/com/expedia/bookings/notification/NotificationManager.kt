@@ -3,7 +3,6 @@ package com.expedia.bookings.notification
 import android.app.AlarmManager
 import android.app.NotificationManager
 import android.content.Context
-import android.util.Log
 import com.activeandroid.ActiveAndroid
 import com.activeandroid.Model
 import com.activeandroid.query.Delete
@@ -11,7 +10,6 @@ import com.activeandroid.query.Select
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.mobiata.android.util.SettingUtils
-import org.joda.time.DateTime
 
 class NotificationManager(private val context: Context) {
 
@@ -49,6 +47,14 @@ class NotificationManager(private val context: Context) {
         // Dismiss a possibly displayed notification
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         nm.cancel(notification.uniqueId, 0)
+    }
+
+    private fun cancelScheduledNotification(notification: Notification) {
+        val pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, notification)
+
+        // Cancel if in the future
+        val mgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        mgr.cancel(pendingIntent)
     }
 
     //DATABASE OPERATIONS
@@ -97,9 +103,7 @@ class NotificationManager(private val context: Context) {
                 .orderBy("TriggerTimeMillis").execute<Notification>()
 
         for (notification in notifications) {
-            if (notification.triggerTimeMillis > DateTime.now().millis) {
                 scheduleNotification(notification)
-            }
         }
     }
 
@@ -144,6 +148,17 @@ class NotificationManager(private val context: Context) {
 
         for (notification in notifications) {
             cancelNotification(notification)
+        }
+
+        // Delete all here instead of individually in the loop, for efficiency.
+        Delete().from(Notification::class.java).execute<Model>()
+    }
+
+    fun deleteAllKeepDisplayed() {
+        val notifications = Select().from(Notification::class.java).execute<Notification>()
+
+        for (notification in notifications) {
+            cancelScheduledNotification(notification)
         }
 
         // Delete all here instead of individually in the loop, for efficiency.

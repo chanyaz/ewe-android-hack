@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,6 +23,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
 
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.StandaloneShareActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
@@ -48,6 +50,7 @@ import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.squareup.picasso.Picasso;
 
@@ -105,13 +108,17 @@ public class NotificationReceiver extends BroadcastReceiver {
 			return;
 		}
 
-		// Don't display old notifications
+		// Don't display expired notifications
 		if (notification.getExpirationTimeMillis() < System.currentTimeMillis()) {
 			notification.setStatus(StatusType.EXPIRED);
 			notification.save();
 
 			// Just in case it's still showing up
 			notificationManager.cancelNotification(notification);
+			return;
+		}
+
+		if (notification.getTriggerTimeMillis() < DateTime.now().minusMinutes(2).getMillis() && !launchAllNotifications(context)) {
 			return;
 		}
 
@@ -138,6 +145,11 @@ public class NotificationReceiver extends BroadcastReceiver {
 			checkTripValidAndShowNotification(context, notification);
 			break;
 		}
+	}
+
+	protected boolean launchAllNotifications(Context context) {
+		return BuildConfig.DEBUG && SettingUtils
+			.get(context, context.getString(R.string.preference_launch_all_trip_notifications), false);
 	}
 
 	@NonNull

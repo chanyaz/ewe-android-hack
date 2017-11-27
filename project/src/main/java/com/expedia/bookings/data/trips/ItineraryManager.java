@@ -1899,7 +1899,7 @@ public class ItineraryManager implements JSONable {
 	// Local Notifications
 
 	private void deleteScheduledNotifications() {
-		notificationManager.deleteAll();
+		notificationManager.deleteAllKeepDisplayed();
 	}
 
 	private void scheduleLocalNotifications() {

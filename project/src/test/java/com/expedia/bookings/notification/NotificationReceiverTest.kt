@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
@@ -14,6 +15,8 @@ import com.expedia.bookings.test.CustomMatchers
 import com.expedia.bookings.test.NullSafeMockitoHamcrest
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.mobiata.android.util.SettingUtils
+import org.joda.time.DateTime
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
@@ -21,8 +24,11 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.Mockito.never
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 
 @RunWith(RobolectricRunner::class)
@@ -42,7 +48,7 @@ class NotificationReceiverTest {
         val uniqueId = "1234-legOne"
 
         val itinId = "1234"
-        val triggerTime = 10000L
+        val triggerTime = System.currentTimeMillis() - 60000
         val ourNotification = Notification(uniqueId, itinId, triggerTime)
         ourNotification.notificationType = Notification.NotificationType.FLIGHT_CHECK_IN
         ourNotification.expirationTimeMillis = System.currentTimeMillis() + 60000
@@ -58,6 +64,45 @@ class NotificationReceiverTest {
 
         Mockito.verify(mockItineraryManager, Mockito.times(1)).addSyncListener(Mockito.any(ItineraryManager.ItinerarySyncAdapter::class.java))
         Mockito.verify(mockItineraryManager, Mockito.times(1)).startSync(false)
+    }
+
+    @Test
+    fun notificationPastTriggerTime() {
+        val context = Robolectric.buildActivity(Activity::class.java).create().get()
+        val uniqueId = "1234-legOne"
+        val itinId = "1234"
+        val triggerTime = DateTime.now().minusMinutes(4).millis
+        val ourNotification = Notification(uniqueId, itinId, triggerTime)
+        ourNotification.notificationType = Notification.NotificationType.FLIGHT_CHECK_IN
+        ourNotification.expirationTimeMillis = System.currentTimeMillis() + 60000
+
+        val ourIntent = Intent(context, NotificationReceiver::class.java)
+        val uriString = "expedia://notification/schedule/" + ourNotification.uniqueId
+        ourIntent.data = Uri.parse(uriString)
+        ourIntent.putExtra(NotificationReceiver.EXTRA_ACTION, NotificationReceiver.ACTION_SCHEDULE)
+        ourIntent.putExtra(NotificationReceiver.EXTRA_NOTIFICATION, ourNotification.toJson().toString())
+
+        notificationReceiver = TestNotificationReceiver(mockItineraryManager, ourNotification)
+        assertEquals(ourNotification.status, Notification.StatusType.NEW)
+        notificationReceiver.onReceive(context, ourIntent)
+        Mockito.verify(mockItineraryManager, Mockito.never()).addSyncListener(Mockito.any(ItineraryManager.ItinerarySyncAdapter::class.java))
+        Mockito.verify(mockItineraryManager, Mockito.never()).startSync(false)
+    }
+
+    @Test
+    fun testShouldLaunchAllNotifications() {
+        val context = Robolectric.buildActivity(Activity::class.java).create().get()
+        notificationReceiver = TestNotificationReceiver(mockItineraryManager, null)
+        SettingUtils.save(context, context.getString(R.string.preference_launch_all_trip_notifications), true)
+        assertTrue(notificationReceiver.launchAllNotifications(context))
+    }
+
+    @Test
+    fun testShouldNotLaunchAllNotifications() {
+        val context = Robolectric.buildActivity(Activity::class.java).create().get()
+        notificationReceiver = TestNotificationReceiver(mockItineraryManager, null)
+        SettingUtils.save(context, context.getString(R.string.preference_launch_all_trip_notifications), false)
+        assertFalse(notificationReceiver.launchAllNotifications(context))
     }
 
     @Test
