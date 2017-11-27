@@ -18,6 +18,7 @@
     <com.expedia.bookings.presenter.shared.KrazyglueHotelRecyclerView
         android:id="@+id/hotels_recycler_view"
         android:layout_marginLeft="9dp"
+        android:paddingBottom="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
