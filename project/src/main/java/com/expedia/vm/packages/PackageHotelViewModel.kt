@@ -49,7 +49,7 @@ class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
         return result.build()
     }
 
-    override fun hasMemberDeal(hotel: Hotel): Boolean {
+    override fun hasMemberDeal(): Boolean {
         return false
     }
 

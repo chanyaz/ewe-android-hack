@@ -1006,7 +1006,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.select_preferred_flight_class_cont_desc_TEMPLATE,
 		R.layout.widget_flight_cabin_class_search,
 		R.color.member_pricing_flag_bg_color,
-		R.drawable.ic_member_badge,
 		R.string.flight_detail_cabin_class_desc_TEMPLATE,
 		R.layout.fetching_itins_progress_widget,
 		R.dimen.hotel_carousel_fab_vertical_offset,
@@ -1363,6 +1362,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.plus_price_TEMPLATE,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt,
+		R.drawable.ic_member_only_tag,
+		R.drawable.member_only_deal_background,
 		R.string.accessibility_cont_desc_user_rating_button
 	};
 }
