@@ -1,9 +1,11 @@
 package com.expedia.vm.flights
 
 import android.content.Context
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import rx.subjects.BehaviorSubject
@@ -12,7 +14,10 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
 
     override val showBundlePriceSubject = BehaviorSubject.create(false)
     override val showEarnMessage = BehaviorSubject.create<Boolean>()
-    override val showSeatClassAndBookingCode = BehaviorSubject.create(true)
+
+    override fun shouldShowSeatingClassAndBookingCode(): Boolean {
+        return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
+    }
 
     override fun pricePerPersonString(selectedFlight: FlightLeg): String {
         return selectedFlight.packageOfferModel.price.averageTotalPricePerTicket.formattedMoneyFromAmountAndCurrencyCode

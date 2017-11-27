@@ -395,11 +395,11 @@ class AbstractFlightListAdapterTest {
         createFlightLegWithThreeAirlines()
         val seatClassAndBookingCodeList = arrayListOf<FlightTripDetails.SeatClassAndBookingCode>()
         if (hasFlightClass) {
-            val seatClassAndBookingCode = FlightTripDetails().SeatClassAndBookingCode()
+            val seatClassAndBookingCode = FlightTripDetails.SeatClassAndBookingCode()
             seatClassAndBookingCode.seatClass = "premium coach"
             seatClassAndBookingCodeList.add(seatClassAndBookingCode)
         }
-        flightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = seatClassAndBookingCodeList
+        flightLeg.seatClassAndBookingCodeList = seatClassAndBookingCodeList
     }
 
     private fun createFlightViewHolder(): AbstractFlightListAdapter.FlightViewHolder {

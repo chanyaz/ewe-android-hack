@@ -116,7 +116,7 @@ public class FlightTripDetails {
 		return legs;
 	}
 
-	public class SeatClassAndBookingCode {
+	public static class SeatClassAndBookingCode {
 		public String bookingCode;
 		@SerializedName("cabinCode")
 		public String seatClass;
