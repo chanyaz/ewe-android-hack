@@ -234,7 +234,7 @@ Feature: Flights Checkout
     Then Traveller details are not saved
     Then I verify that error hint "Select a passport country" is displayed for Passport
 
-  @Flights @FlightsCheckoutSet2 @Prod
+  @Flights @FlightsCheckoutSet2 @Prod @FrequentlyFailing
   Scenario: Verify that traveler details and card details are erased on each create trip from checkout page for round trip flights.
     Given I launch the App
     And I put following tests in control
