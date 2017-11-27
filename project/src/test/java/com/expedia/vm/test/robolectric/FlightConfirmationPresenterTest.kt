@@ -188,6 +188,24 @@ class FlightConfirmationPresenterTest {
     }
 
     @Test
+    fun testAirAttachVisibilityWithKrazyGlueABTestOn() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
+        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
+
+        setupPresenter()
+        givenCheckoutResponse(numberOfTravelers = 3)
+
+        assertEquals(View.GONE, presenter.hotelCrossSell.visibility)
+    }
+
+    @Test
+    fun testAirAttachVisibilityWithKrazyGlueABTestOff() {
+        setupPresenter()
+        givenCheckoutResponse(numberOfTravelers = 3)
+        assertEquals(View.VISIBLE, presenter.hotelCrossSell.visibility)
+    }
+
+    @Test
     fun testItinNumberContentDescription() {
         setupPresenter()
         givenCheckoutResponse()
