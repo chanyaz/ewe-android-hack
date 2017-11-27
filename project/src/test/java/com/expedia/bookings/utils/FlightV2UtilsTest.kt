@@ -154,42 +154,42 @@ class FlightV2UtilsTest {
     @Test
     fun testGetFlightCabinPreferenceWithSingleSegment() {
         testFlightLeg.packageOfferModel = PackageOfferModel()
-        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(1)
+        testFlightLeg.seatClassAndBookingCodeList = buildTestSeatClassAndBookingCodeList(1)
         assertEquals("Economy", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
     }
 
     @Test
     fun testGetFlightCabinPreferenceWithTwoSegments() {
         testFlightLeg.packageOfferModel = PackageOfferModel()
-        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(2)
+        testFlightLeg.seatClassAndBookingCodeList = buildTestSeatClassAndBookingCodeList(2)
         assertEquals("Economy + Premium Economy", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
     }
 
     @Test
     fun testGetFlightCabinPreferenceWithThreeSegments() {
         testFlightLeg.packageOfferModel = PackageOfferModel()
-        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(3)
+        testFlightLeg.seatClassAndBookingCodeList = buildTestSeatClassAndBookingCodeList(3)
         assertEquals("Mixed classes", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
     }
 
     @Test
     fun testIsAllFlightCabinPreferencesSame() {
         testFlightLeg.packageOfferModel = PackageOfferModel()
-        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(4)
+        testFlightLeg.seatClassAndBookingCodeList = buildTestSeatClassAndBookingCodeList(4)
         assertEquals("Economy", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
     }
 
     @Test
     fun testGetFlightCabinPreferenceWithNoSegments() {
         testFlightLeg.packageOfferModel = PackageOfferModel()
-        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(0)
+        testFlightLeg.seatClassAndBookingCodeList = buildTestSeatClassAndBookingCodeList(0)
         assertEquals("", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
     }
 
     @Test
     fun testGetFlightCabinPreferenceWithBasicEconomy() {
         testFlightLeg.packageOfferModel = PackageOfferModel()
-        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(2)
+        testFlightLeg.seatClassAndBookingCodeList = buildTestSeatClassAndBookingCodeList(2)
         testFlightLeg.isBasicEconomy = true
         assertEquals("Basic Economy", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
     }
@@ -285,7 +285,7 @@ class FlightV2UtilsTest {
     }
 
     fun buildTestSeatClassAndBookingCode(seatClass: String): FlightTripDetails.SeatClassAndBookingCode {
-        val seatClassAndBookingCode = FlightTripDetails().SeatClassAndBookingCode()
+        val seatClassAndBookingCode = FlightTripDetails.SeatClassAndBookingCode()
         seatClassAndBookingCode.seatClass = seatClass
         return seatClassAndBookingCode
     }

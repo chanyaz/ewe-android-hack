@@ -31,6 +31,7 @@ class PackagesViewModelTest {
 
     fun createExpectedFlightLeg() {
         flightLeg = FlightLeg()
+        flightLeg.flightSegments = ArrayList()
         flightLeg.elapsedDays = 1
         flightLeg.durationHour = 19
         flightLeg.durationMinute = 10

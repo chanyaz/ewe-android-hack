@@ -1,10 +1,8 @@
 package com.expedia.bookings.data.packages;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.flights.FlightTripDetails.SeatClassAndBookingCode;
 import com.expedia.bookings.data.multiitem.MultiItemOffer;
 import com.expedia.bookings.data.multiitem.PackageDeal;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
@@ -18,7 +16,6 @@ public class PackageOfferModel {
 	public BrandedDealData brandedDealData;
 	public boolean featuredDeal;
 	public LoyaltyInformation loyaltyInfo;
-	public List<SeatClassAndBookingCode> segmentsSeatClassAndBookingCode;
 
 	public PackageOfferModel() {
 		//default constructor

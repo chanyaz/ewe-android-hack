@@ -613,7 +613,7 @@ class FlightOverviewPresenterTest {
         pricePerPassengerList.add(passengerInfo)
         val flightOffer = FlightTripDetails.FlightOffer()
         flightOffer.totalPrice = Money(223, "USD")
-        val seatClassAndBookingCode = FlightTripDetails().SeatClassAndBookingCode()
+        val seatClassAndBookingCode = FlightTripDetails.SeatClassAndBookingCode()
         seatClassAndBookingCode.seatClass = "coach"
         flightOffer.offersSeatClassAndBookingCode = listOf(listOf(seatClassAndBookingCode))
         val flightTripDetails = FlightTripDetails()
@@ -642,6 +642,7 @@ class FlightOverviewPresenterTest {
 
     private fun createExpectedFlightLeg() {
         flightLeg = FlightLeg()
+        flightLeg.flightSegments = ArrayList()
         flightLeg.mayChargeObFees = true
         flightLeg.elapsedDays = 1
         flightLeg.durationHour = 19

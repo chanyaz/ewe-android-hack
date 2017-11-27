@@ -101,6 +101,10 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.PackagesBackFlowFromOverview.getKey(),
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
+		if (list.contains("EBAndroidAppPackagesDisplayFlightSeatingClass")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass.getKey(),
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
 		Db.sharedInstance.setAbacusResponse(abacusResponse);
 	}
 

@@ -114,6 +114,7 @@ class PackageFlightResultTest {
 
     fun makeFlight(): FlightLeg {
         val flight = FlightLeg()
+        flight.flightSegments = ArrayList()
         flight.elapsedDays = 1
         flight.durationHour = 19
         flight.durationMinute = 10

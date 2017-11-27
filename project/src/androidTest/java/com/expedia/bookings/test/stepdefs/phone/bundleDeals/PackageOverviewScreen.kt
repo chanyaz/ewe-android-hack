@@ -242,6 +242,13 @@ class PackageOverviewScreen {
                 .check(matches(withText(parameters["flight_duration"])))
     }
 
+    @Then("^validate package outbound flight details seating class")
+    fun validateOutboundFlightDataSeatingClass(parameters: Map<String, String>) {
+        onView(allOf<View>(withId(R.id.flight_seat_class_booking_code),
+                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+                .check(matches(withText(parameters["seatingClass"])))
+    }
+
     @Then("^validate package inbound flight details")
     fun validateInboundFlightData(parameters: Map<String, String>) {
         onView(allOf<View>(withId(R.id.departure_arrival_time),

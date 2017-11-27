@@ -31,8 +31,8 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
 
     abstract val showBundlePriceSubject: BehaviorSubject<Boolean>
     abstract val showEarnMessage: BehaviorSubject<Boolean>
-    abstract val showSeatClassAndBookingCode: BehaviorSubject<Boolean>
 
+    abstract fun shouldShowSeatingClassAndBookingCode(): Boolean
     abstract fun shouldShowDeltaPositive(): Boolean
     abstract fun pricePerPersonString(selectedFlight: FlightLeg): String
     abstract fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean

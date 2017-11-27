@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isDisplayFlightSeatingClassForShoppingEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.packages.InboundFlightWidget
@@ -124,6 +125,11 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     init {
         View.inflate(context, R.layout.bundle_widget, this)
         orientation = VERTICAL
+
+        val isDisplayFlightSeatingClassForShoppingEnabled = isDisplayFlightSeatingClassForShoppingEnabled(context)
+
+        outboundFlightWidget.showFlightCabinClass = isDisplayFlightSeatingClassForShoppingEnabled
+        inboundFlightWidget.showFlightCabinClass = isDisplayFlightSeatingClassForShoppingEnabled
 
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
         outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.PACKAGES)
