@@ -5126,6 +5126,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSearchResultCaching);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel);
 		s.track();
 	}
 
@@ -5205,6 +5206,7 @@ public class OmnitureTracking {
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
 			setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsDeltaPricing);
 		s.track();
 	}
 
