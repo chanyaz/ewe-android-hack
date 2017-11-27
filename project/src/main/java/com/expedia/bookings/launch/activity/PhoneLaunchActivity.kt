@@ -57,7 +57,6 @@ import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.LXNavUtils
@@ -159,7 +158,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             isLocationPermissionPending = savedInstanceState.getBoolean("is_location_permission_pending", false)
         }
 
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             loginStateSubsciption = userLoginStateChangedModel.userLoginStateChanged.distinctUntilChanged().filter { isSignIn -> isSignIn == true }.subscribe {
                 SettingUtils.save(this, PREF_USER_ENTERS_FROM_SIGNIN, true)
             }
@@ -196,7 +195,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
 
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             if (shouldShowSoftPrompt()) {
                 requestLocationPermissionViaSoftPrompt()
             }
@@ -499,7 +498,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this))
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             if (SettingUtils.get(this, PREF_USER_ENTERS_FROM_SIGNIN, false)) {
                 if (shouldShowSoftPrompt()) {
                     requestLocationPermissionViaSoftPrompt()
