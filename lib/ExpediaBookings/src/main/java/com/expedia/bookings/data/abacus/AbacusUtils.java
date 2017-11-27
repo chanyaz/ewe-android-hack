@@ -104,6 +104,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesMISRealWorldGeo = new ABTest(16314);
 	public static final ABTest EBAndroidAppPackagesShowForceUpdateDialog = new ABTest(16283);
 	public static final ABTest PackagesBackFlowFromOverview = new ABTest(16163);
+	public static final ABTest EBAndroidAppPackagesDisplayFlightSeatingClass = new ABTest(16300);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountSinglePageSignUp = new ABTest(13923);
@@ -228,6 +229,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsAPIKongEndPoint.getKey());
 		testIDs.add(EBAndroidAppTripsMessageHotel.getKey());
 		testIDs.add(HotelAmenityFilter.getKey());
+		testIDs.add(EBAndroidAppPackagesDisplayFlightSeatingClass.getKey());
 		return testIDs;
 	}
 
