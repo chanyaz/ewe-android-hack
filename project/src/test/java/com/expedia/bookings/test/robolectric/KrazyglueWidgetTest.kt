@@ -9,12 +9,10 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.presenter.shared.KrazyglueHotelViewHolder
 import com.expedia.bookings.presenter.shared.KrazyglueWidget
-import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.shared.KrazyglueHotelsListAdapter
 import com.expedia.bookings.presenter.shared.KrazyglueSeeMoreViewHolder
@@ -25,7 +23,6 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.KrazyglueHotelSeeMoreHolderViewModel
 import org.joda.time.DateTime
-import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -154,8 +151,8 @@ class KrazyglueWidgetTest {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         val seeMoreHotel = LayoutInflater.from(activity).inflate(R.layout.krazyglue_see_more_hotel_view, null)
         val hotelSearchParamsObservable = BehaviorSubject.create<HotelSearchParams>(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
-
-        KrazyglueSeeMoreViewHolder(seeMoreHotel, activity, hotelSearchParamsObservable)
+        val regionIdObservable = BehaviorSubject.create<String>("12345")
+        KrazyglueSeeMoreViewHolder(seeMoreHotel, activity, hotelSearchParamsObservable, regionIdObservable)
 
         assertEquals("Offer expires in 1 day", seeMoreHotel.findViewById<TextView>(R.id.hotel_offer_expire).text)
     }
@@ -165,8 +162,9 @@ class KrazyglueWidgetTest {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         val hotelView = LayoutInflater.from(activity).inflate(R.layout.krazyglue_hotel_view, null)
         val hotelSearchObservable = BehaviorSubject.create<HotelSearchParams>(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
-        val viewHolder = KrazyglueHotelViewHolder(hotelView, hotelSearchObservable)
-        val hotel = getKrazyGlueHotel("21222", "San Francisco Hotel")
+        val regionIdObservable = BehaviorSubject.create<String>("12345")
+        val viewHolder = KrazyglueHotelViewHolder(hotelView, hotelSearchObservable, regionIdObservable)
+        val hotel = FlightPresenterTestUtil.getKrazyglueHotel(hotelID = "21222", hoteName = "San Francisco Hotel")
         viewHolder.viewModel.hotelObservable.onNext(hotel)
 
         assertEquals("San Francisco Hotel", hotelView.findViewById<TextView>(R.id.hotel_name_text_view).text)
@@ -194,7 +192,7 @@ class KrazyglueWidgetTest {
         val expectedProducts = "Hotel:11111;;,Hotel:99999;;,Hotel:55555;;"
 
         FlightsV2Tracking.trackKrazyglueExposure(getKrazyGlueHotels())
-        assertKrazyglueExposure(expectedEvars, expectedProducts, expectedProps)
+        assertKrazyglueExposure(expectedEvars = expectedEvars, expectedProducts = expectedProducts, expectedProps = expectedProps)
     }
 
     @Test
@@ -207,7 +205,7 @@ class KrazyglueWidgetTest {
         (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(1) as KrazyglueHotelViewHolder).itemView.performClick()
         val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
 
-        assertKrazyglueClickTracking(expectedEvars, "tile1")
+        assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix =  "tile1")
     }
 
     @Test
@@ -220,7 +218,7 @@ class KrazyglueWidgetTest {
         (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(0) as KrazyglueHotelViewHolder).itemView.performClick()
         val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
 
-        assertKrazyglueClickTracking(expectedEvars, "tile1")
+        assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix = "tile1")
     }
 
     @Test
@@ -233,7 +231,7 @@ class KrazyglueWidgetTest {
         (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(3) as KrazyglueHotelViewHolder).itemView.performClick()
         val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
 
-        assertKrazyglueClickTracking(expectedEvars, "tile3")
+        assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix = "tile3")
     }
 
     @Test
@@ -246,7 +244,7 @@ class KrazyglueWidgetTest {
         (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(2) as KrazyglueHotelViewHolder).itemView.performClick()
         val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
 
-        assertKrazyglueClickTracking(expectedEvars, "tile3")
+        assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix =  "tile3")
     }
 
     @Test
@@ -259,46 +257,15 @@ class KrazyglueWidgetTest {
         (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(0) as KrazyglueSeeMoreViewHolder).itemView.performClick()
         val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
 
-        assertKrazyglueClickTracking(expectedEvars, "see_more")
+        assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix =  "see_more")
     }
 
     private fun getKrazyGlueHotels(): List<KrazyglueResponse.KrazyglueHotel> {
-        val firstKrazyHotel = getKrazyGlueHotel("11111", "Mariot")
-        val secondKrazyHotel = getKrazyGlueHotel("99999", "Cosmopolitan")
-        val thirdKrazyHotel = getKrazyGlueHotel("55555", "Holiday Inn")
-
-        return listOf(firstKrazyHotel, secondKrazyHotel, thirdKrazyHotel)
-    }
-
-    private fun getKrazyGlueHotel(hotelID: String, hoteName: String): KrazyglueResponse.KrazyglueHotel {
-        val hotel = KrazyglueResponse.KrazyglueHotel()
-        hotel.hotelId = hotelID
-        hotel.hotelName = hoteName
-        hotel.guestRating = "4.0"
-        hotel.airAttachedPrice = "220$"
-        hotel.standAlonePrice = "330$"
-        hotel.hotelImage = "image"
-        hotel.starRating = "2.5"
-        return hotel
+        return FlightPresenterTestUtil.getKrazyGlueHotels()
     }
 
     private fun setDbFlightSearch() {
-        val departureAirport = SuggestionV4()
-        departureAirport.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        val arrivalAirport = SuggestionV4()
-        val airport = SuggestionV4.Airport()
-        airport.airportCode = "DTW"
-        val hierArchyInfo = SuggestionV4.HierarchyInfo()
-        hierArchyInfo.airport = airport
-        arrivalAirport.hierarchyInfo = hierArchyInfo
-
-        val paramsBuilder = FlightSearchParams.Builder(26, 500)
-                .origin(departureAirport)
-                .destination(arrivalAirport)
-                .startDate(LocalDate.now())
-                .adults(1) as FlightSearchParams.Builder
-
-        Db.setFlightSearchParams(paramsBuilder.build())
+        Db.setFlightSearchParams(FlightPresenterTestUtil.getFlightSearchParams(isRoundTrip = false))
     }
 
     private fun setupKrazyglueRecycler(krazyglueWidget: KrazyglueWidget) {

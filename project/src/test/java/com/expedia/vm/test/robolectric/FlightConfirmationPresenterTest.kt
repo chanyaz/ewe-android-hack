@@ -191,6 +191,7 @@ class FlightConfirmationPresenterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testAirAttachVisibilityWithKrazyGlueABTestOn() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
 

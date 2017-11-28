@@ -66,6 +66,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
             vm.krazyglueHotelsObservable.subscribe(krazyglueWidget.viewModel.hotelsObservable)
             vm.destinationObservable.subscribe(krazyglueWidget.viewModel.cityObservable)
             vm.krazyGlueHotelSearchParamsObservable.subscribe(krazyglueWidget.viewModel.hotelSearchParamsObservable)
+            vm.krazyGlueRegionIdObservable.subscribe(krazyglueWidget.viewModel.regionIdObservable)
         }
     }
 

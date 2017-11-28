@@ -95,6 +95,11 @@ class FlightCheckoutResponse() : FlightTripResponse() {
         return segments[segments.size - 1]
     }
 
+    fun getFirstSegmentOfLastFlightLeg(): FlightLeg.FlightSegment {
+        val segments = getLastFlightLeg().segments
+        return segments[0]
+    }
+
     override fun getOffer(): FlightTripDetails.FlightOffer {
         val flightsDetailResponse = flightAggregatedResponse?.flightsDetailResponse
         return if (flightsDetailResponse != null) flightsDetailResponse[0].offer else details.offer

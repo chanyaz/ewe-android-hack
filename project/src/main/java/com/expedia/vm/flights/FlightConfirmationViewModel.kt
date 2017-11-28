@@ -1,17 +1,21 @@
 package com.expedia.vm.flights
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.KrazyglueResponse
+import com.expedia.bookings.data.flights.KrazyglueSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.server.DateTimeParser
 import com.expedia.bookings.services.KrazyglueServices
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.RewardsUtil
 import com.expedia.bookings.utils.Strings
@@ -23,10 +27,12 @@ import com.expedia.util.Optional
 import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
+import io.fabric.sdk.android.services.network.UrlUtils
 import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.net.URI
 
 class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean = false) {
 
@@ -43,6 +49,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
     val formattedTravelersStringSubject = PublishSubject.create<String>()
     val showTripProtectionMessage = BehaviorSubject.create<Boolean>(false)
     val krazyglueHotelsObservable = PublishSubject.create<List<KrazyglueResponse.KrazyglueHotel>>()
+    val krazyGlueRegionIdObservable = PublishSubject.create<String>()
     val flightSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     val krazyGlueHotelSearchParamsObservable = PublishSubject.create<HotelSearchParams>()
     val flightCheckoutResponseObservable = PublishSubject.create<FlightCheckoutResponse>()
@@ -103,15 +110,6 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
             showTripProtectionMessage.onNext(hasInsurance)
             crossSellWidgetVisibility.onNext(if (isKrazyglueEnabled) false else isQualified)
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
-
-            if (isKrazyglueEnabled) {
-                val destinationCode = response.getFirstFlightLastSegment().arrivalAirportCode
-                val destinationArrivalDateTime = response.getFirstFlightLastSegment().arrivalTimeRaw
-                val apiKey = context.getString(R.string.exp_krazy_glue_prod_key)
-                val baseUrl = context.getString(R.string.exp_krazy_glue_base_url)
-                val signedUrl = HMACUtil.getSignedKrazyglueUrl(baseUrl, apiKey, destinationCode, destinationArrivalDateTime)
-                krazyglueService.getKrazyglueHotels(signedUrl, makeNewKrazyglueObserver())
-            }
         }
 
         flightCheckoutResponseObservable.subscribe { response ->
@@ -127,6 +125,10 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                 val flightLegs = response.getFirstFlightTripDetails().getLegs()
                 val hotelSearchParams = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(context, flightLegs, params)
                 krazyGlueHotelSearchParamsObservable.onNext(hotelSearchParams)
+
+                val krazyglueParams = getKrazyglueSearchParams(response, params)
+                val signedUrl = getSignedKrazyglueUrl(krazyglueParams)
+                krazyglueService.getKrazyglueHotels(signedUrl, getKrazyglueResponseObserver())
             }).subscribe()
         }
     }
@@ -163,11 +165,17 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
         }
     }
 
-    private fun makeNewKrazyglueObserver(): Observer<KrazyglueResponse> {
+    fun getKrazyglueResponseObserver(): Observer<KrazyglueResponse> {
         return object : Observer<KrazyglueResponse> {
             override fun onNext(response: KrazyglueResponse) {
                 if (response.success) {
                     krazyglueHotelsObservable.onNext(response.krazyglueHotels)
+                    response.destinationDeepLink?.let { url ->
+                        if (url.contains("regionId=")) {
+                            val regionId = UrlUtils.getQueryParams(URI(url), true).getValue("regionId")
+                            krazyGlueRegionIdObservable.onNext(regionId)
+                        }
+                    }
                 }
             }
 
@@ -179,5 +187,36 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
 //                TODO: handle failed krazy glue request
             }
         }
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getKrazyglueSearchParams(response: FlightCheckoutResponse, searchParams: FlightSearchParams) : KrazyglueSearchParams {
+        val destinationCode = response.getFirstFlightLastSegment().arrivalAirportCode
+        val destinationArrivalDateTime = response.getFirstFlightLastSegment().arrivalTimeRaw
+        val returnDateTime = if (searchParams.isRoundTrip()) {
+            response.getFirstSegmentOfLastFlightLeg().departureTimeRaw
+        } else {
+            DateTimeParser.parseISO8601DateTimeString(destinationArrivalDateTime).plusDays(1).toString()
+        }
+        return KrazyglueSearchParams(destinationCode, destinationArrivalDateTime, returnDateTime)
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getSignedKrazyglueUrl(krazyglueSearchParams: KrazyglueSearchParams) : String {
+        val urlWithParams = Phrase.from(context, R.string.krazy_glue_base_url_TEMPLATE)
+                .put("baseurl", krazyglueSearchParams.baseUrl)
+                .put("partnerid", Constants.KRAZY_GLUE_PARTNER_ID)
+                .put("arrivaldatetime", krazyglueSearchParams.arrivalDateTime)
+                .put("returndatetime", krazyglueSearchParams.returnDateTime)
+                .put("destinationcode", krazyglueSearchParams.destinationCode)
+                .format().toString()
+
+        val signature = HMACUtil.createHmac(krazyglueSearchParams.apiKey, urlWithParams).replace("+", "-").replace("/", "_").removeSuffix("=")
+        val signedUrl = Phrase.from(context, R.string.krazy_glue_signed_url_TEMPLATE)
+                .put("urlwithparams", urlWithParams)
+                .put("signature", signature)
+                .format().toString()
+
+        return signedUrl
     }
 }
