@@ -256,6 +256,7 @@ Feature: Package Search
     And I select outbound flight to destination at position 1
     And I select inbound flight to source at position 1
     And Close price change Alert dialog if it is visible
+    And Wait for checkout button to display
     And validate "varHotelName" is same as user selected on package overview screen
     And validate hotel widget of overview screen with following details
       | start_date      |  5 |
@@ -273,9 +274,9 @@ Feature: Package Search
   @Packages @PackageSearch @Prod
   Scenario: Intercept getPackages API call after hitting search button and validate request paramaters
     Given I launch the App
+    And I launch "Bundle Deals" LOB
     And I want to intercept these calls for packages
       | GetPackagesV1 |
-    And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
       | source              | SFO                            |
       | destination         | LAS                            |
@@ -370,6 +371,7 @@ Feature: Package Search
       | Total_Travelers |  4 |
     And I select inbound flight to source at position 1
     And Close price change Alert dialog if it is visible
+    And Wait for checkout button to display
     And I click on edit icon and select "Change hotel"
     Then Validate that hotel SRP screen is displayed
     Then Validate that number of results shown and present are equal

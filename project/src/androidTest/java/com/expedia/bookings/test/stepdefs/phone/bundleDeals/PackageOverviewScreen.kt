@@ -18,6 +18,7 @@ import android.view.View
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.CustomMatchers
+import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.stepdefs.phone.TestUtil
@@ -32,6 +33,7 @@ import org.hamcrest.Matchers.not
 import org.hamcrest.core.AllOf
 import org.hamcrest.core.AllOf.allOf
 import java.util.Map
+import java.util.concurrent.TimeUnit
 
 class PackageOverviewScreen {
 
@@ -358,6 +360,11 @@ class PackageOverviewScreen {
                 info["Inbound Flight Bar - traveler"])
         validateDrawableDisplayedOnBundleOverview(R.id.package_flight_icon, info["Flight Inbound Image"])
 
+    }
+
+    @And("^Wait for checkout button to display")
+    fun waitForCheckoutButtonToDisplay() {
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.checkout_button), 30, TimeUnit.SECONDS)
     }
 
     private fun validateDrawableDisplayedOnBundleOverview(resId: Int, value: String?) {
