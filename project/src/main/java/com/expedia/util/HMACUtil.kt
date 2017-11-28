@@ -3,6 +3,7 @@ package com.expedia.bookings.utils
 import android.content.Context
 import android.util.Base64
 import com.expedia.bookings.R
+import com.expedia.bookings.data.flights.KrazyglueSearchParams
 import okhttp3.HttpUrl
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -58,9 +59,9 @@ class HMACUtil {
             return key.toString()
         }
 
-        @JvmStatic fun getSignedKrazyglueUrl(baseUrl: String, key: String, destinationCode: String, destinationDateTime: String) : String {
-            val urlWithParams = "$baseUrl?partnerId=${Constants.KRAZY_GLUE_PARTNER_ID}&outboundEndDateTime=$destinationDateTime&destinationTla=$destinationCode&fencedResponse=true"
-            val signature = createHmac(key, urlWithParams).replace("+", "-").replace("/", "_").removeSuffix("=")
+        @JvmStatic fun getSignedKrazyglueUrl(krazyglueSearchParams: KrazyglueSearchParams) : String {
+            val urlWithParams = "${krazyglueSearchParams.baseUrl}?partnerId=${Constants.KRAZY_GLUE_PARTNER_ID}&outboundEndDateTime=${krazyglueSearchParams.arrivalDateTime}&returnStartDateTime=${krazyglueSearchParams.returnDateTime}&destinationTla=${krazyglueSearchParams.destinationCode}&fencedResponse=true"
+            val signature = createHmac(krazyglueSearchParams.apiKey, urlWithParams).replace("+", "-").replace("/", "_").removeSuffix("=")
             val signedUrl = "$urlWithParams&signature=$signature"
             return signedUrl
         }

@@ -1,17 +1,22 @@
 package com.expedia.vm.flights
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.KrazyglueResponse
+import com.expedia.bookings.data.flights.KrazyglueSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.server.DateTimeParser
 import com.expedia.bookings.services.KrazyglueServices
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.RewardsUtil
 import com.expedia.bookings.utils.Strings
@@ -105,11 +110,8 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
 
             if (isKrazyglueEnabled) {
-                val destinationCode = response.getFirstFlightLastSegment().arrivalAirportCode
-                val destinationArrivalDateTime = response.getFirstFlightLastSegment().arrivalTimeRaw
-                val apiKey = context.getString(R.string.exp_krazy_glue_prod_key)
-                val baseUrl = context.getString(R.string.exp_krazy_glue_base_url)
-                val signedUrl = HMACUtil.getSignedKrazyglueUrl(baseUrl, apiKey, destinationCode, destinationArrivalDateTime)
+                val krazyGlueParams = getKrazyglueSearchParams(response)
+                val signedUrl = HMACUtil.getSignedKrazyglueUrl(krazyGlueParams)
                 krazyglueService.getKrazyglueHotels(signedUrl, makeNewKrazyglueObserver())
             }
         }
@@ -179,5 +181,17 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
 //                TODO: handle failed krazy glue request
             }
         }
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getKrazyglueSearchParams(response: FlightCheckoutResponse) : KrazyglueSearchParams {
+        val destinationCode = response.getFirstFlightLastSegment().arrivalAirportCode
+        val destinationArrivalDateTime = response.getFirstFlightLastSegment().arrivalTimeRaw
+        val returnDateTime = if (Db.getFlightSearchParams().isRoundTrip()) {
+            response.getLastFlightFirstSegment().departureTimeRaw
+        } else {
+            DateTimeParser.parseISO8601DateTimeString(destinationArrivalDateTime).plusDays(1).toString()
+        }
+        return KrazyglueSearchParams(destinationCode, destinationArrivalDateTime, returnDateTime)
     }
 }

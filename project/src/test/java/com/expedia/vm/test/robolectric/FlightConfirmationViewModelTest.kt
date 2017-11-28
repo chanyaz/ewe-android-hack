@@ -3,6 +3,7 @@ package com.expedia.vm.test.robolectric
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripDetails
@@ -11,9 +12,11 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.KrazyglueSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.data.payment.Traveler
+import com.expedia.bookings.server.DateTimeParser
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -40,6 +43,7 @@ import org.robolectric.shadows.ShadowApplication
 import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -51,6 +55,8 @@ class FlightConfirmationViewModelTest {
     private var vm: FlightConfirmationViewModel by Delegates.notNull()
     private var shadowApplication: ShadowApplication? = null
     private var activity: Activity by Delegates.notNull()
+    private val testArrivalDateTimeTomorrow = DateTime.now().plusDays(1).toString()
+    private val testReturnDateFiveDaysAhead = DateTime.now().plusDays(5).toString()
 
     @Before
     fun before() {
@@ -102,10 +108,10 @@ class FlightConfirmationViewModelTest {
         crossSellWidgetView.assertValue(false)
     }
 
-    fun getCheckoutResponse(dateOfExpiration: String, totalPrice: Money? = Money("100", "USD"), hasAirAttach: Boolean = true): FlightCheckoutResponse {
+    fun getCheckoutResponse(dateOfExpiration: String, totalPrice: Money? = Money("100", "USD"), hasAirAttach: Boolean = true, isRoundTrip: Boolean = false): FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
-        setFlightLeg(response)
+        setFlightLeg(response, isRoundTrip)
         response.passengerDetails = listOf(Traveler("test", "traveler", "1", "9999999", "test@email.com"))
         val qualifierObject = FlightCheckoutResponse.AirAttachInfo()
         val offerTimeField = FlightCheckoutResponse.AirAttachInfo.AirAttachExpirationInfo()
@@ -134,14 +140,24 @@ class FlightConfirmationViewModelTest {
         return response
     }
 
-    private fun setFlightLeg(response: FlightCheckoutResponse) {
+    private fun setFlightLeg(response: FlightCheckoutResponse, isRoundTrip: Boolean) {
         response.details = FlightTripDetails()
-        val segment = FlightLeg.FlightSegment()
-        segment.arrivalAirportCode = "LAX"
-        segment.arrivalTimeRaw = DateTime.now().plusDays(1).toString()
-        val flightLeg = FlightLeg()
-        flightLeg.segments = listOf(segment)
-        response.details.legs = listOf(flightLeg)
+        val arrivalSegment = FlightLeg.FlightSegment()
+        arrivalSegment.arrivalAirportCode = "LAX"
+        arrivalSegment.arrivalTimeRaw = testArrivalDateTimeTomorrow
+        arrivalSegment.departureTimeRaw = testArrivalDateTimeTomorrow
+        val departureLeg = FlightLeg()
+        departureLeg.segments = listOf(arrivalSegment)
+        if (isRoundTrip) {
+            val departureSegment = FlightLeg.FlightSegment()
+            departureSegment.departureAirportCode = "SFO"
+            departureSegment.departureTimeRaw = testReturnDateFiveDaysAhead
+            val returnLeg = FlightLeg()
+            returnLeg.segments = listOf(departureSegment)
+            response.details.legs = listOf(departureLeg, returnLeg)
+        } else {
+            response.details.legs = listOf(departureLeg)
+        }
     }
 
     fun getCheckoutResponseWithoutAirAttachOffer(dateOfExpiration: String) : FlightCheckoutResponse {
@@ -261,6 +277,26 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
+    fun testKrazyglueParamsReturnDateForRoundTrip() {
+        setDbFlightSearch(isRoundTrip = true)
+        vm = FlightConfirmationViewModel(activity)
+        val checkoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = false, isRoundTrip = true)
+        val testKrazyglueParams = vm.getKrazyglueSearchParams(checkoutResponse)
+
+        assertKrazyGlueParams(expectedReturnDateTime = testReturnDateFiveDaysAhead, testKrazyglueSearchParams = testKrazyglueParams)
+    }
+
+    @Test
+    fun testKrazyglueParamsReturnDateOneWay() {
+        setDbFlightSearch(isRoundTrip = false)
+        vm = FlightConfirmationViewModel(activity)
+        val testKrazyglueParams = vm.getKrazyglueSearchParams(getCheckoutResponse(DateTime.now().toString()))
+        val testReturnDateOneDayAfterArrival = DateTimeParser.parseISO8601DateTimeString(testArrivalDateTimeTomorrow).plusDays(1).toString()
+
+        assertKrazyGlueParams(expectedReturnDateTime = testReturnDateOneDayAfterArrival, testKrazyglueSearchParams = testKrazyglueParams)
+    }
+
+    @Test
     fun testFlightSearchParamsBecomeHotelSearchParamsForKrazyglue() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
         SettingUtils.save(activity.applicationContext, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
@@ -344,6 +380,37 @@ class FlightConfirmationViewModelTest {
         val checkOut = LocalDate().plusDays(3)
 
         return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null, null)
+    }
+
+    fun assertKrazyGlueParams(expectedReturnDateTime: String, testKrazyglueSearchParams: KrazyglueSearchParams) {
+        assertEquals(expectedReturnDateTime, testKrazyglueSearchParams.returnDateTime)
+        assertEquals(testArrivalDateTimeTomorrow, testKrazyglueSearchParams.arrivalDateTime)
+        assertEquals("LAX", testKrazyglueSearchParams.destinationCode)
+        assertEquals("99e4957f-c45f-4f90-993f-329b32e53ca1", testKrazyglueSearchParams.apiKey)
+        assertEquals("/xsell-api/1.0/offers", testKrazyglueSearchParams.baseUrl)
+    }
+
+    private fun setDbFlightSearch(isRoundTrip: Boolean) {
+        val departureAirport = SuggestionV4()
+        departureAirport.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        val arrivalAirport = SuggestionV4()
+        val airport = SuggestionV4.Airport()
+        airport.airportCode = "DTW"
+        val hierArchyInfo = SuggestionV4.HierarchyInfo()
+        hierArchyInfo.airport = airport
+        arrivalAirport.hierarchyInfo = hierArchyInfo
+
+        val paramsBuilder = FlightSearchParams.Builder(26, 500)
+                .origin(departureAirport)
+                .destination(arrivalAirport)
+                .startDate(LocalDate.now())
+                .adults(1) as FlightSearchParams.Builder
+        
+        if (isRoundTrip) {
+            paramsBuilder.endDate(LocalDate.now().plusDays(1))
+        }
+
+        Db.setFlightSearchParams(paramsBuilder.build())
     }
 
 }

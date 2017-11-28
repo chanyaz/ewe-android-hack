@@ -462,8 +462,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.packages_flight1_checkmark_icon,
 		R.drawable.packages_flight2_checkmark_icon,
 		R.drawable.packages_hotels_checkmark_icon,
-		R.string.exp_krazy_glue_base_url,
-		R.string.exp_krazy_glue_prod_key,
 		R.string.select_hotel_template,
 		R.string.searching_flight_to,
 		R.string.hotel_search_destination_cont_desc_TEMPLATE,

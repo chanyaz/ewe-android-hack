@@ -2,6 +2,7 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.flights.KrazyglueSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import okhttp3.HttpUrl
 import org.joda.time.DateTime
@@ -50,8 +51,9 @@ class HMACUtilTests {
 
     @Test
     fun testSignedKrazyglueUrl() {
-        val successfulUrl = "/xsell-api/1.0/offers?partnerId=expedia-hot-mobile-conf&outboundEndDateTime=2020-10-10T00:02:06.401Z&destinationTla=LAS&fencedResponse=true&signature=ALBDtYMQWSZO1ctyGsqLJx7VVJU"
-        val testUrl = HMACUtil.getSignedKrazyglueUrl("/xsell-api/1.0/offers", "99e4957f-c45f-4f90-993f-329b32e53ca1", "LAS", "2020-10-10T00:02:06.401Z")
+        val successfulUrl = "/xsell-api/1.0/offers?partnerId=expedia-hot-mobile-conf&outboundEndDateTime=2020-10-10T00:02:06.401Z&returnStartDateTime=2020-10-11T00:02:06.401Z&destinationTla=LAS&fencedResponse=true&signature=HS5WVueebVfa2agCdQmdEKs-tTs"
+        val krazyGlueParams = KrazyglueSearchParams("LAS", "2020-10-10T00:02:06.401Z", "2020-10-11T00:02:06.401Z")
+        val testUrl = HMACUtil.getSignedKrazyglueUrl(krazyGlueParams)
         assertEquals(successfulUrl, testUrl)
     }
 }
