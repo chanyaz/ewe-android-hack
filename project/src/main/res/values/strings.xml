@@ -1943,7 +1943,7 @@
     <!-- Our price gaurentee string -->
     <string name="price_guarantee">Price Guarantee</string>
     <!-- Sign out -->
-    <string name="sign_out">Sign Out</string>
+    <string name="sign_out">Sign out</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">You\'ll earn {reward_currency} points for this booking!</string>
     <!-- You are a valued member -->
@@ -2822,7 +2822,7 @@
     <!-- Label for the extra guest charge -->
     <string name="extra_guest_charge">Extra Guest Charge</string>
     <!-- Label for clearing private data -->
-    <string name="clear_private_data">Clear Private Data</string>
+    <string name="clear_private_data">Clear private data</string>
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">Clear Private Data?</string>
     <!-- Message for dialog confirming the clearing of private data -->
@@ -2876,7 +2876,7 @@
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Account</string>
     <!-- Label for menu item to sign into account -->
-    <string name="sign_in">SIGN IN</string>
+    <string name="sign_in">Sign in</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Signing in…</string>
     <!-- Label for sign out confirmation -->
@@ -2962,7 +2962,7 @@
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
-    <string name="booking_support">Booking Support</string>
+    <string name="booking_support">Contact booking support</string>
     <!-- Subject for loyalty email on Itin -->
     <string name="support_request">Support Request</string>
     <!-- Title for different ways to connect to Expedia -->
@@ -2976,15 +2976,15 @@
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Apply for the {brand_reward_name} Visa® Card</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">App Support</string>
+    <string name="app_support">Find app support</string>
     <!-- Section label for app settings functionality -->
-    <string name="about_section_app_settings">App Settings</string>
+    <string name="about_section_app_settings">Settings</string>
     <!-- Section label for user support functionality -->
     <string name="about_section_support">Support</string>
     <!-- Section label for communication options that are not related to user support -->
     <string name="about_section_communicate">Communicate</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
-    <string name="rate_our_app">Rate our app!</string>
+    <string name="rate_our_app">Rate the app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Terms and Conditions</string>
     <!-- Label for link to terms of use -->
@@ -2994,7 +2994,7 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">Open Source Software Licenses</string>
+    <string name="open_source_software_licenses">Acknowledgements Open source software licenses</string>
     <!-- String for error message if open source software license page fails to open -->
     <string name="open_source_software_licenses_error">Error loading page.</string>
     <!-- String for acrediting the open source libraries we use -->

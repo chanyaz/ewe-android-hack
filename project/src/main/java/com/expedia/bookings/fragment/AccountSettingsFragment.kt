@@ -550,8 +550,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
             } else {
                 facebookSignInButton.visibility = View.GONE
             }
-
-            createAccountButton.text = Phrase.from(context, R.string.acct__Create_a_new_brand_account).put("brand", BuildConfig.brand).format()
         }
     }
 
