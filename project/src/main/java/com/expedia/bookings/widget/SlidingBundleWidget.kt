@@ -26,6 +26,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleOverviewViewModel
@@ -70,7 +71,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
                         })
                     } else {
                         bundleFooterContainer.translationY = -statusBarHeight.toFloat()
-                        translationY = height.toFloat() - bundlePriceWidgetContainer.height
+                        translationY = height.toFloat() - getBottomOffsetForClosing()
 
                         if (activity.intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
                             visibility = View.GONE
@@ -123,7 +124,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     fun updateBundleTransition(f: Float, forward: Boolean) {
-        val distance = height.toFloat() - bundlePriceWidgetContainer.height - translationDistance
+        val distance = height.toFloat() - getBottomOffsetForClosing() - translationDistance
         val pos = if (forward) Math.max(statusBarHeight.toFloat(), (1 - f) * translationDistance) else translationDistance + (f * distance)
         translateBundleOverview(pos)
     }
@@ -136,7 +137,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         bundlePriceWidget.bundleTotalPrice.visibility = if (forward) View.GONE else View.VISIBLE
         bundlePriceWidget.bundleChevron.rotation = if (forward) 180f else 0f
         bundlePriceWidget.setBackgroundColor(if (forward) ContextCompat.getColor(context, R.color.packages_primary_color) else Color.WHITE)
-        translationY = if (forward) statusBarHeight.toFloat() else height.toFloat() - bundlePriceWidgetContainer.height
+        translationY = if (forward) statusBarHeight.toFloat() else height.toFloat() - getBottomOffsetForClosing()
         isMoving = false
         bundlePriceWidget.contentDescription = bundlePriceWidget.viewModel.getAccessibleContentDescription(false, true, forward)
         if (forward && trackLoad) {
@@ -148,7 +149,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     fun translateBundleOverview(distance: Float) {
-        val distanceMax = height.toFloat() - bundlePriceWidgetContainer.height
+        val distanceMax = height.toFloat() - getBottomOffsetForClosing()
         val f = (distanceMax - distance) / distanceMax
         if (distance <= distanceMax && distance >= 0) {
             translationY = distance
@@ -169,7 +170,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     private fun animateBundleOverview(animDuration: Int, open: Boolean) {
-        val distanceMax = height.toFloat() - bundlePriceWidgetContainer.height
+        val distanceMax = height.toFloat() - getBottomOffsetForClosing()
         val end = if (open) statusBarHeight.toFloat() else distanceMax
         val animator = ObjectAnimator.ofFloat(this, "translationY", translationY, end)
         animator.duration = animDuration.toLong()
@@ -259,6 +260,10 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         bundlePriceFooter.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
                 packagePrice.packageTotalPrice.currencyCode))
         bundlePriceFooter.viewModel.savings.onNext(packageSavings)
+    }
+
+    private fun getBottomOffsetForClosing(): Int {
+        return if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) 0 else bundlePriceWidgetContainer.height
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
