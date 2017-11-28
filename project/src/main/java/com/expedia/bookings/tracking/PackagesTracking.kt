@@ -128,6 +128,10 @@ class PackagesTracking {
         OmnitureTracking.trackPackageHotelDetailGalleryClick()
     }
 
+    fun trackHotelDetailRoomGalleryClick() {
+        OmnitureTracking.trackPackageHotelDetailRoomGalleryClick()
+    }
+
     fun trackHotelReviewPageLoad() {
         OmnitureTracking.trackPackagesHotelReviewPageLoad()
     }
