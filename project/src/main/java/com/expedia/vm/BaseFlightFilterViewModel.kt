@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.text.format.DateFormat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
@@ -90,7 +91,8 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         private fun toHour(value: Int): Int = value + minDurationHours
 
         fun formatValue(value: Int): String {
-            return context.resources.getStringArray(R.array.hoursList)[toHour(value)]
+            val hourID = if(DateFormat.is24HourFormat(context)) R.array.twentyFourHoursList else R.array.hoursList
+            return context.resources.getStringArray(hourID)[toHour(value)]
         }
 
         fun update(minValue: Int, maxValue: Int): Pair<Int, Int> {

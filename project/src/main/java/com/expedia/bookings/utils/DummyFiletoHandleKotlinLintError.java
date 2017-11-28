@@ -48,6 +48,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.itin_flight_toolbar_title_TEMPLATE,
 		R.layout.widget_itin_toolbar,
 		R.layout.test_widget_itin_toolbar,
+		R.array.twentyFourHoursList,
 		R.layout.flight_itin_card_details,
 		R.anim.slide_out_left_complete,
 		R.anim.slide_in_left_complete,
