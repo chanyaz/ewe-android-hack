@@ -781,7 +781,7 @@
     <!--Create Account -->
     <string name="Create_Account">CREATE AN ACCOUNT</string>
     <!-- Earn rewards and unlock exclusive deals -->
-    <string name="earn_rewards_and_unlock_deals">Earn rewards and unlock exclusive deals</string>
+    <string name="earn_rewards_and_unlock_deals">Earn rewards and unlock exclusive deals.</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -851,7 +851,7 @@
     <string name="search_title">Search</string>
 
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Recommended Tonight</string>
+    <string name="nearby_deals_title">Recommended hotels tonight</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">See more</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -865,7 +865,7 @@
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">tonight only!</string>
     <!-- Label for button to navigate to the car rental line of business -->
-    <string name="nav_car_rentals">Car Rentals</string>
+    <string name="nav_car_rentals">Cars</string>
     <!-- Label for button to navigate to the Activities / Things to Do line of business -->
     <string name="nav_things_to_do">Things to Do</string>
     <!-- Text for active itin card on signed-in user launch screen -->
@@ -945,7 +945,7 @@
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
     <!-- Shop -->
-    <string name="shop">Shop</string>
+    <string name="shop">Shop travel</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find Itinerary</string>
     <string name="unable_to_find_guest_itinerary">Unable to find itinerary. Please confirm on the Account screen that the Country setting matches the website address for your booking.</string>
