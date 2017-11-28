@@ -52,6 +52,7 @@ import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
@@ -740,7 +741,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    private val searchToDetails = object : ScaleTransition(this, HotelSearchPresenter::class.java, HotelDetailPresenter::class.java) {
+    private val searchToDetails = object : LeftToRightTransition(this, HotelSearchPresenter::class.java, HotelDetailPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (!forward) {
@@ -993,7 +994,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             handleGenericSearch(params)
         }
         handler.hotelIdToResultsSubject.subscribe { params ->
-            updateSearchForDeepLink(params, updateDestination = false)
+            val shouldUpdateDestination = params.updateSearchDestination && isKrazyglueOnFlightsConfirmationEnabled(context)
+            updateSearchForDeepLink(params, updateDestination = shouldUpdateDestination)
             handleHotelIdSearch(params, goToResults = true)
         }
 

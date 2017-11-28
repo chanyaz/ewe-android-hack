@@ -142,7 +142,7 @@ class SuggestionV4ServicesTest {
     fun packagesSuggestionsUsesCorrectInterceptors() {
         val testObserver = TestSubscriber<List<SuggestionV4>>()
 
-        service?.suggestPackagesV4("chicago", true, testObserver)
+        service?.suggestPackagesV4("chicago", true, false, testObserver)
         testObserver.awaitTerminalEvent()
         testObserver.assertCompleted()
 

@@ -9,6 +9,7 @@ import android.graphics.drawable.PaintDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.support.annotation.CallSuper
+import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -153,6 +154,13 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
 
     private fun updateDiscountPercentage() {
         discountPercentage.text = viewModel.hotelDiscountPercentage
+        if(viewModel.hasMemberDeal()) {
+            discountPercentage.setBackgroundResource(R.drawable.member_only_deal_background)
+            discountPercentage.setTextColor(ContextCompat.getColor(itemView.context, R.color.member_pricing_text_color))
+        } else {
+            discountPercentage.setBackgroundResource(R.drawable.guest_rating_background)
+            discountPercentage.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
+        }
         discountPercentage.updateVisibility(viewModel.showDiscount)
     }
 

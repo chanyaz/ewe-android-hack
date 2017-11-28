@@ -9,6 +9,7 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.ErrorScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -22,7 +23,7 @@ public class HotelUnknownCheckoutErrorTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_unknown");
 		Common.delay(1);
-		HotelScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 		HotelScreen.checkout(true);
 
 		CheckoutViewModel.performSlideToPurchase(false);

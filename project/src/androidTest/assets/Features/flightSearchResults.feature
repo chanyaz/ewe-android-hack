@@ -352,10 +352,10 @@ Feature: Flights Search Results
       | GetPackagesV1       |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | source              | LHR                                      |
+      | destination         | LAS                                      |
+      | source_suggest      | London, England, UK                      |
+      | destination_suggest | Las Vegas, NV                            |
       | start_date          | 15                                       |
       | end_date            | 20                                       |
       | adults              | 1                                        |
@@ -368,17 +368,17 @@ Feature: Flights Search Results
       | packageType         | fh                                       |
     Then Validate the getPackages API request form data for following parameters
       | fromDate            | 15                                       |
-      | destinationId       | 6000184                                  |
-      | ttla                | DEL                                      |
-      | ftla                | SFO                                      |
+      | destinationId       | 6139100                                  |
+      | ttla                | LAS                                      |
+      | ftla                | LHR                                      |
       | packageTripType     | 2                                        |
       | adultsPerRoom[1]    | 1                                        |
       | numberOfRooms       | 1                                        |
       | toDate              | 20                                       |
-      | originId            | 178305                                   |
+      | originId            | 5392460                                   |
 
   @Flights @EBOnly
-  Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters
+  Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters with modifying parameters
     Given I launch the App
     And I bucket the following tests
       | FlightXSellPackage  |
@@ -427,3 +427,45 @@ Feature: Flights Search Results
       | childrenPerRoom[1]  | 2                                        |
       | childAges[1][1]     | 10                                       |
       | childAges[1][2]     | 10                                       |
+
+  @Flights @FlightSearchResults
+  Scenario Outline: Verify the flight duration is like -1d, +2d
+    Given I launch the App
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I make a flight search with following parameters
+      | source              | happy                                    |
+      | destination         | DEL                                      |
+      | source_suggest      | happy                                    |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 1                                        |
+      | child               | 1                                        |
+      | class               | Economy                                  |
+    And I wait for results to load
+    Then Validate flight time field at cell <cellNumber> has "<flightTime>"
+
+    Examples:
+      | cellNumber  | flightTime                      |
+      | 13          | 3:25 pm - 1:30 am +2d           |
+      | 14          | 11:55 pm - 10:32 am -1d         |
+
+
+  @Flights @FlightSearchResults @Prod
+  Scenario: Verify the flight duration is like -1d, +2d on Production
+    Given I launch the App
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I make a flight search with following parameters
+      | source              | DEL                                      |
+      | destination         | SFO                                      |
+      | source_suggest      | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | destination_suggest | San Francisco, CA                        |
+      | start_date          | 20                                       |
+      | end_date            | 25                                       |
+      | adults              | 1                                        |
+      | child               | 1                                        |
+      | class               | Economy                                  |
+    And I wait for results to load
+    Then Verify if any flight has elapsed time

@@ -11,6 +11,7 @@ import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.common.TripsScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -64,7 +65,7 @@ public class PaymentWidgetTest extends PhoneTestCase {
 		LaunchScreen.hotelsLaunchButton().perform(click());
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel(hotel);
-		HotelScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 	}
 
 	private void enterPaymentDetails() {

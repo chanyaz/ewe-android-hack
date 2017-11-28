@@ -30,7 +30,7 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happy"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val hotelSearchParams = HotelSearchParams.Builder(0, 0,true)
+        val hotelSearchParams = HotelSearchParams.Builder(0, 0)
                 .destination(suggestion)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams
@@ -54,7 +54,7 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happy_with_loyalty_points"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val builder = HotelSearchParams.Builder(0, 0,true).destination(suggestion)
+        val builder = HotelSearchParams.Builder(0, 0).destination(suggestion)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1)) as HotelSearchParams.Builder
         val hotelSearchParams = builder.shopWithPoints(true).build()
@@ -84,7 +84,7 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happy_with_loyalty_price"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val hotelSearchParams = HotelSearchParams.Builder(0, 0,true)
+        val hotelSearchParams = HotelSearchParams.Builder(0, 0)
                 .destination(suggestion)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams
@@ -113,7 +113,7 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happypath"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val params = HotelSearchParams.Builder(0, 0,true)
+        val params = HotelSearchParams.Builder(0, 0)
                 .destination(suggestion).startDate(LocalDate.now().plusDays(5))
                 .endDate(LocalDate.now().plusDays(15))
                 .adults(2)
@@ -136,7 +136,7 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happypath_with_loyalty_points"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val params = HotelSearchParams.Builder(0, 0,true)
+        val params = HotelSearchParams.Builder(0, 0)
                 .destination(suggestion)
                 .startDate(LocalDate.now().plusDays(5))
                 .endDate(LocalDate.now().plusDays(15))
@@ -165,7 +165,7 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happypath_with_loyalty_price"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val params = HotelSearchParams.Builder(0, 0,true)
+        val params = HotelSearchParams.Builder(0, 0)
                 .destination(suggestion)
                 .startDate(LocalDate.now().plusDays(5))
                 .endDate(LocalDate.now().plusDays(15))

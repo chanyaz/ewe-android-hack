@@ -113,13 +113,10 @@
     <color name="search_anim_background">@color/gray100</color>
     <color name="hotelsv2_discount_green">@color/success_green</color>
     <color name="hotel_result_background">@color/gray100</color>
-    <color name="hotels_room_title">@color/gray900</color>
-    <color name="hotels_room_info">@color/gray600</color>
     <color name="hotel_filter_spinner_dropdown_color">@color/white</color>
     <color name="etp_text_color">@color/success_green</color>
     <color name="pay_now_earn_text_color">#8E0099</color>
     <color name="hotel_cell_gray_text">@color/gray600</color>
-    <color name="hotel_cell_disabled_text">@color/gray700</color>
     <color name="hotel_filter_background_color">@color/gray100</color>
     <color name="hotel_points_applied_plus_color">@color/hotels_primary_color</color>
 

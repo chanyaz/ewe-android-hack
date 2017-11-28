@@ -54,6 +54,7 @@
         android:layout_marginLeft="14dp"
         android:layout_marginRight="@dimen/hotel_room_padding"
         android:layout_marginTop="@dimen/hotel_room_padding"
+        android:contentDescription="@string/room_information_button_cont_desc"
         android:src="@drawable/details_info" />
 
     <com.expedia.bookings.widget.TextView
@@ -69,6 +70,6 @@
         android:layout_toLeftOf="@+id/room_info_icon"
         android:drawableLeft="@drawable/room_bed"
         android:drawablePadding="@dimen/textview_drawable_padding"
-        android:textColor="@color/light_text_color"/>
+        android:textColor="@color/light_text_color" />
 
 </merge>

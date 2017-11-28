@@ -9,11 +9,9 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
@@ -21,6 +19,7 @@ import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
@@ -39,7 +38,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -280,40 +278,9 @@ public class PackageScreen {
 		return onView(CoreMatchers.allOf(withId(R.id.filter_categories_widget), hasDescendant(CoreMatchers.allOf(withId(R.id.label), withText(title)))));
 	}
 
-	public static ViewInteraction stickySelectRoom() {
-		return onView(
-			allOf(withId(R.id.sticky_bottom_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
-		);
-	}
-
-	public static ViewInteraction addRoom() {
-		return onView(
-			allOf(
-				withId(R.id.hotel_book_button),
-				isDescendantOfA(allOf(withId(R.id.collapsed_container))),
-				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
-		);
-	}
-
 	public static void resetFlightsFliter() {
 		onView(withId(R.id.dynamic_feedback_clear_button)).perform(click());
 		EspressoUtils.assertViewIsNotDisplayed(R.id.dynamic_feedback_container);
-	}
-
-	public static void clickAddRoom() {
-		waitForDetailsLoaded();
-		addRoom().perform(click());
-	}
-
-	public static void selectRoom() throws Throwable {
-		clickAddRoom();
-		Common.delay(2);
-	}
-
-	public static void selectFirstRoom() {
-		waitForDetailsLoaded();
-		stickySelectRoom().perform(click());
-		addRoom().perform(click());
 	}
 
 	public static void waitForDetailsLoaded() {
@@ -427,7 +394,7 @@ public class PackageScreen {
 	public static void doPackageSearch() throws Throwable {
 		searchPackage();
 		HotelScreen.selectHotel("Package Happy Path");
-		HotelScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(waitForViewToDisplay(), click());

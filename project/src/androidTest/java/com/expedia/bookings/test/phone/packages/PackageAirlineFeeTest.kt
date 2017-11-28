@@ -11,6 +11,7 @@ import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import org.junit.Test
 import java.util.concurrent.TimeUnit
@@ -21,7 +22,7 @@ class PackageAirlineFeeTest: PackageTestCase() {
     fun testAirlineFees() {
         PackageScreen.searchPackage()
         HotelScreen.selectHotel("Package Happy Path")
-        PackageScreen.selectFirstRoom()
+        HotelInfoSiteScreen.bookFirstRoom()
 
         PackageScreen.selectFlight(0)
         PackageScreen.selectThisFlight().perform(click())

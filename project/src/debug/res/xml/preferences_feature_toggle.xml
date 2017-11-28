@@ -38,11 +38,6 @@
             android:summary="Flight rate details from cache"
             android:title="Flight rate details from cache (i.e. remove fullscreen progress)" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_flight_delta_pricing"
-            android:summary="Delta Pricing"
-            android:title="Delta pricing" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -142,6 +137,16 @@
             android:key="@string/preference_packages_breadcrumbs"
             android:summary="Packages Breadcrumbs"
             android:title="Packages Breadcrumbs" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_packages_breadcrumbs_move_bundle_overview"
+            android:summary="Packages Breadcrumbs - Move Bundle Overview Bar"
+            android:title="Packages Breadcrumbs - Move Bundle Overview Bar" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_packages_mis_real_world_geo"
+            android:summary="Packages RWG Migration"
+            android:title="Packages MISRealWorldGeo" />
 
     </PreferenceCategory>
 

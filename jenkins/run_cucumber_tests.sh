@@ -1,9 +1,20 @@
 #!/usr/bin/env bash
 #!/bin/ksh
 
-flavor=$1
-packageName=$2
-tags=$3
+# Making debug by default as false
+debug="false"
+
+while echo $1 | grep -q ^-; do
+    eval $( echo $1 | sed 's/^-//' )=$2
+    shift
+    shift
+done
+
+flavor=$flavor
+packageName=$package
+tags=$tags
+debug=$debug
+noclean=$noclean
 
 if [ -z "$flavor" ]; then
    echo "Missing Flavor"
@@ -52,7 +63,10 @@ function removeDummyFilesOnDevice() {
 
 function build() {
     echo "Building assemble${flavor}Debug....."
-    ./gradlew --no-daemon clean
+    if [ "$noclean" != "true" ]
+        then
+            ./gradlew --no-daemon clean
+    fi
     ./gradlew --no-daemon -PrunProguard=false -PcucumberInstrumentation=true assemble${flavor}Debug assemble${flavor}DebugAndroidTest
     buildDebug=$?
 }
@@ -79,7 +93,7 @@ function installBuild() {
         echo "File, project-${flavorLowerCase}-debug-androidTest.apk, not found"
         exit 1
     fi
-    
+
     adb -s $device shell pm grant "${packageName}.debug" android.permission.ACCESS_FINE_LOCATION
 
 }
@@ -102,8 +116,8 @@ function runCucumberTests() {
         tagsPassed="-e tags \"${tagsPassed}\""
     fi
     adb -s $device shell input keyevent KEYCODE_WAKEUP
-    echo adb -s $device shell am instrument -w -r -e debug false ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
-    adb -s $device shell am instrument -w -r -e debug false ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
+    echo adb -s $device shell am instrument -w -r -e debug ${debug} ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
+    adb -s $device shell am instrument -w -r -e debug ${debug} ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
     runCucumberTests=$?
 }
 
@@ -163,7 +177,7 @@ function runTestsOnDevice() {
         echo "tag trigerred " ${tagSingle}
         runCucumberTests $device $tagSingle
         publishHTMLReport $device $tagSingle
-        sleep 4
+        sleep 10
     done
 
 }

@@ -790,7 +790,6 @@ public class OmnitureTracking {
 
 		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelGroupRoomRate);
 		trackAbacusTest(s, AbacusUtils.HotelEnableInfositeChangeDate);
 
 		// Send the tracking data
@@ -4131,6 +4130,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE = "App.Package.Flight.Search.Filter.";
 	private static final String PACKAGES_FLIGHT_AIRLINES = "App.Package.Flight.Search.Filter.Airline";
 
+	private static final String PACKAGES_INFOSITE_ERROR = "App.Package.Infosite.Error";
 	private static final String PACKAGES_SEARCH_ERROR = "App.Package.Hotels-Search.NoResults";
 	private static final String PACKAGES_CHECKOUT_ERROR = "App.Package.Checkout.Error";
 	private static final String PACKAGES_CHECKOUT_ERROR_RETRY = "App.Package.CKO.Error.Retry";
@@ -4295,6 +4295,7 @@ public class OmnitureTracking {
 		if (response.getHotelResultsCount() > 0) {
 			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_RESULT_LOAD + "\"");
 			s.setAppState(PACKAGES_HOTEL_SEARCH_RESULT_LOAD);
+			s.setEvar(18, PACKAGES_HOTEL_SEARCH_RESULT_LOAD);
 			addPackagesCommonFields(s);
 			s.setEvents("event12,event53");
 			s.setProp(1, String.valueOf(response.getHotelResultsCount()));
@@ -4469,7 +4470,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelReviewPageLoad() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_REVIEWS, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_REVIEWS, null);
 	}
 
 	public static void trackPackagesHotelReviewCategoryChange(String category) {
@@ -4478,11 +4479,11 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelResortFeeInfo() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO, null);
 	}
 
 	public static void trackPackagesHotelRenovationInfo() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO, null);
 	}
 
 	public static void trackPackagesViewBundleLoad(boolean isFirstBundleLaunch) {
@@ -4553,7 +4554,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelMapViewClick() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_MAP, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_MAP, null);
 	}
 
 	public static void trackPackagesHotelMapSelectRoomClick() {
@@ -4563,6 +4564,13 @@ public class OmnitureTracking {
 	public static void trackPackagesSearchError(String errorType) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_SEARCH_ERROR + "\" pageLoad...");
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_SEARCH_ERROR);
+		s.setProp(36, errorType);
+		s.track();
+	}
+
+	public static void trackPackagesInfositeError(String errorType) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_INFOSITE_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_INFOSITE_ERROR);
 		s.setProp(36, errorType);
 		s.track();
 	}
@@ -5117,6 +5125,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSearchResultCaching);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel);
 		s.track();
 	}
 
@@ -5196,6 +5205,7 @@ public class OmnitureTracking {
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
 			setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsDeltaPricing);
 		s.track();
 	}
 
@@ -5271,6 +5281,7 @@ public class OmnitureTracking {
 		setDateValues(s, departureDate, returnDate);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCheckoutButtonText);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsBaggageWebViewHideAd);
 
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_rate_detail_from_cache)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache);

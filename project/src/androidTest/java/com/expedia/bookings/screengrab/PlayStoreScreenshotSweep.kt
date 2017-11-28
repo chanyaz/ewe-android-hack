@@ -46,6 +46,7 @@ import com.expedia.bookings.test.pagemodels.common.LaunchScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.common.TripsScreen
 import com.expedia.bookings.test.Settings
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.utils.Ui
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -201,11 +202,11 @@ class PlayStoreScreenshotSweep {
 
         Screengrab.screenshot("hotel_results")
         HotelScreen.hotelResultsList().perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(3, click()))
-        HotelScreen.waitForDetailsLoaded()
+        HotelInfoSiteScreen.waitForDetailsLoaded()
 
         onView(withId(R.id.sticky_bottom_button)).perform(click())
         Common.delay(2)
-        HotelScreen.addRoom().perform(click())
+        HotelInfoSiteScreen.bookFirstRoom()
         Common.delay(3)
         Screengrab.screenshot("hotel_checkout")
         Common.delay(1)

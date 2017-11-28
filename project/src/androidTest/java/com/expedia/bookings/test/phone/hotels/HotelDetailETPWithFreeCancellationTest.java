@@ -2,20 +2,16 @@ package com.expedia.bookings.test.phone.hotels;
 
 import org.junit.Test;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
 
 public class HotelDetailETPWithFreeCancellationTest extends HotelTestCase {
@@ -24,7 +20,7 @@ public class HotelDetailETPWithFreeCancellationTest extends HotelTestCase {
 	public void testPayLaterHotelWithFreeCancellation() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort_with_free_cancellation");
-		HotelScreen.waitForDetailsLoaded();
+		HotelInfoSiteScreen.waitForDetailsLoaded();
 
 		assertViewsBasedOnETPAndFreeCancellation();
 		assertPayLaterPayNowRooms();
@@ -62,13 +58,7 @@ public class HotelDetailETPWithFreeCancellationTest extends HotelTestCase {
 		//common amenities text is displayed
 		HotelScreen.commonAmenitiesText().perform(scrollTo()).check(matches(isDisplayed()));
 
-
-		HotelScreen.addRoom().perform(scrollTo());
-		Common.delay(1);
-		onView(allOf(withId(R.id.room_header_image), isDisplayed())).perform(swipeUp());
-		Common.delay(1);
-		onView(allOf(withId(R.id.room_header_image), isDisplayed())).perform(swipeUp());
-		Common.delay(1);
+		HotelInfoSiteScreen.clickStickySelectRoom();
 		HotelScreen.etpPlaceholder().check(matches(isDisplayed()));
 		HotelScreen.payNowAndLaterOptions().check(matches(isDisplayed()));
 

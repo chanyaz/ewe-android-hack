@@ -9,6 +9,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.TestValues;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
@@ -32,7 +33,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 	public void testPackageBackNavigation() throws Throwable {
 		PackageScreen.searchPackage();
 		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(waitForViewToDisplay(), click());
 		PackageScreen.selectFlight(0);
@@ -152,5 +153,4 @@ public class PackageBackNavigationTest extends PackageTestCase {
 			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.unreal_deal_message,
 				"Book this and save $110 (22%)");
 	}
-
 }

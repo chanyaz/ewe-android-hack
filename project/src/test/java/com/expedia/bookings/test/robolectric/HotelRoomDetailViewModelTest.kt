@@ -1,21 +1,35 @@
 package com.expedia.bookings.test.robolectric
 
+import android.content.Context
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.ValueAddsEnum
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.payment.LoyaltyEarnInfo
+import com.expedia.bookings.data.payment.LoyaltyInformation
+import com.expedia.bookings.data.payment.PointsEarnInfo
+import com.expedia.bookings.data.payment.PriceEarnInfo
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.testutils.JSONResourceReader
+import com.expedia.util.LoyaltyUtil
 import com.expedia.vm.HotelRoomDetailViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
-import kotlin.comparisons.compareBy
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelRoomDetailViewModelTest {
 
-    val context = RuntimeEnvironment.application
+    val context: Context = RuntimeEnvironment.application
 
     @Test
     fun testBreakfastValueAddsToShow() {
@@ -115,14 +129,579 @@ class HotelRoomDetailViewModelTest {
         assertEquals(context.resources.getString(ValueAddsEnum.INTERNET.descriptionId), toShow[0].apiDescription)
     }
 
-    private fun createRoomResponse(valueAddIds: List<Int>): HotelOffersResponse.HotelRoomResponse {
-         val resourceReader = JSONResourceReader("../lib/mocked/templates/m/api/hotel/offers/happypath.json")
-        val checkoutResponse = resourceReader.constructUsingGson(HotelOffersResponse::class.java)
+    @Test
+    fun testIsPackage() {
+        var roomResponse = createRoomResponse()
+        var viewModel = createViewModel(roomResponse, 3)
+        assertFalse(viewModel.isPackage)
 
-        val roomResponse = checkoutResponse.hotelRoomResponse[0]
+        roomResponse.packageHotelDeltaPrice = Money(10, "USD")
+        viewModel = createViewModel(roomResponse, -5)
+        assertTrue(viewModel.isPackage)
+    }
+
+    @Test
+    fun testOptionStringIndexZero() {
+        var roomResponse = createRoomResponse()
+        var viewModel = createViewModel(roomResponse, -1)
+        assertNull(viewModel.optionString)
+    }
+
+    @Test
+    fun testOptionStringNoRoomDescription() {
+        var roomResponse = createRoomResponse()
+        roomResponse.roomTypeDescription = null
+        var viewModel = createViewModel(roomResponse, 0)
+
+        assertEquals("Option 1", viewModel.optionString.toString())
+    }
+
+    @Test
+    fun testOptionStringWithRoomDescriptionDetail() {
+        var roomResponse = createRoomResponse()
+        roomResponse.roomTypeDescription = "Room Description - Some Details"
+        var viewModel = createViewModel(roomResponse, 1)
+
+        assertEquals("Option 2  (Some Details)", viewModel.optionString.toString())
+    }
+
+    @Test
+    fun testOptionStringWithRoomDescriptionNoDetail() {
+        var roomResponse = createRoomResponse()
+        roomResponse.roomTypeDescription = "Room Description"
+        var viewModel = createViewModel(roomResponse, 2)
+
+        assertEquals("Option 3", viewModel.optionString.toString())
+    }
+
+    @Test
+    fun testCancellationString() {
+        var roomResponse = createRoomResponse()
+        var viewModel = createViewModel(roomResponse, 7)
+
+        assertEquals("Non-refundable", viewModel.cancellationString)
+
+        roomResponse.hasFreeCancellation = true
+        viewModel = createViewModel(roomResponse, 7)
+
+        assertEquals("Free cancellation", viewModel.cancellationString)
+    }
+
+    @Test
+    fun testFreeCancellationTimeStringNotFreeCancellation() {
+        var roomResponse = createRoomResponse()
+        var viewModel = createViewModel(roomResponse, -1)
+        assertNull(viewModel.cancellationTimeString)
+    }
+
+    @Test
+    fun testFreeCancellationTimeStringNoCancellationWindow() {
+        var roomResponse = createRoomResponse()
+        roomResponse.hasFreeCancellation = true
+        var viewModel = createViewModel(roomResponse, -1)
+        assertNull(viewModel.cancellationTimeString)
+    }
+
+    @Test
+    fun testFreeCancellationTimeString() {
+        var roomResponse = createRoomResponse()
+        roomResponse.hasFreeCancellation = true
+        roomResponse.freeCancellationWindowDate = "1993-04-10 12:34"
+        var viewModel = createViewModel(roomResponse, -1)
+
+        val dateTime = DateUtils.yyyyMMddHHmmToDateTime("1993-04-10 12:34").toLocalDate()
+        val cancellationDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(dateTime)
+        assertEquals("before $cancellationDate", viewModel.cancellationTimeString)
+    }
+
+    @Test
+    fun testNoEarnMessage() {
+        val roomResponse = createRoomResponse()
+        val viewModel = createViewModel(roomResponse, -1)
+        assertNull(viewModel.earnMessageString)
+    }
+
+    @Test
+    fun testPointEarnMessage() {
+        val roomResponse = createRoomResponse()
+        val loyaltyInfo = createLoyaltyInformation()
+        roomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = loyaltyInfo
+        val viewModel = createViewModel(roomResponse, -1)
+
+        val shouldShowEarnMessage = LoyaltyUtil.shouldShowEarnMessage("any string", viewModel.isPackage)
+        if (shouldShowEarnMessage) {
+
+            val earnMessage = LoyaltyUtil.getEarnMessagingString(context, viewModel.isPackage, loyaltyInfo.earn, null)
+            assertEquals(earnMessage, viewModel.earnMessageString)
+        } else {
+            assertNull(viewModel.earnMessageString)
+        }
+    }
+
+    @Test
+    fun testPriceEarnMessage() {
+        val roomResponse = createRoomResponse()
+        val loyaltyInfo = createPriceLoyaltyInformation()
+        roomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = loyaltyInfo
+        val viewModel = createViewModel(roomResponse, -1)
+
+        val shouldShowEarnMessage = LoyaltyUtil.shouldShowEarnMessage("any string", viewModel.isPackage)
+        if (shouldShowEarnMessage) {
+            val earnMessage = LoyaltyUtil.getEarnMessagingString(context, viewModel.isPackage, loyaltyInfo.earn, null)
+            assertEquals(earnMessage, viewModel.earnMessageString)
+        } else {
+            assertNull(viewModel.earnMessageString)
+        }
+    }
+
+    @Test
+    fun testPackagePointEarnMessage() {
+        val roomResponse = createRoomResponse()
+        val loyaltyInfo = createLoyaltyInformation()
+        roomResponse.packageHotelDeltaPrice = Money(10, "USD")
+        roomResponse.packageLoyaltyInformation = loyaltyInfo
+        val viewModel = createViewModel(roomResponse, -1)
+
+        val shouldShowEarnMessage = LoyaltyUtil.shouldShowEarnMessage("any string", viewModel.isPackage)
+        if (shouldShowEarnMessage) {
+            val earnMessage = LoyaltyUtil.getEarnMessagingString(context, viewModel.isPackage, null, loyaltyInfo.earn)
+            assertEquals(earnMessage, viewModel.earnMessageString)
+        } else {
+            assertNull(viewModel.earnMessageString)
+        }
+    }
+
+    @Test
+    fun testPackagePriceEarnMessage() {
+        val roomResponse = createRoomResponse()
+        val loyaltyInfo = createPriceLoyaltyInformation()
+        roomResponse.packageHotelDeltaPrice = Money(10, "USD")
+        roomResponse.packageLoyaltyInformation = loyaltyInfo
+        val viewModel = createViewModel(roomResponse, -1)
+
+        val shouldShowEarnMessage = LoyaltyUtil.shouldShowEarnMessage("any string", viewModel.isPackage)
+        if (shouldShowEarnMessage) {
+            val earnMessage = LoyaltyUtil.getEarnMessagingString(context, viewModel.isPackage, null, loyaltyInfo.earn)
+            assertEquals(earnMessage, viewModel.earnMessageString)
+        } else {
+            assertNull(viewModel.earnMessageString)
+        }
+    }
+
+    @Test
+    fun testZeroMandatoryFeeString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.dailyMandatoryFee = 0.0.toFloat()
+        val viewModel = createViewModel(roomResponse, 5)
+
+        assertNull(viewModel.mandatoryFeeString)
+    }
+
+    @Test
+    fun testMandatoryFeeString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.dailyMandatoryFee = 10.0.toFloat()
+        val viewModel = createViewModel(roomResponse, 9)
+
+        val expectedMoney = Money(10, "USD").formattedMoney
+        assertEquals("Excludes $expectedMoney daily resort fee", viewModel.mandatoryFeeString)
+    }
+
+    @Test
+    fun testPackageMandatoryFeeString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.packageHotelDeltaPrice = Money(10, "USD")
+        roomResponse.rateInfo.chargeableRateInfo.dailyMandatoryFee = 10.0.toFloat()
+        val viewModel = createViewModel(roomResponse, 9)
+
+        assertNull(viewModel.mandatoryFeeString)
+    }
+
+    @Test
+    fun testZeroDiscountPercentageString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), false)
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = false
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = 0.0.toFloat()
+        val viewModel = createViewModel(roomResponse, 3)
+
+        assertNull(viewModel.discountPercentageString)
+    }
+
+    @Test
+    fun testLoyaltyBurnDiscountPercentageString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), true)
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = false
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = 10.0.toFloat()
+        val viewModel = createViewModel(roomResponse, 3)
+
+        assertNull(viewModel.discountPercentageString)
+    }
+
+    @Test
+    fun testAirAttachDiscountPercentageString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), false)
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = true
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = 10.0.toFloat()
+        val viewModel = createViewModel(roomResponse, 3)
+
+        assertNull(viewModel.discountPercentageString)
+    }
+
+    @Test
+    fun testDiscountPercentageString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), false)
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = false
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = 10.0.toFloat()
+        val viewModel = createViewModel(roomResponse, 3)
+
+        if (PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach()) {
+            assertEquals("-10%", viewModel.discountPercentageString)
+        } else {
+            assertNull(viewModel.discountPercentageString)
+        }
+    }
+
+    @Test
+    fun testPackageDiscountPercentageString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.packageHotelDeltaPrice = Money(10, "USD")
+        val viewModel = createViewModel(roomResponse, 4)
+
+        assertNull(viewModel.discountPercentageString)
+    }
+
+    @Test
+    fun testPayLaterPriceStringNotPayLater() {
+        val roomResponse = createRoomResponse()
+        roomResponse.isPayLater = false
+        val viewModel = createViewModel(roomResponse, 9)
+
+        assertNull(viewModel.payLaterPriceString)
+    }
+
+    @Test
+    fun testPayLaterTotalPriceString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.isPayLater = true
+        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "RateForWholeStayWithTaxes"
+        val viewModel = createViewModel(roomResponse, 7)
+
+        val expectedMoney = Money(109, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+        assertEquals("$expectedMoney", viewModel.payLaterPriceString)
+    }
+
+    @Test
+    fun testPayLaterPriceString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.isPayLater = true
+        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "PerNightRateNoTaxes"
+        val viewModel = createViewModel(roomResponse, 5)
+
+        val expectedMoney = Money(109, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+        assertEquals("$expectedMoney/night", viewModel.payLaterPriceString)
+    }
+
+    @Test
+    fun testShowDepositTermNotPayLater() {
+        val roomResponse = createRoomResponse()
+        roomResponse.isPayLater = false
+        roomResponse.depositPolicy = List(2, { "policy" })
+        val viewModel = createViewModel(roomResponse, 6)
+
+        assertFalse(viewModel.showDepositTerm)
+    }
+
+    @Test
+    fun testShowDepositTermNoDepositTerm() {
+        val roomResponse = createRoomResponse()
+        roomResponse.isPayLater = true
+        roomResponse.depositPolicy = null
+        var viewModel = createViewModel(roomResponse, 9)
+
+        assertFalse(viewModel.showDepositTerm)
+
+        roomResponse.depositPolicy = List(0, { "policy" })
+        viewModel = createViewModel(roomResponse, 9)
+
+        assertFalse(viewModel.showDepositTerm)
+    }
+
+    @Test
+    fun testShowDepositTerm() {
+        val roomResponse = createRoomResponse()
+        roomResponse.isPayLater = true
+        roomResponse.depositPolicy = List(2, { "policy" })
+        val viewModel = createViewModel(roomResponse, 6)
+
+        assertTrue(viewModel.showDepositTerm)
+    }
+
+    @Test
+    fun testPayLaterStrikeThroughString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.isPayLater = true
+        val viewModel = createViewModel(roomResponse, 7)
+        assertNull(viewModel.strikeThroughString)
+    }
+
+    @Test
+    fun testNegativeStrikeThroughString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = -100f
+        val viewModel = createViewModel(roomResponse, 7)
+        assertNull(viewModel.strikeThroughString)
+    }
+
+    @Test
+    fun testStrikeThroughStringLesserThanPrice() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 100f
+        roomResponse.rateInfo.chargeableRateInfo.priceToShowUsers = 200f
+        val viewModel = createViewModel(roomResponse, 7)
+        assertNull(viewModel.strikeThroughString)
+    }
+
+    @Test
+    fun testStrikeThroughStringEqualPrice() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 100f
+        roomResponse.rateInfo.chargeableRateInfo.priceToShowUsers = 100f
+        val viewModel = createViewModel(roomResponse, 7)
+        assertNull(viewModel.strikeThroughString)
+    }
+
+    @Test
+    fun testStrikeThroughString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 200f
+        val viewModel = createViewModel(roomResponse, 7)
+
+        val expectedMoney = Money(200, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+        assertEquals("$expectedMoney", viewModel.strikeThroughString)
+    }
+
+    @Test
+    fun testPriceStringPayLaterWithDeposit() {
+        val roomResponse = createRoomResponse()
+        roomResponse.isPayLater = true
+        roomResponse.depositPolicy = List(2, { "policy" })
+        val viewModel = createViewModel(roomResponse, 1)
+
+        assertNull(viewModel.priceString)
+    }
+
+    @Test
+    fun testPriceStringPayLaterNoDepositNullDepositAmount() {
+        val roomResponse = createRoomResponse()
+        roomResponse.isPayLater = true
+        roomResponse.depositPolicy = null
+        roomResponse.rateInfo.chargeableRateInfo.depositAmountToShowUsers = null
+        val viewModel = createViewModel(roomResponse, 1)
+
+        val expectedMoney = Money(0, "USD").formattedMoney
+        assertEquals("$expectedMoney Due Now", viewModel.priceString)
+    }
+
+    @Test
+    fun testPriceStringPayLaterNoDeposit() {
+        val roomResponse = createRoomResponse()
+        roomResponse.isPayLater = true
+        roomResponse.depositPolicy = null
+        roomResponse.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "10"
+        val viewModel = createViewModel(roomResponse, 1)
+
+        val expectedMoney = Money(10, "USD").formattedMoney
+        assertEquals("$expectedMoney Due Now", viewModel.priceString)
+    }
+
+    @Test
+    fun testPriceString() {
+        val roomResponse = createRoomResponse()
+        val viewModel = createViewModel(roomResponse, 1)
+
+        val expectedMoney = Money(109, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+        assertEquals("$expectedMoney", viewModel.priceString)
+    }
+
+    @Test
+    fun testPackagePriceString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.packageHotelDeltaPrice = Money(10, "USD")
+        roomResponse.rateInfo.chargeableRateInfo.priceToShowUsers = 100f
+        val viewModel = createViewModel(roomResponse, 1)
+
+        val expectedMoney = Money(100, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+        assertEquals("+$expectedMoney", viewModel.priceString)
+    }
+
+    @Test
+    fun testPackageNegativePriceString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.packageHotelDeltaPrice = Money(10, "USD")
+        roomResponse.rateInfo.chargeableRateInfo.priceToShowUsers = -100f
+        val viewModel = createViewModel(roomResponse, 1)
+
+        val expectedMoney = Money(-100, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+        assertEquals(expectedMoney, viewModel.priceString)
+    }
+
+    @Test
+    fun testTaxFeeDescriptorStringNotBucketedToProminence() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val roomResponse = createRoomResponse()
+        val viewModel = createViewModel(roomResponse, 1)
+
+        assertNull(viewModel.taxFeeDescriptorString)
+    }
+
+    @Test
+    fun testPerNightTaxFeeDescriptorString() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "PerNightRateNoTaxes"
+        val viewModel = createViewModel(roomResponse, 1)
+
+        assertEquals("Excluding taxes and fees", viewModel.taxFeeDescriptorString)
+    }
+
+    @Test
+    fun testTotalTaxFeeDescriptorString() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "RateForWholeStayWithTaxes"
+        val viewModel = createViewModel(roomResponse, 1)
+
+        assertEquals("Total including taxes and fees", viewModel.taxFeeDescriptorString)
+    }
+
+    @Test
+    fun testPricePerDescriptorStringPayLater() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val roomResponse = createRoomResponse()
+        roomResponse.isPayLater = true
+        val viewModel = createViewModel(roomResponse, -1)
+
+        assertNull(viewModel.pricePerDescriptorString)
+    }
+
+    @Test
+    fun testPricePerDescriptorStringNotBucketedToProminenceTotalPrice() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "RateForWholeStayWithTaxes"
+        val viewModel = createViewModel(roomResponse, -1)
+
+        assertNull(viewModel.pricePerDescriptorString)
+    }
+
+    @Test
+    fun testPricePerDescriptorStringNotBucketedToProminencePerNight() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "PerNightRateNoTaxes"
+        val viewModel = createViewModel(roomResponse, -1)
+
+        assertEquals("/night", viewModel.pricePerDescriptorString)
+    }
+
+    @Test
+    fun testPricePerDescriptorStringBucketedToProminenceTotalPrice() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "RateForWholeStayWithTaxes"
+        val viewModel = createViewModel(roomResponse, -1)
+
+        assertEquals(" total stay", viewModel.pricePerDescriptorString)
+    }
+
+    @Test
+    fun testPricePerDescriptorStringBucketedToProminencePerNight() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "PerNightRateNoTaxes"
+        val viewModel = createViewModel(roomResponse, -1)
+
+        assertEquals("/night", viewModel.pricePerDescriptorString)
+    }
+
+    @Test
+    fun testHotelRoomRowButtonString() {
+        val roomResponse = createRoomResponse()
+        val viewModel = createViewModel(roomResponse, 1)
+        assertEquals("Select", viewModel.hotelRoomRowButtonString)
+    }
+
+    @Test
+    fun testPackageHotelRoomRowButtonString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.packageHotelDeltaPrice = Money(10, "USD")
+        val viewModel = createViewModel(roomResponse, 2)
+        assertEquals("Book", viewModel.hotelRoomRowButtonString)
+    }
+
+    @Test
+    fun testInvalidRoomLeftString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.currentAllotment = "a"
+        val viewModel = createViewModel(roomResponse, 0)
+
+        assertNull(viewModel.roomLeftString)
+    }
+
+    @Test
+    fun testZeroRoomLeftString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.currentAllotment = "0"
+        val viewModel = createViewModel(roomResponse, 0)
+
+        assertNull(viewModel.roomLeftString)
+    }
+
+    @Test
+    fun testTooManyRoomLeftString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.currentAllotment = "10"
+        val viewModel = createViewModel(roomResponse, 0)
+
+        assertNull(viewModel.roomLeftString)
+    }
+
+    @Test
+    fun testOneRoomLeftString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.currentAllotment = "1"
+        val viewModel = createViewModel(roomResponse, 0)
+
+        assertEquals("1 Room Left!", viewModel.roomLeftString)
+    }
+
+    @Test
+    fun testFiveRoomLeftString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.currentAllotment = "5"
+        val viewModel = createViewModel(roomResponse, 0)
+
+        assertEquals("5 Rooms Left", viewModel.roomLeftString)
+    }
+
+    private fun createRoomResponse(): HotelOffersResponse.HotelRoomResponse {
+        val resourceReader = JSONResourceReader("../lib/mocked/templates/m/api/hotel/offers/happypath.json")
+        val offerResponse = resourceReader.constructUsingGson(HotelOffersResponse::class.java)
+
+        val roomResponse = offerResponse.hotelRoomResponse[0]
+
+        return roomResponse
+    }
+
+    private fun createRoomResponse(valueAddIds: List<Int>): HotelOffersResponse.HotelRoomResponse {
+        val roomResponse = createRoomResponse()
 
         val valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
-        valueAddIds.forEachIndexed { i, id ->
+        valueAddIds.forEachIndexed { _, id ->
             val valueAdd = HotelOffersResponse.ValueAdds()
             valueAdd.id = id.toString()
             valueAdd.description = id.toString()
@@ -136,6 +715,18 @@ class HotelRoomDetailViewModelTest {
 
     private fun createViewModel(roomResponse: HotelOffersResponse.HotelRoomResponse, optionIndex: Int): HotelRoomDetailViewModel {
         return HotelRoomDetailViewModel(context, roomResponse, "id", 0, optionIndex, false)
+    }
+
+    private fun createLoyaltyInformation(): LoyaltyInformation {
+        val earnInfo = PointsEarnInfo(10, 5, 15)
+        val loyaltyEarnInfo = LoyaltyEarnInfo(earnInfo, null)
+        return LoyaltyInformation(null, loyaltyEarnInfo, false)
+    }
+
+    private fun createPriceLoyaltyInformation(): LoyaltyInformation {
+        val priceEarnInfo = PriceEarnInfo(Money("1", "USD"), Money("0.5", "USD"), Money("1.5", "USD"))
+        val loyaltyEarnInfo = LoyaltyEarnInfo(null, priceEarnInfo)
+        return LoyaltyInformation(null, loyaltyEarnInfo, false)
     }
 
     private fun testValueAddsToShow(ids: List<Int>, enum: ValueAddsEnum) {

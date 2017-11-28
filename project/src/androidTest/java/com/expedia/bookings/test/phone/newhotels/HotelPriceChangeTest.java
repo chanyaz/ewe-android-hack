@@ -4,12 +4,12 @@ import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.HotelTestCase;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
-import static com.expedia.bookings.test.pagemodels.hotels.HotelScreen.pickRoom;
 
 public class HotelPriceChangeTest extends HotelTestCase {
 
@@ -17,8 +17,8 @@ public class HotelPriceChangeTest extends HotelTestCase {
 	public void testPriceChangeGuestUser() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_price_change");
-		HotelScreen.clickSelectRoom();
-		pickRoom("hotel_price_change_checkout");
+		HotelInfoSiteScreen.clickStickySelectRoom();
+		HotelInfoSiteScreen.bookRoomType("hotel_price_change_checkout");
 		HotelScreen.checkout(true);
 		CheckoutViewModel.performSlideToPurchase(false);
 		HotelScreen.enterCVVAndBook();

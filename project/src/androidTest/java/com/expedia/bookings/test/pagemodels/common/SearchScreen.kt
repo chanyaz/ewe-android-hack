@@ -203,7 +203,7 @@ object SearchScreen {
         selectGuestsButton().perform(click())
         setGuests(adults, children)
         if (clickSwP) {
-            HotelScreen.clickSwPToggle();
+            HotelScreen.clickSwPToggle()
         }
 
         searchButton().perform(click())

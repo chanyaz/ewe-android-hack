@@ -297,7 +297,7 @@ Feature: Package Search
       | adultsPerRoom[1]        | 2                           |
       | numberOfRooms           | 1                           |
       | toDate                  | 30                          |
-      | originId                | 178305                      |
+      | originId                | 6000581                      |
       | childrenPerRoom[1]      | 2                           |
       | childAges[1][1]         | 10                          |
       | childAges[1][2]         | 10                          |
@@ -382,7 +382,7 @@ Feature: Package Search
       | source              | SFO                                    |
       | destination         | KTM                                    |
       | source_suggest      | SFO - San Francisco Intl.              |
-      | destination_suggest | Kathmandu, Nepal (KTM-Tribhuvan Intl.) |
+      | destination_suggest | Kathmandu Valley, Nepal                |
       | start_date          | 5                                      |
       | end_date            | 10                                     |
       | adults              | 2                                      |
@@ -394,7 +394,7 @@ Feature: Package Search
     And I launch "Bundle Deals" LOB
     Then Validate search form retains details of search for packages
       | source              | SFO - San Francisco Intl.              |
-      | destination         | Kathmandu, Nepal (KTM-Tribhuvan Intl.) |
+      | destination         | Kathmandu Valley, Nepal                |
       | start_date          | 5                                      |
       | end_date            | 10                                     |
       | numberOfNights      | (5 nights)                             |

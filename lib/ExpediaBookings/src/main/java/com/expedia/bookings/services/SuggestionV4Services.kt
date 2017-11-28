@@ -84,21 +84,33 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .subscribe(observer)
     }
 
-    fun suggestNearbyGaia(lat: Double, lng: Double, sortType: String, lob: String, locale: String, siteId: Int): Observable<MutableList<GaiaSuggestion>> {
+    fun suggestNearbyGaia(lat: Double, lng: Double, sortType: String, lob: String, locale: String, siteId: Int, isMISForRealWorldEnabled: Boolean = false): Observable<MutableList<GaiaSuggestion>> {
         val limit = 2
-        val response = gaiaSuggestApi.gaiaNearBy(lat, lng, limit, lob, sortType, locale, siteId)
+        val response = gaiaSuggestApi.gaiaNearBy(lat, lng, limit, lob, sortType, locale, siteId, if (isMISForRealWorldEnabled) "rwg" else null)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
         return response.map { response -> response.toMutableList() }
     }
 
-    fun suggestPackagesV4(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>): Subscription {
-        var suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or
-                SuggestionResultType.CITY or SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
-        if (isDest) {
-            suggestType = suggestType or SuggestionResultType.AIRPORT
+    fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>): Subscription {
+        val suggestType: Int
+        if (isMISForRealWorldEnabled) {
+            suggestType = SuggestionResultType.AIRPORT or
+                    SuggestionResultType.CITY or
+                    SuggestionResultType.MULTI_CITY or
+                    SuggestionResultType.NEIGHBORHOOD or
+                    SuggestionResultType.POINT_OF_INTEREST or
+                    SuggestionResultType.AIRPORT_METRO_CODE or
+                    SuggestionResultType.MULTI_REGION
+        } else {
+            suggestType = SuggestionResultType.AIRPORT or
+                    SuggestionResultType.CITY or
+                    SuggestionResultType.MULTI_CITY or
+                    SuggestionResultType.NEIGHBORHOOD or
+                    SuggestionResultType.POINT_OF_INTEREST or
+                    SuggestionResultType.AIRPORT_METRO_CODE
         }
-        return suggestV4(query, suggestType, isDest, "ta_hierarchy", "PACKAGES")
+        return suggestV4(query, suggestType, isDest, "ta_hierarchy", "PACKAGES", abTest = if (isMISForRealWorldEnabled) "11996.1" else null)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
@@ -133,7 +145,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
     }
 
     private fun suggestV4(query: String, suggestType: Int, isDest: Boolean, features: String, lineOfBusiness: String,
-                          maxResults: Int? = null, guid: String? = null): Observable<SuggestionV4Response> {
-        return suggestApi.suggestV4(query, suggestType, isDest, features, lineOfBusiness, maxResults, guid)
+                          maxResults: Int? = null, guid: String? = null, abTest: String? = null): Observable<SuggestionV4Response> {
+        return suggestApi.suggestV4(query, suggestType, isDest, features, lineOfBusiness, maxResults, guid, abTest)
     }
 }

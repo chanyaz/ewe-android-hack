@@ -11,6 +11,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.utils.DateFormatUtils;
 
@@ -29,7 +30,7 @@ public class HotelConfirmationTest extends HotelTestCase {
 	public void testConfirmationView() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel();
-		HotelScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 		HotelScreen.checkout(true);
 		CheckoutViewModel.performSlideToPurchase(false);
 		HotelScreen.enterCVVAndBook();
@@ -62,7 +63,5 @@ public class HotelConfirmationTest extends HotelTestCase {
 			.check(matches(isClickable()));
 		onView(allOf(withId(R.id.call_support_action_textView), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 			.check(matches(isClickable()));
-
 	}
-
 }

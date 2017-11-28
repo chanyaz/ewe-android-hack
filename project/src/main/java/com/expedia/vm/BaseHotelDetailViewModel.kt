@@ -16,7 +16,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.DEFAULT_HOTEL_GALLERY_CODE
-import com.expedia.bookings.hotel.util.HotelGalleryManager
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
@@ -105,9 +104,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     var etpUniqueValueAddForRooms: List<String> by Delegates.notNull()
     val etpRoomResponseListObservable = BehaviorSubject.create<Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>>>()
 
-    val lastExpandedRowIndexObservable = BehaviorSubject.create<Int>()
-    val rowExpandingObservable = PublishSubject.create<Int>()
-    val hotelRoomRateViewModelsObservable = BehaviorSubject.create<ArrayList<HotelRoomRateViewModel>>()
     val hotelRoomDetailViewModelsObservable = BehaviorSubject.create<ArrayList<HotelRoomDetailViewModel>>()
 
     val hotelResortFeeObservable = BehaviorSubject.create<String>("")
@@ -250,12 +246,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
         selectedRoomSoldOut.subscribe {
             if (selectedRoomIndex != -1) {
-                if (shouldGroupAndSortRoom()) {
-                    hotelRoomDetailViewModelsObservable.value.elementAt(selectedRoomIndex).roomSoldOut.onNext(true)
-                } else {
-                    hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).collapseRoomObservable.onNext(Unit)
-                    hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).roomSoldOut.onNext(true)
-                }
+                hotelRoomDetailViewModelsObservable.value.elementAt(selectedRoomIndex).roomSoldOut.onNext(true)
             }
         }
 
@@ -264,25 +255,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         }
 
         hotelOffersSubject.subscribe(offersObserver)
-
-        hotelRoomRateViewModelsObservable.subscribe { roomRateViewModels ->
-            roomSubscriptions?.unsubscribe()
-            if (roomRateViewModels.isEmpty()) {
-                return@subscribe
-            }
-
-            roomSubscriptions = CompositeSubscription()
-            roomRateViewModels.forEach { roomViewModel ->
-                roomSubscriptions?.add(roomViewModel.roomSoldOut.subscribe {
-                    if (areAllRoomsSoldOut(roomRateViewModels)) {
-                        // In the situation where all once available rooms become sold out, update the experience
-                        allRoomsSoldOut.onNext(true)
-                    }
-                })
-            }
-
-            allRoomsSoldOut.onNext(areAllRoomsSoldOut(roomRateViewModels))
-        }
 
         hotelRoomDetailViewModelsObservable.subscribe { roomDetailViewModels ->
             roomSubscriptions?.unsubscribe()
@@ -302,23 +274,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             allRoomsSoldOut.onNext(areAllRoomDetailsSoldOut(roomDetailViewModels))
         }
 
-        rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
-            //collapse already expanded row if there is one
-            val previousRowIndex = lastExpandedRowIndexObservable.value
-            if (previousRowIndex >= 0
-                && previousRowIndex < hotelRoomRateViewModelsObservable.value.size
-                && previousRowIndex != indexOfRowBeingExpanded) {
-                hotelRoomRateViewModelsObservable.value.elementAt(previousRowIndex).collapseRoomWithAnimationObservable.onNext(Unit)
-            }
-            lastExpandedRowIndexObservable.onNext(indexOfRowBeingExpanded)
-        }
-
         hotelSelectedObservable.subscribe { loadTimeData.markPageLoadStarted(System.currentTimeMillis()) }
-    }
-
-    fun shouldGroupAndSortRoom(): Boolean {
-        return getLOB() == LineOfBusiness.HOTELS &&
-                AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelGroupRoomRate)
     }
 
     fun groupAndSortRoomList(roomList: List<HotelOffersResponse.HotelRoomResponse>): LinkedHashMap<String, ArrayList<HotelOffersResponse.HotelRoomResponse>> {
@@ -326,11 +282,13 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         val sortedRoomList = roomList.sortedWith(compareBy({ it.rateInfo.chargeableRateInfo.priceToShowUsers }, { it.hasFreeCancellation }, { if (it.valueAdds != null) -it.valueAdds.count() else 0 }))
 
         sortedRoomList.forEach { room ->
-            if (roomOrderedMap[room.roomTypeCode] == null) {
-                roomOrderedMap[room.roomTypeCode] = ArrayList<HotelOffersResponse.HotelRoomResponse>()
+            val groupingKey = room.roomGroupingKey()
+
+            if (roomOrderedMap[groupingKey] == null) {
+                roomOrderedMap[groupingKey] = ArrayList()
             }
 
-            roomOrderedMap[room.roomTypeCode]?.add(room)
+            roomOrderedMap[groupingKey]?.add(room)
         }
 
         return roomOrderedMap
@@ -475,7 +433,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         hotelRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, offerResponse.hotelStarRating.toInt()))
 
         allRoomsSoldOut.onNext(CollectionUtils.isEmpty(offerResponse.hotelRoomResponse))
-        lastExpandedRowIndexObservable.onNext(-1)
 
         val firstHotelRoomResponse = offerResponse.hotelRoomResponse?.firstOrNull()
         if (firstHotelRoomResponse != null) {
@@ -630,14 +587,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             if (!vm.roomSoldOut.value) return false
         }
         return true
-    }
-
-    private fun areAllRoomsSoldOut(viewModels: ArrayList<HotelRoomRateViewModel>): Boolean {
-        var soldOutCount = 0
-        for (vm in viewModels) {
-            if (vm.roomSoldOut.value) soldOutCount++
-        }
-        return soldOutCount == viewModels.size
     }
 
     private fun fetchHotelImages() {

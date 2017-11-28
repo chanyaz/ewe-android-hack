@@ -15,6 +15,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import org.junit.Test
 
@@ -25,11 +26,11 @@ class HotelCheckoutTest: HotelTestCase() {
         SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel("happypath")
         Common.delay(1)
-        HotelScreen.selectFirstRoom()
+        HotelInfoSiteScreen.bookFirstRoom()
         enterTravelerAndPaymentDetails()
 
         Espresso.pressBack() // nav back to details
-        HotelScreen.selectRoom()
+        HotelInfoSiteScreen.bookFirstRoom()
 
         // assert that credit card number is empty
         Common.delay(1)
@@ -45,7 +46,7 @@ class HotelCheckoutTest: HotelTestCase() {
     fun testLoggedInCustomerCanEnterNewTraveler() {
         SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel()
-        HotelScreen.selectFirstRoom()
+        HotelInfoSiteScreen.bookFirstRoom()
         CheckoutViewModel.clickDone()
 
         HotelScreen.doLogin()
@@ -76,10 +77,10 @@ class HotelCheckoutTest: HotelTestCase() {
         HotelScreen.selectHotel("Non Merchant Hotel")
         Common.delay(1)
 
-        HotelScreen.selectRoomButton().perform(click())
+        HotelInfoSiteScreen.clickStickySelectRoom()
         Common.delay(1)
 
-        HotelScreen.selectRoom()
+        HotelInfoSiteScreen.bookFirstRoom()
 
         CheckoutViewModel.resortFeeDisclaimerText().perform(scrollTo())
         Common.delay(1)
@@ -97,7 +98,7 @@ class HotelCheckoutTest: HotelTestCase() {
         SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel("happypath")
 
-        HotelScreen.selectFirstRoom()
+        HotelInfoSiteScreen.bookFirstRoom()
         CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
     }
 
@@ -107,7 +108,7 @@ class HotelCheckoutTest: HotelTestCase() {
         // Check to make sure non merchant shows up in result list
         HotelScreen.selectHotel("Non Merchant Hotel")
 
-        HotelScreen.selectFirstRoom()
+        HotelInfoSiteScreen.bookFirstRoom()
         CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
 
@@ -120,7 +121,7 @@ class HotelCheckoutTest: HotelTestCase() {
         // Check to make sure non merchant shows up in result list
         HotelScreen.selectHotel("Non Merchant Hotel")
 
-        HotelScreen.selectFirstRoom()
+        HotelInfoSiteScreen.bookFirstRoom()
 
         CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
         CheckoutViewModel.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
@@ -137,7 +138,7 @@ class HotelCheckoutTest: HotelTestCase() {
     fun testTravelerCardContentDescription() {
         SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel("happypath")
-        HotelScreen.selectFirstRoom()
+        HotelInfoSiteScreen.bookFirstRoom()
         CheckoutViewModel.waitForCheckout()
         CheckoutViewModel.clickDone()
 

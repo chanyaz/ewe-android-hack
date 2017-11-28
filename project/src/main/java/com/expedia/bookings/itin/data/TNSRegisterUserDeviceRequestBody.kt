@@ -11,3 +11,4 @@ class Courier(val group: String, val name: String, val token: String)
 class TNSRegisterDeviceResponse(val activityId: String, var errorMessage: String, val status: String)
 
 class TNSFlight(val airline: String, val arrival_date: String, val departure_date: String, val departureDay: String, val destination: String, val flight_no: String, val origin: String)
+

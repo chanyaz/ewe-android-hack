@@ -6,6 +6,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightTravelerInfoViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import kotlinx.android.synthetic.main.itin_traveler_info_widget.view.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,10 +39,12 @@ class FlightItinTravelerInfoWidgetTest {
         assertEquals("", sut.travelerEmail.text)
         assertEquals(View.GONE, sut.emailContainer.visibility)
         assertEquals(View.GONE, sut.divider.visibility)
+        assertEquals(View.GONE, sut.email_phone_container.visibility)
         sut.viewModel.travelerEmailSubject.onNext("test123@123.com")
         assertEquals("test123@123.com", sut.travelerEmail.text)
         assertEquals(View.VISIBLE, sut.emailContainer.visibility)
         assertEquals(View.VISIBLE, sut.divider.visibility)
+        assertEquals(View.VISIBLE, sut.email_phone_container.visibility)
     }
 
     @Test

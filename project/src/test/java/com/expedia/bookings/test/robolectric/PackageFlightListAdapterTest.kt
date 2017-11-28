@@ -219,7 +219,7 @@ class PackageFlightListAdapterTest {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.UNITED_KINGDOM)
         sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices roundtrip, per person, from • includes hotel and flights", headerViewHolder.priceHeader.text)
+        assertEquals("Price per person for hotel and roundtrip flight from…", headerViewHolder.priceHeader.text)
         setPointOfSale(initialPOSID)
     }
 

@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
@@ -55,7 +56,6 @@ import static com.expedia.bookings.test.stepdefs.phone.flights.DatePickerSteps.p
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.AllOf.allOf;
-
 
 public class SearchScreenSteps {
 
@@ -188,7 +188,7 @@ public class SearchScreenSteps {
 	}
 	@Then("^I select first room$")
 	public void selectRoom() throws Throwable {
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 	}
 	@Then("^I select (outbound?|inbound) flight to (destination|source) at position (\\d+)$")
 	public void clickFlights(String ignore1, String ignore2, int pos) throws Throwable {
@@ -376,7 +376,7 @@ public class SearchScreenSteps {
 
 	@And("^Wait for checkout screen to load after createTrip")
 	public void waitForCheckoutToLoadAfterCreateTrip() throws Throwable {
-		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.checkout_button), 10, TimeUnit.SECONDS);
+		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.checkout_button), 40, TimeUnit.SECONDS);
 	}
 
 	@Then("^Validate search form retains details of search for packages")

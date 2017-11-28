@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.stepdefs.phone.hotel
 
-import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSite
-import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSite.VIPAccess
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen.VIPAccess
 
 import cucumber.api.java.en.And
 import cucumber.api.java.en.Then
@@ -22,13 +22,13 @@ class HotelInfoSiteScreenSteps {
 	@Then("^I verify that VIP Access label is present on hotel infosite page$")
 	@Throws(Throwable::class)
 	fun iVerifyThatVIPAccessLabelIsPresent() {
-		HotelInfoSite.verifyVIPAccessLabelIsPresent()
+		HotelInfoSiteScreen.verifyVIPAccessLabelIsPresent()
 	}
 
 	@And("^I click on a VIP Access label on hotel infosite page$")
 	@Throws(Throwable::class)
 	fun iClickOnAVIPAccessLabelOnTheHotelInfositePage() {
-		HotelInfoSite.clickOnVIPAccess()
+		HotelInfoSiteScreen.clickOnVIPAccess()
 		VIPAccess.waitForViewToLoad()
 	}
 

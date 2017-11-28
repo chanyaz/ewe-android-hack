@@ -11,6 +11,7 @@ import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.TestValues;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
@@ -62,6 +63,6 @@ public class PackageSearchErrorTest extends PackageTestCase {
 		//Error action button takes back to search screen
 		SearchScreen.searchButton().perform(click());
 		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 	}
 }

@@ -3,6 +3,8 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import android.support.test.espresso.Espresso;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
@@ -23,6 +25,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.hasTextInputLayoutAccesibilityEditText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.hasTextInputLayoutErrorText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay;
@@ -39,7 +43,7 @@ public class FlightsCheckoutScreenSteps {
 
 	@And("^Passport field is present on the traveler info form$")
 	public void checkPassportFieldVisibility() throws Throwable {
-		onView(withId(R.id.passport_country_spinner)).check(matches(isDisplayed()));
+		onView(withId(R.id.passport_country_btn)).check(matches(isDisplayed()));
 	}
 
 	@And("^I fill the following details in the traveller details form:$")
@@ -62,7 +66,8 @@ public class FlightsCheckoutScreenSteps {
 				int year = Integer.parseInt(parameters.get("year"));
 				int month = Integer.parseInt(parameters.get("month"));
 				int date = Integer.parseInt(parameters.get("date"));
-				TravelerDetails.selectBirthDate(year,month,date);
+				Espresso.closeSoftKeyboard();
+				TravelerDetails.selectBirthDate(year, month, date);
 				break;
 			case "gender":
 				TravelerDetails.materialSelectGender(parameters.get("gender"));
@@ -81,12 +86,18 @@ public class FlightsCheckoutScreenSteps {
 
 	@And("^Traveller details are not saved$")
 	public void checkTheDetails() throws Throwable {
-		onView(withId(R.id.passport_country_spinner)).check(matches(isDisplayed()));
+		onView(withId(R.id.passport_country_btn)).check(matches(isDisplayed()));
 	}
 
 	@And("^Passport field is shown as a mandatory field$")
 	public void isPassportFieldMandatory() throws Throwable {
 		onView(withText("Passport: Country")).check(matches(withCompoundDrawable(R.drawable.invalid)));
+	}
+
+	@Then("^I verify that error hint \"(.*?)\" is displayed for Passport$")
+	public void isPassportFieldMandatory(String errorHint) throws Throwable {
+		TravelerDetails.passportCountry()
+			.check(matches(hasTextInputLayoutErrorText(errorHint)));
 	}
 
 	@Then("^I login with user having single stored card at checkout screen$")
@@ -185,6 +196,12 @@ public class FlightsCheckoutScreenSteps {
 			.check(matches(not(withCompoundDrawable(R.drawable.invalid))));
 	}
 
+	@Then("^I verify that error hint \"(.*?)\" is displayed for cardholder name$")
+	public void verifyErrorHintPresentWithText(String errorHint) throws Throwable {
+		CardInfoScreen.nameOnCardEditText()
+			.check(matches(hasTextInputLayoutAccesibilityEditText(errorHint)));
+	}
+
 	@Then("^I verify that a red exclamation is displayed on cardholder name$")
 	public void verifyRedExclamation() throws Throwable {
 		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.invalid)));
@@ -197,7 +214,7 @@ public class FlightsCheckoutScreenSteps {
 		PackageScreen.clickPaymentDone();
 	}
 	private void selectPassport(String country) {
-		onView(withId(R.id.passport_country_spinner)).perform(click());
+		onView(withId(R.id.passport_country_btn)).perform(click());
 		onView(withText(country)).perform(click());
 	}
 }

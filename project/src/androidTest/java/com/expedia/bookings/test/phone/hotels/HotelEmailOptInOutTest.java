@@ -8,9 +8,8 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
-
-import static com.expedia.bookings.test.pagemodels.hotels.HotelScreen.pickRoom;
 
 public class HotelEmailOptInOutTest extends HotelTestCase {
 
@@ -18,8 +17,8 @@ public class HotelEmailOptInOutTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_email_opt_in");
 		Common.delay(1);
-		HotelScreen.clickSelectRoom();
-		pickRoom(room);
+		HotelInfoSiteScreen.clickStickySelectRoom();
+		HotelInfoSiteScreen.bookRoomType(room);
 		CheckoutViewModel.waitForCheckout();
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.clickTravelerInfo();
@@ -31,7 +30,7 @@ public class HotelEmailOptInOutTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_email_opt_in");
 		Common.delay(1);
-		HotelScreen.selectFirstRoom();
+		HotelInfoSiteScreen.bookFirstRoom();
 		CheckoutViewModel.waitForCheckout();
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.clickTravelerInfo();
@@ -46,7 +45,6 @@ public class HotelEmailOptInOutTest extends HotelTestCase {
 		Common.delay(1);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.merchandise_guest_opt_checkbox,
 			"I want to receive emails from Expedia with travel deals, special offers, and other information.");
-
 	}
 
 	//test CONSENT_TO_OPT_OUT

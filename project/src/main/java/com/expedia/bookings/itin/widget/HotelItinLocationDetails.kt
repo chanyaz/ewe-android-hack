@@ -6,28 +6,29 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.View.OnClickListener
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.itin.activity.HotelItinExpandedMapActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.itin.vm.GoogleMapsLiteViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.GoogleMapsUtil
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.ItinActionsSection
-import com.expedia.bookings.widget.LocationMapImageView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.itin.SummaryButton
+import com.google.android.gms.maps.model.LatLng
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
 
 class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
-    val locationMapImageView: LocationMapImageView by bindView(R.id.widget_hotel_itin_map)
+    val mapView by bindView<GoogleMapsLiteMapView>(R.id.widget_hotel_itin_map)
     val address: LinearLayout by bindView(R.id.widget_hotel_itin_address)
     val addressLine1: TextView by bindView(R.id.widget_hotel_itin_address_line_1)
     val addressLine2: TextView by bindView(R.id.widget_hotel_itin_address_line_2)
@@ -39,11 +40,14 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
 
     fun setupWidget(itinCardDataHotel: ItinCardDataHotel) {
         if (itinCardDataHotel.propertyLocation != null) {
-            locationMapImageView.setZoom(14)
-            locationMapImageView.setLocation(LatLong(itinCardDataHotel.propertyLocation.latitude, itinCardDataHotel.propertyLocation.longitude))
-            if (isUserBucketedForMapABTest()) {
-                locationMapImageView.setOnClickListener {
-                    context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
+            val mapVm = GoogleMapsLiteViewModel(
+                    LatLng(itinCardDataHotel.propertyLocation.latitude, itinCardDataHotel.propertyLocation.longitude),
+                    listOf(LatLng(itinCardDataHotel.propertyLocation.latitude, itinCardDataHotel.propertyLocation.longitude))
+            )
+            mapView.setViewModel(mapVm)
+            mapView.setOnClickListener {
+                if (isUserBucketedForMapABTest()) {
+                    context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
                     OmnitureTracking.trackItinHotelExpandMap()
                 }
             }
@@ -68,8 +72,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
             if (isUserBucketedForMapABTest()) {
                 context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
                 OmnitureTracking.trackItinHotelExpandMap()
-            }
-            else {
+            } else {
                 val intent = GoogleMapsUtil.getDirectionsIntent(itinCardDataHotel.property.location.toLongFormattedString())
                 if (intent != null) {
                     NavUtils.startActivitySafe(context, intent)

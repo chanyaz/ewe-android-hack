@@ -35,7 +35,7 @@ open class HotelGalleryManager() {
         roomImages.clear()
         for (i  in rooms.indices) {
             val room = rooms[i]
-            val code = room.roomTypeCode
+            val code = room.roomGroupingKey()
             room.roomThumbnailUrlArray?.forEach { url ->
                 if (roomImages[code] == null) {
                     roomImages.put(code, ArrayList<HotelMedia>())

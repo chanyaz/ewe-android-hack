@@ -97,7 +97,6 @@ class FlightViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDeltaPrice() {
-        SettingUtils.save(context, R.string.preference_flight_delta_pricing, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsDeltaPricing)
         createExpectedFlightLeg(true)
         flightLeg.packageOfferModel.price.deltaPositive = true

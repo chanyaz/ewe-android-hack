@@ -168,7 +168,7 @@ open class HotelViewModel(private val context: Context) {
         return getMobileExclusiveUrgencyMessage()
     }
 
-    open fun hasMemberDeal(hotel: Hotel): Boolean {
+    open fun hasMemberDeal(): Boolean {
         return hotel.isMemberDeal && userStateManager.isUserAuthenticated()
     }
 
@@ -257,8 +257,8 @@ open class HotelViewModel(private val context: Context) {
     }
 
     private fun getMemberDealUrgencyMessage(): UrgencyMessage? {
-        if (hasMemberDeal(hotel)) {
-            return UrgencyMessage(R.drawable.ic_member_badge, R.color.member_pricing_flag_bg_color,
+        if (hasMemberDeal()) {
+            return UrgencyMessage(R.drawable.ic_member_only_tag, R.color.member_pricing_flag_bg_color,
                     resources.getString(R.string.member_pricing), R.color.member_pricing_text_color)
         }
         return null

@@ -1433,6 +1433,10 @@
     <string name="confirm_seat_selection">航空会社にて座席の確認 / 変更可</string>
     <!-- displayed when seats can be selected but have not yet -->
     <string name="select_seat_prompt">座席未選択</string>
+    <!-- Flight itin terminal maps bottom sheet title -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_title">地図のオプション</string>
+    <!-- Flight itin terminal maps bottom sheet airport text template. (e.g., SFO terminal map) -->
+    <string name="itin_flight_terminal_maps_bottom_sheet_airport_text_TEMPLATE">{airport} のターミナルマップ</string>
     <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
     <string name="itin_flight_summary_arrives_on_TEMPLATE">到着 : {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
@@ -1442,7 +1446,7 @@
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">手荷物情報</string>
     <!--Flight itin traveller info widget heading-->
-    <string name="itin_flight_traveler_info">旅行者情報</string>
+    <string name="itin_flight_traveller_info">旅行者情報</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">予約の管理</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
@@ -1453,7 +1457,8 @@
     <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">{duration}遅延</string>
     <!--Flight itin segment summary flight status indicator text - early departure-->
     <string name="itin_flight_summary_status_indicator_text_early_departure">早めに出発</string>
-
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_manage_booking_header">予約の管理</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} 日 {hours} 時間 {minutes} 分</string>
@@ -1523,6 +1528,8 @@
 
 
     <!-- Action Buttons -->
+    <!-- action button to launch terminal maps bottom sheet -->
+    <string name="itin_action_terminal_maps">ターミナルマップ</string>
     <string name="itin_action_directions">行き方</string>
     <string name="itin_action_call_hotel">ホテルに電話</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -2070,8 +2077,6 @@
     <string name="save_traveler">旅行者を保存する</string>
     <!-- no thanks -->
     <string name="no_thanks">いいえ</string>
-    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
-    <string name="advanced">拡張設定</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">その他 (オプション)</string>
     <string name="contact_airline_message">航空会社にご連絡のうえ、ご確認ください</string>
@@ -2158,13 +2163,9 @@
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">エラー</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">希望の座席 : %1$s</string>
     <string name="prefers_seat_colored_TEMPLATE2">希望 : %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">旅行者情報を読み込んでいます…</string>
-
-    <!-- Passport label -->
-    <string name="passport_country_colon">パスポート :</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2383,19 +2384,6 @@
     <!-- This is a special case for rails senior age greater than 62 -->
     <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62&lt;/b&gt; 歳以上</string>
 
-    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-    <!-- Suggestion to search Times Square -->
-    <string name="suggestion_times_square">ニューヨーク州ニューヨーク、タイムズ スクエア</string>
-    <string name="suggestion_boston">マサチューセッツ州ボストン</string>
-    <string name="suggestion_los_angeles">カリフォルニア州ロサンゼルス</string>
-    <string name="suggestion_venice">カリフォルニア州ベニス、ベニス ビーチ パーク</string>
-    <string name="suggestion_miami">フロリダ州マイアミ</string>
-    <string name="suggestion_london">イギリス、ロンドン</string>
-    <string name="suggestion_las_vegas">ネバダ州ラスベガス</string>
-    <string name="suggestion_paris">フランス、パリ</string>
-    <string name="suggestion_minneapolis">ミネソタ州ミネアポリス</string>
-    <string name="suggestion_san_francisco">カリフォルニア州サンフランシスコ</string>
-
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">検索</string>
@@ -2498,6 +2486,8 @@
     <string name="current_location">現在地</string>
     <string name="recent_searched_location">最近検索したロケーション</string>
     <string name="suggested_location">おすすめのロケーション</string>
+    <!-- To notify the section suggested locations while navigating using talkback -->
+    <string name="suggested_location_list">検索候補</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">表示マップエリア</string>
 
@@ -2753,8 +2743,6 @@
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
     <string name="urgency_destination_description_TEMPLATE">選択された期間には{destination}のホテルは混み合っています</string>
 
-    <!-- The text we use to show room info for expanded room -->
-    <string name="room_information">客室情報</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">客室情報ボタン</string>
     <!-- The text we use to message that the room in non-refundable -->
@@ -2783,12 +2771,8 @@
     <string name="view_room_button_text">客室を見る</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">予約</string>
-    <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
-    <string name="view_room_button_content_description_TEMPLATE">{room} の客室を表示する</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">含まれているもの : %s</string>
-    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
-    <string name="book_room_button_content_description_TEMPLATE">{room} を予約する</string>
     <!-- Room description alert dialog title -->
     <string name="room_description_title">客室の詳細</string>
     <!-- Renovation Notice -->
@@ -2884,6 +2868,11 @@
     <string name="coupon_submit_button">送信</string>
     <!-- Coupon submit button for accessibility -->
     <string name="coupon_submit_button_ally">送信ボタン</string>
+    <!-- Coupon apply button -->
+    <string name="coupon_apply_button">適用</string>
+    <!-- Coupon apply button for accessibility -->
+    <string name="coupon_apply_button_ally">適用ボタン</string>
+
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3742,6 +3731,10 @@
     <string name="step_one">ステップ 1 : ホテルを選択する</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">ステップ 2 : 航空券を選択する</string>
+    <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
+    <string name="step_two_variation">ステップ 2 : 行きの便を選択する</string>
+    <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
+    <string name="step_three">ステップ 3 : 帰りの便を選択する</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">トラベルセット割</string>
     <!-- package hotel results unreal deal message for freeHotel -->
@@ -3879,12 +3872,18 @@
     <string name="select_return_flight">帰りの便を選択</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">%1$sへのフライト</string>
+    <!-- Flight overview - Step 2: flight to template (breadcrumbs) E.g. Step 2: Flight to London -->
+    <string name="flight_to_outbound_breadcrumbs_TEMPLATE">ステップ 2 : {destination}への行きの便</string>
+    <!-- Flight overview - Step 3: flight to template (breadcrumbs) E.g. Step 3: Flight to London -->
+    <string name="flight_to_inbound_breadcrumbs_TEMPLATE">ステップ 3 : {origin}への帰りの便</string>
     <!-- Inbound to template, E.g. Inbound to Kathmandu, Nepal (KTM) -->
     <string name="package_flight_inbound_toolbar_title_TEMPLATE">帰りの到着地 : {cityname}, {stateorcountry} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}、{travelers}</string>
     <!-- Toolbar text for hotel results -->
     <string name="package_hotel_results_toolbar_title_TEMPLATE">%sのホテル</string>
+    <!-- Toolbar text for hotel results with breadcrumbs, E.g. Step 1: Hotels in London -->
+    <string name="package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE">ステップ 1 : {destination}のホテル</string>
     <!-- Description for infant travelers sitting in lap -->
     <string name="in_lap">膝抱き</string>
     <!-- Description for infant travelers sitting in seat -->
@@ -4491,6 +4490,8 @@
     <string name="accessibility_cont_desc_opens_dialog">ダイアログを開きます</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">無効のクレジットカード タイプ</string>
+    <!-- Content Description for Rating Button -->
+    <string name="accessibility_cont_desc_user_rating_button">ユーザーの評価ボタン</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">料金は {activity_price} ({ticket_type}) です</string>
@@ -4621,6 +4622,10 @@
     <string name="deals_hotel_only">ホテル</string>
     <string name="deals_toolbar_close_cont_desc">会員価格画面を閉じる</string>
 
+    <!-- Last Minute Deal -->
+    <string name="last_minute_deal_title">直前割引</string>
+    <string name="last_minute_deal_subtitle">今すぐ旅へ ! お得な直前割引をチェック</string>
+
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">並び替え順の定義</string>
     <!-- Checkout validation error message for credit card number-->
@@ -4671,11 +4676,6 @@
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">オプション {number}</string>
 
-    <!-- Content description for double tap action to collapse HIS room info -->
-    <string name="collapse_room_info_cont_desc">非表示にする</string>
-    <!-- Content description for double tap action to expand HIS room info -->
-    <string name="expand_room_info_cont_desc">非表示にする</string>
-
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}。ボタン</string>
 
@@ -4711,6 +4711,21 @@
     <string name="amenity_carry_on_bag">機内持ち込み手荷物</string>
     <string name="amenity_seat_choice">座席の選択</string>
 
+    <!-- Amenities Content Description-->
+    <!-- Cont Desc for charged amenities Example: Seat Choice available for a fee-->
+    <string name="amenity_chargeable_cont_desc_TEMPLATE">{amenity_name}は有料です。\u0020</string>
+    <!-- Cont Desc for included amenities Example: Seat Choice available -->
+    <string name="amenity_included_cont_desc_TEMPLATE">{amenity_name}は利用可能です。\u0020</string>
+    <!-- Cont Desc for unavailable amenities Example: Seat Choice not available-->
+    <string name="amenity_not_available_cont_desc_TEMPLATE">{amenity_name}はご利用いただけません。\u0020</string>
+    <plurals name="checked_bags_template">
+        <item quantity="one">預け入れ手荷物 {number} 個</item>
+        <item quantity="other">預け入れ手荷物 {number} 個</item>
+    </plurals>
+    <!-- Cont Desc for fare family item Example: Classic, cabin Econonmy--> 
+    <string name="fare_family_item_cont_desc_TEMPLATE">{fare_family_name}、キャビン {cabin_code}。\u0020</string> 
+    <!-- Cont Desc for fare family item Example: This fare is available for an additional $20, roundtrip for 2 travelers--> 
+    <string name="fare_family_item_cont_desc_price_TEMPLATE">この運賃は、追加料金 {delta} ({trip_type} {guests}) でご利用いただけます。\u0020</string>  
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">すべて表示</string>
 

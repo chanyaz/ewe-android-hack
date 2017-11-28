@@ -74,20 +74,22 @@ open class FlightItinTravelerInfoActivity : AppCompatActivity() {
         }
     }
 
-    private var travelerInfoViewModel: FlightTravelerInfoViewModel by notNullAndObservable { vm ->
+    @VisibleForTesting
+    var travelerInfoViewModel: FlightTravelerInfoViewModel by notNullAndObservable { vm ->
         vm.travelerObservable.subscribe {
             vm.travelerNameSubject.onNext(it.fullName)
             vm.travelerEmailSubject.onNext(it.email)
             if (it.passengerCategory == PassengerCategory.INFANT_IN_LAP)
                 vm.infantInLapSubject.onNext(baseContext.getString(R.string.itin_traveler_infant_in_seat_text))
             val phone = StringBuilder()
-            if (!it.phoneCountryCode.isNullOrEmpty() && !it.phoneNumber.isNullOrEmpty())
+            if (!it.phoneCountryCode.isNullOrEmpty() && !it.phoneNumber.isNullOrEmpty()) {
                 phone.append("+")
-            phone.append(it.phoneCountryCode)
-            phone.append(" ")
-            phone.append(it.phoneNumber)
-            vm.travelerPhoneSubject.onNext(phone.toString())
-            if (it.ticketNumbers != null) {
+                phone.append(it.phoneCountryCode)
+                phone.append(" ")
+                phone.append(it.phoneNumber)
+                vm.travelerPhoneSubject.onNext(phone.toString())
+            }
+            if (it.ticketNumbers != null && !it.ticketNumbers.isEmpty()) {
                 vm.ticketNumberSubject.onNext(Phrase.from(this, R.string.itin_traveler_ticket_number_TEMPLATE)
                         .put("number", it.ticketNumbers.joinToString(", "))
                         .format().toString())

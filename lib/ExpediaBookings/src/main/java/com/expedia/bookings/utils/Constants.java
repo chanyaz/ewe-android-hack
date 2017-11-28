@@ -75,7 +75,7 @@ public class Constants {
 	public static final String SOS_PRODUCT_TYPE = "Hotel";
 	public static final String SOS_DEFAULT_LOCALE = "en_US";
 	public static final String SOS_GROUP_BY = "destination";
-	public static final int SOS_DESTINATION_LIMIT = 10;
+	public static final int SOS_DESTINATION_LIMIT = 20;
 	public static final String SOS_DESTINATION_IMAGE_BASE_URL = "https://a.travel-assets.com/dynamic_images/{regionId}.jpg";
 	public static final float SOS_IMAGE_SHIFT = -0.2f;
 

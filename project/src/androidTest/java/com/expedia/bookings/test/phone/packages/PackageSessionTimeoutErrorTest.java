@@ -5,6 +5,7 @@ import org.junit.Test;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
@@ -23,10 +24,9 @@ public class PackageSessionTimeoutErrorTest extends PackageTestCase {
 		Common.delay(1);
 		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
-		HotelScreen.selectRoomButton().perform(click());
+		HotelInfoSiteScreen.clickStickySelectRoom();
 		Common.delay(1);
-		HotelScreen.clickRoom("session_expired");
-		PackageScreen.selectRoom();
+		HotelInfoSiteScreen.bookRoomType("session_expired");
 		Common.delay(1);
 
 		PackageScreen.assertErrorScreen("Search Again", "Still there? Your session has expired. Please try your search again.");

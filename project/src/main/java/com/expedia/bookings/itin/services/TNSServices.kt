@@ -25,7 +25,6 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-
 open class TNSServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, val context: Context) {
 
     private val tnsAPI: TNSApi by lazy {
@@ -59,19 +58,19 @@ open class TNSServices(endpoint: String, okHttpClient: OkHttpClient, interceptor
         }
     }
 
-    fun init() {
+    init {
 
         val userLoginStateChangedModel: UserLoginStateChangedModel = Ui.getApplication(context).appComponent().userLoginStateChangedModel()
-        userLoginStateChangedModel.userLoginStateChanged.filter { true }.subscribe {
-            handleSignIn()
-        }
-
-        userLoginStateChangedModel.userLoginStateChanged.filter { false }.subscribe {
-            handleSignOut()
+        userLoginStateChangedModel.userLoginStateChanged.subscribe {
+            if(it) {
+                handleSignIn()
+            }else{
+                handleSignOut()
+            }
         }
     }
 
-    fun registerForFlights(flights: List<TNSFlight>, observer: Observer<TNSRegisterDeviceResponse>?) {
+    fun registerForFlights(flights: List<TNSFlight>, observer: Observer<TNSRegisterDeviceResponse> = tempObserver) {
         tnsRegisterUserDeviceSubscription?.unsubscribe()
 
         val user = getUser()
@@ -81,21 +80,7 @@ open class TNSServices(endpoint: String, okHttpClient: OkHttpClient, interceptor
         tnsRegisterUserDeviceSubscription = tnsAPI.registerUserDeviceFlights(requestBody)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribe(observer ?: object : Observer<TNSRegisterDeviceResponse> {
-                    override fun onCompleted() {
-                    }
-
-                    override fun onError(e: Throwable) {
-                    }
-
-                    override fun onNext(tnsRegisterDeviceResponse: TNSRegisterDeviceResponse?) {
-                        Log.d("TNSServices",
-                                "registerForPushNotifications response:" + if (tnsRegisterDeviceResponse == null)
-                                    "null"
-                                else
-                                    tnsRegisterDeviceResponse.status)
-                    }
-                })
+                .subscribe(observer)
     }
 
     fun registerForUserDevice(courier: Courier?, observer: Observer<TNSRegisterDeviceResponse> = tempObserver): Observable<TNSRegisterDeviceResponse>? {

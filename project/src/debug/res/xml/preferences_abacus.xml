@@ -23,14 +23,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="14591"
-            android:title="Hotel Grouped Room Rate Offer - 14591" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="15637"
             android:summary="%s"
             android:title="Hotel Auto Suggest Same as Web - 15637" />
@@ -257,6 +249,14 @@
             android:key="15602"
             android:summary="%s"
             android:title="Delta Pricing on flights - 15602" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="16212"
+            android:summary="%s"
+            android:title="WebView Improvements Baggage Info - 16212" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -658,7 +658,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="15452"
+            android:key="16282"
             android:title="Packages New POS Launch" />
 
         <ListPreference
@@ -668,6 +668,22 @@
             android:summary="%s"
             android:key="15835"
             android:title="Packages Breadcrumbs for navigation"/>
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:summary="%s"
+            android:key="16223"
+            android:title="Packages Breadcrumbs - Move Bundle Overview Bar"/>
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:summary="%s"
+            android:key="15496"
+            android:title="Packages MISRealWorldGeo: RWG Migration"/>
 
     </PreferenceCategory>
 

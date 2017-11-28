@@ -78,11 +78,11 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsEvolable = new ABTest(16243);
 	public static final ABTest EBAndroidAppFlightsDeltaPricing = new ABTest(15602);
 	public static final ABTest EBAndroidAppFlightsFrenchLegalBaggageInfo = new ABTest(16031);
+	public static final ABTest EBAndroidAppFlightsBaggageWebViewHideAd = new ABTest(16212);
 
 	// Hotel Tests
 	public static final ABTest EBAndroidAppHotelUrgencyMessage = new ABTest(13277);
 	public static final ABTest EBAndroidAppHotelPinnedSearch = new ABTest(15082);
-	public static final ABTest EBAndroidAppHotelGroupRoomRate = new ABTest(14591);
 	public static final ABTest HotelAutoSuggestSameAsWeb = new ABTest(15637, true);
 	public static final ABTest EBAndroidAppHotelGreedySearch = new ABTest(15228);
 	public static final ABTest EBAndroidAppHotelSuperSearch = new ABTest(14911);
@@ -102,8 +102,10 @@ public class AbacusUtils {
 	// Packages Tests
 	public static final ABTest EBAndroidAppPackagesMidApi = new ABTest(14856);
 	public static final ABTest PackagesTitleChange = new ABTest(15787);
-	public static final ABTest EBAndroidAppPackagesEnablePOS = new ABTest(15452);
+	public static final ABTest EBAndroidAppPackagesEnablePOS = new ABTest(16282);
 	public static final ABTest EBAndroidAppPackagesBreadcrumbsForNav = new ABTest(15835);
+	public static final ABTest EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs = new ABTest(16223);
+	public static final ABTest EBAndroidAppPackagesMISRealWorldGeo = new ABTest(15496);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountSinglePageSignUp = new ABTest(13923);
@@ -183,7 +185,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightAATest.getKey());
 		testIDs.add(EBAndroidAppFlightSearchFormValidation.getKey());
 		testIDs.add(EBAndroidAppHotelPinnedSearch.getKey());
-		testIDs.add(EBAndroidAppHotelGroupRoomRate.getKey());
 		testIDs.add(EBAndroidLXMOD.getKey());
 		testIDs.add(EBAndroidAppTripsDetailRemoveCalendar.getKey());
 		testIDs.add(EBAndroidAppFlightAdvanceSearch.getKey());
@@ -234,6 +235,9 @@ public class AbacusUtils {
 		testIDs.add(TripsNewFlightAlerts.getKey());
 		testIDs.add(EBAndroidAppMIDCheckout.getKey());
 		testIDs.add(EBAndroidAppPackagesBreadcrumbsForNav.getKey());
+		testIDs.add(EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs.getKey());
+		testIDs.add(EBAndroidAppPackagesMISRealWorldGeo.getKey());
+		testIDs.add(EBAndroidAppFlightsBaggageWebViewHideAd.getKey());
 
 		return testIDs;
 	}

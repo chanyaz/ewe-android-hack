@@ -23,6 +23,7 @@ import com.expedia.bookings.test.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
 import com.expedia.bookings.test.stepdefs.phone.utils.StepDefUtils;
+import static com.expedia.bookings.test.stepdefs.phone.TestUtil.validateRequestParams;
 import com.expedia.bookings.utils.Strings;
 
 import junit.framework.Assert;
@@ -421,11 +422,9 @@ public class SearchScreenSteps {
 		SearchScreen.searchButton().check(matches(isEnabled()));
 	}
 
-	@Then("^Validate the flight Search API request query data for following parameters")
-	public void validateFlightSearchRequestQueryData(Map<String, String> expParameters) throws Throwable {
-		for (Map.Entry<String, String> entry : expParameters.entrySet()) {
-			Assert.assertEquals(entry.getValue(), apiRequestData.getQueryParams().get(entry.getKey()).get(0));
-		}
+	@Then("^Validate the \"(.*?)\" API request query data for following parameters")
+	public void validateRequestQueryData(String type, Map<String, String> expParameters) throws Throwable {
+		validateRequestParams(expParameters, apiRequestData);
 	}
 
 	@Then("^Validate the flight Search API request form data for following parameters")

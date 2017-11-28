@@ -70,7 +70,10 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            android:id="@+id/email_phone_container"
+            android:layout_margin="16dp"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/traveler_email_container"
