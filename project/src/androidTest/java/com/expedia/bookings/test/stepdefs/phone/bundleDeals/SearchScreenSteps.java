@@ -44,7 +44,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static com.expedia.bookings.test.espresso.CustomMatchers.withRecyclerViewSize;
@@ -188,6 +187,7 @@ public class SearchScreenSteps {
 	}
 	@Then("^I select first room$")
 	public void selectRoom() throws Throwable {
+		onView(withId(R.id.hotel_details_toolbar)).perform(waitForViewToDisplay());
 		HotelInfoSiteScreen.bookFirstRoom();
 	}
 	@Then("^I select (outbound?|inbound) flight to (destination|source) at position (\\d+)$")
@@ -339,9 +339,8 @@ public class SearchScreenSteps {
 		return hotel;
 	}
 	private void validateHotelName(String name) {
-		onView(allOf(withParent(withParent(withParent(withParent(withId(R.id.package_bundle_hotel_widget))))),
-			withId(R.id.hotels_card_view_text)))
-			.check(matches(allOf(withText(containsString(name)))));
+		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withId(R.id.hotels_card_view_text)))
+			.check(matches(withText(containsString(name))));
 	}
 	private String getResultCount() {
 		final AtomicReference<String> value = new AtomicReference<String>();
