@@ -23,6 +23,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.util.HotelInfoManager
+import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
@@ -74,11 +75,12 @@ class HotelDetailViewModelTest {
     private var context: Context by Delegates.notNull()
 
     private val mockHotelInfoManager = TestHotelInfoManager()
+    private val mockHotelSearchManager = Mockito.mock(HotelSearchManager::class.java)
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before fun before() {
         context = RuntimeEnvironment.application
-        vm = HotelDetailViewModel(RuntimeEnvironment.application, mockHotelInfoManager)
+        vm = HotelDetailViewModel(context, mockHotelInfoManager, mockHotelSearchManager)
 
         offer1 = HotelOffersResponse()
         offer1.hotelId = "hotel1"
@@ -713,13 +715,11 @@ class HotelDetailViewModelTest {
 
         val testParamsSub = TestSubscriber.create<HotelSearchParams>()
         val testFetchInProgressSub = TestSubscriber.create<Unit>()
-        val testDateChangedParamSubject = TestSubscriber.create<HotelSearchParams>()
 
         vm.hotelId = "test"
 
         vm.paramsSubject.subscribe(testParamsSub)
         vm.fetchInProgressSubject.subscribe(testFetchInProgressSub)
-        vm.dateChangedParamSubject.subscribe(testDateChangedParamSubject)
 
         val destination = SuggestionV4()
         val originalParams = HotelSearchParams.Builder(0, 0)
@@ -741,12 +741,8 @@ class HotelDetailViewModelTest {
         assertEquals(newStartDate, newParams.last().startDate)
         assertEquals(newEndDate, newParams.last().endDate)
 
-        newParams = testDateChangedParamSubject.onNextEvents
-
-        assertEquals(1, newParams.count())
-        assertEquals(newStartDate, newParams.first().startDate)
-        assertEquals(newEndDate, newParams.first().endDate)
-
+        assertEquals(newStartDate, vm.changeDateParams!!.startDate)
+        assertEquals(newEndDate, vm.changeDateParams!!.endDate)
         testFetchInProgressSub.assertValueCount(1)
     }
 

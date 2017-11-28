@@ -3,6 +3,7 @@ package com.expedia.bookings.hotel.widget
 import android.app.Activity
 import com.expedia.bookings.R
 import com.expedia.bookings.hotel.util.HotelInfoManager
+import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -36,7 +37,8 @@ class HotelDetailContentViewTest {
         CurrencyUtils.initMap(activity)
         contentView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_detail_content_view, null) as HotelDetailContentView
         testVM = HotelDetailViewModel(activity,
-                HotelInfoManager(Mockito.mock(HotelServices::class.java)))
+                HotelInfoManager(Mockito.mock(HotelServices::class.java)),
+                Mockito.mock(HotelSearchManager::class.java))
         contentView.viewModel = testVM
     }
 

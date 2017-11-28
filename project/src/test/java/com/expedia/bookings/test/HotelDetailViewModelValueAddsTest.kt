@@ -5,6 +5,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.hotel.util.HotelInfoManager
+import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -44,7 +45,8 @@ class HotelDetailViewModelValueAddsTest {
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
                 interceptor, Schedulers.immediate(), Schedulers.immediate())
         vm = HotelDetailViewModel(activity.applicationContext,
-                HotelInfoManager(Mockito.mock(HotelServices::class.java)))
+                HotelInfoManager(Mockito.mock(HotelServices::class.java)),
+                Mockito.mock(HotelSearchManager::class.java))
     }
 
     private fun setUpTest(): TestSubscriber<HotelOffersResponse> {

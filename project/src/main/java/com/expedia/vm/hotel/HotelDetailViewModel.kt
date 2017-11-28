@@ -14,8 +14,8 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelInfoManager
+import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.StrUtils
@@ -29,14 +29,17 @@ import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 import java.math.BigDecimal
 
-open class HotelDetailViewModel(context: Context, private val hotelInfoManager: HotelInfoManager) :
+open class HotelDetailViewModel(context: Context, private val hotelInfoManager: HotelInfoManager,
+                                private val hotelSearchManager: HotelSearchManager) :
         BaseHotelDetailViewModel(context) {
 
     val fetchInProgressSubject = PublishSubject.create<Unit>()
     val fetchCancelledSubject = PublishSubject.create<Unit>()
     val infositeApiErrorSubject = PublishSubject.create<ApiError>()
-    val dateChangedParamSubject = PublishSubject.create<HotelSearchParams>()
 
+    var datesChanged = false
+    var changeDateParams: HotelSearchParams? = null
+        private set
     private var swpEnabled = false
     private var cachedParams: HotelSearchParams? = null
     private var apiSubscriptions = CompositeSubscription()
@@ -78,7 +81,9 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
             val params = builder.build()
 
             fetchOffers(params, hotelId)
-            dateChangedParamSubject.onNext(params)
+            hotelSearchManager.doSearch(params, prefetchSearch = true)
+            datesChanged = true
+            changeDateParams = params
         }
     }
 

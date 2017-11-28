@@ -242,13 +242,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             viewModel.hotelSoldOutWithHotelId.subscribe(resultsPresenter.adapter.hotelSoldOut)
             viewModel.hotelSoldOutWithHotelId.subscribe(resultsPresenter.mapViewModel.hotelSoldOutWithIdObserver)
         }
-
-        hotelDetailViewModel.dateChangedParamSubject.subscribe { newParams ->
-            updateSearchParams(newParams)
-            hotelSearchManager.reset()
-            resultsViewModel.paramsSubject.onNext(newParams)
-        }
-
         presenter
     }
 
@@ -633,10 +626,16 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     private val resultsToDetail = object : LeftToRightTransition(this, HotelResultsPresenter::class.java, HotelDetailPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
-            if (!forward) {
-                detailPresenter.hotelDetailView.resetViews()
-            } else {
+            if (forward) {
                 detailPresenter.hotelDetailView.refresh()
+                hotelDetailViewModel.datesChanged = false
+            } else {
+                detailPresenter.hotelDetailView.resetViews()
+                if (hotelDetailViewModel.datesChanged
+                        && hotelDetailViewModel.changeDateParams != null) {
+                    updateSearchParams(hotelDetailViewModel.changeDateParams!!)
+                    resultsViewModel.paramsSubject.onNext(hotelDetailViewModel.changeDateParams)
+                }
             }
             super.startTransition(forward)
         }
@@ -900,7 +899,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun initDetailViewModel() {
-        hotelDetailViewModel = HotelDetailViewModel(context, hotelInfoManager)
+        hotelDetailViewModel = HotelDetailViewModel(context, hotelInfoManager, hotelSearchManager)
 
         hotelDetailViewModel.fetchInProgressSubject.subscribe {
             loadingOverlay.visibility = View.VISIBLE
