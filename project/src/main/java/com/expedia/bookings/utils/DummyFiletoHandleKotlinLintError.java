@@ -233,6 +233,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.packages_hotel_details_cont_desc_TEMPLATE,
 		R.string.hotel_discount_cont_desc_TEMPLATE,
 		R.drawable.mobile_exclusive,
+		R.dimen.animated_widget_expected_height,
 		R.drawable.tonight_only,
 		R.drawable.urgency,
 		R.color.brand_secondary,

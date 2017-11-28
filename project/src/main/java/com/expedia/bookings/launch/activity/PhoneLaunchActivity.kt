@@ -402,6 +402,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     @Synchronized private fun gotoWaterfall() {
+        holidayFunCoordinator.showCallToAction()
 
         if (pagerPosition != PAGER_POS_LAUNCH) {
             pagerPosition = PAGER_POS_LAUNCH
@@ -418,6 +419,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     @Synchronized private fun gotoItineraries() {
+        holidayFunCoordinator.hideCallToAction()
 
         if (pagerPosition != PAGER_POS_ITIN) {
 
@@ -456,6 +458,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     @Synchronized private fun gotoAccount() {
+        holidayFunCoordinator.hideCallToAction()
         if (userStateManager.isUserAuthenticated()) {
             accountFragment?.refreshUserInfo()
         }

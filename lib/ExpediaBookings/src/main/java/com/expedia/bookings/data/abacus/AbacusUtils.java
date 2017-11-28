@@ -113,7 +113,7 @@ public class AbacusUtils {
 
 	// Launch
 	public static final ABTest ProWizardTest = new ABTest(16136);
-	public static final ABTest HolidayFun = new ABTest(15996);
+	public static final ABTest HolidayFun = new ABTest(16318);
 
 	// Soft Prompt
 	public static final ABTest EBAndroidAppSoftPromptLocation = new ABTest(15119);
