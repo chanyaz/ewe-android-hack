@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray100"
+    android:padding="15dp"
+    tools:context="com.expedia.bookings.activity.NotificationMockerActivity">
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/notification_title"
+        android:text="Notification Title"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/gray900"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"/>
+    <EditText
+        android:layout_below="@id/notification_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title_edit_text"
+        android:layout_marginBottom="10dp"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_edit_text"
+        android:id="@+id/notification_small_body"
+        android:text="Notification Small Body"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/gray900"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"/>
+    <EditText
+        android:layout_below="@id/notification_small_body"
+        android:id="@+id/small_body_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/small_body_edit_text"
+        android:id="@+id/notification_expanded_body"
+        android:text="Notification Expanded Body"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/gray900"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"/>
+    <EditText
+        android:layout_below="@id/notification_expanded_body"
+        android:id="@+id/expanded_body_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/shenanigans_text_view"
+        android:textSize="18sp"
+        android:textColor="@color/hotelsv2_discount_green"
+        android:text="Do Shenanigans"/>
+</RelativeLayout>
