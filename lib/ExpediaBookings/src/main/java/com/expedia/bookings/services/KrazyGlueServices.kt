@@ -10,8 +10,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
+import java.util.concurrent.TimeUnit
 
 class KrazyglueServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+    private val TIME_OUT_SECONDS = 10L
 
     val krazyglueApi: KrazyglueApi by lazy {
         val gson = GsonBuilder()
@@ -30,10 +32,11 @@ class KrazyglueServices(endpoint: String, okHttpClient: OkHttpClient, val observ
 
     var krazyglueSubscription: Subscription? = null
 
-    open fun getKrazyglueHotels(signedUrl: String, observer: Observer<KrazyglueResponse>) : Subscription {
+    fun getKrazyglueHotels(signedUrl: String, observer: Observer<KrazyglueResponse>) : Subscription {
         krazyglueSubscription?.unsubscribe()
 
         krazyglueSubscription = krazyglueApi.getKrazyglueHotels(signedUrl)
+                .timeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)

@@ -260,6 +260,18 @@ class KrazyglueWidgetTest {
         assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix =  "see_more")
     }
 
+    @Test
+    fun testKrazyglueVisibilityGoneWithEmptyHotelList() {
+        enableKrazyglueTest(activity)
+        setDbFlightSearch()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
+        krazyglueWidget.viewModel.hotelsObservable.onNext(emptyList())
+
+        assertEquals(View.GONE, krazyglueWidget.visibility)
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+    }
+
     private fun getKrazyGlueHotels(): List<KrazyglueResponse.KrazyglueHotel> {
         return FlightPresenterTestUtil.getKrazyGlueHotels()
     }

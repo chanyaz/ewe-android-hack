@@ -9,6 +9,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.data.flights.KrazyglueSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.insurance.InsuranceProduct
@@ -18,7 +19,6 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.FlightPresenterTestUtil
-import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -28,7 +28,6 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
@@ -293,8 +292,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testFlightSearchParamsBecomeHotelSearchParamsForKrazyglue() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
-        vm = FlightConfirmationViewModel(activity)
+        bucketViewmodelIntoKrazyglue()
         val hotelSearchParamsTestSubscriber = TestSubscriber<HotelSearchParams>()
         vm.krazyGlueHotelSearchParamsObservable.subscribe(hotelSearchParamsTestSubscriber)
         vm.flightSearchParamsObservable.onNext(FlightPresenterTestUtil.getFlightSearchParams(isRoundTrip = true))
@@ -308,9 +306,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testRegionIdParsedFromDeeplinkUrl() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
-        vm = FlightConfirmationViewModel(activity)
-
+        bucketViewmodelIntoKrazyglue()
         val regionIdTestSubscriber = TestSubscriber<String>()
         vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
         vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = true))
@@ -320,9 +316,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testAirAttachVisibilityWithKrazyglueTurnedOn() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
-        vm = FlightConfirmationViewModel(activity)
-
+        bucketViewmodelIntoKrazyglue()
         val checkoutResponse = getCheckoutResponse(DateTime.now().toString())
         vm = FlightConfirmationViewModel(activity)
         vm.confirmationObservable.onNext(Pair(checkoutResponse, customerEmail))
@@ -349,6 +343,68 @@ class FlightConfirmationViewModelTest {
         assertEquals(successfulUrl, vm.getSignedKrazyglueUrl(krazyglueParams))
     }
 
+    @Test
+    fun testSuccessfulKrazyglueResponseMaintainsHiddenCrossSell() {
+        bucketViewmodelIntoKrazyglue()
+        val crossSellVisibilityTestSubscriber = TestSubscriber<Boolean>()
+        vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
+        val crossSellEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = false, isRoundTrip = true)
+        vm.flightCheckoutResponseObservable.onNext(crossSellEligibleCheckoutResponse)
+        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = true))
+
+        crossSellVisibilityTestSubscriber.assertValue(false)
+    }
+
+    @Test
+    fun testFailedKrazyGlueResponseShowsCrossSellWhenEligible() {
+        bucketViewmodelIntoKrazyglue()
+        val crossSellVisibilityTestSubscriber = TestSubscriber<Boolean>()
+        vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
+        val crossSellEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = true, isRoundTrip = true)
+        vm.flightCheckoutResponseObservable.onNext(crossSellEligibleCheckoutResponse)
+        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = false))
+
+        crossSellVisibilityTestSubscriber.assertValue(true)
+    }
+
+    @Test
+    fun testFailedKrazyGlueResponseHidesCrossSellAndKrazyglueWhenNotEligible() {
+        bucketViewmodelIntoKrazyglue()
+        val crossSellVisibilityTestSubscriber = TestSubscriber<Boolean>()
+        vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
+        val crossSellNotEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = false, isRoundTrip = true)
+        vm.flightCheckoutResponseObservable.onNext(crossSellNotEligibleCheckoutResponse)
+        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = false))
+
+        crossSellVisibilityTestSubscriber.assertValue(false)
+    }
+
+    @Test
+    fun testSuccessfulKrazyglueResponse() {
+        bucketViewmodelIntoKrazyglue()
+        val regionIdTestSubscriber = TestSubscriber<String>()
+        val krazyglueHotelsTestSubscriber = TestSubscriber<List<KrazyglueResponse.KrazyglueHotel>>()
+        vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
+        vm.krazyglueHotelsObservable.subscribe(krazyglueHotelsTestSubscriber)
+        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = true))
+
+        regionIdTestSubscriber.assertValue("178276")
+        assertEquals(3, krazyglueHotelsTestSubscriber.onNextEvents[0].size)
+    }
+
+    @Test
+    fun testFailedKrazyglueResponse() {
+        bucketViewmodelIntoKrazyglue()
+        val regionIdTestSubscriber = TestSubscriber<String>()
+        val krazyglueHotelsTestSubscriber = TestSubscriber<List<KrazyglueResponse.KrazyglueHotel>>()
+        vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
+        vm.krazyglueHotelsObservable.subscribe(krazyglueHotelsTestSubscriber)
+        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = false))
+
+        regionIdTestSubscriber.assertNoValues()
+        krazyglueHotelsTestSubscriber.assertValue(emptyList())
+    }
+
     private fun setUpInsuranceProductInResponse(checkoutResponse: FlightCheckoutResponse) {
         val flightAggregatedResponse = FlightCheckoutResponse.FlightAggregatedResponse()
         val list = ArrayList<FlightTripDetails>()
@@ -359,6 +415,11 @@ class FlightConfirmationViewModelTest {
         list.add(tripDetail)
         flightAggregatedResponse.flightsDetailResponse = list
         checkoutResponse.flightAggregatedResponse = flightAggregatedResponse
+    }
+
+    private fun bucketViewmodelIntoKrazyglue() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
+        vm = FlightConfirmationViewModel(activity)
     }
 
 

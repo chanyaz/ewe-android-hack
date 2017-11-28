@@ -130,6 +130,11 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                 val signedUrl = getSignedKrazyglueUrl(krazyglueParams)
                 krazyglueService.getKrazyglueHotels(signedUrl, getKrazyglueResponseObserver())
             }).subscribe()
+
+            Observable.zip(flightCheckoutResponseObservable, krazyglueHotelsObservable , { response, hotels ->
+                val isAirAttachQualified = response.airAttachInfo?.hasAirAttach ?: false
+                crossSellWidgetVisibility.onNext(hotels.isEmpty() && isAirAttachQualified)
+            }).subscribe()
         }
     }
 
@@ -176,6 +181,8 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                             krazyGlueRegionIdObservable.onNext(regionId)
                         }
                     }
+                } else {
+                    krazyglueHotelsObservable.onNext(emptyList())
                 }
             }
 
@@ -184,7 +191,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
 
             override fun onError(e: Throwable) {
                 Log.d("Error fetching krazy glue hotels:" + e.stackTrace)
-//                TODO: handle failed krazy glue request
+                krazyglueHotelsObservable.onNext(emptyList())
             }
         }
     }
