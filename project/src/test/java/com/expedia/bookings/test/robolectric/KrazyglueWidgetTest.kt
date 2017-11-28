@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +24,6 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.KrazyglueHotelSeeMoreHolderViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -47,7 +47,6 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testVisibilityGONEWhenFeatureToggleONAndBucketingOFF() {
-        SettingUtils.save(activity, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
 
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
@@ -59,7 +58,6 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testVisibilityGONEWhenFeatureToggleOFFAndBucketingOFF() {
-        SettingUtils.save(activity, R.string.preference_enable_krazy_glue_on_flights_confirmation, false)
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
 
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
@@ -71,7 +69,6 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testVisibilityGONEWhenFeatureToggleOFFAndBucketingON() {
-        SettingUtils.save(activity, R.string.preference_enable_krazy_glue_on_flights_confirmation, false)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
 
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
@@ -115,7 +112,7 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testSeeMoreHotelDisplayPositionWithABTestVariantFront() {
-        enableKrazyglueTestWithABTestVariant(activity)
+        enableKrazyglueTest(activity)
         setDbFlightSearch()
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
@@ -128,7 +125,7 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testSeeMoreHotelDisplayPositionWithABTestVariantEnd() {
-        enableKrazyglueTestWithABTestVariant(activity, false)
+        enableKrazyglueTest(activity, false)
         setDbFlightSearch()
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
@@ -202,7 +199,7 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testKrazyglueClickTrackingOnFirstHotelVariantEnd() {
-        enableKrazyglueTestWithABTestVariant(activity)
+        enableKrazyglueTest(activity)
         setDbFlightSearch()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
@@ -215,7 +212,7 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testKrazyglueClickTrackingOnFirstHotelVariantFront() {
-        enableKrazyglueTestWithABTestVariant(activity, false)
+        enableKrazyglueTest(activity, false)
         setDbFlightSearch()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
@@ -228,7 +225,7 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testKrazyglueClickTrackingOnLastHotelVariantEnd() {
-        enableKrazyglueTestWithABTestVariant(activity)
+        enableKrazyglueTest(activity)
         setDbFlightSearch()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
@@ -241,7 +238,7 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testKrazyglueClickTrackingOnLastHotelVariantFront() {
-        enableKrazyglueTestWithABTestVariant(activity, false)
+        enableKrazyglueTest(activity, false)
         setDbFlightSearch()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
@@ -254,7 +251,7 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testKrazyglueSeeMoreClickTracking() {
-        enableKrazyglueTestWithABTestVariant(activity)
+        enableKrazyglueTest(activity)
         setDbFlightSearch()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
@@ -321,14 +318,8 @@ class KrazyglueWidgetTest {
         OmnitureTestUtils.assertLinkTracked("Krazyglue Click", "mip.hot.app.kg.flight.conf.HSR.$expectedSuffix", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
         OmnitureTestUtils.assertLinkTracked("Krazyglue Click", "mip.hot.app.kg.flight.conf.HSR.$expectedSuffix", OmnitureMatchers.withEventsString("event83"), mockAnalyticsProvider)
     }
-
-    private fun enableKrazyglueTest(activity: Activity?) {
-        SettingUtils.save(activity, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
-    }
-
-    private fun enableKrazyglueTestWithABTestVariant(activity: Activity?, displaySeeMoreFront: Boolean = true) {
-        SettingUtils.save(activity, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
-        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsKrazyglue, if (displaySeeMoreFront) 1 else 2 )
+    
+    private fun enableKrazyglueTest(context: Context, displaySeeMoreFront: Boolean = true) {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsKrazyglue, if (displaySeeMoreFront) 1 else 2 )
     }
 }

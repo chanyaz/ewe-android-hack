@@ -262,8 +262,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testFlightSearchParamsBecomeHotelSearchParamsForKrazyglue() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
-        SettingUtils.save(activity.applicationContext, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
         vm = FlightConfirmationViewModel(activity)
         val hotelSearchParamsTestSubscriber = TestSubscriber<HotelSearchParams>()
         vm.krazyGlueHotelSearchParamsObservable.subscribe(hotelSearchParamsTestSubscriber)
@@ -278,8 +277,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testAirAttachVisibilityWithKrazyglueTurnedOn() {
-        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsKrazyglue, 1)
-        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
         vm = FlightConfirmationViewModel(activity)
 
         val checkoutResponse = getCheckoutResponse(DateTime.now().toString())

@@ -192,8 +192,7 @@ class FlightConfirmationPresenterTest {
 
     @Test
     fun testAirAttachVisibilityWithKrazyGlueABTestOn() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
-        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
 
         setupPresenter()
         givenCheckoutResponse(numberOfTravelers = 3)
@@ -218,33 +217,20 @@ class FlightConfirmationPresenterTest {
 
     @Test
     fun testKrazyglueEnabledWithBucketVariantOne() {
-        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsKrazyglue, 1)
-        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue, 1)
 
         assertTrue(isKrazyglueOnFlightsConfirmationEnabled(activity))
     }
 
     @Test
     fun testKrazyglueEnabledWithBucketVariantTwo() {
-        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsKrazyglue, 2)
-        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue, 2)
 
         assertTrue(isKrazyglueOnFlightsConfirmationEnabled(activity))
     }
 
     @Test
     fun testKrazyglueDisabledBucketedFeatureToggleOff() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
-        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), false)
-
-        assertFalse(isKrazyglueOnFlightsConfirmationEnabled(activity))
-    }
-
-    @Test
-    fun testKrazyglueDisabledFeatureToggleEnabledNotBucketed() {
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
-        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
-
         assertFalse(isKrazyglueOnFlightsConfirmationEnabled(activity))
     }
 
