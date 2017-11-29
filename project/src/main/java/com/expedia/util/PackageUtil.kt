@@ -41,6 +41,8 @@ object PackageUtil {
                 pointOfSaleId == PointOfSaleId.MALAYSIA ||
                 pointOfSaleId == PointOfSaleId.JAPAN ||
                 pointOfSaleId == PointOfSaleId.HONG_KONG ||
+                pointOfSaleId == PointOfSaleId.GERMANY ||
+                pointOfSaleId == PointOfSaleId.THAILAND ||
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_SINGAPORE ||
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_JAPAN ||
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_MALAYSIA ||
