@@ -161,7 +161,7 @@ Feature: Flights Overview
     And I select inbound flight at position 1 and reach overview
     Then basic economy link with text "Please Read Important Flight Restrictions" isDisplayed : true
 
-  @Flights @FlightsOverview @Prod
+  @Flights @FlightsOverview @Prod @Retest
   Scenario: Intercept Flight Search and Overview API call and validate request parameters for SubPub and Flex
     Given I launch the App
     And I set the POS to "Singapore"

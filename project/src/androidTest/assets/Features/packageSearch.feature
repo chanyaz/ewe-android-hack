@@ -206,7 +206,7 @@ Feature: Package Search
     And I click on checkout button
     And I validate that checkout screen is displayed
 
-  @Packages @PackageSearch @Prod
+  @Packages @PackageSearch @Prod @Retest
   Scenario: Verify consistency of traveler details on HSR and FSR toolbar of packages
     Given I launch the App
     And I launch "Bundle Deals" LOB
