@@ -5,7 +5,7 @@ import android.location.Location
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.hotel.map.MapItem
+import com.expedia.bookings.hotel.map.HotelMapMarker
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -22,15 +22,13 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
     //inputs
     val hotelResultsSubject = BehaviorSubject.create<HotelSearchResponse>()
     val mapResultsSubject = PublishSubject.create<HotelSearchResponse>()
-    val mapPinSelectSubject = BehaviorSubject.create<MapItem>()
-    val carouselSwipedObservable = PublishSubject.create<MapItem>()
+    val mapPinSelectSubject = BehaviorSubject.create<HotelMapMarker>()
+    val carouselSwipedObservable = PublishSubject.create<HotelMapMarker>()
     val mapBoundsSubject = BehaviorSubject.create<LatLng>()
 
     //outputs
     val newBoundsObservable = PublishSubject.create<LatLngBounds>()
     val sortedHotelsObservable = PublishSubject.create<List<Hotel>>()
-    val unselectedMarker = PublishSubject.create<Pair<MapItem?, Hotel>>()
-    val selectMarker = BehaviorSubject.create<Pair<MapItem, Hotel>>()
     val soldOutHotel = PublishSubject.create<Hotel>()
 
     val hotelSoldOutWithIdObserver = endlessObserver<String> { soldOutHotelId ->
@@ -69,15 +67,9 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
             hotels = response.hotelList
             sortedHotelsObservable.onNext(hotels)
         }
-
-        carouselSwipedObservable.subscribe {
-            val previousMarker = selectMarker.value
-            if (previousMarker != null) unselectedMarker.onNext(previousMarker)
-            selectMarker.onNext(Pair(it, getHotelWithMarker(it)))
-        }
     }
 
-    fun getMapBounds(res: BaseApiResponse): LatLngBounds {
+    private fun getMapBounds(res: BaseApiResponse): LatLngBounds {
         val response = res as HotelSearchResponse
         val searchRegionId = response.searchRegionId
         val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
@@ -121,7 +113,7 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
         }
     }
 
-    fun sortByLocation(location: Location, hotels: List<Hotel>): List<Hotel> {
+    private fun sortByLocation(location: Location, hotels: List<Hotel>): List<Hotel> {
         val hotelLocation = Location("other")
         val sortedHotels = hotels.sortedBy { h ->
             hotelLocation.latitude = h.latitude
@@ -131,18 +123,12 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
         return sortedHotels
     }
 
-    fun boxHotels(hotels: List<Hotel>): LatLngBounds {
+    private fun boxHotels(hotels: List<Hotel>): LatLngBounds {
         val box = LatLngBounds.Builder()
         for (hotel in hotels) {
             box.include(LatLng(hotel.latitude, hotel.longitude))
         }
 
         return box.build()
-    }
-
-    private fun getHotelWithMarker(marker: MapItem?): Hotel {
-        val hotelId = marker?.hotel?.hotelId
-        val hotel = hotels.filter { it.hotelId == hotelId }.first()
-        return hotel
     }
 }

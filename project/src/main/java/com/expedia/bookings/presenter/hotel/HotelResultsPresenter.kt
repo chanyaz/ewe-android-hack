@@ -11,7 +11,6 @@ import android.os.Looper
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
