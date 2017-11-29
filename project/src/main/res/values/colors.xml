@@ -440,6 +440,7 @@
 
     <!-- Search result cells gray text on cardviews.  -->
     <color name="result_cells_gray_text">@color/gray700</color>
+    <color name="result_cells_strike_through_price_gray_text">#767676</color>
 
     <color name="default_text_color">@color/gray900</color>
     <color name="light_text_color">@color/gray700</color>

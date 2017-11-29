@@ -13,7 +13,7 @@
             style="@style/Core.Text.300"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/result_cells_gray_text" />
+            android:textColor="@color/result_cells_strike_through_price_gray_text" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/price_per_night"
