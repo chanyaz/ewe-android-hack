@@ -172,10 +172,10 @@ Feature: Flights Overview
     And I want to intercept these calls
      | FlightSearch |
     When I make a flight search with following parameters
-     | source              | SFO                                      |
-     | destination         | DEL                                      |
-     | source_suggest      | San Francisco, CA                        |
-     | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+     | source              | SIN                                     |
+     | destination         | KUL                                     |
+     | source_suggest      | Singapore, Singapore (SIN - Changi)  |
+     | destination_suggest | Kuala Lumpur, Malaysia (KUL - All Airports) |
      | start_date          | 15                                        |
      | end_date            | 20                                       |
      | adults              | 2                                        |
