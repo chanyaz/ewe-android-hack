@@ -2182,6 +2182,7 @@ public class OmnitureTracking {
 	private static final String ITIN_FLIGHT_TRAVELER_INFO = "App.Itinerary.Flight.TravelerInfo";
 	private static final String ITIN_FLIGHT_INFO_ADDITIONAL = "App.Itinerary.Flight.Info.Additional";
 	private static final String ITIN_FLIGHT_PRICE_SUMMARY = "App.Itinerary.Flight.PriceSummary";
+	private static final String ITIN_FLIGHT_MAP_OPEN = "App.Itinerary.Flight.Map";
 	private static final String ITIN_CAR = "App.Itinerary.Car";
 	private static final String ITIN_CAR_DIRECTIONS = "App.Itinerary.Car.Directions";
 	private static final String ITIN_CAR_CALL = "App.Itinerary.Car.Call";
@@ -2547,6 +2548,11 @@ public class OmnitureTracking {
 
 	public static void trackItinHotelExpandMap() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_OPEN);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinFlightExpandMap() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_MAP_OPEN);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 

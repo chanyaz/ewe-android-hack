@@ -41,7 +41,6 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
     fun setupWidget(itinCardDataHotel: ItinCardDataHotel) {
         if (itinCardDataHotel.propertyLocation != null) {
             val mapVm = GoogleMapsLiteViewModel(
-                    LatLng(itinCardDataHotel.propertyLocation.latitude, itinCardDataHotel.propertyLocation.longitude),
                     listOf(LatLng(itinCardDataHotel.propertyLocation.latitude, itinCardDataHotel.propertyLocation.longitude))
             )
             mapView.setViewModel(mapVm)

@@ -27,6 +27,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_baggage_info_icon,
 		R.string.itin_baggage_info_button_text,
 		R.layout.widget_itin_webview_button,
+		R.drawable.flight_itin_map_airport_icon,
 		R.string.flight_departure_arrival_time_cont_desc_TEMPLATE,
 		R.string.coupon_apply_button,
 		R.string.coupon_apply_button_ally,

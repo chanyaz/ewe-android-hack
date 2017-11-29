@@ -10,16 +10,20 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.itin.vm.FlightItinMapWidgetViewModel
+import com.expedia.bookings.itin.vm.GoogleMapsLiteViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.util.notNullAndObservable
+import com.google.android.gms.maps.model.LatLng
 import java.util.Locale
 
 class FlightItinMapWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val cardView by bindView<CardView>(R.id.flight_itin_map_card_view)
+    val mapView by bindView<GoogleMapsLiteMapView>(R.id.widget_flight_itin_map)
     val itinActionsButtons by bindView<ItinActionButtons>(R.id.itinActionButtons)
     val TERMINAL_MAP_BOTTOM_SHEET_TAG = "TERMINAL_MAP_BOTTOM_SHEET"
 
@@ -40,6 +44,24 @@ class FlightItinMapWidget(context: Context, attrs: AttributeSet?) : LinearLayout
                     itinActionsButtons.viewModel.leftButtonDrawableObservable.onNext(R.drawable.itin_flight_terminal_map_icon)
                     itinActionsButtons.viewModel.leftButtonTextObservable.onNext(context.resources.getString(R.string.itin_action_terminal_maps))
                 }
+        vm.itinCardDataObservable.filter { it.flightLeg != null && waypointDataAvailable(it.flightLeg) }.subscribe {
+            cardView.visibility = View.VISIBLE
+            mapView.visibility = View.VISIBLE
+            val flightLeg = it.flightLeg
+            val segments = flightLeg.segments
+            val markerPositions = mutableListOf<LatLng>()
+            //adding origin airport
+            markerPositions.add(LatLng(flightLeg.firstWaypoint.airport.latitude, flightLeg.firstWaypoint.airport.longitude))
+            //adding remaining airports by taking the destination of each segment
+            segments?.mapTo(markerPositions) { LatLng(it.destinationWaypoint.airport.latitude, it.destinationWaypoint.airport.longitude) }
+            val viewModel = GoogleMapsLiteViewModel(
+                    markerPositions
+            )
+            mapView.setViewModel(viewModel)
+            mapView.setOnClickListener {
+                OmnitureTracking.trackItinFlightExpandMap()
+            }
+        }
     }
 
     init {
@@ -63,5 +85,17 @@ class FlightItinMapWidget(context: Context, attrs: AttributeSet?) : LinearLayout
             NavUtils.startActivitySafe(context, directionsIntent)
             OmnitureTracking.trackItinNewFlightDirections()
         }
+    }
+
+    private fun waypointDataAvailable(leg: FlightLeg): Boolean {
+        val segments = leg.segments
+        segments.forEach {
+            val originAirport = it?.originWaypoint?.airport
+            val destinationAirport = it?.destinationWaypoint?.airport
+            if (originAirport == null || destinationAirport == null) {
+                return false
+            }
+        }
+        return true
     }
 }

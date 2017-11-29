@@ -1451,6 +1451,8 @@
     <string name="itin_flight_total_duration_TEMPLATE">Total Duration: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Baggage information</string>
+    <!--Flight itin map view content description-->
+    <string name="itin_flight_details_map_view_content_description">flight trip summary google map</string>
     <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">Traveler information</string>
     <!--Flight itin traveler preferences heading -->
