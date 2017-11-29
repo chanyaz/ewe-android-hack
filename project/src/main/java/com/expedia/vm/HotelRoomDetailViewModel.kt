@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.text.SpannableString
 import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
@@ -22,6 +23,7 @@ import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
@@ -43,7 +45,23 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
 
     val mandatoryFeeString: String? get() = createMandatoryFeeString()
 
+    val showMemberOnlyDealTag: Boolean get() = hotelRoomResponse.isMemberDeal && Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated()
+
     val discountPercentageString: String? get() = createDiscountPercentageString()
+
+    val discountPercentageBackground: Drawable
+        get() = if (showMemberOnlyDealTag) {
+            ContextCompat.getDrawable(context, R.drawable.member_only_discount_percentage_background)
+        } else {
+            ContextCompat.getDrawable(context, R.drawable.discount_percentage_background)
+        }
+
+    val discountPercentageTextColor: Int
+        get() = if (showMemberOnlyDealTag) {
+            ContextCompat.getColor(context, R.color.brand_primary)
+        } else {
+            ContextCompat.getColor(context, R.color.white)
+        }
 
     val payLaterPriceString: String? get() = createPayLaterPriceString()
 

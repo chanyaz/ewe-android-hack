@@ -16,7 +16,6 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomDetailViewModel
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.HotelValueAdd
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -34,6 +33,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
     private val valueAddsContainer: LinearLayout by bindView(R.id.value_adds_container)
     private val earnMessageTextView: TextView by bindView(R.id.earn_message_text_view)
     private val mandatoryFeeTextView: TextView by bindView(R.id.mandatory_fee_text_view)
+    private val memberOnlyDealTag: ImageView by bindView(R.id.member_only_deal_tag)
     private val discountPercentageTextView: TextView by bindView(R.id.discount_percentage_text_view)
     private val payLaterPriceTextView: TextView by bindView(R.id.pay_later_price_text_view)
     private val depositTermsTextView: TextView by bindView(R.id.deposit_terms_text_view)
@@ -85,7 +85,10 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         }
         earnMessageTextView.setTextAndVisibility(viewModel.earnMessageString)
         mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
+        memberOnlyDealTag.updateVisibility(viewModel.showMemberOnlyDealTag)
         discountPercentageTextView.setTextAndVisibility(viewModel.discountPercentageString)
+        discountPercentageTextView.setBackground(viewModel.discountPercentageBackground)
+        discountPercentageTextView.setTextColor(viewModel.discountPercentageTextColor)
         payLaterPriceTextView.setTextAndVisibility(viewModel.payLaterPriceString)
         depositTermsTextView.updateVisibility(viewModel.showDepositTerm)
         depositTermsTextView.subscribeOnClick(depositTermsClickedSubject)

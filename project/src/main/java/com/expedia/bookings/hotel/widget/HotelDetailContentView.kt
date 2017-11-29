@@ -78,6 +78,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     @VisibleForTesting val hotelMessagingContainer: RelativeLayout by bindView(R.id.promo_messaging_container)
     @VisibleForTesting val promoMessage: TextView by bindView(R.id.promo_text)
+    val memberOnlyDealTag: ImageView by bindView(R.id.member_only_deal_tag)
     @VisibleForTesting val discountPercentage: TextView by bindView(R.id.discount_percentage)
     @VisibleForTesting val airAttachSWPImage: ImageView by bindView(R.id.air_attach_swp_image_details)
     @VisibleForTesting val vipAccessMessageContainer: LinearLayout by bindView(R.id.vip_access_message_container)
@@ -258,7 +259,10 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             discountPercentage.text = discountPercentageTextAndContentDescPair.first
             discountPercentage.contentDescription = discountPercentageTextAndContentDescPair.second
         }
+        vm.memberOnlyDealTagVisibilityObservable.subscribeVisibility(memberOnlyDealTag)
         vm.discountPercentageBackgroundObservable.subscribeBackgroundResource(discountPercentage)
+        vm.discountPercentageTextColorObservable.subscribeTextColor(discountPercentage)
+
         vm.showDiscountPercentageObservable.subscribeVisibility(discountPercentage)
         vm.showAirAttachSWPImageObservable.subscribeVisibility(airAttachSWPImage)
 

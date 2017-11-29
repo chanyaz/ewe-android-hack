@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.robolectric
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.ValueAddsEnum
@@ -11,6 +13,9 @@ import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -20,6 +25,7 @@ import com.expedia.vm.HotelRoomDetailViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -27,9 +33,10 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelRoomDetailViewModelTest {
 
-    val context: Context = RuntimeEnvironment.application
+    private val context: Context = RuntimeEnvironment.application
 
     @Test
     fun testBreakfastValueAddsToShow() {
@@ -318,6 +325,31 @@ class HotelRoomDetailViewModelTest {
     }
 
     @Test
+    fun testShowMemberOnlyDealTag() {
+        mockSignIn()
+        val roomResponse = createRoomResponse()
+        roomResponse.isMemberDeal = true
+        val viewModel = createViewModel(roomResponse, -1)
+        assertTrue(viewModel.showMemberOnlyDealTag)
+    }
+
+    @Test
+    fun testShowMemberOnlyDealTagNotSignedIn() {
+        val roomResponse = createRoomResponse()
+        roomResponse.isMemberDeal = true
+        val viewModel = createViewModel(roomResponse, -1)
+        assertFalse(viewModel.showMemberOnlyDealTag)
+    }
+
+    @Test
+    fun testShowMemberOnlyDealTagNotMemberDeal() {
+        mockSignIn()
+        val roomResponse = createRoomResponse()
+        val viewModel = createViewModel(roomResponse, -1)
+        assertFalse(viewModel.showMemberOnlyDealTag)
+    }
+
+    @Test
     fun testZeroDiscountPercentageString() {
         val roomResponse = createRoomResponse()
         roomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), false)
@@ -372,6 +404,42 @@ class HotelRoomDetailViewModelTest {
         val viewModel = createViewModel(roomResponse, 4)
 
         assertNull(viewModel.discountPercentageString)
+    }
+
+    @Test
+    fun testDiscountPercentageBackground() {
+        val roomResponse = createRoomResponse()
+        val viewModel = createViewModel(roomResponse, -1)
+        val expectedBackground = ContextCompat.getDrawable(context, R.drawable.discount_percentage_background)
+        assertEquals(expectedBackground, viewModel.discountPercentageBackground)
+    }
+
+    @Test
+    fun testDiscountPercentageBackgroundMemberOnly() {
+        mockSignIn()
+        val roomResponse = createRoomResponse()
+        roomResponse.isMemberDeal = true
+        val viewModel = createViewModel(roomResponse, -1)
+        val expectedBackground = ContextCompat.getDrawable(context, R.drawable.member_only_discount_percentage_background)
+        assertEquals(expectedBackground, viewModel.discountPercentageBackground)
+    }
+
+    @Test
+    fun testDiscountPercentageTextColor() {
+        val roomResponse = createRoomResponse()
+        val viewModel = createViewModel(roomResponse, -1)
+        val expectedColor = ContextCompat.getColor(context, R.color.white)
+        assertEquals(expectedColor, viewModel.discountPercentageTextColor)
+    }
+
+    @Test
+    fun testDiscountPercentageTextColorMemberOnly() {
+        mockSignIn()
+        val roomResponse = createRoomResponse()
+        roomResponse.isMemberDeal = true
+        val viewModel = createViewModel(roomResponse, -1)
+        val expectedColor = ContextCompat.getColor(context, R.color.brand_primary)
+        assertEquals(expectedColor, viewModel.discountPercentageTextColor)
     }
 
     @Test
@@ -739,5 +807,10 @@ class HotelRoomDetailViewModelTest {
 
             assertEquals(enum, toShow[0].valueAddsEnum)
         }
+    }
+
+    private fun mockSignIn() {
+        val user = UserLoginTestUtil.mockUser()
+        UserLoginTestUtil.setupUserAndMockLogin(user)
     }
 }

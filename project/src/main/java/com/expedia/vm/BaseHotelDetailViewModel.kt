@@ -130,7 +130,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     }
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
+    val memberOnlyDealTagVisibilityObservable = BehaviorSubject.create<Boolean>()
     val discountPercentageBackgroundObservable = BehaviorSubject.create<Int>()
+    val discountPercentageTextColorObservable = BehaviorSubject.create<Int>()
     val discountPercentageObservable = BehaviorSubject.create<Pair<String, String>>()
     val showDiscountPercentageObservable = BehaviorSubject.create<Boolean>(false)
     val shopWithPointsObservable = PublishSubject.create<Boolean>()
@@ -441,7 +443,22 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             getLobPriceObservable(rate)
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
-            discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
+
+            val hasMemberDeal = hasMemberDeal(firstHotelRoomResponse)
+            memberOnlyDealTagVisibilityObservable.onNext(hasMemberDeal)
+            val discountPercentageBackground = when {
+                rate.isShowAirAttached() -> R.drawable.air_attach_background
+                hasMemberDeal(firstHotelRoomResponse) -> R.drawable.member_only_discount_percentage_background
+                else -> R.drawable.discount_percentage_background
+            }
+            discountPercentageBackgroundObservable.onNext(discountPercentageBackground)
+
+            val discountPercentageTextColor = when {
+                hasMemberDeal -> ContextCompat.getColor(context, R.color.brand_primary)
+                else -> ContextCompat.getColor(context, R.color.white)
+            }
+            discountPercentageTextColorObservable.onNext(discountPercentageTextColor)
+
             showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isBurnApplied ?: false && rate.isShowAirAttached())
             showAirAttachedObservable.onNext(rate.isShowAirAttached())
         }
