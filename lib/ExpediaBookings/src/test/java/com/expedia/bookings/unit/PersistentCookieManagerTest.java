@@ -332,6 +332,18 @@ public class PersistentCookieManagerTest {
 	}
 
 	@Test
+	public void testRemoveDuplicateKeys() throws Throwable {
+		// cookies-duplicate-keys.dat has 6 cookies, 2 of them being duplicates
+		File file = new File("src/test/resources/cookies-duplicate-keys.dat");
+		Source from = Okio.source(file);
+		BufferedSink to = Okio.buffer(Okio.sink(storage));
+		to.writeAll(from);
+		to.close();
+		manager = new PersistentCookieManager(storage);
+		expectCookies(4);
+	}
+
+	@Test
 	public void testPutLoadedCookiesIntoStoreSkipsNullUrl() {
 		TestPersistentCookieManager testManager = new TestPersistentCookieManager();
 		testManager.runPairsContainingInvalidUrl();

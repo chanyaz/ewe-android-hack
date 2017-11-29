@@ -1,0 +1,70 @@
+{
+  "www.expedia.com": {
+    "MC1": {
+      "domain": "expedia.com",
+      "expiresAt": 1669665508066,
+      "hostOnly": false,
+      "httpOnly": false,
+      "name": "MC1",
+      "path": "/",
+      "persistent": true,
+      "secure": false,
+      "value": "GUID=77e6bf983fbb4fdba1ef2de8c7f71bee"
+    },
+    "abucket": {
+      "domain": "www.expedia.com",
+      "expiresAt": 1543440712611,
+      "hostOnly": true,
+      "httpOnly": false,
+      "name": "abucket",
+      "path": "/",
+      "persistent": true,
+      "secure": false,
+      "value": "blah"
+    },
+    "abucket": {
+      "domain": "www.expedia.com",
+      "expiresAt": 1543440712611,
+      "hostOnly": true,
+      "httpOnly": false,
+      "name": "abucket",
+      "path": "/",
+      "persistent": true,
+      "secure": false,
+      "value": "asdfasdf"
+    },
+    "abucket": {
+      "domain": "www.expedia.com",
+      "expiresAt": 1543440712611,
+      "hostOnly": true,
+      "httpOnly": false,
+      "name": "abucket",
+      "path": "/",
+      "persistent": true,
+      "secure": false,
+      "value": "CgPgYVodv+mCXiWLEqYQAg=="
+    },
+    "DUAID": {
+      "domain": "expedia.com",
+      "expiresAt": 1669584712612,
+      "hostOnly": false,
+      "httpOnly": false,
+      "name": "DUAID",
+      "path": "/",
+      "persistent": true,
+      "secure": false,
+      "value": "77e6bf98-3fbb-4fdb-a1ef-2de8c7f71bee"
+    },
+    "HMS": {
+      "domain": "expedia.com",
+      "expiresAt": 1511906512607,
+      "hostOnly": false,
+      "httpOnly": false,
+      "name": "HMS",
+      "path": "/",
+      "persistent": true,
+      "secure": false,
+      "value": "6bd17fce-fddc-4a1f-ba6e-b806006598b1"
+    }
+  }
+}
