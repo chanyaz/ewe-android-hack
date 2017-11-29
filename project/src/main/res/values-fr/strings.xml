@@ -1445,10 +1445,32 @@
     <string name="itin_flight_total_duration_TEMPLATE">Durée totale : {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Informations sur les bagages</string>
-    <!--Flight itin traveller info widget heading-->
-    <string name="itin_flight_traveller_info">Informations sur le voyageur</string>
+    <!--Flight itin traveler info widget heading-->
+    <string name="itin_flight_traveler_info">Informations sur le voyageur</string>
+    <!--Flight itin traveler preferences heading -->
+    <string name="itin_flight_traveler_preferences">Préférences</string>
+    <!--Flight itin Known traveler number text -->
+    <string name="itin_known_traveler_number_text">Numéro de voyageur connu</string>
+    <!--Flight itin traveler redress number text-->
+    <string name="itin_traveler_redress_number">Numéro de recours</string>
+    <!--Flight itin traveler Special assistance requests text-->
+    <string name="itin_traveler_special_assistance_requests_text">Demandes d\&apos;assistance spéciale</string>
+    <!--Flight itin traveler Frequent Flyer information text-->
+    <string name="itin_frequent_flyer_text">Programmes de fidélité</string>
+    <!--Flight itin traveler contact to confirm request text-->
+    <string name="itin_traveler_contact_air_to_confirm_text">Veuillez contacter la compagnie aérienne pour confirmer les demandes.</string>
+    <!--Flight itin traveler email text -->
+    <string name="itin_traveler_email_text">E-mail</string>
+    <!--Flight itin traveler phone text -->
+    <string name="itin_traveler_phone_text">Téléphone</string>
+    <!--Flight itin traveler ticket number (e.g. Ticket # 345678901123)-->
+    <string name="itin_traveler_ticket_number_TEMPLATE">Nº de billet : {number}</string>
+    <!--Flight itein traveler infant in seat text -->
+    <string name="itin_traveler_infant_in_seat_text">(Jeune enfant sur les genoux)</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">Gérer la réservation</string>
+    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_flight_customer_support_header_text_TEMPLATE">Si vous avez besoin d\&apos;aide pour gérer ce voyage, contactez {brand}.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">Annulé</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -1459,6 +1481,12 @@
     <string name="itin_flight_summary_status_indicator_text_early_departure">Décollage en avance</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_manage_booking_header">Gérer la réservation</string>
+    <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_flight_itinerary_number_TEMPLATE">N° de voyage : {itin_number}</string>
+    <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_flight_customer_support_site_header_TEMPLATE">Service clients {brand}</string>
+    <!--Flight customer support website toolbar header-->
+    <string name="itin_flight_customer_support_site_toolbar_header">Service clients</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} j {hours} h {minutes} min</string>
@@ -2743,6 +2771,8 @@
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
     <string name="urgency_destination_description_TEMPLATE">{destination} est une destination prisée à vos dates</string>
 
+    <!-- The text we use to show room info for expanded room -->
+    <string name="room_information">Informations sur la chambre</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">Bouton Informations sur la chambre</string>
     <!-- The text we use to message that the room in non-refundable -->
@@ -2771,8 +2801,12 @@
     <string name="view_room_button_text">Voir la chambre</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Réserver</string>
+    <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
+    <string name="view_room_button_content_description_TEMPLATE">Consulter la chambre, {room}</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">Comprend %s</string>
+    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
+    <string name="book_room_button_content_description_TEMPLATE">Réserver, {room}</string>
     <!-- Room description alert dialog title -->
     <string name="room_description_title">Description de la chambre</string>
     <!-- Renovation Notice -->
@@ -4259,8 +4293,8 @@
     <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">Le vol est à {time} et la différence de prix est de {pricedifference}. Vol à bord de {airline}. Le vol est d\&apos;une durée de {hours} {minutes} et compte {stops} escales\u0020</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Le vol est à {time} et son prix s\&apos;élève à {price}. Vol à bord de {airline}. Le vol est d\&apos;une durée de {hours} {minutes} et compte {stops} escales\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} coté {starrating} sur 5. Note clients de {guestrating} sur 5. Prix de {price}. Comprend l\&apos;hôtel et les vols\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} coté {starrating} sur 5. Note clients de {guestrating} sur 5. Prix de {price}. Comprend l\&apos;hôtel et les vols.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} coté {starrating} sur 5. Note clients de {guestrating} sur 5.  \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
@@ -4675,6 +4709,11 @@
 
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">Option {number}</string>
+
+    <!-- Content description for double tap action to collapse HIS room info -->
+    <string name="collapse_room_info_cont_desc">Réduire</string>
+    <!-- Content description for double tap action to expand HIS room info -->
+    <string name="expand_room_info_cont_desc">Développer</string>
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}. Bouton</string>
