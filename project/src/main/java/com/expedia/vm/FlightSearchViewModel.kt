@@ -154,7 +154,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val performSearchObserver = endlessObserver<Unit> {
         val maxStay = getCalendarRules().getMaxSearchDurationDays()
         getParamsBuilder().maxStay = maxStay
-        if (getParamsBuilder().areRequiredParamsFilled() && !getParamsBuilder().isOriginSameAsDestination()) {
+        if (getParamsBuilder().areRequiredParamsFilled() && !getParamsBuilder().isOriginSameAsDestination() && getParamsBuilder().hasValidDateDuration()) {
             val flightSearchParams = getParamsBuilder().build()
             travelerValidator.updateForNewSearch(flightSearchParams)
             Db.setFlightSearchParams(flightSearchParams)
@@ -207,7 +207,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
         travelersObservable.onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
 
-        if (flightParamsBuilder.areRequiredParamsFilled()) {
+        if (flightParamsBuilder.areRequiredParamsFilled() && !flightParamsBuilder.isOriginSameAsDestination() && flightParamsBuilder.hasValidDateDuration()) {
             deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.RESULTS)
         } else {
             deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.SEARCH)
