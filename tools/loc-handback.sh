@@ -54,6 +54,7 @@ gitBranchName="s/rft-$mingleCardNumber-$brandNameInMessage-localization-handback
 echo "gitCommitMessage "$gitCommitMessage
 echo "gitBranchName "$gitBranchName
 
+source tools/setup_python_env.sh "github3.py==1.0.0.a4" slackclient "lxml==3.5.0" python-dateutil
 python ./tools/loc_handback_create_pr_update_mingle.py $brand "$gitBranchName" "$gitCommitMessage" "$baseBranch" $mingleCardNumber "$PWD/$handbackFileLocation"
 if [ $? != 0 ]; then
     echo "Loc handback failed."
