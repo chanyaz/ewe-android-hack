@@ -926,6 +926,8 @@
     <string name="Itinerary_ready">Itinerary ready</string>
     <!-- Notification title text for get ready for your trip -->
     <string name="get_ready_for_trip">Get ready for your trip</string>
+    <!--Notification Title for Hotel Activity In Trip notification-->
+    <string name="things_to_do_near_hotel">Things to do near your hotel</string>
     <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
     <string name="get_ready_for_trip_body_TEMPLATE">Hey {firstname}, your hotel booking for {hotel} starts on {startday}. View your booking for hotel address, phone number and other details.</string>
     <string name="check_in_notification_title">Hotel check in reminder</string>
@@ -945,6 +947,10 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Activities in {destination} sell out fast! Explore things to do and book your tickets in advance.</string>
     <!--Notification body for Flight delayed notification e.g. Your Flight United Airlines 122 to Chicago is delayed. The flight is now scheduled to take off from SFO at 12:30pm -->
     <string name="flight_notification_delayed_flight_long">Your Flight {Airline} {flight number} to {arrival airport} is delayed. The flight is now scheduled to take off from {departure airport} at {departure time}</string>
+    <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
+    <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hey {firstname}, explore top attractions and activities near your hotel.</string>
+    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <string name="flight_notification_delayed_flight">Your flight to {arrival airport} is delayed with a new departure at {departure time}.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>

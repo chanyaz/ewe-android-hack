@@ -61,7 +61,8 @@ import java.text.NumberFormat
 import java.util.Calendar
 import javax.inject.Inject
 
-class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRefreshListener {
+// Open for testing.
+open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRefreshListener {
 
     private val TAG_SUPPORT = "TAG_SUPPORT"
     private val TAG_LEGAL = "TAG_LEGAL"
@@ -365,7 +366,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         adjustLoggedInViews()
     }
 
-    fun refreshUserInfo() {
+    open fun refreshUserInfo() {
         userAccountRefresher.forceAccountRefresh()
     }
 

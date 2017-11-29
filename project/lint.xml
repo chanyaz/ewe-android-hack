@@ -13,7 +13,7 @@
         <!-- We don't control these files. As long as we -->
         <!-- remove from values/strings.xml the will be -->
         <!-- eventually -->
-        <ignore path="src/main/res/values-*/strings.xml" />
+        <ignore path="**/res/values-*/strings.xml" />
 
         <!-- Ignore all debug resources  -->
         <ignore path="src/debug/res/*" />

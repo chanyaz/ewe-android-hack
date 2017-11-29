@@ -89,20 +89,30 @@ public class User implements JSONable {
 	}
 
 	public String getTuidString() {
+		return getTuid() == 0 ? null : "" + getTuid();
+	}
+
+	public long getTuid() {
 		if (this.getPrimaryTraveler() != null && this.getPrimaryTraveler().getTuid() != null
-				&& this.getPrimaryTraveler().getTuid() >= 0) {
-			return "" + this.getPrimaryTraveler().getTuid();
+			&& this.getPrimaryTraveler().getTuid() >= 0) {
+			return this.getPrimaryTraveler().getTuid();
 		}
-		return null;
+		return 0;
 	}
 
 	public String getExpediaUserId() {
+		return getExpediaUserIdLong() == 0 ? null : "" + getExpediaUserIdLong();
+	}
+
+
+	public long getExpediaUserIdLong() {
 		if (mPrimaryTraveler != null && mPrimaryTraveler.getExpediaUserId() != null
 			&& mPrimaryTraveler.getExpediaUserId() >= 0) {
-			return mPrimaryTraveler.getExpediaUserId().toString();
+			return mPrimaryTraveler.getExpediaUserId();
 		}
-		return null;
+		return 0;
 	}
+
 
 	public String getRewardsMembershipId() {
 		return mRewardsMembershipId;
@@ -130,10 +140,6 @@ public class User implements JSONable {
 
 		try {
 			obj.put("version", VERSION);
-			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
-			JSONUtils.putJSONableList(obj, "storedCreditCards", mStoredCreditCards);
-			JSONUtils.putJSONableList(obj, "storedPointsCards", mStoredPointsCards);
-			JSONUtils.putJSONableList(obj, "associatedTravelers", mAssociatedTravelers);
 			JSONUtils.putJSONable(obj, "loyaltyMembershipInformation", loyaltyMembershipInformation);
 			return obj;
 		}
@@ -199,7 +205,8 @@ public class User implements JSONable {
 		mAssociatedTravelers = JSONUtils.getJSONableList(obj, "associatedTravelers", Traveler.class);
 		mRewardsMembershipId = obj.optString("loyaltyAccountNumber");
 
-		loyaltyMembershipInformation = JSONUtils.getJSONable(obj, "loyaltyMembershipInformation", UserLoyaltyMembershipInformation.class);
+		loyaltyMembershipInformation = JSONUtils
+			.getJSONable(obj, "loyaltyMembershipInformation", UserLoyaltyMembershipInformation.class);
 		return true;
 	}
 

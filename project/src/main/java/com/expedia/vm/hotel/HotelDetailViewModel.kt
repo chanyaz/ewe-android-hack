@@ -171,6 +171,10 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
         HotelTracking.trackHotelDetailGalleryClick()
     }
 
+    override fun trackHotelDetailRoomGalleryClick() {
+        HotelTracking.trackHotelDetailRoomGalleryClick()
+    }
+
     override fun shouldShowBookByPhone(): Boolean {
         return !hotelOffersResponse.deskTopOverrideNumber
                 && !Strings.isEmpty(hotelOffersResponse.telesalesNumber)

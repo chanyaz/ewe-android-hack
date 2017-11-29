@@ -47,6 +47,7 @@ import com.expedia.bookings.data.pos.PointOfSaleConfigHelper;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
+import com.expedia.bookings.itin.services.FlightRegistrationHandler;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
@@ -312,6 +313,12 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		initializeFeatureConfig();
 		CarnivalUtils.getInstance().initialize(this);
+
+		FlightRegistrationHandler flightRegistrationHandler = appComponent().flightRegistrationService();
+		flightRegistrationHandler.setup();
+		appComponent().userLoginStateChangedModel().getUserLoginStateChanged()
+			.subscribe(flightRegistrationHandler.getUserLoginStateChanged());
+
 	}
 
 	private void initializeFeatureConfig() {

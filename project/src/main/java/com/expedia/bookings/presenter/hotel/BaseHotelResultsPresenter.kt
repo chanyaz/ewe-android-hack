@@ -864,6 +864,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 updateViewModelState(ResultsList::class.java.name)
             } else {
                 updateViewModelState(ResultsMap::class.java.name)
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
             }
         }
     }

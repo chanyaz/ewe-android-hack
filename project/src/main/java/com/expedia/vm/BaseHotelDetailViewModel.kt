@@ -64,6 +64,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     abstract fun trackHotelViewBookClick()
     abstract fun trackHotelDetailMapViewClick()
     abstract fun trackHotelDetailGalleryClick()
+    abstract fun trackHotelDetailRoomGalleryClick()
     abstract fun trackHotelDetailLoad(isRoomSoldOut: Boolean)
     abstract fun shouldShowBookByPhone(): Boolean
     abstract fun getTelesalesNumber(): String

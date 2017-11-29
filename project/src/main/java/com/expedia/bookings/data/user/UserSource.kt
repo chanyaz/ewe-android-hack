@@ -11,7 +11,7 @@ import java.io.File
 import java.io.FileNotFoundException
 
 open class UserSource(val context: Context,
-                      private val fileCipher: FileCipher = FileCipher(PASSWORD)) {
+                      private val fileCipher: FileCipher = FileCipher(PASSWORD)): UserDetail {
     private companion object {
         val PASSWORD = "M2MBDdEjbFTXTgNynBY2uvMPcUd8g3k9"
         val SAVED_INFO_FILENAME = "user.dat"
@@ -19,6 +19,16 @@ open class UserSource(val context: Context,
 
     private val userFileHandle: File
         get() = context.getFileStreamPath(SAVED_INFO_FILENAME)
+
+    override val tuid: Long?
+        get() {
+            return user?.tuid
+        }
+
+    override val expUserId: Long?
+        get() {
+            return user?.expediaUserIdLong
+        }
 
     open var user: User? = null
         get() {

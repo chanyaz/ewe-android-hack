@@ -504,6 +504,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     private inner class RoomImageClickObserver(private val roomCode: String) : Observer<Unit> {
         override fun onNext(t: Unit?) {
+            viewModel.trackHotelDetailRoomGalleryClick()
             val intent = Intent(context, HotelGalleryActivity::class.java)
             val galleryConfig = HotelGalleryConfig(viewModel.hotelNameObservable.value,
                     viewModel.hotelRatingObservable.value, roomCode,

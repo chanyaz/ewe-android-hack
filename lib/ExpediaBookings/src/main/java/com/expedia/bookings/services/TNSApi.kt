@@ -1,8 +1,5 @@
-package com.expedia.bookings.itin.services
+package com.expedia.bookings.services
 
-import com.expedia.bookings.itin.data.TNSRegisterDeviceResponse
-import com.expedia.bookings.itin.data.TNSRegisterUserDeviceFlightsRequestBody
-import com.expedia.bookings.itin.data.TNSRegisterUserDeviceRequestBody
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -19,5 +16,10 @@ internal interface TNSApi {
     @POST("/m/api/register/user/flights")
     fun registerUserDeviceFlights(
             @Body body: TNSRegisterUserDeviceFlightsRequestBody
+    ): Observable<TNSRegisterDeviceResponse>
+
+    @POST("/m/api/deregister")
+    fun deregisterUserDevice(
+            @Body body: TNSDeregister
     ): Observable<TNSRegisterDeviceResponse>
 }

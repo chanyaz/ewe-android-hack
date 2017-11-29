@@ -1,10 +1,10 @@
 package com.expedia.bookings.itin
 
-import android.content.Context
 import com.expedia.bookings.interceptors.MockInterceptor
-import com.expedia.bookings.itin.data.Courier
-import com.expedia.bookings.itin.data.TNSRegisterDeviceResponse
-import com.expedia.bookings.itin.services.TNSServices
+import com.expedia.bookings.services.Courier
+import com.expedia.bookings.services.TNSRegisterDeviceResponse
+import com.expedia.bookings.services.TNSServices
+import com.expedia.bookings.services.TNSUser
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
@@ -15,8 +15,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
-import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
@@ -31,13 +29,6 @@ class TNSServicesTests {
 
     private var service: TNSServices? = null
 
-    private fun getContext(): Context {
-        val spyContext = Mockito.spy(RuntimeEnvironment.application)
-        val spyResources = Mockito.spy(spyContext.resources)
-        Mockito.`when`(spyContext.resources).thenReturn(spyResources)
-        return spyContext
-    }
-
     @Before
     fun before() {
         val logger = HttpLoggingInterceptor()
@@ -49,13 +40,13 @@ class TNSServicesTests {
         server.setDispatcher(ExpediaDispatcher(opener))
         service = TNSServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate(), getContext())
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 
     @Test
     fun testTnsUserResponse() {
         val observer = TestSubscriber<TNSRegisterDeviceResponse>()
-        service!!.registerForUserDevice(Courier("gcm", "ExpediaBookings", "abc"))!!.subscribe(observer)
+        service!!.registerForUserDevice(TNSUser(1,1,1), Courier("gcm", "ExpediaBookings", "abc","abc"), observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
         val response = observer.onNextEvents[0]
         observer.assertNoErrors()

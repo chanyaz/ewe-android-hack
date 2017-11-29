@@ -65,7 +65,6 @@
     <color name="itin_checkin_now_color">#4CA0FF</color>
     <color name="itin_summary_divider_color">#4D555D</color>
     <color name="itin_unable_to_find_error_color">@color/exp_action_required_red</color>
-    <color name="itin_bg_dark_transparent">@color/black_40</color>
     <color name="itin_no_button">@color/gray400</color>
     <color name="itin_yes_ok_button">#4CA0FF</color>
     <color name="itin_sign_in_toolbar_color">@color/exp_launch_secondary_blue</color>
@@ -106,6 +105,7 @@
     <color name="flights_details_layover_color">@color/yellow_layover</color>
     <color name="flight_seats_left_urgency_message_color">#FF5747</color>
     <color name="hotel_map_earn_message_text_color">@color/gray400</color>
+    <color name="flights_confirmation_itin_bar_color">@color/exp_launch_secondary</color>
 
     <!-- Hotels colors -->
     <color name="hotels_primary_color">@color/app_primary</color>

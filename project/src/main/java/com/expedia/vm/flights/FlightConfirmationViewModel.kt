@@ -101,8 +101,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                     offer?.selectedInsuranceProduct != null
 
             showTripProtectionMessage.onNext(hasInsurance)
-
-            crossSellWidgetVisibility.onNext(isQualified)
+            crossSellWidgetVisibility.onNext(if (isKrazyglueEnabled) false else isQualified)
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
 
             if (isKrazyglueEnabled) {
@@ -157,8 +156,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
 
             val hasInsurance = response.responseData.insurance != null
             showTripProtectionMessage.onNext(hasInsurance)
-
-            crossSellWidgetVisibility.onNext(isQualified)
+            crossSellWidgetVisibility.onNext(if (isKrazyglueEnabled) false else isQualified)
             destinationObservable.onNext(destinationCity)
             numberOfTravelersSubject.onNext(numberOfGuests)
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)

@@ -16,9 +16,11 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.http.TravelGraphRequestInterceptor;
+import com.expedia.bookings.itin.services.FlightRegistrationHandler;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.server.EndpointProvider;
@@ -28,7 +30,7 @@ import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.SatelliteServices;
-import com.expedia.bookings.itin.services.TNSServices;
+import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
@@ -344,10 +346,18 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	TNSServices provideTNSService(EndpointProvider endpointProvider, OkHttpClient client,
-								  @Named("HmacInterceptor") Interceptor hmacInterceptor, final Context context) {
+	TNSServices provideTNSServices(EndpointProvider endpointProvider, OkHttpClient client,
+		@Named("HmacInterceptor") Interceptor hmacInterceptor) {
 		return new TNSServices(endpointProvider.getTNSEndpoint(), client, hmacInterceptor,
-				AndroidSchedulers.mainThread(), Schedulers.io(), context);
+			Schedulers.io(), Schedulers.io());
+	}
+
+	@Provides
+	@Singleton
+	FlightRegistrationHandler provideFlightRegistrationService(TNSServices tnsServices,
+		UserStateManager userStateManager, Context context
+	) {
+		return new FlightRegistrationHandler(context, tnsServices, userStateManager.getUserSource());
 	}
 
 	@Provides

@@ -1,5 +1,6 @@
 package com.expedia.vm.test.robolectric
 
+import android.graphics.drawable.ColorDrawable
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -107,6 +108,8 @@ class FlightConfirmationPresenterTest {
         assertEquals("1 traveler", presenter.flightSummary.numberOfTravelers.text)
         assertEquals("$100.95", presenter.flightSummary.tripPrice.text)
         assertEquals(VISIBLE, tripTotalText.visibility)
+        assertEquals((activity.getDrawable(R.color.flights_confirmation_itin_bar_color) as ColorDrawable).color,
+                (presenter.itinNumber.background as ColorDrawable).color)
     }
 
     @Test
@@ -185,6 +188,24 @@ class FlightConfirmationPresenterTest {
         givenCheckoutResponse(numberOfTravelers = 3)
 
         assertEquals("3 travelers", presenter.flightSummary.numberOfTravelers.text)
+    }
+
+    @Test
+    fun testAirAttachVisibilityWithKrazyGlueABTestOn() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
+        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
+
+        setupPresenter()
+        givenCheckoutResponse(numberOfTravelers = 3)
+
+        assertEquals(View.GONE, presenter.hotelCrossSell.visibility)
+    }
+
+    @Test
+    fun testAirAttachVisibilityWithKrazyGlueABTestOff() {
+        setupPresenter()
+        givenCheckoutResponse(numberOfTravelers = 3)
+        assertEquals(View.VISIBLE, presenter.hotelCrossSell.visibility)
     }
 
     @Test

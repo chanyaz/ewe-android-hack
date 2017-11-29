@@ -682,8 +682,8 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="-1"
             android:summary="%s"
-            android:key="15496"
-            android:title="Packages MISRealWorldGeo: RWG Migration"/>
+            android:key="16314"
+            android:title="Packages MISRealWorldGeo: RWG Migration - 16314"/>
 
     </PreferenceCategory>
 
@@ -752,6 +752,13 @@
             android:summary="%s"
             android:key="15246"
             android:title="LX Offer Level Cancellation Support - 15246" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="16311"
+            android:title="LX Notifications for Hotel Customers - 16311" />
 
     </PreferenceCategory>
 

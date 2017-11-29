@@ -227,6 +227,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_DETAIL_SELECT_ROOM = "App.Hotels.Infosite.SelectRoom";
 	private static final String HOTELSV2_MAP_SELECT_ROOM = "App.Hotels.IS.Map.SelectRoom";
 	private static final String HOTELSV2_DETAIL_GALLERY_CLICK = "App.Hotels.IS.Gallery.Hotel";
+	private static final String HOTELSV2_DETAIL_ROOM_GALLERY_CLICK = "App.Hotels.IS.Gallery.Room";
 	private static final String HOTELSV2_DETAIL_CHANGE_DATE = "App.Hotels.IS.ChangeDates";
 
 	private static final String HOTELSV2_REVIEWS = "App.Hotels.Reviews";
@@ -791,6 +792,7 @@ public class OmnitureTracking {
 		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 
 		trackAbacusTest(s, AbacusUtils.HotelEnableInfositeChangeDate);
+		trackAbacusTest(s, AbacusUtils.HotelRoomImageGallery);
 
 		// Send the tracking data
 		s.track();
@@ -913,6 +915,16 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_GALLERY_CLICK + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_GALLERY_CLICK);
+
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+
+		s.trackLink(null, "o", "Gallery View", null, null);
+	}
+
+	public static void trackHotelDetailRoomGalleryClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_ROOM_GALLERY_CLICK + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_ROOM_GALLERY_CLICK);
 
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 
@@ -2791,6 +2803,7 @@ public class OmnitureTracking {
 	private static final String NOTIFICATION_DESKTOP_BOOKING_CONFIRMATION = "Itinerary.Purchase.Confirmation";
 	private static final String NOTIFICATION_HOTEL_GET_READY = "Itinerary.Hotel.GetReady";
 	private static final String NOTIFICATION_HOTEL_ACTIVITY_CROSSSEll = "Itinerary.Hotel.CrossSell.Activity";
+	private static final String NOTIFICATION_HOTEL_ACTIVITY_IN_TRIP = "Itinerary.Hotel.InTrip.Activity";
 
 	public static void trackNotificationClick(Notification notification) {
 		String link = setItinNotificationLink(notification);
@@ -2859,6 +2872,9 @@ public class OmnitureTracking {
 			break;
 		case HOTEL_ACTIVITY_CROSSSEll:
 			link = NOTIFICATION_HOTEL_ACTIVITY_CROSSSEll;
+			break;
+		case HOTEL_ACTIVITY_IN_TRIP:
+			link = NOTIFICATION_HOTEL_ACTIVITY_IN_TRIP;
 			break;
 		default:
 			link = "Itinerary." + type.name();
@@ -4109,6 +4125,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTEL_DETAILS_MAP = "App.Package.Infosite.Map";
 	private static final String PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM = "App.Package.IS.Map.SelectRoom";
 	private static final String PACKAGES_HOTELS_DETAIL_GALLERY_CLICK = "App.Package.Hotels.IS.Gallery.Hotel";
+	private static final String PACKAGES_HOTELS_DETAIL_ROOM_GALLERY_CLICK = "App.Package.Hotels.IS.Gallery.Room";
 
 	private static final String PACKAGES_HOTELS_SEARCH_REFINE = "App.Package.Hotels.Search.Filter";
 	private static final String PACKAGES_HOTELS_SORT_BY_TEMPLATE = "App.Package.Hotels.Search.Sort.";
@@ -4463,6 +4480,16 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + PACKAGES_HOTELS_DETAIL_GALLERY_CLICK + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(PACKAGES_HOTELS_DETAIL_GALLERY_CLICK);
+
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+
+		s.trackLink(null, "o", "Gallery View", null, null);
+	}
+
+	public static void trackPackageHotelDetailRoomGalleryClick() {
+		Log.d(TAG, "Tracking \"" + PACKAGES_HOTELS_DETAIL_ROOM_GALLERY_CLICK + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(PACKAGES_HOTELS_DETAIL_ROOM_GALLERY_CLICK);
 
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 

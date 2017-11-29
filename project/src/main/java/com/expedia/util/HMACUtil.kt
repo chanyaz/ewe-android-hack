@@ -31,7 +31,10 @@ class HMACUtil {
         }
 
         @JvmStatic fun getAuthorization(context: Context, url: HttpUrl, method: String, date: String, salt: String): String {
-            val pathAndQuery = if (url.encodedQuery() != null) url.encodedPath() + "?" + url.encodedQuery() else url.encodedPath()
+            var pathAndQuery = url.encodedPath()
+            url.encodedQuery()?.let {
+                pathAndQuery += "?$it"
+            }
             val requestLine = "$method $pathAndQuery HTTP/1.1"
             val stringToSign = "$requestLine\nx-date: $date\nsalt: $salt"
             val hmac = createHmac(getKey(context), stringToSign)
