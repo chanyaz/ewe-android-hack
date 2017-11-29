@@ -3,6 +3,7 @@ package com.expedia.bookings.dagger;
 import com.expedia.bookings.dagger.tags.PackageScope;
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter;
 import com.expedia.bookings.presenter.packages.PackagePresenter;
+import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
@@ -22,4 +23,5 @@ public interface PackageComponent {
 	PackageServices packageServices();
 	ReviewsServices reviewsServices();
 	SuggestionV4Services suggestionsService();
+	ItinTripServices itinTripServices();
 }

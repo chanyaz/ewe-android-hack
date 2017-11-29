@@ -6,6 +6,7 @@ import com.expedia.bookings.data.AbstractItinDetailsResponse;
 import com.expedia.bookings.data.FlightItinDetailsResponse;
 import com.expedia.bookings.data.HotelItinDetailsResponse;
 import com.expedia.bookings.data.ItinDetailsResponse;
+import com.expedia.bookings.data.PackageItinDetailsResponse;
 import com.expedia.bookings.services.DateTimeTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,6 +29,9 @@ public class ItinTripDeserializer implements JsonDeserializer<AbstractItinDetail
 		}
 		else if (responseData.has("flights")) {
 			return gson.fromJson(object, FlightItinDetailsResponse.class);
+		}
+		else if (responseData.has("packages")) {
+			return gson.fromJson(object, PackageItinDetailsResponse.class);
 		}
 		else {
 			return gson.fromJson(object, ItinDetailsResponse.class);

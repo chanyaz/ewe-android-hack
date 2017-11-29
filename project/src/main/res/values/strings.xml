@@ -3929,6 +3929,8 @@
     <string name="select_flight_to">Select flight to %1$s</string>
     <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
     <string name="package_flight_outbound_toolbar_title_TEMPLATE">Outbound to {cityname}, {stateorcountry} ({airportcode})</string>
+    <!-- Airport code with city -->
+    <string name="airport_code_with_city_TEMPLATE">({airportcode}) {city}</string>
     <!-- Flight to template -->
     <string name="flight_to">Flight to %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->

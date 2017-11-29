@@ -1380,6 +1380,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.brand_primary,
 		R.drawable.discount_percentage_background,
 		R.drawable.member_only_discount_percentage_background,
+		R.string.airport_code_with_city_TEMPLATE,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt,
 		R.drawable.ic_member_only_tag,

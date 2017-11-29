@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.PackageScope;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
@@ -50,6 +51,13 @@ public final class PackageModule {
 	@PackageScope
 	PaymentViewModel providePaymentViewModel(Context context) {
 		return new PaymentViewModel(context);
+	}
+
+	@Provides
+	@PackageScope
+	ItinTripServices provideItinTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new ItinTripServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }
 

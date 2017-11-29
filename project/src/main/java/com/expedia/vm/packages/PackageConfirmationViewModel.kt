@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.PackageItinDetailsResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -18,6 +20,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.navigation.CarNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.squareup.phrase.Phrase
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
@@ -27,8 +30,9 @@ import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-open class PackageConfirmationViewModel(private val context: Context) {
+open class PackageConfirmationViewModel(private val context: Context, isWebCheckout: Boolean = false) {
     val showConfirmation = PublishSubject.create<Pair<String?, String>>()
+    val itinDetailsResponseObservable = PublishSubject.create<PackageItinDetailsResponse>()
     val setRewardsPoints = PublishSubject.create<String>()
 
     // Outputs
@@ -45,12 +49,33 @@ open class PackageConfirmationViewModel(private val context: Context) {
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     init {
+        if (isWebCheckout) {
+            setupItinDetailsResponseObservable()
+        } else {
+            setupShowConfirmationObservable()
+        }
+
+
+        setRewardsPoints.subscribe { points ->
+            if (points != null)
+                if (userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().shouldShowRewards()) {
+                    val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance())
+                    if (Strings.isNotEmpty(rewardPointText)) {
+                        rewardPointsObservable.onNext(rewardPointText)
+                    }
+                }
+        }
+    }
+
+    private fun setupShowConfirmationObservable() {
         showConfirmation.subscribe { pair ->
             val itinNumber = pair.first
             val email = pair.second
             destinationObservable.onNext(Db.getPackageSelectedHotel().city)
             destinationTitleObservable.onNext(Db.getPackageSelectedHotel().localizedName)
-            destinationSubTitleObservable.onNext(getHotelSubtitle())
+            val hotel = Db.getTripBucket().`package`.mPackageTripResponse.packageDetails.hotel
+            val params = Db.getPackageParams()
+            destinationSubTitleObservable.onNext(getHotelSubtitle(hotel.checkInDate, hotel.checkOutDate, params.guests))
             outboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
             outboundFlightCardSubTitleObservable.onNext(getFlightSubtitle(Db.getPackageFlightBundle().first))
             inboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
@@ -64,26 +89,44 @@ open class PackageConfirmationViewModel(private val context: Context) {
                 getItineraryManager().addGuestTrip(email, itinNumber)
             }
         }
+    }
 
-        setRewardsPoints.subscribe { points ->
-            if (points != null)
-                if (userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().shouldShowRewards()) {
-                    val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance())
-                    if (Strings.isNotEmpty(rewardPointText)) {
-                        rewardPointsObservable.onNext(rewardPointText)
-                    }
-                }
+    private fun setupItinDetailsResponseObservable() {
+        itinDetailsResponseObservable.subscribe { response ->
+            val packageDetails = response.responseData.packages[0]
+            val itinNumber = response.responseData.tripNumber?.toString()
+            val email = packageDetails.flights.first().passengers.first().emailAddress
+            val hotel = packageDetails.hotels.first()
+            val guests = packageDetails.flights.first().passengers.size
+            destinationObservable.onNext(hotel.hotelPropertyInfo.address.city)
+            destinationTitleObservable.onNext(hotel.hotelPropertyInfo.name)
+            destinationSubTitleObservable.onNext(getHotelSubtitle(hotel.checkInDateTime.toLocalDate().toString(),
+                    hotel.checkOutDateTime.toLocalDate().toString(), guests))
+            val outboundFlightSegment = packageDetails.flights.first().legs.first().segments.last()
+            outboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to,
+                    getAirportCodeWithCityTitle(outboundFlightSegment.arrivalLocation.airportCode, outboundFlightSegment.arrivalLocation.city)))
+            outboundFlightCardSubTitleObservable.onNext(getFlightSubtitleFromTripDetails(outboundFlightSegment.departureTime.raw, guests))
+            val inboundFlightSegment = packageDetails.flights.first().legs.last().segments.last()
+            inboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to,
+                    getAirportCodeWithCityTitle(inboundFlightSegment.arrivalLocation.airportCode, inboundFlightSegment.arrivalLocation.city)))
+            inboundFlightCardSubTitleObservable.onNext(getFlightSubtitleFromTripDetails(inboundFlightSegment.departureTime.raw, guests))
+            val itinNumberMessage = Phrase.from(context, R.string.itinerary_sent_to_confirmation_TEMPLATE)
+                    .put("itinerary", itinNumber)
+                    .put("email", email)
+                    .format().toString()
+            itinNumberMessageObservable.onNext(itinNumberMessage)
+            if (!userStateManager.isUserAuthenticated() && !ExpediaBookingApp.isRobolectric()) {
+                getItineraryManager().addGuestTrip(email, itinNumber)
+            }
         }
     }
 
-    private fun getHotelSubtitle(): String {
-        val hotel = Db.getTripBucket().`package`.mPackageTripResponse.packageDetails.hotel
-        val params = Db.getPackageParams()
+    private fun getHotelSubtitle(checkInDate: String, checkOutDate: String, guests: Int): String {
         val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
         var subtitle = Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
-                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkInDate)))
-                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkOutDate)))
-                .put("guests", StrUtils.formatGuestString(context, params.guests))
+                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(checkInDate)))
+                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(checkOutDate)))
+                .put("guests", StrUtils.formatGuestString(context, guests))
                 .format().toString()
 
         return subtitle
@@ -95,6 +138,20 @@ open class PackageConfirmationViewModel(private val context: Context) {
 
         return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(localDate),
                 FlightV2Utils.formatTimeShort(context, selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
+    }
+
+    private fun getFlightSubtitleFromTripDetails(rawDepartureDateTime: String, guests: Int): String {
+        val localDate = DateTime.parse(rawDepartureDateTime).toLocalDate()
+
+        return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(localDate),
+                FlightV2Utils.formatTimeShort(context, rawDepartureDateTime), guests)
+    }
+
+    private fun getAirportCodeWithCityTitle(airportCode: String, city: String): String {
+        return Phrase.from(context, R.string.airport_code_with_city_TEMPLATE)
+                .put("airportcode", airportCode)
+                .put("city", city)
+                .format().toString()
     }
 
     fun searchForCarRentalsForTripObserver(context: Context): Observer<Unit> {

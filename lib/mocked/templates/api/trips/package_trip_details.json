@@ -1,0 +1,957 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "4d0385c3-9d0e-42ca-b7de-103d423f583c",
+    "webDetailsURL": "https://www.expedia.com/trips/7313989476663",
+    "tripNumber": 7313989476663,
+    "title": "Trip to Barcelona",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/4d0385c3-9d0e-42ca-b7de-103d423f583c/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-01-24T08:00:00-08:00",
+      "localized": "Jan 24, 2018 8:00:00 AM",
+      "epochSeconds": 1516809600,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "1/24/2018",
+      "localizedMediumDate": "Jan 24",
+      "localizedFullDate": "Wed, Jan 24",
+      "localizedLongDate": "Jan 24, 2018",
+      "localizedShortTime": "8:00am"
+    },
+    "endTime": {
+      "raw": "2018-02-02T20:17:00-08:00",
+      "localized": "Feb 2, 2018 8:17:00 PM",
+      "epochSeconds": 1517631420,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "2/2/2018",
+      "localizedMediumDate": "Feb 2",
+      "localizedFullDate": "Fri, Feb 2",
+      "localizedLongDate": "Feb 2, 2018",
+      "localizedShortTime": "8:17pm"
+    },
+    "tripCreatedTime": {
+      "raw": "2017-12-04T19:26:09Z",
+      "localized": "Dec 4, 2017 7:26:09 PM",
+      "epochSeconds": 1512415569,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Mon, 4 Dec",
+      "localizedMediumDate": "Dec 4, 2017",
+      "localizedFullDate": "Monday, December 4, 2017",
+      "localizedLongDate": "December 4, 2017",
+      "localizedShortTime": "7:26 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2017-12-04T19:26:18Z",
+      "localized": "Dec 4, 2017 7:26:18 PM",
+      "epochSeconds": 1512415578,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Mon, 4 Dec",
+      "localizedMediumDate": "Dec 4, 2017",
+      "localizedFullDate": "Monday, December 4, 2017",
+      "localizedLongDate": "December 4, 2017",
+      "localizedShortTime": "7:26 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2017-12-04T19:26:26Z",
+      "localized": "Dec 4, 2017 7:26:26 PM",
+      "epochSeconds": 1512415586,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Mon, 4 Dec",
+      "localizedMediumDate": "Dec 4, 2017",
+      "localizedFullDate": "Monday, December 4, 2017",
+      "localizedLongDate": "December 4, 2017",
+      "localizedShortTime": "7:26 PM"
+    },
+    "ownerId": 968314230,
+    "bookingStatus": "SAVED",
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/pj8sDz9T-wCXCnSno26mOcCAuVJvq6r-gIwJdgmoBDRS1P3SED6rG0x4fwdWv1xqNvG6lxEVXv9mYkqpDq6RijAD",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia+ blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention <strong>itinerary #7313989476663 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "packages": [
+      {
+        "uniqueID": "CDF71043-5237-4788-9784-51EDE36DEE04",
+        "bookingStatus": "SAVED",
+        "price": {
+          "currency": "USD",
+          "subTotal": "1307.29",
+          "subTotalFormatted": "$1,307.29",
+          "total": "1307.29",
+          "totalFormatted": "$1,307.29"
+        },
+        "flights": [
+          {
+            "uniqueID": "CDF71043-5237-4788-9784-51EDE36DEE04",
+            "bookingStatus": "SAVED",
+            "bookingStatusText": "Not Booked",
+            "bookingStatusMessage": "This flight is not booked. Book now to guarantee price and availability.",
+            "startTime": {
+              "raw": "2018-01-24T08:00:00-08:00",
+              "localized": "Jan 24, 2018 8:00:00 AM",
+              "epochSeconds": 1516809600,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "1/24/2018",
+              "localizedMediumDate": "Jan 24",
+              "localizedFullDate": "Wed, Jan 24",
+              "localizedLongDate": "Jan 24, 2018",
+              "localizedShortTime": "8:00am"
+            },
+            "endTime": {
+              "raw": "2018-02-02T20:17:00-08:00",
+              "localized": "Feb 2, 2018 8:17:00 PM",
+              "epochSeconds": 1517631420,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "2/2/2018",
+              "localizedMediumDate": "Feb 2",
+              "localizedFullDate": "Fri, Feb 2",
+              "localizedLongDate": "Feb 2, 2018",
+              "localizedShortTime": "8:17pm"
+            },
+            "paymentModel": "MERCHANT",
+            "fareType": "PACKAGE_NET",
+            "flightType": "ROUND_TRIP",
+            "isInternational": true,
+            "isSplitTicket": false,
+            "passengers": [
+              {
+                "typeCode": "ADULT",
+                "typeLocalized": "Adult",
+                "title": "",
+                "firstName": "Kevin",
+                "lastName": "Seo",
+                "fullName": "Kevin Seo",
+                "age": 2001,
+                "gender": "Male",
+                "TSAKnownTravelerNumber": "",
+                "passportNumber": "",
+                "passportCountryCode": "US",
+                "phoneNumbers": [
+                  {
+                    "countryCode": "1",
+                    "phone": "4083157399"
+                  }
+                ],
+                "seats": [],
+                "emailAddress": "test@test.com",
+                "seatPreferenceCode": "W"
+              }
+            ],
+            "brandedFareFamilyName": "",
+            "legs": [
+              {
+                "type": "ONESTOP",
+                "state": "PRE_START_4",
+                "numberOfStops": 1,
+                "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smAA.gif",
+                "segments": [
+                  {
+                    "transportationType": "FLIGHT",
+                    "departureType": "FLIGHT_DEPARTURE",
+                    "departureLocation": {
+                      "latitude": 37.61594,
+                      "longitude": -122.387996,
+                      "name": "San Francisco Intl.",
+                      "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                      "airportCode": "SFO",
+                      "city": "San Francisco",
+                      "countryCode": "USA",
+                      "countrySubdivisionCode": " CA",
+                      "timeZoneName": "America/Los_Angeles"
+                    },
+                    "departureTime": {
+                      "raw": "2018-01-24T08:00:00-08:00",
+                      "localized": "Jan 24, 2018 8:00:00 AM",
+                      "epochSeconds": 1516809600,
+                      "timeZoneOffsetSeconds": -28800,
+                      "localizedShortDate": "1/24/2018",
+                      "localizedMediumDate": "Jan 24",
+                      "localizedFullDate": "Wed, Jan 24",
+                      "localizedLongDate": "Jan 24, 2018",
+                      "localizedShortTime": "8:00am"
+                    },
+                    "arrivalType": "FLIGHT_ARRIVAL",
+                    "arrivalLocation": {
+                      "latitude": 25.79509,
+                      "longitude": -80.27843,
+                      "name": "Miami Intl.",
+                      "longName": "Miami, FL (MIA-Miami Intl.)",
+                      "airportCode": "MIA",
+                      "airportMetroCode": "MIA",
+                      "city": "Miami",
+                      "countryCode": "USA",
+                      "countrySubdivisionCode": " FL",
+                      "timeZoneName": "America/New_York"
+                    },
+                    "arrivalTime": {
+                      "raw": "2018-01-24T16:29:00-05:00",
+                      "localized": "Jan 24, 2018 4:29:00 PM",
+                      "epochSeconds": 1516829340,
+                      "timeZoneOffsetSeconds": -18000,
+                      "localizedShortDate": "1/24/2018",
+                      "localizedMediumDate": "Jan 24",
+                      "localizedFullDate": "Wed, Jan 24",
+                      "localizedLongDate": "Jan 24, 2018",
+                      "localizedShortTime": "4:29pm"
+                    },
+                    "departureTerminal": "2",
+                    "airlineCode": "AA",
+                    "externalAirlineCode": "AA",
+                    "airlineName": "American Airlines",
+                    "operatedByAirCarrierName": "",
+                    "confirmationAirline": "American Airlines",
+                    "flightNumber": "2629",
+                    "equipmentCode": "738",
+                    "equipmentDescription": "Boeing 737-800",
+                    "layoverDuration": "PT1H31M",
+                    "formattedLayoverDuration": "1h 31m",
+                    "distance": 2582,
+                    "distanceUnits": "mi",
+                    "duration": "PT5H29M",
+                    "formattedDuration": "5h 29m",
+                    "onTimePercentage": "90",
+                    "providerCode": "Sabre",
+                    "bookingCode": "Q",
+                    "cabinCode": "coach",
+                    "cabinCodeLocalized": "Economy / Coach",
+                    "isSeatMapAvailable": true,
+                    "flightIdForSeatMap": "CDF71043-5237-4788-9784-51EDE36DEE04_L1_S1_1",
+                    "status": "UNKNOWN",
+                    "isHidden": false
+                  },
+                  {
+                    "transportationType": "FLIGHT",
+                    "departureType": "FLIGHT_DEPARTURE",
+                    "departureLocation": {
+                      "latitude": 25.79509,
+                      "longitude": -80.27843,
+                      "name": "Miami Intl.",
+                      "longName": "Miami, FL (MIA-Miami Intl.)",
+                      "airportCode": "MIA",
+                      "airportMetroCode": "MIA",
+                      "city": "Miami",
+                      "countryCode": "USA",
+                      "countrySubdivisionCode": " FL",
+                      "timeZoneName": "America/New_York"
+                    },
+                    "departureTime": {
+                      "raw": "2018-01-24T18:00:00-05:00",
+                      "localized": "Jan 24, 2018 6:00:00 PM",
+                      "epochSeconds": 1516834800,
+                      "timeZoneOffsetSeconds": -18000,
+                      "localizedShortDate": "1/24/2018",
+                      "localizedMediumDate": "Jan 24",
+                      "localizedFullDate": "Wed, Jan 24",
+                      "localizedLongDate": "Jan 24, 2018",
+                      "localizedShortTime": "6:00pm"
+                    },
+                    "arrivalType": "FLIGHT_ARRIVAL",
+                    "arrivalLocation": {
+                      "latitude": 41.302897,
+                      "longitude": 2.076833,
+                      "name": "Barcelona Intl.",
+                      "longName": "Barcelona, Spain (BCN-Barcelona Intl.)",
+                      "airportCode": "BCN",
+                      "airportMetroCode": "BCN",
+                      "city": "Barcelona",
+                      "countryCode": "ESP",
+                      "countrySubdivisionCode": " Spain",
+                      "timeZoneName": "Europe/Madrid"
+                    },
+                    "arrivalTime": {
+                      "raw": "2018-01-25T08:55:00+01:00",
+                      "localized": "Jan 25, 2018 8:55:00 AM",
+                      "epochSeconds": 1516866900,
+                      "timeZoneOffsetSeconds": 3600,
+                      "localizedShortDate": "1/25/2018",
+                      "localizedMediumDate": "Jan 25",
+                      "localizedFullDate": "Thu, Jan 25",
+                      "localizedLongDate": "Jan 25, 2018",
+                      "localizedShortTime": "8:55am"
+                    },
+                    "arrivalTerminal": "1",
+                    "airlineCode": "AA",
+                    "externalAirlineCode": "AA",
+                    "airlineName": "American Airlines",
+                    "operatedByAirCarrierName": "",
+                    "confirmationAirline": "American Airlines",
+                    "flightNumber": "112",
+                    "equipmentCode": "772",
+                    "equipmentDescription": "772 - BOEING 777/200",
+                    "formattedLayoverDuration": "",
+                    "distance": 4688,
+                    "distanceUnits": "mi",
+                    "duration": "PT8H55M",
+                    "formattedDuration": "8h 55m",
+                    "providerCode": "Sabre",
+                    "bookingCode": "Q",
+                    "cabinCode": "coach",
+                    "cabinCodeLocalized": "Economy / Coach",
+                    "isSeatMapAvailable": true,
+                    "flightIdForSeatMap": "CDF71043-5237-4788-9784-51EDE36DEE04_L1_S2_1",
+                    "status": "UNKNOWN",
+                    "isHidden": false
+                  }
+                ],
+                "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/dTgm5oEO8OCO4SdMCoZMacCAgAWyrRHSiUkpLuIWlVO3gnOqRz-oAiLEDI7oCDr_l6MSS4FS-V7oRTiSV9iMjnPRxwCmPW-z-cy7ii8nK9QWk8pIq3mfU5a8pKi6ct6NMH9pp4wXMXEix-PSmBAldYIp",
+                "duration": "PT15H55M",
+                "formattedDuration": "15h 55m",
+                "departingAirport": {
+                  "code": "SFO",
+                  "name": "San Francisco (San Francisco Intl.)",
+                  "city": "San Francisco",
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "isMinorAirport": false,
+                  "isProhibitedAirport": false,
+                  "countryCode": "USA",
+                  "identicalMetroCode": true,
+                  "isMetroCode": false,
+                  "airportID": 5195347,
+                  "localName": "San Francisco Intl.",
+                  "airportCityCode": "San Francisco, CA (SFO)",
+                  "airportStateCode": " CA",
+                  "terminalMaps": [
+                    {
+                      "name": "Overview",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+                      "type": "O"
+                    },
+                    {
+                      "name": "Terminal 1",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 2",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 3",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "International Terminal",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+                      "type": "T"
+                    }
+                  ],
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "arrivalAirport": {
+                  "code": "BCN",
+                  "name": "Barcelona (Barcelona Intl.)",
+                  "city": "Barcelona",
+                  "metroCode": "BCN",
+                  "latitude": 41.302897,
+                  "longitude": 2.076833,
+                  "longName": "Barcelona, Spain (BCN-Barcelona Intl.)",
+                  "isMinorAirport": false,
+                  "isProhibitedAirport": false,
+                  "countryCode": "ESP",
+                  "identicalMetroCode": true,
+                  "isMetroCode": false,
+                  "airportID": 5129026,
+                  "localName": "Barcelona Intl.",
+                  "airportCityCode": "Barcelona, Spain (BCN)",
+                  "airportStateCode": " Spain",
+                  "terminalMaps": [
+                    {
+                      "name": "Overview",
+                      "url": "https://a.travel-assets.com/mobile/maps/bcn_airport.svg",
+                      "type": "O"
+                    },
+                    {
+                      "name": "Terminal 1, Levels 0 and 1",
+                      "url": "https://a.travel-assets.com/mobile/maps/bcn_terminal_1_level0-1.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 1, Levels 2 and 3",
+                      "url": "https://a.travel-assets.com/mobile/maps/bcn_terminal_1_level2-3.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 2",
+                      "url": "https://a.travel-assets.com/mobile/maps/bcn_terminal_2.svg",
+                      "type": "T"
+                    }
+                  ],
+                  "timeZoneName": "Europe/Madrid"
+                },
+                "legDepartureTime": {
+                  "raw": "2018-01-24T08:00:00-08:00",
+                  "localized": "Jan 24, 2018 8:00:00 AM",
+                  "epochSeconds": 1516809600,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "1/24/2018",
+                  "localizedMediumDate": "Jan 24",
+                  "localizedFullDate": "Wed, Jan 24",
+                  "localizedLongDate": "Jan 24, 2018",
+                  "localizedShortTime": "8:00am"
+                },
+                "legArrivaltime": {
+                  "raw": "2018-01-25T08:55:00+01:00",
+                  "localized": "Jan 25, 2018 8:55:00 AM",
+                  "epochSeconds": 1516866900,
+                  "timeZoneOffsetSeconds": 3600,
+                  "localizedShortDate": "1/25/2018",
+                  "localizedMediumDate": "Jan 25",
+                  "localizedFullDate": "Thu, Jan 25",
+                  "localizedLongDate": "Jan 25, 2018",
+                  "localizedShortTime": "8:55am"
+                },
+                "fareBasisCode": "QLN5Z7S5/F177"
+              },
+              {
+                "type": "ONESTOP",
+                "state": "PRE_START_4",
+                "numberOfStops": 1,
+                "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smAA.gif",
+                "segments": [
+                  {
+                    "transportationType": "FLIGHT",
+                    "departureType": "FLIGHT_DEPARTURE",
+                    "departureLocation": {
+                      "latitude": 41.302897,
+                      "longitude": 2.076833,
+                      "name": "Barcelona Intl.",
+                      "longName": "Barcelona, Spain (BCN-Barcelona Intl.)",
+                      "airportCode": "BCN",
+                      "airportMetroCode": "BCN",
+                      "city": "Barcelona",
+                      "countryCode": "ESP",
+                      "countrySubdivisionCode": " Spain",
+                      "timeZoneName": "Europe/Madrid"
+                    },
+                    "departureTime": {
+                      "raw": "2018-02-02T10:00:00+01:00",
+                      "localized": "Feb 2, 2018 10:00:00 AM",
+                      "epochSeconds": 1517562000,
+                      "timeZoneOffsetSeconds": 3600,
+                      "localizedShortDate": "2/2/2018",
+                      "localizedMediumDate": "Feb 2",
+                      "localizedFullDate": "Fri, Feb 2",
+                      "localizedLongDate": "Feb 2, 2018",
+                      "localizedShortTime": "10:00am"
+                    },
+                    "arrivalType": "FLIGHT_ARRIVAL",
+                    "arrivalLocation": {
+                      "latitude": 40.644166,
+                      "longitude": -73.782548,
+                      "name": "John F. Kennedy Intl.",
+                      "longName": "New York, NY (JFK-John F. Kennedy Intl.)",
+                      "airportCode": "JFK",
+                      "airportMetroCode": "NYC",
+                      "city": "New York",
+                      "countryCode": "USA",
+                      "countrySubdivisionCode": " NY",
+                      "timeZoneName": "America/New_York"
+                    },
+                    "arrivalTime": {
+                      "raw": "2018-02-02T13:00:00-05:00",
+                      "localized": "Feb 2, 2018 1:00:00 PM",
+                      "epochSeconds": 1517594400,
+                      "timeZoneOffsetSeconds": -18000,
+                      "localizedShortDate": "2/2/2018",
+                      "localizedMediumDate": "Feb 2",
+                      "localizedFullDate": "Fri, Feb 2",
+                      "localizedLongDate": "Feb 2, 2018",
+                      "localizedShortTime": "1:00pm"
+                    },
+                    "departureTerminal": "1",
+                    "arrivalTerminal": "8",
+                    "airlineCode": "AA",
+                    "externalAirlineCode": "AA",
+                    "airlineName": "American Airlines",
+                    "operatedByAirCarrierName": "",
+                    "confirmationAirline": "American Airlines",
+                    "flightNumber": "67",
+                    "equipmentCode": "772",
+                    "equipmentDescription": "772 - BOEING 777/200",
+                    "layoverDuration": "PT3H20M",
+                    "formattedLayoverDuration": "3h 20m",
+                    "distance": 3823,
+                    "distanceUnits": "mi",
+                    "duration": "PT9H",
+                    "formattedDuration": "9h",
+                    "providerCode": "Sabre",
+                    "bookingCode": "Q",
+                    "cabinCode": "coach",
+                    "cabinCodeLocalized": "Economy / Coach",
+                    "isSeatMapAvailable": true,
+                    "flightIdForSeatMap": "CDF71043-5237-4788-9784-51EDE36DEE04_L2_S1_1",
+                    "status": "UNKNOWN",
+                    "isHidden": false
+                  },
+                  {
+                    "transportationType": "FLIGHT",
+                    "departureType": "FLIGHT_DEPARTURE",
+                    "departureLocation": {
+                      "latitude": 40.644166,
+                      "longitude": -73.782548,
+                      "name": "John F. Kennedy Intl.",
+                      "longName": "New York, NY (JFK-John F. Kennedy Intl.)",
+                      "airportCode": "JFK",
+                      "airportMetroCode": "NYC",
+                      "city": "New York",
+                      "countryCode": "USA",
+                      "countrySubdivisionCode": " NY",
+                      "timeZoneName": "America/New_York"
+                    },
+                    "departureTime": {
+                      "raw": "2018-02-02T16:20:00-05:00",
+                      "localized": "Feb 2, 2018 4:20:00 PM",
+                      "epochSeconds": 1517606400,
+                      "timeZoneOffsetSeconds": -18000,
+                      "localizedShortDate": "2/2/2018",
+                      "localizedMediumDate": "Feb 2",
+                      "localizedFullDate": "Fri, Feb 2",
+                      "localizedLongDate": "Feb 2, 2018",
+                      "localizedShortTime": "4:20pm"
+                    },
+                    "arrivalType": "FLIGHT_ARRIVAL",
+                    "arrivalLocation": {
+                      "latitude": 37.61594,
+                      "longitude": -122.387996,
+                      "name": "San Francisco Intl.",
+                      "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                      "airportCode": "SFO",
+                      "city": "San Francisco",
+                      "countryCode": "USA",
+                      "countrySubdivisionCode": " CA",
+                      "timeZoneName": "America/Los_Angeles"
+                    },
+                    "arrivalTime": {
+                      "raw": "2018-02-02T20:17:00-08:00",
+                      "localized": "Feb 2, 2018 8:17:00 PM",
+                      "epochSeconds": 1517631420,
+                      "timeZoneOffsetSeconds": -28800,
+                      "localizedShortDate": "2/2/2018",
+                      "localizedMediumDate": "Feb 2",
+                      "localizedFullDate": "Fri, Feb 2",
+                      "localizedLongDate": "Feb 2, 2018",
+                      "localizedShortTime": "8:17pm"
+                    },
+                    "departureTerminal": "8",
+                    "arrivalTerminal": "2",
+                    "airlineCode": "AA",
+                    "externalAirlineCode": "AA",
+                    "airlineName": "American Airlines",
+                    "operatedByAirCarrierName": "",
+                    "confirmationAirline": "American Airlines",
+                    "flightNumber": "1056",
+                    "equipmentCode": "32B",
+                    "equipmentDescription": "AIRBUS INDUSTRIE A321 SHARKLETS",
+                    "formattedLayoverDuration": "",
+                    "distance": 2566,
+                    "distanceUnits": "mi",
+                    "duration": "PT6H57M",
+                    "formattedDuration": "6h 57m",
+                    "onTimePercentage": "60",
+                    "providerCode": "Sabre",
+                    "bookingCode": "Q",
+                    "cabinCode": "coach",
+                    "cabinCodeLocalized": "Economy / Coach",
+                    "isSeatMapAvailable": true,
+                    "flightIdForSeatMap": "CDF71043-5237-4788-9784-51EDE36DEE04_L2_S2_1",
+                    "status": "UNKNOWN",
+                    "isHidden": false
+                  }
+                ],
+                "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/5g4anXDQq89sElMRsNNefsCAjd_tC9NfJ8e4EO5Jbx0AH-dITexdkcr1695n0bpiS5ssXFFB7EpHvaEMD_BNO5Qpp0HxCmcpaEP-5BjgOjMzXqiDRCdAd3cOuEiLIq5FJuAB-ejZyh1Y5sGHkqkmhtxF",
+                "duration": "PT19H17M",
+                "formattedDuration": "19h 17m",
+                "departingAirport": {
+                  "code": "BCN",
+                  "name": "Barcelona (Barcelona Intl.)",
+                  "city": "Barcelona",
+                  "metroCode": "BCN",
+                  "latitude": 41.302897,
+                  "longitude": 2.076833,
+                  "longName": "Barcelona, Spain (BCN-Barcelona Intl.)",
+                  "isMinorAirport": false,
+                  "isProhibitedAirport": false,
+                  "countryCode": "ESP",
+                  "identicalMetroCode": true,
+                  "isMetroCode": false,
+                  "airportID": 5129026,
+                  "localName": "Barcelona Intl.",
+                  "airportCityCode": "Barcelona, Spain (BCN)",
+                  "airportStateCode": " Spain",
+                  "terminalMaps": [
+                    {
+                      "name": "Overview",
+                      "url": "https://a.travel-assets.com/mobile/maps/bcn_airport.svg",
+                      "type": "O"
+                    },
+                    {
+                      "name": "Terminal 1, Levels 0 and 1",
+                      "url": "https://a.travel-assets.com/mobile/maps/bcn_terminal_1_level0-1.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 1, Levels 2 and 3",
+                      "url": "https://a.travel-assets.com/mobile/maps/bcn_terminal_1_level2-3.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 2",
+                      "url": "https://a.travel-assets.com/mobile/maps/bcn_terminal_2.svg",
+                      "type": "T"
+                    }
+                  ],
+                  "timeZoneName": "Europe/Madrid"
+                },
+                "arrivalAirport": {
+                  "code": "SFO",
+                  "name": "San Francisco (San Francisco Intl.)",
+                  "city": "San Francisco",
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "isMinorAirport": false,
+                  "isProhibitedAirport": false,
+                  "countryCode": "USA",
+                  "identicalMetroCode": true,
+                  "isMetroCode": false,
+                  "airportID": 5195347,
+                  "localName": "San Francisco Intl.",
+                  "airportCityCode": "San Francisco, CA (SFO)",
+                  "airportStateCode": " CA",
+                  "terminalMaps": [
+                    {
+                      "name": "Overview",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+                      "type": "O"
+                    },
+                    {
+                      "name": "Terminal 1",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 2",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 3",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "International Terminal",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+                      "type": "T"
+                    }
+                  ],
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "legDepartureTime": {
+                  "raw": "2018-02-02T10:00:00+01:00",
+                  "localized": "Feb 2, 2018 10:00:00 AM",
+                  "epochSeconds": 1517562000,
+                  "timeZoneOffsetSeconds": 3600,
+                  "localizedShortDate": "2/2/2018",
+                  "localizedMediumDate": "Feb 2",
+                  "localizedFullDate": "Fri, Feb 2",
+                  "localizedLongDate": "Feb 2, 2018",
+                  "localizedShortTime": "10:00am"
+                },
+                "legArrivaltime": {
+                  "raw": "2018-02-02T20:17:00-08:00",
+                  "localized": "Feb 2, 2018 8:17:00 PM",
+                  "epochSeconds": 1517631420,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "2/2/2018",
+                  "localizedMediumDate": "Feb 2",
+                  "localizedFullDate": "Fri, Feb 2",
+                  "localizedLongDate": "Feb 2, 2018",
+                  "localizedShortTime": "8:17pm"
+                },
+                "fareBasisCode": ""
+              }
+            ],
+            "rules": {
+              "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+              "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+              "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+              "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed.",
+              "refundableStatus": "NonRefundable",
+              "additionalAirlineFees": {
+                "text": "The airline may charge additional fees for checked baggage or other optional services.",
+                "url": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=BCN&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=QLN5Z7S5/F177&bookingclass=Q&travelDate=2018-01-24&flightNumber=2629",
+                "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=BCN&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=QLN5Z7S5/F177&bookingclass=Q&travelDate=2018-01-24&flightNumber=2629\" target=\"rulesAndRestrictions\">additional fees <span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> for checked baggage or other optional services."
+              },
+              "airlineLiabilityLimitations": {
+                "text": "Please read important information regarding airline liability limitations.",
+                "url": "https://www.expedia.com/p/info-main/warsaw?",
+                "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/p/info-main/warsaw?\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+              },
+              "travelingToUSText": "All passengers traveling to the US must provide valid travel documents and details of their full US destination address for US Immigration.",
+              "internationalPassportNoteText": "Proof of citizenship is required for international travel.  Be sure to bring all necessary documentation (e.g. passport, visa, transit permit). To learn more, visit our <a href=\"http://visacentral.com/index.php?login=85001&utm_campaign=Expedia&utm_medium=1&utm_source=US&rfrr=FLT.Itin.VisaSite\" class=\"tooltip\" >Visa and Passport page <span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span></a>.",
+              "railFeederMessages": [],
+              "expediaChangeFeeChargeable": false,
+              "hasElectronicsBannedMessage": false
+            },
+            "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/IG6y6NcopNjWZiTXV0VBy8CA_seUcBaBhkdvCjwTxNAH9XiUvQ-uRzaYdc74lpfdttZ526XMEfcvkLfPjw62LsiBO4SmzcqoUzdpgW_T-a_3X7rGH4rKD6aZ-Li3Qj7A1iAUOBve4P3EF1EnJLEcqv6o",
+            "isSeatMapAvailable": true,
+            "hasTrainTransfer": false,
+            "isLccOrCharter": false
+          }
+        ],
+        "hotels": [
+          {
+            "uniqueID": "CDF71043-5237-4788-9784-51EDE36DEE04",
+            "hotelId": "799763",
+            "checkInDateTime": {
+              "raw": "2018-01-25T00:00:00-08:00",
+              "localized": "Jan 25, 2018 12:00:00 AM",
+              "epochSeconds": 1516867200,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "1/25/18",
+              "localizedMediumDate": "Jan 25, 2018",
+              "localizedFullDate": "Thursday, January 25, 2018",
+              "localizedLongDate": "January 25, 2018",
+              "localizedShortTime": "12:00 AM"
+            },
+            "checkOutDateTime": {
+              "raw": "2018-02-02T00:00:00-08:00",
+              "localized": "Feb 2, 2018 12:00:00 AM",
+              "epochSeconds": 1517558400,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "2/2/18",
+              "localizedMediumDate": "Feb 2, 2018",
+              "localizedFullDate": "Friday, February 2, 2018",
+              "localizedLongDate": "February 2, 2018",
+              "localizedShortTime": "12:00 AM"
+            },
+            "checkInDate": "2018-01-25T00:00:00-08:00",
+            "checkOutDate": "2018-02-02T00:00:00-08:00",
+            "checkInDateLocalized": "Jan 25, 2018",
+            "checkOutDateLocalized": "Feb 2, 2018",
+            "numberOfNights": 8,
+            "bookingStatus": "SAVED",
+            "bookingStatusText": "Not Booked",
+            "bookingStatusMessage": "This hotel is not booked. Book now to guarantee price and availability.",
+            "inventoryType": "MERCHANT",
+            "inventoryTypeEnum": "MERCHANT",
+            "inventorySource": "INTERNAL",
+            "paymentModel": "EXPEDIA_COLLECT",
+            "inventoryVisibility": "VISIBLE",
+            "state": "PRE_START_4",
+            "infositeURL": "http://www.expedia.com/itin.h799763.Hotel-Information?langid=1033",
+            "epcConversationURL": "https://www.expedia.com/createConversation/create/?bookingId=0&bookingItemId=0&itineraryId=0&checkinDate=01/25/2018&checkoutDate=02/02/2018&tpid=1&eapid=0&siteId=1&hotelId=799763&hotelName=Hotel Barcelona Universal&userTokenString=6eaq6NzCreDH89inab0DhZZ8gDOOTvEpFlzfB9Qsl21CW6cfp_0f0ErD0TgNbeGsZdOuEZ05YHlPL8oR98M60ugHp-EAsABWr_D3UTdGAl1VacYtIaRy2i2AMU60q3v1Eg",
+            "hotelPropertyInfo": {
+              "address": {
+                "addressLine1": "Del Paral.lel, Del 76-78",
+                "city": "Barcelona",
+                "countrySubdivisionCode": "",
+                "postalCode": "08001",
+                "countryCode": "ESP",
+                "countryName": " Spain",
+                "fullAddress": "Del Paral.lel, Del 76-78, Barcelona, 08001 Spain",
+                "airportCode": "BCN"
+              },
+              "name": "Hotel Barcelona Universal",
+              "starRating": "40",
+              "photoThumbnailURL": "/hotels/1000000/800000/799800/799763/799763_144_l.jpg",
+              "photoThumbnail500pixURL": "/hotels/1000000/800000/799800/799763/799763_144_y.jpg",
+              "photoThumbnail1000pixURL": "/hotels/1000000/800000/799800/799763/799763_144_z.jpg",
+              "localPhone": "34-93-5677447",
+              "formattedPhoneNumbers": "Tel: 34 (93) 5677447, Fax: 34 (93) 5677440",
+              "checkInPolicies": [
+                "Check-in time starts at 3 PM",
+                "Check-in time ends at 2 AM"
+              ],
+              "checkInStartTimePolicy": {
+                "label": "Check-in time starts at",
+                "value": "3 PM"
+              },
+              "checkInEndTimePolicy": {
+                "label": "Check-in time ends at",
+                "value": "2 AM"
+              },
+              "checkOutTimePolicy": {
+                "label": "Check-out time is",
+                "value": "noon"
+              },
+              "generalRules": [
+                "Check-out time is noon",
+                "No rollaway/extra beds available"
+              ],
+              "restrictionPolicies": [],
+              "fees": [],
+              "mandatoryFees": [
+                "<p>You'll be asked to pay the following charges at the property:</p>",
+                "<ul><li>A tax is imposed by the city: EUR 1.21 per person, per night, up to 7 nights. This tax does not apply to children under 17 years of age. </li></ul>",
+                "<p>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book. </p>"
+              ],
+              "specialCheckInInstructions": [],
+              "latitude": 41.374992,
+              "longitude": 2.168422,
+              "isVipAccess": false,
+              "googleMapsLink": "//maps.google.com?q=08001+Barcelona,+Del+Paral.lel,+Del+76-78+",
+              "regionId": "6046263"
+            },
+            "rules": {
+              "cancelChangeRulesIntroduction": "We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Hotel Barcelona Universal charges the following cancellation and change fees.",
+              "cancelChangeRules": [
+                "Cancellations or changes made after 11:59pm (W. Europe Daylight Time) on Jan 18, 2018 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation."
+              ],
+              "cancellationWindowTime": {
+                "raw": "2018-01-18T23:59:00-08:00",
+                "localized": "Jan 18, 2018 11:59:00 PM",
+                "epochSeconds": 1516348740,
+                "timeZoneOffsetSeconds": -28800,
+                "localizedShortDate": "Thu, 18 Jan",
+                "localizedMediumDate": "Jan 18, 2018",
+                "localizedFullDate": "Thursday, January 18, 2018",
+                "localizedLongDate": "January 18, 2018",
+                "localizedShortTime": "11:59 PM"
+              },
+              "opaqueRules": [],
+              "opaquePolicies": [],
+              "lateArrivalInstructions": "Your room/unit will be guaranteed for late arrival.",
+              "loyaltyPointsDisclaimer": "Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.",
+              "currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+              "extraGuestPolicies": [
+                "Availability of accommodation in the same property for extra guests is not guaranteed."
+              ],
+              "occupancyPolicies": [
+                "Base rate is for 2 guests.",
+                "Total maximum number of guests per room/unit is 3.",
+                "Maximum number of adults per room/unit is 2.",
+                "Maximum number of children per room/unit is 1.",
+                "Maximum number of infants per room/unit is 1.",
+                "This property considers guests aged 2 and under, at time of travel, to be children.",
+                "This property considers guests aged 1 and under, at time of travel, to be infants."
+              ],
+              "paymentPolicies": [
+                "Your credit card is charged the total cost at time of purchase. Prices and room/unit availability are not guaranteed until full payment is received.",
+                "Some properties request that we wait to submit guest names until 7 days prior to check in. In such a case, your room/unit is reserved, but your name is not yet on file with the property."
+              ],
+              "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+              "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel."
+            },
+            "rooms": [
+              {
+                "roomRatePlanDescription": "Standard Room",
+                "roomTypeCode": "54726",
+                "ratePlanCode": "209286314",
+                "bookingStatus": "SAVED",
+                "bookingStatusEnum": "SAVED",
+                "drrRateDiscountDescription": "Book now and save",
+                "refundabilityStatus": "REFUNDABLE",
+                "availableOnAllDates": true,
+                "roomPreferences": {
+                  "primaryOccupant": {
+                    "firstName": "Kevin",
+                    "fullName": "Kevin Seo",
+                    "email": "seokev@gmail.com",
+                    "phone": "1-408-3157399"
+                  },
+                  "otherOccupantInfo": {
+                    "adultCount": 1,
+                    "childCount": 0,
+                    "infantCount": 0,
+                    "childAndInfantCount": 0,
+                    "maxGuestCount": 0,
+                    "childAndInfantAges": []
+                  },
+                  "occupantSelectedRoomOptions": {
+                    "bedTypeName": "1 double or 2 twin beds",
+                    "defaultBedTypeName": "1 double or 2 twin beds",
+                    "smokingPreference": "NONSMOKING_ROOM",
+                    "accessibilityOptions": [],
+                    "hasExtraBedAdult": false,
+                    "hasExtraBedChild": false,
+                    "hasExtraBedInfant": false,
+                    "isSmokingPreferenceSelected": true,
+                    "isRoomOptionsAvailable": true
+                  },
+                  "availableRoomOptions": {
+                    "bedTypes": [
+                      {
+                        "id": "96",
+                        "description": "1 double or 2 twin beds",
+                        "selected": true
+                      }
+                    ],
+                    "isNewBedTypes": false,
+                    "accessibilityOptions": [
+                      {
+                        "id": "2420",
+                        "description": "Accessible bathroom",
+                        "selected": false
+                      },
+                      {
+                        "id": "2423",
+                        "description": "In-room accessibility",
+                        "selected": false
+                      }
+                    ],
+                    "isSmokingRoomAvailable": false,
+                    "isNonSmokingRoomAvailable": true
+                  }
+                },
+                "amenities": [
+                  "Free Wireless Internet"
+                ],
+                "amenityIds": [
+                  2048
+                ],
+                "hotelRatePlan": {
+                  "m_type": 16777216
+                }
+              }
+            ],
+            "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/-2xDsL05PNwnN3nQkAIoX8CA9gBLHeYzxZnFjszMFN4GxkMk4gL4urw9cq3-TAGiyH1rUH8xg1eLeX4rjtIwh9A862NGhBC23RckFWk2UkGgieEAjdm5oRBckryirsq_NYhYVSZd4xerPwu6PsgFmx1o",
+            "isFreeCancellationAvailable": false,
+            "paymentsAndCreditFees": {
+              "paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+              "noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+              "isDirectAgency": false,
+              "isGDS": false,
+              "isFullyCancelled": false,
+              "isAnyRoomCancelled": false,
+              "isDepositRequired": false,
+              "isPaymentsCreditsVisible": false
+            },
+            "showVATDisclaimer": false,
+            "action": {
+              "isChangeable": false,
+              "isCancellable": false
+            }
+          }
+        ]
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "1307.29",
+      "totalFormatted": "$1,307.29"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "isMRP": false,
+    "tripDataSource": "EXPWEB",
+    "isTripUpgradable": false,
+    "isRewardsPointsBooking": false,
+    "customerCareCustomerType": "Blue"
+  }
+}

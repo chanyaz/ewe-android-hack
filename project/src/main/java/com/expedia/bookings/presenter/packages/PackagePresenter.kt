@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.packages
 
 import android.animation.ArgbEvaluator
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -16,10 +17,12 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.PackageItinDetailsResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
@@ -30,6 +33,7 @@ import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.IntentPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
@@ -46,6 +50,8 @@ import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
 import com.expedia.vm.packages.PackageSearchViewModel
+import com.mobiata.android.Log
+import rx.Observer
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.Date
@@ -57,6 +63,10 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     lateinit var travelerManager: TravelerManager
     lateinit var tripResponse: PackageCreateTripResponse
+
+    val itinTripServices: ItinTripServices by lazy {
+        Ui.getApplication(context).packageComponent().itinTripServices()
+    }
 
     var isCrossSellPackageOnFSREnabled = false
     val bundlePresenterViewStub: ViewStub by bindView(R.id.widget_bundle_overview_view_stub)
@@ -193,6 +203,17 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     private val ANIMATION_DURATION = 400
 
     var expediaRewards: String? = null
+
+    val bookingSuccessDialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(context.getString(R.string.booking_successful))
+        builder.setMessage(context.getString(R.string.check_your_email_for_itin))
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which ->
+            (context as Activity).finish()
+            dialog.dismiss()
+        })
+        builder.create()
+    }
 
     init {
         if (context is PackageActivity) {
@@ -430,6 +451,24 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         show(bundlePresenter)
         bundlePresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         bundlePresenter.trackShowBundleOverview()
+    }
+
+    //TODO: Call when getting trip details to go from webview -> confirmation
+    fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
+        confirmationPresenter.viewModel = PackageConfirmationViewModel(context, isWebCheckout = true)
+        return object : Observer<AbstractItinDetailsResponse> {
+            override fun onCompleted() {
+            }
+
+            override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
+                confirmationPresenter.viewModel.itinDetailsResponseObservable.onNext(itinDetailsResponse as PackageItinDetailsResponse)
+            }
+
+            override fun onError(e: Throwable) {
+                Log.d("Error fetching itin:" + e.stackTrace)
+                bookingSuccessDialog.show()
+            }
+        }
     }
 
     override fun handleBack(flags: Int, currentChild: Any): Boolean {
