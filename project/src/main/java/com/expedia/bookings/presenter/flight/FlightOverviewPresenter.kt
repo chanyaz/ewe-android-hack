@@ -177,6 +177,8 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        addTransition(checkoutTransition)
+        addTransition(checkoutToCvv)
         removeView(flightSummary)
         bundleOverviewHeader.nestedScrollView.addView(flightSummary)
         viewModel.showFreeCancellationObservable.subscribeVisibility(flightSummary.freeCancellationInfoContainer)

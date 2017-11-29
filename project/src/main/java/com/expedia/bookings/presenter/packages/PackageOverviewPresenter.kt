@@ -6,6 +6,8 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
+import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
@@ -32,6 +34,10 @@ import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
+import com.expedia.bookings.utils.isMIDCheckoutEnabled
+import com.expedia.bookings.widget.shared.WebCheckoutView
+import com.expedia.util.setInverseVisibility
+import com.expedia.util.updateVisibility
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
 
@@ -42,6 +48,12 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
+
+    val webCheckoutView: WebCheckoutView by lazy {
+        val viewStub = findViewById<ViewStub>(R.id.package_web_checkout_stub)
+        val webCheckoutView = viewStub.inflate() as WebCheckoutView
+        webCheckoutView
+    }
 
     override fun inflate() {
         View.inflate(context, R.layout.package_overview, this)
@@ -155,6 +167,12 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             true
         })
 
+        if (isMIDCheckoutEnabled(context)) {
+            addTransition(overviewToWebCheckoutView)
+        } else {
+            addTransition(checkoutTransition)
+            addTransition(checkoutToCvv)
+        }
     }
 
     private fun resetBundleTotalTax() {
@@ -270,5 +288,22 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
     override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {
         return PackageTotalPriceViewModel(context)
+    }
+
+    private val overviewToWebCheckoutView = object : Transition(BaseTwoScreenOverviewPresenter.BundleDefault::class.java, WebCheckoutView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            checkoutPresenter.setInverseVisibility(forward)
+            bundleOverviewHeader.setInverseVisibility(forward)
+            webCheckoutView.updateVisibility(forward)
+        }
+    }
+
+    override fun showCheckout() {
+        if (isMIDCheckoutEnabled(context)) {
+            show(webCheckoutView)
+        } else {
+            super.showCheckout()
+        }
     }
 }

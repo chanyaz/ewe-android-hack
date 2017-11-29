@@ -2,19 +2,34 @@ package com.expedia.bookings.presenter.`package`
 
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.data.trips.TripBucketItemPackages
+import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.shared.WebCheckoutView
+import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -30,6 +45,9 @@ class PackageOverviewPresenterTest {
     lateinit var overviewPresenter: PackageOverviewPresenter
 
     val packageServiceRule = ServicesRule(PackageServices::class.java)
+        @Rule get
+
+    val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
 
     @Before
@@ -54,6 +72,30 @@ class PackageOverviewPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageCheckoutViewOpenedWithMIDCheckoutEnabled() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppMIDCheckout, R.string.preference_enable_mid_checkout)
+        overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+        overviewPresenter.show(overviewPresenter.webCheckoutView)
+        overviewPresenter.checkoutButton.performClick()
+
+        assertEquals(View.VISIBLE, overviewPresenter.webCheckoutView.visibility)
+        assertEquals(View.GONE, overviewPresenter.getCheckoutPresenter().visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageCheckoutViewOpenedWithMIDCheckoutDisabled() {
+        setUpPackageDb()
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+        overviewPresenter.checkoutButton.performClick()
+
+        assertEquals(View.VISIBLE, overviewPresenter.getCheckoutPresenter().visibility)
+        assertEquals(View.GONE, overviewPresenter.webCheckoutView.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBundleTotalTextAfterCreateTrip() {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         val testSubscriber = TestSubscriber.create<PackageCreateTripResponse>()
@@ -71,4 +113,48 @@ class PackageOverviewPresenterTest {
         PointOfSaleTestConfiguration.configurePOS(activity, "ExpediaSharedData/ExpediaPointOfSaleConfig.json", Integer.toString(posId.id), false)
     }
 
+    private fun setUpPackageDb() {
+        val hotel = Hotel()
+        hotel.packageOfferModel = PackageOfferModel()
+        var hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
+        hotelRoomResponse.supplierType = "MERCHANT"
+        Db.setPackageSelectedHotel(hotel, hotelRoomResponse)
+        val outboundFlight = FlightLeg()
+        Db.setPackageSelectedOutboundFlight(outboundFlight)
+        setPackageSearchParams(1, emptyList(), false)
+        val createTripResponse = mockPackageServiceRule.getPSSCreateTripResponse("create_trip")
+        Db.getTripBucket().add(TripBucketItemPackages(createTripResponse))
+    }
+
+    private fun setPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean) {
+        Db.setPackageParams(getPackageSearchParams(adults, children, infantsInLap))
+    }
+
+    private fun getPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean): PackageSearchParams {
+        val origin = SuggestionV4()
+        val hierarchyInfo = SuggestionV4.HierarchyInfo()
+        val airport = SuggestionV4.Airport()
+        airport.airportCode = "SFO"
+        hierarchyInfo.airport = airport
+        val regionNames = SuggestionV4.RegionNames()
+        regionNames.displayName = "San Francisco"
+        regionNames.shortName = "SFO"
+        regionNames.fullName = "SFO - San Francisco"
+
+        origin.hierarchyInfo = hierarchyInfo
+        val destination = SuggestionV4()
+        destination.hierarchyInfo = hierarchyInfo
+        destination.regionNames = regionNames
+        destination.type = "city"
+        destination.gaiaId = "12345"
+        origin.regionNames = regionNames
+        return PackageSearchParams.Builder(12, 329).infantSeatingInLap(infantsInLap)
+                .startDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusDays(2))
+                .origin(origin)
+                .destination(destination)
+                .adults(adults)
+                .children(children)
+                .build() as PackageSearchParams
+    }
 }

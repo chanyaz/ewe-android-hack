@@ -140,7 +140,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         }
     }
 
-    fun showCheckout() {
+    open fun showCheckout() {
         resetCheckoutState()
         show(checkoutPresenter, FLAG_CLEAR_TOP)
         checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
@@ -150,8 +150,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     override fun onFinishInflate() {
         super.onFinishInflate()
         addDefaultTransition(defaultTransition)
-        addTransition(checkoutTransition)
-        addTransition(checkoutToCvv)
         addTransition(overviewToAirlineFeeWebView)
         addTransition(overviewToPaymentFeeWebView)
         addTransition(overviewToBaggageFeeWebView)
@@ -282,7 +280,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         }
     }
 
-    private val checkoutToCvv = object : VisibilityTransition(this, checkoutPresenter.javaClass, CVVEntryWidget::class.java) {
+    protected val checkoutToCvv = object : VisibilityTransition(this, checkoutPresenter.javaClass, CVVEntryWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
