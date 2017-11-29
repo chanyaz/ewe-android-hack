@@ -6,6 +6,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
@@ -28,7 +29,8 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.shared.WebCheckoutView
+import com.expedia.util.Optional
+import com.expedia.vm.packages.BundleOverviewViewModel
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -81,6 +83,29 @@ class PackageOverviewPresenterTest {
 
         assertEquals(View.VISIBLE, overviewPresenter.webCheckoutView.visibility)
         assertEquals(View.GONE, overviewPresenter.getCheckoutPresenter().visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testWebViewURLOpenedWithMIDCheckoutEnabled() {
+        val testSubscriber = TestSubscriber.create<String>()
+        setUpPackageDb()
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppMIDCheckout, R.string.preference_enable_mid_checkout)
+        setupOverviewPresenter()
+        overviewPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testSubscriber)
+        createTripResponse()
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+        overviewPresenter.show(overviewPresenter.webCheckoutView)
+        overviewPresenter.checkoutButton.performClick()
+
+        assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=5a72db42-e190-47f5-bdd9-5f316f214dc9", testSubscriber.onNextEvents[0])
+
+        val packageTripResponse = mockPackageServiceRule.getPSSCreateTripResponse("create_trip")
+        packageTripResponse!!.packageDetails.tripId = "AAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"
+        val createTripResponse = Optional(packageTripResponse as TripResponse)
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
+
+        assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=AAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA", testSubscriber.onNextEvents[1])
     }
 
     @Test
@@ -156,5 +181,15 @@ class PackageOverviewPresenterTest {
                 .adults(adults)
                 .children(children)
                 .build() as PackageSearchParams
+    }
+
+    private fun setupOverviewPresenter() {
+        overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
+        overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
+    }
+
+    private fun createTripResponse() {
+        val createTripResponse = mockPackageServiceRule.getPSSCreateTripResponse("create_trip")
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.onNext(Optional(createTripResponse as TripResponse))
     }
 }

@@ -27,10 +27,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.safeSubscribeOptional
-import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
-import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
-import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
-import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
@@ -38,6 +34,11 @@ import com.expedia.bookings.utils.isMIDCheckoutEnabled
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.updateVisibility
+import com.expedia.vm.PackageWebCheckoutViewViewModel
+import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
+import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
+import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
+import com.expedia.vm.packages.PackageTotalPriceViewModel
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
 
@@ -52,6 +53,25 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     val webCheckoutView: WebCheckoutView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.package_web_checkout_stub)
         val webCheckoutView = viewStub.inflate() as WebCheckoutView
+        val createTripResponse = getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.value as PackageCreateTripResponse?
+        val webCheckoutViewModel = PackageWebCheckoutViewViewModel(context)
+        if (createTripResponse != null) {
+            webCheckoutViewModel.tripIdSubject.onNext(createTripResponse.packageDetails.tripId)
+        }
+        webCheckoutView.viewModel = webCheckoutViewModel
+
+        webCheckoutViewModel.closeView.subscribe {
+            webCheckoutView.clearHistory()
+            webCheckoutViewModel.webViewURLObservable.onNext("about:blank")
+        }
+
+        webCheckoutViewModel.backObservable.subscribe {
+            back()
+        }
+
+        webCheckoutViewModel.blankViewObservable.subscribe {
+            super.back()
+        }
         webCheckoutView
     }
 
@@ -85,7 +105,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 bundleWidget.toggleMenuObservable.onNext(true)
                 setToolbarNavIcon(false)
             }
-
+            if (isMIDCheckoutEnabled(context) && webCheckoutView != null) {
+                (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).tripIdSubject.onNext(trip.packageDetails.tripId)
+            }
             bundleWidget.setPadding(0, 0, 0, 0)
             bundleWidget.viewModel.createTripObservable.onNext(trip)
             (bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel
