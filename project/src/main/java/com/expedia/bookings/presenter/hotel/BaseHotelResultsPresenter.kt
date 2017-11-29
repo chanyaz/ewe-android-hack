@@ -186,8 +186,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 clusterMarkers()
             }
         }
-        vm.carouselSwipedObservable.subscribe {
-            selectMarker(it, true)
+        vm.carouselSwipedObservable.subscribe { newMapItem ->
+            selectMarker(newMapItem, true)
         }
     }
 
@@ -205,7 +205,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (shouldZoom) {
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(hotelMapMarker.position, googleMap?.cameraPosition?.zoom!!))
         }
-        mapViewModel.mapPinSelectSubject.onNext(hotelMapMarker)
+        mapViewModel.selectedMapMarker = hotelMapMarker
         if (animateCarousel && currentState == ResultsMap::class.java.name) {
             animateMapCarouselIn()
         }
@@ -501,8 +501,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         mapCarouselRecycler.showingHotelSubject.subscribe { hotel ->
             val markersForHotel = mapItems.filter { it.hotel.hotelId == hotel.hotelId }
             if (markersForHotel.isNotEmpty()) {
-                val marker = markersForHotel.first()
-                mapViewModel.carouselSwipedObservable.onNext(marker)
+                val newMarker = markersForHotel.first()
+                mapViewModel.carouselSwipedObservable.onNext(newMarker)
             }
         }
         toolbar.inflateMenu(R.menu.menu_filter_item)
@@ -689,7 +689,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun clearPreviousMarker() {
-        val prevMapItem = mapViewModel.mapPinSelectSubject.value
+        val prevMapItem = mapViewModel.selectedMapMarker
         if (prevMapItem != null) {
             prevMapItem.isSelected = false
             if (!prevMapItem.hotel.isSoldOut) {
@@ -1266,20 +1266,18 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     class ResultsFilter
     class ResultsSortFaqWebView
 
-    fun setMapToInitialState(suggestion: SuggestionV4?) {
-        if (isMapReady) {
-            if (suggestion != null) {
-                if (suggestion.coordinates != null &&
-                        suggestion.coordinates?.lat != 0.0 &&
-                        suggestion.coordinates?.lng != 0.0) {
-                    moveCameraToLatLng(LatLng(suggestion.coordinates.lat,
-                            suggestion.coordinates.lng))
-                } else if (suggestion.regionNames?.fullName != null) {
-                    val BD_KEY = "geo_search"
-                    val bd = BackgroundDownloader.getInstance()
-                    bd.cancelDownload(BD_KEY)
-                    bd.startDownload(BD_KEY, mGeocodeDownload(suggestion.regionNames.fullName), geoCallback())
-                }
+    fun mapReady(suggestion: SuggestionV4?) {
+        if (suggestion != null) {
+            if (suggestion.coordinates != null &&
+                    suggestion.coordinates?.lat != 0.0 &&
+                    suggestion.coordinates?.lng != 0.0) {
+                moveCameraToLatLng(LatLng(suggestion.coordinates.lat,
+                        suggestion.coordinates.lng))
+            } else if (suggestion.regionNames?.fullName != null) {
+                val BD_KEY = "geo_search"
+                val bd = BackgroundDownloader.getInstance()
+                bd.cancelDownload(BD_KEY)
+                bd.startDownload(BD_KEY, mGeocodeDownload(suggestion.regionNames.fullName), geoCallback())
             }
         }
     }

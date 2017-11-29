@@ -22,7 +22,6 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
     //inputs
     val hotelResultsSubject = BehaviorSubject.create<HotelSearchResponse>()
     val mapResultsSubject = PublishSubject.create<HotelSearchResponse>()
-    val mapPinSelectSubject = BehaviorSubject.create<HotelMapMarker>()
     val carouselSwipedObservable = PublishSubject.create<HotelMapMarker>()
     val mapBoundsSubject = BehaviorSubject.create<LatLng>()
 
@@ -30,6 +29,8 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
     val newBoundsObservable = PublishSubject.create<LatLngBounds>()
     val sortedHotelsObservable = PublishSubject.create<List<Hotel>>()
     val soldOutHotel = PublishSubject.create<Hotel>()
+
+    var selectedMapMarker: HotelMapMarker? = null
 
     val hotelSoldOutWithIdObserver = endlessObserver<String> { soldOutHotelId ->
         val hotel = hotels.firstOrNull { it.hotelId == soldOutHotelId }
@@ -69,8 +70,7 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
         }
     }
 
-    private fun getMapBounds(res: BaseApiResponse): LatLngBounds {
-        val response = res as HotelSearchResponse
+    private fun getMapBounds(response: HotelSearchResponse): LatLngBounds {
         val searchRegionId = response.searchRegionId
         val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
 

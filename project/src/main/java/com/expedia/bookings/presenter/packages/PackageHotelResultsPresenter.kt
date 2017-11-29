@@ -49,7 +49,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         vm.paramsSubject.subscribe { params ->
             (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
 
-            setMapToInitialState(params.suggestion)
+            mapReady(params.suggestion)
             showLoading()
             show(ResultsList())
 
@@ -58,7 +58,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
 
         mapViewModel.mapInitializedObservable.subscribe {
-            setMapToInitialState(Db.getPackageParams()?.destination)
+            mapReady(Db.getPackageParams()?.destination)
         }
     }
 

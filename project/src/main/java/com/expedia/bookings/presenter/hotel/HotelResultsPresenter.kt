@@ -90,7 +90,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
         baseViewModel = vm
         mapViewModel.mapInitializedObservable.subscribe {
-            setMapToInitialState(viewModel.getSearchParams()?.suggestion)
+            mapReady(viewModel.getSearchParams()?.suggestion)
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
 
@@ -364,7 +364,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         filterView.viewModel.resetPriceSliderFilterTracking()
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
         if (currentState == ResultsList::class.java.name) {
-            setMapToInitialState(params.suggestion)
+            mapReady(params.suggestion)
         }
         filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
 
