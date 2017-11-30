@@ -45,7 +45,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		//Flight Features
 		initializeFeatureCheck(R.string.preference_flight_rate_detail_from_cache);
-		initializeFeatureCheck(R.string.preference_enable_krazy_glue_on_flights_confirmation);
 
 		//Itin Features
 		initializeFeatureCheck(R.string.preference_trips_new_flights_design);

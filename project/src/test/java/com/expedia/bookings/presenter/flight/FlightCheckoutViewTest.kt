@@ -31,6 +31,7 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.WebViewUtils
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.RewardsUtil
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.ui.HotelActivity
 import com.expedia.util.Optional
 import com.expedia.vm.FlightWebCheckoutViewViewModel
@@ -503,8 +504,7 @@ class FlightCheckoutViewTest {
 
     @Test
     fun testSearchParamsReachesKrazyglueViewModel() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
-        SettingUtils.save(activity.applicationContext, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 

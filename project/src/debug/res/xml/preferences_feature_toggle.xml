@@ -80,12 +80,7 @@
             android:key="@string/preference_show_flights_checkout_webview"
             android:summary="Show Flights Checkout Webview"
             android:title="Show Flights Checkout Webview" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_krazy_glue_on_flights_confirmation"
-            android:summary="Enable Krazy Glue on Flights Confirmation"
-            android:title="Enable Krazy Glue on Flights Confirmation" />
-
+        
         <CheckBoxPreference
             android:key="@string/pay_later_credit_card_messaging"
             android:summary="Enable credit card messaging for pay later"

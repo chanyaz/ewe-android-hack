@@ -1,6 +1,7 @@
 package com.expedia.holidayfun.widget
 
 import android.view.View
+import com.expedia.holidayfun.R
 import com.jetradarmobile.snowfall.SnowfallView
 
 class HolidayFunCoordinator(private val animatedWidget: AnimatedHolidayFunWidget, private val snowfall: SnowfallView) {
@@ -32,6 +33,16 @@ class HolidayFunCoordinator(private val animatedWidget: AnimatedHolidayFunWidget
 
     fun setAnalyticsListener(analyticsListener: () -> Unit) {
         fireAnalytics = analyticsListener
+    }
+
+    fun hideCallToAction() {
+        val actualHeight = animatedWidget.height.toFloat()
+        val estimatedHeight = animatedWidget.resources.getDimension(R.dimen.animated_widget_expected_height)
+        animatedWidget.animate().translationY(if (actualHeight > 0) actualHeight else estimatedHeight)
+    }
+
+    fun showCallToAction() {
+        animatedWidget.animate().translationY(0f)
     }
 
     private fun stopWinter() {
