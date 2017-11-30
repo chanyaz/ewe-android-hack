@@ -132,7 +132,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 
 	private void buildCostBreakdownDialog(Context context, List<Ticket> tickets) {
 		View view = LayoutInflater.from(context).inflate(R.layout.cost_summary_alert, null);
-		LinearLayout ll = Ui.findView(view, R.id.parent);
+		LinearLayout ll = Ui.findView(view, R.id.cost_summary_container);
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.lx_cost_breakdown_due_today),
