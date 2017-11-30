@@ -50,7 +50,7 @@ class FlightSearchTest: NewFlightTestCase() {
         SearchScreen.searchButton().perform(click())
 
         FlightsScreen.outboundFlightList().check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        assertHeaderHasText("Prices roundtrip, per person.")
+        assertHeaderHasText("Roundtrip price per person")
     }
 
     @Test

@@ -100,7 +100,7 @@ class FlightListAdapterTest {
         givenRoundTripFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices roundtrip, per person.", headerViewHolder.priceHeader.text)
+        assertEquals("Roundtrip price per person", headerViewHolder.priceHeader.text)
     }
 
     @Test
@@ -151,7 +151,7 @@ class FlightListAdapterTest {
         if (shouldAdjustPricing) {
             expectedHeader = "Showing nonstop flights. Prices roundtrip, per person, from"
         } else {
-            expectedHeader = "Showing nonstop flights. Prices roundtrip, per person."
+            expectedHeader = "Showing nonstop flights. Roundtrip price per person"
         }
         assertEquals(expectedHeader, headerViewHolder.advanceSearchFilterHeader.text.toString())
         assertEquals(expectedHeader, headerViewHolder.advanceSearchFilterHeader.contentDescription.toString())
@@ -160,7 +160,7 @@ class FlightListAdapterTest {
         if (shouldAdjustPricing) {
             expectedHeader = "Showing nonstop and refundable flights. Prices roundtrip, per person, from"
         } else {
-            expectedHeader = "Showing nonstop and refundable flights. Prices roundtrip, per person."
+            expectedHeader = "Showing nonstop and refundable flights. Roundtrip price per person"
         }
         isRefundableSubject.onNext(true)
         sut.onBindViewHolder(headerViewHolder, 0)
@@ -172,7 +172,7 @@ class FlightListAdapterTest {
         if (shouldAdjustPricing) {
             expectedHeader = "Showing refundable flights. Prices roundtrip, per person, from"
         } else {
-            expectedHeader = "Showing refundable flights. Prices roundtrip, per person."
+            expectedHeader = "Showing refundable flights. Roundtrip price per person"
         }
         isNonStopSubject.onNext(false)
         sut.onBindViewHolder(headerViewHolder, 0)

@@ -190,11 +190,11 @@ class FlightInboundPresenterTest {
         invokeSetupComplete()
         assertEquals(View.VISIBLE, flightInboundPresenter.overviewPresenter.selectFlightButton.visibility)
         assertTrue(flightInboundPresenter.overviewPresenter.selectFlightButton.isEnabled)
-        assertEquals("Select this Flight", flightInboundPresenter.overviewPresenter.selectFlightButton.text)
+        assertEquals("Select this flight", flightInboundPresenter.overviewPresenter.selectFlightButton.text)
 
         assertEquals(View.VISIBLE, flightInboundPresenter.overviewPresenter.showBaggageFeesButton.visibility)
         assertTrue(flightInboundPresenter.overviewPresenter.showBaggageFeesButton.isEnabled)
-        assertEquals("Baggage fee info", flightInboundPresenter.overviewPresenter.showBaggageFeesButton.text)
+        assertEquals("Baggage fee information", flightInboundPresenter.overviewPresenter.showBaggageFeesButton.text)
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))

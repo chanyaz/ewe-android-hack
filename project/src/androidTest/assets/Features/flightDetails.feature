@@ -30,7 +30,7 @@ Feature: Flight Details on a seperate screen
     And flight class info is "Economy (K)"
     And flight total duration on the flight details is "2h 0m"
     And Baggage link "Baggage fee info" is present on the flight details
-    And Select button "Select this Flight" is displayed at the bottom of the flight details screen
+    And Select button "Select this flight" is displayed at the bottom of the flight details screen
 
 
   @Flights @FlightDetails
@@ -64,7 +64,7 @@ Feature: Flight Details on a seperate screen
     And flight duration on the flight details is "1h 15m"
     And flight total duration on the flight details is "4h 35m"
     And Baggage link "Baggage fee info" is present on the flight details
-    And Select button "Select this Flight" is displayed at the bottom of the flight details screen
+    And Select button "Select this flight" is displayed at the bottom of the flight details screen
 
   @Flights @FlightDetails
   Scenario: Verify that on tapping back button on flight detail screen user is navigated to Flight search results

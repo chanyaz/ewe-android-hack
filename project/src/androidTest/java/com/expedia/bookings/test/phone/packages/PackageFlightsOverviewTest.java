@@ -50,7 +50,7 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		assertSegmentData();
 		assertBundlePriceInFlight("$1,932");
 
-		onView(allOf(withId(R.id.select_flight_button), withText("Select this Flight"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.select_flight_button), withText("Select this flight"))).check(matches(isDisplayed()));
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 	}

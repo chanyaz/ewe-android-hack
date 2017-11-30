@@ -384,8 +384,8 @@ Feature: Flights Search
       | source              | SFO                                      |
       | destination         | LAS                                      |
       | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Las Vegas, NV (LAS - McCarran Intl.) |
-      | start_date          | 15                                        |
+      | destination_suggest | LAS - McCarran Intl.                     |
+      | start_date          | 15                                       |
       | end_date            | 20                                       |
       | adults              | 2                                        |
       | child               | 2                                        |

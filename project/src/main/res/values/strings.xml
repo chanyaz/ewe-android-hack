@@ -649,13 +649,13 @@
     <string name="filter_not_selected_TEMPLATE">{filter} checkbox not checked</string>
 
     <!-- Baggage Info Accessibility -->
-    <string name="spinner_text_baggage_info_fetching">Fetching the baggage info</string>
+    <string name="spinner_text_baggage_info_fetching">Fetching the baggage information</string>
     <!--Baggage Info Airline Message Example: (Prices may be cheaper if purchased online with Virgin America)-->
     <string name="baggage_info_airline_message_TEMPLATE">(Prices may be cheaper if purchased online with {airline_name})</string>
     <!--Baggage Fees when purchased at airport-->
     <string name="baggage_fees_purchased_airport">Baggage fees when purchased at the airport:</string>
     <!--Baggage Fee Info-->
-    <string name="baggage_fee_info">Baggage fee info</string>
+    <string name="baggage_fee_info">Baggage fee information</string>
     <!--Airline-->
     <string name="airline">Airline</string>
 
@@ -689,7 +689,7 @@
     <string name="total_from">Total from</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Prices roundtrip, per person.</string>
+    <string name="prices_roundtrip_label">Roundtrip price per person</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Prices one-way, per person.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -1795,7 +1795,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Loading flights…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
-    <string name="loading_flights_from_400_airlines">Finding your flights from 400+ airlines</string>
+    <string name="loading_flights_from_400_airlines">Searching for flights from 400+ airlines&#8230;</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Select</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
@@ -4030,8 +4030,8 @@
         <item quantity="one">{seats} seat left</item>
         <item quantity="other">{seats} seats left</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">Baggage fee info</string>
-    <string name="package_flight_overview_select_flight">Select this Flight</string>
+        <string name="package_flight_overview_baggage_fees">Baggage fee information</string>
+    <string name="package_flight_overview_select_flight">Select this flight</string>
     <string name="package_flight_overview_bundle_total_label">Bundle Total</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/person</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
