@@ -2,18 +2,7 @@
 
 set -x
 
-if [ ! -d 'virtualenv' ] ; then
-    virtualenv -p python2.7 virtualenv
-fi
-
-source ./virtualenv/bin/activate
-
-pip install --upgrade "pip"
-pip install enum
-pip install "github3.py==1.0.0.a4"
-pip install slackclient
-pip install objectpath
-pip install python-dateutil
+source tools/setup_python_env.sh enum "github3.py==1.0.0.a4" slackclient objectpath python-dateutil
 
 # Prepare device and install test butler apk
 adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X install -r tools/test-butler-app-1.2.0.apk
