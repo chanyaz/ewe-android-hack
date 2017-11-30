@@ -133,48 +133,6 @@ class PackageUtilTest {
         assertFalse(PackageUtil.isPackageLOBUnderABTest)
     }
 
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.TRAVELOCITY))
-    fun testPackageTVLY_CANADALOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.TRAVELOCITY_CA)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.TRAVELOCITY))
-    fun testPackageTVLY_USLOBDisabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.TRAVELOCITY)
-        assertFalse(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.WOTIF))
-    fun testPackageWOTIF_AUSTRALIALOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.WOTIF)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.WOTIF))
-    fun testPackageWOTIF_NZLOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.WOTIF_NZ)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.LASTMINUTE))
-    fun testPackageLM_AULOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.LASTMINUTE)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.LASTMINUTE))
-    fun testPackageLM_NZLOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.LASTMINUTE_NZ)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
     private fun updateABTestVariant(value: Int) {
         AbacusTestUtils.bucketTests(AbacusUtils.PackagesTitleChange)
         RoboTestHelper.updateABTest(AbacusUtils.PackagesTitleChange, value)

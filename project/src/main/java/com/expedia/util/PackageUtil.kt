@@ -14,12 +14,7 @@ object PackageUtil {
         get() {
             val pointOfSaleId = PointOfSale.getPointOfSale().pointOfSaleId
             return pointOfSaleId == PointOfSaleId.GERMANY ||
-                    pointOfSaleId == PointOfSaleId.THAILAND ||
-                    pointOfSaleId == PointOfSaleId.TRAVELOCITY_CA ||
-                    pointOfSaleId == PointOfSaleId.WOTIF ||
-                    pointOfSaleId == PointOfSaleId.WOTIF_NZ ||
-                    pointOfSaleId == PointOfSaleId.LASTMINUTE ||
-                    pointOfSaleId == PointOfSaleId.LASTMINUTE_NZ
+                    pointOfSaleId == PointOfSaleId.THAILAND
         }
 
     val isPackagesLobTitleABTestEnabled: Boolean

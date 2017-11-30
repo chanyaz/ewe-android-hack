@@ -128,7 +128,6 @@
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
-    <string name="preference_enable_krazy_glue_on_flights_confirmation">preference_enable_krazy_glue_on_flights_confirmation</string>
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
     <string name="preference_packages_breadcrumbs">preference_packages_breadcrumbs</string>
     <string name="preference_packages_breadcrumbs_move_bundle_overview">preference_packages_breadcrumbs_move_bundle_overview</string>
