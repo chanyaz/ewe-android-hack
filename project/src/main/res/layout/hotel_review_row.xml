@@ -50,6 +50,7 @@
                 style="@style/Core.Text.200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/default_text_color"
                 android:layout_alignParentRight="true"
                 android:paddingLeft="5dp"/>
 
@@ -67,7 +68,7 @@
             android:id="@+id/reviewer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/light_text_color"
+            android:textColor="@color/default_text_color"
             android:textSize="@dimen/hotel_reviewer_text_size"
             android:textStyle="italic" />
     </LinearLayout>
