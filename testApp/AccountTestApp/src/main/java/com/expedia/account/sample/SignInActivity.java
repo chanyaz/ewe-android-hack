@@ -212,6 +212,10 @@ public class SignInActivity extends FragmentActivity {
 		public void onForgotPassword() {
 			showStatus(R.string.acct__Password, R.string.Password_was_forgotten);
 		}
+
+		@Override
+		public void onFacebookClicked(){
+		}
 	};
 
 	private void showStatus(@StringRes int title, @StringRes int message) {

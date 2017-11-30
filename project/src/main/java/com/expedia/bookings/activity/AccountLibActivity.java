@@ -363,6 +363,11 @@ public class AccountLibActivity extends AppCompatActivity
 		}
 
 		@Override
+		public void onFacebookClicked() {
+			OmnitureTracking.trackFacebookSignIn();
+		}
+
+		@Override
 		public void onForgotPassword() {
 			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(AccountLibActivity.this);
 			builder.setUrl(PointOfSale.getPointOfSale().getForgotPasswordUrl());

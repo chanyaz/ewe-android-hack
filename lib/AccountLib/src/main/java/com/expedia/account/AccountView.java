@@ -216,6 +216,8 @@ public class AccountView extends BufferedPresenter {
 
 		public abstract void onFacebookRequested();
 
+		public abstract void onFacebookClicked();
+
 		public abstract void onForgotPassword();
 
 		void onOverallProgress(boolean forward, float percent) {
@@ -1555,6 +1557,8 @@ public class AccountView extends BufferedPresenter {
 		if (listener == null) {
 			return;
 		}
+
+		listener.onFacebookClicked();
 
 		if (mConfig.facebookAppId == null) {
 			listener.onFacebookRequested();

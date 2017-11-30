@@ -2998,6 +2998,7 @@ public class OmnitureTracking {
 	private static final String LOGIN_MARKETING_OPT_OUT = "App.Account.Terms.Email.Opt-Out";
 	private static final String LOGIN_ACCOUNT_CREATE_SUCCESS = "App.Account.Create.Success";
 	private static final String LOGIN_ACCOUNT_CREATE_ERROR = "App.Account.Create.Error";
+	private static final String LOGIN_ACCOUNT_FACEBOOK_SIGN_IN = "App.Account.FacebookSignIn";
 	private static final String ACCOUNT_SCREEN = "App.Account.MyAccount";
 	private static final String ACCOUNT_COUNTRY_SETTING = "App.Account.Settings.Country";
 	private static final String ACCOUNT_SUPPORT_WEBSITE = "App.Account.Support.Website";
@@ -3208,6 +3209,18 @@ public class OmnitureTracking {
 		s.setEvar(18, pageName);
 		s.setProp(36, error);
 		s.track();
+	}
+
+	public static void trackFacebookSignIn() {
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(ACCOUNT_SCREEN);
+		s.setEvar(18, ACCOUNT_SCREEN);
+		s.setEvar(28, LOGIN_ACCOUNT_FACEBOOK_SIGN_IN);
+		s.setProp(16, LOGIN_ACCOUNT_FACEBOOK_SIGN_IN);
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+
+		s.trackLink("nil", "o", "Accounts", null, null);
 	}
 
 	// todo : https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/5759

@@ -321,6 +321,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         facebookSignInButton.setOnClickListener {
             val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.FacebookSignIn, null)
             userStateManager.signIn(activity, args)
+            OmnitureTracking.trackFacebookSignIn()
         }
 
         createAccountButton.setOnClickListener {
