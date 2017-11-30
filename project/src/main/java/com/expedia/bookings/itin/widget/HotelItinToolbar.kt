@@ -96,7 +96,7 @@ class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context,
         } else {
             val receiver = Intent(Cache.getContext(), ItinShareTargetBroadcastReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(Cache.getContext(), 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT)
-            val chooserIntent = Intent.createChooser(shareIntent, "", pendingIntent.intentSender)
+            val chooserIntent = Intent.createChooser(shareIntent, resources.getString(R.string.itin_share_dialog_title), pendingIntent.intentSender)
             chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, shareIntent)
             Cache.getContext().startActivity(chooserIntent)

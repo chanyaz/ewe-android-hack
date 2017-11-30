@@ -1,12 +1,16 @@
 package com.expedia.bookings.itin.activity
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.LinearLayout
+import com.activeandroid.Cache
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver
 import com.expedia.bookings.itin.vm.FlightItinBagaggeInfoViewModel
 import com.expedia.bookings.itin.vm.FlightItinBookingInfoViewModel
 import com.expedia.bookings.itin.vm.FlightItinConfirmationViewModel
@@ -26,7 +30,9 @@ import com.expedia.bookings.itin.widget.ItinWebviewInfoWidget
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.itin.ItinContentGenerator
 import com.expedia.util.notNullAndObservable
+import com.mobiata.android.util.SettingUtils
 import kotlin.properties.Delegates
 
 class FlightItinDetailsActivity : AppCompatActivity() {
@@ -99,6 +105,27 @@ class FlightItinDetailsActivity : AppCompatActivity() {
     var toolbarViewModel: FlightItinToolbarViewModel by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
             finishActivity()
+        }
+        vm.shareIconClickedSubject.subscribe {
+            val mItinContentGenerator = ItinContentGenerator.createGenerator(this, viewModel.itinCardDataFlight)
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.putExtra(Intent.EXTRA_TEXT, mItinContentGenerator?.shareTextShort)
+            shareIntent.type = "text/plain"
+
+            SettingUtils.save(Cache.getContext(), "TripType", mItinContentGenerator?.type.toString())
+
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(shareIntent)
+            } else {
+                val receiver = Intent(Cache.getContext(), ItinShareTargetBroadcastReceiver::class.java)
+                val pendingIntent = PendingIntent.getBroadcast(Cache.getContext(), 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT)
+                val chooserIntent = Intent.createChooser(shareIntent, resources.getString(R.string.itin_share_dialog_title), pendingIntent.intentSender)
+                chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, shareIntent)
+                Cache.getContext().startActivity(chooserIntent)
+            }
+            OmnitureTracking.trackItinShareStart(mItinContentGenerator.type)
         }
     }
 

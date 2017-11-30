@@ -42,7 +42,7 @@ class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr
         }
         toolbarShareIcon.setTintedDrawable(context.getDrawable(R.drawable.ic_itin_share), ContextCompat.getColor(context, R.color.itin_toolbar_text))
         toolbarShareIcon.setOnClickListener {
-            //show share dialog
+            viewModel.shareIconClickedSubject.onNext(Unit)
         }
     }
 }
