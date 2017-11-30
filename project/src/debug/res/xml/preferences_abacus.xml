@@ -94,9 +94,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="16243"
+            android:key="16345"
             android:summary="%s"
-            android:title="Flights Evolable - 16243" />
+            android:title="Flights Evolable - 16345" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
