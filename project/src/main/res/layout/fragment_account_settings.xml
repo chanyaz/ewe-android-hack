@@ -249,7 +249,7 @@
                     android:layout_marginLeft="@dimen/about_section_margin"
                     android:layout_marginRight="@dimen/about_section_margin"
                     android:layout_marginTop="@dimen/about_section_margin"
-                    android:text="@string/sign_in"
+                    android:text="@string/acct__Sign_In"
                     android:theme="@style/AccountButton.SignIn" />
 
                 <Button
