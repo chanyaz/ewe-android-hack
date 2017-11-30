@@ -357,7 +357,7 @@
             android:key="15823"
             android:summary="%s"
             android:title="Hotels Web Checkout AB text - 15823" />
-        
+
         <ListPreference
             android:defaultValue="-1"
             android:entries="@array/abacus_default_choices"

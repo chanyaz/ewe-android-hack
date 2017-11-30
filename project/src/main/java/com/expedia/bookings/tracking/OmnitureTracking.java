@@ -3225,6 +3225,10 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountSinglePageSignUp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
 
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_last_minute_deals)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppLastMinuteDeals);
+		}
+
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(sContext, AbacusUtils.HolidayFun)) {
 			s.setEvents("event330");
 		}
