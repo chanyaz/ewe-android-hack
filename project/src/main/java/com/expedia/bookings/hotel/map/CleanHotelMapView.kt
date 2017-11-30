@@ -2,6 +2,7 @@ package com.expedia.bookings.hotel.map
 
 import android.content.Context
 import android.location.Location
+import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.text.format.DateUtils
 import android.util.AttributeSet
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
+import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
@@ -37,7 +39,7 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.concurrent.Callable
 
-class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
+class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs),
         OnMapReadyCallback {
 
     //todo fix tracking.
@@ -51,11 +53,11 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
     private lateinit var mapView: MapView
 
     private var googleMap: GoogleMap? = null
-    private var clusterManager: ClusterManager<MapItem>? = null
+    private var clusterManager: ClusterManager<HotelMapMarker>? = null
     private lateinit var hotelMapClusterRenderer: HotelMapClusterRenderer
     private val hotelIconFactory = HotelMarkerIconGenerator(context)
 
-    private var mapItems = arrayListOf<MapItem>()
+    private var HotelMapMarkers = arrayListOf<HotelMapMarker>()
 
     val viewModel: HotelResultsMapViewModel
 
@@ -69,6 +71,9 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
 
     private val DEFAULT_ZOOM = resources.displayMetrics.density.toInt() * 50
 
+    private val clusterClickListener by lazy { ClusterClickListener() }
+    private val markerClickListener by lazy { MarkerClickListener() }
+
     init {
         View.inflate(context, R.layout.clean_hotel_results_map, this)
         viewModel = HotelResultsMapViewModel(context, lastBestLocationSafe())
@@ -80,7 +85,7 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
 
         mapCarouselRecycler.showingHotelSubject.subscribe { hotel ->
-            val markersForHotel = mapItems.filter { it.hotel.hotelId == hotel.hotelId }
+            val markersForHotel = HotelMapMarkers.filter { it.hotel.hotelId == hotel.hotelId }
             if (markersForHotel.isNotEmpty()) {
                 val newMarker = markersForHotel.first()
                 viewModel.carouselSwipedObservable.onNext(newMarker)
@@ -130,7 +135,7 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
 
     fun clearMarkers() {
         clusterManager?.let { clusterManager ->
-            mapItems.clear()
+            HotelMapMarkers.clear()
             clusterManager.clearItems()
             clusterManager.cluster()
             mapCarouselContainer.visibility = View.INVISIBLE
@@ -147,6 +152,23 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
+    fun toFullScreen() {
+        clusterManager?.setOnClusterItemClickListener(markerClickListener)
+        clusterManager?.setOnClusterClickListener(clusterClickListener)
+
+        if (HotelMapMarkers.filter { it.isSelected }.isEmpty()) {
+            mapCarouselContainer.visibility = View.GONE
+        } else {
+            mapCarouselContainer.visibility = View.VISIBLE
+        }
+    }
+
+    fun toSplitView() {
+        clusterManager?.setOnClusterItemClickListener(null)
+        clusterManager?.setOnClusterClickListener(null)
+        mapCarouselContainer.visibility = View.GONE
+    }
+
     private fun createNewMarkers() {
         if (clusterManager == null) {
             return
@@ -158,8 +180,8 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         Observable.fromCallable(CreateMarkersCallable(currentHotels))
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { mapItems ->
-                    clusterManager!!.addItems(mapItems)
+                .subscribe { HotelMapMarkers ->
+                    clusterManager!!.addItems(HotelMapMarkers)
                     clusterManager?.cluster()
                 }
     }
@@ -178,22 +200,22 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         }
     }
 
-    private fun selectMarker(mapItem: MapItem, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
+    private fun selectMarker(HotelMapMarker: HotelMapMarker, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
         if (clusterManager == null) {
             return
         }
         clearPreviousMarker()
-        mapItem.isSelected = true
-        val selectedMarker = hotelMapClusterRenderer.getMarker(mapItem)
-        if (!mapItem.hotel.isSoldOut) {
-            selectedMarker?.setIcon(mapItem.getHotelMarkerIcon())
+        HotelMapMarker.isSelected = true
+        val selectedMarker = hotelMapClusterRenderer.getMarker(HotelMapMarker)
+        if (!HotelMapMarker.hotel.isSoldOut) {
+            selectedMarker?.setIcon(HotelMapMarker.getHotelMarkerIcon())
         }
         selectedMarker?.showInfoWindow()
         if (shouldZoom) {
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(mapItem.position, googleMap?.cameraPosition?.zoom!!))
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(HotelMapMarker.position, googleMap?.cameraPosition?.zoom!!))
         }
-        viewModel.selectedMapMarker = mapItem
-
+        viewModel.selectedMapMarker = HotelMapMarker
+        mapCarouselContainer.visibility = View.VISIBLE
         //todo fix me
 //        if (animateCarousel && currentState == BaseHotelResultsPresenter.ResultsMap::class.java.name) {
 //            animateMapCarouselIn()
@@ -201,11 +223,11 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
     }
 
     private fun clearPreviousMarker() {
-        val prevMapItem = viewModel.selectedMapMarker
-        if (prevMapItem != null) {
-            prevMapItem.isSelected = false
-            if (!prevMapItem.hotel.isSoldOut) {
-                hotelMapClusterRenderer.getMarker(prevMapItem)?.setIcon(prevMapItem.getHotelMarkerIcon())
+        val prevHotelMapMarker = viewModel.selectedMapMarker
+        if (prevHotelMapMarker != null) {
+            prevHotelMapMarker.isSelected = false
+            if (!prevHotelMapMarker.hotel.isSoldOut) {
+                hotelMapClusterRenderer.getMarker(prevHotelMapMarker)?.setIcon(prevHotelMapMarker.getHotelMarkerIcon())
             }
         }
     }
@@ -245,31 +267,37 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         hotelMapClusterRenderer = HotelMapClusterRenderer(context, googleMap, clusterManager!!,
                 viewModel.clusterChangeSubject)
         clusterManager!!.setRenderer(hotelMapClusterRenderer)
+        clusterManager!!.setOnClusterItemClickListener(markerClickListener)
+        clusterManager!!.setOnClusterClickListener(clusterClickListener)
+    }
 
-        clusterManager!!.setOnClusterItemClickListener {
+    private inner class MarkerClickListener : ClusterManager.OnClusterItemClickListener<HotelMapMarker> {
+        override fun onClusterItemClick(marker: HotelMapMarker): Boolean {
             mapPinClickedSubject.onNext(Unit)
-            selectMarker(it)
+            selectMarker(marker)
             updateCarouselItems()
-            true
+            return true
         }
+    }
 
-        clusterManager!!.setOnClusterClickListener {
+    private inner class ClusterClickListener : ClusterManager.OnClusterClickListener<HotelMapMarker> {
+        override fun onClusterClick(cluster: Cluster<HotelMapMarker>): Boolean {
             animateMapCarouselOut()
             clearPreviousMarker()
             val builder = LatLngBounds.builder()
-            it.items.forEach { item ->
+            cluster.items.forEach { item ->
                 builder.include(item.pos)
             }
             val bounds = builder.build()
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, resources.displayMetrics.density.toInt() * 50))
-            true
+            return true
         }
     }
 
     private fun updateCarouselItems() {
         //todo share some of this with jumpToBounds()
-        val selectedHotels = mapItems.filter { it.isSelected }.map { it.hotel }
-        var hotelItems = mapItems.filter { !it.isClustered }.map { it.hotel }
+        val selectedHotels = HotelMapMarkers.filter { it.isSelected }.map { it.hotel }
+        var hotelItems = HotelMapMarkers.filter { !it.isClustered }.map { it.hotel }
         if (!selectedHotels.isEmpty()) {
             val hotel = selectedHotels.first()
             val hotelLocation = Location("selected")
@@ -302,14 +330,14 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
 
     }
 
-    private inner class CreateMarkersCallable(private val hotels: List<Hotel>) : Callable<ArrayList<MapItem>> {
-        override fun call(): ArrayList<MapItem> {
-            var mapItems = arrayListOf<MapItem>()
+    private inner class CreateMarkersCallable(private val hotels: List<Hotel>) : Callable<ArrayList<HotelMapMarker>> {
+        override fun call(): ArrayList<HotelMapMarker> {
+            var HotelMapMarkers = arrayListOf<HotelMapMarker>()
             hotels.forEach { hotel ->
-                val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
-                mapItems.add(mapItem)
+                val HotelMapMarker = HotelMapMarker(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
+                HotelMapMarkers.add(HotelMapMarker)
             }
-            return mapItems
+            return HotelMapMarkers
         }
     }
 

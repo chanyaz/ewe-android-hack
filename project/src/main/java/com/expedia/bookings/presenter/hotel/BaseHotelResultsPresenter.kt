@@ -14,7 +14,6 @@ import android.location.Location
 import android.support.annotation.CallSuper
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -25,7 +24,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
@@ -38,7 +36,6 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.Hotel
@@ -47,7 +44,6 @@ import com.expedia.bookings.hotel.animation.transition.HorizontalTranslateTransi
 import com.expedia.bookings.hotel.animation.transition.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.map.CleanHotelMapView
-import com.expedia.bookings.hotel.map.HotelMapClusterAlgorithm
 import com.expedia.bookings.hotel.map.HotelMapClusterRenderer
 import com.expedia.bookings.hotel.map.HotelMarkerIconGenerator
 import com.expedia.bookings.hotel.map.HotelMapMarker
@@ -56,31 +52,16 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
-import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelListRecyclerView
-import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelResultsSortFaqWebView
-import com.expedia.util.PermissionsUtils.havePermissionToAccessLocation
 import com.expedia.util.endlessObserver
-import com.expedia.util.notNullAndObservable
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
-import com.expedia.vm.hotel.HotelResultsMapViewModel
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.clustering.ClusterManager
 import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
@@ -797,6 +778,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 cleanMapView.translationY = -mapListSplitAnchor.toFloat()
                 sortFilterButtonTransition?.jumpToOrigin()
 
+                cleanMapView.toSplitView()
                 adjustGoogleMapLogo()
                 if (ExpediaBookingApp.isDeviceShitty()) {
                     lazyLoadMapAndMarkers()
@@ -806,6 +788,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 cleanMapView.translationY = 0f
                 recyclerView.translationY = screenHeight.toFloat()
                 sortFilterButtonTransition?.jumpToTarget()
+                cleanMapView.toFullScreen()
 
 //                TODO WHY
 //                googleMap?.setPadding(0, toolbar.height, 0, fabHeightOffset().toInt())
