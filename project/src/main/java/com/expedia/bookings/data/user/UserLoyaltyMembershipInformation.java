@@ -80,7 +80,14 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 		JSONObject obj = new JSONObject();
 
 		try {
+			obj.putOpt("loyaltyPointsAvailable", loyaltyPointsAvailable);
+			obj.putOpt("loyaltyPointsPending", loyaltyPointsPending);
+			obj.putOpt("bookingCurrency", bookingCurrency);
 			obj.putOpt("isAllowedToShopWithPoints", isAllowedToShopWithPoints);
+			if (loyaltyMonetaryValue != null) {
+				obj.putOpt("loyaltyMonetaryValue", loyaltyMonetaryValue.toJson());
+			}
+			obj.putOpt("loyaltyMemebershipActive", isLoyaltyMembershipActive);
 			obj.putOpt("membershipTierName", loyaltyMembershipTier.toApiValue());
 			return obj;
 		}
