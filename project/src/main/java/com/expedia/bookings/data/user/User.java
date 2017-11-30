@@ -130,6 +130,10 @@ public class User implements JSONable {
 
 		try {
 			obj.put("version", VERSION);
+			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
+			JSONUtils.putJSONableList(obj, "storedCreditCards", mStoredCreditCards);
+			JSONUtils.putJSONableList(obj, "storedPointsCards", mStoredPointsCards);
+			JSONUtils.putJSONableList(obj, "associatedTravelers", mAssociatedTravelers);
 			JSONUtils.putJSONable(obj, "loyaltyMembershipInformation", loyaltyMembershipInformation);
 			return obj;
 		}
