@@ -1,5 +1,18 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -97,19 +110,8 @@ import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import kotlin.NotImplementedError;
+
 import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
 
 /**
@@ -2036,7 +2038,8 @@ public class OmnitureTracking {
 		logAbacusQuery(test);
 	}
 
-	private static void trackAbacusTest(ADMS_Measurement s, ABTest abTest) {
+	@VisibleForTesting
+	static void trackAbacusTest(ADMS_Measurement s, ABTest abTest) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			return;
 		}
