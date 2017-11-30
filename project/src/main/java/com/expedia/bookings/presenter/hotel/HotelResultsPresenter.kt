@@ -89,9 +89,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
         baseViewModel = vm
-        mapViewModel.mapInitializedObservable.subscribe {
-            mapReady(viewModel.getSearchParams()?.suggestion)
-        }
+//        mapViewModel.mapInitializedObservable.subscribe {
+//            mapReady(viewModel.getSearchParams()?.suggestion)
+//        }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
 
         if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
@@ -104,8 +104,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         initSortCallToAction()
 
-        vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
+//        vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.hotelResultsObservable.subscribe {
+            cleanMapView.newResults(it, true)
             if (filterBtnWithCountWidget.translationY != 0f) {
                 showSortAndFilter()
             } else {
@@ -114,17 +115,17 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         vm.mapResultsObservable.subscribe(listResultsObserver)
-        vm.mapResultsObservable.subscribe(mapViewModel.mapResultsSubject)
-        vm.mapResultsObservable.subscribe {
-            val latLng = googleMap?.projection?.visibleRegion?.latLngBounds?.center
-            if (latLng != null) {
-                mapViewModel.mapBoundsSubject.onNext(latLng)
-            }
-            fab.isEnabled = true
-        }
+//        vm.mapResultsObservable.subscribe(mapViewModel.mapResultsSubject)
+//        vm.mapResultsObservable.subscribe {
+//            val latLng = googleMap?.projection?.visibleRegion?.latLngBounds?.center
+//            if (latLng != null) {
+//                mapViewModel.mapBoundsSubject.onNext(latLng)
+//            }
+//            fab.isEnabled = true
+//        }
 
         vm.filterResultsObservable.subscribe(listResultsObserver)
-        vm.filterResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
+//        vm.filterResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.filterResultsObservable.subscribe {
             if (previousWasList && filterBtnWithCountWidget.translationY != 0f) {
                 showSortAndFilter()
@@ -158,8 +159,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             } else {
                 show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
                 fab.isEnabled = false
-                animateMapCarouselOut()
-                clearMarkers()
+                //todo crying
+//                animateMapCarouselOut()
+//                clearMarkers()
             }
         }
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewModel.isCurrentLocationSearch)
@@ -219,7 +221,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         searchThisArea.visibility = View.GONE
         searchThisArea.setOnClickListener({ view ->
             fab.isEnabled = false
-            animateMapCarouselOut()
+//            animateMapCarouselOut()
             hideSearchThisArea()
             doAreaSearch()
             trackMapSearchAreaClick()
@@ -262,7 +264,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun doAreaSearch() {
-        val center = googleMap?.cameraPosition?.target
+        val center = null// fixme googleMap?.cameraPosition?.target
         if (center == null) {
             return
         }
@@ -273,8 +275,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         region.shortName = context.getString(R.string.visible_map_area)
         location.regionNames = region
         val coordinate = SuggestionV4.LatLng()
-        coordinate.lat = center.latitude
-        coordinate.lng = center.longitude
+//        coordinate.lat = center.latitude
+//        coordinate.lng = center.longitude
         location.coordinates = coordinate
         viewModel.locationParamsSubject.onNext(location)
     }
@@ -306,7 +308,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun showSearchThisArea() {
-        if (googleMap != null && currentState?.equals(ResultsMap::class.java.name) ?: false && searchThisArea.visibility == View.GONE) {
+        // googleMap != null &&
+        if (currentState?.equals(ResultsMap::class.java.name) ?: false && searchThisArea.visibility == View.GONE) {
             searchThisArea.visibility = View.VISIBLE
             ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
         }
@@ -362,7 +365,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     private fun newParams(params: HotelSearchParams) {
         filterView.viewModel.resetPriceSliderFilterTracking()
-        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
+//        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
         if (currentState == ResultsList::class.java.name) {
             mapReady(params.suggestion)
         }
@@ -386,7 +389,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         } else {
             showMapLoadingOverlay()
         }
-        clearMarkers()
+        cleanMapView.clearMarkers()
     }
 
     private class UrgencyAnimation(urgencyContainer: LinearLayout, toolbarShadow: View) {

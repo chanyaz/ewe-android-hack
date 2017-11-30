@@ -3,24 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.expedia.bookings.widget.FrameLayout
-        android:id="@+id/stub_map"
+    <com.expedia.bookings.hotel.map.CleanHotelMapView
+        android:id="@+id/clean_hotel_map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <LinearLayout
-        android:id="@+id/hotel_carousel_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical"
-        android:visibility="invisible">
-
-        <com.expedia.bookings.widget.HotelCarouselRecycler
-            android:id="@+id/hotel_carousel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
 
     <View
         android:id="@+id/recycler_view_temp_background"

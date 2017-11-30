@@ -70,7 +70,7 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
         }
     }
 
-    private fun getMapBounds(response: HotelSearchResponse): LatLngBounds {
+    fun getMapBounds(response: HotelSearchResponse): LatLngBounds {
         val searchRegionId = response.searchRegionId
         val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
 
@@ -113,7 +113,7 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
         }
     }
 
-    private fun sortByLocation(location: Location, hotels: List<Hotel>): List<Hotel> {
+    fun sortByLocation(location: Location, hotels: List<Hotel>): List<Hotel> {
         val hotelLocation = Location("other")
         val sortedHotels = hotels.sortedBy { h ->
             hotelLocation.latitude = h.latitude

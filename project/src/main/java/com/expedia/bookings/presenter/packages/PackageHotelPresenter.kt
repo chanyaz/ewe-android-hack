@@ -101,12 +101,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val resultsPresenter: PackageHotelResultsPresenter by lazy {
         val viewStub = findViewById<ViewStub>(R.id.results_stub)
         val presenter = viewStub.inflate() as PackageHotelResultsPresenter
-        val resultsStub = presenter.findViewById<FrameLayout>(R.id.stub_map)
         resultsMapView.visibility = View.VISIBLE
         removeView(resultsMapView)
-        resultsStub.addView(resultsMapView)
-        presenter.mapView = resultsMapView
-        presenter.mapView.getMapAsync(presenter)
+        presenter.cleanMapView.setMapView(resultsMapView)
+
         presenter.viewModel = PackageHotelResultsViewModel(context)
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.hideBundlePriceOverviewSubject.subscribe(hideBundlePriceOverviewObserver)

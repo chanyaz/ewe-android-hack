@@ -28,7 +28,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     var viewModel: PackageHotelResultsViewModel by notNullAndObservable { vm ->
         baseViewModel = vm
         vm.hotelResultsObservable.subscribe(listResultsObserver)
-        vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
+//        vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
 
         vm.titleSubject.subscribe {
             if (shouldShowBreadcrumbsInToolbarTitle()) {
@@ -47,7 +47,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         vm.subtitleContDescSubject.subscribeContentDescription(toolbarSubtitle)
 
         vm.paramsSubject.subscribe { params ->
-            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
+//            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
 
             mapReady(params.suggestion)
             showLoading()
@@ -57,9 +57,9 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             filterView.viewModel.clearObservable.onNext(Unit)
         }
 
-        mapViewModel.mapInitializedObservable.subscribe {
-            mapReady(Db.getPackageParams()?.destination)
-        }
+//        mapViewModel.mapInitializedObservable.subscribe {
+//            mapReady(Db.getPackageParams()?.destination)
+//        }
     }
 
     private fun shouldShowBreadcrumbsInToolbarTitle(): Boolean {
@@ -73,7 +73,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     override fun onFinishInflate() {
         super.onFinishInflate()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
-        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
+//        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
         filterView.viewModel.priceRangeContainerVisibility.onNext(false)
     }
 
