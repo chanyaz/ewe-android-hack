@@ -351,9 +351,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         }
         OmnitureTracking.trackNotificationClick(notification)
 
-        // There's no need to dismiss with the notification manager, since it was set to
+        // There's no need to dismiss with the notification manager (android's), since it was set to
         // auto dismiss when clicked.
-        notificationManager.dismissExisting(notification)
+        notificationManager.setNotificationStatusToDismissed(notification)
     }
 
     private val pageChangeListener = object : TabLayout.OnTabSelectedListener {

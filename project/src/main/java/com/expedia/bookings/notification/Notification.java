@@ -37,8 +37,7 @@ public class Notification extends Model implements JSONable {
 	public enum StatusType {
 		NEW,
 		NOTIFIED,
-		DISMISSED,
-		EXPIRED
+		DISMISSED
 	}
 
 	/**
@@ -442,5 +441,45 @@ public class Notification extends Model implements JSONable {
 			return 0;
 		}
 		return sResIdMap[index];
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+
+		if (obj.getClass() != this.getClass()) {
+			return false;
+		}
+
+		Notification other = (Notification) obj;
+
+		if (!mUniqueId.equals(other.getUniqueId())) {
+			return false;
+		}
+
+		if (mTriggerTimeMillis != other.getTriggerTimeMillis()) {
+			return false;
+		}
+
+		if (!mTitle.equals(other.getTitle())) {
+			return false;
+		}
+
+		if (!mBody.equals(other.getBody())) {
+			return false;
+		}
+
+		if (!mTicker.equals(other.getTicker())) {
+			return false;
+		}
+
+		if (mExpirationTimeMillis != other.getExpirationTimeMillis() && mExpirationTimeMillis > System
+			.currentTimeMillis()) {
+			return false;
+		}
+
+		return true;
 	}
 }

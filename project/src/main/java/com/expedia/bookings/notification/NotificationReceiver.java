@@ -107,24 +107,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 		// Don't display old notifications
 		if (notification.getExpirationTimeMillis() < System.currentTimeMillis()) {
-			notification.setStatus(StatusType.EXPIRED);
-			notification.save();
-
-			// Just in case it's still showing up
-			notificationManager.cancelNotification(notification);
-			return;
-		}
-
-		// The app previously handled flightshare notifications. They *shouldn't* come in anymore but leaving
-		// this for now to ensure we ignore them if we somehow receive one. This can likely be removed in the future
-		// once it's certain we won't receive this type of notification.
-		if (notification.getUniqueId().contains("flightshare")) {
-			notification.setStatus(StatusType.EXPIRED);
-			notification.save();
-
-			// Just in case it's still showing up
-			notificationManager.cancelNotification(notification);
-			return;
+			notificationManager.cancelAndDeleteNotification(notification);
 		}
 
 		int action = intent.getIntExtra(EXTRA_ACTION, ACTION_SCHEDULE);
@@ -157,7 +140,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 		if (isNotificationNotBooking) { // check trip is still valid (i.e. not cancelled)
 			getItineraryManagerInstance()
 				.addSyncListener(makeValidTripSyncListener(context, finalNotification, getItineraryManagerInstance()));
-			getItineraryManagerInstance().startSync(false);
+			getItineraryManagerInstance().startSync(true);
 		}
 		else {
 			showNotification(finalNotification, context); //show booking notification
@@ -187,10 +170,14 @@ public class NotificationReceiver extends BroadcastReceiver {
 				itineraryManager.removeSyncListener(this);
 				boolean validTripForScheduledNotification = isValidTripForScheduledNotification(trips);
 				if (!validTripForScheduledNotification) {
-					notificationManager.cancelNotification(finalNotification);
+					notificationManager.cancelNotificationIntent(finalNotification);
+					notificationManager.dismissNotification(finalNotification);
 				}
 				else {
-					showNotification(finalNotification, context);
+					Notification updatedNotificiation = findExistingNotification(notificationManager, finalNotification);
+					if (updatedNotificiation != null) {
+						showNotification(updatedNotificiation, context);
+					}
 				}
 			}
 
@@ -212,12 +199,12 @@ public class NotificationReceiver extends BroadcastReceiver {
 		return ItineraryManager.getInstance();
 	}
 
-	private void showNotification(Notification finalNotification, Context context) {
+	protected void showNotification(Notification finalNotification, Context context) {
 		finalNotification.didNotify();
 		new Notifier(context, finalNotification).start();
 	}
 
-	private static class Notifier {
+	protected static class Notifier {
 		private Notification mNotification;
 		private Context mContext;
 		private Bitmap mBitmap;

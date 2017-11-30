@@ -57,7 +57,7 @@ class NotificationReceiverTest {
         notificationReceiver.onReceive(context, ourIntent)
 
         Mockito.verify(mockItineraryManager, Mockito.times(1)).addSyncListener(Mockito.any(ItineraryManager.ItinerarySyncAdapter::class.java))
-        Mockito.verify(mockItineraryManager, Mockito.times(1)).startSync(false)
+        Mockito.verify(mockItineraryManager, Mockito.times(1)).startSync(true)
     }
 
     @Test
@@ -167,7 +167,7 @@ class NotificationReceiverTest {
 
     private fun makeNotificationAndShow(context: Context, notificationType: Notification.NotificationType, id: String) {
         val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
-        val notificationReceiver = TestNotificationReceiver(mockItineraryManager, null)
+        val notificationReceiver = TestNotificationReceiver(mockItineraryManager, null, notificationType)
 
         val listener = notificationReceiver.makeValidTripSyncListener(context, makeNotification(id, notificationType), mockItineraryManager)
         listener.onSyncFinished(makeTrip(id))
@@ -185,12 +185,11 @@ class NotificationReceiverTest {
         Mockito.verify(mockAnalyticsProvider).trackAction(Mockito.eq(linkName), NullSafeMockitoHamcrest.mapThat(CustomMatchers.hasEntries(expectedData)))
     }
 
-    private fun makeNotification(uniqueId: String, type: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED): Notification {
+     fun makeNotification(uniqueId: String, type: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED): Notification {
         val ourNotification = Mockito.mock(Notification::class.java)
 
         Mockito.`when`(ourNotification.uniqueId).thenReturn(uniqueId)
         Mockito.`when`(ourNotification.notificationType).thenReturn(type)
-        Mockito.doNothing().`when`(ourNotification).didNotify()
         Mockito.`when`(ourNotification.imageType).thenReturn(Notification.ImageType.NONE)
         Mockito.`when`(ourNotification.toJson()).thenReturn(JSONObject())
         return ourNotification
@@ -204,7 +203,7 @@ class NotificationReceiverTest {
         return listOf(ourTrip)
     }
 
-    class TestNotificationReceiver(val mockItineraryManager: ItineraryManager, val ourNotification: Notification?) : NotificationReceiver() {
+    class TestNotificationReceiver(val mockItineraryManager: ItineraryManager, val ourNotification: Notification?, val notificationType: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED) : NotificationReceiver() {
         override fun getItineraryManagerInstance(): ItineraryManager {
             return mockItineraryManager
         }
@@ -216,6 +215,20 @@ class NotificationReceiverTest {
         override fun makeNotification(): Notification {
             return Mockito.mock(Notification::class.java)
         }
-    }
 
+        override fun showNotification(finalNotification: Notification, context: Context) {
+            Notifier(context, createNotification(type = notificationType)).start()
+        }
+
+        private fun createNotification(uniqueId: String = "test123", type: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED): Notification {
+            val ourNotification = Mockito.mock(Notification::class.java)
+
+            Mockito.`when`(ourNotification.uniqueId).thenReturn(uniqueId)
+            Mockito.`when`(ourNotification.notificationType).thenReturn(type)
+            Mockito.doNothing().`when`(ourNotification).didNotify()
+            Mockito.`when`(ourNotification.imageType).thenReturn(Notification.ImageType.NONE)
+            Mockito.`when`(ourNotification.toJson()).thenReturn(JSONObject())
+            return ourNotification
+        }
+    }
 }

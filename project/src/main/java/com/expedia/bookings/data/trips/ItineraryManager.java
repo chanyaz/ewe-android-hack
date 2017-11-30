@@ -847,9 +847,6 @@ public class ItineraryManager implements JSONable {
 		GENERATE_ITIN_CARDS,
 		// Generates itin card data for use
 
-		DELETE_ALL_SCHEDULED_NOTIFICATIONS,
-		// Clear all local notifications
-
 		SCHEDULE_NOTIFICATIONS,
 		// Schedule local notifications
 
@@ -987,7 +984,6 @@ public class ItineraryManager implements JSONable {
 				mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 				mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 				mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-				mSyncOpQueue.add(new Task(Operation.DELETE_ALL_SCHEDULED_NOTIFICATIONS));
 				mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
 				mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 			}
@@ -1033,7 +1029,6 @@ public class ItineraryManager implements JSONable {
 		mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-		mSyncOpQueue.add(new Task(Operation.DELETE_ALL_SCHEDULED_NOTIFICATIONS));
 		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
 		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
@@ -1195,9 +1190,6 @@ public class ItineraryManager implements JSONable {
 					break;
 				case GENERATE_ITIN_CARDS:
 					generateItinCardData();
-					break;
-				case DELETE_ALL_SCHEDULED_NOTIFICATIONS:
-					deleteScheduledNotifications();
 					break;
 				case SCHEDULE_NOTIFICATIONS:
 					scheduleLocalNotifications();
@@ -1967,10 +1959,6 @@ public class ItineraryManager implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Local Notifications
 
-	private void deleteScheduledNotifications() {
-		notificationManager.deleteAll();
-	}
-
 	private void scheduleLocalNotifications() {
 		synchronized (mItinCardDatas) {
 			for (ItinCardData data : mItinCardDatas) {
@@ -1985,40 +1973,12 @@ public class ItineraryManager implements JSONable {
 				if (notifications == null) {
 					continue;
 				}
-
 				for (Notification notification : notifications) {
-					// If we already have this notification, don't notify again.
-					Notification existing = notificationManager.findExisting(notification);
-					if (existing != null) {
-						// These things could possibly change on a new build.
-						existing.setItinId(notification.getItinId());
-						existing.setTriggerTimeMillis(notification.getTriggerTimeMillis());
-						existing.setExpirationTimeMillis(notification.getExpirationTimeMillis());
-						existing.setIconResId(notification.getIconResId());
-						existing.setImageResId(notification.getImageResId());
-						existing.setTitle(notification.getTitle());
-						existing.setBody(notification.getBody());
-						existing.setTicker(notification.getTicker());
-						existing.setFlags(notification.getFlags());
-						notification = existing;
+					if (SettingUtils.get(mContext, mContext.getString(R.string.preference_launch_all_trip_notifications), false)) {
+						notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
 					}
 
-					String time = com.expedia.bookings.utils.DateUtils
-						.convertMilliSecondsForLogging(notification.getTriggerTimeMillis());
-
-					Log.i(LOGGING_TAG, "Notification scheduled for " + time);
-
-					// This is just to get the notifications to show up frequently for development
-					if (BuildConfig.DEBUG) {
-						String which = SettingUtils.get(mContext, R.string.preference_which_api_to_use_key, "");
-						if (which.equals("Mock Mode")) {
-							notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
-							notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
-							notification.setStatus(com.expedia.bookings.notification.Notification.StatusType.NEW);
-						}
-					}
-
-					notification.save();
+					notificationManager.searchForExistingAndUpdate(notification);
 				}
 			}
 		}
