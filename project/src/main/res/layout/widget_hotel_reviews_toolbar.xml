@@ -18,6 +18,6 @@
         app:tabIndicatorColor="@color/launch_tab_indicator"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/actionbar_tab_text_selected"
-        app:tabTextColor="@color/actionbar_tab_text_unselected" />
+        app:tabTextColor="@color/actionbar_tab_text_selected" />
 
 </android.support.v7.widget.Toolbar>
