@@ -14,7 +14,6 @@ import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelClientFilterView
-import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
@@ -49,7 +48,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         vm.paramsSubject.subscribe { params ->
 //            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
 
-            mapReady(params.suggestion)
+            moveMapToDestination(params.suggestion)
             showLoading()
             show(ResultsList())
 
@@ -58,7 +57,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
 
 //        mapViewModel.mapInitializedObservable.subscribe {
-//            mapReady(Db.getPackageParams()?.destination)
+//            moveMapToDestination(Db.getPackageParams()?.destination)
 //        }
     }
 

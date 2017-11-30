@@ -37,7 +37,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
-import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.HotelServerFilterView
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
@@ -89,9 +88,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
         baseViewModel = vm
-//        mapViewModel.mapInitializedObservable.subscribe {
-//            mapReady(viewModel.getSearchParams()?.suggestion)
-//        }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
 
         if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
@@ -366,9 +362,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     private fun newParams(params: HotelSearchParams) {
         filterView.viewModel.resetPriceSliderFilterTracking()
 //        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
-        if (currentState == ResultsList::class.java.name) {
-            mapReady(params.suggestion)
-        }
+        moveMapToDestination(params.suggestion)
         filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
 
         filterView.viewModel.clearObservable.onNext(Unit)

@@ -2,31 +2,30 @@ package com.expedia.vm.hotel
 
 import android.content.Context
 import android.location.Location
-import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.map.HotelMapMarker
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import rx.Observable
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.util.concurrent.Callable
 
 open class HotelResultsMapViewModel(val context: Context, val currentLocation: Location) {
-    val mapInitializedObservable = PublishSubject.create<Unit>()
-    val createMarkersObservable = PublishSubject.create<Unit>()
     val clusterChangeSubject = PublishSubject.create<Unit>()
 
     var hotels: List<Hotel> = emptyList()
 
     //inputs
-    val hotelResultsSubject = BehaviorSubject.create<HotelSearchResponse>()
     val mapResultsSubject = PublishSubject.create<HotelSearchResponse>()
     val carouselSwipedObservable = PublishSubject.create<HotelMapMarker>()
     val mapBoundsSubject = BehaviorSubject.create<LatLng>()
 
     //outputs
-    val newBoundsObservable = PublishSubject.create<LatLngBounds>()
     val sortedHotelsObservable = PublishSubject.create<List<Hotel>>()
     val soldOutHotel = PublishSubject.create<Hotel>()
 
@@ -41,11 +40,6 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
     }
 
     init {
-        createMarkersObservable.subscribe {
-            val response = hotelResultsSubject.value
-            if (response != null) newBoundsObservable.onNext(getMapBounds(response))
-        }
-
         mapBoundsSubject.subscribe {
             // Map bounds has changed(Search this area or map was animated to a region),
             // sort nearest hotels from center of screen
@@ -57,19 +51,13 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
             sortedHotelsObservable.onNext(sortedHotels)
         }
 
-        hotelResultsSubject.subscribe { response ->
-            hotels = response.hotelList
-            if (response.hotelList != null && response.hotelList.size > 0) {
-                newBoundsObservable.onNext(getMapBounds(response))
-            }
-        }
-
         mapResultsSubject.subscribe { response ->
             hotels = response.hotelList
             sortedHotelsObservable.onNext(hotels)
         }
     }
 
+    //todo can we move heavy lifting off main thread?
     fun getMapBounds(response: HotelSearchResponse): LatLngBounds {
         val searchRegionId = response.searchRegionId
         val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
@@ -121,6 +109,25 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
             location.distanceTo(hotelLocation)
         }
         return sortedHotels
+    }
+
+    fun asyncSortByLocation(location: Location, hotels: List<Hotel>): Observable<List<Hotel>> {
+        return Observable.fromCallable(SortByLocationCallable(location, hotels))
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+    }
+
+    private class SortByLocationCallable(private val location: Location,
+                                         private val hotels: List<Hotel>) : Callable<List<Hotel>> {
+        override fun call(): List<Hotel>{
+            val hotelLocation = Location("other")
+            val sortedHotels = hotels.sortedBy { h ->
+                hotelLocation.latitude = h.latitude
+                hotelLocation.longitude = h.longitude
+                location.distanceTo(hotelLocation)
+            }
+            return sortedHotels
+        }
     }
 
     private fun boxHotels(hotels: List<Hotel>): LatLngBounds {

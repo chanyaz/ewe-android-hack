@@ -1047,13 +1047,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     class ResultsFilter
     class ResultsSortFaqWebView
 
-    fun mapReady(suggestion: SuggestionV4?) {
+    fun moveMapToDestination(suggestion: SuggestionV4?) {
         if (suggestion != null) {
             if (suggestion.coordinates != null &&
                     suggestion.coordinates?.lat != 0.0 &&
                     suggestion.coordinates?.lng != 0.0) {
-                cleanMapView.moveCamera(suggestion.coordinates.lat,
-                        suggestion.coordinates.lng)
+                cleanMapView.moveCamera(suggestion.coordinates.lat, suggestion.coordinates.lng)
             } else if (suggestion.regionNames?.fullName != null) {
                 val BD_KEY = "geo_search"
                 val bd = BackgroundDownloader.getInstance()

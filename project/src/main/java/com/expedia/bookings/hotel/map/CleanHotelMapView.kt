@@ -30,8 +30,12 @@ import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.clustering.ClusterManager
 import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
-import rx.Completable
+import rx.Observable
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
+import java.util.ArrayList
+import java.util.concurrent.Callable
 
 class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
         OnMapReadyCallback {
@@ -62,6 +66,8 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
     private var currentBounds: LatLngBounds? = null
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
+
+    private val DEFAULT_ZOOM = resources.displayMetrics.density.toInt() * 50
 
     init {
         View.inflate(context, R.layout.clean_hotel_results_map, this)
@@ -117,7 +123,7 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
             clearMarkers()
             createNewMarkers()
             if (updateBounds) {
-                changeBounds()
+                animateBounds()
             }
         }
     }
@@ -148,24 +154,27 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         if (currentHotels.isEmpty()) {
             return
         }
-        //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
-        currentHotels.forEach { hotel ->
-            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
-            mapItems.add(mapItem)
-            clusterManager!!.addItem(mapItem)
-        }
-        clusterManager?.cluster()
+
+        Observable.fromCallable(CreateMarkersCallable(currentHotels))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { mapItems ->
+                    clusterManager!!.addItems(mapItems)
+                    clusterManager?.cluster()
+                }
     }
 
-    private fun changeBounds() {
+    private fun animateBounds() {
         currentBounds?.let { bounds ->
-            val center = bounds.center
-            moveCamera(center.latitude, center.longitude)
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(currentBounds, DEFAULT_ZOOM))
 
+            val center = bounds.center
             val location = Location("currentRegion")
             location.latitude = center.latitude
             location.longitude = center.longitude
-            orderedCarouselHotels = viewModel.sortByLocation(location, currentHotels)
+            viewModel.asyncSortByLocation(location, currentHotels).subscribe { orderedHotels ->
+                orderedCarouselHotels = orderedHotels
+            }
         }
     }
 
@@ -252,20 +261,13 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
                 builder.include(item.pos)
             }
             val bounds = builder.build()
-
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
-                override fun onFinish() {
-                }
-
-                override fun onCancel() {
-                }
-            })
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, resources.displayMetrics.density.toInt() * 50))
             true
         }
     }
 
     private fun updateCarouselItems() {
-        //todo share some of this with changeBounds()
+        //todo share some of this with jumpToBounds()
         val selectedHotels = mapItems.filter { it.isSelected }.map { it.hotel }
         var hotelItems = mapItems.filter { !it.isClustered }.map { it.hotel }
         if (!selectedHotels.isEmpty()) {
@@ -273,9 +275,10 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
             val hotelLocation = Location("selected")
             hotelLocation.latitude = hotel.latitude
             hotelLocation.longitude = hotel.longitude
-            hotelItems = viewModel.sortByLocation(hotelLocation, hotelItems)
-            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotelItems)
-            mapCarouselRecycler.scrollToPosition(0)
+            viewModel.asyncSortByLocation(hotelLocation, hotelItems).subscribe { sortedHotels ->
+                (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(sortedHotels)
+                mapCarouselRecycler.scrollToPosition(0)
+            }
         }
     }
 
@@ -299,8 +302,15 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(co
 
     }
 
-    private class CreateMarkersCompletable : Completable() {
-
+    private inner class CreateMarkersCallable(private val hotels: List<Hotel>) : Callable<ArrayList<MapItem>> {
+        override fun call(): ArrayList<MapItem> {
+            var mapItems = arrayListOf<MapItem>()
+            hotels.forEach { hotel ->
+                val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
+                mapItems.add(mapItem)
+            }
+            return mapItems
+        }
     }
 
     private fun lastBestLocationSafe(): Location {
