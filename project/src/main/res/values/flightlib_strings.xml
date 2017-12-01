@@ -4,7 +4,7 @@
 	<!-- Distance in miles in abbreviated form, %s is the distance -->
 	<string name="distance_imperial_template">%s mi</string>
     <!-- Distance in miles. %s is the distance -->
-    <string name="distance_imperial_full_template">%s miles</string>
+    <string name="distance_imperial_full_template" translatable="false">%s miles</string>
     <!-- Distance in kilometers in abbreviated form. %s is the distance -->
     <string name="distance_metric_template">%s km</string>
     <!-- Distance in kilometers.  %s is the distance -->

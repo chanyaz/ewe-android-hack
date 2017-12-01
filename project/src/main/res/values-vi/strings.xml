@@ -4699,8 +4699,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Giá thành viên</string>
     <string name="member_deal_subtitle">Giảm giá tại nhiều khách sạn</string>
-    <string name="member_deal_landing_page_header">Để xem thêm ưu đãi, hãy chạm Đặt</string>
-    <string name="member_deal_loading_page_header">Đang tìm ưu đãi…</string>
+    <string name="search_for_hotel_deals_page_header">Đang tìm ưu đãi…</string>
     <string name="member_deals_toolbar_title">Giá thành viên</string>
     <string name="continue_booking">Tiếp tục đặt</string>
     <string name="deals_hotel_only">Chỉ khách sạn</string>

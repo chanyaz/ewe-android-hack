@@ -24,6 +24,10 @@ open class BaseCreateTripViewModel {
     }
 
     fun isValidContext(context: Context) : Boolean {
-        return (context is Activity) && !context.isDestroyed && !context.isFinishing
+        if (context is Activity) {
+            return !context.isDestroyed && !context.isFinishing
+        } else {
+            return true
+        }
     }
 }
