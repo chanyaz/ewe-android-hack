@@ -113,8 +113,8 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
 
     fun asyncSortByLocation(location: Location, hotels: List<Hotel>): Observable<List<Hotel>> {
         return Observable.fromCallable(SortByLocationCallable(location, hotels))
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     private class SortByLocationCallable(private val location: Location,

@@ -102,7 +102,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
 //        vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.hotelResultsObservable.subscribe {
-            cleanMapView.newResults(it, true)
+//            cleanMapView.newResults(it, true)
             if (filterBtnWithCountWidget.translationY != 0f) {
                 showSortAndFilter()
             } else {

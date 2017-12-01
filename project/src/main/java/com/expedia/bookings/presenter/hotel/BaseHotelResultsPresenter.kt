@@ -188,12 +188,19 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         fab.animate().translationY(newTranslationY).setInterpolator(DecelerateInterpolator()).start()
     }
 
+    private fun getRequiredMapPadding() : Int {
+        val firstVisibleView = recyclerView.getChildAt(1)
+        if (firstVisibleView != null) {
+            val topOffset = firstVisibleView.top
+            val bottom = recyclerView.height - topOffset
+            return (bottom + cleanMapView.translationY).toInt()
+        }
+        return 0
+    }
     private fun adjustGoogleMapLogo() {
         // TODO fixme
 //        val view = recyclerView.getChildAt(1)
 //        if (view != null) {
-//            val topOffset = view.top
-//            val bottom = recyclerView.height - topOffset
 //            googleMap?.setPadding(0, toolbar.height, 0, (bottom + mapView.translationY).toInt())
 //        }
     }
@@ -223,6 +230,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (!response.isFilteredResponse) {
             filterView.viewModel.setHotelList(response)
         }
+
+        cleanMapView.newResults(response, updateBounds = true)
     }
 
     fun lastBestLocationSafe(): Location {
@@ -250,7 +259,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         //          TODO verify this works
-        cleanMapView.newResults(response, updateBounds = false)
+//        cleanMapView.newResults(response, updateBounds = false)
 //        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
 //        mapViewModel.hotelResultsSubject.onNext(response)
 
@@ -328,6 +337,15 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         pricingHeaderSelectedSubject.subscribe {
             sortFaqWebView.loadUrl()
             show(ResultsSortFaqWebView())
+        }
+
+        cleanMapView.carouselShownSubject.subscribe { carouselHeight ->
+            if (currentState == ResultsMap::class.java.name) {
+                val offset = context.resources.getDimension(R.dimen.hotel_carousel_fab_vertical_offset)
+                fab.animate().translationY(-(carouselHeight - offset))
+                        .setInterpolator(DecelerateInterpolator())
+                        .start()
+            }
         }
     }
 
@@ -529,6 +547,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
             recyclerView.translationY = 0f
             cleanMapView.translationY = -mapListSplitAnchor.toFloat()
+            cleanMapView.toSplitView(getRequiredMapPadding())
 
             recyclerView.visibility = View.VISIBLE
 
@@ -778,7 +797,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 cleanMapView.translationY = -mapListSplitAnchor.toFloat()
                 sortFilterButtonTransition?.jumpToOrigin()
 
-                cleanMapView.toSplitView()
+                cleanMapView.toSplitView(getRequiredMapPadding())
                 adjustGoogleMapLogo()
                 if (ExpediaBookingApp.isDeviceShitty()) {
                     lazyLoadMapAndMarkers()

@@ -2,10 +2,10 @@ package com.expedia.bookings.hotel.map
 
 import android.content.Context
 import android.location.Location
-import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.text.format.DateUtils
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
@@ -39,12 +39,14 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.concurrent.Callable
 
-class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs),
+class CleanHotelMapView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
         OnMapReadyCallback {
 
     //todo fix tracking.
     val mapPinClickedSubject = PublishSubject.create<Unit>()
     val hotelSelectedSubject = PublishSubject.create<Hotel>()
+
+    val carouselShownSubject = PublishSubject.create<Int>()
 
     private val mapContainer: FrameLayout by bindView(R.id.clean_map_container)
     private val mapCarouselContainer: ViewGroup by bindView(R.id.hotel_carousel_container)
@@ -57,7 +59,7 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
     private lateinit var hotelMapClusterRenderer: HotelMapClusterRenderer
     private val hotelIconFactory = HotelMarkerIconGenerator(context)
 
-    private var HotelMapMarkers = arrayListOf<HotelMapMarker>()
+    private var hotelMapMarkers = arrayListOf<HotelMapMarker>()
 
     val viewModel: HotelResultsMapViewModel
 
@@ -66,6 +68,8 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
     private var orderedCarouselHotels = emptyList<Hotel>()
     private var currentHotels = emptyList<Hotel>()
     private var currentBounds: LatLngBounds? = null
+
+    private var queuedCameraPosition: CameraPosition? = null
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
 
@@ -85,7 +89,7 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
 
         mapCarouselRecycler.showingHotelSubject.subscribe { hotel ->
-            val markersForHotel = HotelMapMarkers.filter { it.hotel.hotelId == hotel.hotelId }
+            val markersForHotel = hotelMapMarkers.filter { it.hotel.hotelId == hotel.hotelId }
             if (markersForHotel.isNotEmpty()) {
                 val newMarker = markersForHotel.first()
                 viewModel.carouselSwipedObservable.onNext(newMarker)
@@ -109,6 +113,10 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
         initMapSettings()
         initClusterManagement()
         addMapListeners()
+        queuedCameraPosition?.let { position ->
+            googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(queuedCameraPosition))
+        }
+        queuedCameraPosition = null
         mapReady = true
 
         //todo wtf
@@ -135,10 +143,10 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
 
     fun clearMarkers() {
         clusterManager?.let { clusterManager ->
-            HotelMapMarkers.clear()
+            hotelMapMarkers.clear()
             clusterManager.clearItems()
             clusterManager.cluster()
-            mapCarouselContainer.visibility = View.INVISIBLE
+            hideCarousel()
         }
     }
 
@@ -148,25 +156,30 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
                 .target(latLng)
                 .zoom(8f)
                 .build()
-        googleMap?.setPadding(0, 0, 0, 0)
-        googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        if (!mapReady) {
+            queuedCameraPosition = cameraPosition
+        } else {
+//            googleMap?.setPadding(0, 0, 0, 0)
+            googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        }
     }
 
     fun toFullScreen() {
         clusterManager?.setOnClusterItemClickListener(markerClickListener)
         clusterManager?.setOnClusterClickListener(clusterClickListener)
 
-        if (HotelMapMarkers.filter { it.isSelected }.isEmpty()) {
-            mapCarouselContainer.visibility = View.GONE
+        if (hotelMapMarkers.filter { it.isSelected }.isEmpty()) {
+            hideCarousel()
         } else {
-            mapCarouselContainer.visibility = View.VISIBLE
+            showCarousel()
         }
     }
 
-    fun toSplitView() {
+    fun toSplitView(bottomTranslation: Int) {
         clusterManager?.setOnClusterItemClickListener(null)
         clusterManager?.setOnClusterClickListener(null)
-        mapCarouselContainer.visibility = View.GONE
+        hideCarousel()
+        googleMap?.setPadding(0, getToolbarHeight(), 0, bottomTranslation)
     }
 
     private fun createNewMarkers() {
@@ -180,8 +193,9 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
         Observable.fromCallable(CreateMarkersCallable(currentHotels))
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { HotelMapMarkers ->
-                    clusterManager!!.addItems(HotelMapMarkers)
+                .subscribe { hotelMapMarkers ->
+                    this.hotelMapMarkers = hotelMapMarkers
+                    clusterManager!!.addItems(hotelMapMarkers)
                     clusterManager?.cluster()
                 }
     }
@@ -196,30 +210,28 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
             location.longitude = center.longitude
             viewModel.asyncSortByLocation(location, currentHotels).subscribe { orderedHotels ->
                 orderedCarouselHotels = orderedHotels
+                (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(orderedCarouselHotels)
             }
         }
     }
 
-    private fun selectMarker(HotelMapMarker: HotelMapMarker, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
+    private fun selectMarker(hotelMapMarker: HotelMapMarker, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
         if (clusterManager == null) {
             return
         }
         clearPreviousMarker()
-        HotelMapMarker.isSelected = true
-        val selectedMarker = hotelMapClusterRenderer.getMarker(HotelMapMarker)
-        if (!HotelMapMarker.hotel.isSoldOut) {
-            selectedMarker?.setIcon(HotelMapMarker.getHotelMarkerIcon())
+        hotelMapMarker.isSelected = true
+        val selectedMarker = hotelMapClusterRenderer.getMarker(hotelMapMarker)
+        if (!hotelMapMarker.hotel.isSoldOut) {
+            selectedMarker?.setIcon(hotelMapMarker.getHotelMarkerIcon())
         }
         selectedMarker?.showInfoWindow()
         if (shouldZoom) {
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(HotelMapMarker.position, googleMap?.cameraPosition?.zoom!!))
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(hotelMapMarker.position,
+                    googleMap?.cameraPosition?.zoom!!))
         }
-        viewModel.selectedMapMarker = HotelMapMarker
-        mapCarouselContainer.visibility = View.VISIBLE
-        //todo fix me
-//        if (animateCarousel && currentState == BaseHotelResultsPresenter.ResultsMap::class.java.name) {
-//            animateMapCarouselIn()
-//        }
+        viewModel.selectedMapMarker = hotelMapMarker
+        showCarousel()
     }
 
     private fun clearPreviousMarker() {
@@ -282,7 +294,7 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
 
     private inner class ClusterClickListener : ClusterManager.OnClusterClickListener<HotelMapMarker> {
         override fun onClusterClick(cluster: Cluster<HotelMapMarker>): Boolean {
-            animateMapCarouselOut()
+            hideCarousel()
             clearPreviousMarker()
             val builder = LatLngBounds.builder()
             cluster.items.forEach { item ->
@@ -296,8 +308,8 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
 
     private fun updateCarouselItems() {
         //todo share some of this with jumpToBounds()
-        val selectedHotels = HotelMapMarkers.filter { it.isSelected }.map { it.hotel }
-        var hotelItems = HotelMapMarkers.filter { !it.isClustered }.map { it.hotel }
+        val selectedHotels = hotelMapMarkers.filter { it.isSelected }.map { it.hotel }
+        var hotelItems = hotelMapMarkers.filter { !it.isClustered }.map { it.hotel }
         if (!selectedHotels.isEmpty()) {
             val hotel = selectedHotels.first()
             val hotelLocation = Location("selected")
@@ -332,12 +344,12 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
 
     private inner class CreateMarkersCallable(private val hotels: List<Hotel>) : Callable<ArrayList<HotelMapMarker>> {
         override fun call(): ArrayList<HotelMapMarker> {
-            var HotelMapMarkers = arrayListOf<HotelMapMarker>()
+            var hotelMapMarkers = arrayListOf<HotelMapMarker>()
             hotels.forEach { hotel ->
-                val HotelMapMarker = HotelMapMarker(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
-                HotelMapMarkers.add(HotelMapMarker)
+                val hotelMapMarker = HotelMapMarker(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
+                hotelMapMarkers.add(hotelMapMarker)
             }
-            return HotelMapMarkers
+            return hotelMapMarkers
         }
     }
 
@@ -350,35 +362,21 @@ class CleanHotelMapView(context: Context, attrs: AttributeSet?) : ConstraintLayo
         return location
     }
 
-    /*
-        TODO KILL ME
-     */
-    protected fun animateMapCarouselIn() {
-//        if (mapCarouselContainer.visibility != View.VISIBLE) {
-//            val carouselAnimation = mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()).setStartDelay(400)
-//            mapCarouselContainer.translationX = screenWidth
-//
-//            var onLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null //need to know carousel height before fab can properly animate.
-//            onLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
-//                fab.animate().translationY(-fabHeightOffset()).setInterpolator(DecelerateInterpolator()).withEndAction {
-//                    carouselAnimation.start()
-//                }.start()
-//                mapCarouselContainer.viewTreeObserver.removeOnGlobalLayoutListener(onLayoutListener)
-//            }
-//
-//            mapCarouselContainer.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
-//            mapCarouselContainer.visibility = View.VISIBLE
-//        }
+    private fun showCarousel() {
+        mapCarouselContainer.visibility = View.VISIBLE
+        googleMap?.setPadding(0, getToolbarHeight(), 0, mapCarouselContainer.height)
+        carouselShownSubject.onNext(mapCarouselContainer.height)
     }
 
-    protected fun animateMapCarouselOut() {
-//        if (mapCarouselContainer.visibility != View.INVISIBLE) {
-//            val carouselAnimation = mapCarouselContainer.animate().translationX(screenWidth).setInterpolator(DecelerateInterpolator())
-//            carouselAnimation.withEndAction {
-//                mapCarouselContainer.visibility = View.INVISIBLE
-//                animateFab(0f)
-//            }
-//            carouselAnimation.start()
-//        }
+    private fun hideCarousel() {
+        mapCarouselContainer.visibility = View.INVISIBLE
+        googleMap?.setPadding(0, getToolbarHeight(), 0, 0)
+        carouselShownSubject.onNext(0)
+    }
+
+    private fun getToolbarHeight(): Int {
+        val tv = TypedValue();
+        context.theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)
+        return TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
     }
 }
