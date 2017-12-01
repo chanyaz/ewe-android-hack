@@ -1,6 +1,6 @@
 Feature: Flights Overview
 
-  @Flights @FlightsOverview
+  @Flights @FlightsOverviewSet1
   Scenario: Verify data consistency through Overview screen for round trip search
     Given I launch the App
     And I launch "Flights" LOB
@@ -38,7 +38,7 @@ Feature: Flights Overview
     And validate total duration on flight Overview is "2h 35m" for isOutbound : false
     And toggle the inbound widget
 
-  @Flights @FlightsOverview
+  @Flights @FlightsOverviewSet1
   Scenario: Verify data consistency for multi-leg flights on Overview screen.
     Given I launch the App
     And I launch "Flights" LOB
@@ -69,28 +69,35 @@ Feature: Flights Overview
     And validate layover of outbound flight is on "(LAX) Los Angeles, USA" for "45m"
     And validate total duration on flight Overview is "4h 35m" for isOutbound : true
 
-  @Flights @FlightsOverview
+  @Flights @FlightsOverviewSet2 @Prod
   Scenario: Verify message on free cancellation and split ticket messaging on Overview screen.
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
-      | destination         | DEL                                      |
+      | destination         | LAS                                      |
       | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 25                                       |
+      | destination_suggest | LAS - McCarran Intl.                     |
+      | start_date          | 55                                       |
+      | end_date            | 60                                       |
       | adults              | 1                                        |
       | child               | 0                                        |
     And I wait for results to load
-    And I select outbound flight at position 2 and reach inbound FSR
-    And I wait for inbound flights results to load
-    And I select inbound flight at position 1 and reach overview
-    And I click on Ok button of Alert dialog
+    And I click on sort and filter icon and isOutBound : true
+    And I select "Nonstop" checkbox and isOutBound : true
+    And I click on sort and filter screen done button
+    And I choose the flight with airline name "United" and isOutBound : true
+    Then Select outbound flight from Overview
+    And I click on sort and filter icon and isOutBound : false
+    And I select "Nonstop" checkbox and isOutBound : false
+    And I click on sort and filter screen done button
+    And I choose the flight with airline name "Virgin America" and isOutBound : false
+    And Close price change Alert dialog if it is visible
+    And Wait for checkout button to display
     Then validate free cancellation message "Free cancellation within 24 hours" is displayed
     And validate split ticket messaging is displayed
 
-  @Flights @FlightsOverview
+  @Flights @FlightsOverviewSet1
   Scenario: Verify price details on cost summary popup on Flights Overview.
     Given I launch the App
     And I launch "Flights" LOB
@@ -142,7 +149,7 @@ Feature: Flights Overview
     And validate Booking Fee text is displayed
     And validate price for "Total Due Today" is displayed
 
-  @Flights @FlightsOverview
+  @Flights @FlightsOverviewSet2
   Scenario: Verify basic economy link on Overview screen is visible
     Given I launch the App
     And I launch "Flights" LOB
@@ -159,9 +166,10 @@ Feature: Flights Overview
     And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
+    And Wait for checkout button to display
     Then basic economy link with text "Please Read Important Flight Restrictions" isDisplayed : true
 
-  @Flights @Prod @EBOnly
+  @Flights @Prod @EBOnlySet1
   Scenario: Intercept Flight Search and Overview API call and validate request parameters for SubPub and Flex
     Given I launch the App
     And I set the POS to "Singapore"
@@ -202,7 +210,7 @@ Feature: Flights Overview
     And Close price change Alert dialog if it is visible
     And I click on checkout button
 
-  @Flights @FlightsOverview
+  @Flights @FlightsOverviewSet2
   Scenario: Verify price details on cost summary popup on Flights Overview for Subpub.
     Given I launch the App
     And I bucket the following tests
@@ -233,7 +241,7 @@ Feature: Flights Overview
     And I click on Done button
 
 
-  @Flights @FlightsOverview
+  @Flights @FlightsOverviewSet2
   Scenario: Verify the price decrease dialog box appears on price change.
     Given I launch the App
     And I put following tests in control
@@ -258,7 +266,7 @@ Feature: Flights Overview
     And Check if Cost Summary Dialog Box has "$696.00" as Final Price
 
 
-  @Flights @FlightsOverview
+  @Flights @FlightsOverviewSet2
   Scenario: Verify the price increase dialog box appears on price change.
     Given I launch the App
     And I put following tests in control
@@ -282,7 +290,7 @@ Feature: Flights Overview
     And Check if Trip total is "$896" on Price Change
     And Check if Cost Summary Dialog Box has "$896.00" as Final Price
 
-    @Flights @FlightsOverview
+    @Flights @FlightsOverviewSet2
     Scenario: Verify the "sold out flights" scenario.
       Given I launch the App
       And I put following tests in control
@@ -320,7 +328,7 @@ Feature: Flights Overview
         | totalTravelers      | 1 traveler                               |
         | flightClass         | Economy                                  |
 
-  @Flights @FlightsOverview
+  @Flights @FlightsOverviewSet2
   Scenario: Verify the "session time out" scenario.
     Given I launch the App
     And I put following tests in control
@@ -358,7 +366,7 @@ Feature: Flights Overview
       | totalTravelers      | 1 traveler                               |
       | flightClass         | Economy                                  |
 
-  @Flights @FlightsOverview
+  @Flights @FlightsOverviewSet1
   Scenario: Verify the "flight unavailable" scenario.
     Given I launch the App
     And I put following tests in control
@@ -396,7 +404,7 @@ Feature: Flights Overview
       | totalTravelers      | 1 traveler                               |
       | flightClass         | Economy                                  |
 
-  @Flights @FlightsOverview
+  @Flights @FlightsOverviewSet1
   Scenario: Verify the "unknown error" scenario.
     Given I launch the App
     And I put following tests in control
@@ -434,5 +442,95 @@ Feature: Flights Overview
       | totalTravelers      | 1 traveler                               |
       | flightClass         | Economy                                  |
 
+  @Flights @FlightsOverviewSet1 @Prod
+  Scenario: Upgrade flight to upper class for round trip
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | LAS                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | LAS - McCarran Intl.                     |
+      | start_date          | 55                                       |
+      | end_date            | 60                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+    And I wait for results to load
+    And I click on sort and filter icon and isOutBound : true
+    And I select "Nonstop" checkbox and isOutBound : true
+    And I click on sort and filter screen done button
+    And I choose the flight with airline name "United" and isOutBound : true
+    Then Select outbound flight from Overview
+    And I click on sort and filter icon and isOutBound : false
+    And I select "Nonstop" checkbox and isOutBound : false
+    And I click on sort and filter screen done button
+    And I choose the flight with airline name "United" and isOutBound : false
+    And Wait for checkout button to display
+    Then Validate that fare family widget card is displayed
+    Then Validate fare family widget card info
+      | title                 | Upgrade your flights         |
+      | subtitle              | (Selected: .*Economy)        |
+      | from_label            | From                         |
+      | delta_price           | (\+\$\d*.\d\d)               |
+    Then I click on fare family widget card
+    Then Validate fare family details header info
+      | title                 | Select your fare             |
+      | location              | SFO - LAS - SFO              |
+      | airline               | United                       |
+    Then I select flight upgrade at position 2
+    And I store the data in "varBundleTotal"
+    Then I click on show more amenities at position 2
+    Then Validate amenities dialog is visible
+    Then I click on Ok button of Alert dialog
+    Then I click on done button for upsell
+    And Wait for checkout button to display
+    Then Validate fare family card title is "(You've selected \w.*)"
+    Then Validate fare family card subtitle is "Change fare class"
+    Then Validate delta price is displayed : false
+    Then Validate from label is displayed : false
+    Then Validate bundle total amount is "varBundleTotal"
 
 
+  @Flights @FlightsOverviewSet2 @Prod
+  Scenario: Upgrade flight to upper class for oneway trip
+    Given I launch the App
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | SFO                                      |
+      | destination         | LAS                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | LAS - McCarran Intl.                     |
+    And I pick departure date for flights
+      | start_date | 55 |
+    Then I can trigger flights search
+    And I wait for results to load
+    And I click on sort and filter icon and isOutBound : true
+    And I select "Nonstop" checkbox and isOutBound : true
+    And I click on sort and filter screen done button
+    And I choose the flight with airline name "United" and isOutBound : true
+    Then Select outbound flight from Overview
+    And Wait for checkout button to display
+    Then Validate that fare family widget card is displayed
+    Then Validate fare family widget card info
+      | title                 | Upgrade your flight          |
+      | subtitle              | (Selected: .*Economy)        |
+      | from_label            | From                         |
+      | delta_price           | (\+\$\d*.\d\d)               |
+    Then I click on fare family widget card
+    Then Validate fare family details header info
+      | title                 | Select your fare             |
+      | location              | SFO - LAS                    |
+      | airline               | United                       |
+    Then I select flight upgrade at position 2
+    And I store the data in "varBundleTotal"
+    Then I click on show more amenities at position 2
+    Then Validate amenities dialog is visible
+    Then I click on Ok button of Alert dialog
+    Then I click on done button for upsell
+    And Wait for checkout button to display
+    Then Validate fare family card title is "(You've selected \w.*)"
+    Then Validate fare family card subtitle is "Change fare class"
+    Then Validate delta price is displayed : false
+    Then Validate from label is displayed : false
+    Then Validate bundle total amount is "varBundleTotal"

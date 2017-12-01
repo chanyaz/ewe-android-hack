@@ -37,7 +37,7 @@ Feature: Flights Search
     And I wait for results to load
     And Validate that flight search results are displayed
 
-  @Flights @Prod @EBOnly
+  @Flights @Prod @EBOnlySet1
   Scenario: Verifying if round trip International search works for Indonesia
 
     Given I launch the App
@@ -53,7 +53,7 @@ Feature: Flights Search
     And I wait for results to load
     And Validate that flight search results are displayed
 
-  @Flights @Prod @EBOnly
+  @Flights @Prod @EBOnlySet2
   Scenario: Verifying if one-way trip International search works for Indonesia
 
     Given I launch the App
@@ -445,9 +445,9 @@ Feature: Flights Search
   Then I can trigger flights search
   And I wait for results to load
   And Validate that flight search results are displayed
-  And I click on sort and filter icon
-  And I select "Nonstop" checkbox
-  And I select "1 Stop" checkbox
+  And I click on sort and filter icon and isOutBound : true
+  And I select "Nonstop" checkbox and isOutBound : true
+  And I select "1 Stop" checkbox and isOutBound : true
   And I click on sort and filter screen done button
   Then Validate <preferredClass> is present on every result on FSR for isOutBound : true
   And I select outbound flight at position 1 and reach inbound FSR
@@ -481,9 +481,9 @@ Feature: Flights Search
     Then I can trigger flights search
     And I wait for results to load
     And Validate that flight search results are displayed
-    And I click on sort and filter icon
-    And I select "Nonstop" checkbox
-    And I select "1 Stop" checkbox
+    And I click on sort and filter icon and isOutBound : true
+    And I select "Nonstop" checkbox and isOutBound : true
+    And I select "1 Stop" checkbox and isOutBound : true
     And I click on sort and filter screen done button
     Then Validate <preferredClass> is present on every result on FSR for isOutBound : true
     And I select outbound flight at position 1 and reach inbound FSR

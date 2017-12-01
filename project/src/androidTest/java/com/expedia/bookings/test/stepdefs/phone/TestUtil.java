@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nullable;
 
@@ -26,6 +27,7 @@ import junit.framework.Assert;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static com.expedia.bookings.test.espresso.ViewActions.getString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestUtil {
@@ -234,5 +236,11 @@ public class TestUtil {
 		catch (NoMatchingViewException e) {
 			return false;
 		}
+	}
+
+	public static String getViewText(ViewInteraction interaction) {
+		final AtomicReference<String> viewText = new AtomicReference<String>();
+		interaction.perform(getString(viewText));
+		return viewText.toString();
 	}
 }

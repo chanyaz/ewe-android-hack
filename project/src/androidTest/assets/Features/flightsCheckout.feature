@@ -210,9 +210,9 @@ Feature: Flights Checkout
       | adults              | 1                                        |
       | child               | 0                                        |
     And I wait for results to load
-    And I click on sort and filter icon
+    And I click on sort and filter icon and isOutBound : true
     And I scroll to Airline Section
-    And I select "AirAsia" checkbox
+    And I select "AirAsia" checkbox and isOutBound : true
     And I click on sort and filter screen done button
     And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load

@@ -59,9 +59,10 @@ public class FilterSteps {
 		onView(withId(R.id.duration_seek_bar)).perform(decreaseProgressByOne());
 	}
 
-	@And("^I select \"(.*?)\" checkbox$")
-	public void selectSortAndFilterCheckbox(String optionText) throws Throwable {
-		onView(allOf(withId(R.id.check_box), hasSibling(withText(optionText))))
+	@And("^I select \"(.*?)\" checkbox and isOutBound : (true|false)$")
+	public void selectSortAndFilterCheckbox(String optionText, boolean outBound) throws Throwable {
+		onView(allOf(withId(R.id.check_box), hasSibling(withText(optionText)), (outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound))
+			: isDescendantOfA(withId(R.id.widget_flight_inbound)))))
 			.perform(scrollTo(), ViewActions.waitForViewToDisplay(), click());
 	}
 

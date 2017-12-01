@@ -16,7 +16,7 @@ Feature: Testing sort and filter button of flight search screen
       | child               | 2                                        |
     And I wait for results to load
     And Validate that flight search results are displayed
-    And I click on sort and filter icon
+    And I click on sort and filter icon and isOutBound : true
     Then Validate that default flight duration is set to maximum
 
   @Flights @FlightFilters
@@ -35,7 +35,7 @@ Feature: Testing sort and filter button of flight search screen
       | child               | 2                                        |
     And I wait for results to load
     And Validate that flight search results are displayed
-    And I click on sort and filter icon
+    And I click on sort and filter icon and isOutBound : true
     And I move the scrubber by an hour
     Then Validate scrubber moves by an hour
 
@@ -55,12 +55,12 @@ Feature: Testing sort and filter button of flight search screen
       | child               | 2                                        |
     And I wait for results to load
     And Validate that flight search results are displayed
-    And I click on sort and filter icon
-    And I select "1 Stop" checkbox
+    And I click on sort and filter icon and isOutBound : true
+    And I select "1 Stop" checkbox and isOutBound : true
     And I click on sort and filter screen done button
     Then Validate that after filter applied the number of result changes
-    And I click on sort and filter icon
-    And I select "Nonstop" checkbox
+    And I click on sort and filter icon and isOutBound : true
+    And I select "Nonstop" checkbox and isOutBound : true
     And I click on sort and filter screen done button
     Then Validate that after filter applied the number of result changes
 
@@ -80,13 +80,13 @@ Feature: Testing sort and filter button of flight search screen
       | child               | 2                                        |
     And I wait for results to load
     And Validate that flight search results are displayed
-    And I click on sort and filter icon
-    And I select "Nonstop" checkbox
+    And I click on sort and filter icon and isOutBound : true
+    And I select "Nonstop" checkbox and isOutBound : true
     And I click on sort and filter screen done button
     Then Validate all results are "Nonstop"
-    And I click on sort and filter icon
-    And I select "Nonstop" checkbox
-    And I select "1 Stop" checkbox
+    And I click on sort and filter icon and isOutBound : true
+    And I select "Nonstop" checkbox and isOutBound : true
+    And I select "1 Stop" checkbox and isOutBound : true
     And I click on sort and filter screen done button
     Then Validate all results are "1 Stop"
 
@@ -106,12 +106,12 @@ Feature: Testing sort and filter button of flight search screen
       | child               | 2                                        |
     And I wait for results to load
     And Validate that flight search results are displayed
-    And I click on sort and filter icon
-    And I select "1 Stop" checkbox
+    And I click on sort and filter icon and isOutBound : true
+    And I select "1 Stop" checkbox and isOutBound : true
     And Validate that the Dynamic Feedback TextView is Visible
     Then Validate Number of Results in Dynamic Feedback TextView changes
-    And I select "Nonstop" checkbox
+    And I select "Nonstop" checkbox and isOutBound : true
     Then Validate Number of Results in Dynamic Feedback TextView changes
-    And I select "1 Stop" checkbox
+    And I select "1 Stop" checkbox and isOutBound : true
     Then Validate Number of Results in Dynamic Feedback TextView changes
 
