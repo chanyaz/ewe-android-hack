@@ -1031,7 +1031,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.air_attach_variant2_string2,
 		R.layout.deals_card,
 		R.layout.member_deal_header,
-		R.layout.member_deal_loading_cell,
+		R.layout.deal_loading_cell,
 		R.dimen.hotel_results_last_price_buffer,
 		R.layout.hotel_cell_name_star_amenity_distance,
 		R.layout.hotel_cell_price_top_amenity,
@@ -1389,6 +1389,7 @@ public class DummyFiletoHandleKotlinLintError {
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt,
 		R.drawable.ic_member_only_tag,
-		R.string.accessibility_cont_desc_user_rating_button
+		R.string.accessibility_cont_desc_user_rating_button,
+		R.layout.last_minute_deal_activity
 	};
 }

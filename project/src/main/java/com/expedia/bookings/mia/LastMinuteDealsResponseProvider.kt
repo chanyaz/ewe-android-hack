@@ -6,7 +6,7 @@ import com.expedia.bookings.services.sos.SmartOfferService
 
 class LastMinuteDealsResponseProvider(private val smartOfferService: SmartOfferService) : DealsResponseProvider() {
     override fun fetchDeals() {
-        if (dealsResponseSubject != null) {
+        if (dealsReturnedResponse != null) {
             dealsResponseSubject.onNext(dealsReturnedResponse)
         }
         else {

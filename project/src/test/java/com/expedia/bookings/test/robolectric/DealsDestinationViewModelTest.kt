@@ -36,7 +36,8 @@ class DealsDestinationViewModelTest {
         hotel.hotelPricingInfo?.crossOutPriceValue = 260.12
     }
 
-    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMemberDealDestinationViewModel() {
         setupSystemUnderTest()
         assertEquals("https://a.travel-assets.com/dynamic_images/800103.jpg", vm.backgroundUrl)
@@ -45,6 +46,42 @@ class DealsDestinationViewModelTest {
         assertEquals("-50%", vm.percentSavingsText)
         assertEquals("$130", vm.priceText.toString())
         assertEquals("$260", vm.strikeOutPriceText.toString())
+    }
+
+    @Test
+    fun getDiscountPercentForContentDesc_calculatesDiscountWhenPercentSavingsIsNull() {
+        setupSystemUnderTest()
+        hotel.hotelPricingInfo?.totalPriceValue = 150.06
+        assertEquals("42%", vm.getDiscountPercentForContentDesc(null))
+    }
+
+    @Test
+    fun getDiscountPercentForContentDesc_returnsEmptyStringWhenCrossOutPriceIsNull() {
+        setupSystemUnderTest()
+        hotel.hotelPricingInfo?.crossOutPriceValue = null
+        hotel.hotelPricingInfo?.totalPriceValue = 150.06
+        assertEquals("", vm.getDiscountPercentForContentDesc(null))
+    }
+
+    @Test
+    fun getDiscountPercentForContentDesc_returnsEmptyStringWhenTotalPriceIsNull() {
+        setupSystemUnderTest()
+        hotel.hotelPricingInfo?.totalPriceValue = null
+        assertEquals("", vm.getDiscountPercentForContentDesc(null))
+    }
+
+    @Test
+    fun getPercentSavingsText_returnsSavingsCalculatedFromCrossOutPriceAndTotalPriceValue_givenPercentSavingsIsNull() {
+        setupSystemUnderTest()
+        hotel.hotelPricingInfo?.totalPriceValue = 150.06
+        assertEquals("-42%", vm.getPercentSavingsText(null))
+    }
+
+    @Test
+    fun getPercentSavingsText_returnsFormattedString() {
+        setupSystemUnderTest()
+        hotel.hotelPricingInfo?.totalPriceValue = 150.06
+        assertEquals("-50%", vm.getPercentSavingsText(hotel.hotelPricingInfo?.percentSavings))
     }
 
     private fun setupSystemUnderTest() {

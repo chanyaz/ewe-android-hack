@@ -22,7 +22,7 @@ import com.expedia.bookings.utils.*
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
-class DealsDestinationViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
+class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     val cityView: TextView by bindView(R.id.deals_city)
     val dateView: TextView by bindView(R.id.deals_date)
     val discountView: TextView by bindView(R.id.deals_discount_percentage)
@@ -44,7 +44,7 @@ class DealsDestinationViewHolder(private val view: View): RecyclerView.ViewHolde
         priceView.text = vm.priceText
         Picasso.with(view.context).load(vm.backgroundUrl).error(vm.backgroundFallback).placeholder(vm.backgroundPlaceHolder).into(target)
         searchParams = setSearchParams(vm)
-        discountPercent = vm.discountPercent
+        discountPercent = vm.getDiscountPercentForContentDesc(vm.leadingHotel.hotelPricingInfo?.percentSavings)
         cardView.contentDescription = getDealsContentDesc()
     }
 
@@ -94,7 +94,7 @@ class DealsDestinationViewHolder(private val view: View): RecyclerView.ViewHolde
             super.onBitmapLoaded(bitmap, from)
             bgImageView.scaleType = ImageView.ScaleType.MATRIX
             bgImageView.setImageBitmap(bitmap)
-            bgImageView.viewTreeObserver.addOnPreDrawListener(object: ViewTreeObserver.OnPreDrawListener{
+            bgImageView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
                 override fun onPreDraw(): Boolean {
                     bgImageView.viewTreeObserver.removeOnPreDrawListener(this)
                     val matrix = bgImageView.imageMatrix

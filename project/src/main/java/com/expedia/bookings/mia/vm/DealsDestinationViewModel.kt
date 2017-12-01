@@ -21,7 +21,7 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
     var backgroundFallback: Int = R.color.gray600
     var backgroundPlaceHolder: Int = R.drawable.results_list_placeholder
 
-    val cityName: String? = leadingHotel.destination?.shortName
+    val cityName: String? = leadingHotel.destination?.shortName ?: leadingHotel.destination?.city
 
     val regionId: String? = leadingHotel.destination?.regionID
 
@@ -42,15 +42,14 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
     }
 
     val discountPercent: String by lazy {
-        getDiscountPercent(leadingHotel.hotelPricingInfo?.percentSavings)
+        getDiscountPercentForContentDesc(leadingHotel.hotelPricingInfo?.percentSavings)
     }
 
     val priceText: CharSequence by lazy {
-        val totalPriceValue  = leadingHotel.hotelPricingInfo?.totalPriceValue
+        val totalPriceValue = leadingHotel.hotelPricingInfo?.totalPriceValue
         if (totalPriceValue != null && totalPriceValue > 0.0) {
             getFormattedPriceText(context.resources, leadingHotel.hotelPricingInfo?.totalPriceValue, false)
-        }
-        else {
+        } else {
             getFormattedPriceText(context.resources, leadingHotel.hotelPricingInfo?.averagePriceValue, false)
         }
     }
@@ -79,7 +78,7 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
                 .format().toString()
     }
 
-    fun getDateInLocalDateFormat(intDate: List<Int>?) : LocalDate {
+    fun getDateInLocalDateFormat(intDate: List<Int>?): LocalDate {
         if (intDate == null) {
             return DateTime.now().toLocalDate()
         }
@@ -89,18 +88,38 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
 
 
     fun getPercentSavingsText(percentSavings: Double?): String {
-        if (percentSavings == null) {
-            return ""
+        val percentDiscount = calculatePercentDiscount(percentSavings)
+        if (!percentDiscount.isEmpty()) {
+            return StringBuilder("-").append(percentDiscount).append("%").toString()
+        } else {
+            return percentDiscount
         }
-
-        return StringBuilder("-").append(percentSavings.toInt()).append("%").toString()
     }
 
-    fun getDiscountPercent(percentSavings: Double?): String {
-        if (percentSavings == null) {
+    fun getDiscountPercentForContentDesc(percentSavings: Double?): String {
+        val percentDiscount = calculatePercentDiscount(percentSavings)
+        if (!percentDiscount.isEmpty()) {
+            return Phrase.from(context, R.string.hotel_discount_percent_Template).put("discount", percentDiscount).format().toString()
+        } else {
             return ""
         }
-        return Phrase.from(context, R.string.hotel_discount_percent_Template).put("discount", percentSavings.toInt().toString()).format().toString()
+    }
+
+    private fun calculatePercentDiscount(percentSavingsValue: Double?): String {
+        val crossOutPriceValue = leadingHotel.hotelPricingInfo?.crossOutPriceValue
+        val totalPriceValue = leadingHotel.hotelPricingInfo?.totalPriceValue
+        if (percentSavingsValue == null) {
+            return calculatePercentDiscount(crossOutPriceValue, totalPriceValue)
+        }
+        return percentSavingsValue.toInt().toString()
+    }
+
+    private fun calculatePercentDiscount(crossOutPriceValue: Double?, totalPriceValue: Double?): String {
+        if (crossOutPriceValue != null && crossOutPriceValue > 0 && totalPriceValue != null) {
+            return ((crossOutPriceValue - totalPriceValue) / crossOutPriceValue * 100).toInt().toString()
+        } else {
+            return ""
+        }
     }
 
     fun getFormattedPriceText(resources: Resources, price: Double?, strikeOut: Boolean): CharSequence {
@@ -108,7 +127,6 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
             return ""
         }
         val money = Money(java.lang.Double.toString(price), currency).getFormattedMoney(Money.F_NO_DECIMAL)
-
         return if (strikeOut) HtmlCompat.fromHtml(resources.getString(R.string.strike_template, money), null, StrikethroughTagHandler()) else money
     }
 }

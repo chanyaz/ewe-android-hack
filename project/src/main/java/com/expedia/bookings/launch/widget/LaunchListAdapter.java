@@ -34,6 +34,7 @@ import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
 import com.expedia.bookings.mia.activity.MemberDealsActivity;
+import com.expedia.bookings.mia.activity.LastMinuteDealActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
@@ -186,6 +187,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				R.string.last_minute_deal_subtitle);
 			vm.setBackgroundUrl(getBigImageResizedUrl(
 				PointOfSale.getPointOfSale().getmLastMinuteDealImageUrl()));
+			view.setOnClickListener(new LastMinuteDealClickListener());
+			vm.setBackgroundUrl(getBigImageResizedUrl(PointOfSale.getPointOfSale().getmLastMinuteDealImageUrl()));
 			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
 			holder.bind(vm);
 			return new BigImageLaunchViewHolder(view);
@@ -324,7 +327,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 		return items;
 	}
-
 
 	public void setListData(List<LaunchDataItem> objects, String headerTitle) {
 		staticCards = makeStaticCards();
@@ -528,6 +530,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Intent intent = new Intent(context, MemberDealsActivity.class);
 			context.startActivity(intent);
 			OmnitureTracking.trackLaunchMemberPricing();
+		}
+	}
+
+	private class LastMinuteDealClickListener implements View.OnClickListener {
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(context, LastMinuteDealActivity.class);
+			context.startActivity(intent);
 		}
 	}
 
