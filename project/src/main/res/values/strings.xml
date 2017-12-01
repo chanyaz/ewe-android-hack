@@ -2159,7 +2159,7 @@
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
-    <string name="traveler_information">Traveler Information</string>
+    <string name="traveler_information">Traveler information</string>
     <!-- First name label -->
     <string name="first_name">First Name</string>
     <!-- Middle name label -->
