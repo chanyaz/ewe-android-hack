@@ -41,7 +41,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_show_flights_checkout_webview);
 		initializeFeatureCheck(R.string.pay_later_credit_card_messaging);
 		initializeFeatureCheck(R.string.preference_enable_hotel_material_forms);
-		initializeFeatureCheck(R.string.preference_enable_mid_checkout);
 
 		//Flight Features
 		initializeFeatureCheck(R.string.preference_flight_rate_detail_from_cache);

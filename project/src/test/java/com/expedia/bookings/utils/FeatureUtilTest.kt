@@ -26,16 +26,4 @@ class FeatureUtilTest {
         AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
         assertFalse(isHotelMaterialForms(context))
     }
-
-    @Test
-    fun testEnableMIDCheckout() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppMIDCheckout, R.string.preference_enable_mid_checkout)
-        assertTrue(isMIDCheckoutEnabled(context))
-    }
-
-    @Test
-    fun testDisableMIDCheckout() {
-        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppMIDCheckout, R.string.preference_enable_mid_checkout)
-        assertFalse(isMIDCheckoutEnabled(context))
-    }
 }

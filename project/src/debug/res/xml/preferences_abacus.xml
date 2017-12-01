@@ -446,14 +446,6 @@
             android:summary="%s"
             android:title="Hotel Material Forms - 16138" />
 
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="14856"
-            android:summary="%s"
-            android:title="Enable MID Checkout - 14856" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -635,7 +627,7 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="14856"
-            android:title="Packages MID API" />
+            android:title="Packages MID API 14856" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"

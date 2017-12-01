@@ -49,7 +49,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppDisplayEligibleCardsOnPaymentForm = new ABTest(15682);
 	public static final ABTest EBAndroidAppHotelMaterialForms = new ABTest(16138);
 	public static final ABTest TripsNewFlightAlerts = new ABTest(16205);
-	public static final ABTest EBAndroidAppMIDCheckout = new ABTest(14856);
 	public static final ABTest EBAndroidLXNotifications = new ABTest(16311);
 
 	// Rail tests
@@ -232,7 +231,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppAccountRecaptcha.getKey());
 		testIDs.add(EBAndroidAppHotelMaterialForms.getKey());
 		testIDs.add(TripsNewFlightAlerts.getKey());
-		testIDs.add(EBAndroidAppMIDCheckout.getKey());
 		testIDs.add(EBAndroidAppPackagesBreadcrumbsForNav.getKey());
 		testIDs.add(EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs.getKey());
 		testIDs.add(EBAndroidAppPackagesMISRealWorldGeo.getKey());

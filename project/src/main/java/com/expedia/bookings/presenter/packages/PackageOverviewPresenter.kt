@@ -30,7 +30,7 @@ import com.expedia.util.safeSubscribeOptional
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
-import com.expedia.bookings.utils.isMIDCheckoutEnabled
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.updateVisibility
@@ -189,7 +189,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             true
         })
 
-        if (isMIDCheckoutEnabled(context)) {
+        if (isMidAPIEnabled(context)) {
             addTransition(overviewToWebCheckoutView)
         } else {
             addTransition(checkoutTransition)
@@ -322,7 +322,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     override fun showCheckout() {
-        if (isMIDCheckoutEnabled(context)) {
+        if (isMidAPIEnabled(context)) {
             show(webCheckoutView)
         } else {
             super.showCheckout()
