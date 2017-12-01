@@ -65,6 +65,11 @@ class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<Rec
         } else if (viewType == itemType.DESTINATION_CARD.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.deals_card, parent, false)
             val holder = DealsDestinationViewHolder(view)
+            view.setOnClickListener { v ->
+                val lastMinuteDealActivity = context as LastMinuteDealActivity
+                val animOptions = AnimUtils.createActivityScaleBundle(lastMinuteDealActivity.currentFocus)
+                HotelNavUtils.goToHotels(this.context, holder.searchParams, animOptions, 0)
+            }
             return holder
         } else {
             throw RuntimeException("Could not find view type")
