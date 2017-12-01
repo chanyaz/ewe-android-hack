@@ -34,6 +34,11 @@
             android:title="Switch between to and from flight locations" />
 
         <CheckBoxPreference
+            android:key="@string/preference_flight_greedy_call"
+            android:summary="Flights greedy call"
+            android:title="Flights greedy call" />
+
+        <CheckBoxPreference
             android:key="@string/preference_flight_rate_detail_from_cache"
             android:summary="Flight rate details from cache"
             android:title="Flight rate details from cache (i.e. remove fullscreen progress)" />

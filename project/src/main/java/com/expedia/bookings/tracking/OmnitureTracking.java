@@ -5179,7 +5179,6 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadFlightSearchV2() {
 		ADMS_Measurement s = getFreshTrackingObject();
-
 		s.setAppState(FLIGHT_SEARCH_V2);
 		s.setEvar(18, FLIGHT_SEARCH_V2);
 		s.setEvar(2, "D=c2");
@@ -5194,6 +5193,9 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_greedy_call)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsGreedySearchCall);
+		}
 		s.track();
 	}
 
@@ -5247,7 +5249,6 @@ public class OmnitureTracking {
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(sContext, AbacusUtils.EBAndroidAppFlightsEvolable)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsEvolable);
 		}
-
 		s.track();
 	}
 

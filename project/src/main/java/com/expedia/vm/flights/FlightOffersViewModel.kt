@@ -1,16 +1,11 @@
 package com.expedia.vm.flights
 
 import android.content.Context
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.RetrofitUtils
-import rx.Observer
+import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import java.util.HashMap
 import java.util.LinkedHashSet
 
@@ -56,7 +51,12 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
             }
             flightMap.put(outboundId, flights)
         }
-        outboundResultsObservable.onNext(outBoundFlights.toList())
+        if (isFlightGreedySearchEnabled(context) && isGreedyCallCompleted) {
+            greedyOutboundResultsObservable.onNext(outBoundFlights.toList())
+            isGreedyCallCompleted = false
+        } else {
+            outboundResultsObservable.onNext(outBoundFlights.toList())
+        }
     }
 
     private fun findInboundFlights(outboundFlightId: String): List<FlightLeg> {

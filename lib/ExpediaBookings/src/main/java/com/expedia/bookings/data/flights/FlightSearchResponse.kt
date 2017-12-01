@@ -9,6 +9,7 @@ class FlightSearchResponse : BaseApiResponse() {
     var hasSubPub = false
     var cachedResultsFound: Boolean? = null
     var bookable: Boolean? = null
+    var searchType = SearchType.NORMAL
 
     fun isResponseCached(): Boolean {
         return cachedResultsFound != null
@@ -21,5 +22,12 @@ class FlightSearchResponse : BaseApiResponse() {
     fun areCachedResultsNonBookable(): Boolean {
         val bookableResults = bookable
         return bookableResults != null && !bookableResults
+    }
+
+    enum class SearchType {
+        NORMAL,
+        CACHED,
+        GREEDY,
+        CACHED_GREEDY
     }
 }

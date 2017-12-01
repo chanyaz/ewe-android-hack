@@ -24,14 +24,7 @@ import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.ProWizardBucketCache
-import com.expedia.bookings.utils.SuggestionV4Utils
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
@@ -96,6 +89,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
+
         if (isFlightAdvanceSearchTestEnabled) {
             flightAdvanceSearchWidget.viewModel.selectAdvancedSearch.subscribe(vm.advanceSearchObserver)
         }
@@ -118,6 +112,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                 vm.toAndFromFlightFieldsSwitched = !(vm.toAndFromFlightFieldsSwitched)
                 vm.swapToFromFieldsObservable.onNext(Unit)
             }
+        }
+        if (isFlightGreedySearchEnabled(context)) {
+            travelerWidgetV2.traveler.getViewModel().isTravelerSelectionChanged.subscribe(vm.abortGreedyCallObservable)
         }
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.getTravelerCount()

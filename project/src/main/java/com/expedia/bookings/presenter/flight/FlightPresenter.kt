@@ -37,12 +37,7 @@ import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.SearchParamsHistoryUtil
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.TravelerManager
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isFlexEnabled
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.vm.FlightCheckoutOverviewViewModel
@@ -59,9 +54,6 @@ import rx.Observable
 import javax.inject.Inject
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.vm.FlightWebCheckoutViewViewModel
-import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Constants
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.setInverseVisibility
@@ -419,6 +411,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 showInboundPresenter(viewModel.searchParamsObservable.value.departureAirport)
             }
         }
+        if (isFlightGreedySearchEnabled(context)) {
+            Observable.zip(searchViewModel.searchParamsObservable, viewModel.errorObservableForGreedyCall,
+                    { _, b ->
+                        b
+                    }).filter { !viewModel.isGreedyCallAborted }.subscribe(viewModel.errorObservable)
+        }
+
         viewModel.errorObservable.subscribe {
             errorPresenter.viewmodel.searchApiErrorObserver.onNext(it)
             show(errorPresenter)
@@ -451,6 +450,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         vm.cachedSearchParamsObservable.subscribe { params ->
             flightOfferViewModel.cachedFlightSearchObservable.onNext(params)
+        }
+        if (isFlightGreedySearchEnabled(context)) {
+            vm.greedySearchParamsObservable.subscribe(flightOfferViewModel.greedyFlightSearchObservable)
+            vm.greedyCachedSearchParamsObservable.subscribe(flightOfferViewModel.greedyCachedFlightSearchObservable)
         }
     }
 
@@ -505,6 +508,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchViewModel.searchTravelerParamsObservable.subscribe { searchParams ->
             searchPresenter.travelerWidgetV2.traveler.getViewModel().travelerParamsObservable
                     .onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
+        }
+        if (isFlightGreedySearchEnabled(context)) {
+            Observable.zip(searchViewModel.searchParamsObservable, flightOfferViewModel.greedyOutboundResultsObservable,
+                    { _, b ->
+                        b
+                    }).filter { !flightOfferViewModel.isGreedyCallAborted }.subscribe(flightOfferViewModel.outboundResultsObservable)
+            searchViewModel.cancelGreedyCallObservable.subscribe { flightOfferViewModel.cancelGreedySearchObservable.onNext(false) }
+            searchViewModel.cancelGreedyCallObservable.subscribe(flightOfferViewModel.cancelGreedyCachedSearchObservable)
         }
     }
 
@@ -597,6 +608,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 FlightsV2Tracking.trackSearchPageLoad()
                 searchPresenter.showDefault()
                 flightCreateTripViewModel.reset()
+                if(isFlightGreedySearchEnabled(context)){
+                    searchViewModel.abortGreedyCallObservable.onNext(true)
+                }
             }
         }
     }
@@ -775,6 +789,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 FlightsV2Tracking.trackSearchPageLoad()
                 flightCreateTripViewModel.reset()
                 outBoundPresenter.resultsPresenter.recyclerView.scrollToPosition(0)
+                if(isFlightGreedySearchEnabled(context)){
+                    searchViewModel.abortGreedyCallObservable.onNext(true)
+                }
             }
         }
     }
