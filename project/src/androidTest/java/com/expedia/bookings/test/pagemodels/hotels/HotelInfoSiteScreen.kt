@@ -153,8 +153,18 @@ object HotelInfoSiteScreen {
     }
 
     @JvmStatic
+    fun getBookButtonAtIndex(index: Int): ViewInteraction {
+        return onView(withIndex(withId(R.id.hotel_book_button), index))
+    }
+
+    @JvmStatic
     fun firstCardView(): ViewInteraction {
         return onView(withIndex(withChild(withChild(withId(R.id.room_type_text_view))), 0))
+    }
+
+    @JvmStatic
+    fun getCardViewAtIndex(index: Int): ViewInteraction {
+        return onView(withIndex(withChild(withChild(withId(R.id.room_type_text_view))), index))
     }
 
     @JvmStatic
@@ -227,6 +237,13 @@ object HotelInfoSiteScreen {
         firstCardView().perform(scrollTo())
         firstCardView().perform(swipeUp())
         firstBookButton().perform(click())
+    }
+
+    @JvmStatic
+    fun bookRoomAtIndex(index: Int) {
+        getCardViewAtIndex(index).perform(scrollTo())
+        getCardViewAtIndex(index).perform(swipeUp())
+        getBookButtonAtIndex(index).perform(click())
     }
 
     @JvmStatic

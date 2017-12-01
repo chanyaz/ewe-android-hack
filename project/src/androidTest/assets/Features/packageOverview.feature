@@ -19,7 +19,7 @@ Feature: Package Overview
       | Total_Travelers |  4 |
     And I select hotel at position 1 on HSR screen
     And I store the hotel name in "varHotelName"
-    And I select first room
+    And I select room at position 2
     And validate outbound FSR screen is displayed with following travel date and travelers
       | travel_date     | 5 |
       | Total_Travelers | 4 |
@@ -94,7 +94,7 @@ Feature: Package Overview
       | child               | 2                              |
     And I select hotel at position 1 on HSR screen
     And I store the hotel name in "varHotelName"
-    And I select first room
+    And I select room at position 2
     And I select outbound flight to destination at position 1
     And I select inbound flight to source at position 1
     And Validate that Package Overview screen is displayed
