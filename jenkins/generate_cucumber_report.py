@@ -154,6 +154,7 @@ def generateStepDataHTML(step_rows_json):
         singleRow = ""
         for row in cell_json:
             singleRow = singleRow + " - " + row
+            singleRow = singleRow.replace(u'\xa0',' ')
         print "{singleRow}".format(singleRow=singleRow)
         stepRowData.append("""\n
                     <br>{singleRow}</b>

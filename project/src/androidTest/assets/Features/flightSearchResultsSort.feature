@@ -15,7 +15,7 @@ Feature: Sorting of Flight results
       | child               | 2                                        |
     And I wait for results to load
     Then flight results are sorted by "price"
-    When I click on sort and filter icon
+    When I click on sort and filter icon and isOutBound : true
     Then "Price" sorting is shown as selected
 
 
@@ -33,7 +33,7 @@ Feature: Sorting of Flight results
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
-    And I click on sort and filter icon
+    And I click on sort and filter icon and isOutBound : true
     And I sort results by "Departure time"
     And save the sort and filter selection
     And I wait for results to load
@@ -54,7 +54,7 @@ Feature: Sorting of Flight results
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
-    And I click on sort and filter icon
+    And I click on sort and filter icon and isOutBound : true
     And I sort results by "Arrival time"
     And save the sort and filter selection
     And I wait for results to load
@@ -75,7 +75,7 @@ Feature: Sorting of Flight results
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
-    And I click on sort and filter icon
+    And I click on sort and filter icon and isOutBound : true
     And I sort results by "Duration"
     And save the sort and filter selection
     And I wait for results to load

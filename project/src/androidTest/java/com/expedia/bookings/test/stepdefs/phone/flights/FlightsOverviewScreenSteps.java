@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.hamcrest.Matchers;
 
@@ -8,7 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
@@ -29,7 +30,25 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.Common.delay;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withIndex;
+import static com.expedia.bookings.test.espresso.ViewActions.getString;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsAmenitiesDialog;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsBundleTotalPrice;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsWidgetAirlinesLabel;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsWidgetDoneBtn;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsWidgetFarelist;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsWidgetLocationLabel;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsWidgetTitle;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidget;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidgetDeltaPrice;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidgetFromLabel;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidgetSubtitle;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidgetTitle;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.flightOverviewBundleTotalPrice;
+import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getViewText;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
@@ -47,7 +66,7 @@ public class FlightsOverviewScreenSteps {
 
 	@And("^Validate that alert Dialog Box with title \"(.*?)\" is visible$")
 	public void validatePriceChangeDialogHeading(String heading) throws Throwable {
-		Common.delay(1);
+		delay(1);
 		onView(withText(heading)).check(matches(isDisplayed()));
 	}
 
@@ -236,6 +255,92 @@ public class FlightsOverviewScreenSteps {
 			withId(R.id.card_view)))
 			.check(matches(hasDescendant(allOf(withId(resId), withText(containsString(parameter))))));
 	}
+	@Then("^Validate that fare family widget card is displayed$")
+	public void validateFareFamilyCard() {
+		fareFamilyWidget().check(matches(isDisplayed()));
+	}
+
+	@Then("^I click on fare family widget card$")
+	public void clickFareFamilyCard() {
+		fareFamilyWidget().perform(click());
+	}
+
+	@Then("^Validate fare family widget card info$")
+	public void validateFareFamilyCardInfo(Map<String, String> params) throws Throwable {
+		final AtomicReference<String> subtitle = new AtomicReference<String>();
+		fareFamilyWidgetTitle().check(matches(isDisplayed())).check(matches(withText(params.get("title"))));
+		fareFamilyWidgetSubtitle().check(matches(isDisplayed()));
+		fareFamilyWidgetSubtitle().perform(getString(subtitle));
+		assert (subtitle.toString().contains(params.get("subtitle")));
+
+		if (params.get("from_label") != null) {
+			fareFamilyWidgetFromLabel().check(matches(isDisplayed())).check(matches(withText(params.get("from_label"))));
+		}
+		if (params.get("delta_price") != null) {
+			getViewText(fareFamilyWidgetDeltaPrice()).contains(params.get("delta_price"));
+		}
+	}
+
+	@Then("^Validate fare family details header info$")
+	public void validateFareFamilyDetailsHeaderInfo(Map<String, String> params) throws Throwable {
+		fareFamilyDetailsWidgetTitle(params.get("title")).check(matches(isDisplayed()));
+		fareFamilyDetailsWidgetLocationLabel().check(matches(withText(params.get("location")))).check(matches(isDisplayed()));
+		fareFamilyDetailsWidgetAirlinesLabel().check(matches(withText(params.get("airline")))).check(matches(isDisplayed()));
+	}
+
+	@Then("^I select flight upgrade at position (\\d+)$")
+	public void selectFlightUpgrade(int position) throws Throwable {
+		int upsellCount = EspressoUtils.getListChildCount(fareFamilyDetailsWidgetFarelist());
+		assert (upsellCount > 1);
+		onView(withIndex(withId(R.id.fare_family_class_header), position - 1)).perform(click());
+	}
+	@Then("^I click on done button for upsell$")
+	public void clickDoneButton() throws Throwable {
+		fareFamilyDetailsWidgetDoneBtn().perform(click());
+	}
+
+	@Then("^I click on show more amenities at position (\\d+)$")
+	public void showMoreAmenitiesAtPosition(int position) throws Throwable {
+		onView(withIndex(withId(R.id.fare_family_show_more_container), position - 1)).perform(click());
+	}
+
+	@Then("^Validate amenities dialog is visible$")
+	public void assertAmenitiesDialogVisibility() throws Throwable {
+		fareFamilyDetailsAmenitiesDialog().perform(waitForViewToDisplay()).check(matches(isDisplayed()));
+	}
+
+	@Then("^I store the data in \"(.*?)\"$")
+	public void storeVariable(String key) throws Throwable {
+		TestUtil.storeDataAtRuntime.put(key, getViewText(fareFamilyDetailsBundleTotalPrice()));
+	}
+
+	@Then("^Validate fare family card title is \"(.*?)\"$")
+	public void validateupsellCardTitle(String title) {
+		fareFamilyWidgetTitle().check(matches(isDisplayed()));
+		getViewText(fareFamilyWidgetTitle()).contains(title);
+	}
+
+	@Then("^Validate fare family card subtitle is \"(.*?)\"$")
+	public void validateupsellCardSubtitle(String subtitle) {
+		fareFamilyWidgetSubtitle().check(matches(isDisplayed()));
+		getViewText(fareFamilyWidgetSubtitle()).contains(subtitle);
+	}
+
+	@Then("^Validate delta price is displayed : (true|false)$")
+	public void validateDeltaPriceIsDisplayed(boolean check) {
+		fareFamilyWidgetDeltaPrice().check(matches( check ? isDisplayed() : not(isDisplayed())));
+	}
+
+	@Then("^Validate from label is displayed : (true|false)$")
+	public void validateroundTripLabelIsDisplayed(boolean check) {
+		fareFamilyWidgetFromLabel().check(matches( check ? isDisplayed() : not(isDisplayed())));
+	}
+
+	@Then("^Validate bundle total amount is \"(.*?)\"$")
+	public void validateBundleTotalAmount(String variable) {
+		flightOverviewBundleTotalPrice().check(matches(isDisplayed())).check(matches(withText(TestUtil.storeDataAtRuntime.get(variable))));
+	}
+
 	private void validateFlightInfo(int resId, String parameter, boolean outBound) throws Throwable {
 		onView(Matchers.allOf(outBound ? isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))
 						: isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),

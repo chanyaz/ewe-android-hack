@@ -1,6 +1,6 @@
 Feature: Package Launch
 
-  @Packages @Prod @EBOnly
+  @Packages @Prod @EBOnlySet1
   Scenario Outline: UI validation if Packages Tab is present and clickable on Launch Screen for POSales
     Given I set the POS to "<point_of_sale>"
     And I launch the App
@@ -29,7 +29,7 @@ Feature: Package Launch
       | New Zealand    |
       | Canada         |
 
-  @Packages @Prod @EBOnly
+  @Packages @Prod @EBOnlySet2
   Scenario Outline: UI validation if Packages Tab is present and clickable on Launch Screen for POSales under Abacus Test
     Given I set the POS to "<point_of_sale>"
     And I bucket the following tests

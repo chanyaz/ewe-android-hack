@@ -302,6 +302,44 @@ public final class ViewActions {
 		};
 	}
 
+	public static ViewAction getAirlineNameAtPosition(final int position, final AtomicReference<String> airlineName) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(RecyclerView.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				RecyclerView recyclerView = (RecyclerView) view;
+
+				@SuppressWarnings("unchecked")
+				RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(position);
+				if (null == viewHolder) {
+					throw new PerformException.Builder().withActionDescription(this.toString())
+						.withViewDescription(HumanReadables.describe(view))
+						.withCause(new IllegalStateException("No view holder at position: " + position))
+						.build();
+				}
+
+				View viewAtPosition = viewHolder.itemView;
+				if (null == viewAtPosition) {
+					throw new PerformException.Builder().withActionDescription(this.toString())
+						.withViewDescription(HumanReadables.describe(viewAtPosition))
+						.withCause(new IllegalStateException("No view at position: " + position)).build();
+				}
+
+				TextView airlineNameView = (TextView) viewAtPosition.findViewById(R.id.airline_text_view);
+				airlineName.set((String) airlineNameView.getText());
+			}
+
+			@Override
+			public String getDescription() {
+				return "Get view at position " + position;
+			}
+		};
+	}
+
 	public static ViewAction getFlightDurationAtPosition(final int pos, final AtomicReference<String> duration) {
 		return new ViewAction() {
 			@Override

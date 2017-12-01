@@ -2,6 +2,9 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.hamcrest.Matchers;
 
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -99,9 +102,10 @@ public class SearchResultsScreenSteps {
 		onView(withId(R.id.menu_search)).perform(click());
 	}
 
-	@And("^I click on sort and filter icon$")
-	public void clickOnSortAndFilterIcon() throws Throwable {
-		onView(withId(R.id.sort_filter_button)).perform(click());
+	@And("^I click on sort and filter icon and isOutBound : (true|false)$")
+	public void clickOnSortAndFilterIcon(boolean outBound) throws Throwable {
+		onView(allOf(withId(R.id.sort_filter_button), (outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound))
+			: isDescendantOfA(withId(R.id.widget_flight_inbound))))).perform(click());
 	}
 
 	private ViewInteraction xSellPackageBanner() {
@@ -153,6 +157,20 @@ public class SearchResultsScreenSteps {
 		assert (checkFlightTimeInFSR(recyclerViewInteraction, "[-?,+?]\\d\\d?[d]"));
 	}
 
+	@And("^I choose the flight with airline name \"(.*?)\" and isOutBound : (true|false)$")
+	public void selectFlightWithAirlineName(String airlineName, boolean outBound)  throws Throwable {
+		ViewInteraction recyclerViewInteraction = onView(Matchers.allOf(withId(R.id.list_view), (outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound))
+			: isDescendantOfA(withId(R.id.widget_flight_inbound)))));
+		int index = getIndexWithName(recyclerViewInteraction, airlineName);
+
+		if (outBound) {
+			selectOutboundFlight(index);
+		}
+		else {
+			selectInboundFlight(index);
+		}
+	}
+
 	public boolean checkFlightTimeInFSR(ViewInteraction recyclerViewInteraction, String stringToMatch) {
 		int items = EspressoUtils.getListCount(recyclerViewInteraction);
 		for (int index = 1; index < items; index++) {
@@ -164,4 +182,24 @@ public class SearchResultsScreenSteps {
 		}
 		return false;
 	}
+
+	public int getIndexWithName(ViewInteraction recyclerViewInteraction, String stringToMatch) {
+		int items = EspressoUtils.getListCount(recyclerViewInteraction);
+		for (int index = 1; index < items; index++) {
+			recyclerViewInteraction.perform(RecyclerViewActions.scrollToPosition(index + 1));
+			String airlineName = getAirlineNameAtPosition(index, recyclerViewInteraction).toString();
+			if (airlineName.contains(stringToMatch)) {
+				return index;
+			}
+		}
+		return -1;
+	}
+
+	public static AtomicReference<String> getAirlineNameAtPosition(int pos, ViewInteraction viewInteraction) {
+		AtomicReference<String> airineName = new AtomicReference<>();
+		viewInteraction
+			.perform(ViewActions.waitForViewToDisplay(), ViewActions.getAirlineNameAtPosition(pos, airineName));
+		return airineName;
+	}
+
 }

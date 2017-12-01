@@ -75,7 +75,7 @@ Feature: Flights Search Results
 
 
 
-  @Flights @CALocale @Prod @EBOnly
+  @Flights @CALocale @Prod @EBOnlySet2
   Scenario: POS and locale combination
     Given I launch the App
     And I set the POS to "Canada"
@@ -195,7 +195,7 @@ Feature: Flights Search Results
     And I wait for results to load
     And Validate that flight search results are displayed
 
-  @Flights  @EBOnly
+  @Flights  @EBOnlySet1
   Scenario: Validate legal compliance messaging FSR for AU POS
     Given I launch the App
     And I set the POS to "Australia"
@@ -253,7 +253,7 @@ Feature: Flights Search Results
     And Validate that flight search results are displayed
     Then basic economy on cell 1 isDisplayed : true
 
-  @Flights @EBOnly
+  @Flights @EBOnlySet2
   Scenario: Validate that XSell Package Banner is displayed for Round Trip, Economy and UK/US POS
     Given I launch the App
     And I bucket the following tests
@@ -282,7 +282,7 @@ Feature: Flights Search Results
     And I press back
     Then Validate that XSell Package Banner is displayed with title "Hotel + Flight" and description "Save when you book your flights and hotels together"
 
-  @Flights  @EBOnly
+  @Flights  @EBOnlySet1
   Scenario: Validate that XSell Package Banner is not displayed for POS other than UK/US POS
     Given I launch the App
     And I set the POS to "Australia"
@@ -302,7 +302,7 @@ Feature: Flights Search Results
     And I wait for results to load
     Then Validate that XSell Package Banner is not displayed
 
-  @Flights @EBOnly
+  @Flights @EBOnlySet2
   Scenario: Validate that XSell Package Banner is not displayed for Cabin Class other than Economy
     Given I launch the App
     And I bucket the following tests
@@ -321,7 +321,7 @@ Feature: Flights Search Results
     And I wait for results to load
     Then Validate that XSell Package Banner is not displayed
 
-  @Flights @EBOnly
+  @Flights @EBOnlySet1
   Scenario: Validate that XSell Package Banner is not displayed for One Way Flights
     Given I launch the App
     And I bucket the following tests
@@ -343,7 +343,7 @@ Feature: Flights Search Results
     And I wait for results to load
     Then Validate that XSell Package Banner is not displayed
 
-  @Flights @Prod @EBOnly
+  @Flights @Prod @EBOnlySet2
   Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters
     Given I launch the App
     And I bucket the following tests
@@ -377,7 +377,7 @@ Feature: Flights Search Results
       | toDate              | 20                                       |
       | originId            | 5392460                                   |
 
-  @Flights @EBOnly
+  @Flights @EBOnlySet1
   Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters with modifying parameters
     Given I launch the App
     And I bucket the following tests
