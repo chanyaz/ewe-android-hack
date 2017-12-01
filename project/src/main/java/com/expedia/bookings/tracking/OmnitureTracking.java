@@ -1994,6 +1994,7 @@ public class OmnitureTracking {
 	private static final String LAUNCH_SIGN_IN = "App.LS.Account.SignIn";
 	private static final String LAUNCH_GUEST_ITIN = "App.LS.Itin.Guest";
 	private static final String LAUNCH_ACTIVE_ITIN = "App.LS.Itin.Active";
+	private static final String LAUNCH_LAST_MINUTE_DEAL = "App.LS.LastMinuteDeals";
 	private static final String LAUNCH_MEMBER_PRICING = "App.LS.MemberDeals";
 	private static final String MEMBER_PRICING_SHOP = "App.MemberDeals.Shop";
 
@@ -2012,6 +2013,12 @@ public class OmnitureTracking {
 
 	public static void trackLaunchMemberPricing() {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_MEMBER_PRICING);
+		addStandardFields(s);
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
+	public static void trackLaunchLastMinuteDeal() {
+		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_LAST_MINUTE_DEAL);
 		addStandardFields(s);
 		s.trackLink(null, "o", "App Landing", null, null);
 	}

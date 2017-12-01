@@ -538,6 +538,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		public void onClick(View v) {
 			Intent intent = new Intent(context, LastMinuteDealActivity.class);
 			context.startActivity(intent);
+			OmnitureTracking.trackLaunchLastMinuteDeal();
 		}
 	}
 
