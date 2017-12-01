@@ -13,6 +13,8 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
+import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -271,6 +273,11 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
     fun checkout(body: Map<String, Any>): Observable<PackageCheckoutResponse> {
         return packageApi.checkout(body)
                 .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+    }
+
+    fun multiItemCreateTrip(body: MultiItemCreateTripParams): Observable<MultiItemApiCreateTripResponse> {
+        return packageApi.multiItemCreateTrip(body.flightPIID, body.hotelID, body.inventoryType, body.ratePlanCode, body.roomTypeCode, body.adults, body.startDate.toString(), body.endDate.toString()).observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
 }

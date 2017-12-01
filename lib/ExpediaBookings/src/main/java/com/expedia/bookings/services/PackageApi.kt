@@ -6,6 +6,7 @@ import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchResponse
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 
 import retrofit2.http.Field
 import retrofit2.http.FieldMap
@@ -77,4 +78,9 @@ interface PackageApi {
             @Query("flightPIID") flightPIID: String? = null,
             @Query("anchorTotalPrice") anchorTotalPrice: BigDecimal? = null,
             @Query("currencyCode") currencyCode: String? = null): Observable<MultiItemApiSearchResponse>
+
+    @GET("/api/multiitem/v1/createTrip")
+    fun multiItemCreateTrip(@Query("flightPIID") flightPIID: String, @Query("hotelId") hotelID: String, @Query("inventoryType") inventoryType: String, @Query("ratePlanCode") ratePlanCode: String, @Query("roomTypeCode") roomTypeCode: String, @Query("adults") adults: Int, @Query("checkInDate") checkInDate: String,
+                            @Query("checkOutDate") checkOutDate: String
+    ): Observable<MultiItemApiCreateTripResponse>
 }

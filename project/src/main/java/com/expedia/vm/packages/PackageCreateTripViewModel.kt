@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
+import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
@@ -19,10 +21,12 @@ import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
 import rx.Observer
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 
 class PackageCreateTripViewModel(var packageServices: PackageServices, val context: Context) : BaseCreateTripViewModel() {
 
     val tripParams = BehaviorSubject.create<PackageCreateTripParams>()
+    val performMultiItemCreateTrip = PublishSubject.create<MultiItemCreateTripParams>()
 
     init {
         tripParams.subscribe { params ->
@@ -35,6 +39,28 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
         performCreateTrip.subscribe {
             showCreateTripDialogObservable.onNext(true)
             packageServices.createTrip(tripParams.value).subscribe(makeCreateTripResponseObserver())
+        }
+
+        performMultiItemCreateTrip.subscribe { params ->
+            showCreateTripDialogObservable.onNext(true)
+            packageServices.multiItemCreateTrip(params).subscribe(makeMultiItemCreateTripResponseObserver())
+        }
+    }
+
+    private fun makeMultiItemCreateTripResponseObserver(): Observer<MultiItemApiCreateTripResponse> {
+        return object : Observer<MultiItemApiCreateTripResponse> {
+            override fun onError(e: Throwable) {
+                //TODO
+            }
+
+            override fun onNext(response: MultiItemApiCreateTripResponse) {
+                //TODO
+                showCreateTripDialogObservable.onNext(false)
+            }
+
+            override fun onCompleted() {
+            }
+
         }
     }
 

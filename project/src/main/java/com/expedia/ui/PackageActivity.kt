@@ -7,6 +7,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackagesPageUsableData
@@ -17,6 +18,7 @@ import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.vm.packages.PackageSearchType
@@ -218,11 +220,18 @@ class PackageActivity : AbstractAppCompatActivity() {
         packagePresenter.bundleLoadingView.visibility = View.GONE
         Db.getPackageParams().pageType = null
         changedOutboundFlight = false
-        val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
-        if (params.isValid) {
-            getCreateTripViewModel().reset()
-            params.flexEnabled = isFlexEnabled()
-            getCreateTripViewModel().tripParams.onNext(params)
+
+        if (isMidAPIEnabled(this)) {
+            val params = MultiItemCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
+            getCreateTripViewModel().performMultiItemCreateTrip.onNext(params)
+
+        } else {
+            val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
+            if (params.isValid) {
+                getCreateTripViewModel().reset()
+                params.flexEnabled = isFlexEnabled()
+                getCreateTripViewModel().tripParams.onNext(params)
+            }
         }
     }
 
