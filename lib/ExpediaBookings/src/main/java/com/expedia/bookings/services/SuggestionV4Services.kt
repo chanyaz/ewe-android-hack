@@ -101,7 +101,8 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                     SuggestionResultType.NEIGHBORHOOD or
                     SuggestionResultType.POINT_OF_INTEREST or
                     SuggestionResultType.AIRPORT_METRO_CODE or
-                    SuggestionResultType.MULTI_REGION
+                    SuggestionResultType.MULTI_REGION or
+                    SuggestionResultType.TRAIN_STATION
         } else {
             suggestType = SuggestionResultType.AIRPORT or
                     SuggestionResultType.CITY or
