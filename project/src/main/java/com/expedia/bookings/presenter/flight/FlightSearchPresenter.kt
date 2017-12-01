@@ -31,6 +31,7 @@ import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
@@ -117,6 +118,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                 vm.toAndFromFlightFieldsSwitched = !(vm.toAndFromFlightFieldsSwitched)
                 vm.swapToFromFieldsObservable.onNext(Unit)
             }
+        }
+        if (isFlightGreedySearchEnabled(context)) {
+            travelerWidgetV2.traveler.getViewModel().isTravelerSelectionChangedObservable.filter { it }.map { it -> Unit }.subscribe(vm.abortGreedyCallObservable)
         }
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.getTravelerCount()
@@ -316,6 +320,12 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         return LineOfBusiness.FLIGHTS
     }
 
+    override fun back(): Boolean {
+        if (InputSelectionState::class.java.name == currentState && isFlightGreedySearchEnabled(context)) {
+            searchViewModel.abortGreedyCallObservable.onNext(Unit)
+        }
+        return super.back()
+    }
     private fun initializeProWizardTabs() {
         oneWayRoundTripTabs.oneWayClickedSubject.subscribe {
             roundTripChanged(roundTrip = false)
@@ -349,6 +359,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     }
 
     private fun roundTripChanged(roundTrip: Boolean) {
+        if (isFlightGreedySearchEnabled(context) && searchViewModel.isGreedyCallStarted) {
+            searchViewModel.abortGreedyCallObservable.onNext(Unit)
+        }
         searchViewModel.isRoundTripSearchObservable.onNext(roundTrip)
         if (roundTrip) {
             announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_roundtrip))

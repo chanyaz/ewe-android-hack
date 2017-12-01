@@ -106,6 +106,81 @@ class FlightServicesTest {
     }
 
     @Test
+    @Throws(Throwable::class)
+    fun testMockGreedySearch() {
+        val root = File("../mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        server.setDispatcher(ExpediaDispatcher(opener))
+        val resultsResponseReceived = PublishSubject.create<Unit>()
+
+        val observer = TestSubscriber<FlightSearchResponse>()
+        val resultsResponseReceivedTestSubscriber = TestSubscriber<Unit>()
+        resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber)
+        val params = FlightSearchParams.Builder(26, 500)
+                .flightCabinClass("COACH")
+                .origin(dummySuggestion)
+                .destination(dummySuggestion)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .adults(1)
+                .build() as FlightSearchParams
+
+        service!!.greedyFlightSearch(params, observer, resultsResponseReceived)
+        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+        observer.assertNoErrors()
+        observer.assertCompleted()
+        observer.assertValueCount(1)
+        resultsResponseReceivedTestSubscriber.assertValueCount(1)
+        val response = observer.onNextEvents[0]
+        Assert.assertEquals(7, response.legs.size.toLong())
+        Assert.assertEquals(5, response.offers.size.toLong())
+        Assert.assertEquals("coach", response.offers[0].offersSeatClassAndBookingCode[0][0].seatClass)
+        Assert.assertEquals("-3.00", response.offers[0].discountAmount.amount.toString())
+        Assert.assertEquals(FlightSearchResponse.FlightSearchType.GREEDY, response.searchType)
+        Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "AA"), response.legs[0].segments[0].airlineLogoURL)
+    }
+
+    @Test
+    @Throws(Throwable::class)
+    fun testMockGreedyCachedSearch() {
+        val root = File("../mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        server.setDispatcher(ExpediaDispatcher(opener))
+        val resultsResponseReceived = PublishSubject.create<Unit>()
+
+        val observer = TestSubscriber<FlightSearchResponse>()
+        val resultsResponseReceivedTestSubscriber = TestSubscriber<Unit>()
+        resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber)
+
+        val origin = dummySuggestion
+        origin.hierarchyInfo!!.airport!!.airportCode = "cached_bookable"
+        val params = FlightSearchParams.Builder(26, 500)
+                .setFeatureOverride(Constants.FEATURE_FLIGHT_CACHE)
+                .flightCabinClass("COACH")
+                .origin(origin)
+                .destination(dummySuggestion)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .adults(1)
+                .build() as FlightSearchParams
+
+        service!!.greedyCachedFlightSearch(params, observer, resultsResponseReceived)
+        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+        observer.assertNoErrors()
+        observer.assertCompleted()
+        observer.assertValueCount(1)
+        resultsResponseReceivedTestSubscriber.assertValueCount(1)
+        val response = observer.onNextEvents[0]
+        Assert.assertEquals(4, response.legs.size.toLong())
+        Assert.assertEquals(2, response.offers.size.toLong())
+        Assert.assertTrue(response.isResponseCached())
+        Assert.assertTrue(response.areCachedResultsBookable())
+        Assert.assertFalse(response.areCachedResultsNonBookable())
+        Assert.assertEquals(FlightSearchResponse.FlightSearchType.CACHED_GREEDY, response.searchType)
+    }
+    @Test
     fun testMockBookableCachedSearch() {
         val root = File("../mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)

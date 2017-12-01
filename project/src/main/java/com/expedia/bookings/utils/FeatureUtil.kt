@@ -84,6 +84,10 @@ fun isPackagesMISRealWorldGeoEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
 }
 
+fun isFlightGreedySearchEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall)
+}
+
 fun isShowSavedCoupons(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppSavedCoupons)
 }

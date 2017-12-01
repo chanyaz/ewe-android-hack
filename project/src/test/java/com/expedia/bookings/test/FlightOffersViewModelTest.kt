@@ -13,10 +13,10 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
-import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
@@ -46,6 +46,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class FlightOffersViewModelTest {
@@ -199,6 +200,46 @@ class FlightOffersViewModelTest {
         cachedCallCompleteTestSubscriber.assertValueCount(2)
         assertEquals("CN", cachedSearchTrackingTestSubscriber.onNextEvents[0])
         cancelSearchTestSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun testNetworkErrorForGreedySearch() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall)
+        val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
+        givenFlightSearchThrowsIOException()
+        sut = FlightOffersViewModel(context, flightServices)
+        sut.greedyFlightSearchObservable.onNext(flightSearchParams)
+        //Error Dialog Box should not appear till search button is clicked
+        assertTrue(sut.isGreedyCallAborted)
+        assertEquals(1, (flightServices as TestFlightServiceSearchThrowsException).searchCount)
+
+        //Error Dialog Box should appear till search button is clicked
+        sut.searchParamsObservable.onNext(flightSearchParams)
+        val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val shadowOfNoInternetDialog = Shadows.shadowOf(noInternetDialog)
+        val retryBtn = noInternetDialog.getButton(DialogInterface.BUTTON_POSITIVE)
+        retryBtn.performClick()
+        retryBtn.performClick()
+
+        assertEquals("", shadowOfNoInternetDialog.title)
+        assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
+        assertEquals(4, (flightServices as TestFlightServiceSearchThrowsException).searchCount) // 2 original, 2 retries
+    }
+
+    @Test
+    fun testNoSearchCallIfGreedyIsNotAborted () {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall)
+        val testSubscriber = TestSubscriber<List<FlightLeg>>()
+        sut = FlightOffersViewModel(context, flightServices)
+        sut.outboundResultsObservable.subscribe(testSubscriber)
+        performFlightSearch(false)
+
+        testSubscriber.assertValueCount(0)
+
+        sut.cancelGreedySearchObservable.onNext(Unit)
+        sut.isGreedyCallAborted = true
+        performFlightSearch(false)
+        testSubscriber.assertValueCount(1)
     }
 
     @Test
@@ -488,6 +529,12 @@ class FlightOffersViewModelTest {
         var searchCount = 0
 
         override fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>?): Subscription {
+            searchCount++
+            observer.onError(IOException())
+            return Mockito.mock(Subscription::class.java)
+        }
+
+        override fun greedyFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>?): Subscription {
             searchCount++
             observer.onError(IOException())
             return Mockito.mock(Subscription::class.java)

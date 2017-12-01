@@ -44,6 +44,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlexEnabled
+import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.vm.FlightCheckoutOverviewViewModel
@@ -413,6 +414,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 showInboundPresenter(viewModel.searchParamsObservable.value.departureAirport)
             }
         }
+        if (isFlightGreedySearchEnabled(context)) {
+            Observable.zip(searchViewModel.searchParamsObservable, viewModel.errorObservableForGreedyCall,
+                    { _, error ->
+                        error
+                    }).filter { !viewModel.isGreedyCallAborted }.subscribe(viewModel.errorObservable)
+        }
+
         viewModel.errorObservable.subscribe {
             errorPresenter.viewmodel.searchApiErrorObserver.onNext(it)
             show(errorPresenter)
@@ -445,6 +453,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         vm.cachedSearchParamsObservable.subscribe { params ->
             flightOfferViewModel.cachedFlightSearchObservable.onNext(params)
+        }
+        if (isFlightGreedySearchEnabled(context)) {
+            vm.greedySearchParamsObservable.subscribe(flightOfferViewModel.greedyFlightSearchObservable)
+            vm.greedyCachedSearchParamsObservable.subscribe(flightOfferViewModel.greedyCachedFlightSearchObservable)
         }
     }
 
@@ -499,6 +511,19 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchViewModel.searchTravelerParamsObservable.subscribe { searchParams ->
             searchPresenter.travelerWidgetV2.traveler.getViewModel().travelerParamsObservable
                     .onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
+        }
+        if (isFlightGreedySearchEnabled(context)) {
+            Observable.zip(searchViewModel.searchParamsObservable, flightOfferViewModel.greedyOutboundResultsObservable,
+                    { _, results ->
+                        results
+                    }).filter { !flightOfferViewModel.isGreedyCallAborted }.subscribe(flightOfferViewModel.outboundResultsObservable)
+            searchViewModel.cancelGreedyCallObservable.subscribe {
+                flightOfferViewModel.cancelGreedySearchObservable.onNext(Unit)
+                flightOfferViewModel.isGreedyCallAborted = true
+                if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
+                    flightOfferViewModel.cancelGreedyCachedSearchObservable.onNext(Unit)
+                }
+            }
         }
     }
 
@@ -589,6 +614,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 FlightsV2Tracking.trackSearchPageLoad()
                 searchPresenter.showDefault()
                 flightCreateTripViewModel.reset()
+                if (isFlightGreedySearchEnabled(context)) {
+                    searchViewModel.abortGreedyCallObservable.onNext(Unit)
+                }
             }
         }
     }
@@ -767,6 +795,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 FlightsV2Tracking.trackSearchPageLoad()
                 flightCreateTripViewModel.reset()
                 outBoundPresenter.resultsPresenter.recyclerView.scrollToPosition(0)
+                if (isFlightGreedySearchEnabled(context)) {
+                    searchViewModel.abortGreedyCallObservable.onNext(Unit)
+                }
             }
         }
     }

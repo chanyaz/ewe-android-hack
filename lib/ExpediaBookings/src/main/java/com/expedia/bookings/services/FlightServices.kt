@@ -7,6 +7,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
+import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
 import com.google.gson.GsonBuilder
@@ -44,30 +45,49 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
     var searchRequestSubscription: Subscription? = null
     var cachedSearchRequestSubscription: Subscription? = null
     var createTripRequestSubscription: Subscription? = null
+    var greedySearchRequestSubscription: Subscription? = null
+    var greedyCachedSearchRequestSubscription: Subscription? = null
     var checkoutRequestSubscription: Subscription? = null
 
     // open so we can use Mockito to mock FlightServices
     open fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
                           resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
         searchRequestSubscription?.unsubscribe()
-        searchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable)
+        searchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable, FlightSearchType.NORMAL)
         return searchRequestSubscription as Subscription
     }
 
     open fun cachedFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
                           resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
         cachedSearchRequestSubscription?.unsubscribe()
-        cachedSearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable)
+        cachedSearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable, FlightSearchType.CACHED)
         return cachedSearchRequestSubscription as Subscription
     }
 
-    private fun doFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
+    open fun greedyFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
+                                resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
+        greedySearchRequestSubscription?.unsubscribe()
+        greedySearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable, FlightSearchType.GREEDY)
+        return greedySearchRequestSubscription as Subscription
+    }
+
+    open fun greedyCachedFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
+                                resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
+        greedyCachedSearchRequestSubscription?.unsubscribe()
+        greedyCachedSearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable, FlightSearchType.CACHED_GREEDY)
+        return greedyCachedSearchRequestSubscription as Subscription
+    }
+
+    private fun doFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>? = null, searchType: FlightSearchType): Subscription {
         val subscription = flightApi.flightSearch(params.toQueryMap(), params.children, params.flightCabinClass, params.legNo,
                 params.selectedOutboundLegId, params.showRefundableFlight, params.nonStopFlight, params.featureOverride)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { resultsResponseReceivedObservable?.onNext(Unit) }
-                .doOnNext { response -> processSearchResponse(response) }
+                .doOnNext { response ->
+                    response.searchType = searchType
+                    processSearchResponse(response)
+                }
                 .subscribe(observer)
         return subscription
     }

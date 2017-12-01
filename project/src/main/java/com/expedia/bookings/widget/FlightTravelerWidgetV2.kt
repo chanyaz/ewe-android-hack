@@ -43,6 +43,7 @@ class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerW
         builder.setView(travelerDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
             oldTravelerData = null
+            traveler.getViewModel().isTravelerSelectionChangedObservable.onNext(traveler.getViewModel().travelerParamsObservable.value.getTravelerCount() != 1)
             dialog.dismiss()
         })
         val dialog: AlertDialog = builder.create()

@@ -5327,6 +5327,7 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsGreedySearchCall);
 		s.track();
 	}
 

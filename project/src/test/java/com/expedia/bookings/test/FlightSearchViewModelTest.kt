@@ -1,5 +1,6 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -8,9 +9,11 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
+import com.expedia.vm.flights.AdvanceSearchFilter
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import okhttp3.logging.HttpLoggingInterceptor
@@ -397,6 +400,78 @@ class FlightSearchViewModelTest {
         assertEquals("LHR", cachedSearchParams.destination!!.hierarchyInfo!!.airport!!.airportCode)
         assertEquals("SFO", cachedSearchParams.origin!!.hierarchyInfo!!.airport!!.airportCode)
         assertTrue(cachedSearchParams.featureOverride!!.contains(Constants.FEATURE_FLIGHT_CACHE))
+    }
+
+    @Test
+    fun testFLightGreedyCallTriggeredForRoundTip() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall)
+        val greedySearchTestSubscriber = TestSubscriber<FlightSearchParams>()
+
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        sut.greedySearchParamsObservable.subscribe(greedySearchTestSubscriber)
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        givenValidStartAndEndDates()
+        sut.dateSetObservable.onNext(Unit)
+
+        greedySearchTestSubscriber.assertValueCount(1)
+        val searchParams = greedySearchTestSubscriber.onNextEvents[0]
+        assertEquals("LHR", searchParams.destination!!.hierarchyInfo!!.airport!!.airportCode)
+        assertEquals("SFO", searchParams.origin!!.hierarchyInfo!!.airport!!.airportCode)
+    }
+
+    @Test
+    fun testFLightGreedyCallTriggeredForOneWay() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall)
+        val greedySearchTestSubscriber = TestSubscriber<FlightSearchParams>()
+
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        givenParamsHaveDates(LocalDate(), null)
+
+
+        sut.greedySearchParamsObservable.subscribe(greedySearchTestSubscriber)
+        greedySearchTestSubscriber.assertValueCount(0)
+        sut.isRoundTripSearchObservable.onNext(false)
+        greedySearchTestSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testFLightGreedyCallAbortOnFromInteraction() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall)
+        val greedySearchTestSubscriber = TestSubscriber<FlightSearchParams>()
+        val cancelGreedyCallTestSubscriber = TestSubscriber<Unit>()
+
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        sut.greedySearchParamsObservable.subscribe(greedySearchTestSubscriber)
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        givenValidStartAndEndDates()
+        sut.dateSetObservable.onNext(Unit)
+        sut.cancelGreedyCallObservable.subscribe(cancelGreedyCallTestSubscriber)
+
+        //Call goes for the first time
+        greedySearchTestSubscriber.assertValueCount(1)
+        cancelGreedyCallTestSubscriber.assertValueCount(0)
+
+        //If User opens cabin class dialog but not changes the selection
+        sut.flightCabinClassObserver.onNext(FlightServiceClassType.CabinCode.COACH)
+        cancelGreedyCallTestSubscriber.assertValueCount(0)
+
+        //If User opens cabin class dialog and changes selection also
+        sut.flightCabinClassObserver.onNext(FlightServiceClassType.CabinCode.PREMIUM_COACH)
+        cancelGreedyCallTestSubscriber.assertValueCount(1)
+
+        //If User opens applies advance search too
+        sut.advanceSearchObserver.onNext(AdvanceSearchFilter.NonStop)
+        cancelGreedyCallTestSubscriber.assertValueCount(2)
     }
 
     private fun givenByotOutboundSearch() {

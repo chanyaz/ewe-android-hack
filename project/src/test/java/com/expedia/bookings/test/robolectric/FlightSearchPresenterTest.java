@@ -28,6 +28,7 @@ import android.widget.ScrollView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.flights.FlightSearchParams;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
@@ -571,6 +572,44 @@ public class FlightSearchPresenterTest {
 	}
 
 	@Test
+	public void testFLightGreedyCallTriggeredForRoundTip() {
+		TestSubscriber<FlightSearchParams> greedyParamsTestSubscriber = new TestSubscriber<>();
+		setUpForFlightGreedySearch();
+		initializeWidget();
+		widget.getSearchViewModel().getGreedySearchParamsObservable().subscribe(greedyParamsTestSubscriber);
+
+		widget.getSearchViewModel().getOriginLocationObserver().onNext(getSuggestion("SFO", "San Francisco"));
+		widget.getSearchViewModel().getDestinationLocationObserver().onNext(getSuggestion("DEL", "Delhi"));
+		LocalDate dateNow = LocalDate.now();
+		widget.getSearchViewModel().datesUpdated(dateNow, dateNow.plusDays(3));
+		widget.getSearchViewModel().getDateSetObservable().onNext(Unit.INSTANCE);
+		greedyParamsTestSubscriber.assertValueCount(1);
+	}
+
+	@Test
+	public void testFlightGreedyCallAbortOnTravelerChange() {
+		TestSubscriber<Unit> cancelGreedyCallTestSubscriber = new TestSubscriber<>();
+		setUpForFlightGreedySearch();
+		initializeWidget();
+		widget.getSearchViewModel().getCancelGreedyCallObservable().subscribe(cancelGreedyCallTestSubscriber);
+
+		//Dont abort greedy call when no traveler is changed
+		TravelerWidgetV2 travelerCard = widget.getTravelerWidgetV2();
+		travelerCard.performClick();
+		View view = travelerCard.getTravelerDialogView();
+		travelerCard.getTravelerDialog().getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+		cancelGreedyCallTestSubscriber.assertValueCount(0);
+
+		//Abort greedy call when traveler is changed
+		travelerCard.performClick();
+		TravelerPickerView travelerPicker = view.findViewById(R.id.traveler_view);
+		travelerPicker.getAdultPlus().performClick();
+		travelerCard.getTravelerDialog().getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+
+		cancelGreedyCallTestSubscriber.assertValueCount(1);
+	}
+
+	@Test
 	public void testCalendarTooltipContentDescriptionForRoundtrip() {
 		TestSubscriber<String> toolTipContDescTestSubscriber = new TestSubscriber<>();
 		initializeWidget();
@@ -627,6 +666,13 @@ public class FlightSearchPresenterTest {
 	private void selectRoundTripTabAtIndex(int index) {
 		TabLayout.Tab tab = widget.getTabs().getTabAt(index);
 		tab.select();
+	}
+
+	private void setUpForFlightGreedySearch() {
+		AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsGreedySearchCall, 1);
+		Ui.getApplication(activity).defaultFlightComponents();
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
 	}
 
 	private void setUpFlightTravelerRevamp(boolean isUserBucketed) {
