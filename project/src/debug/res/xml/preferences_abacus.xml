@@ -158,14 +158,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="13843"
-            android:summary="%s"
-            android:title="Search form validation - 13843" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="14183"
             android:summary="%s"
             android:title="Cross Sell Package on FSR - 14183" />

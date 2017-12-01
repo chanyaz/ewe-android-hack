@@ -154,7 +154,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val performSearchObserver = endlessObserver<Unit> {
         val maxStay = getCalendarRules().getMaxSearchDurationDays()
         getParamsBuilder().maxStay = maxStay
-        if (getParamsBuilder().areRequiredParamsFilled() && !getParamsBuilder().isOriginSameAsDestination()) {
+        if (getParamsBuilder().areRequiredParamsFilled() && !getParamsBuilder().isOriginSameAsDestination() && getParamsBuilder().hasValidDateDuration()) {
             val flightSearchParams = getParamsBuilder().build()
             travelerValidator.updateForNewSearch(flightSearchParams)
             Db.setFlightSearchParams(flightSearchParams)
@@ -169,26 +169,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 cachedSearchParamsObservable.onNext(cachedSearchParams)
             }
         } else {
-            if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)) {
-                stepByStepSearchFormValidation()
-            } else {
                 concurrentSearchFormValidation()
-            }
-        }
-    }
-
-    fun stepByStepSearchFormValidation() {
-        if (!getParamsBuilder().hasOriginLocation()) {
-            errorNoOriginObservable.onNext(Unit)
-        } else if (!getParamsBuilder().hasDestinationLocation()) {
-            errorNoDestinationObservable.onNext(Unit)
-        } else if (!getParamsBuilder().hasValidDates()) {
-            errorNoDatesObservable.onNext(Unit)
-        } else if (getParamsBuilder().isOriginSameAsDestination()) {
-            errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
-        } else if (!getParamsBuilder().hasValidDateDuration()) {
-            errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE,
-                    getCalendarRules().getMaxSearchDurationDays()))
         }
     }
 
@@ -226,7 +207,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
         travelersObservable.onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
 
-        if (flightParamsBuilder.areRequiredParamsFilled()) {
+        if (flightParamsBuilder.areRequiredParamsFilled() && !flightParamsBuilder.isOriginSameAsDestination() && flightParamsBuilder.hasValidDateDuration()) {
             deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.RESULTS)
         } else {
             deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.SEARCH)

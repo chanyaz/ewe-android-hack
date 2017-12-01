@@ -42,7 +42,7 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         }
 
         override fun areRequiredParamsFilled(): Boolean {
-            return hasOriginLocation() && hasDestinationLocation() && hasValidDateDuration() && hasValidDates()
+            return hasOriginLocation() && hasDestinationLocation() && hasValidDates()
         }
 
         override fun hasValidDateDuration(): Boolean {
