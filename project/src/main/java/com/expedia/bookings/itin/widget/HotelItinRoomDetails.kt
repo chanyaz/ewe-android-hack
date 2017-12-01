@@ -223,7 +223,7 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
             changeCancelRulesContainer.setOnClickListener {
                 val fragmentManager = (context as FragmentActivity).supportFragmentManager
                 val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_cancel_rules_label),
-                        TextUtils.join("\n", itinCardDataHotel.changeAndCancelRules).toString())
+                        TextUtils.join("<br>", itinCardDataHotel.changeAndCancelRules).toString())
                 dialog.show(fragmentManager, DIALOG_TAG)
                 OmnitureTracking.trackHotelItinChangeAndCancelRulesDialogClick()
             }

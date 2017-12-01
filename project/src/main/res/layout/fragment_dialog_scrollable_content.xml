@@ -11,6 +11,7 @@
         android:textAlignment="textStart"
         android:textColor="@color/gray600"
         android:textSize="14sp"
+        android:textColorLink="@color/app_primary"
         android:textStyle="normal" />
 
 </ScrollView>

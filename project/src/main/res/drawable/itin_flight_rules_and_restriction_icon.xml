@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:viewportWidth="14"
+    android:viewportHeight="14"
+    android:width="14dp"
+    android:height="14dp">
+    <group
+        android:translateX="1"
+        android:translateY="1">
+        <path
+            android:pathData="M6.5117187 3.90625l-0.828125 0 0 -0.7617187 0.828125 0 0 0.7617187zM6.4648437 9l-0.734375 0 0 -4.3632813 0.734375 0 0 4.3632813z"
+            android:fillColor="@color/itin_flight_leg_detail_widget_rules_restriction_color" />
+        <path
+            android:pathData="M12 6A6 6 0 0 1 6 12 6 6 0 0 1 0 6 6 6 0 0 1 6 0 6 6 0 0 1 12 6Z"
+            android:strokeWidth="1"
+            android:strokeColor="@color/itin_flight_leg_detail_widget_rules_restriction_color" />
+    </group>
+</vector>

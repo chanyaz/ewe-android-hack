@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Rule
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
@@ -130,6 +131,7 @@ class FlightItinManageBookingViewModelTest {
         assertEquals(expectedValues, values)
     }
 
+    @Test
     fun testCreateFlightLegDetailWidgetData() {
         val flightLegDetailWidgetSubject = TestSubscriber<ArrayList<FlightItinLegsDetailData>>()
         sut.flightLegDetailWidgetLegDataSubject.subscribe(flightLegDetailWidgetSubject)
@@ -159,6 +161,36 @@ class FlightItinManageBookingViewModelTest {
         flightLegDetailWidgetSubject.assertValue(list)
     }
 
+    @Test
+    fun testRulesAndRegualationText(){
+        val flightLegDetailRulesAndRegulationSubject = TestSubscriber<String>()
+        sut.flightLegDetailRulesAndRegulationSubject.subscribe(flightLegDetailRulesAndRegulationSubject)
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val flightTrip = (testItinCardData.tripComponent as TripFlight).flightTrip
+
+        val cancelChange = "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you."
+        val refundability = "Tickets are nonrefundable, nontransferable and name changes are not allowed."
+        val penaltyRules = "Please read the <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Fare-Rules?tripid=028c321c-fbb7-4a83-95ae-e6a7d9924474\">complete penalty rules for changes and cancellations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> applicable to this fare."
+        val liabilityRules = "Please read important information regarding href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/p/info-main/warsaw?\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+        flightTrip.addRule(getRule("cancelChangeIntroductionText",cancelChange,""))
+        flightTrip.addRule(getRule("refundabilityText",refundability,""))
+        flightTrip.addRule(getRule("completePenaltyRules","",penaltyRules))
+        flightTrip.addRule(getRule("airlineLiabilityLimitations","",liabilityRules))
+
+        val penaltyRulesAssert = "Please read the <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Fare-Rules?tripid=028c321c-fbb7-4a83-95ae-e6a7d9924474\">complete penalty rules for changes and cancellations</a> applicable to this fare."
+        val liabilityRulesAssert = "Please read important information regarding href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/p/info-main/warsaw?\">airline liability limitations</a>."
+
+
+        val assertValue = cancelChange+"<br><br>"+"<b>"+refundability+"</b>"+"<br><br>"+penaltyRulesAssert+"<br><br>"+liabilityRulesAssert
+
+        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
+        sut.itineraryManager = mockItinManager
+        sut.setUp()
+
+        flightLegDetailRulesAndRegulationSubject.assertValue(assertValue)
+    }
+
     class TestWayPoint(val city: String) : Waypoint(ACTION_UNKNOWN) {
         override fun getAirport(): Airport? {
             val airport = Airport()
@@ -169,6 +201,14 @@ class FlightItinManageBookingViewModelTest {
                 return airport
             }
         }
+    }
+
+    private fun getRule(key:String, text: String, textAndURL :String): Rule {
+        val rule = Rule()
+        rule.name = key
+        rule.text = text
+        rule.textAndURL = textAndURL
+        return rule
     }
 
 }

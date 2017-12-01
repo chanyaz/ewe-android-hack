@@ -10,9 +10,18 @@ public class Rule implements JSONable {
 	private String mName;
 	private String mText;
 	private String mUrl;
+	private String mTextAndURL;
 
 	public Rule() {
 		// Default constructor for JSONable
+	}
+
+	public String getTextAndURL() {
+		return mTextAndURL;
+	}
+
+	public void setTextAndURL(String mTextAndURL) {
+		this.mTextAndURL = mTextAndURL;
 	}
 
 	public String getName() {
@@ -46,6 +55,7 @@ public class Rule implements JSONable {
 			obj.putOpt("name", mName);
 			obj.putOpt("text", mText);
 			obj.putOpt("url", mUrl);
+			obj.putOpt("textAndURL", mTextAndURL);
 		}
 		catch (JSONException e) {
 			e.printStackTrace();
@@ -64,6 +74,7 @@ public class Rule implements JSONable {
 			obj.putOpt("name", mName);
 			obj.putOpt("text", mText);
 			obj.putOpt("url", mUrl);
+			obj.putOpt("textAndURL", mTextAndURL);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -76,6 +87,7 @@ public class Rule implements JSONable {
 		mName = obj.optString("name", null);
 		mText = obj.optString("text", null);
 		mUrl = obj.optString("url", null);
+		mTextAndURL = obj.optString("textAndURL",null);
 		return true;
 	}
 

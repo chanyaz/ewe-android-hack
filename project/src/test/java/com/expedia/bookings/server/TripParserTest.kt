@@ -411,6 +411,42 @@ class TripParserTest {
         val tripParser = TripParser()
     }
 
+    @Test
+    fun testFlightRules() {
+        val tripParser = TripParser()
+        val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trip_details.json"))).readUtf8()
+        val jsonObject = JSONObject(data)
+        val responseData = jsonObject.optJSONObject("responseData")
+        val flight = responseData.getJSONArray("flights").getJSONObject(0)
+        val trip = tripParser.parseTripFlight(flight).flightTrip
+        val cancellationFeeLegalRule = trip.getRule("cancellationFeeLegalText")
+        val cancelChangeIntroductionRule = trip.getRule("cancelChangeIntroductionText")
+        val feeChangeRefundIntroductionRule = trip.getRule("feeChangeRefundIntroductionText")
+        val refundabilityRule = trip.getRule("refundabilityText")
+        val completePenaltyRules = trip.getRule("completePenaltyRules")
+        val additionalAirlineFeesRule = trip.getRule("additionalAirlineFees")
+        val airlineLiabilityLimitationsRule = trip.getRule("airlineLiabilityLimitations")
+
+        val cancellationFeeLegalTextAssert = "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call."
+        val cancelChangeIntroductionTextAssert = "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you."
+        val feeChangeRefundIntroductionTextAssert = "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you."
+        val refundabilityTextAssert = "Tickets are nonrefundable, nontransferable and name changes are not allowed."
+        val completePenaltyRulesTextAndUrlAssert = "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://www.expedia.com/Fare-Rules?tripid=53a6459c-822c-4425-9e14-3eea43f38a97\" class=\"tooltip\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations <span class=\"visually-hidden\" style=\"display:none;\">(Opens a new window) </span> </a> applicable to this fare."
+        val additionalAirlineFeesTextAndUrlAssert = "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=GAA4AKEN&bookingclass=G&travelDate=2017-09-05&flightNumber=681\" class=\"tooltip\" target=\"rulesAndRestrictions\">additional fees <span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span> </a> for checked baggage or other optional services."
+        val airlineLiabilityLimitationsTextAndUrlAssert = "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/p/info-main/warsaw?\" class=\"tooltip\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span></a>."
+        val airlineLiabilityLimitationsTextAssert = "Please read important information regarding airline liability limitations."
+        val airlineLiabilityLimitationsUrlAssert = "https://www.expedia.com/p/info-main/warsaw?"
+        assertEquals(cancellationFeeLegalRule.text,cancellationFeeLegalTextAssert)
+        assertEquals(cancelChangeIntroductionRule.text,cancelChangeIntroductionTextAssert)
+        assertEquals(feeChangeRefundIntroductionRule.text,feeChangeRefundIntroductionTextAssert)
+        assertEquals(refundabilityRule.text,refundabilityTextAssert)
+        assertEquals(completePenaltyRules.textAndURL,completePenaltyRulesTextAndUrlAssert)
+        assertEquals(additionalAirlineFeesRule.textAndURL,additionalAirlineFeesTextAndUrlAssert)
+        assertEquals(airlineLiabilityLimitationsRule.text,airlineLiabilityLimitationsTextAssert)
+        assertEquals(airlineLiabilityLimitationsRule.textAndURL,airlineLiabilityLimitationsTextAndUrlAssert)
+        assertEquals(airlineLiabilityLimitationsRule.url,airlineLiabilityLimitationsUrlAssert)
+    }
+
     private fun getHotelNoRoomsJSON(): JSONObject {
         val hotelTripJson = getHotelTripJson()
         val hotel = hotelTripJson.getJSONArray("hotels").getJSONObject(0)

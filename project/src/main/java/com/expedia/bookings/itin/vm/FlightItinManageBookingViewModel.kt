@@ -8,10 +8,16 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.itin.data.FlightItinLegsDetailData
+import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
 class FlightItinManageBookingViewModel(val context: Context, private val itinId: String) {
+
+    private val REFUNDABILITY_TEXT = "refundabilityText"
+    private val CANCEL_CHANGE_INTRODUCTION_TEXT = "cancelChangeIntroductionText"
+    private val COMPLETE_PENALTY_RULES = "completePenaltyRules"
+    private val AIRLINE_LIABILITY_LIMITATIONS = "airlineLiabilityLimitations"
 
     lateinit var itinCardDataFlight: ItinCardDataFlight
     var itineraryManager: ItineraryManager = ItineraryManager.getInstance()
@@ -21,12 +27,14 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
     val updateToolbarSubject = PublishSubject.create<ItinToolbarViewModel.ToolbarParams>()
     val customerSupportDetailsSubject = PublishSubject.create<ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams>()
     val flightLegDetailWidgetLegDataSubject = PublishSubject.create<ArrayList<FlightItinLegsDetailData>>()
+    val flightLegDetailRulesAndRegulationSubject = PublishSubject.create<String>()
 
     fun setUp() {
         updateItinCardDataFlight()
         updateToolbar()
         updateCustomerSupportDetails()
         createFlightLegDetailWidgetData()
+        rulesAndRestrictionText()
     }
 
     fun updateItinCardDataFlight() {
@@ -76,5 +84,54 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
             list.add(flightItinLegsDetailData)
         }
         flightLegDetailWidgetLegDataSubject.onNext(list)
+    }
+
+    private fun rulesAndRestrictionText() {
+        val stringBuilder = StringBuilder()
+        val flightTrip = (itinCardDataFlight.tripComponent as TripFlight).flightTrip
+        val cancelChangeIntroductionText:String? = flightTrip.getRule(CANCEL_CHANGE_INTRODUCTION_TEXT)?.text
+        appendStringWithBreak(stringBuilder, cancelChangeIntroductionText)
+        val refundabilityText:String?  = flightTrip.getRule(REFUNDABILITY_TEXT)?.text
+        appendBoldStringWithBreak(stringBuilder, refundabilityText)
+        val completePenaltyRulesText:String?  = flightTrip.getRule(COMPLETE_PENALTY_RULES)?.textAndURL
+        appendStringWithBreak(stringBuilder, completePenaltyRulesText)
+        val airlineLiabilityLimitationsText:String?  = flightTrip.getRule(AIRLINE_LIABILITY_LIMITATIONS)?.textAndURL
+        if (Strings.isNotEmpty(airlineLiabilityLimitationsText)) {
+            stringBuilder.append(airlineLiabilityLimitationsText)
+        }
+        flightLegDetailRulesAndRegulationSubject.onNext(removeSpanTag(stringBuilder))
+    }
+
+    private fun appendStringWithBreak(builder: StringBuilder, text: String?) {
+        if (Strings.isNotEmpty(text)) {
+            builder.append(text)
+            builder.append("<br><br>")
+        }
+    }
+
+    private fun appendBoldStringWithBreak(builder: StringBuilder, text: String?) {
+        if (Strings.isNotEmpty(text)) {
+            builder.append("<b>")
+            builder.append(text)
+            builder.append("</b>")
+            builder.append("<br><br>")
+        }
+    }
+
+    private fun removeSpanTag(htmlString: StringBuilder): String {
+        val stringBuilder = StringBuilder()
+        if (htmlString.contains("<span") && htmlString.contains("</span>")) {
+            val arr = htmlString.split("<")
+            for (value: String in arr) {
+                if (!value.contains("span")) {
+                    if (value.contains(">")) {
+                        stringBuilder.append("<")
+                    }
+                    stringBuilder.append(value)
+                }
+            }
+            return stringBuilder.toString()
+        }
+        return htmlString.toString()
     }
 }

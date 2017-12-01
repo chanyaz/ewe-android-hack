@@ -2203,6 +2203,7 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_PRICING_REWARDS = "App.Itinerary.Hotel.PricingRewards";
 	private static final String ITIN_HOTEL_CHECK_IN_POLICIES = "App.Itinerary.Hotel.Info.Check-in";
 	private static final String ITIN_HOTEL_CHANGE_CANCEL_RULES = "App.Itinerary.Hotel.Manage.Info.Change-Cancel";
+	private static final String ITIN_FLIGHT_LEG_DETAIL_WIDGET_RULES_RESTRICTION = "App.Itinerary.Flight.Manage.AirlineRules";
 	private static final String ITIN_HOTEL_CALL_HOTEL = "App.Itinerary.Hotel.Manage.Call.Hotel";
 	private static final String ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia";
 	private static final String ITIN_HOTEL_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Hotel.Manage.CSP";
@@ -2438,6 +2439,10 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
+	public static void trackFlightItinLegDetailWidgetRulesAndRestrictionsDialogClick() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_LEG_DETAIL_WIDGET_RULES_RESTRICTION);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
 	private static HashMap<String, String> deepLinkArgs = new HashMap<>();
 
 	/* This is a separate method because other classes also use it */

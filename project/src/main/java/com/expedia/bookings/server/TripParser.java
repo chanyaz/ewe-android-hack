@@ -23,6 +23,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.cars.CarCategory;
@@ -472,6 +473,8 @@ public class TripParser {
 
 		FlightTrip flightTrip = new FlightTrip();
 		flight.setFlightTrip(flightTrip);
+
+		parseRulesObject(obj,flightTrip);
 
 		// Parse fares
 		JSONObject fareTotalJson = obj.optJSONObject("fareTotal");
@@ -1007,5 +1010,34 @@ public class TripParser {
 			return flightLegTime;
 		}
 		return null;
+	}
+
+	private Rule getRule(JSONObject rulesObj, String key) {
+		Rule rule = new Rule();
+		rule.setName(key);
+		JSONObject object = rulesObj.optJSONObject(key);
+		if (object == null) {
+			rule.setText(rulesObj.optString(key));
+		}
+		else {
+			rule.setText(object.optString("text"));
+			rule.setUrl(object.optString("url"));
+			rule.setTextAndURL(object.optString("textAndURL"));
+		}
+		return rule;
+	}
+
+	private void parseRulesObject(JSONObject obj, FlightTrip flightTrip) {
+		JSONObject rulesObj = obj.optJSONObject("rules");
+		if (rulesObj != null) {
+			flightTrip.addRule(getRule(rulesObj, "cancellationFeeLegalText"));
+			flightTrip.addRule(getRule(rulesObj, "cancelChangeIntroductionText"));
+			flightTrip.addRule(getRule(rulesObj, "feeChangeRefundIntroductionText"));
+			flightTrip.addRule(getRule(rulesObj, "refundabilityText"));
+			flightTrip.addRule(getRule(rulesObj, "refundableStatus"));
+			flightTrip.addRule(getRule(rulesObj, "completePenaltyRules"));
+			flightTrip.addRule(getRule(rulesObj, "additionalAirlineFees"));
+			flightTrip.addRule(getRule(rulesObj, "airlineLiabilityLimitations"));
+		}
 	}
 }

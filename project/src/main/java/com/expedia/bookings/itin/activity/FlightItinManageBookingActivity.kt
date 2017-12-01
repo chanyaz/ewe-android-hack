@@ -41,6 +41,7 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
         setContentView(R.layout.manage_booking_flight_itin)
         viewModel = FlightItinManageBookingViewModel(this, intent.getStringExtra(FlightItinManageBookingActivity.ITIN_ID))
         toolbarViewModel = FlightItinToolbarViewModel()
+        legsDetailWidget.viewModel = FlightItinLegsDetailWidgetViewModel()
         itinToolbar.viewModel = toolbarViewModel
     }
 
@@ -65,8 +66,10 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
             customerSupportDetails.viewModel.updateWidget(params)
         }
         vm.flightLegDetailWidgetLegDataSubject.subscribe { params ->
-            legsDetailWidget.viewModel = FlightItinLegsDetailWidgetViewModel()
             legsDetailWidget.viewModel.updateWidgetRecyclerViewSubjet.onNext(params)
+        }
+        vm.flightLegDetailRulesAndRegulationSubject.subscribe { param ->
+            legsDetailWidget.viewModel.rulesAndRestrictionDialogTextSubject.onNext(param)
         }
     }
 
