@@ -13,7 +13,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.itin.services.TNSServices
 import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.server.ExpediaServices
 import com.expedia.bookings.services.PersistentCookieManager

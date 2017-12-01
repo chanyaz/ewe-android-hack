@@ -65,6 +65,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.PriorityBlockingQueue;
+
 import rx.functions.Action1;
 
 /**
@@ -1909,9 +1910,6 @@ public class ItineraryManager implements JSONable {
 			}
 			else {
 
-                  /*
-                    Un register with older system
-                 */
 				JSONObject payload = PushNotificationUtils
 					.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
 						new ArrayList<Flight>(), new ArrayList<Flight>());
@@ -1923,13 +1921,8 @@ public class ItineraryManager implements JSONable {
 				Log.d(LOGGING_TAG,
 					"registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
 
-                /*
-                Register the device with the new system
-
-                 */
+				//Register the device with the new system
 				tnsServices.registerForFlights(getFlightsForNewSystem(), null);
-
-
 			}
 
 		}
