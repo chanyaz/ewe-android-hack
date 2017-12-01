@@ -75,6 +75,7 @@ import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
 import rx.Subscription
 import javax.inject.Inject
 
@@ -453,7 +454,15 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     @Synchronized private fun gotoActivitiesCrossSell() {
         var data = ItineraryManager.getInstance().getItinCardDataFromItinId(jumpToActivityCross) as ItinCardDataHotel
         jumpToActivityCross = null
-        LXNavUtils.goToActivities(this, null, LXDataUtils.fromHotelParams(this, data.startDate.toLocalDate(), data.endDate.toLocalDate(), data.propertyLocation),
+        var startDate = data.startDate.toLocalDate()
+        var endDate = data.endDate.toLocalDate()
+        if (startDate.isBefore(LocalDate.now())) {
+            startDate = LocalDate.now()
+        }
+        if (endDate.isBefore(LocalDate.now())) {
+            endDate = LocalDate.now().plusDays(14)
+        }
+        LXNavUtils.goToActivities(this, null, LXDataUtils.fromHotelParams(this, startDate, endDate, data.propertyLocation),
                 NavUtils.FLAG_OPEN_RESULTS)
     }
 
