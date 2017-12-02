@@ -1,5 +1,6 @@
 package com.expedia.bookings.launch.activity
 
+import android.app.Activity
 import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
@@ -7,6 +8,8 @@ import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.user.RestrictedProfileSource
+import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.test.CustomMatchers
 import com.expedia.bookings.test.MultiBrand
@@ -16,6 +19,10 @@ import com.expedia.bookings.test.OmnitureMatchers.Companion.withAbacusTestContro
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.mobiata.android.util.SettingUtils
@@ -24,9 +31,12 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class PhoneLaunchActivityTest {
 
     @Test
@@ -129,6 +139,34 @@ class PhoneLaunchActivityTest {
         OmnitureTracking.trackPageLoadLaunchScreen(0)
 
         assertStateTracked(withAbacusTestControl(15846), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testRefreshUserInfoCalledWhenAccountTabSelected() {
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+
+        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().postCreate(null).resume().get()
+        val settingsFragment = TestAccountSettingsFragment()
+
+        activity.onAccountFragmentAttached(settingsFragment)
+        activity.toolbar.tabLayout.getTabAt(PhoneLaunchActivity.PAGER_POS_ACCOUNT)?.select()
+
+        assertTrue(settingsFragment.didCallRefreshUserInfo)
+
+        activity.finish()
+    }
+
+    class TestAccountSettingsFragment: AccountSettingsFragment() {
+        var didCallRefreshUserInfo = false
+            private set
+
+        override fun refreshUserInfo() {
+            didCallRefreshUserInfo = true
+        }
+    }
+
+    private class TestRestrictedProfileSource: RestrictedProfileSource(Activity()) {
+        override fun isRestrictedProfile(): Boolean = true
     }
 
     private fun assertLinkTrackedWhenNotificationClicked(linkName: String, rfrrId: String, event: String, mockAnalyticsProvider: AnalyticsProvider) {

@@ -35,11 +35,13 @@ import com.expedia.bookings.dagger.RailComponent;
 import com.expedia.bookings.dagger.TravelerComponent;
 import com.expedia.bookings.dagger.TripComponent;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.country.CountryConfig;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleConfigHelper;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.itin.services.FlightRegistrationHandler;
@@ -61,6 +63,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.ShortcutUtils;
 import com.expedia.bookings.utils.TuneUtils;
+import com.expedia.bookings.utils.UserAccountRefresher;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -321,6 +324,11 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			appComponent().userLoginStateChangedModel().getUserLoginStateChanged()
 				.subscribe(flightRegistrationHandler.getUserLoginStateChanged());
 		}
+
+		UserAccountRefresher refresher = new UserAccountRefresher(getApplicationContext(), LineOfBusiness.NONE, null);
+		UserStateManager userStateManager = appComponent().userStateManager();
+
+		loginUserIfApplicable(refresher, userStateManager);
 	}
 
 	private void initializeFeatureConfig() {
@@ -590,6 +598,12 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		if (!gcmId.isEmpty()) {
 			Crashlytics.setString("gcm token", gcmId);
+		}
+	}
+
+	public void loginUserIfApplicable(UserAccountRefresher refresher, UserStateManager userStateManager) {
+		if (userStateManager.getUserSource().getUser() != null) {
+			refresher.forceAccountRefresh();
 		}
 	}
 }

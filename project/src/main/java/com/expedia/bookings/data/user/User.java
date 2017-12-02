@@ -124,6 +124,25 @@ public class User implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable interface
 
+	public JSONObject toPersistentStorageJson() {
+		JSONObject obj = new JSONObject();
+
+		try {
+			obj.put("version", VERSION);
+
+			if (mPrimaryTraveler != null) {
+				JSONUtils.putJSONable(obj, "primaryTraveler", new Traveler());
+			}
+
+			JSONUtils.putJSONable(obj, "loyaltyMembershipInformation", loyaltyMembershipInformation);
+			return obj;
+		}
+		catch (JSONException e) {
+			Log.e("Could not convert User to JSON", e);
+			return null;
+		}
+	}
+
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();

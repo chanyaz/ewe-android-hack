@@ -88,7 +88,7 @@ open class UserSource(val context: Context,
     open fun saveUser() {
         Log.d("Saving user.")
 
-        val data = user?.toJson()?.toString()
+        val data = user?.toPersistentStorageJson()?.toString()
 
         if (data == null) {
             userFileHandle.delete()
