@@ -10,7 +10,7 @@ class FlightPresenterTestUtil {
 
     companion object {
 
-        @JvmStatic fun getFlightSearchParams(isRoundTrip: Boolean): FlightSearchParams {
+        @JvmStatic fun getFlightSearchParams(isRoundTrip: Boolean, includeChild: Boolean = true): FlightSearchParams {
             val departureSuggestion = SuggestionV4()
             departureSuggestion.gaiaId = "1234"
             val departureRegionNames = SuggestionV4.RegionNames()
@@ -46,9 +46,11 @@ class FlightPresenterTestUtil {
             testArrivalCoordinates.lat = 100.00
             testArrivalCoordinates.lng = 500.00
             arrivalSuggestion.coordinates = testArrivalCoordinates
-
             val childList = ArrayList<Int>()
-            childList.add(4)
+
+            if (includeChild) {
+                childList.add(4)
+            }
             val checkIn = LocalDate().plusDays(2)
             val checkOut = if (isRoundTrip) LocalDate().plusDays(3) else null
 

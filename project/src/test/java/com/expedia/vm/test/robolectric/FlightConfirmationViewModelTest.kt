@@ -291,6 +291,15 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
+    fun testKrazyglueParamsWithNoChildTraveler() {
+        vm = FlightConfirmationViewModel(activity)
+        val testKrazyglueParams = vm.getKrazyglueSearchParams(getCheckoutResponse(DateTime.now().toString()), FlightPresenterTestUtil.getFlightSearchParams(isRoundTrip = false, includeChild = false))
+        val testReturnDateOneDayAfterArrival = DateTimeParser.parseISO8601DateTimeString(testArrivalDateTimeTomorrow).plusDays(1).toString()
+
+        assertKrazyglueParams(expectedReturnDateTime = testReturnDateOneDayAfterArrival, testKrazyglueSearchParams = testKrazyglueParams, withChild = false)
+    }
+
+    @Test
     fun testFlightSearchParamsBecomeHotelSearchParamsForKrazyglue() {
         bucketViewmodelIntoKrazyglue()
         val hotelSearchParamsTestSubscriber = TestSubscriber<HotelSearchParams>()
@@ -337,8 +346,13 @@ class FlightConfirmationViewModelTest {
     @Test
     fun testSignedKrazyglueUrl() {
         vm = FlightConfirmationViewModel(activity)
-        val successfulUrl = "/xsell-api/1.0/offers?partnerId=expedia-hot-mobile-conf&outboundEndDateTime=2020-10-10T00:02:06.401Z&returnStartDateTime=2020-10-11T00:02:06.401Z&destinationTla=LAS&fencedResponse=true&signature=HS5WVueebVfa2agCdQmdEKs-tTs"
-        val krazyglueParams = KrazyglueSearchParams("LAS", "2020-10-10T00:02:06.401Z", "2020-10-11T00:02:06.401Z")
+        var successfulUrl = "/xsell-api/1.0/offers?partnerId=expedia-hot-mobile-conf&outboundEndDateTime=2020-10-10T00:02:06.401Z&returnStartDateTime=2020-10-11T00:02:06.401Z&destinationTla=LAS&numOfAdults=1&numOfChildren=2&childAges=1,2&fencedResponse=true&signature=o998P5_hq9fHqVepvS4bTDkqxlI"
+        var krazyglueParams = KrazyglueSearchParams("LAS", "2020-10-10T00:02:06.401Z", "2020-10-11T00:02:06.401Z", 1, 2, listOf(1, 2))
+
+        assertEquals(successfulUrl, vm.getSignedKrazyglueUrl(krazyglueParams))
+
+        successfulUrl = "/xsell-api/1.0/offers?partnerId=expedia-hot-mobile-conf&outboundEndDateTime=2020-10-10T00:02:06.401Z&returnStartDateTime=2020-10-11T00:02:06.401Z&destinationTla=LAS&numOfAdults=1&numOfChildren=1&childAges=1&fencedResponse=true&signature=xjRBmbyalbKYHilFBpMxMAJYIvI"
+        krazyglueParams = KrazyglueSearchParams("LAS", "2020-10-10T00:02:06.401Z", "2020-10-11T00:02:06.401Z", 1, 1, listOf(1))
 
         assertEquals(successfulUrl, vm.getSignedKrazyglueUrl(krazyglueParams))
     }
@@ -422,12 +436,19 @@ class FlightConfirmationViewModelTest {
         vm = FlightConfirmationViewModel(activity)
     }
 
-
-    fun assertKrazyglueParams(expectedReturnDateTime: String, testKrazyglueSearchParams: KrazyglueSearchParams) {
+    fun assertKrazyglueParams(expectedReturnDateTime: String, testKrazyglueSearchParams: KrazyglueSearchParams, withChild: Boolean = true) {
         assertEquals(expectedReturnDateTime, testKrazyglueSearchParams.returnDateTime)
         assertEquals(testArrivalDateTimeTomorrow, testKrazyglueSearchParams.arrivalDateTime)
         assertEquals("LAX", testKrazyglueSearchParams.destinationCode)
         assertEquals("99e4957f-c45f-4f90-993f-329b32e53ca1", testKrazyglueSearchParams.apiKey)
         assertEquals("/xsell-api/1.0/offers", testKrazyglueSearchParams.baseUrl)
+        assertEquals(2, testKrazyglueSearchParams.numOfAdults)
+        if (withChild) {
+            assertEquals(1, testKrazyglueSearchParams.numOfChildren)
+            assertEquals(listOf(4), testKrazyglueSearchParams.childAges)
+        } else {
+            assertEquals(0, testKrazyglueSearchParams.numOfChildren)
+            assertEquals(emptyList(), testKrazyglueSearchParams.childAges)
+        }
     }
 }

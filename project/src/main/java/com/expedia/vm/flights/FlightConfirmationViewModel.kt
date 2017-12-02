@@ -205,7 +205,10 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
         } else {
             DateTimeParser.parseISO8601DateTimeString(destinationArrivalDateTime).plusDays(1).toString()
         }
-        return KrazyglueSearchParams(destinationCode, destinationArrivalDateTime, returnDateTime)
+        val numOfAdults = searchParams.adults
+        val numOfChildren = searchParams.children.count()
+        val childrenAge = searchParams.children
+        return KrazyglueSearchParams(destinationCode, destinationArrivalDateTime, returnDateTime, numOfAdults, numOfChildren, childrenAge)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -216,6 +219,9 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                 .put("arrivaldatetime", krazyglueSearchParams.arrivalDateTime)
                 .put("returndatetime", krazyglueSearchParams.returnDateTime)
                 .put("destinationcode", krazyglueSearchParams.destinationCode)
+                .put("numofadults", krazyglueSearchParams.numOfAdults)
+                .put("numofchildren", krazyglueSearchParams.numOfChildren)
+                .put("childages", getChildAgesStringFromChildAgeList(krazyglueSearchParams.childAges))
                 .format().toString()
 
         val signature = HMACUtil.createHmac(krazyglueSearchParams.apiKey, urlWithParams).replace("+", "-").replace("/", "_").removeSuffix("=")
@@ -225,5 +231,17 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                 .format().toString()
 
         return signedUrl
+    }
+
+    fun getChildAgesStringFromChildAgeList(childAge: List<Int>): String {
+        val childAgesStringBuilder = StringBuilder()
+        val iter = childAge.iterator()
+        while (iter.hasNext()) {
+            childAgesStringBuilder.append(iter.next());
+            if (iter.hasNext()){
+                childAgesStringBuilder.append(",");
+            }
+        }
+        return childAgesStringBuilder.toString();
     }
 }
