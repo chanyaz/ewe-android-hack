@@ -22,6 +22,7 @@
             android:id="@+id/mod_shop_button"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_marginRight="16dp"
             android:text="@string/shop"
             android:textAllCaps="true"
             style="?android:attr/borderlessButtonStyle"
