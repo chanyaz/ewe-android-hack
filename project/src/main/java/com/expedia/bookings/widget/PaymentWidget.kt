@@ -622,7 +622,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             cardInfoContainer.visibility = View.GONE
             paymentOptionsContainer.visibility = if (forward) View.GONE else View.VISIBLE
             billingInfoContainer.visibility = if (forward) View.VISIBLE else View.GONE
-            creditCardNumber.requestFocus()
+            if (!hotelMaterialFormEnabled) {
+                creditCardNumber.requestFocus()
+            }
             onFocusChange(creditCardNumber, true)
             if (forward) {
                 if (populateCardholderNameTestEnabled) {

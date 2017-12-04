@@ -486,6 +486,25 @@ class PaymentWidgetV2Test {
         assertEquals("Enter a valid postal code", sut.creditCardPostalCode.getParentTextInputLayout()!!.error)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMaterialCreditCardNumberNotFocusedOnPaymentForm() {
+        setupHotelMaterialForms()
+        sut.show(PaymentWidget.PaymentOption())
+        sut.show(PaymentWidget.PaymentDetails())
+        sut.paymentOptionCreditDebitCard.performClick()
+        assertFalse(sut.creditCardNumber.isFocused)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCreditCardFocusedOnPaymentForm() {
+        sut.show(PaymentWidget.PaymentOption())
+        sut.show(PaymentWidget.PaymentDetails())
+        sut.paymentOptionCreditDebitCard.performClick()
+        assertTrue(sut.creditCardNumber.isFocused)
+    }
+
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
         assertEquals(paymentInfo, paymentTileInfo.text)
         assertEquals(paymentOption, paymentTileOption.text)
