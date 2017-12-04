@@ -162,10 +162,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
     private var roomSubscriptions: CompositeSubscription? = null
 
-    private val offersObserver = endlessObserver<HotelOffersResponse> { response ->
-        offerReturned(response)
-    }
-
     val bookByPhoneContainerClickObserver: Observer<Unit> = endlessObserver {
         var supportPhoneNumber = when (userStateManager.getCurrentUserLoyaltyTier()) {
             LoyaltyMembershipTier.BASE -> PointOfSale.getPointOfSale().supportPhoneNumberBaseTier
@@ -184,7 +180,11 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
     val mapClickedSubject = PublishSubject.create<Unit>()
 
-    val reviewsClickedSubject = PublishSubject.create<Unit>()
+    val reviewsDataObservable = BehaviorSubject.create<HotelOffersResponse>()
+
+    val reviewsClickObserver: Observer<Unit> = endlessObserver {
+        reviewsDataObservable.onNext(hotelOffersResponse)
+    }
 
     val renovationContainerClickObserver: Observer<Unit> = endlessObserver {
         val renovationInfo = Pair<String, String>(context.resources.getString(R.string.renovation_notice),
@@ -233,14 +233,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
 
-    // Every time a new hotel is emitted, emit an Observable<Hotel>
-    // that will return the outer hotel every time reviews is clicked
-    val reviewsClickedWithHotelData: Observable<HotelOffersResponse> = Observable.switchOnNext(hotelOffersSubject.map { hotel ->
-        reviewsClickedSubject.map {
-            hotel
-        }
-    })
-
     protected val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
     private val galleryManager = Ui.getApplication(context).appComponent().hotelGalleryManager()
 
@@ -256,8 +248,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         onlyShowTotalPrice.subscribe { onlyShowTotalPrice ->
             (if (onlyShowTotalPrice) totalPriceObservable else priceToShowCustomerObservable).subscribe(roomPriceToShowCustomer)
         }
-
-        hotelOffersSubject.subscribe(offersObserver)
 
         hotelRoomDetailViewModelsObservable.subscribe { roomDetailViewModels ->
             roomSubscriptions?.unsubscribe()
@@ -278,6 +268,10 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         }
 
         hotelSelectedObservable.subscribe { loadTimeData.markPageLoadStarted(System.currentTimeMillis()) }
+
+        hotelOffersSubject.subscribe { response ->
+            offerReturned(response)
+        }
     }
 
     fun groupAndSortRoomList(roomList: List<HotelOffersResponse.HotelRoomResponse>): LinkedHashMap<String, ArrayList<HotelOffersResponse.HotelRoomResponse>> {

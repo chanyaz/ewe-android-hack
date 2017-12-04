@@ -15,18 +15,28 @@ class HotelReviewsViewModel(val context: Context, val lob: LineOfBusiness = Line
 
     val toolbarTitleObservable = BehaviorSubject.create<String>()
     val toolbarSubtitleObservable = BehaviorSubject.create<String>()
-    val hotelReviewsObservable = BehaviorSubject.create<String>()
+    val hotelIdObservable = BehaviorSubject.create<String>()
 
-    var hotelObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
-        toolbarTitleObservable.onNext(hotel.hotelName)
-        toolbarSubtitleObservable.onNext(context.resources.getString(R.string.n_reviews_TEMPLATE, HotelUtils.formattedReviewCount(hotel.totalReviews)))
-        hotelReviewsObservable.onNext(hotel.hotelId)
-        if (lob == LineOfBusiness.PACKAGES) {
-            PackagesTracking().trackHotelReviewPageLoad()
-        }
-        else {
-            HotelTracking.trackHotelReviews()
+    var hotelOfferObserver: Observer<HotelOffersResponse> = endlessObserver { offer ->
+        toolbarTitleObservable.onNext(offer.hotelName)
+        toolbarSubtitleObservable.onNext(context.resources.getString(R.string.n_reviews_TEMPLATE, HotelUtils.formattedReviewCount(offer.totalReviews)))
+        hotelIdObservable.onNext(offer.hotelId)
+    }
+
+    private var pageLoadTracked = false
+
+    fun trackReviewPageLoad() {
+        if (!pageLoadTracked) {
+            if (lob == LineOfBusiness.PACKAGES) {
+                PackagesTracking().trackHotelReviewPageLoad()
+            } else {
+                HotelTracking.trackHotelReviews()
+            }
+            pageLoadTracked = true
         }
     }
 
+    fun resetTracking() {
+        pageLoadTracked = false
+    }
 }

@@ -19,6 +19,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.HotelItinDetailsResponse
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
@@ -219,7 +220,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelDetailView.viewmodel.depositInfoContainerClickObservable.subscribe { pair: Pair<String, HotelOffersResponse.HotelRoomResponse> ->
             presenter.hotelDepositInfoObserver.onNext(pair)
         }
-        presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
+        presenter.hotelDetailView.viewmodel.reviewsDataObservable.subscribe(reviewsOfferObserver)
         presenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(presenter.hotelRenovationObserver)
         presenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe { pair: Pair<String, List<HotelOffersResponse.HotelRoomResponse>> ->
             presenter.hotelPayLaterInfoObserver.onNext(pair)
@@ -353,6 +354,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val reviewsView: HotelReviewsView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.reviews_stub)
         val presenter = viewStub.inflate() as HotelReviewsView
+        presenter.viewModel = HotelReviewsViewModel(getContext(), LineOfBusiness.HOTELS)
         presenter.hotelReviewsTabbar.slidingTabLayout.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
@@ -841,9 +843,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            if (forward) {
-                reviewsView.transitionFinished()
-            } else {
+            reviewsView.endTransition(forward)
+            if (!forward) {
                 trackHotelDetail()
             }
         }
@@ -853,9 +854,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
     }
 
-    val reviewsObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
-        reviewsView.viewModel = HotelReviewsViewModel(getContext())
-        reviewsView.viewModel.hotelObserver.onNext(hotel)
+    val reviewsOfferObserver: Observer<HotelOffersResponse> = endlessObserver { offer ->
+        reviewsView.viewModel.hotelOfferObserver.onNext(offer)
         show(reviewsView)
     }
 
@@ -928,6 +928,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 hotelDetailViewModel.addViewsAfterTransition()
             }
             detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(response)
+            reviewsView.viewModel.resetTracking()
         }
 
         hotelDetailViewModel.roomSelectedSubject.subscribe { offer ->

@@ -6,13 +6,11 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.ReviewsServices
-import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelReviewsAdapter
@@ -36,7 +34,7 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
         vm.toolbarSubtitleObservable.subscribe { subtitle ->
             toolbar.subtitle = subtitle
         }
-        vm.hotelReviewsObservable.subscribe { hotelId ->
+        vm.hotelIdObservable.subscribe { hotelId ->
             hotelReviewsAdapterViewModel = HotelReviewsAdapterViewModel(hotelId, reviewServices, PointOfSale.getPointOfSale().localeIdentifier)
         }
     }
@@ -66,7 +64,10 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
         }
     }
 
-    fun transitionFinished() {
-        adapter.startDownloads()
+    fun endTransition(forward: Boolean) {
+        if (forward) {
+            adapter.startDownloads()
+            viewModel.trackReviewPageLoad()
+        }
     }
 }

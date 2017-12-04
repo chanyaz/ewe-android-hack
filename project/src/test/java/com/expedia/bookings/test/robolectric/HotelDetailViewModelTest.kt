@@ -429,28 +429,28 @@ class HotelDetailViewModelTest {
         val testSub = TestSubscriber.create<String>()
         val expected = listOf("hotel1", "hotel2", "hotel1", "hotel2", "hotel2", "hotel2")
 
-        vm.reviewsClickedWithHotelData
+        vm.reviewsDataObservable
                 .map { hotel -> hotel.hotelName }
                 .take(expected.size)
                 .subscribe(testSub)
 
         vm.hotelOffersSubject.onNext(offer1)
-        vm.reviewsClickedSubject.onNext(Unit)
+        vm.reviewsClickObserver.onNext(Unit)
 
         vm.hotelOffersSubject.onNext(offer2)
-        vm.reviewsClickedSubject.onNext(Unit)
+        vm.reviewsClickObserver.onNext(Unit)
 
         vm.hotelOffersSubject.onNext(offer1)
-        vm.reviewsClickedSubject.onNext(Unit)
-
-        vm.hotelOffersSubject.onNext(offer1)
-        vm.hotelOffersSubject.onNext(offer2)
-        vm.reviewsClickedSubject.onNext(Unit)
+        vm.reviewsClickObserver.onNext(Unit)
 
         vm.hotelOffersSubject.onNext(offer1)
         vm.hotelOffersSubject.onNext(offer2)
-        vm.reviewsClickedSubject.onNext(Unit)
-        vm.reviewsClickedSubject.onNext(Unit)
+        vm.reviewsClickObserver.onNext(Unit)
+
+        vm.hotelOffersSubject.onNext(offer1)
+        vm.hotelOffersSubject.onNext(offer2)
+        vm.reviewsClickObserver.onNext(Unit)
+        vm.reviewsClickObserver.onNext(Unit)
 
         testSub.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testSub.assertCompleted()

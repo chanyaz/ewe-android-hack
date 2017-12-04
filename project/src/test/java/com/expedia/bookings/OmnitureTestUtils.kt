@@ -62,6 +62,12 @@ class OmnitureTestUtils : ADMS_Measurement() {
             Mockito.verify(mockAnalyticsProvider).trackState(Mockito.eq(appState), mapThat(dataMatcher))
         }
 
+        @JvmStatic
+        fun assertStateTrackedNumTimes(appState: String, dataMatcher: Matcher<Map<String, Any>>, numInvocation: Int,
+                                  mockAnalyticsProvider: AnalyticsProvider) {
+            Mockito.verify(mockAnalyticsProvider, Mockito.times(numInvocation)).trackState(Mockito.eq(appState), mapThat(dataMatcher))
+        }
+
         fun assertStateNotTracked(matcher: Matcher<Map<String, Any>>, mockAnalyticsProvider: AnalyticsProvider) {
             Mockito.verify(mockAnalyticsProvider, Mockito.never()).trackState(Mockito.anyString(), mapThat(matcher))
         }

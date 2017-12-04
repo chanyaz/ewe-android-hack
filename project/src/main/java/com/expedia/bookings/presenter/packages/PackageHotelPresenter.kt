@@ -125,7 +125,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         val detailsViewModel = PackageHotelDetailViewModel(context)
         detailsViewModel.roomSelectedSubject.subscribe(selectedRoomObserver)
-        detailsViewModel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
+        detailsViewModel.reviewsDataObservable.subscribe(reviewsOfferObserver)
         detailsViewModel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
         detailsViewModel.hotelRenovationObservable.subscribe(presenter.hotelRenovationObserver)
         detailsViewModel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
@@ -149,6 +149,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val viewStub = findViewById<ViewStub>(R.id.reviews_stub)
         val presenter = viewStub.inflate() as HotelReviewsView
         presenter.reviewServices = reviewServices
+        presenter.viewModel = HotelReviewsViewModel(getContext(), LineOfBusiness.PACKAGES)
         presenter.hotelReviewsTabbar.slidingTabLayout.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
@@ -160,30 +161,14 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 PackagesTracking().trackHotelReviewCategoryChange(tab.position)
             }
         })
-        setUpReviewsTransition(presenter)
         presenter
     }
 
-    fun setUpReviewsTransition(view: View) {
-        val transition = object : ScaleTransition(this, detailPresenter, view) {
-            override fun endTransition(forward: Boolean) {
-                super.endTransition(forward)
-                if (forward) {
-                    reviewsView.transitionFinished()
-                    AccessibilityUtil.setFocusToToolbarNavigationIcon(reviewsView.toolbar)
-                } else {
-                    AccessibilityUtil.setFocusToToolbarNavigationIcon(detailPresenter.hotelDetailView.hotelDetailsToolbar.toolbar)
-                }
-            }
-        }
-        addTransition(transition)
-    }
-
-    val reviewsObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
-        reviewsView.viewModel = HotelReviewsViewModel(getContext(), LineOfBusiness.PACKAGES)
-        reviewsView.viewModel.hotelObserver.onNext(hotel)
+    val reviewsOfferObserver: Observer<HotelOffersResponse> = endlessObserver { offer ->
+        reviewsView.viewModel.hotelOfferObserver.onNext(offer)
         show(reviewsView)
     }
+
     val REGULAR_ANIMATION_DURATION = 400
     val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
     var selectedPackageHotel: Hotel by Delegates.notNull()
@@ -206,6 +191,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         super.onFinishInflate()
         addTransition(resultsToDetail)
         addTransition(resultsToOverview)
+        addTransition(detailsToReview)
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_HOTEL)
         
         resultsPresenter.viewModel.hotelResultsObservable.subscribe {
@@ -316,6 +302,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                     show(detailPresenter)
                     detailPresenter.showDefault()
                     PackagesPageUsableData.HOTEL_INFOSITE.pageUsableData.markAllViewsLoaded()
+                    reviewsView.viewModel.resetTracking()
                 }
         ).subscribe(makeErrorSubscriber(true))
     }
@@ -368,6 +355,18 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 }
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
+    }
+
+    private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            reviewsView.endTransition(forward)
+            if (forward) {
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(reviewsView.toolbar)
+            } else {
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(detailPresenter.hotelDetailView.hotelDetailsToolbar.toolbar)
+            }
         }
     }
 
@@ -497,9 +496,5 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             }
         }
-    }
-
-    private fun View.setVisibility(forward: Boolean) {
-        this.visibility = if (forward) View.VISIBLE else View.GONE
     }
 }
