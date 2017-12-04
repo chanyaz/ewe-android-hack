@@ -3,6 +3,7 @@ package com.expedia.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.VisibleForTesting
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
@@ -216,7 +217,8 @@ class PackageActivity : AbstractAppCompatActivity() {
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
     }
 
-    private fun packageCreateTrip() {
+    @VisibleForTesting( otherwise = VisibleForTesting.PRIVATE)
+    fun packageCreateTrip() {
         packagePresenter.bundleLoadingView.visibility = View.GONE
         Db.getPackageParams().pageType = null
         changedOutboundFlight = false
@@ -235,5 +237,6 @@ class PackageActivity : AbstractAppCompatActivity() {
         }
     }
 
-    private fun getCreateTripViewModel() = packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
+    @VisibleForTesting( otherwise = VisibleForTesting.PRIVATE)
+    fun getCreateTripViewModel() = packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
 }

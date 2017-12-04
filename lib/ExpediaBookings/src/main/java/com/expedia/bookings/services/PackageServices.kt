@@ -277,7 +277,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
     }
 
     fun multiItemCreateTrip(body: MultiItemCreateTripParams): Observable<MultiItemApiCreateTripResponse> {
-        return packageApi.multiItemCreateTrip(body.flightPIID, body.hotelID, body.inventoryType, body.ratePlanCode, body.roomTypeCode, body.adults, body.startDate.toString(), body.endDate.toString()).observeOn(observeOn)
+        return packageApi.multiItemCreateTrip(body.flightPIID, body.hotelID, body.inventoryType, body.ratePlanCode, body.roomTypeCode, body.adults, body.startDate.toString(), body.endDate.toString())
+                .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
 }

@@ -90,7 +90,7 @@ class PackageOverviewPresenterTest {
     fun testWebViewURLOpenedWithMIDCheckoutEnabled() {
         val testSubscriber = TestSubscriber.create<String>()
         setUpPackageDb()
-        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppMIDCheckout, R.string.preference_enable_mid_checkout)
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
         overviewPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testSubscriber)
         createTripResponse()

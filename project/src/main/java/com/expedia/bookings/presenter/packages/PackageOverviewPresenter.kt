@@ -105,7 +105,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 bundleWidget.toggleMenuObservable.onNext(true)
                 setToolbarNavIcon(false)
             }
-            if (isMIDCheckoutEnabled(context) && webCheckoutView != null) {
+            if (isMidAPIEnabled(context) && webCheckoutView != null) {
                 (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).tripIdSubject.onNext(trip.packageDetails.tripId)
             }
             bundleWidget.setPadding(0, 0, 0, 0)
