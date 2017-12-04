@@ -454,7 +454,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             discountPercentageBackgroundObservable.onNext(discountPercentageBackground)
 
             val discountPercentageTextColor = when {
-                hasMemberDeal -> ContextCompat.getColor(context, R.color.brand_primary)
+                hasMemberDeal -> ContextCompat.getColor(context, R.color.member_pricing_text_color)
                 else -> ContextCompat.getColor(context, R.color.white)
             }
             discountPercentageTextColorObservable.onNext(discountPercentageTextColor)

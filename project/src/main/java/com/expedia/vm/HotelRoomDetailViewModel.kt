@@ -58,7 +58,7 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
 
     val discountPercentageTextColor: Int
         get() = if (showMemberOnlyDealTag) {
-            ContextCompat.getColor(context, R.color.brand_primary)
+            ContextCompat.getColor(context, R.color.member_pricing_text_color)
         } else {
             ContextCompat.getColor(context, R.color.white)
         }

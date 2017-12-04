@@ -13,6 +13,8 @@ import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -433,6 +435,7 @@ class HotelRoomDetailViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDiscountPercentageTextColorMemberOnly() {
         mockSignIn()
         val roomResponse = createRoomResponse()

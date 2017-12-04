@@ -19,8 +19,9 @@
     <color name="coupon_success_message_color_orbitz">#7baed4</color>
     <color name="preferences_text">#495863</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
-    <color name="hotel_member_pricing_bg_color">#00253c</color>
-    <color name="hotel_member_pricing_text_color">#FFFFFF</color>
+    <color name="member_pricing_flag_bg_color">#00253c</color>
+    <color name="member_pricing_text_color">#FFFFFF</color>
+    <color name="member_only_tag_bg_color">#00253c</color>
     <color name="loyalty_earn_color">#8E0099</color>
 
     <!--Splash-->
@@ -38,7 +39,7 @@
     <color name="pay_with_reward_text_color">@color/loyalty_earn_color</color>
     <color name="points_available_text_color">@color/loyalty_earn_color</color>
     <color name="hotel_map_earn_message_text_color">@color/earn_message_text_color</color>
-
+    <color name="member_pricing_bg_color">#00253c</color>
 
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">#477A00</color>

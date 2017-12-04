@@ -156,7 +156,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         discountPercentage.text = viewModel.hotelDiscountPercentage
         if(viewModel.hasMemberDeal()) {
             discountPercentage.setBackgroundResource(R.drawable.member_only_discount_percentage_background)
-            discountPercentage.setTextColor(ContextCompat.getColor(itemView.context, R.color.brand_primary))
+            discountPercentage.setTextColor(ContextCompat.getColor(itemView.context, R.color.member_pricing_text_color))
         } else {
             discountPercentage.setBackgroundResource(R.drawable.discount_percentage_background)
             discountPercentage.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))

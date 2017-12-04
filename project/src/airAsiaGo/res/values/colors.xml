@@ -21,8 +21,9 @@
     <color name="flights_lob_btn">@color/aag_primary_color</color>
     <color name="hotels_primary_color">@color/aag_primary_color</color>
     <color name="traveler_drop_down_checked_color">@color/aag_primary_color</color>
-    <color name="hotel_member_pricing_bg_color">#3e3f43</color>
-    <color name="hotel_member_pricing_text_color">#FFFFFF</color>
+    <color name="member_pricing_flag_bg_color">#3e3f43</color>
+    <color name="member_pricing_text_color">#FFFFFF</color>
+    <color name="member_only_tag_bg_color">#3e3f43</color>
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/aag_primary_color</color>
@@ -32,6 +33,7 @@
     <color name="launch_mobile_exclusive">#F8A424</color>
     <color name="launch_discount">@color/aag_primary_color</color>
     <color name="launch_tonight_only">#333333</color>
+    <color name="member_pricing_bg_color">#3e3f43</color>
 
     <!-- Hotel SRP Discount & Promo strips-->
     <color name="hotel_mobile_exclusive_color">#F8A424</color>
