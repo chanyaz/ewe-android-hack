@@ -240,7 +240,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    fun resetListOffset() {
+    protected fun resetListOffset() {
         val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.translationY, -mapListSplitAnchor.toFloat())
         mover.duration = 300
         mover.start()
@@ -762,12 +762,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(ResultsList::class.java.name) {
-
-        override fun updateTransition(f: Float, forward: Boolean) {
-            super.updateTransition(f, forward)
-            navIcon.parameter = if (forward) Math.abs(1 - f) else f
-        }
-
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
@@ -775,19 +769,15 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             mapView.translationY = -mapListSplitAnchor.toFloat()
 
             recyclerView.visibility = View.VISIBLE
+            resetListOffset()
+
+            loadingOverlay?.visibility = View.GONE
             mapCarouselContainer.visibility = View.INVISIBLE
-
-            if (recyclerView.visibility == View.INVISIBLE) {
-                fab.visibility = View.VISIBLE
-                getFabAnimIn().start()
-            } else {
-                fab.visibility = View.INVISIBLE
-            }
+            searchThisArea?.visibility = View.GONE
+            fab.visibility = View.INVISIBLE
             filterView.visibility = View.GONE
-
             sortFaqWebView.visibility = View.GONE
             postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar) }, 50L)
-            updateViewModelState(ResultsList::class.java.name)
             showFilterMenuItem(true)
         }
     }
@@ -864,10 +854,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             super.endTransition(forward)
             secondTransition?.endTransition(forward)
             transitionRunning = false
-            if (forward) {
-                updateViewModelState(ResultsList::class.java.name)
-            } else {
-                updateViewModelState(ResultsMap::class.java.name)
+            if (!forward) {
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
             }
         }
@@ -902,10 +889,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (forward) {
                 mapCarouselTransition?.toTarget()
                 mapCarouselContainer.visibility = View.INVISIBLE
-                updateViewModelState(ResultsList::class.java.name)
             } else {
                 mapCarouselTransition?.toOrigin()
-                updateViewModelState(ResultsMap::class.java.name)
             }
         }
     }
@@ -1024,7 +1009,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 if (ExpediaBookingApp.isDeviceShitty()) {
                     lazyLoadMapAndMarkers()
                 }
-                updateViewModelState(ResultsList::class.java.name)
             } else {
                 mapView.translationY = 0f
                 recyclerView.translationY = screenHeight.toFloat()
@@ -1035,7 +1019,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
                     createMarkers()
                 }
-                updateViewModelState(ResultsMap::class.java.name)
             }
             fab.translationY = finalFabTranslation
         }
@@ -1083,9 +1066,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 recyclerView.visibility = View.GONE
                 toolbar.visibility = View.GONE
                 mapView.visibility = View.GONE
-                updateViewModelState(ResultsFilter::class.java.name)
-            } else {
-                updateViewModelState(ResultsList::class.java.name)
             }
         }
     }
@@ -1114,12 +1094,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
             if (forward) {
                 filterView.toolbar.requestFocus()
-                updateViewModelState(ResultsFilter::class.java.name)
             } else {
                 filterView.visibility = View.GONE
                 fab.visibility = View.VISIBLE
                 searchThisArea?.visibility = View.VISIBLE
-                updateViewModelState(ResultsMap::class.java.name)
             }
         }
     }
@@ -1144,13 +1122,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (forward) {
                 toolbar.visibility = View.GONE
                 mapView.visibility = View.GONE
-                updateViewModelState(ResultsSortFaqWebView::class.java.name)
             } else {
                 if (!fabShouldBeHiddenOnList()) {
                     fab.visibility = View.VISIBLE
                     getFabAnimIn().start()
                 }
-                updateViewModelState(ResultsList::class.java.name)
             }
         }
     }
@@ -1313,10 +1289,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private fun fabHeightOffset(): Float {
         val offset = context.resources.getDimension(R.dimen.hotel_carousel_fab_vertical_offset)
         return mapCarouselContainer.height.toFloat() - offset
-    }
-
-    private fun updateViewModelState(newState: String) {
-        baseViewModel.resultStateParamsSubject.onNext(newState)
     }
 
     abstract fun inflate()

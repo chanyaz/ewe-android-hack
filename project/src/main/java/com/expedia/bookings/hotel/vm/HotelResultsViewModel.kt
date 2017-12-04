@@ -11,7 +11,6 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
-import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
@@ -31,7 +30,6 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
     val searchInProgressSubject = PublishSubject.create<Unit>()
 
     val filterResultsObservable = PublishSubject.create<HotelSearchResponse>()
-    val mapResultsObservable = PublishSubject.create<HotelSearchResponse>()
 
     val searchingForHotelsDateTime = PublishSubject.create<Unit>()
     val resultsReceivedDateTimeObservable = PublishSubject.create<Unit>()
@@ -47,10 +45,6 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
     private var cachedParams: HotelSearchParams? = null
 
     init {
-        mapResultsObservable.subscribe {
-            trackAdImpression(it.pageViewBeaconPixelUrl)
-        }
-
         paramsSubject.subscribe(endlessObserver { params ->
             doSearch(params)
         })
@@ -188,8 +182,6 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         if (isFilteredSearch) {
             hotelSearchResponse.isFilteredResponse = true
             filterResultsObservable.onNext(hotelSearchResponse)
-        } else if (resultStateParamsSubject.value == BaseHotelResultsPresenter.ResultsMap::class.java.name) {
-            mapResultsObservable.onNext(hotelSearchResponse)
         } else {
             hotelResultsObservable.onNext(hotelSearchResponse)
         }

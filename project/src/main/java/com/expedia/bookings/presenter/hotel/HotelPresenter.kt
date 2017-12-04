@@ -868,7 +868,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     fun handleGenericSearch(params: HotelSearchParams) {
         updateSearchParams(params)
 
-        resultsPresenter.resetListOffset()
         show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
         resultsViewModel.paramsSubject.onNext(params)
     }
@@ -878,7 +877,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         if (goToResults) {
             setDefaultTransition(Screen.RESULTS)
-            resultsPresenter.resetListOffset()
             show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
             resultsViewModel.paramsSubject.onNext(params)
         } else {

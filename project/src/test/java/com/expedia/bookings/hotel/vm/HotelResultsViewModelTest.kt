@@ -169,22 +169,6 @@ class HotelResultsViewModelTest {
     }
 
     @Test
-    fun mapResultsObservable() {
-        val regionShortName = context.getString(R.string.visible_map_area)
-        val params = makeParams("", regionShortName)
-        val testSubscriber = TestSubscriber<HotelSearchResponse>()
-        sut.mapResultsObservable.subscribe(testSubscriber)
-
-        sut.resultStateParamsSubject.onNext("com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter\$ResultsMap")
-        sut.paramsSubject.onNext(params)
-        mockSearchProvider.successSubject.onNext(happyResponse)
-
-        testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertNoTerminalEvent()
-    }
-
-    @Test
     fun noResultsMap() {
         val regionShortName = context.getString(R.string.visible_map_area)
         val params = makeParams("", regionShortName)

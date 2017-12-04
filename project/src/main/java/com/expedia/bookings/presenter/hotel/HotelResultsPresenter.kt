@@ -106,21 +106,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.hotelResultsObservable.subscribe {
-            if (filterBtnWithCountWidget.translationY != 0f) {
+            if (previousWasList && filterBtnWithCountWidget.translationY != 0f) {
                 showSortAndFilter()
             } else {
-                sortFilterButtonTransition?.jumpToOrigin()
+                fab.isEnabled = true
             }
-        }
-
-        vm.mapResultsObservable.subscribe(listResultsObserver)
-        vm.mapResultsObservable.subscribe(mapViewModel.mapResultsSubject)
-        vm.mapResultsObservable.subscribe {
-            val latLng = googleMap?.projection?.visibleRegion?.latLngBounds?.center
-            if (latLng != null) {
-                mapViewModel.mapBoundsSubject.onNext(latLng)
-            }
-            fab.isEnabled = true
         }
 
         vm.filterResultsObservable.subscribe(listResultsObserver)
@@ -144,7 +134,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         vm.paramsSubject.subscribe { newParams(it) }
         vm.searchInProgressSubject.subscribe { resetForNewSearch() }
-        vm.hotelResultsObservable.subscribe { show(ResultsList()) }
+        vm.hotelResultsObservable.subscribe {
+            if (previousWasList) {
+                show(ResultsList())
+            } else {
+                show(ResultsMap())
+            }
+        }
 
         vm.locationParamsSubject.subscribe { params ->
             filterView.sortByObserver.onNext(params.isCurrentLocationSearch && !params.isGoogleSuggestionSearch)
@@ -347,11 +343,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     fun showFilterCachedResults() {
         filterView.viewModel.clearObservable.onNext(Unit)
         val cachedFilterResponse = filterView.viewModel.originalResponse ?: adapter.resultsSubject.value
-        if (previousWasList) {
-            viewModel.hotelResultsObservable.onNext(cachedFilterResponse)
-        } else {
-            viewModel.mapResultsObservable.onNext(cachedFilterResponse)
-        }
+        viewModel.hotelResultsObservable.onNext(cachedFilterResponse)
     }
 
     fun showCachedResults() {
