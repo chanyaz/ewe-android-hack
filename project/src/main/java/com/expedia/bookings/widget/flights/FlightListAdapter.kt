@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.flights
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
@@ -24,15 +25,12 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
     val ScrollDepth3 = 90
     lateinit var scrollDepthMap : HashMap<Int, Int>
     val trackScrollDepthSubject = PublishSubject.create<Int>()
+    val showDeltaPricing = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
 
     override fun adjustPosition(): Int {
         isCrossSellPackageOnFSR = showCrossSellPackageBannerCell()
         val allHeadersCount = (if (showAllFlightsHeader()) 2 else 1)
         return (if (isCrossSellPackageOnFSR) (allHeadersCount + 1) else allHeadersCount)
-    }
-
-    override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
-        return PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()
     }
 
     override fun getPriceDescriptorMessageIdForFSR(): Int? {
@@ -45,6 +43,16 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
 
     override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): FlightViewModel {
         return FlightViewModel(context, flightLeg, isOutboundSearch)
+    }
+
+    override fun getRoundTripStringResourceId(): Int {
+        if (showDeltaPricing && !isOutboundSearch) {
+            return R.string.delta_price_roundtrip_inbound_label
+        } else if (PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) {
+            return R.string.prices_roundtrip_minimum_label
+        } else {
+            return R.string.prices_roundtrip_label
+        }
     }
 
     private fun shouldShowCrossSellPackageBanner() = (PointOfSale.getPointOfSale().isCrossSellPackageOnFSR &&

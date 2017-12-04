@@ -14,6 +14,7 @@ abstract class ItinToolbarViewModel {
     val toolbarSubTitleSubject: PublishSubject<String> = PublishSubject.create<String>()
     val shareIconVisibleSubject: PublishSubject<Boolean> = PublishSubject.create<Boolean>()
     val navigationBackPressedSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
+    val shareIconClickedSubject = PublishSubject.create<Unit>()
 
     abstract fun updateWidget(toolbarParams: ToolbarParams)
 }

@@ -3,7 +3,6 @@ package com.expedia.bookings.utils;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -318,8 +317,8 @@ public class TuneUtils {
 		if (trackingProvider != null) {
 			TuneEvent event = new TuneEvent("flight_inbound_result");
 			TuneEventItem eventItem = new TuneEventItem("flight_inbound_result_item");
-			eventItem.withAttribute2(trackingData.getArrivalAirport().hierarchyInfo.airport.airportCode)
-				.withAttribute3(trackingData.getDepartureAirport().hierarchyInfo.airport.airportCode);
+			eventItem.withAttribute2(trackingData.getDepartureAirport().hierarchyInfo.airport.airportCode)
+				.withAttribute3(trackingData.getArrivalAirport().hierarchyInfo.airport.airportCode);
 			List<FlightLeg> flightLegList = trackingData.getFlightLegList();
 			if (!flightLegList.isEmpty()) {
 				int propertiesCount = flightLegList.size();
@@ -331,8 +330,8 @@ public class TuneUtils {
 						String currency = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.currencyCode;
 						String price = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.amount.toString();
 						String routeType = trackingData.getReturnDate() != null ? "RT" : "OW";
-						String route = String.format("%s-%s", trackingData.getArrivalAirport().gaiaId,
-							trackingData.getDepartureAirport().gaiaId);
+						String route = String.format("%s-%s", trackingData.getDepartureAirport().gaiaId,
+							trackingData.getArrivalAirport().gaiaId);
 
 						sb.append(
 							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
@@ -365,6 +364,7 @@ public class TuneUtils {
 			double totalPrice = flightCheckoutResponse.getTotalChargesPrice().amount.doubleValue();
 			int totalGuests = flightSearchParams.getGuests();
 			double averagePrice = totalPrice/totalGuests;
+			TripDetails trip = flightCheckoutResponse.getNewTrip() == null ? new TripDetails() : flightCheckoutResponse.getNewTrip();
 			FlightTripDetails firstFlightTripDetails = flightCheckoutResponse.getFirstFlightTripDetails();
 			FlightLeg.FlightSegment firstFlightSegment = firstFlightTripDetails.getLegs().get(0).segments.get(0);
 			eventItem.withQuantity(totalGuests)
@@ -374,7 +374,6 @@ public class TuneUtils {
 				.withAttribute3(flightSearchParams.getArrivalAirport().gaiaId)
 				.withAttribute4(firstFlightSegment.airlineCode);
 
-
 			Date departureDate = new DateTime(firstFlightSegment.departureTimeRaw).toDate();
 
 			if (flightSearchParams.getReturnDate() != null) {
@@ -382,12 +381,13 @@ public class TuneUtils {
 				Date returnDate = new DateTime(lastFlightSegment.departureTimeRaw).toDate();
 				event.withDate2(returnDate);
 			}
+
 			withTuidAndMembership(event)
 				.withAttribute2(trackingProvider.isUserLoggedInValue())
 				.withRevenue(totalPrice)
 				.withCurrencyCode(flightCheckoutResponse.getTotalChargesPrice().currencyCode)
 				.withQuantity(totalGuests)
-				.withAdvertiserRefId(getAdvertiserRefId(flightCheckoutResponse.getNewTrip().getTravelRecordLocator()))
+				.withAdvertiserRefId(getAdvertiserRefId(trip.getTravelRecordLocator()))
 				.withEventItems(Collections.singletonList(eventItem))
 				.withDate1(departureDate);
 
@@ -591,7 +591,7 @@ public class TuneUtils {
 						String currency = activity.price.currencyCode;
 						double price = activity.price.amount.doubleValue();
 						topActivitiesBuilder.append(title);
-						sb.append(String.format(Locale.getDefault(), "%s|%s|%f", title, currency, price));
+						sb.append(String.format("%s|%s|%s", title, currency, price));
 						if (i != lastIndex) {
 							sb.append(":");
 							topActivitiesBuilder.append(",");

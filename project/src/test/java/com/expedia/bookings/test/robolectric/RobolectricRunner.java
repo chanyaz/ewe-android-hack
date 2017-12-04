@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
+import org.mockito.Mockito;
 import org.robolectric.DefaultTestLifecycle;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.TestLifecycle;
@@ -58,6 +59,7 @@ public class RobolectricRunner extends RobolectricTestRunner {
 
 		@Override
 		public void afterTest(Method method) {
+			Mockito.validateMockitoUsage();
 			OmnitureTestUtils.setNormalAnalyticsProvider();
 			resetWindowManager();
 		}

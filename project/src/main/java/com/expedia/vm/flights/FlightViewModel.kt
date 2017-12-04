@@ -17,7 +17,7 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboun
         var price = flightLeg.packageOfferModel.price.averageTotalPricePerTicket
         if(!isOutboundSearch && showDeltaPricing) {
             if(flightLeg.packageOfferModel.price.deltaPositive) {
-                priceToShow.append("+")
+                priceToShow.append("+ ")
             }
             price = flightLeg.packageOfferModel.price.deltaPrice
         }

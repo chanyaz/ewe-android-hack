@@ -11,6 +11,7 @@ import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.shared.KrazyglueWidget
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
@@ -55,6 +56,11 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
         vm.inboundCardVisibility.subscribeVisibility(inboundFlightCard)
         vm.crossSellWidgetVisibility.subscribeVisibility(hotelCrossSell)
+        vm.crossSellWidgetVisibility.subscribe { show ->
+            if (show) {
+                FlightsV2Tracking.trackAirAttachShown()
+            }
+        }
         vm.formattedTravelersStringSubject.subscribeText(flightSummary.numberOfTravelers)
         vm.tripTotalPriceSubject.subscribeText(flightSummary.tripPrice)
 
@@ -66,6 +72,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
             vm.krazyglueHotelsObservable.subscribe(krazyglueWidget.viewModel.hotelsObservable)
             vm.destinationObservable.subscribe(krazyglueWidget.viewModel.cityObservable)
             vm.krazyGlueHotelSearchParamsObservable.subscribe(krazyglueWidget.viewModel.hotelSearchParamsObservable)
+            vm.krazyGlueRegionIdObservable.subscribe(krazyglueWidget.viewModel.regionIdObservable)
         }
     }
 

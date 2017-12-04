@@ -336,9 +336,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             show(confirmationPresenter)
             pageUsableData.markAllViewsLoaded(Date().time)
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse, pageUsableData, flightOverviewPresenter.flightSummary)
-            if (confirmationPresenter.viewModel.crossSellWidgetVisibility.value) {
-                FlightsV2Tracking.trackAirAttachShown()
-            }
         }
 
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()

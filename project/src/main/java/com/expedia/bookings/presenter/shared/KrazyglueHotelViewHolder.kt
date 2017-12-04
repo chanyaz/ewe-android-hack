@@ -24,7 +24,7 @@ import kotlin.properties.Delegates
 import com.expedia.vm.KrazyglueHotelViewHolderViewModel
 import rx.subjects.BehaviorSubject
 
-class KrazyglueHotelViewHolder(itemView: View, searchParams: BehaviorSubject<HotelSearchParams>) : RecyclerView.ViewHolder(itemView){
+class KrazyglueHotelViewHolder(itemView: View, searchParams: BehaviorSubject<HotelSearchParams>, regionId: BehaviorSubject<String>) : RecyclerView.ViewHolder(itemView){
 
     val hotelNameTextView: TextView by bindView(R.id.hotel_name_text_view)
     val hotelGuestRating: TextView by bindView(R.id.hotel_guest_rating)
@@ -43,8 +43,10 @@ class KrazyglueHotelViewHolder(itemView: View, searchParams: BehaviorSubject<Hot
         hotelStrikeThroughPrice.paintFlags = hotelStrikeThroughPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         itemView.setOnClickListener {
             FlightsV2Tracking.trackKrazyglueHotelClicked(trackingPosition)
-            searchParams.value.origin?.hotelId = viewModel.hotelId
-            searchParams.value.updateSearchDestination = true
+            val hotelSearchParams = searchParams.value
+            hotelSearchParams.origin?.gaiaId = regionId.value
+            hotelSearchParams.origin?.hotelId = viewModel.hotelId
+            hotelSearchParams.updateSearchDestination = true
             val flags = NavUtils.FLAG_PINNED_SEARCH_RESULTS or NavUtils.FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK
             HotelNavUtils.goToHotelsV2Params(it.context, searchParams.value, null, flags)
         }

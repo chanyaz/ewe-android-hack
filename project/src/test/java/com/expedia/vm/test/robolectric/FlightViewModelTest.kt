@@ -103,7 +103,7 @@ class FlightViewModelTest {
         flightLeg.packageOfferModel.price.deltaPrice = Money("4", "USD")
         flightLeg.packageOfferModel.price.deltaPrice.roundedAmount = BigDecimal("4")
         sut = FlightViewModel(getContext(), flightLeg, false)
-        assertEquals("+$4", sut.price())
+        assertEquals("+ $4", sut.price())
 
         sut = FlightViewModel(getContext(), flightLeg, true)
         assertEquals("$201", sut.price())

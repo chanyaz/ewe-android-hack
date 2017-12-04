@@ -5,7 +5,9 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightItinDetailsResponse
@@ -20,6 +22,7 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.presenter.flight.FlightConfirmationPresenter
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -57,6 +60,7 @@ class FlightConfirmationPresenterTest {
 
     private var presenter: FlightConfirmationPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     private lateinit var inboundSupplementaryText : TextView
     private lateinit var outboundSupplementaryText: TextView
@@ -191,6 +195,7 @@ class FlightConfirmationPresenterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testAirAttachVisibilityWithKrazyGlueABTestOn() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
 
@@ -232,6 +237,28 @@ class FlightConfirmationPresenterTest {
     @Test
     fun testKrazyglueDisabledBucketedFeatureToggleOff() {
         assertFalse(isKrazyglueOnFlightsConfirmationEnabled(activity))
+    }
+
+    @Test
+    fun testCrossSellShownTrackingExposure() {
+        setupPresenter()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val airAttachEligibleTrackingString = "App.Flight.CKO.AttachEligible"
+        val expectedEvars = mapOf(28 to airAttachEligibleTrackingString)
+        val expectedProps = mapOf(16 to airAttachEligibleTrackingString)
+        presenter.viewModel.crossSellWidgetVisibility.onNext(true)
+        
+        OmnitureTestUtils.assertLinkTracked("Checkout", airAttachEligibleTrackingString, OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Checkout", airAttachEligibleTrackingString, OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testCrossSellHiddenDoesNotTrackExposure() {
+        setupPresenter()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        presenter.viewModel.crossSellWidgetVisibility.onNext(false)
+
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
     }
 
     private fun setupPresenter() {

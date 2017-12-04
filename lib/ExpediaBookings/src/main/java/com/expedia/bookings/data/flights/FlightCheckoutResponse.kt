@@ -31,7 +31,7 @@ class FlightCheckoutResponse() : FlightTripResponse() {
 
     val currencyCode: String? = null
     val orderId: String? = null
-    val totalChargesPrice: Money? = null
+    var totalChargesPrice: Money? = null
 
     @SerializedName("mobileAirAttachQualifier")
     val airAttachInfo: AirAttachInfo? = null
@@ -93,6 +93,11 @@ class FlightCheckoutResponse() : FlightTripResponse() {
     fun getLastFlightLastSegment(): FlightLeg.FlightSegment {
         val segments = getLastFlightLeg().segments
         return segments[segments.size - 1]
+    }
+
+    fun getFirstSegmentOfLastFlightLeg(): FlightLeg.FlightSegment {
+        val segments = getLastFlightLeg().segments
+        return segments[0]
     }
 
     override fun getOffer(): FlightTripDetails.FlightOffer {

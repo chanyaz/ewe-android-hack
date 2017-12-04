@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 class KrazyglueResponse {
     var success: Boolean = false
-    lateinit var destinationName: String
+    var destinationDeepLink: String? = null
     @SerializedName("xsellHotels")
     lateinit var krazyglueHotels: List<KrazyglueHotel>
 

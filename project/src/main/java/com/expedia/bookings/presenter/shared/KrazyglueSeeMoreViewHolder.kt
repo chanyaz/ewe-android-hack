@@ -13,7 +13,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.vm.KrazyglueHotelSeeMoreHolderViewModel
 import rx.subjects.BehaviorSubject
 
-class KrazyglueSeeMoreViewHolder(itemView: View, val context: Context, val searchParams: BehaviorSubject<HotelSearchParams>) : RecyclerView.ViewHolder(itemView) {
+class KrazyglueSeeMoreViewHolder(itemView: View, context: Context, searchParams: BehaviorSubject<HotelSearchParams>, regionId: BehaviorSubject<String>) : RecyclerView.ViewHolder(itemView) {
 
     val offerText: TextView by bindView(R.id.hotel_offer_expire)
 
@@ -26,6 +26,7 @@ class KrazyglueSeeMoreViewHolder(itemView: View, val context: Context, val searc
         itemView.setOnClickListener {
             FlightsV2Tracking.trackKrazyglueSeeMoreClicked()
             val flags = NavUtils.FLAG_PINNED_SEARCH_RESULTS or NavUtils.FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK
+            searchParams.value.origin?.gaiaId = regionId.value
             HotelNavUtils.goToHotelsV2Params(it.context, searchParams.value, null, flags)
         }
     }

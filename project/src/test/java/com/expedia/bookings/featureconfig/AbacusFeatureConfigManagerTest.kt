@@ -66,7 +66,7 @@ class AbacusFeatureConfigManagerTest {
     }
 
     @Test
-    fun testShouldTrackTestIfRemoteAndDisabled() {
+    fun testShouldNotTrackTestIfRemoteAndDisabled() {
         val abTest = ABTest(99999, true)
         assertFalse(AbacusFeatureConfigManager.shouldTrackTest(context, abTest))
     }
@@ -74,6 +74,13 @@ class AbacusFeatureConfigManagerTest {
     @Test
     fun testShouldTrackIfRemoteAndEnabled() {
         val abTest = ABTest(12345, true)
+        assertTrue(AbacusFeatureConfigManager.shouldTrackTest(context, abTest))
+    }
+
+    @Test
+    fun testShouldTrackIfRemoteDisabledWithOverride() {
+        val abTest = ABTest(99999, true)
+        updateTestOverride(abTest.key, AbacusUtils.DefaultVariant.BUCKETED)
         assertTrue(AbacusFeatureConfigManager.shouldTrackTest(context, abTest))
     }
 

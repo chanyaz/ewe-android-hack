@@ -3,6 +3,7 @@ package com.expedia.bookings.utils
 import android.content.Context
 import android.util.Base64
 import com.expedia.bookings.R
+import com.expedia.bookings.data.flights.KrazyglueSearchParams
 import okhttp3.HttpUrl
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -43,7 +44,8 @@ class HMACUtil {
             return authString
         }
 
-        private fun createHmac(key: String, data: String): String {
+        @JvmStatic
+        fun createHmac(key: String, data: String): String {
             val mac = Mac.getInstance("HmacSHA1")
             val secret_key = SecretKeySpec(key.toByteArray(), mac.algorithm)
             mac.init(secret_key)
@@ -59,13 +61,6 @@ class HMACUtil {
                 key.append(value.toChar())
             }
             return key.toString()
-        }
-
-        @JvmStatic fun getSignedKrazyglueUrl(baseUrl: String, key: String, destinationCode: String, destinationDateTime: String) : String {
-            val urlWithParams = "$baseUrl?partnerId=${Constants.KRAZY_GLUE_PARTNER_ID}&outboundEndDateTime=$destinationDateTime&destinationTla=$destinationCode&fencedResponse=true"
-            val signature = createHmac(key, urlWithParams).replace("+", "-").replace("/", "_").removeSuffix("=")
-            val signedUrl = "$urlWithParams&signature=$signature"
-            return signedUrl
         }
     }
 

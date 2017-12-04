@@ -2040,7 +2040,8 @@ public class OmnitureTracking {
 		logAbacusQuery(test);
 	}
 
-	private static void trackAbacusTest(ADMS_Measurement s, ABTest abTest) {
+	@VisibleForTesting
+	static void trackAbacusTest(ADMS_Measurement s, ABTest abTest) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			return;
 		}

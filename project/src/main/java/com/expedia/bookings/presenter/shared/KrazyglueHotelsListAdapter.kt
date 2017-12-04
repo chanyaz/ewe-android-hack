@@ -12,7 +12,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import rx.subjects.PublishSubject
 import rx.subjects.BehaviorSubject
 
-class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<KrazyglueResponse.KrazyglueHotel>>, val hotelSearchParams: BehaviorSubject<HotelSearchParams>, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<KrazyglueResponse.KrazyglueHotel>>, val hotelSearchParams: BehaviorSubject<HotelSearchParams>, val regionId: BehaviorSubject<String>,  val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     enum class KrazyglueViewHolderType {
         LOADING_VIEW,
@@ -69,11 +69,11 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
         when (getKrazyGlueViewHolderTypeFromInt(viewType)) {
             KrazyglueViewHolderType.HOTEL_VIEW_HOLDER -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.krazyglue_hotel_view, parent, false)
-                return KrazyglueHotelViewHolder(view as ViewGroup, hotelSearchParams)
+                return KrazyglueHotelViewHolder(view as ViewGroup, hotelSearchParams, regionId)
             }
             KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.krazyglue_see_more_hotel_view, parent, false)
-                return KrazyglueSeeMoreViewHolder(view as ViewGroup, context, hotelSearchParams)
+                return KrazyglueSeeMoreViewHolder(view as ViewGroup, context, hotelSearchParams, regionId)
             }
             else -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.krazyglue_placeholder_hotel_cell, parent, false)

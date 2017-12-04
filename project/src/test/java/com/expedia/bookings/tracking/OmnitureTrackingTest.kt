@@ -2,14 +2,14 @@ package com.expedia.bookings.tracking
 
 import android.content.Context
 import android.content.pm.PackageInfo
+import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
-import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withProps
@@ -22,9 +22,8 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DebugInfoUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.google.android.gms.common.GoogleApiAvailability
-import org.hamcrest.Matchers
+import com.mobiata.android.util.SettingUtils
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.joda.time.DateTimeZone
@@ -33,6 +32,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 // TODO re-enable these tests when implementing methods in the new Omniture SDK implementation
 @RunWith(RobolectricRunner::class)
@@ -129,6 +131,43 @@ class OmnitureTrackingTest {
         OmnitureTracking.trackPageLoadLaunchScreen(0)
 
         assertStateTracked("App.LaunchScreen", not(withEventsString("event330")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun remoteEnabledAbacusTestIsTracked() {
+        val abTest = ABTest(12345, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest)
+
+        val s = ADMS_Measurement.sharedInstance(context)
+        OmnitureTracking.trackAbacusTest(s, abTest)
+
+        val evar = s.getEvar(34)
+        assertNotNull(evar)
+        assertTrue(evar!!.contains("12345"))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun remoteDisabledAbacusTestIsNotTracked() {
+        val abTest = ABTest(12345, true)
+
+        val s = ADMS_Measurement.sharedInstance(context)
+        OmnitureTracking.trackAbacusTest(s, abTest)
+        assertNull(s.getEvar(34))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun remoteDisabledAbacusTestIsTrackedWithOverride() {
+        val abTest = ABTest(12345, true)
+        SettingUtils.save(context, abTest.key.toString(), AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+
+        val s = ADMS_Measurement.sharedInstance(context)
+        OmnitureTracking.trackAbacusTest(s, abTest)
+        val evar = s.getEvar(34)
+        assertNotNull(evar)
+        assertTrue(evar!!.contains("12345"))
     }
 
 //    @Test

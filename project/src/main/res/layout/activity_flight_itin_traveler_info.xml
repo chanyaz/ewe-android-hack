@@ -44,7 +44,8 @@
                 style="@style/FlightItinTravelerHeadings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/traveler_information" />
+                android:text="@string/traveler_information"
+                android:layout_marginBottom="3dp"/>
 
             <com.expedia.bookings.itin.widget.FlightItinTravelerInfoWidget
                 android:id="@+id/traveler_info_card_view"
@@ -55,7 +56,8 @@
                 style="@style/FlightItinTravelerHeadings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/itin_flight_traveler_preferences" />
+                android:text="@string/itin_flight_traveler_preferences"
+                android:layout_marginBottom="3dp"/>
 
             <com.expedia.bookings.itin.widget.FlightItinTravelerPreferenceWidget
                 android:id="@+id/preferences_card_view"

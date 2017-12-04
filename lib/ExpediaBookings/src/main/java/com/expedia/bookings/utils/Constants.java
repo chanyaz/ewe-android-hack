@@ -101,5 +101,8 @@ public class Constants {
 	//Location Permission Prompt Limit
 	public static final int LOCATION_PROMPT_LIMIT = 3;
 
+	// Krazyglue
 	public static final String KRAZY_GLUE_PARTNER_ID = "expedia-hot-mobile-conf";
+	public static final String KRAZY_GLUE_API_KEY = "99e4957f-c45f-4f90-993f-329b32e53ca1";
+	public static final String KRAZY_GLUE_BASE_URL = "/xsell-api/1.0/offers";
 }

@@ -427,6 +427,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/body_text"
             android:background="@android:color/transparent"
+            android:tint="@color/gray700"
             android:clickable="false"
             android:focusable="false"
             android:importantForAccessibility="no"

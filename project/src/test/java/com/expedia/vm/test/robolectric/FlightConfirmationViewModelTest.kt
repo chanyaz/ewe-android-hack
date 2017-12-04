@@ -4,20 +4,21 @@ import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.KrazyglueResponse
+import com.expedia.bookings.data.flights.KrazyglueSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.data.payment.Traveler
+import com.expedia.bookings.server.DateTimeParser
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.test.robolectric.RoboTestHelper
+import com.expedia.bookings.test.robolectric.FlightPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -27,9 +28,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
-import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,6 +39,7 @@ import org.robolectric.shadows.ShadowApplication
 import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -51,6 +51,8 @@ class FlightConfirmationViewModelTest {
     private var vm: FlightConfirmationViewModel by Delegates.notNull()
     private var shadowApplication: ShadowApplication? = null
     private var activity: Activity by Delegates.notNull()
+    private val testArrivalDateTimeTomorrow = DateTime.now().plusDays(1).toString()
+    private val testReturnDateFiveDaysAhead = DateTime.now().plusDays(5).toString()
 
     @Before
     fun before() {
@@ -102,10 +104,10 @@ class FlightConfirmationViewModelTest {
         crossSellWidgetView.assertValue(false)
     }
 
-    fun getCheckoutResponse(dateOfExpiration: String, totalPrice: Money? = Money("100", "USD"), hasAirAttach: Boolean = true): FlightCheckoutResponse {
+    fun getCheckoutResponse(dateOfExpiration: String, totalPrice: Money? = Money("100", "USD"), hasAirAttach: Boolean = true, isRoundTrip: Boolean = false): FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
-        setFlightLeg(response)
+        setFlightLeg(response, isRoundTrip)
         response.passengerDetails = listOf(Traveler("test", "traveler", "1", "9999999", "test@email.com"))
         val qualifierObject = FlightCheckoutResponse.AirAttachInfo()
         val offerTimeField = FlightCheckoutResponse.AirAttachInfo.AirAttachExpirationInfo()
@@ -134,14 +136,24 @@ class FlightConfirmationViewModelTest {
         return response
     }
 
-    private fun setFlightLeg(response: FlightCheckoutResponse) {
+    private fun setFlightLeg(response: FlightCheckoutResponse, isRoundTrip: Boolean) {
         response.details = FlightTripDetails()
-        val segment = FlightLeg.FlightSegment()
-        segment.arrivalAirportCode = "LAX"
-        segment.arrivalTimeRaw = DateTime.now().plusDays(1).toString()
-        val flightLeg = FlightLeg()
-        flightLeg.segments = listOf(segment)
-        response.details.legs = listOf(flightLeg)
+        val arrivalSegment = FlightLeg.FlightSegment()
+        arrivalSegment.arrivalAirportCode = "LAX"
+        arrivalSegment.arrivalTimeRaw = testArrivalDateTimeTomorrow
+        arrivalSegment.departureTimeRaw = testArrivalDateTimeTomorrow
+        val departureLeg = FlightLeg()
+        departureLeg.segments = listOf(arrivalSegment)
+        if (isRoundTrip) {
+            val departureSegment = FlightLeg.FlightSegment()
+            departureSegment.departureAirportCode = "SFO"
+            departureSegment.departureTimeRaw = testReturnDateFiveDaysAhead
+            val returnLeg = FlightLeg()
+            returnLeg.segments = listOf(departureSegment)
+            response.details.legs = listOf(departureLeg, returnLeg)
+        } else {
+            response.details.legs = listOf(departureLeg)
+        }
     }
 
     fun getCheckoutResponseWithoutAirAttachOffer(dateOfExpiration: String) : FlightCheckoutResponse {
@@ -261,12 +273,29 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
-    fun testFlightSearchParamsBecomeHotelSearchParamsForKrazyglue() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
+    fun testKrazyglueParamsReturnDateForRoundTrip() {
         vm = FlightConfirmationViewModel(activity)
+        val checkoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = false, isRoundTrip = true)
+        val testKrazyglueParams = vm.getKrazyglueSearchParams(checkoutResponse, FlightPresenterTestUtil.getFlightSearchParams(isRoundTrip = true))
+
+        assertKrazyglueParams(expectedReturnDateTime = testReturnDateFiveDaysAhead, testKrazyglueSearchParams = testKrazyglueParams)
+    }
+
+    @Test
+    fun testKrazyglueParamsReturnDateOneWay() {
+        vm = FlightConfirmationViewModel(activity)
+        val testKrazyglueParams = vm.getKrazyglueSearchParams(getCheckoutResponse(DateTime.now().toString()), FlightPresenterTestUtil.getFlightSearchParams(isRoundTrip = false))
+        val testReturnDateOneDayAfterArrival = DateTimeParser.parseISO8601DateTimeString(testArrivalDateTimeTomorrow).plusDays(1).toString()
+
+        assertKrazyglueParams(expectedReturnDateTime = testReturnDateOneDayAfterArrival, testKrazyglueSearchParams = testKrazyglueParams)
+    }
+
+    @Test
+    fun testFlightSearchParamsBecomeHotelSearchParamsForKrazyglue() {
+        bucketViewmodelIntoKrazyglue()
         val hotelSearchParamsTestSubscriber = TestSubscriber<HotelSearchParams>()
         vm.krazyGlueHotelSearchParamsObservable.subscribe(hotelSearchParamsTestSubscriber)
-        vm.flightSearchParamsObservable.onNext(getFlightSearchParams())
+        vm.flightSearchParamsObservable.onNext(FlightPresenterTestUtil.getFlightSearchParams(isRoundTrip = true))
 
         hotelSearchParamsTestSubscriber.assertNoValues()
         vm.flightCheckoutResponseObservable.onNext(getCheckoutResponse(DateTime.now().toString()))
@@ -276,10 +305,18 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
-    fun testAirAttachVisibilityWithKrazyglueTurnedOn() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
-        vm = FlightConfirmationViewModel(activity)
+    fun testRegionIdParsedFromDeeplinkUrl() {
+        bucketViewmodelIntoKrazyglue()
+        val regionIdTestSubscriber = TestSubscriber<String>()
+        vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
+        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = true))
 
+        regionIdTestSubscriber.assertValue("178276")
+    }
+
+    @Test
+    fun testAirAttachVisibilityWithKrazyglueTurnedOn() {
+        bucketViewmodelIntoKrazyglue()
         val checkoutResponse = getCheckoutResponse(DateTime.now().toString())
         vm = FlightConfirmationViewModel(activity)
         vm.confirmationObservable.onNext(Pair(checkoutResponse, customerEmail))
@@ -297,6 +334,77 @@ class FlightConfirmationViewModelTest {
         assertTrue(vm.crossSellWidgetVisibility.value)
     }
 
+    @Test
+    fun testSignedKrazyglueUrl() {
+        vm = FlightConfirmationViewModel(activity)
+        val successfulUrl = "/xsell-api/1.0/offers?partnerId=expedia-hot-mobile-conf&outboundEndDateTime=2020-10-10T00:02:06.401Z&returnStartDateTime=2020-10-11T00:02:06.401Z&destinationTla=LAS&fencedResponse=true&signature=HS5WVueebVfa2agCdQmdEKs-tTs"
+        val krazyglueParams = KrazyglueSearchParams("LAS", "2020-10-10T00:02:06.401Z", "2020-10-11T00:02:06.401Z")
+
+        assertEquals(successfulUrl, vm.getSignedKrazyglueUrl(krazyglueParams))
+    }
+
+    @Test
+    fun testSuccessfulKrazyglueResponseMaintainsHiddenCrossSell() {
+        bucketViewmodelIntoKrazyglue()
+        val crossSellVisibilityTestSubscriber = TestSubscriber<Boolean>()
+        vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
+        val crossSellEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = false, isRoundTrip = true)
+        vm.flightCheckoutResponseObservable.onNext(crossSellEligibleCheckoutResponse)
+        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = true))
+
+        crossSellVisibilityTestSubscriber.assertValue(false)
+    }
+
+    @Test
+    fun testFailedKrazyGlueResponseShowsCrossSellWhenEligible() {
+        bucketViewmodelIntoKrazyglue()
+        val crossSellVisibilityTestSubscriber = TestSubscriber<Boolean>()
+        vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
+        val crossSellEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = true, isRoundTrip = true)
+        vm.flightCheckoutResponseObservable.onNext(crossSellEligibleCheckoutResponse)
+        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = false))
+
+        crossSellVisibilityTestSubscriber.assertValue(true)
+    }
+
+    @Test
+    fun testFailedKrazyGlueResponseHidesCrossSellAndKrazyglueWhenNotEligible() {
+        bucketViewmodelIntoKrazyglue()
+        val crossSellVisibilityTestSubscriber = TestSubscriber<Boolean>()
+        vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
+        val crossSellNotEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = false, isRoundTrip = true)
+        vm.flightCheckoutResponseObservable.onNext(crossSellNotEligibleCheckoutResponse)
+        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = false))
+
+        crossSellVisibilityTestSubscriber.assertValue(false)
+    }
+
+    @Test
+    fun testSuccessfulKrazyglueResponse() {
+        bucketViewmodelIntoKrazyglue()
+        val regionIdTestSubscriber = TestSubscriber<String>()
+        val krazyglueHotelsTestSubscriber = TestSubscriber<List<KrazyglueResponse.KrazyglueHotel>>()
+        vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
+        vm.krazyglueHotelsObservable.subscribe(krazyglueHotelsTestSubscriber)
+        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = true))
+
+        regionIdTestSubscriber.assertValue("178276")
+        assertEquals(3, krazyglueHotelsTestSubscriber.onNextEvents[0].size)
+    }
+
+    @Test
+    fun testFailedKrazyglueResponse() {
+        bucketViewmodelIntoKrazyglue()
+        val regionIdTestSubscriber = TestSubscriber<String>()
+        val krazyglueHotelsTestSubscriber = TestSubscriber<List<KrazyglueResponse.KrazyglueHotel>>()
+        vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
+        vm.krazyglueHotelsObservable.subscribe(krazyglueHotelsTestSubscriber)
+        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = false))
+
+        regionIdTestSubscriber.assertNoValues()
+        krazyglueHotelsTestSubscriber.assertValue(emptyList())
+    }
+
     private fun setUpInsuranceProductInResponse(checkoutResponse: FlightCheckoutResponse) {
         val flightAggregatedResponse = FlightCheckoutResponse.FlightAggregatedResponse()
         val list = ArrayList<FlightTripDetails>()
@@ -309,39 +417,17 @@ class FlightConfirmationViewModelTest {
         checkoutResponse.flightAggregatedResponse = flightAggregatedResponse
     }
 
-    private fun getFlightSearchParams(): FlightSearchParams {
-        val departureSuggestion = SuggestionV4()
-        departureSuggestion.gaiaId = "1234"
-        val departureRegionNames = SuggestionV4.RegionNames()
-        departureRegionNames.displayName = "San Francisco"
-        departureRegionNames.shortName = "SFO"
-        departureRegionNames.fullName = "SFO - San Francisco"
-        departureSuggestion.regionNames = departureRegionNames
-
-        val testDepartureCoordinates = SuggestionV4.LatLng()
-        testDepartureCoordinates.lat = 600.5
-        testDepartureCoordinates.lng = 300.3
-        departureSuggestion.coordinates = testDepartureCoordinates
-
-        val arrivalSuggestion = SuggestionV4()
-        arrivalSuggestion.gaiaId = "5678"
-        val arrivalRegionNames = SuggestionV4.RegionNames()
-        arrivalRegionNames.displayName = "Los Angeles"
-        arrivalRegionNames.shortName = "LAX"
-        arrivalRegionNames.fullName = "LAX - Los Angeles"
-        arrivalSuggestion.regionNames = arrivalRegionNames
-
-        val testArrivalCoordinates = SuggestionV4.LatLng()
-        testArrivalCoordinates.lat = 100.00
-        testArrivalCoordinates.lng = 500.00
-        arrivalSuggestion.coordinates = testArrivalCoordinates
-
-        val childList = ArrayList<Int>()
-        childList.add(4)
-        val checkIn = LocalDate().plusDays(2)
-        val checkOut = LocalDate().plusDays(3)
-
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null, null)
+    private fun bucketViewmodelIntoKrazyglue() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
+        vm = FlightConfirmationViewModel(activity)
     }
 
+
+    fun assertKrazyglueParams(expectedReturnDateTime: String, testKrazyglueSearchParams: KrazyglueSearchParams) {
+        assertEquals(expectedReturnDateTime, testKrazyglueSearchParams.returnDateTime)
+        assertEquals(testArrivalDateTimeTomorrow, testKrazyglueSearchParams.arrivalDateTime)
+        assertEquals("LAX", testKrazyglueSearchParams.destinationCode)
+        assertEquals("99e4957f-c45f-4f90-993f-329b32e53ca1", testKrazyglueSearchParams.apiKey)
+        assertEquals("/xsell-api/1.0/offers", testKrazyglueSearchParams.baseUrl)
+    }
 }

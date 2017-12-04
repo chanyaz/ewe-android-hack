@@ -27,7 +27,7 @@ class AbacusFeatureConfigManager {
 
         @JvmStatic
         fun shouldTrackTest(context: Context, abacusTest: ABTest): Boolean {
-            if (abacusTest.remote && !SatelliteFeatureConfigManager.isABTestEnabled(context, abacusTest.key)) {
+            if (abacusTest.remote && !SatelliteFeatureConfigManager.isABTestEnabled(context, abacusTest.key) && !useOverride(context, abacusTest)) {
                 return false
             }
             return true
