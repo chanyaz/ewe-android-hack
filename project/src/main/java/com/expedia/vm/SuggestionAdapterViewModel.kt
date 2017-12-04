@@ -111,13 +111,22 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
 
     private fun getSuggestionsWithLabel(location: Location) {
         getGaiaNearbySuggestions(location)
-                .subscribe { nearbySuggestion ->
-                    val rawQuerySuggestion = (if (rawQueryEnabled && !lastQuery.isNullOrBlank()) listOf(suggestionWithRawQueryString(lastQuery)) else emptyList())
-                    val essAndRawTextSuggestion = ArrayList<SuggestionType>()
-                    essAndRawTextSuggestion += rawQuerySuggestion.map { SuggestionType.SUGGESTIONV4(it) }
-                    essAndRawTextSuggestion += suggestionsListWithNearbyAndLabels()
-                    suggestionsAndLabelObservable.onNext(essAndRawTextSuggestion)
-                }
+                .subscribe(object: Observer<List<SuggestionV4>>{
+                    override fun onCompleted() {
+                    }
+
+                    override fun onError(e: Throwable?) {
+                        Log.e("Search Suggestion LabelError", e.toString())
+                    }
+
+                    override fun onNext(t: List<SuggestionV4>?) {
+                        val rawQuerySuggestion = (if (rawQueryEnabled && !lastQuery.isNullOrBlank()) listOf(suggestionWithRawQueryString(lastQuery)) else emptyList())
+                        val essAndRawTextSuggestion = ArrayList<SuggestionType>()
+                        essAndRawTextSuggestion += rawQuerySuggestion.map { SuggestionType.SUGGESTIONV4(it) }
+                        essAndRawTextSuggestion += suggestionsListWithNearbyAndLabels()
+                        suggestionsAndLabelObservable.onNext(essAndRawTextSuggestion)
+                    }
+                })
     }
 
     private fun getSuggestions(location: Location) {
