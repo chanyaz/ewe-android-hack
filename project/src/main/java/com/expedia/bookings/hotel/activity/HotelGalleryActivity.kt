@@ -40,12 +40,18 @@ class HotelGalleryActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        galleryView.setGalleryItems(galleryManager.fetchMediaList(galleryConfig.roomCode))
-        galleryView.scrollTo(scrollPosition)
-        if (galleryConfig.showDescription) {
-            galleryView.expand()
+        val galleryItems = galleryManager.fetchMediaList(galleryConfig.roomCode)
+        if (galleryItems.isEmpty()) {
+            // https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/8612
+            finish()
         } else {
-            galleryView.collapse()
+            galleryView.setGalleryItems(galleryManager.fetchMediaList(galleryConfig.roomCode))
+            galleryView.scrollTo(scrollPosition)
+            if (galleryConfig.showDescription) {
+                galleryView.expand()
+            } else {
+                galleryView.collapse()
+            }
         }
     }
 
