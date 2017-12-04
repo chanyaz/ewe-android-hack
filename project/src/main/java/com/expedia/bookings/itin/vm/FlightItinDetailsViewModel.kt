@@ -117,7 +117,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                     redEyeDaysSB.append(segment.daySpan())
                     redEyeDays = redEyeDaysSB.toString()
                 }
-                if (BuildConfig.DEBUG) {
+                if (BuildConfig.DEBUG && itinCardDataFlight.id == "flightMock") {
                     var depart = segment.originWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED)
                     var arrival =  segment.destinationWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED)
                     when (segment.mFlightHistoryId) {

@@ -422,9 +422,6 @@ public class Flight implements Comparable<Flight>, JSONable {
 		this.mBaggageClaim = another.mBaggageClaim;
 		this.mDistanceToTravel = another.mDistanceToTravel;
 		this.mDistanceTraveled = another.mDistanceTraveled;
-		this.mIsSeatMapAvailable = another.mIsSeatMapAvailable;
-		this.mCabinCode = another.mCabinCode;
-		this.seatList = another.seatList;
 		// Only update these fields if the updater has
 		// info - otherwise, we want to preserve what
 		// data we have here.  (For example, if a TripIt
