@@ -863,7 +863,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         detailPresenter.hotelDetailView.viewmodel.hotelSelectedObservable.onNext(Unit)
         //If hotel is known to be "Sold Out", simply show the Hotel Details Screen in "Sold Out" state, otherwise fetch Offers and show those as well
         showDetails(hotel.hotelId)
-        HotelTracking.trackHotelCarouselClick()
     }
 
     fun handleGenericSearch(params: HotelSearchParams) {

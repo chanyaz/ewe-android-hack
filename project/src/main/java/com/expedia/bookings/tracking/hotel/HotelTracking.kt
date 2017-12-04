@@ -261,10 +261,6 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2MapTapPin()
         }
 
-        fun trackHotelCarouselClick() {
-            OmnitureTracking.trackHotelV2CarouselClick()
-        }
-
         fun trackHotelsSearchAreaClick() {
             OmnitureTracking.trackHotelV2AreaSearchClick()
         }

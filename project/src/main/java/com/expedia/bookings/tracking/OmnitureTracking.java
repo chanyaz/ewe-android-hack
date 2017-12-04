@@ -215,7 +215,6 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SEARCH_MAP = "App.Hotels.Search.Map";
 	private static final String HOTELSV2_SEARCH_MAP_TO_LIST = "App.Hotels.Search.Expand.List";
 	private static final String HOTELSV2_SEARCH_MAP_TAP_PIN = "App.Hotels.Search.TapPin";
-	private static final String HOTELSV2_SEARCH_MAP_TAP_CAROUSAL = "App.Hotels.Search.Expand.Hotel";
 	private static final String HOTELSV2_SEARCH_THIS_AREA = "App.Hotels.Search.AreaSearch";
 	private static final String HOTELSV2_DETAILS_PAGE = "App.Hotels.Infosite";
 	private static final String HOTELSV2_SOLD_OUT_PAGE = "App.Hotels.Infosite.SoldOut";
@@ -699,13 +698,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_MAP_TAP_PIN + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_MAP_TAP_PIN);
-		s.trackLink(null, "o", "Search Results Map View", null, null);
-	}
-
-	public static void trackHotelV2CarouselClick() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_MAP_TAP_CAROUSAL + "\" click...");
-
-		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_MAP_TAP_CAROUSAL);
 		s.trackLink(null, "o", "Search Results Map View", null, null);
 	}
 
