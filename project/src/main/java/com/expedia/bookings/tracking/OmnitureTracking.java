@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -113,6 +114,7 @@ import com.mobiata.android.util.SettingUtils;
 import kotlin.NotImplementedError;
 
 import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
+import static com.expedia.bookings.utils.FeatureUtilKt.isPackagesMISRealWorldGeoEnabled;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -4332,7 +4334,7 @@ public class OmnitureTracking {
 		createTrackPackagePageLoadEventBase(pageName, pageUsableData).track();
 	}
 
-	private static void trackPackagePageLoadEventStandard(String pageName, PageUsableData pageUsableData, ABTest... abTests) {
+	private static void trackPackagePageLoadEventStandard(String pageName, PageUsableData pageUsableData, List<ABTest> abTests) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName, pageUsableData);
 		for (ABTest testKey : abTests) {
@@ -4342,12 +4344,14 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesDestinationSearchInit(PageUsableData pageUsableData) {
+		List<ABTest> abTests = new ArrayList<>();
 		if (isMidAPIEnabled(sContext)) {
-			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData, AbacusUtils.EBAndroidAppPackagesMidApi);
+			abTests.add(AbacusUtils.EBAndroidAppPackagesMidApi);
 		}
-		else {
-			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData);
+		if (isPackagesMISRealWorldGeoEnabled(sContext)) {
+			abTests.add(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo);
 		}
+		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData, abTests);
 	}
 
 	public static void trackPackagesHSRMapInit() {
