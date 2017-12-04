@@ -788,6 +788,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             sortFaqWebView.visibility = View.GONE
             postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar) }, 50L)
             updateViewModelState(ResultsList::class.java.name)
+            showFilterMenuItem(true)
         }
     }
 
