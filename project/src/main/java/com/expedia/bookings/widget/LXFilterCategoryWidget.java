@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.otto.Events;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -41,13 +42,34 @@ public class LXFilterCategoryWidget extends LinearLayout implements View.OnClick
 		this.categoryKey = categoryKey;
 		categoryTitle.setText(category.displayValue);
 		categoryCheckBox.setChecked(category.checked);
-		categoryCheckBox.setContentDescription(category.displayValue);
+		setContentDescription();
+		categoryTitle.setAccessibilityLiveRegion(ACCESSIBILITY_LIVE_REGION_ASSERTIVE);
 	}
 
 	@Override
 	public void onClick(View v) {
 		category.checked = !category.checked;
 		categoryCheckBox.setChecked(category.checked);
+		setContentDescription();
 		Events.post(new Events.LXFilterCategoryCheckedChanged(category, categoryKey));
+	}
+
+	private void setContentDescription() {
+		if (category.checked) {
+			categoryTitle.setContentDescription(
+				Phrase.from(getContext(), R.string.filter_selected_TEMPLATE)
+					.put("filter", category.displayValue)
+					.format()
+					.toString()
+			);
+		}
+		else {
+			categoryTitle.setContentDescription(
+				Phrase.from(getContext(),  R.string.filter_not_selected_TEMPLATE)
+					.put("filter", category.displayValue)
+					.format()
+					.toString()
+			);
+		}
 	}
 }

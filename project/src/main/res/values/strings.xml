@@ -643,6 +643,10 @@
     <string name="sort_and_filter_cont_desc">Sort &amp; Filter button</string>
     <!-- "Done" list header label -->
     <string name="Done">Done</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is checked" -->
+    <string name="filter_selected_TEMPLATE">{filter} checkbox checked</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is not checked" -->
+    <string name="filter_not_selected_TEMPLATE">{filter} checkbox not checked</string>
 
     <!-- Baggage Info Accessibility -->
     <string name="spinner_text_baggage_info_fetching">Fetching the baggage info</string>

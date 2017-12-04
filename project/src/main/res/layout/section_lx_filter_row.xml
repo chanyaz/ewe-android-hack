@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:importantForAccessibility="no"
+    android:importantForAccessibility="yes"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
     android:paddingLeft="@dimen/lx_sort_filter_padding"
@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/category"
         android:layout_width="wrap_content"
-        android:importantForAccessibility="no"
+        android:importantForAccessibility="yes"
         android:layout_height="wrap_content"
         android:textColor="@color/lx_details_text_color" />
 
@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:importantForAccessibility="no"
         android:clickable="false"/>
 
 </com.expedia.bookings.widget.LXFilterCategoryWidget>
