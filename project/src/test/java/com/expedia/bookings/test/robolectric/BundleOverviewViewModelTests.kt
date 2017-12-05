@@ -161,7 +161,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testStepTitleWithBreadcrumbs() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav, R.string.preference_packages_breadcrumbs)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
 
         val stepOneTestSubscriber = TestSubscriber<String>()
         val stepTwoTestSubscriber = TestSubscriber<String>()

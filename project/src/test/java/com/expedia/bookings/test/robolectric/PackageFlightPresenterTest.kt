@@ -58,6 +58,7 @@ class PackageFlightPresenterTest {
     fun testOutboundFlightsToolbarText() {
         setPackageResponseHotels()
         setPackageResponseOutboundFlight()
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
 
         presenter = getPackageFlightPresenter()
         presenter.toolbarViewModel.refreshToolBar.onNext(true)
@@ -78,6 +79,7 @@ class PackageFlightPresenterTest {
     fun testInboundFlightsToolbarText() {
         setPackageResponseHotels()
         setPackageResponseOutboundFlight()
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
 
         presenter = getPackageFlightPresenter()
         presenter.toolbarViewModel.refreshToolBar.onNext(true)
@@ -96,7 +98,7 @@ class PackageFlightPresenterTest {
 
     @Test
     fun testOutboundFlightsToolbarWithBreadcrumbsText() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav, R.string.preference_packages_breadcrumbs)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
         setPackageResponseHotels()
         setPackageResponseOutboundFlight()
 
@@ -117,7 +119,7 @@ class PackageFlightPresenterTest {
 
     @Test
     fun testInboundFlightsToolbarWithBreadcrumbsText() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav, R.string.preference_packages_breadcrumbs)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
         setPackageResponseHotels()
         setPackageResponseOutboundFlight()
 
