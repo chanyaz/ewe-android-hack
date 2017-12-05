@@ -324,13 +324,11 @@ public class PushNotificationUtils {
 	 * Build the JSONObject that is to be posted to the api for registering push notifications
 	 * @param token - This is api terminology, in our case it is the Registration Id provided by GCM
 	 * @param tuid - The current user's tuid
-	 * @param normalFlightList - A list of flight objects we want to register for that come from our regular itins.
-	 * @param sharedFlightList - A list of flight objects that we want to register for, which are from shared itins.
+	 * @param flightList - A list of flight objects we want to register for that come from our regular itins.
 	 * @return
 	 */
 	@SuppressLint("SimpleDateFormat")
-	public static JSONObject buildPushRegistrationPayload(Context context, String token, int siteId, long tuid, List<Flight> normalFlightList,
-			List<Flight> sharedFlightList) {
+	public static JSONObject buildPushRegistrationPayload(Context context, String token, int siteId, long tuid, List<Flight> flightList) {
 		JSONObject retObj = new JSONObject();
 		JSONObject courier = new JSONObject();
 		JSONArray flights = new JSONArray();
@@ -347,18 +345,9 @@ public class PushNotificationUtils {
 			courier.put("group", "gcm");
 			courier.put("token", token);
 
-			if (normalFlightList != null) {
-				for (Flight f : normalFlightList) {
+			if (flightList != null) {
+				for (Flight f : flightList) {
 					JSONObject flightJson = buildFlightJSON(context, f, false);
-					if (flightJson != null) {
-						flights.put(flightJson);
-					}
-				}
-			}
-
-			if (sharedFlightList != null) {
-				for (Flight f : sharedFlightList) {
-					JSONObject flightJson = buildFlightJSON(context, f, true);
 					if (flightJson != null) {
 						flights.put(flightJson);
 					}
@@ -1106,7 +1095,7 @@ public class PushNotificationUtils {
 				}
 				ExpediaServices services = new ExpediaServices(context);
 				return services.registerForPushNotifications(serverUrl, new PushRegistrationResponseHandler(context),
-						buildPushRegistrationPayload(context, regId, siteId, userTuid, null, null), regId);
+						buildPushRegistrationPayload(context, regId, siteId, userTuid, null), regId);
 			}
 		}, unregistrationCompleteHandler);
 	}

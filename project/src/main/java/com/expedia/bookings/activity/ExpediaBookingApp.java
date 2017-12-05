@@ -41,7 +41,6 @@ import com.expedia.bookings.dagger.TravelerComponent;
 import com.expedia.bookings.dagger.TripComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.country.CountryConfig;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleConfigHelper;
@@ -316,8 +315,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		initializeFeatureConfig();
 		CarnivalUtils.getInstance().initialize(this);
 
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.TripsNewFlightAlerts,
-			R.string.preference_enable_trips_flight_alerts)) {
+		if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_enable_trips_flight_alerts)) {
 			FlightRegistrationHandler flightRegistrationHandler = appComponent().flightRegistrationService();
 			flightRegistrationHandler.setup();
 			appComponent().userLoginStateChangedModel().getUserLoginStateChanged()

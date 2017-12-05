@@ -13,9 +13,12 @@ import java.io.File
 class ItinCardDataFlightBuilder {
 
     
-    fun build(airAttachEnabled:Boolean = false, multiSegment:Boolean = false, confirmationNumber:String? = null): ItinCardDataFlight {
+    fun build(airAttachEnabled:Boolean = false, multiSegment:Boolean = false, confirmationNumber:String? = null, isShared: Boolean = false): ItinCardDataFlight {
         val itinCardDataFlight = makeFlight(multiSegment)
         itinCardDataFlight.setShowAirAttach(airAttachEnabled)
+        if (isShared) {
+            itinCardDataFlight.isSharedItin
+        }
         if(!TextUtils.isEmpty(confirmationNumber)) {
             val trip = itinCardDataFlight.tripComponent as TripFlight
             val confirmation = FlightConfirmation()

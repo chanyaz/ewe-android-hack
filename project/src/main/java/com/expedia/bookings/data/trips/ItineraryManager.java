@@ -278,27 +278,21 @@ public class ItineraryManager implements JSONable {
 	 * <p/>
 	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
 	 * in the itin list will be searched
-	 *
-	 * @param shared - if true, we return a list of shared itin flights, if false we return a list of normal itin flights
+
 	 * @return a list of Flight instances
 	 */
-	private List<Flight> getItinFlights(boolean shared) {
+	public List<Flight> getItinFlights() {
 		List<Flight> retFlights = new ArrayList<>();
-
-		synchronized (mItinCardDatas) {
-			for (ItinCardData data : mItinCardDatas) {
+		List<ItinCardData> itinCardDatas = getItinCardData();
+		synchronized (itinCardDatas) {
+			for (ItinCardData data : itinCardDatas) {
 				if (data.getTripComponentType() != null && data.getTripComponentType() == Type.FLIGHT
 					&& data.getTripComponent() != null && data instanceof ItinCardDataFlight) {
 					ItinCardDataFlight dataFlight = (ItinCardDataFlight) data;
-					boolean flightIsShared = dataFlight.getTripComponent().getParentTrip() != null
-						&& dataFlight.getTripComponent().getParentTrip().isShared();
-
-					if ((flightIsShared && shared) || (!shared && !flightIsShared)) {
 						FlightLeg leg = dataFlight.getFlightLeg();
 						if (leg != null && leg.getSegments() != null) {
 							retFlights.addAll(leg.getSegments());
 						}
-					}
 				}
 			}
 		}
@@ -1892,12 +1886,12 @@ public class ItineraryManager implements JSONable {
 			}
 
 			Courier courier = new Courier("gcm", BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(mContext));
-
+			//use old Flight Alert system
 			if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(mContext, AbacusUtils.TripsNewFlightAlerts,
 				R.string.preference_enable_trips_flight_alerts)) {
 				JSONObject payload = PushNotificationUtils
 					.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
-						getItinFlights(false), getItinFlights(true));
+						getItinFlights());
 
 				Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
 
@@ -1913,10 +1907,11 @@ public class ItineraryManager implements JSONable {
 				}
 
 			}
+			//use new TNS system
 			else {
 				JSONObject payload = PushNotificationUtils
 					.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
-						new ArrayList<Flight>(), new ArrayList<Flight>());
+						new ArrayList<Flight>());
 
 				Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
 
@@ -1933,54 +1928,26 @@ public class ItineraryManager implements JSONable {
 	private List<TNSFlight> getFlightsForNewSystem() {
 
 		List<TNSFlight> flights = new ArrayList<>();
-		List<Flight> actualFlights = getItinFlights(false);
-		List<Flight> sharedFlights = getItinFlights(true);
-		for (Flight flight : actualFlights) {
-			TNSFlight flightToAdd = new TNSFlight(flight.getPrimaryFlightCode().mAirlineCode,
-				JodaUtils.format(flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-					"yyyy-MM-dd HH:mm:ss"),
-				JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-					"yyyy-MM-dd HH:mm:ss"),
-				JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-					"yyyy-MM-dd"),
-				flight.getDestinationWaypoint().mAirportCode,
-				flight.getPrimaryFlightCode().mNumber,
-				flight.getOriginWaypoint().mAirportCode
-			);
-			flights.add(flightToAdd);
+		List<Flight> itinFlights = getItinFlights();
+		for (Flight flight : itinFlights) {
+			if (flight.getPrimaryFlightCode() != null) {
+				TNSFlight flightToAdd = new TNSFlight(flight.getPrimaryFlightCode().mAirlineCode,
+					JodaUtils.format(flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
+						"yyyy-MM-dd HH:mm:ss"),
+					JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
+						"yyyy-MM-dd HH:mm:ss"),
+					JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
+						"yyyy-MM-dd"),
+					flight.getDestinationWaypoint().mAirportCode,
+					flight.getPrimaryFlightCode().mNumber,
+					flight.getOriginWaypoint().mAirportCode
+				);
+				flights.add(flightToAdd);
+			}
 		}
 
-		for (Flight flight : sharedFlights) {
-			TNSFlight flightToAdd = new TNSFlight(flight.getPrimaryFlightCode().mAirlineCode,
-				JodaUtils.format(flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-					"yyyy-MM-dd HH:mm:ss"),
-				JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-					"yyyy-MM-dd HH:mm:ss"),
-				JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-					"yyyy-MM-dd"),
-				flight.getDestinationWaypoint().mAirportCode,
-				flight.getPrimaryFlightCode().mNumber,
-				flight.getOriginWaypoint().mAirportCode
-			);
-			flights.add(flightToAdd);
-		}
 		return flights;
 	}
-
-	private TNSFlight getFlightToAdd(Flight flight) {
-		TNSFlight flightToAdd = new TNSFlight(flight.getPrimaryFlightCode().mAirlineCode,
-			JodaUtils.format(flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-				"yyyy-MM-dd\'T\'HH:mm:ss.SSSZZZ"),
-			JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-				"yyyy-MM-dd\'T\'HH:mm:ss.SSSZZZ"),
-			JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-				"yyyy-MM-dd\'T\'HH:mm:ss.SSSZZZ"),
-			flight.getDestinationWaypoint().mAirportCode,
-			flight.getPrimaryFlightCode().mNumber,
-			flight.getOriginWaypoint().mAirportCode);
-		return flightToAdd;
-	}
-
 
 	//////////////////////////////////////////////////////////////////////////
 	// Local Notifications

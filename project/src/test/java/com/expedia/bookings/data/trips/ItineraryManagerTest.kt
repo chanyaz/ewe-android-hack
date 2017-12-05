@@ -1,10 +1,10 @@
 package com.expedia.bookings.data.trips
 
-import android.content.Context
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.NullSafeMockitoHamcrest.mapThat
@@ -12,6 +12,8 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
+import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
 import org.joda.time.LocalDateTime
@@ -24,7 +26,8 @@ import org.robolectric.RuntimeEnvironment
 @RunWith(RobolectricRunner::class)
 class ItineraryManagerTest {
 
-    val context: Context = RuntimeEnvironment.application
+    val context = RuntimeEnvironment.application
+    lateinit var testItinCardData: ItinCardDataFlight
 
     @Test
     fun testHasUpcomingOrInProgressTrip() {
@@ -94,6 +97,31 @@ class ItineraryManagerTest {
         assertLinkTrackedWithError("Trips Call", "App.Itinerary.Call.Failure", "event288", "Trip details response is null", mockAnalyticsProvider)
     }
 
+    @Test
+    fun testGetItinFlightswithMultiSegmentFlight() {
+        val mockedItinManager = createMockItinManager(itinCardDataMultiSegmentFlight())
+        Mockito.`when`(mockedItinManager.itinFlights).thenCallRealMethod()
+        val usersFlightList = mockedItinManager.itinFlights
+        assertEquals(2, usersFlightList.size)
+    }
+
+    @Test
+    fun testGetItinFlightswithHotel() {
+        val mockedItinManager = createMockItinManager(itinCardDataHotel())
+        Mockito.`when`(mockedItinManager.itinFlights).thenCallRealMethod()
+        val usersFlightList = mockedItinManager.itinFlights
+        assertEquals(0, usersFlightList.size)
+    }
+
+    @Test
+    fun testGetItinFlightswithSharedFlight() {
+        val mockedItinManager = createMockItinManager(itinCardDataSharedFlight())
+        Mockito.`when`(mockedItinManager.itinFlights).thenCallRealMethod()
+        val usersFlightList = mockedItinManager.itinFlights
+        assertEquals(1, usersFlightList.size)
+    }
+
+
     private fun assertLinkTracked(linkName: String, rfrrId: String, event: String, mockAnalyticsProvider: AnalyticsProvider) {
         val expectedData = mapOf(
                 "&&linkType" to "o",
@@ -131,4 +159,23 @@ class ItineraryManagerTest {
 
         Mockito.verify(mockAnalyticsProvider).trackAction(Mockito.eq(linkName), mapThat(hasEntries(expectedData)))
     }
+
+    private fun createMockItinManager(itinCardData: ItinCardData): ItineraryManager {
+        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
+        Mockito.`when`(mockItineraryManager.itinCardData).thenReturn(listOf(itinCardData))
+        return mockItineraryManager
+    }
+
+    private fun itinCardDataMultiSegmentFlight(): ItinCardDataFlight {
+        return ItinCardDataFlightBuilder().build(multiSegment = true)
+    }
+
+    private fun itinCardDataHotel(): ItinCardDataHotel {
+        return ItinCardDataHotelBuilder().build()
+    }
+
+    private fun itinCardDataSharedFlight(): ItinCardDataFlight {
+        return ItinCardDataFlightBuilder().build(isShared = true)
+    }
+
 }
