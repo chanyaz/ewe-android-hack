@@ -4,7 +4,9 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.TextView
 import com.expedia.bookings.R
@@ -45,6 +47,17 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
         } else {
             travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
         }
+    }
+
+
+    override fun setTranslationY(translationY: Float) {
+        super.setTranslationY(translationY)
+        Log.e("----------------->","translationY: $translationY")
+    }
+
+    override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
+        super.setLayoutParams(params)
+        Log.e("----------------->","translationY: $translationY")
     }
 
     private var originSuggestionAdapter: SuggestionAdapter by Delegates.notNull()

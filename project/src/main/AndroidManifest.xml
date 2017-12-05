@@ -301,6 +301,7 @@
             android:name="com.expedia.ui.PackageActivity"
             android:label="Packages"
             android:screenOrientation="portrait"
+            android:fitsSystemWindows="true"
             android:launchMode="singleTop"
             android:theme="@style/V2.Theme.Packages" />
 
