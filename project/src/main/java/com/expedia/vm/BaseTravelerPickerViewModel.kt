@@ -32,6 +32,8 @@ abstract class BaseTravelerPickerViewModel(var context: Context) {
     val childMinusObservable = BehaviorSubject.create<Boolean>()
     val adultTravelerCountChangeObservable = BehaviorSubject.create<Unit>()
     val childTravelerCountChangeObservable = BehaviorSubject.create<Unit>()
+    val childPlusButtonContentDescription = PublishSubject.create<String>()
+    val childMinusButtonContentDescription = PublishSubject.create<String>()
 
     init {
         travelerParamsObservable.subscribe { travelers ->

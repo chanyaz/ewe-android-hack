@@ -72,6 +72,8 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
         if (childPlusObservable.value) {
             val travelerParams = travelerParamsObservable.value
             travelerParamsObservable.onNext(TravelerParams(travelerParams.numberOfAdults, travelerParams.childrenAges.plus(childAges[travelerParams.childrenAges.size]), emptyList(), emptyList()))
+            val no_of_children = travelerParamsObservable.value.childrenAges.size
+            childPlusButtonContentDescription.onNext(context.resources.getQuantityString(R.plurals.add_child_button_cont_desc_TEMPLATE, no_of_children, no_of_children))
             trackTravelerPickerClick("Add.Child")
         }
         childTravelerCountChangeObservable.onNext(Unit)
@@ -81,6 +83,7 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
         if (childMinusObservable.value) {
             val travelerParams = travelerParamsObservable.value
             travelerParamsObservable.onNext(TravelerParams(travelerParams.numberOfAdults, travelerParams.childrenAges.subList(0, travelerParams.childrenAges.size - 1), emptyList(), emptyList()))
+            childMinusButtonContentDescription.onNext(childTextObservable.value)
             trackTravelerPickerClick("Remove.Child")
         }
         childTravelerCountChangeObservable.onNext(Unit)

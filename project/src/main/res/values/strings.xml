@@ -3081,6 +3081,13 @@
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
     <string name="app_not_available">Either your phone doesn\'t have an app that can handle this action or you are restricted from accessing it.</string>
+    <!--Content description for add child button on traveler form Eg: 2 children added -->
+    <plurals name="add_child_button_cont_desc_TEMPLATE">
+        <item quantity="zero">%d children, Select children age below.\u0020</item>
+        <item quantity="one">%d child, Select child age below.\u0020</item>
+        <item quantity="other">%d children, Select children age below.\u0020</item>
+    </plurals>
+
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d Adults</item>

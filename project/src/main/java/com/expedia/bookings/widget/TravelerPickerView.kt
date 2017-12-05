@@ -87,8 +87,11 @@ class TravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPi
         vm.adultTravelerCountChangeObservable.subscribe {
             adultPlus.announceForAccessibility(adultText.text)
         }
-        vm.childTravelerCountChangeObservable.subscribe {
-            childPlus.announceForAccessibility(childText.text)
+        vm.childPlusButtonContentDescription.subscribe {
+            childPlus.announceForAccessibility(it)
+        }
+        vm.childMinusButtonContentDescription.subscribe {
+            childMinus.announceForAccessibility(childText.text)
         }
         vm.infantInSeatObservable.filter { it }.subscribe {
             infantPreferenceSeatingSpinner.setSelection(1)
