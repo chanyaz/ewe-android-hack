@@ -16,12 +16,12 @@ import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.BaggageInfoResponse
+import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightSummaryWidget
@@ -530,25 +530,29 @@ class FlightOverviewPresenterTest {
         updatedInboundFlightLegSubjectTestSubscriber.assertValueCount(1)
     }
 
-//    TODO: Will create a mingle card for it
-//    @Test
-//    fun testOutboundWidgetPaymentInfoClick() {
-//        createExpectedFlightLeg()
-//        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
-//        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("http://www.expedia.com/p/regulatory/obfees?langid=2057")
-//        outboundFlightWidget.paymentFeesButton.performClick()
-//        assertEquals(View.VISIBLE, widget.paymentFeeInfoWebView.visibility)
-//    }
+    @Test
+    fun testOutboundWidgetPaymentInfoClick() {
+        createExpectedFlightLeg()
+        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        val paymentFeeUrlTestSubscriber = TestSubscriber<String>()
+        val paymentFeeUrl = "http://www.expedia.com/p/regulatory/obfees?langid=2057"
+        widget.paymentFeeInfoWebView.viewModel.webViewURLObservable.subscribe(paymentFeeUrlTestSubscriber)
+        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext(paymentFeeUrl)
+        outboundFlightWidget.paymentFeesButton.performClick()
+        paymentFeeUrlTestSubscriber.assertValue(paymentFeeUrl)
+    }
 
-//   TODO https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/6024
-//    @Test
-//    fun testInboundWidgetPaymentInfoClick() {
-//        createExpectedFlightLeg()
-//        val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
-//        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("http://www.expedia.com/p/regulatory/obfees?langid=2057")
-//        inboundFlightWidget.paymentFeesButton.performClick()
-//        assertEquals(View.VISIBLE, widget.paymentFeeInfoWebView.visibility)
-//    }
+    @Test
+    fun testInboundWidgetPaymentInfoClick() {
+        createExpectedFlightLeg()
+        val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
+        val paymentFeeUrlTestSubscriber = TestSubscriber<String>()
+        val paymentFeeUrl = "http://www.expedia.com/p/regulatory/obfees?langid=2057"
+        widget.paymentFeeInfoWebView.viewModel.webViewURLObservable.subscribe(paymentFeeUrlTestSubscriber)
+        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext(paymentFeeUrl)
+        inboundFlightWidget.paymentFeesButton.performClick()
+        paymentFeeUrlTestSubscriber.assertValue(paymentFeeUrl)
+    }
 
     @Test
     fun testOutboundWidgetPaymentInfoClickWithNoURL() {
