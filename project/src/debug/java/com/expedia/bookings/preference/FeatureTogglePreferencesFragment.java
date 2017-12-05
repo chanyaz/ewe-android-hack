@@ -45,7 +45,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_flight_rate_detail_from_cache);
 
 		//Itin Features
-		initializeFeatureCheck(R.string.preference_trips_new_flights_design);
 		initializeFeatureCheck(R.string.preference_trips_new_flights_managing_booking_design);
 		initializeFeatureCheck(R.string.preference_enable_trips_flight_alerts);
 	}
