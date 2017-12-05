@@ -692,10 +692,12 @@
     <string name="prices_roundtrip_minimum_label">Prezzi di andata e ritorno a persona, da</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">Prezzi di sola andata a persona, da</string>
+    <!-- Label indicating the price shown is for delta pricing rather than generic one -->
+    <string name="delta_price_roundtrip_inbound_label">Prezzo aggiuntivo a persona per il volo di andata</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">Prezzo totale a persona, per un viaggio di andata e ritorno (comprende hotel, voli, tasse e oneri)</string>
     <!-- Label indicating the price include hotel, flight-->
-    <string name="package_prices_roundtrip_person_minimum_fsr_label">Prezzi di andata e ritorno a persona, da • hotel e voli inclusi</string>
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">Prezzo a persona per hotel e viaggio di andata e ritorno da…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Non più disponibile</string>
 
@@ -747,6 +749,8 @@
     <string name="room_rate_pay_now">Paga ora</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} da pagare ora</string>
+    <!-- Package rooms and rates delta price, tell that the price of this room is {price} amount greater than baseline ex, +$10.00 -->
+    <string name="plus_price_TEMPLATE">+{price}</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s recensioni</string>
 
@@ -781,7 +785,7 @@
     <!--Create Account -->
     <string name="Create_Account">CREA UN ACCOUNT</string>
     <!-- Earn rewards and unlock exclusive deals -->
-    <string name="earn_rewards_and_unlock_deals">Accumula punti e accedi a offerte esclusive</string>
+    <string name="earn_rewards_and_unlock_deals">Accumula punti e accedi a offerte esclusive.</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -851,7 +855,7 @@
     <string name="search_title">Cerca</string>
 
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Per questa sera</string>
+    <string name="nearby_deals_title">Gli hotel consigliati per questa sera</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">Altro</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -865,7 +869,7 @@
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">solo per questa notte!</string>
     <!-- Label for button to navigate to the car rental line of business -->
-    <string name="nav_car_rentals">Noleggio auto</string>
+    <string name="nav_car_rentals">Auto</string>
     <!-- Label for button to navigate to the Activities / Things to Do line of business -->
     <string name="nav_things_to_do">Cose da fare</string>
     <!-- Text for active itin card on signed-in user launch screen -->
@@ -924,6 +928,8 @@
     <string name="Itinerary_ready">Itinerario disponibile</string>
     <!-- Notification title text for get ready for your trip -->
     <string name="get_ready_for_trip">Preparati a partire</string>
+    <!--Notification Title for Hotel Activity In Trip notification-->
+    <string name="things_to_do_near_hotel">Cose da fare vicino al tuo hotel</string>
     <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
     <string name="get_ready_for_trip_body_TEMPLATE">Ciao {firstname}, il tuo soggiorno presso {hotel} inizia {startday}. Dai un\&apos;occhiata alla tua prenotazione per controllare l\&apos;indirizzo, il numero di telefono e altri dettagli dell\&apos;hotel.</string>
     <string name="check_in_notification_title">Promemoria del check-in</string>
@@ -941,6 +947,8 @@
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">Cose da fare a {destination}</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Le attività a {destination} vanno a ruba! Dai un\&apos;occhiata alle cose da fare e prenota i biglietti in anticipo.</string>
+    <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
+    <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Ciao {firstname}, scopri le migliori attività e attrazioni vicino al tuo hotel.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario</string>
@@ -1408,6 +1416,9 @@
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Condizioni di modifica e cancellazione</string>
 
+    <!-- Itin share dialog title -->
+    <string name="itin_share_dialog_title">Condividi itinerario</string>
+
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
     <string name="itin_flight_toolbar_title_TEMPLATE">Volo per {destination}</string>
@@ -1445,6 +1456,8 @@
     <string name="itin_flight_total_duration_TEMPLATE">Durata totale: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Informazioni sui bagagli</string>
+    <!--Flight itin map view content description-->
+    <string name="itin_flight_details_map_view_content_description">mappa di google sulla pagina di riepilogo del volo</string>
     <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">Dati del viaggiatore</string>
     <!--Flight itin traveler preferences heading -->
@@ -1487,6 +1500,25 @@
     <string name="itin_flight_customer_support_site_header_TEMPLATE">Supporto clienti {brand}</string>
     <!--Flight customer support website toolbar header-->
     <string name="itin_flight_customer_support_site_toolbar_header">Supporto clienti</string>
+    <!--Flight itin, flight leg detail widget title. {departure} to {arrival} (eg., SFO to SEA)-->
+    <string name="itin_flight_leg_detail_widget_title_TEMPLATE">{departure} - {arrival}</string>
+    <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_TEMPLATE">{departure_date_time} - {arrival_date_time} · {stops}</string>
+    <!--Flight itin, flight leg detail widget sub title date time template. {date} {time} (eg., Aug 20 8:00am)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
+    <!--Flight itin, flight leg detail widget Nonstop text-->
+    <string name="itin_flight_leg_detail_widget_nonstop">Non-stop</string>
+    <!--Flight itin, flight leg detail widget "to" text-->
+    <string name="itin_flight_leg_detail_widget_to_text">-</string>
+    <!--Flight itin, flight leg detail widget "-" text-->
+    <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
+
+    <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
+    <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
+    <item quantity="zero">Non-stop</item>
+    <item quantity="one">%s scalo</item>
+    <item quantity="other">%s scali</item>
+    </plurals>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}g {hours}h {minutes}m</string>
@@ -2771,8 +2803,6 @@
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
     <string name="urgency_destination_description_TEMPLATE">{destination} è una destinazione molto richiesta nelle date selezionate</string>
 
-    <!-- The text we use to show room info for expanded room -->
-    <string name="room_information">Informazioni sulla camera</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">Pulsante per accedere alle informazioni sulla camera</string>
     <!-- The text we use to message that the room in non-refundable -->
@@ -2801,12 +2831,8 @@
     <string name="view_room_button_text">Visualizza camera</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Prenota</string>
-    <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
-    <string name="view_room_button_content_description_TEMPLATE">Consulta i dettagli della camera, {room}</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">Include %s</string>
-    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
-    <string name="book_room_button_content_description_TEMPLATE">Prenota, {room}</string>
     <!-- Room description alert dialog title -->
     <string name="room_description_title">Descrizione della camera</string>
     <!-- Renovation Notice -->
@@ -2876,7 +2902,7 @@
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Account</string>
     <!-- Label for menu item to sign into account -->
-    <string name="sign_in">ACCEDI</string>
+    <string name="sign_in">Accedi</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Accesso in corso…</string>
     <!-- Label for sign out confirmation -->
@@ -2962,7 +2988,7 @@
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
-    <string name="booking_support">Supporto per la prenotazione</string>
+    <string name="booking_support">Contatta il supporto per la prenotazione</string>
     <!-- Subject for loyalty email on Itin -->
     <string name="support_request">Richiesta di supporto</string>
     <!-- Title for different ways to connect to Expedia -->
@@ -2978,13 +3004,13 @@
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Assistenza app</string>
     <!-- Section label for app settings functionality -->
-    <string name="about_section_app_settings">Impostazioni app</string>
+    <string name="about_section_app_settings">Impostazioni</string>
     <!-- Section label for user support functionality -->
     <string name="about_section_support">Assistenza</string>
     <!-- Section label for communication options that are not related to user support -->
     <string name="about_section_communicate">Comunicazione</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
-    <string name="rate_our_app">Valuta la nostra app!</string>
+    <string name="rate_our_app">Valuta l\&apos;app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Termini e condizioni</string>
     <!-- Label for link to terms of use -->
@@ -2994,7 +3020,7 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nTutti i diritti riservati.</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">Licenze del software open source</string>
+    <string name="open_source_software_licenses">Consulta le licenze del software open source</string>
     <!-- String for error message if open source software license page fails to open -->
     <string name="open_source_software_licenses_error">Errore durante il caricamento della pagina.</string>
     <!-- String for acrediting the open source libraries we use -->
@@ -4709,11 +4735,6 @@
 
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">Opzione {number}</string>
-
-    <!-- Content description for double tap action to collapse HIS room info -->
-    <string name="collapse_room_info_cont_desc">Comprimi</string>
-    <!-- Content description for double tap action to expand HIS room info -->
-    <string name="expand_room_info_cont_desc">Espandi</string>
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}. Pulsante</string>

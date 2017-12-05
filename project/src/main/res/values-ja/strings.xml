@@ -692,10 +692,12 @@
     <string name="prices_roundtrip_minimum_label">往復 (1 名あたり) の最低価格</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">片道 (1 名あたり) の最低価格</string>
+    <!-- Label indicating the price shown is for delta pricing rather than generic one -->
+    <string name="delta_price_roundtrip_inbound_label">帰りの便を組み合わせるための追加料金 (1 名あたり)</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">1 名あたりの往復料金合計 (税およびサービス料込み) - 航空券 + ホテル</string>
     <!-- Label indicating the price include hotel, flight-->
-    <string name="package_prices_roundtrip_person_minimum_fsr_label">往復 (1 名あたり) の最低料金 • 航空券 + ホテルを含む</string>
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">ホテル + 帰りの便を組み合わせるための最低追加料金 ～ (1 名あたり)</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">売り切れ</string>
 
@@ -747,6 +749,8 @@
     <string name="room_rate_pay_now">今すぐお支払い</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">今すぐお支払いの金額 : {amount}</string>
+    <!-- Package rooms and rates delta price, tell that the price of this room is {price} amount greater than baseline ex, +$10.00 -->
+    <string name="plus_price_TEMPLATE">+ {price}</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s 件の口コミ</string>
 
@@ -851,7 +855,7 @@
     <string name="search_title">検索</string>
 
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">今晩のおすすめ</string>
+    <string name="nearby_deals_title">おすすめの今晩のホテル</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">もっと見る</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -924,6 +928,8 @@
     <string name="Itinerary_ready">旅程番号のお知らせ</string>
     <!-- Notification title text for get ready for your trip -->
     <string name="get_ready_for_trip">ご旅行に関するお知らせ</string>
+    <!--Notification Title for Hotel Activity In Trip notification-->
+    <string name="things_to_do_near_hotel">ホテル付近の現地ツアー</string>
     <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
     <string name="get_ready_for_trip_body_TEMPLATE">{firstname} 様、ご予約いただいた{hotel}のチェックイン日は {startday} です。ホテルの住所、電話番号、その他の詳細については予約をご確認ください。</string>
     <string name="check_in_notification_title">ホテルのチェックイン時刻のお知らせ</string>
@@ -941,11 +947,13 @@
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">{destination}の現地ツアー</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination}の現地ツアーは売り切れ間近です ! 今すぐ現地ツアーをチェックし、事前に予約しましょう。</string>
+    <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
+    <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">{firstname} 様、ホテル付近の人気の現地ツアーを今すぐチェックしましょう !</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">旅程</string>
     <!-- Shop -->
-    <string name="shop">検索</string>
+    <string name="shop">旅行を予約</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">旅程を検索する</string>
     <string name="unable_to_find_guest_itinerary">旅程が見つかりません。アカウント画面で、該当のご予約に関する国の設定がウェブサイトのアドレスと一致していることをご確認ください。</string>
@@ -1408,6 +1416,9 @@
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">変更およびキャンセル規則</string>
 
+    <!-- Itin share dialog title -->
+    <string name="itin_share_dialog_title">旅程をシェアする</string>
+
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
     <string name="itin_flight_toolbar_title_TEMPLATE">{destination}へのフライト</string>
@@ -1445,6 +1456,8 @@
     <string name="itin_flight_total_duration_TEMPLATE">合計所要時間 : {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">手荷物情報</string>
+    <!--Flight itin map view content description-->
+    <string name="itin_flight_details_map_view_content_description">飛行経路の概要を示すグーグル マップ</string>
     <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">旅行者情報</string>
     <!--Flight itin traveler preferences heading -->
@@ -1487,6 +1500,25 @@
     <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} カスタマー サポート</string>
     <!--Flight customer support website toolbar header-->
     <string name="itin_flight_customer_support_site_toolbar_header">カスタマー サービス</string>
+    <!--Flight itin, flight leg detail widget title. {departure} to {arrival} (eg., SFO to SEA)-->
+    <string name="itin_flight_leg_detail_widget_title_TEMPLATE">{departure} → {arrival}</string>
+    <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_TEMPLATE">{departure_date_time} ～ {arrival_date_time}、{stops}</string>
+    <!--Flight itin, flight leg detail widget sub title date time template. {date} {time} (eg., Aug 20 8:00am)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
+    <!--Flight itin, flight leg detail widget Nonstop text-->
+    <string name="itin_flight_leg_detail_widget_nonstop">直行便</string>
+    <!--Flight itin, flight leg detail widget "to" text-->
+    <string name="itin_flight_leg_detail_widget_to_text">から</string>
+    <!--Flight itin, flight leg detail widget "-" text-->
+    <string name="itin_flight_leg_detail_widget_hyphen_text">～</string>
+
+    <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
+    <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
+    <item quantity="zero">直行便</item>
+    <item quantity="one">乗継 %s 回</item>
+    <item quantity="other">乗継 %s 回</item>
+    </plurals>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} 日 {hours} 時間 {minutes} 分</string>
@@ -1742,7 +1774,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">エラー</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="error_try_again_warning">エラーが発生しました。もう一度お試しください。</string>
+    <string name="error_try_again_warning">もう一度お試しください。</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">再試行</string>
 
@@ -2771,8 +2803,6 @@
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
     <string name="urgency_destination_description_TEMPLATE">選択された期間には{destination}のホテルは混み合っています</string>
 
-    <!-- The text we use to show room info for expanded room -->
-    <string name="room_information">客室情報</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">客室情報ボタン</string>
     <!-- The text we use to message that the room in non-refundable -->
@@ -2801,12 +2831,8 @@
     <string name="view_room_button_text">客室を見る</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">予約</string>
-    <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
-    <string name="view_room_button_content_description_TEMPLATE">{room} の客室を表示する</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">含まれているもの : %s</string>
-    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
-    <string name="book_room_button_content_description_TEMPLATE">{room} を予約する</string>
     <!-- Room description alert dialog title -->
     <string name="room_description_title">客室の詳細</string>
     <!-- Renovation Notice -->
@@ -2962,7 +2988,7 @@
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
-    <string name="booking_support">予約に関するお問い合わせ</string>
+    <string name="booking_support">予約サポートに連絡</string>
     <!-- Subject for loyalty email on Itin -->
     <string name="support_request">お問い合わせ</string>
     <!-- Title for different ways to connect to Expedia -->
@@ -2976,15 +3002,15 @@
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">{brand_reward_name} Visa® Card を申し込む</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">アプリ サポート</string>
+    <string name="app_support">アプリ サポートを検索</string>
     <!-- Section label for app settings functionality -->
-    <string name="about_section_app_settings">アプリ設定</string>
+    <string name="about_section_app_settings">設定</string>
     <!-- Section label for user support functionality -->
     <string name="about_section_support">サポート</string>
     <!-- Section label for communication options that are not related to user support -->
     <string name="about_section_communicate">アプリについて</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
-    <string name="rate_our_app">アプリを評価する</string>
+    <string name="rate_our_app">アプリを評価</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">利用規約</string>
     <!-- Label for link to terms of use -->
@@ -2994,7 +3020,7 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">オープン ソース ソフトウェアのライセンス</string>
+    <string name="open_source_software_licenses">オープン ソース ソフトウェアのライセンス承諾</string>
     <!-- String for error message if open source software license page fails to open -->
     <string name="open_source_software_licenses_error">ページの読み込み中にエラーが発生しました。</string>
     <!-- String for acrediting the open source libraries we use -->
@@ -4131,7 +4157,7 @@
     <string name="rail_credit_card_fee">カード手数料</string>
 
     <!-- Credit card fee disclaimer on payment screen -->
-    <string name="rail_card_fee_disclaimer">ご利用のカードの種類によっては、鉄道予約サービス サプライヤーから追加の手数料 (返金不可) が課金されます。デビットカードを使用することで、この手数料が不要になります。。</string>
+    <string name="rail_card_fee_disclaimer">ご利用のカードの種類によっては、鉄道予約サービス サプライヤーから追加の手数料 (返金不可) が課金されます。デビットカードを使用すると、この手数料がかかりません。</string>
 
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">カードの種類別の手数料</string>
@@ -4709,11 +4735,6 @@
 
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">オプション {number}</string>
-
-    <!-- Content description for double tap action to collapse HIS room info -->
-    <string name="collapse_room_info_cont_desc">非表示にする</string>
-    <!-- Content description for double tap action to expand HIS room info -->
-    <string name="expand_room_info_cont_desc">非表示にする</string>
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}。ボタン</string>

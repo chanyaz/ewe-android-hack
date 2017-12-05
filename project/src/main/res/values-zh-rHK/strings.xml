@@ -692,10 +692,12 @@
     <string name="prices_roundtrip_minimum_label">每位來回價低至</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">每位單程價低至</string>
+    <!-- Label indicating the price shown is for delta pricing rather than generic one -->
+    <string name="delta_price_roundtrip_inbound_label">回程航班每位額外價格</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">一位來回總價 (包括稅項及附加費) - 酒店及機票</string>
     <!-- Label indicating the price include hotel, flight-->
-    <string name="package_prices_roundtrip_person_minimum_fsr_label">一位來回最低價 • 包括酒店及機票</string>
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">酒店及來回機票每位價格低至…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">已訂滿</string>
 
@@ -747,6 +749,8 @@
     <string name="room_rate_pay_now">立即付款</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">現在須付 {amount}</string>
+    <!-- Package rooms and rates delta price, tell that the price of this room is {price} amount greater than baseline ex, +$10.00 -->
+    <string name="plus_price_TEMPLATE">+{price}</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s 篇評價</string>
 
@@ -781,7 +785,7 @@
     <!--Create Account -->
     <string name="Create_Account">建立帳戶</string>
     <!-- Earn rewards and unlock exclusive deals -->
-    <string name="earn_rewards_and_unlock_deals">賺取獎賞並解開會員尊享優惠</string>
+    <string name="earn_rewards_and_unlock_deals">賺取獎賞並解開尊享優惠。</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -851,7 +855,7 @@
     <string name="search_title">搜尋</string>
 
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">今晚住宿推介</string>
+    <string name="nearby_deals_title">今晚推介酒店</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">查看更多</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -924,8 +928,10 @@
     <string name="Itinerary_ready">行程已經預訂完成</string>
     <!-- Notification title text for get ready for your trip -->
     <string name="get_ready_for_trip">準備出發</string>
+    <!--Notification Title for Hotel Activity In Trip notification-->
+    <string name="things_to_do_near_hotel">您酒店附近的當地玩樂</string>
     <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
-    <string name="get_ready_for_trip_body_TEMPLATE">{firstname} 您好，您的{hotel}酒店訂房將於 {startday} 開始。您可查看預訂以取得酒店地址、電話號碼及其他資料。</string>
+    <string name="get_ready_for_trip_body_TEMPLATE">Hi {firstname}！{startday}就要入住{hotel}了。您可查看預訂以取得酒店地址、電話號碼及其他資料。</string>
     <string name="check_in_notification_title">酒店入住提醒</string>
     <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
     <string name="check_in_notification_body_TEMPLATE">您可於明日 {checkin} 起登記入住您預訂的{hotel}。詳情請查閱您的預訂。</string>
@@ -941,11 +947,13 @@
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">{destination}當地玩樂</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination}的活動很快訂滿！請預早搜尋當地玩樂並預訂門票。</string>
+    <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
+    <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hi {firstname}！看看您酒店附近的熱門景點和活動。</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
     <!-- Shop -->
-    <string name="shop">搜尋</string>
+    <string name="shop">搜尋旅遊項目</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">尋找行程</string>
     <string name="unable_to_find_guest_itinerary">找不到行程。請於「帳戶」畫面確認「國家/地區」設定與您預訂時的網址相同。</string>
@@ -1408,6 +1416,9 @@
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">更改及取消規則</string>
 
+    <!-- Itin share dialog title -->
+    <string name="itin_share_dialog_title">分享行程</string>
+
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
     <string name="itin_flight_toolbar_title_TEMPLATE">前往{destination}的航班</string>
@@ -1445,6 +1456,8 @@
     <string name="itin_flight_total_duration_TEMPLATE">合共需時：{duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">行李資訊</string>
+    <!--Flight itin map view content description-->
+    <string name="itin_flight_details_map_view_content_description">Google 地圖航班行程概覽</string>
     <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">旅客資料</string>
     <!--Flight itin traveler preferences heading -->
@@ -1487,6 +1500,25 @@
     <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} 客戶支援</string>
     <!--Flight customer support website toolbar header-->
     <string name="itin_flight_customer_support_site_toolbar_header">客戶服務</string>
+    <!--Flight itin, flight leg detail widget title. {departure} to {arrival} (eg., SFO to SEA)-->
+    <string name="itin_flight_leg_detail_widget_title_TEMPLATE">{departure} 往 {arrival}</string>
+    <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_TEMPLATE">{departure_date_time} - {arrival_date_time} · {stops}</string>
+    <!--Flight itin, flight leg detail widget sub title date time template. {date} {time} (eg., Aug 20 8:00am)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
+    <!--Flight itin, flight leg detail widget Nonstop text-->
+    <string name="itin_flight_leg_detail_widget_nonstop">不停站</string>
+    <!--Flight itin, flight leg detail widget "to" text-->
+    <string name="itin_flight_leg_detail_widget_to_text">至</string>
+    <!--Flight itin, flight leg detail widget "-" text-->
+    <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
+
+    <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
+    <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
+    <item quantity="zero">不停站</item>
+    <item quantity="one">%s 個中途站</item>
+    <item quantity="other">%s 個中途站</item>
+    </plurals>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}日 {hours}小時 {minutes}分</string>
@@ -2771,8 +2803,6 @@
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
     <string name="urgency_destination_description_TEMPLATE">{destination}於您所選的日期很受歡迎。</string>
 
-    <!-- The text we use to show room info for expanded room -->
-    <string name="room_information">客房資料</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">客房資料按鈕</string>
     <!-- The text we use to message that the room in non-refundable -->
@@ -2801,12 +2831,8 @@
     <string name="view_room_button_text">查看客房</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">預訂</string>
-    <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
-    <string name="view_room_button_content_description_TEMPLATE">查看客房, {room}</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">包括%s</string>
-    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
-    <string name="book_room_button_content_description_TEMPLATE">預訂, {room}</string>
     <!-- Room description alert dialog title -->
     <string name="room_description_title">客房詳情</string>
     <!-- Renovation Notice -->
@@ -2962,7 +2988,7 @@
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
-    <string name="booking_support">預訂支援</string>
+    <string name="booking_support">聯絡預訂支援</string>
     <!-- Subject for loyalty email on Itin -->
     <string name="support_request">支援要求</string>
     <!-- Title for different ways to connect to Expedia -->
@@ -2978,13 +3004,13 @@
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App 技術支援</string>
     <!-- Section label for app settings functionality -->
-    <string name="about_section_app_settings">App 設定</string>
+    <string name="about_section_app_settings">設定</string>
     <!-- Section label for user support functionality -->
     <string name="about_section_support">支援</string>
     <!-- Section label for communication options that are not related to user support -->
     <string name="about_section_communicate">通訊</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
-    <string name="rate_our_app">請評價此 App。</string>
+    <string name="rate_our_app">評價 App</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">條款與細則</string>
     <!-- Label for link to terms of use -->
@@ -2994,7 +3020,7 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© 版權 2012-{year} {brand}, Inc.\n保留所有權利。</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">開放原碼軟件授權</string>
+    <string name="open_source_software_licenses">開放原碼軟件授權聲明</string>
     <!-- String for error message if open source software license page fails to open -->
     <string name="open_source_software_licenses_error">頁面載入錯誤。</string>
     <!-- String for acrediting the open source libraries we use -->
@@ -4709,11 +4735,6 @@
 
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">選項 {number}</string>
-
-    <!-- Content description for double tap action to collapse HIS room info -->
-    <string name="collapse_room_info_cont_desc">收起</string>
-    <!-- Content description for double tap action to expand HIS room info -->
-    <string name="expand_room_info_cont_desc">展開</string>
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}。按鈕</string>
