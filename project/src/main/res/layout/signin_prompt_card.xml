@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="165dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardPreventCornerOverlap="false"
+    style="@style/HomeScreenSignInCardViewStyle">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/launch_tile_padding">
+
+        <ImageView
+            android:layout_width="@dimen/launch_card_icon_width"
+            android:layout_height="@dimen/launch_card_icon_height"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_signin_tag"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/first_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="@color/exp_signin_blue"
+            android:lineSpacingExtra="5sp"
+            style="@style/Core.Text.400"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/second_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/exp_signin_light_blue"
+            android:lineSpacingExtra="3sp"
+            style="@style/Core.Text.200"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/button_one"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:paddingLeft="@dimen/launch_tile_padding"
+            android:paddingRight="@dimen/launch_tile_padding"
+            android:textColor="@color/placeholder_card_button_text_color"
+            android:text="Sign in or create an account"
+            android:letterSpacing="0.5"
+            style="@style/Core.Text.300"/>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

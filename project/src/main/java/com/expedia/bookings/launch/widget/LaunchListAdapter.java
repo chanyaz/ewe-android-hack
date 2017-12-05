@@ -51,6 +51,7 @@ import com.expedia.bookings.widget.TextView;
 import com.expedia.util.PermissionsUtils;
 import com.expedia.vm.launch.ActiveItinViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
+import com.expedia.vm.launch.BrandSignInLaunchHolderViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
 
@@ -147,8 +148,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		if (viewType == LaunchDataItem.SIGN_IN_VIEW) {
-			View view = LayoutInflater.from(context).inflate(R.layout.feeds_prompt_card, parent, false);
-			return new SignInPlaceholderCard(view, context);
+			if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)) {
+				View view = LayoutInflater.from(context).inflate(R.layout.signin_prompt_card, parent, false);
+				return new BrandSignInLaunchCard(view, context);
+			}
+			else {
+				View view = LayoutInflater.from(context).inflate(R.layout.feeds_prompt_card, parent, false);
+				return new SignInPlaceholderCard(view, context);
+			}
 		}
 
 		if (viewType == LaunchDataItem.AIR_ATTACH_VIEW) {
@@ -232,6 +239,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 		else if (holder instanceof SignInPlaceholderCard) {
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
+		}
+		else if (holder instanceof BrandSignInLaunchCard) {
+			((BrandSignInLaunchCard) holder).bind(makeSignInLaunchHolderViewModel());
 		}
 		else if (holder instanceof LaunchScreenAirAttachCard) {
 			Trip recentUpcomingFlightTrip = getUpcomingAirAttachQualifiedFlightTrip();
@@ -418,9 +428,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private SignInPlaceHolderViewModel makeSignInPlaceholderViewModel() {
 		return new SignInPlaceHolderViewModel(getBrandForSignInView(),
-			context.getString(R.string.earn_rewards_and_unlock_deals),
-			context.getString(R.string.sign_in),
-			context.getString(R.string.Create_Account));
+				context.getString(R.string.earn_rewards_and_unlock_deals),
+				context.getString(R.string.sign_in),
+				context.getString(R.string.Create_Account));
+	}
+
+	private BrandSignInLaunchHolderViewModel makeSignInLaunchHolderViewModel() {
+		return new BrandSignInLaunchHolderViewModel(getBrandForSignInView(),
+				context.getString(R.string.member_prices_signin),
+				context.getString(R.string.sign_in_create_account));
 	}
 
 	private BigImageLaunchViewModel getDealViewModel(int lastMinuteDealsIcon, int backgroundGradient,

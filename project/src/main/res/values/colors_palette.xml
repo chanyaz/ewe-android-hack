@@ -70,6 +70,7 @@
     <color name="exp_launch_dark_teal">#3E6A85</color> <!-- TODO wtf to call this color -->
     <color name="exp_launch_secondary">#005199</color>
     <color name="air_attach_orange">#FD8126</color>
-
+    <color name="exp_signin_blue">#00355f</color>
+    <color name="exp_signin_light_blue">#536d83</color>
     <color name="yellow_layover">#E0A81C</color>
 </resources>

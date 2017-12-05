@@ -792,6 +792,10 @@
     <string name="Create_Account">CREATE AN ACCOUNT</string>
     <!-- Earn rewards and unlock exclusive deals -->
     <string name="earn_rewards_and_unlock_deals">Earn rewards and unlock exclusive deals.</string>
+    <!--With member prices, you could save an average of 17% more right now on thousands of hotels.-->
+    <string name="member_prices_signin">With member prices, you could save an average of 17% more right now on thousands of hotels.</string>
+    <!--Sign in or create an account-->
+    <string name="sign_in_create_account">Sign in or create an account</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->

@@ -1070,6 +1070,11 @@
         <item name="cardBackgroundColor">@color/white</item>
     </style>
 
+    <style name="HomeScreenSignInCardViewStyle">
+        <item name="cardCornerRadius">2dp</item>
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
     <style name="MaterialCardTextView">
         <item name="android:drawablePadding">23dp</item>
         <item name="android:paddingLeft">19dp</item>
