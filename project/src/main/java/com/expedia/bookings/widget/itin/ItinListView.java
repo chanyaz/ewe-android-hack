@@ -40,7 +40,6 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
@@ -791,8 +790,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		ItinCardData data = mAdapter.getItem(position);
 
 		Boolean isHotelItinCardDetailBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.EBAndroidAppItinHotelRedesign);
-		Boolean isFlightItinCardDetailFeatureOn = FeatureToggleUtil.
-			isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.TripsFlightsNewdesign, R.string.preference_trips_new_flights_design);
+		Boolean isFlightItinCardDetailBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewdesign);
 
 		if (data != null) {
 			if (view instanceof ItinButtonCard) {
@@ -810,7 +808,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 						.toBundle());
 			}
-			else if (data.getTripComponentType() == TripComponent.Type.FLIGHT && isFlightItinCardDetailFeatureOn) {
+			else if (data.getTripComponentType() == TripComponent.Type.FLIGHT && isFlightItinCardDetailBucketed) {
 				getContext().startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()),
 						ActivityOptionsCompat
 							.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
