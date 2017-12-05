@@ -909,6 +909,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.card_picker_remove_button_color,
 		R.layout.rail_card_dropdown_item,
 		R.layout.rail_card_spinner_item_view,
+		R.layout.hotel_traveler_presenter,
+		R.layout.hotel_traveler_entry_widget,
 		R.string.hotels_filter_show_more_cont_desc,
 		R.string.hotels_filter_show_less_cont_desc,
 		R.string.select_rail_card_hint,

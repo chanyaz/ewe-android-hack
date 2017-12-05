@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
@@ -96,6 +97,11 @@ public class TravelerButton extends LinearLayout {
 
 	public void setLOB(LineOfBusiness lob) {
 		lineOfBusiness = lob;
+	}
+
+	@VisibleForTesting
+	public LineOfBusiness getLineOfBusiness() {
+		return lineOfBusiness;
 	}
 
 	public void updateSelectTravelerText(String text) {

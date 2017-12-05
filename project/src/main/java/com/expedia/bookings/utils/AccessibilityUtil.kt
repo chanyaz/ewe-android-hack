@@ -73,11 +73,15 @@ object AccessibilityUtil {
         }
         return sum
     }
+
+    @JvmStatic fun setFocusForView(view: View) {
+        view.isFocusable = true
+        view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
 }
 
 fun View.setFocusForView() {
-    this.isFocusable = true
-    this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    AccessibilityUtil.setFocusForView(this)
 }
 
 fun View.setAccessibilityHoverFocus() {

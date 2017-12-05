@@ -5,8 +5,11 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -17,8 +20,11 @@ import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.tracking.FacebookEvents.Companion.userStateManager
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.MaterialFormsCouponWidget
@@ -26,6 +32,11 @@ import com.expedia.vm.HotelCreateTripViewModel
 import junit.framework.Assert.assertTrue
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.TravelerContactDetailsWidget
+import com.expedia.vm.test.traveler.MockTravelerProvider
+import com.expedia.vm.traveler.HotelTravelersViewModel
+import com.expedia.vm.traveler.TravelerSelectItemViewModel
+import kotlinx.android.synthetic.main.fragment_itinerary_list.view.hint_container
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -50,6 +61,7 @@ class HotelCheckoutPresenterTest {
     fun setup() {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
+        Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         activity.setTheme(R.style.Theme_Hotels_Default)
         AbacusTestUtils.unbucketTestAndDisableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
@@ -63,17 +75,35 @@ class HotelCheckoutPresenterTest {
     fun testMaterialCheckoutScrollViewColor() {
         setupHotelMaterialForms()
         checkout.paymentInfoCardView.viewmodel.menuVisibility.onNext(true)
-        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.white))
+        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.material_checkout_background_color))
         checkout.paymentInfoCardView.viewmodel.menuVisibility.onNext(false)
-        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.gray100))
+        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.checkout_overview_background_color))
     }
 
     @Test
     fun testCheckoutScrollViewColor() {
         checkout.paymentInfoCardView.viewmodel.menuVisibility.onNext(true)
-        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.gray100))
+        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.checkout_overview_background_color))
         checkout.paymentInfoCardView.viewmodel.menuVisibility.onNext(false)
-        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.gray100))
+        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.checkout_overview_background_color))
+    }
+
+    @Test
+    fun testMaterialTravelerBackgroundColor() {
+        setupHotelMaterialForms()
+        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.checkout_overview_background_color))
+
+        checkout.travelerSummaryCardView.performClick()
+        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.material_checkout_background_color))
+    }
+
+    @Test
+    fun testTravelerBackgroundColor() {
+        setupHotelMaterialForms()
+        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.checkout_overview_background_color))
+
+        checkout.mainContactInfoCardView.performClick()
+        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.checkout_overview_background_color))
     }
 
     @Test
@@ -151,19 +181,85 @@ class HotelCheckoutPresenterTest {
 
         assertEquals("Submit", checkout.menuDone.title.toString())
     }
-    
-    fun testMaterialTravelerWidget() {
+
+    @Test
+    fun testMaterialEntryWidgetTravelerButtonLob() {
         setupHotelMaterialForms()
 
-        assertEquals(View.VISIBLE, checkout.travelerSummaryCardView.visibility)
-        assertEquals(View.GONE, checkout.mainContactInfoCardView.visibility)
+        assertEquals(LineOfBusiness.HOTELS, checkout.travelersPresenter.travelerEntryWidget.travelerButton.lineOfBusiness)
     }
 
     @Test
-    fun testTravelerWidget() {
+    fun testTravelersPresenterViewModel() {
+        setupHotelMaterialForms()
+
+        assertEquals(HotelTravelersViewModel::class.java, checkout.travelersPresenter.viewModel::class.java)
+    }
+
+    @Test
+    fun testMaterialTravelerWidgetVisibility() {
+        setupHotelMaterialForms()
+        assertEquals(VISIBLE, checkout.travelerSummaryCardView.visibility)
+        assertEquals(GONE, checkout.travelersPresenter.travelerEntryWidget.visibility)
+        assertEquals(GONE, checkout.mainContactInfoCardView.visibility)
+
+        checkout.travelerSummaryCardView.performClick()
+
+        assertEquals(VISIBLE, checkout.travelersPresenter.travelerEntryWidget.visibility)
+        assertEquals(GONE, checkout.travelerSummaryCardView.visibility)
+        assertEquals(GONE, checkout.mainContactInfoCardView.visibility)
+    }
+
+    @Test
+    fun testTravelerWidgetVisibility() {
         assertEquals(View.VISIBLE, checkout.mainContactInfoCardView.visibility)
         assertEquals(View.GONE, checkout.travelerSummaryCardView.visibility)
+
+        checkout.mainContactInfoCardView.performClick()
+
+        assertEquals(VISIBLE, checkout.mainContactInfoCardView.sectionTravelerInfo.visibility)
+        assertEquals(GONE, checkout.travelerSummaryCardView.visibility)
     }
+    
+    @Test
+    fun testMaterialHotelOverviewUiVisibility() {
+        setupHotelMaterialForms()
+        assertHotelOverviewVisibility(expectedVisibility = VISIBLE)
+        checkout.travelerSummaryCardView.performClick()
+
+        assertHotelOverviewVisibility(expectedVisibility = GONE)
+    }
+
+    @Test
+    fun testHotelOverviewUiVisibility() {
+        assertHotelOverviewVisibility(expectedVisibility = VISIBLE)
+        checkout.mainContactInfoCardView.performClick()
+
+        assertHotelOverviewVisibility(expectedVisibility = GONE)
+    }
+
+    @Test
+    fun testCloseSubjectReturnsTravelerToOverview() {
+        setupHotelMaterialForms()
+        checkout.travelerSummaryCardView.performClick()
+        checkout.travelersPresenter.closeSubject.onNext(Unit)
+
+        assertHotelOverviewVisibility(expectedVisibility = VISIBLE)
+        assertEquals(GONE, checkout.travelersPresenter.visibility)
+        assertEquals(VISIBLE, checkout.travelerSummaryCardView.visibility)
+    }
+
+    private fun assertHotelOverviewVisibility(expectedVisibility: Int) {
+        assertEquals(expectedVisibility, checkout.summaryContainer.visibility)
+        assertEquals(expectedVisibility, checkout.paymentInfoCardView.visibility)
+        assertEquals(expectedVisibility, checkout.loginWidget.visibility)
+        assertEquals(expectedVisibility, checkout.couponContainer.visibility)
+        assertEquals(expectedVisibility, checkout.legalInformationText.visibility)
+        assertEquals(expectedVisibility, checkout.disclaimerText.visibility)
+        assertEquals(expectedVisibility, checkout.depositPolicyText.visibility)
+        assertEquals(expectedVisibility, checkout.space.visibility)
+    }
+
 
     private fun setupHotelMaterialForms() {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()

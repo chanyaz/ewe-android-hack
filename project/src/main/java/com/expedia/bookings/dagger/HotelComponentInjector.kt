@@ -10,6 +10,7 @@ class HotelComponentInjector() {
     fun inject(context: Context) {
         val application = Ui.getApplication(context)
         application.defaultHotelComponents()
+        application.defaultTravelerComponent()
         hotelComponentReference = WeakReference(application.hotelComponent())
     }
 

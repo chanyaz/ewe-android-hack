@@ -12,6 +12,6 @@ class HotelTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstrac
     }
 
     override fun inflateWidget() {
-        View.inflate(context, R.layout.lx_traveler_entry_widget, this)
+        View.inflate(context, R.layout.hotel_traveler_entry_widget, this)
     }
 }

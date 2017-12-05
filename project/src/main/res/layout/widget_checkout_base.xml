@@ -79,15 +79,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"/>
 
-                <ViewStub
-                    android:id="@+id/traveler_presenter_stub"
-                    android:inflatedId="@+id/traveler_presenter"
-                    android:layout="?attr/traveler_presenter"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:background="@color/gray100"
-                    android:visibility="gone" />
-
                 <android.support.v7.widget.CardView
                     style="@style/MaterialCardView"
                     android:id="@+id/traveler_default_state_card_view"
@@ -158,6 +149,15 @@
             </LinearLayout>
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
+
+    <ViewStub
+        android:id="@+id/traveler_presenter_stub"
+        android:inflatedId="@+id/traveler_presenter"
+        android:layout="?attr/traveler_presenter"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@color/material_checkout_background_color"
+        android:visibility="gone" />
 
     <com.expedia.bookings.widget.AcceptTermsWidget
         android:id="@+id/layout_confirm_tos"

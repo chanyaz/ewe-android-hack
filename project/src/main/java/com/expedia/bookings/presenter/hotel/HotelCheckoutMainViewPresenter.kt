@@ -142,6 +142,10 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         return LineOfBusiness.HOTELS
     }
 
+    override fun getTravelersPresenter(): Class<*> {
+        return HotelTravelersPresenter::class.java
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(context, null, HotelCheckoutSummaryViewModel(context, paymentModel))

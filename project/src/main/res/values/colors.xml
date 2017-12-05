@@ -247,6 +247,8 @@
     <color name="checkout_traveler_birth_color">#919191</color>
     <color name="checkout_main_traveler_message">@color/gray700</color>
     <color name="checkout_screen_error_message_color">@color/error_red</color>
+    <color name="material_checkout_background_color">@color/white</color>
+    <color name="checkout_overview_background_color">@color/gray100</color>
 
     <!-- Old Launch Screen colors -->
     <color name="launch_toolbar_background_color">@color/exp_old_launch</color>

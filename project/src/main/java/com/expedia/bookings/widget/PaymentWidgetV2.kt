@@ -112,7 +112,6 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             }
         }
         hotelMaterialFormEnabled = isHotelMaterialForms
-        viewmodel
     }
 
     override fun onFinishInflate() {
