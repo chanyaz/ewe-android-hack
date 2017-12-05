@@ -74,7 +74,7 @@ class FlightItinMapWidgetTest {
         leftButtonDrawableObservable.assertValueCount(1)
         leftButtonDrawableObservable.assertValue(R.drawable.itin_flight_terminal_map_icon)
         leftButtonTextObservable.assertValueCount(1)
-        leftButtonTextObservable.assertValue("Terminal Maps")
+        leftButtonTextObservable.assertValue("Terminal maps")
     }
 
     @Test
@@ -91,7 +91,7 @@ class FlightItinMapWidgetTest {
         leftButtonDrawableObservable.assertValueCount(1)
         leftButtonDrawableObservable.assertValue(R.drawable.itin_flight_terminal_map_icon)
         leftButtonTextObservable.assertValueCount(1)
-        leftButtonTextObservable.assertValue("Terminal Maps")
+        leftButtonTextObservable.assertValue("Terminal maps")
     }
 
     @Test

@@ -29,6 +29,6 @@ class FlightItinTotalDurationViewModelTest {
         createTotalDurationWidgetSubscriber.assertNoValues()
         sut.updateWidget("PT2H35M")
         createTotalDurationWidgetSubscriber.assertValueCount(1)
-        createTotalDurationWidgetSubscriber.assertValue(ItinTimeDurationViewModel.TimeDurationWidgetParams("Total Duration: 2h 35m", "Total Duration: 2 hour 35 minutes", null))
+        createTotalDurationWidgetSubscriber.assertValue(ItinTimeDurationViewModel.TimeDurationWidgetParams("Total duration: 2h 35m", "Total duration: 2 hour 35 minutes", null))
     }
 }

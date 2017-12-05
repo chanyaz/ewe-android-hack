@@ -29,7 +29,7 @@
             android:gravity="center"
             android:textColor="@color/exp_launch_blue"
             android:textSize="14sp"
-            android:textStyle="bold"
+            app:textStyle="medium"
             tools:text="Terminal maps" />
     </LinearLayout>
 
@@ -67,7 +67,7 @@
             android:gravity="center"
             android:textColor="@color/exp_launch_blue"
             android:textSize="14sp"
-            android:textStyle="bold"
+            app:textStyle="medium"
             tools:text="Directions" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

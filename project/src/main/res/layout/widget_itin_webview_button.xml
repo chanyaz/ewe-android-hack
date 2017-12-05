@@ -25,7 +25,7 @@
             android:drawablePadding="8dp"
             android:padding="16dp"
             android:textSize="14sp"
-            android:textStyle="bold"
+            app:textStyle="medium"
             android:textColor="@color/gray900"
             tools:text="Baggage information" />
     </LinearLayout>

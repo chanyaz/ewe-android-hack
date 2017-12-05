@@ -27,6 +27,7 @@
         app:layout_constraintRight_toLeftOf="@+id/flight_status_indicator_container"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
+        app:textStyle="medium"
         tools:text="Alaska airlines 4584" />
 
     <com.expedia.bookings.widget.TextView

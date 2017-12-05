@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="6dp"
                 android:textSize="20sp"
-                android:textStyle="bold"
+                app:textStyle="medium"
                 tools:text="6:45am"
                 tools:textColor="@color/itin_status_indicator_error" />
 
@@ -71,7 +71,7 @@
             android:paddingBottom="6dp"
             android:textColor="@color/gray900"
             android:textSize="20sp"
-            android:textStyle="bold"
+            app:textStyle="medium"
             tools:text="6:45am" />
 
         <com.expedia.bookings.widget.TextView
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="6dp"
                 android:textSize="20sp"
-                android:textStyle="bold"
+                app:textStyle="medium"
                 tools:text="8:45am"
                 tools:textColor="@color/itin_status_indicator_error" />
 
@@ -185,7 +185,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray900"
                 android:textSize="20sp"
-                android:textStyle="bold"
+                app:textStyle="medium"
                 tools:text="8:45am" />
 
             <com.expedia.bookings.widget.TextView
@@ -195,7 +195,7 @@
                 android:paddingLeft="3dp"
                 android:textColor="@color/error_red"
                 android:textSize="12sp"
-                android:textStyle="bold"
+                app:textStyle="medium"
                 android:visibility="gone"
                 tools:text="+1"
                 tools:visibility="visible" />
