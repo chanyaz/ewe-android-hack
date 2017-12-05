@@ -60,8 +60,7 @@ fun isHotelMaterialForms(context: Context): Boolean {
 }
 
 fun isBreadcrumbsPackagesEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav) &&
-            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_breadcrumbs)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
 }
 
 fun isBreadcrumbsMoveBundleOverviewPackagesEnabled(context: Context): Boolean {

@@ -119,11 +119,6 @@
             android:title="Packages MID API" />
 
         <CheckBoxPreference
-            android:key="@string/preference_packages_breadcrumbs"
-            android:summary="Packages Breadcrumbs"
-            android:title="Packages Breadcrumbs" />
-
-        <CheckBoxPreference
             android:key="@string/preference_packages_breadcrumbs_move_bundle_overview"
             android:summary="Packages Breadcrumbs - Move Bundle Overview Bar"
             android:title="Packages Breadcrumbs - Move Bundle Overview Bar" />
