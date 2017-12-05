@@ -1,10 +1,9 @@
 package com.expedia.bookings.itin
 
-import android.content.Context
-import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.data.Courier
 import com.expedia.bookings.data.TNSRegisterDeviceResponse
 import com.expedia.bookings.data.TNSUser
+import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.TNSServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.mobiata.mocke3.ExpediaDispatcher
@@ -16,8 +15,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
-import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
@@ -30,10 +27,13 @@ class TNSServicesTests {
     var server: MockWebServer = MockWebServer()
         @Rule get
 
+    private lateinit var testServiceObserver: TestSubscriber<TNSRegisterDeviceResponse>
     private var service: TNSServices? = null
 
     @Before
     fun before() {
+        testServiceObserver = TestSubscriber<TNSRegisterDeviceResponse>()
+
         val logger = HttpLoggingInterceptor()
         val file = File("../lib/mocked/templates")
         val root = file.canonicalPath
@@ -43,42 +43,39 @@ class TNSServicesTests {
         server.setDispatcher(ExpediaDispatcher(opener))
         service = TNSServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.immediate(), Schedulers.immediate(), testServiceObserver)
     }
 
     @Test
     fun testTnsUserResponse() {
-        val observer = TestSubscriber<TNSRegisterDeviceResponse>()
-        service!!.registerForUserDevice(TNSUser(1,1,1), Courier("gcm", "ExpediaBookings", "abc","abc"), observer)
-        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        val response = observer.onNextEvents[0]
-        observer.assertNoErrors()
-        observer.assertCompleted()
-        observer.assertValueCount(1)
+        service!!.registerForUserDevice(TNSUser(1,1,1), Courier("gcm", "ExpediaBookings", "abc","abc"))
+        testServiceObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        val response = testServiceObserver.onNextEvents[0]
+        testServiceObserver.assertNoErrors()
+        testServiceObserver.assertCompleted()
+        testServiceObserver.assertValueCount(1)
         assertEquals("SUCCESS", response.status)
     }
 
     @Test
     fun testTNSUserFlightResponse() {
-        val observer = TestSubscriber<TNSRegisterDeviceResponse>()
-        service!!.registerForFlights(TNSUser(1,1,1), Courier("gcm", "ExpediaBookings", "abc","abc"), emptyList(), observer)
-        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        val response = observer.onNextEvents[0]
-        observer.assertNoErrors()
-        observer.assertCompleted()
-        observer.assertValueCount(1)
+        service!!.registerForFlights(TNSUser(1,1,1), Courier("gcm", "ExpediaBookings", "abc","abc"), emptyList())
+        testServiceObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        val response = testServiceObserver.onNextEvents[0]
+        testServiceObserver.assertNoErrors()
+        testServiceObserver.assertCompleted()
+        testServiceObserver.assertValueCount(1)
         assertEquals("SUCCESS", response.status)
     }
 
     @Test
     fun testDeregisterDevice() {
-        val observer = TestSubscriber<TNSRegisterDeviceResponse>()
-        service!!.deregisterDevice(Courier("gcm", "ExpediaBookings", "abc","abc"), observer)
-        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        val response = observer.onNextEvents[0]
-        observer.assertNoErrors()
-        observer.assertCompleted()
-        observer.assertValueCount(1)
+        service!!.deregisterDevice(Courier("gcm", "ExpediaBookings", "abc","abc"))
+        testServiceObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        val response = testServiceObserver.onNextEvents[0]
+        testServiceObserver.assertNoErrors()
+        testServiceObserver.assertCompleted()
+        testServiceObserver.assertValueCount(1)
         assertEquals("SUCCESS", response.status)
     }
 }

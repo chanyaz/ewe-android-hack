@@ -16,8 +16,23 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
+class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, val serviceObserver: Observer<TNSRegisterDeviceResponse> = TNSServices.Companion.noopObserver) {
 
-class TNSServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+    companion object {
+
+        val noopObserver: Observer<TNSRegisterDeviceResponse> =
+                object : Observer<TNSRegisterDeviceResponse> {
+                    override fun onCompleted() {
+                    }
+
+                    override fun onError(e: Throwable) {
+                    }
+
+                    override fun onNext(tnsRegisterDeviceResponse: TNSRegisterDeviceResponse?) {
+
+                    }
+                }
+    }
 
     private val tnsAPI: TNSApi by lazy {
 
@@ -31,31 +46,18 @@ class TNSServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Int
         adapter.create(TNSApi::class.java)
     }
 
-    private val tempObserver: Observer<TNSRegisterDeviceResponse> =
-            object : Observer<TNSRegisterDeviceResponse> {
-                override fun onCompleted() {
-                }
-
-                override fun onError(e: Throwable) {
-                }
-
-                override fun onNext(tnsRegisterDeviceResponse: TNSRegisterDeviceResponse?) {
-
-                }
-            }
-
     private var userDeviceFlightsSubscription: Subscription? = null
     private var userDeviceSubscription: Subscription? = null
     private var userDeviceDeregistrationSubscription: Subscription? = null
 
-    fun registerForFlights(user: TNSUser, courier: Courier, flights: List<TNSFlight>, observer: Observer<TNSRegisterDeviceResponse>? = tempObserver): Subscription {
+    fun registerForFlights(user: TNSUser, courier: Courier, flights: List<TNSFlight>): Subscription {
         val requestBody = TNSRegisterUserDeviceFlightsRequestBody(courier, flights, user);
         userDeviceFlightsSubscription?.unsubscribe()
 
         userDeviceFlightsSubscription = tnsAPI.registerUserDeviceFlights(requestBody)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribe(observer)
+                .subscribe(serviceObserver)
         return userDeviceFlightsSubscription as Subscription
     }
 
@@ -63,28 +65,24 @@ class TNSServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Int
         registerForFlights(user, courier, emptyList())
     }
 
-    fun registerForFlights(user: TNSUser, courier: Courier, flights: List<TNSFlight>) {
-        registerForFlights(user, courier, flights)
-    }
-
-    fun registerForUserDevice(user: TNSUser, courier: Courier, observer: Observer<TNSRegisterDeviceResponse>? = tempObserver): Subscription {
+    fun registerForUserDevice(user: TNSUser, courier: Courier): Subscription {
         userDeviceSubscription?.unsubscribe()
         val requestBody = TNSRegisterUserDeviceRequestBody(courier, user);
         userDeviceSubscription = tnsAPI.registerUserDevice(requestBody)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribe(observer)
+                .subscribe(serviceObserver)
 
         return userDeviceSubscription as Subscription
     }
 
-    fun deregisterDevice(courier: Courier, observer: Observer<TNSRegisterDeviceResponse>? = tempObserver): Subscription {
+    fun deregisterDevice(courier: Courier): Subscription {
         userDeviceDeregistrationSubscription?.unsubscribe()
         val requestBody = TNSDeregister(courier);
         userDeviceDeregistrationSubscription = tnsAPI.deregisterUserDevice(requestBody)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribe(observer)
+                .subscribe(serviceObserver)
 
         return userDeviceDeregistrationSubscription as Subscription
     }
