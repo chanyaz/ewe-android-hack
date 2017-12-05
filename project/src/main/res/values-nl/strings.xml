@@ -61,7 +61,7 @@
     <!-- Date/Time Range e.g. May 5, 11:00am - May 10, 11:00am -->
     <string name="date_time_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
     <!-- Date/Time Range content description, e.g. May 5, 11:00am to May 10, 11:00am -->
-    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time} tot {to_date_time}</string>
+    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time} naar {to_date_time}</string>
     <!-- Label for checkout button where user slides the button in order to reserve the activity -->
     <string name="lx_slide_to_reserve">Swipe om te reserveren</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
@@ -692,10 +692,12 @@
     <string name="prices_roundtrip_minimum_label">Retourprijzen, per persoon, vanaf</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">Prijzen voor enkele reis, per persoon, vanaf</string>
+    <!-- Label indicating the price shown is for delta pricing rather than generic one -->
+    <string name="delta_price_roundtrip_inbound_label">Toeslag per persoon voor terugreis</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">Totaal voor retourreis (incl. belastingen en toeslagen), per persoon - voor hotel en vluchten</string>
     <!-- Label indicating the price include hotel, flight-->
-    <string name="package_prices_roundtrip_person_minimum_fsr_label">Totaalprijs retour, per persoon, vanaf • inclusief hotel en vluchten</string>
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">Prijs per persoon voor hotel en retourvlucht vanaf…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Uitverkocht</string>
 
@@ -747,6 +749,8 @@
     <string name="room_rate_pay_now">Betaal nu</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} nu te betalen</string>
+    <!-- Package rooms and rates delta price, tell that the price of this room is {price} amount greater than baseline ex, +$10.00 -->
+    <string name="plus_price_TEMPLATE">+{price}</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s beoordelingen</string>
 
@@ -781,7 +785,7 @@
     <!--Create Account -->
     <string name="Create_Account">ACCOUNT AANMAKEN</string>
     <!-- Earn rewards and unlock exclusive deals -->
-    <string name="earn_rewards_and_unlock_deals">Verzamel voordelen en krijg toegang tot exclusieve deals</string>
+    <string name="earn_rewards_and_unlock_deals">Verzamel voordelen en krijg toegang tot exclusieve deals.</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -851,7 +855,7 @@
     <string name="search_title">Zoeken</string>
 
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Vandaag voor jou</string>
+    <string name="nearby_deals_title">Aangeraden hotels voor vandaag</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">Meer tonen</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -865,7 +869,7 @@
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">Alleen vandaag!</string>
     <!-- Label for button to navigate to the car rental line of business -->
-    <string name="nav_car_rentals">Huurautoʼs</string>
+    <string name="nav_car_rentals">Auto\&apos;s</string>
     <!-- Label for button to navigate to the Activities / Things to Do line of business -->
     <string name="nav_things_to_do">Activiteiten</string>
     <!-- Text for active itin card on signed-in user launch screen -->
@@ -924,6 +928,8 @@
     <string name="Itinerary_ready">Reisplan klaar</string>
     <!-- Notification title text for get ready for your trip -->
     <string name="get_ready_for_trip">Pak je koffers</string>
+    <!--Notification Title for Hotel Activity In Trip notification-->
+    <string name="things_to_do_near_hotel">Activiteiten nabij je hotel</string>
     <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
     <string name="get_ready_for_trip_body_TEMPLATE">Hoi {firstname}, je verblijf bij {hotel} begint op {startday}. Controleer het hoteladres, telefoonnummer en meer info in je boeking.</string>
     <string name="check_in_notification_title">Herinnering: inchecken bij hotel</string>
@@ -941,11 +947,13 @@
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">Activiteiten in {destination}</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Activiteiten in {destination} zijn snel uitverkocht! Verken activiteiten en boek je tickets vooraf.</string>
+    <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
+    <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hoi {firstname}, ontdek topattracties en activiteiten nabij je hotel.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reisplan</string>
     <!-- Shop -->
-    <string name="shop">Shop</string>
+    <string name="shop">Plan &amp; Boek</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Vind reisplan</string>
     <string name="unable_to_find_guest_itinerary">Kon reisplan niet vinden. Bevestig in het accountscherm dat de landinstellingen overeenstemmen met het websiteadres voor je boeking.</string>
@@ -1408,6 +1416,9 @@
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Regels over wijzigen en annuleren</string>
 
+    <!-- Itin share dialog title -->
+    <string name="itin_share_dialog_title">Deel reisplan</string>
+
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
     <string name="itin_flight_toolbar_title_TEMPLATE">Vlucht naar {destination}</string>
@@ -1445,6 +1456,8 @@
     <string name="itin_flight_total_duration_TEMPLATE">Totale reisduur: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Info over bagage</string>
+    <!--Flight itin map view content description-->
+    <string name="itin_flight_details_map_view_content_description">Vluchtoverzicht op Google Maps</string>
     <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">Reizigersinfo</string>
     <!--Flight itin traveler preferences heading -->
@@ -1487,6 +1500,25 @@
     <string name="itin_flight_customer_support_site_header_TEMPLATE">Klantenservice van {brand}</string>
     <!--Flight customer support website toolbar header-->
     <string name="itin_flight_customer_support_site_toolbar_header">Klantenservice</string>
+    <!--Flight itin, flight leg detail widget title. {departure} to {arrival} (eg., SFO to SEA)-->
+    <string name="itin_flight_leg_detail_widget_title_TEMPLATE">{departure} naar {arrival}</string>
+    <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_TEMPLATE">{departure_date_time} - {arrival_date_time} · {stops}</string>
+    <!--Flight itin, flight leg detail widget sub title date time template. {date} {time} (eg., Aug 20 8:00am)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
+    <!--Flight itin, flight leg detail widget Nonstop text-->
+    <string name="itin_flight_leg_detail_widget_nonstop">Rechtstreeks</string>
+    <!--Flight itin, flight leg detail widget "to" text-->
+    <string name="itin_flight_leg_detail_widget_to_text">tot</string>
+    <!--Flight itin, flight leg detail widget "-" text-->
+    <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
+
+    <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
+    <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
+    <item quantity="zero">Rechtstreeks</item>
+    <item quantity="one">%s tussenstop</item>
+    <item quantity="other">%s tussenstops</item>
+    </plurals>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} d. {hours} u. {minutes} min.</string>
@@ -2771,8 +2803,6 @@
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
     <string name="urgency_destination_description_TEMPLATE">{destination} is een populaire locatie op jouw datums</string>
 
-    <!-- The text we use to show room info for expanded room -->
-    <string name="room_information">Kamerinfo</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">Knop Kamerinfo</string>
     <!-- The text we use to message that the room in non-refundable -->
@@ -2801,12 +2831,8 @@
     <string name="view_room_button_text">Kamer bekijken</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Boeken</string>
-    <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
-    <string name="view_room_button_content_description_TEMPLATE">Kamerinformatie, {room}</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">Inclusief %s</string>
-    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
-    <string name="book_room_button_content_description_TEMPLATE">Boeken, {room}</string>
     <!-- Room description alert dialog title -->
     <string name="room_description_title">Kamerbeschrijving</string>
     <!-- Renovation Notice -->
@@ -2876,7 +2902,7 @@
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Account</string>
     <!-- Label for menu item to sign into account -->
-    <string name="sign_in">AANMELDEN</string>
+    <string name="sign_in">Aanmelden</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Bezig met aanmelden …</string>
     <!-- Label for sign out confirmation -->
@@ -2978,13 +3004,13 @@
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App-support</string>
     <!-- Section label for app settings functionality -->
-    <string name="about_section_app_settings">App-instellingen</string>
+    <string name="about_section_app_settings">Instellingen</string>
     <!-- Section label for user support functionality -->
     <string name="about_section_support">Ondersteuning</string>
     <!-- Section label for communication options that are not related to user support -->
     <string name="about_section_communicate">Contact opnemen</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
-    <string name="rate_our_app">Beoordeel onze app!</string>
+    <string name="rate_our_app">Beoordeel de app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Algemene Voorwaarden</string>
     <!-- Label for link to terms of use -->
@@ -2994,7 +3020,7 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAlle rechten voorbehouden.</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">Open Source Software-licenties</string>
+    <string name="open_source_software_licenses">Erkenning Open Source Software-licenties</string>
     <!-- String for error message if open source software license page fails to open -->
     <string name="open_source_software_licenses_error">Fout bij het laden van pagina.</string>
     <!-- String for acrediting the open source libraries we use -->
@@ -3874,7 +3900,7 @@
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
-    <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} tot {arrivaltime}</string>
+    <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} naar {arrivaltime}</string>
     <!-- Carrier name and code when flight operated by different carrier e.g. Operated by Alaska Airlines (AS) -->
     <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">Verzorgd door {operatingairlinename} ({operatingairlinecode})</string>
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
@@ -4378,7 +4404,7 @@
     <!-- Generic date range template with guests. E.g. May 12 - May 15, 2 guestss -->
     <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="start_to_end_date_range_cont_desc_TEMPLATE">{startdate} tot {enddate}</string>
+    <string name="start_to_end_date_range_cont_desc_TEMPLATE">{startdate} naar {enddate}</string>
     <!-- Generic Content Description text for date ranges plus guests template. Example May 12 to May 15, 2 guests -->
     <string name="start_to_end_plus_guests_cont_desc_TEMPLATE">{startdate} tot {enddate}, {guests}</string>
     <!--Traveler widget adults plus button content description-->
@@ -4709,11 +4735,6 @@
 
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">Optie {number}</string>
-
-    <!-- Content description for double tap action to collapse HIS room info -->
-    <string name="collapse_room_info_cont_desc">Samenvouwen</string>
-    <!-- Content description for double tap action to expand HIS room info -->
-    <string name="expand_room_info_cont_desc">Uitvouwen</string>
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}. Knop</string>

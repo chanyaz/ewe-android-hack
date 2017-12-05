@@ -692,10 +692,12 @@
     <string name="prices_roundtrip_minimum_label">ราคาไป-กลับต่อคน เริ่มที่</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">ราคาเที่ยวเดียวต่อคน เริ่มที่</string>
+    <!-- Label indicating the price shown is for delta pricing rather than generic one -->
+    <string name="delta_price_roundtrip_inbound_label">ราคาเพิ่มเติมต่อคนสำหรับเที่ยวบินขาเข้า</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">ราคารวมไปกลับ (รวมภาษีและค่าธรรมเนียม) ราคาต่อคน - สำหรับโรงแรมและเที่ยวบิน</string>
     <!-- Label indicating the price include hotel, flight-->
-    <string name="package_prices_roundtrip_person_minimum_fsr_label">ราคาไป-กลับต่อคน เริ่มที่ • รวมโรงแรมและเที่ยวบิน</string>
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">ราคาเพิ่มเติมต่อคนสำหรับโรงแรมและเที่ยวบินไป-กลับจาก…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">หมดแล้ว</string>
 
@@ -747,6 +749,8 @@
     <string name="room_rate_pay_now">จ่ายตอนนี้</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">จ่ายตอนนี้ {amount}</string>
+    <!-- Package rooms and rates delta price, tell that the price of this room is {price} amount greater than baseline ex, +$10.00 -->
+    <string name="plus_price_TEMPLATE">+{price}</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s รีวิว</string>
 
@@ -851,7 +855,7 @@
     <string name="search_title">ค้นหา</string>
 
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">โรงแรมแนะนำคืนนี้</string>
+    <string name="nearby_deals_title">โรงแรมแนะนำประจำคืนนี้</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">ดูเพิ่มเติม</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -865,7 +869,7 @@
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">คืนนี้เท่านั้น!</string>
     <!-- Label for button to navigate to the car rental line of business -->
-    <string name="nav_car_rentals">เช่ารถ</string>
+    <string name="nav_car_rentals">รถ</string>
     <!-- Label for button to navigate to the Activities / Things to Do line of business -->
     <string name="nav_things_to_do">กิจกรรม</string>
     <!-- Text for active itin card on signed-in user launch screen -->
@@ -924,6 +928,8 @@
     <string name="Itinerary_ready">แผนการเดินทางพร้อม</string>
     <!-- Notification title text for get ready for your trip -->
     <string name="get_ready_for_trip">เตรียมพร้อมไปทริป</string>
+    <!--Notification Title for Hotel Activity In Trip notification-->
+    <string name="things_to_do_near_hotel">กิจกรรมใกล้โรงแรมของคุณ</string>
     <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
     <string name="get_ready_for_trip_body_TEMPLATE">สวัสดีค่ะ {firstname} คุณได้จองที่พักที่ {hotel} ในวันที่ {startday} คุณสามารถดูที่อยู่ หมายเลขโทรศัพท์ และรายละเอียดอื่นๆ ของโรงแรมได้ที่หน้าการจองของคุณ</string>
     <string name="check_in_notification_title">แจ้งเตือนเช็คอินโรงแรม</string>
@@ -941,11 +947,13 @@
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">กิจกรรมใน {destination}</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">กิจกรรมใน {destination} ขายหมดเร็วมาก! สำรวจกิจกรรมที่น่าสนใจแล้วจองตั๋วเข้าชมล่วงหน้า</string>
+    <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
+    <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">สวัสดีค่ะ {firstname} ไปสำรวจสถานที่ท่องเที่ยวและกิจกรรมยอดนิยมใกล้โรงแรมของคุณกัน</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">แผนการเดินทาง</string>
     <!-- Shop -->
-    <string name="shop">จอง</string>
+    <string name="shop">จองการเดินทาง</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
     <string name="unable_to_find_guest_itinerary">หาแผนการเดินทางไม่พบ โปรดยืนยันที่หน้าจอบัญชีว่าการตั้งค่าประเทศตรงกับที่อยู่เว็บไซต์สำหรับการจองของคุณ</string>
@@ -1408,6 +1416,9 @@
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">กฎการเปลี่ยนแปลงและยกเลิก</string>
 
+    <!-- Itin share dialog title -->
+    <string name="itin_share_dialog_title">แชร์แผนการเดินทาง</string>
+
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
     <string name="itin_flight_toolbar_title_TEMPLATE">เที่ยวบินไปยัง {destination}</string>
@@ -1445,6 +1456,8 @@
     <string name="itin_flight_total_duration_TEMPLATE">ระยะเวลาทั้งหมด: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">ข้อมูลสัมภาระ</string>
+    <!--Flight itin map view content description-->
+    <string name="itin_flight_details_map_view_content_description">Google Maps สรุปการเดินทางของเที่ยวบิน</string>
     <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">ข้อมูลผู้เดินทาง</string>
     <!--Flight itin traveler preferences heading -->
@@ -1487,6 +1500,25 @@
     <string name="itin_flight_customer_support_site_header_TEMPLATE">ฝ่ายบริการลูกค้า{brand}</string>
     <!--Flight customer support website toolbar header-->
     <string name="itin_flight_customer_support_site_toolbar_header">ฝ่ายบริการลูกค้า</string>
+    <!--Flight itin, flight leg detail widget title. {departure} to {arrival} (eg., SFO to SEA)-->
+    <string name="itin_flight_leg_detail_widget_title_TEMPLATE">{departure} ถึง {arrival}</string>
+    <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_TEMPLATE">{departure_date_time} - {arrival_date_time} · {stops}</string>
+    <!--Flight itin, flight leg detail widget sub title date time template. {date} {time} (eg., Aug 20 8:00am)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
+    <!--Flight itin, flight leg detail widget Nonstop text-->
+    <string name="itin_flight_leg_detail_widget_nonstop">ไม่แวะพัก</string>
+    <!--Flight itin, flight leg detail widget "to" text-->
+    <string name="itin_flight_leg_detail_widget_to_text">ถึง</string>
+    <!--Flight itin, flight leg detail widget "-" text-->
+    <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
+
+    <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
+    <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
+    <item quantity="zero">ไม่แวะพัก</item>
+    <item quantity="one">แวะพัก %s ครั้ง</item>
+    <item quantity="other">แวะพัก %s ครั้ง</item>
+    </plurals>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}ว. {hours}ชม. {minutes}น.</string>
@@ -2080,7 +2112,7 @@
     <!--Address Province hint-->
     <string name="address_province_hint">จังหวัด</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">มณฑล/รัฐ/จังหวัด (ไม่บังคับ)</string>
+    <string name="address_county_hint">เขตปกครอง/รัฐ/จังหวัด (ตัวเลือก)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2771,8 +2803,6 @@
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
     <string name="urgency_destination_description_TEMPLATE">{destination}เป็นจุดหมายปลายทางยอดนิยมในวันที่คุณเลือก</string>
 
-    <!-- The text we use to show room info for expanded room -->
-    <string name="room_information">ข้อมูลห้องพัก</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">ปุ่มข้อมูลห้องพัก</string>
     <!-- The text we use to message that the room in non-refundable -->
@@ -2801,12 +2831,8 @@
     <string name="view_room_button_text">ดูห้องพัก</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">จอง</string>
-    <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
-    <string name="view_room_button_content_description_TEMPLATE">ดูห้อง {room}</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">รวม%s</string>
-    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
-    <string name="book_room_button_content_description_TEMPLATE">จอง {room}</string>
     <!-- Room description alert dialog title -->
     <string name="room_description_title">คำอธิบายห้องพัก</string>
     <!-- Renovation Notice -->
@@ -2962,7 +2988,7 @@
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
-    <string name="booking_support">ฝ่ายช่วยเหลือการจอง</string>
+    <string name="booking_support">ติดต่อฝ่ายช่วยเหลือการจอง</string>
     <!-- Subject for loyalty email on Itin -->
     <string name="support_request">คำร้องขอความช่วยเหลือ</string>
     <!-- Title for different ways to connect to Expedia -->
@@ -2976,15 +3002,15 @@
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">สมัครใช้บัตร {brand_reward_name} Visa®</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">ฝ่ายสนับสนุนแอพ</string>
+    <string name="app_support">ค้นหาฝ่ายสนับสนุนแอพ</string>
     <!-- Section label for app settings functionality -->
-    <string name="about_section_app_settings">การตั้งค่าแอพ</string>
+    <string name="about_section_app_settings">การตั้งค่า</string>
     <!-- Section label for user support functionality -->
     <string name="about_section_support">ความช่วยเหลือ</string>
     <!-- Section label for communication options that are not related to user support -->
     <string name="about_section_communicate">ติดต่อสื่อสาร</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
-    <string name="rate_our_app">ให้คะแนนแอพของเรา!</string>
+    <string name="rate_our_app">ให้คะแนนแอพ</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข</string>
     <!-- Label for link to terms of use -->
@@ -2994,7 +3020,7 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nสงวนลิขสิทธิ์</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">ใบอนุญาตซอฟต์แวร์โอเพนซอร์ซ</string>
+    <string name="open_source_software_licenses">การยอมรับใบอนุญาตซอฟต์แวร์โอเพนซอร์ซ</string>
     <!-- String for error message if open source software license page fails to open -->
     <string name="open_source_software_licenses_error">เกิดข้อผิดพลาดในการโหลด</string>
     <!-- String for acrediting the open source libraries we use -->
@@ -4709,11 +4735,6 @@
 
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">ตัวเลือก {number}</string>
-
-    <!-- Content description for double tap action to collapse HIS room info -->
-    <string name="collapse_room_info_cont_desc">ย่อ</string>
-    <!-- Content description for double tap action to expand HIS room info -->
-    <string name="expand_room_info_cont_desc">ขยาย</string>
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description} ปุ่ม</string>

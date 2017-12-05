@@ -692,10 +692,12 @@
     <string name="prices_roundtrip_minimum_label">Giá hai chiều, mỗi người, từ</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">Giá một chiều, mỗi người, từ</string>
+    <!-- Label indicating the price shown is for delta pricing rather than generic one -->
+    <string name="delta_price_roundtrip_inbound_label">Giá tính thêm dành cho một người đối với chuyến bay nội địa</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">Tổng giá hai chiều (gồm thuế &amp; phí), mỗi người - khách sạn và chuyến bay</string>
     <!-- Label indicating the price include hotel, flight-->
-    <string name="package_prices_roundtrip_person_minimum_fsr_label">Giá hai chiều, mỗi người, từ • gồm khách sạn và chuyến bay</string>
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">Giá dành cho một người bao gồm khách sạn và chuyến bay khứ hồi từ…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Hết chỗ</string>
 
@@ -747,6 +749,8 @@
     <string name="room_rate_pay_now">Thanh toán ngay</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} - thanh toán ngay</string>
+    <!-- Package rooms and rates delta price, tell that the price of this room is {price} amount greater than baseline ex, +$10.00 -->
+    <string name="plus_price_TEMPLATE">+{price}</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s nhận xét</string>
 
@@ -781,7 +785,7 @@
     <!--Create Account -->
     <string name="Create_Account">TẠO TÀI KHOẢN</string>
     <!-- Earn rewards and unlock exclusive deals -->
-    <string name="earn_rewards_and_unlock_deals">Nhận thưởng và mở khóa những ưu đãi độc quyền</string>
+    <string name="earn_rewards_and_unlock_deals">Nhận thưởng và mở khóa những ưu đãi độc quyền.</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -851,7 +855,7 @@
     <string name="search_title">Tìm kiếm</string>
 
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Nhận phòng đêm nay</string>
+    <string name="nearby_deals_title">Khách sạn được đề xuất cho đêm nay</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">Xem thêm</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -924,6 +928,8 @@
     <string name="Itinerary_ready">Lịch trình đã sẵn sàng</string>
     <!-- Notification title text for get ready for your trip -->
     <string name="get_ready_for_trip">Sẵn sàng lên đường</string>
+    <!--Notification Title for Hotel Activity In Trip notification-->
+    <string name="things_to_do_near_hotel">Hoạt động có thể làm ở gần khách sạn của quý vị</string>
     <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
     <string name="get_ready_for_trip_body_TEMPLATE">Chào {firstname}, đặt phòng khách sạn của quý vị tại {hotel} bắt đầu vào {startday}. Xem địa chỉ, số điện thoại và thông tin khác của khách sạn trong xác nhận đặt phòng.</string>
     <string name="check_in_notification_title">Nhắc nhở nhận phòng khách sạn</string>
@@ -941,11 +947,13 @@
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">Hoạt động giải trí tại {destination}</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Nhiều khách đặt hoạt động giải trí tại {destination}! Khám phá các hoạt động trong vùng và đặt vé sớm.</string>
+    <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
+    <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Này{firstname}! hãy khám phá những địa điểm và hoạt động hấp dẫn hàng đầu gần khách sạn của quý vị.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
     <!-- Shop -->
-    <string name="shop">Đặt</string>
+    <string name="shop">Tìm và đặt</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Tìm lịch trình</string>
     <string name="unable_to_find_guest_itinerary">Không tìm được lịch trình. Vui lòng kiểm tra màn hình Tài khoản và xác nhận đã chọn cùng Quốc gia của địa chỉ trang web đang đặt sản phẩm.</string>
@@ -1408,6 +1416,9 @@
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Quy định thay đổi và hủy</string>
 
+    <!-- Itin share dialog title -->
+    <string name="itin_share_dialog_title">Chia sẻ hành trình</string>
+
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
     <string name="itin_flight_toolbar_title_TEMPLATE">Bay đến {destination}</string>
@@ -1445,6 +1456,8 @@
     <string name="itin_flight_total_duration_TEMPLATE">Tổng thời gian: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Thông tin hành lý</string>
+    <!--Flight itin map view content description-->
+    <string name="itin_flight_details_map_view_content_description">bản đồ google tổng hợp cả chặng bay</string>
     <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">Thông tin khách</string>
     <!--Flight itin traveler preferences heading -->
@@ -1487,6 +1500,25 @@
     <string name="itin_flight_customer_support_site_header_TEMPLATE">Hỗ trợ khách hàng {brand}</string>
     <!--Flight customer support website toolbar header-->
     <string name="itin_flight_customer_support_site_toolbar_header">Dịch vụ khách hàng</string>
+    <!--Flight itin, flight leg detail widget title. {departure} to {arrival} (eg., SFO to SEA)-->
+    <string name="itin_flight_leg_detail_widget_title_TEMPLATE">{departure} đến {arrival}</string>
+    <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_TEMPLATE">{departure_date_time} - {arrival_date_time} · {stops}</string>
+    <!--Flight itin, flight leg detail widget sub title date time template. {date} {time} (eg., Aug 20 8:00am)-->
+    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
+    <!--Flight itin, flight leg detail widget Nonstop text-->
+    <string name="itin_flight_leg_detail_widget_nonstop">Bay thẳng</string>
+    <!--Flight itin, flight leg detail widget "to" text-->
+    <string name="itin_flight_leg_detail_widget_to_text">đến</string>
+    <!--Flight itin, flight leg detail widget "-" text-->
+    <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
+
+    <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
+    <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
+    <item quantity="zero">Bay thẳng</item>
+    <item quantity="one">%s điểm dừng</item>
+    <item quantity="other">%s điểm dừng</item>
+    </plurals>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}ng {hours}g {minutes}p</string>
@@ -1742,7 +1774,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">Lỗi</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="error_try_again_warning">Ồ. Hãy thử lại.</string>
+    <string name="error_try_again_warning">Ôi! Hãy thử lại sau.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Thử lại</string>
 
@@ -2080,7 +2112,7 @@
     <!--Address Province hint-->
     <string name="address_province_hint">Tỉnh</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">Hạt/Bang/Tỉnh (không bắt buộc)</string>
+    <string name="address_county_hint">Hạt/Bang/Tỉnh (tùy chọn)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2771,8 +2803,6 @@
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
     <string name="urgency_destination_description_TEMPLATE">{destination} là điểm đến được nhiều người lựa chọn cùng ngày với quý vị</string>
 
-    <!-- The text we use to show room info for expanded room -->
-    <string name="room_information">Thông tin phòng</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">Nút thông tin phòng</string>
     <!-- The text we use to message that the room in non-refundable -->
@@ -2801,12 +2831,8 @@
     <string name="view_room_button_text">Xem phòng</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Đặt</string>
-    <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
-    <string name="view_room_button_content_description_TEMPLATE">Thông tin phòng, {room}</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">Gồm %s</string>
-    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
-    <string name="book_room_button_content_description_TEMPLATE">Đặt, {room}</string>
     <!-- Room description alert dialog title -->
     <string name="room_description_title">Mô tả phòng</string>
     <!-- Renovation Notice -->
@@ -2876,7 +2902,7 @@
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Tài khoản</string>
     <!-- Label for menu item to sign into account -->
-    <string name="sign_in">ĐĂNG NHẬP</string>
+    <string name="sign_in">Đăng nhập</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Đang đăng nhập…</string>
     <!-- Label for sign out confirmation -->
@@ -2962,7 +2988,7 @@
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
-    <string name="booking_support">Hỗ trợ Đặt</string>
+    <string name="booking_support">Liên hệ với bộ phận hỗ trợ đặt chỗ</string>
     <!-- Subject for loyalty email on Itin -->
     <string name="support_request">Yêu cầu hỗ trợ</string>
     <!-- Title for different ways to connect to Expedia -->
@@ -2978,13 +3004,13 @@
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Hỗ trợ ứng dụng</string>
     <!-- Section label for app settings functionality -->
-    <string name="about_section_app_settings">Cài đặt ứng dụng</string>
+    <string name="about_section_app_settings">Cài đặt</string>
     <!-- Section label for user support functionality -->
     <string name="about_section_support">Hỗ trợ</string>
     <!-- Section label for communication options that are not related to user support -->
     <string name="about_section_communicate">Liên lạc</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
-    <string name="rate_our_app">Đánh giá app của chúng tôi!</string>
+    <string name="rate_our_app">Đánh giá app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Điều khoản và Điều kiện</string>
     <!-- Label for link to terms of use -->
@@ -2994,7 +3020,7 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Bản quyền 2012-{year} {brand}, Inc.\nMọi quyền được bảo lưu.</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">Bản quyền các phần mềm mã nguồn mở</string>
+    <string name="open_source_software_licenses">Xác nhận bản quyền phần mềm nguồn mở</string>
     <!-- String for error message if open source software license page fails to open -->
     <string name="open_source_software_licenses_error">Có lỗi khi tải trang.</string>
     <!-- String for acrediting the open source libraries we use -->
@@ -4709,11 +4735,6 @@
 
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">Tùy chọn {number}</string>
-
-    <!-- Content description for double tap action to collapse HIS room info -->
-    <string name="collapse_room_info_cont_desc">Đóng</string>
-    <!-- Content description for double tap action to expand HIS room info -->
-    <string name="expand_room_info_cont_desc">Mở</string>
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}. Nút</string>
