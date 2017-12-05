@@ -1905,7 +1905,11 @@ public class ItineraryManager implements JSONable {
 					new PushRegistrationResponseHandler(mContext), payload, regId);
 				Log.d(LOGGING_TAG,
 					"registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
-				tnsServices.deregisterForFlights(tnsUser, courier);
+
+				if (FeatureToggleUtil.isFeatureEnabled(mContext,
+					R.string.preference_enable_trips_flight_alerts)) {
+					tnsServices.deregisterForFlights(tnsUser, courier);
+				}
 
 			}
 			else {
