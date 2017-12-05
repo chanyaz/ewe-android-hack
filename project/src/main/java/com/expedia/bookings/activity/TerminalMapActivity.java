@@ -65,7 +65,7 @@ public class TerminalMapActivity extends AppCompatActivity implements ActionBar.
 
 		//Setup dropdown nav
 		mTerminalNames = new ArrayList<String>();
-		if (mAirport != null) {
+		if (mAirport != null && mAirport.hasAirportMaps()) {
 			for (AirportMap map : mAirport.mAirportMaps) {
 				mTerminalNames.add(map.mName);
 			}

@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.TerminalMapActivity
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.TextView
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils
 import com.squareup.phrase.Phrase
 
 class FlightItinTerminalMapBottomSheet : BottomSheetDialogFragment() {
@@ -35,7 +36,7 @@ class FlightItinTerminalMapBottomSheet : BottomSheetDialogFragment() {
         val arrivalAirportCode = arguments.getString(ARRIVAL_AIRPORT_CODE, null)
 
         val departureAirportText = view?.findViewById<TextView>(R.id.terminal_map_departure_airport)
-        if (!departureAirportCode.isNullOrEmpty()) {
+        if (!departureAirportCode.isNullOrEmpty() && checkIfMapIsAvailable(departureAirportCode)) {
             departureAirportText?.text = Phrase.from(context, R.string.itin_flight_terminal_maps_bottom_sheet_airport_text_TEMPLATE).put("airport", departureAirportCode).format().toString()
             departureAirportText?.setOnClickListener(terminalMapClickListener(departureAirportCode))
         } else {
@@ -43,7 +44,7 @@ class FlightItinTerminalMapBottomSheet : BottomSheetDialogFragment() {
         }
 
         val arrivalAirportText = view?.findViewById<TextView>(R.id.terminal_map_arrival_airport)
-        if (!arrivalAirportCode.isNullOrEmpty()) {
+        if (!arrivalAirportCode.isNullOrEmpty() && checkIfMapIsAvailable(arrivalAirportCode)) {
             arrivalAirportText?.text = Phrase.from(context, R.string.itin_flight_terminal_maps_bottom_sheet_airport_text_TEMPLATE).put("airport", arrivalAirportCode).format().toString()
             arrivalAirportText?.setOnClickListener(terminalMapClickListener(arrivalAirportCode))
         } else {
@@ -58,5 +59,13 @@ class FlightItinTerminalMapBottomSheet : BottomSheetDialogFragment() {
             val terminalMapIntent = TerminalMapActivity.createIntent(context, airportCode)
             NavUtils.startActivitySafe(context, terminalMapIntent)
         }
+    }
+
+    fun checkIfMapIsAvailable(airportCode: String?): Boolean {
+        val airport = FlightStatsDbUtils.getAirport(airportCode)
+        if (airport != null) {
+            return airport.hasAirportMaps()
+        }
+        return false
     }
 }
