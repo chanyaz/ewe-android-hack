@@ -423,3 +423,75 @@ Feature: Flights Search
       | departureDate                         | 15                            |
       | numberOfAdultTravelers                | 2                             |
 
+@Flights @FlightSearchSet3 @Prod
+  Scenario Outline: Verify if preferred class search works for one-way trip
+  Given I launch the App
+  And I bucket the following tests
+    |FlightPremiumClass|
+    |FlightShowMoreInfo|
+  And I launch "Flights" LOB
+  And I select one way trip
+  When I enter source and destination for flights
+    | source              | LAS - McCarran Intl.                     |
+    | destination         | San Francisco, CA                        |
+    | source_suggest      | LAS - McCarran Intl.                     |
+    | destination_suggest | San Francisco, CA                        |
+  And I pick departure date for flights
+    | start_date | 65 |
+  And I click on class widget
+  Then I click on <preferredClass> as preferred class
+  And I click on Done button
+  And Validate <preferredClass> preferred class is displayed on search screen
+  Then I can trigger flights search
+  And I wait for results to load
+  And Validate that flight search results are displayed
+  And I click on sort and filter icon
+  And I select "Nonstop" checkbox
+  And I select "1 Stop" checkbox
+  And I click on sort and filter screen done button
+  Then Validate <preferredClass> is present on every result on FSR for isOutBound : true
+  And I select outbound flight at position 1 and reach inbound FSR
+  Then Validate <preferredClass> is present on the overview screen for isOutbound : true
+
+  Examples:
+    |preferredClass   |
+    |"Premium Economy"|
+
+  @Flights @FlightSearchSet3 @Prod
+  Scenario Outline: Verify if preferred class search works for round trip
+    Given I launch the App
+    And I bucket the following tests
+      |FlightPremiumClass|
+      |FlightShowMoreInfo|
+    And I launch "Flights" LOB
+    When I enter source and destination for flights
+      | source              | LAS - McCarran Intl.                     |
+      | destination         | San Francisco, CA                        |
+      | source_suggest      | LAS - McCarran Intl.                     |
+      | destination_suggest | San Francisco, CA                        |
+    And I pick dates for flights
+      | start_date | 10 |
+      | end_date   | 19 |
+    And I click on class widget
+    Then I click on <preferredClass> as preferred class
+    And I click on Done button
+    And Validate <preferredClass> preferred class is displayed on search screen
+    Then I can trigger flights search
+    And I wait for results to load
+    And Validate that flight search results are displayed
+    And I click on sort and filter icon
+    And I select "Nonstop" checkbox
+    And I select "1 Stop" checkbox
+    And I click on sort and filter screen done button
+    Then Validate <preferredClass> is present on every result on FSR for isOutBound : true
+    And I select outbound flight at position 1 and reach inbound FSR
+    And I wait for inbound flights results to load
+    Then Validate <preferredClass> is present on every result on FSR for isOutBound : false
+    And I select inbound flight at position 1 and reach overview
+    And Close price change Alert dialog if it is visible
+    Then Validate <preferredClass> is present on the overview screen for isOutbound : true
+    Then Validate <preferredClass> is present on the overview screen for isOutbound : false
+
+    Examples:
+      |preferredClass   |
+      |"Premium Economy"|
