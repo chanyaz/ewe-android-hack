@@ -60,7 +60,7 @@ class HotelBreakdownTest {
         expected.add(arrayListOf(Breakdown("1 Night", "$99.00", BreakdownItem.OTHER),
                 Breakdown("3/22/2013", "$99.00", BreakdownItem.DATE),
                 Breakdown("Taxes & Fees", "$16.81", BreakdownItem.OTHER),
-                Breakdown("Trip Total", "$135.81", BreakdownItem.TRIPTOTAL),
+                Breakdown("Trip total", "$135.81", BreakdownItem.TRIPTOTAL),
                 Breakdown("Due to Expedia today", "$0", BreakdownItem.OTHER)))
 
         testSubscriber.assertReceivedOnNext(expected)
@@ -87,13 +87,13 @@ class HotelBreakdownTest {
                 Breakdown("3/22/2013", "$99.00", BreakdownItem.DATE),
                 Breakdown("Taxes & Fees", "$16.81", BreakdownItem.OTHER),
                 Breakdown("2,500 points", "$1,000.00", BreakdownItem.DISCOUNT),
-                Breakdown("Trip Total", "$0.00", BreakdownItem.TRIPTOTAL)))
+                Breakdown("Trip total", "$0.00", BreakdownItem.TRIPTOTAL)))
 
         expected.add(arrayListOf(Breakdown("1 Night", "$99.00", BreakdownItem.OTHER),
                 Breakdown("3/22/2013", "$99.00", BreakdownItem.DATE),
                 Breakdown("Taxes & Fees", "$16.81", BreakdownItem.OTHER),
                 Breakdown("14,005 points", "$100.00", BreakdownItem.DISCOUNT),
-                Breakdown("Trip Total", "$3.70", BreakdownItem.TRIPTOTAL)))
+                Breakdown("Trip total", "$3.70", BreakdownItem.TRIPTOTAL)))
 
         testSubscriber.assertReceivedOnNext(expected)
         testSubscriber.unsubscribe()
@@ -115,7 +115,7 @@ class HotelBreakdownTest {
                 Breakdown("7/06/2016", "$36.81", BreakdownItem.DATE),
                 Breakdown("7/07/2016", "$36.81", BreakdownItem.DATE),
                 Breakdown("Taxes & Fees", "$19.89", BreakdownItem.OTHER),
-                Breakdown("Trip Total", "$130.32", BreakdownItem.TRIPTOTAL)))
+                Breakdown("Trip total", "$130.32", BreakdownItem.TRIPTOTAL)))
 
         testSubscriber.assertReceivedOnNext(expected)
         testSubscriber.unsubscribe()
@@ -135,7 +135,7 @@ class HotelBreakdownTest {
                 Breakdown("6/30/2016", "$179.31", BreakdownItem.DATE),
                 Breakdown("Taxes & Fees", "$8.97", BreakdownItem.OTHER),
                 Breakdown("Fees paid at hotel", "$2.49", BreakdownItem.OTHER),
-                Breakdown("Trip Total", "$190.77", BreakdownItem.TRIPTOTAL),
+                Breakdown("Trip total", "$190.77", BreakdownItem.TRIPTOTAL),
                 Breakdown("Due to Expedia", "$188.28", BreakdownItem.OTHER)))
 
         testSubscriber.assertReceivedOnNext(expected)
@@ -159,7 +159,7 @@ class HotelBreakdownTest {
                 Breakdown("Extra Guest Charge", "$120.00", BreakdownItem.OTHER),
                 Breakdown("Discount", "$25.00", BreakdownItem.DISCOUNT),
                 Breakdown("Fees paid at hotel", "$67.20", BreakdownItem.OTHER),
-                Breakdown("Trip Total", "$595.94", BreakdownItem.TRIPTOTAL),
+                Breakdown("Trip total", "$595.94", BreakdownItem.TRIPTOTAL),
                 Breakdown("Due to Expedia", "$528.74", BreakdownItem.OTHER)))
 
         testSubscriber.assertReceivedOnNext(expected)
@@ -180,7 +180,7 @@ class HotelBreakdownTest {
         expected.add(arrayListOf(Breakdown("1 Night", "$72.96", BreakdownItem.OTHER),
                 Breakdown("6/29/2016", "$72.96", BreakdownItem.DATE),
                 Breakdown("Taxes & Fees", "Included", BreakdownItem.OTHER),
-                Breakdown("Trip Total", "$72.96", BreakdownItem.TRIPTOTAL)))
+                Breakdown("Trip total", "$72.96", BreakdownItem.TRIPTOTAL)))
 
         testSubscriber.assertReceivedOnNext(expected)
         testSubscriber.unsubscribe()

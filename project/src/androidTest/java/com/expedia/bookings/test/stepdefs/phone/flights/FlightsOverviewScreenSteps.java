@@ -58,7 +58,7 @@ public class FlightsOverviewScreenSteps {
 			.check(matches(isDisplayed()));
 	}
 
-	@And("^Check if Trip Total is \"(.*?)\" on Price Change$")
+	@And("^Check if Trip total is \"(.*?)\" on Price Change$")
 	public void validateTripTotalOnPriceChange(String finalPrice) throws Throwable {
 		onView(allOf(isDescendantOfA(withId(R.id.total_price_widget)), withId(R.id.bundle_total_price), withText(finalPrice))).check(matches(isDisplayed()));
 	}

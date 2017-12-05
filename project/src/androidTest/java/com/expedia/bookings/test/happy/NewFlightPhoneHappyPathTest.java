@@ -353,7 +353,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(allOf(withId(R.id.bundle_total_text), isDescendantOfA(withId(R.id.total_price_widget)),
 			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
 			withText(
-				"Trip Total"))).check(matches(isDisplayed()));
+				"Trip total"))).check(matches(isDisplayed()));
 
 		onView(allOf(withId(R.id.bundle_total_savings), isDescendantOfA(withId(R.id.total_price_widget)),
 			withEffectiveVisibility(ViewMatchers.Visibility.GONE)));

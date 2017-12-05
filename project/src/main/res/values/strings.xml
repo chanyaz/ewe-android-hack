@@ -757,9 +757,9 @@
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Total with Tax</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
-    <string name="trip_total">Trip Total</string>
+    <string name="trip_total">Trip total</string>
     <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total: Basic Economy-->
-    <string name="trip_total_upsell_TEMPLATE">Trip Total: {farefamily}</string>
+    <string name="trip_total_upsell_TEMPLATE">Trip total: {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">Trip total</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1932,7 +1932,7 @@
 
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
-    <string name="total_price_label">Trip Total</string>
+    <string name="total_price_label">Trip total</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Trip to %1$s</string>
     <!-- Includes taxes and fees -->
