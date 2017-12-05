@@ -25,9 +25,9 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.bookings.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.widget.TextView
@@ -78,11 +78,13 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     init {
         toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
-            menuFilter.isVisible = showMenu
+            if (!isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+                menuFilter.isVisible = showMenu
+            }
         }
 
         View.inflate(getContext(), R.layout.package_flight_presenter, this)
-        resultsPresenter.showFilterButton = false
+        resultsPresenter.showFilterButton = isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)
         val activity = (context as AppCompatActivity)
         val intent = activity.intent
         if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
@@ -162,7 +164,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         filterButtonText.visibility = GONE
         filterBtn.setOnClickListener { show(filter) }
 
-        menuFilter.actionView = toolbarFilterItemActionView
+        if (!isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+            menuFilter.actionView = toolbarFilterItemActionView
+        }
         filter.viewModelBase.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
         filter.viewModelBase.filterCountObservable.map {
             Phrase.from(resources.getQuantityString(R.plurals.no_of_filters_applied_TEMPLATE, it))
@@ -299,7 +303,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun setupToolbarMenu() {
-        toolbar.inflateMenu(R.menu.package_flights_menu)
+        if (!isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+            toolbar.inflateMenu(R.menu.package_flights_menu)
+        }
     }
 
     override fun trackShowBaggageFee() = PackagesTracking().trackFlightBaggageFeeClick()
