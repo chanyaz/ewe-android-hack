@@ -89,9 +89,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
         baseViewModel = vm
-        mapViewModel.mapInitializedObservable.subscribe {
-            setMapToInitialState(viewModel.getSearchParams()?.suggestion)
-        }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
 
         if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
@@ -104,7 +101,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         initSortCallToAction()
 
-        vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.hotelResultsObservable.subscribe {
             if (previousWasList && filterBtnWithCountWidget.translationY != 0f) {
                 showSortAndFilter()
@@ -114,7 +110,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         vm.filterResultsObservable.subscribe(listResultsObserver)
-        vm.filterResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.filterResultsObservable.subscribe {
             if (previousWasList && filterBtnWithCountWidget.translationY != 0f) {
                 showSortAndFilter()
@@ -155,7 +150,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
                 fab.isEnabled = false
                 animateMapCarouselOut()
-                clearMarkers()
             }
         }
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewModel.isCurrentLocationSearch)
@@ -233,6 +227,14 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
         }
         filterView.viewModel.filterCountObservable.subscribe(filterCountObserver)
+
+        mapWidget.cameraChangeSubject.subscribe {
+            if (currentState?.equals(ResultsMap::class.java.name) == true
+                    && searchThisArea.visibility == View.GONE) {
+                searchThisArea.visibility = View.VISIBLE
+                ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
+            }
+        }
     }
 
     override fun inflate() {
@@ -260,24 +262,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         narrowResultsPromptView.clearAnimation()
     }
 
-    override fun doAreaSearch() {
-        val center = googleMap?.cameraPosition?.target
-        if (center == null) {
-            return
-        }
-        val location = SuggestionV4()
-        location.isSearchThisArea = true
-        val region = SuggestionV4.RegionNames()
-        region.displayName = context.getString(R.string.visible_map_area)
-        region.shortName = context.getString(R.string.visible_map_area)
-        location.regionNames = region
-        val coordinate = SuggestionV4.LatLng()
-        coordinate.lat = center.latitude
-        coordinate.lng = center.longitude
-        location.coordinates = coordinate
-        viewModel.locationParamsSubject.onNext(location)
-    }
-
     override fun hideSearchThisArea() {
         if (searchThisArea.visibility == View.VISIBLE) {
             val anim: Animator = ObjectAnimator.ofFloat(searchThisArea, "alpha", 1f, 0f)
@@ -301,13 +285,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             })
             anim.duration = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION
             anim.start()
-        }
-    }
-
-    override fun showSearchThisArea() {
-        if (googleMap != null && currentState?.equals(ResultsMap::class.java.name) ?: false && searchThisArea.visibility == View.GONE) {
-            searchThisArea.visibility = View.VISIBLE
-            ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
         }
     }
 
@@ -343,6 +320,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         return HotelFilterViewModel(context)
     }
 
+    fun handleSoldOutHotel(hotelId: String) {
+        // When createTrip/CKO give sold out update everywhere, this is stupid. I hate the people that built this into our product.
+        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).hotelSoldOut.onNext(hotelId)
+        adapter.hotelSoldOut.onNext(hotelId)
+        mapWidget.markSoldOutHotel(hotelId)
+    }
+
     fun showFilterCachedResults() {
         filterView.viewModel.clearObservable.onNext(Unit)
         val cachedFilterResponse = filterView.viewModel.originalResponse ?: adapter.resultsSubject.value
@@ -359,7 +343,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         filterView.viewModel.resetPriceSliderFilterTracking()
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
         if (currentState == ResultsList::class.java.name) {
-            setMapToInitialState(params.suggestion)
+            moveMapToDestination(params.suggestion)
         }
         filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
 
@@ -381,7 +365,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         } else {
             showMapLoadingOverlay()
         }
-        clearMarkers()
+        mapWidget.clearMarkers()
     }
 
     private class UrgencyAnimation(urgencyContainer: LinearLayout, toolbarShadow: View) {
@@ -418,6 +402,22 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         if (loadingOverlay != null) {
             loadingOverlay.animate(true)
             loadingOverlay.visibility = View.VISIBLE
+        }
+    }
+
+    private fun doAreaSearch() {
+        mapWidget.getCameraCenter()?.let { center ->
+            val location = SuggestionV4()
+            location.isSearchThisArea = true
+            val region = SuggestionV4.RegionNames()
+            region.displayName = context.getString(R.string.visible_map_area)
+            region.shortName = context.getString(R.string.visible_map_area)
+            location.regionNames = region
+            val coordinate = SuggestionV4.LatLng()
+            coordinate.lat = center.latitude
+            coordinate.lng = center.longitude
+            location.coordinates = coordinate
+            viewModel.locationParamsSubject.onNext(location)
         }
     }
 }

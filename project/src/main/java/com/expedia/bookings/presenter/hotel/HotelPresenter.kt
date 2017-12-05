@@ -180,13 +180,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {
         val presenter = resultsStub.inflate() as HotelResultsPresenter
-        val resultsStub = presenter.findViewById<FrameLayout>(R.id.stub_map)
         resultsMapView.visibility = View.VISIBLE
         removeView(resultsMapView)
-        resultsStub.addView(resultsMapView)
-        presenter.mapView = resultsMapView
-        presenter.mapView.getMapAsync(presenter)
-
+        presenter.mapWidget.setMapView(resultsMapView)
         initResultsViewModel()
         presenter.viewModel = resultsViewModel
 
@@ -239,9 +235,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         viewModel.selectedRoomSoldOut.subscribe(presenter.hotelDetailView.viewmodel.selectedRoomSoldOut)
         //ResultsPresenter doesn't inflate with roboelectric due to missing shadows for google map
         if (!ExpediaBookingApp.isRobolectric()) {
-            viewModel.hotelSoldOutWithHotelId.subscribe((resultsPresenter.mapCarouselRecycler.adapter as HotelMapCarouselAdapter).hotelSoldOut)
-            viewModel.hotelSoldOutWithHotelId.subscribe(resultsPresenter.adapter.hotelSoldOut)
-            viewModel.hotelSoldOutWithHotelId.subscribe(resultsPresenter.mapViewModel.hotelSoldOutWithIdObserver)
+            viewModel.hotelSoldOutWithHotelId.subscribe { hotelId ->
+                resultsPresenter.handleSoldOutHotel(hotelId)
+            }
         }
         presenter
     }

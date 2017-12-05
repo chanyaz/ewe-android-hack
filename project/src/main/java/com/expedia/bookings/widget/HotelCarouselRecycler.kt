@@ -12,7 +12,7 @@ import rx.subjects.PublishSubject
 
 class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 
-    val showingHotelSubject = PublishSubject.create<Hotel>()
+    val carouselSwipedSubject = PublishSubject.create<Hotel>()
 
     val layoutManager = object: LinearLayoutManager(getContext()) {
         override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
@@ -39,7 +39,7 @@ class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerVie
 
         val adapter = adapter as HotelMapCarouselAdapter
         if (adapter.hotels.isNotEmpty()) {
-            showingHotelSubject.onNext(adapter.hotels[position])
+            carouselSwipedSubject.onNext(adapter.hotels[position])
         }
         return true
     }

@@ -28,7 +28,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     var viewModel: PackageHotelResultsViewModel by notNullAndObservable { vm ->
         baseViewModel = vm
         vm.hotelResultsObservable.subscribe(listResultsObserver)
-        vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
 
         vm.titleSubject.subscribe {
             if (shouldShowBreadcrumbsInToolbarTitle()) {
@@ -49,16 +48,12 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         vm.paramsSubject.subscribe { params ->
             (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
 
-            setMapToInitialState(params.suggestion)
+            moveMapToDestination(params.suggestion)
             showLoading()
             show(ResultsList())
 
             filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
             filterView.viewModel.clearObservable.onNext(Unit)
-        }
-
-        mapViewModel.mapInitializedObservable.subscribe {
-            setMapToInitialState(Db.getPackageParams()?.destination)
         }
     }
 
@@ -82,13 +77,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         return viewStub.inflate() as HotelClientFilterView
     }
 
-    override fun doAreaSearch() {
-    }
-
     override fun hideSearchThisArea() {
-    }
-
-    override fun showSearchThisArea() {
     }
 
     override fun hideBundlePriceOverview(hide: Boolean) {

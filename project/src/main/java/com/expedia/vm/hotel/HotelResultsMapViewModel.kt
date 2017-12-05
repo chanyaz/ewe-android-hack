@@ -6,70 +6,13 @@ import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.map.HotelMapMarker
-import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 
 open class HotelResultsMapViewModel(val context: Context, val currentLocation: Location) {
-    val mapInitializedObservable = PublishSubject.create<Unit>()
-    val createMarkersObservable = PublishSubject.create<Unit>()
-    val clusterChangeSubject = PublishSubject.create<Unit>()
+    var selectedMapMarker: HotelMapMarker? = null
 
-    var hotels: List<Hotel> = emptyList()
-
-    //inputs
-    val hotelResultsSubject = BehaviorSubject.create<HotelSearchResponse>()
-    val mapResultsSubject = PublishSubject.create<HotelSearchResponse>()
-    val mapPinSelectSubject = BehaviorSubject.create<HotelMapMarker>()
-    val carouselSwipedObservable = PublishSubject.create<HotelMapMarker>()
-    val mapBoundsSubject = BehaviorSubject.create<LatLng>()
-
-    //outputs
-    val newBoundsObservable = PublishSubject.create<LatLngBounds>()
-    val sortedHotelsObservable = PublishSubject.create<List<Hotel>>()
-    val soldOutHotel = PublishSubject.create<Hotel>()
-
-    val hotelSoldOutWithIdObserver = endlessObserver<String> { soldOutHotelId ->
-        val hotel = hotels.firstOrNull { it.hotelId == soldOutHotelId }
-        if (hotel != null) {
-            hotel.isSoldOut = true
-            soldOutHotel.onNext(hotel)
-        }
-    }
-
-    init {
-        createMarkersObservable.subscribe {
-            val response = hotelResultsSubject.value
-            if (response != null) newBoundsObservable.onNext(getMapBounds(response))
-        }
-
-        mapBoundsSubject.subscribe {
-            // Map bounds has changed(Search this area or map was animated to a region),
-            // sort nearest hotels from center of screen
-            val currentRegion = it
-            val location = Location("currentRegion")
-            location.latitude = currentRegion.latitude
-            location.longitude = currentRegion.longitude
-            val sortedHotels = sortByLocation(location, hotels)
-            sortedHotelsObservable.onNext(sortedHotels)
-        }
-
-        hotelResultsSubject.subscribe { response ->
-            hotels = response.hotelList
-            if (response.hotelList != null && response.hotelList.size > 0) {
-                newBoundsObservable.onNext(getMapBounds(response))
-            }
-        }
-
-        mapResultsSubject.subscribe { response ->
-            hotels = response.hotelList
-            sortedHotelsObservable.onNext(hotels)
-        }
-    }
-
-    private fun getMapBounds(res: BaseApiResponse): LatLngBounds {
+    fun getMapBounds(res: BaseApiResponse): LatLngBounds {
         val response = res as HotelSearchResponse
         val searchRegionId = response.searchRegionId
         val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
@@ -113,7 +56,7 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
         }
     }
 
-    private fun sortByLocation(location: Location, hotels: List<Hotel>): List<Hotel> {
+    fun sortByLocation(location: Location, hotels: List<Hotel>): List<Hotel> {
         val hotelLocation = Location("other")
         val sortedHotels = hotels.sortedBy { h ->
             hotelLocation.latitude = h.latitude

@@ -10,16 +10,13 @@ import android.graphics.Point
 import android.graphics.PorterDuff
 import android.graphics.drawable.TransitionDrawable
 import android.location.Address
-import android.location.Location
 import android.support.annotation.CallSuper
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -46,16 +43,12 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.animation.transition.HorizontalTranslateTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
-import com.expedia.bookings.hotel.map.HotelMapClusterAlgorithm
-import com.expedia.bookings.hotel.map.HotelMapClusterRenderer
-import com.expedia.bookings.hotel.map.HotelMarkerIconGenerator
-import com.expedia.bookings.hotel.map.HotelMapMarker
+import com.expedia.bookings.hotel.map.HotelResultsMapWidget
 import com.expedia.bookings.hotel.vm.BaseHotelResultsViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelFilterView
@@ -66,35 +59,21 @@ import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelResultsSortFaqWebView
-import com.expedia.util.PermissionsUtils.havePermissionToAccessLocation
 import com.expedia.util.endlessObserver
-import com.expedia.util.notNullAndObservable
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
-import com.expedia.vm.hotel.HotelResultsMapViewModel
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
-import com.google.maps.android.clustering.ClusterManager
 import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
 import com.squareup.phrase.Phrase
-import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 import kotlin.properties.Delegates.notNull
 
-abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
+abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     //Views
     var filterButtonText: TextView by Delegates.notNull()
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
-    var mapView: MapView by Delegates.notNull()
+    val mapWidget: HotelResultsMapWidget by bindView(R.id.results_map_container)
     open val loadingOverlay: MapLoadingOverlayWidget? = null
 
     val toolbar: Toolbar by bindView(R.id.hotel_results_toolbar)
@@ -123,9 +102,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     var adapter: BaseHotelListAdapter by Delegates.notNull()
     open val searchThisArea: Button? = null
-    var isMapReady = false
-
-    var clusterManager: ClusterManager<HotelMapMarker>? = null
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
@@ -148,19 +124,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val pricingHeaderSelectedSubject = PublishSubject.create<Unit>()
     val hideBundlePriceOverviewSubject = PublishSubject.create<Boolean>()
 
-    var googleMap: GoogleMap? = null
-
     var filterBtn: LinearLayout? = null
-
-    var hotelMapClusterRenderer: HotelMapClusterRenderer by Delegates.notNull()
 
     var mapListSplitAnchor = 0
     var snapToFullScreenMapThreshold = 0
-
-    val hotelIconFactory = HotelMarkerIconGenerator(context)
-
-    var mapItems = arrayListOf<HotelMapMarker>()
-    var hotels = emptyList<Hotel>()
 
     private val ANIMATION_DURATION_FILTER = 500
 
@@ -171,60 +138,28 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     var baseViewModel: BaseHotelResultsViewModel by notNull()
 
-    var mapViewModel: HotelResultsMapViewModel by notNullAndObservable { vm ->
-
-        vm.sortedHotelsObservable.subscribe {
-
-            hotels = it
-            updateMarkers()
-        }
-
-        vm.soldOutHotel.subscribe { hotel ->
-            val mapItem = mapItems.firstOrNull { it.hotel.hotelId == hotel.hotelId }
-            if (mapItem != null) {
-                hotelMapClusterRenderer.getMarker(mapItem)?.setIcon(mapItem.getHotelMarkerIcon())
-                clusterMarkers()
-            }
-        }
-        vm.carouselSwipedObservable.subscribe {
-            selectMarker(it, true)
-        }
-    }
-
-    private fun selectMarker(hotelMapMarker: HotelMapMarker, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
-        if (clusterManager == null) {
-            return
-        }
-        clearPreviousMarker()
-        hotelMapMarker.isSelected = true
-        val selectedMarker = hotelMapClusterRenderer.getMarker(hotelMapMarker)
-        if (!hotelMapMarker.hotel.isSoldOut) {
-            selectedMarker?.setIcon(hotelMapMarker.getHotelMarkerIcon())
-        }
-        selectedMarker?.showInfoWindow()
-        if (shouldZoom) {
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(hotelMapMarker.position, googleMap?.cameraPosition?.zoom!!))
-        }
-        mapViewModel.mapPinSelectSubject.onNext(hotelMapMarker)
-        if (animateCarousel && currentState == ResultsMap::class.java.name) {
-            animateMapCarouselIn()
-        }
-    }
-
     protected fun animateMapCarouselIn() {
         if (mapCarouselContainer.visibility != View.VISIBLE) {
-            val carouselAnimation = mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()).setStartDelay(400)
+            val carouselAnimation = mapCarouselContainer.animate().translationX(0f)
+                    .setInterpolator(DecelerateInterpolator()).setStartDelay(400)
+                    .withEndAction { mapWidget.adjustPadding(mapCarouselContainer.height) }
             mapCarouselContainer.translationX = screenWidth
 
-            var onLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null //need to know carousel height before fab can properly animate.
-            onLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
-                fab.animate().translationY(-fabHeightOffset()).setInterpolator(DecelerateInterpolator()).withEndAction {
-                    carouselAnimation.start()
-                }.start()
-                mapCarouselContainer.viewTreeObserver.removeOnGlobalLayoutListener(onLayoutListener)
+            if (mapCarouselContainer.height == 0) {
+                var onLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null //need to know carousel height before fab can properly animate.
+                onLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+                    fab.animate().translationY(-fabHeightOffset()).setInterpolator(DecelerateInterpolator()).withEndAction {
+                        carouselAnimation.start()
+                    }.start()
+                    mapCarouselContainer.viewTreeObserver.removeOnGlobalLayoutListener(onLayoutListener)
+                }
+                mapCarouselContainer.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
+            } else {
+                fab.animate().translationY(-fabHeightOffset()).setInterpolator(DecelerateInterpolator())
+                        .withEndAction { carouselAnimation.start() }
+                        .start()
             }
 
-            mapCarouselContainer.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
             mapCarouselContainer.visibility = View.VISIBLE
         }
     }
@@ -235,13 +170,14 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             carouselAnimation.withEndAction {
                 mapCarouselContainer.visibility = View.INVISIBLE
                 animateFab(0f)
+                mapWidget.adjustPadding(bottomTranslation = 0)
             }
             carouselAnimation.start()
         }
     }
 
     protected fun resetListOffset() {
-        val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.translationY, -mapListSplitAnchor.toFloat())
+        val mover = ObjectAnimator.ofFloat(mapWidget, "translationY", mapWidget.translationY, -mapListSplitAnchor.toFloat())
         mover.duration = 300
         mover.start()
 
@@ -252,19 +188,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         } else {
             recyclerView.layoutManager.scrollToPositionWithOffset(1, mapListSplitAnchor)
         }
+        mapWidget.adjustPadding(getRequiredMapPadding())
     }
 
     private fun animateFab(newTranslationY: Float) {
         fab.animate().translationY(newTranslationY).setInterpolator(DecelerateInterpolator()).start()
-    }
-
-    private fun adjustGoogleMapLogo() {
-        val view = recyclerView.getChildAt(1)
-        if (view != null) {
-            val topOffset = view.top
-            val bottom = recyclerView.height - topOffset
-            googleMap?.setPadding(0, toolbar.height, 0, (bottom + mapView.translationY).toInt())
-        }
     }
 
     private fun fabShouldBeHiddenOnList(): Boolean {
@@ -292,15 +220,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (!response.isFilteredResponse) {
             filterView.viewModel.setHotelList(response)
         }
-    }
-
-    fun lastBestLocationSafe(): Location {
-        val minTime = DateTime.now().millis - DateUtils.HOUR_IN_MILLIS
-        val loc = LocationServices.getLastBestLocation(context, minTime)
-        val location = Location("lastBestLocationSafe")
-        location.latitude = loc?.latitude ?: 0.0
-        location.longitude = loc?.longitude ?: 0.0
-        return location
+        mapWidget.newResults(response, updateBounds = true)
     }
 
     val mapSelectedObserver: Observer<Unit> = endlessObserver {
@@ -318,9 +238,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             animateMapCarouselOut()
         }
 
-        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
+        mapWidget.newResults(response, updateBounds = true)
         adapter.resultsSubject.onNext(response)
-        mapViewModel.hotelResultsSubject.onNext(response)
         if (ExpediaBookingApp.isDeviceShitty() && response.hotelList.size <= 3 && previousWasList) {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
         } else {
@@ -337,9 +256,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 filterView.viewModel.doneObservable.onNext(Unit)
                 return true
             }
-        } else if (ResultsList().javaClass.name == currentState) {
-            clearMarkers()
-        } else if (ResultsMap().javaClass.name == currentState) {
+        }
+        else if (ResultsMap().javaClass.name == currentState) {
             trackMapToList()
         }
 
@@ -350,10 +268,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         inflate()
 
         fab.contentDescription = if (recyclerView.visibility == View.VISIBLE) context.getString(R.string.show_list) else context.getString(R.string.show_map)
-        mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe())
-        mapViewModel.clusterChangeSubject.subscribe {
-            updateCarouselItems()
-        }
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = getHotelListAdapter()
 
@@ -378,24 +292,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList(), hotelSelectedSubject)
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
 
-        mapViewModel.newBoundsObservable.subscribe {
-            if (isMapReady) {
-                val center = it.center
-                val latLng = LatLng(center.latitude, center.longitude)
-                mapViewModel.mapBoundsSubject.onNext(latLng)
-                val padding = 60
-                if (ViewCompat.isLaidOut(mapView)) {
-                    googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * padding), object : GoogleMap.CancelableCallback {
-                        override fun onFinish() {
-                        }
-
-                        override fun onCancel() {
-                        }
-                    })
-                }
-            }
-        }
-
         pricingHeaderSelectedSubject.subscribe {
             sortFaqWebView.loadUrl()
             show(ResultsSortFaqWebView())
@@ -406,72 +302,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (loadingOverlay != null && loadingOverlay?.visibility == View.VISIBLE) {
             loadingOverlay?.animate(false)
             loadingOverlay?.visibility = View.GONE
-        }
-    }
-
-    fun clearMarkers() {
-        if (clusterManager == null) {
-            return
-        }
-        mapItems.clear()
-        clusterManager!!.clearItems()
-        clusterMarkers()
-        mapCarouselContainer.visibility = View.INVISIBLE
-    }
-
-    fun createMarkers() {
-        if (clusterManager == null) {
-            return
-        }
-        clearMarkers()
-        if (hotels.isEmpty()) {
-            return
-        }
-        //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
-        hotels.forEach { hotel ->
-            val mapItem = HotelMapMarker(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
-            mapItems.add(mapItem)
-            clusterManager!!.addItem(mapItem)
-        }
-        clusterMarkers()
-    }
-
-    fun updateCarouselItems() {
-        val selectedHotels = mapItems.filter { it.isSelected }.map { it.hotel }
-        var hotelItems = mapItems.filter { !it.isClustered }.map { it.hotel }
-        if (!selectedHotels.isEmpty()) {
-            val hotel = selectedHotels.first()
-            val hotelLocation = Location("selected")
-            hotelLocation.latitude = hotel.latitude
-            hotelLocation.longitude = hotel.longitude
-            hotelItems = sortByLocation(hotelLocation, hotelItems)
-            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotelItems)
-            mapCarouselRecycler.scrollToPosition(0)
-        }
-    }
-
-    fun sortByLocation(location: Location, hotels: List<Hotel>): List<Hotel> {
-        val hotelLocation = Location("other")
-        val sortedHotels = hotels.sortedBy { h ->
-            hotelLocation.latitude = h.latitude
-            hotelLocation.longitude = h.longitude
-            location.distanceTo(hotelLocation)
-        }
-        return sortedHotels
-    }
-
-    fun clusterMarkers() {
-        clusterManager?.cluster()
-    }
-
-    fun updateMarkers() {
-        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
-        if (!ExpediaBookingApp.isDeviceShitty() || Strings.equals(currentState, ResultsMap::class.java.name)) {
-            googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
-            createMarkers()
-        } else {
-            googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
-            clearMarkers()
         }
     }
 
@@ -498,12 +328,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         recyclerView.addOnScrollListener(scrollListener)
         recyclerView.addOnItemTouchListener(touchListener)
 
-        mapCarouselRecycler.showingHotelSubject.subscribe { hotel ->
-            val markersForHotel = mapItems.filter { it.hotel.hotelId == hotel.hotelId }
-            if (markersForHotel.isNotEmpty()) {
-                val marker = markersForHotel.first()
-                mapViewModel.carouselSwipedObservable.onNext(marker)
-            }
+        mapCarouselRecycler.carouselSwipedSubject.subscribe { hotel ->
+            mapWidget.selectNewHotel(hotel)
         }
         toolbar.inflateMenu(R.menu.menu_filter_item)
 
@@ -538,6 +364,18 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         filterView.viewModel.filterCountObservable.subscribe { filterCount ->
             updateFilterCount(filterCount)
+        }
+
+        mapWidget.markerClickedSubject.subscribe {
+            trackMapPinTap()
+            animateMapCarouselIn()
+        }
+        mapWidget.hotelsForCarouselSubject.subscribe { hotels ->
+            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
+            mapCarouselRecycler.scrollToPosition(0)
+        }
+        mapWidget.clusterClickedSubject.subscribe {
+            animateMapCarouselOut()
         }
     }
 
@@ -587,115 +425,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         show(ResultsList())
     }
 
-    override fun onMapReady(googleMap: GoogleMap?) {
-        MapsInitializer.initialize(context)
-        this.googleMap = googleMap
-        initMapClusterManagement()
-        initMapListeners()
-        initMapSettings()
-        mapView.viewTreeObserver.addOnGlobalLayoutListener(mapViewLayoutReadyListener)
-    }
-
     @CallSuper
     open fun showLoading() {
         adapter.showLoading()
-    }
-
-    private val mapViewLayoutReadyListener = object : ViewTreeObserver.OnGlobalLayoutListener {
-        override fun onGlobalLayout() {
-            isMapReady = true
-            mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-            mapViewModel.mapInitializedObservable.onNext(Unit)
-            mapViewModel.createMarkersObservable.onNext(Unit)
-        }
-    }
-
-    private fun initMapClusterManagement() {
-        clusterManager = ClusterManager(context, googleMap)
-        clusterManager!!.setAlgorithm(HotelMapClusterAlgorithm())
-        hotelMapClusterRenderer = HotelMapClusterRenderer(context, googleMap, clusterManager!!, mapViewModel.clusterChangeSubject)
-        clusterManager!!.setRenderer(hotelMapClusterRenderer)
-
-        clusterManager!!.setOnClusterItemClickListener {
-            trackMapPinTap()
-            selectMarker(it)
-            updateCarouselItems()
-            true
-        }
-
-        clusterManager!!.setOnClusterClickListener {
-            animateMapCarouselOut()
-            clearPreviousMarker()
-            val builder = LatLngBounds.builder()
-            it.items.forEach { item ->
-                builder.include(item.pos)
-            }
-            val bounds = builder.build()
-
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
-                override fun onFinish() {
-                }
-
-                override fun onCancel() {
-                }
-            })
-            true
-        }
-    }
-
-    private fun initMapListeners() {
-        var currentZoom = -1f
-
-        googleMap?.setOnCameraChangeListener { position ->
-            synchronized(currentZoom) {
-                if (Math.abs(currentZoom - position.zoom) > .5) {
-                    clusterMarkers()
-                    currentZoom = position.zoom
-                }
-            }
-            if (Strings.equals(currentState, ResultsMap::class.java.name)) {
-                showSearchThisArea()
-            }
-        }
-        googleMap?.setOnMarkerClickListener(clusterManager!!)
-    }
-
-    private fun initMapSettings() {
-        if (havePermissionToAccessLocation(context)) {
-            googleMap?.isMyLocationEnabled = true
-        }
-        val uiSettings = googleMap?.uiSettings
-        //Explicitly disallow map-cluttering ui (but keep the gestures)
-        if (uiSettings != null) {
-            uiSettings.isCompassEnabled = false
-            uiSettings.isMapToolbarEnabled = false
-            uiSettings.isZoomControlsEnabled = false
-            uiSettings.isMyLocationButtonEnabled = false
-            uiSettings.isIndoorLevelPickerEnabled = false
-        }
-
-        googleMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-
-            override fun getInfoWindow(marker: Marker): View? {
-                val activity = context as AppCompatActivity
-                val v = activity.layoutInflater.inflate(R.layout.marker_window, null)
-                return v
-            }
-
-            override fun getInfoContents(marker: Marker): View? {
-                return null
-            }
-        })
-    }
-
-    private fun clearPreviousMarker() {
-        val prevMapItem = mapViewModel.mapPinSelectSubject.value
-        if (prevMapItem != null) {
-            prevMapItem.isSelected = false
-            if (!prevMapItem.hotel.isSoldOut) {
-                hotelMapClusterRenderer.getMarker(prevMapItem)?.setIcon(prevMapItem.getHotelMarkerIcon())
-            }
-        }
     }
 
     val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
@@ -749,10 +481,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
 
             if (isHeaderVisible()) {
-                val y = mapView.translationY + (-dy * mapListSplitAnchor / (recyclerView.height - mapListSplitAnchor))
-                mapView.translationY = y
-
-                adjustGoogleMapLogo()
+                val y = mapWidget.translationY + (-dy * mapListSplitAnchor / (recyclerView.height - mapListSplitAnchor))
+                mapWidget.translationY = y
+                mapWidget.adjustPadding(getRequiredMapPadding())
             }
         }
 
@@ -766,7 +497,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             super.endTransition(forward)
             navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
             recyclerView.translationY = 0f
-            mapView.translationY = -mapListSplitAnchor.toFloat()
+            mapWidget.translationY = -mapListSplitAnchor.toFloat()
 
             recyclerView.visibility = View.VISIBLE
             resetListOffset()
@@ -826,6 +557,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 hideSearchThisArea()
                 previousWasList = true
             } else {
+                if (mapWidget.hasSelectedMarker()) {
+                    mapWidget.adjustPadding(mapCarouselContainer.height)
+                } else {
+                    mapWidget.adjustPadding(0)
+                }
                 firstStepTransitionTime = .66f
                 firstTransition = listTransition
                 secondTransition = carouselTransition
@@ -865,10 +601,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun startTransition(forward: Boolean) {
             transitionRunning = true
             mapCarouselTransition = HorizontalTranslateTransition(mapCarouselContainer, 0, screenWidth.toInt())
-            if (mapItems.filter { it.isSelected }.isEmpty()) {
-                mapCarouselContainer.visibility = View.INVISIBLE
-            } else {
+            if (mapWidget.hasSelectedMarker()) {
                 mapCarouselContainer.visibility = View.VISIBLE
+            } else {
+                mapCarouselContainer.visibility = View.INVISIBLE
             }
             if (forward) {
                 mapCarouselTransition?.toOrigin()
@@ -907,8 +643,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun startTransition(forwardToList: Boolean) {
             super.startTransition(forwardToList)
             transitionRunning = true
-            //Map pin will always be selected for non-clustering behavior eventually
-            val isMapPinSelected = mapItems.filter { it.isSelected }.isNotEmpty()
+            val isMapPinSelected = mapWidget.hasSelectedMarker()
 
             recyclerView.visibility = View.VISIBLE
             fabShouldVisiblyMove = if (forwardToList) !fabShouldBeHiddenOnList() else (fab.visibility == View.VISIBLE)
@@ -927,8 +662,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
             } else {
                 previousWasList = false
-                googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
-                mapTranslationStart = mapView.translationY
+                mapTranslationStart = mapWidget.translationY
                 if (fabShouldVisiblyMove) {
                     (fab.drawable as? TransitionDrawable)?.startTransition(duration)
                 } else {
@@ -960,9 +694,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             recyclerView.translationY = hotelListDistance
             navIcon.parameter = if (forward) Math.abs(1 - f) else f
             if (forward) {
-                mapView.translationY = f * -mapListSplitAnchor
+                mapWidget.translationY = f * -mapListSplitAnchor
             } else {
-                mapView.translationY = (1 - f) * mapTranslationStart
+                mapWidget.translationY = (1 - f) * mapTranslationStart
             }
 
             if (fabShouldVisiblyMove) {
@@ -977,7 +711,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 subTitleTransition?.fadeOut(f)
                 sortFilterButtonTransition?.toTarget(f)
             }
-            adjustGoogleMapLogo()
         }
 
         override fun endTransition(forward: Boolean) {
@@ -988,7 +721,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             mapCarouselContainer.visibility = if (forward) {
                 View.INVISIBLE
             } else {
-                if (mapItems.filter { it.isSelected }.isEmpty()) {
+                if (mapWidget.hasSelectedMarker()) {
                     animateMapCarouselOut()
                     View.INVISIBLE
                 } else {
@@ -1003,31 +736,19 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     fab.visibility = View.INVISIBLE
                 }
                 recyclerView.translationY = 0f
-                mapView.translationY = -mapListSplitAnchor.toFloat()
-                sortFilterButtonTransition?.jumpToOrigin()
+                mapWidget.translationY = -mapListSplitAnchor.toFloat()
+                mapWidget.toSplitView(getRequiredMapPadding())
 
-                adjustGoogleMapLogo()
-                if (ExpediaBookingApp.isDeviceShitty()) {
-                    lazyLoadMapAndMarkers()
-                }
+                sortFilterButtonTransition?.jumpToOrigin()
             } else {
-                mapView.translationY = 0f
+                mapWidget.translationY = 0f
                 recyclerView.translationY = screenHeight.toFloat()
                 sortFilterButtonTransition?.jumpToTarget()
 
-                googleMap?.setPadding(0, toolbar.height, 0, fabHeightOffset().toInt())
-                if (ExpediaBookingApp.isDeviceShitty()) {
-                    googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
-                    createMarkers()
-                }
+                mapWidget.toFullScreen()
             }
             fab.translationY = finalFabTranslation
         }
-    }
-
-    fun lazyLoadMapAndMarkers() {
-        googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
-        clearMarkers()
     }
 
     private val listFilterTransition = object : Presenter.Transition(ResultsList::class.java, ResultsFilter::class.java, DecelerateInterpolator(2f), ANIMATION_DURATION_FILTER) {
@@ -1042,7 +763,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             } else {
                 recyclerView.visibility = View.VISIBLE
                 toolbar.visibility = View.VISIBLE
-                mapView.visibility = View.VISIBLE
+                mapWidget.visibility = View.VISIBLE
             }
             hideBundlePriceOverview(forward)
         }
@@ -1066,7 +787,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 filterView.toolbar.requestFocus()
                 recyclerView.visibility = View.GONE
                 toolbar.visibility = View.GONE
-                mapView.visibility = View.GONE
+                mapWidget.visibility = View.GONE
             }
         }
     }
@@ -1112,7 +833,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 fab.visibility = View.GONE
             } else {
                 toolbar.visibility = View.VISIBLE
-                mapView.visibility = View.VISIBLE
+                mapWidget.visibility = View.VISIBLE
             }
             hideBundlePriceOverview(forward)
         }
@@ -1122,7 +843,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             transitionRunning = false
             if (forward) {
                 toolbar.visibility = View.GONE
-                mapView.visibility = View.GONE
+                mapWidget.visibility = View.GONE
             } else {
                 if (!fabShouldBeHiddenOnList()) {
                     fab.visibility = View.VISIBLE
@@ -1178,9 +899,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     fun animationFinalize(enableLocation: Boolean) {
         recyclerTempBackground.visibility = View.GONE
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
-        if (havePermissionToAccessLocation(context)) {
-            googleMap?.isMyLocationEnabled = enableLocation
-        }
     }
 
     //We use ObjectAnimators instead of Animation because Animation mucks with settings values outside of it, and Object
@@ -1244,22 +962,29 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     class ResultsFilter
     class ResultsSortFaqWebView
 
-    fun setMapToInitialState(suggestion: SuggestionV4?) {
-        if (isMapReady) {
-            if (suggestion != null) {
-                if (suggestion.coordinates != null &&
-                        suggestion.coordinates?.lat != 0.0 &&
-                        suggestion.coordinates?.lng != 0.0) {
-                    moveCameraToLatLng(LatLng(suggestion.coordinates.lat,
-                            suggestion.coordinates.lng))
-                } else if (suggestion.regionNames?.fullName != null) {
-                    val BD_KEY = "geo_search"
-                    val bd = BackgroundDownloader.getInstance()
-                    bd.cancelDownload(BD_KEY)
-                    bd.startDownload(BD_KEY, mGeocodeDownload(suggestion.regionNames.fullName), geoCallback())
-                }
+    fun moveMapToDestination(suggestion: SuggestionV4?) {
+        if (suggestion != null) {
+            if (suggestion.coordinates != null &&
+                    suggestion.coordinates?.lat != 0.0 &&
+                    suggestion.coordinates?.lng != 0.0) {
+                mapWidget.moveCamera(suggestion.coordinates.lat, suggestion.coordinates.lng)
+            } else if (suggestion.regionNames?.fullName != null) {
+                val BD_KEY = "geo_search"
+                val bd = BackgroundDownloader.getInstance()
+                bd.cancelDownload(BD_KEY)
+                bd.startDownload(BD_KEY, mGeocodeDownload(suggestion.regionNames.fullName), geoCallback())
             }
         }
+    }
+
+    private fun getRequiredMapPadding() : Int {
+        val firstVisibleView = recyclerView.getChildAt(1)
+        if (firstVisibleView != null) {
+            val topOffset = firstVisibleView.top
+            val bottom = recyclerView.height - topOffset
+            return (bottom + mapWidget.translationY).toInt()
+        }
+        return 0
     }
 
     private fun mGeocodeDownload(query: String): BackgroundDownloader.Download<List<Address>?> {
@@ -1272,19 +997,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         return BackgroundDownloader.OnDownloadComplete<List<Address>?> { results ->
             if (results != null && results.isNotEmpty()) {
                 if (results[0].latitude != 0.0 && results[0].longitude != 0.0) {
-                    moveCameraToLatLng(LatLng(results[0].latitude, results[0].longitude))
+                    mapWidget.moveCamera(results[0].latitude, results[0].longitude)
                 }
             }
         }
-    }
-
-    private fun moveCameraToLatLng(latLng: LatLng) {
-        val cameraPosition = CameraPosition.Builder()
-                .target(latLng)
-                .zoom(8f)
-                .build()
-        googleMap?.setPadding(0, 0, 0, 0)
-        googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
     private fun fabHeightOffset(): Float {
@@ -1294,9 +1010,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     abstract fun inflate()
     abstract fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView
-    abstract fun doAreaSearch()
     abstract fun hideSearchThisArea()
-    abstract fun showSearchThisArea()
     abstract fun createFilterViewModel(): BaseHotelFilterViewModel
     abstract fun trackSearchMap()
     abstract fun trackMapToList()
