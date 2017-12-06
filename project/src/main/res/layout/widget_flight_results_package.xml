@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ViewStub
         android:id="@+id/widget_docked_outbound_flight_stub"
@@ -32,6 +33,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_filter_height"
         android:layout_gravity="bottom"
+        android:accessibilityTraversalAfter="@+id/menu_search"
         android:orientation="vertical"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:targetApi="22"/>
 </merge>
