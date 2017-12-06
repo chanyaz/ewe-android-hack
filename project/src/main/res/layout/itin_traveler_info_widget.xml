@@ -26,7 +26,7 @@
                 android:paddingBottom="6dp"
                 android:textColor="@color/gray900"
                 android:textSize="16dp"
-                android:textStyle="bold"
+                app:textStyle="medium"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Frank Funston" />
