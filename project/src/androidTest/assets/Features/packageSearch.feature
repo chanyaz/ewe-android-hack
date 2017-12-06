@@ -182,7 +182,7 @@ Feature: Package Search
         | initialNumber | laterNumber |
         | 6             | 5           |
 
-  @Packages @PackageSearch @Prod
+  @Packages @PackageSearch @Prod @WIP1
   Scenario: Verify data consistency while loading through package overview screen
     Given I launch the App
     And I launch "Bundle Deals" LOB

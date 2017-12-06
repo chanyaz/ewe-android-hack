@@ -235,7 +235,7 @@ object HotelInfoSiteScreen {
     @JvmStatic
     fun bookFirstRoom() {
         firstCardView().perform(scrollTo())
-        firstCardView().perform(swipeUp())
+        //firstCardView().perform(swipeUp())
         firstBookButton().perform(click())
     }
 
