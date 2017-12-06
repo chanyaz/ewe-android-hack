@@ -157,21 +157,21 @@ public class RailServicesHmacTest {
 		assertNotNull(createTripResponse.railDomainProduct.railOffer.railProductList.get(0).fareQualifierList);
 
 		assertEquals(2, createTripResponse.railDomainProduct.railOffer.priceBreakdown.size());
-		assertEquals("£1.00", createTripResponse.railDomainProduct.railOffer.priceBreakdown.get(0).formattedPrice);
-		assertEquals("£638.75", createTripResponse.railDomainProduct.railOffer.priceBreakdown.get(1).formattedPrice);
+		assertEquals("\u00a3" + "1.00", createTripResponse.railDomainProduct.railOffer.priceBreakdown.get(0).formattedPrice);
+		assertEquals("\u00a3" + "638.75", createTripResponse.railDomainProduct.railOffer.priceBreakdown.get(1).formattedPrice);
 		List<RailPassenger> passengers = createTripResponse.railDomainProduct.railOffer.passengerList;
 		assertEquals(RailPassenger.PassengerAgeGroup.ADULT,passengers.get(0).passengerAgeGroup);
 		assertEquals(30,passengers.get(0).age);
-		assertEquals("£182.50", passengers.get(0).price.formattedPrice);
+		assertEquals("\u00a3" + "182.50", passengers.get(0).price.formattedPrice);
 		assertEquals(RailPassenger.PassengerAgeGroup.CHILD,passengers.get(1).passengerAgeGroup);
 		assertEquals(10,passengers.get(1).age);
-		assertEquals("£91.25", passengers.get(1).price.formattedPrice);
+		assertEquals("\u00a3" + "91.25", passengers.get(1).price.formattedPrice);
 		assertEquals(RailPassenger.PassengerAgeGroup.YOUTH,passengers.get(2).passengerAgeGroup);
 		assertEquals(16,passengers.get(2).age);
-		assertEquals("£182.50", passengers.get(2).price.formattedPrice);
+		assertEquals("\u00a3" + "182.50", passengers.get(2).price.formattedPrice);
 		assertEquals(RailPassenger.PassengerAgeGroup.SENIOR,passengers.get(3).passengerAgeGroup);
 		assertEquals(60,passengers.get(3).age);
-		assertEquals("£182.50", passengers.get(3).price.formattedPrice);
+		assertEquals("\u00a3" + "182.50", passengers.get(3).price.formattedPrice);
 		BigDecimal sum = passengers.get(0).price.amount.add(passengers.get(1).price.amount)
 			.add(passengers.get(2).price.amount).add(passengers.get(3).price.amount);
 		assertEquals("638.75", sum.toString());
@@ -254,7 +254,7 @@ public class RailServicesHmacTest {
 		cardFeeResponseObserver.assertValueCount(1);
 
 		CardFeeResponse cardFeeResponse = cardFeeResponseObserver.getOnNextEvents().get(0);
-		assertEquals("£2.90", cardFeeResponse.feePrice.formattedPrice);
+		assertEquals("\u00a3" + "2.90", cardFeeResponse.feePrice.formattedPrice);
 	}
 
 	@Test
