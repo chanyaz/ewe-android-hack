@@ -77,11 +77,6 @@
             android:title="Enable Universal Checkout on LX" />
 
         <CheckBoxPreference
-            android:key="@string/preference_show_flights_checkout_webview"
-            android:summary="Show Flights Checkout Webview"
-            android:title="Show Flights Checkout Webview" />
-        
-        <CheckBoxPreference
             android:key="@string/pay_later_credit_card_messaging"
             android:summary="Enable credit card messaging for pay later"
             android:title="Enable credit card messaging pay later" />

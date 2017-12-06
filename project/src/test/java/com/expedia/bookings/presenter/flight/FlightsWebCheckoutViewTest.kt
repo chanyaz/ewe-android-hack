@@ -1,13 +1,9 @@
 package com.expedia.bookings.presenter.flight
 
-import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusTest
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
-import com.mobiata.android.util.SettingUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -21,23 +17,22 @@ class FlightsWebCheckoutViewTest {
 
     @Test
     fun testToggleOnShowFlightsCheckoutWebview() {
-        toggleShowFlightsCheckoutWebviewABTestAndFF(true)
+        setUpFlightsWebCheckoutViewTest(true)
         assertTrue(isShowFlightsCheckoutWebview(context))
     }
 
     @Test
     fun testToggleOffShowFlightsCheckoutWebview() {
-        toggleShowFlightsCheckoutWebviewABTestAndFF(false)
+        setUpFlightsWebCheckoutViewTest(false)
         assertFalse(isShowFlightsCheckoutWebview(context))
     }
 
-    private fun toggleShowFlightsCheckoutWebviewABTestAndFF(toggleOn: Boolean) {
-        if (toggleOn) {
+    private fun setUpFlightsWebCheckoutViewTest(bucketed: Boolean) {
+        if (bucketed) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
         }
         else {
             AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
         }
-        SettingUtils.save(context, R.string.preference_show_flights_checkout_webview, toggleOn)
     }
 }

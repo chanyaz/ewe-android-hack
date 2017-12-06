@@ -5354,9 +5354,7 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsFrenchLegalBaggageInfo);
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_show_flights_checkout_webview)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview);
 
 		String products = getFlightProductString(false);
 		if (hasSubPub) {
