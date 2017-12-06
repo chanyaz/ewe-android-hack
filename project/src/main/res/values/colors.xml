@@ -107,6 +107,7 @@
     <color name="flight_seats_left_urgency_message_color">#FF5747</color>
     <color name="hotel_map_earn_message_text_color">@color/gray400</color>
     <color name="flights_confirmation_itin_bar_color">@color/exp_launch_secondary</color>
+    <color name="flights_tab_text_color">#D9FFFFFF</color>
 
     <!-- Hotels colors -->
     <color name="hotels_primary_color">@color/app_primary</color>

@@ -64,7 +64,7 @@
             android:visibility="gone"
             app:tabIndicatorColor="@color/launch_tab_indicator"
             app:tabSelectedTextColor="@color/material_tab_text_selected"
-            app:tabTextColor="@color/material_tab_text" />
+            app:tabTextColor="@color/flights_tab_text_color" />
 
         <View
             android:id="@+id/toolbar_dropshadow"
