@@ -20,7 +20,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.coupon_widget_stub,
 		R.drawable.airport_suggest,
 		R.layout.activity_notification_mocker,
-		R.layout.test_material_forms_coupon_widget_stub,
 		R.drawable.room_fallback,
 		R.layout.material_forms_coupon_widget,
 		R.layout.hotel_dropdown_item,
