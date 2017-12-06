@@ -118,7 +118,7 @@ class FlightTravelerAdvancedOptionsWidgetTest {
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         val contactAirlineMessage = widget.findViewById<View>(R.id.contact_airline_text) as TextView
         assertEquals(View.VISIBLE, contactAirlineMessage.visibility)
-        assertEquals("Please contact airline to confirm requests", contactAirlineMessage.text)
+        assertEquals("Please contact airline to confirm requests.", contactAirlineMessage.text)
     }
 
     @Test
