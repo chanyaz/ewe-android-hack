@@ -10,6 +10,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.vm.packages.OverviewHeaderData
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import org.joda.time.LocalDate
 import org.junit.Test
@@ -54,7 +55,7 @@ class PackageCheckoutOverviewViewModelTest {
         viewmodel.travelersTitle.subscribe(travelerTestSubscriber)
         viewmodel.url.subscribe(urlTestSubscriber)
 
-        viewmodel.tripResponseSubject.onNext(trip)
+        viewmodel.tripResponseSubject.onNext(createOverviewHeaderData(trip))
 
         assertEquals("New York, NY", cityTestSubscriber.onNextEvents[0])
         assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", datesTestSubscriber.onNextEvents[0])
@@ -70,7 +71,7 @@ class PackageCheckoutOverviewViewModelTest {
         country.name = "Japan"
         hierarchyInfo.country = country
         Db.getPackageParams().destination?.hierarchyInfo = hierarchyInfo
-        viewmodel.tripResponseSubject.onNext(trip)
+        viewmodel.tripResponseSubject.onNext(createOverviewHeaderData(trip))
 
         cityTestSubscriber.assertValueCount(2)
         assertEquals("Tokyo, Japan", cityTestSubscriber.onNextEvents[1])
@@ -84,5 +85,10 @@ class PackageCheckoutOverviewViewModelTest {
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application
+    }
+
+    private fun createOverviewHeaderData(trip: PackageCreateTripResponse): OverviewHeaderData {
+        val hotel = trip.packageDetails.hotel
+        return OverviewHeaderData(hotel.hotelCity, hotel.hotelCountry, hotel.hotelStateProvince, hotel.checkOutDate, hotel.checkInDate, hotel.largeThumbnailUrl)
     }
 }

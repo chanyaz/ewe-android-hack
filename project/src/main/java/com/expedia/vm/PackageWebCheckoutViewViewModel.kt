@@ -2,18 +2,20 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.data.pos.PointOfSale
-import rx.subjects.PublishSubject
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.safeSubscribe
+import com.expedia.vm.packages.PackageCreateTripViewModel
 
 class PackageWebCheckoutViewViewModel(var context: Context): WebCheckoutViewViewModel(context) {
 
-    val tripIdSubject = PublishSubject.create<String>()
-
-    override fun doCreateTrip() {
+    var packageCreateTripViewModel by notNullAndObservable<PackageCreateTripViewModel> {
+        it.multiItemResponseSubject.safeSubscribe { multiItemResponse ->
+            webViewURLObservable.onNext("https://www.${ PointOfSale.getPointOfSale().url}/MultiItemCheckout?tripid=${multiItemResponse.tripId}")
+        }
     }
 
-    init {
-        tripIdSubject.subscribe { id ->
-            webViewURLObservable.onNext("https://www.${ PointOfSale.getPointOfSale().url}/MultiItemCheckout?tripid=${id}")
-        }
+    override fun doCreateTrip() {
+        showLoadingObservable.onNext(Unit)
+        packageCreateTripViewModel.performMultiItemCreateTripSubject.onNext(Unit)
     }
 }

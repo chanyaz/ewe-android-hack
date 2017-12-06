@@ -26,7 +26,8 @@ import rx.subjects.PublishSubject
 class PackageCreateTripViewModel(var packageServices: PackageServices, val context: Context) : BaseCreateTripViewModel() {
 
     val tripParams = BehaviorSubject.create<PackageCreateTripParams>()
-    val performMultiItemCreateTrip = PublishSubject.create<MultiItemCreateTripParams>()
+    val performMultiItemCreateTripSubject = PublishSubject.create<Unit>()
+    val multiItemResponseSubject = PublishSubject.create<MultiItemApiCreateTripResponse>()
 
     init {
         tripParams.subscribe { params ->
@@ -41,8 +42,8 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
             packageServices.createTrip(tripParams.value).subscribe(makeCreateTripResponseObserver())
         }
 
-        performMultiItemCreateTrip.subscribe { params ->
-            showCreateTripDialogObservable.onNext(true)
+        performMultiItemCreateTripSubject.subscribe {
+            val params = MultiItemCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
             packageServices.multiItemCreateTrip(params).subscribe(makeMultiItemCreateTripResponseObserver())
         }
     }
@@ -50,12 +51,22 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
     private fun makeMultiItemCreateTripResponseObserver(): Observer<MultiItemApiCreateTripResponse> {
         return object : Observer<MultiItemApiCreateTripResponse> {
             override fun onError(e: Throwable) {
-                //TODO
+                showCreateTripDialogObservable.onNext(false)
+                if (RetrofitUtils.isNetworkError(e)) {
+                    val retryFun = fun() {
+                        performMultiItemCreateTripSubject.onNext(Unit)
+                    }
+                    val cancelFun = fun() {
+                        val activity = context as AppCompatActivity
+                        activity.onBackPressed()
+                    }
+                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                }
             }
 
             override fun onNext(response: MultiItemApiCreateTripResponse) {
-                //TODO
                 showCreateTripDialogObservable.onNext(false)
+                multiItemResponseSubject.onNext(response)
             }
 
             override fun onCompleted() {

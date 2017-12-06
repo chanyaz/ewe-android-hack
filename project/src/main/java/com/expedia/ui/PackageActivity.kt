@@ -8,7 +8,6 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackagesPageUsableData
@@ -235,9 +234,7 @@ class PackageActivity : AbstractAppCompatActivity() {
         changedOutboundFlight = false
 
         if (isMidAPIEnabled(this)) {
-            val params = MultiItemCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
-            getCreateTripViewModel().performMultiItemCreateTrip.onNext(params)
-
+            packagePresenter.bundlePresenter.performMIDCreateTripSubject.onNext(Unit)
         } else {
             val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
             if (params.isValid) {

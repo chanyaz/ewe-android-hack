@@ -26,14 +26,14 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
-import com.expedia.util.safeSubscribeOptional
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.shared.WebCheckoutView
+import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.updateVisibility
 import com.expedia.vm.PackageWebCheckoutViewViewModel
@@ -41,6 +41,7 @@ import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageTotalPriceViewModel
+import com.expedia.vm.packages.OverviewHeaderData
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
 
@@ -52,15 +53,13 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
+    val performMIDCreateTripSubject = PublishSubject.create<Unit>()
 
     val webCheckoutView: WebCheckoutView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.package_web_checkout_stub)
         val webCheckoutView = viewStub.inflate() as WebCheckoutView
-        val createTripResponse = getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.value as PackageCreateTripResponse?
         val webCheckoutViewModel = PackageWebCheckoutViewViewModel(context)
-        if (createTripResponse != null) {
-            webCheckoutViewModel.tripIdSubject.onNext(createTripResponse.packageDetails.tripId)
-        }
+        webCheckoutViewModel.packageCreateTripViewModel = getCheckoutPresenter().getCreateTripViewModel()
         webCheckoutView.viewModel = webCheckoutViewModel
 
         webCheckoutViewModel.closeView.subscribe {
@@ -69,7 +68,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         }
 
         webCheckoutViewModel.backObservable.subscribe {
-            back()
+            webCheckoutView.back()
         }
 
         webCheckoutViewModel.blankViewObservable.subscribe {
@@ -100,26 +99,16 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         removeView(bundleWidget)
         getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
             trip as PackageCreateTripResponse
-            bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
-            bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
-            bundleWidget.bundleHotelWidget.toggleHotelWidget(1f, true)
-
-            if (currentState == BundleDefault::class.java.name) {
-                bundleWidget.toggleMenuObservable.onNext(true)
-                setToolbarNavIcon(false)
-            }
-            if (isMidAPIEnabled(context) && webCheckoutView != null) {
-                (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).tripIdSubject.onNext(trip.packageDetails.tripId)
-            }
-            bundleWidget.setPadding(0, 0, 0, 0)
+            bundleWidgetSetup()
             bundleWidget.viewModel.createTripObservable.onNext(trip)
+
+            val hotelTripResponse = trip.packageDetails.hotel
+            val headerData = OverviewHeaderData(hotelTripResponse.hotelCity, hotelTripResponse.hotelCountry, hotelTripResponse.hotelStateProvince, hotelTripResponse.checkOutDate,
+                    hotelTripResponse.checkInDate, hotelTripResponse.largeThumbnailUrl)
             (bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel
-                    as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(trip)
+                    as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)
             (bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel
-                    as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(trip)
-            bundleWidget.bundleHotelWidget.collapseSelectedHotel()
-            bundleWidget.outboundFlightWidget.collapseFlightDetails()
-            bundleWidget.inboundFlightWidget.collapseFlightDetails()
+                    as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)
 
             var totalPrice = ""
             if (trip.packageDetails.pricing.hasResortFee()) {
@@ -213,7 +202,13 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         } else {
             startOver.setVisible(false)
         }
+        if (isMidAPIEnabled(context)) {
 
+            performMIDCreateTripSubject.subscribe {
+                (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).doCreateTrip()
+                setupOverviewPresenterForMID()
+            }
+        }
     }
 
     private fun resetBundleTotalTax() {
@@ -354,5 +349,37 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         } else {
             super.showCheckout()
         }
+    }
+
+    private fun bundleWidgetSetup() {
+        bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
+        bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
+        bundleWidget.bundleHotelWidget.toggleHotelWidget(1f, true)
+
+        if (currentState == BundleDefault::class.java.name) {
+            bundleWidget.toggleMenuObservable.onNext(true)
+            setToolbarNavIcon(false)
+        }
+        bundleWidget.setPadding(0, 0, 0, 0)
+        bundleWidget.bundleHotelWidget.collapseSelectedHotel()
+        bundleWidget.outboundFlightWidget.collapseFlightDetails()
+        bundleWidget.inboundFlightWidget.collapseFlightDetails()
+    }
+
+    private fun setupOverviewPresenterForMID() {
+        resetCheckoutState()
+        bundleWidgetSetup()
+        bundleWidget.viewModel.getHotelNameAndDaysToSetUpTitle()
+        val hotel = Db.getPackageSelectedHotel()
+        val searchResponse = Db.getPackageResponse()
+
+        val headerData = OverviewHeaderData(hotel.city, hotel.countryCode, hotel.stateProvinceCode, searchResponse.getHotelCheckOutDate(),
+                searchResponse.getHotelCheckInDate(), hotel.largeThumbnailUrl)
+        (bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel
+                as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)
+
+        (bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel
+                as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)
+        setCheckoutHeaderOverviewDates()
     }
 }

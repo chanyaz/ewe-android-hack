@@ -3,7 +3,6 @@ package com.expedia.vm.packages
 import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.utils.Images
 import com.expedia.vm.BaseCheckoutOverviewViewModel
 import com.mobiata.android.util.AndroidUtils
@@ -11,23 +10,31 @@ import rx.subjects.PublishSubject
 
 class PackageCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewViewModel(context) {
     val width = AndroidUtils.getScreenSize(context).x / 2
-    val tripResponseSubject = PublishSubject.create<PackageCreateTripResponse>()
+    val tripResponseSubject = PublishSubject.create<OverviewHeaderData>()
 
     init {
-        tripResponseSubject.subscribe { trip ->
-            val hotel = trip.packageDetails.hotel
-            val links = HotelMedia(Images.getMediaHost() + hotel.largeThumbnailUrl).getBestUrls(width)
-            city.onNext(hotel.hotelCity)
-            val shouldShowCountryName = !hotel.hotelCountry.equals("USA") || hotel.hotelStateProvince.isNullOrEmpty()
-            country.onNext(if (shouldShowCountryName) Db.getPackageParams().destination?.hierarchyInfo?.country?.name?: "" else hotel.hotelStateProvince)
-            if (hotel.checkOutDate != null) {
-                checkInAndCheckOutDate.onNext(Pair(hotel.checkInDate, hotel.checkOutDate))
-            } else {
-                checkInWithoutCheckoutDate.onNext(hotel.checkInDate)
-            }
-            guests.onNext(Db.getPackageParams().guests)
-
-            if (url.value != links) url.onNext(links)
+        tripResponseSubject.subscribe { it ->
+            setPackageOverviewHeader(it.hotelCity, it.hotelCountry, it.hotelStateProvince, it.checkOutDate, it.checkinDate, it.largeThumbnailUrl)
         }
     }
+
+    fun setPackageOverviewHeader(hotelCity: String, hotelCountry: String, hotelStateProvince: String, checkoutDate: String, checkinDate: String, hotelImageURL: String) {
+        val links = HotelMedia(Images.getMediaHost() + hotelImageURL).getBestUrls(width)
+        city.onNext(hotelCity)
+        val shouldShowCountryName = !hotelCountry.equals("USA") || hotelStateProvince.isNullOrEmpty()
+        country.onNext(if (shouldShowCountryName) Db.getPackageParams().destination?.hierarchyInfo?.country?.name ?: "" else hotelStateProvince)
+        if (checkoutDate != null) {
+            checkInAndCheckOutDate.onNext(Pair(checkinDate, checkoutDate))
+        } else {
+            checkInWithoutCheckoutDate.onNext(checkinDate)
+        }
+        guests.onNext(Db.getPackageParams().guests)
+
+        if (url.value != links) url.onNext(links)
+    }
+}
+
+data class OverviewHeaderData(val hotelCity: String, val hotelCountry: String, val hotelStateProvince: String, val checkOutDate: String,
+                          val checkinDate: String, val largeThumbnailUrl: String) {
+
 }

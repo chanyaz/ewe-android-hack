@@ -30,6 +30,10 @@ class MultiItemApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
                 val productKey = urlParams["legId[0]"] ?: return make404()
                 getMockResponse("api/multiitem/v1/$productKey.json", null, if (productKey.contains("error")) 400 else 200)
             }
+            MultiItemApiRequestMatcher.isCreateTrip(urlPath) -> {
+                val productKey = urlParams["flightPIID"] ?: return make404()
+                getMockResponse("api/multiitem/v1/$productKey.json", null)
+            }
             else -> make404()
         }
     }
@@ -51,6 +55,10 @@ class MultiItemApiRequestMatcher {
 
         fun isFlightInboundSearchRequest(urlPath: String): Boolean {
             return doesItMatch("^/api/multiitem/v1/flights.*legIndex=1.*$", urlPath)
+        }
+
+        fun isCreateTrip(urlPath: String): Boolean {
+            return doesItMatch("^/api/multiitem/v1/createTrip.*$", urlPath)
         }
     }
 }

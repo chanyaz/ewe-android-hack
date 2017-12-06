@@ -21,6 +21,8 @@ import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.google.gson.Gson
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
+import org.joda.time.Days
+import org.joda.time.format.DateTimeFormat
 import retrofit2.HttpException
 import rx.Observer
 import rx.Subscription
@@ -87,26 +89,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
 
         createTripObservable.subscribe { trip ->
             val hotel = trip.packageDetails.hotel
-            val stepOne = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE, hotel.numberOfNights.toInt()))
-                    .put("number", hotel.numberOfNights)
-                    .put("city", hotel.hotelCity)
-                    .format().toString()
-
-            stepOneTextObservable.onNext(stepOne)
-
-            val stepOneContentDesc = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE_cont_desc, hotel.numberOfNights.toInt()))
-                    .put("number", hotel.numberOfNights)
-                    .put("city", hotel.hotelCity)
-                    .format().toString()
-            stepOneContentDescriptionObservable.onNext(stepOneContentDesc)
-
-            val stepTwo = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE)
-                    .put("origin", Db.getPackageParams().origin?.hierarchyInfo?.airport?.airportCode)
-                    .put("destination", Db.getPackageParams().destination?.hierarchyInfo?.airport?.airportCode)
-                    .format().toString()
-            stepTwoTextObservable.onNext(stepTwo)
-            stepThreeTextObservale.onNext("")
-            setAirlineFeeTextOnBundleOverview()
+            setUpTitle(hotel.hotelCity, hotel.numberOfNights)
         }
 
         cancelSearchObservable.subscribe {
@@ -115,6 +98,39 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 cancelSearchSubject.onNext(Unit)
             }
         }
+    }
+
+     private fun setUpTitle(hotelCity: String, numberOfNights: String) {
+        val stepOne = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE, numberOfNights.toInt()))
+                .put("number", numberOfNights)
+                .put("city", hotelCity)
+                .format().toString()
+
+        stepOneTextObservable.onNext(stepOne)
+
+        val stepOneContentDesc = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE_cont_desc, numberOfNights.toInt()))
+                .put("number", numberOfNights)
+                .put("city", hotelCity)
+                .format().toString()
+        stepOneContentDescriptionObservable.onNext(stepOneContentDesc)
+
+        val stepTwo = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE)
+                .put("origin", Db.getPackageParams().origin?.hierarchyInfo?.airport?.airportCode)
+                .put("destination", Db.getPackageParams().destination?.hierarchyInfo?.airport?.airportCode)
+                .format().toString()
+        stepTwoTextObservable.onNext(stepTwo)
+        stepThreeTextObservale.onNext("")
+        setAirlineFeeTextOnBundleOverview()
+    }
+
+    fun getHotelNameAndDaysToSetUpTitle() {
+        val packageResponse = Db.getPackageResponse()
+        val hotel = Db.getPackageSelectedHotel()
+        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
+        val checkInDate = dtf.parseLocalDate(packageResponse.getHotelCheckInDate())
+        val checkoutDate = dtf.parseLocalDate(packageResponse.getHotelCheckOutDate())
+        val numOfDaysStay = Days.daysBetween(checkInDate, checkoutDate).days.toString()
+        setUpTitle(hotel.city, numOfDaysStay)
     }
 
     private fun getProductSearchType(isOutboundSearch: Boolean): ProductSearchType {
