@@ -31,6 +31,11 @@ object LaunchScreen {
         return onView(allOf<View>(withText(getPackagesLaunchButtonText(BuildConfig.brand)), isCompletelyDisplayed()))
     }
 
+    @JvmStatic fun packagesLaunchButtonForPOS(pos: String): ViewInteraction {
+        waitForLOBHeaderToBeDisplayed()
+        return onView(allOf<View>(withText(getPackagesLaunchButtonTextForPOS(pos)), isCompletelyDisplayed()))
+    }
+
     @JvmStatic fun activitiesLaunchButton(): ViewInteraction {
         Common.delay(1)
         waitForLOBHeaderToBeDisplayed()
@@ -65,6 +70,18 @@ object LaunchScreen {
             else -> {
                 "Bundle Deals"
             }
+        }
+    }
+
+    @JvmStatic fun getPackagesLaunchButtonTextForPOS(pos: String): String {
+        if (pos == "Australia" || pos == "New Zealand") {
+            return "Hotel + Flight Deals"
+        } else if (pos == "Canada") {
+            return "Flight + Hotel"
+        } else if (pos == "Japan" || pos == "Singapore" || pos == "Malaysia" || pos == "Thailand" || pos == "Germany") {
+            return "Hotel + Flight"
+        } else {
+            return "Bundle Deals"
         }
     }
 

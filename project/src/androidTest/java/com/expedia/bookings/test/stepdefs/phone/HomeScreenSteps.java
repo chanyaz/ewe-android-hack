@@ -6,9 +6,11 @@ import com.expedia.bookings.test.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.support.Users;
 import com.expedia.bookings.test.support.Users.User;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
 import static android.support.test.espresso.action.ViewActions.click;
 
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
+import static com.expedia.bookings.test.pagemodels.common.LaunchScreen.waitForLOBHeaderToBeDisplayed;
 
 public class HomeScreenSteps {
 	@And("^I tap on \"(Shop|Trip|Account)\" tab$")
@@ -49,6 +51,16 @@ public class HomeScreenSteps {
 			LaunchScreen.packagesLaunchButton().perform(waitForViewToDisplay(), click());
 			break;
 		}
+	}
+
+	@And("^I launch Package LOB with \"(.*?)\" POS$")
+	public void launchPackage(String pos) throws Throwable {
+		LaunchScreen.packagesLaunchButtonForPOS(pos).perform(waitForViewToDisplay(), click());
+	}
+
+	@Then("^Validate that Launch screen is displayed$")
+	public void validateLaunchPage() {
+		waitForLOBHeaderToBeDisplayed();
 	}
 }
 
