@@ -42,6 +42,7 @@ open class FlightItinTravelerInfoActivity : AppCompatActivity() {
         }
         vm.updateTravelerListSubject.subscribe {
             if (it.size > 1) {
+                travelerTabWidget.removeAllTabs()
                 travelerTabWidget.visibility = View.VISIBLE
                 for (traveler: Traveler in it) {
                     val newTab = travelerTabWidget.newTab()
