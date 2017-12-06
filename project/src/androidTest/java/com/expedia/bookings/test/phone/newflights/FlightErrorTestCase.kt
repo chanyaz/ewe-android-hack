@@ -28,7 +28,7 @@ open class FlightErrorTestCase : NewFlightTestCase() {
 
     protected fun searchFlights(suggestionResponseType: FlightApiMockResponseGenerator.SuggestionResponseType, isOneWay: Boolean = true) {
         if (isOneWay) {
-            Espresso.onView(Matchers.allOf(withText("ONE WAY"),
+            Espresso.onView(Matchers.allOf(withText("One way"),
                     isDescendantOfA(withId(R.id.tabs)))).perform(ViewActions.click())
         }
         SearchScreen.selectFlightOriginAndDestination(suggestionResponseType, 0)

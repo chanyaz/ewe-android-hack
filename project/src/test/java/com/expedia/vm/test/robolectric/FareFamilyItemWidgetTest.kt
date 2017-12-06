@@ -107,7 +107,7 @@ class FareFamilyItemWidgetTest {
         assertEquals("+$0.00", fareFamilyDeltaAmount.text)
         assertEquals(View.VISIBLE, fareFamilyRoundTrip.visibility)
         assertEquals("roundtrip", fareFamilyRoundTrip.text)
-        assertEquals("ECONOMY, cabin Economy.  4 Checked Bags available.  Seat Choice available.  This fare is available for an additional $0.00, ROUND TRIP for 4 travelers.  ", contDesc)
+        assertEquals("ECONOMY, cabin Economy.  4 Checked Bags available.  Seat Choice available.  This fare is available for an additional $0.00, Roundtrip for 4 travelers.  ", contDesc)
 
         fareFamilyTitle = thirdFareFamilyItem.fareFamilyClassTitle
         fareFamilyCabinClass = thirdFareFamilyItem.fareFamilyCabinClass
@@ -123,7 +123,7 @@ class FareFamilyItemWidgetTest {
         assertEquals("-$271.00", fareFamilyDeltaAmount.text)
         assertEquals(View.VISIBLE, fareFamilyRoundTrip.visibility)
         assertEquals("roundtrip", fareFamilyRoundTrip.text)
-        assertEquals("ECONOMY FLEXIBLE, cabin Economy.  Checked Bags available for a fee.  Carry on Bag available.  Seat Choice not available.  This fare is available for an additional -$271.00, ROUND TRIP for 4 travelers.  ", contDesc)
+        assertEquals("ECONOMY FLEXIBLE, cabin Economy.  Checked Bags available for a fee.  Carry on Bag available.  Seat Choice not available.  This fare is available for an additional -$271.00, Roundtrip for 4 travelers.  ", contDesc)
     }
 
     @Test
