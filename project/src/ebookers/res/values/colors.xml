@@ -114,6 +114,7 @@
     <color name="packages_primary_color">@color/lob_btn_color</color>
     <color name="packages_secondary_color">#01749b</color>
     <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
+    <color name="traveler_incomplete_text_color">#b80000</color>
 
     <!-- New Launch Screen LOB button colors -->
     <color name="new_launch_lob_color">@color/lob_btn_color</color>

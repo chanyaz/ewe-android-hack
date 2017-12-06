@@ -127,4 +127,5 @@
     <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
     <color name="flight_primary_color">@color/packages_primary_color</color>
     <color name="flights_error_message_infants">#b80000</color>
+    <color name="traveler_incomplete_text_color">#b80000</color>
 </resources>
