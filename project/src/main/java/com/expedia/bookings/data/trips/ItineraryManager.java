@@ -39,6 +39,7 @@ import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.data.Courier;
 import com.expedia.bookings.data.TNSUser;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.UniqueIdentifierHelper;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -1890,7 +1891,7 @@ public class ItineraryManager implements JSONable {
 				tnsUser = new TNSUser(siteId, userDetail.getTuid(), userDetail.getExpUserId());
 			}
 
-			Courier courier = new Courier("gcm", BuildConfig.APPLICATION_ID, regId, regId);
+			Courier courier = new Courier("gcm", BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(mContext));
 
 			if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(mContext, AbacusUtils.TripsNewFlightAlerts,
 				R.string.preference_enable_trips_flight_alerts)) {
