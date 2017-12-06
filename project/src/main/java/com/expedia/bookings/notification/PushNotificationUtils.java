@@ -367,8 +367,8 @@ public class PushNotificationUtils {
 
 	private static JSONObject buildFlightJSON(Context context, Flight flight, boolean shared) {
 		try {
-			DateTime departureDate = flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
-			DateTime arrivalDate = flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
+			DateTime departureDate = flight.getSegmentDepartureTime();
+			DateTime arrivalDate = flight.getSegmentArrivalTime();
 
 			JSONObject flightJson = new JSONObject();
 			flightJson.put("__type__", "Flight");
@@ -376,9 +376,18 @@ public class PushNotificationUtils {
 			flightJson.put("arrival_date", JodaUtils.format(arrivalDate, "yyyy-MM-dd HH:mm:ss"));
 			flightJson.put("destination", flight.getDestinationWaypoint().mAirportCode);
 			flightJson.put("origin", flight.getOriginWaypoint().mAirportCode);
-			flightJson.put("airline", flight.getPrimaryFlightCode().mAirlineCode);
-			flightJson.put("flight_no", flight.getPrimaryFlightCode().mNumber);
+			if (flight.getPrimaryFlightCode() != null) {
+				flightJson.put("airline", flight.getPrimaryFlightCode().mAirlineCode);
+				flightJson.put("flight_no", flight.getPrimaryFlightCode().mNumber);
+			}
 			flightJson.put("shared", shared);
+			//values for new TNS system
+			flightJson.put("departureDateWithTZ", JodaUtils.format(departureDate, "yyyy-MM-dd HH:mm:ss"));
+			flightJson.put("arrivalDateWithTZ", JodaUtils.format(arrivalDate, "yyyy-MM-dd HH:mm:ss"));
+			if (flight.getPrimaryFlightCode() != null) {
+				flightJson.put("airlineCode", flight.getPrimaryFlightCode().mAirlineCode);
+				flightJson.put("flightNumber", flight.getPrimaryFlightCode().mNumber);
+			}
 			return flightJson;
 		}
 		catch (Exception ex) {

@@ -178,6 +178,7 @@
                     "countryCode":"USA"
                   },
                   "departureTime":{
+                    "raw": "2017-09-05T20:00:00-07:00",
                     "epochSeconds":"1479497520",
                     "timeZoneOffsetSeconds":"-28800"
                   },
@@ -193,6 +194,7 @@
                     "countryCode":"USA"
                   },
                   "arrivalTime":{
+                    "raw": "2017-09-05T21:33:00-07:00",
                     "epochSeconds":"1479510240",
                     "timeZoneOffsetSeconds":"-18000"
                   },
@@ -266,6 +268,7 @@
                     "countryCode":"USA"
                   },
                   "departureTime":{
+                    "raw": "2017-09-05T20:00:00-07:00",
                     "epochSeconds":"1480204740",
                     "timeZoneOffsetSeconds":"-18000"
                   },
@@ -281,6 +284,7 @@
                     "countryCode":"USA"
                   },
                   "arrivalTime":{
+                    "raw": "2017-09-05T21:33:00-07:00",
                     "epochSeconds":"1480227060",
                     "timeZoneOffsetSeconds":"-28800"
                   },

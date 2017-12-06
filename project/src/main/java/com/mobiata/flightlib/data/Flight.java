@@ -82,6 +82,8 @@ public class Flight implements Comparable<Flight>, JSONable {
 	private int mDistanceTraveled = -1;
 	private String departureTerminal;
 	private String arrivalTerminal;
+	private DateTime mSegmentDepartureTime;
+	private DateTime mSegmentArrivalTime;
 
 	// Parsing the ISOformat layover duration from the API response
 	private String layoverDuration;
@@ -178,6 +180,25 @@ public class Flight implements Comparable<Flight>, JSONable {
 
 	public void setArrivalTerminal(String terminal) {
 		arrivalTerminal = terminal;
+	}
+
+	public void setSegmentDepartureTime(String segmentDepartureTime) {
+		DateTime parsedDate = DateTime.parse(segmentDepartureTime);
+		mSegmentDepartureTime = parsedDate;
+	}
+
+	public DateTime getSegmentDepartureTime() {
+		return mSegmentDepartureTime;
+	}
+
+
+	public void setSegmentArrivalTime(String segmentArrivalTime) {
+		DateTime parsedDate = DateTime.parse(segmentArrivalTime);
+		mSegmentArrivalTime = parsedDate;
+	}
+
+	public DateTime getSegmentArrivalTime() {
+		return mSegmentArrivalTime;
 	}
 
 	public String getAssignedSeats() {

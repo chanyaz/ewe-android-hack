@@ -539,6 +539,18 @@ public class TripParser {
 						segment.addSeat(seat);
 					}
 				}
+				JSONObject departureTimeJson = segmentJson.optJSONObject("departureTime");
+				if (departureTimeJson != null) {
+					if (!departureTimeJson.optString("raw").isEmpty()) {
+						segment.setSegmentDepartureTime(departureTimeJson.optString("raw"));
+					}
+				}
+				JSONObject arrivalTimeJson = segmentJson.optJSONObject("arrivalTime");
+				if (arrivalTimeJson != null) {
+					if (!arrivalTimeJson.optString("raw").isEmpty()) {
+						segment.setSegmentArrivalTime(arrivalTimeJson.optString("raw"));
+					}
+				}
 				FlightCode flightCode = new FlightCode();
 				flightCode.mAirlineCode = segmentJson.optString("externalAirlineCode");
 				flightCode.mNumber = segmentJson.optString("flightNumber").trim();

@@ -1925,19 +1925,17 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
-	private List<TNSFlight> getFlightsForNewSystem() {
-
+	List<TNSFlight> getFlightsForNewSystem() {
 		List<TNSFlight> flights = new ArrayList<>();
 		List<Flight> itinFlights = getItinFlights();
+		String dateTimeTimeZonePattern = "yyyy-MM-dd\'T\'HH:mm:ss.SSSZ";
+		String datePattern = "yyyy-MM-dd";
 		for (Flight flight : itinFlights) {
 			if (flight.getPrimaryFlightCode() != null) {
 				TNSFlight flightToAdd = new TNSFlight(flight.getPrimaryFlightCode().mAirlineCode,
-					JodaUtils.format(flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-						"yyyy-MM-dd HH:mm:ss"),
-					JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-						"yyyy-MM-dd HH:mm:ss"),
-					JodaUtils.format(flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime(),
-						"yyyy-MM-dd"),
+					JodaUtils.format(flight.getSegmentArrivalTime(), dateTimeTimeZonePattern),
+					JodaUtils.format(flight.getSegmentDepartureTime(), dateTimeTimeZonePattern),
+					JodaUtils.format(flight.getSegmentDepartureTime(), datePattern),
 					flight.getDestinationWaypoint().mAirportCode,
 					flight.getPrimaryFlightCode().mNumber,
 					flight.getOriginWaypoint().mAirportCode
@@ -1945,7 +1943,6 @@ public class ItineraryManager implements JSONable {
 				flights.add(flightToAdd);
 			}
 		}
-
 		return flights;
 	}
 

@@ -3,6 +3,7 @@ package com.expedia.bookings.data.trips
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.TNSFlight
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
@@ -12,10 +13,14 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
+import com.mobiata.flightlib.data.Airport
+import com.mobiata.flightlib.data.Waypoint
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
+import org.joda.time.DateTimeZone
 import org.joda.time.LocalDateTime
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -121,6 +126,30 @@ class ItineraryManagerTest {
         assertEquals(1, usersFlightList.size)
     }
 
+    @Test
+    fun testGetFlightsForNewSystem() {
+        val sut = ItineraryManager.getInstance()
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val testItinCardDataShared = ItinCardDataFlightBuilder().build()
+        testItinCardDataShared.tripComponent.parentTrip.setIsShared(true)
+        val itinCardData = sut.itinCardData
+        val dateTimeTimeZonePattern = "yyyy-MM-dd\'T\'HH:mm:ss.SSSZ"
+        val datePattern = "yyyy-MM-dd"
+
+        itinCardData.clear()
+        itinCardData.add(testItinCardData)
+        itinCardData.add(testItinCardDataShared)
+
+        val expectedFlightList = listOf<TNSFlight>(TNSFlight("UA", "2017-09-05T21:33:00.000-0700", "2017-09-05T20:00:00.000-0700", "2017-09-05", "LAS", "681", "SFO"),
+                TNSFlight("UA", "2017-09-05T21:33:00.000-0700", "2017-09-05T20:00:00.000-0700", "2017-09-05", "LAS", "681", "SFO"))
+        val expectedDateFormatWithTZ = JodaUtils.format(testItinCardData.flightLeg.getSegment(0).segmentDepartureTime, dateTimeTimeZonePattern)
+        val expectedDatePattern = JodaUtils.format(testItinCardData.flightLeg.getSegment(0).segmentDepartureTime, datePattern)
+        val actualFlightList = sut.flightsForNewSystem
+
+        assertEquals(expectedFlightList, actualFlightList)
+        assertEquals(expectedDateFormatWithTZ, actualFlightList.get(0).departureDateWithTZ)
+        assertEquals(expectedDatePattern, actualFlightList.get(0).departureDay)
+    }
 
     private fun assertLinkTracked(linkName: String, rfrrId: String, event: String, mockAnalyticsProvider: AnalyticsProvider) {
         val expectedData = mapOf(
@@ -177,5 +206,4 @@ class ItineraryManagerTest {
     private fun itinCardDataSharedFlight(): ItinCardDataFlight {
         return ItinCardDataFlightBuilder().build(isShared = true)
     }
-
 }
