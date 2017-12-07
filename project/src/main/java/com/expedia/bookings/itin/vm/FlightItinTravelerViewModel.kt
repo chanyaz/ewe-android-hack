@@ -9,6 +9,8 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.data.user.UserStateManager
+import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.utils.ItinUtils
 import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
@@ -30,7 +32,7 @@ open class FlightItinTravelerViewModel(private val context: Context, private val
     val updateToolbarSubject: PublishSubject<ItinToolbarViewModel.ToolbarParams> = PublishSubject.create()
     val updateTravelerListSubject: PublishSubject<List<Traveler>> = PublishSubject.create()
     val updateCurrentTravelerSubject: PublishSubject<Traveler> = PublishSubject.create()
-    val updateUserLoyaltyTierSubject: PublishSubject<LoyaltyMembershipTier> = PublishSubject.create()
+    val itinCardDataNotValidSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
 
     protected lateinit var userStateManager: UserStateManager
 
@@ -39,12 +41,6 @@ open class FlightItinTravelerViewModel(private val context: Context, private val
         updateItinCardDataFlight()
         updateToolbar()
         updateTravelList()
-        updateUserLoyaltyTier()
-    }
-
-    fun updateUserLoyaltyTier() {
-        userStateManager = Ui.getApplication(context).appComponent().userStateManager()
-        updateUserLoyaltyTierSubject.onNext(userStateManager.getCurrentUserLoyaltyTier())
     }
 
     fun updateToolbar() {
@@ -63,7 +59,11 @@ open class FlightItinTravelerViewModel(private val context: Context, private val
     }
 
     fun updateItinCardDataFlight() {
-        val itinCard = itineraryManager.getItinCardDataFromItinId(itinId)
-        itinCardDataFlight = itinCard as ItinCardDataFlight
+        val freshItinCardDataFlight = itineraryManager.getItinCardDataFromItinId(itinId)
+        if (freshItinCardDataFlight != null &&  freshItinCardDataFlight is ItinCardDataFlight) {
+            itinCardDataFlight = freshItinCardDataFlight
+        } else {
+            itinCardDataNotValidSubject.onNext(Unit)
+        }
     }
 }

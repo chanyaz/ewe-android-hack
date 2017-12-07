@@ -37,6 +37,9 @@ open class FlightItinTravelerInfoActivity : AppCompatActivity() {
     }
 
     var viewModel: FlightItinTravelerViewModel by notNullAndObservable { vm ->
+        vm.itinCardDataNotValidSubject.subscribe {
+            finish()
+        }
         vm.updateToolbarSubject.subscribe {
             travelerToolbar.viewModel.updateWidget(it)
         }

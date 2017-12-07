@@ -802,24 +802,26 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			else if (data instanceof ItinCardDataRails) {
 				openItinInWebView(data.getDetailsUrl());
 			}
-			else if (data.getTripComponentType() == TripComponent.Type.HOTEL && isHotelItinCardDetailBucketed) {
+			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.HOTEL && isHotelItinCardDetailBucketed) {
 				getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()),
 					ActivityOptionsCompat
 						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 						.toBundle());
 			}
-			else if (data.getTripComponentType() == TripComponent.Type.FLIGHT && isFlightItinCardDetailBucketed) {
+			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.FLIGHT && isFlightItinCardDetailBucketed) {
 				getContext().startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()),
 						ActivityOptionsCompat
 							.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 							.toBundle());
-
 			}
 			else if (data.hasDetailData()) {
 				showDetails(position, true);
 			}
-			else if (!TextUtils.isEmpty(data.getDetailsUrl())) {
-				openItinInWebView(data.getDetailsUrl());
+			else  {
+				Log.w("ItinCard fallback clicked");
+				if (!TextUtils.isEmpty(data.getDetailsUrl())) {
+					openItinInWebView(data.getDetailsUrl());
+				}
 			}
 
 			if (mOnItemClickListener != null) {

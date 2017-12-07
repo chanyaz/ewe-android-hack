@@ -19,8 +19,10 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class FlightItinTravelerInfoActivityTest {
@@ -128,5 +130,12 @@ class FlightItinTravelerInfoActivityTest {
         traveler.phoneCountryCode = "1"
         sut.travelerInfoViewModel.travelerObservable.onNext(traveler)
         travelerPhoneSubscriber.assertNoValues()
+    }
+
+    @Test
+    fun testInvalidCard() {
+        val activityShadow = Shadows.shadowOf(sut)
+        sut.viewModel.itinCardDataNotValidSubject.onNext(Unit)
+        assertTrue(activityShadow.isFinishing)
     }
 }

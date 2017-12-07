@@ -3,7 +3,6 @@ package com.expedia.bookings.itin.vm
 import android.app.Activity
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -20,6 +19,7 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 @RunWith(RobolectricRunner::class)
@@ -33,7 +33,7 @@ class FlightItinTravelerViewModelTest {
 
     val updateToolbarSubscriber = TestSubscriber<ItinToolbarViewModel.ToolbarParams>()
     val updateTravelerListSubscriber = TestSubscriber<List<Traveler>>()
-    val updateTierSubscriber = TestSubscriber<LoyaltyMembershipTier>()
+    val itinCardDataNotValidSubscriber = TestSubscriber<Unit>()
 
     @Before
     fun setup() {
@@ -42,7 +42,7 @@ class FlightItinTravelerViewModelTest {
         context = RuntimeEnvironment.application
 
         testItinCardData = ItinCardDataFlightBuilder().build()
-        sutSpy = Mockito.spy(sut)
+        sutSpy = Mockito.spy(FlightItinTravelerViewModel(activity, "TEST_ITIN_ID"))
     }
 
     @Test
@@ -72,24 +72,28 @@ class FlightItinTravelerViewModelTest {
     }
 
     @Test
-    fun testUpdateUserLoyaltyTier() {
-        sut.updateUserLoyaltyTierSubject.subscribe(updateTierSubscriber)
-        updateTierSubscriber.assertNoValues()
-        sut.updateUserLoyaltyTier()
-        updateTierSubscriber.assertValue(LoyaltyMembershipTier.NONE)
+    fun testUpdateItinCardDataFlight() {
+        val anotherItinCard =  ItinCardDataFlightBuilder().build(multiSegment = true)
+        sut.itinCardDataFlight = anotherItinCard
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        Mockito.`when`(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
+        sut.itineraryManager = mockItinManager
+        sut.onResume()
+        assertNotEquals(anotherItinCard, sut.itinCardDataFlight)
     }
 
     @Test
-    fun testUpdateItinCardDataFlight() {
-//        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
-//        Mockito.`when`(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
-//        sutSpy.itineraryManager = mockItinManager
-//        sutSpy.onResume()
-//        Mockito.verify(sutSpy, Mockito.times(1)).updateItinCardDataFlight()
-//        val anotherCard = ItinCardDataFlightBuilder().build(multiSegment = true)
-//        sutSpy.itinCardDataFlight = anotherCard
-//        sutSpy.updateItinCardDataFlight()
-//        assertNotEquals(anotherCard, sutSpy.itinCardDataFlight)
+    fun testUpdateNullItinCardDataFlight() {
+        val anotherItinCard =  ItinCardDataFlightBuilder().build(multiSegment = true)
+        sut.itinCardDataNotValidSubject.subscribe(itinCardDataNotValidSubscriber)
+        itinCardDataNotValidSubscriber.assertNoValues()
+        sut.itinCardDataFlight = anotherItinCard
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        Mockito.`when`(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(null)
+        sut.itineraryManager = mockItinManager
+        sut.onResume()
+        assertEquals(anotherItinCard, sut.itinCardDataFlight)
+        itinCardDataNotValidSubscriber.assertValueCount(1)
     }
 
     class TestWayPoint(val city: String) : Waypoint(ACTION_UNKNOWN) {

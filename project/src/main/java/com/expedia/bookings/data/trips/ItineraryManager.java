@@ -264,7 +264,7 @@ public class ItineraryManager implements JSONable {
 
 		synchronized (mItinCardDatas) {
 			for (ItinCardData data : mItinCardDatas) {
-				if (data.getId().equals(itinId)) {
+				if (data.getId().equals(itinId) && data.hasDetailData()) {
 					return data;
 				}
 			}

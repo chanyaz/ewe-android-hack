@@ -56,7 +56,7 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
 
     var viewModel: FlightItinManageBookingViewModel by notNullAndObservable { vm ->
         vm.itinCardDataNotValidSubject.subscribe {
-            finishActivity()
+            finish()
         }
         vm.updateToolbarSubject.subscribe { params ->
             itinToolbar.viewModel.updateWidget(params)
