@@ -7,8 +7,9 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.hotel.widget.HotelReviewsRecyclerView
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.HotelReviewsRecyclerView.HotelReviewsRecyclerAdapter
+import com.expedia.bookings.hotel.widget.HotelReviewsRecyclerView.HotelReviewsRecyclerAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelReviewsPageViewModel

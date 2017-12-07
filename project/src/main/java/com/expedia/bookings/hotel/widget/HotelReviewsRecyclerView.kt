@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.hotel.widget
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
+import com.expedia.bookings.widget.HotelReviewsLoadingWidget
+import com.expedia.bookings.widget.HotelReviewsSummaryWidget
+import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.vm.HotelReviewRowViewModel
 import com.expedia.vm.HotelReviewsSummaryViewModel
 import rx.subjects.BehaviorSubject

@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         app:line_color="@color/hotel_reviews_summary_background_color" />
 
-    <com.expedia.bookings.widget.HotelReviewsRecyclerView
+    <com.expedia.bookings.hotel.widget.HotelReviewsRecyclerView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:background="@color/gray100">
+    android:background="@color/gray100"
+    android:focusable="true">
 
     <LinearLayout
         android:id="@+id/root"
@@ -20,7 +20,7 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/review_title"
@@ -28,7 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/date"/>
+                android:layout_toLeftOf="@+id/date" />
 
             <com.expedia.bookings.widget.BoxRatingBar
                 android:id="@+id/user_rating_bar"
@@ -38,6 +38,7 @@
                 android:layout_below="@+id/review_title"
                 android:layout_marginBottom="@dimen/hotel_review_padding_bottom"
                 android:layout_marginTop="5dp"
+                android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize=".5"
                 app:corner_radius="@dimen/hotel_review_corner_radius"
@@ -50,9 +51,9 @@
                 style="@style/Core.Text.200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/default_text_color"
                 android:layout_alignParentRight="true"
-                android:paddingLeft="5dp"/>
+                android:paddingLeft="5dp"
+                android:textColor="@color/default_text_color" />
 
         </RelativeLayout>
 
@@ -62,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="@dimen/hotel_review_content_line_spacing"
-            android:paddingBottom="@dimen/hotel_review_padding_bottom"/>
+            android:paddingBottom="@dimen/hotel_review_padding_bottom" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/reviewer"
