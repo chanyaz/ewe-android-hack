@@ -854,6 +854,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             super.endTransition(forward)
             secondTransition?.endTransition(forward)
             transitionRunning = false
+            toolbar.navigationContentDescription = if (forward) context.getString(R.string.toolbar_nav_icon_cont_desc) else context.getString(R.string.toolbar_nav_icon_close_cont_desc)
             if (!forward) {
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
             }
