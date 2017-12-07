@@ -76,8 +76,9 @@ public class FileCipher {
 		File temp = new File(parent, "tmp");
 
 		// Write data to a temporary file
+		BufferedWriter writer = null;
 		try {
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new CipherOutputStream(
+			writer = new BufferedWriter(new OutputStreamWriter(new CipherOutputStream(
 					new FileOutputStream(temp), mEncryptCipher)));
 			writer.write(data);
 			writer.close();
@@ -85,6 +86,17 @@ public class FileCipher {
 		catch (IOException e) {
 			Log.e(Params.LOGGING_TAG, "Could not save secure data.", e);
 			return false;
+		}
+		finally {
+			try {
+				if (writer != null) {
+					writer.close();
+				}
+			}
+			catch (IOException e) {
+				Log.e(Params.LOGGING_TAG, "Error opening the writer for saving secure data.");
+				return false;
+			}
 		}
 
 		// Move temp file to actual file location
@@ -97,8 +109,9 @@ public class FileCipher {
 			return null;
 		}
 
+		BufferedReader in = null;
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(new CipherInputStream(
+			in = new BufferedReader(new InputStreamReader(new CipherInputStream(
 					new FileInputStream(file), mDecryptCipher)));
 			StringBuffer sb = new StringBuffer();
 			String line;
@@ -110,6 +123,16 @@ public class FileCipher {
 		catch (IOException e) {
 			Log.e(Params.LOGGING_TAG, "Could not load secure data.", e);
 			return null;
+		}
+		finally {
+			try {
+				if (in!=null) {
+					in.close();
+				}
+			}
+			catch (IOException e) {
+				Log.e(Params.LOGGING_TAG, "Error opening BufferReader to load secure data.");
+			}
 		}
 	}
 }
