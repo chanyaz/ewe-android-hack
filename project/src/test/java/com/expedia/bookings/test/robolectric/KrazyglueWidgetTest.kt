@@ -164,7 +164,7 @@ class KrazyglueWidgetTest {
         val hotelSearchObservable = BehaviorSubject.create<HotelSearchParams>(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
         val regionIdObservable = BehaviorSubject.create<String>("12345")
         val viewHolder = KrazyglueHotelViewHolder(hotelView, hotelSearchObservable, regionIdObservable)
-        val hotel = FlightPresenterTestUtil.getKrazyglueHotel(hotelID = "21222", hoteName = "San Francisco Hotel")
+        val hotel = FlightTestUtil.getKrazyglueHotel(hotelID = "21222", hoteName = "San Francisco Hotel")
         viewHolder.viewModel.hotelObservable.onNext(hotel)
 
         assertEquals("San Francisco Hotel", hotelView.findViewById<TextView>(R.id.hotel_name_text_view).text)
@@ -273,11 +273,11 @@ class KrazyglueWidgetTest {
     }
 
     private fun getKrazyGlueHotels(): List<KrazyglueResponse.KrazyglueHotel> {
-        return FlightPresenterTestUtil.getKrazyGlueHotels()
+        return FlightTestUtil.getKrazyGlueHotels()
     }
 
     private fun setDbFlightSearch() {
-        Db.setFlightSearchParams(FlightPresenterTestUtil.getFlightSearchParams(isRoundTrip = false))
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(isRoundTrip = false))
     }
 
     private fun setupKrazyglueRecycler(krazyglueWidget: KrazyglueWidget) {

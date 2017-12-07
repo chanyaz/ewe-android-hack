@@ -40,6 +40,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightItinDetailsResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelItinDetailsResponse;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -3828,18 +3829,23 @@ public class OmnitureTracking {
 	private static String getHotelConfirmationTripNumberString(HotelCheckoutResponse checkoutResponse) {
 		String travelRecordLocator = checkoutResponse.checkoutResponse.bookingResponse.travelRecordLocator;
 		String itinNumber = checkoutResponse.checkoutResponse.bookingResponse.itineraryNumber;
-		if (Strings.isEmpty(travelRecordLocator)) {
-			travelRecordLocator = "NA";
-		}
-		if (Strings.isEmpty(itinNumber)) {
-			itinNumber = "NA";
-		}
-		return travelRecordLocator + "|" + itinNumber;
+		return createConfirmationTripNumberString(travelRecordLocator, itinNumber);
 	}
 
 	private static String getFlightConfirmationTripNumberString(FlightCheckoutResponse checkoutResponse) {
 		String travelRecordLocator = checkoutResponse.getNewTrip().getTravelRecordLocator();
 		String itinNumber = checkoutResponse.getNewTrip().getItineraryNumber();
+		return createConfirmationTripNumberString(travelRecordLocator, itinNumber);
+	}
+
+	private static String getFlightConfirmationTripNumberStringFromCreateTripResponse() {
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		String travelRecordLocator = trip.getNewTrip().getTravelRecordLocator();
+		String itinNumber = trip.getNewTrip().getItineraryNumber();
+		return createConfirmationTripNumberString(travelRecordLocator, itinNumber);
+	}
+
+	private static String createConfirmationTripNumberString(String travelRecordLocator, String itinNumber) {
 		if (Strings.isEmpty(travelRecordLocator)) {
 			travelRecordLocator = "NA";
 		}
@@ -4840,6 +4846,20 @@ public class OmnitureTracking {
 		}
 	}
 
+	private static String getFlightInsuranceProductStringFromItinResponse(FlightItinDetailsResponse response) {
+		com.expedia.bookings.data.flights.FlightCreateTripResponse trip = Db.getTripBucket()
+			.getFlightV2().flightCreateTripResponse;
+		List<FlightItinDetailsResponse.FlightResponseData.Insurance> insuranceList = response.getResponseData().getInsurance();
+		if (insuranceList != null && !insuranceList.isEmpty()) {
+			FlightItinDetailsResponse.FlightResponseData.Insurance insurance = insuranceList.get(0);
+			return String.format(Locale.ENGLISH, ",;Insurance:%s;%s;%.2f",
+				insurance.getInsuranceTypeId(), trip.getDetails().offer.numberOfTickets,
+				insurance.price.total);
+		}
+		else {
+			return "";
+		}
+	}
 
 	private static String getFlightInventoryTypeString() {
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
@@ -5032,6 +5052,63 @@ public class OmnitureTracking {
 		s.setProp(72, checkoutResponse.getOrderId());
 		s.setProp(8, getFlightConfirmationTripNumberString(checkoutResponse));
 		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
+
+		s.track();
+	}
+
+	public static void trackWebFlightCheckoutConfirmation(FlightItinDetailsResponse itinDetailsResponse, PageUsableData pageUsableData) {
+		String pageName = FLIGHT_CHECKOUT_CONFIRMATION;
+		Log.d(TAG, "Tracking \"" + pageName + "\" page load...");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+
+		// events
+		s.setEvents("purchase");
+		boolean isSplitTicket = getFlightItineraryType().equals(FlightItineraryType.SPLIT_TICKET);
+
+		// products
+		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
+		Pair<String, String> takeoffDateStrings = getFlightSearchDepartureAndReturnDateStrings();
+		String products;
+		if (!isSplitTicket) {
+			if (takeoffDateStrings.second != null) {
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s%s", getFlightProductString(true),
+					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
+					takeoffDateStrings.second, getFlightInsuranceProductStringFromItinResponse(itinDetailsResponse));
+			}
+			else {
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s%s", getFlightProductString(true),
+					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
+					getFlightInsuranceProductStringFromItinResponse(itinDetailsResponse));
+			}
+		}
+		else {
+			products = getFlightProductString(true) + getFlightInsuranceProductStringFromItinResponse(itinDetailsResponse);
+		}
+		s.setProducts(products);
+		// miscellaneous variables
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "Flight");
+		s.setEvar(3, "D=c3");
+		s.setProp(3, airportCodes.first);
+		s.setEvar(4, "D=c4");
+		s.setProp(4, airportCodes.second);
+		s.setEvar(18, pageName);
+
+		// date variables 5, 6
+		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
+		setDateValues(s, takeoffDates.first, takeoffDates.second);
+
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		String orderId = itinDetailsResponse.getResponseDataForItin().getOrderNumber().toString();
+		s.setCurrencyCode(trip.totalPrice.currencyCode);
+		s.setProp(71, trip.getNewTrip().getTravelRecordLocator());
+		s.setProp(72, orderId);
+		s.setProp(8, getFlightConfirmationTripNumberStringFromCreateTripResponse());
+		s.setPurchaseID("onum" + orderId);
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);

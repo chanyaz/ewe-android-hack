@@ -18,8 +18,9 @@ class OmnitureMatchers {
                 CustomMatchers.hasEntries(data.map { Pair("&&c" + it.key, it.value) }.toMap())
 
         @JvmStatic
-        fun withProductsString(products: String): Matcher<Map<String, Any>> =
-                Matchers.hasEntry("&&products", products) as Matcher<Map<String, Any>>
+        fun withProductsString(products: String, shouldExactlyMatch: Boolean = true): Matcher<Map<String, Any>> =
+                if (shouldExactlyMatch) Matchers.hasEntry("&&products", products) as Matcher<Map<String, Any>>
+                else Matchers.hasEntry(Matchers.equalTo("&&products"), Matchers.containsString(products)) as Matcher<Map<String, Any>>
 
         @JvmStatic
         fun withEventsString(events: String): Matcher<Map<String, Any>> =

@@ -18,7 +18,7 @@ import com.expedia.bookings.server.DateTimeParser
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.test.robolectric.FlightPresenterTestUtil
+import com.expedia.bookings.test.robolectric.FlightTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -276,7 +276,7 @@ class FlightConfirmationViewModelTest {
     fun testKrazyglueParamsReturnDateForRoundTrip() {
         vm = FlightConfirmationViewModel(activity)
         val checkoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = false, isRoundTrip = true)
-        val testKrazyglueParams = vm.getKrazyglueSearchParams(checkoutResponse, FlightPresenterTestUtil.getFlightSearchParams(isRoundTrip = true))
+        val testKrazyglueParams = vm.getKrazyglueSearchParams(checkoutResponse, FlightTestUtil.getFlightSearchParams(isRoundTrip = true))
 
         assertKrazyglueParams(expectedReturnDateTime = testReturnDateFiveDaysAhead, testKrazyglueSearchParams = testKrazyglueParams)
     }
@@ -284,7 +284,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun testKrazyglueParamsReturnDateOneWay() {
         vm = FlightConfirmationViewModel(activity)
-        val testKrazyglueParams = vm.getKrazyglueSearchParams(getCheckoutResponse(DateTime.now().toString()), FlightPresenterTestUtil.getFlightSearchParams(isRoundTrip = false))
+        val testKrazyglueParams = vm.getKrazyglueSearchParams(getCheckoutResponse(DateTime.now().toString()), FlightTestUtil.getFlightSearchParams(isRoundTrip = false))
         val testReturnDateOneDayAfterArrival = DateTimeParser.parseISO8601DateTimeString(testArrivalDateTimeTomorrow).plusDays(1).toString()
 
         assertKrazyglueParams(expectedReturnDateTime = testReturnDateOneDayAfterArrival, testKrazyglueSearchParams = testKrazyglueParams)
@@ -293,7 +293,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun testKrazyglueParamsWithNoChildTraveler() {
         vm = FlightConfirmationViewModel(activity)
-        val testKrazyglueParams = vm.getKrazyglueSearchParams(getCheckoutResponse(DateTime.now().toString()), FlightPresenterTestUtil.getFlightSearchParams(isRoundTrip = false, includeChild = false))
+        val testKrazyglueParams = vm.getKrazyglueSearchParams(getCheckoutResponse(DateTime.now().toString()), FlightTestUtil.getFlightSearchParams(isRoundTrip = false, includeChild = false))
         val testReturnDateOneDayAfterArrival = DateTimeParser.parseISO8601DateTimeString(testArrivalDateTimeTomorrow).plusDays(1).toString()
 
         assertKrazyglueParams(expectedReturnDateTime = testReturnDateOneDayAfterArrival, testKrazyglueSearchParams = testKrazyglueParams, withChild = false)
@@ -304,7 +304,7 @@ class FlightConfirmationViewModelTest {
         bucketViewmodelIntoKrazyglue()
         val hotelSearchParamsTestSubscriber = TestSubscriber<HotelSearchParams>()
         vm.krazyGlueHotelSearchParamsObservable.subscribe(hotelSearchParamsTestSubscriber)
-        vm.flightSearchParamsObservable.onNext(FlightPresenterTestUtil.getFlightSearchParams(isRoundTrip = true))
+        vm.flightSearchParamsObservable.onNext(FlightTestUtil.getFlightSearchParams(isRoundTrip = true))
 
         hotelSearchParamsTestSubscriber.assertNoValues()
         vm.flightCheckoutResponseObservable.onNext(getCheckoutResponse(DateTime.now().toString()))
@@ -318,7 +318,7 @@ class FlightConfirmationViewModelTest {
         bucketViewmodelIntoKrazyglue()
         val regionIdTestSubscriber = TestSubscriber<String>()
         vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
-        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = true))
+        vm.getKrazyglueResponseObserver().onNext(FlightTestUtil.getKrazyglueResponse(isSuccessful = true))
 
         regionIdTestSubscriber.assertValue("178276")
     }
@@ -364,7 +364,7 @@ class FlightConfirmationViewModelTest {
         vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
         val crossSellEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = false, isRoundTrip = true)
         vm.flightCheckoutResponseObservable.onNext(crossSellEligibleCheckoutResponse)
-        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = true))
+        vm.getKrazyglueResponseObserver().onNext(FlightTestUtil.getKrazyglueResponse(isSuccessful = true))
 
         crossSellVisibilityTestSubscriber.assertValue(false)
     }
@@ -376,7 +376,7 @@ class FlightConfirmationViewModelTest {
         vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
         val crossSellEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = true, isRoundTrip = true)
         vm.flightCheckoutResponseObservable.onNext(crossSellEligibleCheckoutResponse)
-        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = false))
+        vm.getKrazyglueResponseObserver().onNext(FlightTestUtil.getKrazyglueResponse(isSuccessful = false))
 
         crossSellVisibilityTestSubscriber.assertValue(true)
     }
@@ -388,7 +388,7 @@ class FlightConfirmationViewModelTest {
         vm.crossSellWidgetVisibility.subscribe(crossSellVisibilityTestSubscriber)
         val crossSellNotEligibleCheckoutResponse = getCheckoutResponse(DateTime.now().toString(), totalPrice = Money(100, "$"), hasAirAttach = false, isRoundTrip = true)
         vm.flightCheckoutResponseObservable.onNext(crossSellNotEligibleCheckoutResponse)
-        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = false))
+        vm.getKrazyglueResponseObserver().onNext(FlightTestUtil.getKrazyglueResponse(isSuccessful = false))
 
         crossSellVisibilityTestSubscriber.assertValue(false)
     }
@@ -400,7 +400,7 @@ class FlightConfirmationViewModelTest {
         val krazyglueHotelsTestSubscriber = TestSubscriber<List<KrazyglueResponse.KrazyglueHotel>>()
         vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
         vm.krazyglueHotelsObservable.subscribe(krazyglueHotelsTestSubscriber)
-        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = true))
+        vm.getKrazyglueResponseObserver().onNext(FlightTestUtil.getKrazyglueResponse(isSuccessful = true))
 
         regionIdTestSubscriber.assertValue("178276")
         assertEquals(3, krazyglueHotelsTestSubscriber.onNextEvents[0].size)
@@ -413,7 +413,7 @@ class FlightConfirmationViewModelTest {
         val krazyglueHotelsTestSubscriber = TestSubscriber<List<KrazyglueResponse.KrazyglueHotel>>()
         vm.krazyGlueRegionIdObservable.subscribe(regionIdTestSubscriber)
         vm.krazyglueHotelsObservable.subscribe(krazyglueHotelsTestSubscriber)
-        vm.getKrazyglueResponseObserver().onNext(FlightPresenterTestUtil.getKrazyglueResponse(isSuccessful = false))
+        vm.getKrazyglueResponseObserver().onNext(FlightTestUtil.getKrazyglueResponse(isSuccessful = false))
 
         regionIdTestSubscriber.assertNoValues()
         krazyglueHotelsTestSubscriber.assertValue(emptyList())

@@ -34,6 +34,7 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.shared.KrazyglueHotelsListAdapter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.ItinTripServices
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
@@ -814,13 +815,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
         confirmationPresenter.viewModel = FlightConfirmationViewModel(context, isWebCheckout = true)
+        pageUsableData.markPageLoadStarted(System.currentTimeMillis())
         return object : Observer<AbstractItinDetailsResponse> {
             override fun onCompleted() {
             }
 
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
-                confirmationPresenter.showConfirmationInfoFromWebCheckoutView(itinDetailsResponse as FlightItinDetailsResponse)
+                val flightItinDetailsResponse = itinDetailsResponse as FlightItinDetailsResponse
+                confirmationPresenter.showConfirmationInfoFromWebCheckoutView(flightItinDetailsResponse)
                 show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
+                pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
+                OmnitureTracking.trackWebFlightCheckoutConfirmation(flightItinDetailsResponse, pageUsableData)
             }
 
             override fun onError(e: Throwable) {

@@ -28,7 +28,15 @@ class FlightItinDetailsResponse: AbstractItinDetailsResponse() {
             }
         }
 
-        class Insurance
+        class Insurance {
+            var insuranceTypeId: Int? = null
+            lateinit var price: Price
+
+            class Price {
+                lateinit var total: String
+            }
+
+        }
     }
 
     class Flight {

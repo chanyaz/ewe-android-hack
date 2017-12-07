@@ -1,12 +1,19 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.data.AbstractItinDetailsResponse
+import com.expedia.bookings.data.FlightItinDetailsResponse
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.KrazyglueResponse
 import org.joda.time.LocalDate
 import java.util.ArrayList
 
-class FlightPresenterTestUtil {
+class FlightTestUtil {
 
     companion object {
 
@@ -89,6 +96,77 @@ class FlightPresenterTestUtil {
             hotel.hotelImage = "image"
             hotel.starRating = "2.5"
             return hotel
+        }
+
+        @JvmStatic
+        fun getFlightCreateTripResponse(): FlightCreateTripResponse {
+            val flightCreateTripResponse = FlightCreateTripResponse()
+            flightCreateTripResponse.tealeafTransactionId = "123456"
+            val newTrip = TripDetails("1234", "5678", "9101112")
+            flightCreateTripResponse.newTrip = newTrip
+            val pricePerPassengerList = ArrayList<FlightTripDetails.PricePerPassengerCategory>()
+            val passengerInfo = FlightTripDetails().PricePerPassengerCategory()
+            passengerInfo.passengerCategory = FlightTripDetails.PassengerCategory.ADULT
+            passengerInfo.basePrice = Money(170, "USD")
+            passengerInfo.totalPrice = Money(223, "USD")
+            passengerInfo.taxesPrice = Money(53, "USD")
+            pricePerPassengerList.add(passengerInfo)
+            val flightOffer = FlightTripDetails.FlightOffer()
+            flightOffer.totalPrice = Money(223, "USD")
+            val flightTripDetails = FlightTripDetails()
+
+            flightTripDetails.legs = ArrayList()
+            val flightLeg = FlightLeg()
+            flightLeg.segments = ArrayList()
+            flightLeg.segments.add(FlightLeg.FlightSegment())
+            flightTripDetails.legs.add(flightLeg)
+            flightOffer.pricePerPassengerCategory = pricePerPassengerList
+            flightOffer.numberOfTickets = "2"
+            flightTripDetails.offer = flightOffer
+            flightCreateTripResponse.details = flightTripDetails
+            flightCreateTripResponse.totalPriceIncludingFees = Money(223, "USD")
+            flightCreateTripResponse.totalPrice = Money()
+            flightCreateTripResponse.totalPrice.currencyCode = "USD"
+            flightCreateTripResponse.selectedCardFees = Money(0, "USD")
+            return flightCreateTripResponse
+        }
+
+        @JvmStatic
+        fun getFlightItinDetailsResponse(): FlightItinDetailsResponse {
+            val outboundLeg = FlightItinDetailsResponse.Flight.Leg()
+            outboundLeg.sharableFlightLegURL = "www.expedia_test_outbound.com"
+            val outboundSegments = ArrayList<FlightItinDetailsResponse.Flight.Leg.Segment>()
+            val outboundSegment = FlightItinDetailsResponse.Flight.Leg.Segment()
+            outboundSegment.departureTime = AbstractItinDetailsResponse.Time()
+            outboundSegment.departureTime.localizedShortDate = "5/20/17"
+            outboundSegment.departureLocation = FlightItinDetailsResponse.Flight.Leg.Segment.Location()
+            outboundSegment.arrivalLocation = FlightItinDetailsResponse.Flight.Leg.Segment.Location()
+            outboundSegment.departureLocation.city = "Seattle"
+            outboundSegment.arrivalLocation.city = "Oakland"
+            outboundSegments.add(outboundSegment)
+            outboundLeg.segments = outboundSegments
+
+            val legs = ArrayList<FlightItinDetailsResponse.Flight.Leg>()
+            legs.add(outboundLeg)
+
+            val flight = FlightItinDetailsResponse.Flight()
+            flight.legs = legs
+
+            val flights = ArrayList<FlightItinDetailsResponse.Flight>()
+            flights.add(flight)
+
+            val insurance = FlightItinDetailsResponse.FlightResponseData.Insurance()
+            insurance.insuranceTypeId = 12345
+            insurance.price = FlightItinDetailsResponse.FlightResponseData.Insurance.Price()
+            insurance.price.total = "10.00"
+            val insuranceList = ArrayList<FlightItinDetailsResponse.FlightResponseData.Insurance>()
+            insuranceList.add(insurance)
+
+            val response = FlightItinDetailsResponse()
+            response.responseData = FlightItinDetailsResponse.FlightResponseData()
+            response.responseData.orderNumber = 111111
+            response.responseData.flights = flights
+            return response
         }
     }
 }
