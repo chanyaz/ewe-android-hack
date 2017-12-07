@@ -323,6 +323,7 @@ Feature: Flights Checkout
     And I press back
     And I press back
     And I select outbound flight at position 2 and reach inbound FSR
+    And Wait for checkout screen to load after createTrip
     And Close price change Alert dialog if it is visible
     When I click on checkout button
     And I wait for checkout screen to load

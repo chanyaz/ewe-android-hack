@@ -254,7 +254,7 @@ Feature: Flights Overview
     And Validate that alert Dialog Box with title "Price Change" is visible
     And Validate Price Change to "$696.00" from "$763.00"
     And Close price change Alert dialog
-    And Check if Trip Total is "$696" on Price Change
+    And Check if Trip total is "$696" on Price Change
     And Check if Cost Summary Dialog Box has "$696.00" as Final Price
 
 
@@ -279,7 +279,7 @@ Feature: Flights Overview
     And Validate that alert Dialog Box with title "Price Change" is visible
     And Validate Price Change to "$896.00" from "$763.00"
     And Close price change Alert dialog
-    And Check if Trip Total is "$896" on Price Change
+    And Check if Trip total is "$896" on Price Change
     And Check if Cost Summary Dialog Box has "$896.00" as Final Price
 
     @Flights @FlightsOverview

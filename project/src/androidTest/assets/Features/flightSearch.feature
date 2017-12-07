@@ -382,7 +382,7 @@ Feature: Flights Search
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
-      | destination         | LAS                                      |
+      | destination         | LAS - McCarran Intl.                     |
       | source_suggest      | San Francisco, CA                        |
       | destination_suggest | LAS - McCarran Intl.                     |
       | start_date          | 15                                       |
@@ -451,6 +451,8 @@ Feature: Flights Search
   And I click on sort and filter screen done button
   Then Validate <preferredClass> is present on every result on FSR for isOutBound : true
   And I select outbound flight at position 1 and reach inbound FSR
+  And Wait for checkout screen to load after createTrip
+  And Close price change Alert dialog if it is visible
   Then Validate <preferredClass> is present on the overview screen for isOutbound : true
 
   Examples:
@@ -488,6 +490,7 @@ Feature: Flights Search
     And I wait for inbound flights results to load
     Then Validate <preferredClass> is present on every result on FSR for isOutBound : false
     And I select inbound flight at position 1 and reach overview
+    And Wait for checkout screen to load after createTrip
     And Close price change Alert dialog if it is visible
     Then Validate <preferredClass> is present on the overview screen for isOutbound : true
     Then Validate <preferredClass> is present on the overview screen for isOutbound : false
