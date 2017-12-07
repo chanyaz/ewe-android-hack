@@ -33,6 +33,7 @@ class DealsDestination {
         inner class Destination {
             var shortName: String? = null
             var regionID: String? = null
+            var city: String? = null
         }
 
         inner class HotelPricingInfo {

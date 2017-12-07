@@ -22,6 +22,7 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
     private var listData: List<DealsDestination> = emptyList()
     private var currency: String? = null
     private var loading = true
+
     val resultSubject = BehaviorSubject.create<DealsResponse>()
     val headerTextChangeSubject = BehaviorSubject.create<String>()
 
@@ -49,13 +50,11 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
             val view = LayoutInflater.from(context).inflate(R.layout.member_deal_header, parent, false)
             val holder = MemberDealHeaderViewHolder(view)
             return holder
-        }
-        else if (viewType == itemType.LOADING_VIEW.ordinal) {
-            val view = LayoutInflater.from(context).inflate(R.layout.member_deal_loading_cell, parent, false)
+        } else if (viewType == itemType.LOADING_VIEW.ordinal) {
+            val view = LayoutInflater.from(context).inflate(R.layout.deal_loading_cell, parent, false)
             val holder = LoadingViewHolder(view)
             return holder
-        }
-        else if (viewType == itemType.DESTINATION_CARD.ordinal) {
+        } else if (viewType == itemType.DESTINATION_CARD.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.deals_card, parent, false)
             val holder = DealsDestinationViewHolder(view)
 
@@ -64,10 +63,8 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
                 val animOptions = AnimUtils.createActivityScaleBundle(memberDealActivity.currentFocus)
                 HotelNavUtils.goToHotels(this.context, holder.searchParams, animOptions, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
             }
-
             return holder
-        }
-        else {
+        } else {
             throw RuntimeException("Could not find view type")
         }
     }
@@ -100,16 +97,14 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
     override fun getItemViewType(position: Int): Int {
         if (position == 0) {
             return itemType.HEADER.ordinal
-        }
-        else if (loading){
+        } else if (loading) {
             return itemType.LOADING_VIEW.ordinal
-        }
-        else {
+        } else {
             return itemType.DESTINATION_CARD.ordinal
         }
     }
 
-    private fun generateLoadingCells (count: Int): List<DealsDestination> {
+    private fun generateLoadingCells(count: Int): List<DealsDestination> {
         val listLoading = ArrayList<DealsDestination>()
         for (i in 1..count) {
             listLoading.add(DealsDestination())

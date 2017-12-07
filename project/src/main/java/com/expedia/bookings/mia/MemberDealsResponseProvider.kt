@@ -8,8 +8,7 @@ class MemberDealsResponseProvider(private val smartOfferService: SmartOfferServi
     override fun fetchDeals() {
         if (dealsReturnedResponse != null) {
             dealsResponseSubject.onNext(dealsReturnedResponse)
-        }
-        else {
+        } else {
             val request = MemberDealsRequest()
             val pos = PointOfSale.getPointOfSale()
             request.siteId = pos.tpid.toString()
