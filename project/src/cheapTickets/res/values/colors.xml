@@ -6,6 +6,7 @@
     <color name="actionbar_terminal_text_ctx">#D00000</color>
     <color name="actionbar_text_color">#D00000</color>
     <color name="actionbar_text_color_disabled">#90D00000</color>
+    <color name="error_color">#b80000</color>
 
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
@@ -59,12 +60,12 @@
     <color name="lx_unchecked_toggle_text_color">#dfe9f0</color>
 
     <!-- Itin Colors -->
-    <color name="itin_unable_to_find_error_color">#B80000</color>
+    <color name="itin_unable_to_find_error_color">@color/error_color</color>
     <color name="itin_sign_in_toolbar_color">#0d5785</color>
     <color name="itin_sign_in_button_background_color">#d00000</color>
     <color name="itin_sign_in_button_text_color">@color/white</color>
     <color name="itin_refresh_warning_button_background_color">#116faa</color>
-    <color name="itin_warning_color">#B80000</color>
+    <color name="itin_warning_color">@color/error_color</color>
     <color name="itin_find_button_color">#116faa</color>
     <color name="itin_find_toolbar_color">#116faa</color>
 
@@ -83,7 +84,7 @@
 
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
-    <color name="checkout_screen_error_message_color">#b80000</color>
+    <color name="checkout_screen_error_message_color">@color/error_color</color>
 
     <!-- Signed in user base tier color. As Ctx does not support any rewards, keeping the base color as silver -->
     <color name="sign_in_user_base_tier">#808080</color>
@@ -95,7 +96,7 @@
     <color name="packages_primary_color">@color/lob_btn_color</color>
     <color name="packages_secondary_color">#0E5A8A</color>
     <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
-    <color name="traveler_incomplete_text_color">#b80000</color>
+    <color name="traveler_incomplete_text_color">@color/error_color</color>
 
     <!-- New Launch Screen LOB button colors -->
     <color name="new_launch_lob_color">@color/lob_btn_color</color>
@@ -120,7 +121,7 @@
     <color name="flights_details_layover_color">@color/lob_btn_color</color>
     <color name="filter_number_text_color">@color/lob_btn_color</color>
     <color name="flight_primary_color">@color/packages_primary_color</color>
-    <color name="flights_error_message_infants">#b80000</color>
+    <color name="flights_error_message_infants">@color/error_color</color>
     <color name="itin_summary_button_text_color">@color/app_primary</color>
     <color name="itin_card_action_item_text_color">@color/app_primary</color>
     <color name="itin_add_guest_text_button_color">@color/app_primary</color>

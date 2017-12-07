@@ -33,6 +33,7 @@
     <color name="member_pricing_text_color">#FFFFFF</color>
     <color name="member_only_tag_bg_color">#599027</color>
 
+    <color name="error_color">#b80000</color>
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#FFBA12</color>
     <color name="launch_discount">#1F8EDE</color>
@@ -72,7 +73,7 @@
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
-    <color name="checkout_screen_error_message_color">#b80000</color>
+    <color name="checkout_screen_error_message_color">@color/error_color</color>
 
     <!--Account Screen-->
     <color name="account_toolbar_text_color">@android:color/white</color>
@@ -105,18 +106,18 @@
     <color name="filter_number_text_color">@color/packages_primary_color</color>
     <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
     <color name="flight_primary_color">@color/packages_primary_color</color>
-    <color name="flights_error_message_infants">#b80000</color>
-    <color name="traveler_incomplete_text_color">#b80000</color>
+    <color name="flights_error_message_infants">@color/error_color</color>
+    <color name="traveler_incomplete_text_color">@color/error_color</color>
 
     <!-- New Itin colors -->
     <color name="itin_sign_in_toolbar_color">#4f9d00</color>
     <color name="itin_sign_in_button_background_color">@color/app_primary</color>
     <color name="itin_sign_in_button_text_color">@color/white</color>
     <color name="itin_refresh_warning_button_background_color">#1f8ede</color>
-    <color name="itin_warning_color">#B80000</color>
+    <color name="itin_warning_color">@color/error_color</color>
     <color name="itin_find_button_color">#1f8ede</color>
     <color name="itin_find_toolbar_color">@color/app_primary</color>
-    <color name="itin_unable_to_find_error_color">#B80000</color>
+    <color name="itin_unable_to_find_error_color">@color/error_color</color>
     <color name="itin_summary_button_text_color">@color/app_primary</color>
     <color name="itin_card_action_item_text_color">@color/app_primary</color>
     <color name="itin_add_guest_text_button_color">@color/app_primary</color>

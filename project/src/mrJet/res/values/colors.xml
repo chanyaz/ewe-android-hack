@@ -10,6 +10,7 @@
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
     <color name="earn_message_text_color">#009784</color>
+    <color name="error_color">#b80000</color>
 
     <!-- Launch colors -->
     <color name="launch_tab_indicator">#D6682D</color>
@@ -42,7 +43,7 @@
     <color name="hotel_mobile_exclusive_color">#F60B61</color>
     <color name="hotelsv2_discount_green">#9E0089</color>
 
-    <color name="hotel_coupon_code_error_message_color">#B80000</color>
+    <color name="hotel_coupon_code_error_message_color">@color/error_color</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
     <color name="member_pricing_flag_bg_color">#1f2a40</color>
     <color name="member_pricing_text_color">#FFFFFF</color>
@@ -57,7 +58,7 @@
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#26344F</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
-    <color name="checkout_screen_error_message_color">#b80000</color>
+    <color name="checkout_screen_error_message_color">@color/error_color</color>
 
     <!-- LX -->
     <color name="lx_primary_color">#26344F</color>
@@ -66,12 +67,12 @@
     <color name="lx_unchecked_toggle_text_color">#70ffffff</color>
 
     <!-- Itin Colors -->
-    <color name="itin_unable_to_find_error_color">#B80000</color>
+    <color name="itin_unable_to_find_error_color">@color/error_color</color>
     <color name="itin_sign_in_toolbar_color">#3c4d6f</color>
     <color name="itin_sign_in_button_background_color">#d6682d</color>
     <color name="itin_sign_in_button_text_color">@color/white</color>
     <color name="itin_refresh_warning_button_background_color">#26344f</color>
-    <color name="itin_warning_color">#B80000</color>
+    <color name="itin_warning_color">@color/error_color</color>
     <color name="itin_find_button_color">#26344f</color>
     <color name="itin_find_toolbar_color">#26344f</color>
     <color name="itin_summary_button_text_color">@color/app_primary</color>
@@ -126,6 +127,6 @@
     <color name="filter_number_text_color">@color/packages_primary_color</color>
     <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
     <color name="flight_primary_color">@color/packages_primary_color</color>
-    <color name="flights_error_message_infants">#b80000</color>
-    <color name="traveler_incomplete_text_color">#b80000</color>
+    <color name="flights_error_message_infants">@color/error_color</color>
+    <color name="traveler_incomplete_text_color">@color/error_color</color>
 </resources>

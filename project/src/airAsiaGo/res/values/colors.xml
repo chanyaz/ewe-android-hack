@@ -24,6 +24,7 @@
     <color name="member_pricing_flag_bg_color">#3e3f43</color>
     <color name="member_pricing_text_color">#FFFFFF</color>
     <color name="member_only_tag_bg_color">#3e3f43</color>
+    <color name="error_color">#555555</color>
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/aag_primary_color</color>
@@ -38,7 +39,7 @@
     <!-- Hotel SRP Discount & Promo strips-->
     <color name="hotel_mobile_exclusive_color">#F8A424</color>
     <color name="hotel_tonight_only_color">#333333</color>
-    <color name="hotel_urgency_message_color">#555555</color>
+    <color name="hotel_urgency_message_color">@color/error_color</color>
     <color name="hotelsv2_discount_green">@color/aag_primary_color</color>
 
     <!-- LX colors -->
@@ -87,8 +88,8 @@
     <color name="filter_number_text_color">@color/packages_primary_color</color>
     <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
     <color name="flight_primary_color">@color/packages_primary_color</color>
-    <color name="flights_error_message_infants">#555555</color>
-    <color name="traveler_incomplete_text_color">#555555</color>
+    <color name="flights_error_message_infants">@color/error_color</color>
+    <color name="traveler_incomplete_text_color">@color/error_color</color>
 
     <!-- New Itin colors -->
     <color name="itin_sign_in_toolbar_color">#323d44</color>
