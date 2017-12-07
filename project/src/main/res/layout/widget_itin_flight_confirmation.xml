@@ -7,11 +7,13 @@
     android:layout_marginLeft="11dp"
     android:layout_marginRight="11dp"
     app:cardElevation="1dp"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true" >
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/itin_flight_confirmation_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" >
+
         <com.expedia.bookings.widget.TextView
             android:id="@+id/confirmation_status_text_view"
             android:layout_width="wrap_content"
@@ -23,11 +25,13 @@
             android:textColor="@color/gray900"
             android:textSize="14sp"
             app:textStyle="medium"/>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/confirmation_status_text_view"
             android:layout_margin="16dp">
+
         <com.expedia.bookings.widget.TextView
             android:id="@+id/confirmation_code_text_view"
             android:layout_width="wrap_content"

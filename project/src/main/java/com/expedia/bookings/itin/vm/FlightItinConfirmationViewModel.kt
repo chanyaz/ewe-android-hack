@@ -10,6 +10,7 @@ class FlightItinConfirmationViewModel(private val context: Context) : ItinConfir
         val status = updateConfirmationStatus(widgetParams.confirmationStatus)
         widgetConfirmationNumbersSubject.onNext(widgetParams.confirmationNumbers)
         widgetConfirmationStatusSubject.onNext(status)
+        widgetSharedSubject.onNext(widgetParams.isShared)
     }
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun updateConfirmationStatus(ticketingStatus: TicketingStatus): CharSequence = when (ticketingStatus) {

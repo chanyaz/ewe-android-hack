@@ -110,7 +110,7 @@ class FlightItinDetailsViewModelTest {
         sut.updateConfirmationWidget()
         updateConfirmationSubscriber.assertValueCount(1)
         val charSeq = updateConfirmationSubscriber.onNextEvents[0].confirmationNumbers
-        updateConfirmationSubscriber.assertValue(ItinConfirmationViewModel.WidgetParams(TicketingStatus.COMPLETE, charSeq))
+        updateConfirmationSubscriber.assertValue(ItinConfirmationViewModel.WidgetParams(TicketingStatus.COMPLETE, charSeq, false))
         assertEquals<CharSequence>(charSeq.toString(), "IKQVCR")
     }
 

@@ -52,9 +52,10 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     }
 
     fun updateConfirmationWidget() {
+        val isShared = itinCardDataFlight.isSharedItin
         val confirmationStatus = itinCardDataFlight.confirmationStatus
         val confirmationNumbers = itinCardDataFlight.getSpannedConfirmationNumbers(context)
-        updateConfirmationSubject.onNext(ItinConfirmationViewModel.WidgetParams(confirmationStatus, confirmationNumbers))
+        updateConfirmationSubject.onNext(ItinConfirmationViewModel.WidgetParams(confirmationStatus, confirmationNumbers, isShared))
     }
 
     private fun updateToolbar() {

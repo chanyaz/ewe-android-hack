@@ -13,6 +13,8 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeInverseVisibility
+import kotlinx.android.synthetic.main.widget_flight_itin_booking_details_widget.view.booking_info_container
 
 class FlightItinBookingDetailsWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
     val manageBookingCard: ItinLinkOffCardView by bindView(R.id.itin_flight_manage_booking_card_view)
@@ -50,7 +52,8 @@ class FlightItinBookingDetailsWidget(context: Context, attr: AttributeSet?) : Li
     }
 
     var viewModel: FlightItinBookingInfoViewModel by notNullAndObservable { vm ->
-        vm.widgetSharedSubject.subscribe()
+        vm.widgetSharedSubject.subscribeInverseVisibility(booking_info_container)
+
         vm.additionalInfoCardViewWidgetVM.cardViewParamsSubject.subscribe { params ->
             setUpCardView(params, additionalInfoCard)
             setAdditionalOnClick(params.intent)

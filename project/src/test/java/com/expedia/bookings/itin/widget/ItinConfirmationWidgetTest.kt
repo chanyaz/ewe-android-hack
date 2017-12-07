@@ -4,12 +4,15 @@ import android.content.Context
 import android.text.SpannableString
 import android.text.Spanned
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.R.id.itin_flight_confirmation_container
 import com.expedia.bookings.itin.vm.FlightItinConfirmationViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.FlightClickAbleSpan
 import com.expedia.bookings.widget.TextView
+import kotlinx.android.synthetic.main.widget_itin_flight_confirmation.view.itin_flight_confirmation_container
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,4 +50,14 @@ class ItinConfirmationWidgetTest {
         spans[0].onClick(textView)
         OmnitureTestUtils.assertLinkTracked("App.Itinerary.Flight.CopyPNR", "App.Itinerary.Flight.CopyPNR", mockAnalyticsProvider)
     }
+
+    @Test
+    fun testConfirmationContainerVisibility() {
+        sut.viewModel.widgetSharedSubject.onNext(true)
+        assertEquals(View.GONE, sut.itin_flight_confirmation_container.visibility)
+
+        sut.viewModel.widgetSharedSubject.onNext(false)
+        assertEquals(View.VISIBLE, sut.itin_flight_confirmation_container.visibility)
+    }
+
 }
