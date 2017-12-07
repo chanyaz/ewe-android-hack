@@ -13,6 +13,7 @@ import com.expedia.bookings.itin.adapter.FlightItinLegsDetailAdapter
 import com.expedia.bookings.itin.data.FlightItinLegsDetailData
 import com.expedia.bookings.itin.vm.FlightItinLegsDetailWidgetViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
@@ -23,7 +24,10 @@ class FlightItinLegsDetailWidget(context: Context?, attrs: AttributeSet?) : Line
     private val recyclerView: RecyclerView by bindView<RecyclerView>(R.id.flight_leg_recycler_view)
     val rulesAndRegulation by bindView<TextView>(R.id.flight_itin_rules_and_restriction)
     val rulesAndRegulationDivider by bindView<View>(R.id.flight_itin_rules_and_restriction_divider)
+    val splitTicketDividerView by bindView<View>(R.id.flight_itin_leg_split_ticket_divider)
+    val splitTicketText by bindView<TextView>(R.id.flight_itin_leg_split_ticket_text)
     private val DIALOG_TAG = "RULES_AND_RESTRICTION"
+
     init {
         View.inflate(context, R.layout.flight_itin_legs_detail_widget, this)
     }
@@ -34,6 +38,16 @@ class FlightItinLegsDetailWidget(context: Context?, attrs: AttributeSet?) : Line
         }
         vm.rulesAndRestrictionDialogTextSubject.subscribe { param ->
             showRulesAndRestrictionDialog(param)
+        }
+        vm.shouldShowSplitTicketTextSubject.subscribe { param ->
+            showSplitTicketText(param)
+        }
+    }
+
+    private fun showSplitTicketText(show: Boolean) {
+        if (show) {
+            splitTicketDividerView.visibility = View.VISIBLE
+            splitTicketText.visibility = View.VISIBLE
         }
     }
 
@@ -50,6 +64,7 @@ class FlightItinLegsDetailWidget(context: Context?, attrs: AttributeSet?) : Line
             val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_flight_leg_detail_widget_rules_and_restrictions), value)
             rulesAndRegulation.visibility = View.VISIBLE
             rulesAndRegulationDivider.visibility = View.VISIBLE
+            AccessibilityUtil.appendRoleContDesc(rulesAndRegulation, rulesAndRegulation.text.toString(), R.string.accessibility_cont_desc_role_button)
             rulesAndRegulation.setOnClickListener {
                 dialog.show(fragmentManager, DIALOG_TAG)
                 OmnitureTracking.trackFlightItinLegDetailWidgetRulesAndRestrictionsDialogClick()

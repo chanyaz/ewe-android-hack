@@ -1527,6 +1527,9 @@
     <item quantity="other">%s stops</item>
     </plurals>
 
+    <!--Flight itin, flight leg detail widget's split ticket text-->
+    <string name="itin_flight_leg_detail_widget_split_ticket_text">Your flight is a combination of two one-way fares. If one of your flights is changed or cancelled, it will not automatically alter the other flight.</string>
+
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}d {hours}h {minutes}m</string>
     <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->

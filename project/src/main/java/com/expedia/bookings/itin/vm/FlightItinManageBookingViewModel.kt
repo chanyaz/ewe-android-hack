@@ -28,6 +28,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
     val customerSupportDetailsSubject = PublishSubject.create<ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams>()
     val flightLegDetailWidgetLegDataSubject = PublishSubject.create<ArrayList<FlightItinLegsDetailData>>()
     val flightLegDetailRulesAndRegulationSubject = PublishSubject.create<String>()
+    val flightSplitTicketVisibilitySubject =  PublishSubject.create<Boolean>()
 
     fun setUp() {
         updateItinCardDataFlight()
@@ -35,6 +36,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
         updateCustomerSupportDetails()
         createFlightLegDetailWidgetData()
         rulesAndRestrictionText()
+        flightSplitTicketText()
     }
 
     fun updateItinCardDataFlight() {
@@ -133,5 +135,10 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
             return stringBuilder.toString()
         }
         return htmlString.toString()
+    }
+
+    private fun flightSplitTicketText(){
+        val flightTrip = (itinCardDataFlight.tripComponent as TripFlight).flightTrip
+        flightSplitTicketVisibilitySubject.onNext(flightTrip.isSplitTicket)
     }
 }

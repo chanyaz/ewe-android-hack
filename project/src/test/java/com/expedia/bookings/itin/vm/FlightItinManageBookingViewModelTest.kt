@@ -191,6 +191,39 @@ class FlightItinManageBookingViewModelTest {
         flightLegDetailRulesAndRegulationSubject.assertValue(assertValue)
     }
 
+    @Test
+    fun testIsSplitTicket() {
+        val flightSplitTicketVisibilitySubject = TestSubscriber<Boolean>()
+        sut.flightSplitTicketVisibilitySubject.subscribe(flightSplitTicketVisibilitySubject)
+
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val flightTrip = (testItinCardData.tripComponent as TripFlight).flightTrip
+        flightTrip.isSplitTicket = true
+        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
+        sut.itineraryManager = mockItinManager
+        sut.setUp()
+
+        flightSplitTicketVisibilitySubject.assertValue(true)
+    }
+
+
+    @Test
+    fun testIsNotSplitTicket() {
+        val flightSplitTicketVisibilitySubject = TestSubscriber<Boolean>()
+        sut.flightSplitTicketVisibilitySubject.subscribe(flightSplitTicketVisibilitySubject)
+
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val flightTrip = (testItinCardData.tripComponent as TripFlight).flightTrip
+        flightTrip.isSplitTicket = false
+        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
+        sut.itineraryManager = mockItinManager
+        sut.setUp()
+
+        flightSplitTicketVisibilitySubject.assertValue(false)
+    }
+
     class TestWayPoint(val city: String) : Waypoint(ACTION_UNKNOWN) {
         override fun getAirport(): Airport? {
             val airport = Airport()

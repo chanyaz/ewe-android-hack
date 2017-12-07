@@ -476,6 +476,8 @@ public class TripParser {
 
 		parseRulesObject(obj,flightTrip);
 
+		flightTrip.setSplitTicket(obj.optBoolean("isSplitTicket"));
+
 		// Parse fares
 		JSONObject fareTotalJson = obj.optJSONObject("fareTotal");
 		if (fareTotalJson != null) {

@@ -21,6 +21,27 @@
             android:layout_height="wrap_content" />
 
         <View
+            android:id="@+id/flight_itin_leg_split_ticket_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="?attr/itin_card_summary_divider_color"
+            android:visibility="gone" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_itin_leg_split_ticket_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="12dp"
+            android:text="@string/itin_flight_leg_detail_widget_split_ticket_text"
+            android:textColor="@color/gray600"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <View
             android:id="@+id/flight_itin_rules_and_restriction_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -42,6 +63,7 @@
             android:text="@string/itin_flight_leg_detail_widget_rules_and_restrictions"
             android:textColor="@color/itin_flight_leg_detail_widget_rules_restriction_color"
             android:textSize="12sp" />
+
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

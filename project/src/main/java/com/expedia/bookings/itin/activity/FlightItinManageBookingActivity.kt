@@ -71,6 +71,9 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
         vm.flightLegDetailRulesAndRegulationSubject.subscribe { param ->
             legsDetailWidget.viewModel.rulesAndRestrictionDialogTextSubject.onNext(param)
         }
+        vm.flightSplitTicketVisibilitySubject.subscribe { param ->
+            legsDetailWidget.viewModel.shouldShowSplitTicketTextSubject.onNext(param)
+        }
     }
 
     var toolbarViewModel: FlightItinToolbarViewModel by notNullAndObservable { vm ->

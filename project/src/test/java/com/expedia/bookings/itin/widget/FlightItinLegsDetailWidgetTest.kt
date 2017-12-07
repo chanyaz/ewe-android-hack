@@ -50,4 +50,17 @@ class FlightItinLegsDetailWidgetTest {
         assertEquals(View.GONE, legsDetailsWidget.rulesAndRegulation.visibility)
         assertEquals(View.GONE, legsDetailsWidget.rulesAndRegulationDivider.visibility)
     }
+
+    @Test
+    fun testSplitTicketTextVisibility() {
+        legsDetailsWidget.viewModel = FlightItinLegsDetailWidgetViewModel()
+        legsDetailsWidget.viewModel.shouldShowSplitTicketTextSubject.onNext(false)
+        assertEquals(View.GONE, legsDetailsWidget.splitTicketText.visibility)
+        assertEquals(View.GONE, legsDetailsWidget.splitTicketDividerView.visibility)
+
+        legsDetailsWidget.viewModel.shouldShowSplitTicketTextSubject.onNext(true)
+        assertEquals(View.VISIBLE, legsDetailsWidget.splitTicketText.visibility)
+        assertEquals(View.VISIBLE, legsDetailsWidget.splitTicketDividerView.visibility)
+
+    }
 }
