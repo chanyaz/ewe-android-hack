@@ -568,7 +568,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 travelersPresenter.viewModel.updateCompletionStatus()
                 setToolbarTitle()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
-                travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources))
             } else {
                 decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
             }

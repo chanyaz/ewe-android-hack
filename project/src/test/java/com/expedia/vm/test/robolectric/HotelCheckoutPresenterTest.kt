@@ -9,7 +9,6 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -20,11 +19,8 @@ import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.tracking.FacebookEvents.Companion.userStateManager
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.MaterialFormsCouponWidget
@@ -32,11 +28,7 @@ import com.expedia.vm.HotelCreateTripViewModel
 import junit.framework.Assert.assertTrue
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.TravelerContactDetailsWidget
-import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.HotelTravelersViewModel
-import com.expedia.vm.traveler.TravelerSelectItemViewModel
-import kotlinx.android.synthetic.main.fragment_itinerary_list.view.hint_container
-import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -138,12 +130,51 @@ class HotelCheckoutPresenterTest {
     @Test
     fun testTravelerWidgetToolbarWithHotelMaterialABTestOn() {
         setupHotelMaterialForms()
-        checkout.show(CheckoutBasePresenter.Ready())
-        val travelerContactDetailsWidget = (LayoutInflater.from(activity).inflate(R.layout.test_traveler_contact_details_widget, null) as TravelerContactDetailsWidget)
-        checkout.toolbar.viewModel.expanded.onNext(travelerContactDetailsWidget)
-        checkout.mainContactInfoCardView.setExpanded(true)
+        val doneMenuVisibilitySubscriber = TestSubscriber<Unit>()
+        val toolbarTitleTestSubscriber = TestSubscriber<String>()
+        checkout.toolbar.viewModel.visibleMenuWithTitleDone.subscribe(doneMenuVisibilitySubscriber)
+        checkout.toolbar.viewModel.toolbarTitle.subscribe(toolbarTitleTestSubscriber)
 
+        assertCheckoutOverviewToolbarTitleAndMenu()
+        checkout.travelerSummaryCardView.performClick()
+
+        doneMenuVisibilitySubscriber.assertValueCount(1)
         assertEquals("Done", checkout.menuDone.title.toString())
+        assertTrue(checkout.menuDone.isVisible)
+        toolbarTitleTestSubscriber.assertValue("Enter Traveler Details")
+        assertEquals("Enter Traveler Details", checkout.toolbar.title)
+    }
+
+    @Test
+    fun testCheckoutOverviewToolbarReturningFromTravelerMaterialTestOn() {
+        setupHotelMaterialForms()
+        val testToolbarNavIconContDescSubjectSubscriber = TestSubscriber<String>()
+        checkout.travelersPresenter.toolbarNavIconContDescSubject.subscribe(testToolbarNavIconContDescSubjectSubscriber)
+        checkout.travelerSummaryCardView.performClick()
+        checkout.travelersPresenter.closeSubject.onNext(Unit)
+
+        testToolbarNavIconContDescSubjectSubscriber.assertValue("Back")
+        assertCheckoutOverviewToolbarTitleAndMenu()
+    }
+
+    @Test
+    fun testCheckoutOverviewToolbarReturningFromTravelerMaterialTestOff() {
+        checkout.mainContactInfoCardView.performClick()
+        checkout.mainContactInfoCardView.isExpanded = false
+
+        assertHotelOverviewVisibility(expectedVisibility = VISIBLE)
+        assertCheckoutOverviewToolbarTitleAndMenu()
+    }
+
+    @Test
+    fun testMaterialTravelerToolbarOnDoneClick() {
+        setupHotelMaterialForms()
+        val testDoneSubscriber = TestSubscriber<Unit>()
+        checkout.travelersPresenter.doneClicked.subscribe(testDoneSubscriber)
+        checkout.travelerSummaryCardView.performClick()
+        checkout.toolbar.menuItem.actionView.performClick()
+
+        testDoneSubscriber.assertNoValues()
     }
 
     @Test
@@ -157,6 +188,7 @@ class HotelCheckoutPresenterTest {
         checkout.toolbar.viewModel.expanded.onNext(travelerContactDetailsWidget)
         checkout.mainContactInfoCardView.setExpanded(true)
 
+        doneMenuVisibilitySubscriber.assertNoValues()
         assertEquals("Next", checkout.menuDone.title.toString())
     }
 
@@ -260,6 +292,11 @@ class HotelCheckoutPresenterTest {
         assertEquals(expectedVisibility, checkout.space.visibility)
     }
 
+    private fun assertCheckoutOverviewToolbarTitleAndMenu() {
+        assertEquals("Checkout", checkout.toolbar.title)
+        assertEquals("Next", checkout.menuDone.title)
+        assertTrue(checkout.menuDone.isVisible)
+    }
 
     private fun setupHotelMaterialForms() {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()

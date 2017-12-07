@@ -242,6 +242,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				if (Strings.equals(getCurrentState(), PaymentWidget.class.getName()) || Strings.equals(getCurrentState(), PaymentWidgetV2.class.getName())) {
 					paymentInfoCardView.getDoneClicked().onNext(Unit.INSTANCE);
 				}
+				else if (hotelMaterialFormTestEnabled && Strings.equals(getCurrentState(), travelersPresenter.getClass().getName())) {
+					travelersPresenter.getDoneClicked().onNext(Unit.INSTANCE);
+				}
 			}
 		});
 
@@ -308,6 +311,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				openTravelerPresenter();
 			}
 		});
+		travelersPresenter.getToolbarTitleSubject().subscribe(toolbar.getViewModel().getToolbarTitle());
+		travelersPresenter.getToolbarNavIconContDescSubject().subscribe(toolbar.getViewModel().getToolbarNavIconContentDesc());
 		travelersPresenter.getCloseSubject().subscribe(new Subscriber<Unit>() {
 			@Override
 			public void onCompleted() {
@@ -634,6 +639,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				mainContactInfoCardView.setVisibility(GONE);
 				travelerSummaryCard.setVisibility(forward ? VISIBLE : GONE);
 				travelersPresenter.setVisibility(GONE);
+				travelersPresenter.getViewModel().refresh();
 			}
 			else {
 				travelerSummaryCardView.setVisibility(GONE);
@@ -674,9 +680,17 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			travelersPresenter.setVisibility(forward ? VISIBLE : GONE);
 			listenToScroll = !forward;
 			updateMaterialBackgroundColor(forward);
-			if (!forward) {
+			if (forward) {
+				toolbar.getViewModel().getVisibleMenuWithTitleDone().onNext(Unit.INSTANCE);
+			}
+			else {
 				Ui.hideKeyboard(travelersPresenter);
+				AccessibilityUtil.setFocusForView(travelersPresenter);
+				AccessibilityUtil.setFocusForView(travelerSummaryCard);
+				travelersPresenter.getToolbarNavIconContDescSubject().onNext(getResources().getString(R.string.toolbar_nav_icon_cont_desc));
 				travelersPresenter.getViewModel().updateCompletionStatus();
+				resetMenuButton();
+				toolbar.setTitle(getToolbarTitle());
 			}
 		}
 

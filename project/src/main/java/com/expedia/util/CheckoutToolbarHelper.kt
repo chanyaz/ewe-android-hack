@@ -15,3 +15,7 @@ fun getMainTravelerToolbarTitle(res: Resources): String {
             .format().toString()
     return title
 }
+
+fun getSingleTravelerToolbarTitle(res: Resources): String {
+    return res.getString(R.string.enter_traveler_details_checkout_toolbar_title)
+}

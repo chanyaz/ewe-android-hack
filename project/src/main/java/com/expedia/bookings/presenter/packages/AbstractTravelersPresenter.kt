@@ -135,6 +135,8 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
                 travelerEntryWidget.travelerButton.dismissPopup()
                 Ui.hideKeyboard(this@AbstractTravelersPresenter)
+            } else {
+                toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
             }
         }
 
@@ -166,7 +168,6 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         travelerEntryWidget.viewModel = viewModel.createNewTravelerEntryWidgetModel(context, 0, viewModel.passportRequired, TravelerCheckoutStatus.CLEAN)
         show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
 
-        toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
         if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
             travelerEntryWidget.viewModel.validate()
         }
