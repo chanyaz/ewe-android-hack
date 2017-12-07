@@ -12,9 +12,9 @@ import android.view.View
 import com.expedia.bookings.R
 import kotlin.properties.Delegates
 
-class MessageProgressView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
+open class MessageProgressView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     val linesPaint: Paint = Paint()
-    //In case the view isn't a perfect rectangle, maintain both x and y values
+    // In case the view isn't a perfect rectangle, maintain both x and y values
     var verticalPaddingGap: Int by Delegates.notNull()
     var horizontalPaddingGap: Int by Delegates.notNull()
     var lineHeight: Int by Delegates.notNull()
@@ -33,9 +33,16 @@ class MessageProgressView(context: Context, attrs: AttributeSet?) : View(context
     var drawLine2: Boolean = false
     var drawLine3: Boolean = false
 
+    private var isDimensionSet = false
+
     var progress: Float = 0f
         set(value) {
             field = value
+
+            if (!isDimensionSet) {
+                return
+            }
+
             var remainingProgress = value
 
             drawLine1 = false
@@ -118,6 +125,8 @@ class MessageProgressView(context: Context, attrs: AttributeSet?) : View(context
         lineGap = height / 20
         primaryLineMaxWidth = width * 3 / 5
         shortLineMaxWidth = width * 2 / 5
+
+        isDimensionSet = true
     }
 
 }
