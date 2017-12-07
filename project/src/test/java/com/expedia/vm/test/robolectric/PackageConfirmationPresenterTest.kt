@@ -48,7 +48,7 @@ class PackageConfirmationPresenterTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_activity)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
-        activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
+        activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         AbacusTestUtils.unbucketTestAndDisableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         packagePresenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null) as PackagePresenter
     }
@@ -121,7 +121,7 @@ class PackageConfirmationPresenterTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_activity)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
-        activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
+        activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         packagePresenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null) as PackagePresenter
     }

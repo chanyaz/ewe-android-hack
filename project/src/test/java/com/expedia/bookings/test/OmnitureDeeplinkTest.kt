@@ -28,7 +28,6 @@ class OmnitureDeeplinkTest {
     @Before
     fun setup() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        deepLinkRouterActivityController = createSystemUnderTest()
     }
 
     @Test
@@ -166,22 +165,19 @@ class OmnitureDeeplinkTest {
 
     private fun trackDeepLink(url :String) {
         // This is what sets the omniture variables we're interested in testing
-        setIntentOnActivity(deepLinkRouterActivityController, url)
+        deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(url))
         deepLinkRouterActivityController.setup()
         // We need to kick off any event to actually set the omniture variables.
         // We could actually parse/use the tested deeplink, but just picking an arbitrary event is easier and doesn't affect our tested variables
         OmnitureTracking.trackAccountPageLoad()
     }
 
-    private fun createSystemUnderTest(): ActivityController<TestDeepLinkRouterActivity> {
-        val deepLinkRouterActivityController = Robolectric.buildActivity(TestDeepLinkRouterActivity::class.java)
-        return deepLinkRouterActivityController
-    }
+    private fun createSystemUnderTestWithIntent(intent: Intent): ActivityController<TestDeepLinkRouterActivity> =
+            Robolectric.buildActivity(TestDeepLinkRouterActivity::class.java, intent)
 
-    private fun setIntentOnActivity(deepLinkRouterActivityController: ActivityController<TestDeepLinkRouterActivity>, sharedItinUrl: String) {
+    private fun createIntent(sharedItinUrl: String): Intent {
         val uri = Uri.parse(sharedItinUrl)
-        val intent = Intent("", uri)
-        deepLinkRouterActivityController.withIntent(intent)
+        return Intent("", uri)
     }
 
     private fun assertEvar22NotTracked() {
@@ -211,9 +207,7 @@ class OmnitureDeeplinkTest {
                 mockAnalyticsProvider)
     }
 
-    class TestDeepLinkRouterActivity() : DeepLinkRouterActivity() {
-        override fun getFirebaseDynamicLinksInstance(): FirebaseDynamicLinks? {
-            return null
-        }
+    class TestDeepLinkRouterActivity : DeepLinkRouterActivity() {
+        override fun getFirebaseDynamicLinksInstance(): FirebaseDynamicLinks? = null
     }
 }

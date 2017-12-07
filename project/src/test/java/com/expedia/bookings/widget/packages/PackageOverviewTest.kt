@@ -18,14 +18,12 @@ import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
@@ -56,7 +54,7 @@ class PackageOverviewTest {
     private var checkout: PackageCheckoutPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
     private var overview: PackageOverviewPresenter by Delegates.notNull()
-    val testTravelerInfoText = "Jun 29 at 9:00 am, 1 Traveler"
+    private val testTravelerInfoText = "Jun 29 at 9:00 am, 1 Traveler"
     private var bundleWidget: BundleWidget by Delegates.notNull()
 
     @Before fun before() {
@@ -65,7 +63,7 @@ class PackageOverviewTest {
         setUpPackageDb()
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
-        activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
+        activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         overview = activity.findViewById<View>(R.id.package_overview_presenter) as PackageOverviewPresenter
         setUpCheckout()
     }

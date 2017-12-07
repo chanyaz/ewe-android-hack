@@ -122,13 +122,13 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun sharedItineraryDeepLink() {
-        val deepLinkRouterActivityController = createSystemUnderTest()
+        val sharedItinUrl = "https://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j"
+        val deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(sharedItinUrl))
         val mockItineraryManager = createMockItineraryManager()
         val deepLinkRouterActivity = deepLinkRouterActivityController.get()
 
         deepLinkRouterActivity.mockItineraryManager = mockItineraryManager
-        val sharedItinUrl = "https://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j"
-        setIntentOnActivity(deepLinkRouterActivityController, sharedItinUrl)
+
         deepLinkRouterActivityController.setup()
         Mockito.verify(mockItineraryManager).fetchSharedItin(Mockito.eq(sharedItinUrl))
         assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity, null)
@@ -136,14 +136,13 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun shortUrlDeepLink() {
-        val deepLinkRouterActivityController = createSystemUnderTest()
+        val shortUrl = "http://e.xpda.co/0y5Ht7LVY1gqSwdrngvC0MCAdQKn"
+        val sharedItinUrl = "http://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j"
+        val deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(shortUrl))
         val mockItineraryManager = createMockItineraryManager()
         val deepLinkRouterActivity = deepLinkRouterActivityController.get()
 
         deepLinkRouterActivity.mockItineraryManager = mockItineraryManager
-        val shortUrl = "http://e.xpda.co/0y5Ht7LVY1gqSwdrngvC0MCAdQKn"
-        val sharedItinUrl = "http://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j"
-        setIntentOnActivity(deepLinkRouterActivityController, shortUrl)
         deepLinkRouterActivityController.setup()
         Mockito.verify(mockItineraryManager).fetchSharedItin(Mockito.eq(sharedItinUrl))
         assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity, null)
@@ -151,26 +150,23 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun tripDeepLink() {
-        val deepLinkRouterActivityController = createSystemUnderTest()
+        val tripUrl = "expda://trips?itinNum=7238447666975"
+        val deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(tripUrl))
         val mockItineraryManager = createMockItineraryManager()
         val deepLinkRouterActivity = deepLinkRouterActivityController.get()
 
         deepLinkRouterActivity.mockItineraryManager = mockItineraryManager
 
-        val tripUrl = "expda://trips?itinNum=7238447666975"
-
-        setIntentOnActivity(deepLinkRouterActivityController, tripUrl)
         deepLinkRouterActivityController.setup()
         assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity, "7238447666975")
     }
 
     private fun getDeepLinkRouterActivity(deepLinkUrl : String): TestDeepLinkRouterActivity {
-        val deepLinkRouterActivityController = createSystemUnderTest()
+        val deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(deepLinkUrl))
         val mockItineraryManager = createMockItineraryManager()
         val deepLinkRouterActivity = deepLinkRouterActivityController.get()
 
         deepLinkRouterActivity.mockItineraryManager = mockItineraryManager
-        setIntentOnActivity(deepLinkRouterActivityController, deepLinkUrl)
         deepLinkRouterActivityController.setup()
 
         return deepLinkRouterActivity
@@ -186,23 +182,18 @@ class DeepLinkRouterActivityTest {
         }
     }
 
-    private fun createMockItineraryManager(): ItineraryManager {
-        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
-        return mockItineraryManager
-    }
+    private fun createMockItineraryManager(): ItineraryManager =
+            Mockito.mock(ItineraryManager::class.java)
 
-    private fun createSystemUnderTest(): ActivityController<TestDeepLinkRouterActivity> {
-        val deepLinkRouterActivityController = Robolectric.buildActivity(TestDeepLinkRouterActivity::class.java)
-        return deepLinkRouterActivityController
-    }
+    private fun createSystemUnderTestWithIntent(intent: Intent): ActivityController<TestDeepLinkRouterActivity> =
+            Robolectric.buildActivity(TestDeepLinkRouterActivity::class.java, intent)
 
-    private fun setIntentOnActivity(deepLinkRouterActivityController: ActivityController<TestDeepLinkRouterActivity>, deepLinkUrl: String) {
+    private fun createIntent(deepLinkUrl: String): Intent {
         val uri = Uri.parse(deepLinkUrl)
-        val intent = Intent("", uri)
-        deepLinkRouterActivityController.withIntent(intent)
+        return Intent("", uri)
     }
 
-    class TestDeepLinkRouterActivity() : DeepLinkRouterActivity() {
+    class TestDeepLinkRouterActivity : DeepLinkRouterActivity() {
 
         var signInCallsCount = 0
         var supportEmailCallsCount = 0
@@ -225,13 +216,9 @@ class DeepLinkRouterActivityTest {
             supportEmailCallsCount++
         }
 
-        override fun getItineraryManagerInstance(): ItineraryManager {
-            return mockItineraryManager
-        }
+        override fun getItineraryManagerInstance(): ItineraryManager = mockItineraryManager
 
-        override fun getFirebaseDynamicLinksInstance(): FirebaseDynamicLinks? {
-            return null
-        }
+        override fun getFirebaseDynamicLinksInstance(): FirebaseDynamicLinks? = null
 
         override fun goFetchSharedItinWithShortUrl(shortUrl: String, runnable: OnSharedItinUrlReceiveListener) {
             runnable.onSharedItinUrlReceiveListener("http://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j")

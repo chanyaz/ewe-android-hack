@@ -22,7 +22,7 @@ class GalleryActivityTest {
         val media1 = HotelMedia("https://hotelphoto1.com", "Hotel1 Description")
         val media2 = HotelMedia("https://hotelphoto2.com", "Hotel2 Description")
         val media3 = HotelMedia("https://hotelphoto3.com", "Hotel3 Description")
-        val mediaList = listOf<HotelMedia>(media1, media2, media3)
+        val mediaList = listOf(media1, media2, media3)
 
         val i = Intent(RuntimeEnvironment.application, GalleryActivity::class.java)
         val gson = GsonBuilder().create()
@@ -32,7 +32,7 @@ class GalleryActivityTest {
         i.putExtra("Name", "Happy Hotel" )
         i.putExtra("Rating", 5f )
 
-        galleryActivity = Robolectric.buildActivity(GalleryActivity::class.java).withIntent(i).create().get()
+        galleryActivity = Robolectric.buildActivity(GalleryActivity::class.java, i).create().get()
 
     }
 

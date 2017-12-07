@@ -62,7 +62,7 @@ class FlightCheckoutToolbarTest {
         travelerValidator.updateForNewSearch(Db.getFlightSearchParams())
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.flight_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
-        activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
+        activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         overview = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         checkout = overview.getCheckoutPresenter()
         overview.getCheckoutPresenter().getPaymentWidgetViewModel().lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)

@@ -66,9 +66,9 @@ import kotlin.test.assertTrue
 class FlightCheckoutViewTest {
 
     lateinit var activity: Activity
-    lateinit var flightPresenter: FlightPresenter
+    private lateinit var flightPresenter: FlightPresenter
     lateinit private var flightServices: FlightServices
-    val userAccountRefresherMock = Mockito.mock(UserAccountRefresher::class.java)
+    private val userAccountRefresherMock = Mockito.mock(UserAccountRefresher::class.java)
     var server: MockWebServer = MockWebServer()
         @Rule get
 
@@ -81,7 +81,7 @@ class FlightCheckoutViewTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.flight_activity)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
-        activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
+        activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         setupDb()
     }
 
@@ -595,7 +595,7 @@ class FlightCheckoutViewTest {
     }
 
     private fun createTripParams(productKey: String): FlightCreateTripParams {
-        var builder = FlightCreateTripParams.Builder()
+        val builder = FlightCreateTripParams.Builder()
         return builder.productKey(productKey).build()
     }
 }

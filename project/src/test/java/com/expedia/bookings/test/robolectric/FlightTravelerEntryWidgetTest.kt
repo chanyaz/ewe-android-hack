@@ -11,7 +11,6 @@ import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.enums.TravelerCheckoutStatus
@@ -27,7 +26,6 @@ import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.TravelerEmailViewModel
 import com.mobiata.android.util.SettingUtils
-import junit.framework.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,6 +37,7 @@ import org.robolectric.shadows.ShadowAlertDialog
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates.notNull
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -60,7 +59,7 @@ class FlightTravelerEntryWidgetTest {
         AbacusTestUtils.resetABTests()
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.test_traveler_presenter)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
-        activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
+        activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
     }
 
     @Test

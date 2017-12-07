@@ -52,7 +52,7 @@ class FlightPriceChangeTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultFlightComponents()
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.flight_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
-        activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
+        activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         overview = activity.findViewById<View>(R.id.flight_overview_presenter) as FlightOverviewPresenter
         overview.viewModel.outboundSelectedAndTotalLegRank = Pair(0, 0)
         checkout = overview.getCheckoutPresenter()
@@ -104,15 +104,15 @@ class FlightPriceChangeTest {
         val flightCreateTripResponse = FlightCreateTripResponse()
         val flightTripDetails = FlightTripDetails()
         val flightOffer = FlightTripDetails.FlightOffer()
-        val newMoney = Money(BigDecimal(newMoney), "USD")
+        val newMoneyObject = Money(BigDecimal(newMoney), "USD")
         val oldFlightOffer = FlightTripDetails.FlightOffer()
-        val oldMoney = Money(BigDecimal(oldMoney), "USD")
+        val oldMoneyObject = Money(BigDecimal(oldMoney), "USD")
 
-        oldFlightOffer.totalPrice = oldMoney
+        oldFlightOffer.totalPrice = oldMoneyObject
         flightTripDetails.oldOffer = oldFlightOffer
         flightTripDetails.legs = setupFlightLeg()
         flightOffer.pricePerPassengerCategory = ArrayList<FlightTripDetails.PricePerPassengerCategory>()
-        flightOffer.totalPrice = newMoney
+        flightOffer.totalPrice = newMoneyObject
         flightTripDetails.offer = flightOffer
 
         flightCreateTripResponse.details = flightTripDetails

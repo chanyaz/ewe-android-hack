@@ -35,12 +35,11 @@ class ProfileScreenDeepLinkTest {
         val deepLinkText = Uri.parse("expda://signIn")
         intent.data = deepLinkText
 
-        val deepLinkRouterActivityController = createSystemUnderTest()
+        val deepLinkRouterActivityController = createSystemUnderTestWithIntent(intent)
         val mockItineraryManager = createMockItineraryManager()
         val deepLinkRouterActivity = deepLinkRouterActivityController.get()
 
         deepLinkRouterActivity.mockItineraryManager = mockItineraryManager
-        deepLinkRouterActivityController.withIntent(intent)
         deepLinkRouterActivityController.setup()
 
         assertEquals(1, deepLinkRouterActivity.signInCallsCount)
@@ -52,26 +51,21 @@ class ProfileScreenDeepLinkTest {
         val deepLinkText = Uri.parse("expda://signIn")
         intent.data = deepLinkText
 
-        val deepLinkRouterActivityController = createSystemUnderTest()
+        val deepLinkRouterActivityController = createSystemUnderTestWithIntent(intent)
         val mockItineraryManager = createMockItineraryManager()
         val deepLinkRouterActivity = deepLinkRouterActivityController.get()
 
         deepLinkRouterActivity.mockItineraryManager = mockItineraryManager
-        deepLinkRouterActivityController.withIntent(intent)
         deepLinkRouterActivityController.setup()
 
         assertEquals(1, deepLinkRouterActivity.signInCallsCount)
     }
 
-    private fun createMockItineraryManager(): ItineraryManager {
-        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
-        return mockItineraryManager
-    }
+    private fun createMockItineraryManager(): ItineraryManager =
+            Mockito.mock(ItineraryManager::class.java)
 
-    private fun createSystemUnderTest(): ActivityController<TestDeepLinkRouterActivity> {
-        val deepLinkRouterActivityController = Robolectric.buildActivity(TestDeepLinkRouterActivity::class.java)
-        return deepLinkRouterActivityController
-    }
+    private fun createSystemUnderTestWithIntent(intent: Intent): ActivityController<TestDeepLinkRouterActivity> =
+            Robolectric.buildActivity(TestDeepLinkRouterActivity::class.java, intent)
 
     class TestDeepLinkRouterActivity() : DeepLinkRouterActivity() {
         lateinit var mockItineraryManager: ItineraryManager
@@ -81,12 +75,8 @@ class ProfileScreenDeepLinkTest {
             signInCallsCount++
         }
 
-        override fun getItineraryManagerInstance(): ItineraryManager {
-            return mockItineraryManager
-        }
+        override fun getItineraryManagerInstance(): ItineraryManager = mockItineraryManager
 
-        override fun getFirebaseDynamicLinksInstance(): FirebaseDynamicLinks? {
-            return null
-        }
+        override fun getFirebaseDynamicLinksInstance(): FirebaseDynamicLinks? = null
     }
 }
