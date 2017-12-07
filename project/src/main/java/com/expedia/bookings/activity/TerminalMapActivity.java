@@ -44,9 +44,9 @@ public class TerminalMapActivity extends AppCompatActivity implements ActionBar.
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.fragment_container_with_toolbar);
+		setContentView(R.layout.terminal_maps_container_with_toolbar);
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.terminal_map_toolbar);
 		toolbar.setPadding(0, 0, getResources().getDimensionPixelSize(R.dimen.terminal_menu_padding), 0);
 		setSupportActionBar(toolbar);
 
@@ -64,7 +64,7 @@ public class TerminalMapActivity extends AppCompatActivity implements ActionBar.
 		}
 
 		//Setup dropdown nav
-		mTerminalNames = new ArrayList<String>();
+		mTerminalNames = new ArrayList<>();
 		if (mAirport != null && mAirport.hasAirportMaps()) {
 			for (AirportMap map : mAirport.mAirportMaps) {
 				mTerminalNames.add(map.mName);
