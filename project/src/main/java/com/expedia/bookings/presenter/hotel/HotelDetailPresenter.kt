@@ -64,7 +64,6 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     private val detailToMap = object: ScaleTransition(this, HotelDetailView::class.java, HotelMapView::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            hotelMapView.viewmodel.resetCameraPosition.onNext(Unit)
             if (forward) {
                 hotelMapView.googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
             } else {

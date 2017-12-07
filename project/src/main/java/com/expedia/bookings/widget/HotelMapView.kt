@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -52,6 +51,9 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
     var toolBarRating: StarRatingBar by Delegates.notNull()
 
     var googleMap : GoogleMap? = null
+
+    private var mapReady = false
+    private var queuedLatLng: LatLng? = null
 
     init {
         View.inflate(context, R.layout.widget_hotel_map, this)
@@ -106,20 +108,14 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
             }
         })
 
-        vm.hotelLatLng.subscribe {
-            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it[0], it[1]), MAP_ZOOM_LEVEL))
-            googleMap?.clear()
-            addMarker(googleMap, it)
+        vm.hotelLatLng.subscribe { latLngArray ->
+            val latLng = LatLng(latLngArray[0], latLngArray[1])
+            if (mapReady) {
+                placeMarker(latLng)
+            } else {
+                queuedLatLng = latLng
+            }
         }
-    }
-
-    private fun addMarker(googleMap:GoogleMap?, hotelLatLng: DoubleArray) {
-        googleMap ?: return
-        val marker = MarkerOptions()
-        marker.position(LatLng(hotelLatLng[0], hotelLatLng[1]))
-        val drawableId = Ui.obtainThemeResID(context, R.attr.map_pin_drawable)
-        marker.icon(BitmapDescriptorFactory.fromResource(drawableId))
-        googleMap.addMarker(marker)
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -129,5 +125,24 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
         googleMap?.uiSettings?.isZoomControlsEnabled = false
         googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
         googleMap?.isMyLocationEnabled = havePermissionToAccessLocation(context)
+        mapReady = true
+
+        queuedLatLng?.let { latLng -> placeMarker(latLng) }
+        queuedLatLng = null
+    }
+
+    private fun placeMarker(latLng: LatLng) {
+        googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, MAP_ZOOM_LEVEL))
+        googleMap?.clear()
+        addMarker(googleMap, latLng)
+    }
+
+    private fun addMarker(googleMap:GoogleMap?, hotelLatLng: LatLng) {
+        googleMap ?: return
+        val marker = MarkerOptions()
+        marker.position(hotelLatLng)
+        val drawableId = Ui.obtainThemeResID(context, R.attr.map_pin_drawable)
+        marker.icon(BitmapDescriptorFactory.fromResource(drawableId))
+        googleMap.addMarker(marker)
     }
 }

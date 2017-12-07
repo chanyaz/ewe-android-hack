@@ -44,10 +44,8 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
                                             ((fromPriceVisible && strikethroughPrice.isNotEmpty()) && (isShopWithPoints ||
                                                 (!isAirAttached && !isBucketForHideStrikeThough)))}
     val hotelLatLng = BehaviorSubject.create<DoubleArray>()
-    val resetCameraPosition = PublishSubject.create<Unit>()
     val selectARoomInvisibility = BehaviorSubject.create<Boolean>(false)
     var selectRoomContDescription = PublishSubject.create<String>()
-
 
     //Setup the data I need to behave as a View Model for my View
     val offersObserver = endlessObserver<HotelOffersResponse> { response ->
