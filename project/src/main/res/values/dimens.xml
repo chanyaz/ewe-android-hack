@@ -344,6 +344,5 @@
 
     <!-- Textview Image -->
     <dimen name="textview_drawable_padding">9dp</dimen>
-    <dimen name="terminal_menu_padding">8dp</dimen>
 
 </resources>

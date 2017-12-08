@@ -4,24 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.TerminalMapFragment;
 import com.expedia.bookings.fragment.TerminalMapLegendDialogFragment;
+import com.expedia.bookings.itin.widget.ToolbarWithSpinner;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.AirportMap;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import java.util.ArrayList;
 
-public class TerminalMapActivity extends AppCompatActivity implements ActionBar.OnNavigationListener {
+public class TerminalMapActivity extends AppCompatActivity {
 
 	public static final String ARG_AIRPORT_CODE = "ARG_AIRPORT_CODE";
 
@@ -31,8 +27,8 @@ public class TerminalMapActivity extends AppCompatActivity implements ActionBar.
 	private TerminalMapFragment mTerminalMap;
 	private Airport mAirport;
 	private ArrayList<String> mTerminalNames;
-	private SpinnerAdapter mMapSelectorAdapter;
 	private int mSpinnerPosition = 0;
+
 
 	public static Intent createIntent(Context context, String airportCode) {
 		Intent intent = new Intent(context, TerminalMapActivity.class);
@@ -44,16 +40,25 @@ public class TerminalMapActivity extends AppCompatActivity implements ActionBar.
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.fragment_container_with_toolbar);
+		setContentView(R.layout.terminal_maps_container_with_toolbar);
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		toolbar.setPadding(0, 0, getResources().getDimensionPixelSize(R.dimen.terminal_menu_padding), 0);
-		setSupportActionBar(toolbar);
+		ToolbarWithSpinner toolbar = findViewById(R.id.toolbar);
+		toolbar.setButtonListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				showLegendDialog();
+			}
+		});
+		toolbar.setBackOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				finish();
+				overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after);
+			}
+		});
 
-		android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
+		toolbar.setButtonText(R.string.legend);
 
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		if (getIntent().hasExtra(ARG_AIRPORT_CODE)) {
 			String airportCode = getIntent().getStringExtra(ARG_AIRPORT_CODE);
@@ -70,15 +75,26 @@ public class TerminalMapActivity extends AppCompatActivity implements ActionBar.
 				mTerminalNames.add(map.mName);
 			}
 		}
+		if (!mTerminalNames.isEmpty()) {
+			toolbar.setSpinnerList(mTerminalNames);
+		}
 
-		mMapSelectorAdapter = new ArrayAdapter<String>(this,
-			R.layout.simple_spinner_dropdown_item_terminal_chooser,
-			mTerminalNames);
-		actionBar.setListNavigationCallbacks(mMapSelectorAdapter, this);
+		toolbar.setSpinnerListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+				if (i < mAirport.mAirportMaps.size()) {
+					mSpinnerPosition = i;
+					mTerminalMap.loadMap(mAirport.mAirportMaps.get(i));
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> adapterView) {
+			}
+		});
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_POSITION)) {
 			mSpinnerPosition = savedInstanceState.getInt(STATE_POSITION);
-			actionBar.setSelectedNavigationItem(mSpinnerPosition);
 		}
 
 		mTerminalMap = Ui.findSupportFragment(this, FRAG_TAG_TERMINAL_MAP);
@@ -94,36 +110,6 @@ public class TerminalMapActivity extends AppCompatActivity implements ActionBar.
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(STATE_POSITION, mSpinnerPosition);
-	}
-
-	@Override
-	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		if (itemPosition < mAirport.mAirportMaps.size()) {
-			mSpinnerPosition = itemPosition;
-			mTerminalMap.loadMap(mAirport.mAirportMaps.get(itemPosition));
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			finish();
-			return true;
-		case R.id.menu_legend:
-			showLegendDialog();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_terminal_map, menu);
-		return true;
 	}
 
 	public void showLegendDialog() {

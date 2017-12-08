@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.widget
 
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialogFragment
+import android.support.v4.app.ActivityOptionsCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.TextView
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils
 import com.squareup.phrase.Phrase
+import kotlinx.android.synthetic.main.bundle_total_price_widget.*
 
 class FlightItinTerminalMapBottomSheet : BottomSheetDialogFragment() {
 
@@ -57,7 +59,9 @@ class FlightItinTerminalMapBottomSheet : BottomSheetDialogFragment() {
     fun terminalMapClickListener(airportCode: String?): View.OnClickListener {
         return View.OnClickListener {
             val terminalMapIntent = TerminalMapActivity.createIntent(context, airportCode)
-            NavUtils.startActivitySafe(context, terminalMapIntent)
+            NavUtils.startActivitySafe(context, terminalMapIntent, ActivityOptionsCompat
+                    .makeCustomAnimation(context, R.anim.slide_in_right, R.anim.slide_out_left_complete)
+                    .toBundle())
         }
     }
 

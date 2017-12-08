@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.TextView
+    android:id="@+id/base_text"
+    style="?android:attr/spinnerDropDownItemStyle"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:drawablePadding="6dp"
+    android:drawableRight="@drawable/spinner_arrow_drawable"
+    android:ellipsize="marquee"
+    android:gravity="left"
+    android:padding="12dp"
+    android:textColor="?attr/skin_terminalChooserTextColor"
+    android:textSize="16sp"
+    app:textStyle="medium" />

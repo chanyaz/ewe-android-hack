@@ -66,6 +66,18 @@ public class NavUtils {
 		}
 	}
 
+	public static boolean startActivitySafe(Context context, Intent intent, Bundle bundle) {
+		if (canHandleIntent(context, intent)) {
+			context.startActivity(intent, bundle);
+			return true;
+		}
+		else {
+			// Future thought: Should we be showing a toast at all and let app handle it?
+			Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+
 	public static void goToLaunchScreen(Context context) {
 		goToLaunchScreen(context, false);
 	}

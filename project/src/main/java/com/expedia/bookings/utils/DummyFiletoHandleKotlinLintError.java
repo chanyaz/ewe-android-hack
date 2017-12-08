@@ -1387,9 +1387,13 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.airport_code_with_city_TEMPLATE,
 		R.string.itin_flight_leg_detail_widget_rules_and_restrictions,
 		R.layout.test_flight_itin_legs_detail_widget,
+		R.layout.itin_terminal_spinner_base,
+		R.layout.itin_terminal_spinner_item,
+		R.layout.widget_toolbar_with_spinner,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt,
 		R.drawable.ic_member_only_tag,
+
 		R.string.accessibility_cont_desc_user_rating_button,
 		R.layout.last_minute_deal_activity
 	};
