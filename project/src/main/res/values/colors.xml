@@ -40,6 +40,7 @@
     <color name="placeholder_card_background_color">@color/exp_launch_secondary</color>
     <color name="placeholder_card_button_text_color">@color/exp_launch_blue</color>
     <color name="launch_list_header_title_color">@color/gray600</color>
+    <color name="brand_primary_dark">@color/blue6</color>
 
     <!-- Launch LOB toolbar colors -->
     <color name="lob_tab_indicator_color">@color/exp_yellow</color>

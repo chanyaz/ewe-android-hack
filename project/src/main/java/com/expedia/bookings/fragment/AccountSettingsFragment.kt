@@ -23,7 +23,6 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.WebViewActivity
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -36,18 +35,19 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.ClearPrivateDataUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
-import com.expedia.bookings.utils.navigation.NavUtils
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBrandColorEnabled
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.util.updateVisibility
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
@@ -195,6 +195,9 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         setGoogleAccountChangeVisibility(googleAccountChange)
         googleAccountChange.setOnClickListener(GoogleAccountChangeListener())
         setCountryChangeListeners()
+        if (isBrandColorEnabled(context)) {
+            loyaltySection.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
+        }
 
         // App Settings
         appSettingsFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_APP_SETTINGS)

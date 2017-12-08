@@ -13,6 +13,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.launch.vm.LaunchLobViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.PackageUtil
 import java.util.ArrayList
@@ -75,7 +76,11 @@ class LaunchLobAdapter(private val launchLobViewModel: LaunchLobViewModel) : Rec
             AccessibilityUtil.appendRoleContDesc(lobText, context.getString(info.labelRes), R.string.accessibility_cont_desc_role_button)
             val lobDrawable = ContextCompat.getDrawable(context, lobInfo.iconRes).mutate()
             if (isLobEnabled) {
-                lobDrawable.setColorFilter(ContextCompat.getColor(context, lobInfo.colorRes), PorterDuff.Mode.SRC_IN)
+                if (isBrandColorEnabled(context)) {
+                    lobDrawable.setColorFilter(ContextCompat.getColor(context, R.color.brand_primary), PorterDuff.Mode.SRC_IN)
+                } else {
+                    lobDrawable.setColorFilter(ContextCompat.getColor(context, lobInfo.colorRes), PorterDuff.Mode.SRC_IN)
+                }
                 lobText.alpha = 1f
             } else {
                 lobDrawable.setColorFilter(ContextCompat.getColor(context, LobInfo.disabledColorRes), PorterDuff.Mode.SRC_IN)

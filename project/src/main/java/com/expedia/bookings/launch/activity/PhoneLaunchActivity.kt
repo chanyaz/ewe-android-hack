@@ -15,6 +15,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -62,6 +63,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
@@ -146,6 +148,11 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         setContentView(R.layout.activity_phone_launch)
         viewPager.offscreenPageLimit = 2
         viewPager.adapter = pagerAdapter
+
+        if (isBrandColorEnabled(this@PhoneLaunchActivity)) {
+            window.statusBarColor = ContextCompat.getColor(this@PhoneLaunchActivity, R.color.brand_primary_dark)
+            toolbar.setBackgroundColor(ContextCompat.getColor(this@PhoneLaunchActivity, R.color.brand_primary))
+        }
 
         setSupportActionBar(toolbar)
         supportActionBar?.elevation = 0f

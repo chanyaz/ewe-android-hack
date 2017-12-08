@@ -1341,6 +1341,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.itin_flight_traveler_info,
 		R.string.itin_flight_details_manage_booking_heading,
 		R.drawable.ic_traveler_icon,
+		R.color.brand_primary_dark,
 		R.layout.flight_itin_card_details,
 		R.layout.widget_flight_itin_booking_details_widget,
 		R.color.hotel_search_info_selectable_color,

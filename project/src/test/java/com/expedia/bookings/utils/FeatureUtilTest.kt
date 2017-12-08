@@ -26,4 +26,16 @@ class FeatureUtilTest {
         AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
         assertFalse(isHotelMaterialForms(context))
     }
+
+    @Test
+    fun testEnableBrandColors() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)
+        assertTrue(isBrandColorEnabled(context))
+    }
+
+    @Test
+    fun testDisableBrandColors() {
+        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)
+        assertFalse(isBrandColorEnabled(context))
+    }
 }

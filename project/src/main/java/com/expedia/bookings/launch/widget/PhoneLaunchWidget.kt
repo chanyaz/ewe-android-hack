@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.text.format.DateUtils
@@ -42,6 +43,7 @@ import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.shared.SearchInputTextView
@@ -140,6 +142,11 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         lobViewContainer.visibility = VISIBLE
         lobView.lobViewHeightChangeSubject.subscribe {
             adjustLobViewHeight()
+        }
+
+        if (isBrandColorEnabled(context)) {
+            lobViewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
+            fab.backgroundTintList = ContextCompat.getColorStateList(context, R.color.brand_primary)
         }
 
         fab.setOnClickListener {

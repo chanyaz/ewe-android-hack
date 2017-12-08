@@ -1,6 +1,7 @@
 package com.expedia.bookings.mia.activity
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,6 +13,7 @@ import com.expedia.bookings.mia.MemberDealsResponseProvider
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 
@@ -35,6 +37,13 @@ class MemberDealsActivity : AppCompatActivity() {
             HotelNavUtils.goToHotels(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
             OmnitureTracking.trackMemberPricingShop()
         }
+
+        if (isBrandColorEnabled(this@MemberDealsActivity)) {
+            toolBar.setBackgroundColor(ContextCompat.getColor(this@MemberDealsActivity, R.color.brand_primary))
+            shopButton.setBackgroundColor(ContextCompat.getColor(this@MemberDealsActivity, R.color.brand_primary))
+            window.statusBarColor = ContextCompat.getColor(this@MemberDealsActivity, R.color.brand_primary_dark)
+        }
+
         adapter = MemberDealListAdapter(this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter

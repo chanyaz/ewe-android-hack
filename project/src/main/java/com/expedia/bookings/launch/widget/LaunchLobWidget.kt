@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.PlayStoreUtil
+import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.isPackageForceUpdateEnabled
 import com.expedia.bookings.widget.GridLinesItemDecoration
@@ -125,6 +126,9 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 val topMargin = (cardView.layoutParams as MarginLayoutParams).topMargin
                 layoutParams.height = (cardView.height + topMargin) / 2
                 backGroundView.requestLayout()
+                if (isBrandColorEnabled(context)) {
+                    backGroundView.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
+                }
                 return false
             }
         })
