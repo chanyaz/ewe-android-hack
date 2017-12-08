@@ -210,6 +210,12 @@
             android:summary="If we get a push notification for a flight, but can&apos;t find that flight locally, then just use any other available flight"
             android:title="Push notifications use local flight." />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_push_notification_tns_server"
+            android:summary="Make app point to TNS integration server for push notifications"
+            android:title="TNS integration endpoint" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

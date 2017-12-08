@@ -12,14 +12,18 @@ import android.os.Bundle;
 import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
+import android.text.TextUtils;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.Courier;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
+import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.utils.ChuckShim;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -97,6 +101,34 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 					return true;
 				}
 			});
+
+			String tnsServerEndpointKey = getString(R.string.preference_push_notification_tns_server);
+			final CheckBoxPreference tnsServerEndpointPreference = (CheckBoxPreference) findPreference(tnsServerEndpointKey);
+			tnsServerEndpointPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+				@Override
+				public boolean onPreferenceChange(Preference preference, final Object newValue) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AccountDialogTheme);
+					builder.setTitle("TNS Server Switching");
+					builder.setMessage(getActivity().getResources().getString(R.string.server_change_message));
+					builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							SettingUtils.save(getActivity(), getString(R.string.preference_push_notification_tns_server), (boolean) newValue);
+							deregisterFromExistingTNSServer();
+							restartApp();
+						}
+					});
+					builder.create().show();
+					return true;
+				}
+			});
+		}
+	}
+
+	private void deregisterFromExistingTNSServer() {
+		TNSServices tnsServices = Ui.getApplication(getActivity()).appComponent().tnsService();
+		String regId = GCMRegistrationKeeper.getInstance(getActivity()).getRegistrationId(getActivity());
+		if (!TextUtils.isEmpty(regId)) {
+			tnsServices.deregisterDevice(new Courier("gcm", BuildConfig.APPLICATION_ID, regId, regId));
 		}
 	}
 

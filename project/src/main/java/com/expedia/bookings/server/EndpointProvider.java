@@ -205,18 +205,10 @@ public class EndpointProvider {
 	}
 
 	public String getTNSEndpoint() {
-		String endpoint;
-		switch (getEndPoint()) {
-		case MOCK_MODE:
-			endpoint = getCustomServerAddress();
-			break;
-		case PRODUCTION:
-			endpoint = "https://apim.expedia.com/";
-			break;
-		default:
-			endpoint = "https://apim.int.expedia.com/";
+		if (BuildConfig.DEBUG && SettingUtils.get(context, R.string.preference_push_notification_tns_server, false)) {
+			return "https://apim.int.expedia.com/";
 		}
-		return endpoint;
+		return "https://apim.expedia.com/";
 	}
 	/**
 	 * Returns the base suggestion server url, based on dev settings
