@@ -325,11 +325,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     private fun wireUpToolbarWithPayment() {
-        toolbarViewModel.doneClicked.subscribe {
-            if (currentState == BillingDetailsPaymentWidget::class.java.name) {
-                paymentWidget.doneClicked.onNext(Unit)
-            }
-        }
+        paymentWidget.viewmodel.doneClickedMethod.subscribe(toolbarViewModel.doneClickedMethod)
         paymentWidget.toolbarTitle.subscribe(toolbarViewModel.toolbarTitle)
         paymentWidget.focusedView.subscribe(toolbarViewModel.currentFocus)
         paymentWidget.filledIn.subscribe(toolbarViewModel.formFilledIn)

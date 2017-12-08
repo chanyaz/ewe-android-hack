@@ -32,6 +32,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val couponRemoveObservable = PublishSubject.create<String>()
     val hasDiscountObservable = BehaviorSubject.create<Boolean>()
     val enableSubmitButtonObservable = PublishSubject.create<Boolean>()
+    val onMenuClickedMethod = PublishSubject.create<() -> Unit>()
 
     val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
     private val createTripObservable = Observable.concat(createTripDownloadsObservable)

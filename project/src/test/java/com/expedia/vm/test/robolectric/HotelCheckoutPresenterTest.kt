@@ -110,21 +110,43 @@ class HotelCheckoutPresenterTest {
     }
 
     @Test
-    fun testMaterialCouponWidgetApplyFiresDone() {
-        val doneClickedSubscriber = TestSubscriber<Unit>()
+    fun testMaterialCouponWidgetApplyFiresMenuButtonPressed() {
+        val testEnableSubmitButtonObservable = TestSubscriber<Boolean>()
+        val testOnCouponSubmitClicked = TestSubscriber<Unit>()
 
         setupHotelMaterialForms()
-        checkout.toolbar.viewModel.doneClicked.subscribe { doneClickedSubscriber.onNext(Unit) }
+        checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(testEnableSubmitButtonObservable)
+        checkout.couponCardView.onCouponSubmitClicked.subscribe(testOnCouponSubmitClicked)
+        testEnableSubmitButtonObservable.assertValueCount(0)
+        testOnCouponSubmitClicked.assertNoValues()
 
-        doneClickedSubscriber.assertValueCount(0)
+        checkout.couponCardView.performClick()
+        checkout.toolbar.viewModel.onMenuItemClicked("Apply")
+        testEnableSubmitButtonObservable.assertValue(false)
+        testOnCouponSubmitClicked.assertValueCount(1)
 
-        checkout.toolbar.onMenuItemClicked(activity, "Apply")
+        checkout.toolbar.viewModel.onMenuItemClicked("Apply Button")
+        testEnableSubmitButtonObservable.assertValues(false, false)
+        testOnCouponSubmitClicked.assertValueCount(2)
+    }
 
-        doneClickedSubscriber.assertValueCount(1)
+    @Test
+    fun testToolbarReceivesOnDoneClickedMethodDefaultTravelerWidget() {
+        val testDoneClickedSubscriber = TestSubscriber<() -> Unit>()
+        checkout.toolbar.viewModel.doneClickedMethod.subscribe(testDoneClickedSubscriber)
+        checkout.mainContactInfoCardView.performClick()
 
-        checkout.toolbar.onMenuItemClicked(activity, "Apply Button")
+        testDoneClickedSubscriber.assertValueCount(1)
+    }
 
-        doneClickedSubscriber.assertValueCount(2)
+    @Test
+    fun testToolbarReceivesOnDoneClickedMethodMaterialTraveler() {
+        setupHotelMaterialForms()
+        val testDoneClickedSubscriber = TestSubscriber<() -> Unit>()
+        checkout.toolbar.viewModel.doneClickedMethod.subscribe(testDoneClickedSubscriber)
+        checkout.travelerSummaryCardView.performClick()
+
+        testDoneClickedSubscriber.assertValueCount(1)
     }
 
     @Test
@@ -141,40 +163,8 @@ class HotelCheckoutPresenterTest {
         doneMenuVisibilitySubscriber.assertValueCount(1)
         assertEquals("Done", checkout.menuDone.title.toString())
         assertTrue(checkout.menuDone.isVisible)
-        toolbarTitleTestSubscriber.assertValue("Enter Traveler Details")
+        toolbarTitleTestSubscriber.assertValues("Edit Traveler 1 (Adult)", "Enter Traveler Details")
         assertEquals("Enter Traveler Details", checkout.toolbar.title)
-    }
-
-    @Test
-    fun testCheckoutOverviewToolbarReturningFromTravelerMaterialTestOn() {
-        setupHotelMaterialForms()
-        val testToolbarNavIconContDescSubjectSubscriber = TestSubscriber<String>()
-        checkout.travelersPresenter.toolbarNavIconContDescSubject.subscribe(testToolbarNavIconContDescSubjectSubscriber)
-        checkout.travelerSummaryCardView.performClick()
-        checkout.travelersPresenter.closeSubject.onNext(Unit)
-
-        testToolbarNavIconContDescSubjectSubscriber.assertValue("Back")
-        assertCheckoutOverviewToolbarTitleAndMenu()
-    }
-
-    @Test
-    fun testCheckoutOverviewToolbarReturningFromTravelerMaterialTestOff() {
-        checkout.mainContactInfoCardView.performClick()
-        checkout.mainContactInfoCardView.isExpanded = false
-
-        assertHotelOverviewVisibility(expectedVisibility = VISIBLE)
-        assertCheckoutOverviewToolbarTitleAndMenu()
-    }
-
-    @Test
-    fun testMaterialTravelerToolbarOnDoneClick() {
-        setupHotelMaterialForms()
-        val testDoneSubscriber = TestSubscriber<Unit>()
-        checkout.travelersPresenter.doneClicked.subscribe(testDoneSubscriber)
-        checkout.travelerSummaryCardView.performClick()
-        checkout.toolbar.menuItem.actionView.performClick()
-
-        testDoneSubscriber.assertNoValues()
     }
 
     @Test
@@ -295,7 +285,6 @@ class HotelCheckoutPresenterTest {
     private fun assertCheckoutOverviewToolbarTitleAndMenu() {
         assertEquals("Checkout", checkout.toolbar.title)
         assertEquals("Next", checkout.menuDone.title)
-        assertTrue(checkout.menuDone.isVisible)
     }
 
     private fun setupHotelMaterialForms() {

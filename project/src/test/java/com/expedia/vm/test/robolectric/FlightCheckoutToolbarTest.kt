@@ -40,6 +40,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.LineOfBusiness
+import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -86,6 +87,17 @@ class FlightCheckoutToolbarTest {
 
         assertTrue(toolbar.menuItem.isVisible)
         assertEquals("Done", toolbar.menuItem.title)
+    }
+
+    @Test
+    fun testToolbarReceivesOnDoneClicked() {
+        overview.showCheckout()
+        val testDoneClickedSubscriber = TestSubscriber<() -> Unit>()
+        toolbar.viewModel.doneClickedMethod.subscribe(testDoneClickedSubscriber)
+        checkout.paymentWidget.cardInfoContainer.performClick()
+        checkout.paymentWidget.showPaymentForm(false)
+
+        testDoneClickedSubscriber.assertValueCount(1)
     }
 
     @Test

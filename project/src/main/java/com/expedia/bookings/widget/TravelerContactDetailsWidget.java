@@ -35,6 +35,8 @@ import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import rx.Observer;
 import rx.subjects.PublishSubject;
 import rx.subscriptions.CompositeSubscription;
@@ -91,7 +93,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	public PublishSubject<Boolean> filledIn = PublishSubject.create();
 	public CompositeSubscription compositeSubscription = new CompositeSubscription();
-
+	public PublishSubject<Function0<Unit>> onDoneClickedMethod = PublishSubject.create();
 	private UserStateManager userStateManager;
 
 	@Override
@@ -326,6 +328,13 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 				Ui.showKeyboard(firstName, null);
 			}
 			filledIn.onNext(isCompletelyFilled());
+			onDoneClickedMethod.onNext(new Function0<Unit>() {
+				@Override
+				public Unit invoke() {
+					onMenuButtonPressed();
+					return null;
+				}
+			});
 		}
 		else {
 			bind();

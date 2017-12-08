@@ -45,14 +45,6 @@ abstract class BaseSingleScreenOverviewPresenter(context: Context, attrs: Attrib
         checkoutPresenter.travelersPresenter.menuVisibility.subscribe(toolbar.viewModel.menuVisibility)
         checkoutPresenter.travelersPresenter.toolbarNavIcon.subscribe(toolbar.viewModel.toolbarNavIcon)
         checkoutPresenter.travelersPresenter.toolbarTitleSubject.subscribe(toolbar.viewModel.toolbarTitle)
-
-        toolbar.viewModel.doneClicked.subscribe {
-            if (checkoutPresenter.currentState == checkoutPresenter.paymentWidget.javaClass.name) {
-                checkoutPresenter.paymentWidget.doneClicked.onNext(Unit)
-            } else if (checkoutPresenter.currentState == checkoutPresenter.travelersPresenter.javaClass.name) {
-                checkoutPresenter.travelersPresenter.doneClicked.onNext(Unit)
-            }
-        }
         
         toolbar.setNavigationOnClickListener {
             val activity = context as AppCompatActivity

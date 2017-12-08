@@ -165,6 +165,8 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             }
         }
 
+        couponCardView.viewmodel.onMenuClickedMethod.subscribe(toolbar.viewModel.doneClickedMethod)
+
         val params = couponCardView.layoutParams as LayoutParams
         params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt(), 0, 0)
     }

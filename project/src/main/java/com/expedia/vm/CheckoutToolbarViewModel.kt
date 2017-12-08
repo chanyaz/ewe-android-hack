@@ -1,8 +1,9 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.view.View
-import android.widget.EditText
+import com.expedia.bookings.R
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.widget.ExpandableCardView
 import rx.subjects.BehaviorSubject
@@ -25,9 +26,26 @@ class CheckoutToolbarViewModel(val context: Context) {
     val hideToolbarTitle = PublishSubject.create<Unit>()
 
     // outputs
-    val doneClicked = PublishSubject.create<Unit>()
     val nextClicked = PublishSubject.create<Unit>()
+    val doneClickedMethod = BehaviorSubject.create<() -> Unit>()
 
     val expanded = PublishSubject.create<ExpandableCardView>()
     val closed = PublishSubject.create<Unit>()
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun onMenuItemClicked(menuButtonTitle: CharSequence): Boolean {
+        when (menuButtonTitle) {
+            context.getString(R.string.next) -> {
+                nextClicked.onNext(Unit)
+            }
+            context.getString(R.string.done),
+            context.getString(R.string.coupon_apply_button),
+            context.getString(R.string.coupon_apply_button_ally),
+            context.getString(R.string.coupon_submit_button),
+            context.getString(R.string.coupon_submit_button_ally) -> {
+                doneClickedMethod.value?.invoke()
+            }
+        }
+        return true
+    }
 }

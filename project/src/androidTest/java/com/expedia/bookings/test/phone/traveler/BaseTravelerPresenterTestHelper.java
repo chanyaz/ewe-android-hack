@@ -48,7 +48,7 @@ public class BaseTravelerPresenterTestHelper {
 
 	protected AbstractTravelersPresenter testTravelersPresenter;
 	protected TravelerSummaryCard testTravelerDefault;
-	private CheckoutToolbar testToolbar;
+	protected CheckoutToolbar testToolbar;
 	protected TravelersViewModel mockViewModel;
 
 	protected TravelerName testName = new TravelerName();
@@ -115,7 +115,6 @@ public class BaseTravelerPresenterTestHelper {
 		testTravelersPresenter.getTravelerEntryWidget().getFocusedView()
 			.subscribe(testToolbar.getViewModel().getCurrentFocus());
 		testTravelersPresenter.getMenuVisibility().subscribe(testToolbar.getViewModel().getMenuVisibility());
-		testToolbar.getViewModel().getDoneClicked().subscribe(testTravelersPresenter.getDoneClicked());
 		testName.setFirstName(testFirstName);
 		testName.setLastName(testLastName);
 
@@ -333,6 +332,7 @@ public class BaseTravelerPresenterTestHelper {
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelers(travelerCount);
 				testTravelersPresenter.setViewModel(mockViewModel);
+				testTravelersPresenter.getViewModel().getDoneClickedMethod().subscribe(testToolbar.getViewModel().getDoneClickedMethod());
 			}
 		});
 	}
@@ -343,6 +343,7 @@ public class BaseTravelerPresenterTestHelper {
 			public void run() {
 				mockViewModel = getMockViewModelValidTravelers(travelerCount);
 				testTravelersPresenter.setViewModel(mockViewModel);
+				testTravelersPresenter.getViewModel().getDoneClickedMethod().subscribe(testToolbar.getViewModel().getDoneClickedMethod());
 			}
 		});
 	}

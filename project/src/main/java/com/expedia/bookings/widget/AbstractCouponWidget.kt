@@ -47,7 +47,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
     val removeCoupon: ImageButton by bindView(R.id.remove_coupon_button)
     var progress: View by Delegates.notNull()
 
-    private val onCouponSubmitClicked = PublishSubject.create<Unit>()
+    val onCouponSubmitClicked = PublishSubject.create<Unit>()
 
     var viewmodel: HotelCouponViewModel by notNullAndObservable {
         viewmodel.applyObservable.subscribe {
@@ -156,6 +156,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
             onExpand()
             HotelTracking.trackHotelExpandCoupon()
             couponCode.requestFocus()
+            viewmodel.onMenuClickedMethod.onNext { onMenuButtonPressed() }
             Ui.showKeyboard(couponCode, null)
         } else {
             couponCode.removeTextChangedListener(textWatcher)
