@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/mod_search_toolbar"
@@ -11,30 +11,16 @@
         android:layout_height="wrap_content"
         android:background="@color/new_launch_toolbar_background_color"
         android:minHeight="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_close_white_24dp"
+        app:contentInsetStartWithNavigation="0dp"
         app:navigationContentDescription="@string/deals_toolbar_close_cont_desc"
+        app:navigationIcon="@drawable/ic_close_white_24dp"
         app:title="@string/member_deals_toolbar_title"
-        app:titleTextColor="@color/white"
         app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-        app:contentInsetStartWithNavigation="0dp">
-
-        <android.widget.Button
-            android:id="@+id/mod_shop_button"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/mod_shop"
-            android:textAllCaps="true"
-            style="?android:attr/borderlessButtonStyle"
-            android:background="@color/new_launch_toolbar_background_color"
-            android:textColor="@color/white"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:layout_gravity="right"/>
-
-    </android.support.v7.widget.Toolbar>
+        app:titleTextColor="@color/white" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/member_deal_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

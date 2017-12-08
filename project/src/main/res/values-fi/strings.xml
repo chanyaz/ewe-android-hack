@@ -4675,8 +4675,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Jäsenhinnat</string>
     <string name="member_deal_subtitle">Tarjouksia valituista hotelleista</string>
-    <string name="member_deal_landing_page_header">Näet lisää tarjouksia napauttamalla "Tee varauksia”</string>
-    <string name="member_deal_loading_page_header">Tarjouksia haetaan…</string>
+    <string name="search_for_hotel_deals_page_header">Tarjouksia haetaan…</string>
     <string name="member_deals_toolbar_title">Jäsenhinnat</string>
     <string name="continue_booking">Jatka varauksen tekemistä</string>
     <string name="deals_hotel_only">Pelkkä hotelli</string>

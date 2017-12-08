@@ -4675,8 +4675,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Prix réservé aux membres</string>
     <string name="member_deal_subtitle">Rabais sur certains hôtels</string>
-    <string name="member_deal_landing_page_header">Pour consulter plus d\&apos;offres, cliquez sur Magasiner</string>
-    <string name="member_deal_loading_page_header">Recherche d\&apos;offres…</string>
+    <string name="search_for_hotel_deals_page_header">Recherche d\&apos;offres…</string>
     <string name="member_deals_toolbar_title">Prix réservé aux membres</string>
     <string name="continue_booking">Continuez la réservation</string>
     <string name="deals_hotel_only">Hôtel seulement</string>

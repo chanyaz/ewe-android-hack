@@ -10,28 +10,27 @@ import com.expedia.bookings.data.sos.DealsResponse
 import com.expedia.bookings.mia.activity.MemberDealsActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
-import com.expedia.util.subscribeText
+import com.expedia.util.subscribeOnClick
+import rx.Observer
 import rx.subjects.BehaviorSubject
 import java.util.ArrayList
 
-class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MemberDealListAdapter(private val context: Context, private val searchHotelsClickedObserver: Observer<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listData: List<DealsDestination> = emptyList()
     private var currency: String? = null
     private var loading = true
 
     val resultSubject = BehaviorSubject.create<DealsResponse>()
-    val headerTextChangeSubject = BehaviorSubject.create<String>()
 
     init {
         listData = generateLoadingCells(3)
         resultSubject.subscribe { response ->
             if (response != null && response.destinations != null) {
                 loading = false
-                headerTextChangeSubject.onNext(context.resources.getString(R.string.member_deal_landing_page_header))
                 currency = response.offerInfo?.currency
                 listData = response.destinations!!
                 notifyDataSetChanged()
@@ -49,16 +48,18 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
         if (viewType == itemType.HEADER.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.member_deal_header, parent, false)
             val holder = MemberDealHeaderViewHolder(view)
-            return holder
-        } else if (viewType == itemType.LOADING_VIEW.ordinal) {
+            holder.rootCardView.subscribeOnClick(searchHotelsClickedObserver)
+            return MemberDealHeaderViewHolder(view)
+        }
+        else if (viewType == itemType.LOADING_VIEW.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.deal_loading_cell, parent, false)
-            val holder = LoadingViewHolder(view)
-            return holder
-        } else if (viewType == itemType.DESTINATION_CARD.ordinal) {
+            return LoadingViewHolder(view)
+        }
+        else if (viewType == itemType.DESTINATION_CARD.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.deals_card, parent, false)
             val holder = DealsDestinationViewHolder(view)
 
-            view.setOnClickListener { v ->
+            view.setOnClickListener {
                 val memberDealActivity = context as MemberDealsActivity
                 val animOptions = AnimUtils.createActivityScaleBundle(memberDealActivity.currentFocus)
                 HotelNavUtils.goToHotels(this.context, holder.searchParams, animOptions, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
@@ -70,9 +71,6 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        if (holder is MemberDealHeaderViewHolder) {
-            headerTextChangeSubject.subscribeText(holder.headerText)
-        }
         if (holder is DealsDestinationViewHolder) {
             val destination = listData[position - 1]
             val leadingHotel = destination.getLeadingHotel()
@@ -84,10 +82,6 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
         if (holder is LoadingViewHolder) {
             holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, (position - 1) % 2 == 0))
         }
-    }
-
-    override fun onViewRecycled(holder: RecyclerView.ViewHolder?) {
-        super.onViewRecycled(holder)
     }
 
     override fun getItemCount(): Int {

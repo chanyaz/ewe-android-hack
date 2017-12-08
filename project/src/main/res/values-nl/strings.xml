@@ -4675,8 +4675,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Klantenprijzen</string>
     <string name="member_deal_subtitle">Korting op geselecteerde hotels</string>
-    <string name="member_deal_landing_page_header">Tik op Shop om meer deals te zien</string>
-    <string name="member_deal_loading_page_header">Op zoek naar deals …</string>
+    <string name="search_for_hotel_deals_page_header">Op zoek naar deals …</string>
     <string name="member_deals_toolbar_title">Klantenprijzen</string>
     <string name="continue_booking">Doorgaan met boeken</string>
     <string name="deals_hotel_only">Alleen hotel</string>

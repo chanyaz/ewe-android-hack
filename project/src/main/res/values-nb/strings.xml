@@ -4675,8 +4675,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Medlemspris</string>
     <string name="member_deal_subtitle">Rabatter på utvalgte hoteller</string>
-    <string name="member_deal_landing_page_header">Du kan se flere tilbud ved å trykke på “Søk”</string>
-    <string name="member_deal_loading_page_header">Søker etter tilbud …</string>
+    <string name="search_for_hotel_deals_page_header">Søker etter tilbud …</string>
     <string name="member_deals_toolbar_title">Medlemspris</string>
     <string name="continue_booking">Fortsett bestillingen</string>
     <string name="deals_hotel_only">Kun hotell</string>

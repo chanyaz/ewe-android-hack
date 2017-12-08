@@ -4675,8 +4675,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Tariffe per soli iscritti</string>
     <string name="member_deal_subtitle">Sconti su hotel selezionati</string>
-    <string name="member_deal_landing_page_header">Per dare un\&apos;occhiata ad altre offerte tocca su "Acquista"</string>
-    <string name="member_deal_loading_page_header">Ricerca delle offerte in corso…</string>
+    <string name="search_for_hotel_deals_page_header">Ricerca delle offerte in corso…</string>
     <string name="member_deals_toolbar_title">Tariffe per soli iscritti</string>
     <string name="continue_booking">Procedi alla prenotazione</string>
     <string name="deals_hotel_only">Solo hotel</string>

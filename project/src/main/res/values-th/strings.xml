@@ -4675,8 +4675,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">ราคาสำหรับสมาชิก</string>
     <string name="member_deal_subtitle">ส่วนลดโรงแรมที่ร่วมรายการ</string>
-    <string name="member_deal_landing_page_header">คลิกเมนู จอง เพื่อดูดีลเพิ่มเติม</string>
-    <string name="member_deal_loading_page_header">กำลังค้นหาดีล…</string>
+    <string name="search_for_hotel_deals_page_header">กำลังค้นหาดีล…</string>
     <string name="member_deals_toolbar_title">ราคาสำหรับสมาชิก</string>
     <string name="continue_booking">ดำเนินการจองต่อ</string>
     <string name="deals_hotel_only">เฉพาะโรงแรม</string>
