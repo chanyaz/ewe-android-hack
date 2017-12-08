@@ -6,12 +6,14 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule
@@ -143,8 +145,33 @@ class HotelCheckoutInfoTrackingTest {
         OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "16138.0.1")), mockAnalyticsProvider)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testSavedCouponBucketedTrackingCallFired() {
+        enableABTestWithRemoteFeatureFlag(true, AbacusUtils.EBAndroidAppSavedCoupons)
+        trackPageLoadHotelCheckoutInfo()
+
+        val expectedEvars = mapOf(34 to "16365.0.1")
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testSavedCouponUnbucketedTrackingCallFired() {
+        enableABTestWithRemoteFeatureFlag(false, AbacusUtils.EBAndroidAppSavedCoupons)
+        trackPageLoadHotelCheckoutInfo()
+
+        val expectedEvars = mapOf(34 to "16365.0.0")
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
     private fun enableABTest(enable: Boolean, ABTestKey: Int) {
         Db.getAbacusResponse().updateABTestForDebug(ABTestKey,
+                if (enable) AbacusUtils.DefaultVariant.BUCKETED.ordinal else AbacusUtils.DefaultVariant.CONTROL.ordinal)
+    }
+
+    private fun enableABTestWithRemoteFeatureFlag(enable: Boolean, abTest: ABTest) {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest,
                 if (enable) AbacusUtils.DefaultVariant.BUCKETED.ordinal else AbacusUtils.DefaultVariant.CONTROL.ordinal)
     }
 

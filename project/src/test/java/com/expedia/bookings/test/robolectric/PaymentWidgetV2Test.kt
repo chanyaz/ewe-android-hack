@@ -39,6 +39,7 @@ import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isDisplayCardsOnPaymentForm
 import com.expedia.bookings.utils.isCreditCardMessagingForPayLaterEnabled
+import com.expedia.bookings.utils.isShowSavedCoupons
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.StoredCreditCardList
 import com.expedia.bookings.widget.TextView
@@ -105,7 +106,10 @@ class PaymentWidgetV2Test {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm, AbacusUtils.EBAndroidAppAllowUnknownCardTypes, AbacusUtils.EBAndroidAppHotelMaterialForms)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm,
+                AbacusUtils.EBAndroidAppAllowUnknownCardTypes,
+                AbacusUtils.EBAndroidAppHotelMaterialForms,
+                AbacusUtils.EBAndroidAppSavedCoupons)
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         viewModel = PaymentViewModel(activity)
         sut.viewmodel = viewModel
@@ -503,6 +507,23 @@ class PaymentWidgetV2Test {
         sut.show(PaymentWidget.PaymentDetails())
         sut.paymentOptionCreditDebitCard.performClick()
         assertTrue(sut.creditCardNumber.isFocused)
+    }
+
+    @Test
+    fun testSavedCouponABTestEnabled() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppSavedCoupons)
+        assertTrue(isShowSavedCoupons(getContext()))
+    }
+
+    @Test
+    fun testSavedCouponABTestDefaultState() {
+        assertFalse(isShowSavedCoupons(getContext()))
+    }
+
+    @Test
+    fun testSavedCouponABTestDisabled() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppSavedCoupons, AbacusUtils.DefaultVariant.CONTROL.ordinal)
+        assertFalse(isShowSavedCoupons(getContext()))
     }
 
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {

@@ -80,3 +80,7 @@ fun isBreadcrumbsMoveBundleOverviewPackagesEnabled(context: Context): Boolean {
 fun isPackagesMISRealWorldGeoEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
 }
+
+fun isShowSavedCoupons(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppSavedCoupons)
+}

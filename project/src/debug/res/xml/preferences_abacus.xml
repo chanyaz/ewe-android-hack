@@ -446,6 +446,14 @@
             android:summary="%s"
             android:title="Hotel Material Forms - 16138" />
 
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="16365"
+            android:summary="%s"
+            android:title="Saved Coupons For Hotels - 16365" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
