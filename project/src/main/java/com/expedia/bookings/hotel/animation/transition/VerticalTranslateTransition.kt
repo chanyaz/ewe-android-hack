@@ -1,9 +1,11 @@
 package com.expedia.bookings.hotel.animation.transition
 
 import android.view.View
-import com.expedia.bookings.hotel.animation.transition.TranslateTransition
+import rx.subjects.PublishSubject
 
 class VerticalTranslateTransition(view: View, origin: Int, target: Int) : TranslateTransition(view, origin, target) {
+    val reachedTargetSubject = PublishSubject.create<Unit>()
+
     override fun toOrigin(progress: Float) {
         view.translationY = target + (progress * (origin - target))
     }
@@ -18,5 +20,6 @@ class VerticalTranslateTransition(view: View, origin: Int, target: Int) : Transl
 
     fun jumpToTarget() {
         view.translationY = target.toFloat()
+        reachedTargetSubject.onNext(Unit)
     }
 }
