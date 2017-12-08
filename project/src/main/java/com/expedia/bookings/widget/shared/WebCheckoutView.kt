@@ -70,6 +70,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     override fun onPageFinished(url: String) {
         super.onPageFinished(url)
         if (clearHistory) {
+            webView.clearCache(true);
             webView.clearHistory()
             clearHistory = false
         }
