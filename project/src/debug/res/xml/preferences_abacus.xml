@@ -272,6 +272,14 @@
             android:title="Show Last Minute Deals Card - 15844" />
 
         <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="15846"
+            android:title="Show B2P Brand Colors - 15846" />
+
+        <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"

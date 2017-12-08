@@ -3231,6 +3231,10 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountSinglePageSignUp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
 
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_launch_screen_brand_colors)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppBrandColors);
+		}
+
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_last_minute_deals)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLastMinuteDeals);
 		}

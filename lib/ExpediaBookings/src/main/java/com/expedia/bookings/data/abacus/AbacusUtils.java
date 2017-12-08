@@ -113,6 +113,7 @@ public class AbacusUtils {
 	// Launch
 	public static final ABTest ProWizardTest = new ABTest(16136);
 	public static final ABTest HolidayFun = new ABTest(16318);
+	public static final ABTest EBAndroidAppBrandColors = new ABTest(15846);
 
 	// Soft Prompt
 	public static final ABTest EBAndroidAppSoftPromptLocation = new ABTest(15119);
@@ -222,6 +223,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppDisplayEligibleCardsOnPaymentForm.getKey());
 		testIDs.add(EBAndroidAppFlightsSearchResultCaching.getKey());
 		testIDs.add(HotelShowSoldOutResults.getKey());
+		testIDs.add(EBAndroidAppBrandColors.getKey());
 		testIDs.add(EBAndroidAppFlightsKrazyglue.getKey());
 		testIDs.add(EBAndroidAppFlightsDeltaPricing.getKey());
 		testIDs.add(HotelEnableInfositeChangeDate.getKey());
