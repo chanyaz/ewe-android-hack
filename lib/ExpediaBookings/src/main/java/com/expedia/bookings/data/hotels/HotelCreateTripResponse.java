@@ -17,6 +17,7 @@ public class HotelCreateTripResponse extends TripResponse {
 	public HotelProductResponse newHotelProductResponse;
 	public String tealeafTransactionId;
 	public Coupon coupon;
+	public List<SavedCoupon> userCoupons;
 
 	@NotNull
 	@Override
@@ -28,6 +29,19 @@ public class HotelCreateTripResponse extends TripResponse {
 	public static class Coupon {
 		public String code;
 	}
+
+	public static class SavedCoupon {
+		public String name;
+		public String instanceId;
+		public RedemptionStatus redemptionStatus;
+	}
+
+	public enum RedemptionStatus {
+		REDEEMED,
+		VALID,
+		EXPIRED
+	}
+
 
 	public static class HotelProductResponse {
 		public String checkInDate;
@@ -89,4 +103,5 @@ public class HotelCreateTripResponse extends TripResponse {
 	public boolean isCardDetailsRequiredForBooking() {
 		return true;
 	}
+
 }

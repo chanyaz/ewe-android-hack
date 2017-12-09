@@ -446,6 +446,41 @@ public class HotelServicesTest {
 		assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
 	}
 
+	@Test
+	public void testStoredCouponsWithCreateTripResponse() throws Throwable {
+		givenServerUsingMockResponses();
+
+		HotelCreateTripParams params = new HotelCreateTripParams("happypath_createtrip_saved_coupons", false, 1, Collections.<Integer>emptyList());
+
+		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+
+		service.createTrip(params, true, observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+
+		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals(3, response.userCoupons.size());
+		HotelCreateTripResponse.SavedCoupon firstCoupon = response.userCoupons.get(0);
+
+		Assert.assertEquals(HotelCreateTripResponse.RedemptionStatus.REDEEMED, firstCoupon.redemptionStatus);
+		Assert.assertEquals("1", firstCoupon.instanceId);
+		Assert.assertEquals("firstCoupon", firstCoupon.name);
+
+		HotelCreateTripResponse.SavedCoupon secondCoupon = response.userCoupons.get(1);
+		Assert.assertEquals(HotelCreateTripResponse.RedemptionStatus.VALID, secondCoupon.redemptionStatus);
+		Assert.assertEquals("2", secondCoupon.instanceId);
+		Assert.assertEquals("ESCAPE20PERCENT - US", secondCoupon.name);
+
+		HotelCreateTripResponse.SavedCoupon thirdCoupon = response.userCoupons.get(2);
+		Assert.assertEquals(HotelCreateTripResponse.RedemptionStatus.EXPIRED, thirdCoupon.redemptionStatus);
+		Assert.assertEquals("3", thirdCoupon.instanceId);
+		Assert.assertEquals("Employee Escape Package Coupon - $1000-$1999", thirdCoupon.name);
+	}
+
+
 	private List<Hotel> createDummyList(int hotelCount, boolean keepSponsoredItems) {
 		List<Hotel> hotelList = new ArrayList<>();
 		for (int index = 0; index < hotelCount; index++) {

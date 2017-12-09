@@ -1,0 +1,324 @@
+{
+  "tripId": "f1767d1e-80c7-4d08-9c3a-d03c5958843f",
+  "userId": 673093611,
+  "originalHotelProductResponse": {},
+  "newHotelProductResponse": {
+    "checkInDate": "2018-01-05",
+    "checkOutDate": "2018-01-06",
+    "checkInTime": "3:00pm",
+    "checkOutTime": "11:00am",
+    "adultCount": "1",
+    "numberOfNights": "1",
+    "numberOfRooms": "1",
+    "hotelId": "26945",
+    "hotelName": "La Quinta Inn & Suites San Francisco Airport West",
+    "localizedHotelName": "La Quinta Inn & Suites San Francisco Airport West",
+    "nonLocalizedHotelName": "La Quinta Inn & Suites San Francisco Airport West",
+    "largeThumbnailUrl": "/hotels/1000000/30000/27000/26945/75935983_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/30000/27000/26945/75935983_n.jpg",
+    "hotelAddress": "1390 El Camino Real",
+    "hotelCity": "Millbrae",
+    "hotelStateProvince": "CA",
+    "hotelCountry": "USA",
+    "hotelStarRating": "2.5",
+    "shortDescription": "Situated near the airport, this hotel is 1.8 mi (2.9 km) from Bayfront Park and within 9 mi (15 km) of Hillsdale Shopping Center and Cow Palace. San Francisco State University and San Mateo County Event Center are also within 12 mi (20 km). ",
+    "hotelRoomResponse": {
+      "productKey": "00000000-0000-0000-0000-000000000000_V3",
+      "bedTypes": [
+        {
+          "id": "14",
+          "description": "1 king bed"
+        }
+      ],
+      "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. La Quinta Inn & Suites San Francisco Airport West charges the following cancellation and change fees.</p><p>Cancellations or changes made after 5:00pm (property local time) on Jan 4, 2018 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.</p><p>Your room/unit will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.</p>",
+      "currentAllotment": "0",
+      "depositRequired": false,
+      "freeCancellationWindowDate": "2018-01-04 09:00",
+      "guaranteeRequired": false,
+      "hasFreeCancellation": true,
+      "immediateChargeRequired": true,
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isPayLater": false,
+      "isSameDayDRR": false,
+      "minGuestAge": "0",
+      "nonRefundable": false,
+      "promoDescription": "",
+      "promotionDetails": {
+        "promoId": "2459321",
+        "minStay": 1,
+        "promoExpirationDate": "2079-06-07T06:59:00-00:00",
+        "promoAdjustmentAmount": "0.00",
+        "promoAdjustmentType": "PERCENT_ADJUSTMENT",
+        "isPromoPartiallyApplied": false
+      },
+      "quotedOccupancy": "3",
+      "rateChange": false,
+      "rateDescription": "Standard Room, 1 King Bed",
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "118.99",
+          "averageRate": "118.99",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "15.27",
+          "surchargeTotalForEntireStay": "15.27",
+          "averageBaseRate": "118.99",
+          "nightlyRateTotal": "118.99",
+          "discountPercent": 0,
+          "total": "134.26",
+          "currencyCode": "USD",
+          "currencySymbol": "",
+          "surcharges": [
+            {
+              "amount": "12.49",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "12.49",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "2.78",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "2.78",
+              "type": "FEE_MISC"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "12.49",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "12.49",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "2.78",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "2.78",
+              "type": "FEE_MISC"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "118.99",
+              "rate": "118.99"
+            }
+          ],
+          "priceToShowUsers": "119",
+          "strikethroughPriceToShowUsers": "119",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "134",
+          "totalMandatoryFees": "0.00",
+          "totalPriceWithMandatoryFees": "134.26",
+          "formattedTotalPriceWithMandatoryFees": "$ 134.26",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "471853",
+          "ratePlanCode": "1807907",
+          "showResortFeeMessage": false,
+          "resortFeeInclusion": false
+        }
+      },
+      "rateOccupancyPerRoom": "5",
+      "ratePlanCode": "1807907",
+      "roomThumbnailUrlArray": [],
+      "roomTypeCode": "471853",
+      "roomTypeDescription": "Standard Room, 1 King Bed",
+      "smokingPreferences": "NS",
+      "supplierType": "MERCHANT",
+      "valueAdds": [
+        {
+          "id": "1073742786",
+          "description": "Free Breakfast"
+        },
+        {
+          "id": "2109",
+          "description": "Free Parking"
+        },
+        {
+          "id": "2192",
+          "description": "Free Wireless Internet"
+        }
+      ]
+    },
+    "supplierType": "MERCHANT",
+    "accessibilityAmenities": [],
+    "isVipAccess": false,
+    "tealeafTransactionId": "ff16bfad203d4ae290404b5eac429caa",
+    "bigImageUrl": "/hotels/1000000/30000/27000/26945/75935983_b.jpg",
+    "regionId": "800127"
+  },
+  "airAttachedProductResponse": {},
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 538.00,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 269.00,
+        "pointType": "basePoint"
+      },
+      {
+        "pointValue": 269.00,
+        "pointType": "offerPoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 538,
+    "isActiveRewardsMember": true,
+    "rewardsMembershipTierName": "Silver"
+  },
+  "rewards": {
+    "programName": "ExpediaRewards",
+    "totalPointsToEarn": 538.00,
+    "isActiveRewardsMember": true,
+    "rewardsMembershipTierName": "Silver"
+  },
+  "userCoupons": [
+    {
+      "name": "firstCoupon",
+      "instanceId": 1,
+      "redemptionStatus": "REDEEMED"
+    },
+    {
+      "name": "ESCAPE20PERCENT - US",
+      "instanceId": 2,
+      "redemptionStatus": "VALID"
+    },
+    {
+      "name": "Employee Escape Package Coupon - $1000-$1999",
+      "instanceId": 3,
+      "redemptionStatus": "EXPIRED"
+    }
+  ],
+  "tealeafTransactionId": "ff16bfad203d4ae290404b5eac429caa",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress",
+      "verificationTypes": [
+        "APPLE_PAY"
+      ]
+    },
+    {
+      "name": "ChinaUnionPay"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard",
+      "verificationTypes": [
+        "THREE_DS",
+        "APPLE_PAY"
+      ]
+    },
+    {
+      "name": "Visa",
+      "verificationTypes": [
+        "THREE_DS",
+        "APPLE_PAY"
+      ]
+    },
+    {
+      "name": "ExpediaRewards"
+    }
+  ],
+  "storedCreditCards": [
+    {
+      "description": "Visa ending in 9169",
+      "paymentsInstrumentsId": "28F2F68B-E925-4A74-BAFC-733B3A14EA5C",
+      "creditCardType": "Visa",
+      "nameOnCard": "Abhinav Tripathi",
+      "expired": "false",
+      "expirationDate": "2019-05"
+    },
+    {
+      "description": "AmericanExpress ending in 1002",
+      "paymentsInstrumentsId": "88CCB061-7A59-4217-8020-9901FB7EB597",
+      "creditCardType": "AmericanExpress",
+      "nameOnCard": "Abhinav Tripathi",
+      "expired": "false",
+      "expirationDate": "2021-01"
+    },
+    {
+      "description": "AmericanExpress ending in 3008",
+      "paymentsInstrumentsId": "007CD9B4-B43C-4B64-968C-EDA78C0745A8",
+      "creditCardType": "AmericanExpress",
+      "nameOnCard": "Abhinav Tripathi",
+      "expired": "false",
+      "expirationDate": "2022-04"
+    }
+  ],
+  "storedPointsCards": [
+    {
+      "description": "card-16561694",
+      "paymentsInstrumentsId": "86BE66DB-2AC7-4E14-9758-99F6ABF238CE",
+      "creditCardType": "ExpediaRewards"
+    }
+  ],
+  "paymentRules": {
+    "maxPaymentInstrumentsForBooking": 2
+  },
+  "pointsDetails": [
+    {
+      "programName": "ExpediaRewards",
+      "rateID": "21f5a9ed-2999-4377-b522-b0fb18b52164",
+      "totalAvailable": {
+        "points": 1642,
+        "pointsType": "AVAILABLE",
+        "amount": {
+          "amount": "11.73",
+          "roundedAmount": "12",
+          "formattedPrice": "$11.73",
+          "formattedWholePrice": "$12",
+          "currencyCode": "USD"
+        }
+      },
+      "maxPayableWithPoints": {
+        "points": 1642,
+        "pointsType": "BURN",
+        "amount": {
+          "amount": "11.73",
+          "roundedAmount": "12",
+          "formattedPrice": "$11.73",
+          "formattedWholePrice": "$12",
+          "currencyCode": "USD"
+        }
+      },
+      "remainingPayableByCard": {
+        "points": 492.00,
+        "pointsType": "EARN",
+        "amount": {
+          "amount": "122.53",
+          "roundedAmount": "123",
+          "formattedPrice": "$122.53",
+          "formattedWholePrice": "$123",
+          "currencyCode": "USD"
+        }
+      },
+      "tripTotalPayable": {
+        "amount": "122.53",
+        "roundedAmount": "123",
+        "formattedPrice": "$122.53",
+        "formattedWholePrice": "$123",
+        "currencyCode": "USD"
+      },
+      "isAllowedToRedeem": true
+    }
+  ]
+}
