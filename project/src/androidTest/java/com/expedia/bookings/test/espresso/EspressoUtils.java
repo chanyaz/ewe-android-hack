@@ -9,8 +9,12 @@ import org.hamcrest.Matcher;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
+import android.support.test.espresso.AmbiguousViewMatcherException;
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.NoMatchingViewException;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -237,6 +241,38 @@ public class EspressoUtils {
 			else {
 				throw new RuntimeException(lastException);
 			}
+		}
+	}
+
+	public static boolean existsOnScreen(ViewInteraction interaction) {
+		try {
+			interaction.perform(new ViewAction() {
+				@Override
+				public Matcher<View> getConstraints() {
+					return isCompletelyDisplayed();
+				}
+
+				@Override
+				public String getDescription() {
+					return "check for existence";
+				}
+
+				@Override
+				public void perform(UiController uiController, View view) {
+					// no op, if this is run, then the execution will continue after .perform(...)
+				}
+			});
+			return true;
+		}
+		catch (AmbiguousViewMatcherException ex) {
+			// if there's any interaction later with the same matcher, that'll fail anyway
+			return true; // we found more than one
+		}
+		catch (NoMatchingViewException ex) {
+			return false;
+		}
+		catch (Exception ex) {
+			return false;
 		}
 	}
 }

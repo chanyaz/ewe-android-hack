@@ -18,7 +18,9 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.CustomMatchers.withIndex
+import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.ViewActions
+import com.expedia.bookings.test.espresso.ViewActions.swipeDown
 import com.expedia.bookings.test.espresso.ViewActions.swipeUp
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import org.hamcrest.Matcher
@@ -168,6 +170,11 @@ object HotelInfoSiteScreen {
     }
 
     @JvmStatic
+    fun getRootView(): ViewInteraction {
+        return onView(withId(R.id.detail_container))
+    }
+
+    @JvmStatic
     fun roomCardViewForRoomType(roomType: String): ViewInteraction {
         return onView(
                 withChild(withChild(allOf(
@@ -236,6 +243,9 @@ object HotelInfoSiteScreen {
     fun bookFirstRoom() {
         firstCardView().perform(scrollTo())
         firstCardView().perform(swipeUp())
+        if (!EspressoUtils.existsOnScreen(firstBookButton())) {
+            getRootView().perform(swipeDown())
+        }
         firstBookButton().perform(click())
     }
 
