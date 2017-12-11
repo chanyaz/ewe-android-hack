@@ -102,6 +102,14 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
+            android:key="16405"
+            android:summary="%s"
+            android:title="Flights India Reboot - 16405" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
             android:key="12268"
             android:summary="%s"
             android:title="Offer Insurance in Flight Summary - 12268" />

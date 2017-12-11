@@ -4787,6 +4787,12 @@
     <string name="location_soft_prompt_enable">Enable Location</string>
     <string name="location_soft_prompt_disable">Not now</string>
 
+    <!--Soft Prompt For flights browser view-->
+    <string name="flights_browser_view_soft_prompt_title">Flights on Expedia!</string>
+    <string name="flights_browser_viewsoft_prompt_subtitle">We are working on getting you an in-app flights booking experience. In the mean time, book the cheapest flights on our mobile website</string>
+    <string name="flights_browser_viewsoft_prompt_openbrowser">Open Expedia.co.in on your default browser?</string>
+    <string name="flights_browser_viewsoft_prompt_enable">Yes, Lets Go!</string>
+
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Total including taxes and fees</string>
     <string name="excluding_taxes_fees">Excluding taxes and fees</string>
