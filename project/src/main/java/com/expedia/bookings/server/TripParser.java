@@ -513,7 +513,7 @@ public class TripParser {
 			leg.setLegDuration(legJson.optString("duration"));
 			leg.setNumberOfStops(legJson.optString("numberOfStops"));
 			leg.setAirlineLogoURL(legJson.optString("airlineLogoURL"));
-			leg.setLegArrivaltime(parseItinFlightLegTime(legJson.optJSONObject("legArrivaltime")));
+			leg.setLegArrivalTime(parseItinFlightLegTime(legJson.optJSONObject("legArrivaltime")));
 			leg.setLegDepartureTime(parseItinFlightLegTime(legJson.optJSONObject("legDepartureTime")));
 			JSONArray segmentsArr = legJson.optJSONArray("segments");
 			for (int b = 0; b < segmentsArr.length(); b++) {

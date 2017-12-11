@@ -146,8 +146,8 @@ class FlightItinManageBookingViewModelTest {
         leg.lastWaypoint.mAirportCode = "SEA"
         leg.legDepartureTime.localizedMediumDate = "Dec 13"
         leg.legDepartureTime.localizedShortTime = "11:39pm"
-        leg.legArrivaltime.localizedMediumDate = "Dec 13"
-        leg.legArrivaltime.localizedShortTime = "12:19pm"
+        leg.legArrivalTime.localizedMediumDate = "Dec 13"
+        leg.legArrivalTime.localizedShortTime = "12:19pm"
         leg.numberOfStops = "1"
 
 

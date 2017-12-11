@@ -5,15 +5,15 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class ItinFlightLegTime  : JSONable {
-    lateinit var raw : String
-    lateinit var localized : String
-    lateinit var epochSeconds : String
-    lateinit var timeZoneOffsetSeconds : String
-    lateinit var localizedShortDate : String
-    lateinit var localizedMediumDate : String
-    lateinit var localizedFullDate : String
-    lateinit var localizedLongDate : String
-    lateinit var localizedShortTime : String
+     var raw : String = ""
+     var localized : String = ""
+     var epochSeconds : String = ""
+     var timeZoneOffsetSeconds : String  = ""
+     var localizedShortDate : String  = ""
+     var localizedMediumDate : String  = ""
+     var localizedFullDate : String  = ""
+     var localizedLongDate : String = ""
+     var localizedShortTime : String  = ""
 
     override fun toJson(): JSONObject? {
         val obj = JSONObject()
@@ -36,15 +36,15 @@ class ItinFlightLegTime  : JSONable {
     }
 
     override fun fromJson(obj: JSONObject): Boolean {
-        raw = obj.optString("raw", null)
-        localized = obj.optString("localized", null)
-        epochSeconds = obj.optString("epochSeconds", null)
-        timeZoneOffsetSeconds = obj.optString("timeZoneOffsetSeconds", null)
-        localizedShortDate = obj.optString("localizedShortDate", null)
-        localizedMediumDate = obj.optString("localizedMediumDate", null)
-        localizedFullDate = obj.optString("localizedFullDate", null)
-        localizedLongDate = obj.optString("localizedLongDate", null)
-        localizedShortTime = obj.optString("localizedShortTime", null)
+        raw = obj.optString("raw", raw)
+        localized = obj.optString("localized", localized)
+        epochSeconds = obj.optString("epochSeconds", epochSeconds)
+        timeZoneOffsetSeconds = obj.optString("timeZoneOffsetSeconds", timeZoneOffsetSeconds)
+        localizedShortDate = obj.optString("localizedShortDate", localizedShortDate)
+        localizedMediumDate = obj.optString("localizedMediumDate", localizedMediumDate)
+        localizedFullDate = obj.optString("localizedFullDate", localizedFullDate)
+        localizedLongDate = obj.optString("localizedLongDate", localizedLongDate)
+        localizedShortTime = obj.optString("localizedShortTime", localizedShortTime)
         return true
     }
 

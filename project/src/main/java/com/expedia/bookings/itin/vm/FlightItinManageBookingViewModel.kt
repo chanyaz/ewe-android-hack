@@ -80,8 +80,8 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
             val numbOfStops = leg.numberOfStops
             val departureMonthDay = leg.legDepartureTime.localizedMediumDate
             val departureTime = leg.legDepartureTime.localizedShortTime
-            val arrivalMonthDay = leg.legArrivaltime.localizedMediumDate
-            val arrivalTime = leg.legArrivaltime.localizedShortTime
+            val arrivalMonthDay = leg.legArrivalTime.localizedMediumDate
+            val arrivalTime = leg.legArrivalTime.localizedShortTime
             val flightItinLegsDetailData = FlightItinLegsDetailData(imgPath, departureAirportCode, arrivalAirportCode, departureMonthDay, departureTime, arrivalMonthDay, arrivalTime, numbOfStops)
             list.add(flightItinLegsDetailData)
         }

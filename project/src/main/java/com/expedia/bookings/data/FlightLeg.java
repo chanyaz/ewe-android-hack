@@ -11,6 +11,7 @@ import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
+import com.google.gson.annotations.SerializedName;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -57,7 +58,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	private ItinFlightLegTime legDepartureTime;
 
-	private ItinFlightLegTime legArrivaltime;
+	@SerializedName("legArrivaltime")
+	private ItinFlightLegTime legArrivalTime;
 
 	public ItinFlightLegTime getLegDepartureTime() {
 		return legDepartureTime;
@@ -67,12 +69,12 @@ public class FlightLeg implements JSONable, ItinSharable {
 		this.legDepartureTime = legDepartureTime;
 	}
 
-	public ItinFlightLegTime getLegArrivaltime() {
-		return legArrivaltime;
+	public ItinFlightLegTime getLegArrivalTime() {
+		return legArrivalTime;
 	}
 
-	public void setLegArrivaltime(ItinFlightLegTime legArrivaltime) {
-		this.legArrivaltime = legArrivaltime;
+	public void setLegArrivalTime(ItinFlightLegTime legArrivalTime) {
+		this.legArrivalTime = legArrivalTime;
 	}
 
 	public String getNumberOfStops() {
@@ -352,7 +354,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 			JSONObject obj = new JSONObject();
 			obj.putOpt("legId", mLegId);
 			JSONUtils.putJSONableList(obj, "segments", mSegments);
-			JSONUtils.putJSONable(obj, "legArrivaltime", legArrivaltime);
+			JSONUtils.putJSONable(obj, "legArrivaltime", legArrivalTime);
 			JSONUtils.putJSONable(obj, "legDepartureTime", legDepartureTime);
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
 			obj.putOpt("duration", mDuration);
@@ -375,14 +377,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mSegments = JSONUtils.getJSONableList(obj, "segments", Flight.class);
 		mShareInfo = JSONUtils.getJSONable(obj, "shareInfo", ItinShareInfo.class);
 		mShareInfo = mShareInfo == null ? new ItinShareInfo() : mShareInfo;
-		legArrivaltime = JSONUtils.getJSONable(obj, "legArrivaltime", ItinFlightLegTime.class);
-		if (legArrivaltime == null) {
-			legArrivaltime = new ItinFlightLegTime();
-		}
+		legArrivalTime = JSONUtils.getJSONable(obj, "legArrivaltime", ItinFlightLegTime.class);
 		legDepartureTime = JSONUtils.getJSONable(obj, "legDepartureTime", ItinFlightLegTime.class);
-		if (legDepartureTime == null) {
-			legDepartureTime = new ItinFlightLegTime();
-		}
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
 		mDuration = obj.optString("duration");
 		mHasBagFee = obj.optBoolean("hasBagFee", false);
