@@ -48,10 +48,6 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
             toggleLoading(false)
         }
 
-        override fun onLoadResource(view: WebView, url: String) {
-            super.onLoadResource(view, url)
-            onWebViewLoadResource(url)
-        }
     }
 
     open fun onPageFinished(url: String) {
@@ -61,22 +57,11 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     }
 
     private fun preventLoadingOfDivClass(className: String) {
-        webView.loadUrl("javascript:(function() { document.getElementsByClassName('$className')[0].style.display=\"none\"; })()")
-    }
-
-    fun preventLoadingOfDivId(idName: String) {
-        webView.loadUrl("javascript:(function() { " +
-                "document.getElementById('$idName').style.display='none'; " +
-                "})()")
+        webView.loadUrl("javascript:(function() { var elements = document.getElementsByClassName('$className'); if(elements.length > 0) { document.getElementsByClassName('$className')[0].style.display=\"none\"; }; })()")
     }
 
     open fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
         toggleLoading(true)
-    }
-
-    open fun onWebViewLoadResource(url: String) {
-        //Will open another card to remove these functions from onPageFinished()
-        preventLoadingOfDivClass(HEADER_CLASS)
     }
 
     init {
