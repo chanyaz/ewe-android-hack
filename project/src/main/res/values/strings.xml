@@ -4705,6 +4705,7 @@
     <string name="continue_booking">Continue Booking</string>
     <string name="deals_hotel_only">Hotel Only</string>
     <string name="deals_toolbar_close_cont_desc">Close member pricing screen</string>
+    <string name="mod_shop">Shop</string>
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Last-Minute Deals</string>

@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/member_only_discount_percentage_background"
+                android:background="@drawable/discount_percentage_background"
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:paddingLeft="5dp"
@@ -75,7 +75,7 @@
                 android:paddingTop="3dp"
                 android:layout_marginRight="11dp"
                 android:layout_gravity="bottom|right"
-                android:textColor="@color/gray900"
+                android:textColor="@color/white"
                 style="@style/Core.Text.100"
                 tool:text="-20%"/>
         </FrameLayout>
