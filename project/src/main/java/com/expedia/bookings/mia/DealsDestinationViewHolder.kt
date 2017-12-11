@@ -17,8 +17,14 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.ColorBuilder
+import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
@@ -46,6 +52,11 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
         searchParams = setSearchParams(vm)
         discountPercent = vm.getDiscountPercentForContentDesc(vm.leadingHotel.hotelPricingInfo?.percentSavings)
         cardView.contentDescription = getDealsContentDesc()
+
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(vm.context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)) {
+            discountView.setBackgroundResource(R.drawable.member_only_discount_percentage_background)
+            discountView.setTextColor(R.color.gray900)
+        }
     }
 
     fun setSearchParams(vm: DealsDestinationViewModel): HotelSearchParams {
