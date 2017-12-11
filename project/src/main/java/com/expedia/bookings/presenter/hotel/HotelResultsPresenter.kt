@@ -164,12 +164,10 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     private fun showSortAndFilter() {
-        val anim = ValueAnimator.ofFloat(0.toFloat(), 1.toFloat())
-        anim.duration = 500
+        val anim = ValueAnimator.ofFloat(0f, 1f).setDuration(500)
         anim.interpolator = DecelerateInterpolator(2f)
         anim.addUpdateListener({ animation ->
-            val translateTo = animation.animatedValue as Float
-            sortFilterButtonTransition?.toOrigin(translateTo)
+            sortFilterButtonTransition?.toOrigin(animation.animatedValue as Float)
         })
         anim.start()
     }
@@ -224,6 +222,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         filterView.shopWithPointsViewModel = shopWithPointsViewModel
 
         sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget, 0, filterHeight.toInt())
+        sortFilterButtonTransition?.reachedTargetSubject?.subscribe {
+            narrowResultsPromptView.clearAnimation()
+            narrowResultsPromptView.visibility = View.GONE
+        }
+
         filterBtnWithCountWidget.setOnClickListener {
             showWithTracking(ResultsFilter())
             filterView.viewModel.sortContainerVisibilityObservable.onNext(true)
