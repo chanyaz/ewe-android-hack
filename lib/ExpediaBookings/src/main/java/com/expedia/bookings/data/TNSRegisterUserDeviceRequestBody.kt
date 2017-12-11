@@ -6,7 +6,7 @@ data class TNSDeregister(val courier: Courier)
 
 data class TNSRegisterUserDeviceRequestBody(val courier: Courier, val user: TNSUser)
 
-data class TNSUser(val siteid: Int, val tuid: Long?, val expuserid: Long?)
+data class TNSUser(val siteid: Int, val tuid: Long?, val expUserID: Long?)
 
 data class Courier(val group: String, val name: String, val token: String, val uniqueIdentifier: String)
 
