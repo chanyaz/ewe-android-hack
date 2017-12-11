@@ -495,9 +495,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean showMemberDeal() {
-		return userStateManager.isUserAuthenticated() &&
-			AbacusFeatureConfigManager
-				.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
+		return userStateManager.isUserAuthenticated();
 	}
 
 	private boolean showLastMinuteDeal() {

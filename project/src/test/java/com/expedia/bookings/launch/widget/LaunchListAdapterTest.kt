@@ -74,7 +74,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun itemViewPosition_showingHotels_signedInItin_memberDeals__last_minute_deals() {
-        givenMemberDealsCardEnabled()
         givenLastMinuteDealIsEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
         givenCustomerSignedIn()
@@ -102,7 +101,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun itemViewPosition_showingHotels_signInCard_memberDeals() {
-        givenMemberDealsCardEnabled()
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
 
@@ -122,7 +120,6 @@ class LaunchListAdapterTest {
     @Test
     fun itemViewPosition_showing_hotels_airAttach_memberDeals() {
         givenAirAttachCardEnabled()
-        givenMemberDealsCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -156,10 +153,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.ITIN_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+
+        val fifthPosition = sut.getItemViewType(4)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
     }
 
     @Test
@@ -230,10 +230,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.ITIN_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+
+        val fifthPosition = sut.getItemViewType(4)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
     }
 
     @Test
@@ -253,10 +256,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, fourthPosition)
 
         val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
+
+        val sixthPosition = sut.getItemViewType(5)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
     }
 
     @Test
@@ -267,8 +273,9 @@ class LaunchListAdapterTest {
         givenWeHaveCurrentLocationAndHotels()
 
         assertEquals(LaunchDataItem.LOB_VIEW, sut.getItemViewType(0))
-        assertEquals(LaunchDataItem.HEADER_VIEW, sut.getItemViewType(1))
-        assertEquals(LaunchDataItem.HOTEL_VIEW, sut.getItemViewType(2))
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, sut.getItemViewType(1))
+        assertEquals(LaunchDataItem.HEADER_VIEW, sut.getItemViewType(2))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, sut.getItemViewType(3))
 
         givenCustomerSignedOut()
         givenWeHaveCurrentLocationAndHotels()
@@ -306,10 +313,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
     }
 
     @Test
@@ -344,10 +354,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         var secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
 
         var thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+
+        var fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
 
         sut.isItinLaunchCardEnabled = true
         mockItineraryManager.onSyncFinished(ArrayList<Trip>())
@@ -359,10 +372,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.ITIN_VIEW, secondPosition)
 
         thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
-        val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
+        fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+
+        val fifthPosition = sut.getItemViewType(4)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fifthPosition)
     }
 
     @Test
@@ -396,10 +412,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+
+        val fifthPosition = sut.getItemViewType(4)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fifthPosition)
     }
 
     @Test
@@ -417,10 +436,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+
+        val fifthPosition = sut.getItemViewType(4)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
     }
 
     @Test
@@ -450,7 +472,7 @@ class LaunchListAdapterTest {
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels(numberOfHotels)
 
-        val fixedItemCount = 2 // lob view and header view
+        val fixedItemCount = 3 // lob view, header view, member deals
         val expectedCount = fixedItemCount + numberOfHotels
         val actualCount = sut.itemCount
         assertEquals(expectedCount, actualCount)
@@ -463,7 +485,7 @@ class LaunchListAdapterTest {
         givenCustomerSignedIn()
         givenWeHaveStaffPicks(numberOfStaffPicks)
 
-        val fixedItemCount = 2 // lob view and header view
+        val fixedItemCount = 3 // lob view, header view, member deals
         val expectedCount = fixedItemCount + numberOfStaffPicks
         assertEquals(expectedCount, sut.itemCount)
     }
@@ -489,10 +511,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
     }
 
     @Test
@@ -650,10 +675,6 @@ class LaunchListAdapterTest {
             // note: sign out triggers a notification clean-up which accesses the local DB.
             // As the DB isn't setup for the test it blows. We're just catching this so the test can still run.
         }
-    }
-
-    private fun givenMemberDealsCardEnabled() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen, 1)
     }
 
     private fun givenLastMinuteDealIsEnabled() {
