@@ -44,6 +44,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelItinDetailsResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.abacus.ABTest;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
@@ -52,6 +53,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightItineraryType;
+import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.flights.FlightLeg.FlightSegment;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.data.flights.KrazyglueResponse;
@@ -5264,7 +5266,53 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSubpubChange);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsEvolable);
 
+		// This is added to collect data and will be removed by Feb'18. Card# 8787
+		if (searchTrackingData.getReturnDate() == null) {
+			s.setEvar(70, getTopFlightResults(searchTrackingData.getFlightLegList()));
+		}
+
 		s.track();
+	}
+
+	private static final int FLIGHT_TOP_RESULTS = 7;
+	private static String getTopFlightResults(List<FlightLeg> flightLegs) {
+		StringBuilder resultsBuilder = new StringBuilder("");
+		if (CollectionUtils.isNotEmpty(flightLegs)) {
+			int listSize = (flightLegs.size() > FLIGHT_TOP_RESULTS) ? FLIGHT_TOP_RESULTS : flightLegs.size();
+			for (int index = 0; index < listSize; index++) {
+				FlightLeg flightLeg = flightLegs.get(index);
+				if (flightLeg != null) {
+					if (resultsBuilder.length() > 0) {
+						resultsBuilder.append(",");
+					}
+					resultsBuilder.append(FlightV2Utils.formatTimeShort(sContext, flightLeg.departureDateTimeISO));
+					resultsBuilder.append("|");
+					resultsBuilder.append(FlightV2Utils.formatTimeShort(sContext, flightLeg.arrivalDateTimeISO));
+					resultsBuilder.append("|");
+					resultsBuilder.append(flightLeg.stopCount);
+					resultsBuilder.append("|");
+					resultsBuilder.append((getFlightLayoverDuration(flightLeg.flightSegments)));
+					resultsBuilder.append("|");
+					resultsBuilder.append(flightLeg.flightSegments.get(0).airlineCode);
+					resultsBuilder.append("|");
+					resultsBuilder.append((flightLeg.durationHour * 60) + flightLeg.durationMinute);
+					resultsBuilder.append("|");
+					Money flightPrice = flightLeg.packageOfferModel.price.averageTotalPricePerTicket;
+					resultsBuilder.append(flightPrice.roundedAmount);
+				}
+			}
+		}
+		return resultsBuilder.toString();
+	}
+
+	private static int getFlightLayoverDuration(List<FlightSegment> flightSegments) {
+		int layoverDuration = 0;
+		if (CollectionUtils.isNotEmpty(flightSegments)) {
+			for (FlightSegment flightSegment: flightSegments) {
+				layoverDuration += ((flightSegment.layoverDurationHours * 60) + flightSegment.layoverDurationMinutes);
+			}
+		}
+		return layoverDuration;
 	}
 
 	public static void trackFlightOverview(Boolean isOutboundFlight, Boolean isRoundTrip) {
@@ -5398,7 +5446,52 @@ public class OmnitureTracking {
 			s.setEvents(eventStringBuilder.toString());
 		}
 
+		// This is added to collect data and will be removed by Feb'18. Card# 8787
+		if (!flightSearchParams.isRoundTrip()) {
+			s.setEvar(70, getSelectedFlight(Db.getTripBucket().getFlightV2().flightCreateTripResponse.details.legs,
+				Db.getTripBucket().getFlightV2().flightCreateTripResponse.details.offer.averageTotalPricePerTicket));
+		}
+
 		s.track();
+	}
+
+	private static String getSelectedFlight(List<FlightLeg> flightLegs, Money offerPrice) {
+		StringBuilder resultsBuilder = new StringBuilder("");
+		if (CollectionUtils.isNotEmpty(flightLegs)) {
+			FlightLeg flightLeg = flightLegs.get(0);
+			if (flightLeg != null) {
+				resultsBuilder.append(getFlightDepartureTimeFromSegments(flightLeg.segments));
+				resultsBuilder.append("|");
+				resultsBuilder.append(getFlightArrivalTimeFromSegments(flightLeg.segments));
+				resultsBuilder.append("|");
+				resultsBuilder.append(flightLeg.segments.size() - 1);
+				resultsBuilder.append("|");
+				resultsBuilder.append(flightLeg.segments.get(0).airlineCode);
+				resultsBuilder.append("|");
+				resultsBuilder.append(offerPrice.roundedAmount);
+			}
+		}
+		return resultsBuilder.toString();
+	}
+
+	private static String getFlightDepartureTimeFromSegments(List<FlightSegment> flightSegments) {
+		if (CollectionUtils.isNotEmpty(flightSegments)) {
+			FlightSegment flightSegment = flightSegments.get(0);
+			if (flightSegment != null) {
+				return FlightV2Utils.formatTimeShort(sContext, flightSegment.departureTimeRaw);
+			}
+		}
+		return "";
+	}
+
+	private static String getFlightArrivalTimeFromSegments(List<FlightSegment> flightSegments) {
+		if (CollectionUtils.isNotEmpty(flightSegments)) {
+			FlightSegment flightSegment = flightSegments.get(flightSegments.size() - 1);
+			if (flightSegment != null) {
+				return FlightV2Utils.formatTimeShort(sContext, flightSegment.arrivalTimeRaw);
+			}
+		}
+		return "";
 	}
 
 	public static void trackFareFamilyCardViewClick(boolean isUpgradingFlight) {
