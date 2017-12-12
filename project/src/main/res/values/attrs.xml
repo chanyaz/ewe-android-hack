@@ -176,12 +176,6 @@
         <attr name="customNumberFormat" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="MaskView">
-        <attr name="exposedView" format="reference"/>
-        <attr name="exposedPadding" format="dimension"/>
-        <attr name="maskColor" format="color"/>
-    </declare-styleable>
-
     <declare-styleable name="CheckoutInfoStatusIcon">
         <attr name="state_info_complete" format="boolean" />
     </declare-styleable>
