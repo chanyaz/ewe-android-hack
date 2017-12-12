@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Rect
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
+import android.text.Spanned
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -135,9 +136,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         paymentWidget.viewmodel.updateBackgroundColor.subscribe { forward ->
             val color = ContextCompat.getColor(context, if (forward) R.color.white else R.color.gray100)
             scrollView.setBackgroundColor(color)
-        }
-        paymentWidget.viewmodel.showingPaymentForm.subscribe { showingForm ->
-            ckoViewModel.showCardFeeWarningText.onNext(!showingForm && !cardFeeWarningTextView.text.isNullOrEmpty())
         }
     }
 
@@ -343,8 +341,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
         Observable.combineLatest(getCheckoutViewModel().paymentTypeSelectedHasCardFee,
                 paymentWidget.viewmodel.showingPaymentForm,
-                { haveCardFee, showingGuestPaymentForm ->
-                    ckoViewModel.showCardFeeWarningText.onNext(!showingGuestPaymentForm && haveCardFee)
+                getCheckoutViewModel().cardFeeWarningTextSubject,
+                { haveCardFee, showingGuestPaymentForm, warningText ->
+                    updateCardFeeWarningVisibility(showingGuestPaymentForm, haveCardFee, warningText)
                     val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
                     if (cardFeeVisibility == View.VISIBLE && cardProcessingFeeTextView.visibility == View.GONE) {
                         cardProcessingFeeTextView.visibility = cardFeeVisibility
@@ -354,6 +353,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                         AnimUtils.slideOut(cardProcessingFeeTextView)
                     }
                 }).subscribe()
+    }
+
+    private fun updateCardFeeWarningVisibility(showingGuestPaymentForm: Boolean, haveCardFee: Boolean, warningText: Spanned?) {
+        val hasValidCardFee =  haveCardFee && !warningText.isNullOrBlank()
+        val shouldShowCardFeeWarning = !showingGuestPaymentForm && (!paymentWidget.viewmodel.hasCard() || hasValidCardFee)
+        ckoViewModel.showCardFeeWarningText.onNext(shouldShowCardFeeWarning)
     }
 
     /** Presenter Transitions **/

@@ -291,5 +291,20 @@ open class PaymentViewModel(val context: Context) {
                 .put("cardno", cardNumber.drop(cardNumber.length - 4))
                 .format().toString()
     }
+
+    fun hasCard(): Boolean {
+        if (isCreditCardRequired.value) {
+            return hasStoredCard() || Db.getTemporarilySavedCard() != null || !cardBIN.value.isNullOrEmpty()
+        }  else {
+            return true
+        }
+    }
+
+    fun hasStoredCard() : Boolean {
+        billingInfoAndStatusUpdate.value?.first?.let { info ->
+            return info.hasStoredCard()
+        }
+        return false
+    }
 }
 

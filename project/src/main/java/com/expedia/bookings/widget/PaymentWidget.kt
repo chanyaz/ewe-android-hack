@@ -57,7 +57,6 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
-import com.expedia.bookings.utils.isHotelMaterialForms
 
 open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(context, attr), View.OnFocusChangeListener {
     val cardInfoContainer: ViewGroup by bindView(R.id.card_info_container)

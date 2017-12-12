@@ -4,7 +4,6 @@ import android.support.v4.app.FragmentActivity
 import android.text.Spanned
 import android.text.SpannedString
 import android.view.LayoutInflater
-import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
 import com.expedia.bookings.data.Money
@@ -29,7 +28,6 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner :: class)
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -99,6 +97,7 @@ class FlightCheckoutPresenterTest {
         checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(0))
         testSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         assertEquals("",checkoutPresenter.cardFeeWarningTextView.text.toString())
+        checkoutPresenter.paymentWidget.viewmodel.cardBIN.onNext("654321")
         checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(false)
         assertFalse(checkoutPresenter.flightCheckoutViewModel.showCardFeeWarningText.value)
         assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
@@ -106,30 +105,53 @@ class FlightCheckoutPresenterTest {
 
     @Test
     fun hideCardFeeWarningWhenNoFeeAndShowingPaymentForm() {
-        checkoutPresenter.flightCheckoutViewModel.paymentTypeSelectedHasCardFee.onNext(false)
-        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(true)
-        assertTrue(checkoutPresenter.cardFeeWarningTextView.visibility == View.GONE)
+        givenCardFees(hasCardFee = false, showingPaymentForm = true, warningText = "")
+
+        assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
     }
 
     @Test
-    fun hideCardFeeWarningWhenNoFeeAndNotShowingPaymentForm() {
-        checkoutPresenter.flightCheckoutViewModel.paymentTypeSelectedHasCardFee.onNext(false)
-        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(false)
-        assertTrue(checkoutPresenter.cardFeeWarningTextView.visibility == View.GONE)
+    fun hideCardFeeWarningWhenNoFeeAndNotShowingPaymentFormAndHasCard() {
+        givenCardFees(hasCardFee = false, showingPaymentForm = false, warningText = "")
+
+        assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
     }
 
     @Test
     fun hideCardFeeWarningWhenFeeAndNotOnPaymentWidget() {
-        checkoutPresenter.flightCheckoutViewModel.paymentTypeSelectedHasCardFee.onNext(true)
-        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(false)
+        givenCardFees(hasCardFee = true, showingPaymentForm = false, warningText = "card fees may apply")
+
         assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
     }
 
     @Test
     fun showCardFeeWarningWhenFeeAndOnPaymentWidget() {
-        checkoutPresenter.flightCheckoutViewModel.paymentTypeSelectedHasCardFee.onNext(true)
-        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(false)
+        givenCardFees(hasCardFee = true, showingPaymentForm = false, warningText = "card fees may apply")
+
         assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
+    }
+
+    @Test
+    fun showCardFeeWarningWithoutPaymentMethodNotShowingPaymentForm() {
+        givenCardFees(hasCardFee = false, showingPaymentForm = false, warningText = "card fees may apply", hasCard = false)
+
+        assertViewIsVisible(checkoutPresenter.cardFeeWarningTextView)
+    }
+
+    @Test
+    fun hideCardFeeWarningWithPaymentMethodNotShowingPaymentForm() {
+        givenCardFees(hasCardFee = false, showingPaymentForm = false, warningText = "card fees may apply", hasCard = true)
+
+        assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
+    }
+
+    private fun givenCardFees(hasCardFee: Boolean, showingPaymentForm: Boolean, warningText: String, hasCard: Boolean = true) {
+        checkoutPresenter.flightCheckoutViewModel.paymentTypeSelectedHasCardFee.onNext(hasCardFee)
+        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(showingPaymentForm)
+        checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.onNext(SpannedString(warningText))
+        if (hasCard) {
+            checkoutPresenter.paymentWidget.viewmodel.cardBIN.onNext("654321")
+        }
     }
 
     private fun getMoney(moneyValue: Int): Money {
