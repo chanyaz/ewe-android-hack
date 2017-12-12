@@ -75,6 +75,10 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview.getKey(),
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
+		if (list.contains("AccountRecaptcha")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppAccountRecaptcha.getKey(),
+					AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
 		Db.setAbacusResponse(abacusResponse);
 	}
 

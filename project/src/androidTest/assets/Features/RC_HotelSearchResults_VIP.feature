@@ -3,6 +3,8 @@ Feature: +VIP labels and functionality on HSR and HIS pages
   @ReleaseCandidate @Prod @HotelSearchResults
   Scenario Outline: Validate VIP label presence, based on the user tier type
     Given I launch the App
+    And I bucket the following tests
+      | AccountRecaptcha |
     And I tap on "Account" tab
     And I login with "<tier>" tier user
     And I tap on "Shop" tab
