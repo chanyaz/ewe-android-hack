@@ -3,19 +3,23 @@ package com.expedia.bookings.activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.ui.FlightActivity
 import com.expedia.ui.HotelActivity
+import com.expedia.ui.PackageActivity
 import com.expedia.util.ForceBucketPref
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import org.junit.Test
@@ -159,6 +163,25 @@ class DeepLinkRouterActivityTest {
 
         deepLinkRouterActivityController.setup()
         assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity, "7238447666975")
+    }
+
+    @Test
+    fun packageSearchDeeplink() {
+        val packageSearchUrl = "expda://packageSearch"
+        val deepLinkRouterActivity = getDeepLinkRouterActivity(packageSearchUrl)
+        val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
+        assertIntentForActivity(PackageActivity::class.java, startedIntent)
+    }
+
+    @Test
+    fun packageSearchDeeplinkWhenItShouldNotWork() {
+        // When MID is disabled for user and force upgarde is enabled then when he tries to reach Packages through deeplink, he should be redirected to launch page instead.
+        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog, R.string.preference_packages_force_upgrade_for_pss_clients)
+        val packageSearchUrl = "expda://packageSearch"
+        val deepLinkRouterActivity = getDeepLinkRouterActivity(packageSearchUrl)
+        val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
+        assertIntentForActivity(PhoneLaunchActivity::class.java, startedIntent)
     }
 
     private fun getDeepLinkRouterActivity(deepLinkUrl : String): TestDeepLinkRouterActivity {
