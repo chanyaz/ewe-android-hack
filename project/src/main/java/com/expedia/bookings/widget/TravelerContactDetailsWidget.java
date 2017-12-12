@@ -35,6 +35,8 @@ import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import rx.Observer;
 import rx.subjects.PublishSubject;
 import rx.subscriptions.CompositeSubscription;
@@ -91,9 +93,8 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	public PublishSubject<Boolean> filledIn = PublishSubject.create();
 	public CompositeSubscription compositeSubscription = new CompositeSubscription();
-
+	public PublishSubject<Function0<Unit>> onDoneClickedMethod = PublishSubject.create();
 	private UserStateManager userStateManager;
-	public boolean hotelMaterialFormTestEnabled = false;
 
 	@Override
 	protected void onFinishInflate() {
@@ -139,7 +140,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	@Override
 	protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
 		super.onVisibilityChanged(changedView, visibility);
-		if (visibility == View.VISIBLE && !hotelMaterialFormTestEnabled) {
+		if (visibility == View.VISIBLE) {
 			compositeSubscription = new CompositeSubscription();
 			compositeSubscription.add(RxKt.subscribeTextChange(firstName, formFilledSubscriber));
 			compositeSubscription.add(RxKt.subscribeTextChange(lastName, formFilledSubscriber));
@@ -300,9 +301,6 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	@Override
 	public void setExpanded(boolean expand, boolean animate) {
 		super.setExpanded(expand, animate);
-		if (hotelMaterialFormTestEnabled) {
-			mToolbarListener.showRightActionButton(true);
-		}
 		travelerContactInfoContainer.setVisibility(expand ? GONE : VISIBLE);
 		sectionTravelerInfo.setVisibility(expand ? VISIBLE : GONE);
 		if (expand) {
@@ -329,9 +327,14 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			else {
 				Ui.showKeyboard(firstName, null);
 			}
-			if (!hotelMaterialFormTestEnabled) {
-				filledIn.onNext(isCompletelyFilled());
-			}
+			filledIn.onNext(isCompletelyFilled());
+			onDoneClickedMethod.onNext(new Function0<Unit>() {
+				@Override
+				public Unit invoke() {
+					onMenuButtonPressed();
+					return null;
+				}
+			});
 		}
 		else {
 			bind();

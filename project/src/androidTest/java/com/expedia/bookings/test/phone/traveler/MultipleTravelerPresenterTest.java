@@ -24,7 +24,6 @@ import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.vm.traveler.TravelersViewModel;
-import kotlin.Unit;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -150,7 +149,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelersPresenter.getDoneClicked().onNext(Unit.INSTANCE);
+				testTravelersPresenter.onDoneClicked();
 				assertEquals(4, testTravelersPresenter.getTravelerEntryWidget().getNumberOfInvalidFields());
 			}
 		});
@@ -161,7 +160,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelersPresenter.getDoneClicked().onNext(Unit.INSTANCE);
+				testTravelersPresenter.onDoneClicked();
 			}
 		});
 		assertEquals(2, testTravelersPresenter.getTravelerEntryWidget().getNumberOfInvalidFields());
@@ -175,6 +174,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, true);
 				testTravelersPresenter.setViewModel(mockViewModel);
+				testTravelersPresenter.getViewModel().getDoneClickedMethod().subscribe(testToolbar.getViewModel().getDoneClickedMethod());
 			}
 		});
 
@@ -195,6 +195,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 				Traveler child1 = Db.getTravelers().get(2);
 				setChildTraveler(child1, 10);
 				testTravelersPresenter.setViewModel(mockViewModel);
+				testTravelersPresenter.getViewModel().getDoneClickedMethod().subscribe(testToolbar.getViewModel().getDoneClickedMethod());
 			}
 		});
 
@@ -219,6 +220,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 				Traveler child1 = Db.getTravelers().get(2);
 				setChildTraveler(child1, 1);
 				testTravelersPresenter.setViewModel(mockViewModel);
+				testTravelersPresenter.getViewModel().getDoneClickedMethod().subscribe(testToolbar.getViewModel().getDoneClickedMethod());
 			}
 		});
 
@@ -241,6 +243,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 				Traveler child1 = Db.getTravelers().get(2);
 				setChildTraveler(child1, 10);
 				testTravelersPresenter.setViewModel(mockViewModel);
+				testTravelersPresenter.getViewModel().getDoneClickedMethod().subscribe(testToolbar.getViewModel().getDoneClickedMethod());
 			}
 		});
 
@@ -262,6 +265,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 				Traveler child1 = Db.getTravelers().get(2);
 				setChildTraveler(child1, 1);
 				testTravelersPresenter.setViewModel(mockViewModel);
+				testTravelersPresenter.getViewModel().getDoneClickedMethod().subscribe(testToolbar.getViewModel().getDoneClickedMethod());
 			}
 		});
 

@@ -37,7 +37,6 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
 
     val toolbarTitleSubject = PublishSubject.create<String>()
     val menuVisibility = PublishSubject.create<Boolean>()
-    val doneClicked = PublishSubject.create<Unit>()
     val closeSubject = PublishSubject.create<Unit>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
@@ -80,28 +79,30 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
             }
         }
 
-        doneClicked.subscribe {
-            travelerPickerWidget.viewModel.selectedTravelerSubject.value?.refreshStatusObservable?.onNext(Unit)
-            val numberOfInvalidFields = travelerEntryWidget.getNumberOfInvalidFields()
-            if (numberOfInvalidFields == 0) {
-                viewModel.updateCompletionStatus()
-                if (shouldShowTravelerDialog()) {
-                    showTravelerDialog()
-                } else {
-                    showPickerWidgetOrCloseEntryWidget()
-                }
+    }
+
+
+    fun onDoneClicked() {
+        travelerPickerWidget.viewModel.selectedTravelerSubject.value?.refreshStatusObservable?.onNext(Unit)
+        val numberOfInvalidFields = travelerEntryWidget.getNumberOfInvalidFields()
+        if (numberOfInvalidFields == 0) {
+            viewModel.updateCompletionStatus()
+            if (shouldShowTravelerDialog()) {
+                showTravelerDialog()
             } else {
-                Ui.hideKeyboard(this@AbstractTravelersPresenter)
-                travelerEntryWidget.requestFocus()
-                val announcementString = StringBuilder()
-                announcementString.append(Phrase.from(context.resources.getQuantityString(R.plurals.number_of_errors_TEMPLATE, numberOfInvalidFields))
-                        .put("number", numberOfInvalidFields)
-                        .format()
-                        .toString())
-                        .append(" ")
-                        .append(context.getString(R.string.accessibility_announcement_please_review_and_resubmit))
-                announceForAccessibility(announcementString)
+                showPickerWidgetOrCloseEntryWidget()
             }
+        } else {
+            Ui.hideKeyboard(this@AbstractTravelersPresenter)
+            travelerEntryWidget.requestFocus()
+            val announcementString = StringBuilder()
+            announcementString.append(Phrase.from(context.resources.getQuantityString(R.plurals.number_of_errors_TEMPLATE, numberOfInvalidFields))
+                    .put("number", numberOfInvalidFields)
+                    .format()
+                    .toString())
+                    .append(" ")
+                    .append(context.getString(R.string.accessibility_announcement_please_review_and_resubmit))
+            announceForAccessibility(announcementString)
         }
     }
 
@@ -110,7 +111,6 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         addDefaultTransition(defaultTransition)
         show(travelerPickerWidget, Presenter.FLAG_CLEAR_BACKSTACK)
     }
-
     private val defaultTransition = object : Presenter.DefaultTransition(TravelerPickerWidget::class.java.name) {
         override fun endTransition(forward: Boolean) {
             menuVisibility.onNext(false)
@@ -135,6 +135,9 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
                 travelerEntryWidget.travelerButton.dismissPopup()
                 Ui.hideKeyboard(this@AbstractTravelersPresenter)
+            } else {
+                toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
+                viewModel.doneClickedMethod.onNext { onDoneClicked() }
             }
         }
 
@@ -166,7 +169,6 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         travelerEntryWidget.viewModel = viewModel.createNewTravelerEntryWidgetModel(context, 0, viewModel.passportRequired, TravelerCheckoutStatus.CLEAN)
         show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
 
-        toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
         if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
             travelerEntryWidget.viewModel.validate()
         }

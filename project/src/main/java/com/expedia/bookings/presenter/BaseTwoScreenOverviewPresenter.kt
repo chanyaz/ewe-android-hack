@@ -413,6 +413,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutPresenter.paymentWidget.visibleMenuWithTitleDone.subscribe(bundleOverviewHeader.toolbar.viewModel.visibleMenuWithTitleDone)
         checkoutPresenter.paymentWidget.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
         checkoutPresenter.paymentWidget.toolbarTitle.subscribe { bundleOverviewHeader.toolbar.viewModel.hideToolbarTitle.onNext(Unit) }
+        checkoutPresenter.paymentWidget.viewmodel.doneClickedMethod.subscribe(bundleOverviewHeader.toolbar.viewModel.doneClickedMethod)
     }
 
     private fun setupTravelerWidgetSubscriptions() {
@@ -422,6 +423,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutPresenter.travelersPresenter.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
         checkoutPresenter.travelersPresenter.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
         checkoutPresenter.travelersPresenter.toolbarTitleSubject.subscribe { bundleOverviewHeader.toolbar.viewModel.hideToolbarTitle.onNext(Unit) }
+        checkoutPresenter.travelersPresenter.viewModel.doneClickedMethod.subscribe(bundleOverviewHeader.toolbar.viewModel.doneClickedMethod)
     }
 
     private fun setupClickListeners() {
@@ -438,13 +440,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     private fun setupBundleOverviewHeader() {
         bundleOverviewHeader.setUpCollapsingToolbar()
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
-        bundleOverviewHeader.toolbar.viewModel.doneClicked.subscribe {
-            if (checkoutPresenter.currentState == BillingDetailsPaymentWidget::class.java.name) {
-                checkoutPresenter.paymentWidget.doneClicked.onNext(Unit)
-            } else if (checkoutPresenter.currentState == checkoutPresenter.travelersPresenter.javaClass.name) {
-                checkoutPresenter.travelersPresenter.doneClicked.onNext(Unit)
-            }
-        }
     }
 
     private fun setupViewModels() {

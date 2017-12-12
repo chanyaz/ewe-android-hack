@@ -1,13 +1,13 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelTravelerEntryWidget
+import com.expedia.util.getSingleTravelerToolbarTitle
 import com.expedia.vm.traveler.TravelersViewModel
 
 class HotelTravelersPresenter(context: Context, attrs: AttributeSet) : AbstractTravelersPresenter(context, attrs) {
@@ -22,7 +22,14 @@ class HotelTravelersPresenter(context: Context, attrs: AttributeSet) : AbstractT
         setPadding(0, toolbarHeightAndStatusBarHeight, 0, 0)
     }
 
-    private val selectToHotelEntry = object : SelectToEntryTransition(HotelTravelerEntryWidget::class.java) {}
+    private val selectToHotelEntry = object : SelectToEntryTransition(HotelTravelerEntryWidget::class.java) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            if (forward) {
+                toolbarTitleSubject.onNext(getSingleTravelerToolbarTitle(resources))
+            }
+        }
+    }
 
 
     init {

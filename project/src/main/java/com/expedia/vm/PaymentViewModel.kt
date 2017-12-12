@@ -88,6 +88,7 @@ open class PaymentViewModel(val context: Context) {
     val populateFakeBillingAddress = PublishSubject.create<Location>()
     val clearHiddenBillingAddress = PublishSubject.create<Unit>()
     val showValidCards = PublishSubject.create<List<ValidFormOfPayment>>()
+    val doneClickedMethod = PublishSubject.create<() -> Unit>()
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 

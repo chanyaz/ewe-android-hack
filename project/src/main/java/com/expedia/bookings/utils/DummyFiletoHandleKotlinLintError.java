@@ -516,6 +516,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.itin_status_indicator_success,
 		R.drawable.flight_status_indicator_success_background,
 		R.color.traveler_incomplete_text_color,
+		R.string.enter_traveler_details_checkout_toolbar_title,
 		R.string.checkout_enter_traveler_details,
 		R.plurals.checkout_more_travelers_TEMPLATE,
 		R.plurals.checkout_more_travelers_TEMPLATE,

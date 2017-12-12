@@ -286,7 +286,7 @@ class PackageCheckoutTest {
         assertEquals("malcolm", Db.getTravelers()[0].firstName)
         checkout.travelersPresenter.travelerEntryWidget.viewModel.nameViewModel.firstNameViewModel.textSubject.onNext("Billy")
 
-        checkout.travelersPresenter.doneClicked.onNext(Unit)
+        checkout.travelersPresenter.onDoneClicked()
         assertUpdateTravelerDialog()
     }
 
@@ -305,7 +305,7 @@ class PackageCheckoutTest {
         givenCompletedTravelerEntryWidget()
         assertEquals("9163355329", Db.getTravelers()[0].primaryPhoneNumber.number.replace("-", ""))
         checkout.travelersPresenter.travelerEntryWidget.viewModel.phoneViewModel.phoneViewModel.textSubject.onNext("987-654-321")
-        checkout.travelersPresenter.doneClicked.onNext(Unit)
+        checkout.travelersPresenter.onDoneClicked()
 
         assertUpdateTravelerDialog()
     }
@@ -313,7 +313,7 @@ class PackageCheckoutTest {
     @Test
     fun testNoTravelerChangeShouldNotShowTravelerDialogOnDoneClick() {
         givenCompletedTravelerEntryWidget()
-        checkout.travelersPresenter.doneClicked.onNext(Unit)
+        checkout.travelersPresenter.onDoneClicked()
         val testDialog = ShadowAlertDialog.getLatestAlertDialog()
 
         assertNull(testDialog)
@@ -338,7 +338,7 @@ class PackageCheckoutTest {
         assertEquals("malcolm", Db.getTravelers()[0].firstName)
 
         checkout.travelersPresenter.travelerEntryWidget.viewModel.nameViewModel.firstNameViewModel.textSubject.onNext("Billy")
-        checkout.travelersPresenter.doneClicked.onNext(Unit)
+        checkout.travelersPresenter.onDoneClicked()
 
         assertSaveTravelerDialog()
     }
@@ -349,7 +349,7 @@ class PackageCheckoutTest {
         (checkout.travelersPresenter.travelerEntryWidget as FlightTravelerEntryWidget)
                 .advancedOptionsWidget.travelerNumber.viewModel.textSubject.onNext("123456")
 
-        checkout.travelersPresenter.doneClicked.onNext(Unit)
+        checkout.travelersPresenter.onDoneClicked()
         assertUpdateTravelerDialog()
     }
 
@@ -389,7 +389,7 @@ class PackageCheckoutTest {
     private fun enterValidTraveler() {
         enterTraveler(Db.getTravelers().first())
         checkout.openTravelerPresenter()
-        checkout.travelersPresenter.doneClicked.onNext(Unit)
+        checkout.travelersPresenter.onDoneClicked()
         checkout.show(BaseCheckoutPresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
     }
 

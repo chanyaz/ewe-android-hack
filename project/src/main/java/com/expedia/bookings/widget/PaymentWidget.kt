@@ -87,7 +87,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val visibleMenuWithTitleDone = PublishSubject.create<Unit>()
     val toolbarTitle = PublishSubject.create<String>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
-    val doneClicked = PublishSubject.create<Unit>()
     val focusedView = PublishSubject.create<View>()
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
     val toolbarNavIconFocusObservable = PublishSubject.create<Boolean>()
@@ -138,32 +137,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             hotelMaterialFormEnabled = lob.isMaterialFormEnabled(context) && lob == LineOfBusiness.HOTELS
             if (lob.isMaterialFormEnabled(context)) {
                 sectionBillingInfo.setMaterialDropdownResources()
-            }
-        }
-
-        doneClicked.subscribe {
-            if (currentState == PaymentDetails::class.java.name) {
-                Ui.hideKeyboard(this@PaymentWidget)
-                val hasStoredCard = hasStoredCard()
-                val billingIsValid = !hasStoredCard && sectionBillingInfo.performValidation()
-                val postalIsValid = !hasStoredCard && (!isZipValidationRequired() || sectionLocation.performValidation())
-                if (hasStoredCard || (billingIsValid && postalIsValid)) {
-                    if (shouldShowSaveDialog()) {
-                        showSaveBillingInfoDialog()
-                    } else {
-                        userChoosesNotToSaveCard()
-                    }
-                }
-                else {
-                    announceErrorsOnForm()
-                    if (vm.newCheckoutIsEnabled.value) {
-                        sectionBillingInfo.requestFocus()
-                    } else {
-                        goToFirstInvalidField()
-                    }
-                }
-            } else {
-                close()
             }
         }
 
@@ -557,6 +530,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (!forward) validateAndBind()
             else viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true || Db.getTemporarilySavedCard() != null))
             updateToolbarMenu(forward, forward, !forward)
+            if (forward) {
+                viewmodel.doneClickedMethod.onNext{ close() }
+            }
         }
     }
 
@@ -597,6 +573,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             trackAnalytics()
             if (!forward) validateAndBind()
             if (forward) {
+                viewmodel.doneClickedMethod.onNext{ onDoneClicked() }
                 if (populateCardholderNameTestEnabled) {
                     populateCardholderName()
                 }
@@ -626,6 +603,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             }
             onFocusChange(creditCardNumber, true)
             if (forward) {
+                viewmodel.doneClickedMethod.onNext{ onDoneClicked() }
                 if (populateCardholderNameTestEnabled) {
                     populateCardholderName()
                 }
@@ -762,6 +740,25 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     fun populateCardholderName() {
         if (creditCardName.text.isEmpty()) {
             creditCardName.setText(viewmodel.populateCardholderNameObservable.value)
+        }
+    }
+
+    fun onDoneClicked() {
+        Ui.hideKeyboard(this@PaymentWidget)
+        if (isComplete()) {
+            if (shouldShowSaveDialog()) {
+                showSaveBillingInfoDialog()
+            } else {
+                userChoosesNotToSaveCard()
+            }
+        }
+        else {
+            announceErrorsOnForm()
+            if (viewmodel.newCheckoutIsEnabled.value) {
+                sectionBillingInfo.requestFocus()
+            } else {
+                goToFirstInvalidField()
+            }
         }
     }
 

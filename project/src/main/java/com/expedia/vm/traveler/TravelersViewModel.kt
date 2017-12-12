@@ -7,6 +7,7 @@ import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 abstract class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
@@ -18,6 +19,7 @@ abstract class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
     val emptyTravelersSubject = BehaviorSubject.create<Unit>()
     val passportRequired = BehaviorSubject.create<Boolean>(false)
     val showMainTravelerMinAgeMessaging = BehaviorSubject.create<Boolean>(false)
+    val doneClickedMethod = PublishSubject.create<() -> Unit>()
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)

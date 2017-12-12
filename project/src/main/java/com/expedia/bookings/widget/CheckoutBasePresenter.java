@@ -41,7 +41,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.FeatureUtilKt;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard;
@@ -183,6 +182,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.getViewmodel().getMenuVisibility().subscribe(toolbar.getViewModel().getMenuVisibility());
 		paymentInfoCardView.getViewmodel().getEnableMenuItem().subscribe(toolbar.getViewModel().getEnableMenuItem());
 		paymentInfoCardView.getVisibleMenuWithTitleDone().subscribe(toolbar.getViewModel().getVisibleMenuWithTitleDone());
+		paymentInfoCardView.getViewmodel().getDoneClickedMethod().subscribe(toolbar.getViewModel().getDoneClickedMethod());
 
 		if (hotelMaterialFormTestEnabled) {
 			paymentInfoCardView.getViewmodel().getMenuVisibility().subscribe(new Observer<Boolean>() {
@@ -204,6 +204,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 
 		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getFormFilledIn());
+		mainContactInfoCardView.onDoneClickedMethod.subscribe(toolbar.getViewModel().getDoneClickedMethod());
 		paymentInfoCardView.getToolbarNavIconFocusObservable().subscribe(new Observer<Boolean>() {
 			@Override
 			public void onCompleted() {
@@ -220,31 +221,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				}
 			}
 		});
-
-		toolbar.getViewModel().getDoneClicked().subscribe(new Observer<Unit>() {
-			@Override
-			public void onCompleted() {
-
-			}
-
-			@Override
-			public void onError(Throwable e) {
-
-			}
-
-			@Override
-			public void onNext(Unit unit) {
-				if (currentExpandedCard != null) {
-					currentExpandedCard.onMenuButtonPressed();
-				}
-				Ui.hideKeyboard(CheckoutBasePresenter.this);
-
-				if (Strings.equals(getCurrentState(), PaymentWidget.class.getName()) || Strings.equals(getCurrentState(), PaymentWidgetV2.class.getName())) {
-					paymentInfoCardView.getDoneClicked().onNext(Unit.INSTANCE);
-				}
-			}
-		});
-
 		slideWidget.addSlideToListener(this);
 
 		loginWidget.setListener(this);
@@ -308,6 +284,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				openTravelerPresenter();
 			}
 		});
+		travelersPresenter.getToolbarTitleSubject().subscribe(toolbar.getViewModel().getToolbarTitle());
+		travelersPresenter.getToolbarNavIconContDescSubject().subscribe(toolbar.getViewModel().getToolbarNavIconContentDesc());
+		travelersPresenter.getViewModel().getDoneClickedMethod().subscribe(toolbar.getViewModel().getDoneClickedMethod());
 		travelersPresenter.getCloseSubject().subscribe(new Subscriber<Unit>() {
 			@Override
 			public void onCompleted() {
@@ -365,7 +344,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 		});
 
-
 		toolbar.getViewModel().getExpanded().subscribe(new Observer<ExpandableCardView>() {
 			@Override
 			public void onCompleted() {
@@ -398,6 +376,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 			@Override
 			public void onNext(Unit unit) {
+				Ui.hideKeyboard(CheckoutBasePresenter.this);
 				back();
 			}
 		});
@@ -634,6 +613,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				mainContactInfoCardView.setVisibility(GONE);
 				travelerSummaryCard.setVisibility(forward ? VISIBLE : GONE);
 				travelersPresenter.setVisibility(GONE);
+				travelersPresenter.getViewModel().refresh();
 			}
 			else {
 				travelerSummaryCardView.setVisibility(GONE);
@@ -674,9 +654,17 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			travelersPresenter.setVisibility(forward ? VISIBLE : GONE);
 			listenToScroll = !forward;
 			updateMaterialBackgroundColor(forward);
-			if (!forward) {
+			if (forward) {
+				toolbar.getViewModel().getVisibleMenuWithTitleDone().onNext(Unit.INSTANCE);
+			}
+			else {
 				Ui.hideKeyboard(travelersPresenter);
+				AccessibilityUtil.setFocusForView(travelersPresenter);
+				AccessibilityUtil.setFocusForView(travelerSummaryCard);
+				travelersPresenter.getToolbarNavIconContDescSubject().onNext(getResources().getString(R.string.toolbar_nav_icon_cont_desc));
 				travelersPresenter.getViewModel().updateCompletionStatus();
+				resetMenuButton();
+				toolbar.setTitle(getToolbarTitle());
 			}
 		}
 
@@ -732,10 +720,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			summaryContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
 			loginWidget.setVisibility(forward ? View.GONE : View.VISIBLE);
 			hintContainer.setVisibility(forward ? View.GONE : userStateManager.isUserAuthenticated() ? GONE : VISIBLE);
-			mainContactInfoCardView.setVisibility(
-				!forward ? View.VISIBLE : currentExpandedCard instanceof TravelerContactDetailsWidget ? VISIBLE : GONE);
 			paymentInfoCardView
 				.setVisibility(forward ? GONE : paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
+			if (hotelMaterialFormTestEnabled) {
+				travelerSummaryCardView.setVisibility(forward ? GONE : VISIBLE);
+			}
+			else {
+ 				mainContactInfoCardView.setVisibility(!forward ? View.VISIBLE : currentExpandedCard instanceof TravelerContactDetailsWidget ? VISIBLE : GONE);
+			}
 			couponContainer
 				.setVisibility(!forward ? View.VISIBLE : currentExpandedCard instanceof AbstractCouponWidget ? VISIBLE : GONE);
 			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
@@ -775,21 +767,25 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			summaryContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
 			loginWidget.setVisibility(forward ? View.GONE : View.VISIBLE);
 			hintContainer.setVisibility(forward ? View.GONE : userStateManager.isUserAuthenticated() ? GONE : VISIBLE);
-			mainContactInfoCardView.setVisibility(forward ? View.GONE : View.VISIBLE);
 			couponContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
 			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			disclaimerText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			depositPolicyText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			space.setVisibility(forward ? View.GONE : View.VISIBLE);
 			listenToScroll = !forward;
+			if (hotelMaterialFormTestEnabled) {
+				travelerSummaryCardView.setVisibility(forward ? GONE : VISIBLE);
+			}
+			else {
+				mainContactInfoCardView.setVisibility(forward ? GONE : VISIBLE);
+			}
 			if (!forward) {
 				paymentInfoCardView.show(new PaymentWidget.PaymentDefault(), FLAG_CLEAR_BACKSTACK);
 				paymentInfoCardView.setVisibility(paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
 				resetMenuButton();
-
 			}
-			if (forward) {
+			else {
 				AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 			}
 		}

@@ -151,8 +151,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(context, null, HotelCheckoutSummaryViewModel(context, paymentModel))
         summaryContainer.addView(hotelCheckoutSummaryWidget)
 
-        mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELS)
-        mainContactInfoCardView.hotelMaterialFormTestEnabled = hotelMaterialFormEnabled
+        if (!hotelMaterialFormEnabled) {
+            mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELS)
+        }
 
         couponContainer.addView(couponCardView)
         couponCardView.setToolbarListener(toolbar)
@@ -164,12 +165,16 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             }
         }
 
+        couponCardView.viewmodel.onMenuClickedMethod.subscribe(toolbar.viewModel.doneClickedMethod)
+
         val params = couponCardView.layoutParams as LayoutParams
         params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt(), 0, 0)
     }
 
     fun bind() {
-        mainContactInfoCardView.isExpanded = false
+        if (!hotelMaterialFormEnabled) {
+            mainContactInfoCardView.isExpanded = false
+        }
         paymentInfoCardView.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
 
         if (!hasDiscount) {

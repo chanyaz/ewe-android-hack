@@ -2136,6 +2136,8 @@
     <string name="checkout_enter_traveler_details">Traveler Details</string>
     <string name="enter_missing_traveler_details">Enter missing traveler details</string>
     <string name="enter_traveler_details">Enter traveler details</string>
+    <!-- Enter Traveler Details for Material Traveler Toolbar title-->
+    <string name="enter_traveler_details_checkout_toolbar_title">Enter Traveler Details</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+ {travelercount} additional traveler</item>
