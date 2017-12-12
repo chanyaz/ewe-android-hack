@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.traveler;
+package com.expedia.bookings.test.unit.traveler;
 
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;

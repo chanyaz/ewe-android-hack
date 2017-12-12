@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.traveler;
+package com.expedia.bookings.test.unit.traveler;
 
 import org.junit.Before;
 import org.junit.Rule;

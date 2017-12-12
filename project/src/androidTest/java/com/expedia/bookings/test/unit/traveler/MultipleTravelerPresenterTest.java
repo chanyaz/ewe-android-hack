@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.traveler;
+package com.expedia.bookings.test.unit.traveler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
