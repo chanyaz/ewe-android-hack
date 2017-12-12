@@ -643,6 +643,10 @@
     <string name="sort_and_filter_cont_desc">排序和篩選按鈕</string>
     <!-- "Done" list header label -->
     <string name="Done">完成</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is checked" -->
+    <string name="filter_selected_TEMPLATE">{filter}選擇方格已剔選</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is not checked" -->
+    <string name="filter_not_selected_TEMPLATE">{filter}選擇方格沒剔選</string>
 
     <!-- Baggage Info Accessibility -->
     <string name="spinner_text_baggage_info_fetching">正在獲取行李資訊</string>
@@ -651,7 +655,7 @@
     <!--Baggage Fees when purchased at airport-->
     <string name="baggage_fees_purchased_airport">於機場購買時的行李費：</string>
     <!--Baggage Fee Info-->
-    <string name="baggage_fee_info">行李費資料</string>
+    <string name="baggage_fee_info">行李費資訊</string>
     <!--Airline-->
     <string name="airline">航空公司</string>
 
@@ -685,7 +689,7 @@
     <string name="total_from">來回低至</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">每位來回價。</string>
+    <string name="prices_roundtrip_label">每位來回價</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">每位單程價。</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -949,6 +953,8 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination}的活動很快訂滿！請預早搜尋當地玩樂並預訂門票。</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hi {firstname}！看看您酒店附近的熱門景點和活動。</string>
+    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">您前往 {arrival airport} 的航班延誤，新的出發時間是 {departure time}。</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
@@ -1452,7 +1458,7 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">{date} 抵達</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">中途停留 {layover}</string>
-    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <!--Flight itin total duration widget template. (e.g. Total duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">合共需時：{duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">行李資訊</string>
@@ -1512,13 +1518,17 @@
     <string name="itin_flight_leg_detail_widget_to_text">至</string>
     <!--Flight itin, flight leg detail widget "-" text-->
     <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
-
+    <!--Flight itin, Airline rules and restrictions text-->
+    <string name="itin_flight_leg_detail_widget_rules_and_restrictions">航空公司規則及限制</string>
     <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
     <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
     <item quantity="zero">不停站</item>
     <item quantity="one">%s 個中途站</item>
     <item quantity="other">%s 個中途站</item>
     </plurals>
+
+    <!--Flight itin, flight leg detail widget's split ticket text-->
+    <string name="itin_flight_leg_detail_widget_split_ticket_text">您的機票由兩個單程票價組成，如只更改或取消其中一個航班，另一個航班不會自動更改或取消。</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}日 {hours}小時 {minutes}分</string>
@@ -1789,7 +1799,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">正載入航班…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
-    <string name="loading_flights_from_400_airlines">正從 400 多間航空公司中搜尋您的航班</string>
+    <string name="loading_flights_from_400_airlines">正在搜尋超過 400 間航空公司的航班…</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">選擇</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
@@ -2139,7 +2149,8 @@
     <string name="no_thanks">不用了</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">其他資料 (選填)</string>
-    <string name="contact_airline_message">請聯絡航空公司以確認要求</string>
+    <!--Contact airline message on flight checkout traveler details -->
+    <string name="contact_airline_message">請聯絡航空公司以確認要求。</string>
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">展開其他資料 (選填) 的按鈕</string>
     <string name="collapse_advanced_button_cont_desc">收起其他資料 (選填) 的按鈕</string>
@@ -2804,7 +2815,7 @@
     <string name="urgency_destination_description_TEMPLATE">{destination}於您所選的日期很受歡迎。</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
-    <string name="room_information_button_cont_desc">客房資料按鈕</string>
+    <string name="room_information_button_cont_desc">客房資料</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">不設退款</string>
     <!-- Label for free nights -->
@@ -3073,6 +3084,13 @@
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
     <string name="app_not_available">您的電話沒有可處理此行動的應用程式，又或您被禁止使用有關應用程式。</string>
+    <!--Content description for add child button on traveler form Eg: 2 children added -->
+    <plurals name="add_child_button_cont_desc_TEMPLATE">
+        <item quantity="zero">%d 位小童，請於下方選擇小童的年齡。\u0020</item>
+        <item quantity="one">%d 位小童，請於下方選擇小童的年齡。\u0020</item>
+        <item quantity="other">%d 位小童，請於下方選擇小童的年齡。\u0020</item>
+    </plurals>
+
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d 位成人</item>
@@ -3803,6 +3821,10 @@
     <string name="free_flight_deal">預訂酒店，機票可慳 100%。</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
     <string name="hotel_deal_TEMPLATE">預訂酒店可慳 {price} ({savings}%)</string>
+    <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_title_label">是時候更新了！</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">很抱歉，此版本的 App 無法預訂酒店 + 機票。\n請即更新以獲享酒店 + 機票優惠。</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">同時預訂機票 {night} 晚免費。</item>
@@ -3922,6 +3944,8 @@
     <string name="select_flight_to">選擇前往%1$s的航班</string>
     <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
     <string name="package_flight_outbound_toolbar_title_TEMPLATE">出發往{cityname}, {stateorcountry} ({airportcode})</string>
+    <!-- Airport code with city -->
+    <string name="airport_code_with_city_TEMPLATE">({airportcode}) {city}</string>
     <!-- Flight to template -->
     <string name="flight_to">前往%1$s的航班</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -4024,7 +4048,7 @@
         <item quantity="one">尚餘 {seats} 個位</item>
         <item quantity="other">尚餘 {seats} 個位</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">行李費資料</string>
+        <string name="package_flight_overview_baggage_fees">行李費資訊</string>
     <string name="package_flight_overview_select_flight">選擇此航班</string>
     <string name="package_flight_overview_bundle_total_label">套票行程合計</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/一位</string>
@@ -4685,6 +4709,7 @@
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">最後召集優惠</string>
     <string name="last_minute_deal_subtitle">想去旅行？看看最後召集超抵優惠吧！</string>
+    <string name="last_minute_deals_toolbar_title">最後召集優惠</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">我們如何決定排列次序</string>

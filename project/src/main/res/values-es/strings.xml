@@ -643,6 +643,10 @@
     <string name="sort_and_filter_cont_desc">Botón para ordenar y filtrar</string>
     <!-- "Done" list header label -->
     <string name="Done">Listo</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is checked" -->
+    <string name="filter_selected_TEMPLATE">Casilla de {filter} seleccionada</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is not checked" -->
+    <string name="filter_not_selected_TEMPLATE">Casilla de {filter} no seleccionada</string>
 
     <!-- Baggage Info Accessibility -->
     <string name="spinner_text_baggage_info_fetching">Recopilando la información de equipaje</string>
@@ -651,7 +655,7 @@
     <!--Baggage Fees when purchased at airport-->
     <string name="baggage_fees_purchased_airport">Cargos de equipaje para compras en el aeropuerto:</string>
     <!--Baggage Fee Info-->
-    <string name="baggage_fee_info">Información de cargos de equipaje</string>
+    <string name="baggage_fee_info">Información sobre cargos de equipaje</string>
     <!--Airline-->
     <string name="airline">Línea aérea</string>
 
@@ -685,7 +689,7 @@
     <string name="total_from">Total desde</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Precios de ida y vuelta, por persona.</string>
+    <string name="prices_roundtrip_label">Precio del viaje de ida y vuelta por persona</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Precios de ida, por persona.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -731,7 +735,7 @@
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Escalas</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
-    <string name="airlines">Líneas aéreas</string>
+    <string name="airlines">Aerolíneas</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
@@ -903,7 +907,7 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">Tus viajes</string>
     <!-- Google play services unrecoverable error dialog message -->
-    <string name="google_play_services_unrecoverable_error">Es necesario contar con Google Play Services para esta aplicación. Instala la última versión de Google Play Services.</string>
+    <string name="google_play_services_unrecoverable_error">Esta aplicación requiere Google Play Services. Instala la última versión de Google Play Services.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -913,11 +917,11 @@
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">Tu vuelo a %1$s</string>
     <!-- Notification title for car pick up -->
-    <string name="Car_Pick_Up_X_TEMPLATE">Entrega del auto:%s</string>
+    <string name="Car_Pick_Up_X_TEMPLATE">Entrega del auto: %s</string>
     <!-- Notification text for car pick up -->
     <string name="You_can_now_pick_up_your_car">Ya puedes recoger tu auto.</string>
     <!-- Notification title for car drop off -->
-    <string name="Car_Drop_Off_X_TEMPLATE">Devolución del auto:%s</string>
+    <string name="Car_Drop_Off_X_TEMPLATE">Devolución del auto: %s</string>
     <!-- Notification text for car drop off -->
     <string name="Your_rental_is_due_returned">Debes devolver tu auto en dos horas.</string>
     <!-- Notification title for activity start -->
@@ -949,6 +953,8 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">¡Las actividades en {destination} se venden rápido! Consulta las actividades y compra tus boletos con anticipación.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hola, {firstname}: consulta las principales atracciones y actividades cerca de tu hotel.</string>
+    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Tu vuelo a {arrival airport} está retrasado y ahora sale a las {departure time}.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario</string>
@@ -1131,9 +1137,9 @@
     <!-- Terminal Map -->
     <string name="Terminal_Map">Mapa de la terminal</string>
     <!-- Terminal Maps -->
-    <string name="terminal_maps">Mapas de las terminales</string>
+    <string name="terminal_maps">Mapas de la terminal</string>
     <!-- Accessibility label for Terminal Maps/Directions button on itins -->
-    <string name="terminal_maps_directions_cont_desc">Mapas de las terminales e instrucciones</string>
+    <string name="terminal_maps_directions_cont_desc">Mapas de la terminal e indicaciones</string>
     <!-- Legend -->
     <string name="legend">Leyenda</string>
     <!-- Flight has been cancelled -->
@@ -1452,7 +1458,7 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Llega el {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">Escala de {layover}</string>
-    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <!--Flight itin total duration widget template. (e.g. Total duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">Duración total: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Información de equipaje</string>
@@ -1512,13 +1518,17 @@
     <string name="itin_flight_leg_detail_widget_to_text">a</string>
     <!--Flight itin, flight leg detail widget "-" text-->
     <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
-
+    <!--Flight itin, Airline rules and restrictions text-->
+    <string name="itin_flight_leg_detail_widget_rules_and_restrictions">Reglas y resitricciones de la aerolínea</string>
     <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
     <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
     <item quantity="zero">Directo</item>
     <item quantity="one">%s escala</item>
     <item quantity="other">%s escalas</item>
     </plurals>
+
+    <!--Flight itin, flight leg detail widget's split ticket text-->
+    <string name="itin_flight_leg_detail_widget_split_ticket_text">Tu vuelo es una combinación de dos tarifas de solo ida. Si se modifica o cancela uno de tus vuelos, no alterará automáticamente el otro vuelo.</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} d {hours} h {minutes} m</string>
@@ -1584,12 +1594,12 @@
     <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
     <string name="itin_checkin_failure_dialog_title">¡Lo sentimos!</string>
     <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
-    <string name="itin_checkin_failure_dialog_message">Analizaremos el problema. Tu número de confirmación se copió al portapapeles, así que ahora puedes hacer el check-in directamente en el sitio web o en la aplicación de %s.</string>
+    <string name="itin_checkin_failure_dialog_message">Analizaremos el problema. Tu número de confirmación se copió al portapapeles, así que ahora puedes hacer el check-in directamente en el sitio web o en la app de %s.</string>
 
 
     <!-- Action Buttons -->
     <!-- action button to launch terminal maps bottom sheet -->
-    <string name="itin_action_terminal_maps">Mapas de las terminales</string>
+    <string name="itin_action_terminal_maps">Mapas de la terminal</string>
     <string name="itin_action_directions">Indicaciones</string>
     <string name="itin_action_call_hotel">Llamar al hotel</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -1625,7 +1635,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Teléfono\n%s</string>
     <!-- App download link -->
-    <string name="share_long_ad_TEMPLATE">Reserva hoteles, vuelos, y consulta y comparte tus itinerarios. Descarga la aplicación gratuita para dispositivos móviles de {brand} hoy mismo.\n{appinfourl}</string>
+    <string name="share_long_ad_TEMPLATE">Reserva hoteles, vuelos, y consulta y comparte tus itinerarios. Descarga la app gratuita para dispositivos móviles de {brand} hoy mismo.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Vuelo a %1$s en %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1723,9 +1733,9 @@
 
     <!-- Flights v2 -->
     <!-- Flights Search view button label for round-trip searches -->
-    <string name="flights_round_trip_label">IDA Y VUELTA</string>
+    <string name="flights_round_trip_label">Ida y vuelta</string>
     <!-- Flights Search view button label for one-way searches -->
-    <string name="flights_one_way_label">IDA</string>
+    <string name="flights_one_way_label">Solo ida</string>
     <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
     <string name="flights_tab_selection_accouncement_oneway">Se muestra la pantalla de búsqueda de vuelo de ida</string>
     <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
@@ -1789,7 +1799,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Cargando vuelos…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
-    <string name="loading_flights_from_400_airlines">Buscando vuelos en más de 400 aerolíneas</string>
+    <string name="loading_flights_from_400_airlines">Buscando vuelos de más de 400 aerolíneas…</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Seleccionar</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
@@ -2139,7 +2149,8 @@
     <string name="no_thanks">No, gracias</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Más (opcionales)</string>
-    <string name="contact_airline_message">Comunícate con la aerolínea para confirmar las solicitudes</string>
+    <!--Contact airline message on flight checkout traveler details -->
+    <string name="contact_airline_message">Comunícate con la aerolínea para confirmar las solicitudes.</string>
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Botón para ampliar las opciones avanzadas</string>
     <string name="collapse_advanced_button_cont_desc">Botón para reducir las opciones avanzadas</string>
@@ -2804,7 +2815,7 @@
     <string name="urgency_destination_description_TEMPLATE">{destination} es un destino muy elegido para tus fechas</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
-    <string name="room_information_button_cont_desc">Botón para ver la información de la habitación</string>
+    <string name="room_information_button_cont_desc">Información de la habitación</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">No reembolsable</string>
     <!-- Label for free nights -->
@@ -3024,7 +3035,7 @@
     <!-- String for error message if open source software license page fails to open -->
     <string name="open_source_software_licenses_error">¡Error al cargar la página!</string>
     <!-- String for acrediting the open source libraries we use -->
-    <string name="this_app_makes_use_of_the_following">Esta aplicación utiliza las siguientes librerías de código abierto.</string>
+    <string name="this_app_makes_use_of_the_following">Esta app utiliza las siguientes librerías de código abierto.</string>
 
     <!-- Account settings view -->
     <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
@@ -3072,7 +3083,14 @@
     <string name="country_pos_cont_desc_TEMPLATE">{countrycode}: botón para elegir el país</string>
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
-    <string name="app_not_available">Puede ser que tu teléfono no cuente con una aplicación que pueda manejar esta acción o tu acceso a ella está restringido.</string>
+    <string name="app_not_available">Puede ser que tu teléfono no tenga una app que pueda manejar esta acción o tu acceso a ella está restringido.</string>
+    <!--Content description for add child button on traveler form Eg: 2 children added -->
+    <plurals name="add_child_button_cont_desc_TEMPLATE">
+        <item quantity="zero">%d niños, selecciona la edad debajo.\u0020</item>
+        <item quantity="one">%d niño, selecciona la edad debajo.\u0020</item>
+        <item quantity="other">%d niños, selecciona la edad debajo.\u0020</item>
+    </plurals>
+
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d adultos</item>
@@ -3586,9 +3604,9 @@
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Tu equipaje estará en la banda de entrega de equipaje %1$s.</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
-    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">¡%1$s, tu reservación está confirmada! Puedes verla en la aplicación.</string>
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">¡%1$s, tu reservación está confirmada! Puedes verla en la app.</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
-    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">¡Tu reservación está confirmada! Puedes verla en la aplicación.</string>
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">¡Tu reservación está confirmada! Puedes verla en la app.</string>
 
     <!-- Content description for action: Press to refresh trips list -->
     <string name="trips_refresh_trips_list_cont_desc">Presiona aquí para actualizar la lista de viajes</string>
@@ -3803,6 +3821,10 @@
     <string name="free_flight_deal">Reserva y ahorra el 100% en tu vuelo.</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
     <string name="hotel_deal_TEMPLATE">Reserva y ahorra {price} ({savings}%)</string>
+    <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_title_label">¡Hora de actualizar!</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">Lo sentimos, la reservación de hotel y vuelo no está disponible en esta versión de la app.\nActualiza la app para obtener ofertas de Hotel y vuelo.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">{night} noche gratis si reservas con un vuelo.</item>
@@ -3922,6 +3944,8 @@
     <string name="select_flight_to">Seleccionar un vuelo %1$s</string>
     <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
     <string name="package_flight_outbound_toolbar_title_TEMPLATE">Ida a {cityname}, {stateorcountry} ({airportcode})</string>
+    <!-- Airport code with city -->
+    <string name="airport_code_with_city_TEMPLATE">({airportcode}) {city}</string>
     <!-- Flight to template -->
     <string name="flight_to">Vuelo a %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -4024,7 +4048,7 @@
         <item quantity="one">Queda {seats} asiento</item>
         <item quantity="other">Quedan {seats} asientos</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">Información sobre las tarifas de equipaje</string>
+        <string name="package_flight_overview_baggage_fees">Información sobre cargos de equipaje</string>
     <string name="package_flight_overview_select_flight">Seleccionar este vuelo</string>
     <string name="package_flight_overview_bundle_total_label">Total del paquete</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/persona</string>
@@ -4628,7 +4652,7 @@
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">¿Te gusta nuestra app?</string>
     <!-- Message for App Rating Dialog -->
-    <string name="dialog_app_rating_message">Si te gusta nuestra aplicación, comparte tu opinión y deja una reseña en Play Store.</string>
+    <string name="dialog_app_rating_message">Si te gusta nuestra app comparte tu opinión y deja una reseña en Play Store.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">Puntuar la app</string>
     <!-- Button for App Rating Dialog to email feedback -->
@@ -4685,6 +4709,7 @@
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Ofertas de última hora</string>
     <string name="last_minute_deal_subtitle">¿Buscas una escapada? Consulta nuestras promociones aquí</string>
+    <string name="last_minute_deals_toolbar_title">Ofertas de última hora</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Cómo determinamos el posicionamiento</string>

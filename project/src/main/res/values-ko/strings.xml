@@ -643,6 +643,10 @@
     <string name="sort_and_filter_cont_desc">정렬 및 필터 버튼</string>
     <!-- "Done" list header label -->
     <string name="Done">완료</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is checked" -->
+    <string name="filter_selected_TEMPLATE">{filter} 확인란이 선택되었습니다.</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is not checked" -->
+    <string name="filter_not_selected_TEMPLATE">{filter} 확인란이 선택 해제되었습니다.</string>
 
     <!-- Baggage Info Accessibility -->
     <string name="spinner_text_baggage_info_fetching">수하물 정보 가져오는 중</string>
@@ -949,6 +953,8 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination} 즐길거리가 빠르게 매진되고 있어요! 즐길거리를 찾아보고 미리 티켓을 예약하세요.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">{firstname} 님, 호텔 근처의 인기 명소와 즐길거리를 확인해 보세요.</string>
+    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">고객님의 {arrival airport}행 항공편이 지연되어 새 출발 시간은 {departure time}입니다.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">일정</string>
@@ -1067,7 +1073,7 @@
     <!-- Content Description for chevron image to back to itinerary screen -->
     <string name="trips_back_button_label_cont_desc">여행 화면으로 돌아가기 버튼</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
-    <string name="trips_expand_button_label_cont_desc">여행을 확장하려면 버튼을 탭하세요</string>
+    <string name="trips_expand_button_label_cont_desc">여행을 펼치려면 버튼을 탭하세요</string>
     <!-- Content Description for upgrade image to upgrade hotel room -->
     <string name="trips_upgrade_hotel_button_label_cont_desc">호텔 객실 업그레이드</string>
     <!-- Web view header label for soft changes to hotel room booking -->
@@ -1452,7 +1458,7 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">{date} 도착</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">{layover} 대기</string>
-    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <!--Flight itin total duration widget template. (e.g. Total duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">총 소요 시간: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">수하물 정보</string>
@@ -1512,13 +1518,17 @@
     <string name="itin_flight_leg_detail_widget_to_text">부터</string>
     <!--Flight itin, flight leg detail widget "-" text-->
     <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
-
+    <!--Flight itin, Airline rules and restrictions text-->
+    <string name="itin_flight_leg_detail_widget_rules_and_restrictions">항공사 규칙 및 제한 사항</string>
     <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
     <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
     <item quantity="zero">직항</item>
     <item quantity="one">%s번 경유</item>
     <item quantity="other">%s번 경유</item>
     </plurals>
+
+    <!--Flight itin, flight leg detail widget's split ticket text-->
+    <string name="itin_flight_leg_detail_widget_split_ticket_text">고객님 항공편은 두 개의 편도 요금이 결합된 상품입니다. 항공편 중 하나를 변경 또는 취소하는 경우 나머지 다른 항공편이 자동으로 변경되지는 않습니다.</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}일 {hours}시간 {minutes}분</string>
@@ -1789,7 +1799,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">항공편 로드 중…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
-    <string name="loading_flights_from_400_airlines">400여 개 항공사에서 고객님에게 맞는 항공편 찾는 중</string>
+    <string name="loading_flights_from_400_airlines">400여 개 항공사의 항공편 검색 중…</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">선택</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
@@ -2139,15 +2149,16 @@
     <string name="no_thanks">나중에 하기</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">추가 사항(선택 사항)</string>
+    <!--Contact airline message on flight checkout traveler details -->
     <string name="contact_airline_message">요청 사항을 확정하시려면 항공사에 문의해 주세요.</string>
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
-    <string name="expand_advanced_button_cont_desc">선택 사항인 고급 옵션을 확대하는 버튼</string>
-    <string name="collapse_advanced_button_cont_desc">선택 사항인 고급 옵션을 축소하는 버튼</string>
+    <string name="expand_advanced_button_cont_desc">고급 옵션(선택 사항) 펼치기 버튼</string>
+    <string name="collapse_advanced_button_cont_desc">고급 옵션(선택 사항) 접기 버튼</string>
     <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
     <string name="frequent_flyer_optional">항공 마일리지 프로그램(선택 사항)</string>
     <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
-    <string name="expand_frequent_flyer_button_cont_desc">항공 마일리지(선택 사항) 확장 버튼</string>
-    <string name="collapse_frequent_flyer_button_cont_desc">항공 마일리지(선택 사항) 축소 버튼</string>
+    <string name="expand_frequent_flyer_button_cont_desc">항공 마일리지(선택 사항) 펼치기 버튼</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">항공 마일리지(선택 사항) 접기 버튼</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">나중에 간편하게 결제하시도록 고객님의 {brand} 계정에서 여행객 정보를 업데이트할까요?</string>
     <!-- Update traveler dialog title-->
@@ -2454,7 +2465,7 @@
     <!-- Advance Search Cont Description Template. Example: Advanced Search Button to expand filter options -->
     <string name= "advance_search_cont_desc_TEMPLATE">고급 검색 {expandstate}</string>
     <!-- Cont Description to . Example: Advanced Search Button to expand filter options -->
-    <string name="row_collapse_button_description">확장 버튼. 축소하려면 두 번 탭하세요.</string>
+    <string name="row_collapse_button_description">펼치기 버튼. 접으려면 두 번 탭하세요.</string>
     <!-- Title for non stop filter on advance search view -->
     <string name="nonstop_flight_filter_label">직항 항공편만</string>
     <!-- Title for refundable filter on advance search view -->
@@ -2804,7 +2815,7 @@
     <string name="urgency_destination_description_TEMPLATE">{destination}의 경우 선택된 날짜에 인기 있는 지역입니다.</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
-    <string name="room_information_button_cont_desc">객실 정보 버튼</string>
+    <string name="room_information_button_cont_desc">객실 정보</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">환불 불가</string>
     <!-- Label for free nights -->
@@ -3020,7 +3031,7 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">오픈 소스 소프트웨어 라이센스 확인</string>
+    <string name="open_source_software_licenses">오픈 소스 소프트웨어 라이센스 정보</string>
     <!-- String for error message if open source software license page fails to open -->
     <string name="open_source_software_licenses_error">페이지 로드 오류.</string>
     <!-- String for acrediting the open source libraries we use -->
@@ -3073,6 +3084,13 @@
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
     <string name="app_not_available">고객님 전화에 이 동작을 처리할 수 있는 앱이 없거나 고객님의 액세스가 제한되었습니다.</string>
+    <!--Content description for add child button on traveler form Eg: 2 children added -->
+    <plurals name="add_child_button_cont_desc_TEMPLATE">
+        <item quantity="zero">%d명의 아동, 아래에서 아동 나이를 선택해 주세요.\u0020</item>
+        <item quantity="one">%d명의 아동, 아래에서 아동 나이를 선택해 주세요.\u0020</item>
+        <item quantity="other">%d명의 아동, 아래에서 아동 나이를 선택해 주세요.\u0020</item>
+    </plurals>
+
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">어른 %d명</item>
@@ -3803,6 +3821,10 @@
     <string name="free_flight_deal">이 호텔을 예약하시면 항공 요금이 100% 할인됩니다.</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
     <string name="hotel_deal_TEMPLATE">이 호텔을 예약하시면 {price}({savings}%) 할인됩니다.</string>
+    <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_title_label">업데이트해 주세요!</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">죄송합니다. 이 버전의 앱에서는 호텔+항공 예약이 지원되지 않습니다.\n지금 바로 업데이트하여 호텔+항공 특가 상품을 확인하세요.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">항공을 함께 예약하시면 {night}박이 무료입니다.</item>
@@ -3825,9 +3847,9 @@
     <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
     <string name="select_flight_selected_cont_desc_TEMPLATE">{datetraveler}에 대해 {flight}행 항공편을 선택하셨습니다. 항공편 세부 정보를 {expandstate}.</string>
     <!-- Bundle Overview collapsed flight card with more info accessibility content description-->
-    <string name="row_expand_button_description">축소된 버튼입니다. 확장하려면 두 번 탭하세요.</string>
+    <string name="row_expand_button_description">접힘 버튼입니다. 펼치려면 두 번 탭하세요.</string>
     <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
-    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} 확장된 버튼입니다. 축소하려면 두 번 탭하세요.</string>
+    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} 펼침 버튼입니다. 접으려면 두 번 탭하세요.</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">항공편 시간은 {time}입니다. 운항사는 {airline}입니다. 소요 시간은 {hours} {minutes}이며, {stops}번 경유합니다.\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
@@ -3922,6 +3944,8 @@
     <string name="select_flight_to">%1$s행 항공편 선택</string>
     <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
     <string name="package_flight_outbound_toolbar_title_TEMPLATE">{stateorcountry} {cityname}({airportcode})행 가는 항공편</string>
+    <!-- Airport code with city -->
+    <string name="airport_code_with_city_TEMPLATE">({airportcode}) {city}</string>
     <!-- Flight to template -->
     <string name="flight_to">%1$s행 항공편</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -4024,7 +4048,7 @@
         <item quantity="one">{seats}개 좌석 남음</item>
         <item quantity="other">{seats}개 좌석 남음</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">수하물 요금 정보</string>
+        <string name="package_flight_overview_baggage_fees">수하물 요금 정보</string>
     <string name="package_flight_overview_select_flight">이 항공편 선택</string>
     <string name="package_flight_overview_bundle_total_label">항공+호텔 총액</string>
     <string name="package_flight_overview_per_person_TEMPLATE">1인당 {money}</string>
@@ -4543,9 +4567,9 @@
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">구매 버튼</string>
     <!--Packages accessibility content description for role - Button to expand -->
-    <string name="accessibility_cont_desc_role_button_expand">확장하려면 버튼을 탭하세요</string>
+    <string name="accessibility_cont_desc_role_button_expand">펼치려면 버튼을 탭하세요</string>
     <!--Packages accessibility content description for role - Button to collapse -->
-    <string name="accessibility_cont_desc_role_button_collapse">축소하려면 버튼을 탭하세요</string>
+    <string name="accessibility_cont_desc_role_button_collapse">접으려면 버튼을 탭하세요</string>
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">대화상자 열림</string>
     <!-- Content Description for payment options list when card is not accepted -->
@@ -4685,6 +4709,7 @@
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">마감 특가 상품</string>
     <string name="last_minute_deal_subtitle">훌쩍 떠나고 싶으세요? 마감 특가 상품을 확인해 보세요.</string>
+    <string name="last_minute_deals_toolbar_title">마감 특가 상품</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">정렬 순서가 결정되는 방식</string>

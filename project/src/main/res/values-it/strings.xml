@@ -643,6 +643,10 @@
     <string name="sort_and_filter_cont_desc">Pulsante per ordinare e filtrare</string>
     <!-- "Done" list header label -->
     <string name="Done">OK</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is checked" -->
+    <string name="filter_selected_TEMPLATE">casella {filter} selezionata</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is not checked" -->
+    <string name="filter_not_selected_TEMPLATE">casella {filter} non selezionata</string>
 
     <!-- Baggage Info Accessibility -->
     <string name="spinner_text_baggage_info_fetching">Recupero informazioni sui bagagli in corso</string>
@@ -685,7 +689,7 @@
     <string name="total_from">Totale da</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Prezzi di andata e ritorno a persona.</string>
+    <string name="prices_roundtrip_label">Prezzo andata e ritorno a persona</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Prezzi di sola andata a persona.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -759,7 +763,7 @@
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Totale del viaggio</string>
     <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total: Basic Economy-->
-    <string name="trip_total_upsell_TEMPLATE">Totale del viaggio in {farefamily}:</string>
+    <string name="trip_total_upsell_TEMPLATE">Totale del viaggio: {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">Totale del viaggio</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -949,6 +953,8 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Le attività a {destination} vanno a ruba! Dai un\&apos;occhiata alle cose da fare e prenota i biglietti in anticipo.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Ciao {firstname}, scopri le migliori attività e attrazioni vicino al tuo hotel.</string>
+    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Il tuo volo per {arrival airport} è in ritardo. La nuova partenza è alle ore {departure time}.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario</string>
@@ -1452,7 +1458,7 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Arriva {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">scalo di {layover}</string>
-    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <!--Flight itin total duration widget template. (e.g. Total duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">Durata totale: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Informazioni sui bagagli</string>
@@ -1512,13 +1518,17 @@
     <string name="itin_flight_leg_detail_widget_to_text">-</string>
     <!--Flight itin, flight leg detail widget "-" text-->
     <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
-
+    <!--Flight itin, Airline rules and restrictions text-->
+    <string name="itin_flight_leg_detail_widget_rules_and_restrictions">Regole e restrizioni della compagnia aerea</string>
     <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
     <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
     <item quantity="zero">Non-stop</item>
     <item quantity="one">%s scalo</item>
     <item quantity="other">%s scali</item>
     </plurals>
+
+    <!--Flight itin, flight leg detail widget's split ticket text-->
+    <string name="itin_flight_leg_detail_widget_split_ticket_text">Il tuo volo è composto da due tariffe di sola andata. La modifica o cancellazione di un volo non sarà applicata automaticamente all\&apos;altro volo.</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}g {hours}h {minutes}m</string>
@@ -1589,7 +1599,7 @@
 
     <!-- Action Buttons -->
     <!-- action button to launch terminal maps bottom sheet -->
-    <string name="itin_action_terminal_maps">Mappe del terminal</string>
+    <string name="itin_action_terminal_maps">Mappa del terminal</string>
     <string name="itin_action_directions">Indicazioni</string>
     <string name="itin_action_call_hotel">Chiama hotel</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -1723,9 +1733,9 @@
 
     <!-- Flights v2 -->
     <!-- Flights Search view button label for round-trip searches -->
-    <string name="flights_round_trip_label">ANDATA E RITORNO</string>
+    <string name="flights_round_trip_label">Andata e ritorno</string>
     <!-- Flights Search view button label for one-way searches -->
-    <string name="flights_one_way_label">SOLO ANDATA</string>
+    <string name="flights_one_way_label">Sola andata</string>
     <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
     <string name="flights_tab_selection_accouncement_oneway">Mostra la schermata dei risultati di ricerca per i voli di sola andata</string>
     <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
@@ -1789,7 +1799,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Stiamo caricando i voli…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
-    <string name="loading_flights_from_400_airlines">Ricerca voli tra oltre 400 compagnie aeree in corso</string>
+    <string name="loading_flights_from_400_airlines">Stiamo cercando voli tra oltre 400 compagnie aeree…</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Seleziona</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
@@ -2139,7 +2149,8 @@
     <string name="no_thanks">No, grazie</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Opzioni avanzate (facoltativo)</string>
-    <string name="contact_airline_message">Contatta la compagnia aerea per confermare le tue richieste</string>
+    <!--Contact airline message on flight checkout traveler details -->
+    <string name="contact_airline_message">Contatta la compagnia aerea per confermare le tue richieste.</string>
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Pulsante per espandere le opzioni avanzate (facoltativo)</string>
     <string name="collapse_advanced_button_cont_desc">Pulsante per ridurre le opzioni avanzate (facoltativo)</string>
@@ -2804,7 +2815,7 @@
     <string name="urgency_destination_description_TEMPLATE">{destination} è una destinazione molto richiesta nelle date selezionate</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
-    <string name="room_information_button_cont_desc">Pulsante per accedere alle informazioni sulla camera</string>
+    <string name="room_information_button_cont_desc">Informazioni sulla camera</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Non rimborsabile</string>
     <!-- Label for free nights -->
@@ -3073,6 +3084,13 @@
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
     <string name="app_not_available">Il tuo telefono non dispone di un\&apos;app che possa gestire questa azione oppure non puoi accedervi.</string>
+    <!--Content description for add child button on traveler form Eg: 2 children added -->
+    <plurals name="add_child_button_cont_desc_TEMPLATE">
+        <item quantity="zero">%d bambini.\u0020</item>
+        <item quantity="one">%d bambino, seleziona l\&apos;età del bambino.\u0020</item>
+        <item quantity="other">%d bambini, seleziona l\&apos;età dei bambini.\u0020</item>
+    </plurals>
+
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d adulti</item>
@@ -3803,6 +3821,10 @@
     <string name="free_flight_deal">Prenota questo e risparmia il 100% sul prezzo del volo.</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
     <string name="hotel_deal_TEMPLATE">Prenota questo e risparmia {price} ({savings}%)</string>
+    <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_title_label">Aggiornamento necessario!</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">Le prenotazioni volo + hotel non sono disponibili su questa versione dell\&apos;app.\nEffettua subito l\&apos;aggiornamento per visualizzare le offerte volo + hotel.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">{night} notte in hotel è gratis prenotando anche un volo.</item>
@@ -3922,6 +3944,8 @@
     <string name="select_flight_to">Seleziona volo per %1$s</string>
     <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
     <string name="package_flight_outbound_toolbar_title_TEMPLATE">Volo di andata per {cityname}, {stateorcountry} ({airportcode})</string>
+    <!-- Airport code with city -->
+    <string name="airport_code_with_city_TEMPLATE">({airportcode}) {city}</string>
     <!-- Flight to template -->
     <string name="flight_to">Volo per %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -4024,7 +4048,7 @@
         <item quantity="one">{seats} posto disponibile</item>
         <item quantity="other">{seats} posti disponibili</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">Informazioni sulla franchigia bagagli</string>
+        <string name="package_flight_overview_baggage_fees">Informazioni sulla franchigia bagagli</string>
     <string name="package_flight_overview_select_flight">Seleziona questo volo</string>
     <string name="package_flight_overview_bundle_total_label">Totale pacchetto</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/persona</string>
@@ -4685,6 +4709,7 @@
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Offerte last-minute</string>
     <string name="last_minute_deal_subtitle">Sogni di partire? Dai un\&apos;occhiata a queste tariffe last-minute</string>
+    <string name="last_minute_deals_toolbar_title">Offerte last minute</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Come funziona il nostro ordinamento</string>
