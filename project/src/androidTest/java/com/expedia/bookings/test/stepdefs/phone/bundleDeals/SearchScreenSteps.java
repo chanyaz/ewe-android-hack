@@ -16,6 +16,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.BuildConfig;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
@@ -49,6 +50,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withRecyclerViewSize;
 import static com.expedia.bookings.test.espresso.ViewActions.getString;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
+import static com.expedia.bookings.test.pagemodels.common.LaunchScreen.getPackagesLaunchButtonText;
 import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInEEEMMMdd;
 import static com.expedia.bookings.test.stepdefs.phone.TestUtil.validateRequestParams;
 import static com.expedia.bookings.test.stepdefs.phone.flights.DatePickerSteps.pickDates;
@@ -406,7 +408,7 @@ public class SearchScreenSteps {
 
 	@Then("^Validate toolbar title is \"(.*?)\" for packages")
 	public void validate(String title) throws Throwable {
-		onView(withId(R.id.title)).check(matches(withText(title)));
+		onView(withId(R.id.title)).check(matches(withText(getPackagesLaunchButtonText(BuildConfig.brand))));
 	}
 
 	@And("^I click on source search button")
