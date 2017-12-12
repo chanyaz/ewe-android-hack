@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
+import com.expedia.bookings.data.hotels.AbstractApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
@@ -28,7 +28,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val errorRemoveCouponShowDialogObservable = PublishSubject.create<ApiError>()
     val errorMessageObservable = BehaviorSubject.create<String>()
     val discountObservable = PublishSubject.create<String>()
-    val couponParamsObservable = BehaviorSubject.create<HotelApplyCouponParameters>()
+    val couponParamsObservable = BehaviorSubject.create<AbstractApplyCouponParameters>()
     val couponRemoveObservable = PublishSubject.create<String>()
     val hasDiscountObservable = BehaviorSubject.create<Boolean>()
     val enableSubmitButtonObservable = PublishSubject.create<Boolean>()
@@ -60,6 +60,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
 
         createTripObservable.subscribe(couponEndlessObserver { trip ->
             enableSubmitButtonObservable.onNext(true)
+            val couponParams = couponParamsObservable.value
             if (trip.hasErrors()) {
                 val errorType = trip.firstError.errorInfo.couponErrorType
                 val stringId = couponErrorMap[errorType] ?: R.string.coupon_error_fallback
@@ -68,13 +69,13 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
 
                 errorMessageObservable.onNext(text)
                 errorObservable.onNext(trip.firstError)
-                if (couponParamsObservable.value.isFromNotSignedInToSignedIn) {
+                if (couponParams.isFromNotSignedInToSignedIn) {
                     errorShowDialogObservable.onNext(trip.firstError)
                 }
-                HotelTracking.trackHotelCouponFail(couponParamsObservable.value.couponCode, errorType)
+                HotelTracking.trackHotelCouponFail(couponParams.getTrackingString(), errorType)
             } else {
                 couponChangeSuccess(trip)
-                HotelTracking.trackHotelCouponSuccess(couponParamsObservable.value.couponCode)
+                HotelTracking.trackHotelCouponSuccess(couponParams.getTrackingString())
             }
         })
     }

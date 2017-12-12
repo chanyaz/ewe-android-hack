@@ -1,0 +1,377 @@
+{
+  "tripId": "bc9fec5d-7539-41e9-ab60-3e593f0912fe",
+  "userId": 673093611,
+  "originalHotelProductResponse": {},
+  "newHotelProductResponse": {
+    "checkInDate": "2017-12-30",
+    "checkOutDate": "2017-12-31",
+    "checkInTime": "3:00pm",
+    "checkOutTime": "11:00am",
+    "adultCount": "1",
+    "numberOfNights": "1",
+    "numberOfRooms": "1",
+    "hotelId": "5864",
+    "hotelName": "Torch Lite Inn",
+    "localizedHotelName": "Torch Lite Inn",
+    "nonLocalizedHotelName": "Torch Lite Inn",
+    "largeThumbnailUrl": "/hotels/1000000/10000/5900/5864/5864_166_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/10000/5900/5864/5864_166_n.jpg",
+    "hotelAddress": "500 Riverside Ave",
+    "hotelCity": "Santa Cruz",
+    "hotelStateProvince": "CA",
+    "hotelCountry": "USA",
+    "hotelStarRating": "2.0",
+    "shortDescription": "This motel is just a 5 minute walk away  to Santa Cruz Beach Boardwalk, Main Beach, and Santa Cruz Wharf. Also nearby are Santa Cruz Surfing Museum and Cocoanut Grove.",
+    "hotelRoomResponse": {
+      "productKey": "00000000-0000-0000-0000-000000000000_V3",
+      "bedTypes": [
+        {
+          "id": "23",
+          "description": "2 queen beds"
+        }
+      ],
+      "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Torch Lite Inn charges the following cancellation and change fees.</p><p>Cancellations or changes made after 6:00pm (property local time) on Dec 29, 2017 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.</p><p>Your room/unit will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.</p>",
+      "currentAllotment": "0",
+      "depositRequired": false,
+      "freeCancellationWindowDate": "2017-12-29 10:00",
+      "guaranteeRequired": false,
+      "hasFreeCancellation": true,
+      "immediateChargeRequired": true,
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isPayLater": false,
+      "isSameDayDRR": false,
+      "minGuestAge": "0",
+      "nonRefundable": false,
+      "promoDescription": "Book early and save 15%",
+      "promotionDetails": {
+        "promoId": "227865093",
+        "minStay": 1,
+        "promoExpirationDate": "2018-03-05T07:59:00-00:00",
+        "promoAdjustmentAmount": "-0.15",
+        "promoAdjustmentType": "PercentAdjustment",
+        "isPromoPartiallyApplied": false
+      },
+      "quotedOccupancy": "4",
+      "rateChange": false,
+      "rateDescription": "Signature Room, 2 Queen Beds, Non Smoking",
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "99.30",
+          "averageRate": "99.30",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "15.14",
+          "surchargeTotalForEntireStay": "15.14",
+          "averageBaseRate": "129.68",
+          "nightlyRateTotal": "110.33",
+          "discountPercent": -23,
+          "total": "114.44",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "12.65",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "12.65",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "2.49",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "2.49",
+              "type": "FEE_MISC"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "12.65",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "12.65",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "2.49",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "2.49",
+              "type": "FEE_MISC"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "true",
+              "baseRate": "129.68",
+              "rate": "110.33"
+            }
+          ],
+          "priceToShowUsers": "99",
+          "strikethroughPriceToShowUsers": "130",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "145",
+          "totalMandatoryFees": "0.00",
+          "totalPriceWithMandatoryFees": "114.44",
+          "formattedTotalPriceWithMandatoryFees": "$ 114.44",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [
+            {
+              "type": "COUPON",
+              "amount": "11.03",
+              "formattedAmount": "$ 11.03"
+            }
+          ],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "163059",
+          "ratePlanCode": "372108",
+          "showResortFeeMessage": false,
+          "resortFeeInclusion": false
+        }
+      },
+      "rateOccupancyPerRoom": "7",
+      "ratePlanCode": "372108",
+      "roomThumbnailUrlArray": [],
+      "roomTypeCode": "163059",
+      "roomTypeDescription": "Signature Room, 2 Queen Beds, Non Smoking",
+      "smokingPreferences": "NS",
+      "supplierType": "MERCHANT",
+      "valueAdds": [
+        {
+          "id": "2109",
+          "description": ""
+        },
+        {
+          "id": "2192",
+          "description": ""
+        },
+        {
+          "id": "2194",
+          "description": ""
+        }
+      ]
+    },
+    "supplierType": "MERCHANT",
+    "accessibilityAmenities": [],
+    "isVipAccess": false,
+    "tealeafTransactionId": "1b6878a32c794025a25e58e98f9adab9",
+    "bigImageUrl": "/hotels/1000000/10000/5900/5864/5864_166_b.jpg",
+    "regionId": "-1972959953"
+  },
+  "airAttachedProductResponse": {},
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 481.00,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 229.00,
+        "pointType": "basePoint"
+      },
+      {
+        "pointValue": 229.00,
+        "pointType": "offerPoint"
+      },
+      {
+        "pointValue": 23.00,
+        "pointType": "offerPoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 481,
+    "isActiveRewardsMember": true,
+    "rewardsMembershipTierName": "Silver"
+  },
+  "rewards": {
+    "programName": "ExpediaRewards",
+    "totalPointsToEarn": 481.00,
+    "isActiveRewardsMember": true,
+    "rewardsMembershipTierName": "Silver"
+  },
+  "coupon": {
+    "instanceId": 374762687
+  },
+  "userCoupons": [
+    {
+      "name": "ESCAPE20PERCENT - US",
+      "instanceId": 369905139,
+      "redemptionStatus": "REDEEMED"
+    },
+    {
+      "name": "ESCAPE20PERCENT - US",
+      "instanceId": 369950082,
+      "redemptionStatus": "REDEEMED"
+    },
+    {
+      "name": "ESCAPE20PERCENT - US",
+      "instanceId": 371411809,
+      "redemptionStatus": "REDEEMED"
+    },
+    {
+      "name": "Escape Friends and Family Coupon - Dec 2017",
+      "instanceId": 374762687,
+      "redemptionStatus": "VALID"
+    },
+    {
+      "name": "T2D - 2015 EG Backup Mobile Offer",
+      "instanceId": 183911821,
+      "redemptionStatus": "EXPIRED"
+    },
+    {
+      "name": "2015 Employee Escape Standalone Coupon - 20%",
+      "instanceId": 362112017,
+      "redemptionStatus": "REDEEMED"
+    },
+    {
+      "name": "2015 Employee Escape Standalone Coupon - 20%",
+      "instanceId": 362118634,
+      "redemptionStatus": "REDEEMED"
+    },
+    {
+      "name": "2015 Employee Escape Standalone Coupon - 20%",
+      "instanceId": 363011993,
+      "redemptionStatus": "REDEEMED"
+    },
+    {
+      "name": "2015 Employee Escape Package Coupon - $500-$999",
+      "instanceId": 362584488,
+      "redemptionStatus": "REDEEMED"
+    },
+    {
+      "name": "Employee Escape Package Coupon - $1000-$1999",
+      "instanceId": 362583880,
+      "redemptionStatus": "EXPIRED"
+    },
+    {
+      "name": "Employee Escape Package Coupon - $1000-$1999",
+      "instanceId": 362584484,
+      "redemptionStatus": "EXPIRED"
+    }
+  ],
+  "tealeafTransactionId": "1b6878a32c794025a25e58e98f9adab9",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress",
+      "verificationTypes": [
+        "APPLE_PAY"
+      ]
+    },
+    {
+      "name": "ChinaUnionPay"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard",
+      "verificationTypes": [
+        "THREE_DS",
+        "APPLE_PAY"
+      ]
+    },
+    {
+      "name": "Visa",
+      "verificationTypes": [
+        "THREE_DS",
+        "APPLE_PAY"
+      ]
+    },
+    {
+      "name": "ExpediaRewards"
+    }
+  ],
+  "storedCreditCards": [
+    {
+      "description": "Visa ending in 9169",
+      "paymentsInstrumentsId": "28F2F68B-E925-4A74-BAFC-733B3A14EA5C",
+      "creditCardType": "Visa",
+      "nameOnCard": "Abhinav Tripathi",
+      "expired": "false",
+      "expirationDate": "2019-05"
+    },
+    {
+      "description": "AmericanExpress ending in 1002",
+      "paymentsInstrumentsId": "88CCB061-7A59-4217-8020-9901FB7EB597",
+      "creditCardType": "AmericanExpress",
+      "nameOnCard": "Abhinav Tripathi",
+      "expired": "false",
+      "expirationDate": "2021-01"
+    },
+    {
+      "description": "AmericanExpress ending in 3008",
+      "paymentsInstrumentsId": "007CD9B4-B43C-4B64-968C-EDA78C0745A8",
+      "creditCardType": "AmericanExpress",
+      "nameOnCard": "Abhinav Tripathi",
+      "expired": "false",
+      "expirationDate": "2022-04"
+    }
+  ],
+  "storedPointsCards": [
+    {
+      "description": "card-16561694",
+      "paymentsInstrumentsId": "86BE66DB-2AC7-4E14-9758-99F6ABF238CE",
+      "creditCardType": "ExpediaRewards"
+    }
+  ],
+  "paymentRules": {
+    "maxPaymentInstrumentsForBooking": 2
+  },
+  "pointsDetails": [
+    {
+      "programName": "ExpediaRewards",
+      "rateID": "21f5a9ed-2999-4377-b522-b0fb18b52164",
+      "totalAvailable": {
+        "points": 1642,
+        "pointsType": "AVAILABLE",
+        "amount": {
+          "amount": "11.73",
+          "roundedAmount": "12",
+          "formattedPrice": "$11.73",
+          "formattedWholePrice": "$12",
+          "currencyCode": "USD"
+        }
+      },
+      "maxPayableWithPoints": {
+        "points": 1642,
+        "pointsType": "BURN",
+        "amount": {
+          "amount": "11.73",
+          "roundedAmount": "12",
+          "formattedPrice": "$11.73",
+          "formattedWholePrice": "$12",
+          "currencyCode": "USD"
+        }
+      },
+      "remainingPayableByCard": {
+        "points": 433.00,
+        "pointsType": "EARN",
+        "amount": {
+          "amount": "102.71",
+          "roundedAmount": "103",
+          "formattedPrice": "$102.71",
+          "formattedWholePrice": "$103",
+          "currencyCode": "USD"
+        }
+      },
+      "tripTotalPayable": {
+        "amount": "102.71",
+        "roundedAmount": "103",
+        "formattedPrice": "$102.71",
+        "formattedWholePrice": "$103",
+        "currencyCode": "USD"
+      },
+      "isAllowedToRedeem": true
+    }
+  ]
+}

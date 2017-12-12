@@ -54,7 +54,7 @@ class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
                 return getMockResponse("m/api/hotel/trip/create/$fileName.json", params)
             }
 
-            HotelRequestMatcher.isCouponApplyCall(urlPath) -> getMockResponse("api/m/trip/coupon/" + params["coupon.code"] + ".json", params)
+            HotelRequestMatcher.isCouponApplyCall(urlPath) -> getMockResponse("api/m/trip/coupon/" + (params["coupon.instanceId"] ?: params["coupon.code"]) + ".json", params)
 
             HotelRequestMatcher.isCouponRemoveCall(urlPath) -> getMockResponse("api/m/trip/remove/coupon/" + params["tripId"] + ".json", params)
 

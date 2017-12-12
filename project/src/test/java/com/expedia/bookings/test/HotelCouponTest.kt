@@ -5,7 +5,8 @@ import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
+import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters
+import com.expedia.bookings.data.hotels.HotelApplySavedCodeParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PointsAndCurrency
@@ -66,7 +67,7 @@ class HotelCouponTest {
         vm.errorObservable.subscribe(testSubscriber)
         vm.createTripDownloadsObservable.subscribe(s)
 
-        val couponParamsBuilder = HotelApplyCouponParameters.Builder()
+        val couponParamsBuilder = HotelApplyCouponCodeParameters.Builder()
                 .tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
                 .isFromNotSignedInToSignedIn(false)
                 .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(0f, PointsType.BURN, Money()))))
@@ -81,19 +82,19 @@ class HotelCouponTest {
         testSubscriber.assertReceivedOnNext(expected)
     }
 
-    private fun applyCouponWithError(couponParameters: HotelApplyCouponParameters, expectedError: String): ApiError {
+    private fun applyCouponWithError(couponCodeParameters: HotelApplyCouponCodeParameters, expectedError: String): ApiError {
         val latch = CountDownLatch(1)
         val subscription = vm.enableSubmitButtonObservable.subscribe { latch.countDown() }
-        vm.couponParamsObservable.onNext(couponParameters)
+        vm.couponParamsObservable.onNext(couponCodeParameters)
         latch.await(10, TimeUnit.SECONDS)
         subscription.unsubscribe()
         return makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, expectedError)
     }
 
     @Test
-    fun applyCouponWithUserPreference() {
+    fun applyCouponCodeWithUserPreference() {
         val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
-        val couponParams = HotelApplyCouponParameters.Builder()
+        val couponParams = HotelApplyCouponCodeParameters.Builder()
                 .tripId("b33f3017-6f65-4b02-8f73-87c9bf39ea76")
                 .isFromNotSignedInToSignedIn(false)
                 .couponCode("hotel_coupon_with_user_points_preference")
@@ -116,6 +117,41 @@ class HotelCouponTest {
         assertNotNull(userPreferencePoints)
         assertNotNull(userPreferencePoints?.amountOnPointsCard)
         assertNotNull(userPreferencePoints?.remainingPayableByCard)
+    }
+
+    @Test
+    fun applySavedCouponWithUserPreference() {
+        val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
+        val couponParams = HotelApplySavedCodeParameters.Builder()
+                .tripId("tripId")
+                .instanceId("happypath_createtrip_saved_coupons_select")
+                .userPreferencePointsDetails(listOf(pointsDetails))
+                .build()
+
+        val testSubscriber = TestSubscriber<HotelCreateTripResponse>()
+        vm.couponObservable.subscribe(testSubscriber)
+
+        vm.couponParamsObservable.onNext(couponParams)
+
+        testSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
+        testSubscriber.assertValueCount(1)
+
+        val tripResponse = testSubscriber.onNextEvents[0]
+        assertNotNull(tripResponse.coupon)
+        assertEquals("374762687", tripResponse.coupon.instanceId)
+    }
+
+    @Test
+    fun applySavedCouponAndCouponCodeInParamsWithUserPreference() {
+        val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
+        val couponParams = HotelApplySavedCodeParameters.Builder()
+                .tripId("tripId")
+                .instanceId("instanceId")
+                .userPreferencePointsDetails(listOf(pointsDetails))
+                .build()
+        val queryMap = couponParams.toQueryMap()
+        assertEquals("instanceId", queryMap["coupon.instanceId"])
+        assertNull(queryMap["coupon.code"])
     }
 
     @Test

@@ -27,6 +27,7 @@ public class HotelCreateTripResponse extends TripResponse {
 	}
 
 	public static class Coupon {
+		public String instanceId;
 		public String code;
 	}
 
