@@ -1390,7 +1390,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.member_only_discount_percentage_background,
 		R.string.airport_code_with_city_TEMPLATE,
 		R.string.itin_flight_leg_detail_widget_rules_and_restrictions,
-		R.layout.test_flight_itin_legs_detail_widget,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt,
 		R.drawable.ic_member_only_tag,
