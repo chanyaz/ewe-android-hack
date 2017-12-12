@@ -175,7 +175,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         webCheckoutView
     }
-    
+
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {
@@ -294,8 +294,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
         confirmationPresenter.hotelConfirmationViewModel.setSearchParams(hotelSearchParams)
 
-        Observable.combineLatest(confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable, confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable, {
-            confirmationDetailsSet, confirmationUISet ->
+        Observable.combineLatest(confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable, confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable, { confirmationDetailsSet, confirmationUISet ->
             if (confirmationDetailsSet && confirmationUISet) {
                 pageUsableData.markAllViewsLoaded(Date().time)
                 HotelTracking.trackHotelPurchaseConfirmation(confirmationPresenter.hotelConfirmationViewModel.hotelCheckoutResponseObservable.value, confirmationPresenter.hotelConfirmationViewModel.percentagePaidWithPointsObservable.value,
@@ -407,8 +406,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun shouldUseWebCheckout() = PointOfSale.getPointOfSale().shouldShowWebCheckout() ||
-                                        (PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled
-                                                && AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsWebCheckout))
+            (PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled
+                    && AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsWebCheckout))
 
     fun setDefaultTransition(screen: Screen) {
         val defaultTransition = when (screen) {
@@ -1024,9 +1023,15 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             webCheckoutView.back()
             return true
         }
+
         if (searchPresenter.back()) {
             return true
         }
+
+        if (currentState == HotelErrorPresenter::class.java.name && errorPresenter.back()) {
+            return true
+        }
+
         if (loadingOverlay.visibility != View.VISIBLE) {
             return super.back()
         }

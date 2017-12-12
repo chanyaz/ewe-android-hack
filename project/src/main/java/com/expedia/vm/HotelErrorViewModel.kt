@@ -14,7 +14,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
+class HotelErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
     // Inputs
     val infositeApiErrorObserver = PublishSubject.create<ApiError>()
     val apiErrorObserver = PublishSubject.create<ApiError>()
@@ -103,9 +103,9 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     val field = error.errorInfo.field
                     if (field == "phone") {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.phone_number_field_text)))
-                    } else if ( field == "mainMobileTraveler.firstName") {
+                    } else if (field == "mainMobileTraveler.firstName") {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.first_name_field_text)))
-                    } else if (field == "mainMobileTraveler.lastName" ) {
+                    } else if (field == "mainMobileTraveler.lastName") {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.last_name_field_text)))
                     } else {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
@@ -185,6 +185,10 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     .format()
                     .toString())
         })
+
+        clickBack.subscribe {
+            handleCheckoutErrors()
+        }
     }
 
     override fun searchErrorHandler(): Observer<ApiError> {
@@ -234,10 +238,38 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     }
 
     override fun createTripErrorHandler(): Observer<ApiError> {
-        return endlessObserver {  }
+        return endlessObserver { }
     }
 
     override fun checkoutApiErrorHandler(): Observer<ApiError> {
-        return endlessObserver {  }
+        return endlessObserver { }
+    }
+
+    fun handleCheckoutErrors() {
+        val checkoutError = error
+
+        when (checkoutError.errorCode) {
+            ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
+                checkoutCardErrorObservable.onNext(Unit)
+            }
+            ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS -> {
+                checkoutTravelerErrorObservable.onNext(Unit)
+            }
+            ApiError.Code.PAYMENT_FAILED -> {
+                checkoutCardErrorObservable.onNext(Unit)
+            }
+            ApiError.Code.INVALID_CARD_NUMBER -> {
+                checkoutCardErrorObservable.onNext(Unit)
+            }
+            ApiError.Code.CARD_LIMIT_EXCEEDED -> {
+                checkoutCardErrorObservable.onNext(Unit)
+            }
+            ApiError.Code.INVALID_CARD_EXPIRATION_DATE -> {
+                checkoutCardErrorObservable.onNext(Unit)
+            }
+            else -> {
+                defaultErrorObservable.onNext(Unit)
+            }
+        }
     }
 }
