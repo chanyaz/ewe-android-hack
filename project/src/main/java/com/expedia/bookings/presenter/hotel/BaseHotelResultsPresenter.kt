@@ -83,6 +83,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val mapCarouselContainer: ViewGroup by bindView(R.id.hotel_carousel_container)
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
+    val filterButtonOnClickObservable = PublishSubject.create<Unit>()
 
     open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
 
@@ -295,6 +296,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         pricingHeaderSelectedSubject.subscribe {
             sortFaqWebView.loadUrl()
             show(ResultsSortFaqWebView())
+        }
+
+        filterButtonOnClickObservable.subscribe {
+            showWithTracking(ResultsFilter())
+            filterView.viewModel.sortContainerVisibilityObservable.onNext(true)
+            filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
         }
     }
 
