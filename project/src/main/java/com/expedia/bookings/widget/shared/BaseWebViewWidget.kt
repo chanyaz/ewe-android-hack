@@ -24,6 +24,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     val HEADER_CLASS = "site-header-primary"
     val FACEBOOK_LOGIN_CLASS = "facebook-login-pane"
 
+
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val webView: WebView by bindView(R.id.web_view)
     val progressView: ProgressBar by bindView(R.id.webview_progress_view)
@@ -57,7 +58,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     }
 
     private fun preventLoadingOfDivClass(className: String) {
-        webView.loadUrl("javascript:(function() { var elements = document.getElementsByClassName('$className'); if(elements.length > 0) { document.getElementsByClassName('$className')[0].style.display=\"none\"; }; })()")
+        webView.loadUrl("javascript:(function() { var elements = document.getElementsByClassName('$className'); for (index=0; index < elements.length; index++) { elements[index].style.display=\"none\"; }; })()")
     }
 
     open fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
