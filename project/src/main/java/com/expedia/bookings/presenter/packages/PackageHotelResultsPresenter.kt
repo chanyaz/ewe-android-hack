@@ -11,16 +11,21 @@ import com.expedia.bookings.hotel.vm.PackageHotelResultsViewModel
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
+import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
+import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
+import com.expedia.util.subscribeOnClick
 import com.expedia.vm.PackageFilterViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.squareup.phrase.Phrase
+import rx.Observer
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
@@ -28,6 +33,16 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     var viewModel: PackageHotelResultsViewModel by notNullAndObservable { vm ->
         baseViewModel = vm
         vm.hotelResultsObservable.subscribe(listResultsObserver)
+        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+            val filterStub = findViewById<ViewStub>(R.id.filter_stub)
+            val filterStubInflated = filterStub.inflate()
+            val filterBtnWithCountWidget = filterStubInflated.findViewById<FilterButtonWithCountWidget>(R.id.sort_filter_button_container)
+            filterBtnWithCountWidget.subscribeOnClick(filterButtonOnClickObservable)
+            val filterCountObserver: Observer<Int> = endlessObserver { numberOfFilters ->
+                filterBtnWithCountWidget.showNumberOfFilters(numberOfFilters)
+            }
+            filterView.viewModel.filterCountObservable.subscribe(filterCountObserver)
+        }
 
         vm.titleSubject.subscribe {
             if (shouldShowBreadcrumbsInToolbarTitle()) {

@@ -45,6 +45,7 @@ import com.expedia.bookings.widget.hotel.HotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
+import com.expedia.util.subscribeOnClick
 import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelFilterViewModel
@@ -221,9 +222,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             narrowResultsPromptView.visibility = View.GONE
         }
 
-        filterBtnWithCountWidget.setOnClickListener {
-            filterButtonOnClickObservable.onNext(Unit)
-        }
+        filterBtnWithCountWidget.subscribeOnClick(filterButtonOnClickObservable)
         filterView.viewModel.filterCountObservable.subscribe(filterCountObserver)
 
         mapWidget.cameraChangeSubject.subscribe {

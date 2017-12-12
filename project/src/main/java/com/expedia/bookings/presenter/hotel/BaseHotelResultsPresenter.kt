@@ -51,6 +51,7 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelCarouselRecycler
@@ -945,7 +946,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     fun showFilterMenuItem(isResults: Boolean) {
-        if (getLineOfBusiness() == LineOfBusiness.PACKAGES) {
+        if (getLineOfBusiness() == LineOfBusiness.PACKAGES && !isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
             filterMenuItem.isVisible = true
         } else {
             filterMenuItem.isVisible = !isResults

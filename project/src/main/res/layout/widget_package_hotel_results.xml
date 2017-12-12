@@ -103,6 +103,13 @@
         app:useCompatPadding="true" />
 
     <ViewStub
+        android:id="@+id/filter_stub"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hotel_filter_height"
+        android:layout_gravity="bottom"
+        android:layout="@layout/package_hotel_sort_and_filter_stub" />
+
+    <ViewStub
         android:id="@+id/hotel_filter_view_stub"
         android:inflatedId="@+id/hotel_filter_view"
         android:layout_width="match_parent"
