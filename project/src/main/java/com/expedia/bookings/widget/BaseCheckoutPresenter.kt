@@ -219,16 +219,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
         vm.showCreateTripDialogObservable.subscribe { show ->
-            if (show) {
-                if (!createTripDialog.isShowing) {
-                    createTripDialog.show()
-                    createTripDialog.setContentView(R.layout.process_dialog_layout)
-                    AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.progress_dialog_container), 0)
-                    createTripDialog.findViewById<View>(R.id.progress_dialog_container).contentDescription = context.getString(R.string.spinner_text_create_trip)
-                    announceForAccessibility(context.getString(R.string.spinner_text_create_trip))
-                }
-            } else {
-                if (createTripDialog.isShowing) {
+            if (vm.isValidContext(context)) {
+                if (show && !createTripDialog.isShowing) {
+                    showCreateTripDialog()
+                } else if (createTripDialog.isShowing) {
                     createTripDialog.dismiss()
                 }
             }
@@ -245,6 +239,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             onCreateTripResponse(response)
         }
         setupCreateTripViewModel(vm)
+    }
+
+    private fun showCreateTripDialog() {
+        createTripDialog.show()
+        createTripDialog.setContentView(R.layout.process_dialog_layout)
+        AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.progress_dialog_container), 0)
+        createTripDialog.findViewById<View>(R.id.progress_dialog_container).contentDescription = context.getString(R.string.spinner_text_create_trip)
+        announceForAccessibility(context.getString(R.string.spinner_text_create_trip))
     }
 
     fun hasPriceChange(response: TripResponse?): Boolean {

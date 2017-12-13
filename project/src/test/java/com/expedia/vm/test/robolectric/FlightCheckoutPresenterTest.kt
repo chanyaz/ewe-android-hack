@@ -132,18 +132,26 @@ class FlightCheckoutPresenterTest {
     }
 
     @Test
-    fun testShowCreateTripDialogDoesNotCrashOnFalseValue() {
+    fun testDismissCreateTripDialogDoesNotCrashOrCloseIfActivityIsFinished() {
         setupCheckout()
         checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(true)
         val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
         assertTrue(shadowCreateTripDialog.isShowing)
 
-        shadowCreateTripDialog.dismiss()
-        assertFalse(shadowCreateTripDialog.isShowing)
-
+        activity.finish()
         checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(false)
-        val newShadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
-        assertEquals(newShadowCreateTripDialog, shadowCreateTripDialog)
+
+        assertTrue(shadowCreateTripDialog.isShowing)
+    }
+
+    @Test
+    fun testShowCreateTripDialogDoesNotShowIfActivityIsFinished() {
+        setupCheckout()
+        activity.finish()
+        checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(true)
+        val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
+
+        assertEquals(null, shadowCreateTripDialog)
     }
 
     @Test

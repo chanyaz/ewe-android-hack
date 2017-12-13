@@ -1,5 +1,7 @@
 package com.expedia.vm
 
+import android.app.Activity
+import android.content.Context
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.TripResponse
 import com.expedia.util.Optional
@@ -21,4 +23,7 @@ open class BaseCreateTripViewModel {
         createTripResponseObservable.onNext(Optional(null))
     }
 
+    fun isValidContext(context: Context) : Boolean {
+        return (context is Activity) && !context.isDestroyed && !context.isFinishing
+    }
 }
