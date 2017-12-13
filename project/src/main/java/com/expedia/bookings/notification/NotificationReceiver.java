@@ -35,6 +35,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.launch.activity.NotificationActivity;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
@@ -389,16 +390,22 @@ public class NotificationReceiver extends BroadcastReceiver {
 			}
 
 			if ((flags & Notification.FLAG_REDEEM) != 0) {
-				Intent intent = null;
-				if (data instanceof ItinCardDataActivity) {
-					intent = ((ItinCardDataActivity) data).buildRedeemIntent(mContext);
-				}
+//				Intent intent = null;
+//				if (data instanceof ItinCardDataActivity) {
+//					intent = ((ItinCardDataActivity) data).buildRedeemIntent(mContext);
+//				}
+//
+//				if (intent != null) {
+//					PendingIntent redeemPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+//					String redeem = mContext.getString(R.string.itin_action_redeem);
+//					builder = builder.addAction(R.drawable.itin_cancel_icon, redeem, redeemPendingIntent);
+//				}
+                PendingIntent dismissIntent = NotificationActivity.getDismissIntent(mContext);
+                String redeem = mContext.getString(R.string.itin_action_redeem);
+                builder.setPriority(NotificationCompat.PRIORITY_MAX) //HIGH, MAX, FULL_SCREEN and setDefaults(Notification.DEFAULT_ALL) will make it a Heads Up Display Style
+                        .setAutoCancel(true)
+                        .addAction(R.drawable.itin_cancel_icon, redeem, dismissIntent);
 
-				if (intent != null) {
-					PendingIntent redeemPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
-					String redeem = mContext.getString(R.string.itin_action_redeem);
-					builder = builder.addAction(R.drawable.itin_cancel_icon, redeem, redeemPendingIntent);
-				}
 			}
 
 			if ((flags & Notification.FLAG_CALL) != 0) {
@@ -419,16 +426,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 				Intent clickIntent2 = PhoneLaunchActivity.createIntent(mContext, mNotification);
 				PendingIntent clickPendingIntent2 = PendingIntent.getActivity(mContext, 0, clickIntent2, 0);
-				builder = builder.addAction(R.drawable.ic_share_short, label, clickPendingIntent2);
-//				if (phoneNumber != null) {
-//					Intent intent = SocialUtils.getCallIntent(mContext, phoneNumber);
-//
-//					// #1689: Ensure we have an activity that can handle the intent
-//					if (NavUtils.canHandleIntent(mContext, intent)) {
-//						PendingIntent callPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
-//						builder = builder.addAction(R.drawable.ic_share_short, label, callPendingIntent);
-//					}
-//				}
+				builder = builder.addAction(R.drawable.ic_share_short, label, clickPendingIntent2)
+                                    .setAutoCancel(true);
 			}
 
 			if ((flags & Notification.FLAG_VIEW) != 0) {

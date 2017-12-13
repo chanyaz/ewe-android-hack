@@ -164,6 +164,10 @@
             android:theme="@style/ItinTheme"
             tools:ignore="UnusedAttribute" />
         <activity
+            android:name=".launch.activity.NotificationActivity"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"/>
+        <activity
             android:name=".itin.activity.HotelItinExpandedMapActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
