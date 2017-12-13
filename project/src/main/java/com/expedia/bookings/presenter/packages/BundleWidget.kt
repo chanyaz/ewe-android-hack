@@ -117,6 +117,10 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         inboundFlightWidget.travelInfoText.visibility = View.VISIBLE
     }
 
+    fun revertBundleViewToSelectInbound() {
+        inboundFlightWidget.enable()
+    }
+
     init {
         View.inflate(context, R.layout.bundle_widget, this)
         orientation = VERTICAL

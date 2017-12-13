@@ -35,6 +35,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_packages_mid_api);
 		initializeFeatureCheck(R.string.preference_packages_breadcrumbs_move_bundle_overview);
 		initializeFeatureCheck(R.string.preference_packages_force_upgrade_for_pss_clients);
+		initializeFeatureCheck(R.string.preference_packages_back_flow_from_overview);
 
 		//Universal Checkout Features
 		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);

@@ -16,6 +16,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
@@ -24,6 +25,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.safeSubscribeOptional
@@ -46,6 +48,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     val changeHotel by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel) }
     val changeHotelRoom by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel_room) }
     val changeFlight by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_flight) }
+    val startOver by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_start_over) }
 
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
@@ -138,6 +141,10 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
         getCheckoutPresenter().getCheckoutViewModel().slideToBookA11yActivateObservable.subscribe(checkoutSliderSlidObserver)
 
+        bundleOverviewHeader.toolbar.viewModel.overflowClicked.subscribe {
+            PackagesTracking().trackBundleEditClick()
+        }
+
         changeHotel.setOnMenuItemClickListener({
             bundleOverviewHeader.toggleOverviewHeader(false)
             resetAndShowTotalPriceWidget()
@@ -195,6 +202,18 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             addTransition(checkoutTransition)
             addTransition(checkoutToCvv)
         }
+
+        //govern start over menu item visibility from AB Test
+        if (isBackFlowFromOverviewEnabled(context)) {
+            startOver.setOnMenuItemClickListener({
+                showBackToSearchDialog()
+                PackagesTracking().trackBundleEditItemClick("StartOver")
+                true
+            })
+        } else {
+            startOver.setVisible(false)
+        }
+
     }
 
     private fun resetBundleTotalTax() {
@@ -224,8 +243,16 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
 
         if (currentState == BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name && bundleOverviewHeader.appBarLayout.isActivated) {
-            showBackToSearchDialog()
-            return true
+            //Back press from overview screen
+
+            if (isBackFlowFromOverviewEnabled(context)) {
+                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
+                bundleOverviewHeader.toggleOverviewHeader(false)
+                bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
+            } else {
+                showBackToSearchDialog()
+                return true
+            }
         }
         bundleWidget.collapseBundleWidgets()
         return super.back()
@@ -263,7 +290,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     override fun setToolbarNavIcon(forward : Boolean) {
-        if(forward) {
+        if (forward || isBackFlowFromOverviewEnabled(context)) {
             toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
             toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
         }

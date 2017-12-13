@@ -28,6 +28,7 @@ class CheckoutToolbarViewModel(val context: Context) {
     // outputs
     val nextClicked = PublishSubject.create<Unit>()
     val doneClickedMethod = BehaviorSubject.create<() -> Unit>()
+    val overflowClicked = PublishSubject.create<Unit>()
 
     val expanded = PublishSubject.create<ExpandableCardView>()
     val closed = PublishSubject.create<Unit>()

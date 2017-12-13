@@ -106,6 +106,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs = new ABTest(16223);
 	public static final ABTest EBAndroidAppPackagesMISRealWorldGeo = new ABTest(16314);
 	public static final ABTest EBAndroidAppPackagesShowForceUpdateDialog = new ABTest(16283);
+	public static final ABTest PackagesBackFlowFromOverview = new ABTest(16163);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountSinglePageSignUp = new ABTest(13923);
@@ -240,7 +241,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidLXNotifications.getKey());
 		testIDs.add(EBAndroidAppPackagesShowForceUpdateDialog.getKey());
 		testIDs.add(EBAndroidAppSavedCoupons.getKey());
-
+		testIDs.add(PackagesBackFlowFromOverview.getKey());
 		return testIDs;
 	}
 

@@ -84,3 +84,8 @@ fun isPackagesMISRealWorldGeoEnabled(context: Context): Boolean {
 fun isShowSavedCoupons(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppSavedCoupons)
 }
+
+fun isBackFlowFromOverviewEnabled(context: Context): Boolean {
+    return (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.PackagesBackFlowFromOverview) &&
+            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_back_flow_from_overview))
+}

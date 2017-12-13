@@ -271,7 +271,6 @@ class PackagesTracking {
     }
 
     fun trackBundleEditClick() {
-        // TODO: Can't seem to figure out how to fire this event, need to get back to this.
         OmnitureTracking.trackPackagesBundleEditClick()
     }
 
