@@ -144,6 +144,8 @@
     <string name="accessibility_announcement_please_review_and_resubmit">Please review and resubmit.</string>
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">Lock icon, secure checkout</string>
+    <!--Legal booking statement for flights on checkout-->
+    <string name="flight_booking_statement_TEMPLATE">By completing this booking I agree that I have read and accept the &lt;a href=\"{website_url}\""&gt;Rules and Restrictions, the Terms and Conditions, the Privacy Policy, and Fare Information&lt;/a&gt;.</string>
 
     <!-- error strings -->
     <!-- Message for user that date is too far out.  -->

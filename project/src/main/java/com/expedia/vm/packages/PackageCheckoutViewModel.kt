@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.CardFeeResponse
@@ -17,6 +18,7 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
@@ -56,7 +58,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
             }
             depositPolicyText.onNext(HtmlCompat.fromHtml(depositText))
         }
-        legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
+        legalText.onNext(SpannableStringBuilder(getPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
 
         checkoutParams.subscribe { params ->
             params as PackageCheckoutParams
@@ -194,4 +196,15 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
         }
     }
 
+    private fun getPackagesBookingStatement(color: Int): CharSequence {
+        val pointOfSale = PointOfSale.getPointOfSale()
+        val packageBookingStatement = pointOfSale.packagesBookingStatement
+        if (TextUtils.isEmpty(packageBookingStatement)) {
+            val flightBookingStatement = Phrase.from(context, R.string.flight_booking_statement_TEMPLATE)
+                    .put("website_url", pointOfSale.websiteUrl)
+                    .format().toString()
+            return StrUtils.getSpannableTextByColor(flightBookingStatement, color, false)
+        }
+        return packageBookingStatement
+    }
 }

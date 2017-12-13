@@ -218,7 +218,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertCheckout() {
 		onView(allOf(withId(R.id.legal_information_text_view), withText(
-			"By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy and Fare Information.")))
+			"By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy, and Fare Information.")))
 			.perform(waitForViewToDisplay())
 			.check(matches(isDisplayed()));
 	}

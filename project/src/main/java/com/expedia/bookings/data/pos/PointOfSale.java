@@ -38,7 +38,6 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.AbacusHelperUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
@@ -840,6 +839,10 @@ public class PointOfSale {
 		return getPosLocale().getHotelBookingStatement();
 	}
 
+	public String getPackagesBookingStatement() {
+		return getPosLocale().getPackagesBookingStatement();
+	}
+
 	// TODO: As more complicated payment combinations arise, think about a refactor
 
 	public boolean requiresBillingAddressFlights() {
@@ -1013,29 +1016,6 @@ public class PointOfSale {
 		return getStylizedStatement(getPosLocale().getHotelBookingStatement(), keepHyperLinks);
 	}
 
-	/**
-	 * This is equivalent to calling getStylizedFlightBookingState(false)
-	 *
-	 * @return Stylized CharSequence
-	 */
-	public CharSequence getStylizedFlightBookingStatement() {
-		return getStylizedFlightBookingStatement(false);
-	}
-
-	/**
-	 * Return the flight booking statement with all hyperlinks underlined and bolded.
-	 *
-	 * @param keepHyperLinks - If this is false, the hyperlinks will no longer be URLSpan types
-	 * @return Stylized CharSequence
-	 */
-	public CharSequence getStylizedFlightBookingStatement(boolean keepHyperLinks) {
-		if (!TextUtils.isEmpty(getPosLocale().getFlightBookingStatement())) {
-			return getStylizedStatement(getPosLocale().getFlightBookingStatement(), keepHyperLinks);
-		}
-		return "FAIL FAIL FAIL LOC NEEDED: flightBookingStatement";
-	}
-
-
 	private CharSequence getStylizedStatement(String statement, boolean keepHyperLinks) {
 		SpannableStringBuilder text = new SpannableStringBuilder(HtmlCompat.fromHtml(statement));
 
@@ -1053,20 +1033,6 @@ public class PointOfSale {
 			text.setSpan(new UnderlineSpan(), start, end, 0);
 		}
 		return text;
-	}
-
-	public CharSequence getColorizedFlightBookingStatement(int color) {
-		if (!TextUtils.isEmpty(getPosLocale().getFlightBookingStatement())) {
-			return StrUtils.getSpannableTextByColor(getPosLocale().getFlightBookingStatement(), color, false);
-		}
-		return "FAIL FAIL FAIL LOC NEEDED: flightBookingStatement";
-	}
-
-	public CharSequence getColorizedPackagesBookingStatement(int color) {
-		if (!TextUtils.isEmpty(getPosLocale().getPackagesBookingStatement())) {
-			return StrUtils.getSpannableTextByColor(getPosLocale().getPackagesBookingStatement(), color, false);
-		}
-		return null;
 	}
 
 	public String getInsuranceStatement() {

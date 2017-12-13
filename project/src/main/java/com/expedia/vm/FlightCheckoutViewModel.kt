@@ -18,8 +18,10 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.safeSubscribeOptional
+import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -39,7 +41,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
     init {
         val pointOfSale = PointOfSale.getPointOfSale()
 
-        legalText.onNext(SpannableStringBuilder(pointOfSale.getColorizedFlightBookingStatement(ContextCompat.getColor(context, R.color.flight_primary_color))))
+        legalText.onNext(SpannableStringBuilder(getFlightBookingStatement(ContextCompat.getColor(context, R.color.flight_primary_color))))
 
         if (isUserEvolableBucketed) {
             builder.setFeatureOverrideFlag(Constants.FEATURE_EVOLABLE)
@@ -152,5 +154,12 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
                 // ignore
             }
         }
+    }
+
+    private fun getFlightBookingStatement(color: Int): CharSequence {
+        val flightBookingStatement = Phrase.from(context, R.string.flight_booking_statement_TEMPLATE)
+                .put("website_url", PointOfSale.getPointOfSale().websiteUrl)
+                .format().toString()
+        return StrUtils.getSpannableTextByColor(flightBookingStatement, color, false)
     }
 }

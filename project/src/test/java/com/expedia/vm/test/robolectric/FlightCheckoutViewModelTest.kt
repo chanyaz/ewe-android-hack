@@ -107,7 +107,7 @@ class FlightCheckoutViewModelTest {
         sut.createTripResponseObservable.onNext(Optional(newTripResponse))
 
         legalTextTestSubscriber.assertValueCount(1)
-        assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy and Fare Information.", legalTextTestSubscriber.onNextEvents[0].toString())
+        assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy, and Fare Information.", legalTextTestSubscriber.onNextEvents[0].toString())
     }
 
     @Test

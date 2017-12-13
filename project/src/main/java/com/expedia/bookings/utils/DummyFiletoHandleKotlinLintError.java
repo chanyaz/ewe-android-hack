@@ -1394,6 +1394,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.itin_terminal_spinner_base,
 		R.layout.itin_terminal_spinner_item,
 		R.layout.widget_toolbar_with_spinner,
+		R.string.flight_booking_statement_TEMPLATE,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt,
 		R.drawable.ic_member_only_tag,

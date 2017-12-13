@@ -45,7 +45,6 @@
         "websiteURL-pad": "http://www.expedia.com/?rfrr=app.tablet",
         "hotelBookingStatement": "By completing this booking I agree that I have read and accept the <a href=\"http://www.expedia.com/\">Rules and Restrictions, the Terms and Conditions, and the Privacy Policy</a>.",
         "hotelBookingStatement-pad": "By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy.",
-        "flightBookingStatement": "By completing this booking I agree that I have read and accept the <a href=\"http://www.expedia.com/\">Rules and Restrictions, the Terms and Conditions, the Privacy Policy and Fare Information</a>.",
         "termsAndConditionsLinkText": "Terms and Conditions",
         "privacyPolicyLinkText": "Privacy Policy",
         "termsAndConditionsURL": "http://www.expedia.com/daily/service/legal.asp",
