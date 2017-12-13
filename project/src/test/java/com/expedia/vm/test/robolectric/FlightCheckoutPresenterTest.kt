@@ -132,29 +132,6 @@ class FlightCheckoutPresenterTest {
     }
 
     @Test
-    fun testDismissCreateTripDialogDoesNotCrashOrCloseIfActivityIsFinished() {
-        setupCheckout()
-        checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(true)
-        val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
-        assertTrue(shadowCreateTripDialog.isShowing)
-
-        activity.finish()
-        checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(false)
-
-        assertTrue(shadowCreateTripDialog.isShowing)
-    }
-
-    @Test
-    fun testShowCreateTripDialogDoesNotShowIfActivityIsFinished() {
-        setupCheckout()
-        activity.finish()
-        checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(true)
-        val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
-
-        assertEquals(null, shadowCreateTripDialog)
-    }
-
-    @Test
     fun testEnrolledFrequentFlyerPrograms() {
         setupCheckout(true)
         checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(getPassportRequiredCreateTripResponse(false)))
