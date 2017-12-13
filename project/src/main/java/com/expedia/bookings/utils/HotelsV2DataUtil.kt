@@ -150,5 +150,19 @@ class HotelsV2DataUtil {
             }
             return contDesc
         }
+
+        fun getHotelDetailRatingContentDescription(context: Context, hotelStarRating: Double): String {
+            if (hotelStarRating <= 0) return ""
+            var contDesc: String = ""
+            if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
+                getHotelRatingContentDescription(context, hotelStarRating)
+            } else {
+                contDesc = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_star_rating_max_rating_cont_desc_TEMPLATE, hotelStarRating.toInt()))
+                        .put("rating", if (hotelStarRating.isWholeNumber()) hotelStarRating.toInt().toString() else hotelStarRating.toString())
+                        .format()
+                        .toString()
+            }
+            return contDesc
+        }
     }
 }

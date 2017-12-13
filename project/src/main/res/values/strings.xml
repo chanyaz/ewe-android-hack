@@ -3640,6 +3640,12 @@
         <item quantity="other">{rating} stars</item>
     </plurals>
 
+    <!-- Content description for hotel star rating e.g. 3 stars of 5 rating.-->
+    <plurals name="hotel_star_rating_max_rating_cont_desc_TEMPLATE">
+        <item quantity="one">{rating} star of 5 rating.</item>
+        <item quantity="other">{rating} stars of 5 rating.</item>
+    </plurals>
+
     <!-- Dialog positive button message -->
     <string name="yes">Yes</string>
     <!-- Dialog negative button message -->
