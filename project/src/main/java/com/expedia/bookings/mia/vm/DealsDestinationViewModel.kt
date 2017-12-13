@@ -86,44 +86,26 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
         return LocalDate(intDate[0], intDate[1], intDate[2])
     }
 
-
     fun getPercentSavingsText(percentSavings: Double?): String {
-        val percentDiscount = calculatePercentDiscount(percentSavings)
-        if (!percentDiscount.isEmpty()) {
-            return StringBuilder("-").append(percentDiscount).append("%").toString()
-        } else {
-            return percentDiscount
+        if (percentSavings == null || percentSavings == 0.00) {
+            return ""
         }
+
+        return StringBuilder("-").append(percentSavings.toInt()).append("%").toString()
     }
+
 
     fun getDiscountPercentForContentDesc(percentSavings: Double?): String {
-        val percentDiscount = calculatePercentDiscount(percentSavings)
-        if (!percentDiscount.isEmpty()) {
-            return Phrase.from(context, R.string.hotel_discount_percent_Template).put("discount", percentDiscount).format().toString()
-        } else {
+        if (percentSavings == null || percentSavings == 0.00) {
             return ""
         }
+
+        return Phrase.from(context, R.string.hotel_discount_percent_Template).put("discount", percentSavings.toInt().toString()).format().toString()
     }
 
-    private fun calculatePercentDiscount(percentSavingsValue: Double?): String {
-        val crossOutPriceValue = leadingHotel.hotelPricingInfo?.crossOutPriceValue
-        val totalPriceValue = leadingHotel.hotelPricingInfo?.totalPriceValue
-        if (percentSavingsValue == null) {
-            return calculatePercentDiscount(crossOutPriceValue, totalPriceValue)
-        }
-        return percentSavingsValue.toInt().toString()
-    }
-
-    private fun calculatePercentDiscount(crossOutPriceValue: Double?, totalPriceValue: Double?): String {
-        if (crossOutPriceValue != null && crossOutPriceValue > 0 && totalPriceValue != null) {
-            return ((crossOutPriceValue - totalPriceValue) / crossOutPriceValue * 100).toInt().toString()
-        } else {
-            return ""
-        }
-    }
 
     fun getFormattedPriceText(resources: Resources, price: Double?, strikeOut: Boolean): CharSequence {
-        if (price == null) {
+        if (price == null || price == 0.00) {
             return ""
         }
         val money = Money(java.lang.Double.toString(price), currency).getFormattedMoney(Money.F_NO_DECIMAL)
