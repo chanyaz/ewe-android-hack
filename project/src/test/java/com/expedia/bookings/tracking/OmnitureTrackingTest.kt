@@ -172,6 +172,15 @@ class OmnitureTrackingTest {
         assertTrue(evar!!.contains("12345"))
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun launchScreenTilesTracked() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        OmnitureTracking.trackPageLoadLaunchScreen(0, "event322,event326,event327")
+
+        assertStateTracked("App.LaunchScreen", withEventsString("event322,event326,event327"), mockAnalyticsProvider)
+    }
+
 //    @Test
 //    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 //    fun testHotelSuggestionEvar48Prop73_withChild() {

@@ -3248,6 +3248,11 @@ public class OmnitureTracking {
 
 	// todo : https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/5759
 	public static void trackPageLoadLaunchScreen(int proWizardTestValue) {
+		trackPageLoadLaunchScreen(proWizardTestValue, null);
+	}
+
+	// todo : https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/5759
+	public static void trackPageLoadLaunchScreen(int proWizardTestValue, String trackingEvents) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(LAUNCH_SCREEN);
 		boolean isFirstAppLaunch =
 			ExpediaBookingApp.isFirstLaunchEver() || ExpediaBookingApp.isFirstLaunchOfAppVersion();
@@ -3282,7 +3287,16 @@ public class OmnitureTracking {
 		}
 
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(sContext, AbacusUtils.HolidayFun)) {
-			s.setEvents("event330");
+			if (trackingEvents != null) {
+				trackingEvents = trackingEvents + ",event330";
+			}
+			else {
+				s.setEvents("event330");
+			}
+		}
+
+		if (trackingEvents != null) {
+			s.setEvents(trackingEvents);
 		}
 
 		if (userStateManager.isUserAuthenticated()) {

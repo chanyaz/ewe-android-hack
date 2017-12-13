@@ -29,11 +29,13 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.trips.TripUtils
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
 import com.expedia.bookings.dialog.GooglePlayServicesDialog
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
@@ -389,7 +391,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 when (tab.position) {
                     PAGER_POS_LAUNCH -> {
                         gotoWaterfall()
-                        OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this@PhoneLaunchActivity))
+                        OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this@PhoneLaunchActivity), getLaunchTrackingEventsString())
                     }
                     PAGER_POS_ITIN -> {
                         if (tripComponent != null) {
@@ -513,8 +515,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
     override fun onResume() {
         super.onResume()
+
         when (viewPager.currentItem) {
-            PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this))
+            PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this), getLaunchTrackingEventsString())
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
         if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
@@ -678,6 +681,39 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
     override fun onDialogCancel() {
         //Do nothing here
+    }
+
+    private fun getLaunchTrackingEventsString() : String {
+        val events = mutableListOf<String>()
+
+        if (ProWizardBucketCache.isBucketed(this)) {
+            events.add("event321")
+        } else {
+            events.add("event328")
+        }
+
+        if (ItineraryManager.haveTimelyItinItem()) {
+            events.add("event322")
+        }
+
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen)
+                && userStateManager.isUserAuthenticated()
+                && PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach()
+                && TripUtils.getUpcomingAirAttachQualifiedFlightTrip(ItineraryManager.getInstance().trips) != null) {
+            events.add("event323")
+        }
+
+        if (userStateManager.isUserAuthenticated()) {
+            events.add("event324")
+        } else {
+            events.add("event327")
+        }
+
+        if (havePermissionToAccessLocation(this)) {
+            events.add("event326")
+        }
+
+        return events.joinToString(",")
     }
 
     private fun setupBottomNav() {
