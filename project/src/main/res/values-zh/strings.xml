@@ -4699,8 +4699,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">会员价</string>
     <string name="member_deal_subtitle">部分酒店特价折扣</string>
-    <string name="member_deal_landing_page_header">要查看更多优惠，请轻触“预订”</string>
-    <string name="member_deal_loading_page_header">正在搜索优惠…</string>
+    <string name="search_for_hotel_deals_page_header">正在搜索优惠…</string>
     <string name="member_deals_toolbar_title">会员价</string>
     <string name="continue_booking">继续预订</string>
     <string name="deals_hotel_only">仅酒店</string>

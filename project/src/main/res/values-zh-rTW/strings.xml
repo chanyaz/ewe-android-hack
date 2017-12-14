@@ -4699,8 +4699,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">會員價</string>
     <string name="member_deal_subtitle">精選飯店大特價</string>
-    <string name="member_deal_landing_page_header">請輕觸「搜尋」查看更多優惠</string>
-    <string name="member_deal_loading_page_header">正在搜尋優惠…</string>
+    <string name="search_for_hotel_deals_page_header">正在搜尋優惠…</string>
     <string name="member_deals_toolbar_title">會員價</string>
     <string name="continue_booking">繼續預訂</string>
     <string name="deals_hotel_only">飯店價格</string>

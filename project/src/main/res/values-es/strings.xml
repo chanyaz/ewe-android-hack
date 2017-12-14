@@ -4699,8 +4699,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Precios para socios</string>
     <string name="member_deal_subtitle">Descuentos en hoteles seleccionados</string>
-    <string name="member_deal_landing_page_header">Para ver más ofertas, toca Comprar</string>
-    <string name="member_deal_loading_page_header">Buscando ofertas…</string>
+    <string name="search_for_hotel_deals_page_header">Buscando ofertas…</string>
     <string name="member_deals_toolbar_title">Precios para socios</string>
     <string name="continue_booking">Continuar compra</string>
     <string name="deals_hotel_only">Solo hotel</string>

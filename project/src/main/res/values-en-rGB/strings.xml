@@ -4699,8 +4699,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Member Pricing</string>
     <string name="member_deal_subtitle">Discounts off select hotels</string>
-    <string name="member_deal_landing_page_header">To see more deals, tap Shop</string>
-    <string name="member_deal_loading_page_header">Searching for deals…</string>
+    <string name="search_for_hotel_deals_page_header">Searching for deals…</string>
     <string name="member_deals_toolbar_title">Member Pricing</string>
     <string name="continue_booking">Continue Booking</string>
     <string name="deals_hotel_only">Hotel Only</string>
