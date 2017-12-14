@@ -17,7 +17,6 @@ import com.expedia.account.R;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 22)
 public class AccessibleEditTextTest {
 	private Context context = RuntimeEnvironment.application;
 	private final String TEST_HINT = "First Name";

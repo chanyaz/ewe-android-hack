@@ -19,6 +19,14 @@ dependencies {
 }
 
 android {
+    flavorDimensions "default"
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
