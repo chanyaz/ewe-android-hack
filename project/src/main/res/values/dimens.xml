@@ -17,6 +17,8 @@
     <dimen name="xlarge_margin">32dp</dimen>
 
     <!-- Launch dimens -->
+    <dimen name="launch_card_icon_height">30dp</dimen>
+    <dimen name="launch_card_icon_width">30dp</dimen>
     <dimen name="launch_header_height">48dp</dimen>
     <dimen name="launch_tile_hotel_sale_horizontal_padding">6dp</dimen>
     <dimen name="launch_tile_hotel_sale_vertical_padding">4dp</dimen>

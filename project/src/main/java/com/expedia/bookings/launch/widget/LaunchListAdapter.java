@@ -33,8 +33,8 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
-import com.expedia.bookings.mia.activity.MemberDealsActivity;
 import com.expedia.bookings.mia.activity.LastMinuteDealActivity;
+import com.expedia.bookings.mia.activity.MemberDealsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
@@ -164,7 +164,13 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (viewType == LaunchDataItem.MEMBER_ONLY_DEALS) {
 			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
 			view.setOnClickListener(new MemberDealClickListener());
-			BigImageLaunchViewModel vm = getDealViewModel(R.drawable.ic_member_deals_icon,
+
+			int memberDealsDrawable = R.drawable.ic_member_deals_icon;
+			if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)) {
+				memberDealsDrawable = R.drawable.ic_member_only_tag_bg;
+			}
+
+			BigImageLaunchViewModel vm = getDealViewModel(memberDealsDrawable,
 				R.color.member_deals_background_gradient,
 				R.string.member_deal_title, R.string.member_deal_subtitle);
 			vm.setBackgroundUrl(getBigImageResizedUrl(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl()));

@@ -34,8 +34,8 @@
 
             <ImageView
                 android:id="@+id/big_image_icons"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/launch_card_icon_width"
+                android:layout_height="@dimen/launch_card_icon_height"
                 tools:src="@drawable/ic_member_deals_icon"/>
 
             <com.expedia.bookings.widget.TextView
