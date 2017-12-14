@@ -643,6 +643,10 @@
     <string name="sort_and_filter_cont_desc">Knapp for sortering og filtrering</string>
     <!-- "Done" list header label -->
     <string name="Done">Fullført</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is checked" -->
+    <string name="filter_selected_TEMPLATE">Boksen for {filter} er huket av</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is not checked" -->
+    <string name="filter_not_selected_TEMPLATE">Boksen for {filter} er ikke huket av</string>
 
     <!-- Baggage Info Accessibility -->
     <string name="spinner_text_baggage_info_fetching">Henter bagasjeinfo</string>
@@ -685,7 +689,7 @@
     <string name="total_from">Samlet beløp fra</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Prisene er for tur-retur per person.</string>
+    <string name="prices_roundtrip_label">Prisen er for tur-retur per person</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Prisene er for én vei per person.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -949,6 +953,8 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Aktivitetene i {destination} selges ut fort! Se gjennom ting du kan finne på, og bestill billettene på forhånd.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hei, {firstname}. Se de beste attraksjonene og aktivitetene nær hotellet ditt.</string>
+    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Flyet ditt til {arrival airport} er forsinket. Ny avgangstid er {departure time}.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reiserute</string>
@@ -1452,8 +1458,8 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Ankommer den {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">{layover} mellomlanding</string>
-    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
-    <string name="itin_flight_total_duration_TEMPLATE">Samlet varighet: {duration}</string>
+    <!--Flight itin total duration widget template. (e.g. Total duration: 2h 45m)-->
+    <string name="itin_flight_total_duration_TEMPLATE">Reisetid totalt: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Bagasjeinformasjon</string>
     <!--Flight itin map view content description-->
@@ -1512,13 +1518,17 @@
     <string name="itin_flight_leg_detail_widget_to_text">til</string>
     <!--Flight itin, flight leg detail widget "-" text-->
     <string name="itin_flight_leg_detail_widget_hyphen_text">–</string>
-
+    <!--Flight itin, Airline rules and restrictions text-->
+    <string name="itin_flight_leg_detail_widget_rules_and_restrictions">Flyselskapets regler og begrensninger</string>
     <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
     <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
     <item quantity="zero">Direkte</item>
     <item quantity="one">%s mellomlanding</item>
     <item quantity="other">%s mellomlandinger</item>
     </plurals>
+
+    <!--Flight itin, flight leg detail widget's split ticket text-->
+    <string name="itin_flight_leg_detail_widget_split_ticket_text">Flyreisen din består av to enveisbilletter Hvis én av flyreisene dine endres eller kanselleres, vil ikke den andre flyreisen oppdateres automatisk.</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} d {hours} t {minutes} min</string>
@@ -1589,7 +1599,7 @@
 
     <!-- Action Buttons -->
     <!-- action button to launch terminal maps bottom sheet -->
-    <string name="itin_action_terminal_maps">Kart over terminal</string>
+    <string name="itin_action_terminal_maps">Terminalkart</string>
     <string name="itin_action_directions">Veibeskrivelser</string>
     <string name="itin_action_call_hotel">Ring hotell</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -1723,9 +1733,9 @@
 
     <!-- Flights v2 -->
     <!-- Flights Search view button label for round-trip searches -->
-    <string name="flights_round_trip_label">TUR-RETUR</string>
+    <string name="flights_round_trip_label">Tur-retur</string>
     <!-- Flights Search view button label for one-way searches -->
-    <string name="flights_one_way_label">ÉN VEI</string>
+    <string name="flights_one_way_label">Én vei</string>
     <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
     <string name="flights_tab_selection_accouncement_oneway">Viser søkesiden for enveisflyvning</string>
     <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
@@ -1789,7 +1799,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Henter flyvninger…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
-    <string name="loading_flights_from_400_airlines">Henter flyvninger fra mer enn 400 flyselskaper</string>
+    <string name="loading_flights_from_400_airlines">Søker etter flyreiser hos over 400 flyselskaper …</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Velg</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
@@ -2139,7 +2149,8 @@
     <string name="no_thanks">Nei, takk</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Avansert (valgfritt)</string>
-    <string name="contact_airline_message">Kontakt flyselskapet for å bekrefte tilleggsønsker</string>
+    <!--Contact airline message on flight checkout traveler details -->
+    <string name="contact_airline_message">Kontakt flyselskapet for å få bekreftet forespørsler.</string>
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Knapp for å utvide avanserte innstillinger (valgfritt)</string>
     <string name="collapse_advanced_button_cont_desc">Knapp for å skjule avanserte innstillinger (valgfritt)</string>
@@ -2804,7 +2815,7 @@
     <string name="urgency_destination_description_TEMPLATE">{destination} er et populært reisemål på datoene dine</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
-    <string name="room_information_button_cont_desc">Knapp for rominformasjon</string>
+    <string name="room_information_button_cont_desc">Rominformasjon</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Ikke-refunderbar</string>
     <!-- Label for free nights -->
@@ -3073,6 +3084,13 @@
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
     <string name="app_not_available">Enten har ikke telefonen din en app som kan utføre denne handlingen, eller du har begrenset tilgang.</string>
+    <!--Content description for add child button on traveler form Eg: 2 children added -->
+    <plurals name="add_child_button_cont_desc_TEMPLATE">
+        <item quantity="zero">%d barn. Oppgi barnas alder nedenfor.\u0020</item>
+        <item quantity="one">%d barn. Oppgi barnas alder nedenfor.\u0020</item>
+        <item quantity="other">%d barn. Oppgi barnas alder nedenfor.\u0020</item>
+    </plurals>
+
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d voksne</item>
@@ -3803,10 +3821,14 @@
     <string name="free_flight_deal">Bestill og spar 100 % på flyreisen din.</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
     <string name="hotel_deal_TEMPLATE">Bestill og spar {price} ({savings}%)</string>
+    <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_title_label">På tide med en oppdatering!</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">Det er dessverre ikke mulig å bestille hotell + flyreise i denne versjonen av appen.\nOppdater nå og få tilbud på hotell + flyreise.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
-        <item quantity="one">{night} gratis hotellnatt når du bestiller sammen med en flyvning.</item>
-        <item quantity="other">{night} gratis hotellnetter når du bestiller sammen med en flyvning.</item>
+        <item quantity="one">{night} gratis hotellnatt når du bestiller fly samtidig.</item>
+        <item quantity="other">{night} gratis hotellnetter når du bestiller fly samtidig.</item>
     </plurals>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s kl. %2$s, %3$s</string>
@@ -3921,7 +3943,9 @@
     <!-- Select flight to template -->
     <string name="select_flight_to">Velg en flyvning til %1$s</string>
     <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
-    <string name="package_flight_outbound_toolbar_title_TEMPLATE">Utgående flyvning til {cityname} i {stateorcountry} ({airportcode})</string>
+    <string name="package_flight_outbound_toolbar_title_TEMPLATE">Utgående flyreise til {cityname} i {stateorcountry} ({airportcode})</string>
+    <!-- Airport code with city -->
+    <string name="airport_code_with_city_TEMPLATE">({airportcode}) {city}</string>
     <!-- Flight to template -->
     <string name="flight_to">Flyvning til %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -4024,8 +4048,8 @@
         <item quantity="one">{seats} sete igjen</item>
         <item quantity="other">{seats} seter igjen</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">Informasjon om bagasjeavgift</string>
-    <string name="package_flight_overview_select_flight">Velg denne flyvningen</string>
+        <string name="package_flight_overview_baggage_fees">Informasjon om bagasjeavgift</string>
+    <string name="package_flight_overview_select_flight">Velg denne flyreisen</string>
     <string name="package_flight_overview_bundle_total_label">Pakken totalt</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money} per person</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} – ({arrivalairportcode}) {arrivalcity}</string>
@@ -4685,6 +4709,7 @@
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Restplasstilbud</string>
     <string name="last_minute_deal_subtitle">Har du lyst til å reise vekk? Sjekk ut de lave restplassprisene</string>
+    <string name="last_minute_deals_toolbar_title">Restplasstilbud</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Slik bestemmes sorteringsrekkefølgen</string>

@@ -45,6 +45,10 @@ fun isShowFlightsCheckoutWebview(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
 }
 
+fun isShowFlightsBrowserExperience(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsIndiaRebootBrowserExperience)
+}
+
 fun isKrazyglueOnFlightsConfirmationEnabled(context: Context) : Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsKrazyglue)
 }

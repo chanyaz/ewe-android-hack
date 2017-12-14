@@ -643,6 +643,10 @@
     <string name="sort_and_filter_cont_desc">Nút sắp xết &amp; lọc</string>
     <!-- "Done" list header label -->
     <string name="Done">Hoàn tất</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is checked" -->
+    <string name="filter_selected_TEMPLATE">Đã chọn ô {filter}</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is not checked" -->
+    <string name="filter_not_selected_TEMPLATE">Bỏ chọn ô {filter}</string>
 
     <!-- Baggage Info Accessibility -->
     <string name="spinner_text_baggage_info_fetching">Đang tìm thông tin hành lý</string>
@@ -685,7 +689,7 @@
     <string name="total_from">Tổng cộng từ</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Giá vé khứ hồi, mỗi người.</string>
+    <string name="prices_roundtrip_label">Giá khứ hồi mỗi người</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Giá vé một chiều, mỗi người.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -949,6 +953,8 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Nhiều khách đặt hoạt động giải trí tại {destination}! Khám phá các hoạt động trong vùng và đặt vé sớm.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Này{firstname}! hãy khám phá những địa điểm và hoạt động hấp dẫn hàng đầu gần khách sạn của quý vị.</string>
+    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Chuyến bay của quý vị đến {arrival airport} đã hoãn, giờ khởi hành mới: {departure time}.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
@@ -1452,7 +1458,7 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Đến vào {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">{layover} tạm dừng</string>
-    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <!--Flight itin total duration widget template. (e.g. Total duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">Tổng thời gian: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Thông tin hành lý</string>
@@ -1512,13 +1518,17 @@
     <string name="itin_flight_leg_detail_widget_to_text">đến</string>
     <!--Flight itin, flight leg detail widget "-" text-->
     <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
-
+    <!--Flight itin, Airline rules and restrictions text-->
+    <string name="itin_flight_leg_detail_widget_rules_and_restrictions">Quy tắc và giới hạn của hãng hàng không</string>
     <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
     <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
     <item quantity="zero">Bay thẳng</item>
     <item quantity="one">%s điểm dừng</item>
     <item quantity="other">%s điểm dừng</item>
     </plurals>
+
+    <!--Flight itin, flight leg detail widget's split ticket text-->
+    <string name="itin_flight_leg_detail_widget_split_ticket_text">Chuyến bay của quý vị gồm hai vé một chiều. Nếu một chuyến bay có thay đổi hoặc hủy, chuyến bay còn lại sẽ không được tự động thay đổi theo.</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}ng {hours}g {minutes}p</string>
@@ -1723,9 +1733,9 @@
 
     <!-- Flights v2 -->
     <!-- Flights Search view button label for round-trip searches -->
-    <string name="flights_round_trip_label">KHỨ HỒI</string>
+    <string name="flights_round_trip_label">Khứ hồi</string>
     <!-- Flights Search view button label for one-way searches -->
-    <string name="flights_one_way_label">MỘT CHIỀU</string>
+    <string name="flights_one_way_label">Một chiều</string>
     <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
     <string name="flights_tab_selection_accouncement_oneway">Hiển thị màn hình tìm chuyến bay một chiều</string>
     <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
@@ -1774,7 +1784,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">Lỗi</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="error_try_again_warning">Ôi! Hãy thử lại sau.</string>
+    <string name="error_try_again_warning">Ồ. Hãy thử lại.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Thử lại</string>
 
@@ -1789,7 +1799,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Đang tải chuyến bay…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
-    <string name="loading_flights_from_400_airlines">Tìm chuyến bay từ 400+ hãng hàng không</string>
+    <string name="loading_flights_from_400_airlines">Tìm chuyến bay từ hơn 400 hãng hàng không…</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Chọn</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
@@ -2112,7 +2122,7 @@
     <!--Address Province hint-->
     <string name="address_province_hint">Tỉnh</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">Hạt/Bang/Tỉnh (tùy chọn)</string>
+    <string name="address_county_hint">Hạt/Bang/Tỉnh (không bắt buộc)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2139,7 +2149,8 @@
     <string name="no_thanks">Không, cảm ơn</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Nâng cao (tùy chọn)</string>
-    <string name="contact_airline_message">Vui lòng liên hệ hãng hàng không để xác nhận yêu cầu</string>
+    <!--Contact airline message on flight checkout traveler details -->
+    <string name="contact_airline_message">Vui lòng liên hệ hãng hàng không để xác nhận yêu cầu.</string>
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Nút mở rộng (tùy chọn)</string>
     <string name="collapse_advanced_button_cont_desc">Nút đóng (tùy chọn)</string>
@@ -2804,7 +2815,7 @@
     <string name="urgency_destination_description_TEMPLATE">{destination} là điểm đến được nhiều người lựa chọn cùng ngày với quý vị</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
-    <string name="room_information_button_cont_desc">Nút thông tin phòng</string>
+    <string name="room_information_button_cont_desc">Thông tin phòng</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Không hoàn tiền</string>
     <!-- Label for free nights -->
@@ -3073,6 +3084,13 @@
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
     <string name="app_not_available">Có thể điện thoại của quý vị không có app hỗ trợ tính năng này hoặc bị giới hạn quyền sử dụng.</string>
+    <!--Content description for add child button on traveler form Eg: 2 children added -->
+    <plurals name="add_child_button_cont_desc_TEMPLATE">
+        <item quantity="zero">%d trẻ em, chọn tuổi trẻ em bên dưới.\u0020</item>
+        <item quantity="one">%d trẻ em, chọn tuổi trẻ em bên dưới.\u0020</item>
+        <item quantity="other">%d trẻ em, chọn tuổi trẻ em bên dưới.\u0020</item>
+    </plurals>
+
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d người lớn</item>
@@ -3803,6 +3821,10 @@
     <string name="free_flight_deal">Đặt và tiết kiệm 100% chuyến bay.</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
     <string name="hotel_deal_TEMPLATE">Đặt và tiết kiệm {price} ({savings}%)</string>
+    <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_title_label">Đã đến lúc cập nhật!</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">Rất tiếc, phiên bản ứng dụng này không hỗ trợ đặt Khách sạn + Chuyến bay.\nCập nhật ngay để hưởng giá tốt.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">{night} đêm miễn phí khi đặt cùng chuyến bay.</item>
@@ -3922,6 +3944,8 @@
     <string name="select_flight_to">Chọn chuyến bay đến %1$s</string>
     <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
     <string name="package_flight_outbound_toolbar_title_TEMPLATE">Bay đi {cityname}, {stateorcountry} ({airportcode})</string>
+    <!-- Airport code with city -->
+    <string name="airport_code_with_city_TEMPLATE">({airportcode}) {city}</string>
     <!-- Flight to template -->
     <string name="flight_to">Bay đến %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -4024,7 +4048,7 @@
         <item quantity="one">Còn {seats} chỗ</item>
         <item quantity="other">Còn {seats} chỗ</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">Thông tin phí hành lý</string>
+        <string name="package_flight_overview_baggage_fees">Thông tin phí hành lý</string>
     <string name="package_flight_overview_select_flight">Chọn chuyến bay này</string>
     <string name="package_flight_overview_bundle_total_label">Tổng gói</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/người</string>
@@ -4685,6 +4709,7 @@
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Ưu đãi phút chót</string>
     <string name="last_minute_deal_subtitle">Bạn muốn đi du lịch? Hãy xem giá vé rẻ phút chót của chúng tôi</string>
+    <string name="last_minute_deals_toolbar_title">Ưu đãi phút chót</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Cách xác định thứ tự sắp xếp</string>
