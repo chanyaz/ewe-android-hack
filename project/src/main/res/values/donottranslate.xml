@@ -148,6 +148,7 @@
     <string name="preference_enable_last_minute_deals">preference_enable_last_minute_deals</string>
     <string name="preference_enable_launch_screen_brand_colors">preference_enable_launch_screen_brand_colors</string>
     <string name="preference_enable_trips_flight_alerts">preference_enable_trips_flight_alerts</string>
+    <string name="preference_enable_meso_destination_card">preference_enable_meso_destination_card</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
