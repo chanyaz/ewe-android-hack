@@ -5,12 +5,16 @@ import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.KrazyglueResponse
+import com.expedia.bookings.data.insurance.InsuranceProduct
+import com.expedia.bookings.data.payment.Traveler
 import org.joda.time.LocalDate
+import java.math.BigDecimal
 import java.util.ArrayList
 
 class FlightTestUtil {
@@ -167,6 +171,50 @@ class FlightTestUtil {
             response.responseData.orderNumber = 111111
             response.responseData.flights = flights
             return response
+        }
+
+        @JvmStatic
+        fun getCheckoutResponse(itineraryNumber: String = "11111",
+                                travelRecordLocator: String = "22222",
+                                tripId: String = "33333",
+                                listOfTravelers: List<Traveler> = listOf(Traveler("test", "traveler", "1", "9999999", "test@email.com")),
+                                flightAggregatedResponse: FlightCheckoutResponse.FlightAggregatedResponse = FlightCheckoutResponse.FlightAggregatedResponse(),
+                                details: FlightTripDetails = FlightTripDetails(),
+                                hasDetails: Boolean = true): FlightCheckoutResponse {
+            val response = FlightCheckoutResponse()
+            response.newTrip = TripDetails(itineraryNumber, travelRecordLocator, tripId)
+            if (hasDetails) {
+                response.details = details
+            }
+            response.passengerDetails = listOfTravelers
+            response.flightAggregatedResponse = flightAggregatedResponse
+
+
+            return response
+        }
+
+        @JvmStatic
+        fun getFlightAggregatedResponse(listOfFlightDetails: List<FlightTripDetails> = listOf<FlightTripDetails>()): FlightCheckoutResponse.FlightAggregatedResponse {
+            val aggregatedResponse = FlightCheckoutResponse.FlightAggregatedResponse()
+            aggregatedResponse.flightsDetailResponse = listOfFlightDetails
+            return aggregatedResponse
+        }
+
+        @JvmStatic
+        fun getFlightTripDetails(numberOfTickets: String = "1",
+                                 insuranceTypeId: String = "typeId",
+                                 totalPrice: BigDecimal = BigDecimal.ZERO): FlightTripDetails {
+            val offer = FlightTripDetails.FlightOffer()
+            val insuranceProduct = InsuranceProduct()
+            insuranceProduct.typeId = insuranceTypeId
+            insuranceProduct.totalPrice = Money()
+            insuranceProduct.totalPrice.amount = totalPrice
+            offer.numberOfTickets = numberOfTickets
+            offer.selectedInsuranceProduct = insuranceProduct
+
+            val details = FlightTripDetails()
+            details.offer = offer
+            return details
         }
     }
 }

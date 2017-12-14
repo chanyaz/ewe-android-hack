@@ -4858,7 +4858,7 @@ public class OmnitureTracking {
 		InsuranceProduct selectedInsuranceProduct = trip.getSelectedInsuranceProduct();
 		if (selectedInsuranceProduct != null) {
 			return String.format(Locale.ENGLISH, ",;Insurance:%s;%s;%.2f",
-				selectedInsuranceProduct.typeId, trip.getDetails().offer.numberOfTickets,
+				selectedInsuranceProduct.typeId, trip.getFirstFlightTripDetails().offer.numberOfTickets,
 				selectedInsuranceProduct.totalPrice.amount);
 		}
 		else {
