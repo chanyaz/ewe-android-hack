@@ -52,6 +52,7 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
+import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelCarouselRecycler
@@ -144,7 +145,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (mapCarouselContainer.visibility != View.VISIBLE) {
             val carouselAnimation = mapCarouselContainer.animate().translationX(0f)
                     .setInterpolator(DecelerateInterpolator()).setStartDelay(400)
-                    .withEndAction { mapWidget.adjustPadding(mapCarouselContainer.height) }
+                    .withEndAction {
+                        mapWidget.adjustPadding(mapCarouselContainer.height)
+                        mapCarouselRecycler.setFocusForView()
+                    }
             mapCarouselContainer.translationX = screenWidth
 
             if (mapCarouselContainer.height == 0) {
@@ -163,6 +167,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
 
             mapCarouselContainer.visibility = View.VISIBLE
+        } else {
+            mapCarouselRecycler.setFocusForView()
         }
     }
 
