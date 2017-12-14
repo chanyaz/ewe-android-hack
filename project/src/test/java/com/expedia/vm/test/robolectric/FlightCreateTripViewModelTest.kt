@@ -1,5 +1,6 @@
 package com.expedia.vm.test.robolectric
 
+import android.support.v4.app.FragmentActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
@@ -7,6 +8,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
@@ -23,13 +25,14 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
+import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -37,7 +40,7 @@ import kotlin.test.assertNull
 @RunWith(RobolectricRunner::class)
 class FlightCreateTripViewModelTest {
 
-    private val context = RuntimeEnvironment.application
+    private var activity: FragmentActivity by Delegates.notNull()
 
     var server: MockWebServer = MockWebServer()
         @Rule get
@@ -50,11 +53,12 @@ class FlightCreateTripViewModelTest {
 
     @Before
     fun setup() {
+        activity = Robolectric.buildActivity(FragmentActivity::class.java).create().visible().get()
         Db.getTripBucket().clear(LineOfBusiness.FLIGHTS_V2)
         selectedCardFeeSubject = PublishSubject.create()
         createMockFlightServices()
-        Ui.getApplication(context).defaultFlightComponents()
-        sut = FlightCreateTripViewModel(context)
+        Ui.getApplication(activity).defaultFlightComponents()
+        sut = FlightCreateTripViewModel(activity)
         sut.flightServices = flightServices
         builder = FlightCreateTripParams.Builder()
     }
@@ -131,10 +135,38 @@ class FlightCreateTripViewModelTest {
         sut.performCreateTrip.onNext(Unit)
         testSubscriber.assertValueCount(2)
 
-        SettingUtils.save(context, R.string.preference_flight_rate_detail_from_cache, true)
+        SettingUtils.save(activity, R.string.preference_flight_rate_detail_from_cache, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)
         sut.performCreateTrip.onNext(Unit)
         testSubscriber.assertValueCount(2)
+    }
+
+    @Test
+    fun testCreateTripOnNextDoesNothingWhenActivityDestroyed() {
+        val testCreateTripResponseObservable = TestSubscriber<TripResponse>()
+        val testShowCreateTripDialogSubscriber = TestSubscriber<Boolean>()
+
+        sut.createTripResponseObservable.map{ it.value }.subscribe(testCreateTripResponseObservable)
+        sut.showCreateTripDialogObservable.subscribe(testShowCreateTripDialogSubscriber)
+        activity.finish()
+        sut.makeCreateTripResponseObserver().onNext(FlightCreateTripResponse())
+
+        testCreateTripResponseObservable.assertNoValues()
+        testShowCreateTripDialogSubscriber.assertNoValues()
+    }
+
+    @Test
+    fun testOnErrorDoesNothingWhenActivityDestroyed() {
+        val testShowNoInternetSubscriber = TestSubscriber<Unit>()
+        val testShowCreateTripDialogSubscriber = TestSubscriber<Boolean>()
+
+        sut.showNoInternetRetryDialog.subscribe(testShowNoInternetSubscriber)
+        sut.showCreateTripDialogObservable.subscribe(testShowCreateTripDialogSubscriber)
+        activity.finish()
+        givenCreateTripCallWithIOException()
+
+        testShowNoInternetSubscriber.assertNoValues()
+        testShowCreateTripDialogSubscriber.assertNoValues()
     }
 
     private fun givenCreateTripCallWithIOException() {

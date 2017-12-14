@@ -19,6 +19,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
+import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.user.User
@@ -60,9 +61,11 @@ import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -370,6 +373,61 @@ class PackageCheckoutTest {
         checkout.showPaymentPresenter()
         checkout.paymentWidget.showPaymentForm(fromPaymentError = false)
         assertEquals(View.VISIBLE, checkout.paymentWidget.cardInfoContainer.visibility)
+    }
+
+    @Test
+    fun testShowCreateTripDialog() {
+        createTrip()
+        val showDialogTestObservable = TestSubscriber<Boolean>()
+        checkout.getCreateTripViewModel().showCreateTripDialogObservable.subscribe(showDialogTestObservable)
+        checkout.getCreateTripViewModel().showCreateTripDialogObservable.onNext(true)
+        val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
+
+        assertTrue(shadowCreateTripDialog.isShowing)
+        showDialogTestObservable.assertValue(true)
+    }
+
+    @Test
+    fun testDismissCreateTripDialog() {
+        createTrip()
+        checkout.getCreateTripViewModel().showCreateTripDialogObservable.onNext(true)
+        val showDialogTestObservable = TestSubscriber<Boolean>()
+        checkout.getCreateTripViewModel().showCreateTripDialogObservable.subscribe(showDialogTestObservable)
+        checkout.getCreateTripViewModel().showCreateTripDialogObservable.onNext(false)
+        val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
+
+        assertFalse(shadowCreateTripDialog.isShowing)
+        showDialogTestObservable.assertValue(false)
+    }
+
+    @Test
+    fun testCreateTripResponseDoesNothingIfActivityFinished() {
+        createTrip()
+        checkout.getCreateTripViewModel().showCreateTripDialogObservable.onNext(true)
+        val showDialogTestObservable = TestSubscriber<Boolean>()
+        val testCreateTripResponseObservable = TestSubscriber<TripResponse>()
+        checkout.getCreateTripViewModel().showCreateTripDialogObservable.subscribe(showDialogTestObservable)
+        checkout.getCreateTripViewModel().createTripResponseObservable.map { it.value }.subscribe(testCreateTripResponseObservable)
+
+        activity.finish()
+        checkout.getCreateTripViewModel().makeCreateTripResponseObserver().onNext(PackageCreateTripResponse())
+        val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
+
+        assertTrue(shadowCreateTripDialog.isShowing)
+        showDialogTestObservable.assertNoValues()
+        testCreateTripResponseObservable.assertValueCount(1)
+    }
+
+    @Test
+    fun testCreateTripErrorDoesNothingIfActivityFinished() {
+        createTrip()
+        val showDialogTestObservable = TestSubscriber<Boolean>()
+        checkout.getCreateTripViewModel().showCreateTripDialogObservable.subscribe(showDialogTestObservable)
+
+        activity.finish()
+        checkout.getCreateTripViewModel().makeCreateTripResponseObserver().onError(Throwable())
+
+        showDialogTestObservable.assertNoValues()
     }
 
     private fun createTrip() {

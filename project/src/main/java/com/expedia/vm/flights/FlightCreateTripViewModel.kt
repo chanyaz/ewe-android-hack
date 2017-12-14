@@ -16,7 +16,6 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
-import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -47,6 +46,9 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
     fun makeCreateTripResponseObserver(): Observer<FlightCreateTripResponse> {
         return object : Observer<FlightCreateTripResponse> {
             override fun onNext(response: FlightCreateTripResponse) {
+                if (!isValidContext(context)) {
+                    return
+                }
                 showCreateTripDialogIfNotBucketed.onNext(false)
                 if (response.hasErrors() && !response.hasPriceChange()) {
                     val error = response.firstError
@@ -61,6 +63,9 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
             }
 
             override fun onError(e: Throwable) {
+                if (!isValidContext(context)) {
+                    return
+                }
                 showCreateTripDialogIfNotBucketed.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
                     FlightsV2Tracking.trackFlightCreateTripNoResponseError()

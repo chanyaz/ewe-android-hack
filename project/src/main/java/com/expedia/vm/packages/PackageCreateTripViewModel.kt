@@ -78,6 +78,9 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
     fun makeCreateTripResponseObserver(): Observer<PackageCreateTripResponse> {
         return object : Observer<PackageCreateTripResponse> {
             override fun onNext(response: PackageCreateTripResponse) {
+                if (!isValidContext(context)) {
+                    return
+                }
                 showCreateTripDialogObservable.onNext(false)
                 if (response.hasErrors() && !response.hasPriceChange()) {
                     when (response.firstError.errorCode) {
@@ -104,6 +107,9 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
             }
 
             override fun onError(e: Throwable) {
+                if (!isValidContext(context)) {
+                    return
+                }
                 showCreateTripDialogObservable.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
                     val retryFun = fun() {
