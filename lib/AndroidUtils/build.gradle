@@ -5,9 +5,16 @@ repositories {
 }
 
 android {
+    flavorDimensions "default"
     useLibrary 'org.apache.http.legacy'
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 task sourceJar(type: Jar) {

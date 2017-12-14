@@ -5,6 +5,13 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     resourcePrefix 'acct__'
+    flavorDimensions "default"
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 
     defaultConfig {
         minSdkVersion 21
