@@ -643,6 +643,10 @@
     <string name="sort_and_filter_cont_desc">Tombol Filter &amp; Urutkan</string>
     <!-- "Done" list header label -->
     <string name="Done">Selesai</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is checked" -->
+    <string name="filter_selected_TEMPLATE">{filter} kotak centang dicentang</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is not checked" -->
+    <string name="filter_not_selected_TEMPLATE">{filter} kotak centang tidak dicentang</string>
 
     <!-- Baggage Info Accessibility -->
     <string name="spinner_text_baggage_info_fetching">Mengambil info bagasi</string>
@@ -651,7 +655,7 @@
     <!--Baggage Fees when purchased at airport-->
     <string name="baggage_fees_purchased_airport">Biaya bagasi saat dibeli di bandara:</string>
     <!--Baggage Fee Info-->
-    <string name="baggage_fee_info">Info biaya bagasi</string>
+    <string name="baggage_fee_info">Informasi biaya bagasi</string>
     <!--Airline-->
     <string name="airline">Maskapai Penerbangan</string>
 
@@ -685,7 +689,7 @@
     <string name="total_from">Tarif mulai dari</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Harga pulang pergi, per orang.</string>
+    <string name="prices_roundtrip_label">Harga pulang-pergi per orang</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Harga sekali jalan, per orang.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -757,9 +761,9 @@
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Total dengan Pajak</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
-    <string name="trip_total">Total Harga</string>
+    <string name="trip_total">Total harga</string>
     <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total: Basic Economy-->
-    <string name="trip_total_upsell_TEMPLATE">Harga Total: {farefamily}</string>
+    <string name="trip_total_upsell_TEMPLATE">Harga total: {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">Total biaya</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -949,6 +953,8 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Aktivitas di {destination} terjual dengan cepat! Jelajahi atraksi wisata dan pesan tiket dari sekarang.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hei {firstname}, jelajahi atraksi dan aktivitas populer di dekat hotel Anda.</string>
+    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Penerbangan Anda ke {arrival airport} ditunda dengan keberangkatan baru di {departure time}.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
@@ -1452,8 +1458,8 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Tiba pada {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">{layover} transit</string>
-    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
-    <string name="itin_flight_total_duration_TEMPLATE">Total Durasi: {duration}</string>
+    <!--Flight itin total duration widget template. (e.g. Total duration: 2h 45m)-->
+    <string name="itin_flight_total_duration_TEMPLATE">Tota durasi: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Informasi bagasi</string>
     <!--Flight itin map view content description-->
@@ -1512,13 +1518,17 @@
     <string name="itin_flight_leg_detail_widget_to_text">ke</string>
     <!--Flight itin, flight leg detail widget "-" text-->
     <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
-
+    <!--Flight itin, Airline rules and restrictions text-->
+    <string name="itin_flight_leg_detail_widget_rules_and_restrictions">Aturan dan larangan maskapai</string>
     <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
     <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
     <item quantity="zero">Langsung</item>
     <item quantity="one">%s transit</item>
     <item quantity="other">%s transit</item>
     </plurals>
+
+    <!--Flight itin, flight leg detail widget's split ticket text-->
+    <string name="itin_flight_leg_detail_widget_split_ticket_text">Penerbangan Anda adalah kombinasi dari dua tiket satu arah. Jika salah satu tiket diubah atau dibatalkan, maka perubahan tidak secara otomatis diberlakukan terhadap tiket lainnya.</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}h {hours}j {minutes}m</string>
@@ -1589,7 +1599,7 @@
 
     <!-- Action Buttons -->
     <!-- action button to launch terminal maps bottom sheet -->
-    <string name="itin_action_terminal_maps">Peta Terminal</string>
+    <string name="itin_action_terminal_maps">Peta terminal</string>
     <string name="itin_action_directions">Arah</string>
     <string name="itin_action_call_hotel">Telepon Hotel</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -1723,9 +1733,9 @@
 
     <!-- Flights v2 -->
     <!-- Flights Search view button label for round-trip searches -->
-    <string name="flights_round_trip_label">PULANG-PERGI</string>
+    <string name="flights_round_trip_label">Pulang-pergi</string>
     <!-- Flights Search view button label for one-way searches -->
-    <string name="flights_one_way_label">SEKALI JALAN</string>
+    <string name="flights_one_way_label">Sekali jalan</string>
     <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
     <string name="flights_tab_selection_accouncement_oneway">Menampilkan layar pencarian Penerbangan satu arah</string>
     <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
@@ -1789,7 +1799,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Memuat penerbangan…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
-    <string name="loading_flights_from_400_airlines">Mencarikan penerbangan untuk Anda di antara 400 lebih maskapai</string>
+    <string name="loading_flights_from_400_airlines">Mencari penerbangan dari 400+ maskapai…</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Pilih</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
@@ -1930,7 +1940,7 @@
 
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
-    <string name="total_price_label">Total Harga</string>
+    <string name="total_price_label">Total harga</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Perjalanan ke %1$s</string>
     <!-- Includes taxes and fees -->
@@ -2139,7 +2149,8 @@
     <string name="no_thanks">Tidak, Terima Kasih</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Lanjutan (opsional)</string>
-    <string name="contact_airline_message">Hubungi maskapai penerbangan untuk mengonfirmasi permintaan</string>
+    <!--Contact airline message on flight checkout traveler details -->
+    <string name="contact_airline_message">Harap hubungi maskapai untuk mengonfirmasi permintaan.</string>
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Tombol Buka Lanjutan (Opsional)</string>
     <string name="collapse_advanced_button_cont_desc">Tombol Tutup Lanjutan (Opsional)</string>
@@ -2159,7 +2170,7 @@
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
-    <string name="traveler_information">Informasi Traveler</string>
+    <string name="traveler_information">Informasi traveler</string>
     <!-- First name label -->
     <string name="first_name">Nama Depan</string>
     <!-- Middle name label -->
@@ -2804,7 +2815,7 @@
     <string name="urgency_destination_description_TEMPLATE">{destination} sangat populer pada tanggal yang Anda pilih</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
-    <string name="room_information_button_cont_desc">Tombol Informasi Kamar</string>
+    <string name="room_information_button_cont_desc">Informasi Kamar</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Pembayaran tidak bisa dikembalikan</string>
     <!-- Label for free nights -->
@@ -3073,6 +3084,13 @@
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
     <string name="app_not_available">Baik ponsel ini yang tidak memiliki aplikasi untuk menangani tindakan ini atau Anda yang dibatasi untuk mengaksesnya.</string>
+    <!--Content description for add child button on traveler form Eg: 2 children added -->
+    <plurals name="add_child_button_cont_desc_TEMPLATE">
+        <item quantity="zero">%d anak, Pilih usia anak di bawah.\u0020</item>
+        <item quantity="one">%d anak, Pilih usia anak di bawah.\u0020</item>
+        <item quantity="other">%d anak, Pilih usia anak di bawah.\u0020</item>
+    </plurals>
+
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d Dewasa</item>
@@ -3803,9 +3821,13 @@
     <string name="free_flight_deal">Pesan untuk dapatkan diskon penerbangan 100%.</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
     <string name="hotel_deal_TEMPLATE">Pesan untuk dapatkan diskon {price} ({savings}%)</string>
+    <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_title_label">Waktunya untuk pembaruan!</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">Maaf, pemesanan Hotel + Flight tidak tersedia pada aplikasi versi ini.\nPerbarui sekarang untuk mendapatkan promo Hotel + Flight.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
-        <item quantity="one">{night} malam gratis dengan memesan tiket pesawat sekaligus.</item>
+        <item quantity="one">{night} malam gratis jika memesan penerbangan.</item>
         <item quantity="other">{night} malam gratis dengan memesan tiket pesawat sekaligus.</item>
     </plurals>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
@@ -3922,6 +3944,8 @@
     <string name="select_flight_to">Pilih penerbangan ke %1$s</string>
     <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
     <string name="package_flight_outbound_toolbar_title_TEMPLATE">Pergi ke {cityname}, {stateorcountry} ({airportcode})</string>
+    <!-- Airport code with city -->
+    <string name="airport_code_with_city_TEMPLATE">({airportcode}) {city}</string>
     <!-- Flight to template -->
     <string name="flight_to">Penerbangan ke %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -4024,8 +4048,8 @@
         <item quantity="one">Sisa {seats} kursi</item>
         <item quantity="other">Sisa {seats} kursi</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">Info biaya bagasi</string>
-    <string name="package_flight_overview_select_flight">Pilih Penerbangan Ini</string>
+        <string name="package_flight_overview_baggage_fees">Informasi biaya bagasi</string>
+    <string name="package_flight_overview_select_flight">Pilih penerbangan ini</string>
     <string name="package_flight_overview_bundle_total_label">Total Paket</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/orang</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
@@ -4685,6 +4709,7 @@
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Promo Last-Minute</string>
     <string name="last_minute_deal_subtitle">Ingin liburan? Coba lihat harga rendah last-minute</string>
+    <string name="last_minute_deals_toolbar_title">Promo Last Minute</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Cara kami menentukan urutan</string>

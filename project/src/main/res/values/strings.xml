@@ -4800,6 +4800,13 @@
     <string name="location_soft_prompt_enable">Enable Location</string>
     <string name="location_soft_prompt_disable">Not now</string>
 
+    <!--Soft Prompt For flights browser view-->
+    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
+    <string name="flights_browser_view_soft_prompt_title">Coming Soon</string>
+    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
+    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on {brand_url}</string>
+    <string name="flights_browser_viewsoft_prompt_enable">Open in browser</string>
+
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Total including taxes and fees</string>
     <string name="excluding_taxes_fees">Excluding taxes and fees</string>

@@ -3242,6 +3242,7 @@ public class OmnitureTracking {
 
 		trackProWizardTest(s, proWizardTestValue);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsIndiaRebootBrowserExperience);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountSinglePageSignUp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
 
@@ -4785,6 +4786,7 @@ public class OmnitureTracking {
 	private static final String FLIGHT_INSURANCE_ERROR = "App.Flight.CKO.INS.Error";
 	private static final String FLIGHT_INSURANCE_TERMS_VIEW = "App.Flight.CKO.INS.Terms";
 	private static final String FLIGHT_SEARCH_V2 = "App.Flight.Dest-Search";
+	private static final String FLIGHT_LOB = "App.Flight.";
 	private static final String FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK = "App.Flight.Search.BaggageFee";
 	private static final String FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK = "App.Flight.Search.PaymentFee";
 	private static final String FLIGHTS_V2_SEARCH_FORM_INTERACTED = "App.Flight.DS.Form.Interacted";
@@ -5265,6 +5267,17 @@ public class OmnitureTracking {
 		StringBuilder link = new StringBuilder(FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX);
 		link.append("Search.Clicked");
 		createAndtrackLinkEvent(link.toString(), "Search Button Clicked");
+	}
+
+	public static void trackFlightOpenBrowserButtonClick(boolean openBrowser) {
+		StringBuilder link = new StringBuilder(FLIGHT_LOB);
+		if (openBrowser) {
+			link.append("OpenBrowser");
+		}
+		else {
+			link.append("Popupclose");
+		}
+		createAndtrackLinkEvent(link.toString(), "Flight Lob Clicked");
 	}
 
 	public static void trackFlightAdvanceSearchFiltersClick(String filterLabel, boolean isSelected) {

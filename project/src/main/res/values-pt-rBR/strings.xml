@@ -85,7 +85,7 @@
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">{startdate} – Selecione a data de entrega</string>
     <!-- search error -->
-    <string name="error_no_result_message">Impossível encontrar resultados. Tente novamente com outra combinação de busca.</string>
+    <string name="error_no_result_message">Não foi possível encontrar resultados. Tente novamente com outra combinação de busca.</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">Limpar filtros</string>
     <!-- Label to tell the user how many products match their filter -->
@@ -552,7 +552,7 @@
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Erro</string>
     <!-- Text for error toolbar-->
-    <string name="lx_invalid_input_text">Informações inválidas</string>
+    <string name="lx_invalid_input_text">Informações não válidas</string>
     <!-- Text for error toolbar-->
     <string name="lx_duplicate_trip_text">Viagem duplicada</string>
     <!-- Text for error toolbar-->
@@ -612,18 +612,18 @@
     <!-- Text for getting current location suggestion -->
     <string name="lx_getting_current_location">Determinando localização…</string>
     <!-- LX Error Fetching activity details -->
-    <string name="lx_error_details">Não foi possível obter detalhes. Tente novamente.</string>
+    <string name="lx_error_details">Erro ao buscar detalhes. Tente novamente.</string>
     <!-- Current location failed toolbar text -->
     <string name="lx_error_current_location_toolbar_text">Tente novamente</string>
     <!-- LX No Activities for Current location -->
-    <string name="lx_error_current_location_no_results">Não encontramos nenhuma atividade perto de você. Tente novamente usando outros critérios de busca.</string>
+    <string name="lx_error_current_location_no_results">Não encontramos atividades perto de você. Tente novamente usando outros critérios de busca.</string>
     <!-- LX No Activities for Current location -->
-    <string name="gt_error_current_location_no_results">Não encontramos nenhuma opção de transporte perto de você. Tente novamente usando outros critérios de busca.</string>
+    <string name="gt_error_current_location_no_results">Não encontramos opções de transporte perto de você. Tente novamente usando outros critérios de busca.</string>
 
     <!-- Ground Transport bags text-->
-    <string name="lx_ground_transport_bags_text">%1$sBagagens</string>
+    <string name="lx_ground_transport_bags_text">%1$s bagagens</string>
     <!-- Ground Transport passengers text-->
-    <string name="lx_ground_transport_passengers_text">%1$sPassageiros</string>
+    <string name="lx_ground_transport_passengers_text">%1$s passageiros</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Esta data já passou. Selecione uma nova data.</string>
 
@@ -643,6 +643,10 @@
     <string name="sort_and_filter_cont_desc">Botão para organizar e filtrar</string>
     <!-- "Done" list header label -->
     <string name="Done">Concluído</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is checked" -->
+    <string name="filter_selected_TEMPLATE">Caixa de seleção {filter} marcada</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is not checked" -->
+    <string name="filter_not_selected_TEMPLATE">Caixa de seleção {filter} não marcada</string>
 
     <!-- Baggage Info Accessibility -->
     <string name="spinner_text_baggage_info_fetching">Buscando informações sobre bagagem</string>
@@ -651,7 +655,7 @@
     <!--Baggage Fees when purchased at airport-->
     <string name="baggage_fees_purchased_airport">As taxas de bagagem adquiridas no aeroporto:</string>
     <!--Baggage Fee Info-->
-    <string name="baggage_fee_info">Informações sobre as taxas de bagagem</string>
+    <string name="baggage_fee_info">Informações sobre taxas de bagagem</string>
     <!--Airline-->
     <string name="airline">Companhia aérea</string>
 
@@ -685,7 +689,7 @@
     <string name="total_from">Total a partir de</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Preços de ida e volta por pessoa.</string>
+    <string name="prices_roundtrip_label">Preço de ida e volta por pessoa.</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Preços somente ida por pessoa.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -725,7 +729,7 @@
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Não há um número suficiente de adultos (maiores de 12 anos) para transportar as crianças no colo. Elas deverão viajar em seus próprios assentos.</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
-    <string name="max_two_infants_seated_per_adult">Só podemos reservar assentos para até dois bebês por viajante com + de 12 anos</string>
+    <string name="max_two_infants_seated_per_adult">Só podemos reservar assentos para até dois bebês por viajante acima de 12 anos</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two_TEMPLATE">Crianças de até 2 anos: %s</string>
     <!-- Header for a flight filter based upon number of stops -->
@@ -785,7 +789,7 @@
     <!--Create Account -->
     <string name="Create_Account">CRIAR UMA CONTA</string>
     <!-- Earn rewards and unlock exclusive deals -->
-    <string name="earn_rewards_and_unlock_deals">Ganhe recompensas e receba ofertas exclusivas.</string>
+    <string name="earn_rewards_and_unlock_deals">Agora não.</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -812,7 +816,7 @@
     <!-- Error message when rail cards selected is greater than no. of travelers -->
     <string name="error_rail_cards_greater_than_number_travelers">O número de cartões de transporte ferroviário não pode superar o número de viajantes.</string>
     <!-- Error message indicating we were unable to fetch rail cards at this time -->
-    <string name="no_rail_cards_error_message">Impossível recuperar cartões de transporte ferroviário no momento. Tente novamente mais tarde.</string>
+    <string name="no_rail_cards_error_message">No momento, os cartões de transporte ferroviário não estão disponíveis. Tente novamente mais tarde.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Vindo de</string>
@@ -903,7 +907,7 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">Suas viagens</string>
     <!-- Google play services unrecoverable error dialog message -->
-    <string name="google_play_services_unrecoverable_error">Este aplicativo necessita dos serviços do Google Play. Instale a última versão dos serviços do Google Play.</string>
+    <string name="google_play_services_unrecoverable_error">Este app funciona com os serviços do Google Play. Instale a última versão dos serviços do Google Play.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -949,6 +953,8 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">As atividades em {destination} costumam acabar rapidamente! Explore as opções locais e reserve seus bilhetes com antecedência.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Olá, {firstname}! Conheça as principais atrações e atividades perto do seu hotel.</string>
+    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Seu voo para {arrival airport} está atrasado. Novo horário de partida às {departure time}.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerário</string>
@@ -956,7 +962,7 @@
     <string name="shop">Reservar</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Buscar itinerário</string>
-    <string name="unable_to_find_guest_itinerary">Impossível encontrar o itinerário. Confirme na tela da conta o país correspondente ao endereço do site de sua reserva.</string>
+    <string name="unable_to_find_guest_itinerary">Não foi possível encontrar o itinerário. Confirme na tela da conta o país correspondente ao endereço do site de sua reserva.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">Este não é um itinerário feito com uma conta de convidado. Conecte-se à conta da {brand} associada a este itinerário.</string>
     <!-- Expedia Itinerary -->
@@ -990,9 +996,9 @@
     <!-- Itin loading text while deep refreshing trip -->
     <string name="refreshing_your_trip">Atualizando sua viagem…</string>
     <!-- Itinerary screen when we can't fetch any trips -->
-    <string name="fetching_trips_error">Impossível recuperar seus itinerários no momento. Tente novamente.</string>
+    <string name="fetching_trips_error">No momento, os itinerários não estão disponíveis. Tente novamente.</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
-    <string name="fetching_trips_error_connection">Impossível fazer login no momento.</string>
+    <string name="fetching_trips_error_connection">Não foi possível fazer login no momento.</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Amanhã</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1071,13 +1077,13 @@
     <!-- Content Description for upgrade image to upgrade hotel room -->
     <string name="trips_upgrade_hotel_button_label_cont_desc">Fazer upgrade de quarto</string>
     <!-- Web view header label for soft changes to hotel room booking -->
-    <string name="trips_edit_room_info_web_view_title">Editar info sobre o quarto</string>
+    <string name="trips_edit_room_info_web_view_title">Editar inf. sobre o quarto</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Código de Confirmação do Hotel</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passageiros</string>
     <!-- Booking info label -->
-    <string name="booking_info">Info da reserva</string>
+    <string name="booking_info">Inf. da reserva</string>
     <!-- Itin flight generic terminal and gate template -->
     <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, Portão %2$s</string>
     <!-- Itin flight international terminal and gate template -->
@@ -1123,7 +1129,7 @@
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;De %1$s&lt;/b&gt; (%2$s)</string>
     <!-- Itin sign out confirmation message -->
-    <string name="itin_sign_out_confirmation_message_TEMPLATE">A desconexão do %1$s removerá todos os itens de itinerário associados a esta conta. Tem certeza de que deseja se desconectar?</string>
+    <string name="itin_sign_out_confirmation_message_TEMPLATE">Se você se desconectar do %1$s, perderá todos os itens de itinerário associados a esta conta. Tem certeza de que deseja prosseguir?</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
     <string name="flight_overview_TEMPLATE_cont_desc">{airline} parte do {departureairport} às {departuretime} e chega ao {arrivalairport} às {arrivaltime}</string>
     <!-- Directions -->
@@ -1133,7 +1139,7 @@
     <!-- Terminal Maps -->
     <string name="terminal_maps">Mapas do terminal</string>
     <!-- Accessibility label for Terminal Maps/Directions button on itins -->
-    <string name="terminal_maps_directions_cont_desc">Indicações e mapas do Terminal</string>
+    <string name="terminal_maps_directions_cont_desc">Indicações e mapas do terminal</string>
     <!-- Legend -->
     <string name="legend">Legenda</string>
     <!-- Flight has been cancelled -->
@@ -1272,7 +1278,7 @@
     <string name="itin_card_details_upgrade_hotel_button">Upgrade disponível por tempo limitado!</string>
     <string name="itin_card_flight_checkin_title">Check-in do voo</string>
     <!-- Label for button to edit Hotel booking -->
-    <string name="itin_card_edit_hotel_room_info">Editar info sobre o quarto</string>
+    <string name="itin_card_edit_hotel_room_info">Editar inf. sobre o quarto</string>
     <!-- Accessibility announcement for button to edit Hotel booking -->
     <string name="itin_card_change_hotel_options">Alterar opções de hotel</string>
 
@@ -1310,13 +1316,13 @@
     <string name="itin_card_details_room_type">Tipo de quarto</string>
     <string name="itin_card_details_non_price_promotion_includes">Inclui</string>
     <string name="itin_card_details_bed_type">Tipo de cama</string>
-    <string name="toast_copied_to_clipboard">Copiado para área de transferência.</string>
+    <string name="toast_copied_to_clipboard">Copiado para a área de transferência.</string>
     <string name="itin_card_details_reload">Recarregar informações</string>
-    <string name="itin_card_details_reload_activity">Recarregar Info Atividade</string>
-    <string name="itin_card_details_reload_car">Recarregar Info Aluguel Carro</string>
-    <string name="itin_card_details_reload_flight">Recarregar Info Voo</string>
-    <string name="itin_card_details_reload_hotel">Recarregar Info Hotéis</string>
-    <string name="itin_card_details_reload_cruise">Recarregar Info Sobre Cruzeiros</string>
+    <string name="itin_card_details_reload_activity">Recarregar inf. sobre atividades</string>
+    <string name="itin_card_details_reload_car">Recarregar inf. sobre carros</string>
+    <string name="itin_card_details_reload_flight">Recarregar inf. sobre voos</string>
+    <string name="itin_card_details_reload_hotel">Recarregar inf. sobre hotéis</string>
+    <string name="itin_card_details_reload_cruise">Recarregar inf. sobre cruzeiros</string>
     <string name="itin_card_details_remove_itin">Remover do itinerário</string>
 
     <!--Hotel itin card room details heading-->
@@ -1452,7 +1458,7 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Chega {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">Escala de {layover}</string>
-    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <!--Flight itin total duration widget template. (e.g. Total duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">Duração total: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Informações sobre bagagem</string>
@@ -1512,13 +1518,17 @@
     <string name="itin_flight_leg_detail_widget_to_text">a</string>
     <!--Flight itin, flight leg detail widget "-" text-->
     <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
-
+    <!--Flight itin, Airline rules and restrictions text-->
+    <string name="itin_flight_leg_detail_widget_rules_and_restrictions">Regras e restrições da companhia aérea</string>
     <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
     <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
     <item quantity="zero">Sem escalas</item>
     <item quantity="one">%s escala</item>
     <item quantity="other">%s escalas</item>
     </plurals>
+
+    <!--Flight itin, flight leg detail widget's split ticket text-->
+    <string name="itin_flight_leg_detail_widget_split_ticket_text">Seu voo é uma combinação de duas tarifas somente de ida. Se um dos voos for alterado ou cancelado, o outro voo não será alterado automaticamente.</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}d {hours}h {minutes}min</string>
@@ -1582,14 +1592,14 @@
     <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
     <string name="itin_checkin_dialog_message">Você conseguiu efetuar seu check-in de seu voo no site da %s?</string>
     <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
-    <string name="itin_checkin_failure_dialog_title">Lamentamos!</string>
+    <string name="itin_checkin_failure_dialog_title">Desculpe.</string>
     <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
-    <string name="itin_checkin_failure_dialog_message">Iremos corrigir isso. Seu número de confirmação foi copiado para sua área de transferência para que você utilize-o no site da %s ou diretamente no app.</string>
+    <string name="itin_checkin_failure_dialog_message">Vamos investigar esse problema. Seu número de confirmação foi copiado para sua área de transferência para que você utilize-o no site da %s ou diretamente no app.</string>
 
 
     <!-- Action Buttons -->
     <!-- action button to launch terminal maps bottom sheet -->
-    <string name="itin_action_terminal_maps">Mapas do terminal</string>
+    <string name="itin_action_terminal_maps">Mapas dos terminais</string>
     <string name="itin_action_directions">Direções</string>
     <string name="itin_action_call_hotel">Ligar para o hotel</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
@@ -1597,7 +1607,7 @@
     <string name="itin_action_redeem">Utilizar</string>
     <!-- Content description for the Support button on itinerary card that will call the customer support phone number. Example: Call Support Button -->
     <string name="itin_action_call_support_cont_desc">Ligar para o suporte</string>
-    <string name="itin_action_support">Assistência</string>
+    <string name="itin_action_support">Suporte</string>
     <string name="itin_action_share">Compartilhar</string>
     <string name="share_action_content_description">Botão para compartilhar</string>
     <string name="itin_action_view">Visualizar itinerário</string>
@@ -1617,7 +1627,7 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Olá, \n\n Estou hospedado no %1$s por %2$s.</string>
     <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
-    <string name="share_template_long_hotel_1_greeting_reshare">Olá, \n\n%1$s está ficando no %2$s por %3$s.</string>
+    <string name="share_template_long_hotel_1_greeting_reshare">Olá, \n\n%1$s está se hospendando no %2$s por %3$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
     <string name="share_template_long_hotel_2_checkin_checkout">Check-in %1$s\nCheck-out %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
@@ -1664,7 +1674,7 @@
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">de %1$s a %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
-    <string name="share_car_start_TEMPLATE">Estes são os detalhes do meu %1$saluguel de carro.</string>
+    <string name="share_car_start_TEMPLATE">Estes são os dados do carro que aluguei com a %1$s.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
     <string name="share_car_vehicle_TEMPLATE">Veículo: %1$s</string>
     <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
@@ -1723,9 +1733,9 @@
 
     <!-- Flights v2 -->
     <!-- Flights Search view button label for round-trip searches -->
-    <string name="flights_round_trip_label">IDA E VOLTA</string>
+    <string name="flights_round_trip_label">Ida e volta</string>
     <!-- Flights Search view button label for one-way searches -->
-    <string name="flights_one_way_label">SOMENTE IDA</string>
+    <string name="flights_one_way_label">Só ida</string>
     <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
     <string name="flights_tab_selection_accouncement_oneway">Exibindo a tela de busca para o voo de ida</string>
     <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
@@ -1737,7 +1747,7 @@
     <!-- Flights Line of Business title -->
     <string name="flights_title">Voos</string>
     <!-- Flights payment fees info web view title -->
-    <string name="flights_flight_overview_payment_fees">Info sobre taxas de pagamento</string>
+    <string name="flights_flight_overview_payment_fees">Inf. sobre taxas de pagamento</string>
     <!-- Flights Free Cancellation More Information -->
     <string name="flights_free_cancellation_information">Após 24 horas, as regras de voo padrão serão aplicadas.</string>
     <!-- Flights Free Cancellation messaging -->
@@ -1789,7 +1799,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Carregando voos…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
-    <string name="loading_flights_from_400_airlines">Encontre seus voos entre mais de 400 companhias aéreas</string>
+    <string name="loading_flights_from_400_airlines">Buscando voos entre mais de 400 companhias aéreas…</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Selecionar</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
@@ -1839,7 +1849,7 @@
     <!-- Message shown when loading AirAsia flight routes -->
     <string name="loading_air_asia_routes">Carregando as rotas da AirAsia…</string>
     <!-- Message shown when we could not load the AirAsia flight routes -->
-    <string name="error_could_not_load_air_asia">Impossível carregar as rotas da AirAsia</string>
+    <string name="error_could_not_load_air_asia">Não foi possível carregar as rotas da AirAsia</string>
     <!-- Header row for airports that were used recently for a search -->
     <string name="recent">Recente</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
@@ -2112,7 +2122,7 @@
     <!--Address Province hint-->
     <string name="address_province_hint">Província</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">Estado/Província (opcional)</string>
+    <string name="address_county_hint">Condado/Estado/Província (opcional)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2139,7 +2149,8 @@
     <string name="no_thanks">Não</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Detalhes avançados (opcional)</string>
-    <string name="contact_airline_message">Entre em contato com a companhia aérea para confirmar as solicitações</string>
+    <!--Contact airline message on flight checkout traveler details -->
+    <string name="contact_airline_message">Entre em contato com a companhia aérea para confirmar as solicitações.</string>
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Botão para abrir as opções avançadas (opcional)</string>
     <string name="collapse_advanced_button_cont_desc">Botão para recolher as opções avançadas (opcional)</string>
@@ -2364,7 +2375,7 @@
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
     <string name="error_hotel_no_longer_available">Infelizmente sua pré-reserva para este quarto expirou</string>
     <!-- Text for hotel error unknown -->
-    <string name="error_hotel_unhandled">No momento não é possível processar seu pedido. Tente novamente.</string>
+    <string name="error_hotel_unhandled">No momento, não é possível processar seu pedido. Tente novamente.</string>
     <!-- Error Screen toolbar title for payment failed screen -->
     <string name="payment_failed_label">Falha no pagamento</string>
     <!-- Text for error toolbar session expired-->
@@ -2804,9 +2815,9 @@
     <string name="urgency_destination_description_TEMPLATE">{destination} é um destino bastante popular em suas datas</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
-    <string name="room_information_button_cont_desc">Botão relativo às informações do quarto</string>
+    <string name="room_information_button_cont_desc">Informações do quarto</string>
     <!-- The text we use to message that the room in non-refundable -->
-    <string name="non_refundable">Não-reembolsável</string>
+    <string name="non_refundable">Não reembolsável</string>
     <!-- Label for free nights -->
     <string name="free">GRÁTIS!</string>
     <!-- Delimiter for multiple bed types in hotel offer-->
@@ -2966,7 +2977,7 @@
     <!-- Error when applying coupon - the package does not accept coupons -->
     <string name="coupon_error_invalid_booking">Não foi possível aplicar o cupom a esta reserva.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">No momento não podemos processar cupons. Tente novamente.</string>
+    <string name="coupon_error_service_down">No momento, não podemos processar cupons. Tente novamente.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
     <string name="coupon_error_invalid_stay_dates">O cupom não pode ser aplicado a estas datas de viagem.</string>
     <!-- Error when applying coupon - Exceeded Earn Limit -->
@@ -2990,7 +3001,7 @@
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Suporte para reservas</string>
     <!-- Subject for loyalty email on Itin -->
-    <string name="support_request">Solicitação de assistência</string>
+    <string name="support_request">Solicitação de suporte</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">Entre em contato com a {brand} via…</string>
     <!-- Contact Expedia via phone -->
@@ -3006,7 +3017,7 @@
     <!-- Section label for app settings functionality -->
     <string name="about_section_app_settings">Configurações</string>
     <!-- Section label for user support functionality -->
-    <string name="about_section_support">Assistência</string>
+    <string name="about_section_support">Suporte</string>
     <!-- Section label for communication options that are not related to user support -->
     <string name="about_section_communicate">Comunicação</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
@@ -3072,7 +3083,14 @@
     <string name="country_pos_cont_desc_TEMPLATE">{countrycode}, botão relativo ao país</string>
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
-    <string name="app_not_available">Seu dispositivo móvel não possui um aplicativo capaz de realizar esta ação ou você não tem autorização para acessá-lo.</string>
+    <string name="app_not_available">Seu smartphone não tem um app para realizar esta ação ou você não tem autorização.</string>
+    <!--Content description for add child button on traveler form Eg: 2 children added -->
+    <plurals name="add_child_button_cont_desc_TEMPLATE">
+        <item quantity="zero">%d crianças. Selecione as idades das crianças abaixo.\u0020</item>
+        <item quantity="one">%d criança. Selecione a idade da criança abaixo.\u0020</item>
+        <item quantity="other">%d crianças. Selecione as idades das crianças abaixo.\u0020</item>
+    </plurals>
+
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d adulto</item>
@@ -3169,7 +3187,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Configurações</string>
@@ -3178,7 +3196,7 @@
     <!-- Replaces "result was null" for no result search -->
     <string name="ean_error_no_results">Não foi possível encontrar nenhum hotel disponível em nosso site. Tente inserir datas diferentes ou outro local.</string>
     <!-- Replaces "result was null" for no result search -->
-    <string name="ean_error_connect_unavailable">Impossível conectar ao hotel selecionado para pesquisar os quartos disponíveis.</string>
+    <string name="ean_error_connect_unavailable">Não foi possível conectar-se ao hotel selecionado para pesquisar os quartos disponíveis.</string>
     <!-- Error message displayed when the phone number sent via booking is invalid -->
     <string name="ean_error_invalid_phone_number">Insira um número de telefone válido</string>
 
@@ -3803,6 +3821,10 @@
     <string name="free_flight_deal">Faça a reserva e economize 100% em seu voo.</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
     <string name="hotel_deal_TEMPLATE">Faça a reserva e economize {price} ({savings}%)</string>
+    <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_title_label">Atualize o seu app!</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">Reservas de hotel + voo não estão disponíveis nesta versão do app.\nFaça a atualização ainda hoje para receber ofertas de hotel + voo.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">{night} diária grátis quando você reserva com um voo.</item>
@@ -3922,6 +3944,8 @@
     <string name="select_flight_to">Selecione um voo para %1$s</string>
     <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
     <string name="package_flight_outbound_toolbar_title_TEMPLATE">Partindo para {cityname}, {stateorcountry} ({airportcode})</string>
+    <!-- Airport code with city -->
+    <string name="airport_code_with_city_TEMPLATE">({airportcode}) {city}</string>
     <!-- Flight to template -->
     <string name="flight_to">Voo para %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -4024,8 +4048,8 @@
         <item quantity="one">{seats} assento restante</item>
         <item quantity="other">{seats} assentos restantes</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">Info sobre as taxas de bagagem</string>
-    <string name="package_flight_overview_select_flight">Selecione este voo</string>
+        <string name="package_flight_overview_baggage_fees">Informações sobre taxas de bagagem</string>
+    <string name="package_flight_overview_select_flight">Selecionar este voo</string>
     <string name="package_flight_overview_bundle_total_label">Pacote total</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/pessoa</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
@@ -4118,7 +4142,7 @@
     <string name="rail_cardfee_error_title">Falha na taxa do cartão</string>
 
     <!-- rail checkout card fee error message -->
-    <string name="rail_cardfee_error_message">Não podemos calcular a taxa exata do cartão de crédito no momento. Pode haver taxas adicionais para essa reserva.</string>
+    <string name="rail_cardfee_error_message">No momento, não foi possível calcular a taxa exata do cartão de crédito. Pode haver taxas adicionais para essa reserva.</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
@@ -4465,7 +4489,7 @@
         Example #2: 2 available Hawaiian Airlines flights. -->
     <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">Disponibilidade de {filter_results} voos {filter_name}.\u0020</string>
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
-    <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">Disponibilidade de {filter_results} voos {filter_name}. Impossível cancelar a seleção, visto que todos os resultados de voo são {filter_name}.\u0020</string>
+    <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">Disponibilidade de {filter_results} voos {filter_name}. Não foi possível cancelar a seleção, pois todos os resultados de voo são {filter_name}.\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Adicionando proteção para a viagem…</string>
@@ -4685,6 +4709,7 @@
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Ofertas de última hora</string>
     <string name="last_minute_deal_subtitle">Quer viajar? Confira nossos preços incríveis de última hora.</string>
+    <string name="last_minute_deals_toolbar_title">Ofertas de última hora</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Como determinamos a ordem de ordenação</string>
@@ -4723,7 +4748,7 @@
     <!-- Reset filter title -->
     <string name="reset_filter">Redefinir filtros</string>
     <!-- Filter no result error message -->
-    <string name="error_no_filter_result_message">Impossível encontrar estabelecimentos que correspondam a sua seleção de filtros.</string>
+    <string name="error_no_filter_result_message">Não foi possível encontrar estabelecimentos com base nos filtros utilizados.</string>
 
     <!-- Nearby results title -->
     <string name="nearby_results">Resultados nos arredores</string>

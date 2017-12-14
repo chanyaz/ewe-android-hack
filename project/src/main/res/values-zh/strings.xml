@@ -643,6 +643,10 @@
     <string name="sort_and_filter_cont_desc">筛选和排序按钮</string>
     <!-- "Done" list header label -->
     <string name="Done">完成</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is checked" -->
+    <string name="filter_selected_TEMPLATE">已勾选“{filter}”</string>
+    <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is not checked" -->
+    <string name="filter_not_selected_TEMPLATE">已取消勾选“{filter}”</string>
 
     <!-- Baggage Info Accessibility -->
     <string name="spinner_text_baggage_info_fetching">正在获取行李信息</string>
@@ -685,7 +689,7 @@
     <string name="total_from">总价最低</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">人均往返票价。</string>
+    <string name="prices_roundtrip_label">每人往返价格</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">人均单程票价。</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -949,6 +953,8 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination}的旅游活动预订火爆！查看游览观光活动，提前订票。</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">嗨，{firstname}，探索您酒店附近的热门景点和活动。</string>
+    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">您飞往 {arrival airport} 的航班已延迟，新的出发时间为 {departure time}。</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
@@ -1452,8 +1458,8 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">到达时间：{date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">中途停留 {layover}</string>
-    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
-    <string name="itin_flight_total_duration_TEMPLATE">总时长：{duration}</string>
+    <!--Flight itin total duration widget template. (e.g. Total duration: 2h 45m)-->
+    <string name="itin_flight_total_duration_TEMPLATE">飞行总时长：{duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">行李信息</string>
     <!--Flight itin map view content description-->
@@ -1512,13 +1518,17 @@
     <string name="itin_flight_leg_detail_widget_to_text">到</string>
     <!--Flight itin, flight leg detail widget "-" text-->
     <string name="itin_flight_leg_detail_widget_hyphen_text">-</string>
-
+    <!--Flight itin, Airline rules and restrictions text-->
+    <string name="itin_flight_leg_detail_widget_rules_and_restrictions">航空公司规定和限制</string>
     <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
     <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
-    <item quantity="zero">不经停</item>
+    <item quantity="zero">直飞</item>
     <item quantity="one">%s 次经停</item>
     <item quantity="other">%s 次经停</item>
     </plurals>
+
+    <!--Flight itin, flight leg detail widget's split ticket text-->
+    <string name="itin_flight_leg_detail_widget_split_ticket_text">您的机票包含两张单程票。如果您的其中一张机票有变更或被取消，另一张机票不会自动更新。</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} 天 {hours} 小时 {minutes} 分钟</string>
@@ -1789,7 +1799,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">正在加载航班…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
-    <string name="loading_flights_from_400_airlines">正在搜索 400 多家航空公司的航班</string>
+    <string name="loading_flights_from_400_airlines">正在搜索 400 多家航空公司的航班…</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">选择</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
@@ -2112,7 +2122,7 @@
     <!--Address Province hint-->
     <string name="address_province_hint">省/市/自治区</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">县（可选）</string>
+    <string name="address_county_hint">县/州/省（可选）</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2139,7 +2149,8 @@
     <string name="no_thanks">不，谢谢</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">高级选项（可选）</string>
-    <string name="contact_airline_message">请联系航空公司以确认请求</string>
+    <!--Contact airline message on flight checkout traveler details -->
+    <string name="contact_airline_message">请联系航空公司以确认请求。</string>
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">按钮：展开高级选项（可选）</string>
     <string name="collapse_advanced_button_cont_desc">按钮：关闭高级选项（可选）</string>
@@ -2804,7 +2815,7 @@
     <string name="urgency_destination_description_TEMPLATE">在您搜索的日期内，{destination}很受游客欢迎。</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
-    <string name="room_information_button_cont_desc">客房信息按钮</string>
+    <string name="room_information_button_cont_desc">客房信息</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">不可退款</string>
     <!-- Label for free nights -->
@@ -3073,6 +3084,13 @@
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
     <string name="app_not_available">手机没有安装执行此操作的 App，或者禁止使用该 App。</string>
+    <!--Content description for add child button on traveler form Eg: 2 children added -->
+    <plurals name="add_child_button_cont_desc_TEMPLATE">
+        <item quantity="zero">%d 名儿童，请在下方选择儿童年龄。\u0020</item>
+        <item quantity="one">%d 名儿童，请在下方选择儿童年龄。\u0020</item>
+        <item quantity="other">%d 名儿童，请在下方选择儿童年龄。\u0020</item>
+    </plurals>
+
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d 位成人</item>
@@ -3803,9 +3821,13 @@
     <string name="free_flight_deal">预订此酒店，机票 0 折！</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
     <string name="hotel_deal_TEMPLATE">预订此酒店可省 {price} ({savings}%)</string>
+    <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_title_label">立即更新！</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">抱歉，该版本 App 不支持预订机 + 酒。\n立即更新，获取机 + 酒优惠。</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
-        <item quantity="one">与机票一起订，免费住 {night}晚。</item>
+        <item quantity="one">与机票一起订，免费住 {night} 晚。</item>
         <item quantity="other">与机票一起订，免费住 {night}晚。</item>
     </plurals>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
@@ -3922,6 +3944,8 @@
     <string name="select_flight_to">选择飞往%1$s的航班</string>
     <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
     <string name="package_flight_outbound_toolbar_title_TEMPLATE">飞往{cityname}，{stateorcountry}（{airportcode}）</string>
+    <!-- Airport code with city -->
+    <string name="airport_code_with_city_TEMPLATE">({airportcode}) {city}</string>
     <!-- Flight to template -->
     <string name="flight_to">飞往%1$s的航班</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -4022,10 +4046,10 @@
     <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
     <plurals name="package_flight_overview_urgency_message_TEMPLATE">
         <item quantity="one">还剩 {seats} 个座位</item>
-        <item quantity="other">还剩 {seats}个座位</item>
+        <item quantity="other">还剩 {seats} 个座位</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">行李费信息</string>
-    <string name="package_flight_overview_select_flight">选择此航班</string>
+        <string name="package_flight_overview_baggage_fees">行李费信息</string>
+    <string name="package_flight_overview_select_flight">选择该航班</string>
     <string name="package_flight_overview_bundle_total_label">套餐总额</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/人</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
@@ -4685,6 +4709,7 @@
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">最后时限优惠</string>
     <string name="last_minute_deal_subtitle">想要度假出游？快看看最后时限低价</string>
+    <string name="last_minute_deals_toolbar_title">最后时限优惠</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">我们如何确定排序顺序</string>

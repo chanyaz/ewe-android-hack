@@ -24,6 +24,10 @@ object FlightsV2Tracking {
         CarnivalUtils.getInstance().trackFlightSearch(flightSearchParams.destination?.regionNames?.fullName, flightSearchParams.adults, flightSearchParams.departureDate)
     }
 
+    fun trackOpenBrowserClick(openBrowser: Boolean) {
+        OmnitureTracking.trackFlightOpenBrowserButtonClick(openBrowser)
+    }
+
     fun trackSRPScrollDepth(scrollDepth: Int, isOutboundFlight: Boolean, isRoundTrip: Boolean, totalCount: Int) {
         OmnitureTracking.trackFlightSRPScrollDepth(scrollDepth, isOutboundFlight, isRoundTrip, totalCount)
     }
