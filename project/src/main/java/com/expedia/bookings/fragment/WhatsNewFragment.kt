@@ -84,6 +84,6 @@ class WhatsNewFragment : Fragment() {
     }
 
     private fun getFeatures(): Call<SuperPojo> {
-        return whatsNewService.getFeatures(pos = "US", platform = "iOS", brand = "Expedia", approvalState = "APPROVED")
+        return whatsNewService.getFeatures(pos = "US", platform = "Android", brand = "Expedia", approvalState = "APPROVED")
     }
 }
