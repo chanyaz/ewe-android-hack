@@ -33,6 +33,13 @@ class TravelerValidator(private val userStateManager: UserStateManager) {
     fun isValidForRailBooking(traveler: Traveler) : Boolean {
         return hasValidName(traveler.name)
                 && isValidPhone(traveler.phoneNumber)
+                && isValidPhone(traveler.phoneNumber)
+                && isValidEmail(traveler.email)
+    }
+
+    fun isValidForHotelBooking(traveler: Traveler) : Boolean {
+        return hasValidName(traveler.name)
+                && isValidPhone(traveler.phoneNumber)
                 && isValidEmail(traveler.email)
     }
 

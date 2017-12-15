@@ -9,10 +9,14 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Phone
+import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
 import com.expedia.bookings.services.LoyaltyServices
@@ -22,13 +26,18 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.MaterialFormsCouponWidget
+import com.expedia.bookings.widget.CouponWidget
+import com.expedia.bookings.widget.CheckoutBasePresenter
+import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
+import com.expedia.bookings.widget.TravelerContactDetailsWidget
 import com.expedia.vm.HotelCreateTripViewModel
 import junit.framework.Assert.assertTrue
-import com.expedia.bookings.widget.CheckoutBasePresenter
-import com.expedia.bookings.widget.TravelerContactDetailsWidget
 import com.expedia.vm.traveler.HotelTravelersViewModel
+import com.expedia.vm.traveler.TravelerEmailViewModel
+import com.expedia.vm.traveler.TravelerPhoneViewModel
+import com.expedia.vm.traveler.TravelerNameViewModel
+import com.expedia.vm.traveler.HotelTravelerEntryWidgetViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -271,6 +280,39 @@ class HotelCheckoutPresenterTest {
         assertEquals(VISIBLE, checkout.travelerSummaryCardView.visibility)
     }
 
+    @Test
+    fun testTravelerSummaryDataWithProperDataFilledInHotelTravelerPresenter() {
+        setupHotelMaterialForms()
+        val entryWidget = checkout.travelersPresenter.travelerEntryWidget
+
+        entryWidget.nameEntryView.viewModel = createNameEntryViewModel()
+        entryWidget.emailEntryView.viewModel = TravelerEmailViewModel(getTraveler(), activity)
+        entryWidget.phoneEntryView.viewModel = getPhoneTravelerViewModel()
+
+        checkout.travelersPresenter.onDoneClicked()
+
+        assertEquals("Ash Win Bad", checkout.travelerSummaryCard.viewModel.titleObservable.value)
+        assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.travelerSummaryCard.viewModel.iconStatusObservable.value)
+        assertEquals("773-202-5862", checkout.travelerSummaryCard.viewModel.subtitleObservable.value)
+    }
+
+    @Test
+    fun testTravelerSummaryDataWithImproperProperDataFilledInHotelTravelerPresenter() {
+        setupHotelMaterialForms()
+        val entryWidget = checkout.travelersPresenter.travelerEntryWidget
+
+        entryWidget.nameEntryView.viewModel = createNameEntryViewModel()
+        entryWidget.emailEntryView.viewModel = TravelerEmailViewModel(getTraveler(), activity)
+        entryWidget.phoneEntryView.viewModel = getPhoneTravelerViewModel(true)
+
+        checkout.travelersPresenter.onDoneClicked()
+        checkout.travelersPresenter.viewModel.updateCompletionStatus()
+
+        assertEquals("Ash Win Bad", checkout.travelerSummaryCard.viewModel.titleObservable.value)
+        assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, checkout.travelerSummaryCard.viewModel.iconStatusObservable.value)
+        assertEquals("Enter missing traveler details", checkout.travelerSummaryCard.viewModel.subtitleObservable.value)
+    }
+
     private fun assertHotelOverviewVisibility(expectedVisibility: Int) {
         assertEquals(expectedVisibility, checkout.summaryContainer.visibility)
         assertEquals(expectedVisibility, checkout.paymentInfoCardView.visibility)
@@ -297,6 +339,7 @@ class HotelCheckoutPresenterTest {
         checkout.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
         checkout.paymentInfoCardView.viewmodel.lineOfBusiness.onNext(LineOfBusiness.HOTELS)
         goToCheckout()
+        checkout.travelersPresenter.travelerEntryWidget.viewModel = HotelTravelerEntryWidgetViewModel(activity, TravelerCheckoutStatus.CLEAN)
     }
 
     private fun goToCheckout() {
@@ -305,4 +348,29 @@ class HotelCheckoutPresenterTest {
         checkout.showCheckout(HotelOffersResponse.HotelRoomResponse())
         checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripResponse())
     }
+
+    private fun createNameEntryViewModel(): TravelerNameViewModel {
+        val nameViewModel = TravelerNameViewModel(activity)
+        val travelerName = TravelerName()
+        travelerName.firstName = "Ash"
+        travelerName.lastName = "Bad"
+        travelerName.middleName = "Win"
+        nameViewModel.updateTravelerName(travelerName)
+        return nameViewModel
+    }
+
+    private fun getTraveler(): Traveler  {
+        val traveler = Traveler()
+        traveler.email = "aaa@gmail.com"
+        return traveler
+    }
+
+    private fun getPhoneTravelerViewModel(isEmpty: Boolean = false): TravelerPhoneViewModel {
+        val phoneViewModel = TravelerPhoneViewModel(activity)
+        val phone = Phone()
+        phone.number = "7732025862"
+        phoneViewModel.updatePhone(if (isEmpty == true) Phone() else  phone)
+        return phoneViewModel
+    }
+
 }

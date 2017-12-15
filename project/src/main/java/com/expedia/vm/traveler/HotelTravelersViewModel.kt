@@ -19,7 +19,6 @@ class HotelTravelersViewModel(context: Context, lob: LineOfBusiness, showMainTra
     override fun requiresMultipleTravelers() = false
 
     override fun isValidForBooking(traveler: Traveler, index: Int): Boolean {
-//        TODO: implement traveler validation on hotels see s/6776
-        return true
+        return travelerValidator.isValidForHotelBooking(traveler)
     }
 }

@@ -6,6 +6,7 @@ import com.expedia.bookings.utils.validation.TravelerValidator;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.packages.PackageSearchViewModel;
 import com.expedia.vm.traveler.BaseTravelerValidatorViewModel;
+import com.expedia.vm.traveler.HotelTravelSummaryViewModel;
 import com.expedia.vm.traveler.TravelersViewModel;
 import com.expedia.vm.traveler.RailTravelersViewModel;
 import com.expedia.vm.traveler.RailTravelerSummaryViewModel;
@@ -27,6 +28,7 @@ public interface TravelerComponent {
 	void inject(TravelersViewModel viewModel);
 	void inject(RailTravelersViewModel viewModel);
 	void inject(RailTravelerSummaryViewModel viewModel);
+	void inject(HotelTravelSummaryViewModel viewModel);
 	void inject(TravelerNameViewModel viewModel);
 	void inject(TravelerPhoneViewModel viewModel);
 	void inject(TravelerSelectItemViewModel viewModel);

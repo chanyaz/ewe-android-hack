@@ -46,8 +46,8 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard;
 import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.PaymentViewModel;
+import com.expedia.vm.traveler.HotelTravelSummaryViewModel;
 import com.expedia.vm.traveler.HotelTravelersViewModel;
-import com.expedia.vm.traveler.TravelerSummaryViewModel;
 import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 
@@ -276,7 +276,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	protected void setupMaterialTravelerWidget() {
 		travelersPresenter = (AbstractTravelersPresenter) travelerViewStub.inflate();
 		travelersPresenter.setViewModel(new HotelTravelersViewModel(getContext(), getLineOfBusiness(), true));
-		travelerSummaryCard.setViewModel(new TravelerSummaryViewModel(getContext()));
+		travelerSummaryCard.setViewModel(new HotelTravelSummaryViewModel(getContext()));
+		travelersPresenter.getViewModel().getTravelersCompletenessStatus().subscribe(travelerSummaryCard.getViewModel().getTravelerStatusObserver());
 		travelersPresenter.getTravelerEntryWidget().getTravelerButton().setLOB(getLineOfBusiness());
 		travelerSummaryCardView.setOnClickListener(new OnClickListener() {
 			@Override
