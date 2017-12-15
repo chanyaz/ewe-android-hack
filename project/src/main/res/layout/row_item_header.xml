@@ -16,7 +16,7 @@
         android:layout_marginTop="15dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:textColor="@color/gray8"
+        android:textColor="@color/gray800"
         android:textSize="24sp"
         app:textStyle="bold"
         tools:text="dummy" />
