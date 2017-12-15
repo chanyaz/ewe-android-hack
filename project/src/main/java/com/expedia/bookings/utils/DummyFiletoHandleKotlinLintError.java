@@ -60,6 +60,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.plurals.add_child_button_cont_desc_TEMPLATE,
 		R.anim.slide_up_partially,
 		R.layout.activity_hotel,
+		R.layout.hotel_search_activity,
 		R.layout.hotel_detail_view,
 		R.layout.hotel_detail_content_view,
 		R.layout.add_guest_itin_activity,
