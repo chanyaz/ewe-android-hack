@@ -55,6 +55,40 @@ class ItinCardDataFlightTest {
         assertEquals(names, "Girija Balachandran, Jim T Bob")
     }
 
+    @Test
+    fun testGetAirlineName(){
+        val trip = (testItinCardData.tripComponent as TripFlight)
+        trip.confirmations[0].carrier = "UNITED"
+        assertEquals("UNITED",testItinCardData.airlineName)
+
+        trip.confirmations.clear()
+        trip.flightTrip.legs[0].segments[0].airlineName = "SpiceJet"
+        assertEquals("SpiceJet",testItinCardData.airlineName)
+
+        trip.flightTrip.legs.clear()
+        assertEquals("",testItinCardData.airlineName)
+    }
+
+    @Test
+    fun testGetTicketNumbers(){
+        val trip = (testItinCardData.tripComponent as TripFlight)
+        val ticketNumberList = ArrayList<String>()
+        ticketNumberList.add("0167939252191")
+        ticketNumberList.add("0265936252123")
+        trip.travelers[0].ticketNumbers = ticketNumberList
+        assertEquals("0167939252191 , 0265936252123",testItinCardData.ticketNumbers)
+        val traveler = Traveler()
+        val secondTicketNumberList = ArrayList<String>()
+        secondTicketNumberList.add("0364925253116")
+        traveler.ticketNumbers = secondTicketNumberList
+        trip.travelers.add(traveler)
+
+        assertEquals("0167939252191 , 0265936252123 , 0364925253116",testItinCardData.ticketNumbers)
+        trip.travelers.clear()
+        assertEquals("",testItinCardData.ticketNumbers)
+
+    }
+
     fun setBookingStatus(bookingStatus: BookingStatus) {
         val trip = testItinCardData.tripComponent as TripFlight
         trip.bookingStatus = bookingStatus

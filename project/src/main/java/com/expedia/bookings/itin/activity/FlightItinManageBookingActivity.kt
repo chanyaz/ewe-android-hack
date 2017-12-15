@@ -5,11 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.vm.FlightItinAirlineSupportDetailsViewModel
 import com.expedia.bookings.itin.vm.FlightItinCustomerSupportDetailsViewModel
 import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
 import com.expedia.bookings.itin.vm.FlightItinManageBookingViewModel
 import com.expedia.bookings.itin.widget.FlightItinCustomerSupportDetails
 import com.expedia.bookings.itin.vm.FlightItinLegsDetailWidgetViewModel
+import com.expedia.bookings.itin.widget.FlightItinAirlineSupportDetailsWidget
 import com.expedia.bookings.itin.widget.FlightItinLegsDetailWidget
 import com.expedia.bookings.itin.widget.ItinToolbar
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -34,6 +36,7 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
     private val customerSupportDetails by bindView<FlightItinCustomerSupportDetails>(R.id.flight_itin_customer_support_widget)
     private var trackingFired = false
     private val legsDetailWidget by bindView<FlightItinLegsDetailWidget>(R.id.manage_booking_itin_flight_leg_detail)
+    private val airlineSupportDetailsWidget by bindView<FlightItinAirlineSupportDetailsWidget>(R.id.flight_itin_airline_support_widget)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +76,10 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
         }
         vm.flightSplitTicketVisibilitySubject.subscribe { param ->
             legsDetailWidget.viewModel.shouldShowSplitTicketTextSubject.onNext(param)
+        }
+        vm.flightItinAirlineSupportDetailsSubject.subscribe { param ->
+            airlineSupportDetailsWidget.viewModel = FlightItinAirlineSupportDetailsViewModel()
+            airlineSupportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(param)
         }
     }
 

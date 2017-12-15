@@ -5,6 +5,8 @@ import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Rule
+import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.trips.FlightConfirmation
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
@@ -207,7 +209,6 @@ class FlightItinManageBookingViewModelTest {
         flightSplitTicketVisibilitySubject.assertValue(true)
     }
 
-
     @Test
     fun testIsNotSplitTicket() {
         val flightSplitTicketVisibilitySubject = TestSubscriber<Boolean>()
@@ -222,6 +223,87 @@ class FlightItinManageBookingViewModelTest {
         sut.setUp()
 
         flightSplitTicketVisibilitySubject.assertValue(false)
+    }
+
+    @Test
+    fun testAirlineSupportWidgetWithValues() {
+        val flightItinAirlineSupportDetailsSubject = TestSubscriber<FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams>()
+        sut.flightItinAirlineSupportDetailsSubject.subscribe(flightItinAirlineSupportDetailsSubject)
+
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val tripFlight = testItinCardData.tripComponent as TripFlight
+        val airlineName = "UNITED"
+        val ticketValue = "0167939252191"
+        val confirmationValue = "IKQVCR"
+        val itineraryNumber = "7238007847306"
+        val airlineSupportUrlValue = "https://www.expedia.com/trips/airline/manage?airlineCode=UA&firstName=Girija&lastName=Balachandran&confirmation=IKQVCR&departureAirport=SFO&flightNumber=681&email=gbalachandran%40expedia.com&ticketNumber=0167939252191&flightDay=5&flightMonth=9"
+
+        tripFlight.travelers.clear()
+        val traveler = Traveler()
+        val ticketNumberList = ArrayList<String>()
+        ticketNumberList.add(ticketValue)
+        traveler.ticketNumbers = ticketNumberList
+        tripFlight.travelers.add(traveler)
+
+        tripFlight.flightTrip.airlineManageBookingURL = airlineSupportUrlValue
+        tripFlight.parentTrip.tripNumber = itineraryNumber
+
+
+        tripFlight.confirmations.clear()
+        val flightConfirmation = FlightConfirmation()
+        flightConfirmation.confirmationCode = confirmationValue
+        flightConfirmation.carrier = airlineName
+        tripFlight.confirmations.add(flightConfirmation)
+
+        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
+        sut.itineraryManager = mockItinManager
+        sut.updateItinCardDataFlight()
+
+        sut.airlineSupportDetailsData()
+
+        val title = Phrase.from(context,R.string.itin_flight_airline_support_widget_airlines_for_help_TEMPLATE).put("airline_name",airlineName).format().toString()
+        val airlineSupport = Phrase.from(context,R.string.itin_flight_airline_support_widget_airlines_support_TEMPLATE).put("airline_name",airlineName).format().toString()
+        val ticket = Phrase.from(context,R.string.itin_flight_airline_support_widget_ticket_TEMPLATE).put("ticket_number",ticketValue).format().toString()
+        val confirmation = Phrase.from(context,R.string.itin_flight_airline_support_widget_confirmation_TEMPLATE).put("confirmation_number",confirmationValue).format().toString()
+        val itinerary = Phrase.from(context,R.string.itin_flight_airline_support_widget_itinerary_TEMPLATE).put("itinerary_number",itineraryNumber).format().toString()
+        val callSupportNumber = ""
+        val customerSupportSitetext = Phrase.from(context,R.string.itin_flight_airline_support_widget_customer_support_TEMPLATE).put("airline_name",airlineName).format().toString()
+        flightItinAirlineSupportDetailsSubject.assertValue(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title,airlineSupport,ticket,confirmation,itinerary,callSupportNumber,customerSupportSitetext,airlineSupportUrlValue))
+
+    }
+
+    @Test
+    fun testAirlineSupportWidgetWithNoValues() {
+        val flightItinAirlineSupportDetailsSubject = TestSubscriber<FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams>()
+        sut.flightItinAirlineSupportDetailsSubject.subscribe(flightItinAirlineSupportDetailsSubject)
+
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val tripFlight = testItinCardData.tripComponent as TripFlight
+
+        tripFlight.travelers.clear()
+        tripFlight.flightTrip.airlineManageBookingURL = null
+        tripFlight.parentTrip.tripNumber = null
+        tripFlight.confirmations.clear()
+        tripFlight.flightTrip.legs.clear()
+
+        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
+        sut.itineraryManager = mockItinManager
+        sut.updateItinCardDataFlight()
+        sut.airlineSupportDetailsData()
+
+        val airlineName = R.string.itin_flight_airline_support_widget_airline_text
+        val title = Phrase.from(context,R.string.itin_flight_airline_support_widget_airlines_for_help_TEMPLATE).put("airline_name",context.getString(R.string.itin_flight_airline_support_widget_the_airline_text)).format().toString()
+        val airlineSupport = Phrase.from(context,R.string.itin_flight_airline_support_widget_airlines_support_TEMPLATE).put("airline_name",context.getString(R.string.itin_flight_airline_support_widget_airline_text)).format().toString()
+        val ticket = ""
+        val confirmation = ""
+        val itinerary = ""
+        val callSupportNumber = ""
+        val airlineSupportUrlValue = ""
+        val customerSupportSitetext = Phrase.from(context,R.string.itin_flight_airline_support_widget_customer_support_TEMPLATE).put("airline_name",context.getString(R.string.itin_flight_airline_support_widget_airline_text)).format().toString()
+        flightItinAirlineSupportDetailsSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title,airlineSupport,ticket,confirmation,itinerary,callSupportNumber,customerSupportSitetext,airlineSupportUrlValue))
+
     }
 
     class TestWayPoint(val city: String) : Waypoint(ACTION_UNKNOWN) {

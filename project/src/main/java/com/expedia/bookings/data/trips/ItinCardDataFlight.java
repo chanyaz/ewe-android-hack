@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.utils.FlightClickAbleSpan;
+import com.expedia.bookings.utils.Strings;
 import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
@@ -250,6 +251,58 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 			stringList.add(traveler.getFullName());
 		}
 		return TextUtils.join(", ", stringList);
+	}
+
+	public String getTicketNumbers() {
+		StringBuffer ticketNumbersString = new StringBuffer();
+		List<Traveler> travelerList = ((TripFlight) getTripComponent()).getTravelers();
+		if (travelerList != null) {
+			for (Traveler traveler : travelerList) {
+				if (traveler.getTicketNumbers() != null) {
+					String numbers = TextUtils.join(" , ", traveler.getTicketNumbers());
+					if (Strings.isNotEmpty(numbers) && Strings.isNotEmpty(ticketNumbersString)) {
+						ticketNumbersString.append(" , ");
+					}
+					ticketNumbersString.append(numbers);
+				}
+			}
+		}
+		return ticketNumbersString.toString();
+	}
+
+	public String getAirlineName() {
+		String airlineNameFromConfirmation = getAirlineNameFromFlightConfirmation();
+		if (airlineNameFromConfirmation != null) {
+			return airlineNameFromConfirmation;
+		}
+
+		String airlineNameFromLeg = getAirlineNameFromFlightLeg();
+		if (airlineNameFromLeg != null) {
+			return airlineNameFromLeg;
+		}
+		return "";
+	}
+
+	private String getAirlineNameFromFlightConfirmation() {
+		List<FlightConfirmation> confirmationList = ((TripFlight) getTripComponent()).getConfirmations();
+		for (FlightConfirmation confirmation : confirmationList) {
+			if (confirmation.getCarrier() != null) {
+				return confirmation.getCarrier();
+			}
+		}
+		return null;
+	}
+
+	private String getAirlineNameFromFlightLeg() {
+		List<FlightLeg> legList = ((TripFlight) getTripComponent()).getFlightTrip().getLegs();
+		for (FlightLeg leg : legList) {
+			for (Flight segment : leg.getSegments()) {
+				if (Strings.isNotEmpty(segment.getAirlineName())) {
+					return segment.getAirlineName();
+				}
+			}
+		}
+		return null;
 	}
 
 	public CharSequence getSpannedConfirmationNumbers(Context context) {

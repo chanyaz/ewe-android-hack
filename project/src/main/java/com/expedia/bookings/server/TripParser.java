@@ -478,6 +478,8 @@ public class TripParser {
 
 		flightTrip.setSplitTicket(obj.optBoolean("isSplitTicket"));
 
+		flightTrip.setAirlineManageBookingURL(obj.optString("airlineManageBookingURL"));
+
 		// Parse fares
 		JSONObject fareTotalJson = obj.optJSONObject("fareTotal");
 		if (fareTotalJson != null) {
@@ -568,7 +570,7 @@ public class TripParser {
 				segment.setDepartureTerminal(segmentJson.optString("departureTerminal", null));
 				segment.setArrivalTerminal(segmentJson.optString("arrivalTerminal", null));
 				segment.setLayoverDuration(segmentJson.optString("layoverDuration", null));
-
+				segment.setAirlineName(segmentJson.optString("airlineName", null));
 				// We assume all distances are in miles, throw a fit if that's not the case
 				String distanceUnits = segmentJson.optString("distanceUnits");
 				DistanceUnit unit = DistanceUnit.MILES; // Assume miles by default

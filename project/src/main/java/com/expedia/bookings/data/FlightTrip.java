@@ -92,6 +92,16 @@ public class FlightTrip implements JSONable {
 	// Rules associated with offer (will not exist until we have an itinerary)
 	private Map<String, Rule> mRules;
 
+	private String mAirlineManageBookingURL;
+
+	public String getAirlineManageBookingURL() {
+		return mAirlineManageBookingURL;
+	}
+
+	public void setAirlineManageBookingURL(String airlineManageBookingURL) {
+		this.mAirlineManageBookingURL = airlineManageBookingURL;
+	}
+
 	public String getProductKey() {
 		return mProductKey;
 	}
@@ -761,6 +771,7 @@ public class FlightTrip implements JSONable {
 			}
 			obj.putOpt("isPassportNeeded", isPassportNeeded);
 			obj.putOpt("isSplitTicket", isSplitTicket);
+			obj.putOpt("airlineManageBookingURL", mAirlineManageBookingURL);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -943,6 +954,7 @@ public class FlightTrip implements JSONable {
 		mSeatsRemaining = obj.optInt("seatsRemaining");
 		mMayChargeObFees = obj.optBoolean("mayChargeObFees");
 		mFareName = obj.optString("fareName");
+		mAirlineManageBookingURL = obj.optString("airlineManageBookingURL");
 		rewards = GsonUtil.getForJsonable(obj, "rewards", RewardsInfo.class);
 
 		JSONArray arr = obj.optJSONArray("flightSegmentAttributes");

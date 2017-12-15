@@ -72,6 +72,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 	private long mLastNotifiedTakeoffTime = 0;
 	private long mLastNotifiedArrivalTime = 0;
 
+	private String mAirlineName;
 	public String mStatusCode;
 	private long mBearing = -1;
 	public String mAircraftType;
@@ -124,6 +125,14 @@ public class Flight implements Comparable<Flight>, JSONable {
 		// If someone is creating a Flight from scratch, make sure
 		// that its last updated time is now.
 		mTimeCreated = mLastUpdated = DateTime.now().getMillis();
+	}
+
+	public String getAirlineName() {
+		return mAirlineName;
+	}
+
+	public void setAirlineName(String airlineName) {
+		this.mAirlineName = airlineName;
 	}
 
 	public void addFlightCode(FlightCode flightCode, int flags) {
@@ -630,6 +639,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 
 			JSONUtils.putJSONableList(obj, "seatList", seatList);
 			obj.putOpt("layoverDuration", layoverDuration);
+			obj.putOpt("airlineName", mAirlineName);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -744,6 +754,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 			arrivalTerminal = obj.optString("arrivalTerminal", null);
 
 			layoverDuration = obj.optString("layoverDuration", null);
+			mAirlineName = obj.optString("airlineName", null);
 
 			return true;
 		}
