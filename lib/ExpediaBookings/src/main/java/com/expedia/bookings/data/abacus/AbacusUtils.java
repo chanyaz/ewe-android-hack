@@ -107,7 +107,7 @@ public class AbacusUtils {
 
 	// Account
 	public static final ABTest EBAndroidAppAccountSinglePageSignUp = new ABTest(13923);
-	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652);
+	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652, true);
 
 	// Launch
 	public static final ABTest ProWizardTest = new ABTest(16136);

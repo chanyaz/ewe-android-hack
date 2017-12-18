@@ -24,6 +24,7 @@ import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -170,16 +171,15 @@ public class AccountLibActivity extends AppCompatActivity
 			config.setEnableSinglePageSignUp(true);
 		}
 
-		// We want to enable reCAPTCHA if the user is feature flagged and either bucketed or missing the abacus response.
-		// Basically we want it to "fail on" if abacus didn't return quickly enough so that the user isn't blocked from
+		// Logic to determine if we should show the reCaptcha check locally.
+		// We want it to "fail on" if either satellite or abacus calls fails, so that the user isn't blocked from
 		// signing in if the reCaptcha token is enforced in the API
-		if (ProductFlavorFeatureConfiguration.getInstance().isRecaptchaEnabled() &&
-			(AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppAccountRecaptcha) ||
-			Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppAccountRecaptcha) == null) &&
-			!ExpediaBookingApp.isAutomation()) {
-
-			config.setEnableRecaptcha(true);
-			config.setRecaptchaAPIKey(getString(R.string.recaptcha_sdk_site_key));
+		if (ProductFlavorFeatureConfiguration.getInstance().isRecaptchaEnabled()
+				&& isRecaptchaSatelliteEnabled()
+				&& isRecaptchaABTestEnabled()
+				&& !ExpediaBookingApp.isAutomation()) {
+					config.setEnableRecaptcha(true);
+					config.setRecaptchaAPIKey(getString(R.string.recaptcha_sdk_site_key));
 		}
 
 		accountView.configure(config);
@@ -380,4 +380,17 @@ public class AccountLibActivity extends AppCompatActivity
 	public interface LogInListener {
 		void onLoginCompleted();
 	}
+
+	private boolean isRecaptchaSatelliteEnabled() {
+		// Returns true if satellite enabled OR if satellite config isn't valid. (i.e. "fail on")
+		return SatelliteFeatureConfigManager.isABTestEnabled(this, AbacusUtils.EBAndroidAppAccountRecaptcha.getKey())
+				|| !SatelliteFeatureConfigManager.configValid(this);
+	}
+
+	private boolean isRecaptchaABTestEnabled() {
+		// Returns true if AB test enabled or abacus is missing the response. (i.e. "fail on")
+		return AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppAccountRecaptcha)
+				||	Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppAccountRecaptcha) == null;
+	}
+
 }
