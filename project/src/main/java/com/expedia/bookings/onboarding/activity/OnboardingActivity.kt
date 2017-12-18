@@ -21,15 +21,26 @@ import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.enums.OnboardingPagerState
 import com.expedia.bookings.onboarding.LeftRightFlingListener
 import com.expedia.bookings.onboarding.adapter.OnboardingPagerAdapter
+import com.expedia.bookings.services.IClientLogServices
+import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.RouterToOnboardingTimeLogger
 import com.expedia.bookings.utils.CarnivalUtils
+import com.expedia.bookings.utils.ClientLogConstants
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.squareup.phrase.Phrase
-
+import javax.inject.Inject
 
 class OnboardingActivity: AppCompatActivity() {
+
+    lateinit var clientLogServices: IClientLogServices
+        @Inject set
+
+    lateinit var routerToOnboardingTimeLogger: RouterToOnboardingTimeLogger
+        @Inject set
 
     private val title by bindView<TextView>(R.id.title_onboarding)
     private val subtitle by bindView<TextView>(R.id.subtitle_onboarding)
@@ -57,6 +68,7 @@ class OnboardingActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Ui.getApplication(this).appComponent().inject(this)
         setContentView(R.layout.activity_onboarding)
         CarnivalUtils.getInstance().toggleNotifications(false)
 
@@ -79,12 +91,17 @@ class OnboardingActivity: AppCompatActivity() {
         handler.postDelayed({
             updateTitle(0)
         }, this.resources.getInteger(R.integer.splash_transition_duration).toLong())
-
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         this.gestureDetector.onTouchEvent(event)
         return super.onTouchEvent(event)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        routerToOnboardingTimeLogger.setEndTime()
+        AppStartupTimeClientLog.trackTimeLogger(routerToOnboardingTimeLogger, clientLogServices)
     }
 
     private val onPageSelectedListener = object: ViewPager.OnPageChangeListener {

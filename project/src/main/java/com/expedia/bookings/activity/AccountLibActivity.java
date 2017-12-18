@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import javax.inject.Inject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -26,8 +28,11 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
+import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.tracking.AppStartupTimeClientLog;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.tracking.RouterToSignInTimeLogger;
 import com.expedia.bookings.utils.CarnivalUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LoginExtender;
@@ -64,6 +69,12 @@ public class AccountLibActivity extends AppCompatActivity
 	@InjectView(R.id.extender_status)
 	public TextView extenderStatus;
 
+	@Inject
+	RouterToSignInTimeLogger routerToSignInTimeLogger;
+
+	@Inject
+	IClientLogServices clientLogServices;
+
 	private UserStateManager userStateManager;
 
 	private LineOfBusiness lob = LineOfBusiness.HOTELS;
@@ -99,11 +110,16 @@ public class AccountLibActivity extends AppCompatActivity
 		super.onResume();
 		accountView.setListener(listener);
 		accountView.setAnalyticsListener(analyticsListener);
+		if (routerToSignInTimeLogger.getShouldGoToSignIn()) {
+			routerToSignInTimeLogger.setEndTime();
+			AppStartupTimeClientLog.trackTimeLogger(routerToSignInTimeLogger, clientLogServices);
+		}
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Ui.getApplication(this).appComponent().inject(this);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		userStateManager = Ui.getApplication(this).appComponent().userStateManager();

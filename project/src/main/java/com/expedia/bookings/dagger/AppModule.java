@@ -24,7 +24,11 @@ import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.SatelliteServices;
 import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
+import com.expedia.bookings.tracking.AppCreateTimeLogger;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
+import com.expedia.bookings.tracking.RouterToLaunchTimeLogger;
+import com.expedia.bookings.tracking.RouterToOnboardingTimeLogger;
+import com.expedia.bookings.tracking.RouterToSignInTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
 import com.expedia.bookings.utils.CookiesUtils;
 import com.expedia.bookings.utils.HMACInterceptor;
@@ -280,6 +284,30 @@ public class AppModule {
 	@Singleton
 	AppStartupTimeLogger appStartupTimeLogger() {
 		return new AppStartupTimeLogger();
+	}
+
+	@Provides
+	@Singleton
+	AppCreateTimeLogger appCreateTimeLogger() {
+		return new AppCreateTimeLogger();
+	}
+
+	@Provides
+	@Singleton
+	RouterToOnboardingTimeLogger routerToOnboardingTimeLogger() {
+		return new RouterToOnboardingTimeLogger();
+	}
+
+	@Provides
+	@Singleton
+	RouterToLaunchTimeLogger routerToLaunchTimeLogger() {
+		return new RouterToLaunchTimeLogger();
+	}
+
+	@Provides
+	@Singleton
+	RouterToSignInTimeLogger routerToSignInTimeLogger() {
+		return new RouterToSignInTimeLogger();
 	}
 
 	@Provides

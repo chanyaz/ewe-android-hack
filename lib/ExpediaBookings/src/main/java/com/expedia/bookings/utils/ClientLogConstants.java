@@ -8,5 +8,4 @@ public class ClientLogConstants {
 	public static final String MOBILE_DATA = "MobileData";
 	public static final String CLIENT_LOG_URL = "/cl/1x1.gif?live=true";
 	public static final String DEVICE_TYPE = "android";
-	public static final String APP_LAUNCH_PAGENAME = "App.Launch";
 }

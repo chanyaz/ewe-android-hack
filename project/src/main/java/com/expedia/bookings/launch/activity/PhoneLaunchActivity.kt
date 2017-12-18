@@ -52,6 +52,8 @@ import com.expedia.bookings.services.IClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.RouterToLaunchTimeLogger
+import com.expedia.bookings.tracking.RouterToSignInTimeLogger
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.CarnivalUtils
@@ -90,6 +92,12 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     private var pagerSelectedPosition = PAGER_POS_LAUNCH
 
     lateinit var appStartupTimeLogger: AppStartupTimeLogger
+        @Inject set
+
+    lateinit var routerToLaunchTimeLogger: RouterToLaunchTimeLogger
+        @Inject set
+
+    lateinit var routerToSignInTimeLogger: RouterToSignInTimeLogger
         @Inject set
 
     lateinit var clientLogServices: IClientLogServices
@@ -204,8 +212,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
         GooglePlayServicesDialog(this).startChecking()
 
-        appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
-        AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
+        appStartupTimeLogger.setEndTime()
 
         if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             if (shouldShowSoftPrompt()) {
@@ -521,6 +528,21 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 SettingUtils.save(this, PREF_USER_ENTERS_FROM_SIGNIN, false)
             }
         }
+
+        if (routerToLaunchTimeLogger.startTime != null) {
+            routerToLaunchTimeLogger.setEndTime()
+        }
+
+        if (intent.getBooleanExtra(ARG_FORCE_SHOW_ACCOUNT, false) && routerToSignInTimeLogger.startTime != null) {
+            routerToSignInTimeLogger.shouldGoToSignIn = true
+        }
+
+        trackTimeLogs()
+    }
+
+    private fun trackTimeLogs() {
+        AppStartupTimeClientLog.trackTimeLogger(appStartupTimeLogger, clientLogServices)
+        AppStartupTimeClientLog.trackTimeLogger(routerToLaunchTimeLogger, clientLogServices)
     }
 
     private fun shouldShowSoftPrompt() : Boolean {

@@ -3,6 +3,8 @@ package com.expedia.bookings.activity;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +24,9 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.tracking.RouterToLaunchTimeLogger;
+import com.expedia.bookings.tracking.RouterToOnboardingTimeLogger;
+import com.expedia.bookings.tracking.RouterToSignInTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.FeatureToggleUtil;
@@ -37,7 +42,18 @@ import rx.Observer;
 
 public class RouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
 	boolean loadSignInView = false;
-	private UserStateManager userStateManager;
+
+	@Inject
+	UserStateManager userStateManager;
+
+	@Inject
+	RouterToOnboardingTimeLogger routerToOnboardingTimeLogger;
+
+	@Inject
+	RouterToLaunchTimeLogger routerToLaunchTimeLogger;
+
+	@Inject
+	RouterToSignInTimeLogger routerToSignInTimeLogger;
 
 	private enum LaunchDestination {
 		SIGN_IN,
@@ -47,7 +63,9 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
+		Ui.getApplication(this).appComponent().inject(this);
+
+		setTimeLogging();
 
 		// Track the app loading
 		OmnitureTracking.trackAppLoading(this);
@@ -64,6 +82,12 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		Ui.getApplication(this).updateFirstLaunchAndUpdateSettings();
 
 		userStateManager.ensureUserStateSanity(this);
+	}
+
+	private void setTimeLogging() {
+		routerToOnboardingTimeLogger.setStartTime();
+		routerToLaunchTimeLogger.setStartTime();
+		routerToSignInTimeLogger.setStartTime();
 	}
 
 	private void launchOpeningView() {

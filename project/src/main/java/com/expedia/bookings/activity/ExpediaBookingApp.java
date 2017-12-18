@@ -50,6 +50,8 @@ import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.tracking.AppCreateTimeLogger;
+import com.expedia.bookings.tracking.AppStartupTimeClientLog;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
@@ -137,8 +139,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		sIsRobolectric = isRobolectric;
 	}
 
-	private AppStartupTimeLogger appStartupTimeLogger;
-
 	@Override
 	public void onCreate() {
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
@@ -154,8 +154,11 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			.build();
 		startupTimer.addSplit("Dagger AppModule created");
 
-		appStartupTimeLogger = mAppComponent.appStartupTimeLogger();
-		appStartupTimeLogger.setAppLaunchedTime(System.currentTimeMillis());
+		AppStartupTimeLogger appStartupTimeLogger = mAppComponent.appStartupTimeLogger();
+		appStartupTimeLogger.setStartTime();
+
+		AppCreateTimeLogger appCreateTimeLogger = mAppComponent.appCreateTimeLogger();
+		appCreateTimeLogger.setStartTime();
 
 		// We want this first so that we set this as the Provider before anything tries to use Joda time
 		JodaTimeAndroid.init(this);
@@ -329,6 +332,9 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		UserStateManager userStateManager = appComponent().userStateManager();
 
 		loginUserIfApplicable(refresher, userStateManager);
+
+		appCreateTimeLogger.setEndTime();
+		AppStartupTimeClientLog.trackTimeLogger(appCreateTimeLogger, mAppComponent.clientLog());
 	}
 
 	private void initializeFeatureConfig() {
