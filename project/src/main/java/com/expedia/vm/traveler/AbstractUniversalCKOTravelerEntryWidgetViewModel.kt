@@ -28,6 +28,10 @@ abstract class AbstractUniversalCKOTravelerEntryWidgetViewModel(context: Context
     abstract fun getTraveler(): Traveler
 
     open fun updateTraveler(traveler: Traveler) {
+        Db.getTravelers()[travelerIndex] = traveler
+        if (userStateManager.isUserAuthenticated()) {
+            traveler.email = userStateManager.userSource.user?.primaryTraveler?.email
+        }
         nameViewModel.updateTravelerName(traveler.name)
         phoneViewModel.updatePhone(traveler.orCreatePrimaryPhoneNumber)
         emailViewModel.updateEmail(traveler)

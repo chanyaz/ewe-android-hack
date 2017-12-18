@@ -30,6 +30,7 @@ class MockTravelerProvider {
         Mockito.`when`(mockTraveler.name).thenReturn(getValidTravelerName())
         Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
         Mockito.`when`(mockTraveler.reversedFullName).thenReturn(testReversedFullName)
+        Mockito.`when`(mockTraveler.fullNameBasedOnPos).thenReturn(testFullName)
         Mockito.`when`(mockTraveler.email).thenReturn(testEmail)
         Mockito.`when`(mockTraveler.primaryPhoneNumber).thenReturn(mockPhone)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testNumber)
@@ -51,7 +52,7 @@ class MockTravelerProvider {
 
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidTravelerName())
-        Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
+        Mockito.`when`(mockTraveler.fullName).thenReturn(testFirstName)
         Mockito.`when`(mockTraveler.email).thenReturn(testEmail)
         Mockito.`when`(mockTraveler.primaryPhoneNumber).thenReturn(mockPhone)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testEmptyNumber)
@@ -67,6 +68,16 @@ class MockTravelerProvider {
         Mockito.`when`(mockTraveler.name).thenReturn(getValidTravelerName())
         Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
         Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
+        Mockito.`when`(mockTraveler.orCreatePrimaryPhoneNumber).thenReturn(Phone())
+
+        return mockTraveler
+    }
+
+    fun getIncompleteMockTravelerIncompleteName(): Traveler {
+        val mockTraveler = Mockito.mock(Traveler::class.java)
+        Mockito.`when`(mockTraveler.name).thenReturn(getInvalidTravelerName())
+        Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
+        Mockito.`when`(mockTraveler.orCreatePrimaryPhoneNumber).thenReturn(Phone())
 
         return mockTraveler
     }
@@ -106,6 +117,12 @@ class MockTravelerProvider {
         name.firstName = testFirstName
         name.middleName = testMiddleName
         name.lastName = testLastName
+        return name
+    }
+
+    private fun getInvalidTravelerName() : TravelerName {
+        val name = TravelerName()
+        name.firstName = testFirstName
         return name
     }
 }

@@ -8,18 +8,27 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.user.User
+import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.tracking.FacebookEvents.Companion.userStateManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CouponWidget
@@ -28,18 +37,22 @@ import com.expedia.vm.HotelCreateTripViewModel
 import junit.framework.Assert.assertTrue
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.TravelerContactDetailsWidget
+import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.HotelTravelersViewModel
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelCheckoutPresenterTest {
     private var checkout: HotelCheckoutMainViewPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
@@ -48,12 +61,14 @@ class HotelCheckoutPresenterTest {
 
     val mockHotelServices: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
+    val mockTravelerProvider = MockTravelerProvider()
 
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
+        Db.resetTravelers()
         activity.setTheme(R.style.Theme_Hotels_Default)
         AbacusTestUtils.unbucketTestAndDisableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
@@ -61,6 +76,11 @@ class HotelCheckoutPresenterTest {
         checkout.paymentInfoCardView.viewmodel.lineOfBusiness.onNext(LineOfBusiness.HOTELS)
         checkout.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
         goToCheckout()
+    }
+
+    @After
+    fun tearDown() {
+        Db.resetTravelers()
     }
 
     @Test
@@ -271,6 +291,57 @@ class HotelCheckoutPresenterTest {
         assertEquals(VISIBLE, checkout.travelerSummaryCardView.visibility)
     }
 
+    @Test
+    fun testLoggedInTravelerSummaryCard() {
+        setupHotelMaterialForms()
+
+        givenLoggedInUserAndTravelerInDb()
+        goToCheckout()
+        checkout.travelerSummaryCard.viewModel.travelerStatusObserver.onNext(TravelerCheckoutStatus.COMPLETE)
+
+        assertTravelerSummaryCard(expectedTitle = "Oscar The Grouch",
+                expectedSubtitle = "773202LUNA",
+                expectedStatus = TravelerCheckoutStatus.COMPLETE)
+    }
+
+    @Test
+    fun testLoggedInUserEmailUsedForOtherTravelers() {
+        setupHotelMaterialForms()
+        checkout.travelerSummaryCardView.performClick()
+
+        givenLoggedInUserAndTravelerInDb()
+        val incompleteTraveler = Traveler()
+        checkout.travelersPresenter.travelerEntryWidget.viewModel.updateTraveler(incompleteTraveler)
+
+        assertEquals(incompleteTraveler, Db.getTravelers()[0])
+        assertEquals("test@gmail.com", Db.getTravelers()[0].email)
+    }
+
+    @Test
+    fun testTravelerCardUpdatesFromEntryFormWithIncompleteTraveler() {
+        setupHotelMaterialForms()
+        checkout.travelerSummaryCardView.performClick()
+
+        givenLoggedInUserAndTravelerInDb()
+        val incompleteTraveler = Traveler()
+        incompleteTraveler.firstName = "test"
+        checkout.travelersPresenter.travelerEntryWidget.viewModel.updateTraveler(incompleteTraveler)
+        checkout.travelersPresenter.closeSubject.onNext(Unit)
+
+        assertTravelerSummaryCard(expectedTitle = "test",
+                expectedSubtitle = "",
+                expectedStatus = TravelerCheckoutStatus.DIRTY)
+    }
+
+    private fun givenLoggedInUserAndTravelerInDb() {
+        val testUser = User()
+        val traveler = mockTravelerProvider.getCompleteMockTraveler()
+        testUser.primaryTraveler = traveler
+        userStateManager?.userSource?.user = testUser
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
+        Db.setTravelers(listOf(traveler))
+    }
+
     private fun assertHotelOverviewVisibility(expectedVisibility: Int) {
         assertEquals(expectedVisibility, checkout.summaryContainer.visibility)
         assertEquals(expectedVisibility, checkout.paymentInfoCardView.visibility)
@@ -304,5 +375,11 @@ class HotelCheckoutPresenterTest {
                 PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
         checkout.showCheckout(HotelOffersResponse.HotelRoomResponse())
         checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripResponse())
+    }
+
+    private fun assertTravelerSummaryCard(expectedTitle: String, expectedSubtitle: String, expectedStatus: TravelerCheckoutStatus) {
+        assertEquals(expectedTitle, checkout.travelerSummaryCard.viewModel.getTitle())
+        assertEquals(expectedSubtitle, checkout.travelerSummaryCard.viewModel.getSubtitle())
+        assertEquals(expectedStatus, checkout.travelerSummaryCard.getStatus())
     }
 }

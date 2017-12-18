@@ -35,6 +35,7 @@ import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.enums.TravelerCheckoutStatus;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -46,8 +47,8 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard;
 import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.PaymentViewModel;
+import com.expedia.vm.traveler.HotelTravelerSummaryViewModel;
 import com.expedia.vm.traveler.HotelTravelersViewModel;
-import com.expedia.vm.traveler.TravelerSummaryViewModel;
 import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 
@@ -276,7 +277,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	protected void setupMaterialTravelerWidget() {
 		travelersPresenter = (AbstractTravelersPresenter) travelerViewStub.inflate();
 		travelersPresenter.setViewModel(new HotelTravelersViewModel(getContext(), getLineOfBusiness(), true));
-		travelerSummaryCard.setViewModel(new TravelerSummaryViewModel(getContext()));
+		travelerSummaryCard.setViewModel(new HotelTravelerSummaryViewModel(getContext()));
+		travelersPresenter.getViewModel().getTravelersCompletenessStatus().subscribe(travelerSummaryCard.getViewModel().getTravelerStatusObserver());
 		travelersPresenter.getTravelerEntryWidget().getTravelerButton().setLOB(getLineOfBusiness());
 		travelerSummaryCardView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -829,6 +831,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 			else {
 				if (FeatureUtilKt.isPopulateCardholderNameEnabled(getContext())) {
+//					TODO update using travelerpresenter or travelerSummaryCard instead
 					paymentInfoCardView.getViewmodel().getTravelerFirstName().onNext(mainContactInfoCardView.firstName);
 					paymentInfoCardView.getViewmodel().getTravelerLastName().onNext(mainContactInfoCardView.lastName);
 				}
@@ -966,7 +969,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	public boolean isCheckoutFormComplete() {
-		return mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete();
+		return paymentInfoCardView.isComplete() &&
+			(hotelMaterialFormTestEnabled ? travelerSummaryCard.getStatus() == TravelerCheckoutStatus.COMPLETE : mainContactInfoCardView.isComplete()) ;
 	}
 
 	public Observer<Boolean> expandPaymentObserver = new Observer<Boolean>() {

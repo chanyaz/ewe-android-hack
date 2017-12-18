@@ -24,8 +24,4 @@ class HotelTravelerEntryWidgetViewModel(context: Context, travelerCheckoutStatus
             return traveler
         }
     }
-
-    override fun updateTraveler(traveler: Traveler) {
-        super.updateTraveler(traveler)
-    }
 }
