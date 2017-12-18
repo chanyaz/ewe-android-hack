@@ -191,6 +191,7 @@ android {
     }
 
     lintOptions {
+        abortOnError false
         disable 'NewerVersionAvailable'
         checkReleaseBuilds false
         showAll true
