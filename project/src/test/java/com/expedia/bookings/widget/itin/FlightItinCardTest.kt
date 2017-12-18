@@ -41,26 +41,6 @@ class FlightItinCardTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun shareButtonTest(){
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar)
-        AbacusTestUtils.bucketTestWithVariant(ABTest(14201), 0)
-        createSystemUnderTest()
-        assertEquals(View.GONE, getShareButtonText().visibility)
-        assertEquals(View.VISIBLE, getShareButtonOverflow().visibility)
-        AbacusTestUtils.bucketTestWithVariant(ABTest(14201), 1)
-        createSystemUnderTest()
-        assertEquals(View.VISIBLE, getShareButtonText().visibility)
-        assertEquals(View.GONE, getShareButtonOverflow().visibility)
-        assertEquals("", getShareButtonText().text)
-        AbacusTestUtils.bucketTestWithVariant(ABTest(14201), 2)
-        createSystemUnderTest()
-        assertEquals(View.VISIBLE, getShareButtonText().visibility)
-        assertEquals(View.GONE, getShareButtonOverflow().visibility)
-        assertEquals("Share", getShareButtonText().text)
-    }
-
-    @Test
     fun flightCheckInLink(){
         createSystemUnderTest()
         val localTimePlusTwoHours = DateTime.now().plusHours(2)
@@ -121,10 +101,6 @@ class FlightItinCardTest {
         assertEquals("Image gallery", imageView.contentDescription)
     }
 
-    private fun getShareButtonText(): TextView {
-        val shareButtonText = sut.findViewById<View>(R.id.itin_share_button) as TextView
-        return shareButtonText
-    }
 
     private fun getShareButtonOverflow(): ImageButton {
         val shareButtonOverflow = sut.findViewById<View>(R.id.itin_overflow_image_button) as ImageButton

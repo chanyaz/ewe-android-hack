@@ -29,12 +29,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppCheckoutButtonText = new ABTest(13480);
 	public static final ABTest EBAndroidAppShowAirAttachMessageOnLaunchScreen = new ABTest(13345);
 	public static final ABTest EBAndroidAppLastMinuteDeals = new ABTest(15844);
-	public static final ABTest EBAndroidAppHotelUpgrade = new ABTest(13196);
-	public static final ABTest EBAndroidAppItinHotelRedesign = new ABTest(14741);
-	public static final ABTest TripsHotelScheduledNotificationsV2 = new ABTest(15315);
-	public static final ABTest TripsHotelMap = new ABTest(15383);
 	public static final ABTest EBAndroidLXMOD = new ABTest(16098);
-	public static final ABTest EBAndroidAppTripsDetailRemoveCalendar = new ABTest(14201);
 	public static final ABTest EBAndroidAppFreeCancellationTooltip = new ABTest(14513);
 	public static final ABTest EBAndroidAppAPIMAuth = new ABTest(14654);
 	public static final ABTest EBAndroidPopulateCardholderName = new ABTest(14525);
@@ -44,16 +39,18 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppLXOfferLevelCancellationPolicySupport = new ABTest(15246);
 	public static final ABTest EBAndroidAppAllowUnknownCardTypes = new ABTest(15457);
 	public static final ABTest EBAndroidAppShowFlightsCheckoutWebview = new ABTest(15371, true);
-	public static final ABTest TripsFlightsNewdesign = new ABTest(14655, true);
 	public static final ABTest EBAndroidAppDisplayEligibleCardsOnPaymentForm = new ABTest(15682);
 	public static final ABTest EBAndroidAppHotelMaterialForms = new ABTest(16138);
-	public static final ABTest TripsNewFlightAlerts = new ABTest(16205);
 	public static final ABTest EBAndroidLXNotifications = new ABTest(16311);
 	public static final ABTest EBAndroidAppSavedCoupons = new ABTest(16365, true);
 
 	// Rail tests
 	public static final ABTest EBAndroidRailHybridAppForDEEnabled = new ABTest(15102);
 	public static final ABTest EBAndroidRailHybridAppForUKEnabled = new ABTest(15413);
+
+	// Trips tests
+	public static final ABTest TripsNewFlightAlerts = new ABTest(16205);
+	public static final ABTest TripsFlightsNewDesign = new ABTest(14655, true);
 
 	// Flight tests
 	public static final ABTest EBAndroidAppOfferInsuranceInFlightSummary = new ABTest(12268);
@@ -146,12 +143,6 @@ public class AbacusUtils {
 		BECAUSE_YOU_BOOKED_A_FLIGHT
 	}
 
-	public enum ItinShareButton {
-		CONTROL,
-		SHARE_ICON_BUTTON,
-		SHARE_TEXT_BUTTON
-	}
-
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
@@ -177,18 +168,15 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelUrgencyMessage.getKey());
 		testIDs.add(EBAndroidAppLXNavigateToSRP.getKey());
 		testIDs.add(EBAndroidAppLastMinuteDeals.getKey());
-		testIDs.add(EBAndroidAppHotelUpgrade.getKey());
 		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview.getKey());
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR.getKey());
 		testIDs.add(PackagesTitleChange.getKey());
 		testIDs.add(EBAndroidAppSimplifyFlightShopping.getKey());
-		testIDs.add(EBAndroidAppItinHotelRedesign.getKey());
 		testIDs.add(EBAndroidAppHotelsWebCheckout.getKey());
 		testIDs.add(EBAndroidAppCarsFlexView.getKey());
 		testIDs.add(EBAndroidAppFlightAATest.getKey());
 		testIDs.add(EBAndroidAppHotelPinnedSearch.getKey());
 		testIDs.add(EBAndroidLXMOD.getKey());
-		testIDs.add(EBAndroidAppTripsDetailRemoveCalendar.getKey());
 		testIDs.add(EBAndroidAppFlightAdvanceSearch.getKey());
 		testIDs.add(HotelAutoSuggestSameAsWeb.getKey());
 		testIDs.add(EBAndroidAppHotelGreedySearch.getKey());
@@ -214,16 +202,14 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHideApacBillingAddressFields.getKey());
 		testIDs.add(EBAndroidAppFlightSuggestionOnOneCharacter.getKey());
 		testIDs.add(EBAndroidAppFlightRateDetailsFromCache.getKey());
-		testIDs.add(TripsHotelScheduledNotificationsV2.getKey());
 		testIDs.add(EBAndroidAppSoftPromptLocation.getKey());
 		testIDs.add(EBAndroidAppHotelPriceDescriptorProminence.getKey());
 		testIDs.add(EBAndroidAppLXOfferLevelCancellationPolicySupport.getKey());
 		testIDs.add(EBAndroidAppAllowUnknownCardTypes.getKey());
 		testIDs.add(EBAndroidAppHotelCheckinCheckoutDatesInline.getKey());
 		testIDs.add(EBAndroidAppShowFlightsCheckoutWebview.getKey());
-		testIDs.add(TripsHotelMap.getKey());
 		testIDs.add(EBAndroidAppFlightsEvolable.getKey());
-		testIDs.add(TripsFlightsNewdesign.getKey());
+		testIDs.add(TripsFlightsNewDesign.getKey());
 		testIDs.add(EBAndroidAppDisplayEligibleCardsOnPaymentForm.getKey());
 		testIDs.add(EBAndroidAppFlightsSearchResultCaching.getKey());
 		testIDs.add(HotelShowSoldOutResults.getKey());

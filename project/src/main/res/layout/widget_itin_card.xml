@@ -81,25 +81,6 @@
                         android:paddingTop="6dp"
                         android:src="?attr/itin_card_detail_action_overflow"/>
 
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/itin_share_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="46dp"
-                        android:layout_marginRight="3dp"
-                        android:contentDescription="@string/share_menu_btn_cont_desc"
-                        android:gravity="center_vertical"
-                        android:paddingBottom="6dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="6dp"
-                        android:maxLines="1"
-                        android:text="@string/itin_action_share"
-                        android:textAllCaps="true"
-                        android:textColor="@color/app_primary"
-                        android:textSize="16sp"
-                        app:textStyle="bold"
-                        android:drawableLeft="@drawable/ic_itin_share"
-                        android:visibility="gone"/>
                 </FrameLayout>
             </LinearLayout>
 

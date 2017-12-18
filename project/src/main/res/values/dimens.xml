@@ -329,11 +329,6 @@
     <!--rail_screen_content_padding + rail_card_content_padding. #ImpossibleDesignStandards-->
     <dimen name="rail_results_header_left_right_pad">21dp</dimen>
 
-    <!-- Itin Hotel Upgrade Textview -->
-    <dimen name="itin_hotel_upgrade_paddingRight">18dp</dimen>
-    <dimen name="itin_hotel_upgrade_drawable_padding">53dp</dimen>
-    <dimen name="itin_hotel_upgrade_paddingLeft">20dp</dimen>
-
     <!-- Ripped from ABS -->
     <!-- The platform's desired minimum size for a dialog's width when it
          is along the major axis (that is the screen is landscape).  This may

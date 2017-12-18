@@ -47,7 +47,6 @@ class HotelItinLocationDetailsTest {
 
     @Test
     fun testMapOmnitureClick() {
-        AbacusTestUtils.bucketTests(AbacusUtils.TripsHotelMap)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         locationDetailsWidget.setupWidget(itinCardDataHotel)
         locationDetailsWidget.mapView.performClick()
@@ -57,12 +56,11 @@ class HotelItinLocationDetailsTest {
 
     @Test
     fun testDirectionsOmnitureClick() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppItinHotelRedesign)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         locationDetailsWidget.setupWidget(itinCardDataHotel)
         val directionsButton = locationDetailsWidget.actionButtons.getmRightButton()
         directionsButton.performClick()
 
-        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Directions", mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Map", mockAnalyticsProvider)
     }
 }

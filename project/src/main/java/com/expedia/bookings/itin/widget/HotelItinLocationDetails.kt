@@ -45,10 +45,8 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
             )
             mapView.setViewModel(mapVm)
             mapView.setOnClickListener {
-                if (isUserBucketedForMapABTest()) {
-                    context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
-                    OmnitureTracking.trackItinHotelExpandMap()
-                }
+                context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
+                OmnitureTracking.trackItinHotelExpandMap()
             }
         }
         addressLine1.text = itinCardDataHotel.propertyLocation.streetAddressString
@@ -68,16 +66,8 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
 
 
         val directionsButton = SummaryButton(R.drawable.ic_directions_icon_cta_button, context.getString(R.string.itin_action_directions), OnClickListener {
-            if (isUserBucketedForMapABTest()) {
-                context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
-                OmnitureTracking.trackItinHotelExpandMap()
-            } else {
-                val intent = GoogleMapsUtil.getDirectionsIntent(itinCardDataHotel.property.location.toLongFormattedString())
-                if (intent != null) {
-                    NavUtils.startActivitySafe(context, intent)
-                    OmnitureTracking.trackRedesignItinHotelDirections()
-                }
-            }
+            context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
+            OmnitureTracking.trackItinHotelExpandMap()
         })
         if (phoneNumber.isEmpty()) actionButtons.bind(null, directionsButton) else actionButtons.bind(callButton, directionsButton)
         actionButtons.getmRightButton().setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
@@ -90,9 +80,5 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
         }
         address.contentDescription = Phrase.from(context, R.string.itin_hotel_details_address_copy_content_description_TEMPLATE)
                 .put("address", textToCopy).format().toString()
-    }
-
-    private fun isUserBucketedForMapABTest(): Boolean {
-        return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.TripsHotelMap)
     }
 }

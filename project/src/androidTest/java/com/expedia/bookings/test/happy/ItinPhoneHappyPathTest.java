@@ -29,7 +29,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.data.abacus.AbacusUtils.EBAndroidAppLXNavigateToSRP;
-import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithContentDescription;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.getListItemValues;
@@ -61,24 +60,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithContentDescription(chevronButton, "Button to expand trip");
 
 		onView(allOf(withId(R.id.summary_layout), hasDescendant(withText(containsString("Check in"))))).perform(click());
-
-		onView(withId(R.id.bed_type_text_view)).perform(scrollTo());
-		assertViewWithTextIsDisplayed(R.id.local_phone_number_header_text_view, "Local Phone");
-		assertViewWithTextIsDisplayed(R.id.local_phone_number_text_view, "1-415-362-8878");
-		assertViewWithTextIsDisplayed(R.id.room_type_header_text_view, "Room Type");
-		assertViewWithTextIsDisplayed(R.id.room_type_text_view, "Deluxe Room, 1 King Bed");
-		assertViewWithTextIsDisplayed(R.id.non_price_promotion_header_text_view, "Includes");
-		assertViewWithTextIsDisplayed(R.id.non_price_promotion_text_view, "The minibar is free");
-		assertViewWithTextIsDisplayed(R.id.bed_type_header_text_view, "Bed Type");
-		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
-		assertViewWithContentDescription(chevronButton, "Back to trips screen button");
-		assertViewWithContentDescription(onView(withId(R.id.close_image_button)), "Close");
-		assertViewWithContentDescription(onView(withId(R.id.summary_left_button)), "Directions Button");
-		assertViewWithContentDescription(onView(withId(R.id.summary_right_button)), "Call Hotel Button");
-		onView(withId(R.id.cancel_hotel_room)).perform(scrollTo(), click());
-		onView(allOf(withText("Cancel Hotel Room"),isDescendantOfA(withId(R.id.toolbar)))).check(matches(isDisplayed()));
 		Common.pressBack();
-		hotelRow.onChildView(withText(containsString("Check in"))).perform(scrollTo(), click());
+
 
 		//TODO - For now, just replicating the "Inject flight DateTimes" from ExpediaDispatcher::dispatchTrip
 		//so any change there will need to be reflected here as well. Ideally we should have a common place where this setup is done
@@ -187,17 +170,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		final String expectedPckgHotelTitle = "Caesars Palace";
 		assertEquals(expectedPckgHotelTitle, pckgHotelTitle);
 		pckgHotelRow.onChildView(withId(R.id.header_text_date_view)).perform(scrollTo(), click());
-
-		pckgHotelRow.onChildView(withId(R.id.bed_type_text_view)).perform(scrollTo());
-		assertViewWithTextIsDisplayed(R.id.local_phone_number_header_text_view, "Local Phone");
-		assertViewWithTextIsDisplayed(R.id.local_phone_number_text_view, "1-702-731-7110");
-		assertViewWithTextIsDisplayed(R.id.room_type_header_text_view, "Room Type");
-		assertViewWithTextIsDisplayed(R.id.room_type_text_view, "Roman Tower");
-		assertViewIsNotDisplayed(R.id.non_price_promotion_header_text_view);
-		assertViewIsNotDisplayed(R.id.non_price_promotion_text_view);
-		assertViewWithTextIsDisplayed(R.id.bed_type_header_text_view, "Bed Type");
-		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
-		pckgHotelRow.onChildView(withText(containsString("Check in"))).perform(scrollTo(), click());
+		Common.pressBack();
 
 		// Package return flight assertions
 		DataInteraction pckgReturnFlightRow = TripsScreen.tripsListItem().atPosition(10);

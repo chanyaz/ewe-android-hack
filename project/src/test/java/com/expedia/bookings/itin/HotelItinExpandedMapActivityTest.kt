@@ -30,7 +30,6 @@ class HotelItinExpandedMapActivityTest {
 
     @Test
     fun testDirectionsOmnitureClick() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppItinHotelRedesign)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         activity.setUpWidgets(itinCardDataHotel)
         activity.directionsButton.performClick()

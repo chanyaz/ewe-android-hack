@@ -6,7 +6,6 @@ import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
 import com.expedia.bookings.services.TripsServices;
-import com.expedia.bookings.widget.itin.HotelItinCard;
 import com.expedia.bookings.widget.itin.ItinPOSHeader;
 import com.expedia.vm.itin.ItinSignInViewModel;
 import dagger.Component;
@@ -14,7 +13,6 @@ import dagger.Component;
 @TripScope
 @Component(dependencies = {AppComponent.class}, modules = {TripModule.class})
 public interface TripComponent {
-	void inject(HotelItinCard hotelItinCard);
 	void inject(ItinPOSHeader itinPOSHeader);
 	void inject(NewAddGuestItinActivity activity);
 	void inject(ItinSignInViewModel itinSignInViewModel);

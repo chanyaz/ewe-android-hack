@@ -82,15 +82,4 @@ class HotelItinDetailsActivityTest {
         assertEquals(true, activity.roomDetailsView.isRowClickable)
         assertEquals(View.GONE, activity.roomDetailsView.changeCancelRulesContainer.visibility)
     }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testMapABTestTracked() {
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        val bucketedEvar = mapOf(34 to "15383.0.1")
-        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
-        AbacusTestUtils.bucketTests(AbacusUtils.TripsHotelMap)
-        OmnitureTracking.trackItinHotelRedesign()
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(bucketedEvar), mockAnalyticsProvider)
-    }
 }

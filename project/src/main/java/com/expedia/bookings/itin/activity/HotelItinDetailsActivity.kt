@@ -53,7 +53,7 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
         Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.hotel_itin_card_details)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        OmnitureTracking.trackItinHotelRedesign()
+        OmnitureTracking.trackItinHotel()
     }
 
     override fun onResume() {

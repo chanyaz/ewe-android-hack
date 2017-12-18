@@ -2173,7 +2173,6 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
 	private static final String ITIN_HOTEL_UPGRADE = "App.Itinerary.Hotel.Upgrade";
 	private static final String ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotels.Directions";
-	private static final String ITIN_NEW_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions";
 	private static final String ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call";
 	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
 	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Share.";
@@ -2241,12 +2240,9 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Trips Call", null, null);
 	}
 
-	public static void trackItinTripRefreshCallSuccess(boolean tripHasHotel, boolean tripHasFlight) {
+	public static void trackItinTripRefreshCallSuccess(boolean tripHasFlight) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_SUCCESS);
 		s.setEvents("event287");
-		if (tripHasHotel) {
-			trackAbacusTest(s, AbacusUtils.TripsHotelScheduledNotificationsV2);
-		}
 		if (tripHasFlight) {
 			trackAbacusTest(s, AbacusUtils.TripsNewFlightAlerts);
 		}
@@ -2343,7 +2339,6 @@ public class OmnitureTracking {
 		pageName += "Start";
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
 		s.trackLink(null, "o", "Itinerary Sharing", null, null);
 	}
 
@@ -2525,34 +2520,15 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackItinHotel(Context context) {
+	public static void trackItinHotel() {
 		Log.d(TAG, "Tracking \"" + ITIN_HOTEL + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_HOTEL);
 		s.setEvents("event63");
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppItinHotelRedesign);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUpgrade);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
-		s.track();
-	}
-
-	public static void trackItinHotelRedesign() {
-		Log.d(TAG, "Tracking \"" + ITIN_HOTEL + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_HOTEL);
-		s.setEvents("event63");
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppItinHotelRedesign);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUpgrade);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
-		trackAbacusTest(s, AbacusUtils.TripsHotelMap);
 		s.track();
 	}
 
 	public static void trackItinHotelDirections() {
 		internalTrackLink(ITIN_HOTEL_DIRECTIONS);
-	}
-
-	public static void trackRedesignItinHotelDirections() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_NEW_HOTEL_DIRECTIONS);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
 	public static void trackItinHotelDirectionsButton() {
@@ -2691,8 +2667,7 @@ public class OmnitureTracking {
 				s.setEvar(5, String.valueOf(trip.get("daysUntilTrip")));
 			}
 		}
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
-		trackAbacusTest(s, AbacusUtils.TripsFlightsNewdesign);
+		trackAbacusTest(s, AbacusUtils.TripsFlightsNewDesign);
 		s.setProp(2, "itinerary");
 		s.setEvar(2, "D=c2");
 		s.track();
@@ -2814,7 +2789,6 @@ public class OmnitureTracking {
 	public static void trackItinCar(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN_CAR + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_CAR);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
 		s.setEvents("event63");
 		s.track();
 	}
@@ -2834,7 +2808,6 @@ public class OmnitureTracking {
 	public static void trackItinActivity(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN_ACTIVITY + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_ACTIVITY);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
 		s.setEvents("event63");
 		s.track();
 	}

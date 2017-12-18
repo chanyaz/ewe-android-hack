@@ -34,11 +34,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.IMedia;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -193,21 +190,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		// Show itin Share overflow image only if sharing is supported.
 		if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
 			Ui.setOnClickListener(this, R.id.itin_overflow_image_button, mOnClickListener);
-			if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar)) {
-				int shareVariants = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
-				TextView shareTextView = Ui.findView(this, R.id.itin_share_button);
-				if (shareVariants == AbacusUtils.ItinShareButton.SHARE_ICON_BUTTON.ordinal()) {
-					Ui.findView(this, R.id.itin_overflow_image_button).setVisibility(View.GONE);
-					shareTextView.setVisibility(View.VISIBLE);
-					shareTextView.setText("");
-				}
-				else if (shareVariants == AbacusUtils.ItinShareButton.SHARE_TEXT_BUTTON.ordinal()) {
-					Ui.findView(this, R.id.itin_overflow_image_button).setVisibility(View.GONE);
-					shareTextView.setVisibility(View.VISIBLE);
-					shareTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-				}
-				Ui.setOnClickListener(this, R.id.itin_share_button, mOnClickListener);
-			}
 		}
 		else {
 			Ui.findView(this, R.id.itin_overflow_image_button).setVisibility(View.GONE);

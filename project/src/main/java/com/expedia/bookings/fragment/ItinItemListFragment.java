@@ -34,16 +34,22 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
+import com.expedia.bookings.itin.activity.FlightItinDetailsActivity;
+import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
+import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ProWizardBucketCache;
@@ -317,6 +323,21 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				- mItinListView.getHeaderViewsCount();
 		}
 		return retVal;
+	}
+
+	public void goToItin(String itinId) {
+		Boolean isFlightDetailOn = AbacusFeatureConfigManager
+			.isUserBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewDesign);
+		ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(itinId);
+		if (data instanceof ItinCardDataHotel) {
+			startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()));
+		}
+		else if (data instanceof ItinCardDataFlight && isFlightDetailOn) {
+			startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()));
+		}
+		else {
+			showItinCard(itinId, false);
+		}
 	}
 
 	// Can only be called after onCreateView(); not an issue right now, if it becomes

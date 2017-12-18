@@ -772,9 +772,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		case FLIGHT:
 			OmnitureTracking.trackItinFlight(getContext(), null);
 			break;
-		case HOTEL:
-			OmnitureTracking.trackItinHotel(getContext());
-			break;
 		case ACTIVITY:
 			OmnitureTracking.trackItinActivity(getContext());
 			break;
@@ -789,8 +786,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
 
-		Boolean isHotelItinCardDetailBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.EBAndroidAppItinHotelRedesign);
-		Boolean isFlightItinCardDetailBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewdesign);
+		Boolean isFlightItinCardDetailBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewDesign);
 
 		if (data != null) {
 			if (view instanceof ItinButtonCard) {
@@ -802,7 +798,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			else if (data instanceof ItinCardDataRails) {
 				openItinInWebView(data.getDetailsUrl());
 			}
-			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.HOTEL && isHotelItinCardDetailBucketed) {
+			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.HOTEL) {
 				getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()),
 					ActivityOptionsCompat
 						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)

@@ -28,7 +28,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
-import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripUtils
 import com.expedia.bookings.data.user.UserStateManager
@@ -42,8 +41,6 @@ import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.SoftPromptDialogFragment
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
-import com.expedia.bookings.itin.activity.FlightItinDetailsActivity
-import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
@@ -448,25 +445,10 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         }
 
         if (jumpToItinId != null) {
-            if (jumpToItinId == "-1") {
-                gotoWaterfall()
-            } else {
-
-                val isItinCardDetailFeatureOn = AbacusFeatureConfigManager.
-                        isUserBucketedForTest(this, AbacusUtils.EBAndroidAppItinHotelRedesign)
-                val isFlightDetailOn = AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.TripsFlightsNewdesign)
-                val data = ItineraryManager.getInstance().getItinCardDataFromItinId(jumpToItinId)
-                if (data is ItinCardDataHotel && isItinCardDetailFeatureOn) {
-                    jumpToItinId = null
-                    startActivity(HotelItinDetailsActivity.createIntent(this, data.getId()))
-                } else
-                    if (data is ItinCardDataFlight && isFlightDetailOn) {
-                        startActivity(FlightItinDetailsActivity.createIntent(this, data.id))
-                    } else {
-                        itinListFragment?.showItinCard(jumpToItinId, false)
-                        jumpToItinId = null
-                    }
+            if (jumpToItinId != "-1") {
+                itinListFragment?.goToItin(jumpToItinId)
             }
+            jumpToItinId = null
         }
     }
 

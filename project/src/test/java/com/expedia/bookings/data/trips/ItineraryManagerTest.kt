@@ -87,28 +87,17 @@ class ItineraryManagerTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.LASTMINUTE, MultiBrand.TRAVELOCITY,
             MultiBrand.ORBITZ, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.CHEAPTICKETS,
             MultiBrand.EBOOKERS, MultiBrand.VOYAGES))
-    fun testOmnitureTrackingTripRefreshCallSuccessWithHotel() {
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        AbacusTestUtils.bucketTests(AbacusUtils.TripsHotelScheduledNotificationsV2)
-        OmnitureTracking.trackItinTripRefreshCallSuccess(true, false)
-        assertLinkTrackedWithExposure("Trips Call", "App.Itinerary.Call.Success", "event287", "15315.0.1", mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.LASTMINUTE, MultiBrand.TRAVELOCITY,
-            MultiBrand.ORBITZ, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.CHEAPTICKETS,
-            MultiBrand.EBOOKERS, MultiBrand.VOYAGES))
     fun testOmnitureTrackingTripRefreshCallSuccessWithFlight() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsNewFlightAlerts, R.string.preference_enable_trips_flight_alerts)
-        OmnitureTracking.trackItinTripRefreshCallSuccess(false, true)
+        OmnitureTracking.trackItinTripRefreshCallSuccess(true)
         assertLinkTrackedWithExposure("Trips Call", "App.Itinerary.Call.Success", "event287", "16205.0.1", mockAnalyticsProvider)
     }
 
     @Test
-    fun testOmnitureTrackingTripRefreshCallSuccessWithoutHotelorFlight() {
+    fun testOmnitureTrackingTripRefreshCallSuccessWithoutFlight() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        OmnitureTracking.trackItinTripRefreshCallSuccess(false, false)
+        OmnitureTracking.trackItinTripRefreshCallSuccess(false)
         assertLinkTracked("Trips Call", "App.Itinerary.Call.Success", "event287", mockAnalyticsProvider)
     }
 

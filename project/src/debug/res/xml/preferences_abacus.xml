@@ -554,60 +554,12 @@
         android:title="Trips Tests">
 
         <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="13257"
-            android:title="User Reviews - 13257" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="-1"
-            android:summary="%s"
-            android:key="13196"
-            android:title="Hotel Upgrade web view - 13196"/>
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="14741"
-            android:title="Hotel Itin Details Redesign - 14741" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="15315"
-            android:summary="%s"
-            android:title="Trips Hotel Scheduled Notifications V2 - 15315" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="15383"
-            android:summary="%s"
-            android:title="Hotel Itin Maps - 15383" />
-
-        <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14655"
             android:summary="%s"
             android:title="Trips New Flights Design - 14655" />
-
-        <ListPreference
-            android:entries="@array/abacus_itin_share_button_choices"
-            android:entryValues="@array/abacus_itin_share_button_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="14201"
-            android:title="Itin share button icon or text - 14201"/>
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"

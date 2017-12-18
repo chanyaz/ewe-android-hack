@@ -1589,7 +1589,6 @@ public class ItineraryManager implements JSONable {
 				else {
 					Set<String> currentTrips = new HashSet<>(mTrips.keySet());
 
-					boolean tripHasHotel = false;
 					boolean tripHasFlight = false;
 					for (Trip trip : response.getTrips()) {
 						if (BookingStatus.filterOut(trip.getBookingStatus())) {
@@ -1624,9 +1623,6 @@ public class ItineraryManager implements JSONable {
 						}
 
 						currentTrips.remove(tripKey);
-						if (trip.hasHotel()) {
-							tripHasHotel = true;
-						}
 						if (trip.hasFlight()) {
 							tripHasFlight = true;
 						}
@@ -1641,7 +1637,7 @@ public class ItineraryManager implements JSONable {
 							mTripsRemoved++;
 						}
 					}
-					OmnitureTracking.trackItinTripRefreshCallSuccess(tripHasHotel, tripHasFlight);
+					OmnitureTracking.trackItinTripRefreshCallSuccess(tripHasFlight);
 				}
 			}
 		}

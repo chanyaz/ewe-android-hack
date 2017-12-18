@@ -1410,6 +1410,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_flight_itin_airline_support_detail,
 		R.string.itin_flight_airline_support_widget_number_text,
 		R.string.mid_confirmation_url_tag,
+		R.drawable.ic_itin_share,
 		R.layout.fragment_dialog_soft_prompt,
 		R.layout.bundle_price_top,
 		R.drawable.ic_member_only_tag,

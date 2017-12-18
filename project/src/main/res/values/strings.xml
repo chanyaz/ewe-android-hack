@@ -1082,10 +1082,6 @@
     <string name="trips_back_button_label_cont_desc">Back to trips screen button</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">Button to expand trip</string>
-    <!-- Content Description for upgrade image to upgrade hotel room -->
-    <string name="trips_upgrade_hotel_button_label_cont_desc">Upgrade hotel room</string>
-    <!-- Web view header label for soft changes to hotel room booking -->
-    <string name="trips_edit_room_info_web_view_title">Edit Room Info</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Hotel Confirmation Code</string>
     <!-- Passengers Label -->
@@ -1282,13 +1278,9 @@
     <string name="itin_card_details_details">Additional Information</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Cancel Hotel Room</string>
-    <!-- Label for button to upgrade Hotel room -->
-    <string name="itin_card_details_upgrade_hotel_button">Limited Time: Upgrade Available!</string>
     <string name="itin_card_flight_checkin_title">Flight Check In</string>
     <!-- Label for button to edit Hotel booking -->
     <string name="itin_card_edit_hotel_room_info">Edit Room Info</string>
-    <!-- Accessibility announcement for button to edit Hotel booking -->
-    <string name="itin_card_change_hotel_options">Change Hotel Options</string>
 
     <string name="itin_card_flight_checkin_details">Visit %s\'s site</string>
     <string name="itin_card_details_pick_up">Pick Up</string>
@@ -1317,13 +1309,6 @@
     <string name="itin_card_details_dropped_off_TEMPLATE">Dropped off %1$s</string>
     <string name="itin_card_details_agency_phone">Agency Phone</string>
     <string name="itin_card_details_toll_free_phone">Toll Free Phone</string>
-    <string name="itin_card_details_check_in">Check In</string>
-    <string name="itin_card_details_check_out">Check Out</string>
-    <string name="itin_card_details_address">Address</string>
-    <string name="itin_card_details_local_phone">Local Phone</string>
-    <string name="itin_card_details_room_type">Room Type</string>
-    <string name="itin_card_details_non_price_promotion_includes">Includes</string>
-    <string name="itin_card_details_bed_type">Bed Type</string>
     <string name="toast_copied_to_clipboard">Copied to the clipboard.</string>
     <string name="itin_card_details_reload">Reload Information</string>
     <string name="itin_card_details_reload_activity">Reload Activity Info</string>
