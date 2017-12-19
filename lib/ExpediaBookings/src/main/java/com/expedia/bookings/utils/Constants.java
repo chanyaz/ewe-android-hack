@@ -105,4 +105,12 @@ public class Constants {
 	public static final String KRAZY_GLUE_PARTNER_ID = "expedia-hot-mobile-conf";
 	public static final String KRAZY_GLUE_API_KEY = "99e4957f-c45f-4f90-993f-329b32e53ca1";
 	public static final String KRAZY_GLUE_BASE_URL = "/xsell-api/1.0/offers";
+
+	//Meso
+	public static final String MESO_DEV_URL_PATH = "/11850712/expedia.us_en/home/all/ANDROID1";
+//	public static final String MESO_PROD_URL_PATH = "/23171577/expedia.us_en/home/all/ANDROID1";
+	public static final String MESO_DEV_HOTEL_TEMPLATEID = "11751981";
+	public static final String MESO_DEV_DESTINATION_TEPLATEID = "11749411";
+//	public static final String MESO_PROD_HOTEL_TEMPLATEID = "11754433";
+//	public static final String MESO_PROD_DESTINATION_TEPLATEID = "";
 }

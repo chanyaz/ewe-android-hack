@@ -54,7 +54,6 @@ import com.expedia.vm.launch.BrandSignInLaunchHolderViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
-
 import butterknife.ButterKnife;
 import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
@@ -208,7 +207,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		throw new RuntimeException("Could not find view type");
-
 	}
 
 	@Override
