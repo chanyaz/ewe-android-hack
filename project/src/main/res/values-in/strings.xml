@@ -115,7 +115,7 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Masukkan kartu kredit</string>
     <!-- Text for missing enter payment details !-->
-    <string name="enter_missing_payment_details">Harap lengkapi rincian yang kurang</string>
+    <string name="enter_missing_payment_details">Harap lengkapi rincian pembayaran yang kurang</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">Bayar dengan Poin</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -144,6 +144,8 @@
     <string name="accessibility_announcement_please_review_and_resubmit">Silakan periksa dan kirim ulang.</string>
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">Ikon gembok, checkout aman</string>
+    <!--Legal booking statement for flights on checkout-->
+    <string name="flight_booking_statement_TEMPLATE">Dengan menyelesaikan pemesanan ini, saya menyatakan bahwa saya telah membaca dan menerima &lt;a href=\"{website_url}\""&gt;Peraturan dan Batasan, Syarat dan Ketentuan, Kebijakan Privasi, dan Informasi Harga&lt;/a&gt;.</string>
 
     <!-- error strings -->
     <!-- Message for user that date is too far out.  -->
@@ -2136,6 +2138,8 @@
     <string name="checkout_enter_traveler_details">Rincian Traveler</string>
     <string name="enter_missing_traveler_details">Harap lengkapi rincian yang kurang</string>
     <string name="enter_traveler_details">Masukkan rincian traveler</string>
+    <!-- Enter Traveler Details for Material Traveler Toolbar title-->
+    <string name="enter_traveler_details_checkout_toolbar_title">Masukkan Rincian Traveler</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+ {travelercount} traveler tambahan</item>
@@ -3638,6 +3642,12 @@
         <item quantity="other">{rating} bintang</item>
     </plurals>
 
+    <!-- Content description for hotel star rating e.g. 3 stars of 5 rating.-->
+    <plurals name="hotel_star_rating_max_rating_cont_desc_TEMPLATE">
+        <item quantity="one">{rating} bintang dari 5.</item>
+        <item quantity="other">{rating} bintang dari 5.</item>
+    </plurals>
+
     <!-- Dialog positive button message -->
     <string name="yes">Ya</string>
     <!-- Dialog negative button message -->
@@ -4026,6 +4036,8 @@
     <string name="package_change_hotel_room">Ubah kamar</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">Ubah penerbangan</string>
+    <!-- Package Start Over -->
+    <string name="package_start_over">Mulai Lagi</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">Pembayaran dengan poin Expedia+</string>
@@ -4576,6 +4588,8 @@
     <string name="accessibility_cont_desc_card_is_disabled">nonaktif</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Tombol Penilaian Pengguna</string>
+    <!-- Content Description for Searching for hotels -->
+    <string name="accessibility_cont_desc_searching_for_hotels">Sedang memilihkan hotel yang tepat untuk Anda.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Harga adalah {activity_price}{ticket_type}</string>
@@ -4699,7 +4713,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Harga Member</string>
     <string name="member_deal_subtitle">Diskon untuk hotel pilihan</string>
-    <string name="search_for_hotel_deals_page_header">Mencari promo…</string>
+    <string name="search_for_hotel_deals_page_header">Cari penawaran hotel</string>
     <string name="member_deals_toolbar_title">Harga Member</string>
     <string name="continue_booking">Lanjutkan Pemesanan</string>
     <string name="deals_hotel_only">Hanya Hotel</string>
@@ -4785,6 +4799,13 @@
     <string name="location_soft_prompt_subtitle">Jelajahi daerah sekitar, cari hotel di dekat Anda, dapatkan arah, dan lainnya.</string>
     <string name="location_soft_prompt_enable">Aktifkan Lokasi</string>
     <string name="location_soft_prompt_disable">Jangan sekarang</string>
+
+    <!--Soft Prompt For flights browser view-->
+    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
+    <string name="flights_browser_view_soft_prompt_title">Segera Hadir</string>
+    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
+    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Penerbangan akan tersedia di aplikasi segera. Sementara itu, pesan penerbangan termurah ke destinasi Anda di {brand_url}</string>
+    <string name="flights_browser_viewsoft_prompt_enable">Buka di browser</string>
 
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Harga total termasuk pajak dan biaya</string>

@@ -144,6 +144,8 @@
     <string name="accessibility_announcement_please_review_and_resubmit">โปรดตรวจสอบแล้วกดส่งอีกครั้ง</string>
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">ไอคอนรูปกุญแจ ชำระเงินอย่างปลอดภัย</string>
+    <!--Legal booking statement for flights on checkout-->
+    <string name="flight_booking_statement_TEMPLATE">ในการทำการจองนี้ให้เสร็จสมบูรณ์ ฉันได้อ่านและยอมรับใน &lt;a href=\"{website_url}\""&gt;กฎและข้อจำกัด ข้อกำหนดและเงื่อนไข นโยบายความเป็นส่วนตัว และข้อมูลค่าโดยสาร&lt;/a&gt; แล้ว</string>
 
     <!-- error strings -->
     <!-- Message for user that date is too far out.  -->
@@ -2136,6 +2138,8 @@
     <string name="checkout_enter_traveler_details">รายละเอียดผู้เดินทาง</string>
     <string name="enter_missing_traveler_details">ป้อนรายละเอียดผู้เดินทางที่ขาดไป</string>
     <string name="enter_traveler_details">ป้อนรายละเอียดผู้เดินทาง</string>
+    <!-- Enter Traveler Details for Material Traveler Toolbar title-->
+    <string name="enter_traveler_details_checkout_toolbar_title">ป้อนรายละเอียดผู้เดินทาง</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+ ผู้เดินทางเพิ่ม {travelercount} คน</item>
@@ -3638,6 +3642,12 @@
         <item quantity="other">{rating} ดาว</item>
     </plurals>
 
+    <!-- Content description for hotel star rating e.g. 3 stars of 5 rating.-->
+    <plurals name="hotel_star_rating_max_rating_cont_desc_TEMPLATE">
+        <item quantity="one">{rating} ดาวจาก 5 ดาว</item>
+        <item quantity="other">{rating} ดาวจาก 5 ดาว</item>
+    </plurals>
+
     <!-- Dialog positive button message -->
     <string name="yes">ใช่</string>
     <!-- Dialog negative button message -->
@@ -4026,6 +4036,8 @@
     <string name="package_change_hotel_room">เปลี่ยนห้องพัก</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">เปลี่ยนเที่ยวบิน</string>
+    <!-- Package Start Over -->
+    <string name="package_start_over">เริ่มใหม่</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">จ่ายด้วยคะแนน Expedia+</string>
@@ -4576,6 +4588,8 @@
     <string name="accessibility_cont_desc_card_is_disabled">ปิดใช้งาน</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">ปุ่มให้คะแนนรีวิว</string>
+    <!-- Content Description for Searching for hotels -->
+    <string name="accessibility_cont_desc_searching_for_hotels">กำลังค้นหาโรงแรมให้คุณ</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">ราคา {activity_price} {ticket_type}</string>
@@ -4699,7 +4713,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">ราคาสำหรับสมาชิก</string>
     <string name="member_deal_subtitle">ส่วนลดโรงแรมที่ร่วมรายการ</string>
-    <string name="search_for_hotel_deals_page_header">กำลังค้นหาดีล…</string>
+    <string name="search_for_hotel_deals_page_header">ค้นหาดีลโรงแรม</string>
     <string name="member_deals_toolbar_title">ราคาสำหรับสมาชิก</string>
     <string name="continue_booking">ดำเนินการจองต่อ</string>
     <string name="deals_hotel_only">เฉพาะโรงแรม</string>
@@ -4785,6 +4799,13 @@
     <string name="location_soft_prompt_subtitle">ดูว่ามีสถานที่น่าสนใจอะไรอยู่ใกล้ๆ หรือโรงแรมน่าพัก ดูที่พัก และอื่นๆ อีกมากมาย</string>
     <string name="location_soft_prompt_enable">เปิดใช้ตำแหน่งที่ตั้ง</string>
     <string name="location_soft_prompt_disable">ไว้ก่อน</string>
+
+    <!--Soft Prompt For flights browser view-->
+    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
+    <string name="flights_browser_view_soft_prompt_title">อีกไม่นานเกินรอ</string>
+    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
+    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">เที่ยวบินจะเปิดให้จองผ่านแอพเร็วๆ นี้ ในระหว่างนี้ คุณสามารถจองเที่ยวบินราคาประหยัดสุดคุ้มได้บนเว็บไซต์ {brand_url}</string>
+    <string name="flights_browser_viewsoft_prompt_enable">เปิดในเบราว์เซอร์</string>
 
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">รวมภาษีและค่าธรรมเนียม</string>

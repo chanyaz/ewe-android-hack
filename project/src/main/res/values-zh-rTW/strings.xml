@@ -144,6 +144,8 @@
     <string name="accessibility_announcement_please_review_and_resubmit">請檢查後再重新送出。</string>
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">鎖頭圖示，安全付款</string>
+    <!--Legal booking statement for flights on checkout-->
+    <string name="flight_booking_statement_TEMPLATE">完成此預訂表示我已經閱讀並同意&lt;a href=\"{website_url}\""&gt;規則和限制、條款和條件、隱私權政策和票價資訊。&lt;/a&gt;</string>
 
     <!-- error strings -->
     <!-- Message for user that date is too far out.  -->
@@ -2136,6 +2138,8 @@
     <string name="checkout_enter_traveler_details">旅客資料</string>
     <string name="enter_missing_traveler_details">請輸入遺漏的旅客資料</string>
     <string name="enter_traveler_details">輸入旅客資料</string>
+    <!-- Enter Traveler Details for Material Traveler Toolbar title-->
+    <string name="enter_traveler_details_checkout_toolbar_title">輸入旅客資料</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+ {travelercount} 位額外旅客</item>
@@ -3638,6 +3642,12 @@
         <item quantity="other">{rating} 星級</item>
     </plurals>
 
+    <!-- Content description for hotel star rating e.g. 3 stars of 5 rating.-->
+    <plurals name="hotel_star_rating_max_rating_cont_desc_TEMPLATE">
+        <item quantity="one">{rating} 星級，最高 5 星。</item>
+        <item quantity="other">{rating} 星級，最高 5 星。</item>
+    </plurals>
+
     <!-- Dialog positive button message -->
     <string name="yes">是</string>
     <!-- Dialog negative button message -->
@@ -4026,6 +4036,8 @@
     <string name="package_change_hotel_room">變更飯店房型</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">變更機票</string>
+    <!-- Package Start Over -->
+    <string name="package_start_over">重新開始</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">以 Expedia+ 點數付款</string>
@@ -4576,6 +4588,8 @@
     <string name="accessibility_cont_desc_card_is_disabled">不可用</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">使用者評分按鈕</string>
+    <!-- Content Description for Searching for hotels -->
+    <string name="accessibility_cont_desc_searching_for_hotels">正在為您搜尋上百家飯店！</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">價格：{activity_price}{ticket_type}</string>
@@ -4699,7 +4713,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">會員價</string>
     <string name="member_deal_subtitle">精選飯店大特價</string>
-    <string name="search_for_hotel_deals_page_header">正在搜尋優惠…</string>
+    <string name="search_for_hotel_deals_page_header">搜尋飯店優惠</string>
     <string name="member_deals_toolbar_title">會員價</string>
     <string name="continue_booking">繼續預訂</string>
     <string name="deals_hotel_only">飯店價格</string>
@@ -4785,6 +4799,13 @@
     <string name="location_soft_prompt_subtitle">探索鄰近地區、查看附近的飯店、獲得路線指示和更多。</string>
     <string name="location_soft_prompt_enable">啟用定位服務</string>
     <string name="location_soft_prompt_disable">稍後再說</string>
+
+    <!--Soft Prompt For flights browser view-->
+    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
+    <string name="flights_browser_view_soft_prompt_title">即將推出</string>
+    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
+    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">很快就可以在 App 上訂機票了。現在您可以先上 {brand_url} 預訂您的超值機票！</string>
+    <string name="flights_browser_viewsoft_prompt_enable">在瀏覽器中開啟</string>
 
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">總價包含稅金和其他費用</string>
