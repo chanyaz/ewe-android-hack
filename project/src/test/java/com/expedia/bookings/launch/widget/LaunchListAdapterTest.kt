@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.BuildConfig
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.collections.CollectionLocation
@@ -18,11 +19,13 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.notification.NotificationManager
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.widget.FrameLayout
@@ -522,6 +525,16 @@ class LaunchListAdapterTest {
         sut.addDelayedStaticCards(list)
         assertEquals(1, sut.itemCount)
         ProWizardBucketCache.cacheBucket(context, ProWizardBucketCache.NO_BUCKET_VALUE)
+    }
+
+    @Test
+    fun lastMinuteDealsCardLaunchIsTracked() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        OmnitureTracking.trackLaunchLastMinuteDeal()
+        val expectedEvar = mapOf(28 to "App.LS.LastMinuteDeals")
+        val expectedProp = mapOf(16 to "App.LS.LastMinuteDeals")
+        OmnitureTestUtils.assertLinkTracked("App Landing", "App.LS.LastMinuteDeals", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("App Landing", "App.LS.LastMinuteDeals", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
     }
 
     private fun makeSignInPlaceholderViewModel(): SignInPlaceHolderViewModel {
