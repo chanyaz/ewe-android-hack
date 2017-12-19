@@ -49,39 +49,35 @@ class DealsDestinationViewModelTest {
     }
 
     @Test
-    fun getDiscountPercentForContentDesc_calculatesDiscountWhenPercentSavingsIsNull() {
-        setupSystemUnderTest()
-        hotel.hotelPricingInfo?.totalPriceValue = 150.06
-        assertEquals("42%", vm.getDiscountPercentForContentDesc(null))
-    }
-
-    @Test
-    fun getDiscountPercentForContentDesc_returnsEmptyStringWhenCrossOutPriceIsNull() {
-        setupSystemUnderTest()
-        hotel.hotelPricingInfo?.crossOutPriceValue = null
-        hotel.hotelPricingInfo?.totalPriceValue = 150.06
-        assertEquals("", vm.getDiscountPercentForContentDesc(null))
-    }
-
-    @Test
-    fun getDiscountPercentForContentDesc_returnsEmptyStringWhenTotalPriceIsNull() {
-        setupSystemUnderTest()
-        hotel.hotelPricingInfo?.totalPriceValue = null
-        assertEquals("", vm.getDiscountPercentForContentDesc(null))
-    }
-
-    @Test
-    fun getPercentSavingsText_returnsSavingsCalculatedFromCrossOutPriceAndTotalPriceValue_givenPercentSavingsIsNull() {
-        setupSystemUnderTest()
-        hotel.hotelPricingInfo?.totalPriceValue = 150.06
-        assertEquals("-42%", vm.getPercentSavingsText(null))
-    }
-
-    @Test
     fun getPercentSavingsText_returnsFormattedString() {
         setupSystemUnderTest()
         hotel.hotelPricingInfo?.totalPriceValue = 150.06
         assertEquals("-50%", vm.getPercentSavingsText(hotel.hotelPricingInfo?.percentSavings))
+    }
+
+    @Test
+    fun getPercentSavingsText_hidesText_givenNoDiscount() {
+        setupSystemUnderTest()
+        assertEquals("", vm.getPercentSavingsText(0.00))
+    }
+
+    @Test
+    fun getPercentSavingsText_returnsEmptyString_givenPercentSavingsIsNull() {
+        setupSystemUnderTest()
+        assertEquals("", vm.getPercentSavingsText(null))
+    }
+
+    @Test
+    fun getDiscountPercentForContentDesc_returnsEmptyString_givenPercentSavingsIsNull() {
+        setupSystemUnderTest()
+        assertEquals("", vm.getDiscountPercentForContentDesc(null))
+    }
+
+    @Test
+    fun strikeOutPriceText_isHidden_givenCrossOutPriceValueOfZero() {
+        setupSystemUnderTest()
+        hotel.hotelPricingInfo?.crossOutPriceValue = 0.00
+        assertEquals("", vm.strikeOutPriceText.toString())
     }
 
     private fun setupSystemUnderTest() {
