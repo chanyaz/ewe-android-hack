@@ -13,7 +13,6 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.server.DateTimeParser
 import com.expedia.bookings.services.KrazyglueServices
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -28,6 +27,7 @@ import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import io.fabric.sdk.android.services.network.UrlUtils
+import org.joda.time.DateTime
 import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -203,7 +203,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
         val returnDateTime = if (searchParams.isRoundTrip()) {
             response.getFirstSegmentOfLastFlightLeg().departureTimeRaw
         } else {
-            DateTimeParser.parseISO8601DateTimeString(destinationArrivalDateTime).plusDays(1).toString()
+            DateTime.parse(destinationArrivalDateTime).plusDays(1).toString()
         }
         val numOfAdults = searchParams.adults
         val numOfChildren = searchParams.children.count()

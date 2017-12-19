@@ -41,6 +41,7 @@ import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -285,7 +286,7 @@ class FlightConfirmationViewModelTest {
     fun testKrazyglueParamsReturnDateOneWay() {
         vm = FlightConfirmationViewModel(activity)
         val testKrazyglueParams = vm.getKrazyglueSearchParams(getCheckoutResponse(DateTime.now().toString()), FlightTestUtil.getFlightSearchParams(isRoundTrip = false))
-        val testReturnDateOneDayAfterArrival = DateTimeParser.parseISO8601DateTimeString(testArrivalDateTimeTomorrow).plusDays(1).toString()
+        val testReturnDateOneDayAfterArrival = DateTime.parse(testArrivalDateTimeTomorrow).plusDays(1).toString()
 
         assertKrazyglueParams(expectedReturnDateTime = testReturnDateOneDayAfterArrival, testKrazyglueSearchParams = testKrazyglueParams)
     }
@@ -294,9 +295,17 @@ class FlightConfirmationViewModelTest {
     fun testKrazyglueParamsWithNoChildTraveler() {
         vm = FlightConfirmationViewModel(activity)
         val testKrazyglueParams = vm.getKrazyglueSearchParams(getCheckoutResponse(DateTime.now().toString()), FlightTestUtil.getFlightSearchParams(isRoundTrip = false, includeChild = false))
-        val testReturnDateOneDayAfterArrival = DateTimeParser.parseISO8601DateTimeString(testArrivalDateTimeTomorrow).plusDays(1).toString()
+        val testReturnDateOneDayAfterArrival = DateTime.parse(testArrivalDateTimeTomorrow).plusDays(1).toString()
 
         assertKrazyglueParams(expectedReturnDateTime = testReturnDateOneDayAfterArrival, testKrazyglueSearchParams = testKrazyglueParams, withChild = false)
+    }
+
+    @Test
+    fun testOneWayKrazyglueReturnDateHasSameZoneAsArrivalDate() {
+        val testReturnDateOneDayAfterArrival = DateTime.parse(testArrivalDateTimeTomorrow).plusDays(1).toString()
+
+        assertNotEquals(DateTime.parse(testArrivalDateTimeTomorrow).zone, DateTimeParser.parseISO8601DateTimeString(testReturnDateOneDayAfterArrival).zone)
+        assertEquals(DateTime.parse(testArrivalDateTimeTomorrow).zone, DateTime.parse(testReturnDateOneDayAfterArrival).zone)
     }
 
     @Test
