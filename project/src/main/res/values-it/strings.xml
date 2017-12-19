@@ -144,6 +144,8 @@
     <string name="accessibility_announcement_please_review_and_resubmit">Controlla le informazioni e invialo di nuovo.</string>
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">Icona a forma di lucchetto, pagamento sicuro</string>
+    <!--Legal booking statement for flights on checkout-->
+    <string name="flight_booking_statement_TEMPLATE">Completando questa prenotazione confermo di aver letto e accettato &lt;a href=\"{website_url}\""&gt;Regolamento e limitazioni, Termini e condizioni, Informativa sulla privacy e Informazioni sulla tariffa.&lt;/a&gt;</string>
 
     <!-- error strings -->
     <!-- Message for user that date is too far out.  -->
@@ -2136,6 +2138,8 @@
     <string name="checkout_enter_traveler_details">Dettagli viaggiatore</string>
     <string name="enter_missing_traveler_details">Inserisci i dettagli del viaggiatore mancanti</string>
     <string name="enter_traveler_details">Inserisci i dettagli del viaggiatore</string>
+    <!-- Enter Traveler Details for Material Traveler Toolbar title-->
+    <string name="enter_traveler_details_checkout_toolbar_title">Inserisci i dettagli del viaggiatore</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+ {travelercount} viaggiatore aggiuntivo</item>
@@ -3638,6 +3642,12 @@
         <item quantity="other">{rating} stelle</item>
     </plurals>
 
+    <!-- Content description for hotel star rating e.g. 3 stars of 5 rating.-->
+    <plurals name="hotel_star_rating_max_rating_cont_desc_TEMPLATE">
+        <item quantity="one">Classificazione: {rating} stella su 5.</item>
+        <item quantity="other">Classificazione: {rating} stelle su 5.</item>
+    </plurals>
+
     <!-- Dialog positive button message -->
     <string name="yes">Sì</string>
     <!-- Dialog negative button message -->
@@ -4026,6 +4036,8 @@
     <string name="package_change_hotel_room">Cambia camera in hotel</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">Cambia voli</string>
+    <!-- Package Start Over -->
+    <string name="package_start_over">Ricomincia</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">Pagamento con i punti Expedia+</string>
@@ -4576,6 +4588,8 @@
     <string name="accessibility_cont_desc_card_is_disabled">disattivata</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Pulsante per vedere il giudizio degli ospiti</string>
+    <!-- Content Description for Searching for hotels -->
+    <string name="accessibility_cont_desc_searching_for_hotels">Stiamo cercando tra centinaia di hotel.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Il prezzo è di {activity_price} {ticket_type}</string>
@@ -4699,7 +4713,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Tariffe per soli iscritti</string>
     <string name="member_deal_subtitle">Sconti su hotel selezionati</string>
-    <string name="search_for_hotel_deals_page_header">Ricerca delle offerte in corso…</string>
+    <string name="search_for_hotel_deals_page_header">Cerca offerte hotel</string>
     <string name="member_deals_toolbar_title">Tariffe per soli iscritti</string>
     <string name="continue_booking">Procedi alla prenotazione</string>
     <string name="deals_hotel_only">Solo hotel</string>
@@ -4785,6 +4799,13 @@
     <string name="location_soft_prompt_subtitle">Esplora i dintorni, cerca hotel nelle vicinanze, ottieni indicazioni stradali e molto altro.</string>
     <string name="location_soft_prompt_enable">Attiva localizzazione</string>
     <string name="location_soft_prompt_disable">Non ora</string>
+
+    <!--Soft Prompt For flights browser view-->
+    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
+    <string name="flights_browser_view_soft_prompt_title">Disponibile a breve!</string>
+    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
+    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Presto potrai scegliere anche i voli dall\&apos;app.  Per il momento, prenota il volo più economico per la tua destinazione su {brand_url}</string>
+    <string name="flights_browser_viewsoft_prompt_enable">Apri nel browser</string>
 
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Tasse e oneri inclusi</string>

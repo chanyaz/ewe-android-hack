@@ -144,6 +144,8 @@
     <string name="accessibility_announcement_please_review_and_resubmit">Tarkista ja lähetä uudelleen.</string>
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">Lukkoikoni, turvallinen maksutapahtuma</string>
+    <!--Legal booking statement for flights on checkout-->
+    <string name="flight_booking_statement_TEMPLATE">Tekemällä tämän varauksen loppuun vahvistan, että olen lukenut ja hyväksyn &lt;a href=\"{website_url}\""&gt;säännöt ja rajoitukset, ehdot, tietosuojakäytännön ja hintatiedot&lt;/a&gt;.</string>
 
     <!-- error strings -->
     <!-- Message for user that date is too far out.  -->
@@ -2136,6 +2138,8 @@
     <string name="checkout_enter_traveler_details">Matkustajan tiedot</string>
     <string name="enter_missing_traveler_details">Anna puuttuvat matkustajatiedot</string>
     <string name="enter_traveler_details">Anna matkustajan tiedot</string>
+    <!-- Enter Traveler Details for Material Traveler Toolbar title-->
+    <string name="enter_traveler_details_checkout_toolbar_title">Anna asiakkaan tiedot</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+ {travelercount} lisämatkustaja</item>
@@ -3638,6 +3642,12 @@
         <item quantity="other">{rating} tähteä</item>
     </plurals>
 
+    <!-- Content description for hotel star rating e.g. 3 stars of 5 rating.-->
+    <plurals name="hotel_star_rating_max_rating_cont_desc_TEMPLATE">
+        <item quantity="one">Luokitus {rating} kautta 5 tähteä.</item>
+        <item quantity="other">Luokitus {rating} kautta 5 tähteä.</item>
+    </plurals>
+
     <!-- Dialog positive button message -->
     <string name="yes">Kyllä</string>
     <!-- Dialog negative button message -->
@@ -4026,6 +4036,8 @@
     <string name="package_change_hotel_room">Vaihda hotellihuonetta</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">Vaihda lentoja</string>
+    <!-- Package Start Over -->
+    <string name="package_start_over">Uusi haku</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">Maksu Expedia+-pisteillä</string>
@@ -4576,6 +4588,8 @@
     <string name="accessibility_cont_desc_card_is_disabled">poistettu käytöstä</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Asiakasarvostelupainike</string>
+    <!-- Content Description for Searching for hotels -->
+    <string name="accessibility_cont_desc_searching_for_hotels">Haetaan satoja hotelleja.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Hinta on {activity_price}{ticket_type}</string>
@@ -4699,7 +4713,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Jäsenhinnat</string>
     <string name="member_deal_subtitle">Tarjouksia valituista hotelleista</string>
-    <string name="search_for_hotel_deals_page_header">Tarjouksia haetaan…</string>
+    <string name="search_for_hotel_deals_page_header">Hae hotellitarjouksia</string>
     <string name="member_deals_toolbar_title">Jäsenhinnat</string>
     <string name="continue_booking">Jatka varauksen tekemistä</string>
     <string name="deals_hotel_only">Pelkkä hotelli</string>
@@ -4785,6 +4799,13 @@
     <string name="location_soft_prompt_subtitle">Tutustu lähellä oleviin mielenkiintoisiin kohteisiin ja hotelleihin, katso reittiohjeet ja paljon muuta.</string>
     <string name="location_soft_prompt_enable">Salli sijainnin käyttö</string>
     <string name="location_soft_prompt_disable">Ei nyt</string>
+
+    <!--Soft Prompt For flights browser view-->
+    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
+    <string name="flights_browser_view_soft_prompt_title">Tulossa pian</string>
+    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
+    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Voit pian hakea sovelluksella myös lentoja. Tällä hetkellä voit varata halpoja lentoja kohteeseesi osoitteessa {brand_url}</string>
+    <string name="flights_browser_viewsoft_prompt_enable">Avaa selaimessa</string>
 
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Lopullinen hinta sisältäen verot ja maksut</string>

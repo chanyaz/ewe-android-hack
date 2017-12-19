@@ -20,7 +20,7 @@
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">Arrastra para modificar las fechas</string>
     <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
-    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Volver a seleccionar las fechas para cambiarlas</string>
+    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Vuelve a seleccionar las fechas para cambiarlas</string>
     <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
     <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate}. {instructiontext}</string>
 
@@ -127,7 +127,7 @@
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_pay_later_only_to_confirm">Solo se necesita para confirmar tu reservación</string>
     <!--Text for selected card -->
-    <string name="checkout_activated_card">seleccionada</string>
+    <string name="checkout_activated_card">Seleccionada</string>
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} guardada</string>
@@ -144,6 +144,8 @@
     <string name="accessibility_announcement_please_review_and_resubmit">Verifícalo y vuelve a enviarlo.</string>
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">Ícono de candado, pago seguro</string>
+    <!--Legal booking statement for flights on checkout-->
+    <string name="flight_booking_statement_TEMPLATE">Al completar esta reservación, declaro que he leído y acepto las &lt;a href=\"{website_url}\""&gt;Normas y restricciones, los Términos y condiciones, la Política de privacidad y la Información de la tarifa&lt;/a&gt;.</string>
 
     <!-- error strings -->
     <!-- Message for user that date is too far out.  -->
@@ -2136,6 +2138,8 @@
     <string name="checkout_enter_traveler_details">Detalles del pasajero</string>
     <string name="enter_missing_traveler_details">Ingresa los detalles que faltan sobre el pasajero</string>
     <string name="enter_traveler_details">Ingresa los detalles del pasajero</string>
+    <!-- Enter Traveler Details for Material Traveler Toolbar title-->
+    <string name="enter_traveler_details_checkout_toolbar_title">Ingresa los detalles del pasajero</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+ {travelercount} pasajero adicional</item>
@@ -3638,6 +3642,12 @@
         <item quantity="other">{rating} estrellas</item>
     </plurals>
 
+    <!-- Content description for hotel star rating e.g. 3 stars of 5 rating.-->
+    <plurals name="hotel_star_rating_max_rating_cont_desc_TEMPLATE">
+        <item quantity="one">Evaluación: {rating} estrella de 5.</item>
+        <item quantity="other">Evaluación: {rating} estrellas de 5.</item>
+    </plurals>
+
     <!-- Dialog positive button message -->
     <string name="yes">Sí</string>
     <!-- Dialog negative button message -->
@@ -3886,7 +3896,7 @@
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_message">Estás a punto de reiniciar la búsqueda. Si deseas modificar el hotel o el vuelo, toca el botón Modificar en la parte superior derecha.</string>
     <!-- Button label for start over -->
-    <string name="start_over">REINICIAR</string>
+    <string name="start_over">Volver al inicio</string>
 
     <!-- Flight Nonstop description -->
     <string name="flight_nonstop_description">Directo</string>
@@ -4026,6 +4036,8 @@
     <string name="package_change_hotel_room">Cambiar habitación</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">Cambiar vuelos</string>
+    <!-- Package Start Over -->
+    <string name="package_start_over">Volver al inicio</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">Pago con puntos de Expedia+</string>
@@ -4576,6 +4588,8 @@
     <string name="accessibility_cont_desc_card_is_disabled">deshabilitada</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Botón de puntuación de usuarios</string>
+    <!-- Content Description for Searching for hotels -->
+    <string name="accessibility_cont_desc_searching_for_hotels">Buscando cientos de hoteles para ti.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">El precio es de {activity_price} {ticket_type}</string>
@@ -4699,7 +4713,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Precios para socios</string>
     <string name="member_deal_subtitle">Descuentos en hoteles seleccionados</string>
-    <string name="search_for_hotel_deals_page_header">Buscando ofertas…</string>
+    <string name="search_for_hotel_deals_page_header">Busca ofertas de hotel</string>
     <string name="member_deals_toolbar_title">Precios para socios</string>
     <string name="continue_booking">Continuar compra</string>
     <string name="deals_hotel_only">Solo hotel</string>
@@ -4785,6 +4799,13 @@
     <string name="location_soft_prompt_subtitle">Descubre la zona, busca hoteles cercanos, obtén indicaciones y mucho más.</string>
     <string name="location_soft_prompt_enable">Activar ubicación</string>
     <string name="location_soft_prompt_disable">Ahora no</string>
+
+    <!--Soft Prompt For flights browser view-->
+    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
+    <string name="flights_browser_view_soft_prompt_title">Próximamente</string>
+    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
+    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Pronto podrás reservar tu vuelo con la app. Mientras tanto, reserva los vuelos más baratos para tu destino en {brand_url}.</string>
+    <string name="flights_browser_viewsoft_prompt_enable">Abrir en el navegador</string>
 
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Total con impuestos y cargos</string>

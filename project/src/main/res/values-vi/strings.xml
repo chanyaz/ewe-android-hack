@@ -125,7 +125,7 @@
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_payment_options">Thẻ tín dụng, thanh toán bằng điểm</string>
     <!-- Text for enter payment details line 2 for pwp -->
-    <string name="checkout_pay_later_only_to_confirm">Chỉ cần xác nhận lệnh đặt vé của bạn</string>
+    <string name="checkout_pay_later_only_to_confirm">Chỉ cần xác nhận đặt chỗ</string>
     <!--Text for selected card -->
     <string name="checkout_activated_card">Chọn</string>
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
@@ -144,6 +144,8 @@
     <string name="accessibility_announcement_please_review_and_resubmit">Vui lòng kiểm tra và gửi lại.</string>
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">Biểu tượng ổ khóa, thanh toán an toàn</string>
+    <!--Legal booking statement for flights on checkout-->
+    <string name="flight_booking_statement_TEMPLATE">Bằng việc hoàn tất đặt, tôi đồng ý đã đọc và chấp nhận &lt;a href=\"{website_url}\""&gt;Quy định và Giới hạn, Điều khoản và Điều kiện, chính sách riêng tư, và thông tin giá vé&lt;/a&gt;.</string>
 
     <!-- error strings -->
     <!-- Message for user that date is too far out.  -->
@@ -1489,7 +1491,7 @@
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">Quản lý đặt phòng</string>
     <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
-    <string name="itin_flight_customer_support_header_text_TEMPLATE">Liên hệ với {brand} nếu bạn cần trợ giúp quản lý hành trình bay này.</string>
+    <string name="itin_flight_customer_support_header_text_TEMPLATE">Liên hệ với {brand} nếu cần trợ giúp quản lý hành trình bay này.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">Đã hủy</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -2136,6 +2138,8 @@
     <string name="checkout_enter_traveler_details">Thông tin khách</string>
     <string name="enter_missing_traveler_details">Nhập chi tiết khách còn thiếu</string>
     <string name="enter_traveler_details">Nhập thông tin khách</string>
+    <!-- Enter Traveler Details for Material Traveler Toolbar title-->
+    <string name="enter_traveler_details_checkout_toolbar_title">Nhập thông tin khách</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+ {travelercount} khách bổ sung</item>
@@ -3638,6 +3642,12 @@
         <item quantity="other">{rating} sao</item>
     </plurals>
 
+    <!-- Content description for hotel star rating e.g. 3 stars of 5 rating.-->
+    <plurals name="hotel_star_rating_max_rating_cont_desc_TEMPLATE">
+        <item quantity="one">{rating} sao trên 5.</item>
+        <item quantity="other">{rating} sao trên 5.</item>
+    </plurals>
+
     <!-- Dialog positive button message -->
     <string name="yes">Có</string>
     <!-- Dialog negative button message -->
@@ -3982,7 +3992,7 @@
     <!-- Label for Package Banner on Flight Search Results Screen -->
     <string name="flight_package_banner_title">Khách sạn + Chuyến bay</string>
     <!-- Description for Package Banner on Flight Search Results Screen -->
-    <string name="flight_package_banner_description">Tiết kiệm khi bạn đặt cùng lúc cả chuyến bay và khách sạn</string>
+    <string name="flight_package_banner_description">Tiết kiệm khi đặt cùng lúc cả chuyến bay và khách sạn</string>
     <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
     <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
 
@@ -4026,6 +4036,8 @@
     <string name="package_change_hotel_room">Thay đổi phòng</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">Thay đổi chuyến bay</string>
+    <!-- Package Start Over -->
+    <string name="package_start_over">Bắt đầu lại</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">Thanh toán bằng điểm Expedia+</string>
@@ -4065,7 +4077,7 @@
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE"># đã gửi {itinerary} đến {email}</string>
     <!-- Itinerary summary text- Itinerary number sent to the your email, e.g. #12344 sent to your email.-->
-    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">#{itinerary} đã được gửi tới email của bạn.</string>
+    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">#{itinerary} đã được gửi tới email cả quý vị.</string>
 
     <!--Rail search screen title-->
     <string name="trains">Tàu hỏa</string>
@@ -4410,7 +4422,7 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights from $2 for 2 travellers, Current selection is economy -->
     <string name="flight_fare_family_upgrade_round_trip_flight_cont_desc_TEMPLATE">Nâng cấp các chuyến bay từ {amount} cho {guest}, Lựa chọn hiện tại là {class}</string>
     <!-- Label for fare family upgrade option. Example. You have selected Economy, Double tap to change fare class-->
-    <string name="flight_fare_family_change_cont_desc_TEMPLATE">Bạn đã chọn {fare_family_name}, Bấm đúp để thay đổi hạng vé</string>
+    <string name="flight_fare_family_change_cont_desc_TEMPLATE">Đã chọn {fare_family_name}, Chạm 2 lần để thay đổi hạng vé</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">Nâng hạng chuyến bay</string>
     <!-- Label for fare family delta pricing. Example. From -->
@@ -4576,6 +4588,8 @@
     <string name="accessibility_cont_desc_card_is_disabled">không hoạt động</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Nút Đánh giá của Người dùng</string>
+    <!-- Content Description for Searching for hotels -->
+    <string name="accessibility_cont_desc_searching_for_hotels">Tìm hàng trăm khách sạn cho quý vị.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Giá là {activity_price} {ticket_type}</string>
@@ -4699,7 +4713,7 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Giá thành viên</string>
     <string name="member_deal_subtitle">Giảm giá tại nhiều khách sạn</string>
-    <string name="search_for_hotel_deals_page_header">Đang tìm ưu đãi…</string>
+    <string name="search_for_hotel_deals_page_header">Tìm ưu đãi khách sạn</string>
     <string name="member_deals_toolbar_title">Giá thành viên</string>
     <string name="continue_booking">Tiếp tục đặt</string>
     <string name="deals_hotel_only">Chỉ khách sạn</string>
@@ -4707,7 +4721,7 @@
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Ưu đãi phút chót</string>
-    <string name="last_minute_deal_subtitle">Bạn muốn đi du lịch? Hãy xem giá vé rẻ phút chót của chúng tôi</string>
+    <string name="last_minute_deal_subtitle">Muốn đi du lịch? Hãy xem giá vé rẻ phút chót của chúng tôi</string>
     <string name="last_minute_deals_toolbar_title">Ưu đãi phút chót</string>
 
     <!-- Hotel results sorting faq webview title -->
@@ -4785,6 +4799,13 @@
     <string name="location_soft_prompt_subtitle">Khám phá khu vực chung quanh, những khách sạn gần nhất, tìm đường đi và các thông tin khác.</string>
     <string name="location_soft_prompt_enable">Bật địa điểm</string>
     <string name="location_soft_prompt_disable">Để sau</string>
+
+    <!--Soft Prompt For flights browser view-->
+    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
+    <string name="flights_browser_view_soft_prompt_title">Sắp ra mắt</string>
+    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
+    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Sắp hỗ trợ đặt chuyến bay trong ứng dụng. Trong lúc này, quý vị có thể tìm kiếm chuyến bay giá rẻ đến địa điểm mong muốn tại {brand_url}</string>
+    <string name="flights_browser_viewsoft_prompt_enable">Mở trong trình duyệt</string>
 
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Tổng gồm thuế và phí</string>
