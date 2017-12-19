@@ -62,6 +62,7 @@ import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.util.LanguageHelper;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.ShortcutUtils;
 import com.expedia.bookings.utils.TuneUtils;
@@ -142,7 +143,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	@Override
 	public void onCreate() {
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
-
+		//Init language as per dev settings
+		if (BuildConfig.DEBUG) {
+			LanguageHelper.initLangSetup(this);
+		}
 		// Initialize some parts of the code that require a Context
 		initializePointOfSale();
 		startupTimer.addSplit("PointOfSale Init");

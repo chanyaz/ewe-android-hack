@@ -13,6 +13,10 @@
             android:title="Select API" />
 
         <Preference
+            android:key="@string/preference_which_lang_to_use_key"
+            android:title="Select Language" />
+
+        <Preference
             android:title="Abacus Tests"
             android:key="@string/preference_open_abacus_settings"
             android:summary="Click to view tests and change buckets" />

@@ -21,16 +21,21 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Courier;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.fragment.SelectLanguageDialogFragment;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.utils.ChuckShim;
+import com.expedia.bookings.vm.DebugSelectLanguageVM;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UniqueIdentifierHelper;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+
+import kotlin.Unit;
+import rx.functions.Action1;
 
 public class EBPreferencesFragment extends BasePreferenceFragment {
 
@@ -206,6 +211,28 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			userStateManager.signOut();
 			SettingUtils.save(getContext(), PhoneLaunchActivity.PREF_USER_ENTERS_FROM_SIGNIN, false);
 			SettingUtils.save(getContext(), PhoneLaunchActivity.PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0);
+		}
+		else if (getString(R.string.preference_which_lang_to_use_key).equals(key)) {
+			final SelectLanguageDialogFragment dialogFragment = new SelectLanguageDialogFragment();
+
+			final DebugSelectLanguageVM vm = new DebugSelectLanguageVM();
+			vm.getRestartAppSubject().subscribe(new Action1<Unit>() {
+				@Override
+				public void call(final Unit restartApp) {
+					if (getView() != null) {
+						getView().postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								restartApp();
+							}
+						}, 500);
+					}
+				}
+			});
+
+			dialogFragment.setViewModel(vm);
+			dialogFragment.show(getFragmentManager(), "tag_select_lang_dialog_fragment");
+			return true;
 		}
 
 		return super.onPreferenceTreeClick(preference);
