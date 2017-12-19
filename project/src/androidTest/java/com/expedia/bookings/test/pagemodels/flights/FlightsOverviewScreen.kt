@@ -50,8 +50,14 @@ object FlightsOverviewScreen {
     @JvmStatic fun fareFamilyWidgetDeltaPrice(): ViewInteraction {
         return onView(withId(R.id.upgrade_delta_price))
     }
+    @JvmStatic fun fareFamilyWidgetIcon(): ViewInteraction {
+        return onView(withId(R.id.fare_family_icon))
+    }
     @JvmStatic fun fareFamilyDetailsWidgetTitle(title: String): ViewInteraction {
         return onView(withText(title))
+    }
+    @JvmStatic fun fareFamilyTravellerNumber(): ViewInteraction {
+        return onView(withId(R.id.traveller))
     }
     @JvmStatic fun fareFamilyDetailsWidgetDoneBtn(): ViewInteraction {
         return onView(AllOf.allOf(withId(R.id.search_btn), isDescendantOfA(withId(R.id.fare_family_details))));
