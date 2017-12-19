@@ -10,6 +10,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserSource
 import com.expedia.bookings.notification.GCMRegistrationKeeper
 import com.expedia.bookings.services.TNSServices
+import com.expedia.bookings.utils.UniqueIdentifierHelper
 
 import rx.subjects.PublishSubject
 
@@ -45,7 +46,7 @@ class FlightRegistrationHandler(val context: Context,
     private fun getCourier(): Courier? {
         val regId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context)
         if (!TextUtils.isEmpty(regId)) {
-            return Courier("gcm", BuildConfig.APPLICATION_ID, regId, regId)
+            return Courier("gcm", BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(context))
         }
         return null
     }

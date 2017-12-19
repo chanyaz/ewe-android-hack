@@ -26,6 +26,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.utils.ChuckShim;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.UniqueIdentifierHelper;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -128,7 +129,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		TNSServices tnsServices = Ui.getApplication(getActivity()).appComponent().tnsService();
 		String regId = GCMRegistrationKeeper.getInstance(getActivity()).getRegistrationId(getActivity());
 		if (!TextUtils.isEmpty(regId)) {
-			tnsServices.deregisterDevice(new Courier("gcm", BuildConfig.APPLICATION_ID, regId, regId));
+			tnsServices.deregisterDevice(new Courier("gcm", BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(getContext())));
 		}
 	}
 
