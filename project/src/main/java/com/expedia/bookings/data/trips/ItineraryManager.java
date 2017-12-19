@@ -29,6 +29,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.UserSource;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.data.TNSFlight;
+import com.expedia.bookings.server.TripDetailsResponseHandler;
 import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
@@ -38,6 +39,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.data.Courier;
 import com.expedia.bookings.data.TNSUser;
+import com.expedia.bookings.services.TripsServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.UniqueIdentifierHelper;
 import com.expedia.bookings.utils.FeatureToggleUtil;
@@ -1426,25 +1428,20 @@ public class ItineraryManager implements JSONable {
 					deepRefresh = false;
 				}
 
+				if (trip.isShared() && trip.hasExpired(CUTOFF_HOURS)) {
+					Log.w(LOGGING_TAG,
+						"Removing a shared trip because it is completed and past the cutoff.  tripNum="
+							+ trip.getItineraryKey());
+
+					Trip removeTrip = mTrips.remove(trip.getItineraryKey());
+					publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
+
+					mTripsRemoved++;
+					return;
+				}
+
 				TripDetailsResponse response;
-				if (trip.isShared()) {
-					if (trip.hasExpired(CUTOFF_HOURS)) {
-						Log.w(LOGGING_TAG,
-							"Removing a shared trip because it is completed and past the cutoff.  tripNum="
-								+ trip.getItineraryKey());
-
-						Trip removeTrip = mTrips.remove(trip.getItineraryKey());
-						publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
-
-						mTripsRemoved++;
-						return;
-					}
-
-					response = mServices.getSharedItin(trip.getShareInfo().getSharableDetailsApiUrl());
-				}
-				else {
-					response = mServices.getTripDetails(trip, !deepRefresh);
-				}
+				response = getTripDetailsResponse(trip, deepRefresh);
 
 				if (response == null || response.hasErrors()) {
 					boolean isTripGuestAndFailedToRetrieve = false;
@@ -1532,6 +1529,27 @@ public class ItineraryManager implements JSONable {
 				mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_FLIGHT_STATUS, trip));
 				mSyncOpQueue.add(new Task(Operation.PUBLISH_TRIP_UPDATE, trip));
 			}
+		}
+
+		private TripDetailsResponse getTripDetailsResponse(Trip trip, boolean deepRefresh) {
+			TripDetailsResponse response;
+			if (trip.isShared()) {
+				response = mServices.getSharedItin(trip.getShareInfo().getSharableDetailsApiUrl());
+			}
+			else if (!trip.isGuest() && featureFlagForRetrofitServiceEnabled()) {
+				TripsServices tripServices = Ui.getApplication(mContext).tripComponent().tripServices();
+				JSONObject json = tripServices.getTripDetails(trip.getTripId(), !deepRefresh);
+				response = (new TripDetailsResponseHandler()).handleJson(json);
+			}
+			else {
+				response = mServices.getTripDetails(trip, !deepRefresh);
+			}
+			return response;
+		}
+
+		private boolean featureFlagForRetrofitServiceEnabled() {
+			return FeatureToggleUtil
+				.isFeatureEnabled(mContext, R.string.preference_trips_use_retrofit_call_for_details);
 		}
 
 		// If the user is logged in, retrieve a listing of current trips for logged in user

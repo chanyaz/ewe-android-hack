@@ -66,6 +66,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -459,7 +460,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("filterTimePeriod", "RECENTLY_COMPLETED"));
 		query.add(new BasicNameValuePair("sort", "SORT_STARTDATE_ASCENDING"));
 
-		if (getCachedDetails) {
+		if (getCachedDetails && !FeatureToggleUtil.isFeatureEnabled(mContext, R.string.preference_trips_use_retrofit_call_for_details)) {
 			query.add(new BasicNameValuePair("getCachedDetails", "10"));
 		}
 
@@ -491,7 +492,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("useCache", useCache ? "1" : "0"));
 
-		return doE3Request("api/trips/" + tripIdentifier, query, new TripDetailsResponseHandler(mContext), flags);
+		return doE3Request("api/trips/" + tripIdentifier, query, new TripDetailsResponseHandler(), flags);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -500,7 +501,7 @@ public class ExpediaServices implements DownloadListener {
 
 	public TripDetailsResponse getSharedItin(String shareableUrl) {
 		int flags = F_GET | F_DONT_ADD_ENDPOINT | F_IGNORE_COOKIES;
-		return doE3Request(shareableUrl, null, new TripDetailsResponseHandler(mContext), flags);
+		return doE3Request(shareableUrl, null, new TripDetailsResponseHandler(), flags);
 	}
 
 	public TripShareUrlShortenerResponse getShortenedShareItinUrl(String longUrl) {

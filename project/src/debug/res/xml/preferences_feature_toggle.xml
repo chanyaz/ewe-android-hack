@@ -111,6 +111,11 @@
             android:summary="Trips New Flight Alerts"
             android:title="Trips - Flight Alerts" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_trips_use_retrofit_call_for_details"
+            android:summary="Trips Use Retrofit Details Call"
+            android:title="Trips Use Retrofit Details Call" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -3,9 +3,9 @@ package com.expedia.bookings.dagger;
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.server.EndpointProvider;
-import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.RoomUpgradeOffersService;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
+import com.expedia.bookings.services.TripsServices;
 import com.expedia.vm.ItinPOSHeaderViewModel;
 
 import dagger.Module;
@@ -26,9 +26,9 @@ public final class TripModule {
 
 	@Provides
 	@TripScope
-	ItinTripServices provideTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	TripsServices provideTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new ItinTripServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new TripsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

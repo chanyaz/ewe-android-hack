@@ -38,14 +38,4 @@ open class ItinTripServices(endpoint: String, okHttpClient: OkHttpClient, interc
 
         return subscription
     }
-
-    open fun getGuestTrip(guestEmail: String, tripId: String, observer: Observer<AbstractItinDetailsResponse>): Subscription {
-        val subscription = tripsApi.guestTrip(tripId, guestEmail)
-                .observeOn(observeOn)
-                .subscribeOn(subscribeOn)
-                .subscribe(observer)
-
-        return subscription
-    }
-
 }

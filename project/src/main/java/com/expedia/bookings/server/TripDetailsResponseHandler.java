@@ -3,19 +3,11 @@ package com.expedia.bookings.server;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.mobiata.android.Log;
 
 public class TripDetailsResponseHandler extends JsonResponseHandler<TripDetailsResponse> {
-
-	private Context mContext;
-
-	public TripDetailsResponseHandler(Context context) {
-		mContext = context;
-	}
 
 	@Override
 	public TripDetailsResponse handleJson(JSONObject response) {
