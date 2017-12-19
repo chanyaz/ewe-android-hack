@@ -10,13 +10,20 @@ import android.view.View.VISIBLE
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
+import com.expedia.bookings.data.payment.PaymentSplits
+import com.expedia.bookings.data.payment.PointsAndCurrency
+import com.expedia.bookings.data.payment.PointsType
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
 import com.expedia.bookings.services.LoyaltyServices
@@ -40,6 +47,8 @@ import com.expedia.bookings.widget.TravelerContactDetailsWidget
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.HotelTravelersViewModel
 import org.junit.After
+import com.expedia.vm.HotelCheckoutViewModel
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -50,6 +59,7 @@ import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -333,6 +343,35 @@ class HotelCheckoutPresenterTest {
                 expectedStatus = TravelerCheckoutStatus.DIRTY)
     }
 
+    @Test
+    fun testTravelerCheckoutParamsWhenHotelMaterialFormIsTurnedOn() {
+        val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        val checkoutView = setupHotelCheckoutPresenter()
+        checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
+        var paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
+                PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
+
+        checkoutView.onBookV2(null, paymentSplits)
+
+        assertNotNull(testCheckoutParams.onNextEvents[0])
+        testTravelerDetails(testCheckoutParams.onNextEvents[0].traveler)
+    }
+
+    @Test
+    fun testTravelerCheckoutParamsWhenHotelMaterialFormIsTurnedOff() {
+        val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
+        val checkoutView = setupHotelCheckoutPresenter()
+        checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
+        var paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
+                PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
+
+        checkoutView.onBookV2(null, paymentSplits)
+
+        assertNotNull(testCheckoutParams.onNextEvents[0])
+        testTravelerDetails(testCheckoutParams.onNextEvents[0].traveler)
+    }
+
     private fun givenLoggedInUserAndTravelerInDb() {
         val testUser = User()
         val traveler = mockTravelerProvider.getCompleteMockTraveler()
@@ -370,6 +409,18 @@ class HotelCheckoutPresenterTest {
         goToCheckout()
     }
 
+    private fun setupHotelCheckoutPresenter(): HotelCheckoutPresenter {
+        val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
+        checkoutView.hotelCheckoutViewModel = HotelCheckoutViewModel(mockHotelServices.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
+        Db.setTravelers(listOf(makeTraveler()))
+        checkoutView.hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.bind(makeTraveler())
+        val v4 = SuggestionV4()
+        v4.regionNames = SuggestionV4.RegionNames()
+        v4.regionNames.fullName = "Las Vegas, NV"
+        checkoutView.hotelSearchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, false, null, null)
+        return checkoutView
+    }
+
     private fun goToCheckout() {
         checkout.createTripViewmodel = HotelCreateTripViewModel(mockHotelServices.services!!,
                 PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
@@ -381,5 +432,24 @@ class HotelCheckoutPresenterTest {
         assertEquals(expectedTitle, checkout.travelerSummaryCard.viewModel.getTitle())
         assertEquals(expectedSubtitle, checkout.travelerSummaryCard.viewModel.getSubtitle())
         assertEquals(expectedStatus, checkout.travelerSummaryCard.getStatus())
+    }
+
+    private fun makeTraveler(): Traveler {
+        val traveler = Traveler()
+        traveler.firstName = "JexperCC"
+        traveler.lastName = "MobiataTestaverde"
+        traveler.birthDate = LocalDate()
+        traveler.email = "qa-ehcc@mobiata.com"
+        traveler.phoneNumber = "4155555555"
+        traveler.phoneCountryCode = "US"
+        return traveler
+    }
+
+    private fun testTravelerDetails(traveler: com.expedia.bookings.data.payment.Traveler) {
+        assertEquals("qa-ehcc@mobiata.com", traveler.email)
+        assertEquals("JexperCC", traveler.firstName)
+        assertEquals("MobiataTestaverde", traveler.lastName)
+        assertEquals("4155555555", traveler.phone)
+        assertEquals("US", traveler.phoneCountryCode)
     }
 }

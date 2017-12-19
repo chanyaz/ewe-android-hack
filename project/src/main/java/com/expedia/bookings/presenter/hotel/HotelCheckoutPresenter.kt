@@ -23,11 +23,6 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.utils.BookingSuppressionUtils
-import com.expedia.bookings.utils.JodaUtils
-import com.expedia.bookings.utils.ServicesUtil
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.FreeCancellationWidget
 import com.expedia.util.endlessObserver
@@ -39,6 +34,13 @@ import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.Locale
 import kotlin.properties.Delegates
+import com.expedia.bookings.utils.BookingSuppressionUtils
+import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.ServicesUtil
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isHotelMaterialForms
+import com.expedia.vm.traveler.HotelTravelersViewModel
 
 class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
@@ -180,10 +182,12 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         val dtf = ISODateTimeFormat.date()
 
         val hotelCheckoutInfo = HotelCheckoutInfo(dtf.print(hotelSearchParams.checkIn), dtf.print(hotelSearchParams.checkOut))
-
-        val primaryTraveler = hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.traveler
+        val primaryTraveler = if (isHotelMaterialForms(context)) {
+            (hotelCheckoutWidget.travelersPresenter.viewModel as HotelTravelersViewModel).getTravelers()[0]
+        } else {
+            hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.traveler
+        }
         val traveler = Traveler(primaryTraveler.firstName, primaryTraveler.lastName, primaryTraveler.phoneCountryCode, primaryTraveler.phoneNumber, primaryTraveler.email)
-
         val hotelCreateTripResponse = Db.getTripBucket().hotelV2.mHotelTripResponse
         val hotelRate = hotelCreateTripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
         val expectedTotalFare = java.lang.String.format(Locale.ENGLISH, "%.2f", hotelRate.total)
