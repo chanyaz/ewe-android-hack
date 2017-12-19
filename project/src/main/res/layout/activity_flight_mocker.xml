@@ -6,7 +6,14 @@
     android:background="@color/gray100"
     android:padding="15dp"
     tools:context="com.expedia.bookings.activity.FlightMockerActivity">
-
+<com.expedia.bookings.widget.ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
     <com.expedia.bookings.widget.TextView
         android:id="@+id/confirmation_flight_mock"
         android:layout_width="wrap_content"
@@ -225,13 +232,142 @@
         android:gravity="center"/>
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/flight_mock_build_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:text="Do Magic"
-        android:textColor="@color/error_red"
-        android:textSize="26sp"/>
+        android:text="Add bonus traveler?"
+        android:gravity="center"
+        style="@style/FlightItinMock"
+        android:layout_below="@id/flight_status_spinner"
+        android:layout_alignBottom="@+id/bonus_traveler_cb" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bonus_traveler_cb"
+        android:layout_below="@id/flight_status_spinner"
+        android:layout_alignParentRight="true"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Has email?"
+        android:gravity="center"
+        style="@style/FlightItinMock"
+        android:layout_below="@id/bonus_traveler_cb"
+        android:layout_alignBottom="@+id/email_cb" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/email_cb"
+        android:layout_below="@id/bonus_traveler_cb"
+        android:layout_alignParentRight="true"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Has phone?"
+            android:gravity="center"
+            style="@style/FlightItinMock"
+            android:layout_below="@id/email_cb"
+            android:layout_alignBottom="@+id/phone_cb" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/phone_cb"
+            android:layout_below="@id/email_cb"
+            android:layout_alignParentRight="true"/>
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Has know traveler number?"
+            android:gravity="center"
+            style="@style/FlightItinMock"
+            android:layout_below="@id/phone_cb"
+            android:layout_alignBottom="@+id/traveler_known_cb" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/traveler_known_cb"
+            android:layout_below="@id/phone_cb"
+            android:layout_alignParentRight="true"/>
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Has redress?"
+            android:gravity="center"
+            style="@style/FlightItinMock"
+            android:layout_below="@id/traveler_known_cb"
+            android:layout_alignBottom="@+id/redress_cb" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/redress_cb"
+            android:layout_below="@id/traveler_known_cb"
+            android:layout_alignParentRight="true"/>
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Has assistance request?"
+            android:gravity="center"
+            style="@style/FlightItinMock"
+            android:layout_below="@id/redress_cb"
+            android:layout_alignBottom="@+id/assistance_cb" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/assistance_cb"
+            android:layout_below="@id/redress_cb"
+            android:layout_alignParentRight="true"/>
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Has frequent flyer?"
+            android:gravity="center"
+            style="@style/FlightItinMock"
+            android:layout_below="@id/assistance_cb"
+            android:layout_alignBottom="@+id/frequent_flyer_cb" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/frequent_flyer_cb"
+            android:layout_below="@id/assistance_cb"
+            android:layout_alignParentRight="true"/>
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Baby in lap?"
+            android:gravity="center"
+            style="@style/FlightItinMock"
+            android:layout_below="@id/frequent_flyer_cb"
+            android:layout_alignBottom="@+id/baby_in_lap_cb" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/baby_in_lap_cb"
+            android:layout_below="@id/frequent_flyer_cb"
+            android:layout_alignParentRight="true"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/flight_mock_build_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="Do Magic"
+            android:layout_below="@id/baby_in_lap_cb"
+            android:textColor="@color/error_red"
+            android:textSize="26sp"/>
+
+    </RelativeLayout>
+</com.expedia.bookings.widget.ScrollView>
+
 </RelativeLayout>

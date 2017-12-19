@@ -22,6 +22,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.mobiata.android.json.JSONUtils
 import com.mobiata.flightlib.data.Seat
+import kotlinx.android.synthetic.main.activity_flight_mocker.*
 import org.json.JSONObject
 import java.io.InputStreamReader
 
@@ -61,6 +62,27 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
             R.id.seating_available_cb -> seatingOnClick()
             R.id.flight_mock_build_btn -> buildAndLaunch()
             R.id.seats_selected_cb -> seatsSelected()
+            R.id.bonus_traveler_cb -> bonusSelected()
+        }
+    }
+
+    private fun bonusSelected() {
+        if (bonus_traveler_cb.isChecked) {
+            email_cb.isEnabled = true
+            phone_cb.isEnabled = true
+            redress_cb.isEnabled = true
+            traveler_known_cb.isEnabled = true
+            baby_in_lap_cb.isEnabled = true
+            assistance_cb.isEnabled = true
+            frequent_flyer_cb.isEnabled = true
+        } else {
+            frequent_flyer_cb.isEnabled = false
+            email_cb.isEnabled = false
+            phone_cb.isEnabled = false
+            redress_cb.isEnabled = false
+            traveler_known_cb.isEnabled = false
+            baby_in_lap_cb.isEnabled = false
+            assistance_cb.isEnabled = false
         }
     }
 
@@ -68,9 +90,11 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
         statusSpinner.adapter = makeList()
         multiSegCB.setOnClickListener(this)
         seatingAvailableCB.setOnClickListener(this)
+        bonus_traveler_cb.setOnClickListener(this)
         seatingSelectedCB.setOnClickListener(this)
         buildBtn.setOnClickListener(this)
         flightStatusSpinner.adapter = makeFlightStatusList()
+        bonusSelected()
     }
 
     private fun makeFlightStatusList(): SpinnerAdapter {
@@ -226,6 +250,19 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
         if (operatedBy.isChecked) {
             firstSeg.put("operatedByAirCarrierName", "AirNeo Enterprise Express")
         }
+        val travelers = flight.getJSONArray("passengers")
+        val traveler = travelers.getJSONObject(1)
+        if (bonus_traveler_cb.isChecked) {
+            if (!email_cb.isChecked) traveler.remove("emailAddress")
+            if (!phone_cb.isChecked) {
+                traveler.getJSONArray("phoneNumbers").remove(0)
+            }
+            if (!traveler_known_cb.isChecked) traveler.put("TSAKnownTravelerNumber","")
+            if (!redress_cb.isChecked) traveler.put("TSARedressNumber","")
+            if (!assistance_cb.isChecked) traveler.remove("specialAssistanceOptions")
+            if (baby_in_lap_cb.isChecked) traveler.put("typeCode", "INFANT_IN_LAP")
+            if (!frequent_flyer_cb.isChecked) traveler.getJSONArray("frequentFlyerPlans").remove(0)
+        } else travelers.remove(1)
 
         val tripObj = tripParser.parseTrip(obj)
         val tripComponent = tripObj.tripComponents[0]
