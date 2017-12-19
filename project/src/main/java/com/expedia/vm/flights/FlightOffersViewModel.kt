@@ -53,6 +53,7 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
         }
         if (isFlightGreedySearchEnabled(context) && isGreedyCallCompleted) {
             greedyOutboundResultsObservable.onNext(outBoundFlights.toList())
+            hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
             isGreedyCallCompleted = false
         } else {
             outboundResultsObservable.onNext(outBoundFlights.toList())

@@ -513,16 +513,28 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     .onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
         }
         if (isFlightGreedySearchEnabled(context)) {
-            Observable.zip(searchViewModel.searchParamsObservable, flightOfferViewModel.greedyOutboundResultsObservable,
-                    { _, results ->
-                        results
-                    }).filter { !flightOfferViewModel.isGreedyCallAborted }.subscribe(flightOfferViewModel.outboundResultsObservable)
+            Observable.zip(searchViewModel.searchParamsObservable, flightOfferViewModel.greedyOutboundResultsObservable, flightOfferViewModel.hasUserClickedSearchObservable,
+                    { _, results, hasUserClickedSearch ->
+                        object {
+                            val results = results
+                            val hasUserClickedSearch = hasUserClickedSearch
+                        }
+                    }).filter { !flightOfferViewModel.isGreedyCallAborted }.subscribe {
+                var delayMillis = 0L
+                if (!it.hasUserClickedSearch) {
+                    delayMillis = 700L
+                }
+                postDelayed({ flightOfferViewModel.outboundResultsObservable.onNext(it.results) }, delayMillis)
+            }
             searchViewModel.cancelGreedyCallObservable.subscribe {
                 flightOfferViewModel.cancelGreedySearchObservable.onNext(Unit)
                 flightOfferViewModel.isGreedyCallAborted = true
                 if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
                     flightOfferViewModel.cancelGreedyCachedSearchObservable.onNext(Unit)
                 }
+            }
+            searchViewModel.trackSearchClicked.subscribe {
+                FlightsV2Tracking.trackSearchClick(Db.getFlightSearchParams(), true, flightOfferViewModel.isGreedyCallAborted)
             }
         }
     }

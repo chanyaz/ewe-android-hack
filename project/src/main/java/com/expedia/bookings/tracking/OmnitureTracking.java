@@ -59,6 +59,7 @@ import com.expedia.bookings.data.flights.FlightLeg.FlightSegment;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.data.flights.KrazyglueResponse;
 import com.expedia.bookings.data.hotels.Hotel;
+import static com.expedia.bookings.utils.FeatureUtilKt.isFlightGreedySearchEnabled;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.insurance.InsuranceProduct;
@@ -5274,10 +5275,14 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", FLIGHTS_V2_TRAVELER_LINK_NAME, null, null);
 	}
 
-	public static void trackFlightSearchButtonClick() {
+	public static void trackFlightSearchButtonClick(boolean trackGreedyCallEvent, boolean isGreedyCallAborted) {
 		StringBuilder link = new StringBuilder(FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX);
 		link.append("Search.Clicked");
-		createAndtrackLinkEvent(link.toString(), "Search Button Clicked");
+		ADMS_Measurement s = createTrackLinkEvent(link.toString());
+		if (isFlightGreedySearchEnabled(sContext) && trackGreedyCallEvent) {
+			s.setEvents(isGreedyCallAborted ? "event334" : "event333");
+		}
+		s.trackLink(null, "o", "Search Button Clicked", null, null);
 	}
 
 	public static void trackFlightOpenBrowserButtonClick(boolean openBrowser) {

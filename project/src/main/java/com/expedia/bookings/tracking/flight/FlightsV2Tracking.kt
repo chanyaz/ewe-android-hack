@@ -19,8 +19,8 @@ import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel
 
 object FlightsV2Tracking {
-    fun trackSearchClick(flightSearchParams: FlightSearchParams) {
-        OmnitureTracking.trackFlightSearchButtonClick()
+    fun trackSearchClick(flightSearchParams: FlightSearchParams, trackGreedyCallEvent: Boolean = false, isGreedyCallAborted: Boolean = true) {
+        OmnitureTracking.trackFlightSearchButtonClick(trackGreedyCallEvent, isGreedyCallAborted)
         CarnivalUtils.getInstance().trackFlightSearch(flightSearchParams.destination?.regionNames?.fullName, flightSearchParams.adults, flightSearchParams.departureDate)
     }
 

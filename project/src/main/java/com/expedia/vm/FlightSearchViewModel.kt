@@ -63,6 +63,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val abortGreedyCallObservable = PublishSubject.create<Unit>()
     val cancelGreedyCallObservable = PublishSubject.create<Unit>()
     val validDateSetObservable = PublishSubject.create<Unit>()
+    val trackSearchClicked = PublishSubject.create<Unit>()
 
     val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
     val isUserEvolableBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
@@ -231,7 +232,12 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             travelerValidator.updateForNewSearch(flightSearchParams)
             Db.setFlightSearchParams(flightSearchParams)
             searchParamsObservable.onNext(flightSearchParams)
-            FlightsV2Tracking.trackSearchClick(flightSearchParams)
+            if (isFlightGreedySearchEnabled(context) && isGreedyCallStarted) {
+                trackSearchClicked.onNext(Unit)
+                isGreedyCallStarted = false
+            } else {
+                    FlightsV2Tracking.trackSearchClick(flightSearchParams)
+            }
             if (BuildConfig.DEBUG && SettingUtils.get(context, R.string.preference_enable_retain_prev_flight_search_params, false)) {
                 SearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }

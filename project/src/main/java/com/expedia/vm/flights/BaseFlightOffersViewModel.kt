@@ -56,6 +56,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val flightCabinClassSubject = BehaviorSubject.create<String>()
     val nonStopSearchFilterAppliedSubject = BehaviorSubject.create<Boolean>()
     val greedyOutboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
+    val hasUserClickedSearchObservable = PublishSubject.create<Boolean>()
     val greedyFlightSearchObservable = PublishSubject.create<FlightSearchParams>()
     val greedyCachedFlightSearchObservable = PublishSubject.create<FlightSearchParams>()
     val refundableFilterAppliedSearchSubject = BehaviorSubject.create<Boolean>()
