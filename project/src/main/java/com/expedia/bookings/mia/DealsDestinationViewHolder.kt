@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.PaintDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
+import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -18,6 +19,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.enums.DiscountColors
+import com.expedia.bookings.mia.activity.MemberDealsActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Constants
@@ -29,16 +32,16 @@ import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
 class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-    val cityView: TextView by bindView(R.id.deals_city)
-    val dateView: TextView by bindView(R.id.deals_date)
-    val discountView: TextView by bindView(R.id.deals_discount_percentage)
-    val strikePriceView: TextView by bindView(R.id.deals_strike_through_price)
-    val priceView: TextView by bindView(R.id.deals_price_per_night)
-    val bgImageView: ImageView by bindView(R.id.deals_background)
-    val gradient: View by bindView(R.id.deals_foreground)
-    val cardView: CardView by bindView(R.id.deals_cardview)
+    private val cityView: TextView by bindView(R.id.deals_city)
+    private val dateView: TextView by bindView(R.id.deals_date)
+    private val discountView: TextView by bindView(R.id.deals_discount_percentage)
+    private val strikePriceView: TextView by bindView(R.id.deals_strike_through_price)
+    private val priceView: TextView by bindView(R.id.deals_price_per_night)
+    private val bgImageView: ImageView by bindView(R.id.deals_background)
+    private val gradient: View by bindView(R.id.deals_foreground)
+    private val cardView: CardView by bindView(R.id.deals_cardview)
     lateinit var searchParams: HotelSearchParams
-    lateinit var discountPercent: String
+    private lateinit var discountPercent: String
 
     val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
 
@@ -53,10 +56,8 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
         discountPercent = vm.getDiscountPercentForContentDesc(vm.leadingHotel.hotelPricingInfo?.percentSavings)
         cardView.contentDescription = getDealsContentDesc()
 
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(vm.context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)) {
-            discountView.setBackgroundResource(R.drawable.member_only_discount_percentage_background)
-            discountView.setTextColor(R.color.gray900)
-        }
+        setDiscountColors(vm)
+        hideDiscountViewWithNoDiscount()
     }
 
     fun setSearchParams(vm: DealsDestinationViewModel): HotelSearchParams {
@@ -165,5 +166,21 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
             }
         }
     }
+
+    private fun hideDiscountViewWithNoDiscount() {
+        if (discountView.text.isEmpty()) {
+            discountView.visibility = View.GONE
+        }
+    }
+
+    private fun setDiscountColors(vm: DealsDestinationViewModel) =
+            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(vm.context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors) && view.context is MemberDealsActivity) {
+                discountView.setBackgroundResource(DiscountColors.MEMBER_DEALS.backgroundColor)
+                discountView.setTextColor(ContextCompat.getColor(view.context, DiscountColors.MEMBER_DEALS.textColor))
+            } else {
+                discountView.setBackgroundResource(DiscountColors.LAST_MINUTE_DEALS.backgroundColor)
+                discountView.setTextColor(ContextCompat.getColor(view.context, DiscountColors.LAST_MINUTE_DEALS.textColor))
+            }
+
 }
 
