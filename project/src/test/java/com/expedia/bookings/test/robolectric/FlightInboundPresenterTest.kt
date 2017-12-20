@@ -31,6 +31,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -52,6 +53,9 @@ class FlightInboundPresenterTest {
     lateinit private var activity: Activity
     lateinit private var flightInboundPresenter: FlightInboundPresenter
 
+    val server: MockWebServer = MockWebServer()
+        @Rule get
+
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
@@ -59,7 +63,6 @@ class FlightInboundPresenterTest {
         Ui.getApplication(activity).defaultTravelerComponent()
         Ui.getApplication(activity).defaultFlightComponents()
 
-        val server: MockWebServer = MockWebServer()
         val logger = HttpLoggingInterceptor()
         val interceptor = MockInterceptor()
         service = FlightServices("http://localhost:" + server.port,

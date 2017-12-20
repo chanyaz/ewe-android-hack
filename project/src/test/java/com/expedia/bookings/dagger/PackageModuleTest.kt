@@ -27,7 +27,7 @@ class PackageModuleTest {
         RuntimeEnvironment.application
     }
 
-    private var server: MockWebServer = MockWebServer()
+    var server: MockWebServer = MockWebServer()
         @Rule get
 
     private val mockEndpointProvider = Mockito.mock(EndpointProvider::class.java)

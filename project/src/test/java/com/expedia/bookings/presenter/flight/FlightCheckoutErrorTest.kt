@@ -37,7 +37,7 @@ import kotlin.test.assertNotNull
 @RunWith(RobolectricRunner::class)
 class FlightCheckoutErrorTest {
 
-    private var server: MockWebServer = MockWebServer()
+    var server: MockWebServer = MockWebServer()
         @Rule get
 
     private val context = RuntimeEnvironment.application

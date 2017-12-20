@@ -1,7 +1,6 @@
 package com.expedia.bookings.test
 
 import android.content.DialogInterface
-import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -51,7 +50,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class FlightOffersViewModelTest {
 
-    private var server: MockWebServer = MockWebServer()
+    var server: MockWebServer = MockWebServer()
         @Rule get
 
     lateinit private var flightServices: FlightServices

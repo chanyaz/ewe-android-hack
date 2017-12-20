@@ -23,7 +23,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
-import rx.subjects.BehaviorSubject
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -32,7 +31,7 @@ import kotlin.test.assertNotNull
 @RunWith(RobolectricRunner::class)
 class FlightOffersViewModelByotTest {
 
-    private var server: MockWebServer = MockWebServer()
+    var server: MockWebServer = MockWebServer()
         @Rule get
     lateinit private var flightServices: FlightServices
     lateinit private var sut: FlightOffersViewModelByot

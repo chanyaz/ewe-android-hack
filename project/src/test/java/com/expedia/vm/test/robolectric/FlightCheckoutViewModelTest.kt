@@ -12,9 +12,9 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.TripResponse
@@ -61,7 +61,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class FlightCheckoutViewModelTest {
 
-    private var server: MockWebServer = MockWebServer()
+    var server: MockWebServer = MockWebServer()
         @Rule get
 
     private val context = RuntimeEnvironment.application
