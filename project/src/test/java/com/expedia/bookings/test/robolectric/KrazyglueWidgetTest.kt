@@ -272,6 +272,22 @@ class KrazyglueWidgetTest {
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
     }
 
+    @Test
+    fun testKrazyglueViewHolderParams() {
+        enableKrazyglueTest(activity, displaySeeMoreFront = true)
+        setDbFlightSearch()
+        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
+        setupKrazyglueRecycler(krazyglueWidget)
+        val expectedParams = (krazyglueWidget.hotelsRecyclerView.adapter as KrazyglueHotelsListAdapter).getUpdatedLayoutParams(parentWidth = 1000)
+
+        assertEquals(90, expectedParams.height)
+        assertEquals(800, expectedParams.width)
+        assertEquals(9, expectedParams.bottomMargin)
+        assertEquals(9, expectedParams.topMargin)
+        assertEquals(9, expectedParams.rightMargin)
+        assertEquals(0, expectedParams.leftMargin)
+    }
+
     private fun getKrazyGlueHotels(): List<KrazyglueResponse.KrazyglueHotel> {
         return FlightTestUtil.getKrazyGlueHotels()
     }

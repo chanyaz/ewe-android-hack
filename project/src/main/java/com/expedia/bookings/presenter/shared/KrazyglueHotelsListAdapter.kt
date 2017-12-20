@@ -69,10 +69,12 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
         when (getKrazyGlueViewHolderTypeFromInt(viewType)) {
             KrazyglueViewHolderType.HOTEL_VIEW_HOLDER -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.krazyglue_hotel_view, parent, false)
+                view.layoutParams = getUpdatedLayoutParams(parent.width)
                 return KrazyglueHotelViewHolder(view as ViewGroup, hotelSearchParams, regionId)
             }
             KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.krazyglue_see_more_hotel_view, parent, false)
+                view.layoutParams = getUpdatedLayoutParams(parent.width)
                 return KrazyglueSeeMoreViewHolder(view as ViewGroup, context, hotelSearchParams, regionId)
             }
             else -> {
@@ -80,6 +82,15 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
                 return KrazyglueLoadingViewHolder(view)
             }
         }
+    }
+
+    fun getUpdatedLayoutParams(parentWidth: Int) : ViewGroup.MarginLayoutParams {
+        val displayDensity = context.resources.displayMetrics.density
+        val newMargins = (9 * displayDensity).toInt()
+        val newLayoutParams = ViewGroup.LayoutParams((parentWidth * 0.8).toInt(), (displayDensity * 90).toInt())
+        val marginParams = ViewGroup.MarginLayoutParams(newLayoutParams)
+        marginParams.setMargins(0, newMargins, newMargins, newMargins)
+        return marginParams
     }
 
     private fun getHotelPositionBasedOnABTest(position: Int): Int {
