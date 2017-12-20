@@ -426,14 +426,15 @@ android {
         ignoreFailures = false
     }
 
-
     task generateDummyFileToHandleKotlinLintError(type: Exec) {
         executable "../tools/create_dummy_file.sh"
         args "${buildDir}"
     }
 
     fork {
-        totalAllowedRetryQuota = 99
+            testPackage = "com.expedia.bookings.test"
+
+            totalAllowedRetryQuota = 99
         retryPerTestCaseQuota = 2
         testOutputTimeout = 90000
         // Workaround to run tests in parallel on all connected devices. It should run on all devices above api level 19.
