@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
-import android.text.format.DateFormat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -14,8 +13,8 @@ import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.fragment.ScrollableContentDialogFragment
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.TextView
-import java.util.Locale
 
 class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
     val checkInDateView: TextView by bindView(R.id.hotel_itin_checkin_date_text)
@@ -32,13 +31,10 @@ class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : L
     }
 
     fun setUpWidget(itinCardDataHotel: ItinCardDataHotel) {
-
-        val formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEE, MMM d")
-        val contDescFormatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEE, MMM d")
-        checkInDateView.text = itinCardDataHotel.startDate.toString(formatPattern)
-        checkInDateView.contentDescription = itinCardDataHotel.startDate.toString(contDescFormatPattern)
-        checkOutDateView.text = itinCardDataHotel.endDate.toString(formatPattern)
-        checkOutDateView.contentDescription = itinCardDataHotel.endDate.toString(contDescFormatPattern)
+        checkInDateView.text = LocaleBasedDateFormatUtils.dateTimeToEEEMMMd(itinCardDataHotel.startDate)
+        checkInDateView.contentDescription = LocaleBasedDateFormatUtils.dateTimeToEEEEMMMd(itinCardDataHotel.startDate)
+        checkOutDateView.text = LocaleBasedDateFormatUtils.dateTimeToEEEMMMd(itinCardDataHotel.endDate)
+        checkOutDateView.contentDescription = LocaleBasedDateFormatUtils.dateTimeToEEEEMMMd(itinCardDataHotel.endDate)
         checkInTimeView.text = itinCardDataHotel.checkInTime?.toLowerCase()
         checkOutTimeView.text = itinCardDataHotel.checkOutTime?.toLowerCase()
         if (!itinCardDataHotel.property.checkInPolicies.isEmpty()) {

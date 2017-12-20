@@ -6,6 +6,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.junit.Before
@@ -34,12 +35,10 @@ class HotelItinCheckInCheckOutDetailsTest {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
 
-        val formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEE, MMM d")
-        val contDescFormatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEE, MMM d")
-        val checkInDate = itinCardDataHotel.startDate.toString(formatPattern)
-        val checkOutDate = itinCardDataHotel.endDate.toString(formatPattern)
-        val checkInContDesc = itinCardDataHotel.startDate.toString(contDescFormatPattern)
-        val checkOutContDesc = itinCardDataHotel.endDate.toString(contDescFormatPattern)
+        val checkInDate = LocaleBasedDateFormatUtils.dateTimeToEEEMMMd(itinCardDataHotel.startDate)
+        val checkOutDate = LocaleBasedDateFormatUtils.dateTimeToEEEMMMd(itinCardDataHotel.endDate)
+        val checkInContDesc = LocaleBasedDateFormatUtils.dateTimeToEEEEMMMd(itinCardDataHotel.startDate)
+        val checkOutContDesc = LocaleBasedDateFormatUtils.dateTimeToEEEEMMMd(itinCardDataHotel.endDate)
 
         assertEquals(checkInDate, hotelItinCheckinCheckOutWidget.checkInDateView.text)
         assertEquals(checkInContDesc, hotelItinCheckinCheckOutWidget.checkInDateView.contentDescription)

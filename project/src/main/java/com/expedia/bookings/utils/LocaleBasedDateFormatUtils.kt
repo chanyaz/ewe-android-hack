@@ -43,6 +43,10 @@ object LocaleBasedDateFormatUtils {
         return formatDateTimeBasedOnLocale(date, "EEE, MMM d")
     }
 
+    @JvmStatic fun dateTimeToEEEEMMMd(date: DateTime): String {
+        return formatDateTimeBasedOnLocale(date, "EEEE, MMM d")
+    }
+
     @JvmStatic fun dateTimeToyyyyMMMd(date: DateTime): String {
         return formatDateTimeBasedOnLocale(date, "yyyy-MM-d")
     }
