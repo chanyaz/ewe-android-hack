@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Courier;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
@@ -128,8 +129,9 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 	private void deregisterFromExistingTNSServer() {
 		TNSServices tnsServices = Ui.getApplication(getActivity()).appComponent().tnsService();
 		String regId = GCMRegistrationKeeper.getInstance(getActivity()).getRegistrationId(getActivity());
+		int langId = PointOfSale.getPointOfSale().getDualLanguageId();
 		if (!TextUtils.isEmpty(regId)) {
-			tnsServices.deregisterDevice(new Courier("gcm", BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(getContext())));
+			tnsServices.deregisterDevice(new Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(getContext())));
 		}
 	}
 

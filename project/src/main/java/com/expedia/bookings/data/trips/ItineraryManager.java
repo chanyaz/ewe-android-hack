@@ -41,6 +41,7 @@ import com.expedia.bookings.data.Courier;
 import com.expedia.bookings.data.TNSUser;
 import com.expedia.bookings.services.TripsServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.UniqueIdentifierHelper;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
@@ -53,6 +54,7 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.FlightCode;
 
 import java.io.File;
 import java.io.IOException;
@@ -1887,15 +1889,18 @@ public class ItineraryManager implements JSONable {
 			Log.d(LOGGING_TAG, "ItineraryManager.registerForPushNotifications regId:" + regId + " is not empty!");
 			ExpediaServices services = new ExpediaServices(mContext);
 
-			int siteId = PointOfSale.getPointOfSale().getSiteId();
+			PointOfSale pos = PointOfSale.getPointOfSale();
+			int siteId = pos.getSiteId();
+			int langId = pos.getDualLanguageId();
+			String guid = Db.getAbacusGuid();
 			long userTuid = 0;
-			TNSUser tnsUser = new TNSUser(siteId, null, null);
+			TNSUser tnsUser = new TNSUser(siteId, null, null, guid);
 			if (userStateManager.isUserAuthenticated()) {
 				UserSource userDetail = userStateManager.getUserSource();
-				tnsUser = new TNSUser(siteId, userDetail.getTuid(), userDetail.getExpUserId());
+				tnsUser = new TNSUser(siteId, userDetail.getTuid(), userDetail.getExpUserId(), guid);
 			}
 
-			Courier courier = new Courier("gcm", BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(mContext));
+			Courier courier = new Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(mContext));
 			//use old Flight Alert system
 			if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(mContext, AbacusUtils.TripsNewFlightAlerts,
 				R.string.preference_enable_trips_flight_alerts)) {
@@ -1935,25 +1940,36 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
-	List<TNSFlight> getFlightsForNewSystem() {
+	protected List<TNSFlight> getFlightsForNewSystem() {
 		List<TNSFlight> flights = new ArrayList<>();
 		List<Flight> itinFlights = getItinFlights();
 		String dateTimeTimeZonePattern = "yyyy-MM-dd\'T\'HH:mm:ss.SSSZ";
-		String datePattern = "yyyy-MM-dd";
 		for (Flight flight : itinFlights) {
-			if (flight.getPrimaryFlightCode() != null) {
-				TNSFlight flightToAdd = new TNSFlight(flight.getPrimaryFlightCode().mAirlineCode,
+			if (isFlightDataAvailable(flight)) {
+				FlightCode primaryFlightCode = flight.getPrimaryFlightCode();
+				TNSFlight flightToAdd = new TNSFlight(primaryFlightCode.mAirlineCode,
 					JodaUtils.format(flight.getSegmentArrivalTime(), dateTimeTimeZonePattern),
 					JodaUtils.format(flight.getSegmentDepartureTime(), dateTimeTimeZonePattern),
-					JodaUtils.format(flight.getSegmentDepartureTime(), datePattern),
 					flight.getDestinationWaypoint().mAirportCode,
-					flight.getPrimaryFlightCode().mNumber,
+					primaryFlightCode.mNumber,
 					flight.getOriginWaypoint().mAirportCode
 				);
 				flights.add(flightToAdd);
 			}
 		}
 		return flights;
+	}
+
+	protected boolean isFlightDataAvailable(Flight flight) {
+		FlightCode primaryFlightCode = flight.getPrimaryFlightCode();
+		boolean isAirlineCodeAvailable = (primaryFlightCode != null) && Strings.isNotEmpty(primaryFlightCode.mAirlineCode);
+		boolean isFlightNumberAvailable = (primaryFlightCode != null) && Strings.isNotEmpty(primaryFlightCode.mNumber);
+		boolean isSegmentArrivalTimeAvailable = (flight.getSegmentArrivalTime() != null);
+		boolean isSegmentDepartureTimeAvailable = (flight.getSegmentDepartureTime() != null);
+		boolean isDestinationAirportCodeAvailable = (flight.getDestinationWaypoint() != null) && Strings.isNotEmpty(flight.getDestinationWaypoint().mAirportCode);
+		boolean isOriginAirportCodeAvailable = (flight.getOriginWaypoint() != null) && Strings.isNotEmpty(flight.getOriginWaypoint().mAirportCode);
+		return isAirlineCodeAvailable && isFlightNumberAvailable && isSegmentArrivalTimeAvailable
+			&& isSegmentDepartureTimeAvailable && isDestinationAirportCodeAvailable && isOriginAirportCodeAvailable;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

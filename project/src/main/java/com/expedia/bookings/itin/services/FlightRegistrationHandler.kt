@@ -5,6 +5,7 @@ import android.content.Context
 import android.text.TextUtils
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.data.Courier
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TNSUser
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserSource
@@ -39,14 +40,16 @@ class FlightRegistrationHandler(val context: Context,
 
     private fun getUser(): TNSUser {
         val siteId: Int = PointOfSale.getPointOfSale().siteId
-        var tnsUser = TNSUser(siteId, userDetail.tuid, userDetail.expUserId)
+        val guid = Db.getAbacusGuid()
+        val tnsUser = TNSUser(siteId, userDetail.tuid, userDetail.expUserId, guid)
         return tnsUser
     }
 
     private fun getCourier(): Courier? {
         val regId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context)
+        val langId = PointOfSale.getPointOfSale().dualLanguageId
         if (!TextUtils.isEmpty(regId)) {
-            return Courier("gcm", BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(context))
+            return Courier("gcm", langId.toString(), BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(context))
         }
         return null
     }

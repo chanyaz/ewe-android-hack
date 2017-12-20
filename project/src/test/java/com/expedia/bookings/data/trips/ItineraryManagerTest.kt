@@ -16,23 +16,24 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
-import com.mobiata.flightlib.data.Airport
+import com.mobiata.flightlib.data.Flight
+import com.mobiata.flightlib.data.FlightCode
 import com.mobiata.flightlib.data.Waypoint
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
-import org.joda.time.DateTimeZone
 import org.joda.time.LocalDateTime
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class ItineraryManagerTest {
 
     val context = RuntimeEnvironment.application
-    lateinit var testItinCardData: ItinCardDataFlight
 
     @Test
     fun testHasUpcomingOrInProgressTrip() {
@@ -134,21 +135,51 @@ class ItineraryManagerTest {
         testItinCardDataShared.tripComponent.parentTrip.setIsShared(true)
         val itinCardData = sut.itinCardData
         val dateTimeTimeZonePattern = "yyyy-MM-dd\'T\'HH:mm:ss.SSSZ"
-        val datePattern = "yyyy-MM-dd"
 
         itinCardData.clear()
         itinCardData.add(testItinCardData)
         itinCardData.add(testItinCardDataShared)
 
-        val expectedFlightList = listOf<TNSFlight>(TNSFlight("UA", "2017-09-05T21:33:00.000-0700", "2017-09-05T20:00:00.000-0700", "2017-09-05", "LAS", "681", "SFO"),
-                TNSFlight("UA", "2017-09-05T21:33:00.000-0700", "2017-09-05T20:00:00.000-0700", "2017-09-05", "LAS", "681", "SFO"))
+        val expectedFlightList = listOf<TNSFlight>(TNSFlight("UA", "2017-09-05T21:33:00.000-0700", "2017-09-05T20:00:00.000-0700", "LAS", "681", "SFO"),
+                TNSFlight("UA", "2017-09-05T21:33:00.000-0700", "2017-09-05T20:00:00.000-0700", "LAS", "681", "SFO"))
         val expectedDateFormatWithTZ = JodaUtils.format(testItinCardData.flightLeg.getSegment(0).segmentDepartureTime, dateTimeTimeZonePattern)
-        val expectedDatePattern = JodaUtils.format(testItinCardData.flightLeg.getSegment(0).segmentDepartureTime, datePattern)
         val actualFlightList = sut.flightsForNewSystem
 
         assertEquals(expectedFlightList, actualFlightList)
-        assertEquals(expectedDateFormatWithTZ, actualFlightList.get(0).departureDateWithTZ)
-        assertEquals(expectedDatePattern, actualFlightList.get(0).departureDay)
+        assertEquals(expectedDateFormatWithTZ, actualFlightList[0].departure_date)
+    }
+
+    @Test
+    fun testIsFlightDataAvailable() {
+        val sut = ItineraryManager.getInstance()
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        assertTrue(sut.isFlightDataAvailable(testItinCardData.flightLeg.getSegment(0)))
+
+        val testFlightInvalid = TestFlight()
+        assertFalse(sut.isFlightDataAvailable(testFlightInvalid))
+
+        var testFlightValid = Flight()
+        var testFlightCode = FlightCode()
+        testFlightCode.mAirlineCode = null
+        testFlightValid.addFlightCode(testFlightCode, Flight.F_PRIMARY_AIRLINE_CODE)
+        assertFalse(sut.isFlightDataAvailable(testFlightValid))
+
+        testFlightValid = Flight()
+        testFlightCode = FlightCode()
+        testFlightCode.mNumber = ""
+        assertFalse(sut.isFlightDataAvailable(testFlightValid))
+
+        testFlightValid = Flight()
+        var testWaypoint = Waypoint(Waypoint.ACTION_ARRIVAL)
+        testWaypoint.mAirportCode = ""
+        testFlightInvalid.destinationWaypoint = testWaypoint
+        assertFalse(sut.isFlightDataAvailable(testFlightValid))
+
+        testFlightValid = Flight()
+        testWaypoint = Waypoint(Waypoint.ACTION_DEPARTURE)
+        testWaypoint.mAirportCode = ""
+        testFlightInvalid.originWaypoint = testWaypoint
+        assertFalse(sut.isFlightDataAvailable(testFlightValid))
     }
 
     private fun assertLinkTracked(linkName: String, rfrrId: String, event: String, mockAnalyticsProvider: AnalyticsProvider) {
@@ -195,15 +226,17 @@ class ItineraryManagerTest {
         return mockItineraryManager
     }
 
-    private fun itinCardDataMultiSegmentFlight(): ItinCardDataFlight {
-        return ItinCardDataFlightBuilder().build(multiSegment = true)
-    }
+    private fun itinCardDataMultiSegmentFlight(): ItinCardDataFlight = ItinCardDataFlightBuilder().build(multiSegment = true)
 
-    private fun itinCardDataHotel(): ItinCardDataHotel {
-        return ItinCardDataHotelBuilder().build()
-    }
+    private fun itinCardDataHotel(): ItinCardDataHotel = ItinCardDataHotelBuilder().build()
 
-    private fun itinCardDataSharedFlight(): ItinCardDataFlight {
-        return ItinCardDataFlightBuilder().build(isShared = true)
+    private fun itinCardDataSharedFlight(): ItinCardDataFlight = ItinCardDataFlightBuilder().build(isShared = true)
+
+    private class TestFlight : Flight() {
+        override fun getSegmentArrivalTime(): DateTime? = null
+        override fun getSegmentDepartureTime(): DateTime? = null
+        override fun getPrimaryFlightCode(): FlightCode? = null
+        override fun getOriginWaypoint(): Waypoint? = null
+        override fun getDestinationWaypoint(): Waypoint? = null
     }
 }

@@ -67,7 +67,7 @@ class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHt
 
     fun registerForUserDevice(user: TNSUser, courier: Courier): Subscription {
         userDeviceSubscription?.unsubscribe()
-        val requestBody = TNSRegisterUserDeviceRequestBody(courier, user);
+        val requestBody = TNSRegisterUserDeviceRequestBody(courier, user)
         userDeviceSubscription = tnsAPI.registerUserDevice(requestBody)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
