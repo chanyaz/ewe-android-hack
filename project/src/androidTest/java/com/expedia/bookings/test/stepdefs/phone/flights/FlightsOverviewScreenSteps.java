@@ -42,11 +42,13 @@ import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsWidgetFarelist;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsWidgetLocationLabel;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsWidgetTitle;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyTravellerNumber;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidget;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidgetDeltaPrice;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidgetFromLabel;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidgetSubtitle;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidgetTitle;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidgetIcon;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.flightOverviewBundleTotalPrice;
 import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getViewText;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -268,6 +270,7 @@ public class FlightsOverviewScreenSteps {
 	@Then("^Validate fare family widget card info$")
 	public void validateFareFamilyCardInfo(Map<String, String> params) throws Throwable {
 		final AtomicReference<String> subtitle = new AtomicReference<String>();
+		validateFareFamilyIcon();
 		fareFamilyWidgetTitle().check(matches(isDisplayed())).check(matches(withText(params.get("title"))));
 		fareFamilyWidgetSubtitle().check(matches(isDisplayed()));
 		fareFamilyWidgetSubtitle().perform(getString(subtitle));
@@ -279,6 +282,16 @@ public class FlightsOverviewScreenSteps {
 		if (params.get("delta_price") != null) {
 			getViewText(fareFamilyWidgetDeltaPrice()).contains(params.get("delta_price"));
 		}
+	}
+
+	@Then("^Validate that traveller number is visible on fare family card : (true|false)$")
+	public void validateFareFamilyTravellerNumberVisibility(boolean isTravellerNumberVisible) {
+		fareFamilyTravellerNumber().check(matches( isTravellerNumberVisible ? isDisplayed() : not(isDisplayed())));
+	}
+
+	@Then("^Validate that \"(.*?)\" are displayed on fare family card")
+	public void validateFareFamilyTravellerNumberString(String travellerNumberString) {
+		fareFamilyTravellerNumber().check(matches(withText(travellerNumberString)));
 	}
 
 	@Then("^Validate fare family details header info$")
@@ -318,6 +331,12 @@ public class FlightsOverviewScreenSteps {
 	public void validateupsellCardTitle(String title) {
 		fareFamilyWidgetTitle().check(matches(isDisplayed()));
 		getViewText(fareFamilyWidgetTitle()).contains(title);
+	}
+
+	@Then("^Validate fare family card icon is displayed$")
+	public void validateFareFamilyIcon() {
+		fareFamilyWidgetIcon().check(matches(isDisplayed()));
+		fareFamilyWidgetIcon().check(matches(withImageDrawable(R.drawable.flight_upsell_seat_icon)));
 	}
 
 	@Then("^Validate fare family card subtitle is \"(.*?)\"$")

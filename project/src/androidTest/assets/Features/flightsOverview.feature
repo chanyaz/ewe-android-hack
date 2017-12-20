@@ -534,3 +534,76 @@ Feature: Flights Overview
     Then Validate delta price is displayed : false
     Then Validate from label is displayed : false
     Then Validate bundle total amount is "varBundleTotal"
+
+    @Flights @FlightsOverviewSet3
+      Scenario: Validate the fare family card on Flights Rate Details Page with multiple traveller
+      Given I launch the App
+      And I launch "Flights" LOB
+      When I make a flight search with following parameters
+        | source              | SFO                                      |
+        | destination         | DEL                                      |
+        | source_suggest      | San Francisco, CA                        |
+        | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+        | start_date          | 5                                        |
+        | end_date            | 25                                       |
+        | adults              | 2                                        |
+        | child               | 1                                        |
+      And I wait for results to load
+      And I select outbound flight at position 4 and reach inbound FSR
+      And I wait for inbound flights results to load
+      And I select inbound flight at position 1 and reach overview
+      And Close price change Alert dialog if it is visible
+      Then Validate that fare family widget card is displayed
+      Then Validate fare family widget card info
+        | title                 | Upgrade your flights         |
+        | subtitle              | Selected: Economy,Business   |
+        | from_label            | From                         |
+        | delta_price           | +$99.00                      |
+      Then Validate that traveller number is visible on fare family card : true
+      Then Validate that "3 travelers" are displayed on fare family card
+      Then I click on fare family widget card
+      Then I select flight upgrade at position 2
+      Then I click on done button for upsell
+      And Wait for checkout button to display
+      Then Validate fare family card title is "You've selected First or Business"
+      Then Validate fare family card subtitle is "Change fare class"
+      Then Validate fare family card icon is displayed
+      Then Validate that traveller number is visible on fare family card : false
+      Then Validate delta price is displayed : false
+      Then Validate from label is displayed : false
+
+  @Flights @FlightsOverviewSet3
+  Scenario: Validate the fare family card on Flights Rate Details Page with single traveller
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+    And I wait for results to load
+    And I select outbound flight at position 4 and reach inbound FSR
+    And I wait for inbound flights results to load
+    And I select inbound flight at position 1 and reach overview
+    And Close price change Alert dialog if it is visible
+    Then Validate that fare family widget card is displayed
+    Then Validate fare family widget card info
+      | title                 | Upgrade your flights         |
+      | subtitle              | Selected: Economy,Business   |
+      | from_label            | From                         |
+      | delta_price           | +$99.00                      |
+    Then Validate that traveller number is visible on fare family card : false
+    Then I click on fare family widget card
+    Then I select flight upgrade at position 2
+    Then I click on done button for upsell
+    And Wait for checkout button to display
+    Then Validate fare family card title is "You've selected First or Business"
+    Then Validate fare family card subtitle is "Change fare class"
+    Then Validate fare family card icon is displayed
+    Then Validate that traveller number is visible on fare family card : false
+    Then Validate delta price is displayed : false
+    Then Validate from label is displayed : false
