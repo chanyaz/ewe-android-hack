@@ -110,7 +110,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     private var accountFragment: AccountSettingsFragment? = null
     private var phoneLaunchFragment: PhoneLaunchFragment? = null
     private var softPromptDialogFragment: SoftPromptDialogFragment? = null
-    private var isLocationPermissionPending = false
+    var isLocationPermissionPending = false
 
     private val userLoginStateChangedModel: UserLoginStateChangedModel by lazy {
         Ui.getApplication(this).appComponent().userLoginStateChangedModel()
@@ -519,9 +519,14 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         }
         if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             if (SettingUtils.get(this, PREF_USER_ENTERS_FROM_SIGNIN, false)) {
-                if (shouldShowSoftPrompt()) {
+
+                if (pagerPosition == PAGER_POS_ITIN) {
+                    requestLocationPermission(this)
+                }
+                else if (shouldShowSoftPrompt()){
                     requestLocationPermissionViaSoftPrompt()
                 }
+
                 SettingUtils.save(this, PREF_USER_ENTERS_FROM_SIGNIN, false)
             }
         }

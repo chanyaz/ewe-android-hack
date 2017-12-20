@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.widget.Button
 import com.expedia.bookings.R
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.util.PermissionsUtils.requestLocationPermission
 
@@ -25,6 +26,9 @@ class SoftPromptDialogFragment: DialogFragment() {
         val dismissButton = view.findViewById<Button>(R.id.soft_prompt_disable_text)
         dismissButton.setOnClickListener {
             OmnitureTracking.trackLocationSoftPrompt(false)
+            if (activity is PhoneLaunchActivity) {
+                (activity as PhoneLaunchActivity).isLocationPermissionPending = false
+            }
             dismiss()
         }
 

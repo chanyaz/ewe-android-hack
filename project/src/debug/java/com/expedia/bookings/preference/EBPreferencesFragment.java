@@ -202,7 +202,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		}
 		else if ("PREF_FIRST_LAUNCH".equals(key)) {
 			userStateManager.signOut();
-			SettingUtils.save(getContext(), PhoneLaunchActivity.PREF_USER_ENTERS_FROM_SIGNIN, true);
+			SettingUtils.save(getContext(), PhoneLaunchActivity.PREF_USER_ENTERS_FROM_SIGNIN, false);
 			SettingUtils.save(getContext(), PhoneLaunchActivity.PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0);
 		}
 
