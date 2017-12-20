@@ -4,6 +4,7 @@ buildscript {
     ext.okhttp_version = '3.8.1'
     ext.retrofit_version = '2.3.0'
     ext.rxjava_version = '1.2.1'
+    ext.dagger_version = '2.14.1'
 
     repositories {
         jcenter()
