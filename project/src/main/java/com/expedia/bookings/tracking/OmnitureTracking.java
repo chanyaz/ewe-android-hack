@@ -2031,6 +2031,24 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Member Deals", null, null);
 	}
 
+	public static void trackLastMinuteDealsPageLoad() {
+		ADMS_Measurement s = createTrackPageLoadEventBase(LAST_MINUTE_DEAL_SCREEN);
+		s.setProp(2, "Merch");
+		s.setEvar(12, LAST_MINUTE_DEAL_SCREEN);
+		s.track();
+	}
+
+	public static void trackLastMinuteDealDestinationTappedRank(int position) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, getFormattedRank(position));
+		s.setProp(16, getFormattedRank(position));
+		s.trackLink(null, "o", "Last Minute Deals", null, null);
+	}
+
+	private static String getFormattedRank(int position) {
+		return "App.LMD.Rank." + String.valueOf(position);
+	}
+
 	private static void trackProWizardTest(ADMS_Measurement s, int testValue) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			return;
@@ -3013,6 +3031,7 @@ public class OmnitureTracking {
 	private static final String ACCOUNT_APP_DOWNLOAD = "App.Account.Download";
 	private static final String ACCOUNT_SIGN_OUT = "App.Account.Logout";
 	private static final String MEMBER_PRICING_SCREEN = "App.MemberDeals";
+	private static final String LAST_MINUTE_DEAL_SCREEN = "App.LastMinuteDeals";
 	private static final String NEW_USER_ONBOARDING_LOB = "App.Onboarding.MultiLOB";
 	private static final String NEW_USER_ONBOARDING_ITINERARY = "App.Onboarding.Itinerary";
 	private static final String NEW_USER_ONBOARDING_LOYALTY = "App.Onboarding.Loyalty";
