@@ -22,6 +22,7 @@
     <color name="blue4">#0B3F6B</color>
     <color name="blue5">#1E2E4A</color>
     <color name="blue6">#022b4b</color>
+    <color name="blue7">#1267b0</color>
 
     <color name="success_green">#0F7800</color>
     <color name="error_red">#C72800</color>
@@ -41,6 +42,8 @@
     <color name="gray900">#1F1F1F</color>
     <color name="black">#FF000000</color>
 
+    <color name="bundleTextGray">#656565</color>
+    <color name="docketOutboundWidgetGray">#f7f7f7</color>
     <!-- alpha colors http://stackoverflow.com/questions/15852122/hex-transparency-in-colors-->
     <color name="white_19">#30FFFFFF</color> <!-- Disabled white text -->
     <color name="white_25">#40FFFFFF</color>

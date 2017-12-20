@@ -1189,6 +1189,21 @@
         <item name="android:background">@drawable/error_button_selector</item>
     </style>
 
+    <style name="BundleWidgetTop"></style>
+
+    <style name="BundleWidgetTop.PrimaryText">
+        <item name="android:textColor">@color/bundleTextGray</item>
+        <item name="android:textSize">@dimen/type_300_text_size</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="BundleWidgetTop.SecondaryText">
+        <item name="android:textColor">@color/bundleTextGray</item>
+        <item name="android:textSize">@dimen/type_300_text_size</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+
     <!--Traveler plus and minus icon style for Hotel, Package and Rail-->
     <style name="TravelerIcon">
         <item name="android:layout_width">@dimen/traveler_plus_minus_size</item>

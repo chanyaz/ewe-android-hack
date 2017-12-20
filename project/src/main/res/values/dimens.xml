@@ -207,6 +207,7 @@
     <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
 
     <!-- Package Results -->
+    <dimen name="package_docked_outbound_view_seperator">1dp</dimen>
 
     <!-- Material Checkout Forms-->
     <dimen name="traveler_select_item_padding">12dp</dimen>

@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewStub
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -31,11 +32,13 @@ import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.bookings.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.packages.FlightOverviewViewModel
@@ -47,10 +50,22 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
     lateinit var slidingBundleWidgetListener: SlidingBundleWidgetListener
 
+    val bundlePriceWidgetTop: BundleTotalPriceTopWidget by lazy {
+        val viewStub = findViewById<ViewStub>(R.id.bundle_total_top_stub)
+        viewStub.inflate() as BundleTotalPriceTopWidget
+    }
+
+    val bundlePriceWidgetTopShadow: View by lazy {
+        findViewById<View>(R.id.toolbar_dropshadow_bundle_total_top)
+    }
+
     override val overviewTransition = object : OverviewTransition(this) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             disableSlidingWidget(forward)
+            if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+                bundlePriceWidgetTop.isClickable = !forward
+            }
         }
     }
 
@@ -143,6 +158,13 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         overviewPresenter.vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
         Db.sharedInstance.packageParams.flightLegList = allFlights
         trackFlightResultsLoad()
+        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+            bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text_new))
+            bundlePriceWidgetTop.setOnClickListener { show(bundleSlidingWidget) }
+            bundleSlidingWidget.bundlePriceWidget.viewModel.perPersonTextLabelObservable.subscribeVisibility(bundlePriceWidgetTop.bundlePerPersonText)
+            bundleSlidingWidget.bundlePriceFooter.viewModel.totalPriceObservable.subscribeTextAndVisibility(bundlePriceWidgetTop.bundleTotalPrice)
+            bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.subscribeText(bundlePriceWidgetTop.bundleTitleText)
+        }
     }
 
     private fun setupMenuFilter() {
@@ -270,8 +292,14 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
             show(bundleSlidingWidget)
         }
+
         slidingBundleWidgetListener =  SlidingBundleWidgetListener(bundleSlidingWidget, this)
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
+
+        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+            resultsPresenter.dockedOutboundFlightSelection.setBackgroundColor(resources.getColor(R.color.docketOutboundWidgetGray))
+            resultsPresenter.dockedOutboundFlightShadow.layoutParams.height = resources.getDimension(R.dimen.package_docked_outbound_view_seperator).toInt()
+        }
     }
 
     fun updateOverviewAnimationDuration(duration: Int) {
@@ -285,6 +313,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun viewBundleSetVisibility(forward: Boolean) {
         bundleSlidingWidget.visibility = if (forward) View.VISIBLE else View.GONE
+        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+            bundlePriceWidgetTop.visibility = if (forward) View.VISIBLE else View.GONE
+            bundlePriceWidgetTopShadow.visibility = if (forward) View.VISIBLE else View.GONE
+        }
     }
 
     private val resultsToOverview = object : Transition(FlightResultsListViewPresenter::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), bundleSlidingWidget.REGULAR_ANIMATION_DURATION) {

@@ -12,7 +12,6 @@ import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
-import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
@@ -80,7 +79,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
     val bundlePriceWidgetTop: BundleTotalPriceTopWidget by lazy {
         val viewStub = findViewById<ViewStub>(R.id.bundle_total_top_stub)
-        return@lazy viewStub.inflate() as BundleTotalPriceTopWidget
+        viewStub.inflate() as BundleTotalPriceTopWidget
     }
 
     override fun inflate() {

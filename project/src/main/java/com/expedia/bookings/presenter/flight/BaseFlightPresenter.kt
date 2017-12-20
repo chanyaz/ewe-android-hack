@@ -25,6 +25,7 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.BaggageFeeInfoWebView
 import com.expedia.bookings.widget.BaseFlightFilterWidget
@@ -43,6 +44,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
 
     val ANIMATION_DURATION = 400
     val toolbar: Toolbar by bindView(R.id.flights_toolbar)
+    val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
 
     val menuFilter: MenuItem by lazy {
@@ -141,6 +143,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             activity.onBackPressed()
         }
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
+        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) toolbarShadow.visibility = View.GONE
     }
 
     override fun onFinishInflate() {

@@ -25,7 +25,7 @@ import rx.subjects.PublishSubject
 
 class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
-    private val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
+    val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
     private val airlineChargesFeesTextView: TextView by bindView(R.id.airline_charges_fees_header)
     val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     lateinit private var flightListAdapter: AbstractFlightListAdapter
@@ -61,7 +61,6 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             dockedOutboundFlightWidget.viewModel = selectedOutboundFlightViewModel
             this.dockedOutboundFlightSelection = dockedOutboundFlightWidget
         }
-
         setupFilterButton()
     }
 

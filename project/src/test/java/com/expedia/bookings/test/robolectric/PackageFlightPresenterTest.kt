@@ -3,20 +3,24 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.packages.PackageFlightPresenter
-import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.services.ProductSearchType
-import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -24,9 +28,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import java.util.concurrent.TimeUnit
+import java.math.BigDecimal
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class PackageFlightPresenterTest {
@@ -38,12 +42,9 @@ class PackageFlightPresenterTest {
     lateinit var roomResponse: PackageOffersResponse
     val context = RuntimeEnvironment.application
 
-    val packageServiceRule = ServicesRule(PackageServices::class.java)
+    val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
 
-    var hotelObserver = TestSubscriber<BundleSearchResponse>()
-    var flightObserver = TestSubscriber<BundleSearchResponse>()
-    var offerObserver = TestSubscriber<PackageOffersResponse>()
 
     @Before
     fun setup() {
@@ -52,6 +53,49 @@ class PackageFlightPresenterTest {
         Ui.getApplication(activity).defaultPackageComponents()
         Ui.getApplication(activity).defaultTravelerComponent()
         Ui.getApplication(activity).defaultFlightComponents()
+    }
+
+    @Test
+    fun testBundleWidgetTopVisibleOutboundFlights() {
+        setPackageResponseHotels()
+        setPackageResponseOutboundFlight()
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
+
+        presenter = getPackageFlightPresenter()
+        assertEquals(View.VISIBLE, presenter.bundlePriceWidgetTop.visibility)
+    }
+
+    @Test
+    fun testBundleWidgetTopNotVisibleOutboundFlights() {
+        setPackageResponseHotels()
+        setPackageResponseOutboundFlight()
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
+
+        presenter = getPackageFlightPresenter()
+        assertNull(presenter.findViewById<BundleTotalPriceTopWidget>(R.id.bundle_total_top_view))
+    }
+
+    @Test
+    fun testBundleWidgetTopVisibleInboundFlights() {
+        setPackageResponseHotels()
+        setPackageResponseOutboundFlight()
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
+
+        presenter = getPackageFlightPresenter()
+        presenter.resultsPresenter.outboundFlightSelectedSubject.onNext(createFakeFlightLeg())
+
+        assertEquals(View.VISIBLE, presenter.bundlePriceWidgetTop.visibility)
+    }
+
+    @Test
+    fun testBundleWidgetTopNotVisibleInboundFlights() {
+        setPackageResponseHotels()
+        setPackageResponseOutboundFlight()
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
+
+        presenter = getPackageFlightPresenter()
+        presenter.resultsPresenter.outboundFlightSelectedSubject.onNext(createFakeFlightLeg())
+        assertNull(presenter.findViewById<BundleTotalPriceTopWidget>(R.id.bundle_total_top_view))
     }
 
     @Test
@@ -167,23 +211,20 @@ class PackageFlightPresenterTest {
     private fun setPackageResponseHotels() {
         buildPackagesSearchParams()
         Db.setPackageParams(params)
-        searchHotels()
-        hotelResponse = hotelObserver.onNextEvents.get(0)
+        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
         Db.setPackageResponse(hotelResponse)
     }
 
     private fun setPackageResponseOutboundFlight() {
         buildPackagesSearchParams()
-        searchHotels()
-        hotelResponse = hotelObserver.onNextEvents.get(0)
+        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
         Db.setPackageResponse(hotelResponse)
 
         params.packagePIID = hotelResponse.getHotels()[0].hotelId
         params.currentFlights = arrayOf("legs")
         params.ratePlanCode = "flight_outbound_happy"
         params.roomTypeCode = "flight_outbound_happy"
-        searchRooms()
-        roomResponse = offerObserver.onNextEvents[0]
+        roomResponse = mockPackageServiceRule.getPSSOffersSearchResponse("package_happy")
         Db.setPackageSelectedHotel(hotelResponse.getHotels().get(0), roomResponse.getBundleRoomResponse()[0])
 
         params.packagePIID = "happy_outbound_flight"
@@ -192,29 +233,35 @@ class PackageFlightPresenterTest {
         params.currentFlights = arrayOf("legs")
         params.isOutboundSearch(true)
         Db.setPackageParams(params)
-        searchFLights()
-        flightResponse = flightObserver.onNextEvents.get(0)
-        flightResponse.setCurrentOfferPrice(flightObserver.onNextEvents[0].getFlightLegs()[0].packageOfferModel.price)
+        flightResponse = mockPackageServiceRule.getPSSFlightOutboundSearchResponse("happy_outbound_flight")!!
+        flightResponse.setCurrentOfferPrice(flightResponse.getFlightLegs()[0].packageOfferModel.price)
         Db.setPackageResponse(flightResponse)
-    }
-
-    private fun searchRooms() {
-        packageServiceRule.services!!.hotelOffer(params.packagePIID!!, params.startDate.toString(), params.endDate.toString(), params.ratePlanCode!!, params.roomTypeCode, params.adults, params.childAges!![0].toInt()).subscribe(offerObserver)
-        offerObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
-    }
-
-    private fun searchHotels() {
-        packageServiceRule.services!!.packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(hotelObserver)
-        hotelObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
-    }
-
-    private fun searchFLights() {
-        packageServiceRule.services!!.packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(flightObserver)
-        flightObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
     }
 
     private fun getPackageFlightPresenter(): PackageFlightPresenter {
         return LayoutInflater.from(activity).inflate(R.layout.package_flight_activity, null, false)
                 as PackageFlightPresenter
+    }
+
+    private fun createFakeFlightLeg(): FlightLeg {
+        val flightLeg = FlightLeg()
+        val airline = Airline("United Airlines", "")
+
+        flightLeg.airlines = listOf(airline)
+        flightLeg.durationHour = 13
+        flightLeg.durationMinute = 59
+        flightLeg.stopCount = 1
+        flightLeg.departureDateTimeISO = "2016-03-09T01:10:00.000-05:00"
+        flightLeg.arrivalDateTimeISO = "2016-03-10T12:20:00.000-07:00"
+        flightLeg.elapsedDays = 1
+        flightLeg.packageOfferModel = PackageOfferModel()
+        flightLeg.packageOfferModel.urgencyMessage = PackageOfferModel.UrgencyMessage()
+        flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
+        flightLeg.packageOfferModel.price.differentialPriceFormatted = "$646.00"
+        flightLeg.packageOfferModel.price.pricePerPersonFormatted = "$646.00"
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("1200.90", "USD")
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal("1200.90")
+
+        return flightLeg
     }
 }
