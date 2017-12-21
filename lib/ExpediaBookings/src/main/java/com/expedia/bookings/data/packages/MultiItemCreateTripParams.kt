@@ -7,7 +7,15 @@ class MultiItemCreateTripParams(val flightPIID: String, val hotelID: String, val
                                 val startDate: LocalDate, val endDate: LocalDate, val adults: Int) {
     companion object {
         fun fromPackageSearchParams(searchParams: PackageSearchParams): MultiItemCreateTripParams {
-            return MultiItemCreateTripParams(searchParams.latestSelectedFlightPIID!!, searchParams.hotelId!!, searchParams.inventoryType!!, searchParams.ratePlanCode!!, searchParams.roomTypeCode!!, searchParams.latestSelectedProductOfferPrice!!, searchParams.startDate, searchParams.endDate!!, searchParams.adults)
+            return MultiItemCreateTripParams(searchParams.latestSelectedFlightPIID!!,
+                    searchParams.hotelId!!,
+                    searchParams.inventoryType!!,
+                    searchParams.ratePlanCode!!,
+                    searchParams.roomTypeCode!!,
+                    searchParams.latestSelectedProductOfferPrice!!,
+                    searchParams.startDate,
+                    searchParams.endDate!!,
+                    searchParams.adults)
         }
     }
 

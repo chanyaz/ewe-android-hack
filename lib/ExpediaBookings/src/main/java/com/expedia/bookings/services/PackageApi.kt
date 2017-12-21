@@ -80,7 +80,13 @@ interface PackageApi {
             @Query("currencyCode") currencyCode: String? = null): Observable<MultiItemApiSearchResponse>
 
     @GET("/api/multiitem/v1/createTrip")
-    fun multiItemCreateTrip(@Query("flightPIID") flightPIID: String, @Query("hotelId") hotelID: String, @Query("inventoryType") inventoryType: String, @Query("ratePlanCode") ratePlanCode: String, @Query("roomTypeCode") roomTypeCode: String, @Query("adults") adults: Int, @Query("checkInDate") checkInDate: String,
-                            @Query("checkOutDate") checkOutDate: String
-    ): Observable<MultiItemApiCreateTripResponse>
+    fun multiItemCreateTrip(@Query("flightPIID") flightPIID: String,
+                            @Query("hotelId") hotelID: String,
+                            @Query("inventoryType") inventoryType: String,
+                            @Query("ratePlanCode") ratePlanCode: String,
+                            @Query("roomTypeCode") roomTypeCode: String,
+                            @Query("adults") adults: Int,
+                            @Query("checkInDate") checkInDate: String,
+                            @Query("checkOutDate") checkOutDate: String,
+                            @Query("totalPrice") totalPrice: BigDecimal): Observable<MultiItemApiCreateTripResponse>
 }

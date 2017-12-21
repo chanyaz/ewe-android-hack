@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
@@ -240,6 +241,7 @@ class PackageOverviewPresenterTest {
         packageParams.ratePlanCode = "AAA"
         packageParams.roomTypeCode = "AA"
         packageParams.latestSelectedProductOfferPrice = PackageOfferModel.PackagePrice()
+        packageParams.latestSelectedProductOfferPrice?.packageTotalPrice = Money(100, "USD")
         Db.setPackageParams(packageParams)
         return packageParams
     }
