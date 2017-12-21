@@ -92,6 +92,7 @@
     <color name="filter_number_text_color">@color/lob_primary_color</color>
     <color name="flight_primary_color">@color/packages_primary_color</color>
     <color name="flights_error_message_infants">@color/error_color</color>
+    <color name="flight_seats_left_urgency_message_color">#EB1400</color>
 
     <!-- Splash screen -->
     <color name="splash_screen_bg">@color/bg_blue_color_travelocity</color>
