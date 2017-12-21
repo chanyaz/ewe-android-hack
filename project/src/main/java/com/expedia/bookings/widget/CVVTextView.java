@@ -5,11 +5,7 @@ import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.section.CreditCardInputSection;
-import com.expedia.bookings.utils.FontCache;
 
-/**
- * Created by dmelton on 3/4/14.
- */
 public class CVVTextView extends TextView implements CreditCardInputSection.CreditCardInputListener {
 
 	public CVVTextView(Context context, AttributeSet attrs) {
@@ -19,8 +15,6 @@ public class CVVTextView extends TextView implements CreditCardInputSection.Cred
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-
-		setTypeface(FontCache.getTypeface(FontCache.Font.OCRA_STD));
 	}
 
 	public void setCvvErrorMode(boolean enabled) {

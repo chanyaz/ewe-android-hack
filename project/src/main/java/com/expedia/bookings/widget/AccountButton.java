@@ -42,7 +42,6 @@ import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.util.LoyaltyUtil;
@@ -301,7 +300,6 @@ public class AccountButton extends LinearLayout {
 			}
 			//Show Reward Points Container
 			mRewardsTextView.setVisibility(View.VISIBLE);
-			FontCache.setTypeface(rewardsCategoryTextView, FontCache.Font.EXPEDIASANS_REGULAR);
 			setRewardsContainerBackgroundColor(mRewardsTextView, loyaltyTier);
 
 			//Show/Update Reward Points Text

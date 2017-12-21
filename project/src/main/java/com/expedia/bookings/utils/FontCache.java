@@ -19,14 +19,10 @@ import android.widget.TextView;
 public class FontCache {
 
 	public enum Font {
-		OCRA_STD("fonts/OCRAStd.otf"),
 		ROBOTO_LIGHT("fonts/Roboto-Light.ttf"),
 		ROBOTO_MEDIUM("fonts/Roboto-Medium.ttf"),
 		ROBOTO_BOLD("fonts/Roboto-Bold.ttf"),
-		ROBOTO_REGULAR("fonts/Roboto-Regular.ttf"),
-		SIGNERICA_FAT("fonts/Signerica_Fat.ttf"),
-		EXPEDIASANS_REGULAR("fonts/ExpediaSans-Regular.ttf"),
-		;
+		ROBOTO_REGULAR("fonts/Roboto-Regular.ttf");
 
 		private String mPath;
 
