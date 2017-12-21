@@ -2,17 +2,14 @@ package com.expedia.account.util;
 
 import java.util.Locale;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.ResultReceiver;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.account.input.rules.ExpediaPasswordInputRule;
@@ -150,11 +147,7 @@ public class Utils {
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 
-	@TargetApi(Build.VERSION_CODES.KITKAT)
 	public static int getStatusBarHeight(Context ctx) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			return 0;
-		}
 		int result = 0;
 		int resourceId = ctx.getResources().getIdentifier("status_bar_height", "dimen", "android");
 		if (resourceId > 0) {

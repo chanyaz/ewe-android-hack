@@ -180,32 +180,16 @@ public class AndroidUtils {
 		DisplayMetrics metrics = new DisplayMetrics();
 		d.getMetrics(metrics);
 
-		// since SDK_INT = 1;
 		size.x = metrics.widthPixels;
 		size.y = metrics.heightPixels;
 
-		// includes window decorations (statusbar bar/menu bar)
-		if (Build.VERSION.SDK_INT >= 14 && Build.VERSION.SDK_INT < 17) {
-			try {
-				size.x = (Integer) Display.class.getMethod("getRawWidth").invoke(d);
-				size.y = (Integer) Display.class.getMethod("getRawHeight").invoke(d);
-			}
-			catch (Exception ignored) {
-
-			}
+		try {
+			Point realSize = new Point();
+			Display.class.getMethod("getRealSize", Point.class).invoke(d, realSize);
+			size.x = realSize.x;
+			size.y = realSize.y;
 		}
-
-		// includes window decorations (statusbar bar/menu bar)
-		if (Build.VERSION.SDK_INT >= 17) {
-			try {
-				Point realSize = new Point();
-				Display.class.getMethod("getRealSize", Point.class).invoke(d, realSize);
-				size.x = realSize.x;
-				size.y = realSize.y;
-			}
-			catch (Exception ignored) {
-
-			}
+		catch (Exception ignored) {
 		}
 
 		return size;
@@ -238,25 +222,16 @@ public class AndroidUtils {
 	/**
 	 * Are we currently using a restricted profile?
 	 * https://developer.android.com/about/versions/android-4.3.html#RestrictedProfiles
-	 *
-	 * @param context
-	 * @return
 	 */
-	@TargetApi(18)
 	public static boolean isRestrictedProfile(Context context) {
-		if (getSdkVersion() >= 18) {
-			UserManager um = (UserManager) context.getSystemService(Context.USER_SERVICE);
-			Bundle restrictions = um.getUserRestrictions();
-			return restrictions.getBoolean(UserManager.DISALLOW_MODIFY_ACCOUNTS, false);
-		}
-		return false;
+		UserManager um = (UserManager) context.getSystemService(Context.USER_SERVICE);
+		Bundle restrictions = um.getUserRestrictions();
+		return restrictions.getBoolean(UserManager.DISALLOW_MODIFY_ACCOUNTS, false);
 	}
 
 	public static int getScreenDpi(Context context) {
-
 		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-		int dpi = metrics.densityDpi;
-		return dpi;
+		return metrics.densityDpi;
 	}
 
 	public static String getScreenDensityClass(Context context) {

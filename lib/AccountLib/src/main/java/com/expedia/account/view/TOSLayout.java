@@ -1,11 +1,7 @@
 package com.expedia.account.view;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Spannable;
@@ -217,8 +213,6 @@ public class TOSLayout extends FrameLayout {
 		refreshCheckboxContentDesc(vTermsOfUseLayout);
 		refreshCheckboxContentDesc(vSpamOptInLayout);
 
-		fixupPadding(vTermsOfUseCheckBox);
-		fixupPadding(vSpamOptInCheckBox);
 		fixupColors(vTermsOfUseCheckBox);
 		fixupColors(vSpamOptInCheckBox);
 
@@ -229,7 +223,6 @@ public class TOSLayout extends FrameLayout {
 			setUserEnrollInLoyalty(false);
 			refreshCheckboxContentDesc(vEnrollInLoyaltyLayout);
 
-			fixupPadding(vEnrollInLoyaltyCheckBox);
 			fixupColors(vEnrollInLoyaltyCheckBox);
 		}
 		else {
@@ -243,28 +236,7 @@ public class TOSLayout extends FrameLayout {
 		user.enrollInLoyalty = isUserEnrollInLoyality;
 	}
 
-	private void fixupPadding(View v) {
-		if (Build.VERSION.SDK_INT < 17) {
-			int left = getResources().getDimensionPixelSize(R.dimen.acct__fixup_checkbox_padding);
-			v.setPadding(left,
-				v.getPaddingTop(),
-				v.getPaddingRight(),
-				v.getPaddingBottom());
-		}
-	}
-
 	protected void fixupColors(CheckBox v) {
-		if (Build.VERSION.SDK_INT < 21) {
-			boolean checked = v.isChecked();
-			int colorRes = checked ? mCheckedColorResId : mUncheckedColorResId;
-			Resources res = getResources();
-			int color = res.getColor(colorRes);
-
-			Drawable drawable = res.getDrawable(R.drawable.abc_btn_check_material);
-			drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-
-			v.setButtonDrawable(drawable);
-		}
 	}
 
 	private boolean containsLinks(CharSequence text) {

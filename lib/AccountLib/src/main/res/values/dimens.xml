@@ -29,8 +29,6 @@
     <dimen name="acct__welcome_message_padding_top">140dp</dimen>
     <dimen name="acct__max_width">@dimen/acct__match_parent</dimen>
 
-    <dimen name="acct__fixup_checkbox_padding">48dp</dimen>
-
     <!-- Extra margins for tablets -->
     <dimen name="acct__keyboard_visible_space_above_buttons">0dp</dimen>
     <dimen name="acct__forgot_password_top_margin">-4dp</dimen>
