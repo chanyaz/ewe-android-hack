@@ -80,13 +80,24 @@ class SatelliteFeatureConfigManagerTest {
 
     @Test
     fun testAbacusTestEnabled() {
-        assertFalse(SatelliteFeatureConfigManager.testEnabled(context, 14731))
+        assertFalse(SatelliteFeatureConfigManager.isEnabled(context, "14731"))
 
         val testList = listOf("downloadConfigsOnPOSChange", "14731", "14732", "14484", "14732")
         SatelliteFeatureConfigManager.cacheFeatureConfig(context, testList)
 
-        assertTrue(SatelliteFeatureConfigManager.testEnabled(context, 14731))
-        assertFalse(SatelliteFeatureConfigManager.testEnabled(context, 123))
+        assertTrue(SatelliteFeatureConfigManager.isEnabled(context, "14731"))
+        assertFalse(SatelliteFeatureConfigManager.isEnabled(context, "123"))
+    }
+
+    @Test
+    fun testFeatureEnabled() {
+        assertFalse(SatelliteFeatureConfigManager.isEnabled(context, "downloadConfigsOnPOSChange"))
+
+        val testList = listOf("downloadConfigsOnPOSChange")
+        SatelliteFeatureConfigManager.cacheFeatureConfig(context, testList)
+
+        assertTrue(SatelliteFeatureConfigManager.isEnabled(context, "downloadConfigsOnPOSChange"))
+        assertFalse(SatelliteFeatureConfigManager.isEnabled(context, "123"))
     }
 
     @Test

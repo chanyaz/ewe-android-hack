@@ -34,6 +34,7 @@ import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
+import com.expedia.bookings.utils.CookiesUtils;
 import com.expedia.bookings.utils.HMACUtil;
 import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -100,7 +101,7 @@ public class AppModule {
 		PersistentCookiesCookieJar cookieManager;
 		File oldStorage = context.getFileStreamPath(COOKIE_FILE_OLD);
 		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
-		if (PointOfSale.getPointOfSale().shouldUseWebViewSyncCookieStore()) {
+		if (CookiesUtils.shouldUseNewCookiesMechanism(context)) {
 			cookieManager = new PersistentCookieManagerV2(storage, oldStorage);
 		}
 		else {

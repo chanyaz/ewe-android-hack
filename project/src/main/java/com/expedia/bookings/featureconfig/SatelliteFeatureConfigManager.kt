@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.utils.CookiesUtils
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.Log
 import rx.Observer
@@ -29,8 +30,12 @@ class SatelliteFeatureConfigManager {
             }
         }
 
+        @JvmStatic fun isFeatureEnabled(context: Context, featureString: String): Boolean {
+            return isEnabledFetchIfStale(context, featureString)
+        }
+
         @JvmStatic fun isABTestEnabled(context: Context, abacusTestId: Int): Boolean {
-            return isTestEnabledFetchIfStale(context, abacusTestId)
+            return isEnabledFetchIfStale(context, abacusTestId.toString())
         }
 
         @VisibleForTesting
@@ -57,10 +62,10 @@ class SatelliteFeatureConfigManager {
         }
 
         @VisibleForTesting
-        @JvmStatic fun testEnabled(context: Context, abacusTestId: Int): Boolean {
+        @JvmStatic fun isEnabled(context: Context, featureString: String): Boolean {
             val prefs = getFeatureConfigPreferences(context)
             val supportedFeatures = prefs.getStringSet(PREFS_SUPPORTED_FEATURE_SET, emptySet())
-            return supportedFeatures.contains(abacusTestId.toString())
+            return supportedFeatures.contains(featureString)
         }
 
         private fun clearFeatureConfig(context: Context) {
@@ -68,10 +73,10 @@ class SatelliteFeatureConfigManager {
             editor.clear().apply()
         }
 
-        private fun isTestEnabledFetchIfStale(context: Context, abacusTestId: Int): Boolean {
+        private fun isEnabledFetchIfStale(context: Context, featureString: String): Boolean {
             val default = false
             if (configValid(context)) {
-                return testEnabled(context, abacusTestId)
+                return isEnabled(context, featureString)
             } else {
                 fetchRemoteConfig(context)
             }
@@ -93,6 +98,7 @@ class SatelliteFeatureConfigManager {
             return object : Observer<List<String>> {
                 override fun onNext(featureConfigResponse: List<String>) {
                     cacheFeatureConfig(context, featureConfigResponse)
+                    CookiesUtils.checkAndUpdateCookiesMechanism(context)
                 }
 
                 override fun onCompleted() {}
