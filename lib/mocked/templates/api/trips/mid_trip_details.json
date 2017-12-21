@@ -1,0 +1,895 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "ff88710c-97a1-4469-bf7f-66ff66430dd7",
+    "webDetailsURL": "https://www.expedia.com/trips/7316992699395",
+    "tripNumber": 7316992699395,
+    "title": "Farmer's Daughter, Los Angeles",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/ff88710c-97a1-4469-bf7f-66ff66430dd7/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-03-07T09:00:00-08:00",
+      "localized": "Mar 7, 2018 9:00:00 AM",
+      "epochSeconds": 1520442000,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "3/7/2018",
+      "localizedMediumDate": "Mar 7",
+      "localizedFullDate": "Wed, Mar 7",
+      "localizedLongDate": "Mar 7, 2018",
+      "localizedShortTime": "9:00am"
+    },
+    "endTime": {
+      "raw": "2018-03-08T12:55:00-08:00",
+      "localized": "Mar 8, 2018 12:55:00 PM",
+      "epochSeconds": 1520542500,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "3/8/2018",
+      "localizedMediumDate": "Mar 8",
+      "localizedFullDate": "Thu, Mar 8",
+      "localizedLongDate": "Mar 8, 2018",
+      "localizedShortTime": "12:55pm"
+    },
+    "tripCreatedTime": {
+      "raw": "2017-12-20T19:41:56Z",
+      "localized": "Dec 20, 2017 7:41:56 PM",
+      "epochSeconds": 1513798916,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 20 Dec",
+      "localizedMediumDate": "Dec 20, 2017",
+      "localizedFullDate": "Wednesday, December 20, 2017",
+      "localizedLongDate": "December 20, 2017",
+      "localizedShortTime": "7:41 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2017-12-20T22:52:36Z",
+      "localized": "Dec 20, 2017 10:52:36 PM",
+      "epochSeconds": 1513810356,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 20 Dec",
+      "localizedMediumDate": "Dec 20, 2017",
+      "localizedFullDate": "Wednesday, December 20, 2017",
+      "localizedLongDate": "December 20, 2017",
+      "localizedShortTime": "10:52 PM"
+    },
+    "ownerId": 968314230,
+    "bookingStatus": "CANCELLED",
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/qVCojEZwsh9qBrI_QlyOdsCAB7gPz1tHtb-BCwRv9NnZfUbVhEwP8DTucXr_gwHoQkOb03y6Il4qnUNf9dcBfyLg",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia+ blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention <strong>itinerary #7316992699395 </strong>"],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "hotels": [{
+      "uniqueID": "DD918B8C-0207-402F-9E8E-5099663A9AEC_0",
+      "hotelId": "894101",
+      "checkInDateTime": {
+        "raw": "2018-03-07T15:00:00-08:00",
+        "localized": "Mar 7, 2018 3:00:00 PM",
+        "epochSeconds": 1520463600,
+        "timeZoneOffsetSeconds": -28800,
+        "localizedShortDate": "3/7/2018",
+        "localizedMediumDate": "Mar 7",
+        "localizedFullDate": "Wed, Mar 7",
+        "localizedLongDate": "Mar 7, 2018",
+        "localizedShortTime": "3:00pm"
+      },
+      "checkOutDateTime": {
+        "raw": "2018-03-08T11:00:00-08:00",
+        "localized": "Mar 8, 2018 11:00:00 AM",
+        "epochSeconds": 1520535600,
+        "timeZoneOffsetSeconds": -28800,
+        "localizedShortDate": "3/8/2018",
+        "localizedMediumDate": "Mar 8",
+        "localizedFullDate": "Thu, Mar 8",
+        "localizedLongDate": "Mar 8, 2018",
+        "localizedShortTime": "11:00am"
+      },
+      "checkInDate": "2018-03-07T15:00:00-08:00",
+      "checkOutDate": "2018-03-08T11:00:00-08:00",
+      "checkInDateLocalized": "Mar 7, 2018",
+      "checkOutDateLocalized": "Mar 8, 2018",
+      "numberOfNights": 1,
+      "bookingStatus": "CANCELLED",
+      "bookingStatusText": "Cancelled",
+      "bookingStatusMessage": "All rooms in this reservation have been cancelled. We're sorry your plans didn't work out. When you're ready to book a new trip, we'll be happy to help.",
+      "bookedDate": "2017-12-20",
+      "inventoryType": "MERCHANT",
+      "inventoryTypeEnum": "MERCHANT",
+      "inventorySource": "INTERNAL",
+      "paymentModel": "EXPEDIA_COLLECT",
+      "inventoryVisibility": "VISIBLE",
+      "orderNumber": "8057970781591",
+      "state": "PRE_START_4",
+      "infositeURL": "http://www.expedia.com/itin.h894101.Hotel-Information?langid=1033",
+      "epcConversationURL": "https://www.expedia.com/createConversation/create/?bookingId=786242514&bookingItemId=956824026&itineraryId=7316992699395&checkinDate=03/07/2018&checkoutDate=03/08/2018&tpid=1&eapid=0&siteId=1&hotelId=894101&hotelName=Farmer's Daughter&userTokenString=-Fy2gWJAXc6InyoFWaQ_zDZwThQn0PUWWmCbeUv-K5D_GNdy7hRZnKWbonrNqdcgxB51ZL31KpvyfyTS_0VDWGtE84rWX7zZRRkZmUpg9xRrqyr8YP6ttw",
+      "hotelPropertyInfo": {
+        "address": {
+          "addressLine1": "115 S Fairfax Ave",
+          "city": "Los Angeles",
+          "countrySubdivisionCode": "CA",
+          "postalCode": "90036",
+          "countryCode": "USA",
+          "countryName": " United States of America",
+          "fullAddress": "115 S Fairfax Ave, Los Angeles, CA, 90036 United States of America",
+          "airportCode": "LAX"
+        },
+        "name": "Farmer's Daughter",
+        "starRating": "35",
+        "photoThumbnailURL": "/hotels/1000000/900000/894200/894101/894101_45_l.jpg",
+        "photoThumbnail500pixURL": "/hotels/1000000/900000/894200/894101/894101_45_y.jpg",
+        "photoThumbnail1000pixURL": "/hotels/1000000/900000/894200/894101/894101_45_z.jpg",
+        "localPhone": "1-323-937-3930",
+        "formattedPhoneNumbers": "Tel: 1 (323) 937-3930, Fax: 1 (323) 932-1608",
+        "checkInPolicies": [
+          "Check-in time starts at 4 PM",
+          "Minimum check-in age is 21"],
+        "checkInStartTimePolicy": {
+          "label": "Check-in time starts at",
+          "value": "4 PM"
+        },
+        "checkInEndTimePolicy": {},
+        "checkOutTimePolicy": {
+          "label": "Check-out time is",
+          "value": "11:00:00"
+        },
+        "generalRules": [
+          "Check-out time is 11:00:00"],
+        "restrictionPolicies": [],
+        "fees": [],
+        "mandatoryFees": [
+          "<p>You'll be asked to pay the following charges at the property:</p>",
+          "<ul><li>Resort fee: USD 10.00 per accommodation, per night</li></ul>",
+          "The resort fee includes:<ul><li>Fitness/yoga classes</li><li>Nearby fitness center access</li><li>Business center/computer access</li><li>Internet access</li><li>Lending library access</li></ul>",
+          "<p>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book. </p>"],
+        "specialCheckInInstructions": [
+          "An adult age 18 or older must assume all liability for the booking. "],
+        "latitude": 34.073838,
+        "longitude": -118.361426,
+        "isVipAccess": false,
+        "googleMapsLink": "//maps.google.com/?q=90036+Los+Angeles%2C+115+S+Fairfax+Ave+",
+        "regionId": "6057203"
+      },
+      "totalPriceDetails": {
+        "comment": "fully cancelled; known penalty",
+        "primaryCurrencyCode": "USD",
+        "base": "189.91",
+        "baseFormatted": "$189.91",
+        "baseWithAdjustmentForDRRRateDiscount": "189.91",
+        "baseWithAdjustmentForDRRRateDiscountFormatted": "$189.91",
+        "taxesAndFees": "27.70",
+        "taxesAndFeesFormatted": "$27.70",
+        "drrRateDiscountDescription": "",
+        "subTotalBeforeCoupon": "217.61",
+        "subTotalBeforeCouponFormatted": "$217.61",
+        "refund": "217.61",
+        "refundFormatted": "$217.61",
+        "refundPOS": "217.61",
+        "refundPOSFormatted": "$217.61",
+        "taxStatus": "ESTIMATED",
+        "total": "0.00",
+        "totalFormatted": "$0.00",
+        "chargedTotalFormatted": "$217.61",
+        "isCurrencyConversionEnabled": false,
+        "hotelDepositsAfterRefund": "-217.61",
+        "hotelDepositsAfterRefundFormatted": "-$217.61",
+        "hasFees": true,
+        "expediaChangeFee": "0",
+        "expediaChangeFeeFormatted": "$0.00"
+      },
+      "rules": {
+        "cancelChangeRulesIntroduction": "We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Farmer's Daughter charges the following cancellation and change fees.",
+        "cancelChangeRules": [
+          "Cancellations or changes made after 4:00pm (Pacific Daylight Time (US & Canada); Tijuana) on Mar 4, 2018 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.",
+          "Prices and hotel availability are not guaranteed until full payment is received.If you would like to book multiple rooms, you must use a different name for each room. Otherwise, the duplicate reservation will be canceled by the hotel."],
+        "cancellationWindowTime": {
+          "raw": "2018-03-04T16:00:00-08:00",
+          "localized": "Mar 4, 2018 4:00:00 PM",
+          "epochSeconds": 1520208000,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "Sun, 4 Mar",
+          "localizedMediumDate": "Mar 4, 2018",
+          "localizedFullDate": "Sunday, March 4, 2018",
+          "localizedLongDate": "March 4, 2018",
+          "localizedShortTime": "4:00 PM"
+        },
+        "opaqueRules": [],
+        "opaquePolicies": [],
+        "lateArrivalInstructions": "Your room/unit will be guaranteed for late arrival.",
+        "loyaltyPointsDisclaimer": "Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.",
+        "currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+        "extraGuestPolicies": [
+          "Availability of accommodation in the same property for extra guests is not guaranteed."],
+        "occupancyPolicies": [
+          "Base rate is for 1 guest.",
+          "This property considers guests of any age to be an adult."],
+        "paymentPolicies": [
+          "Your credit card is charged the total cost at time of purchase. Prices and room/unit availability are not guaranteed until full payment is received.",
+          "Some properties request that we wait to submit guest names until 7 days prior to check in. In such a case, your room/unit is reserved, but your name is not yet on file with the property."],
+        "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+        "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel."
+      },
+      "rooms": [{
+        "uniqueID": "DD918B8C-0207-402F-9E8E-5099663A9AEC_0_956824026",
+        "roomRatePlanDescription": "Room, 2 Double Beds",
+        "roomTypeCode": "202189731",
+        "ratePlanCode": "211224056",
+        "bookingStatus": "CANCELLED",
+        "bookingStatusEnum": "CANCELLED",
+        "hotelConfirmationNumber": "EXP-956824026",
+        "drrRateDiscountDescription": "",
+        "orderLineNumber": "a7381d99-10dd-4e51-8136-809c30b4adb6",
+        "refundabilityStatus": "REFUNDABLE",
+        "availableOnAllDates": true,
+        "cancelRefundDetails": {
+          "condition": "NO_PENALTY",
+          "penaltyAmount": "0",
+          "penaltyAmountFormatted": "$0.00",
+          "refundAmount": "217.61",
+          "refundAmountFormatted": "$217.61"
+        },
+        "totalPriceDetails": {
+          "primaryCurrencyCode": "USD",
+          "base": "189.91",
+          "baseFormatted": "$189.91",
+          "baseWithAdjustmentForDRRRateDiscount": "189.91",
+          "baseWithAdjustmentForDRRRateDiscountFormatted": "$189.91",
+          "taxesAndFees": "27.70",
+          "taxesAndFeesFormatted": "$27.70",
+          "subTotalBeforeCoupon": "217.61",
+          "subTotalBeforeCouponFormatted": "$217.61",
+          "total": "217.61",
+          "totalFormatted": "$217.61",
+          "chargedTotalFormatted": "$217.61",
+          "isCurrencyConversionEnabled": false,
+          "averagePricePerDay": "189.91",
+          "averagePricePerDayFormatted": "$189.91",
+          "averageTaxPerDay": "27.70",
+          "averageTaxPerDayFormatted": "$27.70",
+          "priceDetailsPerDay": [{
+            "day": {
+              "raw": "2018-03-07T15:00:00-08:00",
+              "localized": "Mar 7, 2018 3:00:00 PM",
+              "epochSeconds": 1520463600,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "Wed, 7 Mar",
+              "localizedMediumDate": "Mar 7, 2018",
+              "localizedFullDate": "Wednesday, March 7, 2018",
+              "localizedLongDate": "March 7, 2018",
+              "localizedShortTime": "3:00 PM"
+            },
+            "primaryCurrencyCode": "USD",
+            "amount": "189.91",
+            "amountFormatted": "$189.91",
+            "localizedDay": {
+              "raw": "2018-03-07T15:00:00-08:00",
+              "localized": "Mar 7, 2018 3:00:00 PM",
+              "epochSeconds": 1520463600,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "3/7/2018",
+              "localizedMediumDate": "Mar 7",
+              "localizedFullDate": "Wed, Mar 7",
+              "localizedLongDate": "Mar 7, 2018",
+              "localizedShortTime": "3:00pm"
+            }
+          }],
+          "isSameRateForAllNights": true,
+          "expediaChangeFee": "0",
+          "expediaChangeFeeFormatted": "$0.00"
+        },
+        "roomPreferences": {
+          "primaryOccupant": {
+            "firstName": "Kevin",
+            "fullName": "Kevin Seo",
+            "email": "seokev@gmail.com",
+            "phone": "1-408-3157399"
+          },
+          "otherOccupantInfo": {
+            "adultCount": 1,
+            "childCount": 0,
+            "infantCount": 0,
+            "childAndInfantCount": 0,
+            "maxGuestCount": 0,
+            "childAndInfantAges": []
+          },
+          "occupantSelectedRoomOptions": {
+            "bedTypeName": "2 double beds",
+            "defaultBedTypeName": "2 double beds",
+            "smokingPreference": "NONSMOKING_ROOM",
+            "accessibilityOptions": [],
+            "hasExtraBedAdult": false,
+            "hasExtraBedChild": false,
+            "hasExtraBedInfant": false,
+            "isSmokingPreferenceSelected": true,
+            "isRoomOptionsAvailable": true
+          },
+          "availableRoomOptions": {
+            "bedTypes": [{
+              "id": "37365",
+              "description": "2 Double Beds",
+              "selected": false
+            }],
+            "isNewBedTypes": true,
+            "accessibilityOptions": [{
+              "id": "2421",
+              "description": "Roll-in shower",
+              "selected": false
+            }],
+            "isSmokingRoomAvailable": false,
+            "isNonSmokingRoomAvailable": true
+          }
+        },
+        "nonPricePromotionData": {},
+        "hotelRatePlan": {
+          "m_type": 16777216
+        }
+      }],
+      "isFreeCancellationAvailable": false,
+      "showVATDisclaimer": false,
+      "action": {
+        "isChangeable": false,
+        "isCancellable": false
+      }
+    }],
+    "flights": [{
+      "uniqueID": "42936736-6F33-4D61-9D16-DA26C7451F7F_0",
+      "bookingStatus": "CANCELLED",
+      "bookingStatusText": "Cancelled",
+      "bookingStatusMessage": "This reservation has been fully cancelled. We're sorry your plans didn't work out. When you're ready to book a new trip, we'll be happy to help.",
+      "startTime": {
+        "raw": "2018-03-07T09:00:00-08:00",
+        "localized": "Mar 7, 2018 9:00:00 AM",
+        "epochSeconds": 1520442000,
+        "timeZoneOffsetSeconds": -28800,
+        "localizedShortDate": "3/7/2018",
+        "localizedMediumDate": "Mar 7",
+        "localizedFullDate": "Wed, Mar 7",
+        "localizedLongDate": "Mar 7, 2018",
+        "localizedShortTime": "9:00am"
+      },
+      "endTime": {
+        "raw": "2018-03-08T12:55:00-08:00",
+        "localized": "Mar 8, 2018 12:55:00 PM",
+        "epochSeconds": 1520542500,
+        "timeZoneOffsetSeconds": -28800,
+        "localizedShortDate": "3/8/2018",
+        "localizedMediumDate": "Mar 8",
+        "localizedFullDate": "Thu, Mar 8",
+        "localizedLongDate": "Mar 8, 2018",
+        "localizedShortTime": "12:55pm"
+      },
+      "ticketingStatus": "CANCELLED",
+      "orderNumber": "8057970781591",
+      "updateFrequentFlyerPathURL": "https://www.expedia.com/api/trips/ff88710c-97a1-4469-bf7f-66ff66430dd7/updateFrequentFlyerInformation",
+      "orderLineNumber": "4648cd27-7d4d-4555-b709-4904dc0a1489",
+      "expediaBookingId": "W59V8E",
+      "paymentModel": "AGENCY",
+      "fareType": "PUBLISHED",
+      "flightType": "ROUND_TRIP",
+      "isInternational": false,
+      "fareTotal": {
+        "subTotal": "96.4",
+        "subTotalFormatted": "$96.40",
+        "currency": "USD",
+        "base": "63.26",
+        "baseFormatted": "$63.26",
+        "taxes": "33.14",
+        "taxesFormatted": "$33.14",
+        "total": "96.4",
+        "totalFormatted": "$96.40"
+      },
+      "farePerPassenger": [{
+        "passengerIndex": 0,
+        "passengerTypeCode": "ADULT",
+        "passengerTypeCodeLocalized": "Adult",
+        "currency": "USD",
+        "base": "63.26",
+        "baseFormatted": "$63.26",
+        "taxes": "33.14",
+        "taxesFormatted": "$33.14",
+        "fees": [{
+          "localizedName": "Passenger Civil Aviation Security Service Fee",
+          "amount": "11.2",
+          "amountFormatted": "$11.20",
+          "code": "AY"
+        }, {
+          "localizedName": "Passenger Facility Charge",
+          "amount": "9.0",
+          "amountFormatted": "$9.00",
+          "code": "XF"
+        }, {
+          "localizedName": "Flight Segment Tax",
+          "amount": "8.2",
+          "amountFormatted": "$8.20",
+          "code": "ZP"
+        }, {
+          "localizedName": "Transportation Tax",
+          "amount": "4.74",
+          "amountFormatted": "$4.74",
+          "code": "US"
+        }],
+        "total": "96.4",
+        "totalFormatted": "$96.40"
+      }],
+      "isSplitTicket": false,
+      "fulfillmentMethod": "ETICKET",
+      "passengers": [{
+        "typeCode": "ADULT",
+        "typeLocalized": "Adult",
+        "firstName": "Kevin",
+        "lastName": "Seo",
+        "fullName": "Kevin Seo",
+        "age": 23,
+        "gender": "Male",
+        "dateOfBirth": "1994-9-22",
+        "TSARedressNumber": "",
+        "phoneNumbers": [{
+          "countryCode": "1",
+          "phone": "4083157399"
+        }],
+        "ticketNumbers": [],
+        "frequentFlyerPlans": [],
+        "seats": [],
+        "seatPreferenceCode": "Z"
+      }],
+      "brandedFareFamilyName": "BASIC ECONOMY",
+      "orderedFareFamilyDetails": {
+        "chargeable": [
+          "Bags"],
+        "notoffered": [
+          "RefundBeforeDeparture4",
+          "SeatReservation2",
+          "ChangesBeforeDeparture4",
+          "PriorityBoarding",
+          "CarryOnBag2",
+          "ExtraLegroom2"],
+        "included": [
+          "BonusMiles"]
+      },
+      "legs": [{
+        "type": "NONSTOP",
+        "state": "PRE_START_4",
+        "numberOfStops": 0,
+        "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+        "segments": [{
+          "transportationType": "FLIGHT",
+          "departureType": "FLIGHT_DEPARTURE",
+          "departureLocation": {
+            "latitude": 37.61594,
+            "longitude": -122.387996,
+            "name": "San Francisco Intl.",
+            "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "countrySubdivisionCode": " CA",
+            "timeZoneName": "America/Los_Angeles"
+          },
+          "departureTime": {
+            "raw": "2018-03-07T09:00:00-08:00",
+            "localized": "Mar 7, 2018 9:00:00 AM",
+            "epochSeconds": 1520442000,
+            "timeZoneOffsetSeconds": -28800,
+            "localizedShortDate": "3/7/2018",
+            "localizedMediumDate": "Mar 7",
+            "localizedFullDate": "Wed, Mar 7",
+            "localizedLongDate": "Mar 7, 2018",
+            "localizedShortTime": "9:00am"
+          },
+          "arrivalType": "FLIGHT_ARRIVAL",
+          "arrivalLocation": {
+            "latitude": 33.679256,
+            "longitude": -117.861092,
+            "name": "John Wayne",
+            "longName": "Orange County, CA (SNA-John Wayne)",
+            "airportCode": "SNA",
+            "airportMetroCode": "QLA",
+            "city": "Orange County",
+            "countryCode": "USA",
+            "countrySubdivisionCode": " CA",
+            "timeZoneName": "America/Los_Angeles"
+          },
+          "arrivalTime": {
+            "raw": "2018-03-07T10:36:00-08:00",
+            "localized": "Mar 7, 2018 10:36:00 AM",
+            "epochSeconds": 1520447760,
+            "timeZoneOffsetSeconds": -28800,
+            "localizedShortDate": "3/7/2018",
+            "localizedMediumDate": "Mar 7",
+            "localizedFullDate": "Wed, Mar 7",
+            "localizedLongDate": "Mar 7, 2018",
+            "localizedShortTime": "10:36am"
+          },
+          "airlineCode": "UA",
+          "externalAirlineCode": "UA",
+          "airlineName": "United",
+          "operatedByAirCarrierName": "",
+          "confirmationAirline": "United",
+          "flightNumber": "1634",
+          "equipmentCode": "320",
+          "equipmentDescription": "Airbus A320",
+          "formattedLayoverDuration": "",
+          "duration": "PT1H36M",
+          "formattedDuration": "1h 36m",
+          "bookingCode": "N",
+          "cabinCode": "coach",
+          "cabinCodeLocalized": "Economy / Coach",
+          "isSeatMapAvailable": true,
+          "flightIdForSeatMap": "42936736-6F33-4D61-9D16-DA26C7451F7F_0_L1_S1_1",
+          "status": "UNKNOWN",
+          "airSegmentStatusCode": "OK",
+          "isHidden": false
+        }],
+        "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/mvgz_kTSdOqxlQpaPLBPasCAkxofnZPT9NqVeyS84ccWhm4KD_GhTxXaz80u_tSU_WF7_WhWQz9RnQUm-uVUUYBb0iPBF3wVSOosk0chsri33tAPbmP0ajajmyPTAN2fnpPPKMc7z2GXE9kRZ37sM3lRCICUYrX3fTaHKEnplVWS9g",
+        "duration": "PT1H36M",
+        "formattedDuration": "1h 36m",
+        "departingAirport": {
+          "code": "SFO",
+          "name": "San Francisco (San Francisco Intl.)",
+          "city": "San Francisco",
+          "latitude": 37.61594,
+          "longitude": -122.387996,
+          "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+          "isMinorAirport": false,
+          "isProhibitedAirport": false,
+          "countryCode": "USA",
+          "identicalMetroCode": true,
+          "isMetroCode": false,
+          "airportID": 5195347,
+          "localName": "San Francisco Intl.",
+          "airportCityCode": "San Francisco, CA (SFO)",
+          "airportStateCode": " CA",
+          "terminalMaps": [{
+            "name": "Overview",
+            "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+            "type": "O"
+          }, {
+            "name": "Terminal 1",
+            "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+            "type": "T"
+          }, {
+            "name": "Terminal 2",
+            "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+            "type": "T"
+          }, {
+            "name": "Terminal 3",
+            "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+            "type": "T"
+          }, {
+            "name": "International Terminal",
+            "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+            "type": "T"
+          }],
+          "timeZoneName": "America/Los_Angeles"
+        },
+        "arrivalAirport": {
+          "code": "SNA",
+          "name": "Orange County (SNA)",
+          "city": "Orange County",
+          "metroCode": "QLA",
+          "latitude": 33.679256,
+          "longitude": -117.861092,
+          "longName": "Orange County, CA (SNA-John Wayne)",
+          "isMinorAirport": false,
+          "isProhibitedAirport": false,
+          "countryCode": "USA",
+          "identicalMetroCode": false,
+          "isMetroCode": false,
+          "airportID": 4279891,
+          "localName": "John Wayne",
+          "airportCityCode": "Orange County, CA (SNA)",
+          "airportStateCode": " CA",
+          "terminalMaps": [{
+            "name": "Overview",
+            "url": "https://a.travel-assets.com/mobile/maps/sna_airport.svg",
+            "type": "O"
+          }],
+          "timeZoneName": "America/Los_Angeles"
+        },
+        "legDepartureTime": {
+          "raw": "2018-03-07T09:00:00-08:00",
+          "localized": "Mar 7, 2018 9:00:00 AM",
+          "epochSeconds": 1520442000,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "3/7/2018",
+          "localizedMediumDate": "Mar 7",
+          "localizedFullDate": "Wed, Mar 7",
+          "localizedLongDate": "Mar 7, 2018",
+          "localizedShortTime": "9:00am"
+        },
+        "legArrivaltime": {
+          "raw": "2018-03-07T10:36:00-08:00",
+          "localized": "Mar 7, 2018 10:36:00 AM",
+          "epochSeconds": 1520447760,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "3/7/2018",
+          "localizedMediumDate": "Mar 7",
+          "localizedFullDate": "Wed, Mar 7",
+          "localizedLongDate": "Mar 7, 2018",
+          "localizedShortTime": "10:36am"
+        },
+        "fareBasisCode": ""
+      }, {
+        "type": "NONSTOP",
+        "state": "PRE_START_4",
+        "numberOfStops": 0,
+        "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+        "segments": [{
+          "transportationType": "FLIGHT",
+          "departureType": "FLIGHT_DEPARTURE",
+          "departureLocation": {
+            "latitude": 33.679256,
+            "longitude": -117.861092,
+            "name": "John Wayne",
+            "longName": "Orange County, CA (SNA-John Wayne)",
+            "airportCode": "SNA",
+            "airportMetroCode": "QLA",
+            "city": "Orange County",
+            "countryCode": "USA",
+            "countrySubdivisionCode": " CA",
+            "timeZoneName": "America/Los_Angeles"
+          },
+          "departureTime": {
+            "raw": "2018-03-08T11:25:00-08:00",
+            "localized": "Mar 8, 2018 11:25:00 AM",
+            "epochSeconds": 1520537100,
+            "timeZoneOffsetSeconds": -28800,
+            "localizedShortDate": "3/8/2018",
+            "localizedMediumDate": "Mar 8",
+            "localizedFullDate": "Thu, Mar 8",
+            "localizedLongDate": "Mar 8, 2018",
+            "localizedShortTime": "11:25am"
+          },
+          "arrivalType": "FLIGHT_ARRIVAL",
+          "arrivalLocation": {
+            "latitude": 37.61594,
+            "longitude": -122.387996,
+            "name": "San Francisco Intl.",
+            "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "countrySubdivisionCode": " CA",
+            "timeZoneName": "America/Los_Angeles"
+          },
+          "arrivalTime": {
+            "raw": "2018-03-08T12:55:00-08:00",
+            "localized": "Mar 8, 2018 12:55:00 PM",
+            "epochSeconds": 1520542500,
+            "timeZoneOffsetSeconds": -28800,
+            "localizedShortDate": "3/8/2018",
+            "localizedMediumDate": "Mar 8",
+            "localizedFullDate": "Thu, Mar 8",
+            "localizedLongDate": "Mar 8, 2018",
+            "localizedShortTime": "12:55pm"
+          },
+          "airlineCode": "UA",
+          "externalAirlineCode": "UA",
+          "airlineName": "United",
+          "operatedByAirCarrierName": "",
+          "confirmationAirline": "United",
+          "flightNumber": "1616",
+          "equipmentCode": "320",
+          "equipmentDescription": "Airbus A320",
+          "formattedLayoverDuration": "",
+          "duration": "PT1H30M",
+          "formattedDuration": "1h 30m",
+          "bookingCode": "N",
+          "cabinCode": "coach",
+          "cabinCodeLocalized": "Economy / Coach",
+          "isSeatMapAvailable": true,
+          "flightIdForSeatMap": "42936736-6F33-4D61-9D16-DA26C7451F7F_0_L2_S1_1",
+          "status": "UNKNOWN",
+          "airSegmentStatusCode": "OK",
+          "isHidden": false
+        }],
+        "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/jnDpxkjlggM59A_239IfOMCALaKO2toJ-7XY6p6ScSYC3z6X9wC8RSK-aoUkFzjsAzXDelYeNEfkLa5qsWQGNLdxjgWAtPyEy1rMxzgy_oxmUYkW7_ltAjM6ziE7PaFKpsMxZY7AQY0s-o-h0H8aRkFDPOqyCvxejhRGpDodpTepWw",
+        "duration": "PT1H30M",
+        "formattedDuration": "1h 30m",
+        "departingAirport": {
+          "code": "SNA",
+          "name": "Orange County (SNA)",
+          "city": "Orange County",
+          "metroCode": "QLA",
+          "latitude": 33.679256,
+          "longitude": -117.861092,
+          "longName": "Orange County, CA (SNA-John Wayne)",
+          "isMinorAirport": false,
+          "isProhibitedAirport": false,
+          "countryCode": "USA",
+          "identicalMetroCode": false,
+          "isMetroCode": false,
+          "airportID": 4279891,
+          "localName": "John Wayne",
+          "airportCityCode": "Orange County, CA (SNA)",
+          "airportStateCode": " CA",
+          "terminalMaps": [{
+            "name": "Overview",
+            "url": "https://a.travel-assets.com/mobile/maps/sna_airport.svg",
+            "type": "O"
+          }],
+          "timeZoneName": "America/Los_Angeles"
+        },
+        "arrivalAirport": {
+          "code": "SFO",
+          "name": "San Francisco (San Francisco Intl.)",
+          "city": "San Francisco",
+          "latitude": 37.61594,
+          "longitude": -122.387996,
+          "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+          "isMinorAirport": false,
+          "isProhibitedAirport": false,
+          "countryCode": "USA",
+          "identicalMetroCode": true,
+          "isMetroCode": false,
+          "airportID": 5195347,
+          "localName": "San Francisco Intl.",
+          "airportCityCode": "San Francisco, CA (SFO)",
+          "airportStateCode": " CA",
+          "terminalMaps": [{
+            "name": "Overview",
+            "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+            "type": "O"
+          }, {
+            "name": "Terminal 1",
+            "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+            "type": "T"
+          }, {
+            "name": "Terminal 2",
+            "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+            "type": "T"
+          }, {
+            "name": "Terminal 3",
+            "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+            "type": "T"
+          }, {
+            "name": "International Terminal",
+            "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+            "type": "T"
+          }],
+          "timeZoneName": "America/Los_Angeles"
+        },
+        "legDepartureTime": {
+          "raw": "2018-03-08T11:25:00-08:00",
+          "localized": "Mar 8, 2018 11:25:00 AM",
+          "epochSeconds": 1520537100,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "3/8/2018",
+          "localizedMediumDate": "Mar 8",
+          "localizedFullDate": "Thu, Mar 8",
+          "localizedLongDate": "Mar 8, 2018",
+          "localizedShortTime": "11:25am"
+        },
+        "legArrivaltime": {
+          "raw": "2018-03-08T12:55:00-08:00",
+          "localized": "Mar 8, 2018 12:55:00 PM",
+          "epochSeconds": 1520542500,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "3/8/2018",
+          "localizedMediumDate": "Mar 8",
+          "localizedFullDate": "Thu, Mar 8",
+          "localizedLongDate": "Mar 8, 2018",
+          "localizedShortTime": "12:55pm"
+        },
+        "fareBasisCode": ""
+      }],
+      "rules": {
+        "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+        "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+        "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+        "refundableStatus": "NonRefundable",
+        "completePenaltyRules": {
+          "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+          "url": "https://www.expedia.com/Fare-Rules?tripid=ff88710c-97a1-4469-bf7f-66ff66430dd7",
+          "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://www.expedia.com/Fare-Rules?tripid=ff88710c-97a1-4469-bf7f-66ff66430dd7\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> applicable to this fare.",
+          "apiURL": "https://www.expedia.com/api/trips/7316992699395/items/42936736-6F33-4D61-9D16-DA26C7451F7F_0/gdsFareRulesText?useCache=true"
+        },
+        "additionalAirlineFees": {
+          "text": "The airline may charge additional fees for checked baggage or other optional services.",
+          "url": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SNA&cabinclass=3&mktgcarrier=UA&opcarrier=UA&farebasis=&bookingclass=N&travelDate=2018-03-07&flightNumber=1634",
+          "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SNA&cabinclass=3&mktgcarrier=UA&opcarrier=UA&farebasis=&bookingclass=N&travelDate=2018-03-07&flightNumber=1634\" target=\"rulesAndRestrictions\">additional fees <span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> for checked baggage or other optional services."
+        },
+        "airlineLiabilityLimitations": {
+          "text": "Please read important information regarding airline liability limitations.",
+          "url": "https://www.expedia.com/p/info-main/warsaw?",
+          "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/p/info-main/warsaw?\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+        },
+        "railFeederMessages": [],
+        "expediaChangeFeeChargeable": false,
+        "hasElectronicsBannedMessage": false
+      },
+      "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/MlbnHcYRb15EBEVqAkqB08CAWuaZfqlQthAvxb7gIKcSLY5El7fm7GVTfFaYILd-SpYEDlvJjGNs8vZEEn9FlKJiKpwXkpHiHfB4ew2CCL3PX_j1Sj49Tz35JUQZlrH7RowmVfZY6oiQO3v_pEJDxQtw",
+      "airRecordLocator": "372275272",
+      "isSeatMapAvailable": true,
+      "bookingProvider": "Amadeus",
+      "hasTrainTransfer": false,
+      "ticketingAirCarrierNames": [
+        "United"],
+      "isLccOrCharter": false,
+      "destinationRegionId": 4279891,
+      "action": {
+        "isChangeable": false,
+        "isCancellable": false
+      }
+    }],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "96.4",
+      "totalFormatted": "$96.40"
+    },
+    "isCouponApplied": false,
+    "paymentSummary": {
+      "totalPaidPrice": {
+        "amount": 96.40,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidTaxAndFees": {
+        "amount": 60.84,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "subTotalPaid": {
+        "amount": 35.56,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPropertyFee": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidLocalizedPrice": "$96.40",
+      "totalPaidTaxAndFeesLocalizedPrice": "$60.84",
+      "subTotalPaidLocalizedPrice": "$35.56",
+      "totalPropertyFeeLocalizedPrice": ""
+    },
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "isMRP": false,
+    "fromCloud": [
+      "hotels"],
+    "tripDataSource": "EXPWEB_HYBRID",
+    "isTripUpgradable": false,
+    "mipQualifications": [{
+      "startDate": 1520207999000,
+      "endDate": 1520812799000,
+      "bookedType": "PACKAGE",
+      "bookedLOBs": [
+        "PACKAGE"],
+      "itinNums": [
+        "7316992699395"],
+      "mipType": "CARMIP",
+      "expirationDate": 1520553599000,
+      "expirationRemainingInMillis": 6742986065,
+      "destinationName": "Orange County",
+      "destinationId": "603224"
+    }, {
+      "startDate": 1520207999000,
+      "endDate": 1520812799000,
+      "bookedType": "PACKAGE",
+      "bookedLOBs": [
+        "PACKAGE"],
+      "itinNums": [
+        "7316992699395"],
+      "mipType": "HOTMIP",
+      "expirationDate": 1515527065428,
+      "expirationRemainingInMillis": 1716452493,
+      "destinationName": "Orange County",
+      "destinationId": "603224"
+    }],
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Blue"
+  }
+}

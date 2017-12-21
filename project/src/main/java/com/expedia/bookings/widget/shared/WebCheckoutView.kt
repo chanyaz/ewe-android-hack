@@ -12,6 +12,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.WebViewUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.updateVisibility
 import com.expedia.vm.WebCheckoutViewViewModel
@@ -55,7 +56,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
         toggleLoading(false)
-        if (urlHasPOSWebBookingConfirmationUrl(url)) {
+        if (urlHasPOSWebBookingConfirmationUrl(url) || urlIsMIDConfirmation(url)) {
             view.stopLoading()
             (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
         }
@@ -95,6 +96,10 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
                 && url.startsWith(PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL)) ||
                 (!PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL.isNullOrBlank()
                 && url.startsWith(PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL))
+    }
+
+    private fun urlIsMIDConfirmation(url: String): Boolean {
+        return isMidAPIEnabled(context) && url.contains(context.getString(R.string.mid_confirmation_url_tag))
     }
 
     private fun setUserAgentString(isTabletDevice: Boolean) {

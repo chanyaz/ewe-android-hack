@@ -1408,13 +1408,14 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.itin_flight_airline_support_widget_support_webview_title,
 		R.layout.widget_flight_itin_airline_support_detail,
 		R.string.itin_flight_airline_support_widget_number_text,
-		//Please add your string above this line to avoid conflicts
+		R.string.mid_confirmation_url_tag,
 		R.layout.fragment_dialog_soft_prompt,
 		R.layout.bundle_price_top,
 		R.drawable.ic_member_only_tag,
 		R.string.accessibility_cont_desc_user_rating_button,
 		R.layout.last_minute_deal_activity,
 		R.string.accessibility_cont_desc_searching_for_hotels,
-		R.plurals.hotel_star_rating_max_rating_cont_desc_TEMPLATE
+		R.plurals.hotel_star_rating_max_rating_cont_desc_TEMPLATE,
+		//Please add your string above this line to avoid conflicts
 	};
 }

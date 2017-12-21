@@ -17,10 +17,14 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.UserAccountRefresher
+import com.expedia.vm.PackageWebCheckoutViewViewModel
+import com.expedia.vm.WebCheckoutViewViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
@@ -36,6 +40,7 @@ import kotlin.test.assertTrue
 class PackageConfirmationPresenterTest {
 
     lateinit var packagePresenter: PackagePresenter
+    private val userAccountRefresherMock = Mockito.mock(UserAccountRefresher::class.java)
     private var confirmationPresenter: PackageConfirmationPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
 
@@ -67,31 +72,58 @@ class PackageConfirmationPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testConfirmationPresenterFromWebView() {
+    fun testMIDWebViewTripIDOnSuccessfulBooking() {
+        setupMIDWebCheckout()
+
+        val bookingTripIDSubscriber = TestSubscriber<String>()
+        val fectchTripIDSubscriber = TestSubscriber<String>()
+        (packagePresenter.bundlePresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
+        (packagePresenter.bundlePresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
+        (packagePresenter.bundlePresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+
+        packagePresenter.bundlePresenter.show(packagePresenter.bundlePresenter.webCheckoutView)
+
+        bookingTripIDSubscriber.assertValueCount(0)
+        fectchTripIDSubscriber.assertValueCount(0)
+        Mockito.verify(userAccountRefresherMock, Mockito.times(0)).forceAccountRefreshForWebView()
+        val tripID = "mid_trip_details"
+
+        packagePresenter.bundlePresenter.webCheckoutView.onWebPageStarted(packagePresenter.bundlePresenter.webCheckoutView.webView, "https://www.expedia.com/MultiItemBookingConfirmation" + "?tripid=$tripID", null)
+        Mockito.verify(userAccountRefresherMock, Mockito.times(1)).forceAccountRefreshForWebView()
+        bookingTripIDSubscriber.assertValueCount(1)
+        (packagePresenter.bundlePresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+        fectchTripIDSubscriber.assertValueCount(1)
+        fectchTripIDSubscriber.assertValue(tripID)
+        bookingTripIDSubscriber.assertValue(tripID)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDConfirmationPresenterFromWebView() {
         setupMIDWebCheckout()
 
         val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
         packagePresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
 
-        serviceRule.services!!.getTripDetails("package_trip_details", makeItinResponseObserver)
+        serviceRule.services!!.getTripDetails("mid_trip_details", makeItinResponseObserver)
         testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         assertTrue(testObserver.valueCount == 1)
         val confirmationPresenter = packagePresenter.confirmationPresenter
-        assertEquals("#7313989476663 sent to test@test.com", confirmationPresenter.itinNumber.text)
-        assertEquals("Barcelona", confirmationPresenter.destination.text)
-        assertEquals("Hotel Barcelona Universal", confirmationPresenter.destinationCard.title.text)
-        assertEquals("Jan 25 - Feb 2, 1 guest", confirmationPresenter.destinationCard.subTitle.text)
-        assertEquals("Flight to (BCN) Barcelona", confirmationPresenter.outboundFlightCard.title.text)
-        assertEquals("Jan 24 at 18:00:00, 1", confirmationPresenter.outboundFlightCard.subTitle.text)
+        assertEquals("#7316992699395 sent to seokev@gmail.com", confirmationPresenter.itinNumber.text)
+        assertEquals("Los Angeles", confirmationPresenter.destination.text)
+        assertEquals("Farmer's Daughter", confirmationPresenter.destinationCard.title.text)
+        assertEquals("Mar 7 - Mar 8, 1 guest", confirmationPresenter.destinationCard.subTitle.text)
+        assertEquals("Flight to (SNA) Orange County", confirmationPresenter.outboundFlightCard.title.text)
+        assertEquals("Mar 7 at 09:00:00, 1", confirmationPresenter.outboundFlightCard.subTitle.text)
         assertEquals("Flight to (SFO) San Francisco", confirmationPresenter.inboundFlightCard.title.text)
-        assertEquals("Feb 2 at 16:20:00, 1", confirmationPresenter.inboundFlightCard.subTitle.text)
+        assertEquals("Mar 8 at 11:25:00, 1", confirmationPresenter.inboundFlightCard.subTitle.text)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testShowBookingSuccessDialogOnItinResponseError() {
+    fun testMIDShowBookingSuccessDialogOnItinResponseError() {
         setupMIDWebCheckout()
 
         val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()

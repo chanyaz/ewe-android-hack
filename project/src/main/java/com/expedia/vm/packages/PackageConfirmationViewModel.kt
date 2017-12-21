@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.PackageItinDetailsResponse
+import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -32,7 +32,7 @@ import rx.subjects.PublishSubject
 
 open class PackageConfirmationViewModel(private val context: Context, isWebCheckout: Boolean = false) {
     val showConfirmation = PublishSubject.create<Pair<String?, String>>()
-    val itinDetailsResponseObservable = PublishSubject.create<PackageItinDetailsResponse>()
+    val itinDetailsResponseObservable = PublishSubject.create<MIDItinDetailsResponse>()
     val setRewardsPoints = PublishSubject.create<String>()
 
     // Outputs
@@ -93,20 +93,23 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
 
     private fun setupItinDetailsResponseObservable() {
         itinDetailsResponseObservable.subscribe { response ->
-            val packageDetails = response.responseData.packages[0]
+            val details = response.responseData
             val itinNumber = response.responseData.tripNumber?.toString()
-            val email = packageDetails.flights.first().passengers.first().emailAddress
-            val hotel = packageDetails.hotels.first()
-            val guests = packageDetails.flights.first().passengers.size
+            var email = details.flights.first().passengers.first().emailAddress
+            if (email.isNullOrEmpty()) {
+                email = details.hotels.first().rooms.first().roomPreferences.primaryOccupant.email
+            }
+            val hotel = details.hotels.first()
+            val guests = details.flights.first().passengers.size
             destinationObservable.onNext(hotel.hotelPropertyInfo.address.city)
             destinationTitleObservable.onNext(hotel.hotelPropertyInfo.name)
             destinationSubTitleObservable.onNext(getHotelSubtitle(hotel.checkInDateTime.toLocalDate().toString(),
                     hotel.checkOutDateTime.toLocalDate().toString(), guests))
-            val outboundFlightSegment = packageDetails.flights.first().legs.first().segments.last()
+            val outboundFlightSegment = details.flights.first().legs.first().segments.last()
             outboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to,
                     getAirportCodeWithCityTitle(outboundFlightSegment.arrivalLocation.airportCode, outboundFlightSegment.arrivalLocation.city)))
             outboundFlightCardSubTitleObservable.onNext(getFlightSubtitleFromTripDetails(outboundFlightSegment.departureTime.raw, guests))
-            val inboundFlightSegment = packageDetails.flights.first().legs.last().segments.last()
+            val inboundFlightSegment = details.flights.first().legs.last().segments.last()
             inboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to,
                     getAirportCodeWithCityTitle(inboundFlightSegment.arrivalLocation.airportCode, inboundFlightSegment.arrivalLocation.city)))
             inboundFlightCardSubTitleObservable.onNext(getFlightSubtitleFromTripDetails(inboundFlightSegment.departureTime.raw, guests))

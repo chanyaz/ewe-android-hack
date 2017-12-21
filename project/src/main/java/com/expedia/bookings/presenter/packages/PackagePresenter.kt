@@ -21,8 +21,8 @@ import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.PackageItinDetailsResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
@@ -44,8 +44,11 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.PackageActivity
 import com.expedia.util.safeSubscribeOptional
+import com.expedia.vm.PackageWebCheckoutViewViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
@@ -73,6 +76,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     val confirmationViewStub: ViewStub by bindView(R.id.widget_package_confirmation_view_stub)
     val errorViewStub: ViewStub by bindView(R.id.widget_package_error_view_stub)
     val pageUsableData = PageUsableData()
+    val midAPIEnabled = isMidAPIEnabled(context)
 
     val searchPresenter: PackageSearchPresenter by lazy {
         if (displayFlightDropDownRoutes()) {
@@ -144,6 +148,11 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         presenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(presenter.bundleOverviewHeader.toolbar.viewModel.toolbarSubtitle)
         presenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().packageSearchApiErrorObserver)
         presenter.bundleWidget.viewModel.errorObservable.subscribe { show(errorPresenter) }
+        if (midAPIEnabled) {
+            (presenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).fetchItinObservable.subscribe { bookedTripID ->
+                itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
+            }
+        }
         presenter
     }
 
@@ -244,6 +253,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         addTransition(bundleToConfirmation)
         addTransition(bundleOverviewToError)
         addTransition(errorToSearch)
+        if (midAPIEnabled) {
+            addTransition(webCheckoutViewToConfirmation)
+        }
 
         if (isCrossSellPackageOnFSREnabled) {
             addDefaultTransition(defaultOverviewTransition)
@@ -439,6 +451,15 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
     }
 
+    private val webCheckoutViewToConfirmation = object : Transition(WebCheckoutView::class.java, PackageConfirmationPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            if (forward) {
+                confirmationPresenter.visibility = View.VISIBLE
+                bundlePresenter.webCheckoutView.visibility = View.GONE
+            }
+        }
+    }
+
     fun trackSearchPageLoad() {
         PackagesTracking().trackDestinationSearchInit(PackagesPageUsableData.SEARCH.pageUsableData)
     }
@@ -453,7 +474,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         bundlePresenter.trackShowBundleOverview()
     }
 
-    //TODO: Call when getting trip details to go from webview -> confirmation
     fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
         confirmationPresenter.viewModel = PackageConfirmationViewModel(context, isWebCheckout = true)
         return object : Observer<AbstractItinDetailsResponse> {
@@ -461,7 +481,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             }
 
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
-                confirmationPresenter.viewModel.itinDetailsResponseObservable.onNext(itinDetailsResponse as PackageItinDetailsResponse)
+                confirmationPresenter.viewModel.itinDetailsResponseObservable.onNext(itinDetailsResponse as MIDItinDetailsResponse)
+                show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
             }
 
             override fun onError(e: Throwable) {

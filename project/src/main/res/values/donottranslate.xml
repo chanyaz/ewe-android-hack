@@ -15,6 +15,9 @@
     <string name="app_copyright_logo_url">http://www.expedia.com</string>
     <string name="app_copyright_name">@string/launcher_name</string>
 
+    <!-- MID CKO Confirmation Tag -->
+    <string name="mid_confirmation_url_tag">MultiItemBookingConfirmation</string>
+
     <!-- Generic strings/characters we use in various places that don't need translation -->
     <string name="debug_settings">Debug Settings</string>
     <string name="forward_slash">/</string>

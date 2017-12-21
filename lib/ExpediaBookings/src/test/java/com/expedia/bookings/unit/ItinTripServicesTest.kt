@@ -3,6 +3,7 @@ package com.expedia.bookings.unit;
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.ItinDetailsResponse
+import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.PackageItinDetailsResponse
 import com.expedia.bookings.services.ItinTripServices
 import org.junit.Rule
@@ -57,5 +58,17 @@ class ItinTripServicesTest {
 		testObserver.assertValueCount(1)
 		assertEquals("4d0385c3-9d0e-42ca-b7de-103d423f583c", testObserver.onNextEvents[0].getResponseDataForItin()?.tripId)
 		assertTrue(testObserver.onNextEvents[0] is PackageItinDetailsResponse)
+	}
+
+	@Test
+	fun testMIDTripDetailsAvailable() {
+		val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+		serviceRule.services!!.getTripDetails("mid_trip_details", testObserver)
+
+		testObserver.awaitTerminalEvent()
+		testObserver.assertCompleted()
+		testObserver.assertValueCount(1)
+		assertEquals("ff88710c-97a1-4469-bf7f-66ff66430dd7", testObserver.onNextEvents[0].getResponseDataForItin()?.tripId)
+		assertTrue(testObserver.onNextEvents[0] is MIDItinDetailsResponse)
 	}
 }
