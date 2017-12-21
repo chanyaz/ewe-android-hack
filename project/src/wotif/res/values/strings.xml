@@ -12,4 +12,6 @@
     <string name="earn_rewards_and_unlock_deals">Sign up and save an extra 10% or more with Mates Rates</string>
     <!-- package hotel results Flaming Deal® Package text label -->
     <string name="unreal_deal_text">Flaming Deal® Package</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">Mates Rates</string>
 </resources>

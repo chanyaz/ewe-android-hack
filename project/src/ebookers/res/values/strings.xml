@@ -98,4 +98,6 @@
     <string name="member_pricing">Insider Prices</string>
     <!-- Shop as a BONUS+ member! -->
     <string name="shop_as_a_member_TEMPLATE">Shop as a BONUS+ member!</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">Insider Prices</string>
 </resources>

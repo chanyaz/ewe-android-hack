@@ -23,6 +23,7 @@
     <color name="placeholder_card_background_color">@color/app_primary</color>
     <color name="placeholder_card_button_text_color">@color/app_primary</color>
     <color name="packages_bundle_price_background_color">#2B7CA8</color>
+    <color name="member_deals_background_gradient">#BF003e74</color>
 
     <color name="hotel_urgency_message_color">#c20202</color>
     <color name="hotel_tonight_only_color">#7AC231</color>

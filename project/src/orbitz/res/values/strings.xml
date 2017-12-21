@@ -103,5 +103,7 @@
     <string name="shop_as_a_member_TEMPLATE">Orbitz Rewards members get more!</string>
     <!-- Earn even more when you book hotels in the app, and unlock Insider Prices and exclusive deals. -->
     <string name="earn_rewards_and_unlock_deals">Earn even more when you book hotels in the app, and unlock Insider Prices and exclusive deals.</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">Insider Prices</string>
 
 </resources>

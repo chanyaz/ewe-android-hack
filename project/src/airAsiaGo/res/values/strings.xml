@@ -6,4 +6,6 @@
     <string name="loading_flights_from_400_airlines">Finding your AirAsia flights</string>
     <!-- package hotel results Go Crazy Deals text label -->
     <string name="unreal_deal_text">Go Crazy Deals</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">GO Member Deals</string>
 </resources>

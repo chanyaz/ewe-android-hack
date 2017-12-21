@@ -86,5 +86,7 @@
     <string name="member_pricing">Secret Bargains</string>
     <!-- Shop as a CheapCash member! -->
     <string name="shop_as_a_member_TEMPLATE">Shop as a CheapCash member!</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">Secret Bargains</string>
 
 </resources>

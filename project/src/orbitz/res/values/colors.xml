@@ -24,6 +24,7 @@
     <color name="member_pricing_text_color">#FFFFFF</color>
     <color name="member_only_tag_bg_color">#00253c</color>
     <color name="loyalty_earn_color">#8E0099</color>
+    <color name="member_deals_background_gradient">#BF00253c</color>
 
     <!--Splash-->
 

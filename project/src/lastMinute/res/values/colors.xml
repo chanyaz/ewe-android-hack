@@ -35,6 +35,7 @@
     <color name="member_pricing_text_color">#FFFFFF</color>
     <color name="member_pricing_bg_color">#a1266c</color>
     <color name="member_only_tag_bg_color">#a1266c</color>
+    <color name="member_deals_background_gradient">#BFe40088</color>
 
     <color name="hotel_price_text_color">#4F4F4F</color>
     <color name="hotel_price_sale_text_color">#0079a1</color>
