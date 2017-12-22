@@ -5,16 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.packages.PackageCreateTripParams
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
-import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
@@ -29,8 +21,8 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.vm.PackageWebCheckoutViewViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
-import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -41,6 +33,10 @@ import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertTrue
+import com.expedia.bookings.data.packages.PackageCreateTripParams
+import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
+import com.expedia.bookings.test.robolectric.PackageTestUtil
 
 @RunWith(RobolectricRunner :: class)
 class PackageOverviewPresenterTest {
@@ -80,7 +76,8 @@ class PackageOverviewPresenterTest {
         setupOverviewPresenter()
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
         overviewPresenter.show(overviewPresenter.webCheckoutView)
-        setUpParams()
+
+        Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
         overviewPresenter.checkoutButton.performClick()
 
         assertEquals(View.VISIBLE, overviewPresenter.webCheckoutView.visibility)
@@ -108,15 +105,15 @@ class PackageOverviewPresenterTest {
         setUpPackageDb()
         val hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
         Db.setPackageResponse(hotelResponse)
-        setUpParams()
+        Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
         setupOverviewPresenter()
         overviewPresenter.bundleWidget.viewModel.stepOneTextObservable.subscribe(stepOneTestSubscriber)
         overviewPresenter.bundleWidget.viewModel.stepTwoTextObservable.subscribe(stepTwoTestSubscriber)
         overviewPresenter.bundleWidget.viewModel.stepThreeTextObservale.subscribe(stepThreeTestSubscriber)
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().multiItemResponseSubject.onNext(MultiItemApiCreateTripResponse())
 
         assertEquals("Hotel in Detroit - 1 room, 1 night", stepOneTestSubscriber.onNextEvents[0])
-        assertEquals("Flights -  to LHR, round trip", stepTwoTestSubscriber.onNextEvents[0])
+        assertEquals("Flights - SEA to SFO, round trip", stepTwoTestSubscriber.onNextEvents[0])
         assertEquals("", stepThreeTestSubscriber.onNextEvents[0])
     }
 
@@ -142,13 +139,17 @@ class PackageOverviewPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testWebURLForCreateTripWithMIDTurnedOn() {
         val testSubscriber = TestSubscriber.create<String>()
-        setUpParams()
+        Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
         setupOverviewPresenter()
         overviewPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testSubscriber)
         overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
 
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+        assertEquals("fd713193-3ec1-4773-9f0d-4ff51cc8c19f", (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).multiItemCreateTripResponse?.tripId)
+
+        overviewPresenter.checkoutButton.performClick()
 
         assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=fd713193-3ec1-4773-9f0d-4ff51cc8c19f", testSubscriber.onNextEvents[0])
     }
@@ -159,14 +160,15 @@ class PackageOverviewPresenterTest {
         setUpPackageDb()
         val hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
         Db.setPackageResponse(hotelResponse)
-        setUpParams()
+        Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
         setupOverviewPresenter()
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().multiItemResponseSubject.onNext(MultiItemApiCreateTripResponse())
 
         assertTrue(overviewPresenter.bundleOverviewHeader.isExpandable)
+
         assertEquals("Thu Dec 07, 2017 - Fri Dec 08, 2017", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.checkInOutDates.text)
         assertEquals("Detroit, MI", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.destinationText.text)
-        assertEquals("1 traveler", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.travelers.text)
+        assertEquals("2 travelers", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.travelers.text)
     }
 
     private fun setPointOfSale(posId: PointOfSaleId) {
@@ -174,89 +176,17 @@ class PackageOverviewPresenterTest {
     }
 
     private fun setUpPackageDb() {
-        val hotel = Hotel()
-        hotel.packageOfferModel = PackageOfferModel()
-        hotel.city = "Detroit"
-        hotel.countryCode = "USA"
-        hotel.stateProvinceCode = "MI"
-        hotel.largeThumbnailUrl = "https://"
-        var hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
-        hotelRoomResponse.supplierType = "MERCHANT"
-        Db.setPackageSelectedHotel(hotel, hotelRoomResponse)
+        PackageTestUtil.setDbPackageSelectedHotel()
         val outboundFlight = FlightLeg()
         Db.setPackageSelectedOutboundFlight(outboundFlight)
-        setPackageSearchParams(1, emptyList(), false)
+        Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
         val createTripResponse = mockPackageServiceRule.getPSSCreateTripResponse("create_trip")
         Db.getTripBucket().add(TripBucketItemPackages(createTripResponse))
-    }
-
-    private fun setPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean) {
-        Db.setPackageParams(getPackageSearchParams(adults, children, infantsInLap))
-    }
-
-    private fun getPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean): PackageSearchParams {
-        val origin = SuggestionV4()
-        val hierarchyInfo = SuggestionV4.HierarchyInfo()
-        val airport = SuggestionV4.Airport()
-        airport.airportCode = "SFO"
-        hierarchyInfo.airport = airport
-        val regionNames = SuggestionV4.RegionNames()
-        regionNames.displayName = "San Francisco"
-        regionNames.shortName = "SFO"
-        regionNames.fullName = "SFO - San Francisco"
-
-        origin.hierarchyInfo = hierarchyInfo
-        val destination = SuggestionV4()
-        destination.hierarchyInfo = hierarchyInfo
-        destination.regionNames = regionNames
-        destination.type = "city"
-        destination.gaiaId = "12345"
-        origin.regionNames = regionNames
-        return PackageSearchParams.Builder(12, 329).infantSeatingInLap(infantsInLap)
-                .startDate(LocalDate.now().plusDays(1))
-                .endDate(LocalDate.now().plusDays(2))
-                .origin(origin)
-                .destination(destination)
-                .adults(adults)
-                .children(children)
-                .build() as PackageSearchParams
     }
 
     private fun setupOverviewPresenter() {
         AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
         overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
-    }
-
-    private fun setUpParams(originAirportCode: String = ""): PackageSearchParams {
-        val packageParams = PackageSearchParams.Builder(26, 329)
-                .origin(getDummySuggestion(originAirportCode))
-                .destination(getDummySuggestion("LHR"))
-                .startDate(LocalDate.parse("2017-12-07"))
-                .endDate(LocalDate.parse("2017-12-08"))
-                .build() as PackageSearchParams
-        packageParams.hotelId = "1111"
-        packageParams.latestSelectedFlightPIID = "mid_create_trip"
-        packageParams.inventoryType = "AA"
-        packageParams.ratePlanCode = "AAA"
-        packageParams.roomTypeCode = "AA"
-        packageParams.latestSelectedProductOfferPrice = PackageOfferModel.PackagePrice()
-        packageParams.latestSelectedProductOfferPrice?.packageTotalPrice = Money(100, "USD")
-        Db.setPackageParams(packageParams)
-        return packageParams
-    }
-
-    private fun getDummySuggestion(airportCode: String = ""): SuggestionV4 {
-        val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = ""
-        suggestion.regionNames.fullName = ""
-        suggestion.regionNames.shortName = ""
-        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestion.hierarchyInfo!!.airport!!.airportCode = airportCode
-        suggestion.hierarchyInfo!!.airport!!.multicity = "happy"
-        return suggestion
     }
 }

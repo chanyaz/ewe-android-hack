@@ -1,21 +1,39 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.R
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribe
 import com.expedia.vm.packages.PackageCreateTripViewModel
+import com.squareup.phrase.Phrase
 
-class PackageWebCheckoutViewViewModel(var context: Context): WebCheckoutViewViewModel(context) {
+class PackageWebCheckoutViewViewModel(var context: Context) : WebCheckoutViewViewModel(context) {
+
+    var multiItemCreateTripResponse: MultiItemApiCreateTripResponse? = null
 
     var packageCreateTripViewModel by notNullAndObservable<PackageCreateTripViewModel> {
         it.multiItemResponseSubject.safeSubscribe { multiItemResponse ->
-            webViewURLObservable.onNext("https://www.${ PointOfSale.getPointOfSale().url}/MultiItemCheckout?tripid=${multiItemResponse.tripId}")
+            multiItemCreateTripResponse = multiItemResponse
         }
     }
 
-    override fun doCreateTrip() {
-        showLoadingObservable.onNext(Unit)
-        packageCreateTripViewModel.performMultiItemCreateTripSubject.onNext(Unit)
+    override fun doCreateTrip() {}
+
+    fun loadURL() {
+        if (multiItemCreateTripResponse != null) {
+            webViewURLObservable.onNext(getMultiItemURL())
+        }
+    }
+
+    private fun getMultiItemURL(): String {
+        val pointOfSaleURL = PointOfSale.getPointOfSale().url
+        val tripId = multiItemCreateTripResponse?.tripId
+        return Phrase.from(context, R.string.multi_item_web_view_URL_TEMPLATE)
+                .put("point_of_sale_url", pointOfSaleURL)
+                .put("trip_id", tripId)
+                .format()
+                .toString()
     }
 }

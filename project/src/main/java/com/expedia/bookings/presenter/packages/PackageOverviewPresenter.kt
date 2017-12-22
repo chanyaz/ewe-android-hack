@@ -205,7 +205,10 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         if (isMidAPIEnabled(context)) {
 
             performMIDCreateTripSubject.subscribe {
-                (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).doCreateTrip()
+                getCheckoutPresenter().getCreateTripViewModel().performMultiItemCreateTripSubject.onNext(Unit)
+            }
+
+            getCheckoutPresenter().getCreateTripViewModel().multiItemResponseSubject.subscribe {
                 setupOverviewPresenterForMID()
             }
         }
@@ -345,7 +348,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
     override fun showCheckout() {
         if (isMidAPIEnabled(context)) {
-            show(webCheckoutView)
+            openWebCheckoutView()
         } else {
             super.showCheckout()
         }
@@ -381,5 +384,10 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         (bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel
                 as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)
         setCheckoutHeaderOverviewDates()
+    }
+
+    private fun openWebCheckoutView() {
+        show(webCheckoutView)
+        (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).loadURL()
     }
 }

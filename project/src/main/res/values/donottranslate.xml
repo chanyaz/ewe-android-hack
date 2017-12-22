@@ -482,4 +482,7 @@
     <string name="amenity_key_family_not_offered">notoffered</string>
     <string name="amenity_key_family_unknown">unknown</string>
 
+    <!-- MID checkout link. E.g. https://www.expedia.com/MultiItemCheckout?tripid=AAAAAAAAAAAAAAAAAAAAAAA-->
+    <string name="multi_item_web_view_URL_TEMPLATE">https://www.{point_of_sale_url}/MultiItemCheckout?tripid={trip_id} </string>
+
 </resources>

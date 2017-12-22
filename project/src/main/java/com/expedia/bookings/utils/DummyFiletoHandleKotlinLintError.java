@@ -90,6 +90,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotel_price_discount_percent_cont_desc_TEMPLATE,
 		R.string.hotel_card_view_price_cont_desc_TEMPLATE,
 		R.string.hotel_unreal_deal_cont_desc_TEMPLATE,
+		R.string.multi_item_web_view_URL_TEMPLATE,
 		R.layout.widget_hotel_info,
 		R.layout.widget_pay_later_info,
 		R.layout.package_banner_header_cell,

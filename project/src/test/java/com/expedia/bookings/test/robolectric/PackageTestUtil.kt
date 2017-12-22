@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
@@ -19,10 +20,10 @@ import org.joda.time.LocalDate
 class PackageTestUtil {
     companion object {
         @JvmStatic
-        fun getPackageSearchParams(): PackageSearchParams {
+        fun getPackageSearchParams(startDate: LocalDate = LocalDate.now().plusDays(1), endDate: LocalDate = LocalDate.now().plusDays(2)) : PackageSearchParams {
             return PackageSearchParams.Builder(maxRange = 1, maxStay = 1)
-                    .startDate(LocalDate.now().plusDays(1))
-                    .endDate(LocalDate.now().plusDays(2))
+                    .startDate(startDate)
+                    .endDate(endDate)
                     .destination(getSuggestion("San Francisco", "SFO"))
                     .origin(getSuggestion("Seattle", "SEA"))
                     .children(listOf(0))
@@ -125,10 +126,28 @@ class PackageTestUtil {
             hotel.packageOfferModel = PackageOfferModel()
             hotel.packageOfferModel.piid = "123"
             hotel.hotelId = "999"
+            hotel.city = "Detroit"
+            hotel.countryCode = "USA"
+            hotel.stateProvinceCode = "MI"
+            hotel.largeThumbnailUrl = "https://"
             val roomResponse = HotelOffersResponse.HotelRoomResponse()
+            roomResponse.supplierType = "MERCHANT"
             roomResponse.ratePlanCode = "test"
             roomResponse.roomTypeCode = "penthouse"
             Db.setPackageSelectedHotel(hotel, roomResponse)
+        }
+
+        @JvmStatic
+        fun getMIDPackageSearchParams(): PackageSearchParams {
+            val packageParams = getPackageSearchParams(LocalDate.parse("2017-12-07"), LocalDate.parse("2017-12-08"))
+            packageParams.hotelId = "1111"
+            packageParams.latestSelectedFlightPIID = "mid_create_trip"
+            packageParams.inventoryType = "AA"
+            packageParams.ratePlanCode = "AAA"
+            packageParams.roomTypeCode = "AA"
+            packageParams.latestSelectedProductOfferPrice = PackageOfferModel.PackagePrice()
+            packageParams.latestSelectedProductOfferPrice?.packageTotalPrice = Money(100, "USD")
+            return packageParams
         }
     }
 }

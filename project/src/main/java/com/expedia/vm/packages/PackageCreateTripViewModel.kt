@@ -43,6 +43,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
         }
 
         performMultiItemCreateTripSubject.subscribe {
+            showCreateTripDialogObservable.onNext(true)
             val params = MultiItemCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
             packageServices.multiItemCreateTrip(params).subscribe(makeMultiItemCreateTripResponseObserver())
         }
