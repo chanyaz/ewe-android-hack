@@ -31,6 +31,10 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
         logger.level = HttpLoggingInterceptor.Level.BODY
         client.addInterceptor(logger)
 
+        if (ExpediaBookingApp.isRobolectric()) {
+            client.addNetworkInterceptor(DenyExternalRequestInterceptor())
+        }
+
         if (!ExpediaBookingApp.isAutomation()) {
             val chuckInterceptor = ChuckInterceptor(context)
             chuckInterceptor.showNotification(SettingUtils.get(context, context.getString(R.string.preference_enable_chuck_notification), false))
