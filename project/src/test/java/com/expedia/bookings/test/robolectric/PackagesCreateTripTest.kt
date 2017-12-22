@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
@@ -24,6 +25,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
+import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
@@ -57,6 +59,7 @@ class PackagesCreateTripTest {
         assertEquals("roomTypeCode", fromPackageSearchParams.roomTypeCode)
         assertEquals("ratePlanCode", fromPackageSearchParams.ratePlanCode)
         assertEquals("inventoryType", fromPackageSearchParams.inventoryType)
+        assertEquals(BigDecimal(300.50), fromPackageSearchParams.totalPrice.packageTotalPrice.amount)
     }
 
     @Test
@@ -108,6 +111,7 @@ class PackagesCreateTripTest {
         params.roomTypeCode = "roomTypeCode"
         params.inventoryType = "inventoryType"
         params.latestSelectedProductOfferPrice = PackageOfferModel.PackagePrice()
+        params.latestSelectedProductOfferPrice?.packageTotalPrice = Money(BigDecimal(300.50), "USD")
         params.packagePIID = "923012"
         params.searchProduct = Constants.PRODUCT_FLIGHT
         params.currentFlights = arrayOf("legs")
