@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -11,7 +10,6 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -138,9 +136,6 @@ public class Ui extends com.mobiata.android.util.Ui {
 	/**
 	 * Run code once, on the next layout pass of the given View. This implements the
 	 * OnGlobalLayoutListener without having to worry about too much boilerplate.
-	 *
-	 * @param View
-	 * @param Runnable
 	 */
 	public static void runOnNextLayout(final View view, final Runnable runnable) {
 		view.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -230,45 +225,19 @@ public class Ui extends com.mobiata.android.util.Ui {
 		return bitmap;
 	}
 
-	@TargetApi(Build.VERSION_CODES.KITKAT)
 	public static void showTransparentStatusBar(Context ctx) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			Window w = ((Activity) ctx).getWindow();
-			w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-		}
+		Window w = ((Activity) ctx).getWindow();
+		w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+			WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 	}
 
-	@TargetApi(Build.VERSION_CODES.KITKAT)
 	public static int getStatusBarHeight(Context context) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			return 0;
-		}
 		int result = 0;
 		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
 		if (resourceId > 0) {
 			result = context.getResources().getDimensionPixelSize(resourceId);
 		}
 		return result;
-	}
-
-	public static void setViewBackground(View v, Drawable bg) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-			v.setBackgroundDrawable(bg);
-		}
-		else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			// Padding gets ignored while setting the background image in Android 4.3.
-			// Hence, saved and applied back later.
-			int paddingTop = v.getPaddingTop();
-			int paddingLeft = v.getPaddingLeft();
-			int paddingRight = v.getPaddingRight();
-			int paddingBottom = v.getPaddingBottom();
-			v.setBackground(bg);
-			v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
-		}
-		else {
-			v.setBackground(bg);
-		}
 	}
 
 	/**
