@@ -45,6 +45,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelItinDetailsResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
+import com.expedia.bookings.data.MIDItinDetailsResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.abacus.ABTest;
@@ -4535,6 +4536,20 @@ public class OmnitureTracking {
 			s.setProp(71, response.getNewTrip().getTravelRecordLocator());
 		}
 		s.setProp(72, response.getOrderId());
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
+		s.track();
+	}
+
+	public static void trackMIDConfirmation(MIDItinDetailsResponse response, String hotelSupplierType, PageUsableData pageUsableData) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION + "\" pageLoad");
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION, null);
+		double total = Double.parseDouble(response.getResponseData().getTotalTripPrice().getTotal());
+		setPackageProducts(s, total, true, true, hotelSupplierType);
+		s.setCurrencyCode(response.getResponseDataForItin().getTotalTripPrice().getCurrency());
+		s.setEvents("purchase");
+		String orderId = response.getResponseData().getHotels().get(0).orderNumber;
+		s.setPurchaseID("onum" + orderId);
+		s.setProp(72, orderId);
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		s.track();
 	}

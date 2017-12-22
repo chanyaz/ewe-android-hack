@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.multiitem.FlightOffer
@@ -18,7 +19,7 @@ import org.joda.time.LocalDate
 class PackageTestUtil {
     companion object {
         @JvmStatic
-        fun getPackageSearchParams() : PackageSearchParams {
+        fun getPackageSearchParams(): PackageSearchParams {
             return PackageSearchParams.Builder(maxRange = 1, maxStay = 1)
                     .startDate(LocalDate.now().plusDays(1))
                     .endDate(LocalDate.now().plusDays(2))
@@ -29,8 +30,18 @@ class PackageTestUtil {
                     .build() as PackageSearchParams
         }
 
+        // Add more fields when needed
+        @JvmStatic fun getPackageSelectedOutboundFlight(
+                flightFareTypeString: String = "M",
+                carrierCode: String = "000"): FlightLeg {
+            val flight = FlightLeg()
+            flight.flightFareTypeString = flightFareTypeString
+            flight.carrierCode = carrierCode
+            return flight
+        }
+
         @JvmStatic
-        fun getSuggestion(cityName: String, airportCode: String) : SuggestionV4 {
+        fun getSuggestion(cityName: String, airportCode: String): SuggestionV4 {
             val suggestion = SuggestionV4()
             suggestion.gaiaId = ""
             suggestion.regionNames = SuggestionV4.RegionNames()
@@ -101,12 +112,13 @@ class PackageTestUtil {
 
         @JvmStatic
         fun getMockMIDResponse(offers: List<MultiItemOffer> = emptyList(),
-                                           hotels: Map<String, HotelOffer> = emptyMap(),
-                                           flights: Map<String, FlightOffer> = emptyMap(),
-                                           flightLegs: Map<String, MultiItemFlightLeg> = emptyMap(),
-                                           errors: List<MultiItemError>? = null): MultiItemApiSearchResponse {
+                               hotels: Map<String, HotelOffer> = emptyMap(),
+                               flights: Map<String, FlightOffer> = emptyMap(),
+                               flightLegs: Map<String, MultiItemFlightLeg> = emptyMap(),
+                               errors: List<MultiItemError>? = null): MultiItemApiSearchResponse {
             return MultiItemApiSearchResponse(offers = offers, hotels = hotels, flights = flights, flightLegs = flightLegs, errors = errors)
         }
+
         @JvmStatic
         fun setDbPackageSelectedHotel() {
             val hotel = Hotel()

@@ -4,21 +4,30 @@ import android.content.Context
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.PackageTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.vm.BaseFlightFilterViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
 import java.util.Locale
 
 //TODO : Add corresponding test case for any new method in PackageTracking
@@ -31,6 +40,9 @@ class PackagesTrackingTest {
 
     private val dummyPageStartTime = 1509344185763L
     private val dummyPageEndTime = 1509344186900L
+
+    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.immediate(), "../lib/mocked/templates")
+        @Rule get
 
     @Before
     fun before() {
@@ -591,6 +603,40 @@ class PackagesTrackingTest {
         OmnitureTestUtils.assertStateTracked("App.LS.Srch.Package", OmnitureMatchers.withEventsString("event335"), mockAnalyticsProvider)
     }
 
+    @Test
+    fun testTrackMIDPackageCheckoutConfirmation() {
+
+        Db.setPackageParams(getDummyPackageSearchParams())
+        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
+        PackageTestUtil.setDbPackageSelectedHotel()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        serviceRule.services!!.getTripDetails("mid_trip_details", testObserver)
+        testObserver.awaitTerminalEvent()
+
+        val response = testObserver.onNextEvents[0] as MIDItinDetailsResponse
+
+        val pageUsableData = PageUsableData()
+        pageUsableData.markPageLoadStarted(10000)
+        pageUsableData.markAllViewsLoaded(10000)
+        OmnitureTracking.trackMIDConfirmation(response, "MERCHANT", pageUsableData)
+
+        val expectedEvars = mapOf(2 to "D=c2")
+        val expectedProps = mapOf(72 to "8057970781591")
+        val expectedProductNoDateFirstHalf = ";RT:FLT+HOT;3;96.4;;eVar30=Merchant:PKG:"
+        val expectedProductSecondHalf = ";Flight:000:RT;3;0.00;;"
+        val expectedEvents = "purchase,event220,event221=0.00"
+        assertMIDConfirmationTracking(expectedEvars, expectedProps, expectedProductNoDateFirstHalf, expectedProductSecondHalf, expectedEvents)
+    }
+
+    private fun assertMIDConfirmationTracking(expectedEvars: Map<Int, String>, expectedProps: Map<Int, String>, expectedProductNoDateFirstHalf: String, expectedProductSecondHalf: String, expectedEvents: String) {
+        OmnitureTestUtils.assertStateTracked("App.Package.Checkout.Confirmation", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked("App.Package.Checkout.Confirmation", OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked("App.Package.Checkout.Confirmation", OmnitureMatchers.withProductsString(expectedProductNoDateFirstHalf, shouldExactlyMatch = false), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked("App.Package.Checkout.Confirmation", OmnitureMatchers.withProductsString(expectedProductSecondHalf, shouldExactlyMatch = false), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked("App.Package.Checkout.Confirmation", OmnitureMatchers.withEventsString(expectedEvents), mockAnalyticsProvider)
+    }
+
     private fun getDummyPackageSearchParams(): PackageSearchParams {
         return PackageSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                 context.resources.getInteger(R.integer.max_calendar_selectable_date_range))
@@ -630,5 +676,4 @@ class PackagesTrackingTest {
         suggestion.hierarchyInfo = hierarchyInfo;
         return suggestion
     }
-
 }

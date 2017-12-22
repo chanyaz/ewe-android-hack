@@ -35,6 +35,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -150,6 +151,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         presenter.bundleWidget.viewModel.errorObservable.subscribe { show(errorPresenter) }
         if (midAPIEnabled) {
             (presenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).fetchItinObservable.subscribe { bookedTripID ->
+                pageUsableData.markPageLoadStarted(System.currentTimeMillis())
                 itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
             }
         }
@@ -481,8 +483,11 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             }
 
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
-                confirmationPresenter.viewModel.itinDetailsResponseObservable.onNext(itinDetailsResponse as MIDItinDetailsResponse)
+                val response = itinDetailsResponse as MIDItinDetailsResponse
+                confirmationPresenter.viewModel.itinDetailsResponseObservable.onNext(response)
                 show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
+                pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
+                OmnitureTracking.trackMIDConfirmation(response, Db.getPackageSelectedRoom().supplierType, pageUsableData)
             }
 
             override fun onError(e: Throwable) {

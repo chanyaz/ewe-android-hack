@@ -20,6 +20,7 @@ class HotelItinDetailsResponse : AbstractItinDetailsResponse() {
         lateinit var totalPriceDetails: TotalPriceDetails
         lateinit var hotelPropertyInfo: HotelPropertyInfo
         lateinit var rooms: List<Rooms>
+        lateinit var orderNumber: String
 
         class TotalPriceDetails {
             lateinit var primaryCurrencyCode: String
