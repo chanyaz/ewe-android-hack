@@ -3,8 +3,10 @@ package com.expedia.vm
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.utils.CurrencyUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 
 abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
     val total = PublishSubject.create<Money>()
@@ -46,6 +48,11 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
     fun getMoneyFormatFlagForInteger(): Int {
 
         return Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL
+    }
+
+    fun addMandatoryFeeWithTotalPrice(mandatoryFee: BigDecimal?, currencyCode: String?) {
+        val totalPackagePriceWithMandatoryFee = Money(mandatoryFee, currencyCode)
+        totalPriceObservable.onNext(totalPackagePriceWithMandatoryFee.getFormattedMoneyFromAmountAndCurrencyCode(getMoneyFormatFlagForInteger()))
     }
 
 }

@@ -93,6 +93,11 @@ class PackagesCreateTripTest {
         Db.setPackageParams(params)
 
         activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
+        val baseMidResponse = PackageTestUtil.getMockMIDResponse(offers = emptyList(),
+                hotels = mapOf("1" to PackageTestUtil.dummyMidHotelRoomOffer()))
+        baseMidResponse.setCurrentOfferPrice(setPackagePrice())
+        Db.setPackageResponse(baseMidResponse)
+        PackageTestUtil.setDbPackageSelectedHotel()
         activity.packageCreateTrip()
         createTripSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
@@ -157,5 +162,11 @@ class PackagesCreateTripTest {
         var hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
         hotelRoomResponse.supplierType = "MERCHANT"
         Db.setPackageSelectedHotel(hotel, hotelRoomResponse)
+    }
+
+    private fun setPackagePrice(): PackageOfferModel.PackagePrice {
+        val packagePrice = PackageOfferModel.PackagePrice()
+        packagePrice.packageTotalPrice = Money("200", "USD")
+        return packagePrice
     }
 }

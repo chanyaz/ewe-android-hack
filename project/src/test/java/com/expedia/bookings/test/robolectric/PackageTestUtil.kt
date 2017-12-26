@@ -5,7 +5,9 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.multiitem.FlightOffer
+import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.multiitem.HotelOffer
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemError
@@ -15,14 +17,15 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.google.gson.Gson
 import org.joda.time.LocalDate
+import com.expedia.bookings.data.Money
 
 class PackageTestUtil {
     companion object {
         @JvmStatic
-        fun getPackageSearchParams(): PackageSearchParams {
+        fun getPackageSearchParams(startDate: LocalDate = LocalDate.now().plusDays(1), endDate: LocalDate = LocalDate.now().plusDays(2)) : PackageSearchParams {
             return PackageSearchParams.Builder(maxRange = 1, maxStay = 1)
-                    .startDate(LocalDate.now().plusDays(1))
-                    .endDate(LocalDate.now().plusDays(2))
+                    .startDate(startDate)
+                    .endDate(endDate)
                     .destination(getSuggestion("San Francisco", "SFO"))
                     .origin(getSuggestion("Seattle", "SEA"))
                     .children(listOf(0))
@@ -85,7 +88,7 @@ class PackageTestUtil {
                 "currency": "USD"
               },
               "checkInDate": "2017-09-07",
-              "checkOutDate": "2017-09-08",
+              "checkOutDate": "2017-09-10",
               "nights": 1,
               "avgReferencePricePerNight": {
                 "amount": 103.66,
@@ -120,15 +123,52 @@ class PackageTestUtil {
         }
 
         @JvmStatic
-        fun setDbPackageSelectedHotel() {
+        fun setDbPackageSelectedHotel(mandatoryTotalDisplayType: Boolean = true) {
             val hotel = Hotel()
+            hotel.packageOfferModel = PackageOfferModel()
+            hotel.city = "Detroit"
+            hotel.countryCode = "USA"
+            hotel.stateProvinceCode = "MI"
+            hotel.largeThumbnailUrl = "https://"
             hotel.packageOfferModel = PackageOfferModel()
             hotel.packageOfferModel.piid = "123"
             hotel.hotelId = "999"
+            hotel.city = "Detroit"
+            hotel.countryCode = "USA"
+            hotel.stateProvinceCode = "MI"
+            hotel.largeThumbnailUrl = "https://"
             val roomResponse = HotelOffersResponse.HotelRoomResponse()
+            roomResponse.supplierType = "MERCHANT"
             roomResponse.ratePlanCode = "test"
             roomResponse.roomTypeCode = "penthouse"
+            roomResponse.rateInfo = setRateInfo(mandatoryTotalDisplayType)
             Db.setPackageSelectedHotel(hotel, roomResponse)
+        }
+
+        @JvmStatic
+        fun getMIDPackageSearchParams(): PackageSearchParams {
+            val packageParams = getPackageSearchParams(LocalDate.parse("2017-12-07"), LocalDate.parse("2017-12-08"))
+            packageParams.hotelId = "1111"
+            packageParams.latestSelectedFlightPIID = "mid_create_trip"
+            packageParams.inventoryType = "AA"
+            packageParams.ratePlanCode = "AAA"
+            packageParams.roomTypeCode = "AA"
+            packageParams.latestSelectedProductOfferPrice = PackageOfferModel.PackagePrice()
+            packageParams.latestSelectedProductOfferPrice?.packageTotalPrice = Money(100, "USD")
+            return packageParams
+        }
+
+        private fun setRateInfo(mandatoryDisplayType: Boolean): HotelOffersResponse.RateInfo  {
+            var rateInfo = HotelOffersResponse.RateInfo()
+            rateInfo.chargeableRateInfo = HotelRate()
+            if (mandatoryDisplayType) {
+                rateInfo.chargeableRateInfo.mandatoryDisplayType = MandatoryFees.DisplayType.TOTAL
+                rateInfo.chargeableRateInfo.totalMandatoryFees = 50F
+            } else {
+                rateInfo.chargeableRateInfo.mandatoryDisplayType = MandatoryFees.DisplayType.DAILY
+                rateInfo.chargeableRateInfo.totalMandatoryFees = 50F
+            }
+            return rateInfo
         }
     }
 }

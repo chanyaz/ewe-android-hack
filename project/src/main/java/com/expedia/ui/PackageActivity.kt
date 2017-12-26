@@ -123,7 +123,9 @@ class PackageActivity : AbstractAppCompatActivity() {
                         }
                         packagePresenter.showBundleOverView()
                         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
-                        packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
+                        if (!isMidAPIEnabled(this)) {
+                            packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
+                        }
                     }
                 }
             }
@@ -142,7 +144,9 @@ class PackageActivity : AbstractAppCompatActivity() {
                     if (Db.getPackageParams().isChangePackageSearch()) {
                         changedOutboundFlight = true
                     }
-                    packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
+                    if (!isMidAPIEnabled(this)) {
+                        packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
+                    }
                     packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageSelectedOutboundFlight())
                 }
             }
@@ -168,7 +172,9 @@ class PackageActivity : AbstractAppCompatActivity() {
 
                     packageCreateTrip()
                     packagePresenter.showBundleOverView()
-                    packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
+                    if (!isMidAPIEnabled(this)) {
+                        packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
+                    }
                     packagePresenter.bundlePresenter.setToolbarNavIcon(false)
                     packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageFlightBundle().second)
                 }

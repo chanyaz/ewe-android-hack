@@ -12,6 +12,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
@@ -42,6 +43,8 @@ import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.expedia.vm.packages.OverviewHeaderData
+import org.joda.time.Days
+import java.math.BigDecimal
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
 
@@ -373,6 +376,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         val hotel = Db.getPackageSelectedHotel()
         val searchResponse = Db.getPackageResponse()
 
+
         val headerData = OverviewHeaderData(hotel.city, hotel.countryCode, hotel.stateProvinceCode, searchResponse.getHotelCheckOutDate(),
                 searchResponse.getHotelCheckInDate(), hotel.largeThumbnailUrl)
         (bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel
@@ -381,5 +385,28 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         (bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel
                 as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)
         setCheckoutHeaderOverviewDates()
+        setMandatoryFee()
+    }
+
+    private fun setMandatoryFee() {
+        val packagetotal = Db.getPackageResponse().getCurrentOfferPrice()?.packageTotalPrice
+        val rateInfo = Db.getPackageSelectedRoom().rateInfo.chargeableRateInfo
+        var mandatoryFee: Float = 0F
+
+        if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.TOTAL) {
+            mandatoryFee = rateInfo.totalMandatoryFees
+        } else if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.DAILY) {
+            mandatoryFee = rateInfo.totalMandatoryFees * getNumberOfDaysInHotel()
+        }
+         val packageTotalWithMandatoryFee =packagetotal?.amount?.plus(BigDecimal(mandatoryFee.toString()))
+        totalPriceWidget.viewModel.addMandatoryFeeWithTotalPrice(packageTotalWithMandatoryFee, packagetotal?.currencyCode)
+    }
+
+    private fun getNumberOfDaysInHotel(): Int {
+        val packageResponse = Db.getPackageResponse()
+        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
+        val checkInDate = dtf.parseLocalDate(packageResponse.getHotelCheckInDate())
+        val checkoutDate = dtf.parseLocalDate(packageResponse.getHotelCheckOutDate())
+        return Days.daysBetween(checkInDate, checkoutDate).days
     }
 }

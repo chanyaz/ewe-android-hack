@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.multiitem.MandatoryFees;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
@@ -26,6 +27,7 @@ public class HotelRate {
 	public float strikethroughPriceToShowUsers;
 	public float dailyMandatoryFee;
 	public float totalMandatoryFees;
+	public MandatoryFees.DisplayType mandatoryDisplayType;
 	public float totalPriceWithMandatoryFees;
 	public String userPriceType;
 	public String checkoutPriceType;
