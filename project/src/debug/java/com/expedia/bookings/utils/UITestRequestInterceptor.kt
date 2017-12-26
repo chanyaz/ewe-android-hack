@@ -5,7 +5,7 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
-class RequestInterceptor : Interceptor {
+class UITestRequestInterceptor : Interceptor {
 
     var urlToIntercept: List<String> = emptyList()
     var onRequest: ((Request) -> Unit)? = null

@@ -2,7 +2,7 @@ package com.expedia.bookings.test.stepdefs.phone.utils
 
 import com.expedia.bookings.test.TestBootstrap
 import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData
-import com.expedia.bookings.utils.RequestInterceptor
+import com.expedia.bookings.utils.UITestRequestInterceptor
 import com.expedia.bookings.utils.Ui
 import okhttp3.FormBody
 import okhttp3.Request
@@ -34,7 +34,7 @@ class StepDefUtils private constructor() {
             val searchRequestBody = body() as FormBody?
 
             if (searchRequestBody != null) {
-                for (index in 0..searchRequestBody.size() - 1) {
+                for (index in 0 until searchRequestBody.size()) {
                     formData.put(URLDecoder.decode(searchRequestBody.encodedName(index), "UTF-8"), searchRequestBody.encodedValue(index))
                 }
             }
@@ -46,16 +46,16 @@ class StepDefUtils private constructor() {
         @JvmStatic
         fun interceptApiCalls(apiCallsAliases: List<String>, onRequest: ((ApiRequestData) -> Unit)?, onResponse: ((Response) -> Unit)?) {
             val okHttpClient = Ui.getApplication(TestBootstrap.mActivity).appComponent().okHttpClient()
-            val requestInterceptor = okHttpClient.networkInterceptors().firstOrNull { it is RequestInterceptor } as RequestInterceptor
-            val apiCalls: List<String> = apiCallsAliases.map {
+            val requestInterceptor = okHttpClient.networkInterceptors().mapNotNull { it as? UITestRequestInterceptor}.firstOrNull()
+            val apiCalls: List<String> = apiCallsAliases.mapNotNull {
                 apiCallAliases[it]
-            }.filterNotNull()
+            }
 
-            requestInterceptor.urlToIntercept = apiCalls
-            requestInterceptor.onRequest = { request ->
+            requestInterceptor?.urlToIntercept = apiCalls
+            requestInterceptor?.onRequest = { request ->
                 onRequest?.invoke(request.convertToApiCallParams())
             }
-            requestInterceptor.onResponse = { response ->
+            requestInterceptor?.onResponse = { response ->
                 onResponse?.invoke(response)
             }
         }

@@ -41,7 +41,7 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
         }
 
         if (ExpediaBookingApp.isInstrumentation()) {
-            client.addNetworkInterceptor(RequestInterceptor())
+            client.addNetworkInterceptor(UITestRequestInterceptor())
         }
     }
 
