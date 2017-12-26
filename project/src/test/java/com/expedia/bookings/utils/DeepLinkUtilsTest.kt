@@ -1,17 +1,14 @@
 package com.expedia.bookings.utils
 
-import android.net.Uri
 import com.expedia.bookings.test.MockClientLogServices
-import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
+import okhttp3.HttpUrl
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-@RunWith(RobolectricRunner::class)
 class DeepLinkUtilsTest {
 
     lateinit var mockClientLogServices: MockClientLogServices
@@ -199,10 +196,8 @@ class DeepLinkUtilsTest {
         assertEquals(trackingArgsSizeBefore, trackingArgsSizeAfter)
     }
 
-    private fun trackDeepLink(uri: String) {
-        val data = Uri.parse(uri)
-        val queryData = StrUtils.getQueryParameterNames(data)
-        DeepLinkUtils.parseAndTrackDeepLink(mockClientLogServices, data, queryData)
+    private fun trackDeepLink(url: String) {
+        DeepLinkUtils.parseAndTrackDeepLink(mockClientLogServices, HttpUrl.parse(url))
     }
 
     private fun assertOmnitureDeepLinkArgsSetup(key: String) {

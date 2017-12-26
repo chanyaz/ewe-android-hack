@@ -64,6 +64,7 @@ import com.mobiata.android.SocialUtils;
 
 import java.util.Set;
 
+import okhttp3.HttpUrl;
 import rx.Observer;
 
 /**
@@ -177,9 +178,8 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	}
 
 	private void handleDeepLinkUri(Uri data) {
-		Set<String> queryData = StrUtils.getQueryParameterNames(data);
 		clientLogServices = Ui.getApplication(this).appComponent().clientLog();
-		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, data, queryData);
+		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, HttpUrl.parse(data.toString()));
 
 		DeepLink deepLink = deepLinkParser.parseDeepLink(data);
 
