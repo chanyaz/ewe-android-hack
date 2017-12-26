@@ -4,22 +4,16 @@ import android.app.Activity
 import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.TravelerParams
-import com.expedia.bookings.interceptors.MockInterceptor
-import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.Ui
 import com.expedia.ui.FlightActivity
 import com.expedia.vm.FlightSearchViewModel
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -31,15 +25,8 @@ class FlightDeeplinkTest {
 
     @Before
     fun setup() {
-        val server = MockWebServer()
-        val interceptor = MockInterceptor()
-        val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         Ui.getApplication(activity).defaultTravelerComponent()
-        val flightServices = FlightServices("http://localhost:" + server.port,
-                OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
         flightSearchViewModel = FlightSearchViewModel(activity)
     }
 
