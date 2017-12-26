@@ -1,6 +1,12 @@
 package com.mobiata.android.time.util;
 
-import java.util.Calendar;
+import android.content.Context;
+import android.content.res.Resources;
+import android.os.Parcel;
+import android.text.TextUtils;
+import android.text.format.DateUtils;
+
+import com.mobiata.android.time.R;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -12,13 +18,8 @@ import org.joda.time.LocalDate;
 import org.joda.time.ReadablePartial;
 import org.joda.time.base.AbstractPartial;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.os.Parcel;
-import android.text.TextUtils;
-import android.text.format.DateUtils;
-
-import com.mobiata.android.time.R;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class JodaUtils {
 
@@ -191,7 +192,7 @@ public class JodaUtils {
 
 		int resId;
 		long count;
-		if (duration.isShorterThan(Duration.standardMinutes(1)) && minResolution < DateUtils.MINUTE_IN_MILLIS) {
+		if (duration.isShorterThan(Duration.standardMinutes(1)) && minResolution < TimeUnit.MINUTES.toMillis(1)) {
 			count = duration.getStandardMinutes();
 			if (past) {
 				if (abbrevRelative) {
@@ -210,7 +211,7 @@ public class JodaUtils {
 				}
 			}
 		}
-		else if (duration.isShorterThan(Duration.standardHours(1)) && minResolution < DateUtils.HOUR_IN_MILLIS) {
+		else if (duration.isShorterThan(Duration.standardHours(1)) && minResolution < TimeUnit.HOURS.toMillis(1)) {
 			count = duration.getStandardMinutes();
 			if (past) {
 				if (abbrevRelative) {
@@ -229,7 +230,7 @@ public class JodaUtils {
 				}
 			}
 		}
-		else if (duration.isShorterThan(Duration.standardDays(1)) && minResolution < DateUtils.DAY_IN_MILLIS) {
+		else if (duration.isShorterThan(Duration.standardDays(1)) && minResolution < TimeUnit.DAYS.toMillis(1)) {
 			count = duration.getStandardHours();
 			if (past) {
 				if (abbrevRelative) {
@@ -248,7 +249,7 @@ public class JodaUtils {
 				}
 			}
 		}
-		else if (duration.isShorterThan(Duration.standardDays(7)) && minResolution < DateUtils.WEEK_IN_MILLIS) {
+		else if (duration.isShorterThan(Duration.standardDays(7)) && minResolution < TimeUnit.DAYS.toMillis(7)) {
 			count = Math.abs(daysBetween(time, now.withZone(time.getZone())));
 			if (past) {
 				if (abbrevRelative) {

@@ -1,11 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import org.joda.time.DateTime;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -57,10 +51,10 @@ import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.widget.FlightMapImageView;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -72,6 +66,13 @@ import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
+
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDataFlight> {
 
@@ -638,7 +639,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 		int checkInIntervalSeconds = AirlineCheckInIntervals.get(context, leg.getFirstAirlineCode());
 		long expirationTimeMillis = data.getStartDate().getMillis();
-		long triggerTimeMillis = expirationTimeMillis - checkInIntervalSeconds * DateUtils.SECOND_IN_MILLIS;
+		long triggerTimeMillis = expirationTimeMillis - TimeUnit.SECONDS.toMillis(checkInIntervalSeconds);
 
 		Notification notification = new Notification(itinId + "_checkin", itinId, triggerTimeMillis);
 		notification.setExpirationTimeMillis(expirationTimeMillis);

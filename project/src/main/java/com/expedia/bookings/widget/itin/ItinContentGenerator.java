@@ -1,12 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.util.List;
-import java.util.Locale;
-
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.LocalDate;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -43,8 +36,6 @@ import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.data.user.User;
-import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
 import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
 import com.expedia.bookings.data.trips.ItinCardDataRails;
@@ -52,9 +43,11 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
+import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -67,6 +60,14 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.squareup.phrase.Phrase;
+
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public abstract class ItinContentGenerator<T extends ItinCardData> {
 
@@ -750,8 +751,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		}
 
 		// For flight cards coming up in less than one hour, we want "XX Minutes"
-		else if (time > now && getType().equals(Type.FLIGHT) && duration <= DateUtils.HOUR_IN_MILLIS) {
-			int minutes = (int) (duration / DateUtils.MINUTE_IN_MILLIS);
+		else if (time > now && getType().equals(Type.FLIGHT) && duration <= TimeUnit.HOURS.toMillis(1)) {
+			int minutes = (int) TimeUnit.MILLISECONDS.toMinutes(duration);
 
 			// Special case: display <1 minute as "1 minute". Defect# 758
 			// TODO: consider changing to something like "less than 1 minute"
@@ -764,8 +765,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		}
 
 		// For flight cards coming up in greater than one hour but less than one day, we want "XX Hours"
-		else if (time > now && getType().equals(Type.FLIGHT) && duration <= DateUtils.DAY_IN_MILLIS) {
-			int hours = (int) (duration / DateUtils.HOUR_IN_MILLIS);
+		else if (time > now && getType().equals(Type.FLIGHT) && duration <= TimeUnit.DAYS.toMillis(1)) {
+			int hours = (int) TimeUnit.MILLISECONDS.toHours(duration);
 			ret = Phrase.from(getResources().getQuantityString(R.plurals.hours_from_now, hours))
 				.put("hours", hours).format().toString();
 		}
@@ -840,7 +841,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 		// 1871: Due to the screwed up way DateUtils.getNumberOfDaysPassed() works, this ends up such that
 		// the millis must be in the system locale (and hopefully the user has not changed their locale recently)
-		return JodaUtils.getRelativeTimeSpanString(context, time, now, DateUtils.MINUTE_IN_MILLIS, 0);
+		return JodaUtils.getRelativeTimeSpanString(context, time, now, TimeUnit.MINUTES.toMillis(1), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

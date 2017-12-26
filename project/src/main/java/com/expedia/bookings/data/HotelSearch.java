@@ -1,30 +1,23 @@
 package com.expedia.bookings.data;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 
 import com.expedia.bookings.otto.Events;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * Contains both the parameters (see {@link com.expedia.bookings.data.HotelSearchParams}) and search
  * results (see {@link com.expedia.bookings.data.HotelSearchResponse}) for a hotel search.
  */
 public class HotelSearch implements JSONable {
-
-	// Product key lifetime: http://ask.karmalab.net/question/4116/how-long-are-piidproductkeys-valid-for
-	// Note: product keys last for 60 minutes, although, in practice, rooms tend to sell out and
-	// offer a poor user experience when trying to view and book. We set the timeout to 30 minutes
-	// as a middle ground.
-	public static final long SEARCH_DATA_TIMEOUT = 30 * DateUtils.MINUTE_IN_MILLIS;
 
 	private HotelSearchParams mSearchParams;
 	private HotelSearchResponse mSearchResponse;

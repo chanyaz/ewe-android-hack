@@ -2,11 +2,11 @@ package com.expedia.bookings.featureconfig
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.text.format.DateUtils
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -62,7 +62,7 @@ class SatelliteFeatureConfigManagerTest {
 
     @Test
     fun testConfigInvalid() {
-        updateTimestamp(DateUtils.DAY_IN_MILLIS + 60)
+        updateTimestamp(TimeUnit.DAYS.toMillis(1) + 60)
         assertFalse(SatelliteFeatureConfigManager.configValid(context))
     }
 
@@ -74,7 +74,7 @@ class SatelliteFeatureConfigManagerTest {
 
     @Test
     fun testShouldRefreshConfigIfStale() {
-        updateTimestamp(DateUtils.DAY_IN_MILLIS + 60)
+        updateTimestamp(TimeUnit.DAYS.toMillis(1) + 60)
         assertTrue(SatelliteFeatureConfigManager.shouldUpdateConfig(context))
     }
 

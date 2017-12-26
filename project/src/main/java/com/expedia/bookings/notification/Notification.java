@@ -1,14 +1,6 @@
 package com.expedia.bookings.notification;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -17,6 +9,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Table(name = "Notifications")
 public class Notification extends Model implements JSONable {
@@ -168,7 +168,7 @@ public class Notification extends Model implements JSONable {
 		setTriggerTimeMillis(triggerTimeMillis);
 
 		// Defaults
-		setExpirationTimeMillis(triggerTimeMillis + DateUtils.DAY_IN_MILLIS);
+		setExpirationTimeMillis(triggerTimeMillis + TimeUnit.DAYS.toMillis(1));
 		setStatus(StatusType.NEW);
 		setIconResId(R.drawable.ic_stat_expedia);
 		setFlags(0);

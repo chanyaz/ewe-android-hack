@@ -9,7 +9,6 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.LayoutInflater
@@ -30,7 +29,6 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.launch.vm.LaunchLobViewModel
@@ -38,7 +36,6 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
@@ -57,13 +54,14 @@ import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     private val TAG = "NewPhoneLaunchWidget"
     private val HOTEL_SORT = "ExpertPicks"
-    private val MINIMUM_TIME_AGO = 15 * DateUtils.MINUTE_IN_MILLIS // 15 minutes ago
+    private val MINIMUM_TIME_AGO = TimeUnit.MINUTES.toMillis(15)
     private val DARK_VIEW_VISIBLE_ALPHA = 0.7f
 
     lateinit var collectionServices: CollectionServices

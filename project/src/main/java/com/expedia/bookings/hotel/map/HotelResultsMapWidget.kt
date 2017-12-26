@@ -3,7 +3,6 @@ package com.expedia.bookings.hotel.map
 import android.content.Context
 import android.location.Location
 import android.support.v7.app.AppCompatActivity
-import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -31,6 +30,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
 import java.util.concurrent.Callable
+import java.util.concurrent.TimeUnit
 
 class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
         OnMapReadyCallback {
@@ -279,7 +279,7 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
     }
 
     private fun lastBestLocationSafe(): Location {
-        val minTime = DateTime.now().millis - DateUtils.HOUR_IN_MILLIS
+        val minTime = DateTime.now().millis - TimeUnit.HOURS.toMillis(1)
         val loc = LocationServices.getLastBestLocation(context, minTime)
         val location = Location("lastBestLocationSafe")
         location.latitude = loc?.latitude ?: 0.0

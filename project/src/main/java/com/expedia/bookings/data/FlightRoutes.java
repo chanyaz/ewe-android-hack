@@ -1,5 +1,14 @@
 package com.expedia.bookings.data;
 
+import com.expedia.bookings.utils.CalendarUtils;
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
+import com.mobiata.flightlib.data.Airport;
+
+import org.joda.time.DateTime;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,17 +16,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.joda.time.DateTime;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.text.format.DateUtils;
-
-import com.expedia.bookings.utils.CalendarUtils;
-import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.json.JSONable;
-import com.mobiata.flightlib.data.Airport;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class represents a series of predefined flight routes.
@@ -27,7 +26,7 @@ import com.mobiata.flightlib.data.Airport;
  */
 public class FlightRoutes implements JSONable {
 
-	private static final long STALE_TIMEOUT = DateUtils.DAY_IN_MILLIS;
+	private static final long STALE_TIMEOUT = TimeUnit.DAYS.toMillis(1);
 
 	private Map<String, Airport> mAirports = new HashMap<String, Airport>();
 

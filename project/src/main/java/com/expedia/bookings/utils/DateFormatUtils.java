@@ -1,19 +1,20 @@
 package com.expedia.bookings.utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
+import android.content.Context;
+import android.text.format.DateUtils;
+
+import com.expedia.bookings.R;
+import com.squareup.phrase.Phrase;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import android.content.Context;
-import android.text.format.DateUtils;
-
-import com.expedia.bookings.R;
-import com.squareup.phrase.Phrase;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  */
@@ -45,7 +46,7 @@ public class DateFormatUtils {
 	public static final int FLAGS_DATE_ABBREV_MONTH = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH;
 
 	// #9770: Add an hour of buffer so that the date range is always > the number of days
-	private static final long DATE_RANGE_BUFFER = DateUtils.HOUR_IN_MILLIS;
+	private static final long DATE_RANGE_BUFFER = TimeUnit.HOURS.toMillis(1);
 
 	// Called by the formatDateRange methods below
 	public static String formatDateRange(Context context, LocalDate startDate, LocalDate endDate, int flags) {

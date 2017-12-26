@@ -1,7 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import org.joda.time.DateTime;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,6 +15,10 @@ import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.google.android.gms.maps.model.LatLng;
+
+import org.joda.time.DateTime;
+
+import java.util.concurrent.TimeUnit;
 
 public class ItinCardDataCar extends ItinCardData implements ConfirmationNumberable {
 
@@ -199,7 +201,7 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 		int dayOfYear = now.getDayOfYear();
 		boolean sameDayRental = pickUpDayOfYear == dropOffDayOfyear;
 		boolean isFourHoursBeforeDropOff = now.getMillis()
-				> dropOffDate.getMillis() - (4 * DateUtils.HOUR_IN_MILLIS);
+				> dropOffDate.getMillis() - TimeUnit.HOURS.toMillis(4);
 
 		return now.isBefore(pickUpDate) || (!sameDayRental && dayOfYear == pickUpDayOfYear)
 				|| (sameDayRental && !isFourHoursBeforeDropOff);

@@ -1,17 +1,17 @@
 package com.expedia.bookings.data;
 
+import android.content.Context;
+
+import com.mobiata.android.Log;
+import com.mobiata.android.util.IoUtils;
+
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.json.JSONObject;
-
-import android.content.Context;
-import android.text.format.DateUtils;
-
-import com.mobiata.android.Log;
-import com.mobiata.android.util.IoUtils;
+import java.util.concurrent.TimeUnit;
 
 public class AirlineCheckInIntervals {
 
@@ -36,7 +36,7 @@ public class AirlineCheckInIntervals {
 			return sIntervals.get(airline);
 		}
 
-		return (int) (DateUtils.DAY_IN_MILLIS / DateUtils.SECOND_IN_MILLIS);
+		return (int) TimeUnit.DAYS.toSeconds(1);
 	}
 
 	private static void init(Context context) {
@@ -44,7 +44,7 @@ public class AirlineCheckInIntervals {
 
 		try {
 			if (sIntervals == null) {
-				sIntervals = new HashMap<String, Integer>();
+				sIntervals = new HashMap<>();
 			}
 			else {
 				sIntervals.clear();

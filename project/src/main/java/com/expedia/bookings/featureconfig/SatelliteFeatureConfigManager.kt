@@ -3,11 +3,11 @@ package com.expedia.bookings.featureconfig
 import android.content.Context
 import android.content.SharedPreferences
 import android.support.annotation.VisibleForTesting
-import android.text.format.DateUtils
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.Log
 import rx.Observer
+import java.util.concurrent.TimeUnit
 
 class SatelliteFeatureConfigManager {
 
@@ -15,8 +15,8 @@ class SatelliteFeatureConfigManager {
         const val PREFS_FEATURE_CONFIG_LAST_UPDATED = "lastUpdated"
         const val PREFS_SUPPORTED_FEATURE_SET = "supportedFeatures"
         private const val PREFS_FILE_NAME = "featureConfig"
-        private const val FEATURE_CONFIG_REFRESH_TIMEOUT = 4 * DateUtils.HOUR_IN_MILLIS   //refresh the cache every 4 hours
-        private const val FEATURE_CONFIG_VALID_TIMEOUT = 6 * DateUtils.HOUR_IN_MILLIS     //honor cache for 6 hours
+        private val FEATURE_CONFIG_REFRESH_TIMEOUT = TimeUnit.HOURS.toMillis(4)
+        private val FEATURE_CONFIG_VALID_TIMEOUT = TimeUnit.HOURS.toMillis(6)
 
         @JvmStatic fun forceRefreshFeatureConfig(context: Context) {
             clearFeatureConfig(context)

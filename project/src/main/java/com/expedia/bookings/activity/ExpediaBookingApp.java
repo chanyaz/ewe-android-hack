@@ -1,9 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.Locale;
-
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
@@ -13,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
-import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
@@ -79,6 +74,11 @@ import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 import net.danlew.android.joda.JodaTimeAndroid;
+
+import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -194,7 +194,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		try {
 			if (BuildConfig.DEBUG) {
-				FlightStatsDbUtils.setUpgradeCutoff(DateUtils.DAY_IN_MILLIS); // 1 day cutoff for upgrading FS.db
+				FlightStatsDbUtils.setUpgradeCutoff(TimeUnit.DAYS.toMillis(1)); // 1 day cutoff for upgrading FS.db
 			}
 
 			FlightStatsDbUtils.createDatabaseIfNotExists(this, BuildConfig.RELEASE);

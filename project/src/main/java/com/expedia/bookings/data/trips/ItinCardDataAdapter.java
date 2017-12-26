@@ -1,17 +1,10 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
-import org.joda.time.DateTime;
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +30,13 @@ import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
 import com.expedia.bookings.widget.itin.ItinCard;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
 import com.mobiata.flightlib.data.Waypoint;
+
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
 
@@ -485,7 +485,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 
 		if (summaryCardData != null) {
-			long threeHours = 3 * DateUtils.HOUR_IN_MILLIS;
+			long threeHours = TimeUnit.HOURS.toMillis(3);
 
 			// If:
 			// 1. The current summary card starts after the first in-progress card ends

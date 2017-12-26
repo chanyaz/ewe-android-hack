@@ -1,26 +1,23 @@
 package com.expedia.bookings.data.trips;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 
 import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Courier;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.TNSFlight;
+import com.expedia.bookings.data.TNSUser;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
@@ -28,25 +25,22 @@ import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.UserSource;
 import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.data.TNSFlight;
-import com.expedia.bookings.server.TripDetailsResponseHandler;
-import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
-import com.expedia.bookings.data.Courier;
-import com.expedia.bookings.data.TNSUser;
+import com.expedia.bookings.server.TripDetailsResponseHandler;
+import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.services.TripsServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.UniqueIdentifierHelper;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.UniqueIdentifierHelper;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -55,6 +49,11 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,6 +71,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import rx.functions.Action1;
 
@@ -99,7 +99,19 @@ import rx.functions.Action1;
  */
 public class ItineraryManager implements JSONable {
 
-	private static final long UPDATE_CUTOFF = DateUtils.MINUTE_IN_MILLIS; // At most once a minute
+	private static final long ONE_MINUTE = TimeUnit.MINUTES.toMillis(1);
+	private static final long FIVE_MINUTES = TimeUnit.MINUTES.toMillis(5);
+
+	private static final long ONE_HOUR = TimeUnit.HOURS.toMillis(1);
+	private static final long TWELVE_HOURS = TimeUnit.HOURS.toMillis(12);
+	private static final long TWENTY_FOUR_HOURS = TimeUnit.HOURS.toMillis(24);
+	private static final long SEVENTY_TWO_HOURS = TimeUnit.HOURS.toMillis(72);
+
+	private static final long SEVEN_DAYS = TimeUnit.DAYS.toMillis(7);
+
+	private static final long UPDATE_CUTOFF = ONE_MINUTE; // At most once a minute
+	private static final long REFRESH_TRIP_CUTOFF = TimeUnit.MINUTES.toMillis(15);
+	private static final long DEEP_REFRESH_RATE_LIMIT = ONE_MINUTE;
 
 	private static final String LOGGING_TAG = "ItineraryManager";
 
@@ -937,11 +949,6 @@ public class ItineraryManager implements JSONable {
 
 	private SyncTask mSyncTask;
 
-	private static final long REFRESH_TRIP_CUTOFF = 15 * DateUtils.MINUTE_IN_MILLIS;
-
-	private static final long MINUTE = DateUtils.MINUTE_IN_MILLIS;
-	private static final long HOUR = DateUtils.HOUR_IN_MILLIS;
-
 	/**
 	 * Start a sync operation.
 	 * <p/>
@@ -995,8 +1002,6 @@ public class ItineraryManager implements JSONable {
 			return true;
 		}
 	}
-
-	private static final long DEEP_REFRESH_RATE_LIMIT = DateUtils.MINUTE_IN_MILLIS;
 
 	public boolean deepRefreshTrip(Trip trip) {
 		return deepRefreshTrip(trip.getItineraryKey(), false);
@@ -1339,19 +1344,19 @@ public class ItineraryManager implements JSONable {
 								// only worth updating if we haven't already hit a final state (Cancelled, Diverted)
 								// we will potentially check after LANDED as we get updated arrival info for a little while after landing
 								if (timeToTakeOff > 0) {
-									if ((timeToTakeOff < HOUR * 12 && timeSinceLastUpdate > 5 * MINUTE)
-										|| (timeToTakeOff < HOUR * 24 && timeSinceLastUpdate > HOUR)
-										|| (timeToTakeOff < HOUR * 72 && timeSinceLastUpdate > 12 * HOUR)) {
+									if ((timeToTakeOff < TWELVE_HOURS && timeSinceLastUpdate > FIVE_MINUTES)
+										|| (timeToTakeOff < TWENTY_FOUR_HOURS && timeSinceLastUpdate > ONE_HOUR)
+										|| (timeToTakeOff < SEVENTY_TWO_HOURS && timeSinceLastUpdate > TWELVE_HOURS)) {
 										update = true;
 									}
 								}
-								else if (now < landing && timeSinceLastUpdate > 5 * MINUTE) {
+								else if (now < landing && timeSinceLastUpdate > FIVE_MINUTES) {
 									update = true;
 								}
 								else if (now > landing) {
-									if (now < (landing + (7 * DateUtils.DAY_IN_MILLIS))
-										&& timeSinceLastUpdate > (now - (landing + DateUtils.HOUR_IN_MILLIS))
-										&& timeSinceLastUpdate > 5 * MINUTE) {
+									if (now < (landing + SEVEN_DAYS)
+										&& timeSinceLastUpdate > (now - (landing + ONE_HOUR))
+										&& timeSinceLastUpdate > FIVE_MINUTES) {
 										// flight should have landed some time in the last seven days
 										// AND the last update was less than 1 hour after the flight should have landed (or did land)
 										// AND the last update was more than 5 minutes ago
