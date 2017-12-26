@@ -1414,7 +1414,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_member_only_tag,
 		R.string.accessibility_cont_desc_user_rating_button,
 		R.layout.last_minute_deal_activity,
-		R.string.accessibility_cont_desc_searching_for_hotels,
 		R.plurals.hotel_star_rating_max_rating_cont_desc_TEMPLATE,
 		R.string.packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE
 		//Please add your string above this line to avoid conflicts
