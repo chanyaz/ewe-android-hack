@@ -1,15 +1,5 @@
 package com.expedia.bookings.dagger;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
 import android.content.Context;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -27,6 +17,7 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.PersistentCookieManagerV2;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
+import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.SatelliteServices;
@@ -44,6 +35,16 @@ import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -215,7 +216,7 @@ public class AppModule {
 			responseLogBuilder.deviceName(android.os.Build.MODEL);
 			responseLogBuilder.responseTime(responseTime);
 
-			ClientLogServices clientLogServices = Ui.getApplication(context).appComponent().clientLog();
+			IClientLogServices clientLogServices = Ui.getApplication(context).appComponent().clientLog();
 			clientLogServices.log(responseLogBuilder.build());
 
 		}
@@ -264,7 +265,7 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	ClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider,
+	IClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider,
 		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());

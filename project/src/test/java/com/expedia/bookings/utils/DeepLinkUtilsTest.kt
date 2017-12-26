@@ -3,6 +3,7 @@ package com.expedia.bookings.utils
 import android.net.Uri
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.ClientLogServices
+import com.expedia.bookings.services.IClientLogServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
 import okhttp3.OkHttpClient
@@ -25,7 +26,7 @@ class DeepLinkUtilsTest {
     var server: MockWebServer = MockWebServer()
         @Rule get
 
-    lateinit var clientLogServices: ClientLogServices
+    lateinit var clientLogServices: IClientLogServices
     lateinit var clientLogRequest: String
 
     @Before

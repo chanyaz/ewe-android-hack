@@ -1,6 +1,10 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.interceptors.MockInterceptor
+import com.expedia.bookings.services.ClientLogServices
+import com.expedia.bookings.services.IClientLogServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -12,11 +16,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.expedia.bookings.data.clientlog.EmptyResponse
-import com.expedia.bookings.data.clientlog.ClientLog
-import com.expedia.bookings.interceptors.MockInterceptor
-import com.expedia.bookings.services.ClientLogServices
-import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import rx.schedulers.Schedulers
 import kotlin.test.assertTrue
 
@@ -26,7 +25,7 @@ class AppStartUpTimeClientLogTest {
     var server: MockWebServer = MockWebServer()
         @Rule get
 
-    lateinit var clientLogServices: ClientLogServices
+    lateinit var clientLogServices: IClientLogServices
     lateinit var clientLogRequest: String
 
     @Before
@@ -51,7 +50,7 @@ class AppStartUpTimeClientLogTest {
 
     @Test
     fun testAppStartupTimeLog() {
-        val logger: AppStartupTimeLogger = AppStartupTimeLogger()
+        val logger = AppStartupTimeLogger()
         logger.setAppLaunchedTime(1349333571111)
         logger.setAppLaunchScreenDisplayed(1349333576093)
 

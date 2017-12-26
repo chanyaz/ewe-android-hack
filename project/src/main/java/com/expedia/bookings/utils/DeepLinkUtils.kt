@@ -1,9 +1,11 @@
 package com.expedia.bookings.utils
 
-import com.expedia.bookings.services.ClientLogServices
 import android.net.Uri
+import com.expedia.bookings.services.IClientLogServices
 import com.expedia.bookings.tracking.OmnitureTracking
-import java.util.*
+import java.util.HashMap
+import java.util.HashSet
+import java.util.Locale
 
 object DeepLinkUtils {
 
@@ -36,7 +38,7 @@ object DeepLinkUtils {
         }
     }
 
-    @JvmStatic fun parseAndTrackDeepLink(clientLogServices: ClientLogServices, uri: Uri, queryParameterNames: Set<String>) {
+    @JvmStatic fun parseAndTrackDeepLink(clientLogServices: IClientLogServices, uri: Uri, queryParameterNames: Set<String>) {
         val clientLogQueryParams = HashMap<String, String>()
 
         queryParameterNames.forEach { key ->

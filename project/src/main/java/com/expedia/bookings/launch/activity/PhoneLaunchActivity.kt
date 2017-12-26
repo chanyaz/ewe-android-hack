@@ -23,7 +23,6 @@ import android.widget.TextView
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.fragment.SoftPromptDialogFragment
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -38,17 +37,17 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
+import com.expedia.bookings.fragment.SoftPromptDialogFragment
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
-import com.expedia.holidayfun.widget.HolidayFunCoordinator
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
 import com.expedia.bookings.launch.widget.ProWizardLaunchTabView
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.notification.NotificationManager
-import com.expedia.bookings.services.ClientLogServices
+import com.expedia.bookings.services.IClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -58,15 +57,16 @@ import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
+import com.expedia.bookings.utils.LXDataUtils
+import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.LXNavUtils
-import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
+import com.expedia.holidayfun.widget.HolidayFunCoordinator
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.ui.AbstractAppCompatActivity
 import com.expedia.util.PermissionsUtils.havePermissionToAccessLocation
@@ -90,7 +90,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     lateinit var appStartupTimeLogger: AppStartupTimeLogger
         @Inject set
 
-    lateinit var clientLogServices: ClientLogServices
+    lateinit var clientLogServices: IClientLogServices
         @Inject set
 
     lateinit var pointOfSaleStateModel: PointOfSaleStateModel

@@ -1,8 +1,5 @@
 package com.expedia.bookings.dagger;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import android.content.Context;
 
 import com.expedia.bookings.data.user.UserStateManager;
@@ -17,7 +14,7 @@ import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
-import com.expedia.bookings.services.ClientLogServices;
+import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.services.SatelliteServices;
 import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
@@ -26,6 +23,9 @@ import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Component;
 import okhttp3.Interceptor;
@@ -72,7 +72,7 @@ public interface AppComponent {
 
 	AbacusServices abacus();
 
-	ClientLogServices clientLog();
+	IClientLogServices clientLog();
 
 	UserLoginStateChangedModel userLoginStateChangedModel();
 

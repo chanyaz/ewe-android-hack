@@ -1,7 +1,5 @@
 package com.expedia.bookings.dagger;
 
-import javax.inject.Named;
-
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
@@ -10,7 +8,6 @@ import com.expedia.bookings.data.payment.PaymentModel;
 import com.expedia.bookings.hotel.util.HotelInfoManager;
 import com.expedia.bookings.hotel.util.HotelSearchManager;
 import com.expedia.bookings.server.EndpointProvider;
-import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.LoyaltyServices;
@@ -18,7 +15,6 @@ import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.services.travelgraph.TravelGraphServices;
 import com.expedia.bookings.services.urgency.UrgencyServices;
-import com.expedia.bookings.tracking.hotel.ClientLogTracker;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.expedia.vm.BucksViewModel;
@@ -28,6 +24,8 @@ import com.expedia.vm.ShopWithPointsViewModel;
 import com.expedia.vm.interfaces.IBucksViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel;
+
+import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
@@ -131,12 +129,6 @@ public final class HotelModule {
 	ShopWithPointsViewModel provideShopWithPointsViewModel(Context context,
 		PaymentModel<HotelCreateTripResponse> paymentModel, UserLoginStateChangedModel userLoginChangedModel) {
 		return new ShopWithPointsViewModel(context, paymentModel, userLoginChangedModel);
-	}
-
-	@Provides
-	@HotelScope
-	ClientLogTracker provideHotelClientLogTracker(ClientLogServices clientLogServices) {
-		return new ClientLogTracker(clientLogServices);
 	}
 
 	@Provides

@@ -12,7 +12,7 @@ import rx.Observer
 import rx.Scheduler
 import java.net.URL
 
-class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) : IClientLogServices {
 	var domain: String? = null
 	val clientLogApi: ClientLogApi by lazy {
 		domain = URL(endpoint).host
@@ -30,14 +30,14 @@ class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 		adapter.create(ClientLogApi::class.java)
 	}
 
-	fun log(clientLog: ClientLog) {
+	override fun log(clientLog: ClientLog) {
 		clientLogApi.log(clientLog.pageName, clientLog.eventName, domain, clientLog.deviceName, clientLog.requestTime, clientLog.responseTime, clientLog.processingTime, clientLog.requestToUser, clientLog.deviceType)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.subscribe(makeEmptyObserver())
 	}
 
-	fun deepLinkMarketingIdLog(queryParams: Map<String, String> ) {
+	override fun deepLinkMarketingIdLog(queryParams: Map<String, String> ) {
 		clientLogApi.deepLinkMarketingIdlog(queryParams)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)

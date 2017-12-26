@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.Set;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -40,7 +38,7 @@ import com.expedia.bookings.deeplink.TripDeepLink;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.services.ClientLogServices;
+import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.DeepLinkUtils;
@@ -64,6 +62,8 @@ import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
+import java.util.Set;
+
 import rx.Observer;
 
 /**
@@ -77,7 +77,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private static final String TAG = "ExpediaDeepLink";
 
 	private UserStateManager userStateManager;
-	ClientLogServices clientLogServices;
+	IClientLogServices clientLogServices;
 	private DeepLinkParser deepLinkParser = null;
 	private boolean supportsRails = PointOfSale.getPointOfSale().supports(LineOfBusiness.RAILS);
 

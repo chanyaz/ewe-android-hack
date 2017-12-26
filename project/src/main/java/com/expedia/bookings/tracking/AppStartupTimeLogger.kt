@@ -1,9 +1,5 @@
 package com.expedia.bookings.tracking
 
-import com.expedia.bookings.utils.ClientLogConstants
-import com.expedia.bookings.data.clientlog.ClientLog
-import com.expedia.bookings.services.ClientLogServices
-
 class AppStartupTimeLogger {
 
     private var appLaunched: Long = -1L

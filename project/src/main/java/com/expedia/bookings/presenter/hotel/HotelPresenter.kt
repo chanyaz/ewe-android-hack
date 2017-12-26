@@ -39,7 +39,6 @@ import com.expedia.bookings.hotel.vm.HotelResultsViewModel
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.ReviewsServices
@@ -56,7 +55,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.FrameLayout
-import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.HotelActivity.Screen
@@ -89,9 +87,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         @Inject set
 
     lateinit var hotelServices: HotelServices
-        @Inject set
-
-    lateinit var clientLogServices: ClientLogServices
         @Inject set
 
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
