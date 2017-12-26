@@ -4,8 +4,9 @@ import android.os.Build
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.services.IClientLogServices
 import com.expedia.bookings.tracking.AbstractSearchTrackingData
+import javax.inject.Inject
 
-class ClientLogTracker(val clientLogServices: IClientLogServices) {
+class ClientLogTracker @Inject constructor(private val clientLogServices: IClientLogServices) {
     fun trackResultsPerformance(performanceData: AbstractSearchTrackingData.PerformanceData, pageName: String, eventName: String) {
         val clientLogBuilder: ClientLog.ResultBuilder = ClientLog.ResultBuilder()
         clientLogBuilder.requestTime(performanceData.requestStartTime)

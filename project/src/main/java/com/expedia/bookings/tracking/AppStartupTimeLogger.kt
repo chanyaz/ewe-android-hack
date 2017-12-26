@@ -2,21 +2,18 @@ package com.expedia.bookings.tracking
 
 class AppStartupTimeLogger {
 
-    private var appLaunched: Long = -1L
-    private var appLaunchScreenDisplayed: Long = -1L
-    private var appStartupTime: Long = -1L
+    private val notYetInitialized = -1L
+    private var appLaunchedTime: Long = notYetInitialized
+    private var appLaunchScreenDisplayed: Long = notYetInitialized
+    private var appStartupTime: Long = notYetInitialized
 
     fun calculateAppStartupTime(): Long {
-        appStartupTime = appLaunchScreenDisplayed.minus(appLaunched)
+        appStartupTime = appLaunchScreenDisplayed.minus(appLaunchedTime)
         return appStartupTime
     }
 
     fun setAppLaunchedTime(time: Long) {
-        appLaunched = time
-    }
-
-    fun getAppLaunchedTime(): Long {
-        return appLaunched
+        appLaunchedTime = time
     }
 
     fun setAppLaunchScreenDisplayed(time: Long) {
@@ -24,10 +21,10 @@ class AppStartupTimeLogger {
     }
 
     fun isComplete(): Boolean {
-        return getAppLaunchedTime() != -1L
+        return appLaunchedTime != notYetInitialized
     }
 
     fun clear() {
-        setAppLaunchedTime(-1L)
+        setAppLaunchedTime(notYetInitialized)
     }
 }
