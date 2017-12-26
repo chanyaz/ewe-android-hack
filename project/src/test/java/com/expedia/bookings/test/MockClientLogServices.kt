@@ -9,7 +9,8 @@ class MockClientLogServices : IClientLogServices {
         lastSeenClientLog = clientLog
     }
 
+    var lastSeenDeepLinkQueryParams: Map<String, String>? = null
     override fun deepLinkMarketingIdLog(queryParams: Map<String, String>) {
-        TODO("not implemented: deepLinkMarketingIdLog")
+        lastSeenDeepLinkQueryParams = queryParams
     }
 }
