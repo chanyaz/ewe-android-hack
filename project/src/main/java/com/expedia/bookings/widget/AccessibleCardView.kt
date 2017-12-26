@@ -11,7 +11,6 @@ abstract class AccessibleCardView(context: Context, attrs: AttributeSet?) : Card
     abstract fun contentDescription(): String
     abstract fun selectedCardContentDescription(): String
     abstract fun loadingContentDescription(): String
-    abstract fun loadingStateContentDescription(): String?
     abstract fun disabledContentDescription(): String
     abstract fun getRowInfoContainer(): ViewGroup
     var loadingStateObservable = BehaviorSubject.create<Boolean>()
@@ -21,7 +20,6 @@ abstract class AccessibleCardView(context: Context, attrs: AttributeSet?) : Card
     init {
         loadingStateObservable.subscribe { isLoading ->
             if (isLoading) {
-                announceForAccessibility(loadingStateContentDescription())
                 getRowInfoContainer().contentDescription = loadingContentDescription()
             }
             else {

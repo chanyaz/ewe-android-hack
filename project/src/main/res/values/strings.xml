@@ -4624,8 +4624,6 @@
     <string name="accessibility_cont_desc_card_is_disabled">disabled</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">User Rating Button</string>
-    <!-- Content Description for Searching for hotels -->
-    <string name="accessibility_cont_desc_searching_for_hotels">Searching hundreds of hotels for you.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Price is {activity_price} {ticket_type}</string>

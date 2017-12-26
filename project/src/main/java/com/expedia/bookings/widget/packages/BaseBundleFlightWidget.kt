@@ -304,10 +304,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 .toString()
     }
 
-    override fun loadingStateContentDescription(): String? {
-        return null
-    }
-
     override fun selectedCardContentDescription(): String {
         val searchParams = viewModel.searchParams.value
         val travelInfoText = viewModel.travelInfoTextObservable.value
