@@ -128,7 +128,11 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 .subscribe(bundleWidget.bundleHotelWidget.viewModel.hotelDatesGuestObservable)
 
         bundleOverviewHeader.nestedScrollView.addView(bundleWidget)
-        bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
+        if (isBackFlowFromOverviewEnabled(context)) {
+            bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout_new)
+        } else {
+            bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
+        }
         bundleWidget.toggleMenuObservable.subscribe(bundleOverviewHeader.toolbar.toggleMenuObserver)
 
         getCheckoutPresenter().getCheckoutViewModel().slideToBookA11yActivateObservable.subscribe(checkoutSliderSlidObserver)
@@ -202,9 +206,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 PackagesTracking().trackBundleEditItemClick("StartOver")
                 true
             })
-        } else {
-            startOver.setVisible(false)
         }
+
         if (isMidAPIEnabled(context)) {
 
             performMIDCreateTripSubject.subscribe {

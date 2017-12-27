@@ -537,6 +537,13 @@ class PackageOverviewScreen {
                 .check(matches(isDisplayed()))
     }
 
+    @And("^Validate that back icon is present on top left$")
+    @Throws(Throwable::class)
+    fun validateBackIcon() {
+        onView(allOf(withParent(withId(R.id.checkout_toolbar)), withContentDescription("Back")))
+                .check(matches(isDisplayed()))
+    }
+
     @And("^I click on start over button to modify search$")
     @Throws(Throwable::class)
     fun clickOnStartOverButton() {

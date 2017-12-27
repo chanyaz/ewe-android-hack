@@ -15,5 +15,9 @@
             android:id="@+id/package_change_flight"
             android:showAsAction="always"
             android:title="@string/package_change_flight"/>
+        <item
+            android:id="@+id/package_start_over"
+            android:showAsAction="always"
+            android:title="@string/package_start_over"/>
     </group>
 </menu>

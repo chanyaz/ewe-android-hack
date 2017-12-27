@@ -63,7 +63,6 @@ class PackageOverviewPresenterTest {
         Ui.getApplication(activity).defaultFlightComponents()
         Ui.getApplication(activity).defaultTravelerComponent()
         Ui.getApplication(activity).defaultPackageComponents()
-        overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
     }
 
     @Test
@@ -79,7 +78,32 @@ class PackageOverviewPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMenuItemsWhenBackflowIsBucketed() {
+        val testSubscriber = TestSubscriber.create<PackageCreateTripResponse>()
+        val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.PackagesBackFlowFromOverview, R.string.preference_packages_back_flow_from_overview)
+        setupOverviewPresenter()
+        packageServiceRule.services!!.createTrip(params).subscribe(testSubscriber)
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        assertEquals(overviewPresenter.bundleOverviewHeader.toolbar.menu.size(), 5)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMenuItemsWhenBackflowIsControlled() {
+        val testSubscriber = TestSubscriber.create<PackageCreateTripResponse>()
+        val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
+        setupOverviewPresenter()
+        packageServiceRule.services!!.createTrip(params).subscribe(testSubscriber)
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        assertEquals(overviewPresenter.bundleOverviewHeader.toolbar.menu.size(), 4)
+    }
+
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageCheckoutViewOpenedWithMIDCheckoutEnabled() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
         overviewPresenter.show(overviewPresenter.webCheckoutView)
@@ -93,6 +117,7 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageCheckoutViewOpenedWithMIDCheckoutDisabled() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
         overviewPresenter.checkoutButton.performClick()
@@ -107,7 +132,7 @@ class PackageOverviewPresenterTest {
         val stepOneTestSubscriber = TestSubscriber<String>()
         val stepTwoTestSubscriber = TestSubscriber<String>()
         val stepThreeTestSubscriber = TestSubscriber<String>()
-
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
         overviewPresenter.bundleWidget.viewModel.stepOneTextObservable.subscribe(stepOneTestSubscriber)
         overviewPresenter.bundleWidget.viewModel.stepTwoTextObservable.subscribe(stepTwoTestSubscriber)
@@ -125,6 +150,7 @@ class PackageOverviewPresenterTest {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         val testSubscriber = TestSubscriber.create<PackageCreateTripResponse>()
         val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
+        setupOverviewPresenter()
         packageServiceRule.services!!.createTrip(params).subscribe(testSubscriber)
         overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
 
@@ -141,6 +167,7 @@ class PackageOverviewPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testWebURLForCreateTripWithMIDTurnedOn() {
         val testSubscriber = TestSubscriber.create<String>()
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
         overviewPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testSubscriber)
         overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
@@ -154,6 +181,7 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageOverviewHeaderFromMultiItemResponse() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
 
@@ -166,6 +194,7 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBundleTotalPriceDisplayedForMIDWithMandatoryDisplayTypeTotal() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
 
@@ -175,6 +204,7 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBundleTotalPriceDisplayedForMIDWithMandatoryDisplayTypeDaily() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter(false)
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
 
@@ -200,7 +230,6 @@ class PackageOverviewPresenterTest {
     }
 
     private fun setupOverviewPresenter(mandatoryTotalDisplayType: Boolean = true) {
-        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
         overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
         setUpPackageDb()
