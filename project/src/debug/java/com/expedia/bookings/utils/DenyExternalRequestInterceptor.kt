@@ -6,9 +6,13 @@ import okhttp3.Response
 class DenyExternalRequestInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
-        val destinedForLocalhost = originalRequest?.url()?.host()?.contains("localhost:") == true
+        val destinedForLocalhost = originalRequest?.url()?.host() == "localhost"
         if (!destinedForLocalhost) {
-            return Response.Builder().code(500).build()
+            println("External request found! ${originalRequest.url()}")
+            return Response.Builder()
+                    .request(originalRequest)
+                    .code(500)
+                    .build()
         }
         return chain.proceed(originalRequest)
     }
