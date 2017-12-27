@@ -9,7 +9,7 @@ import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionType
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.services.ISuggestionV4Services
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.util.endlessObserver
@@ -20,9 +20,9 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsService: SuggestionV4Services,
+abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsService: ISuggestionV4Services,
                                           locationObservable: Observable<Location>?,
-                                          val shouldShowCurrentLocation: Boolean, val rawQueryEnabled: Boolean) {
+                                          private val shouldShowCurrentLocation: Boolean, val rawQueryEnabled: Boolean) {
     private val minSuggestionQueryByteLength = 3
     private val currentLocationText = context.getString(R.string.current_location)
     // Outputs

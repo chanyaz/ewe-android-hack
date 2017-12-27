@@ -16,7 +16,7 @@ import rx.Scheduler
 import rx.Subscription
 
 open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
-                                essInterceptor: Interceptor, gaiaInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+                                essInterceptor: Interceptor, gaiaInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) : ISuggestionV4Services {
 
     private val suggestApi: SuggestApi by lazy {
         val gson = GsonBuilder().create()
@@ -45,7 +45,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         adapter.create<GaiaSuggestApi>(GaiaSuggestApi::class.java)
     }
 
-    fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean): Subscription {
+    override fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean): Subscription {
 
         var type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST
         if (disablePOI) {
@@ -59,7 +59,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .subscribe(observer)
     }
 
-    fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, sameAsWeb: Boolean, guid: String?): Subscription {
+    override fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, sameAsWeb: Boolean, guid: String?): Subscription {
         val regiontype: Int
         val dest: Boolean
         val features: String
@@ -84,7 +84,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .subscribe(observer)
     }
 
-    fun suggestNearbyGaia(lat: Double, lng: Double, sortType: String, lob: String, locale: String, siteId: Int, isMISForRealWorldEnabled: Boolean = false): Observable<MutableList<GaiaSuggestion>> {
+    override fun suggestNearbyGaia(lat: Double, lng: Double, sortType: String, lob: String, locale: String, siteId: Int, isMISForRealWorldEnabled: Boolean): Observable<MutableList<GaiaSuggestion>> {
         val limit = 2
         val response = gaiaSuggestApi.gaiaNearBy(lat, lng, limit, lob, sortType, locale, siteId, if (isMISForRealWorldEnabled) "rwg" else null)
                 .observeOn(observeOn)
@@ -92,7 +92,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         return response.map { response -> response.toMutableList() }
     }
 
-    fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>): Subscription {
+    override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>): Subscription {
         val suggestType: Int
         if (isMISForRealWorldEnabled) {
             suggestType = SuggestionResultType.AIRPORT or
@@ -118,7 +118,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .subscribe(observer)
     }
 
-    fun suggestRailsV4(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>): Subscription {
+    override fun suggestRailsV4(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>): Subscription {
         val suggestType = SuggestionResultType.TRAIN_STATION
         return suggestV4(query, suggestType, isDest, "ta_hierarchy", "RAILS")
                 .observeOn(observeOn)
@@ -129,7 +129,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
     
     private var airportSuggestionSubscription: Subscription? = null
 
-    fun getAirports(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, guid: String): Subscription {
+    override fun getAirports(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, guid: String): Subscription {
 
         airportSuggestionSubscription?.unsubscribe()
 

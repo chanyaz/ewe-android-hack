@@ -2,13 +2,13 @@ package com.expedia.vm.packages
 
 import android.content.Context
 import android.location.Location
-import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.services.ISuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.isPackagesMISRealWorldGeoEnabled
 import com.expedia.vm.SuggestionAdapterViewModel
 import rx.Observable
 
-class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: SuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
+class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
     override fun getSuggestionService(query: String) {
         suggestionsService.suggestPackagesV4(query, isDest, isPackagesMISRealWorldGeoEnabled(context), generateSuggestionServiceCallback())
     }
