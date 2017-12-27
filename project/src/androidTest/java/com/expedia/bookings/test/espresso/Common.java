@@ -42,6 +42,10 @@ public class Common {
 		PointOfSale.onPointOfSaleChanged(context);
 	}
 
+	public static void setFeatureFlag(String key, boolean enable) {
+		Context context = InstrumentationRegistry.getTargetContext();
+		SettingUtils.save(context, key, enable);
+	}
 
 	public static void setLocale(Locale loc) {
 		ExpediaBookingApp app = getApplication();

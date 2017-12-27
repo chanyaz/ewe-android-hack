@@ -550,6 +550,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_package_flight_filter,
 		R.drawable.ic_create_white_24dp,
 		R.menu.menu_package_checkout,
+		R.menu.menu_package_checkout_new,
 		R.string.secure_checkout,
 		R.layout.widget_web_view,
 		R.string.package_flight_overview_baggage_fees,

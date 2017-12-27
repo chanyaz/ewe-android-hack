@@ -97,6 +97,10 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppPackagesEnablePOS.getKey(),
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
+		if (list.contains("PackagesBackFlowFromOverview")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.PackagesBackFlowFromOverview.getKey(),
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
 		Db.setAbacusResponse(abacusResponse);
 	}
 
@@ -106,9 +110,26 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR.getKey(),
 				AbacusUtils.DefaultVariant.CONTROL.ordinal());
 		}
+		if (list.contains("PackagesBackFlowFromOverview")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.PackagesBackFlowFromOverview.getKey(),
+				AbacusUtils.DefaultVariant.CONTROL.ordinal());
+		}
 		Db.setAbacusResponse(abacusResponse);
 	}
 
+	@And("^I enable following features$")
+	public void enableFeatures(List<String> list) {
+		for (String key : list) {
+			Common.setFeatureFlag(key, true);
+		}
+	}
+
+	@And("^I disable following features$")
+	public void disableFeatures(List<String> list) {
+		for (String key : list) {
+			Common.setFeatureFlag(key, false);
+		}
+	}
 
 
 	@And("^I press back$")
