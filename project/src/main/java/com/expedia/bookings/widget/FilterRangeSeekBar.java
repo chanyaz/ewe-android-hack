@@ -242,9 +242,11 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 	}
 
 	public String getAccessibilityText(Thumb thumb) {
+		String name = thumb == Thumb.MIN ? a11yStartName : a11yEndName;
+		String value = thumb == Thumb.MIN ? currentA11yStartValue : currentA11yEndValue;
 		return Phrase.from(getContext().getString(R.string.accessibility_slider_cont_desc_name_role_value_TEMPLATE))
-			.put("name", thumb == Thumb.MIN ? a11yStartName : a11yEndName)
-			.put("value", thumb == Thumb.MIN ? currentA11yStartValue : currentA11yEndValue)
+			.put("name", name == null ? "" : name)
+			.put("value", value == null ? "" : value)
 			.format().toString();
 	}
 

@@ -122,4 +122,50 @@ public class FilterRangeSeekBarTest {
 			bar.onDraw(canvas);
 		}
 	}
+
+	@Test
+	public void accessibilityTextWithNullName() {
+		FilterRangeSeekBar seekBar = new FilterRangeSeekBar(context, null);
+		seekBar.currentA11yStartValue = "startValue";
+		seekBar.currentA11yEndValue = "endValue";
+		FilterRangeSeekBar.Thumb thumb = FilterRangeSeekBar.Thumb.MIN;
+		String accessibilityText = seekBar.getAccessibilityText(thumb);
+
+		Assert.assertEquals(" Range Slider startValue, use back-and-forth gesture or local context menu to adjust", accessibilityText);
+
+		thumb = FilterRangeSeekBar.Thumb.MAX;
+		accessibilityText = seekBar.getAccessibilityText(thumb);
+
+		Assert.assertEquals(" Range Slider endValue, use back-and-forth gesture or local context menu to adjust", accessibilityText);
+	}
+
+	@Test
+	public void accessibilityTextWithNullValue() {
+		FilterRangeSeekBar seekBar = new FilterRangeSeekBar(context, null);
+		seekBar.a11yStartName = "startName";
+		seekBar.a11yEndName = "endName";
+		FilterRangeSeekBar.Thumb thumb = FilterRangeSeekBar.Thumb.MIN;
+		String accessibilityText = seekBar.getAccessibilityText(thumb);
+
+		Assert.assertEquals("startName Range Slider , use back-and-forth gesture or local context menu to adjust", accessibilityText);
+
+		thumb = FilterRangeSeekBar.Thumb.MAX;
+		accessibilityText = seekBar.getAccessibilityText(thumb);
+
+		Assert.assertEquals("endName Range Slider , use back-and-forth gesture or local context menu to adjust", accessibilityText);
+	}
+
+	@Test
+	public void accessibilityTextWithNullNameAndValue() {
+		FilterRangeSeekBar seekBar = new FilterRangeSeekBar(context, null);
+		FilterRangeSeekBar.Thumb thumb = FilterRangeSeekBar.Thumb.MIN;
+		String accessibilityText = seekBar.getAccessibilityText(thumb);
+
+		Assert.assertEquals(" Range Slider , use back-and-forth gesture or local context menu to adjust", accessibilityText);
+
+		thumb = FilterRangeSeekBar.Thumb.MAX;
+		accessibilityText = seekBar.getAccessibilityText(thumb);
+
+		Assert.assertEquals(" Range Slider , use back-and-forth gesture or local context menu to adjust", accessibilityText);
+	}
 }
