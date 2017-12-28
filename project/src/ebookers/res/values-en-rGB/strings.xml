@@ -42,7 +42,7 @@
     <string name="swp_widget_points_value_TEMPLATE">You have {points_or_amount} in BONUS+</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">BONUS+ Used</string>
-
+    
     <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+ applied! (excludes taxes and fees)</string>
     <string name="youll_earn_points_TEMPLATE">You\'ll earn {reward_currency} in BONUS+ for this booking!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">You\'ll earn {reward_currency} in BONUS+ for this trip!</string>
@@ -98,4 +98,6 @@
     <string name="member_pricing">Insider Prices</string>
     <!-- Shop as a BONUS+ member! -->
     <string name="shop_as_a_member_TEMPLATE">Shop as a BONUS+ member!</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">Insider Prices</string>
 </resources>
