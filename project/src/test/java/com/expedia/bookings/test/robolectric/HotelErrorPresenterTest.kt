@@ -16,6 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.Shadows.shadowOf
 
 @RunWith(RobolectricRunner::class)
 class HotelErrorPresenterTest {
@@ -43,8 +44,8 @@ class HotelErrorPresenterTest {
 
         Assert.assertEquals(activity.getString(R.string.error_room_sold_out), hotelPresenter.errorPresenter.errorText.text)
         Assert.assertEquals(activity.getString(R.string.select_another_room), hotelPresenter.errorPresenter.errorButton.text)
-        val errorImageShadow = org.robolectric.Shadows.shadowOf(hotelPresenter.errorPresenter.errorImage)
-        Assert.assertEquals(R.drawable.error_default, errorImageShadow.imageResourceId)
+        val errorImageDrawable = shadowOf(hotelPresenter.errorPresenter.errorImage.drawable)
+        Assert.assertEquals(R.drawable.error_default, errorImageDrawable.createdFromResId)
     }
 
     @Test

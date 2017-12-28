@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.shadows.ShadowApplication
 import org.robolectric.shadows.ShadowLog
-import org.robolectric.util.ActivityController
+import org.robolectric.android.controller.ActivityController
 import kotlin.test.assertEquals
 
 

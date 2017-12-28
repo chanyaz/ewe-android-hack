@@ -16,7 +16,7 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import org.robolectric.util.ActivityController
+import org.robolectric.android.controller.ActivityController
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)

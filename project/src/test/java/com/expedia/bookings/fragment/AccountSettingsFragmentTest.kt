@@ -47,6 +47,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import java.util.Calendar
@@ -409,7 +410,8 @@ class AccountSettingsFragmentTest {
         assertViewIsEffectivelyVisibile(viewId)
         val countryView = fragment.view?.findViewById<View>(viewId)
         assertEquals(expectedCountryCode, (countryView?.findViewById<TextView>(R.id.country))?.text)
-        assertEquals(expectedFlagResId, Shadows.shadowOf(countryView?.findViewById<ImageView>(R.id.flagView))?.imageResourceId)
+        val flagViewDrawable = shadowOf(countryView?.findViewById<ImageView>(R.id.flagView)?.drawable)
+        assertEquals(expectedFlagResId, flagViewDrawable?.createdFromResId)
     }
 
     private fun assertTermsLinkVisibility(visibility: Int) {

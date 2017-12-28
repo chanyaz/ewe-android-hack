@@ -73,7 +73,8 @@ class HotelItinCustomerSupportDetailsTest {
     fun clickCallSupportIsTrackedInOmnitureWhenPhoneIsAvailable() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
-        RuntimeEnvironment.getRobolectricPackageManager().setSystemFeature(PackageManager.FEATURE_TELEPHONY, true)
+        val shadowPackageManager = Shadows.shadowOf(RuntimeEnvironment.application.packageManager)
+        shadowPackageManager.setSystemFeature(PackageManager.FEATURE_TELEPHONY, true)
 
         customerSupportWidget.callSupportActionButton.performClick()
         assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Manage.Call.Expedia", mockAnalyticsProvider)
@@ -83,7 +84,8 @@ class HotelItinCustomerSupportDetailsTest {
     fun clickCallSupportIsTrackedInOmnitureWhenNoPhoneIsAvailable() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
-        RuntimeEnvironment.getRobolectricPackageManager().setSystemFeature(PackageManager.FEATURE_TELEPHONY, false)
+        val shadowPackageManager = Shadows.shadowOf(RuntimeEnvironment.application.packageManager)
+        shadowPackageManager.setSystemFeature(PackageManager.FEATURE_TELEPHONY, false)
 
         customerSupportWidget.callSupportActionButton.performClick()
         assertEquals(customerSupportWidget.callSupportActionButton.text, ClipboardUtils.getText(activity))

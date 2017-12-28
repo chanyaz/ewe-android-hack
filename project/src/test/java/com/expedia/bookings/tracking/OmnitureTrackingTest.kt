@@ -10,7 +10,6 @@ import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withProps
@@ -32,6 +31,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -87,7 +87,8 @@ class OmnitureTrackingTest {
         val gmsPackageInfo = PackageInfo()
         gmsPackageInfo.packageName = GoogleApiAvailability.GOOGLE_PLAY_SERVICES_PACKAGE
         gmsPackageInfo.versionCode = 11000001
-        RuntimeEnvironment.getRobolectricPackageManager().addPackage(gmsPackageInfo)
+        val shadowPackageManager = shadowOf(RuntimeEnvironment.application.packageManager)
+        shadowPackageManager.addPackage(gmsPackageInfo)
 
         OmnitureTracking.trackAccountPageLoad()
 

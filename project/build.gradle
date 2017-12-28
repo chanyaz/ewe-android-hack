@@ -132,7 +132,7 @@ dependencies {
 
     // Test dependencies
     testCompile 'junit:junit:4.12'
-    def roboVersion = '3.2.2'
+    def roboVersion = '3.3'
     testCompile "org.robolectric:robolectric:${roboVersion}"
     testCompile "org.robolectric:shadows-multidex:${roboVersion}"
     testCompile "org.robolectric:shadows-support-v4:${roboVersion}"
