@@ -221,6 +221,37 @@ class ItineraryManagerTest {
         assertFalse(sut.isFlightDataAvailable(testFlightValid))
     }
 
+    @Test
+    fun testGetTripDetailsResponse() {
+        SettingUtils.save(context, R.string.preference_trips_use_retrofit_call_for_details, true)
+        val itinManager = ItineraryManager.getInstance()
+
+        //SUCCESSFUL RESPONSE
+        val mockTripServices = MockTripServices(false)
+        //normal
+        var trip = Trip()
+        trip.tripId = "53a6459c-822c-4425-9e14-3eea43f38a97"
+        var response = itinManager.SyncTask().getTripDetailsResponse(trip, false, mockTripServices)
+        assertTrue(response.isSuccess)
+        assertEquals("7238007847306", response.trip.tripNumber)
+        //shared
+        trip.shareInfo.sharableDetailsUrl = "https://www.expedia.com/m/trips/shared/3onkuf_eBckddgmkNz3BNcCAqKW-p7rd4kTA4H5YkcUoaVhITa7YLZksqAi7kIDkO9f2Of33KaNUvN-pzL704LOL"
+        trip.setIsShared(true)
+        response = itinManager.SyncTask().getTripDetailsResponse(trip, false, mockTripServices)
+        assertTrue(response.isSuccess)
+        assertEquals("1103274148635", response.trip.tripNumber)
+        //guest
+        trip = Trip("test123@123.com", "7313989476663")
+        response = itinManager.SyncTask().getTripDetailsResponse(trip, false, mockTripServices)
+        assertTrue(response.isSuccess)
+        assertEquals("7313989476663", response.trip.tripNumber)
+
+        //ERROR RESPONSE
+        response = itinManager.SyncTask().getTripDetailsResponse(trip, false, MockTripServices(true))
+        assertFalse(response.isSuccess)
+        assertTrue(response.hasErrors())
+    }
+
     private fun assertLinkTracked(linkName: String, rfrrId: String, event: String, mockAnalyticsProvider: AnalyticsProvider) {
         val expectedData = mapOf(
                 "&&linkType" to "o",

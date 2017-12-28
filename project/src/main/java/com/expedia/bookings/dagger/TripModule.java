@@ -6,6 +6,7 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.RoomUpgradeOffersService;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
 import com.expedia.bookings.services.TripsServices;
+import com.expedia.bookings.services.TripsServicesInterface;
 import com.expedia.vm.ItinPOSHeaderViewModel;
 
 import dagger.Module;
@@ -26,7 +27,7 @@ public final class TripModule {
 
 	@Provides
 	@TripScope
-	TripsServices provideTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	TripsServicesInterface provideTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new TripsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}

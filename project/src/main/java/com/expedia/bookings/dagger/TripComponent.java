@@ -5,7 +5,7 @@ import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
-import com.expedia.bookings.services.TripsServices;
+import com.expedia.bookings.services.TripsServicesInterface;
 import com.expedia.bookings.widget.itin.ItinPOSHeader;
 import com.expedia.vm.itin.ItinSignInViewModel;
 import dagger.Component;
@@ -20,5 +20,5 @@ public interface TripComponent {
 	void inject(AddGuestItinWidget addGuestItinWidget);
 
 	ItinPageUsableTracking itinPageUsableTracking();
-	TripsServices tripServices();
+	TripsServicesInterface tripServices();
 }

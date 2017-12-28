@@ -33,7 +33,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.server.TripDetailsResponseHandler;
 import com.expedia.bookings.services.TNSServices;
-import com.expedia.bookings.services.TripsServices;
+import com.expedia.bookings.services.TripsServicesInterface;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
@@ -1083,7 +1083,7 @@ public class ItineraryManager implements JSONable {
 		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.finished();
 	}
 
-	private class SyncTask extends AsyncTask<Void, ProgressUpdate, Collection<Trip>> {
+	class SyncTask extends AsyncTask<Void, ProgressUpdate, Collection<Trip>> {
 
 		/*
 		 * Implementation note - we regularly check if the sync has been
@@ -1093,6 +1093,7 @@ public class ItineraryManager implements JSONable {
 		 * will get hung up during a cancel).
 		 */
 		private ExpediaServices mServices;
+		protected TripsServicesInterface tripsServices;
 
 		// Used for determining whether to publish an "added" or "update" when we refresh a guest trip
 		private Set<String> mGuestTripsNotYetLoaded = new HashSet<>();
@@ -1112,6 +1113,9 @@ public class ItineraryManager implements JSONable {
 
 		SyncTask() {
 			mServices = new ExpediaServices(mContext);
+
+			Ui.getApplication(mContext).defaultTripComponents();
+			tripsServices = Ui.getApplication(mContext).tripComponent().tripServices();
 
 			for (Operation op : Operation.values()) {
 				mOpCount.put(op, 0);
@@ -1437,7 +1441,7 @@ public class ItineraryManager implements JSONable {
 				}
 
 				TripDetailsResponse response;
-				response = getTripDetailsResponse(trip, deepRefresh);
+				response = getTripDetailsResponse(trip, deepRefresh, tripsServices);
 
 				if (response == null || response.hasErrors()) {
 					boolean isTripGuestAndFailedToRetrieve = false;
@@ -1527,18 +1531,29 @@ public class ItineraryManager implements JSONable {
 			}
 		}
 
-		private TripDetailsResponse getTripDetailsResponse(Trip trip, boolean deepRefresh) {
+		TripDetailsResponse getTripDetailsResponse(Trip trip, boolean deepRefresh, TripsServicesInterface tripServices) {
 			TripDetailsResponse response;
-			if (trip.isShared()) {
-				response = mServices.getSharedItin(trip.getShareInfo().getSharableDetailsApiUrl());
-			}
-			else if (!trip.isGuest() && featureFlagForRetrofitServiceEnabled()) {
-				TripsServices tripServices = Ui.getApplication(mContext).tripComponent().tripServices();
-				JSONObject json = tripServices.getTripDetails(trip.getTripId(), !deepRefresh);
+
+			if (featureFlagForRetrofitServiceEnabled()) {
+				JSONObject json;
+				if (trip.isShared()) {
+					json = tripServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
+				}
+				else if (trip.isGuest()) {
+					json = tripServices.getGuestTrip(trip.getTripNumber(), trip.getGuestEmailAddress(), !deepRefresh);
+				}
+				else {
+					json = tripServices.getTripDetails(trip.getTripId(), !deepRefresh);
+				}
 				response = (new TripDetailsResponseHandler()).handleJson(json);
 			}
 			else {
-				response = mServices.getTripDetails(trip, !deepRefresh);
+				if (trip.isShared()) {
+					response = mServices.getSharedItin(trip.getShareInfo().getSharableDetailsApiUrl());
+				}
+				else {
+					response = mServices.getTripDetails(trip, !deepRefresh);
+				}
 			}
 			return response;
 		}
@@ -1716,7 +1731,14 @@ public class ItineraryManager implements JSONable {
 			Log.i(LOGGING_TAG, "Fetching shared itin " + shareableUrl);
 			// We need to replace the /m with /api to get the json response.
 			String shareableAPIUrl = ItinShareInfo.convertSharableUrlToApiUrl(shareableUrl);
-			TripDetailsResponse response = mServices.getSharedItin(shareableAPIUrl);
+			TripDetailsResponse response;
+			if (featureFlagForRetrofitServiceEnabled()) {
+				JSONObject json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
+				response = (new TripDetailsResponseHandler()).handleJson(json);
+			}
+			else {
+				response = mServices.getSharedItin(shareableAPIUrl);
+			}
 
 			if (isCancelled()) {
 				return;
