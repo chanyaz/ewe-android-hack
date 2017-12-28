@@ -15,7 +15,7 @@ class ValueAddsContainer(context: Context, val attrs: AttributeSet?): LinearLayo
     init {
         valueAddsSubject.subscribe { valueAdds ->
             this.removeAllViews()
-            for(valueAdd in valueAdds) {
+            for (valueAdd in valueAdds) {
                 val valueAddView = LayoutInflater.from(getContext()).inflate(R.layout.checkmark_row, this, false) as TextView
                 valueAddView.text = valueAdd.description
                 this.addView(valueAddView)

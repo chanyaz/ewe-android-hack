@@ -16,9 +16,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import android.view.View
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.widget.TextView
 import rx.subjects.PublishSubject
+import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -84,6 +87,30 @@ class HotelCheckoutSummaryTest {
         assertEquals("Apr 19, 2016 - Apr 22, 2016", hotelCheckoutSummaryWidget.date.text)
         assertEquals("", hotelCheckoutSummaryWidget.checkinDate.text)
         assertEquals("", hotelCheckoutSummaryWidget.checkoutDate.text)
+    }
+
+    @Test
+    fun testValueAddsNullCreatesZeroValueAddContainers() {
+        hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(activity, null, hotelCheckoutSummaryViewModel)
+
+        val container = hotelCheckoutSummaryWidget.valueAddsContainer
+        assertEquals(0, container.childCount)
+
+        val valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
+        hotelCheckoutSummaryViewModel.valueAddsListObservable.onNext(valueAdds)
+        assertEquals(0, container.childCount)
+
+        val valueAdd1 = HotelOffersResponse.ValueAdds()
+        val description1 = "Value Add"
+        valueAdd1.description = description1
+        valueAdds.add(valueAdd1)
+        hotelCheckoutSummaryViewModel.valueAddsListObservable.onNext(valueAdds)
+        assertEquals(1, container.childCount)
+        val textView = container.getChildAt(0) as TextView
+        assertEquals(description1, actual = textView.text.toString())
+
+        hotelCheckoutSummaryViewModel.valueAddsListObservable.onNext(null)
+        assertEquals(0, container.childCount)
     }
 
     @Test

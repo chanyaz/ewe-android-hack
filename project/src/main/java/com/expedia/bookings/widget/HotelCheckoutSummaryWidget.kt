@@ -95,7 +95,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
 
         setUpFreeCancellationSubscription()
 
-        viewModel.valueAddsListObservable.safeSubscribe(valueAddsContainer.valueAddsSubject)
+        viewModel.valueAddsListObservable.map { it ?: emptyList() }.subscribe (valueAddsContainer.valueAddsSubject)
         viewModel.roomDescriptions.subscribeText(selectedRoom)
         viewModel.bedDescriptions.subscribeText(selectedBed)
         if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
