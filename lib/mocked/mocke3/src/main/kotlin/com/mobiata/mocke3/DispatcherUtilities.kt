@@ -77,17 +77,7 @@ fun makeResponse(filePath: String, params: Map<String, String>?, fileOpener: Fil
     System.out.println("MockWebSever: " + path)
     val resp = MockResponse()
     try {
-        var body = getResponse(path, fileOpener)
-        if (params != null) {
-            val it = params.entries.iterator()
-            while (it.hasNext()) {
-                val entry = it.next()
-                val key = "\${" + entry.key + "}"
-                if (body.contains(entry.key)) {
-                    body = body.replace(key, entry.value)
-                }
-            }
-        }
+        var body = loadMockResponseAndReplaceTemplateParams(path, fileOpener, params)
         resp.setBody(body)
         resp.setHeader("Content-Type", "application/json")
         resp.setResponseCode(responseCode)
@@ -97,6 +87,21 @@ fun makeResponse(filePath: String, params: Map<String, String>?, fileOpener: Fil
     }
 
     return resp
+}
+
+fun loadMockResponseAndReplaceTemplateParams(path: String, fileOpener: FileOpener, params: Map<String, String>?): String {
+    var body = getResponse(path, fileOpener)
+    if (params != null) {
+        val it = params.entries.iterator()
+        while (it.hasNext()) {
+            val entry = it.next()
+            val key = "\${" + entry.key + "}"
+            if (body.contains(entry.key)) {
+                body = body.replace(key, entry.value)
+            }
+        }
+    }
+    return body
 }
 
 // Read the json responses from the FileOpener

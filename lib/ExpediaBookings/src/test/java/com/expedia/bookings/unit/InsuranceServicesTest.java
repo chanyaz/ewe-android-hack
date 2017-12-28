@@ -1,31 +1,26 @@
 package com.expedia.bookings.unit;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.flights.FlightCreateTripParams;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
-import com.expedia.bookings.data.flights.FlightSearchParams;
-import com.expedia.bookings.data.flights.FlightSearchResponse;
-import com.expedia.bookings.data.flights.FlightTripDetails;
 import com.expedia.bookings.data.insurance.InsurancePriceType;
 import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.expedia.bookings.data.insurance.InsuranceTripParams;
 import com.expedia.bookings.interceptors.MockInterceptor;
-import com.expedia.bookings.services.FlightServices;
 import com.expedia.bookings.services.InsuranceServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
-import okhttp3.OkHttpClient;
-import okhttp3.mockwebserver.MockWebServer;
-import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.mockwebserver.MockWebServer;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
@@ -33,13 +28,10 @@ public class InsuranceServicesTest {
 	@Rule
 	public MockWebServer server = new MockWebServer();
 
-	private FlightServices flightServices;
 	private InsuranceServices insuranceServices;
 
 	@Before
 	public void setUp() throws IOException {
-		flightServices = new FlightServices("http://localhost:" + server.getPort(), new OkHttpClient(),
-			new MockInterceptor(), Schedulers.immediate(), Schedulers.immediate());
 		insuranceServices = new InsuranceServices("http://localhost:" + server.getPort(), new OkHttpClient(),
 			new MockInterceptor(), Schedulers.immediate(), Schedulers.immediate());
 
@@ -51,10 +43,7 @@ public class InsuranceServicesTest {
 	@Test
 	public void testInsuranceIsAvailableWhenRequestedAndCanBeAddedAndRemoved() throws Throwable {
 		// verify insurance is available when requested
-		TestSubscriber<FlightCreateTripResponse> createTripObserver = createTrip("happy_round_trip_with_insurance_available");
-		createTripObserver.awaitTerminalEvent();
-		createTripObserver.assertNoErrors();
-		FlightCreateTripResponse trip = createTripObserver.getOnNextEvents().get(0);
+		FlightCreateTripResponse trip = getFlightCreateTripResponse("happy_round_trip_with_insurance_available");
 		List<InsuranceProduct> insuranceProducts = trip.getAvailableInsuranceProducts();
 		Assert.assertFalse(insuranceProducts.isEmpty());
 
@@ -95,51 +84,14 @@ public class InsuranceServicesTest {
 
 	@Test
 	public void testInsuranceIsNotAvailableWhenNotRequested() throws Throwable {
-		TestSubscriber<FlightCreateTripResponse> tripObserver = createTrip("happy_round_trip");
-		tripObserver.awaitTerminalEvent();
-		tripObserver.assertNoErrors();
-		FlightCreateTripResponse flightCreateTripResponse = tripObserver.getOnNextEvents().get(0);
+		FlightCreateTripResponse flightCreateTripResponse = getFlightCreateTripResponse("happy_round_trip");
 		List<InsuranceProduct> availableInsuranceProducts = flightCreateTripResponse.getAvailableInsuranceProducts();
 		Assert.assertTrue(availableInsuranceProducts.isEmpty());
 	}
 
-	private TestSubscriber<FlightCreateTripResponse> createTrip(String productKey) throws Throwable {
-		TestSubscriber<FlightCreateTripResponse> tripObserver = new TestSubscriber<>();
-		flightServices.createTrip(new FlightCreateTripParams.
-			Builder().productKey(productKey).build(), tripObserver);
-		tripObserver.awaitTerminalEvent();
-		tripObserver.assertNoErrors();
-		return tripObserver;
-	}
-
-	private SuggestionV4 getDummySuggestion()  {
-		SuggestionV4 suggestion = new SuggestionV4();
-		suggestion.gaiaId = "";
-		suggestion.regionNames = new SuggestionV4.RegionNames();
-		suggestion.regionNames.displayName = "";
-		suggestion.regionNames.fullName = "";
-		suggestion.regionNames.shortName = "";
-		suggestion.hierarchyInfo = new SuggestionV4.HierarchyInfo();
-		suggestion.hierarchyInfo.airport = new SuggestionV4.Airport();
-		suggestion.hierarchyInfo.airport.airportCode = "";
-		return suggestion;
-	}
-
-	private FlightTripDetails.FlightOffer getFlightOffer() {
-		TestSubscriber<FlightSearchResponse> flightSearchObserver = new TestSubscriber<>();
-		FlightSearchParams flightSearchParams = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
-			.origin(getDummySuggestion())
-			.destination(getDummySuggestion())
-			.startDate(LocalDate.now())
-			.endDate(LocalDate.now().plusDays(5))
-			.adults(1)
-			.build();
-
-		flightServices.flightSearch(flightSearchParams, flightSearchObserver, null);
-		flightSearchObserver.awaitTerminalEvent();
-		flightSearchObserver.assertNoErrors();
-		FlightSearchResponse flightSearchResponse = flightSearchObserver.getOnNextEvents().get(0);
-		Assert.assertFalse(flightSearchResponse.getOffers().isEmpty());
-		return flightSearchResponse.getOffers().get(0);
+	private FlightCreateTripResponse getFlightCreateTripResponse(String productKey) throws Throwable {
+		HashMap<String, String> replacements = new HashMap<>();
+		replacements.put("productKey", productKey);
+		return Mocker.object(FlightCreateTripResponse.class, "api/flight/trip/create/" + productKey + ".json", replacements);
 	}
 }
