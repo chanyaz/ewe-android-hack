@@ -243,6 +243,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             travelerManager.updateDbTravelers(params)
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             bundlePresenter.bundleWidget.viewModel.hotelParamsObservable.onNext(params)
+            bundlePresenter.bundleWidget.viewModel.hotelListSearchObservable.onNext(Unit)
             showBundleOverView()
         }
 

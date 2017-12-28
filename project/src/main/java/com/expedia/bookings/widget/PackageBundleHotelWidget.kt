@@ -77,6 +77,9 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
 
         viewModel.showLoadingStateObservable.subscribeVisibility(hotelLoadingBar)
         viewModel.showLoadingStateObservable.subscribeInverseVisibility(hotelsDatesGuestInfoText)
+        viewModel.showHotelListLoadingStateObservable.subscribe { showHotelListLoading ->
+            if (showHotelListLoading) announceForAccessibility(context.getText(R.string.accessibility_cont_desc_searching_for_hotels))
+        }
         viewModel.showLoadingStateObservable.subscribe { showLoading ->
             this.loadingStateObservable.onNext(showLoading)
             if (showLoading) {

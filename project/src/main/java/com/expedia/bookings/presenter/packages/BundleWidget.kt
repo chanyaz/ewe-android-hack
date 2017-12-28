@@ -53,6 +53,9 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         vm.hotelResultsObservable.subscribe {
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
         }
+        vm.hotelListSearchObservable.subscribe {
+            bundleHotelWidget.viewModel.showHotelListLoadingStateObservable.onNext(true)
+        }
 
         vm.autoAdvanceObservable.subscribe { searchType ->
             when (searchType) {

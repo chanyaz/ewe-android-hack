@@ -31,6 +31,7 @@ import rx.subjects.PublishSubject
 
 class BundleOverviewViewModel(val context: Context, val packageServices: PackageServices?) {
     val hotelParamsObservable = PublishSubject.create<PackageSearchParams>()
+    val hotelListSearchObservable = PublishSubject.create<Unit>()
     val flightParamsObservable = PublishSubject.create<PackageSearchParams>()
     val createTripObservable = PublishSubject.create<PackageCreateTripResponse>()
     val errorObservable = PublishSubject.create<PackageApiError.Code>()

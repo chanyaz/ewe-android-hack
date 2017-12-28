@@ -16,6 +16,7 @@ import rx.subjects.PublishSubject
 
 class BundleHotelViewModel(val context: Context) {
     val showLoadingStateObservable = PublishSubject.create<Boolean>()
+    val showHotelListLoadingStateObservable = PublishSubject.create<Boolean>()
     val selectedHotelObservable = PublishSubject.create<Unit>()
 
     //output
