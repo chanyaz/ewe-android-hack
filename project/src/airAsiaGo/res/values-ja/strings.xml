@@ -6,4 +6,6 @@
     <string name="loading_flights_from_400_airlines">エアアジアの航空券を検索中</string>
     <!-- package hotel results Go Crazy Deals text label -->
     <string name="unreal_deal_text">超目玉キャンペーン</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">エアアジア・ゴー会員割引</string>
 </resources>
