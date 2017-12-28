@@ -42,7 +42,7 @@
     <string name="swp_widget_points_value_TEMPLATE">Vous avez {points_or_amount} en BONUS+</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">BONUS+ utilisés</string>
-
+    
     <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+ appliqués ! (taxes et frais non compris)</string>
     <string name="youll_earn_points_TEMPLATE">Vous gagnerez {reward_currency} en BONUS+ avec cette réservation !</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Vous gagnerez {reward_currency} en BONUS+ avec ce voyage !</string>
@@ -95,7 +95,9 @@
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Flight + Hotel price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Le prix du vol + hôtel est de {price_per_person} par personne. Ce prix inclut les frais et taxes pour les vols et pour l\&apos;hôtel. Bouton pour voir le vol + hôtel.</string>
     <!-- Member Discount for a given property -->
-    <string name="member_pricing">Insider Prices</string>
+    <string name="member_pricing">Prix privés</string>
     <!-- Shop as a BONUS+ member! -->
     <string name="shop_as_a_member_TEMPLATE">Devenez membre BONUS+</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">Prix privés</string>
 </resources>
