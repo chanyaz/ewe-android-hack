@@ -792,6 +792,10 @@
     <string name="Create_Account">建立帳戶</string>
     <!-- Earn rewards and unlock exclusive deals -->
     <string name="earn_rewards_and_unlock_deals">賺取獎賞並解開尊享優惠。</string>
+    <!--With member prices, you could save an average of 17% more right now on thousands of hotels.-->
+    <string name="member_prices_signin">以會員價預訂，即可享數以萬計酒店平均額外 17% 折扣。</string>
+    <!--Sign in or create an account-->
+    <string name="sign_in_create_account">登入或建立帳戶</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1531,6 +1535,36 @@
 
     <!--Flight itin, flight leg detail widget's split ticket text-->
     <string name="itin_flight_leg_detail_widget_split_ticket_text">您的機票由兩個單程票價組成，如只更改或取消其中一個航班，另一個航班不會自動更改或取消。</string>
+    <!--Flight itin, flight Airline support detail widget's title-->
+    <string name="itin_flight_airline_support_widget_title_text">我們可提供協助</string>
+    <!--Flight itin, flight Airline support detail widget's Visit Airlines for help title. Visit {airline_name} for help with the following (eg., Visit Alaska Airlines for help with the following)-->
+    <string name="itin_flight_airline_support_widget_airlines_for_help_TEMPLATE">如需下列服務，請瀏覽{airline_name}網站</string>
+    <!--Flight itin, flight Airline support detail widget's airline text (text is used when we get empty value for airline name from api )-->
+    <string name="itin_flight_airline_support_widget_airline_text">航空公司</string>
+    <!--Flight itin, flight Airline support detail widget's the airline text (text is used for the title when we get empty value for airline name from api )-->
+    <string name="itin_flight_airline_support_widget_the_airline_text">航空公司</string>
+    <!--Flight itin, flight Airline support detail widget's check in text-->
+    <string name="itin_flight_airline_support_widget_check_in_text">辦理登機手續</string>
+    <!--Flight itin, flight Airline support detail widget's Add baggage text-->
+    <string name="itin_flight_airline_support_widget_add_baggage_text">添加行李</string>
+    <!--Flight itin, flight Airline support detail widget's Reserve meals text-->
+    <string name="itin_flight_airline_support_widget_reserve_meals_text">預訂餐點</string>
+    <!--Flight itin, flight Airline support detail widget's Select or change seats text-->
+    <string name="itin_flight_airline_support_widget_select_seats_text">選取或更改座位</string>
+    <!--Flight itin, flight Airline support detail widget's Airlines support template. {airline_name} support (eg., Alaska Airlines support)-->
+    <string name="itin_flight_airline_support_widget_airlines_support_TEMPLATE">{airline_name}支援</string>
+    <!--Flight itin, flight Airline support detail widget's ticket template. Ticket # {ticket_number} (eg., Ticket # 87654321)-->
+    <string name="itin_flight_airline_support_widget_ticket_TEMPLATE">機票編號：{ticket_number}</string>
+    <!--Flight itin, flight Airline support detail widget's confirmation template. Confirmation # {confirmation_number} (eg., Confirmation # 67867)-->
+    <string name="itin_flight_airline_support_widget_confirmation_TEMPLATE">確認編號：{confirmation_number}</string>
+    <!--Flight itin, flight Airline support detail widget's Itinerary template. Itinerary # {itinerary_number} (eg., Itinerary # 87654321)-->
+    <string name="itin_flight_airline_support_widget_itinerary_TEMPLATE">行程編號：{itinerary_number}</string>
+    <!--Flight itin, flight Airline support detail widget's customer support template. {airline_name} customer support (eg., Alaska airlines customer support)-->
+    <string name="itin_flight_airline_support_widget_customer_support_TEMPLATE">{airline_name} 客戶支援</string>
+    <!--Flight itin, flight Airline support detail widget's Airline customer support tile for airline support webview-->
+    <string name="itin_flight_airline_support_widget_support_webview_title">航空公司客戶支援</string>
+    <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
+    <string name="itin_flight_airline_support_widget_number_text">編號</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}日 {hours}小時 {minutes}分</string>
@@ -3815,6 +3849,8 @@
     <string name="bundle_total_text">套票行程合計</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">查看套票行程</string>
+    <!-- Label for package bundle price on search (revamped)-->
+    <string name="search_bundle_total_text_new">瀏覽您的行程</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">步驟 1：選擇酒店</string>
     <!-- Bundle Overview Step 2, select a flight -->

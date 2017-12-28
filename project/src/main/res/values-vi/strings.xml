@@ -791,7 +791,11 @@
     <!--Create Account -->
     <string name="Create_Account">TẠO TÀI KHOẢN</string>
     <!-- Earn rewards and unlock exclusive deals -->
-    <string name="earn_rewards_and_unlock_deals">Nhận thưởng và mở khóa những ưu đãi độc quyền.</string>
+    <string name="earn_rewards_and_unlock_deals">Nhận thưởng và mở khóa ưu đãi độc quyền.</string>
+    <!--With member prices, you could save an average of 17% more right now on thousands of hotels.-->
+    <string name="member_prices_signin">Với giá thành viên, quý vị có thể tiết kiệm trung bình hơn 17% trên giá của hàng nghìn khách sạn.</string>
+    <!--Sign in or create an account-->
+    <string name="sign_in_create_account">Đăng nhập hoặc tạo tài khoản</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -895,7 +899,7 @@
     <!--Onboarding-->
     <string name="booking_page_title">Đặt mọi lúc, mọi nơi</string>
     <string name="booking_page_subtitle">Lên kế hoạch chuyến đi mọi lúc, mọi nơi</string>
-    <string name="trip_page_title">Tự tin du lịch</string>
+    <string name="trip_page_title">An tâm du lịch</string>
     <string name="trip_page_subtitle">Xem thông tin đặt phòng/đặt chỗ và nhận thông báo mọi lúc, mọi nơi</string>
     <string name="reward_page_title">Nhận thưởng</string>
     <!-- Sign up for a free Expedia+ account and earn points on all your purchases -->
@@ -954,7 +958,7 @@
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Nhiều khách đặt hoạt động giải trí tại {destination}! Khám phá các hoạt động trong vùng và đặt vé sớm.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
-    <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Này{firstname}! hãy khám phá những địa điểm và hoạt động hấp dẫn hàng đầu gần khách sạn của quý vị.</string>
+    <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Này {firstname}, khám phá những địa điểm và hoạt động hấp dẫn hàng đầu gần khách sạn của quý vị.</string>
     <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
     <string name="flight_notification_delayed_flight_TEMPLATE">Chuyến bay của quý vị đến {arrival airport} đã hoãn, giờ khởi hành mới: {departure time}.</string>
     <!-- Itineraries -->
@@ -1531,6 +1535,36 @@
 
     <!--Flight itin, flight leg detail widget's split ticket text-->
     <string name="itin_flight_leg_detail_widget_split_ticket_text">Chuyến bay của quý vị gồm hai vé một chiều. Nếu một chuyến bay có thay đổi hoặc hủy, chuyến bay còn lại sẽ không được tự động thay đổi theo.</string>
+    <!--Flight itin, flight Airline support detail widget's title-->
+    <string name="itin_flight_airline_support_widget_title_text">Hỗ trợ</string>
+    <!--Flight itin, flight Airline support detail widget's Visit Airlines for help title. Visit {airline_name} for help with the following (eg., Visit Alaska Airlines for help with the following)-->
+    <string name="itin_flight_airline_support_widget_airlines_for_help_TEMPLATE">Truy cập {airline_name} để nhận được hỗ trợ cho những dịch vụ sau đây</string>
+    <!--Flight itin, flight Airline support detail widget's airline text (text is used when we get empty value for airline name from api )-->
+    <string name="itin_flight_airline_support_widget_airline_text">Hãng hàng không</string>
+    <!--Flight itin, flight Airline support detail widget's the airline text (text is used for the title when we get empty value for airline name from api )-->
+    <string name="itin_flight_airline_support_widget_the_airline_text">hãng hàng không</string>
+    <!--Flight itin, flight Airline support detail widget's check in text-->
+    <string name="itin_flight_airline_support_widget_check_in_text">Làm thủ tục chuyến bay</string>
+    <!--Flight itin, flight Airline support detail widget's Add baggage text-->
+    <string name="itin_flight_airline_support_widget_add_baggage_text">Thêm hành lý</string>
+    <!--Flight itin, flight Airline support detail widget's Reserve meals text-->
+    <string name="itin_flight_airline_support_widget_reserve_meals_text">Đặt trước bữa ăn</string>
+    <!--Flight itin, flight Airline support detail widget's Select or change seats text-->
+    <string name="itin_flight_airline_support_widget_select_seats_text">Chọn hoặc thay đổi ghế ngồi</string>
+    <!--Flight itin, flight Airline support detail widget's Airlines support template. {airline_name} support (eg., Alaska Airlines support)-->
+    <string name="itin_flight_airline_support_widget_airlines_support_TEMPLATE">Hỗ trợ của {airline_name}</string>
+    <!--Flight itin, flight Airline support detail widget's ticket template. Ticket # {ticket_number} (eg., Ticket # 87654321)-->
+    <string name="itin_flight_airline_support_widget_ticket_TEMPLATE">Số vé # {ticket_number}</string>
+    <!--Flight itin, flight Airline support detail widget's confirmation template. Confirmation # {confirmation_number} (eg., Confirmation # 67867)-->
+    <string name="itin_flight_airline_support_widget_confirmation_TEMPLATE">Số xác nhận # {confirmation_number}</string>
+    <!--Flight itin, flight Airline support detail widget's Itinerary template. Itinerary # {itinerary_number} (eg., Itinerary # 87654321)-->
+    <string name="itin_flight_airline_support_widget_itinerary_TEMPLATE">Số lịch trình # {itinerary_number}</string>
+    <!--Flight itin, flight Airline support detail widget's customer support template. {airline_name} customer support (eg., Alaska airlines customer support)-->
+    <string name="itin_flight_airline_support_widget_customer_support_TEMPLATE">Hỗ trợ khách hàng {airline_name}</string>
+    <!--Flight itin, flight Airline support detail widget's Airline customer support tile for airline support webview-->
+    <string name="itin_flight_airline_support_widget_support_webview_title">Hỗ trợ khách hàng của hãng hàng không</string>
+    <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
+    <string name="itin_flight_airline_support_widget_number_text">Số</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}ng {hours}g {minutes}p</string>
@@ -3815,6 +3849,8 @@
     <string name="bundle_total_text">Tổng gói</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">Xem gói của quý vị</string>
+    <!-- Label for package bundle price on search (revamped)-->
+    <string name="search_bundle_total_text_new">Xem chuyến đi của quý vị</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Bước 1: Chọn Khách sạn</string>
     <!-- Bundle Overview Step 2, select a flight -->

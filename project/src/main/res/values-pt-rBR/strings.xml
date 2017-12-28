@@ -792,6 +792,10 @@
     <string name="Create_Account">CRIAR UMA CONTA</string>
     <!-- Earn rewards and unlock exclusive deals -->
     <string name="earn_rewards_and_unlock_deals">Agora não.</string>
+    <!--With member prices, you could save an average of 17% more right now on thousands of hotels.-->
+    <string name="member_prices_signin">Com o preço para associado, você pode economizar uma média de 17% a mais neste momento em milhares de hotéis.</string>
+    <!--Sign in or create an account-->
+    <string name="sign_in_create_account">Conecte-se ou crie uma conta</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1531,6 +1535,36 @@
 
     <!--Flight itin, flight leg detail widget's split ticket text-->
     <string name="itin_flight_leg_detail_widget_split_ticket_text">Seu voo é uma combinação de duas tarifas somente de ida. Se um dos voos for alterado ou cancelado, o outro voo não será alterado automaticamente.</string>
+    <!--Flight itin, flight Airline support detail widget's title-->
+    <string name="itin_flight_airline_support_widget_title_text">Estamos aqui para ajudar você!</string>
+    <!--Flight itin, flight Airline support detail widget's Visit Airlines for help title. Visit {airline_name} for help with the following (eg., Visit Alaska Airlines for help with the following)-->
+    <string name="itin_flight_airline_support_widget_airlines_for_help_TEMPLATE">Visite o site da {airline_name} para receber ajuda com</string>
+    <!--Flight itin, flight Airline support detail widget's airline text (text is used when we get empty value for airline name from api )-->
+    <string name="itin_flight_airline_support_widget_airline_text">companhia aérea</string>
+    <!--Flight itin, flight Airline support detail widget's the airline text (text is used for the title when we get empty value for airline name from api )-->
+    <string name="itin_flight_airline_support_widget_the_airline_text">companhia aérea</string>
+    <!--Flight itin, flight Airline support detail widget's check in text-->
+    <string name="itin_flight_airline_support_widget_check_in_text">Check-in do voo</string>
+    <!--Flight itin, flight Airline support detail widget's Add baggage text-->
+    <string name="itin_flight_airline_support_widget_add_baggage_text">Adição de bagagem</string>
+    <!--Flight itin, flight Airline support detail widget's Reserve meals text-->
+    <string name="itin_flight_airline_support_widget_reserve_meals_text">Reserva de refeições</string>
+    <!--Flight itin, flight Airline support detail widget's Select or change seats text-->
+    <string name="itin_flight_airline_support_widget_select_seats_text">Seleção ou alteração de assentos</string>
+    <!--Flight itin, flight Airline support detail widget's Airlines support template. {airline_name} support (eg., Alaska Airlines support)-->
+    <string name="itin_flight_airline_support_widget_airlines_support_TEMPLATE">Suporte da {airline_name}</string>
+    <!--Flight itin, flight Airline support detail widget's ticket template. Ticket # {ticket_number} (eg., Ticket # 87654321)-->
+    <string name="itin_flight_airline_support_widget_ticket_TEMPLATE">N° do bilhete: {ticket_number}</string>
+    <!--Flight itin, flight Airline support detail widget's confirmation template. Confirmation # {confirmation_number} (eg., Confirmation # 67867)-->
+    <string name="itin_flight_airline_support_widget_confirmation_TEMPLATE">N° de confirmação: {confirmation_number}</string>
+    <!--Flight itin, flight Airline support detail widget's Itinerary template. Itinerary # {itinerary_number} (eg., Itinerary # 87654321)-->
+    <string name="itin_flight_airline_support_widget_itinerary_TEMPLATE">N° do itinerário: {itinerary_number}</string>
+    <!--Flight itin, flight Airline support detail widget's customer support template. {airline_name} customer support (eg., Alaska airlines customer support)-->
+    <string name="itin_flight_airline_support_widget_customer_support_TEMPLATE">Atendimento ao cliente da {airline_name}</string>
+    <!--Flight itin, flight Airline support detail widget's Airline customer support tile for airline support webview-->
+    <string name="itin_flight_airline_support_widget_support_webview_title">Suporte ao cliente da companhia aérea</string>
+    <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
+    <string name="itin_flight_airline_support_widget_number_text">número</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}d {hours}h {minutes}min</string>
@@ -3191,7 +3225,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Configurações</string>
@@ -3815,6 +3849,8 @@
     <string name="bundle_total_text">Pacote total</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">Veja seu pacote</string>
+    <!-- Label for package bundle price on search (revamped)-->
+    <string name="search_bundle_total_text_new">Veja sua viagem</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Etapa 1: selecione o hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
