@@ -792,6 +792,10 @@
     <string name="Create_Account">회원가입</string>
     <!-- Earn rewards and unlock exclusive deals -->
     <string name="earn_rewards_and_unlock_deals">포인트를 적립하고 회원 한정 특가도 열어보세요.</string>
+    <!--With member prices, you could save an average of 17% more right now on thousands of hotels.-->
+    <string name="member_prices_signin">회원으로 예약하시면 지금 바로 수천 개 호텔을 평균 17% 이상 할인받으실 수 있습니다.</string>
+    <!--Sign in or create an account-->
+    <string name="sign_in_create_account">로그인 또는 회원가입</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1531,6 +1535,36 @@
 
     <!--Flight itin, flight leg detail widget's split ticket text-->
     <string name="itin_flight_leg_detail_widget_split_ticket_text">고객님 항공편은 두 개의 편도 요금이 결합된 상품입니다. 항공편 중 하나를 변경 또는 취소하는 경우 나머지 다른 항공편이 자동으로 변경되지는 않습니다.</string>
+    <!--Flight itin, flight Airline support detail widget's title-->
+    <string name="itin_flight_airline_support_widget_title_text">문의</string>
+    <!--Flight itin, flight Airline support detail widget's Visit Airlines for help title. Visit {airline_name} for help with the following (eg., Visit Alaska Airlines for help with the following)-->
+    <string name="itin_flight_airline_support_widget_airlines_for_help_TEMPLATE">다음 사항에 대해 도움이 필요하시면 {airline_name}에 연락해 주세요.</string>
+    <!--Flight itin, flight Airline support detail widget's airline text (text is used when we get empty value for airline name from api )-->
+    <string name="itin_flight_airline_support_widget_airline_text">항공사</string>
+    <!--Flight itin, flight Airline support detail widget's the airline text (text is used for the title when we get empty value for airline name from api )-->
+    <string name="itin_flight_airline_support_widget_the_airline_text">항공사</string>
+    <!--Flight itin, flight Airline support detail widget's check in text-->
+    <string name="itin_flight_airline_support_widget_check_in_text">항공편 체크인</string>
+    <!--Flight itin, flight Airline support detail widget's Add baggage text-->
+    <string name="itin_flight_airline_support_widget_add_baggage_text">수하물 추가</string>
+    <!--Flight itin, flight Airline support detail widget's Reserve meals text-->
+    <string name="itin_flight_airline_support_widget_reserve_meals_text">기내식 예약</string>
+    <!--Flight itin, flight Airline support detail widget's Select or change seats text-->
+    <string name="itin_flight_airline_support_widget_select_seats_text">좌석 선택 또는 변경</string>
+    <!--Flight itin, flight Airline support detail widget's Airlines support template. {airline_name} support (eg., Alaska Airlines support)-->
+    <string name="itin_flight_airline_support_widget_airlines_support_TEMPLATE">{airline_name} 고객 지원</string>
+    <!--Flight itin, flight Airline support detail widget's ticket template. Ticket # {ticket_number} (eg., Ticket # 87654321)-->
+    <string name="itin_flight_airline_support_widget_ticket_TEMPLATE">티켓 번호: {ticket_number}</string>
+    <!--Flight itin, flight Airline support detail widget's confirmation template. Confirmation # {confirmation_number} (eg., Confirmation # 67867)-->
+    <string name="itin_flight_airline_support_widget_confirmation_TEMPLATE">확인 번호: {confirmation_number}</string>
+    <!--Flight itin, flight Airline support detail widget's Itinerary template. Itinerary # {itinerary_number} (eg., Itinerary # 87654321)-->
+    <string name="itin_flight_airline_support_widget_itinerary_TEMPLATE">일정 번호: {itinerary_number}</string>
+    <!--Flight itin, flight Airline support detail widget's customer support template. {airline_name} customer support (eg., Alaska airlines customer support)-->
+    <string name="itin_flight_airline_support_widget_customer_support_TEMPLATE">{airline_name} 고객 지원</string>
+    <!--Flight itin, flight Airline support detail widget's Airline customer support tile for airline support webview-->
+    <string name="itin_flight_airline_support_widget_support_webview_title">항공사 고객 지원</string>
+    <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
+    <string name="itin_flight_airline_support_widget_number_text">번호</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}일 {hours}시간 {minutes}분</string>
@@ -3815,6 +3849,8 @@
     <string name="bundle_total_text">항공+호텔 총액</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">항공+호텔 보기</string>
+    <!-- Label for package bundle price on search (revamped)-->
+    <string name="search_bundle_total_text_new">내 여행 보기</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">1단계: 호텔 선택</string>
     <!-- Bundle Overview Step 2, select a flight -->
@@ -4306,7 +4342,7 @@
     <string name="swp_on_widget_header">Expedia+ 포인트 적용됨</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
-    <string name="yay_going_somewhere">다음의 목적지로 떠나시는군요:</string>
+    <string name="yay_going_somewhere">목적지:</string>
     <!-- Message telling you on confirmation that your trip is booked -->
     <string name="trip_is_booked">여행이 예약되었습니다!</string>
     <!-- Cars cross-sell message on package confirmation -->
