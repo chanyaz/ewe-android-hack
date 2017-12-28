@@ -42,7 +42,7 @@
     <string name="swp_widget_points_value_TEMPLATE">Sinulla on {points_or_amount} BONUS+-etuna</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">BONUS+-etu käytetty</string>
-
+    
     <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+-etu käytetty! (ei sisällä veroja ja maksuja)</string>
     <string name="youll_earn_points_TEMPLATE">Ansaitset {reward_currency} BONUS+-etuna tästä varauksesta!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Ansaitset {reward_currency} BONUS+-etuna tästä matkasta!</string>
@@ -98,4 +98,6 @@
     <string name="member_pricing">Sisäpiirihinnat</string>
     <!-- Shop as a BONUS+ member! -->
     <string name="shop_as_a_member_TEMPLATE">Tee varauksia BONUS+-jäsenenä</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">Sisäpiirihinnat</string>
 </resources>
