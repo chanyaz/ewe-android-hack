@@ -80,5 +80,7 @@
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
     <!-- Member Discount for a given property -->
-    <string name="member_pricing">Insider Prices</string>
+    <string name="member_pricing">Insider-priser</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">Insider-priser</string>
 </resources>
