@@ -447,6 +447,18 @@ class TripParserTest {
         assertEquals(airlineLiabilityLimitationsRule.url,airlineLiabilityLimitationsUrlAssert)
     }
 
+    @Test
+    fun testParseItinFlightAction(){
+        val tripParser = TripParser()
+        val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trip_details_multi_segment.json"))).readUtf8()
+        val jsonObject = JSONObject(data)
+        val responseData = jsonObject.optJSONObject("responseData")
+        val flight = responseData.getJSONArray("flights").getJSONObject(0)
+        val trip = tripParser.parseTripFlight(flight).flightTrip
+        assertEquals(trip.action.isCancellable,false)
+        assertEquals(trip.action.isChangeable,false)
+    }
+
     private fun getHotelNoRoomsJSON(): JSONObject {
         val hotelTripJson = getHotelTripJson()
         val hotel = hotelTripJson.getJSONArray("hotels").getJSONObject(0)

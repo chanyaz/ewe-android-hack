@@ -1415,7 +1415,10 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.accessibility_cont_desc_user_rating_button,
 		R.layout.last_minute_deal_activity,
 		R.plurals.hotel_star_rating_max_rating_cont_desc_TEMPLATE,
-		R.string.packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE
+		R.string.packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE,
+		R.layout.widget_flight_itin_modify_reservation,
+		R.string.itin_flight_modify_widget_cancel_reservation_text,
+		R.string.itin_flight_modify_widget_change_reservation_text,
 		//Please add your string above this line to avoid conflicts
 	};
 }

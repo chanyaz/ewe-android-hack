@@ -48,6 +48,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"/>
 
+            <com.expedia.bookings.itin.widget.FlightItinModifyReservationWidget
+                android:id="@+id/flight_itin_modify_reservation_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"/>
+
             <com.expedia.bookings.itin.widget.FlightItinAirlineSupportDetailsWidget
                 android:id="@+id/flight_itin_airline_support_widget"
                 android:layout_width="match_parent"

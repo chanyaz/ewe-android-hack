@@ -21,6 +21,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.data.payment.PriceEarnInfo;
+import com.expedia.bookings.data.trips.FlightAction;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.utils.GsonUtil;
@@ -93,6 +94,36 @@ public class FlightTrip implements JSONable {
 	private Map<String, Rule> mRules;
 
 	private String mAirlineManageBookingURL;
+
+	private String mWebChangePathURL;
+
+	private String mWebCancelPathURL;
+
+	private FlightAction mAction;
+
+	public String getWebChangePathURL() {
+		return mWebChangePathURL;
+	}
+
+	public void setWebChangePathURL(String webChangePathURL) {
+		this.mWebChangePathURL = webChangePathURL;
+	}
+
+	public String getWebCancelPathURL() {
+		return mWebCancelPathURL;
+	}
+
+	public void setWebCancelPathURL(String webCancelPathURL) {
+		this.mWebCancelPathURL = webCancelPathURL;
+	}
+
+	public FlightAction getAction() {
+		return mAction;
+	}
+
+	public void setAction(FlightAction action) {
+		this.mAction = action;
+	}
 
 	public String getAirlineManageBookingURL() {
 		return mAirlineManageBookingURL;
@@ -772,6 +803,9 @@ public class FlightTrip implements JSONable {
 			obj.putOpt("isPassportNeeded", isPassportNeeded);
 			obj.putOpt("isSplitTicket", isSplitTicket);
 			obj.putOpt("airlineManageBookingURL", mAirlineManageBookingURL);
+			obj.putOpt("webCancelPathURL", mWebCancelPathURL);
+			JSONUtils.putJSONable(obj, "action", mAction);
+			obj.putOpt("webChangePathURL", mWebChangePathURL);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -953,6 +987,9 @@ public class FlightTrip implements JSONable {
 		mRewardsPoints = obj.optString("rewardsPoints");
 		mSeatsRemaining = obj.optInt("seatsRemaining");
 		mMayChargeObFees = obj.optBoolean("mayChargeObFees");
+		mWebCancelPathURL = obj.optString("webCancelPathURL");
+		mWebChangePathURL = obj.optString("webChangePathURL");
+		mAction = GsonUtil.getForJsonable(obj, "action", FlightAction.class);
 		mFareName = obj.optString("fareName");
 		mAirlineManageBookingURL = obj.optString("airlineManageBookingURL");
 		rewards = GsonUtil.getForJsonable(obj, "rewards", RewardsInfo.class);

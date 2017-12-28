@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingBottom="1dp">
+
+    <Button
+        android:id="@+id/change_reservation_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/exp_blue_button_round_corners"
+        android:gravity="center"
+        android:text="@string/itin_flight_modify_widget_change_reservation_text"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:textStyle="medium" />
+
+    <Button
+        android:id="@+id/cancel_reservation_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/exp_blue_button_round_corners"
+        android:gravity="center"
+        android:text="@string/itin_flight_modify_widget_cancel_reservation_text"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:textStyle="medium" />
+
+</LinearLayout>

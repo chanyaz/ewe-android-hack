@@ -31,6 +31,7 @@ import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership;
 import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.CustomerSupport;
+import com.expedia.bookings.data.trips.FlightAction;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.ItinFlightLegTime;
@@ -476,9 +477,15 @@ public class TripParser {
 
 		parseRulesObject(obj,flightTrip);
 
+		flightTrip.setWebCancelPathURL(obj.optString("webCancelPathURL"));
+
+		flightTrip.setWebChangePathURL(obj.optString("webChangePathURL"));
+
 		flightTrip.setSplitTicket(obj.optBoolean("isSplitTicket"));
 
 		flightTrip.setAirlineManageBookingURL(obj.optString("airlineManageBookingURL"));
+
+		flightTrip.setAction(parseItinFlightAction(obj.optJSONObject("action")));
 
 		// Parse fares
 		JSONObject fareTotalJson = obj.optJSONObject("fareTotal");
@@ -1016,6 +1023,15 @@ public class TripParser {
 			return waypoint;
 		}
 
+		return null;
+	}
+
+	private FlightAction parseItinFlightAction(JSONObject obj) {
+		if (obj != null) {
+			FlightAction flightAction = new FlightAction();
+			flightAction.fromJson(obj);
+			return flightAction;
+		}
 		return null;
 	}
 
