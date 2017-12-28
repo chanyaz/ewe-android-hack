@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <!-- Member Discount for a given property -->
-    <string name="member_pricing">Promo Member GO</string>
+    <string name="member_pricing">Promo GO Member</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
     <string name="loading_flights_from_400_airlines">Mencarikan penerbangan AirAsia Anda</string>
     <!-- package hotel results Go Crazy Deals text label -->
     <string name="unreal_deal_text">Promo Luar Biasa</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">Promo GO Member</string>
 </resources>

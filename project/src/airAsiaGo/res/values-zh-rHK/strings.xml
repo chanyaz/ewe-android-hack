@@ -6,4 +6,6 @@
     <string name="loading_flights_from_400_airlines">正在搜尋您的亞洲航空航班</string>
     <!-- package hotel results Go Crazy Deals text label -->
     <string name="unreal_deal_text">爆抵價</string>
+    <!-- Member only deals for launch screen -->
+    <string name="member_deal_title">GO 會員優惠</string>
 </resources>
