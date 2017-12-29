@@ -16,24 +16,40 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
+import com.mobiata.android.util.SettingUtils
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.data.FlightCode
 import com.mobiata.flightlib.data.Waypoint
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
 import org.joda.time.LocalDateTime
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class ItineraryManagerTest {
 
     val context = RuntimeEnvironment.application
+    lateinit var itinManager: ItineraryManager
+
+    @Before
+    fun setup() {
+        itinManager = ItineraryManager.getInstance()
+    }
+
+    @After
+    fun tearDown() {
+        itinManager.itinCardData.clear()
+    }
 
     @Test
     fun testHasUpcomingOrInProgressTrip() {
@@ -147,6 +163,40 @@ class ItineraryManagerTest {
 
         assertEquals(expectedFlightList, actualFlightList)
         assertEquals(expectedDateFormatWithTZ, actualFlightList[0].departure_date)
+    }
+
+    @Test
+    fun getTripComponentFromFlightHistoryIdTest() {
+        assertEquals(0, itinManager.itinCardData.size)
+        val firstFlightData = ItinCardDataFlightBuilder().build(multiSegment = true)
+        firstFlightData.mostRelevantFlightSegment.mFlightHistoryId = 123
+        val secondFlightData = ItinCardDataFlightBuilder().build(multiSegment = false)
+        secondFlightData.mostRelevantFlightSegment.mFlightHistoryId = 321
+        val list = itinManager.itinCardData
+        list.add(firstFlightData)
+        list.add(secondFlightData)
+        assertNotEquals(firstFlightData, secondFlightData)
+        assertEquals(2, itinManager.itinCardData.size)
+        val tripFlight = firstFlightData.tripComponent as TripFlight
+        assertNull(itinManager.getTripComponentFromFlightHistoryId(2222))
+        assertEquals(tripFlight, itinManager.getTripComponentFromFlightHistoryId(123))
+    }
+
+    @Test
+    fun getTripComponentFromFlightHistoryIdTestWithFlag() {
+        val firstFlightData = ItinCardDataFlightBuilder().build(multiSegment = true)
+        firstFlightData.mostRelevantFlightSegment.mFlightHistoryId = 123
+        val secondFlightData = ItinCardDataFlightBuilder().build(multiSegment = false)
+        secondFlightData.mostRelevantFlightSegment.mFlightHistoryId = 321
+        val list = itinManager.itinCardData
+        list.add(firstFlightData)
+        list.add(secondFlightData)
+        assertNotEquals(firstFlightData, secondFlightData)
+        assertEquals(2, itinManager.itinCardData.size)
+        val tripFlight = secondFlightData.tripComponent as TripFlight
+        assertNull(itinManager.getTripComponentFromFlightHistoryId(2222))
+        SettingUtils.save(context, R.string.preference_push_notification_any_flight, true)
+        assertEquals(tripFlight, itinManager.getTripComponentFromFlightHistoryId(111))
     }
 
     @Test

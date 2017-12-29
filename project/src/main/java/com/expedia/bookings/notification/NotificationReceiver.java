@@ -184,8 +184,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 			private boolean isValidTripForScheduledNotification(Collection<Trip> trips) {
 				for (Trip trip : trips) {
 					for (TripComponent tripComponent : trip.getTripComponents()) {
+						boolean isPushNotification = PushNotificationUtils.isFlightAlertsNotification(finalNotification);
 						boolean isValidTripForNotification = finalNotification.getUniqueId().contains(tripComponent.getUniqueId());
-						if (isValidTripForNotification) {
+						if (isValidTripForNotification || isPushNotification) {
 							return true;
 						}
 					}

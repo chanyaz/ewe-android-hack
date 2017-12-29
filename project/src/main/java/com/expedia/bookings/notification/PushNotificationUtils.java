@@ -3,6 +3,7 @@ package com.expedia.bookings.notification;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
@@ -36,14 +36,16 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
+import com.squareup.phrase.Phrase;
 
 public class PushNotificationUtils {
 
 	public static final String SENDER_ID = "895052546820";
 	public static final String REGISTRATION_URL_TEST = "http://ewetest.flightalerts.mobiata.com/register_for_flight_alerts";
 	public static final String REGISTRATION_URL_PRODUCTION = "https://ewe.flightalerts.mobiata.com/register_for_flight_alerts";
-
+	private static final String LOGGING_TAG = "PushNotificationUtils";
 	private static HashMap<String, Integer> sLocStringMap;
+	private static HashMap<String, Integer> sNewLocStringMap;
 
 	//We can cache (hashes of) the payloads we have sent to our api, and use them to prevent ourselves from sending
 	//the same payload multiple times. Usually our flights dont change so this will save the api some work.
@@ -82,19 +84,19 @@ public class PushNotificationUtils {
 	 * @return true if we should send this payload, false if the payload is invalid or already sent
 	 */
 	public static boolean sendPayloadCheck(String regId, JSONObject payload) {
-		Log.d("PushNotificationUtils.sendPayloadCheck() regId:" + regId);
+		Log.d(LOGGING_TAG, "PushNotificationUtils.sendPayloadCheck() regId:" + regId);
 		if (TextUtils.isEmpty(regId)) {
-			Log.e("PushNotificationUtils.sendPayloadCheck() returning false - regId empty");
+			Log.e(LOGGING_TAG, "PushNotificationUtils.sendPayloadCheck() returning false - regId empty");
 			return false;
 		}
 
 		String payloadHash = hashJsonPayload(payload);
 		if (payloadHash == null) {
-			Log.e("PushNotificationUtils.sendPayloadCheck() returning false - payloadHash empty");
+			Log.e(LOGGING_TAG, "PushNotificationUtils.sendPayloadCheck() returning false - payloadHash empty");
 			return false;
 		}
 		else {
-			Log.d("PushNotificationUtils.sendPayloadCheck() payloadHash: " + Strings.formatHexString(payloadHash));
+			Log.d(LOGGING_TAG, "PushNotificationUtils.sendPayloadCheck() payloadHash: " + Strings.formatHexString(payloadHash));
 		}
 
 		if (!sPayloadMap.containsKey(regId)) {
@@ -108,7 +110,7 @@ public class PushNotificationUtils {
 			boolean shouldSend = !oldPayloadHash.equals(payloadHash);
 
 			if (!shouldSend) {
-				Log.d("PushNotificationUtils.sendPayloadCheck() returning false because the payloads match. regId:"
+				Log.d(LOGGING_TAG, "PushNotificationUtils.sendPayloadCheck() returning false because the payloads match. regId:"
 						+ regId + " Hash:" + payloadHash + " payload:" + payload.toString());
 			}
 
@@ -134,14 +136,18 @@ public class PushNotificationUtils {
 	 * @param context
 	 */
 	public static void generateNotification(Context context, int fhid, String locKey,
-			String[] locKeyArgs, String typeIntStr) {
+		String[] locKeyArgs, String typeIntStr, String titleArg, String nID) {
 		if (fhid < 0) {
-			Log.e("PushNotificationUtils.generateNotification FlightHistoryId must be >= 0");
+			Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification FlightHistoryId must be >= 0");
 		}
 		else {
 			ItinCardDataFlight data = (ItinCardDataFlight) ItineraryManager.getInstance()
-					.getItinCardDataFromFlightHistoryId(fhid);
-			if (data == null) {
+				.getItinCardDataFromFlightHistoryId(fhid);
+			if (hasLocKeyForNewFlightAlerts(locKey)) {
+				generateFlightAlertNotification(context, fhid, locKey,
+					locKeyArgs, titleArg, nID, data);
+			}
+			else if (data == null) {
 				// There is not any data from a desktop booking notification,
 				// so we check the locKey to see if it indicates that the message
 				// is related to a desktop booking. If so, we generate it.
@@ -149,7 +155,7 @@ public class PushNotificationUtils {
 					generateDesktopBookingNotification(context, fhid, locKey, locKeyArgs, typeIntStr);
 				}
 				else {
-					Log.e("PushNotificationUtils.generateNotification couldnt find ItinCardData for fhid:" + fhid);
+					Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification couldnt find ItinCardData for fhid:" + fhid);
 				}
 			}
 			else {
@@ -158,7 +164,7 @@ public class PushNotificationUtils {
 				if (locKey.equals("S_Push_baggage_BAGGAGE") && leg.getSegmentCount() > 0
 						&& leg.getSegment(leg.getSegmentCount() - 1).mFlightHistoryId == fhid) {
 					//We only care about baggage claim info for the terminal segment of our flight
-					Log.d("PushNotificationUtils.generateNotification we got a baggage claim push message for"
+					Log.d(LOGGING_TAG, "PushNotificationUtils.generateNotification we got a baggage claim push message for"
 							+ " a NON-TERMINAL segment of our flight. Because this is a layover flight, we do not"
 							+ " display the baggage claim notification. fhid:" + fhid);
 				}
@@ -169,7 +175,7 @@ public class PushNotificationUtils {
 					String formattedMessage = getFormattedLocString(context, locKey, locKeyArgs);
 
 					if (formattedMessage == null) {
-						Log.e("PushNotificationUtils.generateNotification Formatted message was null for locKey:"
+						Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification Formatted message was null for locKey:"
 								+ locKey);
 					}
 					else {
@@ -211,6 +217,92 @@ public class PushNotificationUtils {
 		}
 	}
 
+	static void generateFlightAlertNotification(Context context, int fhid, String locKey,
+		String[] locKeyArgs, String titleArg, String nID, ItinCardDataFlight dataFlight) {
+		String itinId;
+		if (dataFlight != null) {
+			itinId = dataFlight.getId();
+		}
+		else {
+			itinId = "-1";
+			Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification couldnt find ItinCardData for fhid:" + fhid);
+		}
+
+		long triggerTimeMillis = System.currentTimeMillis();
+
+		String formattedMessage;
+		String uniqueId;
+		NotificationType notificationType = getNotificationTypeFromLocKey(locKey);
+		if (Strings.isNotEmpty(nID)) {
+			uniqueId = sanitizeUniqueId("Push_" + nID);
+			formattedMessage = getLocNewString(context, notificationType, locKey, locKeyArgs);
+		}
+		else {
+			formattedMessage = getFormattedLocString(context, locKey, locKeyArgs);
+			uniqueId = sanitizeUniqueId(fhid + "_" + formattedMessage);
+		}
+		if (formattedMessage == null) {
+			Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification Formatted message was null for locKey:"
+				+ locKey);
+		}
+		else {
+
+			NotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
+			Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
+			notification.setNotificationType(notificationType);
+			notification.setFlags(Notification.FLAG_PUSH);
+
+			notification.setIconResId(R.drawable.ic_stat_flight);
+			notification.setImageType(ImageType.NONE);
+
+			String destination = getDestinationStringFromLocArgs(locKey, locKeyArgs);
+
+			String title = getLocStringForKey(context, titleArg);
+
+
+			if (Strings.isEmpty(title)) {
+				title = context.getString(R.string.your_flight_to_x_TEMPLATE, destination);
+			}
+
+			notification.setTitle(title);
+			notification.setBody(formattedMessage);
+			notification.setTicker(formattedMessage);
+
+			notification.save();
+			notificationManager.scheduleNotification(notification);
+		}
+	}
+
+	public static String getLocNewString(Context context, NotificationType notificationType, String locKey, String[] locKeyArgs) {
+		String locString = getLocStringForKey(context, locKey);
+		switch (notificationType) {
+		case FLIGHT_DELAYED:
+			if (locString != null) {
+				return Phrase.from(locString)
+				   .put("arrival_airport", locKeyArgs[0])
+				   .put("departure_time", locKeyArgs[1]).format().toString();
+			}
+		default:
+			return null;
+		}
+	}
+
+	private static NotificationType getNotificationTypeFromLocKey(String locKey) {
+		switch (locKey) {
+		case "S_Push_Flight_delayed_with_new_departure_time":
+			return NotificationType.FLIGHT_DELAYED;
+		default:
+			return null;
+		}
+	}
+
+	private static boolean hasLocKeyForNewFlightAlerts(String locKey) {
+		if (sLocStringMap == null || sNewLocStringMap == null) {
+			initLocStrMap();
+		}
+		return sNewLocStringMap.containsKey(locKey);
+	}
+
 	private static boolean locKeyForDesktopBooking(String locKey) {
 		return locKey.equals("S_Push_Hey_VALUE_your_booking_is_confirmed") ||
 			locKey.equals("S_Push_Your_booking_is_confirmed_View_it_in_app");
@@ -221,7 +313,7 @@ public class PushNotificationUtils {
 		String formattedMessage = getFormattedLocString(context, locKey, locKeyArgs);
 
 		if (formattedMessage == null) {
-			Log.e("PushNotificationUtils.generateNotification Formatted message was null for locKey:"
+			Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification Formatted message was null for locKey:"
 				+ locKey);
 		}
 		else {
@@ -316,7 +408,7 @@ public class PushNotificationUtils {
 		if (retStr.length() > 1024) {
 			retStr = retStr.substring(0, 1024);
 		}
-		Log.d("PushNotificationUtils.sanitizeUniqueId input:" + uniqueId + " output:" + retStr);
+		Log.d(LOGGING_TAG, "PushNotificationUtils.sanitizeUniqueId input:" + uniqueId + " output:" + retStr);
 		return retStr;
 	}
 
@@ -359,7 +451,7 @@ public class PushNotificationUtils {
 			retObj.putOpt("user", user);
 		}
 		catch (Exception ex) {
-			Log.d("Exception in buildPushRegistrationPayload", ex);
+			Log.d(LOGGING_TAG, "Exception in buildPushRegistrationPayload", ex);
 		}
 
 		return retObj;
@@ -391,7 +483,7 @@ public class PushNotificationUtils {
 			return flightJson;
 		}
 		catch (Exception ex) {
-			Log.e("Exception in buildFlightJSON", ex);
+			Log.e(LOGGING_TAG, "Exception in buildFlightJSON", ex);
 		}
 		return null;
 	}
@@ -404,7 +496,7 @@ public class PushNotificationUtils {
 	 * @return
 	 */
 	public static String getFormattedLocString(Context context, String locKey, Object[] args) {
-		Log.d("PushNotificationUtils.getFormattedLocString locKey:" + locKey);
+		Log.d(LOGGING_TAG, "PushNotificationUtils.getFormattedLocString locKey:" + locKey);
 		String locStr = getLocStringForKey(context, locKey);
 		if (TextUtils.isEmpty(locStr)) {
 			return null;
@@ -422,7 +514,7 @@ public class PushNotificationUtils {
 	 * @return - the loc string or null
 	 */
 	public static String getLocStringForKey(Context context, String locKey) {
-		if (sLocStringMap == null) {
+		if (sLocStringMap == null || sNewLocStringMap == null) {
 			initLocStrMap();
 		}
 		if (sLocStringMap.containsKey(locKey)) {
@@ -437,6 +529,7 @@ public class PushNotificationUtils {
 	 */
 	private static void initLocStrMap() {
 		sLocStringMap = new HashMap<String, Integer>();
+		sNewLocStringMap = new HashMap();
 
 		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR", R.string.S_Push_flight_CITY_delayed_HOUR);
 		sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS", R.string.S_Push_flight_CITY_delayed_HOURS);
@@ -482,11 +575,17 @@ public class PushNotificationUtils {
 		sLocStringMap.put("S_Push_baggage_BAGGAGE", R.string.S_Push_baggage_BAGGAGE);
 		sLocStringMap.put("S_Push_Hey_VALUE_your_booking_is_confirmed", R.string.S_Push_Hey_VALUE_your_booking_is_confirmed);
 		sLocStringMap.put("S_Push_Your_booking_is_confirmed_View_it_in_app", R.string.S_Push_Your_booking_is_confirmed_View_it_in_app);
-		sLocStringMap.put("Flight_is_Delayed", R.string.flight_notification_delayed_flight_TEMPLATE);
 
 
 		//Add the FlightTrack push keys and strings for shared itins.
 		addFTPushKeysToMap();
+		addFlightAlertArgs();
+	}
+
+	private static void addFlightAlertArgs() {
+		sNewLocStringMap.put("S_Push_Flight_delayed_with_new_departure_time", R.string.flight_notification_delayed_flight_TEMPLATE);
+		sNewLocStringMap.put("S_Push_Flight_delayed_title", R.string.flight_notification_delayed_title);
+		sLocStringMap.putAll(sNewLocStringMap);
 	}
 
 	/**
@@ -1036,7 +1135,7 @@ public class PushNotificationUtils {
 			iType = Integer.parseInt(typeIntStr);
 		}
 		catch (NumberFormatException ex) {
-			Log.w("Failure to parse typeIntStr:" + typeIntStr + " to an int. Using default type:" + iType, ex);
+			Log.w(LOGGING_TAG, "Failure to parse typeIntStr:" + typeIntStr + " to an int. Using default type:" + iType, ex);
 		}
 
 		switch (iType) {
@@ -1054,7 +1153,7 @@ public class PushNotificationUtils {
 			return NotificationType.DESKTOP_BOOKING;
 
 		default:
-			Log.e("Type couldn't be converted from type:" + typeIntStr + " to valid NotificationType enum");
+			Log.e(LOGGING_TAG, "Type couldn't be converted from type:" + typeIntStr + " to valid NotificationType enum");
 			//Default as this is largely used for tracking only
 			return NotificationType.FLIGHT_GATE_TIME_CHANGE;
 		}
@@ -1083,7 +1182,7 @@ public class PushNotificationUtils {
 	 */
 	public static void unRegister(final Context context, final String serverUrl, final String regId,
 			OnDownloadComplete<PushNotificationRegistrationResponse> unregistrationCompleteHandler) {
-		Log.d("PushNotificationUtils.unRegister regId " + regId);
+		Log.d(LOGGING_TAG, "PushNotificationUtils.unRegister regId " + regId);
 		String downloadKey = buildUnregisterDownloadKey(regId);
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(downloadKey)) {
@@ -1120,7 +1219,7 @@ public class PushNotificationUtils {
 	 */
 	public static void unRegister(final Context context, final String regId,
 			OnDownloadComplete<PushNotificationRegistrationResponse> unregistrationCompleteHandler) {
-		unRegister(context, getRegistrationUrl(context), regId, unregistrationCompleteHandler);
+		unRegister(context, getRegistrationUrl(), regId, unregistrationCompleteHandler);
 	}
 
 	/**
@@ -1132,11 +1231,11 @@ public class PushNotificationUtils {
 	 * @param regId
 	 */
 	public static void unRegister(final Context context, final String regId) {
-		unRegister(context, getRegistrationUrl(context), regId,
+		unRegister(context, getRegistrationUrl(), regId,
 				new OnDownloadComplete<PushNotificationRegistrationResponse>() {
 					@Override
 					public void onDownload(PushNotificationRegistrationResponse result) {
-						Log.d("PushNotificationUtils.unRegister regId " + regId + " complete! result:"
+						Log.d(LOGGING_TAG, "PushNotificationUtils.unRegister regId " + regId + " complete! result:"
 								+ (result == null ? "null" : "success:" + result.getSuccess()));
 					}
 				});
@@ -1182,17 +1281,17 @@ public class PushNotificationUtils {
 			return new String(digest);
 		}
 		catch (Exception ex) {
-			Log.e("Exception generating hash of string:" + strToHash);
+			Log.e(LOGGING_TAG, "Exception generating hash of string:" + strToHash);
 			return null;
 		}
 	}
 
-	public static String getRegistrationUrl(Context context) {
-		if (BuildConfig.RELEASE) {
+	public static Boolean isFlightAlertsNotification(Notification notification) {
+		List<NotificationType> notificationTypes = Arrays.asList(NotificationType.FLIGHT_DELAYED);
+		return notificationTypes.contains(notification.getNotificationType());
+	}
+
+	public static String getRegistrationUrl() {
 			return REGISTRATION_URL_PRODUCTION;
-		}
-		else {
-			return REGISTRATION_URL_TEST;
-		}
 	}
 }

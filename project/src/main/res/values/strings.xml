@@ -959,8 +959,10 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Activities in {destination} sell out fast! Explore things to do and book your tickets in advance.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hey {firstname}, explore top attractions and activities near your hotel.</string>
-    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
-    <string name="flight_notification_delayed_flight_TEMPLATE">Your flight to {arrival airport} is delayed with a new departure at {departure time}.</string>
+    <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Your flight to {arrival_airport} is delayed with a new departure at {departure_time}.</string>
+    <!--Notification title for Flight delayed notification -->
+    <string name="flight_notification_delayed_title">Flight delayed</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>

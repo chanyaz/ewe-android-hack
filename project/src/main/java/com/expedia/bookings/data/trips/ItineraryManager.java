@@ -223,24 +223,21 @@ public class ItineraryManager implements JSONable {
 	public TripFlight getTripComponentFromFlightHistoryId(int fhid) {
 
 		synchronized (mItinCardDatas) {
+			ItinCardDataFlight fData = null;
 			for (ItinCardData data : mItinCardDatas) {
 				if (data instanceof ItinCardDataFlight) {
-					ItinCardDataFlight fData = (ItinCardDataFlight) data;
-					if (BuildConfig.RELEASE || !SettingUtils.get(mContext,
-						mContext.getString(R.string.preference_push_notification_any_flight), false)) {
-						FlightLeg flightLeg = fData.getFlightLeg();
-						for (Flight segment : flightLeg.getSegments()) {
-							if (segment.mFlightHistoryId == fhid) {
-								return (TripFlight) fData.getTripComponent();
-							}
+					fData = (ItinCardDataFlight) data;
+					FlightLeg flightLeg = fData.getFlightLeg();
+					for (Flight segment : flightLeg.getSegments()) {
+						if (segment.mFlightHistoryId == fhid) {
+							return (TripFlight) fData.getTripComponent();
 						}
 					}
-					else {
-						Log.d(LOGGING_TAG,
-							"PushNotifications returning the first flight in the itin list. Check Settings");
-						return (TripFlight) fData.getTripComponent();
-					}
 				}
+			}
+			if (SettingUtils.get(mContext,
+				mContext.getString(R.string.preference_push_notification_any_flight), false) && fData != null) {
+				return (TripFlight) fData.getTripComponent();
 			}
 		}
 		return null;

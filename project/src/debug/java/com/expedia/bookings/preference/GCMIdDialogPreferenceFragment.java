@@ -7,9 +7,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.text.TextUtils;
 import android.widget.Toast;
+
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.user.UserSource;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.utils.ClipboardUtils;
+import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.UniqueIdentifierHelper;
 
 public class GCMIdDialogPreferenceFragment extends PreferenceDialogFragmentCompat {
 
@@ -25,6 +30,23 @@ public class GCMIdDialogPreferenceFragment extends PreferenceDialogFragmentCompa
 	protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
 		Context context = getContext();
 		final String gcmId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context);
+		UserStateManager userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+		UserSource userDetail = userStateManager.getUserSource();
+		StringBuilder sb = new StringBuilder("Token= ");
+		sb.append(gcmId);
+		sb.append("\n \n");
+		if (userStateManager.isUserAuthenticated()) {
+			sb.append("TUID= ");
+			sb.append(userDetail.getTuid());
+			sb.append("\n \n");
+			sb.append("ExpUserID= ");
+			sb.append(userDetail.getExpUserId());
+			sb.append("\n \n");
+		}
+		sb.append("Device ID = ");
+		sb.append(UniqueIdentifierHelper.getID(context));
+		final String gcmInfo = sb.toString();
+
 		builder.setTitle("GCM Info");
 
 		if (TextUtils.isEmpty(gcmId)) {
@@ -32,9 +54,9 @@ public class GCMIdDialogPreferenceFragment extends PreferenceDialogFragmentCompa
 
 		}
 		else {
-			builder.setMessage(gcmId).setNeutralButton("Copy Text", new DialogInterface.OnClickListener() {
+			builder.setMessage(gcmInfo).setNeutralButton("Copy Text", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
-					ClipboardUtils.setText(getContext(), gcmId);
+					ClipboardUtils.setText(getContext(), gcmInfo);
 					Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
 				}
 

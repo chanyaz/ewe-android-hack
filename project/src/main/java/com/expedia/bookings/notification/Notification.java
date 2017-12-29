@@ -83,8 +83,10 @@ public class Notification extends Model implements JSONable {
 		HOTEL_GET_READY,
 		HOTEL_ACTIVITY_CROSSSEll,
 		HOTEL_PRE_TRIP,
-		HOTEL_ACTIVITY_IN_TRIP
+		HOTEL_ACTIVITY_IN_TRIP,
+		FLIGHT_DELAYED
 	}
+
 
 	/**
 	 * An array of valid resId's that can be used both for

@@ -842,7 +842,7 @@ public class ExpediaServices implements DownloadListener {
 
 	public PushNotificationRegistrationResponse registerForPushNotifications(
 		ResponseHandler<PushNotificationRegistrationResponse> responseHandler, JSONObject payload, String regId) {
-		String serverUrl = PushNotificationUtils.getRegistrationUrl(mContext);
+		String serverUrl = PushNotificationUtils.getRegistrationUrl();
 		return registerForPushNotifications(serverUrl, responseHandler, payload, regId);
 	}
 
