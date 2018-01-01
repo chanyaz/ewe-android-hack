@@ -1556,7 +1556,18 @@
     <string name="itin_flight_modify_widget_cancel_reservation_text">Cancel reservation</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
     <string name="itin_flight_modify_widget_change_reservation_text">Change reservation</string>
-
+    <!--Flight itin, flight modify reservation widget's Learn more text-->
+    <string name="itin_flight_modify_widget_learn_more_text">Learn more</string>
+    <!--Flight itin, flight modify reservation widget's call customer support text-->
+    <string name="itin_flight_modify_widget_customer_support_text">CALL CUSTOMER SUPPORT</string>
+    <!-- Flight Itin Modify Reservation dialog GO BACK button text-->
+    <string name="itin_flight_modify_widget_go_back_text">GO BACK</string>
+    <!-- Flight Itin Modify Reservation dialog, change reservation content text-->
+    <string name="itin_flight_modify_widget_change_reservation_dialog_text">This reservation cannot be changed but you can contact customer support to explore your options.</string>
+    <!-- Flight Itin Modify Reservation dialog, cancel reservation content text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_dialog_text">This reservation cannot be canceled but you can contact customer support to explore your options.</string>
+    <!-- Flight Itin Modify Reservation dialog, flight neither Changeable nor Cancellable text for reservation dialog-->
+    <string name="itin_flight_modify_widget_neither_changeable_nor_cancellable_reservation_dialog_text">This reservation cannot be changed or canceled but you can contact customer support to explore your options.</string>
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}d {hours}h {minutes}m</string>
     <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/dialog_text_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray600"
+        android:textColorLink="@color/app_primary"
+        android:textSize="14sp"
+        android:textStyle="normal" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/dialog_customer_support"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/app_primary"
+        android:textSize="14sp"
+        android:text="@string/itin_flight_modify_widget_customer_support_text"
+        android:textStyle="normal" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/dialog_go_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/app_primary"
+        android:textSize="14sp"
+        android:layout_marginTop="2dp"
+        android:text="@string/itin_flight_modify_widget_go_back_text"
+        android:textStyle="normal" />
+
+</LinearLayout>

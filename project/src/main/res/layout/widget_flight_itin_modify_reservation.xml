@@ -19,11 +19,25 @@
         android:textSize="14sp"
         app:textStyle="medium" />
 
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/change_reservation_learn_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:drawablePadding="4dp"
+        android:drawableRight="@drawable/itin_flight_rules_and_restriction_icon"
+        android:text="@string/itin_flight_modify_widget_learn_more_text"
+        android:textColor="@color/app_primary"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
     <Button
         android:id="@+id/cancel_reservation_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="14dp"
         android:background="@drawable/exp_blue_button_round_corners"
         android:gravity="center"
         android:text="@string/itin_flight_modify_widget_cancel_reservation_text"
@@ -31,5 +45,19 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         app:textStyle="medium" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/cancel_reservation_learn_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:drawablePadding="4dp"
+        android:drawableRight="@drawable/itin_flight_rules_and_restriction_icon"
+        android:text="@string/itin_flight_modify_widget_learn_more_text"
+        android:textColor="@color/app_primary"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
 </LinearLayout>

@@ -8,8 +8,10 @@ class FlightItinModifyReservationViewModel {
             val changeReservationURL: String,
             val isChangeable: Boolean,
             val cancelReservationURL: String,
-            val isCancellable: Boolean
+            val isCancellable: Boolean,
+            val customerSupportNumber: String
     )
+
     val modifyReservationSubject = PublishSubject.create<FlightItinModifyReservationWidgetParams>()
 
 }

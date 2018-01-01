@@ -181,7 +181,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
         val webCancelPathURL = flightTrip.webCancelPathURL ?: ""
         val isChangeable = flightTrip.action?.isChangeable ?: false
         val isCancellable = flightTrip.action?.isCancellable ?: false
-        flightItinModifyReservationSubject.onNext(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webChangePathURL, isChangeable, webCancelPathURL, isCancellable))
+        val customerSupportNumber = itinCardDataFlight.tripComponent.parentTrip.customerSupport.supportPhoneNumberDomestic ?: ""
+        flightItinModifyReservationSubject.onNext(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webChangePathURL, isChangeable, webCancelPathURL, isCancellable, customerSupportNumber))
     }
-
 }

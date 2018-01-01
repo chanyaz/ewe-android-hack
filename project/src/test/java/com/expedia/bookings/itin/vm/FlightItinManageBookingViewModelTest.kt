@@ -314,7 +314,7 @@ class FlightItinManageBookingViewModelTest {
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
         val testItinCardData = ItinCardDataFlightBuilder().build()
         val flightTrip = (testItinCardData.tripComponent as TripFlight).flightTrip
-
+        testItinCardData.tripComponent.parentTrip.customerSupport.supportPhoneNumberDomestic = "+1-866-230-3837"
         val action = FlightAction()
         action.isCancellable = true
         action.isChangeable = true
@@ -326,7 +326,7 @@ class FlightItinManageBookingViewModelTest {
         sut.itineraryManager = mockItinManager
         sut.setUp()
 
-        flightItinModifyReservationSubject.assertValue(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(flightTrip.webChangePathURL, true, flightTrip.webCancelPathURL, true))
+        flightItinModifyReservationSubject.assertValue(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(flightTrip.webChangePathURL, true, flightTrip.webCancelPathURL, true, "+1-866-230-3837"))
     }
 
     @Test
@@ -337,7 +337,7 @@ class FlightItinManageBookingViewModelTest {
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
         val testItinCardData = ItinCardDataFlightBuilder().build()
         val flightTrip = (testItinCardData.tripComponent as TripFlight).flightTrip
-
+        testItinCardData.tripComponent.parentTrip.customerSupport.supportPhoneNumberDomestic = ""
         flightTrip.action = null
 
         flightTrip.webCancelPathURL = null
@@ -347,7 +347,7 @@ class FlightItinManageBookingViewModelTest {
         sut.itineraryManager = mockItinManager
         sut.setUp()
 
-        flightItinModifyReservationSubject.assertValue(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams("", false, "", false))
+        flightItinModifyReservationSubject.assertValue(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams("", false, "", false, ""))
     }
 
     class TestWayPoint(val city: String) : Waypoint(ACTION_UNKNOWN) {
