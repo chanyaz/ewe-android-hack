@@ -4393,6 +4393,8 @@
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">เวลาเที่ยวบินคือ {time} ราคา {price} บินกับ {airline} ระยะเวลาบินคือ {hours} {minutes} แวะพัก {stops} ครั้ง\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} ระดับดาวโรงแรม {starrating} จาก 5 คะแนนจากผู้เข้าพัก {guestrating} จาก 5 ราคา {price} รวมโรงแรมและเที่ยวบิน\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} ระดับดาวโรงแรม {starrating} จาก 5 ยังไม่มีคะแนนจากผู้เข้าพัก ราคา {price} รวมโรงแรมและเที่ยวบิน\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} ระดับดาวโรงแรม {starrating} จาก 5 คะแนนจากผู้เข้าพัก {guestrating} จาก 5\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->

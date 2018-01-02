@@ -4393,6 +4393,8 @@
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Vliegtijd is {time} met prijs {price}. Vlucht met {airline} De vluchtduur is {hours} {minutes} met {stops} tussenstops\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} met een gastenscore van {starrating} / 5. Gastenscore van {guestrating} / 5. Prijs {price}. Inclusief hotel en vluchten.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} met een score van {starrating} / 5. De accommodatie heeft nog geen gastenscore. Prijs {price}. Inclusief hotel en vluchten.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} met een gastenscore van {starrating} / 5. Gastenscore van {guestrating} / 5.  \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->

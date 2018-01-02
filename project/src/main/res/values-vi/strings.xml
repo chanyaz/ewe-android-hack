@@ -4393,6 +4393,8 @@
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Thời gian chuyến bay là {time} với giá {price}. Bay với {airline}. Thời gian chuyến bay là {hours} {minutes} với {stops} điểm dừng\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} với xếp hạng {starrating} trên 5. Xếp hạng của khách {guestrating} trên 5. Giá {price}. Bao gồm cả khách sạn và chuyến bay.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} với xếp hạng {starrating} trên 5. Chưa có nhận xét của khách. Giá {price}. Bao gồm cả khách sạn và chuyến bay.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} với xếp hạng {starrating} trên 5. Xếp hạng của khách {guestrating} trên 5.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
