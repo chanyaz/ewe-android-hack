@@ -219,7 +219,7 @@ android {
     defaultConfig {
 
         def major = 18
-        def minor = 1
+        def minor = 2
         def patch = 0
         def build = 0
         versionCode GradleUtil.versionCode(major, minor, patch, build)
