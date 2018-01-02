@@ -70,7 +70,7 @@ class HotelConfirmationPresenterTest {
         serviceRule.services!!.getTripDetails("web_view_hotel_trip_details", makeItinResponseObserver)
         testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
         assertEquals("CitiGarden Hotel", hotelPresenter.confirmationPresenter.hotelNameTextView.text)
-        assertEquals("Feb 10 – 11", hotelPresenter.confirmationPresenter.checkInOutDateTextView.text)
+        assertEquals("Feb 10 – 11, 2017", hotelPresenter.confirmationPresenter.checkInOutDateTextView.text)
         assertEquals("245 S Airport Blvd", hotelPresenter.confirmationPresenter.addressL1TextView.text)
         assertEquals("South San Francisco, CA", hotelPresenter.confirmationPresenter.addressL2TextView.text)
         assertEquals("Itinerary #7241053124635", hotelPresenter.confirmationPresenter.itinNumberTextView.text)
