@@ -8,6 +8,7 @@ import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.InsuranceServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
+import com.mobiata.mocke3.Mocker;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -92,6 +93,6 @@ public class InsuranceServicesTest {
 	private FlightCreateTripResponse getFlightCreateTripResponse(String productKey) throws Throwable {
 		HashMap<String, String> replacements = new HashMap<>();
 		replacements.put("productKey", productKey);
-		return Mocker.object(FlightCreateTripResponse.class, "api/flight/trip/create/" + productKey + ".json", replacements);
+		return Mocker.loadMock(FlightCreateTripResponse.class, "api/flight/trip/create/" + productKey + ".json", replacements);
 	}
 }

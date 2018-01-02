@@ -1,13 +1,13 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXCheckoutParams
 import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.services.LxServices
 import com.expedia.bookings.testrule.ServicesRule
-import org.joda.time.LocalDate
-import rx.observers.TestSubscriber
+import com.mobiata.mocke3.mockObject
 
 class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.java) {
 
@@ -18,34 +18,40 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
     }
 
     private fun getActivityOffersResponse(activityId: String): ActivityDetailsResponse {
-        val observer = TestSubscriber<ActivityDetailsResponse>()
-
-        services?.lxDetails(activityId, activityId, LocalDate.now().plusDays(4),
-                LocalDate.now().plusDays(6), false, observer)
-        observer.awaitTerminalEvent()
-        return observer.onNextEvents[0]
+        return mockObject(ActivityDetailsResponse::class.java, "lx/api/activity/$activityId.json", null)!!
     }
 
-    fun getCheckoutError(errorType: String) : ApiError {
-        val observer = TestSubscriber <LXCheckoutResponse>()
+    fun getCheckoutError(errorType: String): ApiError {
+        val response = lxCheckoutResponse(errorType)
+        return response.errors.first()
+    }
+
+    private fun mapErrorToFilename(errorType: String): String {
+        return when (errorType) {
+            "AlreadyBooked" -> "m/api/lx/trip/checkout/trip_already_booked.json"
+            "PaymentFailed" -> "m/api/lx/trip/checkout/payment_failed_trip_id.json"
+            "UnknownError" -> "m/api/lx/trip/checkout/unknown_error.json"
+            "SessionTimeout" -> "m/api/lx/trip/checkout/session_timeout.json"
+            "InvalidInput" -> "m/api/lx/trip/checkout/invalid_input.json"
+            "PriceChange" -> "m/api/lx/trip/checkout/price_change.json"
+            else -> "m/api/lx/trip/checkout/$errorType.json"
+        }
+    }
+
+    fun getCheckoutResponseForPriceChange(): LXCheckoutResponse {
+        return lxCheckoutResponse("PriceChange")
+    }
+
+    private fun lxCheckoutResponse(errorType: String): LXCheckoutResponse {
         setCheckoutParams(errorType)
-        services?.lxCheckout(lxCheckoutParams, observer)
-        observer.awaitTerminalEvent()
-        observer.assertNotCompleted()
-        return observer.onErrorEvents[0] as ApiError
-    }
-
-    fun getCheckoutResponseForPriceChange(errorType: String) : LXCheckoutResponse {
-        val observer = TestSubscriber <LXCheckoutResponse>()
-        setCheckoutParams(errorType)
-        services?.lxCheckout(lxCheckoutParams, observer)
-        observer.awaitTerminalEvent()
-        observer.assertCompleted()
-        return observer.onNextEvents[0]
+        val fileName = mapErrorToFilename(errorType)
+        val checkoutResponse = mockObject(LXCheckoutResponse::class.java, fileName, null)!!
+        checkoutResponse.originalPrice = Money("100", "USD")
+        return checkoutResponse
     }
 
 
-    fun setCheckoutParams(errorType: String, isRequiredCVV: Boolean = true){
+    fun setCheckoutParams(errorType: String, isRequiredCVV: Boolean = true) {
         lxCheckoutParams = LXCheckoutParams()
         lxCheckoutParams.firstName = errorType
         lxCheckoutParams.lastName = "Test"
