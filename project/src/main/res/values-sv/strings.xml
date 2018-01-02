@@ -4393,6 +4393,8 @@
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Flygtiden är {time} och priset är {price}. Trafikeras av {airline}. Restiden är {hours} {minutes} med {stops} stopp\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} med betyget {starrating} av 5. {guestrating} av 5 i gästbetyg. Pris {price}. Inkluderar hotell och flyg .\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} med betyget {starrating} av 5. Inga gästbetyg än. Pris {price}. Inkluderar hotell och flyg .\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} med betyget {starrating} av 5. {guestrating} av 5 i gästbetyg.  \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
@@ -4431,7 +4433,7 @@
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">Välj resedatum. Knapp. Öppnar dialog</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
-    <string name="hotel_card_view_price_cont_desc_TEMPLATE">Pris {price}.  \u0020</string>
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">Pris {price}.\u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Antal resenärer. Knapp. Öppnar dialogruta. {travelers} resenär</item>

@@ -4393,6 +4393,8 @@
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Flyvetiden er {time} til en pris på {price}. Flyrejsen er med {airline}. Flyrejsen varer {hours} og {minutes} med {stops} mellemlandinger\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} med gæstebedømmelsen {starrating} ud af 5. Gæstebedømmelse på {guestrating} ud af 5. Pris {price}. Inkluderer hotel og fly.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} med gæstebedømmelsen {starrating} ud af 5. Overnatningsstedet har endnu ingen gæstebedømmelser. Pris {price}. Inkluderer hotel og fly.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} med gæstebedømmelsen {starrating} ud af 5. Gæstebedømmelse på {guestrating} ud af 5.  \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->

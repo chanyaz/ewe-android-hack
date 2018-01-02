@@ -4393,6 +4393,8 @@
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">L\&apos;orario del volo è {time}, con un prezzo pari a {price}. Il volo è operato da {airline}. La durata del volo è di {hours} {minutes}, con {stops} scali\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} con una classificazione di {starrating} su 5 stelle. Valutazione degli ospiti di {guestrating} su 5. Prezzo {price}. Include hotel e voli.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} con una classificazione di {starrating} su 5 stelle. Questa struttura non ha alcuna valutazione degli ospiti. Prezzo {price}. Include hotel e voli.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} con una classificazione di {starrating} su 5 stelle. Valutazione degli ospiti di {guestrating} su 5.  \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->

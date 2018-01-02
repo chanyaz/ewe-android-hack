@@ -873,7 +873,7 @@
     <!-- List loading header -->
     <string name="loading_header">Cargando…</string>
     <!-- Hotel launch list rating text -->
-    <string name="hotel_rating_text">de 5 (clasificación de los huéspedes)</string>
+    <string name="hotel_rating_text">de 5 (evaluación de los huéspedes)</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">¡solo para dispositivos móviles!</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -4392,13 +4392,15 @@
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">El horario del vuelo es {time}, con un precio de {price}. Vuelo operado por {airline}. La duración del vuelo es de {hours} {minutes}, y tiene {stops} escalas\u0020.</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
-    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} con una puntuación de {starrating} sobre 5. Puntuación de los huéspedes de {guestrating} sobre 5. El precio es de {price}. Incluye hotel y vuelos.\u0020</string>
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} con una evaluación de {starrating} sobre 5. evaluación de los huéspedes de {guestrating} sobre 5. El precio es de {price}. Incluye hotel y vuelos.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} con una evaluación de {starrating} sobre 5. Aún no hay evaluaciones de los huéspedes. El precio es de {price}. Incluye hotel y vuelos.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} con una puntuación de {starrating} sobre 5. Puntuación de los huéspedes de {guestrating} sobre 5.  \u0020</string>
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} con una evaluación de {starrating} sobre 5. evaluación de los huéspedes de {guestrating} sobre 5.  \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">{hotel} con una evaluación de los huéspedes de {guestrating} sobre 5.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
-    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} con una puntuación de {starrating} sobre 5. \u0020</string>
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} con una evaluación de {starrating} sobre 5. \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
     <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}.\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
@@ -4623,7 +4625,7 @@
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">deshabilitada</string>
     <!-- Content Description for Rating Button -->
-    <string name="accessibility_cont_desc_user_rating_button">Botón de puntuación de usuarios</string>
+    <string name="accessibility_cont_desc_user_rating_button">Botón de evaluación de usuarios</string>
     <!-- Content Description for Searching for hotels -->
     <string name="accessibility_cont_desc_searching_for_hotels">Buscando cientos de hoteles para ti.</string>
 

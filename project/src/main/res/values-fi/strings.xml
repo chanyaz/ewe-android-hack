@@ -1517,7 +1517,7 @@
     <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
     <string name="itin_flight_leg_detail_widget_sub_title_TEMPLATE">{departure_date_time} – {arrival_date_time} · {stops}</string>
     <!--Flight itin, flight leg detail widget sub title date time template. {date} {time} (eg., Aug 20 8:00am)-->
-    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} kello {time}</string>
+    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
     <!--Flight itin, flight leg detail widget Nonstop text-->
     <string name="itin_flight_leg_detail_widget_nonstop">Suora lento</string>
     <!--Flight itin, flight leg detail widget "to" text-->
@@ -4393,6 +4393,8 @@
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Lentoaika on {time} ja hinta {price}. Lentävä yhtiö {airline}. Lennon kesto on {hours} {minutes}, {stops} välilaskua\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}, luokitus {starrating} / 5. Asiakasluokitus {guestrating} / 5. Hinta {price}. Sisältää hotellin ja lennot.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123. Includes hotel and flights.-->
+    <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel}, luokitus {starrating} / 5. Ei asiakasluokituksia..Hinta {price}. Sisältää hotellin ja lennot.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel}, luokitus {starrating} / 5. Asiakasluokitus {guestrating} / 5.  \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
