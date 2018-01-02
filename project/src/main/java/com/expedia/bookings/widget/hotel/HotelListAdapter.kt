@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.hotel
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
@@ -17,7 +18,7 @@ class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubjec
         return holder
     }
 
-    override fun getPriceDescriptorMessageIdForHSR(): Int? {
+    override fun getPriceDescriptorMessageIdForHSR(context: Context): Int? {
         return null
     }
 

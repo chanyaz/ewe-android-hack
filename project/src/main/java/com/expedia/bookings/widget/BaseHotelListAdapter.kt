@@ -30,7 +30,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                                     val pricingHeaderSelectedSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     abstract fun getHotelCellHolder(parent: ViewGroup): AbstractHotelCellViewHolder
-    abstract fun getPriceDescriptorMessageIdForHSR(): Int?
+    abstract fun getPriceDescriptorMessageIdForHSR(context: Context): Int?
 
     val MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW = 0
     val PRICING_STRUCTURE_HEADER_VIEW = 1
@@ -159,7 +159,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             return loadingViewHolder
         } else if (viewType == PRICING_STRUCTURE_HEADER_VIEW) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_results_header_cell, parent, false)
-            val vm = HotelResultsPricingStructureHeaderViewModel(parent.context, getPriceDescriptorMessageIdForHSR())
+            val vm = HotelResultsPricingStructureHeaderViewModel(parent.context, getPriceDescriptorMessageIdForHSR(parent.context))
             loadingSubject.subscribe(vm.loadingStartedObserver)
             resultsSubject.subscribe(vm.resultsDeliveredObserver)
             val holder = HotelResultsPricingStructureHeaderViewHolder(view as ViewGroup, vm)
