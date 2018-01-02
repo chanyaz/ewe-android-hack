@@ -5221,6 +5221,7 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "krazyglue");
 		s.setEvar(4, "D=c4");
+		s.setEvents("event86");
 		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
 		s.setProp(4, airportCodes.second);
 		String krazyGlueProductString = "";

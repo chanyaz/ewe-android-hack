@@ -190,9 +190,10 @@ class KrazyglueWidgetTest {
                 4 to "DTW",
                 16 to "mip.hot.kg.expedia.conf")
         val expectedProducts = "Hotel:11111;;,Hotel:99999;;,Hotel:55555;;"
+        val expectedEvents = "event86"
 
         FlightsV2Tracking.trackKrazyglueExposure(getKrazyGlueHotels())
-        assertKrazyglueExposure(expectedEvars = expectedEvars, expectedProducts = expectedProducts, expectedProps = expectedProps)
+        assertKrazyglueExposure(expectedEvars = expectedEvars, expectedProducts = expectedProducts, expectedProps = expectedProps, expectedEvents = expectedEvents)
     }
 
     @Test
@@ -303,10 +304,11 @@ class KrazyglueWidgetTest {
         krazyglueWidget.hotelsRecyclerView.layout(100, 100, 100, 100)
     }
 
-    private fun assertKrazyglueExposure(expectedEvars: Map<Int, String>, expectedProducts: String, expectedProps: Map<Int, String>) {
+    private fun assertKrazyglueExposure(expectedEvars: Map<Int, String>, expectedProducts: String, expectedProps: Map<Int, String>, expectedEvents: String) {
         OmnitureTestUtils.assertStateTracked("App.Kg.expedia.conf", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
         OmnitureTestUtils.assertStateTracked("App.Kg.expedia.conf", OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
         OmnitureTestUtils.assertStateTracked("App.Kg.expedia.conf", OmnitureMatchers.withProductsString(expectedProducts), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked("App.Kg.expedia.conf", OmnitureMatchers.withEventsString(expectedEvents), mockAnalyticsProvider)
     }
 
     private fun assertKrazyglueClickTracking(expectedEvars: Map<Int, String>, expectedSuffix: String) {
