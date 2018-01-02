@@ -240,6 +240,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     init {
         Ui.getApplication(getContext()).flightComponent().inject(this)
+
+        suggestionServices.essDomainResolution()
+                .subscribe({}, {})
+
         if (isFlightAdvanceSearchTestEnabled) {
             widgetTravelerAndCabinClassStub.layoutResource = R.layout.widget_traveler_cabin_class_horizontal
             flightAdvanceSearchView.visibility = View.VISIBLE
