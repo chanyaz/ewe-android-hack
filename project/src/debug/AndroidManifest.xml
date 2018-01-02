@@ -74,6 +74,12 @@
                 android:value="true" />
         </activity>
 
+        <activity android:name="com.expedia.bookings.hotel.activity.HotelResultsActivity"
+            android:label="Activity Hotel Path"
+            android:theme="@style/Theme.Hotels.Default"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity
             android:name="com.expedia.bookings.deeplink.DeepLinkTestActivity"
             android:exported="true"

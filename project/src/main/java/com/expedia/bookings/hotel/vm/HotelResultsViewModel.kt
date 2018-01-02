@@ -18,6 +18,7 @@ import com.expedia.bookings.utils.trackingString
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 
 class HotelResultsViewModel(context: Context, private val hotelSearchManager: HotelSearchManager) :
         BaseHotelResultsViewModel(context) {
@@ -43,6 +44,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
 
     private var isFilteredSearch = false
     private var cachedParams: HotelSearchParams? = null
+    private var apiSubscriptions = CompositeSubscription()
 
     init {
         paramsSubject.subscribe(endlessObserver { params ->
@@ -66,8 +68,25 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             paramChangedSubject.onNext(newParams)
         })
 
-        hotelSearchManager.apiCompleteSubject.subscribe(resultsReceivedDateTimeObservable)
-        hotelSearchManager.successSubject.subscribe { response ->
+        setupSearchSubscriptions()
+    }
+
+    fun clearSubscriptions() {
+        apiSubscriptions.clear()
+        hotelSearchManager.unsubscribe()
+    }
+
+    fun unsubscribeSearchResponse() {
+        hotelSearchManager.unsubscribe()
+    }
+
+    fun getSearchParams() : HotelSearchParams? {
+        return cachedParams
+    }
+
+    private fun setupSearchSubscriptions() {
+        apiSubscriptions.add(hotelSearchManager.apiCompleteSubject.subscribe(resultsReceivedDateTimeObservable))
+        apiSubscriptions.add(hotelSearchManager.successSubject.subscribe { response ->
             if (response.isPinnedSearch && !response.hasPinnedHotel()) {
                 val error = ApiError(ApiError.Code.HOTEL_PINNED_NOT_FOUND)
                 searchApiErrorObservable.onNext(error)
@@ -75,11 +94,11 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             } else {
                 onSearchResponseSuccess(response)
             }
-        }
+        })
 
-        hotelSearchManager.errorSubject.subscribe(searchApiErrorObservable)
+        apiSubscriptions.add(hotelSearchManager.errorSubject.subscribe(searchApiErrorObservable))
 
-        hotelSearchManager.noResultsSubject.subscribe {
+        apiSubscriptions.add(hotelSearchManager.noResultsSubject.subscribe {
             var error: ApiError
             if (isFilteredSearch) {
                 error = ApiError(ApiError.Code.HOTEL_FILTER_NO_RESULTS)
@@ -91,9 +110,9 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
                 }
             }
             searchApiErrorObservable.onNext(error)
-        }
+        })
 
-        hotelSearchManager.retrofitErrorSubject.subscribe { retrofitError ->
+        apiSubscriptions.add(hotelSearchManager.retrofitErrorSubject.subscribe { retrofitError ->
             HotelTracking.trackHotelsNoResult(retrofitError.trackingString())
 
             val cancelFun = fun() {
@@ -107,15 +126,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
                 }
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-        }
-    }
-
-    fun unsubscribeSearchResponse() {
-        hotelSearchManager.unsubscribe()
-    }
-
-    fun getSearchParams() : HotelSearchParams? {
-        return cachedParams
+        })
     }
 
     private fun newParamBuilder(suggestion: SuggestionV4?, params: HotelSearchParams?) : HotelSearchParams.Builder {

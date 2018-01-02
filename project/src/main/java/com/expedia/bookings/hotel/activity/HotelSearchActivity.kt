@@ -1,5 +1,6 @@
 package com.expedia.bookings.hotel.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
@@ -53,7 +54,8 @@ class HotelSearchActivity : AppCompatActivity() {
     }
 
     private fun handleGenericSearch(params: HotelSearchParams) {
-        //todo
+        val intent = Intent(this, HotelResultsActivity::class.java)
+        startActivity(intent)
     }
 
     private fun handleHotelIdSearch(params: HotelSearchParams, goToResults: Boolean = false) {

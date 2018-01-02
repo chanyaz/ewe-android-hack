@@ -1,6 +1,7 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
+import com.expedia.bookings.hotel.activity.HotelResultsActivity;
 import com.expedia.bookings.hotel.activity.HotelSearchActivity;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
@@ -49,4 +50,5 @@ public interface HotelComponent {
 	IPayWithPointsViewModel payWithPointsViewModel();
 
 	void inject(@NotNull HotelSearchActivity hotelSearchActivity);
+	void inject(@NotNull HotelResultsActivity hotelResultsActivity);
 }

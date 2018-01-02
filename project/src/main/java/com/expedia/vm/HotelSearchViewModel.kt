@@ -13,6 +13,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelSearchManager
+import com.expedia.bookings.hotel.util.HotelSearchParamsProvider
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.JodaUtils
@@ -36,6 +37,9 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
             getParamsBuilder().shopWithPoints(it)
         }
     }
+        @Inject set
+
+    lateinit var hotelSearchParamProvider: HotelSearchParamsProvider
         @Inject set
 
     private val rules = HotelCalendarRules(context)
@@ -139,6 +143,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     }
 
     private fun handleSearch(params: HotelSearchParams) {
+        hotelSearchParamProvider.params = params
         if (params.suggestion.hotelId != null) {
             hotelSearchManager.reset()
             hotelIdSearchSubject.onNext(params)

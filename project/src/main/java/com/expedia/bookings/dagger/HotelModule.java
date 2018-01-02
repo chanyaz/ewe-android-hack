@@ -7,6 +7,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.payment.PaymentModel;
 import com.expedia.bookings.hotel.util.HotelInfoManager;
 import com.expedia.bookings.hotel.util.HotelSearchManager;
+import com.expedia.bookings.hotel.util.HotelSearchParamsProvider;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.ItinTripServices;
@@ -135,6 +136,12 @@ public final class HotelModule {
 	@HotelScope
 	HotelSearchTrackingDataBuilder provideHotelTrackingBuilder() {
 		return new HotelSearchTrackingDataBuilder();
+	}
+
+	@Provides
+	@HotelScope
+	HotelSearchParamsProvider provideHotelSearchParamsProvider() {
+		return new HotelSearchParamsProvider();
 	}
 
 	@Provides
