@@ -37,7 +37,6 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
-
 class LxCheckoutErrorTests {
 
     var mockActivityServiceTestRule: MockActivityServiceTestRule = MockActivityServiceTestRule()
@@ -83,7 +82,7 @@ class LxCheckoutErrorTests {
         assertEquals(View.VISIBLE, errorImage.visibility)
         assertEquals(activity.getResources().getString(R.string.payment_failed_label), errorToolbar.title)
         assertEquals(activity.getResources().getString(R.string.edit_payment), errorButton.text)
-        assertEquals(activity.getResources().getString(R.string.reservation_payment_failed), errorText.text)
+        assertEquals(activity.resources.getString(R.string.reservation_payment_failed), errorText.text)
 
         errorButton.performClick()
 
@@ -154,19 +153,19 @@ class LxCheckoutErrorTests {
 
     @Test
     fun testPriceChangeErrorMessageOnErrorScreen(){
-        performLxCheckout("PriceChange")
+        performLxCheckoutWithPriceChange()
 
         assertEquals(ApiError.Code.PRICE_CHANGE, checkoutResponseForPriceChange.firstError.errorCode)
         assertEquals(View.VISIBLE, errorWidget.visibility)
         assertEquals(View.VISIBLE, errorImage.visibility)
         assertEquals(activity.getResources().getString(R.string.lx_price_change_text), errorToolbar.title)
         assertEquals(activity.getResources().getString(R.string.view_price_change), errorButton.text)
-        assertEquals(activity.getResources().getString(R.string.lx_error_price_changed), errorText.text)
+        assertEquals(activity.resources.getString(R.string.lx_error_price_changed), errorText.text)
     }
 
     @Test
     fun testPriceChangeErrorMessageOnCheckoutScreen(){
-        performLxCheckout("PriceChange")
+        performLxCheckoutWithPriceChange()
 
         val checkoutSummaryWidget = LayoutInflater.from(activity).inflate(R.layout.lx_checkout_summary_widget, null) as LXCheckoutSummaryWidget
         LXStateTestUtil.selectActivityState()
@@ -236,8 +235,8 @@ class LxCheckoutErrorTests {
         errorWidget.bind(apiError)
     }
 
-    private fun performLxCheckout(errorType: String){
-        checkoutResponseForPriceChange = mockActivityServiceTestRule.getCheckoutResponseForPriceChange(errorType)
+    private fun performLxCheckoutWithPriceChange(){
+        checkoutResponseForPriceChange = mockActivityServiceTestRule.getCheckoutResponseForPriceChange()
         val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityServiceTestRule.getCheckoutParams())
         checkoutPresenter.onDoCheckoutCall(lxKickoffCheckoutCallEvent)
         errorWidget.bind(checkoutResponseForPriceChange.firstError)
