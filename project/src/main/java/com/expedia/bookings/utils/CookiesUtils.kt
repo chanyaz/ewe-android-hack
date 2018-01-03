@@ -24,7 +24,7 @@ class CookiesUtils {
             val satelliteConfig = SatelliteFeatureConfigManager.isFeatureEnabled(context, FEATURE_TOGGLE_OLD_COOKIES_MECAHNISM)
             val currentConfig = SettingUtils.get(context, FEATURE_TOGGLE_OLD_COOKIES_MECAHNISM, false)
             if (currentConfig != satelliteConfig) {
-                SettingUtils.save(context, FEATURE_TOGGLE_OLD_COOKIES_MECAHNISM, satelliteConfig)
+                SettingUtils.saveSynchronously(context, FEATURE_TOGGLE_OLD_COOKIES_MECAHNISM, satelliteConfig)
                 restartApp(context)
             }
         }
