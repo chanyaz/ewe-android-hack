@@ -102,7 +102,7 @@ def main():
     githubRepo = githubRepoId.split("/")
     githubOrganization = githubRepo[0]
     githubRepository = githubRepo[1]
-    checkstyleReportFileList = ['./lib/ExpediaBookings/build/reports/checkstyle/main.xml', './lib/ExpediaBookings/build/reports/checkstyle/test.xml', './project/build/reports/checkstyle/checkstyle.xml']
+    checkstyleReportFileList = ['./lib/ExpediaBookings/build/reports/checkstyle/main.xml', './lib/ExpediaBookings/build/reports/checkstyle/test.xml', './project/build/reports/checkstyle/checkstyle.xml', './build/ktlint.xml']
     unitTestReportFileList = ['./lib/ExpediaBookings/build/test-results/TEST-com.expedia.*', './project/build/test-results/TEST-com.expedia.*']
     lintTestReportFilePath = ['./project/build/reports/lint-results-expediaDebug.xml', './project/build/reports/lint-results-expediaRelease.xml']
     kotlinUnusedResourcesReportFileName = './project/build/outputs/kotlin-unused-resources.txt'
