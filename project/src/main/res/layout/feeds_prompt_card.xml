@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                style="@style/Core.Text.400"
+                style="@style/Core.Text.500"
                 tools:text="Shop as an Expedia member"/>
 
             <com.expedia.bookings.widget.TextView
