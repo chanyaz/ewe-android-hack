@@ -99,6 +99,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
 
         priceTextView.setTextAndVisibility(viewModel.priceString)
         pricePerDescriptorTextView.updateVisibility(viewModel.showPerNight)
+        priceTextView.contentDescription = viewModel.getRoomPriceContentDescription()
         mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
 
         hotelRoomRowButton.bookButtonClickedSubject.subscribe(hotelRoomRowClickedSubject)

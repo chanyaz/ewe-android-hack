@@ -140,6 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
+                android:importantForAccessibility="no"
                 android:textColor="@color/light_text_color" />
 
             <com.expedia.bookings.widget.TextView
@@ -156,8 +157,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/primary_color"
+                android:importantForAccessibility="no"
                 android:text="@string/per_night" />
-
         </LinearLayout>
 
         <com.expedia.bookings.widget.HotelRoomRateActionButton
