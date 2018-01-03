@@ -138,7 +138,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             suggestionTrackingData.charactersTypedCount = suggestionViewModel.getLastQuery().count()
             val suggestionName = HtmlCompat.stripHtml(suggestion.regionNames.displayName)
             updateDestinationText(suggestionName)
-            searchLocationEditText?.setQuery(suggestionName, false)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName(), shouldSaveSuggestionHierarchyChildInfo())
             updateSearchOptions(suggestion)
             showDefault()
