@@ -17,7 +17,7 @@ import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class PhoneLaunchFragmentTest {
-    val testFragment = PhoneLaunchFragment()
+    private val testFragment = PhoneLaunchFragment()
 
     lateinit var activity: AppCompatActivity
     lateinit var fragmentManager: FragmentManager

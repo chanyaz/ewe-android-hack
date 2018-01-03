@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -33,11 +34,13 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
+import com.expedia.bookings.meso.vm.MesoHotelAdViewModel;
 import com.expedia.bookings.mia.activity.LastMinuteDealActivity;
 import com.expedia.bookings.mia.activity.MemberDealsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.ProWizardBucketCache;
@@ -53,6 +56,7 @@ import com.expedia.vm.launch.BrandSignInLaunchHolderViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
+
 import butterknife.ButterKnife;
 import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
@@ -60,13 +64,13 @@ import rx.subjects.PublishSubject;
 
 public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
-
 	private final int contentStartPosition;
 
 	public static boolean isStaticCard(int itemViewKey) {
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
 			|| itemViewKey == LaunchDataItem.AIR_ATTACH_VIEW
 			|| itemViewKey == LaunchDataItem.ITIN_VIEW
+			|| itemViewKey == LaunchDataItem.MESO_HOTEL_AD_VIEW
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS
 			|| itemViewKey == LaunchDataItem.LAST_MINUTE_DEALS;
 	}
@@ -139,6 +143,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			return new LaunchLoadingViewHolder(view);
 		}
 
+		if (viewType == LaunchDataItem.MESO_HOTEL_AD_VIEW) {
+			View view = LayoutInflater.from(context)
+				.inflate(R.layout.launch_meso_ad_card_view, parent, false);
+			MesoHotelAdViewHolder mesoHotelAdViewHolder = new MesoHotelAdViewHolder(view, new MesoHotelAdViewModel(context));
+			mesoHotelAdViewHolder.fetchHotelMesoAd();
+			return mesoHotelAdViewHolder;
+		}
+
 		if (viewType == LaunchDataItem.HOTEL_VIEW) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.section_launch_list_card, parent, false);
@@ -208,6 +220,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		throw new RuntimeException("Could not find view type");
 	}
 
+
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		boolean fullWidthTile;
@@ -252,11 +265,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				((LaunchScreenAirAttachCard) holder).bind(viewModel);
 			}
 		}
-
+		else if (holder instanceof MesoHotelAdViewHolder) {
+			((MesoHotelAdViewHolder) holder).bindListData();
+		}
 		else if (holder instanceof ItinLaunchCard) {
 			((ItinLaunchCard) holder).bind(context, makeActiveItinViewModel());
 		}
-
 		else if (holder instanceof LaunchLoadingViewHolder) {
 			((LaunchLoadingViewHolder) holder).bind();
 		}
@@ -329,6 +343,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			}
 			if (showAirAttachMessage()) {
 				items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
+			}
+			if (showMesoHotelAd()) {
+				items.add(new LaunchDataItem(LaunchDataItem.MESO_HOTEL_AD_VIEW));
 			}
 			if (showMemberDeal()) {
 				items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
@@ -498,6 +515,19 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private boolean showLastMinuteDeal() {
 		return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppLastMinuteDeals);
 
+	}
+
+	@VisibleForTesting
+	protected boolean showMesoHotelAd() {
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.MesoDestination,
+			R.string.preference_enable_meso_destination_card)) {
+			int variateForTest = Db.sharedInstance.getAbacusResponse().variateForTest(AbacusUtils.MesoDestination);
+			if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private boolean showProWizard() {

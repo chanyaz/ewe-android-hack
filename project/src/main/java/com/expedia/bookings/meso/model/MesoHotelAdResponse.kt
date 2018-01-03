@@ -10,4 +10,4 @@ data class MesoHotelAdResponse (val background: NativeAd.Image?,
                            val percentageOff: CharSequence?,
                            val propertyLocation: CharSequence?,
                            val regionId: CharSequence?,
-                           val StrikethroughPrice: CharSequence?)
+                           val strikethroughPrice: CharSequence?)

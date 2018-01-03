@@ -129,7 +129,7 @@
     <color name="hotel_mobile_exclusive_color">#E2624A</color>
     <color name="member_pricing_text_color">#00355F</color>
     <color name="member_pricing_flag_bg_color">#FFC60B</color>
-    <color name="member_only_tag_bg_color">#FFCA00</color>
+    <color name="member_only_tag_bg_color">@color/brand_secondary</color>
     <color name="hotel_coupon_code_error_message_color">@color/error_red</color>
     <color name="member_pricing_bg_color">@color/brand_secondary</color>
     <color name="hotel_earn_message_text_color">@color/gray700</color>
@@ -265,6 +265,8 @@
     <color name="new_launch_screen_itin_button_color">@color/white_25</color>
     <color name="launch_screen_itin_divider">@color/white_70</color>
     <color name="launch_screen_active_itin_bg">@color/blue5</color>
+    <color name="launch_screen_meso_ad_text_color">@color/blue5</color>
+    <color name="launch_screen_placeholder_color">#A4ACAF</color>
 
     <!-- LX colors -->
     <color name="lx_primary_color">@color/app_primary</color>
