@@ -48,7 +48,7 @@ class TNSServicesTests {
 
     @Test
     fun testTnsUserResponse() {
-        service!!.registerForUserDevice(TNSUser(1, 1, 1, "guid"), Courier("gcm", "1033", "ExpediaBookings", "abc","abc"))
+        service!!.registerForUserDevice(TNSUser("1", "1", "1", "guid"), Courier("gcm", "1033", "ExpediaBookings", "abc","abc"))
         testServiceObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
         val response = testServiceObserver.onNextEvents[0]
         testServiceObserver.assertNoErrors()
@@ -59,7 +59,7 @@ class TNSServicesTests {
 
     @Test
     fun testTNSUserFlightResponse() {
-        service!!.registerForFlights(TNSUser(1,1,1, "guid"), Courier("gcm", "1033", "ExpediaBookings", "abc","abc"), emptyList())
+        service!!.registerForFlights(TNSUser("1", "1", "1", "guid"), Courier("gcm", "1033", "ExpediaBookings", "abc","abc"), emptyList())
         testServiceObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
         val response = testServiceObserver.onNextEvents[0]
         testServiceObserver.assertNoErrors()

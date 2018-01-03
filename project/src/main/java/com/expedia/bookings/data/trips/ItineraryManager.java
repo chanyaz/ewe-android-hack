@@ -1893,13 +1893,14 @@ public class ItineraryManager implements JSONable {
 
 			PointOfSale pos = PointOfSale.getPointOfSale();
 			int siteId = pos.getSiteId();
+			String siteIdString = String.valueOf(siteId);
 			int langId = pos.getDualLanguageId();
 			String guid = Db.getAbacusGuid();
 			long userTuid = 0;
-			TNSUser tnsUser = new TNSUser(siteId, null, null, guid);
+			TNSUser tnsUser = new TNSUser(siteIdString, null, null, guid);
 			if (userStateManager.isUserAuthenticated()) {
 				UserSource userDetail = userStateManager.getUserSource();
-				tnsUser = new TNSUser(siteId, userDetail.getTuid(), userDetail.getExpUserId(), guid);
+				tnsUser = new TNSUser(siteIdString, userDetail.getTuid().toString(), userDetail.getExpUserId().toString(), guid);
 			}
 
 			Courier courier = new Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(mContext));
