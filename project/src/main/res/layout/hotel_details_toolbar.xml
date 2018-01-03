@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <View
         android:id="@+id/hotel_details_gradient"
@@ -45,11 +46,13 @@
                         android:id="@+id/hotel_name_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingRight="8dp"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="#ffffff"
                         android:textSize="18sp"
-                        app:textStyle="medium"/>
+                        app:textStyle="medium"
+                        tools:text="Really Long Hotel Name, Like Really Just Stupid Long"/>
 
                     <com.expedia.bookings.widget.StarRatingBar
                         android:id="@+id/hotel_star_rating_bar"
