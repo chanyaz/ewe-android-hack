@@ -4,11 +4,16 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.presenter.shared.StoredCouponWidget
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.util.subscribeMaterialFormsError
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isShowSavedCoupons
 
 class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidget(context, attrs) {
+
+    val storedCouponWidget: StoredCouponWidget by bindView(R.id.stored_coupon_widget)
 
     override val textWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {
@@ -57,4 +62,12 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
         }
     }
 
+    override fun setExpanded(expand: Boolean, animate: Boolean) {
+        super.setExpanded(expand, animate)
+        if (expand && isShowSavedCoupons(context)) {
+            storedCouponWidget.visibility = View.VISIBLE
+        } else {
+            storedCouponWidget.visibility = View.GONE
+        }
+    }
 }

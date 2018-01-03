@@ -80,10 +80,13 @@
                     android:hint="@string/enter_coupon_code"
                     android:maxLines="1" />
             </android.support.design.widget.TextInputLayout>
+
+            <include
+                layout="@layout/stored_coupon_widget" />
+
         </LinearLayout>
 
     </LinearLayout>
-
 
 </merge>
 

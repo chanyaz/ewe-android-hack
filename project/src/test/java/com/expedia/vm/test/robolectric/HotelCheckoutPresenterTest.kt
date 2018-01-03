@@ -372,6 +372,23 @@ class HotelCheckoutPresenterTest {
         testTravelerDetails(testCheckoutParams.onNextEvents[0].traveler)
     }
 
+    @Test
+    fun testHotelMaterialCouponExpandWithCouponSavedABTestOn() {
+        setupHotelMaterialForms()
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
+        checkout.couponCardView.setExpanded(true)
+
+        assertEquals(View.VISIBLE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
+    }
+
+    @Test
+    fun testHotelMaterialCouponExpandWithCouponSavedABTestOff() {
+        setupHotelMaterialForms()
+        checkout.couponCardView.setExpanded(true)
+
+        assertEquals(View.GONE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
+    }
+
     private fun givenLoggedInUserAndTravelerInDb() {
         val testUser = User()
         val traveler = mockTravelerProvider.getCompleteMockTraveler()

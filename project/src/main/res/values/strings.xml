@@ -4877,4 +4877,7 @@
         <item quantity="other">Offer expires in {no_of_days} days</item>
     </plurals>
 
+    <!-- Showing the header for the coupon widget to show the saved coupon -->
+    <string name="saved_coupon">Saved coupons</string>
+
 </resources>
