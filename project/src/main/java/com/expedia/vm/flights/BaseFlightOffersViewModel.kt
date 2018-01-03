@@ -311,17 +311,19 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             }
 
             override fun onError(e: Throwable) {
-                if (isFlightGreedySearchEnabled(context) && searchParamsObservable.value == null) {
-                    isGreedyCallAborted = true
-                } else if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() {
-                        flightServices.flightSearch(searchParamsObservable.value, makeResultsObserver(), resultsReceivedDateTimeObservable)
+                if (RetrofitUtils.isNetworkError(e)) {
+                    if (isFlightGreedySearchEnabled(context) && searchParamsObservable.value == null) {
+                        isGreedyCallAborted = true
+                    } else {
+                        val retryFun = fun() {
+                            flightServices.flightSearch(searchParamsObservable.value, makeResultsObserver(), resultsReceivedDateTimeObservable)
+                        }
+                        val cancelFun = fun() {
+                            noNetworkObservable.onNext(Unit)
+                        }
+                        DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                        FlightsV2Tracking.trackFlightSearchAPINoResponseError()
                     }
-                    val cancelFun = fun() {
-                        noNetworkObservable.onNext(Unit)
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-                    FlightsV2Tracking.trackFlightSearchAPINoResponseError()
                 }
             }
 
