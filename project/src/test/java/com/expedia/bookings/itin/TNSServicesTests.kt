@@ -43,7 +43,7 @@ class TNSServicesTests {
         server.setDispatcher(ExpediaDispatcher(opener))
         service = TNSServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate(), testServiceObserver)
+                listOf(interceptor), Schedulers.immediate(), Schedulers.immediate(), testServiceObserver)
     }
 
     @Test

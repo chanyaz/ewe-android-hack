@@ -67,6 +67,7 @@ class OmnitureTrackingFlightTest {
     }
 
     private fun setupDb() {
+        Db.clear()
         Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(isRoundTrip = false, includeChild = false))
         val flightTripItem = TripBucketItemFlightV2(getFlightCreateTripResponse())
         Db.getTripBucket().add(flightTripItem)

@@ -16,7 +16,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, val serviceObserver: Observer<TNSRegisterDeviceResponse> = TNSServices.Companion.noopObserver) {
+class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHttpClient, interceptors: List<Interceptor>, val observeOn: Scheduler, val subscribeOn: Scheduler, val serviceObserver: Observer<TNSRegisterDeviceResponse> = TNSServices.Companion.noopObserver) {
 
     companion object {
 
@@ -36,11 +36,15 @@ class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHt
 
     private val tnsAPI: TNSApi by lazy {
 
+        val okHttpClientBuilder = okHttpClient.newBuilder()
+        for (interceptor in interceptors) {
+            okHttpClientBuilder.addInterceptor(interceptor)
+        }
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .client(okHttpClientBuilder.build())
                 .build()
 
         adapter.create(TNSApi::class.java)

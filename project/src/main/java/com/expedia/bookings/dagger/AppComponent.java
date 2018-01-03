@@ -20,6 +20,7 @@ import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
+import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
@@ -61,8 +62,7 @@ public interface AppComponent {
 	@Named("GaiaInterceptor")
 	Interceptor gaiaRequestInterceptor();
 
-	@Named("HmacInterceptor")
-	Interceptor provideHmacInterceptor();
+	HMACInterceptor provideHmacInterceptor();
 
 	@Named("ESSInterceptor")
 	Interceptor essRequestInterceptor();

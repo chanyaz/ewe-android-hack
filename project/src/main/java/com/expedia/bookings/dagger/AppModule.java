@@ -2,6 +2,7 @@ package com.expedia.bookings.dagger;
 
 import android.content.Context;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
@@ -26,7 +27,7 @@ import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
 import com.expedia.bookings.utils.CookiesUtils;
-import com.expedia.bookings.utils.HMACUtil;
+import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
@@ -36,12 +37,10 @@ import com.expedia.model.UserLoginStateChangedModel;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -114,7 +113,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	OKHttpClientFactory provideOkHttpClientFactory(Context context, PersistentCookiesCookieJar cookieManager,
-		Cache cache, final EndpointProvider endpointProvider) {
+												   Cache cache, final EndpointProvider endpointProvider) {
 		return new OKHttpClientFactory(context, cookieManager, cache, endpointProvider);
 	}
 
@@ -212,7 +211,7 @@ public class AppModule {
 
 			responseLogBuilder.pageName(getPageName(request.build()));
 			responseLogBuilder.eventName(
-				NetUtils.isWifiConnected(context) ? ClientLogConstants.WIFI : ClientLogConstants.MOBILE_DATA);
+					NetUtils.isWifiConnected(context) ? ClientLogConstants.WIFI : ClientLogConstants.MOBILE_DATA);
 			responseLogBuilder.deviceName(android.os.Build.MODEL);
 			responseLogBuilder.responseTime(responseTime);
 
@@ -225,7 +224,7 @@ public class AppModule {
 	private String getPageName(Request request) {
 		String pageName = request.url().encodedPath().replaceAll("/", "_");
 		if (pageName.contains("flight_search") && AbacusFeatureConfigManager
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
+				.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
 			FormBody body = (FormBody) request.body();
 
 			for (int index = body.size(); index > 0; index--) {
@@ -247,7 +246,7 @@ public class AppModule {
 	EndpointProvider provideEndpointProvider(Context context) {
 		try {
 			String serverUrlPath = ProductFlavorFeatureConfiguration.getInstance()
-				.getServerEndpointsConfigurationPath();
+					.getServerEndpointsConfigurationPath();
 			InputStream serverUrlStream = context.getAssets().open(serverUrlPath);
 			return new EndpointProvider(context, serverUrlStream);
 		}
@@ -266,7 +265,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	IClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider,
-		Interceptor interceptor) {
+										Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
@@ -298,42 +297,13 @@ public class AppModule {
 	}
 
 	@Provides
-	@Named("HmacInterceptor")
-	Interceptor provideHmacInterceptor(final Context context, final EndpointProvider endpointProvider) {
-		return new Interceptor() {
-			@Override
-			public Response intercept(Interceptor.Chain chain) throws IOException {
-				Request.Builder request = chain.request().newBuilder();
-				String xDate = HMACUtil.getXDate(DateTime.now(DateTimeZone.UTC));
-				String salt = HMACUtil.generateSalt(16);
-				request.addHeader("Authorization",
-					HMACUtil.getAuthorization(context, chain.request().url(), chain.request().method(), xDate, salt));
-				request.addHeader("x-date", xDate);
-				request.addHeader("salt", salt);
-				Response response = chain.proceed(request.build());
-				return response;
-			}
-		};
+	HMACInterceptor provideHmacInterceptor(final Context context) {
+		return new HMACInterceptor(context.getResources().getString(R.string.exp_u), context.getResources().getString(R.string.exp_k));
 	}
 
 	@Provides
-	@Named("HmacInterceptorWithUserAgent")
-	Interceptor provideHmacInterceptorWithUserAgent(final Context context, final EndpointProvider endpointProvider) {
-		return new Interceptor() {
-			@Override
-			public Response intercept(Interceptor.Chain chain) throws IOException {
-				Request.Builder request = chain.request().newBuilder();
-				String xDate = HMACUtil.getXDate(DateTime.now(DateTimeZone.UTC));
-				String salt = HMACUtil.generateSalt(16);
-				request.addHeader("Authorization",
-					HMACUtil.getAuthorization(context, chain.request().url(), chain.request().method(), xDate, salt));
-				request.addHeader("x-date", xDate);
-				request.addHeader("salt", salt);
-				request.addHeader("User-Agent", ServicesUtil.generateUserAgentString());
-				Response response = chain.proceed(request.build());
-				return response;
-			}
-		};
+	UserAgentInterceptor provideUserAgentInterceptor() {
+		return new UserAgentInterceptor();
 	}
 
 	@Provides
@@ -345,7 +315,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	SmartOfferService provideSmartOfferService(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor) {
+											   Interceptor interceptor) {
 		final String endpoint = endpointProvider.getSmartOfferServiceEndpoint();
 		return new SmartOfferService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
@@ -360,24 +330,25 @@ public class AppModule {
 	@Singleton
 	SatelliteServices provideSatelliteServices(EndpointProvider endpointProvider, OkHttpClient client,
 		Interceptor interceptor, @Named("SatelliteInterceptor") Interceptor satelliteInterceptor,
-		@Named("HmacInterceptor") Interceptor hmacInterceptor) {
+		HMACInterceptor hmacInterceptor) {
 		return new SatelliteServices(endpointProvider.getSatelliteEndpointUrl(), client, interceptor,
-			satelliteInterceptor, hmacInterceptor,
-			AndroidSchedulers.mainThread(), Schedulers.io());
+				satelliteInterceptor, hmacInterceptor,
+				AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@Singleton
 	TNSServices provideTNSServices(EndpointProvider endpointProvider, OkHttpClient client,
-		@Named("HmacInterceptorWithUserAgent") Interceptor hmacInterceptorWithUserAgent) {
-		return new TNSServices(endpointProvider.getTNSEndpoint(), client, hmacInterceptorWithUserAgent,
-			Schedulers.io(), Schedulers.io());
+								   HMACInterceptor hmacInterceptor,
+								   UserAgentInterceptor userAgentInterceptor) {
+		return new TNSServices(endpointProvider.getTNSEndpoint(), client, Arrays.asList(hmacInterceptor, userAgentInterceptor),
+				Schedulers.io(), Schedulers.io());
 	}
 
 	@Provides
 	@Singleton
 	FlightRegistrationHandler provideFlightRegistrationService(TNSServices tnsServices,
-		UserStateManager userStateManager, Context context) {
+															   UserStateManager userStateManager, Context context) {
 		return new FlightRegistrationHandler(context, tnsServices, userStateManager.getUserSource());
 	}
 

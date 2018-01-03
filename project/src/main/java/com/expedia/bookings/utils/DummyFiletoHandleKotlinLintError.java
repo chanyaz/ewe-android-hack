@@ -1225,8 +1225,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.collapse_advanced_button_cont_desc,
 		R.string.change_dates,
 		R.string.share_msg_template_roundtrip_flight,
-		R.string.exp_k,
-		R.string.exp_u,
 		R.color.itin_sign_in_button_background_color,
 		R.color.itin_sign_in_button_text_color,
 		R.color.itin_refresh_warning_button_background_color,
