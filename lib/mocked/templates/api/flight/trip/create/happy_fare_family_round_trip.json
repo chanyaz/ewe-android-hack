@@ -273,7 +273,6 @@
         },
         "fareFamilyComponents": {
           "chargeable": {
-            "Bags": "Checked Bags",
             "ExtraLegroom": "Premium Seat",
             "PriorityBoarding": "Priority Boarding",
             "ChangesBeforeDeparture": "Changes"
@@ -282,7 +281,6 @@
             "RefundBeforeDeparture": "Cancellation"
           },
           "included": {
-            "SeatReservation": "Seat Choice",
             "FourLuggage": "4 x Free Luggage",
             "BonusMiles": "Bonus Miles"
           },

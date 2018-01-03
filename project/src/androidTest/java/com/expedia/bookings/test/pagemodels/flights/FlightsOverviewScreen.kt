@@ -4,14 +4,13 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.ViewMatchers.withText
-import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import android.support.test.espresso.matcher.ViewMatchers.*
 import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.CustomMatchers.withIndex
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.ViewActions
 import org.hamcrest.core.AllOf
+import org.hamcrest.Matchers.allOf
 import java.util.concurrent.TimeUnit
 
 object FlightsOverviewScreen {
@@ -83,4 +82,46 @@ object FlightsOverviewScreen {
     @JvmStatic fun flightOverviewBundleTotalPrice(): ViewInteraction {
         return onView(AllOf.allOf(withId(R.id.bundle_total_price), isDescendantOfA(withId(R.id.total_price_widget))));
     }
+
+    @JvmStatic fun fareFamilyItemRadioButton(position:Int): ViewInteraction {
+        return onView(withIndex(withId(R.id.fare_family_radio_button), position - 1))
+    }
+
+    @JvmStatic fun fareFamilyItemFamilyTitle(position:Int): ViewInteraction {
+        return onView(withIndex(withId(R.id.fare_family_class_title), position - 1))
+    }
+
+    @JvmStatic fun fareFamilyItemDeltaPrice(position:Int): ViewInteraction {
+        return onView(withIndex(withId(R.id.fare_family_class_price_delta), position - 1))
+    }
+
+    @JvmStatic
+    fun fareFamilyPrimaryAmenityLabel(itemPosition: Int, amenityPosition: Int): ViewInteraction {
+        return onView(withIndex(allOf(withId(R.id.fare_family_amenity_text),
+                isDescendantOfA(withIndex(allOf(withId(R.id.fare_family_primary_amenities_widget)), itemPosition - 1))), amenityPosition))
+    }
+
+    @JvmStatic
+    fun fareFamilyPrimaryAmenityTextDrawable(itemPosition: Int, amenityPosition: Int): ViewInteraction {
+        return onView(withIndex(allOf(withId(R.id.fare_family_amenity_text_icon),
+                isDescendantOfA(withIndex(allOf(withId(R.id.fare_family_primary_amenities_widget)), itemPosition - 1))), amenityPosition))
+    }
+
+    @JvmStatic fun fareFamilyPrimaryAmenityIconDrawable(itemPosition:Int, amenityPosition: Int): ViewInteraction {
+        return onView(withIndex(allOf(withId(R.id.fare_family_amenity_icon),
+                isDescendantOfA(withIndex(allOf(withId(R.id.fare_family_primary_amenities_widget)), itemPosition - 1))), amenityPosition))
+    }
+
+    @JvmStatic fun fareFamilyItemClass(position:Int): ViewInteraction {
+        return onView(withIndex(withId(R.id.fare_family_class_subtitle), position - 1))
+    }
+
+    @JvmStatic fun fareFamilyItemRoundTrip(position:Int): ViewInteraction {
+        return onView(withIndex(withId(R.id.fare_family_class_roundtrip_text), position - 1))
+    }
+
+    @JvmStatic fun fareFamilyItemTravelerLabel(position:Int): ViewInteraction {
+        return onView(withIndex(withId(R.id.fare_family_traveler_text), position - 1))
+    }
+
 }

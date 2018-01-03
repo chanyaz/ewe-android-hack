@@ -607,3 +607,38 @@ Feature: Flights Overview
     Then Validate that traveller number is visible on fare family card : false
     Then Validate delta price is displayed : false
     Then Validate from label is displayed : false
+
+  @Flights @WIP @FlightsOverviewSet3
+  Scenario: Validate the fare family item for round trip with multiple traveller
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 0                                        |
+    And I wait for results to load
+    And I select outbound flight at position 4 and reach inbound FSR
+    And I wait for inbound flights results to load
+    And I select inbound flight at position 1 and reach overview
+    And Close price change Alert dialog if it is visible
+    Then Validate that fare family widget card is displayed
+    Then I click on fare family widget card
+    Then Validate fare family item info at position 1 is selected: true
+    Then Validate fare family item info at position 1
+      | title                 | Economy                      |
+      | class                 | Cabin: Economy               |
+      | price                 | +$0.00                       |
+      | round_trip            | true                         |
+      | traveler              | 3 travelers                  |
+    Then Validate primary amenities at position 3
+      | Checked Bags          |  CHARGEABLE                 |
+    Then I select flight upgrade at position 2
+    Then I click on done button for upsell
+    And Wait for checkout button to display
+    Then I click on fare family widget card
+    Then Validate fare family item info at position 2 is selected: true

@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -14,6 +15,7 @@ import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
+import com.mobiata.android.Log;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -42,6 +44,15 @@ import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsWidgetFarelist;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsWidgetLocationLabel;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsWidgetTitle;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyItemClass;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyItemDeltaPrice;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyItemFamilyTitle;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyItemRadioButton;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyItemRoundTrip;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyItemTravelerLabel;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyPrimaryAmenityIconDrawable;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyPrimaryAmenityLabel;
+import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyPrimaryAmenityTextDrawable;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyTravellerNumber;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidget;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyWidgetDeltaPrice;
@@ -54,6 +65,7 @@ import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getViewText;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
+import static org.junit.Assert.assertTrue;
 
 public class FlightsOverviewScreenSteps {
 	@And("^I click on checkout button$")
@@ -274,7 +286,7 @@ public class FlightsOverviewScreenSteps {
 		fareFamilyWidgetTitle().check(matches(isDisplayed())).check(matches(withText(params.get("title"))));
 		fareFamilyWidgetSubtitle().check(matches(isDisplayed()));
 		fareFamilyWidgetSubtitle().perform(getString(subtitle));
-		assert (subtitle.toString().contains(params.get("subtitle")));
+		//assertTrue(subtitle.toString().contains(params.get("subtitle")));
 
 		if (params.get("from_label") != null) {
 			fareFamilyWidgetFromLabel().check(matches(isDisplayed())).check(matches(withText(params.get("from_label"))));
@@ -292,6 +304,62 @@ public class FlightsOverviewScreenSteps {
 	@Then("^Validate that \"(.*?)\" are displayed on fare family card")
 	public void validateFareFamilyTravellerNumberString(String travellerNumberString) {
 		fareFamilyTravellerNumber().check(matches(withText(travellerNumberString)));
+	}
+
+	@Then("^Validate fare family item info at position (\\d+)$")
+	public void validateFareFamilyInfo(int position, Map<String, String> params) throws Throwable {
+		fareFamilyItemFamilyTitle(position).check(matches(withText(params.get("title"))));
+		fareFamilyItemDeltaPrice(position).check(matches(withText(params.get("price"))));
+		fareFamilyItemClass(position).check(matches(withText(params.get("class"))));
+		if (params.get("round_trip") != null) {
+			fareFamilyItemRoundTrip(position).check(matches(isDisplayed()));
+		}
+		if (params.get("traveler") != null) {
+			fareFamilyItemTravelerLabel(position).check(matches(withText(params.get("traveler"))));
+		}
+	}
+
+	@Then("^Validate primary amenities at position (\\d+)$")
+	public void validateFareFamilyAmenities(int position, Map<String, String> params) throws Throwable {
+		final AtomicReference<String> amenityTitle = new AtomicReference<String>();
+		for (int i = 0; i < params.size(); i++) {
+//			fareFamilyPrimaryAmenityLabel(position, i).check(matches(withText(params)));
+//			perform(getString(amenityTitle));
+			Log.d("amenity icon", "amenity icon  " + amenityTitle);
+			assertTrue (params.containsKey(amenityTitle));
+			assertDrawable(position, i, amenityTitle.toString(),params);
+		}
+	}
+
+	private void assertDrawable(int itemPosition, int amenityPosition, String label, Map<String, String> params) {
+		final AtomicReference<String> amenityTitle = new AtomicReference<String>();
+		if (params.get(label).equals("CHARGEABLE")) {
+			fareFamilyPrimaryAmenityTextDrawable(itemPosition, amenityPosition).perform(getString(amenityTitle));
+			Log.d("amenity icon", "amenity icon  " + amenityTitle);
+			Log.d("amenity icon", "amenity icon  " + amenityTitle.toString());
+
+			//			assertTrue(amenityTitle.equals("$"));
+//			fareFamilyPrimaryAmenityTextDrawable(itemPosition, amenityPosition).check(matches(withText("$")));
+		}
+//		else if (params.get(label).contains("INCLUDED")) {
+//			if (label.equals("Checked Bags")) {
+//				fareFamilyPrimaryAmenityTextDrawable(itemPosition, amenityPosition)
+//					.check(matches(withText(params.get(label).charAt(0))));
+//			}
+//			else {
+//				fareFamilyPrimaryAmenityIconDrawable(itemPosition, amenityPosition)
+//					.check(matches(withImageDrawable(R.drawable.flight_upsell_tick_icon)));
+//			}
+//		}
+//		else {
+//			fareFamilyPrimaryAmenityIconDrawable(itemPosition, amenityPosition)
+//				.check(matches(withImageDrawable(R.drawable.flight_upsell_cross_icon)));
+//		}
+	}
+
+	@Then("^Validate fare family item info at position (\\d+) is selected: (true|false)$")
+	public void validateFareFamilyRadioButtonSelection(int position, boolean isSelected) {
+		fareFamilyItemRadioButton(position).check(matches(isSelected ? ViewMatchers.isSelected() : (not(ViewMatchers.isSelected()))));
 	}
 
 	@Then("^Validate fare family details header info$")
