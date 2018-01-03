@@ -128,7 +128,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             intent.data = Uri.parse(uri)
             this.startActivity(intent)
 
-            OmnitureTracking.trackItinHotelDirectionsButton()
+            OmnitureTracking.trackItinHotelMapDirectionsButton()
         }
     }
 

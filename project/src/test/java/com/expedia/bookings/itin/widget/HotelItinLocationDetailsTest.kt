@@ -61,6 +61,6 @@ class HotelItinLocationDetailsTest {
         val directionsButton = locationDetailsWidget.actionButtons.getmRightButton()
         directionsButton.performClick()
 
-        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Map", mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Directions", mockAnalyticsProvider)
     }
 }

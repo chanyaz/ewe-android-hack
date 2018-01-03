@@ -10,16 +10,12 @@ import android.view.View.OnClickListener
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.itin.activity.HotelItinExpandedMapActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.vm.GoogleMapsLiteViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
-import com.expedia.bookings.utils.GoogleMapsUtil
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.ItinActionsSection
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.itin.SummaryButton
@@ -67,7 +63,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
 
         val directionsButton = SummaryButton(R.drawable.ic_directions_icon_cta_button, context.getString(R.string.itin_action_directions), OnClickListener {
             context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
-            OmnitureTracking.trackItinHotelExpandMap()
+            OmnitureTracking.trackItinHotelDirections()
         })
         if (phoneNumber.isEmpty()) actionButtons.bind(null, directionsButton) else actionButtons.bind(callButton, directionsButton)
         actionButtons.getmRightButton().setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
