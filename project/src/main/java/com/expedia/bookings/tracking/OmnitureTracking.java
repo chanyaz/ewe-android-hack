@@ -2867,6 +2867,7 @@ public class OmnitureTracking {
 	private static final String NOTIFICATION_FLIGHT_GATE_TIME_CHANGE = "Itinerary.Flight.GateTimeChange";
 	private static final String NOTIFICATION_FLIGHT_GATE_NUMBER_CHANGE = "Itinerary.Flight.GateNumberChange";
 	private static final String NOTIFICATION_FLIGHT_BAGGAGE_CLAIM = "Itinerary.Flight.BaggageClaim";
+	private static final String NOTIFICATION_FLIGHT_DELAYED = "ITIN.Flight.DelayedFlight";
 	private static final String NOTIFICATION_HOTEL_CHECK_IN = "Itinerary.Hotel.CheckIn";
 	private static final String NOTIFICATION_HOTEL_CHECK_OUT = "Itinerary.Hotel.CheckOut";
 	private static final String NOTIFICATION_FLIGHT_DEPARTURE_REMINDER = "Itinerary.Flight.DepartureReminder";
@@ -2946,6 +2947,8 @@ public class OmnitureTracking {
 		case HOTEL_ACTIVITY_IN_TRIP:
 			link = NOTIFICATION_HOTEL_ACTIVITY_IN_TRIP;
 			break;
+		case FLIGHT_DELAYED:
+			link = NOTIFICATION_FLIGHT_DELAYED;
 		default:
 			link = "Itinerary." + type.name();
 			Log.w(TAG, "Unknown Notification Type \"" + type.name() + "\". Taking a guess.");

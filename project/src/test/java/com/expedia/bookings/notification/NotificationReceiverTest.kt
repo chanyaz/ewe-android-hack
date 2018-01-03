@@ -152,7 +152,8 @@ class NotificationReceiverTest {
                 Notification.NotificationType.HOTEL_CHECK_OUT,
                 Notification.NotificationType.FLIGHT_DEPARTURE_REMINDER,
                 Notification.NotificationType.DESKTOP_BOOKING,
-                Notification.NotificationType.HOTEL_GET_READY
+                Notification.NotificationType.HOTEL_GET_READY,
+                Notification.NotificationType.FLIGHT_DELAYED
         )
 
         for (notificationType in listOfNotificationTypes) {
