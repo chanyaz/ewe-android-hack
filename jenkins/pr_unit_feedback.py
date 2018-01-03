@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7
+
 import sys
 import glob
 import os
@@ -19,10 +21,6 @@ def scanAndProcessLintTestRunOutputXmlData(lintTestRunOutputXmlData):
             errorCount += 1
     return lintErrorMessage
 
-def extractCheckstyleErrorMessage(errorMessageList, errorLineList, errorFileNameList):
-    return reduce(lambda accumulator, (index, fileName, line, message): accumulator + "**ERROR " + str(index+1) + "**\n\n" + "Checkstyle Error in file " + fileName + "on line:" + line + " is: " + message + "\n\n", zip(range(len(errorLineList)), errorFileNameList, errorLineList, errorMessageList), "")
-
-
 def extractUnitTestErrorMessage(failureMessageList, failureClassList, failureFunctionList):
     return reduce(lambda accumulator, (index, failureClass, failureFunction, message): accumulator + "**ERROR " + str(index+1) + "**\n\n" + failureClass + "." + failureFunction + ":" + message + "\n\n", zip(range(len(failureMessageList)), failureClassList, failureFunctionList, failureMessageList), "")
 
@@ -43,20 +41,32 @@ def formatLintErrorMessage(lintTestReportFileList):
             lintTestErrorMsg = scanAndProcessLintTestRunOutputXmlData(lintTestRunXmlData)
     return lintTestErrorMsg
 
-def formatCheckstyleErrorMessage(checkstyleReportFileList):
-    errorFileNameList = []
-    errorMessageList = []
-    errorLineList = []
+
+def format_checkstyle_errors(errors):
+    if len(errors) == 0:
+        return ""
+    msg = "{number_of_errors} checkstyle errors:\n".format(number_of_errors=len(errors))
+    for error in errors:
+        msg += "{file}:{line}:{message}\n".format(file=error["file"], line=error["line"], message=error["message"])
+    return msg
+
+
+def read_and_format_checkstyle_error_message(checkstyleReportFileList):
+    errors = []
     for filePath in checkstyleReportFileList:
         if not os.path.exists(filePath):
             continue
         with open(filePath) as checkstyleErrorXmlFile:
-            checkstyleRunOutputXmlData = etree.parse(checkstyleErrorXmlFile)
-            errorFileNameList.extend(checkstyleRunOutputXmlData.xpath('//file[descendant::error]/@name'))
-            errorMessageList.extend(checkstyleRunOutputXmlData.xpath('//file/error/@message'))
-            errorLineList.extend(checkstyleRunOutputXmlData.xpath('//file/error/@line'))
+            checkstyle_xml = etree.parse(checkstyleErrorXmlFile)
+            files = checkstyle_xml.xpath('//file[descendant::error]')
+            for file_xml in files:
+                lines = file_xml.xpath('error/@line')
+                messages = file_xml.xpath('error/@message')
+                for (line, message) in zip(lines, messages):
+                    error = {"file": file_xml.attrib["name"], "line": line, "message": message}
+                    errors.append(error)
+    return format_checkstyle_errors(errors)
 
-    return extractCheckstyleErrorMessage(errorMessageList, errorLineList, errorFileNameList)
 
 def formatUnitTestErrorMessage(unitTestReportFilePatternList):
     failureFunctionList = []
@@ -73,18 +83,21 @@ def formatUnitTestErrorMessage(unitTestReportFilePatternList):
     return extractUnitTestErrorMessage(failureMessageList, failureClassList, failureFunctionList)
 
 
-def pingUnitTestsFailed(githubAccessToken, githubOrganization, githubRepository, prPullId, hipchatAccessToken):
+def pingUnitTestsFailed(githubAccessToken, githubOrganization, githubRepository, prPullId, slack_access_token, additional_content = None):
     github = login(token=githubAccessToken)
     repo = github.repository(githubOrganization, githubRepository)
     pr = repo.pull_request(prPullId)
-    messageToBePinged = "Unit Tests failed for PR <{pr_url}|{pr_title}>.\nFailure details injected as comment in the PR.".format(pr_title=pr.title, pr_url=prUrl(pr))
-    pingPRAuthors(pr, hipchatAccessToken, messageToBePinged)
+    if additional_content:
+        slack_message = "Unit Tests failed {pr_url}.\n{additional_content}".format(pr_title=pr.title, pr_url=prUrl(pr), additional_content=additional_content)
+    else:
+        slack_message = "Unit Tests failed {pr_url}.\nFailure details injected as comment in the PR.".format(pr_title=pr.title, pr_url=prUrl(pr))
+    pingPRAuthors(pr, slack_access_token, slack_message)
 
 def main():
     githubAccessToken = sys.argv[1]
     githubRepoId = sys.argv[2]
     prPullId = sys.argv[3]
-    hipchatAccessToken = sys.argv[4]
+    slack_access_token = sys.argv[4]
     prBuilderType = "unit"
     githubRepo = githubRepoId.split("/")
     githubOrganization = githubRepo[0]
@@ -94,13 +107,13 @@ def main():
     lintTestReportFilePath = ['./project/build/reports/lint-results-expediaDebug.xml', './project/build/reports/lint-results-expediaRelease.xml']
     kotlinUnusedResourcesReportFileName = './project/build/outputs/kotlin-unused-resources.txt'
 
-    unittestsErrorMessage = formatUnitTestErrorMessage(unitTestReportFileList) + formatCheckstyleErrorMessage(checkstyleReportFileList) + formatLintErrorMessage(lintTestReportFilePath) + formatKotlinUnusedResourcesMessage(kotlinUnusedResourcesReportFileName)
+    unittestsErrorMessage = formatUnitTestErrorMessage(unitTestReportFileList) + read_and_format_checkstyle_error_message(checkstyleReportFileList) + formatLintErrorMessage(lintTestReportFilePath) + formatKotlinUnusedResourcesMessage(kotlinUnusedResourcesReportFileName)
     print unittestsErrorMessage
-    createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prPullId, prBuilderType, unittestsErrorMessage, "java")
+    createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prPullId, prBuilderType, unittestsErrorMessage, "text")
 
-    if unittestsErrorMessage != "":
+    if unittestsErrorMessage:
         #Ping the authors that the PR Builder failed
-        pingUnitTestsFailed(githubAccessToken, githubOrganization, githubRepository, prPullId, hipchatAccessToken)
+        pingUnitTestsFailed(githubAccessToken, githubOrganization, githubRepository, prPullId, slack_access_token, additional_content=unittestsErrorMessage)
 
 
 if __name__ == "__main__":

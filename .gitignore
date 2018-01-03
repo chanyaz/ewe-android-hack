@@ -53,3 +53,6 @@ fastlane/report.xml
 
 #Android Studio Layout Inspector files
 /captures
+
+#Python dependencies
+virtualenv/
