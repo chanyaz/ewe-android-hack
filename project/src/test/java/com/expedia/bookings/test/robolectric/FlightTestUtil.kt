@@ -69,24 +69,31 @@ class FlightTestUtil {
         }
 
         @JvmStatic
-        fun getKrazyglueResponse(isSuccessful: Boolean) : KrazyglueResponse {
+        fun getKrazyglueResponse(isSuccessful: Boolean, containsHotels: Boolean = true): KrazyglueResponse {
             val krazyGlueResponse = KrazyglueResponse()
             krazyGlueResponse.success = isSuccessful
             if (isSuccessful) {
-                krazyGlueResponse.krazyglueHotels = getKrazyGlueHotels()
+                krazyGlueResponse.krazyglueHotels = getKrazyGlueHotels(containsHotels)
                 krazyGlueResponse.destinationDeepLink = "https://www.expedia.com/go?type=Hotel-Search&siteid=1&langid=1033&destination=Las+Vegas+%28and+vicinity%29&regionId=178276&startDate=11%2F13%2F2017&endDate=11%2F20%2F2017&adults=2&sort=recommended&tripStartDate=2017-11-13&tripEndDate=2017-11-20&bookingDateTime=2017-09-08T16:38:09.336Z&partnerId=expedia-hot-mobile-conf&mdpcid=US.direct.expedia-hot-mobile-conf.xsell_viewmore.hotel"
+            } else {
+                val xSellError = KrazyglueResponse.XSellError()
+                xSellError.errorCause = "KrazyglueError"
+                krazyGlueResponse.xsellError = xSellError
             }
 
             return krazyGlueResponse
         }
 
         @JvmStatic
-        fun getKrazyGlueHotels(): List<KrazyglueResponse.KrazyglueHotel> {
-            val firstKrazyHotel = getKrazyglueHotel("11111", "Mariot")
-            val secondKrazyHotel = getKrazyglueHotel("99999", "Cosmopolitan")
-            val thirdKrazyHotel = getKrazyglueHotel("55555", "Holiday Inn")
+        fun getKrazyGlueHotels(containsHotels: Boolean = true): List<KrazyglueResponse.KrazyglueHotel> {
+            if (containsHotels) {
+                val firstKrazyHotel = getKrazyglueHotel("11111", "Mariot")
+                val secondKrazyHotel = getKrazyglueHotel("99999", "Cosmopolitan")
+                val thirdKrazyHotel = getKrazyglueHotel("55555", "Holiday Inn")
 
-            return listOf(firstKrazyHotel, secondKrazyHotel, thirdKrazyHotel)
+                return listOf(firstKrazyHotel, secondKrazyHotel, thirdKrazyHotel)
+            }
+            return emptyList()
         }
 
         @JvmStatic

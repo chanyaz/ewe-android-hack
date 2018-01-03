@@ -2,7 +2,9 @@ package com.expedia.vm.test.robolectric
 
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -16,6 +18,7 @@ import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.server.DateTimeParser
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.FlightTestUtil
@@ -28,6 +31,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
+import org.hamcrest.Matchers
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
@@ -48,6 +52,7 @@ import kotlin.test.assertTrue
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 
 class FlightConfirmationViewModelTest {
+
     val customerEmail = "fakeEmail@mobiata.com"
     private var vm: FlightConfirmationViewModel by Delegates.notNull()
     private var shadowApplication: ShadowApplication? = null
@@ -413,6 +418,42 @@ class FlightConfirmationViewModelTest {
 
         regionIdTestSubscriber.assertValue("178276")
         assertEquals(3, krazyglueHotelsTestSubscriber.onNextEvents[0].size)
+    }
+
+    @Test
+    fun testUnsuccessfulKrazyglueResponseTracking() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+
+        bucketViewmodelIntoKrazyglue()
+        vm.getKrazyglueResponseObserver().onNext(FlightTestUtil.getKrazyglueResponse(isSuccessful = false))
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Checkout.Confirmation",
+                OmnitureMatchers.withProps(mapOf(36 to "KG.Confirmation.KrazyglueError")),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testNoHotelsKrazyglueResponseTracking() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+
+        bucketViewmodelIntoKrazyglue()
+        vm.getKrazyglueResponseObserver().onNext(FlightTestUtil.getKrazyglueResponse(isSuccessful = true, containsHotels = false))
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Checkout.Confirmation",
+                OmnitureMatchers.withProps(mapOf(36 to "KG.Confirmation.0Hotels")),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testFailedKrazyglueResponseTracking() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+
+        bucketViewmodelIntoKrazyglue()
+        vm.getKrazyglueResponseObserver().onError(Exception())
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Checkout.Confirmation",
+                OmnitureMatchers.withProps(mapOf(36 to "KG.Confirmation.FailToLoad")),
+                mockAnalyticsProvider)
     }
 
     @Test

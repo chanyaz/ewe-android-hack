@@ -17,4 +17,10 @@ class KrazyglueResponse {
         lateinit var airAttachedPrice: String
         lateinit var hotelImage: String
     }
+
+    lateinit var xsellError: XSellError
+
+    class XSellError {
+        lateinit var errorCause: String
+    }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -287,6 +288,21 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent("App.LS.HolidayPromo");
 		s.setEvents("event331");
 		s.trackLink(null, "o", "Holiday Promotion", null, null);
+	}
+
+	public static void trackKrazyglueError(@NotNull String errorCause) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(HOTELSV2_PURCHASE_CONFIRMATION);
+		s.setProp(36, "KG.Confirmation." + errorCause);
+		s.track();
+	}
+
+	public static void trackKrazyglueNoResultsError() {
+		trackKrazyglueError("0Hotels");
+	}
+
+	public static void trackKrazyglueResponseError() {
+		trackKrazyglueError("FailToLoad");
 	}
 
 	public enum OmnitureEventName {

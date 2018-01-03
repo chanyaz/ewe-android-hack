@@ -14,6 +14,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.KrazyglueServices
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.RewardsUtil
@@ -174,6 +175,9 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
         return object : Observer<KrazyglueResponse> {
             override fun onNext(response: KrazyglueResponse) {
                 if (response.success) {
+                    if (response.krazyglueHotels.isEmpty()) {
+                        OmnitureTracking.trackKrazyglueNoResultsError()
+                    }
                     krazyglueHotelsObservable.onNext(response.krazyglueHotels)
                     response.destinationDeepLink?.let { url ->
                         if (url.contains("regionId=")) {
@@ -182,6 +186,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                         }
                     }
                 } else {
+                    OmnitureTracking.trackKrazyglueError(response.xsellError.errorCause)
                     krazyglueHotelsObservable.onNext(emptyList())
                 }
             }
@@ -191,6 +196,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
 
             override fun onError(e: Throwable) {
                 Log.d("Error fetching krazy glue hotels:" + e.stackTrace)
+                OmnitureTracking.trackKrazyglueResponseError()
                 krazyglueHotelsObservable.onNext(emptyList())
             }
         }
