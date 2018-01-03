@@ -25,7 +25,6 @@ import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -39,8 +38,7 @@ import kotlin.test.assertEquals
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 class LxCheckoutErrorTests {
 
-    var mockActivityServiceTestRule: MockActivityServiceTestRule = MockActivityServiceTestRule()
-        @Rule get
+    private val mockActivityObjects = MockActivityObjects()
 
     lateinit private var apiError: ApiError
     lateinit private var checkoutResponseForPriceChange: LXCheckoutResponse
@@ -202,8 +200,8 @@ class LxCheckoutErrorTests {
 
     @Test
     fun testWhenMissingCheckoutParam() {
-        mockActivityServiceTestRule.setCheckoutParams("HappyPath", false)
-        val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityServiceTestRule.getCheckoutParams())
+        mockActivityObjects.setCheckoutParamsWithErrorAsFirstName("HappyPath", false)
+        val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityObjects.getCheckoutParams())
         checkoutPresenter.onDoCheckoutCall(lxKickoffCheckoutCallEvent)
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val okButton = alertDialog.findViewById<View>(android.R.id.button3) as Button
@@ -229,15 +227,15 @@ class LxCheckoutErrorTests {
     }
 
     private fun performLxCheckoutError(errorType: String) {
-        apiError = mockActivityServiceTestRule.getCheckoutError(errorType)
-        val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityServiceTestRule.getCheckoutParams())
+        apiError = mockActivityObjects.getCheckoutError(errorType)
+        val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityObjects.getCheckoutParams())
         checkoutPresenter.onDoCheckoutCall(lxKickoffCheckoutCallEvent)
         errorWidget.bind(apiError)
     }
 
     private fun performLxCheckoutWithPriceChange(){
-        checkoutResponseForPriceChange = mockActivityServiceTestRule.getCheckoutResponseForPriceChange()
-        val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityServiceTestRule.getCheckoutParams())
+        checkoutResponseForPriceChange = mockActivityObjects.getCheckoutResponseForPriceChange()
+        val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityObjects.getCheckoutParams())
         checkoutPresenter.onDoCheckoutCall(lxKickoffCheckoutCallEvent)
         errorWidget.bind(checkoutResponseForPriceChange.firstError)
     }

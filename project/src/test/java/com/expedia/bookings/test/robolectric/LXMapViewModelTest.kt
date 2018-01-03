@@ -2,37 +2,26 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import com.expedia.bookings.data.LXState
-import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.cars.LatLong
-import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.data.lx.LxSearchParams
-import com.expedia.bookings.test.MockHotelServiceTestRule
-import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.LXMapViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
-import rx.subjects.PublishSubject
-import java.math.BigDecimal
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class LXMapViewModelTest {
 
-    var mockActivityServiceTestRule: MockActivityServiceTestRule = MockActivityServiceTestRule()
-        @Rule get
+    private val mockActivityServiceTestRule = MockActivityObjects()
 
     lateinit private var activityOffersResponse: ActivityDetailsResponse
     private var lxMapViewModel: LXMapViewModel by notNullAndObservable {

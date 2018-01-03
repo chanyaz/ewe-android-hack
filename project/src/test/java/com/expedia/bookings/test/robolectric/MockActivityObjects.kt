@@ -5,11 +5,9 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXCheckoutParams
 import com.expedia.bookings.data.lx.LXCheckoutResponse
-import com.expedia.bookings.services.LxServices
-import com.expedia.bookings.testrule.ServicesRule
 import com.mobiata.mocke3.mockObject
 
-class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.java) {
+class MockActivityObjects {
 
     lateinit private var lxCheckoutParams: LXCheckoutParams
 
@@ -43,7 +41,7 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
     }
 
     private fun lxCheckoutResponse(errorType: String): LXCheckoutResponse {
-        setCheckoutParams(errorType)
+        setCheckoutParamsWithErrorAsFirstName(errorType)
         val fileName = mapErrorToFilename(errorType)
         val checkoutResponse = mockObject(LXCheckoutResponse::class.java, fileName, null)!!
         checkoutResponse.originalPrice = Money("100", "USD")
@@ -51,7 +49,7 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
     }
 
 
-    fun setCheckoutParams(errorType: String, isRequiredCVV: Boolean = true) {
+    fun setCheckoutParamsWithErrorAsFirstName(errorType: String, isRequiredCVV: Boolean = true) {
         lxCheckoutParams = LXCheckoutParams()
         lxCheckoutParams.firstName = errorType
         lxCheckoutParams.lastName = "Test"
