@@ -70,7 +70,8 @@ class PhoneLaunchActivityTest {
                 Notification.NotificationType.DESKTOP_BOOKING,
                 Notification.NotificationType.HOTEL_GET_READY,
                 Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll,
-                Notification.NotificationType.HOTEL_ACTIVITY_IN_TRIP
+                Notification.NotificationType.HOTEL_ACTIVITY_IN_TRIP,
+                Notification.NotificationType.FLIGHT_DELAYED
         )
 
         for(notificationType in listOfNotificationTypes) {
