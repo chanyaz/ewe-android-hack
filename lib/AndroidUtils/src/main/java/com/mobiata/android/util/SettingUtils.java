@@ -25,6 +25,14 @@ public class SettingUtils {
 		editor.apply();
 	}
 
+	public static void saveSynchronously(Context context, String key, boolean value) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean(key, value);
+		editor.commit();
+	}
+
+
 	public static void save(Context context, int keyResId, float value) {
 		save(context, context.getString(keyResId), value);
 	}
