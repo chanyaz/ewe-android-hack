@@ -2979,6 +2979,8 @@
     <string name="enter_coupon_promo_code">Enter coupons or promotional code</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Enter Coupon Code</string>
+    <!-- Enter coupon code button -->
+    <string name="enter_coupon_code_caps">ENTER COUPON CODE</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Submit</string>
     <!-- Coupon submit button for accessibility -->

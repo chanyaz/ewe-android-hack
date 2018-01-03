@@ -151,6 +151,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	private boolean listenToScroll = true;
 	private boolean hotelMaterialFormTestEnabled = LobExtensionsKt.isMaterialHotelEnabled(getLineOfBusiness(), getContext());
 
+	private boolean showSavedCouponsTestEnabled = FeatureUtilKt.isShowSavedCoupons(getContext());
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -267,6 +269,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				}
 			}
 		});
+
+		if (showSavedCouponsTestEnabled) {
+			couponContainer.setVisibility(GONE);
+		}
+
 	}
 
 	private void updateMaterialBackgroundColor(Boolean isMaterialFormShowing) {
@@ -647,7 +654,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			hintContainer.setVisibility(forward ? View.GONE : userStateManager.isUserAuthenticated() ? GONE : VISIBLE);
 			travelerSummaryCardView.setVisibility(forward ? GONE : VISIBLE);
 			mainContactInfoCardView.setVisibility(GONE);
-			couponContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
+			if (!showSavedCouponsTestEnabled) {
+				couponContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
+			}
 			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			disclaimerText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			depositPolicyText.setVisibility(forward ? View.GONE : View.VISIBLE);
@@ -730,8 +739,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
  				mainContactInfoCardView.setVisibility(!forward ? View.VISIBLE : currentExpandedCard instanceof TravelerContactDetailsWidget ? VISIBLE : GONE);
 			}
-			couponContainer
-				.setVisibility(!forward ? View.VISIBLE : currentExpandedCard instanceof AbstractCouponWidget ? VISIBLE : GONE);
+			if (!showSavedCouponsTestEnabled) {
+				couponContainer
+					.setVisibility(!forward ? View.VISIBLE : currentExpandedCard instanceof AbstractCouponWidget ? VISIBLE : GONE);
+			}
 			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			disclaimerText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			depositPolicyText.setVisibility(forward ? View.GONE : View.VISIBLE);
@@ -769,7 +780,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			summaryContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
 			loginWidget.setVisibility(forward ? View.GONE : View.VISIBLE);
 			hintContainer.setVisibility(forward ? View.GONE : userStateManager.isUserAuthenticated() ? GONE : VISIBLE);
-			couponContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
+			if (!showSavedCouponsTestEnabled) {
+				couponContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
+			}
 			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			disclaimerText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			depositPolicyText.setVisibility(forward ? View.GONE : View.VISIBLE);
@@ -811,7 +824,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			summaryContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
 			loginWidget.setVisibility(forward ? View.GONE : View.VISIBLE);
 			hintContainer.setVisibility(forward ? View.GONE : userStateManager.isUserAuthenticated() ? GONE : VISIBLE);
-			couponContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
+			if (!showSavedCouponsTestEnabled) {
+				couponContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
+			}
 			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			disclaimerText.setVisibility(forward ? View.GONE : View.VISIBLE);
 			depositPolicyText.setVisibility(forward ? View.GONE : View.VISIBLE);
