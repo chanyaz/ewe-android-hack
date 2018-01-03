@@ -241,4 +241,21 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
         else Phrase.from(context, R.string.select_room_button_content_description_TEMPLATE)
                 .put("room", hotelRoomResponse.roomTypeDescription ?: "").format().toString()
     }
+
+    fun getRoomPriceContentDescription(): String? {
+        return if (!strikeThroughString.isNullOrBlank()) {
+            Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
+                .put("strikethroughprice", strikeThroughString)
+                .put("price", priceString + if (showPerNight) context.getString(R.string.per_night) else "")
+                .format().toString() +
+                    if(!discountPercentageString.isNullOrBlank()) {
+                        Phrase.from(context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE)
+                                .put("percentage", discountPercentageString).format().toString()
+                    } else {
+                        ""
+                    }
+        } else {
+            priceString + if (showPerNight) context.getString(R.string.per_night) else ""
+        }
+    }
 }
