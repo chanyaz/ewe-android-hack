@@ -3,7 +3,6 @@ package com.expedia.bookings.mia
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.sos.DealsDestination
@@ -12,7 +11,6 @@ import com.expedia.bookings.mia.activity.LastMinuteDealActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
 import rx.subjects.BehaviorSubject
 import java.util.ArrayList
@@ -43,9 +41,6 @@ class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<Rec
             if (leadingHotel != null) {
                 val vm = DealsDestinationViewModel(context, leadingHotel, currency)
                 holder.bind(vm)
-                if (vm.percentSavingsText.isEmpty()) {
-                    holder.discountView.visibility = View.GONE
-                }
             }
         }
         if (holder is LoadingViewHolder) {
