@@ -5,6 +5,7 @@ import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
+import com.expedia.bookings.services.TripShareUrlShortenServiceInterface;
 import com.expedia.bookings.services.TripsServicesInterface;
 import com.expedia.bookings.widget.itin.ItinPOSHeader;
 import com.expedia.vm.itin.ItinSignInViewModel;
@@ -21,4 +22,5 @@ public interface TripComponent {
 
 	ItinPageUsableTracking itinPageUsableTracking();
 	TripsServicesInterface tripServices();
+	TripShareUrlShortenServiceInterface tripShareUrlShortenService();
 }

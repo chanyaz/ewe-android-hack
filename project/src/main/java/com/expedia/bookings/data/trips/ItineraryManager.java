@@ -20,7 +20,6 @@ import com.expedia.bookings.data.TNSFlight;
 import com.expedia.bookings.data.TNSUser;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.UserSource;
@@ -849,9 +848,6 @@ public class ItineraryManager implements JSONable {
 		DEDUPLICATE_TRIPS,
 		// Remove shared trip if it matches one associated to a user
 
-		SHORTEN_SHARE_URLS,
-		//We run the url shortener for itins that do not yet have shortened urls.
-
 		SAVE_TO_DISK,
 		// Saves state of ItineraryManager to disk
 
@@ -987,7 +983,6 @@ public class ItineraryManager implements JSONable {
 				mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
 				mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
 				mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
-				mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 				mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 				mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 				mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
@@ -1030,7 +1025,6 @@ public class ItineraryManager implements JSONable {
 		}
 
 		// We're set to sync; add the rest of the ops and go
-		mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
@@ -1047,7 +1041,6 @@ public class ItineraryManager implements JSONable {
 		mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
 		mSyncOpQueue.add(new Task(Operation.FETCH_SHARED_ITIN, shareableUrl));
 		mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
-		mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
@@ -1183,9 +1176,6 @@ public class ItineraryManager implements JSONable {
 					break;
 				case DEDUPLICATE_TRIPS:
 					deduplicateTrips();
-					break;
-				case SHORTEN_SHARE_URLS:
-					shortenSharableUrls();
 					break;
 				case FETCH_SHARED_ITIN:
 					downloadSharedItinTrip(nextTask.mTripNumber);
@@ -1805,63 +1795,6 @@ public class ItineraryManager implements JSONable {
 			}
 		}
 
-		private void shortenSharableUrls() {
-			Log.d(LOGGING_TAG, "ItineraryManager.shortenSharableUrls");
-			for (Trip trip : mTrips.values()) {
-				for (TripComponent tripComp : trip.getTripComponents()) {
-					//For packages we have to shorten the share urls of the individual pieces.
-					if (tripComp.getType() == Type.PACKAGE) {
-						TripPackage pack = (TripPackage) tripComp;
-						for (TripComponent packComp : pack.getTripComponents()) {
-							if (packComp.getType() == Type.FLIGHT) {
-								//For flights we have to shorten share urls for individual legs
-								shortenSharableFlightUrls((TripFlight) packComp);
-							}
-							else {
-								shortenSharableUrl(packComp);
-							}
-						}
-					}
-					else if (tripComp.getType() == Type.FLIGHT) {
-						//For flights we have to shorten share urls for individual legs
-						shortenSharableFlightUrls((TripFlight) tripComp);
-					}
-				}
-				//Shorten the trip share url
-				shortenSharableUrl(trip);
-			}
-		}
-
-		private void shortenSharableFlightUrls(TripFlight trip) {
-			if (trip.getFlightTrip() != null && trip.getFlightTrip().getLegCount() > 0) {
-				for (FlightLeg leg : trip.getFlightTrip().getLegs()) {
-					shortenSharableUrl(leg);
-				}
-			}
-		}
-
-		private void shortenSharableUrl(ItinSharable itinSharable) {
-			if (itinSharable.getSharingEnabled() && itinSharable.getShareInfo().hasSharableDetailsUrl()
-				&& !itinSharable.getShareInfo().hasShortSharableDetailsUrl()) {
-				String shareUrl = itinSharable.getShareInfo().getSharableDetailsUrl();
-				String shortenedUrl = null;
-				Log.i(LOGGING_TAG, "Shortening share url:" + shareUrl);
-
-				TripShareUrlShortenerResponse response = mServices.getShortenedShareItinUrl(shareUrl);
-				if (response != null) {
-					shortenedUrl = response.getShortUrl();
-				}
-
-				if (!TextUtils.isEmpty(shortenedUrl)) {
-					Log.i(LOGGING_TAG, "Successfully shortened url - original:" + shareUrl + " short:"
-						+ shortenedUrl);
-					itinSharable.getShareInfo().setShortSharableDetailsUrl(shortenedUrl);
-				}
-				else {
-					Log.w(LOGGING_TAG, "Failure to shorten url:" + shareUrl);
-				}
-			}
-		}
 	}
 
 	private static class ProgressUpdate {

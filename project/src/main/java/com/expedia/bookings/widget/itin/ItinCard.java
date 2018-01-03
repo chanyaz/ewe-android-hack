@@ -10,14 +10,12 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -37,7 +35,7 @@ import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver;
+import com.expedia.bookings.itin.utils.ShareTripHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
@@ -49,9 +47,6 @@ import com.expedia.bookings.widget.RecyclerGallery;
 import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.CalendarAPIUtils;
-import com.mobiata.android.util.SettingUtils;
-
-import static android.app.PendingIntent.getBroadcast;
 
 public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	implements PopupMenu.OnMenuItemClickListener,
@@ -1078,23 +1073,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	}
 
 	private void showNativeShareDialog() {
-		Intent shareIntent = new Intent();
-		shareIntent.setAction(Intent.ACTION_SEND);
-		shareIntent.putExtra(Intent.EXTRA_TEXT, mItinContentGenerator.getShareTextShort());
-		shareIntent.setType("text/plain");
-
-		SettingUtils.save(getContext(), "TripType", mItinContentGenerator.getType().toString());
-
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-			getContext().startActivity(shareIntent);
-		}
-		else {
-			Intent receiver = new Intent(getContext(), ItinShareTargetBroadcastReceiver.class);
-			PendingIntent pendingIntent = getBroadcast(getContext(), 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
-			Intent chooserIntent = Intent.createChooser(shareIntent, "", pendingIntent.getIntentSender());
-			chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, shareIntent);
-			getContext().startActivity(chooserIntent);
-		}
+		ShareTripHelper shareTripHelper = new ShareTripHelper(getContext(), mItinContentGenerator.getItinCardData());
+		shareTripHelper.fetchShortShareUrlShowShareDialog();
 	}
 
 	private void addToCalendar() {

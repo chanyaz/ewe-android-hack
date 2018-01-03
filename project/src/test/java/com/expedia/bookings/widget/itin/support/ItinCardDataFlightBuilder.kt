@@ -12,7 +12,10 @@ import java.io.File
 
 class ItinCardDataFlightBuilder {
 
-    
+    val now = DateTime.now()
+    val startTime = now.plusDays(30)
+    val endTime = startTime.plusDays(7)
+
     fun build(airAttachEnabled:Boolean = false, multiSegment:Boolean = false, confirmationNumber:String? = null, isShared: Boolean = false): ItinCardDataFlight {
         val itinCardDataFlight = makeFlight(multiSegment)
         itinCardDataFlight.setShowAirAttach(airAttachEnabled)
@@ -49,10 +52,6 @@ class ItinCardDataFlightBuilder {
     }
 
     private fun fixTimes(jsonObject: JSONObject) {
-        val now = DateTime.now()
-        val startTime = now.plusDays(30)
-        val endTime = startTime.plusDays(7)
-
         fixTime(jsonObject, "startTime", startTime)
         fixTime(jsonObject, "endTime", endTime)
 

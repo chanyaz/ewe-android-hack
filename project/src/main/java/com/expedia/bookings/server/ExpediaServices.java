@@ -21,7 +21,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -60,7 +59,6 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
-import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
@@ -460,7 +458,8 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("filterTimePeriod", "RECENTLY_COMPLETED"));
 		query.add(new BasicNameValuePair("sort", "SORT_STARTDATE_ASCENDING"));
 
-		if (getCachedDetails && !FeatureToggleUtil.isFeatureEnabled(mContext, R.string.preference_trips_use_retrofit_call_for_details)) {
+		if (getCachedDetails && !FeatureToggleUtil
+			.isFeatureEnabled(mContext, R.string.preference_trips_use_retrofit_call_for_details)) {
 			query.add(new BasicNameValuePair("getCachedDetails", "10"));
 		}
 
@@ -502,30 +501,6 @@ public class ExpediaServices implements DownloadListener {
 	public TripDetailsResponse getSharedItin(String shareableUrl) {
 		int flags = F_GET | F_DONT_ADD_ENDPOINT | F_IGNORE_COOKIES;
 		return doE3Request(shareableUrl, null, new TripDetailsResponseHandler(), flags);
-	}
-
-	public TripShareUrlShortenerResponse getShortenedShareItinUrl(String longUrl) {
-		int flags = F_ALLOW_REDIRECT | F_IGNORE_COOKIES | F_POST;
-
-		//Only one argument!
-		JSONObject args = new JSONObject();
-		try {
-			args.putOpt("long_url", longUrl);
-		}
-		catch (JSONException e) {
-			Log.e("Couldn't add the long_url to the argument json");
-		}
-
-		String shortUrl = mEndpointProvider.getShortlyEndpointUrl() + "/v1/shorten";
-
-		Request.Builder post = new Request.Builder().url(shortUrl);
-		RequestBody body = RequestBody.create(MediaType.parse("application/json"), args.toString());
-		post.post(body);
-
-		// Make sure the response comes back as JSON
-		post.addHeader("Accept", "application/json");
-
-		return doRequest(post, new TripShareUrlShortenerHandler(), flags);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
