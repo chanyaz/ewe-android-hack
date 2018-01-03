@@ -24,7 +24,6 @@ import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
-
 @RunWith(RobolectricRunner::class)
 class BundleOverviewViewModelTests {
     val context = RuntimeEnvironment.application
@@ -196,7 +195,17 @@ class BundleOverviewViewModelTests {
         setUpParams("JFK")
 
         sut.searchParamsChangeObservable.onNext(Unit)
-        sut.createTripObservable.onNext(makeCreateTripResponse())
+        val createTripResponse = PackageTestUtil.getCreateTripResponse(currency = "USD",
+                bundleTotal = 1000,
+                packageTotal = 950,
+                hotelLargeThumbnailUrl = "/testurl",
+                hotelCity = "New York",
+                hotelStateProvince = "NY",
+                hotelCountry = "USA",
+                hotelCheckinDate = "2017-12-29",
+                hotelCheckoutOutDate = "2017-12-29",
+                hotelNumberOfNights = "1")
+        sut.createTripObservable.onNext(createTripResponse)
 
         stepOneTestSubscriber.awaitValueCount(2, 1, TimeUnit.SECONDS)
         assertEquals(stepOneTestSubscriber.onNextEvents[1],"Hotel in New York - 1 room, 1 night")

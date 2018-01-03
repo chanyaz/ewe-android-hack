@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
+import android.text.SpannableStringBuilder
+import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Traveler
@@ -17,9 +19,13 @@ import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.util.Optional
 import com.expedia.vm.packages.PackageCheckoutViewModel
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -252,6 +258,36 @@ class PackageCheckoutViewModelTest {
 
         assertEquals("https://www.expedia.com/link", subscriberForOBFee.onNextEvents[1])
         assertEquals("Payment fees may apply", subscriberForChargeFee.onNextEvents[1])
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testLegalTextForNonUKPOS() {
+        val legalTextTestSubscriber = TestSubscriber<SpannableStringBuilder>()
+        testViewModel.legalText.subscribe(legalTextTestSubscriber)
+
+        testViewModel.createTripResponseObservable.onNext(Optional(PackageTestUtil.getCreateTripResponse()))
+
+        legalTextTestSubscriber.assertValueCount(1)
+        assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy, and Fare Information.", legalTextTestSubscriber.onNextEvents[0].toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testLegalTextForUKPOS() {
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        SettingUtils.save(activity, R.string.PointOfSaleKey, PointOfSaleId.UNITED_KINGDOM.id.toString())
+        PointOfSale.onPointOfSaleChanged(activity)
+        Ui.getApplication(activity).defaultPackageComponents()
+        testViewModel = PackageCheckoutViewModel(activity.application, serviceRule.services!!)
+
+        val legalTextTestSubscriber = TestSubscriber<SpannableStringBuilder>()
+        testViewModel.legalText.subscribe(legalTextTestSubscriber)
+
+        testViewModel.createTripResponseObservable.onNext(Optional(PackageTestUtil.getCreateTripResponse()))
+
+        legalTextTestSubscriber.assertValueCount(1)
+        assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Terms of Booking, the Privacy Policy, and the Insurance and Fare Information.", legalTextTestSubscriber.onNextEvents[0].toString())
     }
 
     private fun getCheckoutErrorResponse(errorCode: ApiError.Code): PackageCheckoutResponse {

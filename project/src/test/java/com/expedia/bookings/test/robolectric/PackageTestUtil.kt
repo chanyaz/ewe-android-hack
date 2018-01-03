@@ -18,6 +18,9 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.google.gson.Gson
 import org.joda.time.LocalDate
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import java.util.ArrayList
 
 class PackageTestUtil {
     companion object {
@@ -156,6 +159,34 @@ class PackageTestUtil {
             packageParams.latestSelectedProductOfferPrice = PackageOfferModel.PackagePrice()
             packageParams.latestSelectedProductOfferPrice?.packageTotalPrice = Money(100, "USD")
             return packageParams
+        }
+
+        @JvmStatic
+        fun getCreateTripResponse(tripId: String = "00000", currency: String = "USD", bundleTotal: Int = 0, packageTotal: Int = 0,
+                                   hotelLargeThumbnailUrl: String = "", hotelCity: String = "", hotelStateProvince: String = "",
+                                   hotelCountry: String = "", hotelCheckinDate: String = "", hotelCheckoutOutDate: String = "",
+                                   hotelNumberOfNights: String = ""): PackageCreateTripResponse {
+            val trip = PackageCreateTripResponse()
+            val packageDetails = PackageCreateTripResponse.PackageDetails()
+            packageDetails.tripId = tripId
+            packageDetails.pricing = PackageCreateTripResponse.Pricing()
+            packageDetails.pricing.bundleTotal = Money(bundleTotal, currency)
+            packageDetails.pricing.packageTotal = Money(packageTotal, currency)
+            val hotel = HotelCreateTripResponse.HotelProductResponse()
+            hotel.largeThumbnailUrl = hotelLargeThumbnailUrl
+            hotel.hotelCity = hotelCity
+            hotel.hotelStateProvince = hotelStateProvince
+            hotel.hotelCountry = hotelCountry
+            hotel.checkInDate = hotelCheckinDate
+            hotel.checkOutDate = hotelCheckoutOutDate
+            hotel.numberOfNights = hotelNumberOfNights
+            hotel.hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
+            hotel.hotelRoomResponse.bedTypes = ArrayList<HotelOffersResponse.BedTypes>()
+
+            trip.packageDetails = packageDetails
+            packageDetails.hotel = hotel
+
+            return trip
         }
 
         private fun setRateInfo(mandatoryDisplayType: Boolean): HotelOffersResponse.RateInfo  {
