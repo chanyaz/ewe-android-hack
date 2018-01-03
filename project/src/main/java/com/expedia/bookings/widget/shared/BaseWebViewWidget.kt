@@ -70,8 +70,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         this.orientation = LinearLayout.VERTICAL
         toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
         setToolbarPadding()
-
-        webView.setWebViewClient(webClient)
+        webView.webViewClient = webClient
         webView.settings.javaScriptEnabled = true
     }
 

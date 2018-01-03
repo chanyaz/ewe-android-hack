@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -24,6 +25,15 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     val loadingWebview: LinearLayout by bindView(R.id.webview_loading_screen)
 
     var clearHistory = false
+
+    val chromeClient: WebChromeClient =  object : WebChromeClient() {
+        override fun onProgressChanged(view: WebView?, loadProgress: Int) {
+            super.onProgressChanged(view, loadProgress)
+            if (loadProgress > 33 && loadingWebview.visibility == View.VISIBLE) {
+                toggleLoading(false)
+            }
+        }
+    }
 
     override var viewModel: WebViewViewModel by notNullAndObservable { vm ->
         super.viewModel = vm
@@ -45,6 +55,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         toolbar.title = context.getString(R.string.secure_checkout)
         toolbar.navigationIcon = context.getDrawable(R.drawable.ic_arrow_back_white_24dp)
         setUserAgentString(AndroidUtils.isTablet(context))
+        webView.webChromeClient = chromeClient
     }
 
     override fun toggleLoading(loading: Boolean) {
@@ -55,7 +66,6 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-        toggleLoading(false)
         if (urlHasPOSWebBookingConfirmationUrl(url) || urlIsMIDConfirmation(url)) {
             view.stopLoading()
             (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
