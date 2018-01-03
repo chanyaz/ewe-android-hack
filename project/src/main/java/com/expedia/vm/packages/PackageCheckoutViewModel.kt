@@ -205,6 +205,6 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                     .format().toString()
             return StrUtils.getSpannableTextByColor(flightBookingStatement, color, false)
         }
-        return packageBookingStatement
+        return StrUtils.getSpannableTextByColor(packageBookingStatement, color, false)
     }
 }
