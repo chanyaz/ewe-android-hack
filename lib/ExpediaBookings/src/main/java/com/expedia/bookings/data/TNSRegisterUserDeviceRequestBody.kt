@@ -8,7 +8,7 @@ data class TNSRegisterUserDeviceRequestBody(val courier: Courier, val user: TNSU
 
 data class TNSUser(val siteid: String, val tuid: String?, val expUserID: String?, val guid: String)
 
-data class Courier(val group: String, val langId: String, val name: String, val token: String, val uniqueIdentifier: String)
+data class Courier(val group: String, val langid: String, val name: String, val token: String, val uniqueIdentifier: String)
 
 data class TNSRegisterDeviceResponse(val activityId: String, val errorMessage: String, val status: String)
 

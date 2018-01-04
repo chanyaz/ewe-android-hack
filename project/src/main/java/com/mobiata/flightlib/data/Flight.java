@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Hours;
 import org.joda.time.Minutes;
+import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -626,6 +627,12 @@ public class Flight implements Comparable<Flight>, JSONable {
 			obj.putOpt("distanceToTravel", mDistanceToTravel);
 			obj.putOpt("distanceTraveled", mDistanceTraveled);
 
+			if (mSegmentArrivalTime != null) {
+				obj.putOpt("segmentArrivalTime", mSegmentArrivalTime.toString(ISODateTimeFormat.dateTime()));
+			}
+			if (mSegmentDepartureTime != null) {
+				obj.putOpt("segmentDepartureTime", mSegmentDepartureTime.toString(ISODateTimeFormat.dateTime()));
+			}
 			obj.putOpt("isRepeating", mIsRepeating);
 			obj.putOpt("isSeatMapAvailable", mIsSeatMapAvailable);
 
@@ -705,6 +712,12 @@ public class Flight implements Comparable<Flight>, JSONable {
 			}
 			if (obj.has("lastNotifiedTakeoffTime")) {
 				mLastNotifiedTakeoffTime = obj.getLong("lastNotifiedTakeoffTime");
+			}
+			if (obj.has("segmentDepartureTime")) {
+				setSegmentDepartureTime(obj.getString("segmentDepartureTime"));
+			}
+			if (obj.has("segmentArrivalTime")) {
+				setSegmentArrivalTime(obj.getString("segmentArrivalTime"));
 			}
 			mStatusCode = obj.getString("statusCode");
 			mBearing = obj.getLong("bearing");

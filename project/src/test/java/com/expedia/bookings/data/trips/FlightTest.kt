@@ -6,6 +6,7 @@ import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.data.Seat
 import com.mobiata.flightlib.data.Waypoint
 import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,10 +19,12 @@ import kotlin.test.assertTrue
 class FlightTest{
 
     lateinit var flight: Flight
+    lateinit var todayAtNoon: DateTime
 
     @Before
     fun setup() {
         flight = Flight()
+        todayAtNoon = DateTime.now().withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0)
     }
 
     @Test
@@ -77,6 +80,21 @@ class FlightTest{
         flight.destinationWaypoint = TestWayPoint(dateTime = depDate)
         assertEquals(0, flight.daySpan())
         assertFalse(flight.hasRedEye())
+    }
+
+    @Test
+    fun jsonTestFormSegmentTimings() {
+        val flightItinCard = ItinCardDataFlightBuilder().build()
+        val flight = flightItinCard.flightLeg.segments[0]
+        flight.setSegmentDepartureTime(todayAtNoon.toString(ISODateTimeFormat.dateTime()))
+        flight.setSegmentArrivalTime(todayAtNoon.plusHours(3).toString(ISODateTimeFormat.dateTime()))
+        val flightJson = flight.toJson()
+
+        val flightFromJson = Flight()
+        flightFromJson.fromJson(flightJson)
+
+        assertEquals(todayAtNoon.toString(), flightFromJson.segmentDepartureTime.toString())
+        assertEquals(todayAtNoon.plusHours(3).toString(), flightFromJson.segmentArrivalTime.toString())
     }
 
     class TestWayPoint(val dateTime: DateTime) : Waypoint(ACTION_UNKNOWN) {
