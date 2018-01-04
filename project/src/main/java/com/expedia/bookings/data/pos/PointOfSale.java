@@ -152,9 +152,6 @@ public class PointOfSale {
 	// Whether to show Rails WebView on this POS
 	private boolean mSupportsRailsWebView;
 
-	// Whether to show Flights WebView on this POS
-	private boolean mSupportsFlightsInBrowser;
-
 	// URL infix for rail url ex - bahn,trains
 	private String mRailUrlInfix;
 
@@ -719,10 +716,6 @@ public class PointOfSale {
 
 	public boolean supportsRailsWebView() {
 		return mSupportsRailsWebView;
-	}
-
-	public boolean supportsFlightsInBrowser() {
-		return mSupportsFlightsInBrowser;
 	}
 
 	public boolean supportsPackagesHSRHeader() {
@@ -1350,7 +1343,6 @@ public class PointOfSale {
 		pos.mSupportsRails = data.optBoolean("railsEnabled", false);
 		pos.mSupportsCarsWebView = data.optBoolean("carsWebViewEnabled", false);
 		pos.mSupportsRailsWebView = data.optBoolean("android.webViewEnabledForRails", false);
-		pos.mSupportsFlightsInBrowser = data.optBoolean("android.browserViewEnabledForFlights", false);
 
 		pos.mRailUrlInfix = data.optString("railsWebViewPageUrl","trains");
 		pos.mRailsWebViewABTestID = new ABTest(data.optInt("android.webViewABTestIDForRails"));
