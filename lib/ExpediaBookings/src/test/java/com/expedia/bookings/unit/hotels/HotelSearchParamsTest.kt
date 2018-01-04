@@ -193,7 +193,7 @@ class HotelSearchParamsTest {
         assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
         assertFalse(firstParams.equalForPrefetch(secondParamBuilder.build()), "Error: SWP difference expected not equal for greedy searches")
     }
-    
+
     @Test
     fun testPrefetchNotEqual_filterOptions() {
         firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
@@ -225,7 +225,6 @@ class HotelSearchParamsTest {
     @Test
     fun testFrom() {
         val firstParams = firstParamBuilder
-                .filterUnavailable(false)
                 .shopWithPoints(true)
                 .destination(dummySuggestion)
                 .startDate(today).endDate(today)
@@ -238,30 +237,6 @@ class HotelSearchParamsTest {
         assertEquals(firstParams.adults, secondParams.adults)
         assertEquals(firstParams.children.size, secondParams.children.size)
         assertTrue(secondParams.shopWithPoints)
-        assertFalse(secondParams.filterUnavailable)
-    }
-
-    @Test
-    fun testFromDefaultFilterUnavailable() {
-        val firstParams = firstParamBuilder
-                .destination(dummySuggestion)
-                .startDate(today)
-                .endDate(today).build() as HotelSearchParams
-        val secondParams = secondParamBuilder.from(firstParams).build()
-
-        assertTrue(secondParams.filterUnavailable)
-    }
-
-    @Test
-    fun testFromDontFilterUnavailable() {
-        val firstParams = firstParamBuilder
-                .filterUnavailable(false)
-                .destination(dummySuggestion)
-                .startDate(today)
-                .endDate(today).build() as HotelSearchParams
-        val secondParams = secondParamBuilder.from(firstParams).build()
-
-        assertFalse(secondParams.filterUnavailable)
     }
 
     @Test

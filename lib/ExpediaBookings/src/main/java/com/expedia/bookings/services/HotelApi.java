@@ -29,7 +29,7 @@ public interface HotelApi {
 		@Query("sortOrder") String sortOrder,
 		@Query("filterUnavailable") String filterUnavailable);
 
-	@GET("/m/api/hotel/search/v3?resultsPerPage=200&pageIndex=0")
+	@GET("/m/api/hotel/search/v3?resultsPerPage=200&pageIndex=0&filterUnavailable=false")
 	Observable<HotelSearchResponse> search(
 		@Query("regionId") String regionId,
 		@Query("selected") String hotelId,
@@ -39,7 +39,6 @@ public interface HotelApi {
 		@Query("checkOutDate") String checkOut,
 		@Query("room1") String guestString,
 		@Query("shopWithPoints") Boolean shopWithPoints,
-		@Query("filterUnavailable") String filterUnavailable,
 		@Query("sortOrder") String sortOrder,
 		@QueryMap(encoded = true) Map<String, Object> filterParams,
 		@Query("mctc") Integer mctc,

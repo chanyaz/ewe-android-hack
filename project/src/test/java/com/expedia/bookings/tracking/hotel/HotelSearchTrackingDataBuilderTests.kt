@@ -4,13 +4,11 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.testutils.JSONResourceReader
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
@@ -339,7 +337,7 @@ class HotelSearchTrackingDataBuilderTests {
         val params = HotelSearchParams(suggestion,
                 checkIn, checkOut,
                 adults, children,
-                shopWithPoints, filterUnavailable)
+                shopWithPoints)
 
         return params
     }

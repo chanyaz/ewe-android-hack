@@ -211,7 +211,6 @@ public class AbacusUtils {
 		testIDs.add(TripsFlightsNewDesign.getKey());
 		testIDs.add(EBAndroidAppDisplayEligibleCardsOnPaymentForm.getKey());
 		testIDs.add(EBAndroidAppFlightsSearchResultCaching.getKey());
-		testIDs.add(HotelShowSoldOutResults.getKey());
 		testIDs.add(EBAndroidAppBrandColors.getKey());
 		testIDs.add(MesoDestination.getKey());
 		testIDs.add(EBAndroidAppFlightsKrazyglue.getKey());

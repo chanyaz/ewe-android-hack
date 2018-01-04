@@ -272,7 +272,7 @@ class HotelCheckoutPresenterTest {
         assertEquals(VISIBLE, checkout.mainContactInfoCardView.sectionTravelerInfo.visibility)
         assertEquals(GONE, checkout.travelerSummaryCardView.visibility)
     }
-    
+
     @Test
     fun testMaterialHotelOverviewUiVisibility() {
         setupHotelMaterialForms()
@@ -434,7 +434,7 @@ class HotelCheckoutPresenterTest {
         val v4 = SuggestionV4()
         v4.regionNames = SuggestionV4.RegionNames()
         v4.regionNames.fullName = "Las Vegas, NV"
-        checkoutView.hotelSearchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, false, null, null)
+        checkoutView.hotelSearchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, null, null)
         return checkoutView
     }
 

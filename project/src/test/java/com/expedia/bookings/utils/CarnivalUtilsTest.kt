@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils
 
 import com.carnival.sdk.AttributeMap
-import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FlightLeg
@@ -16,7 +15,6 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -47,7 +45,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
         val v4 = SuggestionV4()
         v4.regionNames = SuggestionV4.RegionNames()
         v4.regionNames.fullName = "Las Vegas, NV"
-        val searchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 1, listOf(0), false, false, null, null)
+        val searchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 1, listOf(0), false, null, null)
 
         this.trackHotelSearch(searchParams)
 
@@ -68,7 +66,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
         val v4 = SuggestionV4()
         v4.regionNames = SuggestionV4.RegionNames()
         v4.regionNames.fullName = "Krabi, Thailand"
-        var searchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, false, null, null)
+        var searchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, null, null)
 
         this.trackHotelInfoSite(hotelOfferResponse, searchParams)
 
@@ -191,7 +189,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
         val v4 = SuggestionV4()
         v4.regionNames = SuggestionV4.RegionNames()
         v4.regionNames.fullName = "Detroit, Michigan"
-        val hotelSearchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, false, null, null)
+        val hotelSearchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, null, null)
         this.trackHotelCheckoutStart(hotelCreateTripResponse, hotelSearchParams)
 
         assertEquals(eventNameToLog, "checkout_start_hotel")
@@ -216,7 +214,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
         val v4 = SuggestionV4()
         v4.regionNames = SuggestionV4.RegionNames()
         v4.regionNames.fullName = "Krabi, Thailand"
-        var hotelSearchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, false, null, null)
+        var hotelSearchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, null, null)
         this.trackHotelConfirmation(hotelCheckoutResponse, hotelSearchParams)
 
         assertEquals(eventNameToLog, "confirmation_hotel")

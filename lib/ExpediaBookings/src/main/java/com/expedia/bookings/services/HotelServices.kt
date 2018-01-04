@@ -65,8 +65,8 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
 
         return hotelApi.search(regionId, params.suggestion.hotelId, lat, long,
                 params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
-                params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap(),
-                params.mctc, params.enableSponsoredListings)
+                params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap(), params.mctc,
+                params.enableSponsoredListings)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {

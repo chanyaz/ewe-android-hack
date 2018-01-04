@@ -9,8 +9,8 @@ import java.util.HashMap
 open class HotelSearchParams(val suggestion: SuggestionV4,
                              val checkIn: LocalDate, val checkOut: LocalDate,
                              adults: Int, children: List<Int>,
-                             var shopWithPoints: Boolean, val filterUnavailable: Boolean,
-                             var sortType: String? = null, var mctc: Int? = null) : BaseSearchParams(suggestion, null, adults, children, checkIn, checkOut) {
+                             var shopWithPoints: Boolean, var sortType: String? = null,
+                             var mctc: Int? = null) : BaseSearchParams(suggestion, null, adults, children, checkIn, checkOut) {
     var forPackage = false
     var filterOptions: HotelFilterOptions? = null
     var enableSponsoredListings = true
@@ -84,7 +84,6 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         private var neighborhoodRegionId: String? = null
         private var vipOnly: Boolean = false
         private var userSort: SortType? = null
-        private var filterUnavailable: Boolean = true
 
         override fun destination(city: SuggestionV4?): Builder {
             this.destinationLocation = city?.copy() ?: null
@@ -131,11 +130,6 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             return this
         }
 
-        fun filterUnavailable(filterUnavailable: Boolean): Builder {
-            this.filterUnavailable = filterUnavailable
-            return this
-        }
-
         fun clearUserSort() {
             this.userSort = null
         }
@@ -156,7 +150,6 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             children(params.children)
             startDate(params.checkIn)
             endDate(params.checkOut)
-            filterUnavailable(params.filterUnavailable)
             return this
         }
 
@@ -165,7 +158,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             if (destinationLocation?.gaiaId == null && destinationLocation?.coordinates == null) throw IllegalArgumentException()
             val checkInDate = startDate ?: throw IllegalArgumentException()
             val checkOutDate = endDate ?: throw IllegalArgumentException()
-            val params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children, shopWithPoints, filterUnavailable)
+            val params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children, shopWithPoints)
             params.forPackage = isPackage
             params.filterOptions = buildFilterOptions()
             return params

@@ -4,12 +4,10 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -132,9 +130,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
     private fun newParamBuilder(suggestion: SuggestionV4?, params: HotelSearchParams?) : HotelSearchParams.Builder {
         val maxStay = context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
         val maxRange = context.resources.getInteger(R.integer.max_calendar_selectable_date_range_hotels_only)
-        val filterUnavailable = !AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelShowSoldOutResults)
         val builder = HotelSearchParams.Builder(maxStay, maxRange)
-                .filterUnavailable(filterUnavailable)
                 .destination(suggestion)
                 .startDate(params?.checkIn)
                 .endDate(params?.checkOut)

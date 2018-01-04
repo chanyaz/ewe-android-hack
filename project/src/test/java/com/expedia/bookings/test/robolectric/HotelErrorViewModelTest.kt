@@ -412,7 +412,7 @@ class HotelErrorViewModelTest {
         val param = HotelSearchParams(suggestion,
                 LocalDate(), LocalDate(),
                 1, ArrayList<Int>(),
-                false, false)
+                false)
         return param
     }
 

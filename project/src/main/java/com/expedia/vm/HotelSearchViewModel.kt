@@ -9,7 +9,6 @@ import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelSearchManager
@@ -46,7 +45,6 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     private val calendarInstructions = HotelCalendarDirections(context)
 
     private val hotelParamsBuilder = HotelSearchParams.Builder(rules.getMaxSearchDurationDays(), rules.getMaxDateRange())
-            .filterUnavailable(!AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelShowSoldOutResults))
     private var prefetchParams: HotelSearchParams? = null
 
     // Inputs
