@@ -41,6 +41,20 @@ class MockTravelerProvider {
         return mockTraveler
     }
 
+    fun getCompleteTraveler(): Traveler {
+        val mockTraveler = Traveler()
+        mockTraveler.fullName = testFullName
+        mockTraveler.email = testEmail
+        mockTraveler.phoneNumber= testNumber
+        mockTraveler.phoneCountryCode = "1"
+        mockTraveler.tuid = 12345
+        mockTraveler.passengerCategory = PassengerCategory.ADULT
+        mockTraveler.gender = testGender
+        mockTraveler.birthDate = adultBirthDate
+
+        return mockTraveler
+    }
+
     fun addPassportToTraveler(traveler: Traveler): Traveler {
         Mockito.`when`(traveler.primaryPassportCountry).thenReturn(testPassportCountry)
         return traveler

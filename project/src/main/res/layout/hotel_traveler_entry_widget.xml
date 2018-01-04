@@ -37,5 +37,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
 
+        <CheckBox
+            android:id="@+id/merchandise_guest_opt_checkbox"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/hotel_cell_gray_text"
+            android:textSize="@dimen/hotel_traveler_edit_email_disclaimer_text_size"
+            android:visibility="gone" />
+
     </LinearLayout>
 </merge>

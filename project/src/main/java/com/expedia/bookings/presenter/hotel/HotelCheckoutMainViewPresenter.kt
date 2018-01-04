@@ -53,7 +53,6 @@ import kotlin.properties.Delegates
 
 class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
-    var emailOptInStatus = PublishSubject.create<MerchandiseSpam>()
     var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget by Delegates.notNull()
     var offer: HotelOffersResponse.HotelRoomResponse by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
@@ -239,8 +238,8 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
         acceptTermsWidget.vm.resetAcceptedTerms()
         pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
-        if (trip.guestUserPromoEmailOptInStatus != null) {
-            emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus!!))
+        trip.guestUserPromoEmailOptInStatus?.let { status ->
+            hotelCheckoutMainViewModel.emailOptInStatus.onNext(MerchandiseSpam.valueOf(status))
         }
         HotelTracking.trackPageLoadHotelCheckoutInfo(trip, hotelSearchParams, pageUsableData)
         if (shouldLogToCrashlytics()) {

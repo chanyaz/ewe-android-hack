@@ -48,6 +48,10 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
     }
 
+    val isMaterialHotelEnabled by lazy {
+        isHotelMaterialForms(context)
+    }
+
     private val hotelCheckoutWidgetHeight by lazy {
         hotelCheckoutWidget.height
     }
@@ -97,8 +101,12 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
     override fun onFinishInflate() {
         addTransition(checkoutToCvv)
         addDefaultTransition(defaultCheckoutTransition)
-        hotelCheckoutWidget.emailOptInStatus.subscribe { status ->
-            hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
+        hotelCheckoutWidget.hotelCheckoutMainViewModel.emailOptInStatus.subscribe { status ->
+            if (isMaterialHotelEnabled) {
+                (hotelCheckoutWidget.travelersPresenter.viewModel as HotelTravelersViewModel).createTripOptInStatus.onNext(status)
+            } else {
+                hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
+            }
         }
         cvv.setCVVEntryListener(this)
 

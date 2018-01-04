@@ -24,6 +24,7 @@ import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.payment.PointsType
+import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
 import com.expedia.bookings.services.LoyaltyServices
@@ -43,6 +44,7 @@ import com.expedia.bookings.widget.MaterialFormsCouponWidget
 import com.expedia.vm.HotelCreateTripViewModel
 import junit.framework.Assert.assertTrue
 import com.expedia.bookings.widget.CheckoutBasePresenter
+import com.expedia.bookings.widget.HotelTravelerEntryWidget
 import com.expedia.bookings.widget.TravelerContactDetailsWidget
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.HotelTravelersViewModel
@@ -387,6 +389,44 @@ class HotelCheckoutPresenterTest {
         checkout.couponCardView.setExpanded(true)
 
         assertEquals(View.GONE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
+    }
+
+    fun testCreateTripEmailOptInStatusWithNoStatus() {
+        val testEmailOptInSubscriber = TestSubscriber<MerchandiseSpam>()
+        checkout.hotelCheckoutMainViewModel.emailOptInStatus.subscribe(testEmailOptInSubscriber)
+        goToCheckout()
+
+        testEmailOptInSubscriber.assertNoValues()
+    }
+
+    @Test
+    fun testCreateTripEmailOptInStatusWithEmailStatus() {
+        val testEmailOptInSubscriber = TestSubscriber<MerchandiseSpam>()
+        checkout.hotelCheckoutMainViewModel.emailOptInStatus.subscribe(testEmailOptInSubscriber)
+        goToCheckout()
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptInResponse())
+
+        testEmailOptInSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testEmailOptInObservableMaterialFormOn() {
+        setupHotelMaterialForms()
+        val travelerEmailOptInSubscriber = TestSubscriber<MerchandiseSpam>()
+        (checkout.travelersPresenter.viewModel as HotelTravelersViewModel).createTripOptInStatus.subscribe(travelerEmailOptInSubscriber)
+        goToCheckout()
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptInResponse())
+
+        travelerEmailOptInSubscriber.assertValue(MerchandiseSpam.CONSENT_TO_OPT_OUT)
+        assertEquals(null, checkout.mainContactInfoCardView.emailOptIn)
+    }
+
+    @Test
+    fun testTravelerEmailOptInObservableMaterialFormOff() {
+        goToCheckout()
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptInResponse())
+
+        assertEquals(checkout.mainContactInfoCardView.emailOptIn, true)
     }
 
     private fun givenLoggedInUserAndTravelerInDb() {
