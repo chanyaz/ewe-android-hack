@@ -46,7 +46,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         }
 
         phoneNumber.subscribeMaterialFormsError(phoneNumber.viewModel.errorSubject, R.string.phone_validation_error_message)
-        phoneEditBox?.subscribeMaterialFormsError(viewModel.phoneCountryCodeErrorSubject, R.string.error_select_a_valid_country_code)
+        phoneEditBox?.subscribeMaterialFormsError(viewModel.phoneCountryCodeErrorSubject, R.string.error_select_a_valid_country_code, R.drawable.material_dropdown)
         phoneEditBox?.setOnClickListener {
             countryDialog.show()
         }

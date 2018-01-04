@@ -6,14 +6,12 @@ import android.view.View
 import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Phone
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.widget.traveler.PhoneEntryView
@@ -50,13 +48,13 @@ class PhoneEntryViewTest {
         themedContext.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(appContext).defaultTravelerComponent()
         Ui.getApplication(appContext).defaultFlightComponents()
+        widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
+        widget.viewModel = setupViewModelWithPhone()
     }
 
     @Test
     fun testCountryCodeChangesFromDialogSelection() {
-        widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val editBoxForDialog = widget.findViewById<View>(R.id.material_edit_phone_number_country_code) as EditText
-        widget.viewModel = setupViewModelWithPhone()
 
         assertWidgetIsCorrect(editBoxForDialog, testCodeString)
 
@@ -75,9 +73,7 @@ class PhoneEntryViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPointOfSaleCountryCodeUsedIfNoneProvided() {
-        widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val editBoxForDialog = widget.findViewById<View>(R.id.material_edit_phone_number_country_code) as EditText
-        widget.viewModel = setupViewModelWithPhone()
         widget.viewModel.updatePhone(Phone())
 
         assertWidgetIsCorrect(editBoxForDialog, "1")
@@ -86,9 +82,7 @@ class PhoneEntryViewTest {
 
     @Test
     fun testMaterialPhoneNumberReturnsEmptyIfNull() {
-        widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
-        widget.viewModel = setupViewModelWithPhone()
         val newPhone = Phone()
         newPhone.number = null
         widget.viewModel.updatePhone(newPhone)
@@ -98,9 +92,7 @@ class PhoneEntryViewTest {
 
     @Test
     fun testMaterialPhoneNumberNotFormattedIfUnderSixNumbers() {
-        widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
-        widget.viewModel = setupViewModelWithPhone()
         val newPhone = Phone()
 
         newPhone.number = "0"
@@ -127,9 +119,7 @@ class PhoneEntryViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPhoneNumberFormattedIfOverFiveNumbers() {
-        widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
-        widget.viewModel = setupViewModelWithPhone()
         val newPhone = Phone()
 
         newPhone.number = "098765"
@@ -160,9 +150,7 @@ class PhoneEntryViewTest {
 
     @Test
     fun testMaterialPhoneNumberNotFormattedWhenStartsWithOneUnderSixNumbers() {
-        widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
-        widget.viewModel = setupViewModelWithPhone()
         val newPhone = Phone()
 
         newPhone.number = "1"
@@ -189,9 +177,7 @@ class PhoneEntryViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPhoneNumberFormattedWhenStartsWithOneOverFiveNumbers() {
-        widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
-        widget.viewModel = setupViewModelWithPhone()
         val newPhone = Phone()
 
         newPhone.number = "123456"
@@ -230,7 +216,6 @@ class PhoneEntryViewTest {
 
     @Test
     fun testCountryCodeFocusabilityRemainsFalse() {
-        widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneCountryCode = widget.phoneEditBox as AccessibleEditTextForSpinner
 
         assertViewFocusabilityIsFalse(phoneCountryCode)
@@ -240,6 +225,16 @@ class PhoneEntryViewTest {
 
         widget.visibility = View.VISIBLE
         assertViewFocusabilityIsFalse(phoneCountryCode)
+    }
+
+    @Test
+    fun testCountryCodeDropdownPersistsAfterValidation() {
+        val phoneCountryCode = widget.phoneEditBox as AccessibleEditTextForSpinner
+        widget.viewModel.validate()
+        val dropdownDrawable = phoneCountryCode.compoundDrawables[2]
+
+        assertEquals(R.drawable.material_dropdown, Shadows.shadowOf(dropdownDrawable).createdFromResId)
+        assertEquals(true, dropdownDrawable.isVisible)
     }
 
     private fun setupViewModelWithPhone() : TravelerPhoneViewModel{
