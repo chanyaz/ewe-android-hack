@@ -41,6 +41,8 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     lateinit var hotelSearchParamProvider: HotelSearchParamsProvider
         @Inject set
 
+    var ignoreGreedyForDeepLink = false
+
     private val rules = HotelCalendarRules(context)
     private val calendarInstructions = HotelCalendarDirections(context)
 
@@ -171,8 +173,8 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
             val params = hotelParamsBuilder.build()
             val suggestion = params.suggestion
 
-            return !suggestion.isPinnedHotelSearch && !suggestion.isRawTextSearch
-                    && params.filterOptions?.isEmpty() ?: true
+            return !ignoreGreedyForDeepLink && !suggestion.isPinnedHotelSearch
+                    && !suggestion.isRawTextSearch && params.filterOptions?.isEmpty() ?: true
         }
         return false
     }

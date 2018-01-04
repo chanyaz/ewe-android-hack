@@ -191,6 +191,18 @@ class HotelSearchViewModelTest {
     }
 
     @Test
+    fun testPrefetchDisabled_deeplink() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
+
+        val testSubscriber = TestSubscriber.create<Unit>()
+        mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
+        testViewModel.ignoreGreedyForDeepLink = true
+        triggerParams(suggestion = suggestionBuilder.build(),
+                startDate = today, endDate = today.plusDays(1))
+        assertEquals(0, testSubscriber.onNextEvents.size)
+    }
+
+    @Test
     fun testPrefetchEnabled() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 

@@ -1005,6 +1005,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun updateSearchForDeepLink(params: HotelSearchParams, updateDestination: Boolean = true) {
+        searchPresenter.searchViewModel.ignoreGreedyForDeepLink = true
         if (updateDestination) {
             searchPresenter.searchViewModel.destinationLocationObserver.onNext(params.suggestion)
         }
