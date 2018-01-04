@@ -9,8 +9,8 @@ import com.expedia.bookings.rail.util.RailCalendarRules
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.TimeSlider
+import com.expedia.util.RailCalendarDirections
 import com.expedia.util.endlessObserver
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 import com.squareup.phrase.Phrase
@@ -23,6 +23,9 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
 
     private val oneWayRules = RailCalendarRules(context, roundTrip = false)
     private val roundTripRules = RailCalendarRules(context, roundTrip = true)
+
+    private val oneWayDirections = RailCalendarDirections(context, roundTrip = false)
+    private val roundTripDirections = RailCalendarDirections(context, roundTrip = true)
 
     val searchParamsObservable = PublishSubject.create<RailSearchRequest>()
     val railOriginObservable = BehaviorSubject.create<SuggestionV4>()
@@ -164,12 +167,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     }
 
     override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
-        if (start == null && end == null) {
-            return getCalendarDateLabel()
-        } else if (end == null && isRoundTripSearchObservable.value) {
-            return Phrase.from(context.resources, R.string.select_return_date_TEMPLATE).put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start!!)).format().toString()
-        }
-        return DateFormatUtils.formatRailDateRange(context, start, end)
+        return getCalendarDirections().getDateInstructionText(start, end)
     }
 
     override fun getCalendarSliderTooltipStartTimeLabel(): String{
@@ -181,10 +179,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     }
 
     override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
-        if (isRoundTripSearchObservable.value && end == null) {
-            return context.getString(R.string.calendar_instructions_date_range_flight_select_return_date)
-        }
-        return context.getString(R.string.calendar_drag_to_modify)
+        return getCalendarDirections().getToolTipInstructions(end)
     }
 
     override fun getEmptyDateText(forContentDescription: Boolean): String {
@@ -196,11 +191,11 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     }
 
     override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
-        return "" //no op, rail doesn't update until time is selected.
+        return getCalendarDirections().getNoEndDateText(start, forContentDescription)
     }
 
     override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
-        return "" //no op, rail doesn't update until time is selected.
+        return getCalendarDirections().getCompleteDateText(start, end, forContentDescription)
     }
 
     private fun computeCalendarCardViewText(startMillis: Int, endMillis: Int, isContentDescription: Boolean): String? {
@@ -232,5 +227,9 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
 
     override fun getEndTimeContDesc(time: String): String {
         return Phrase.from(context, R.string.rail_return_time_cont_desc_TEMPLATE).put("time", time).format().toString()
+    }
+
+    private fun getCalendarDirections() : RailCalendarDirections {
+        return if (isRoundTripSearchObservable.value) roundTripDirections else oneWayDirections
     }
 }

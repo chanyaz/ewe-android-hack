@@ -1,22 +1,18 @@
 package com.expedia.vm.packages
 
 import android.content.Context
-import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
-import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
+import com.expedia.util.PackageCalendarDirections
 import com.expedia.util.PackageCalendarRules
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
-import com.mobiata.android.time.util.JodaUtils
-import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 import javax.inject.Inject
@@ -27,6 +23,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         @Inject set
 
     private val rules = PackageCalendarRules(context)
+    private val calendarInstructions = PackageCalendarDirections(context)
 
     // Inputs
     val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
@@ -110,12 +107,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
-        if (start == null && end == null) {
-            return context.getString(R.string.select_departure_date)
-        } else if (end == null) {
-            return getNoEndDateText(start, false)
-        }
-        return getCompleteDateText(start!!, end, false)
+        return calendarInstructions.getDateInstructionText(start, end)
     }
 
     override fun getEmptyDateText(forContentDescription: Boolean): String {
@@ -127,41 +119,14 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
-        val selectReturnDate = Phrase.from(context, R.string.select_return_date_TEMPLATE)
-                .put("startdate", DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(start))
-                .format().toString()
-        if (forContentDescription) {
-            return getDateAccessibilityText(selectReturnDate, "")
-        }
-        return selectReturnDate
+        return calendarInstructions.getNoEndDateText(start, forContentDescription)
     }
 
     override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
-        val dateNightBuilder = SpannableBuilder()
-        val nightCount = JodaUtils.daysBetween(start, end)
-
-        val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
-        val dateRangeText = if (forContentDescription) {
-            getStartToEndDateWithDayString(start, end)
-        } else {
-            getStartDashEndDateWithDayString(start, end)
-        }
-
-        dateNightBuilder.append(dateRangeText)
-        dateNightBuilder.append(" ")
-        dateNightBuilder.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
-
-        if (forContentDescription) {
-            return getDateAccessibilityText(context.getString(R.string.trip_dates_cont_desc), dateNightBuilder.build().toString())
-        }
-
-        return dateNightBuilder.build().toString()
+        return calendarInstructions.getCompleteDateText(start, end, forContentDescription)
     }
 
     override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
-        if (end == null) {
-            return context.getString(R.string.calendar_instructions_date_range_flight_select_return_date)
-        }
-        return context.getString(R.string.calendar_drag_to_modify)
+        return calendarInstructions.getToolTipInstructions(end)
     }
 }

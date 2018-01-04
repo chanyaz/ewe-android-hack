@@ -14,19 +14,18 @@ import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
+import com.expedia.util.FlightCalendarDirections
 import com.expedia.util.FlightCalendarRules
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.vm.flights.AdvanceSearchFilter
 import com.mobiata.android.util.SettingUtils
-import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observable
 import rx.Subscription
@@ -42,8 +41,11 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
-    private val oneWayRules = FlightCalendarRules(context, false)
-    private val roundTripRules = FlightCalendarRules(context, true)
+    private val oneWayRules = FlightCalendarRules(context, roundTrip = false)
+    private val roundTripRules = FlightCalendarRules(context, roundTrip = true)
+
+    private val oneWayDirections = FlightCalendarDirections(context, roundTrip = false)
+    private val roundTripDirections = FlightCalendarDirections(context, roundTrip = true)
 
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
@@ -336,19 +338,11 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
-        if (start == null && end == null) {
-            return context.getString(R.string.select_departure_date)
-        } else if (end == null) {
-            return getNoEndDateText(start, false)
-        }
-        return getCompleteDateText(start!!, end, false)
+        return getCalendarDirections().getDateInstructionText(start, end)
     }
 
     override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
-        if (isRoundTripSearchObservable.value && end == null) {
-            return context.getString(R.string.calendar_instructions_date_range_flight_select_return_date)
-        }
-        return context.getString(R.string.calendar_drag_to_modify)
+        return getCalendarDirections().getToolTipInstructions(end)
     }
 
     override fun getEmptyDateText(forContentDescription: Boolean): String {
@@ -359,35 +353,14 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
-        if (isRoundTripSearchObservable.value) {
-            val dateString = Phrase.from(context.resources, R.string.select_return_date_TEMPLATE)
-                    .put("startdate", getFormattedDate(start))
-                    .format().toString()
-            if (forContentDescription) {
-                return getDateAccessibilityText(context.getString(R.string.select_dates), dateString)
-            }
-            return dateString
-        } else {
-            val dateString = Phrase.from(context.resources, R.string.calendar_instructions_date_range_flight_one_way_TEMPLATE)
-                    .put("startdate", getFormattedDate(start))
-                    .format().toString()
-            if (forContentDescription) {
-                return getDateAccessibilityText(context.getString(R.string.select_dates), dateString)
-            }
-            return dateString
-        }
+        return getCalendarDirections().getNoEndDateText(start, forContentDescription)
     }
 
     override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
-        if (forContentDescription) {
-            val formattedDate = getStartToEndDateWithDayString(start, end)
-            return getDateAccessibilityText(context.getString(R.string.select_dates), formattedDate)
-        }
-        return getStartDashEndDateWithDayString(start, end)
+        return getCalendarDirections().getCompleteDateText(start, end, forContentDescription)
     }
 
-    fun getFormattedDate(date: LocalDate?): String? {
-            return DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(date)
+    private fun getCalendarDirections() : FlightCalendarDirections {
+        return if (isRoundTripSearchObservable.value) roundTripDirections else oneWayDirections
     }
-
 }

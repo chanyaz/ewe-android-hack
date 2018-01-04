@@ -2,6 +2,7 @@ package com.expedia.bookings.shared.util
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
@@ -27,6 +28,27 @@ class CalendarDateFormatter {
             return Phrase.from(context, R.string.search_dates_cont_desc_TEMPLATE)
                     .put("dates_label", datesLabel)
                     .put("duration_description", durationDescription).format().toString()
+        }
+
+        fun getStartToEndDateWithDayString(context: Context, start: LocalDate,
+                                                     end: LocalDate): String {
+            val startDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(start)
+            val endDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(end)
+            // need to explicitly use "to" for screen readers
+            return Phrase.from(context, R.string.start_to_end_date_range_cont_desc_TEMPLATE)
+                    .put("startdate", startDate)
+                    .put("enddate", endDate)
+                    .format().toString()
+        }
+
+        fun getStartDashEndDateWithDayString(context: Context,start: LocalDate,
+                                             end: LocalDate): String {
+            val startDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(start)
+            val endDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(end)
+            return Phrase.from(context, R.string.calendar_instructions_date_range_flight_extra_spacing_TEMPLATE)
+                    .put("startdate", startDate)
+                    .put("enddate", endDate)
+                    .format().toString()
         }
     }
 }

@@ -6,7 +6,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.LxCalendarDirections
 import com.expedia.bookings.utils.LxCalendarRules
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
@@ -21,6 +21,8 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val lxParamsBuilder = LxSearchParams.Builder()
     val searchParamsObservable = PublishSubject.create<LxSearchParams>()
+
+    private val calendarDirections = LxCalendarDirections(context)
 
     // Inputs
     override var requiredSearchParamsObserver = endlessObserver<Unit> {
@@ -66,14 +68,11 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
-        if (start == null && end == null) {
-            return context.getString(R.string.select_lx_search_dates)
-        }
-        return LocaleBasedDateFormatUtils.localDateToMMMd(start!!)
+        return calendarDirections.getDateInstructionText(start, end)
     }
 
     override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
-        return context.getString(R.string.calendar_drag_to_modify)
+        return calendarDirections.getToolTipInstructions(end)
     }
 
     override fun getEmptyDateText(forContentDescription: Boolean): String {
@@ -85,18 +84,10 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
-        if (forContentDescription) {
-            return getDateAccessibilityText(context.getString(R.string.select_start_date), LocaleBasedDateFormatUtils.localDateToMMMMd(start!!))
-        } else {
-            return LocaleBasedDateFormatUtils.localDateToMMMMd(start!!)
-        }
+        return calendarDirections.getNoEndDateText(start, forContentDescription)
     }
 
     override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
-        if (forContentDescription) {
-            return getDateAccessibilityText(context.getString(R.string.select_start_date), LocaleBasedDateFormatUtils.localDateToMMMMd(start))
-        } else {
-            return LocaleBasedDateFormatUtils.localDateToMMMMd(start)
-        }
+        return calendarDirections.getCompleteDateText(start, end, forContentDescription)
     }
 }
