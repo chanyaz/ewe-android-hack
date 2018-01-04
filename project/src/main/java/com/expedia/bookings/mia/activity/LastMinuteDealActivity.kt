@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import com.expedia.bookings.R
 import com.expedia.bookings.mia.LastMinuteDealListAdapter
 import com.expedia.bookings.mia.LastMinuteDealsResponseProvider
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 
@@ -38,5 +39,6 @@ class LastMinuteDealActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         lastMinuteDealsResponseProvider.fetchDeals()
+        OmnitureTracking.trackLastMinuteDealsPageLoad()
     }
 }
