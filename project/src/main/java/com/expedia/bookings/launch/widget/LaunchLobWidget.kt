@@ -3,7 +3,6 @@ package com.expedia.bookings.launch.widget
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
@@ -15,7 +14,6 @@ import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.fragment.FilghtsBrowserSoftPromptDialogFragment
 import com.expedia.bookings.launch.vm.LaunchLobViewModel
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
@@ -25,7 +23,6 @@ import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.shouldPackageForceUpdateBeVisible
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
-import com.expedia.bookings.utils.isShowFlightsBrowserExperience
 import com.expedia.bookings.widget.GridLinesItemDecoration
 import com.expedia.util.notNullAndObservable
 import rx.subjects.PublishSubject
@@ -67,9 +64,7 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     nav.goToHotels(animOptions)
                 }
                 LineOfBusiness.FLIGHTS -> {
-                    if (PointOfSale.getPointOfSale().supportsFlightsInBrowser() && isShowFlightsBrowserExperience(context)) {
-                        openFlightsViaSoftPrompt()
-                    } else if (PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS) || isShowFlightsCheckoutWebview(context)) {
+                    if (PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS) || isShowFlightsCheckoutWebview(context)) {
                         nav.goToFlights(null)
                     } else {
                         flightNotSupportedDialog.show()
@@ -102,12 +97,6 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
             adapter.enableLobs(it)
         }
         viewModel.refreshLobsObserver.onNext(Unit)
-    }
-
-    private fun openFlightsViaSoftPrompt() {
-        val dialogFragment = FilghtsBrowserSoftPromptDialogFragment()
-        val fragmentManager = (context as FragmentActivity).supportFragmentManager
-        dialogFragment.show(fragmentManager, "flight_browser_fragment_dialog_soft_prompt")
     }
 
     override fun onFinishInflate() {
