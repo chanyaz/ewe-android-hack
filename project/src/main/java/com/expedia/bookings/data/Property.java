@@ -112,6 +112,7 @@ public class Property implements JSONable {
 	private boolean mIsLowestRateMobileExclusive = false;
 	private boolean mIsLowestRateTonightOnly = false;
 	private String mInfoSiteUrl;
+	private String mEpcConversationUrl;
 	private String mTelephoneSalesNumber;
 	private boolean mIsDesktopOverrideNumber;
 	private boolean mIsVipAccess;
@@ -386,6 +387,18 @@ public class Property implements JSONable {
 		mInfoSiteUrl = infoSiteUrl;
 	}
 
+	public Boolean hasHotelMessagingUrl() {
+		return Strings.isNotEmpty(mEpcConversationUrl);
+	}
+
+	public void setEpcConversationUrl(String epcConversationUrl) {
+		mEpcConversationUrl = epcConversationUrl;
+	}
+
+	public String getEpcConversationUrl() {
+		return mEpcConversationUrl;
+	}
+
 	public boolean isVipAccess() {
 		return mIsVipAccess;
 	}
@@ -511,6 +524,7 @@ public class Property implements JSONable {
 			obj.putOpt("isLowestRateMobileExclusive", mIsLowestRateMobileExclusive);
 			obj.putOpt("isLowestRateTonightOnly", mIsLowestRateTonightOnly);
 			obj.putOpt("infoSiteUrl", mInfoSiteUrl);
+			obj.putOpt("epcConversationUrl", mEpcConversationUrl);
 			obj.putOpt("telephoneSalesNumber", mTelephoneSalesNumber);
 			obj.putOpt("isDesktopOverrideNumber", mIsDesktopOverrideNumber);
 			obj.putOpt("isVipAccess", mIsVipAccess);
@@ -567,6 +581,7 @@ public class Property implements JSONable {
 		mIsLowestRateMobileExclusive = obj.optBoolean("isLowestRateMobileExclusive");
 		mIsLowestRateTonightOnly = obj.optBoolean("isLowestRateTonightOnly");
 		mInfoSiteUrl = obj.optString("infoSiteUrl", null);
+		mEpcConversationUrl = obj.optString("epcConversationUrl", "");
 		mTelephoneSalesNumber = obj.optString("telephoneSalesNumber", null);
 		mIsDesktopOverrideNumber = obj.optBoolean("isDesktopOverrideNumber", true);
 		mIsVipAccess = obj.optBoolean("isVipAccess", false);

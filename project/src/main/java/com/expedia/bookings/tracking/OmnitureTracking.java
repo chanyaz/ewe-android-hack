@@ -2266,6 +2266,7 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_MAP_PAN = "App.Map.Directions.Pan";
 	private static final String ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn";
 	private static final String ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut";
+	private static final String ITIN_HOTEL_MESSAGE_HOTEL = "App.Itinerary.Hotel.Message.Hotel";
 
 	public static void trackItinTripRefreshCallMade() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_MADE);
@@ -2553,9 +2554,12 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackItinHotel() {
+	public static void trackItinHotel(Boolean hasHotelMessaging) {
 		Log.d(TAG, "Tracking \"" + ITIN_HOTEL + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_HOTEL);
+		if (hasHotelMessaging) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsMessageHotel);
+		}
 		s.setEvents("event63");
 		s.track();
 	}
@@ -2597,6 +2601,11 @@ public class OmnitureTracking {
 
 	public static void trackItinHotelCallHotel() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL_HOTEL);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinHotelMessaging() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MESSAGE_HOTEL);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 

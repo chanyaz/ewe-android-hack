@@ -247,6 +247,7 @@ public class TripParser {
 		Property property = new Property();
 		property.setPropertyId(obj.optString("hotelId"));
 		property.setInfoSiteUrl(obj.optString("infositeURL"));
+		property.setEpcConversationUrl(obj.optString("epcConversationURL"));
 
 		JSONObject propertyJson = obj.optJSONObject("hotelPropertyInfo");
 		if (propertyJson != null) {

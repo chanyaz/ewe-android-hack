@@ -560,6 +560,14 @@
             android:summary="%s"
             android:title="New Flight Alerts - 16205" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="16176"
+            android:summary="%s"
+            android:title="Hotel Trip - Message Hotel - 16176" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

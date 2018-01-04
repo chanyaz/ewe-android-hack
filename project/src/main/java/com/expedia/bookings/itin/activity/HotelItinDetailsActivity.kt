@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -19,6 +20,7 @@ import com.expedia.bookings.itin.widget.HotelItinImage
 import com.expedia.bookings.itin.widget.HotelItinLocationDetails
 import com.expedia.bookings.itin.widget.HotelItinRoomDetails
 import com.expedia.bookings.itin.widget.HotelItinToolbar
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 
 open class HotelItinDetailsActivity : HotelItinBaseActivity() {
@@ -53,12 +55,21 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
         Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.hotel_itin_card_details)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        OmnitureTracking.trackItinHotel()
     }
 
     override fun onResume() {
         super.onResume()
         updateItinCardDataHotel()
+    }
+
+    override fun updateItinCardDataHotel() {
+        val freshItinCardDataHotel = getItineraryManager().getItinCardDataFromItinId(intent.getStringExtra(ITIN_ID_EXTRA)) as ItinCardDataHotel?
+        if (freshItinCardDataHotel == null) {
+            finish()
+        } else {
+            itinCardDataHotel = freshItinCardDataHotel
+            setUpWidgets()
+        }
     }
 
     fun setUpWidgets() {
@@ -84,15 +95,12 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
         } else if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
             toolbar.showShare()
         }
+        OmnitureTracking.trackItinHotel(hotelMessagingEnabled(itinCardDataHotel))
     }
 
-    override fun updateItinCardDataHotel() {
-        val freshItinCardDataHotel = getItineraryManager().getItinCardDataFromItinId(intent.getStringExtra(ITIN_ID_EXTRA)) as ItinCardDataHotel?
-        if (freshItinCardDataHotel == null) {
-            finish()
-        } else {
-            itinCardDataHotel = freshItinCardDataHotel
-            setUpWidgets()
-        }
+    private fun hotelMessagingEnabled(itinCardDataHotel: ItinCardDataHotel): Boolean {
+        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppTripsMessageHotel,
+                R.string.preference_enable_trips_hotel_messaging)
+                && itinCardDataHotel.property.hasHotelMessagingUrl()
     }
 }

@@ -49,6 +49,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_trips_new_flights_managing_booking_design);
 		initializeFeatureCheck(R.string.preference_enable_trips_flight_alerts);
 		initializeFeatureCheck(R.string.preference_trips_use_retrofit_call_for_details);
+		initializeFeatureCheck(R.string.preference_enable_trips_hotel_messaging);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

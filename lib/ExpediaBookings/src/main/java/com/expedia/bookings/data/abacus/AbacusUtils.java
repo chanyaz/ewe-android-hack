@@ -51,6 +51,7 @@ public class AbacusUtils {
 	// Trips tests
 	public static final ABTest TripsNewFlightAlerts = new ABTest(16205);
 	public static final ABTest TripsFlightsNewDesign = new ABTest(14655, true);
+	public static final ABTest EBAndroidAppTripsMessageHotel = new ABTest(16176, true);
 
 	// Flight tests
 	public static final ABTest EBAndroidAppOfferInsuranceInFlightSummary = new ABTest(12268);
@@ -231,6 +232,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSavedCoupons.getKey());
 		testIDs.add(PackagesBackFlowFromOverview.getKey());
 		testIDs.add(EBAndroidAppFlightsAPIKongEndPoint.getKey());
+		testIDs.add(EBAndroidAppTripsMessageHotel.getKey());
 		return testIDs;
 	}
 

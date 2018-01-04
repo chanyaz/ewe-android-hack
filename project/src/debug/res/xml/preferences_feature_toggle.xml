@@ -116,6 +116,11 @@
             android:summary="Trips Use Retrofit Details Call"
             android:title="Trips Use Retrofit Details Call" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_enable_trips_hotel_messaging"
+            android:summary="Hotel Trip - Enable Hotel Messaging"
+            android:title="Hotel Trip - Message Hotel" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
