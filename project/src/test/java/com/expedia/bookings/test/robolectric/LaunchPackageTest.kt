@@ -2,6 +2,9 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import android.os.Bundle
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.ui.PackageActivity
@@ -24,6 +27,7 @@ class LaunchPackageTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO, MultiBrand.EBOOKERS, MultiBrand.LASTMINUTE, MultiBrand.WOTIF))
     fun testPackageLaunchIntent() {
         val data = Bundle()
         data.putBoolean(Constants.INTENT_PERFORM_HOTEL_SEARCH, true)
@@ -31,5 +35,16 @@ class LaunchPackageTest {
         NavigationHelper(activity).goToPackages(data, null)
         val intent = Shadows.shadowOf(activity).peekNextStartedActivity()
         assertEquals(PackageActivity::class.java.name, intent.component.className)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.MRJET, MultiBrand.VOYAGES))
+    fun testPackageLaunchIntentWhenPackageIsNotEnabled() {
+        val data = Bundle()
+        data.putBoolean(Constants.INTENT_PERFORM_HOTEL_SEARCH, true)
+
+        NavigationHelper(activity).goToPackages(data, null)
+        val intent = Shadows.shadowOf(activity).peekNextStartedActivity()
+        assertEquals(PhoneLaunchActivity::class.java.name, intent.component.className)
     }
 }

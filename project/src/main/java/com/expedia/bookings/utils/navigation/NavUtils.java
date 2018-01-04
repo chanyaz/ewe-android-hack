@@ -103,6 +103,18 @@ public class NavUtils {
 		context.startActivity(intent);
 	}
 
+	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall, LineOfBusiness lob, boolean shouldPackageForceUpdateBeVisible) {
+		Intent intent = getLaunchIntent(context);
+		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		if (forceShowWaterfall) {
+			intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+		}
+		sendKillActivityBroadcast(context);
+		intent.putExtra(PhoneLaunchActivity.ARG_FORCE_UPGRADE, shouldPackageForceUpdateBeVisible);
+		intent.putExtra(PhoneLaunchActivity.ARG_LINE_OF_BUSINESS, lob);
+		context.startActivity(intent);
+	}
+
 	public static void goToItin(Context context) {
 		goToItin(context, null);
 	}

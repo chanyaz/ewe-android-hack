@@ -64,12 +64,14 @@ import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
+import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.holidayfun.widget.HolidayFunCoordinator
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.ui.AbstractAppCompatActivity
+import com.expedia.util.PackageUtil
 import com.expedia.util.PermissionsUtils.havePermissionToAccessLocation
 import com.expedia.util.PermissionsUtils.isFirstTimeAskingLocationPermission
 import com.expedia.util.PermissionsUtils.requestLocationPermission
@@ -193,10 +195,18 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 LineOfBusiness.CARS -> getString(R.string.Car)
                 LineOfBusiness.LX -> getString(R.string.Activity)
                 LineOfBusiness.FLIGHTS -> getString(R.string.Flight)
+                LineOfBusiness.PACKAGES -> getString(PackageUtil.packageTitle(this))
                 else -> ""
             }
             val errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message).put("lob", lobName).format()
             showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok)
+        } else if (intent.getBooleanExtra(ARG_FORCE_UPGRADE, false)) {
+            val lineOfBusiness = intent.getSerializableExtra(ARG_LINE_OF_BUSINESS) as LineOfBusiness?
+            val messageId = when (lineOfBusiness) {
+                LineOfBusiness.PACKAGES -> R.string.packages_invalid_user_text_label
+                else -> R.string.packages_invalid_user_text_label
+            }
+            PlayStoreUtil.showForceUpgradeDailogWithMessage(this, messageId)
         }
 
         GooglePlayServicesDialog(this).startChecking()
@@ -787,6 +797,8 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         const val PAGER_POS_ITIN = 1
         const val PAGER_POS_ACCOUNT = 2
 
+        @JvmField val ARG_LINE_OF_BUSINESS = "ARG_LINE_OF_BUSINESS"
+        @JvmField val ARG_FORCE_UPGRADE = "ARG_FORCE_UPGRADE"
         @JvmField val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
         @JvmField val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
         @JvmField val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"

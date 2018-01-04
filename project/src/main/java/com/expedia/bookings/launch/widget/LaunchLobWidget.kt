@@ -1,6 +1,5 @@
 package com.expedia.bookings.launch.widget
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -15,7 +14,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.launch.vm.LaunchLobViewModel
-import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.bookings.utils.bindView
@@ -37,14 +35,6 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
         val builder = AlertDialog.Builder(context)
         builder.setMessage(context.resources.getString(R.string.invalid_flights_pos))
         builder.setPositiveButton(context.getString(R.string.ok), { dialog, which -> dialog.dismiss() })
-        builder.create()
-    }
-    private val packagesForceUpgradeDialog: AlertDialog by lazy {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(R.string.packages_invalid_user_title_label)
-        builder.setMessage(R.string.packages_invalid_user_text_label)
-        builder.setPositiveButton(R.string.update, { dialog, which -> PlayStoreUtil.openPlayStore(context as Activity); PackagesTracking().trackAppUpgradeClick() })
-        builder.setNegativeButton(R.string.location_soft_prompt_disable, { dialog, which -> dialog.dismiss() })
         builder.create()
     }
     val lobViewHeightChangeSubject = PublishSubject.create<Unit>()
@@ -77,12 +67,7 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 LineOfBusiness.CARS -> nav.goToCars(null)
                 LineOfBusiness.PACKAGES -> {
                     if (shouldPackageForceUpdateBeVisible(context)) {
-                        PackagesTracking().trackForceUpgradeBanner()
-                        packagesForceUpgradeDialog.show()
-                        packagesForceUpgradeDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.
-                                setTextColor(ContextCompat.getColor(context, R.color.new_launch_alert_dialog_button_color))
-                        packagesForceUpgradeDialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.
-                                setTextColor(ContextCompat.getColor(context, R.color.new_launch_alert_dialog_button_color))
+                        PlayStoreUtil.showForceUpgradeDailogWithMessage(context, R.string.packages_invalid_user_text_label)
                     } else {
                         nav.goToPackages(null, null)
                     }

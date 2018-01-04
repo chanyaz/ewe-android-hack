@@ -1,9 +1,13 @@
 package com.expedia.bookings.utils
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.expedia.bookings.R
+import com.expedia.bookings.tracking.PackagesTracking
 
 class PlayStoreUtil {
 
@@ -28,6 +32,17 @@ class PlayStoreUtil {
                         Uri.parse("http://play.google.com/store/apps/details?id=" + mActivity.getPackageName())))
             }
 
+        }
+
+        @JvmStatic
+        fun showForceUpgradeDailogWithMessage(context: Context, messageId: Int) {
+            PackagesTracking().trackForceUpgradeBanner()
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(R.string.packages_invalid_user_title_label)
+            builder.setMessage(messageId)
+            builder.setPositiveButton(R.string.update, { dialog, which -> PlayStoreUtil.openPlayStore(context as Activity); PackagesTracking().trackAppUpgradeClick() })
+            builder.setNegativeButton(R.string.location_soft_prompt_disable, { dialog, which -> dialog.dismiss() })
+            builder.show()
         }
     }
 }
