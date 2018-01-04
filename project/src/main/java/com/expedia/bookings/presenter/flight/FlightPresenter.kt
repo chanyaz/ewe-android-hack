@@ -415,10 +415,20 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
         if (isFlightGreedySearchEnabled(context)) {
-            Observable.zip(searchViewModel.searchParamsObservable, viewModel.errorObservableForGreedyCall,
-                    { _, error ->
-                        error
-                    }).filter { !viewModel.isGreedyCallAborted }.subscribe(viewModel.errorObservable)
+            Observable.zip(searchViewModel.searchParamsObservable, viewModel.errorObservableForGreedyCall, viewModel.hasUserClickedSearchObservable,
+                    { _, error, hasUserClickedSearch ->
+                        object {
+                            val error = error
+                            val hasUserClickedSearch = hasUserClickedSearch
+                        }
+                    }).filter { !viewModel.isGreedyCallAborted }
+                    .subscribe {
+                        var delayMillis = 0L
+                        if (!it.hasUserClickedSearch) {
+                            delayMillis = 700L
+                        }
+                        postDelayed({ viewModel.errorObservable.onNext(it.error) }, delayMillis)
+                    }
         }
 
         viewModel.errorObservable.subscribe {

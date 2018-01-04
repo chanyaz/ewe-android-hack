@@ -51,7 +51,7 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
             }
             flightMap.put(outboundId, flights)
         }
-        if (isFlightGreedySearchEnabled(context) && isGreedyCallCompleted) {
+        if (isFlightGreedySearchEnabled(context) && isGreedyCallCompleted && !isGreedyCallAborted) {
             greedyOutboundResultsObservable.onNext(outBoundFlights.toList())
             hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
             isGreedyCallCompleted = false

@@ -290,6 +290,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                 if (response.hasErrors()) {
                     if (isGreedyCallCompleted) {
                         errorObservableForGreedyCall.onNext(response.firstError)
+                        hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
                         isGreedyCallCompleted = false
                     } else {
                         errorObservable.onNext(response.firstError)
@@ -297,6 +298,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                 } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
                     if (isGreedyCallCompleted) {
                         errorObservableForGreedyCall.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
+                        hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
                         isGreedyCallCompleted = false
                     } else {
                         errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
