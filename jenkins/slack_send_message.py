@@ -1,8 +1,10 @@
 from slackclient import SlackClient
+from string_utils import truncate_message
 
 def send_private_slack_message(access_token, user_email_address, message):
     sc = SlackClient(access_token)
     channel_id = open_im_channel_to_user_with_email(sc, user_email_address)
+    message = truncate_message(message, 40)
     if channel_id != "":
         sc.api_call("chat.postMessage",
                     as_user="true",
