@@ -609,7 +609,7 @@ class FlightCheckoutViewModelTest {
         val interceptor = MockInterceptor()
         flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                listOf(interceptor), Schedulers.immediate(), Schedulers.immediate(), false)
     }
 
     private fun setupCardFeeService() {
@@ -618,7 +618,7 @@ class FlightCheckoutViewModelTest {
         val interceptor = MockInterceptor()
         cardFeeService = CardFeeService("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                listOf(interceptor), Schedulers.immediate(), Schedulers.immediate())
     }
 
     private fun setupMockServer() {

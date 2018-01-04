@@ -26,18 +26,23 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 
 // "open" so we can mock for unit tests
-open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
-
+open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, interceptors: List<Interceptor>, val observeOn: Scheduler, val subscribeOn: Scheduler, val isUserBucketedForAPIMAuth: Boolean) {
     val flightApi: FlightApi by lazy {
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
                 .create()
 
+        val okHttpClientBuilder = okHttpClient.newBuilder()
+
+        for (interceptor in interceptors) {
+            okHttpClientBuilder.addInterceptor(interceptor)
+        }
+
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .client(okHttpClientBuilder.build())
                 .build()
 
         adapter.create(FlightApi::class.java)
@@ -165,8 +170,13 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
     open fun createTrip(params: FlightCreateTripParams, observer: Observer<FlightCreateTripResponse>): Subscription {
         createTripRequestSubscription?.unsubscribe()
 
-        createTripRequestSubscription = flightApi.createTrip(params.flexEnabled, params.toQueryMap(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
-                .observeOn(observeOn)
+        val createTripObservable = if (isUserBucketedForAPIMAuth) {
+            flightApi.createTrip(params.flexEnabled, params.toQueryMap(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
+        }
+        else {
+            flightApi.oldCreateTrip(params.flexEnabled, params.toQueryMap(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
+        }
+        createTripRequestSubscription = createTripObservable.observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
 

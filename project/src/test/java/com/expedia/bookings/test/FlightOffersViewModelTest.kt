@@ -490,7 +490,7 @@ class FlightOffersViewModelTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         flightServices = FlightServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                listOf(interceptor), Schedulers.immediate(), Schedulers.immediate(), false)
     }
 
     private fun getDummySuggestion(): SuggestionV4 {
@@ -524,7 +524,7 @@ class FlightOffersViewModelTest {
         return makeResultsObserverMethod.invoke(sut) as Observer<FlightSearchResponse>
     }
 
-    class TestFlightServiceSearchThrowsException(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, observeOn: Scheduler, subscribeOn: Scheduler) : FlightServices(endpoint, okHttpClient, interceptor, observeOn, subscribeOn) {
+    class TestFlightServiceSearchThrowsException(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, observeOn: Scheduler, subscribeOn: Scheduler) : FlightServices(endpoint, okHttpClient, listOf(interceptor), observeOn, subscribeOn, false) {
         var searchCount = 0
 
         override fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>?): Subscription {

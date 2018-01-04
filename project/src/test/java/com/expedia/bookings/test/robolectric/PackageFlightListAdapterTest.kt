@@ -23,7 +23,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -46,8 +45,8 @@ class PackageFlightListAdapterTest {
 
         val server = MockWebServer()
         val service = FlightServices("http://localhost:" + server.port,
-                OkHttpClient.Builder().build(), MockInterceptor(),
-                Schedulers.immediate(), Schedulers.immediate())
+                OkHttpClient.Builder().build(), listOf(MockInterceptor()),
+                Schedulers.immediate(), Schedulers.immediate(), false)
         flightSearchViewModel = FlightSearchViewModel(context)
     }
 

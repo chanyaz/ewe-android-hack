@@ -130,6 +130,30 @@ public class EndpointProvider {
 		}
 	}
 
+	public String getKongEndpointUrl() {
+		String domain = PointOfSale.getPointOfSale().getUrl();
+		if (domain != null) {
+			StringBuilder endpoint = new StringBuilder();
+			switch (getEndPoint()) {
+			case PRODUCTION:
+				endpoint.append("https://apim.").append(domain).append("/m/");
+				break;
+			case INTEGRATION:
+				endpoint.append("https://apim.int").append(domain).append("/m/");
+				break;
+			case MOCK_MODE:
+				endpoint.append(getCustomServerAddress());
+				break;
+			default:
+				endpoint.append("https://apim.").append(domain).append("/m/");
+			}
+			return endpoint.toString();
+		}
+		else {
+			return getE3EndpointUrl(getEndPoint());
+		}
+	}
+
 	public String getUrgencyEndpointUrl() {
 		String endpoint;
 		switch (getEndPoint()) {

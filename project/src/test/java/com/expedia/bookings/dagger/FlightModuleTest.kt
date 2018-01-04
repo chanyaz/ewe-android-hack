@@ -1,10 +1,16 @@
 package com.expedia.bookings.dagger
 
 import android.content.Context
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.server.EndpointProvider
+import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
 import okhttp3.OkHttpClient
@@ -18,6 +24,7 @@ import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightModuleTest {
@@ -68,6 +75,30 @@ class FlightModuleTest {
         kotlin.test.assertEquals(PointOfSale.getSuggestLocaleIdentifier(), requestUrl.queryParameter("locale"))
         kotlin.test.assertEquals(PointOfSale.getPointOfSale().siteId, Integer.valueOf(requestUrl.queryParameter("siteid")))
         kotlin.test.assertEquals(ServicesUtil.generateClient(context), requestUrl.queryParameter("client"))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testKongEndPointForUSPOS() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(RuntimeEnvironment.application, AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint, 1);
+        val flightServices = givenFlightServicesInitialized()
+        assertEquals("https://apim.expedia.com/m/", flightServices.endpoint)
+
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testExpediaEndPointForUSPOS() {
+        val flightServices = givenFlightServicesInitialized()
+        assertEquals("https://www.expedia.com/", flightServices.endpoint)
+    }
+
+    private fun givenFlightServicesInitialized(): FlightServices {
+        val appComponent = Ui.getApplication(context).appComponent()
+        val serverUrlPath = ProductFlavorFeatureConfiguration.getInstance().serverEndpointsConfigurationPath
+        val serverUrlStream = context.assets.open(serverUrlPath)
+        return FlightModule().provideFlightServices(context, EndpointProvider(context, serverUrlStream), appComponent.okHttpClient(),
+                appComponent.requestInterceptor(), appComponent.provideHmacInterceptor())
     }
 
     private fun givenSuggestionServicesInitialized(): SuggestionV4Services {

@@ -1,10 +1,14 @@
 package com.expedia.bookings.dagger;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Named;
 
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.FlightScope;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.BaggageInfoService;
 import com.expedia.bookings.services.FlightServices;
@@ -12,6 +16,7 @@ import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.KrazyglueServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
+import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.expedia.vm.flights.FlightCreateTripViewModel;
@@ -28,9 +33,20 @@ public final class FlightModule {
 
 	@Provides
 	@FlightScope
-	FlightServices provideFlightServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	FlightServices provideFlightServices(Context context, EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor,
+		HMACInterceptor hmacInterceptor) {
+		boolean isUserBucketedForAPIMAuth = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint);
+		final String kongEndpointUrl = endpointProvider.getKongEndpointUrl();
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new FlightServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		List<Interceptor> interceptorList = new ArrayList<>();
+		interceptorList.add(interceptor);
+		if (isUserBucketedForAPIMAuth) {
+			interceptorList.add(hmacInterceptor);
+		}
+		return new FlightServices(isUserBucketedForAPIMAuth ? kongEndpointUrl : endpoint, client,
+			interceptorList, AndroidSchedulers.mainThread(),
+			Schedulers.io(), isUserBucketedForAPIMAuth);
+
 	}
 
 	@Provides

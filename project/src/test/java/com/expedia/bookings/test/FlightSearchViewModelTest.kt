@@ -568,6 +568,6 @@ class FlightSearchViewModelTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         service = FlightServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                listOf(interceptor), Schedulers.immediate(), Schedulers.immediate(), false)
     }
 }

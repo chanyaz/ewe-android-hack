@@ -13,18 +13,24 @@ import rx.Scheduler
 import rx.Subscription
 
 // open so we can mock for tests
-open class CardFeeService(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+open class CardFeeService(endpoint: String, okHttpClient: OkHttpClient, interceptors: List<Interceptor>, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     var subscription: Subscription? = null
 
     val cardFeeApi: CardFeeApi by lazy {
         val gson = GsonBuilder().create()
 
+        val okHttpClientBuilder = okHttpClient.newBuilder()
+
+        for (interceptor in interceptors) {
+            okHttpClientBuilder.addInterceptor(interceptor)
+        }
+
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .client(okHttpClientBuilder.build())
                 .build()
 
         adapter.create(CardFeeApi::class.java)

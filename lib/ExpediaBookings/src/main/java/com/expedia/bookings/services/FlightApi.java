@@ -18,7 +18,7 @@ import rx.Observable;
 public interface FlightApi {
 
 	@FormUrlEncoded
-	@POST("/api/flight/search?maxOfferCount=1600&lccAndMerchantFareCheckoutAllowed=true")
+	@POST("api/flight/search?maxOfferCount=1600&lccAndMerchantFareCheckoutAllowed=true")
 	Observable<FlightSearchResponse> flightSearch(
 		@FieldMap Map<String, Object> queryParams, @Query("childTravelerAge") List<Integer> childAges,
 		@Query("cabinClassPreference") String cabinClass, @Field("ul") Integer legNo,
@@ -28,7 +28,17 @@ public interface FlightApi {
 		@Query("featureOverride") String featureOverride);
 
 	@FormUrlEncoded
-	@POST("/api/flight/trip/create?withInsurance=true")
+	@POST("api/flight/trip/create?withInsurance=true")
+	Observable<FlightCreateTripResponse> oldCreateTrip(
+		@Query("mobileFlexEnabled") boolean flexEnabled,
+		@FieldMap Map<String, Object> queryParams,
+		@Query("featureOverride") String featureOverride,
+		@Query("fareFamilyCode") String fareFamilyCode,
+		@Query("fareFamilyTotalPrice") BigDecimal fareFamilyTotalPrice);
+
+	//Kong Create trip - Adding this to hit kong endpoint for create trip
+	@FormUrlEncoded
+	@POST("api/flight/trip?withInsurance=true")
 	Observable<FlightCreateTripResponse> createTrip(
 		@Query("mobileFlexEnabled") boolean flexEnabled,
 		@FieldMap Map<String, Object> queryParams,
@@ -37,7 +47,7 @@ public interface FlightApi {
 		@Query("fareFamilyTotalPrice") BigDecimal fareFamilyTotalPrice);
 
 	@FormUrlEncoded
-	@POST("/api/flight/checkout")
+	@POST("api/flight/checkout")
 	Observable<FlightCheckoutResponse> checkout(
 		@FieldMap Map<String, Object> queryParams,
 		@Query("featureOverride") String featureOverride);

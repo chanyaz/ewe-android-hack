@@ -591,7 +591,7 @@ class FlightCheckoutViewTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                listOf(interceptor), Schedulers.immediate(), Schedulers.immediate(), false)
     }
 
     private fun createTripParams(productKey: String): FlightCreateTripParams {

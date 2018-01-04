@@ -42,8 +42,8 @@ class FlightServicesTest {
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
         service = FlightServices("http://localhost:" + server.port,
-                OkHttpClient.Builder().addInterceptor(logger).build(),
-                MockInterceptor(), Schedulers.immediate(), Schedulers.immediate())
+                OkHttpClient.Builder().addInterceptor(logger).build(), listOf(MockInterceptor()),
+                Schedulers.immediate(), Schedulers.immediate(), false)
     }
 
     @Test
