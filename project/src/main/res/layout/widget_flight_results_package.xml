@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <ViewStub
-        android:id="@+id/widget_docked_outbound_flight_stub"
-        android:inflatedId="@+id/docked_outbound_flight_selection"
-        android:layout_width="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_height="wrap_content"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/airline_charges_fees_header"
         style="@style/WarningBar"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.FlightListRecyclerView
-        android:id="@+id/list_view"
+    <ViewStub
+        android:id="@+id/widget_docked_outbound_flight_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:overScrollMode="never" />
+        android:inflatedId="@+id/docked_outbound_flight_selection" />
 
     <View
         android:id="@+id/docked_outbound_flight_widget_dropshadow"
@@ -27,6 +23,13 @@
         android:layout_height="@dimen/toolbar_dropshadow_height"
         android:background="@drawable/tb_shadow"
         android:visibility="gone" />
+
+    <com.expedia.bookings.widget.FlightListRecyclerView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never" />
 
     <com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
         android:id="@+id/sort_filter_button_container"
@@ -36,5 +39,5 @@
         android:accessibilityTraversalAfter="@+id/menu_search"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:targetApi="22"/>
-</merge>
+        tools:targetApi="22" />
+</LinearLayout>
