@@ -56,7 +56,6 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val paymentFeeInfoClickSubject = PublishSubject.create<Unit>()
     val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
     val showBaggageInfoSubject = PublishSubject.create<FlightLeg>()
-    val showBaggageInfoFlightLob = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsFrenchLegalBaggageInfo) && (lob == LineOfBusiness.FLIGHTS_V2)
     lateinit var baggageUrl: String
     lateinit var updatedFlightLeg: FlightLeg
 
@@ -133,11 +132,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
 
             baggageInfoClickSubject.subscribe {
                 OmnitureTracking.trackFlightBaggageFeesClick()
-                if (showBaggageInfoFlightLob) {
-                    showBaggageInfoSubject.onNext(updatedFlightLeg)
-                } else {
-                    openBaggageFeeWebView()
-                }
+                showBaggageInfoSubject.onNext(updatedFlightLeg)
             }
 
             totalDurationContDescObserver.onNext(totalDurationContentDescription)
