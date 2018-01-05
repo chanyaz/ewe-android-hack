@@ -136,6 +136,7 @@
     <color name="hotel_detail_earn_message_text_color">@color/gray700</color>
     <color name="hotel_search_info_selectable_color">@color/hotels_primary_color</color>
     <color name="hotel_search_info_color">@color/gray900</color>
+    <color name="saved_coupon_header_text_color">#4A4A4A</color>
 
     <!-- Hotel reviews colors -->
     <color name="hotel_reviews_summary_background_color">@color/white</color>
@@ -243,6 +244,7 @@
     <color name="material_checkout_account_button_background_color">@color/exp_yellow</color>
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#676767</color>
+    <color name="saved_coupon_text_color">#676767</color>
 
     <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>

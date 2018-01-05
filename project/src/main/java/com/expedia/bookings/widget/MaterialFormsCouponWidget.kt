@@ -10,6 +10,8 @@ import com.expedia.bookings.presenter.shared.StoredCouponWidget
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isShowSavedCoupons
+import com.expedia.util.subscribeVisibility
+import rx.Observable
 
 class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidget(context, attrs) {
 
@@ -44,6 +46,8 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     override fun setUpViewModelSubscriptions() {
+        storedCouponWidget.viewModel.hasStoredCoupons.subscribe(viewmodel.hasStoredCoupons)
+        viewmodel.storedCouponWidgetVisibilityObservable.subscribeVisibility(storedCouponWidget)
     }
 
     override fun getViewToInflate(): Int {
@@ -64,10 +68,6 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     override fun setExpanded(expand: Boolean, animate: Boolean) {
         super.setExpanded(expand, animate)
-        if (expand && isShowSavedCoupons(context)) {
-            storedCouponWidget.visibility = View.VISIBLE
-        } else {
-            storedCouponWidget.visibility = View.GONE
-        }
+        viewmodel.expandedObservable.onNext(expand)
     }
 }

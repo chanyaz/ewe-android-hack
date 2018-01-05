@@ -12,6 +12,7 @@ import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.isShowSavedCoupons
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
@@ -33,6 +34,10 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val hasDiscountObservable = BehaviorSubject.create<Boolean>()
     val enableSubmitButtonObservable = PublishSubject.create<Boolean>()
     val onMenuClickedMethod = PublishSubject.create<() -> Unit>()
+    val storedCouponWidgetVisibilityObservable = PublishSubject.create<Boolean>()
+    val expandedObservable = PublishSubject.create<Boolean>()
+    val hasStoredCoupons = PublishSubject.create<Boolean>()
+
 
     val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
     private val createTripObservable = Observable.concat(createTripDownloadsObservable)
@@ -78,6 +83,10 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                 HotelTracking.trackHotelCouponSuccess(couponParams.getTrackingString())
             }
         })
+
+        Observable.combineLatest(hasStoredCoupons, expandedObservable, { hasStoredCoupon, expanded ->
+            storedCouponWidgetVisibilityObservable.onNext(hasStoredCoupon && expanded && isShowSavedCoupons(context))
+        }).subscribe()
     }
 
     private fun couponChangeSuccess(trip: HotelCreateTripResponse) {

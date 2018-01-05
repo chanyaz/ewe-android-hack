@@ -373,12 +373,30 @@ class HotelCheckoutPresenterTest {
     }
 
     @Test
-    fun testHotelMaterialCouponExpandWithCouponSavedABTestOn() {
+    fun testHotelMaterialCouponExpandWithNoValidCoupon() {
         setupHotelMaterialForms()
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
         checkout.couponCardView.setExpanded(true)
 
+        assertEquals(View.GONE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
+    }
+
+    @Test
+    fun testHotelMaterialCouponExpandWithValidCoupon() {
+        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
+        checkout.couponCardView.setExpanded(true)
+
         assertEquals(View.VISIBLE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
+    }
+
+    @Test
+    fun testMaterialFormCouponSavedCount() {
+        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
+        checkout.couponCardView.setExpanded(true)
+
+        assertEquals(3, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.storedCouponRecyclerView.adapter.itemCount)
     }
 
     @Test
@@ -483,7 +501,7 @@ class HotelCheckoutPresenterTest {
         assertEquals("Next", checkout.menuDone.title)
     }
 
-    private fun setupHotelMaterialForms() {
+    private fun setupHotelMaterialForms(withTripResponse: HotelCreateTripResponse = mockHotelServices.getHappyCreateTripResponse()) {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
         activity.setTheme(R.style.Theme_Hotels_Default)
@@ -492,7 +510,7 @@ class HotelCheckoutPresenterTest {
         checkout = checkoutView.hotelCheckoutWidget
         checkout.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
         checkout.paymentInfoCardView.viewmodel.lineOfBusiness.onNext(LineOfBusiness.HOTELS)
-        goToCheckout()
+        goToCheckout(withTripResponse)
     }
 
     private fun setupHotelCheckoutPresenter(): HotelCheckoutPresenter {
@@ -507,11 +525,11 @@ class HotelCheckoutPresenterTest {
         return checkoutView
     }
 
-    private fun goToCheckout() {
+    private fun goToCheckout(withTripResponse: HotelCreateTripResponse = mockHotelServices.getHappyCreateTripResponse()) {
         checkout.createTripViewmodel = HotelCreateTripViewModel(mockHotelServices.services!!,
                 PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
         checkout.showCheckout(HotelOffersResponse.HotelRoomResponse())
-        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripResponse())
+        checkout.createTripViewmodel.tripResponseObservable.onNext(withTripResponse)
     }
 
     private fun assertTravelerSummaryCard(expectedTitle: String, expectedSubtitle: String, expectedStatus: TravelerCheckoutStatus) {
