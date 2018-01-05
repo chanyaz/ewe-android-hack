@@ -44,7 +44,8 @@ class PackageActivity : AbstractAppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == Constants.PACKAGE_PARAMS_NULL_RESTORE) {
+        if (resultCode == Constants.PACKAGE_PARAMS_NULL_RESTORE || Db.sharedInstance.getPackageParams() == null) {
+            finish()
             return
         }
         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
