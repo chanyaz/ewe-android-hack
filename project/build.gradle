@@ -424,6 +424,11 @@ android {
         ignoreFailures = false
     }
 
+    task generateDummyFileToHandleKotlinLintError(type: Exec) {
+        executable "../tools/create_dummy_file.sh"
+        args "${buildDir}"
+    }
+
     fork {
         totalAllowedRetryQuota = 99
         retryPerTestCaseQuota = 2
@@ -579,7 +584,13 @@ android.applicationVariants.all { variant ->
 
     variant.mergeAssets.doLast {
         delete(fileTree(dir: variant.mergeAssets.outputDir, includes: sharedDataFilesToRemove(variant)))
+    }
 
+    if (variant.name == 'expediaDebug') {
+        def lintTask = tasks["lintExpediaDebug"]
+        def generateSourcesTask = tasks["generateExpediaDebugSources"]
+        lintTask.dependsOn generateDummyFileToHandleKotlinLintError
+        generateDummyFileToHandleKotlinLintError.dependsOn generateSourcesTask
     }
 }
 

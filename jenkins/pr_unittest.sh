@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 KOTLIN_DUMMY_FILE="./project/src/main/java/com/expedia/bookings/utils/DummyFiletoHandleKotlinLintError.java"
-KOTLIN_UNUSED_RESOURCES_REPORT_FILE="project/build/outputs/kotlin-unused-resources.txt"
 flavor=$1
 
 function updateJenkinsFlag() {
@@ -72,15 +71,6 @@ function runUnitTests() {
     fi
 }
 
-function runKotlinUnusedResourceCheck() {
-  rm -f ${KOTLIN_UNUSED_RESOURCES_REPORT_FILE}
-  cat ${KOTLIN_DUMMY_FILE} | perl ./jenkins/check_for_resources_not_used_by_kotlin.pl > ${KOTLIN_UNUSED_RESOURCES_REPORT_FILE}
-  kotlinUnusedResourcesStatus=$?
-  if [ $kotlinUnusedResourcesStatus -ne 0 ]; then
-    cat ./project/build/outputs/kotlin-unused-resources.txt
-  fi
-}
-
 function runFeedbackAndCoverageReports() {
   if [[ $isJenkins && "$isUnitTestsFeedbackBotEnabled" == "true" ]]; then
     python ./jenkins/pr_unit_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $SLACK_ACCESS_TOKEN
@@ -99,7 +89,7 @@ function runFeedbackAndCoverageReports() {
 }
 
 function printTestStatus() {
-    if [ $1 -ne 0 ]; then
+    if [ "$1" -ne 0 ]; then
         echo "$2: FAILED"
     else
         echo "$2: PASSED"
@@ -110,9 +100,8 @@ function printResultsAndExit() {
   if [[ "$flavor" == "Expedia" && ($prPoliceStatus -ne 0) ]]; then
     echo "WARNING: PR Police has flagged potential problems."
   fi
-  if [[ "$flavor" == "Expedia" && (($unitTestStatus -ne 0) || ($kotlinUnusedResourcesStatus -ne 0)) ]]; then
+  if [[ "$flavor" == "Expedia" && $unitTestStatus -ne 0 ]]; then
     printTestStatus $unitTestStatus "Unit tests"
-    printTestStatus $kotlinUnusedResourcesStatus "Kotlin unused resources"
     echo "============ FAILURE - PLEASE SEE DETAILS ABOVE ============"
     exit 1
   elif [[ ($unitTestStatus -ne 0) ]]; then
@@ -137,8 +126,5 @@ if [ "$flavor" == "Expedia" ]; then
 fi
 sdkManagerWorkAround
 runUnitTests
-if [ "$flavor" == "Expedia" ]; then
-    runKotlinUnusedResourceCheck
-fi
 runFeedbackAndCoverageReports
 printResultsAndExit
