@@ -4744,12 +4744,13 @@
     <string name="member_deals_toolbar_title">Member Pricing</string>
     <string name="continue_booking">Continue Booking</string>
     <string name="deals_hotel_only">Hotel Only</string>
-    <string name="deals_toolbar_close_cont_desc">Close member pricing screen</string>
+    <string name="member_deals_toolbar_close_cont_desc">Close member pricing screen</string>
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Last-Minute Deals</string>
     <string name="last_minute_deal_subtitle">Wanna get away? Check out last-minute low prices</string>
     <string name="last_minute_deals_toolbar_title">Last Minute Deals</string>
+    <string name="last_minute_deals_toolbar_close_cont_desc">Close last minute deal screen</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">How we determine sort order</string>

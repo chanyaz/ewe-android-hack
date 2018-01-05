@@ -6,25 +6,17 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/mod_search_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/new_launch_toolbar_background_color"
-        android:minHeight="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:navigationContentDescription="@string/deals_toolbar_close_cont_desc"
-        app:title="@string/last_minute_deals_toolbar_title"
-        app:titleTextColor="@color/white"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-        app:contentInsetStartWithNavigation="0dp">
+        android:id="@+id/lmd_search_toolbar"
+        style="@style/DealsToolbar"
+        app:navigationContentDescription="@string/last_minute_deals_toolbar_close_cont_desc"
+        app:title="@string/last_minute_deals_toolbar_title">
 
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="17dp"
         android:id="@+id/last_minute_deal_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_marginTop="17dp" />
 
 </LinearLayout>

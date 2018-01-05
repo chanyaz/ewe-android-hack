@@ -7,16 +7,9 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/mod_search_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/new_launch_toolbar_background_color"
-        android:minHeight="?attr/actionBarSize"
-        app:contentInsetStartWithNavigation="0dp"
-        app:navigationContentDescription="@string/deals_toolbar_close_cont_desc"
-        app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:title="@string/member_deals_toolbar_title"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-        app:titleTextColor="@color/white" />
+        style="@style/DealsToolbar"
+        app:navigationContentDescription="@string/member_deals_toolbar_close_cont_desc"
+        app:title="@string/member_deals_toolbar_title" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/member_deal_recycler_view"

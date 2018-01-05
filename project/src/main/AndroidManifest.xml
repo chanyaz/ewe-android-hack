@@ -233,7 +233,7 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Rail"
+            android:theme="@style/Theme.Deals"
             tools:ignore="UnusedAttribute"/>
 
         <activity
@@ -242,7 +242,7 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Rail"
+            android:theme="@style/Theme.Deals"
             tools:ignore="UnusedAttribute"/>
 
         <activity
