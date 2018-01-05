@@ -35,7 +35,7 @@ class PackageSuggestionAdapterViewModelTest {
             TODO("not implemented: suggestNearbyGaia")
         }
 
-        override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>): Subscription {
+        override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?): Subscription {
             TODO("not implemented: suggestPackagesV4")
         }
 

@@ -92,7 +92,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         return response.map { response -> response.toMutableList() }
     }
 
-    override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>): Subscription {
+    override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?): Subscription {
         val suggestType: Int
         if (isMISForRealWorldEnabled) {
             suggestType = SuggestionResultType.AIRPORT or
@@ -111,7 +111,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                     SuggestionResultType.POINT_OF_INTEREST or
                     SuggestionResultType.AIRPORT_METRO_CODE
         }
-        return suggestV4(query, suggestType, isDest, "ta_hierarchy", "PACKAGES", abTest = if (isMISForRealWorldEnabled) "11996.1" else null)
+        return suggestV4(query, suggestType, isDest, "ta_hierarchy", "PACKAGES", abTest = if (isMISForRealWorldEnabled) "11996.1" else null, guid = guid)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
@@ -126,7 +126,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .map { response -> response.suggestions ?: emptyList() }
                 .subscribe(observer)
     }
-    
+
     private var airportSuggestionSubscription: Subscription? = null
 
     override fun getAirports(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, guid: String): Subscription {

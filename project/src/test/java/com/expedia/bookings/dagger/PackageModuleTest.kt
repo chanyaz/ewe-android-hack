@@ -44,7 +44,7 @@ class PackageModuleTest {
     fun essDeviceIsMobileForPhone() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.suggestPackagesV4("chicago", true, false, TestSubscriber())
+        sut.suggestPackagesV4("chicago", true, false, TestSubscriber(), "guid")
 
         assertEquals("mobile", server.takeRequest().requestUrl.queryParameter("device"))
     }
@@ -54,7 +54,7 @@ class PackageModuleTest {
     fun essDeviceIsTabletForTablet() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.suggestPackagesV4("chicago", true, false, TestSubscriber())
+        sut.suggestPackagesV4("chicago", true, false, TestSubscriber(), "guid")
 
         assertEquals("tablet", server.takeRequest().requestUrl.queryParameter("device"))
     }
@@ -63,7 +63,7 @@ class PackageModuleTest {
     fun essCommonParamsAreCorrect() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.suggestPackagesV4("chicago", true, false, TestSubscriber())
+        sut.suggestPackagesV4("chicago", true, false, TestSubscriber(), "guid")
 
         val requestUrl = server.takeRequest().requestUrl
         assertEquals(PointOfSale.getSuggestLocaleIdentifier(), requestUrl.queryParameter("locale"))
