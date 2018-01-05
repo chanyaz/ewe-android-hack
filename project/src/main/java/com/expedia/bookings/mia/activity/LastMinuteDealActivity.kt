@@ -1,6 +1,7 @@
 package com.expedia.bookings.mia.activity
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.expedia.bookings.mia.LastMinuteDealsResponseProvider
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBrandColorEnabled
 
 class LastMinuteDealActivity : AppCompatActivity() {
 
@@ -34,6 +36,10 @@ class LastMinuteDealActivity : AppCompatActivity() {
         lastMinuteDealsResponseProvider = LastMinuteDealsResponseProvider(Ui.getApplication(this).appComponent().smartOfferService())
         lastMinuteDealsResponseProvider.dealsResponseSubject.subscribe(adapter.resultSubject)
 
+        if (isBrandColorEnabled(this@LastMinuteDealActivity)) {
+            toolBar.setBackgroundColor(ContextCompat.getColor(this@LastMinuteDealActivity, R.color.brand_primary))
+            window.statusBarColor = ContextCompat.getColor(this@LastMinuteDealActivity, R.color.brand_primary_dark)
+        }
     }
 
     override fun onResume() {
