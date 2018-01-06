@@ -247,7 +247,7 @@ class FlightConfirmationPresenterTest {
         val expectedEvars = mapOf(28 to airAttachEligibleTrackingString)
         val expectedProps = mapOf(16 to airAttachEligibleTrackingString)
         presenter.viewModel.crossSellWidgetVisibility.onNext(true)
-        
+
         OmnitureTestUtils.assertLinkTracked("Checkout", airAttachEligibleTrackingString, OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
         OmnitureTestUtils.assertLinkTracked("Checkout", airAttachEligibleTrackingString, OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
     }
@@ -396,7 +396,7 @@ class FlightConfirmationPresenterTest {
     private fun getPassengerDetailsList(numberOfTravelers: Int): List<Traveler> {
         val travelerList = ArrayList<Traveler>()
         repeat(numberOfTravelers) {
-            val passengerDetails = Traveler("Test", "Traveler", "1", "1234567", "test@aol.com")
+            val passengerDetails = Traveler("Test", "Traveler", "1", "1234567", "test@aol.com", false)
             travelerList.add(passengerDetails)
         }
         return travelerList

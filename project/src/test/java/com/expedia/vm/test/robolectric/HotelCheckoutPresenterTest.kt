@@ -10,14 +10,12 @@ import android.view.View.VISIBLE
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
@@ -429,6 +427,37 @@ class HotelCheckoutPresenterTest {
         assertEquals(checkout.mainContactInfoCardView.emailOptIn, true)
     }
 
+    @Test
+    fun testEmailOptedInTravelerDetailsOnBookMaterialFormOn() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        val checkoutView = setupHotelCheckoutPresenter()
+        val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
+        checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
+
+        checkoutView.hotelCheckoutWidget.travelerSummaryCardView.performClick()
+        (checkoutView.hotelCheckoutWidget.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget).merchandiseOptCheckBox.isChecked = true
+        val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
+                PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
+        checkoutView.onBookV2(null, paymentSplits)
+
+        assertEquals(true, testCheckoutParams.onNextEvents.last().traveler.expediaEmailOptIn)
+    }
+
+    @Test
+    fun testEmailOptedInTravelerDetailsOnBookMaterialFormOff() {
+        val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
+        val checkoutView = setupHotelCheckoutPresenter()
+        goToCheckout()
+        checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
+
+        checkoutView.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptInResponse())
+        val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
+                PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
+        checkoutView.onBookV2(null, paymentSplits)
+
+        assertEquals(true, testCheckoutParams.onNextEvents.last().traveler.expediaEmailOptIn)
+    }
+
     private fun givenLoggedInUserAndTravelerInDb() {
         val testUser = User()
         val traveler = mockTravelerProvider.getCompleteMockTraveler()
@@ -471,10 +500,10 @@ class HotelCheckoutPresenterTest {
         checkoutView.hotelCheckoutViewModel = HotelCheckoutViewModel(mockHotelServices.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
         Db.setTravelers(listOf(makeTraveler()))
         checkoutView.hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.bind(makeTraveler())
-        val v4 = SuggestionV4()
-        v4.regionNames = SuggestionV4.RegionNames()
-        v4.regionNames.fullName = "Las Vegas, NV"
-        checkoutView.hotelSearchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, null, null)
+        checkoutView.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(mockHotelServices.services!!,
+                PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
+        checkoutView.hotelCheckoutWidget.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
+        checkoutView.hotelSearchParams = HotelPresenterTestUtil.getDummyHotelSearchParams(activity)
         return checkoutView
     }
 
@@ -498,7 +527,7 @@ class HotelCheckoutPresenterTest {
         traveler.birthDate = LocalDate()
         traveler.email = "qa-ehcc@mobiata.com"
         traveler.phoneNumber = "4155555555"
-        traveler.phoneCountryCode = "US"
+        traveler.phoneCountryCode = "1"
         return traveler
     }
 
@@ -507,6 +536,7 @@ class HotelCheckoutPresenterTest {
         assertEquals("JexperCC", traveler.firstName)
         assertEquals("MobiataTestaverde", traveler.lastName)
         assertEquals("4155555555", traveler.phone)
-        assertEquals("US", traveler.phoneCountryCode)
+        assertEquals("1", traveler.phoneCountryCode)
+        assertEquals(false, traveler.expediaEmailOptIn)
     }
 }

@@ -114,7 +114,7 @@ class FlightConfirmationViewModelTest {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         setFlightLeg(response, isRoundTrip)
-        response.passengerDetails = listOf(Traveler("test", "traveler", "1", "9999999", "test@email.com"))
+        response.passengerDetails = listOf(Traveler("test", "traveler", "1", "9999999", "test@email.com", false))
         val qualifierObject = FlightCheckoutResponse.AirAttachInfo()
         val offerTimeField = FlightCheckoutResponse.AirAttachInfo.AirAttachExpirationInfo()
 

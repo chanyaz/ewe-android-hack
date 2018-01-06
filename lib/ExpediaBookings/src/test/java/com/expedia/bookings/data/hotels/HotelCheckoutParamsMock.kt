@@ -6,7 +6,7 @@ import com.expedia.bookings.data.payment.PaymentInfo
 import com.expedia.bookings.data.payment.Traveler
 
 object HotelCheckoutParamsMock {
-    @JvmStatic fun traveler() = Traveler("Mock", "Travler", "+1", "111111", "mock@mobiata.com")
+    @JvmStatic fun traveler() = Traveler("Mock", "Travler", "+1", "111111", "mock@mobiata.com", false)
 
     @JvmStatic fun checkoutInfo() = HotelCheckoutInfo("checkin-date", "checkout-date")
 

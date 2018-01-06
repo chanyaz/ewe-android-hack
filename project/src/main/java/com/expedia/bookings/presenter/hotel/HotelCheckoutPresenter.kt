@@ -40,6 +40,7 @@ import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isHotelMaterialForms
+import com.expedia.bookings.widget.HotelTravelerEntryWidget
 import com.expedia.vm.traveler.HotelTravelersViewModel
 
 class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
@@ -190,12 +191,22 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         val dtf = ISODateTimeFormat.date()
 
         val hotelCheckoutInfo = HotelCheckoutInfo(dtf.print(hotelSearchParams.checkIn), dtf.print(hotelSearchParams.checkOut))
-        val primaryTraveler = if (isHotelMaterialForms(context)) {
+        val primaryTraveler = if (isMaterialHotelEnabled) {
             (hotelCheckoutWidget.travelersPresenter.viewModel as HotelTravelersViewModel).getTravelers()[0]
         } else {
             hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.traveler
         }
-        val traveler = Traveler(primaryTraveler.firstName, primaryTraveler.lastName, primaryTraveler.phoneCountryCode, primaryTraveler.phoneNumber, primaryTraveler.email)
+        val isEmailOptedIn = if (isMaterialHotelEnabled) {
+            (hotelCheckoutWidget.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget).merchandiseOptCheckBox.isChecked
+        } else {
+            hotelCheckoutWidget.mainContactInfoCardView.emailOptIn ?: false
+        }
+        val traveler = Traveler(primaryTraveler.firstName,
+                primaryTraveler.lastName,
+                primaryTraveler.phoneCountryCode,
+                primaryTraveler.phoneNumber,
+                primaryTraveler.email,
+                isEmailOptedIn)
         val hotelCreateTripResponse = Db.getTripBucket().hotelV2.mHotelTripResponse
         val hotelRate = hotelCreateTripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
         val expectedTotalFare = java.lang.String.format(Locale.ENGLISH, "%.2f", hotelRate.total)

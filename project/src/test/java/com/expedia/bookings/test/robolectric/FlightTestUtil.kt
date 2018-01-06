@@ -184,7 +184,7 @@ class FlightTestUtil {
         fun getCheckoutResponse(itineraryNumber: String = "11111",
                                 travelRecordLocator: String = "22222",
                                 tripId: String = "33333",
-                                listOfTravelers: List<Traveler> = listOf(Traveler("test", "traveler", "1", "9999999", "test@email.com")),
+                                listOfTravelers: List<Traveler> = listOf(Traveler("test", "traveler", "1", "9999999", "test@email.com", false)),
                                 flightAggregatedResponse: FlightCheckoutResponse.FlightAggregatedResponse = FlightCheckoutResponse.FlightAggregatedResponse(),
                                 details: FlightTripDetails = FlightTripDetails(),
                                 hasDetails: Boolean = true): FlightCheckoutResponse {

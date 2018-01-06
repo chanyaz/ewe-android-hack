@@ -5,7 +5,8 @@ data class Traveler(
         val lastName: String,
         val phoneCountryCode: String,
         val phone: String,
-        val email: String)
+        val email: String,
+        val expediaEmailOptIn: Boolean)
 
 data class TripDetails(
         val tripId: String,
