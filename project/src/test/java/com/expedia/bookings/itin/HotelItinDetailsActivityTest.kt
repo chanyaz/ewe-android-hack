@@ -98,9 +98,9 @@ class HotelItinDetailsActivityTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelHasMessagingTestsOnWithURL() {
+    fun hotelMessagingTestsBucketedWithURL() {
         SettingUtils.save(activity, R.string.preference_enable_trips_hotel_messaging, true)
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel, 1)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
 
         val itinCardDataHotelWithMessaging = ItinCardDataHotelBuilder().build()
         itinCardDataHotelWithMessaging.property.epcConversationUrl = "https://google.com"
@@ -112,9 +112,9 @@ class HotelItinDetailsActivityTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelHasMessagingTestsOnNoURL() {
+    fun hotelMessagingTestsBucketedNoURL() {
         SettingUtils.save(activity, R.string.preference_enable_trips_hotel_messaging, true)
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel, 1)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
 
         val itinCardDataHotelNoMessaging = ItinCardDataHotelBuilder().build()
         activity.itinCardDataHotel = itinCardDataHotelNoMessaging
@@ -124,17 +124,22 @@ class HotelItinDetailsActivityTest {
     }
 
     @Test
-    fun testHotelHasMessagingTestsOffWithURL() {
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun hotelMessagingTestsUnBucketedWithURL() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel, 0)
         val itinCardDataHotelWithMessaging = ItinCardDataHotelBuilder().build()
         itinCardDataHotelWithMessaging.property.epcConversationUrl = "https://google.com"
         activity.itinCardDataHotel = itinCardDataHotelWithMessaging
         activity.setUpWidgets()
 
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppTripsMessageHotel.key), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppTripsMessageHotel.key), mockAnalyticsProvider)
     }
 
     @Test
-    fun testHotelHasMessagingTestsOffNoURL() {
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun hotelMessagingTestsUnBucketetNoURL() {
+        SettingUtils.save(activity, R.string.preference_enable_trips_hotel_messaging, false)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel, 0)
         val itinCardDataHotelNoMessaging = ItinCardDataHotelBuilder().build()
         activity.itinCardDataHotel = itinCardDataHotelNoMessaging
         activity.setUpWidgets()

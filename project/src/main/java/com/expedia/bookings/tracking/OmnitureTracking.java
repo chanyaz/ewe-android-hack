@@ -2554,10 +2554,10 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackItinHotel(Boolean hasHotelMessaging) {
+	public static void trackItinHotel(Boolean hasHotelMessagingURL) {
 		Log.d(TAG, "Tracking \"" + ITIN_HOTEL + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_HOTEL);
-		if (hasHotelMessaging) {
+		if (hasHotelMessagingURL) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsMessageHotel);
 		}
 		s.setEvents("event63");

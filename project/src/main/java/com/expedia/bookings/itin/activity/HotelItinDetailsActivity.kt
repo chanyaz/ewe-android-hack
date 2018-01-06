@@ -95,12 +95,9 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
         } else if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
             toolbar.showShare()
         }
-        OmnitureTracking.trackItinHotel(hotelMessagingEnabled(itinCardDataHotel))
+
+        OmnitureTracking.trackItinHotel(hotelHasMessagingURL())
     }
 
-    private fun hotelMessagingEnabled(itinCardDataHotel: ItinCardDataHotel): Boolean {
-        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppTripsMessageHotel,
-                R.string.preference_enable_trips_hotel_messaging)
-                && itinCardDataHotel.property.hasHotelMessagingUrl()
-    }
+    private fun hotelHasMessagingURL(): Boolean = itinCardDataHotel.property.hasHotelMessagingUrl()
 }
