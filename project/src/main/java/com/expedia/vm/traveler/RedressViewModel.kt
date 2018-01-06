@@ -1,11 +1,10 @@
 package com.expedia.vm.traveler
 
-import android.content.Context
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.section.InvalidCharacterHelper
 import kotlin.properties.Delegates
 
-class RedressViewModel(context: Context) : BaseTravelerValidatorViewModel() {
+class RedressViewModel : BaseTravelerValidatorViewModel() {
     var traveler: Traveler by Delegates.notNull()
 
     override val invalidCharacterMode = InvalidCharacterHelper.Mode.ASCII

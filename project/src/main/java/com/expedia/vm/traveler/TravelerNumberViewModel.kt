@@ -5,7 +5,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.section.InvalidCharacterHelper
 import kotlin.properties.Delegates
 
-class TravelerNumberViewModel() : BaseTravelerValidatorViewModel() {
+class TravelerNumberViewModel : BaseTravelerValidatorViewModel() {
     var traveler: Traveler by Delegates.notNull()
 
     override val invalidCharacterMode = InvalidCharacterHelper.Mode.ALPHANUMERIC

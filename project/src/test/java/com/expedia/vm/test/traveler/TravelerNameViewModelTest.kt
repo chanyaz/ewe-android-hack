@@ -1,17 +1,14 @@
 package com.expedia.vm.test.traveler
 
 import android.app.Activity
-import android.text.Editable
 import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.TextView
 import com.expedia.vm.traveler.TravelerNameViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -25,11 +22,6 @@ class TravelerNameViewModelTest {
     val TEST_MIDDLE = "The"
     val TEST_LAST = "Grouch"
 
-    val TEST_FIRST_EDITABLE = Editable.Factory().newEditable(TEST_FIRST)
-    val TEST_MID_EDITABLE = Editable.Factory().newEditable(TEST_MIDDLE)
-    val TEST_LAST_EDITABLE = Editable.Factory().newEditable(TEST_LAST)
-
-    val TEST_TEXT_VIEW = TextView(RuntimeEnvironment.application)
     var activity: Activity by Delegates.notNull()
 
     @Before
@@ -40,7 +32,7 @@ class TravelerNameViewModelTest {
 
     @Test
     fun emptyTraveler() {
-        nameVM = TravelerNameViewModel(activity)
+        nameVM = TravelerNameViewModel()
         nameVM.updateTravelerName(TravelerName())
 
         val testSubscriber = TestSubscriber<String>()
@@ -61,7 +53,7 @@ class TravelerNameViewModelTest {
         name.middleName = TEST_MIDDLE
         name.lastName = TEST_LAST
 
-        nameVM = TravelerNameViewModel(activity)
+        nameVM = TravelerNameViewModel()
         nameVM.updateTravelerName(name)
 
         val testSubscriber = TestSubscriber<String>()
@@ -78,7 +70,7 @@ class TravelerNameViewModelTest {
     @Test
     fun travelerNameChange() {
         val travelerName = TravelerName()
-        nameVM = TravelerNameViewModel(activity)
+        nameVM = TravelerNameViewModel()
         nameVM.updateTravelerName(travelerName)
 
         nameVM.firstNameViewModel.textSubject.onNext(TEST_FIRST)
@@ -96,7 +88,7 @@ class TravelerNameViewModelTest {
         val expectedErrorCount = 3
         val name = TravelerName()
         name.middleName = "@!$%"
-        nameVM = TravelerNameViewModel(activity)
+        nameVM = TravelerNameViewModel()
         nameVM.updateTravelerName(name)
 
         val testSubscriber = TestSubscriber<Boolean>()

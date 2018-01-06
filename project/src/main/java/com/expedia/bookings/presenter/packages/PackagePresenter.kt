@@ -126,7 +126,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             presenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)
         }
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
-            trip!!
             tripResponse = trip as PackageCreateTripResponse
             expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
         }
@@ -219,7 +218,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         val builder = AlertDialog.Builder(context)
         builder.setTitle(context.getString(R.string.booking_successful))
         builder.setMessage(context.getString(R.string.check_your_email_for_itin))
-        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, _ ->
             (context as Activity).finish()
             dialog.dismiss()
         })

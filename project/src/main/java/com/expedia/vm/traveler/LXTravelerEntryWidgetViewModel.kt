@@ -22,7 +22,4 @@ class LXTravelerEntryWidgetViewModel(context: Context, travelerCheckoutStatus: T
         return traveler
     }
 
-    override fun updateTraveler(traveler: Traveler) {
-        super.updateTraveler(traveler)
-    }
 }

@@ -90,7 +90,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         val response = gaiaSuggestApi.gaiaNearBy(lat, lng, limit, lob, sortType, locale, siteId, if (isMISForRealWorldEnabled) "rwg" else null)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-        return response.map { response -> response.toMutableList() }
+        return response.map { it.toMutableList() }
     }
 
     override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?): Subscription {

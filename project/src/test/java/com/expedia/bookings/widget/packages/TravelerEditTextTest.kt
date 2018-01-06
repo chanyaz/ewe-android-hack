@@ -25,7 +25,7 @@ class TravelerEditTextTest {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         editText = LayoutInflater.from(activity).inflate(R.layout.test_traveler_edit_text, null) as TravelerEditText
-        editText.viewModel = LastNameViewModel(activity)
+        editText.viewModel = LastNameViewModel()
         editText.setAccessibilityDelegate(object : View.AccessibilityDelegate() {
             override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfo) {
                 //do nothing

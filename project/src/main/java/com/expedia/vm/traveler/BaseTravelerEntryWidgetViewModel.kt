@@ -8,7 +8,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 abstract class BaseTravelerEntryWidgetViewModel(val context: Context, val travelerIndex: Int) {
-    var nameViewModel = TravelerNameViewModel(context)
+    var nameViewModel = TravelerNameViewModel()
     var phoneViewModel = TravelerPhoneViewModel(context)
     var emailViewModel = TravelerEmailViewModel(getTraveler(), context)
 

@@ -21,8 +21,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
-import java.util.UUID
 import java.util.Collections
+import java.util.UUID
 
 open class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, railRequestInterceptor: Interceptor, hmacInterceptor: Interceptor? = null, val isUserBucketedInAPIMAuth: Boolean, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
@@ -31,7 +31,7 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 
     var subscription: Subscription? = null
 
-    val railApi by lazy {
+    private val railApi by lazy {
 
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
@@ -43,7 +43,7 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
         adapter.create(RailApi::class.java)
     }
 
-    val railApiHmac by lazy {
+    private val railApiHmac by lazy {
 
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)

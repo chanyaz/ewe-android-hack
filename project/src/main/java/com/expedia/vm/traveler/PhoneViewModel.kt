@@ -1,11 +1,10 @@
 package com.expedia.vm.traveler
 
-import android.content.Context
 import com.expedia.bookings.section.CommonSectionValidators
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.mobiata.android.validation.ValidationError
 
-class PhoneViewModel(context: Context) : BaseTravelerValidatorViewModel() {
+class PhoneViewModel : BaseTravelerValidatorViewModel() {
 
     override val invalidCharacterMode = InvalidCharacterHelper.Mode.ASCII
 

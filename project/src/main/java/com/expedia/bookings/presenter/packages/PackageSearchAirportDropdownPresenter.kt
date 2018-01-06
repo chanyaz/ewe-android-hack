@@ -100,7 +100,7 @@ class PackageSearchAirportDropdownPresenter(context: Context, attrs: AttributeSe
 
     private fun originAirportSelectedListener(): AdapterView.OnItemClickListener {
 
-        return AdapterView.OnItemClickListener { parent, view, position, id ->
+        return AdapterView.OnItemClickListener { _, _, position, _ ->
                 val airport = originListAdapter.getAirport(position)
                 if (airport != null) {
                     val suggestionV4FromAirport = FlightsV2DataUtil.getSuggestionV4FromAirport(context, airport)
@@ -121,7 +121,7 @@ class PackageSearchAirportDropdownPresenter(context: Context, attrs: AttributeSe
 
     private fun destinationAirportSelectedListener(): AdapterView.OnItemClickListener {
 
-        return AdapterView.OnItemClickListener { parent, view, position, id ->
+        return AdapterView.OnItemClickListener { _, _, position, id ->
                 val airport = destinationListAdapter.getAirport(position)
                 if (airport != null) {
                     searchViewModel.destinationLocationObserver.onNext(FlightsV2DataUtil.getSuggestionV4FromAirport(context, airport))

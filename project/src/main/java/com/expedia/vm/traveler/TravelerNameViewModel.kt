@@ -1,16 +1,15 @@
 package com.expedia.vm.traveler
 
-import android.content.Context
 import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.utils.AccessibilityUtil
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
-open class TravelerNameViewModel(context: Context) {
+open class TravelerNameViewModel {
     private var travelerName: TravelerName by Delegates.notNull()
-    val firstNameViewModel = FirstNameViewModel(context)
-    val middleNameViewModel = MiddleNameViewModel(context)
-    val lastNameViewModel = LastNameViewModel(context)
+    val firstNameViewModel = FirstNameViewModel()
+    val middleNameViewModel = MiddleNameViewModel()
+    val lastNameViewModel = LastNameViewModel()
 
     val fullNameSubject = BehaviorSubject.create<String>()
     var numberOfInvalidFields = BehaviorSubject.create<Int>()

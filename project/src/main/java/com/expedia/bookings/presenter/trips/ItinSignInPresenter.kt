@@ -7,10 +7,10 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
+import com.expedia.bookings.itin.ItinPageUsableTracking
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
-import com.expedia.bookings.itin.ItinPageUsableTracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -40,7 +40,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         addTransition(signInToProgressTransition)
         showSignInWidget()
         signInWidget.viewModel.addGuestItinClickSubject.subscribe {
-            showAddGuestItinScreen(false)
+            showAddGuestItinScreen()
             OmnitureTracking.trackFindGuestItin()
         }
 
@@ -51,7 +51,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         }
     }
 
-    fun showAddGuestItinScreen(hasError: Boolean = false) {
+    fun showAddGuestItinScreen() {
         if (currentState == null) {
             showSignInWidget()
         }

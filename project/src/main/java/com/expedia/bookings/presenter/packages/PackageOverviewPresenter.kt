@@ -265,8 +265,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.package_checkout_back_dialog_title)
         builder.setMessage(R.string.package_checkout_back_dialog_message)
-        builder.setNegativeButton(context.getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }
-        builder.setPositiveButton(context.getString(R.string.start_over)) { dialog, which ->
+        builder.setNegativeButton(context.getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
+        builder.setPositiveButton(context.getString(R.string.start_over)) { _, _ ->
             checkoutPresenter.clearPaymentInfo()
             checkoutPresenter.resetTravelers()
             bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")

@@ -10,7 +10,7 @@ class TravelerAdvancedOptionsViewModel(val context: Context) {
     private var traveler: Traveler by Delegates.notNull()
 
     val redressViewModel: RedressViewModel by lazy {
-        RedressViewModel(context)
+        RedressViewModel()
     }
 
     val travelerNumberViewModel by lazy {
@@ -31,12 +31,12 @@ class TravelerAdvancedOptionsViewModel(val context: Context) {
         this.traveler = traveler
         redressViewModel.traveler = traveler
         travelerNumberViewModel.traveler = traveler
-        if (traveler.redressNumber?.isNotEmpty() ?: false) {
+        if (traveler.redressNumber?.isNotEmpty() == true) {
             redressViewModel.textSubject.onNext(traveler.redressNumber)
         } else {
             redressViewModel.textSubject.onNext("")
         }
-        if (traveler.knownTravelerNumber?.isNotEmpty() ?: false) {
+        if (traveler.knownTravelerNumber?.isNotEmpty() == true) {
             travelerNumberViewModel.textSubject.onNext(traveler.knownTravelerNumber)
         } else {
             travelerNumberViewModel.textSubject.onNext("")

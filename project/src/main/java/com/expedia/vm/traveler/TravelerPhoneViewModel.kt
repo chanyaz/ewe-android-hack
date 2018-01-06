@@ -11,7 +11,7 @@ import kotlin.properties.Delegates
 open class TravelerPhoneViewModel(val context: Context) {
 
     private var phone: Phone by Delegates.notNull()
-    val phoneViewModel = PhoneViewModel(context)
+    val phoneViewModel = PhoneViewModel()
     val phoneCountryCodeSubject = BehaviorSubject.create<String>()
     val phoneCountryNameSubject = BehaviorSubject.create<String>()
     val phoneCountryCodeErrorSubject = BehaviorSubject.create<Boolean>()

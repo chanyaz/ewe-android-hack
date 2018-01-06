@@ -11,7 +11,7 @@ import rx.subjects.BehaviorSubject
 
 abstract class AbstractUniversalCKOTravelerEntryWidgetViewModel(context: Context, val travelerIndex: Int) {
 
-    var nameViewModel = TravelerNameViewModel(context)
+    var nameViewModel = TravelerNameViewModel()
     var phoneViewModel = TravelerPhoneViewModel(context)
     var emailViewModel = TravelerEmailViewModel(getTraveler(), context)
     val showPhoneNumberObservable = BehaviorSubject.create<Boolean>()

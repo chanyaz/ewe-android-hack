@@ -17,7 +17,6 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeInverseVisibilityInvisible
 import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.flights.FareFamilyItemViewModel
@@ -52,7 +51,7 @@ class FareFamilyItemWidget(context: Context, attrs: AttributeSet) : LinearLayout
     val fareFamilyAmenitiesDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
         builder.setView(fareFamilyAmenitiesDialogView)
-        builder.setPositiveButton(context.getString(R.string.OK), { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.OK), { dialog, _ ->
             dialog.dismiss()
             AccessibilityUtil.delayedFocusToView(showMoreContainer,0)
         })
