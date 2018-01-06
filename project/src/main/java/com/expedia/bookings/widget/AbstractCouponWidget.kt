@@ -96,6 +96,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
                 .subscribe { submitCoupon(it.paymentSplits, it.tripResponse) }
 
         View.inflate(getContext(), getViewToInflate(), this)
+        background = null
 
 
         //Tests hates progress bars
@@ -147,7 +148,6 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
         super.setExpanded(expand, animate)
         if (expand) {
             couponCode.addTextChangedListener(textWatcher)
-            background = null
             showProgress(false)
             expanded.visibility = View.VISIBLE
             unexpanded.visibility = View.GONE
@@ -160,7 +160,6 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
         } else {
             couponCode.removeTextChangedListener(textWatcher)
             resetFields()
-            setBackgroundResource(R.drawable.card_background)
             expanded.visibility = View.GONE
             if (viewmodel.hasDiscountObservable.value != null && viewmodel.hasDiscountObservable.value) {
                 applied.visibility = View.VISIBLE

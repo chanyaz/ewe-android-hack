@@ -341,8 +341,11 @@
     <!-- Hotels V2 Hotel Sold Out -->
     <color name="hotelsv2_sold_out_hotel_gray">@color/gray700</color>
 
-    <!-- Hotels V2 Hotel Sold Out -->
-    <color name="hotelsv2_coupon_applied_color">@color/defaultTextColor</color>
+    <!-- Hotels V2 Hotel Enter Coupon Code Color -->
+    <color name="hotelsv2_enter_coupon_code_color">@color/blue2</color>
+
+    <!-- Hotels V2 Hotel Coupon Applied Color -->
+    <color name="hotelsv2_coupon_applied_color">@color/success_green</color>
 
     <!-- Signed in user tier colors -->
     <color name="sign_in_user_base_tier">#085ba5</color>

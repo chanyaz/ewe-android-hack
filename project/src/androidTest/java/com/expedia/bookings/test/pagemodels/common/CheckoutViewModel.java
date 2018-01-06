@@ -341,7 +341,7 @@ public class CheckoutViewModel {
 	}
 
 	public static ViewInteraction coupon() {
-		return onView(withText("Enter coupons or promotional code"));
+		return onView(withText("Enter Coupon Code"));
 	}
 
 	public static void clickCoupon() {
