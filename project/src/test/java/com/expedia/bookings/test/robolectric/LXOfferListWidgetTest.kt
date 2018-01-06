@@ -87,7 +87,7 @@ class LXOfferListWidgetTest {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppLXFirstActivityListingExpanded.key,
                 defaultVariate.ordinal)
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
     private fun setActivityOfferList(): List<Offer> {

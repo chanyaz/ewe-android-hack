@@ -88,7 +88,7 @@ class PackageCheckoutTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultPackageComponents()
         travelerValidator = Ui.getApplication(RuntimeEnvironment.application).travelerComponent().travelerValidator()
         setUpPackageDb()
-        travelerValidator.updateForNewSearch(Db.getPackageParams())
+        travelerValidator.updateForNewSearch(Db.sharedInstance.packageParams)
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
@@ -191,7 +191,7 @@ class PackageCheckoutTest {
         val clearCvvSubscriber = TestSubscriber<Unit>()
         checkout.getCheckoutViewModel().clearCvvObservable.subscribe(clearCvvSubscriber)
         val billingInfo = getBillingInfo()
-        Db.setBillingInfo(billingInfo)
+        Db.sharedInstance.setBillingInfo(billingInfo)
         Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(billingInfo)
         (checkout.paymentWidget as BillingDetailsPaymentWidget).creditCardCvv.setText(billingInfo.securityCode)
 
@@ -286,7 +286,7 @@ class PackageCheckoutTest {
     @Test
     fun testTravelerChangeShouldShowUpdateTravelerDialogForMainTravelerOnDoneClick() {
         givenCompletedTravelerEntryWidget()
-        assertEquals("malcolm", Db.getTravelers()[0].firstName)
+        assertEquals("malcolm", Db.sharedInstance.travelers[0].firstName)
         checkout.travelersPresenter.travelerEntryWidget.viewModel.nameViewModel.firstNameViewModel.textSubject.onNext("Billy")
 
         checkout.travelersPresenter.onDoneClicked()
@@ -296,7 +296,7 @@ class PackageCheckoutTest {
     @Test
     fun testTravelerChangeShouldShowUpdateTravelerDialogForMainTravelerOnBack() {
         givenCompletedTravelerEntryWidget()
-        assertEquals("nguyen", Db.getTravelers()[0].lastName)
+        assertEquals("nguyen", Db.sharedInstance.travelers[0].lastName)
         checkout.travelersPresenter.travelerEntryWidget.viewModel.nameViewModel.lastNameViewModel.textSubject.onNext("Billy")
         checkout.travelersPresenter.back()
 
@@ -306,7 +306,7 @@ class PackageCheckoutTest {
     @Test
     fun testTravelerChangeShouldShowUpdateTravelerDialogForDifferentPhoneFormat() {
         givenCompletedTravelerEntryWidget()
-        assertEquals("9163355329", Db.getTravelers()[0].primaryPhoneNumber.number.replace("-", ""))
+        assertEquals("9163355329", Db.sharedInstance.travelers[0].primaryPhoneNumber.number.replace("-", ""))
         checkout.travelersPresenter.travelerEntryWidget.viewModel.phoneViewModel.phoneViewModel.textSubject.onNext("987-654-321")
         checkout.travelersPresenter.onDoneClicked()
 
@@ -338,7 +338,7 @@ class PackageCheckoutTest {
         newTraveler.tuid = 0
 
         checkout.travelersPresenter.travelerEntryWidget.viewModel.updateTraveler(newTraveler)
-        assertEquals("malcolm", Db.getTravelers()[0].firstName)
+        assertEquals("malcolm", Db.sharedInstance.travelers[0].firstName)
 
         checkout.travelersPresenter.travelerEntryWidget.viewModel.nameViewModel.firstNameViewModel.textSubject.onNext("Billy")
         checkout.travelersPresenter.onDoneClicked()
@@ -431,7 +431,7 @@ class PackageCheckoutTest {
     }
 
     private fun createTrip() {
-        checkout.travelerManager.updateDbTravelers(Db.getPackageParams())
+        checkout.travelerManager.updateDbTravelers(Db.sharedInstance.packageParams)
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         checkout.getCreateTripViewModel().createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
 
@@ -445,7 +445,7 @@ class PackageCheckoutTest {
     }
 
     private fun enterValidTraveler() {
-        enterTraveler(Db.getTravelers().first())
+        enterTraveler(Db.sharedInstance.travelers.first())
         checkout.openTravelerPresenter()
         checkout.travelersPresenter.onDoneClicked()
         checkout.show(BaseCheckoutPresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
@@ -561,7 +561,7 @@ class PackageCheckoutTest {
     }
 
     private fun createTripWithResortFee() {
-        checkout.travelerManager.updateDbTravelers(Db.getPackageParams())
+        checkout.travelerManager.updateDbTravelers(Db.sharedInstance.packageParams)
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         checkout.getCreateTripViewModel().createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
 

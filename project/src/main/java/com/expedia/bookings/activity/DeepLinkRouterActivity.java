@@ -273,7 +273,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			else {
 				ForceBucketPref.setUserForceBucketed(this, true);
 				ForceBucketPref.saveForceBucketedTestKeyValue(this, key, value);
-				Db.getAbacusResponse().forceUpdateABTest(key, value);
+				Db.sharedInstance.getAbacusResponse().forceUpdateABTest(key, value);
 			}
 		}
 	}

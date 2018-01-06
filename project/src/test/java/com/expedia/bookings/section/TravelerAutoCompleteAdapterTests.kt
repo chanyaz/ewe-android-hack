@@ -85,7 +85,7 @@ class TravelerAutoCompleteAdapterTests {
     }
 
     private fun givenTravelerFormTravelers(travelers: List<Traveler>) {
-        Db.setTravelers(travelers)
+        Db.sharedInstance.setTravelers(travelers)
     }
 
     private fun givenUserHasAssociatedTravelers(traveler: Traveler) {

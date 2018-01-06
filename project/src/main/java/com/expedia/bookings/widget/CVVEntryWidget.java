@@ -174,7 +174,7 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 		String cardName = null;
 		if (billingInfo.getStoredCard() != null) {
 			StoredCreditCard storedCard = billingInfo.getStoredCard();
-			Traveler traveler = Db.getTravelers().get(0);
+			Traveler traveler = Db.sharedInstance.getTravelers().get(0);
 			personFirstInitial = getFirstCharacter(traveler.getFirstName());
 			personLastName = traveler.getLastName();
 			cardNumber = storedCard.getCardNumber();

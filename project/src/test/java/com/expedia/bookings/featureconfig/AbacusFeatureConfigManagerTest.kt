@@ -88,7 +88,7 @@ class AbacusFeatureConfigManagerTest {
         val testList = listOf("12345")
         SatelliteFeatureConfigManager.cacheFeatureConfig(context, testList)
         val abacusResponse = AbacusResponse()
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
     private fun updateTestOverride(testKey: Int, bucketed: AbacusUtils.DefaultVariant) {

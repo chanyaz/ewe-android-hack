@@ -63,7 +63,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 				testTravelersPresenter.getTravelerPickerWidget().show();
 				List<Traveler> travelers = new ArrayList<>();
 				travelers.add(new Traveler());
-				Db.setTravelers(travelers);
+				Db.sharedInstance.setTravelers(travelers);
 				testTravelersPresenter.showSelectOrEntryState();
 				try {
 					testTravelersPresenter.getTravelerPickerWidget().show();
@@ -192,7 +192,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, true);
-				Traveler child1 = Db.getTravelers().get(2);
+				Traveler child1 = Db.sharedInstance.getTravelers().get(2);
 				setChildTraveler(child1, 10);
 				testTravelersPresenter.setViewModel(mockViewModel);
 				testTravelersPresenter.getViewModel().getDoneClickedMethod().subscribe(testToolbar.getViewModel().getDoneClickedMethod());
@@ -217,7 +217,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, true);
-				Traveler child1 = Db.getTravelers().get(2);
+				Traveler child1 = Db.sharedInstance.getTravelers().get(2);
 				setChildTraveler(child1, 1);
 				testTravelersPresenter.setViewModel(mockViewModel);
 				testTravelersPresenter.getViewModel().getDoneClickedMethod().subscribe(testToolbar.getViewModel().getDoneClickedMethod());
@@ -240,7 +240,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, false);
-				Traveler child1 = Db.getTravelers().get(2);
+				Traveler child1 = Db.sharedInstance.getTravelers().get(2);
 				setChildTraveler(child1, 10);
 				testTravelersPresenter.setViewModel(mockViewModel);
 				testTravelersPresenter.getViewModel().getDoneClickedMethod().subscribe(testToolbar.getViewModel().getDoneClickedMethod());
@@ -262,7 +262,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, false);
-				Traveler child1 = Db.getTravelers().get(2);
+				Traveler child1 = Db.sharedInstance.getTravelers().get(2);
 				setChildTraveler(child1, 1);
 				testTravelersPresenter.setViewModel(mockViewModel);
 				testTravelersPresenter.getViewModel().getDoneClickedMethod().subscribe(testToolbar.getViewModel().getDoneClickedMethod());

@@ -25,12 +25,12 @@ public class CrossContextHelper {
 			@Override
 			public RoutesResponse doDownload() {
 				// If we have no data yet, try loading from the cache; if it's not expired, use it
-				boolean success = Db.loadCachedFlightRoutes(context);
+				boolean success = Db.sharedInstance.loadCachedFlightRoutes(context);
 				if (success) {
-					FlightRoutes routes = Db.getFlightRoutes();
+					FlightRoutes routes = Db.sharedInstance.getFlightRoutes();
 
 					if (routes.isExpired()) {
-						Db.deleteCachedFlightRoutes(context);
+						Db.sharedInstance.deleteCachedFlightRoutes(context);
 					}
 					else {
 						RoutesResponse response = new RoutesResponse(routes);
@@ -51,14 +51,15 @@ public class CrossContextHelper {
 
 		final Context appContext = context.getApplicationContext();
 
+		final Db sharedInstance = Db.sharedInstance;
 		OnDownloadComplete<RoutesResponse> callback = new OnDownloadComplete<RoutesResponse>() {
 			@Override
 			public void onDownload(RoutesResponse results) {
 				if (results != null && !results.hasErrors()) {
-					Db.setFlightRoutes(results.getFlightRoutes());
+					sharedInstance.setFlightRoutes(results.getFlightRoutes());
 
 					if (!results.wasLoadedFromDisk()) {
-						Db.kickOffBackgroundFlightRouteSave(appContext);
+						Db.sharedInstance.kickOffBackgroundFlightRouteSave(appContext);
 					}
 				}
 			}
@@ -68,11 +69,11 @@ public class CrossContextHelper {
 
 		// Delete old data
 		bd.cancelDownload(KEY_FLIGHT_ROUTES_DOWNLOAD);
-		Db.setFlightRoutes(null);
+		sharedInstance.setFlightRoutes(null);
 
 		// If this file exists, we may load from it instead
 		if (clearOldData) {
-			Db.deleteCachedFlightRoutes(appContext);
+			Db.sharedInstance.deleteCachedFlightRoutes(appContext);
 		}
 
 		// Load new ones

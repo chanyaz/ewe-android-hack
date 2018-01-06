@@ -139,7 +139,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     fun openHotels() {
-        Db.clearPackageHotelRoomSelection()
+        Db.sharedInstance.clearPackageHotelRoomSelection()
         val intent = Intent(context, PackageHotelActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
@@ -191,11 +191,11 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun loadingContentDescription(): String {
-        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().startDate)
-        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().endDate!!)
-        val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
+        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.sharedInstance.packageParams.startDate)
+        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.sharedInstance.packageParams.endDate!!)
+        val guests = StrUtils.formatGuestString(context, Db.sharedInstance.packageParams.guests)
         return Phrase.from(context, R.string.select_hotel_searching_cont_desc_TEMPLATE)
-                .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
+                .put("destination", StrUtils.formatCityName(Db.sharedInstance.packageParams.destination))
                 .put("startdate", startDate)
                 .put("enddate", endDate)
                 .put("guests", guests)
@@ -204,11 +204,11 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun contentDescription(): String {
-        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().startDate)
-        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().endDate!!)
-        val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
+        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.sharedInstance.packageParams.startDate)
+        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.sharedInstance.packageParams.endDate!!)
+        val guests = StrUtils.formatGuestString(context, Db.sharedInstance.packageParams.guests)
         return Phrase.from(context, R.string.select_hotel_cont_desc_TEMPLATE)
-                .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
+                .put("destination", StrUtils.formatCityName(Db.sharedInstance.packageParams.destination))
                 .put("startdate", startDate)
                 .put("enddate", endDate)
                 .put("guests", guests)
@@ -217,9 +217,9 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun selectedCardContentDescription(): String {
-        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().startDate)
-        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().endDate!!)
-        val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
+        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.sharedInstance.packageParams.startDate)
+        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.sharedInstance.packageParams.endDate!!)
+        val guests = StrUtils.formatGuestString(context, Db.sharedInstance.packageParams.guests)
         val expandState = if (mainContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
         return Phrase.from(context, R.string.select_hotel_selected_cont_desc_TEMPLATE)
                 .put("hotel", Db.getPackageSelectedHotel()?.localizedName ?: "")

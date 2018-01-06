@@ -519,7 +519,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		//Update Locale
 		AdTracker.updatePOS();
 		// Clear out saved flight route data
-		Db.deleteCachedFlightRoutes(getBaseContext());
+		Db.sharedInstance.deleteCachedFlightRoutes(getBaseContext());
 		if (!ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration()) {
 			// Default behaviour, we want to ignore this completely
 			super.onConfigurationChanged(newConfig);
@@ -569,7 +569,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		String api = appComponent().endpointProvider().getEndPoint().name();
 		String gcmId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context);
 		String mc1Cookie = DebugInfoUtils.getMC1CookieStr(context);
-		String abacusGuid = Db.getAbacusGuid();
+		String abacusGuid = Db.sharedInstance.getAbacusGuid();
 		boolean isAccessibilityOn = AccessibilityUtil.isTalkBackEnabled(this);
 		int gpsVersion;
 		try {

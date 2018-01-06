@@ -1,10 +1,7 @@
 package com.expedia.bookings.presenter.packages
 
-import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.ListPopupWindow
 import android.util.AttributeSet
 import android.widget.AdapterView
 import com.expedia.bookings.R
@@ -13,7 +10,6 @@ import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.server.CrossContextHelper
 import com.expedia.bookings.utils.AirportDropDownUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.RecentAirports
 import com.expedia.bookings.widget.FlightRouteAdapter
 import com.mobiata.android.BackgroundDownloader
@@ -64,7 +60,7 @@ class PackageSearchAirportDropdownPresenter(context: Context, attrs: AttributeSe
         originCardView.setEndDrawable(chevronDrawable)
         destinationCardView.setEndDrawable(chevronDrawable)
 
-        if (Db.getFlightRoutes() != null) {
+        if (Db.sharedInstance.flightRoutes != null) {
             onRoutesLoaded()
         } else {
             val bd = BackgroundDownloader.getInstance()
@@ -98,7 +94,7 @@ class PackageSearchAirportDropdownPresenter(context: Context, attrs: AttributeSe
     }
 
     private fun createFlightRouterAdapter(isOrigin: Boolean): FlightRouteAdapter {
-        return FlightRouteAdapter(context, Db.getFlightRoutes(), recentAirports.recentSearches,
+        return FlightRouteAdapter(context, Db.sharedInstance.flightRoutes, recentAirports.recentSearches,
                 isOrigin, true, false, R.layout.material_flights_spinner_airport_dropdown_row)
     }
 

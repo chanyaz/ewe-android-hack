@@ -446,7 +446,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             travelerManager.updateDbTravelers(params)
             // Starting a new search clear previous selection
-            Db.clearPackageFlightSelection()
+            Db.sharedInstance.clearPackageFlightSelection()
             outBoundPresenter.clearBackStack()
             outBoundPresenter.showResults()
             show(outBoundPresenter, Presenter.FLAG_CLEAR_TOP)

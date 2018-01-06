@@ -32,7 +32,7 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
     }
 
     var hotels = arrayListOf<KrazyglueResponse.KrazyglueHotel>()
-    val abacusVariant = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightsKrazyglue)
+    val abacusVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsKrazyglue)
     var loading = true
 
     init {

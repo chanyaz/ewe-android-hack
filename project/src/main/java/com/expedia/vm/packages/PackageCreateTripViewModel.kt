@@ -43,7 +43,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
         }
 
         performMultiItemCreateTripSubject.subscribe {
-            val params = MultiItemCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
+            val params = MultiItemCreateTripParams.fromPackageSearchParams(Db.sharedInstance.packageParams)
             packageServices.multiItemCreateTrip(params).subscribe(makeMultiItemCreateTripResponseObserver())
         }
     }
@@ -100,7 +100,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                     bundleDatesObservable.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
                             .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkInDate)))
                             .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkOutDate)))
-                            .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests))
+                            .put("guests", StrUtils.formatGuestString(context, Db.sharedInstance.packageParams.guests))
                             .format()
                             .toString())
                 }

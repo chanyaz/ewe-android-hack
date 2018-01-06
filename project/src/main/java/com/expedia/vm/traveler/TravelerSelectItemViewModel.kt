@@ -71,7 +71,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
                     ContactDetailsCompletenessStatus.COMPLETE, getFont(traveler))
         }
     }
-    
+
     private fun getTitle(traveler : Traveler) : String {
         return if (isNameEmpty(traveler)) emptyText else traveler.fullNameBasedOnPos
     }
@@ -106,7 +106,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
     }
 
     open fun getTraveler() : Traveler {
-        return Db.getTravelers()[index]
+        return Db.sharedInstance.travelers[index]
     }
 
     private fun getPassengerString(age: Int): String {

@@ -137,7 +137,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             pageUsableData.markAllViewsLoaded(Date().time)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
-            PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType), pageUsableData, Db.getPackageParams())
+            PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.sharedInstance.packageSelectedRoom.supplierType), pageUsableData, Db.sharedInstance.packageParams)
         }
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
@@ -239,7 +239,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         searchPresenter.searchViewModel.searchParamsObservable.subscribe { params ->
             PackagesPageUsableData.HOTEL_RESULTS.pageUsableData.markPageLoadStarted()
             // Starting a new search clear previous selection
-            Db.clearPackageSelection()
+            Db.sharedInstance.clearPackageSelection()
             travelerManager.updateDbTravelers(params)
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             bundlePresenter.bundleWidget.viewModel.hotelParamsObservable.onNext(params)
@@ -487,7 +487,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 confirmationPresenter.viewModel.itinDetailsResponseObservable.onNext(response)
                 show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
                 pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
-                OmnitureTracking.trackMIDConfirmation(response, Db.getPackageSelectedRoom().supplierType, pageUsableData)
+                OmnitureTracking.trackMIDConfirmation(response, Db.sharedInstance.packageSelectedRoom.supplierType, pageUsableData)
             }
 
             override fun onError(e: Throwable) {

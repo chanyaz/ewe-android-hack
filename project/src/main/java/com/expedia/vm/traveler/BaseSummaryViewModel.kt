@@ -29,7 +29,7 @@ abstract class BaseSummaryViewModel(val context: Context) {
         travelerStatusObserver.subscribe { status ->
             val subTitle = resources.getString(R.string.enter_missing_traveler_details)
             if (status == TravelerCheckoutStatus.CLEAN) {
-                if (Db.getTravelers().size > 1 || isTravelerOneEmpty()) {
+                if (Db.sharedInstance.travelers.size > 1 || isTravelerOneEmpty()) {
                     setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.DEFAULT)
                 } else {
                     setTravelerSummaryInfo(getTitle(), subTitle, ContactDetailsCompletenessStatus.INCOMPLETE)
@@ -48,8 +48,8 @@ abstract class BaseSummaryViewModel(val context: Context) {
     }
 
     fun getFirstTraveler(): Traveler? {
-        if (Db.getTravelers().isNotEmpty()) {
-            return Db.getTravelers()[0]
+        if (Db.sharedInstance.travelers.isNotEmpty()) {
+            return Db.sharedInstance.travelers[0]
         }
         return null
     }

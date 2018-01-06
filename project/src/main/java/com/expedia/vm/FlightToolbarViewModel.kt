@@ -124,7 +124,7 @@ class FlightToolbarViewModel(private val context: Context) {
     }
 
     private fun shouldShowBreadcrumbsInToolbarTitle(): Boolean {
-        return (isBreadcrumbsPackagesEnabled(context) && !Db.getPackageParams().isChangePackageSearch())
+        return (isBreadcrumbsPackagesEnabled(context) && !Db.sharedInstance.packageParams.isChangePackageSearch())
     }
 
     private fun getSubtitle(date: LocalDate, numTravelers: Int): String {

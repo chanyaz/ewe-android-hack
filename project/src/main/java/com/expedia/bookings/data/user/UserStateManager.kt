@@ -222,8 +222,8 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
             logger.addSplit("notificationManager.deleteAll();")
         }
 
-        Db.getWorkingBillingInfoManager()?.clearWorkingBillingInfo()
-        Db.getWorkingTravelerManager()?.clearWorkingTraveler()
+        Db.getWorkingBillingInfoManager().clearWorkingBillingInfo()
+        Db.getWorkingTravelerManager().clearWorkingTraveler()
 
         val tripBucket = Db.getTripBucket()
 
@@ -232,8 +232,8 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
             Db.saveTripBucket(context)
         }
 
-        Db.resetBillingInfo()
-        Db.resetTravelers()
+        Db.sharedInstance.resetBillingInfo()
+        Db.sharedInstance.resetTravelers()
 
         logger.addSplit("User billing and traveler info deletion.")
         logger.dumpToLog()

@@ -16,8 +16,8 @@ class HotelTravelersViewModel(context: Context, lob: LineOfBusiness, showMainTra
     }
 
     override fun getTravelers() : List<Traveler> {
-        val traveler = if (Db.getTravelers().isNotEmpty()) {
-            (Db.getTravelers()[0])
+        val traveler = if (Db.sharedInstance.travelers.isNotEmpty()) {
+            (Db.sharedInstance.travelers[0])
         } else {
             Traveler()
         }

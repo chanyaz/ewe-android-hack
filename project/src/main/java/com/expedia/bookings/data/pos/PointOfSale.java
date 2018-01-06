@@ -1,21 +1,5 @@
 package com.expedia.bookings.data.pos;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.DrawableRes;
@@ -42,6 +26,22 @@ import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * All data related to a point of sale.
@@ -1191,14 +1191,14 @@ public class PointOfSale {
 		SettingUtils.save(context, context.getString(R.string.PointOfSaleKey), posKey);
 
 		// clear all data
-		Db.clear();
+		Db.sharedInstance.clear();
 
 		// Download new flight route data for new POS (if applicable)
 		if (getPointOfSale().displayFlightDropDownRoutes()) {
 			CrossContextHelper.updateFlightRoutesData(context.getApplicationContext(), true);
 		}
 		else {
-			Db.deleteCachedFlightRoutes(context);
+			Db.sharedInstance.deleteCachedFlightRoutes(context);
 		}
 		AbacusHelperUtils.downloadBucket(context);
 		Log.d("New POS id: " + sCurrentPOSId);

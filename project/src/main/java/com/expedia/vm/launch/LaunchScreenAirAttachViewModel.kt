@@ -44,7 +44,7 @@ class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, r
             }
         }
 
-        val isVariant1 = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen) == AbacusUtils.LaunchScreenAirAttachVariant.UP_TO_XX_PERCENT_OFF.ordinal
+        val isVariant1 = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen) == AbacusUtils.LaunchScreenAirAttachVariant.UP_TO_XX_PERCENT_OFF.ordinal
 
         if (isVariant1) {
             firstLineObserver.onNext(Phrase.from(context, R.string.air_attach_variant2_string1_TEMPLATE).put("location", cityName).format().toString())

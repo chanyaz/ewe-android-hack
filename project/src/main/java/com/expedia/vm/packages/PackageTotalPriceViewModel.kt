@@ -21,7 +21,7 @@ class PackageTotalPriceViewModel(context: Context, isSlidable: Boolean = false) 
                     .put("savings", savingsPriceObservable.value)
                     .format().toString()
         } else if (isExpanded) {
-            val params = Db.getPackageParams()
+            val params = Db.sharedInstance.packageParams
             Phrase.from(context, R.string.trip_overview_price_widget_expanded_TEMPLATE)
                     .put("city_name", StrUtils.formatCity(params.destination))
                     .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))

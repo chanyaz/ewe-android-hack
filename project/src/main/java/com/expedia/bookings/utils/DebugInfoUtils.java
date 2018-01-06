@@ -53,7 +53,7 @@ public class DebugInfoUtils {
 		body.append(Locale.getDefault().toString());
 		body.append("\n");
 		body.append("ABACUS GUID: ");
-		body.append(Db.getAbacusGuid());
+		body.append(Db.sharedInstance.getAbacusGuid());
 
 		body.append("\n\n");
 
@@ -94,9 +94,9 @@ public class DebugInfoUtils {
 				body.append("\n");
 			}
 
-			if (Db.getSignInType() != null) {
+			if (Db.sharedInstance.getSignInType() != null) {
 				body.append(Phrase.from(context, R.string.account_sign_in_method_TEMPLATE)
-					.put("sign_in_method", Db.getSignInType().name())
+					.put("sign_in_method", Db.sharedInstance.getSignInType().name())
 					.format());
 			}
 

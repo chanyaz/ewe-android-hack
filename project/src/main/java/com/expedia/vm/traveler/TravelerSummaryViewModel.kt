@@ -4,7 +4,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
@@ -30,7 +29,7 @@ class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context)
     }
 
     override fun getSubtitle(): String {
-        val numberOfTravelers = Db.getTravelers().size
+        val numberOfTravelers = Db.sharedInstance.travelers.size
         if (numberOfTravelers > 1) {
             return Phrase.from(resources.getQuantityString(R.plurals.checkout_more_travelers_TEMPLATE, numberOfTravelers - 1))
                     .put("travelercount", numberOfTravelers - 1).format().toString()

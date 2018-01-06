@@ -11,11 +11,11 @@ import com.mobiata.android.util.SettingUtils
 object AbacusTestUtils {
 
     @JvmStatic fun resetABTests() {
-        Db.setAbacusResponse(AbacusResponse())
+        Db.sharedInstance.setAbacusResponse(AbacusResponse())
     }
 
     @JvmStatic fun updateABTest(test: ABTest, value: Int) {
-        val abacusResponse = Db.getAbacusResponse()
+        val abacusResponse = Db.sharedInstance.abacusResponse
         abacusResponse.updateABTestForDebug(test.key, value)
     }
 
@@ -24,27 +24,27 @@ object AbacusTestUtils {
         for (test in tests) {
             abacusResponse.updateABTestForDebug(test.key, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
         }
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
     @JvmStatic fun bucketTestAndEnableRemoteFeature(context: Context,  test: ABTest, bucketVariant: Int = AbacusUtils.DefaultVariant.BUCKETED.ordinal) {
         SettingUtils.save(context, test.key.toString(), bucketVariant)
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(test.key, bucketVariant)
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
     @JvmStatic fun bucketTestAndEnableFeature(context: Context, abacusTest: ABTest, @StringRes featureKey: Int) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(abacusTest.key, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
         SettingUtils.save(context, featureKey, true)
     }
 
     @JvmStatic fun bucketTestWithVariant(test: ABTest, variant: Int) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(test.key, variant)
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
     @JvmStatic fun unbucketTests(vararg tests: ABTest) {
@@ -52,13 +52,13 @@ object AbacusTestUtils {
         for (test in tests) {
             abacusResponse.updateABTestForDebug(test.key, AbacusUtils.DefaultVariant.CONTROL.ordinal)
         }
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
     @JvmStatic fun unbucketTestAndDisableFeature(context: Context, abacusTest: ABTest, @StringRes featureKey: Int) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(abacusTest.key, AbacusUtils.DefaultVariant.CONTROL.ordinal)
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
         SettingUtils.save(context, featureKey, false)
     }
 }

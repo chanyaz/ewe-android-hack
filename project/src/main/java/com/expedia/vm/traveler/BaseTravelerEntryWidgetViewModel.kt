@@ -33,6 +33,6 @@ abstract class BaseTravelerEntryWidgetViewModel(val context: Context, val travel
     abstract fun validate(): Boolean
 
     open fun getTraveler(): Traveler {
-        return Db.getTravelers()[travelerIndex]
+        return Db.sharedInstance.travelers[travelerIndex]
     }
 }

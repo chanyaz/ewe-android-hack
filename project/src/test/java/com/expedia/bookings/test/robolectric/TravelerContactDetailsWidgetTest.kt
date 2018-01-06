@@ -32,29 +32,29 @@ class TravelerContactDetailsWidgetTest {
     @Test
     fun testOnChosenTravelerSetsTravelerInDb() {
         val emptyTraveler = Traveler()
-        Db.setTravelers(listOf(emptyTraveler))
+        Db.sharedInstance.setTravelers(listOf(emptyTraveler))
         val completeTraveler = getCompletedTraveler()
         travelerWidget.onTravelerChosen(completeTraveler)
 
-        assertEquals(Db.getTravelers()[0].tuid, 987654321)
+        assertEquals(Db.sharedInstance.travelers[0].tuid, 987654321)
     }
 
     @Test
     fun testOnAddNewTravelerSetsEmptyTravelerInDb() {
         val completeTraveler = getCompletedTraveler()
-        Db.setTravelers(listOf(completeTraveler))
+        Db.sharedInstance.setTravelers(listOf(completeTraveler))
         val emptyTraveler = Traveler()
         Db.getWorkingTravelerManager().setWorkingTravelerAndBase(emptyTraveler)
         travelerWidget.onAddNewTravelerSelected()
 
-        assertEquals(Db.getTravelers()[0].tuid, 0)
+        assertEquals(Db.sharedInstance.travelers[0].tuid, 0)
     }
 
     @Test
     fun testBindTravelerWithNullTraveler() {
         travelerWidget.sectionTravelerInfo.bind(null)
 
-        assertEquals(Db.getTravelers()[0].tuid, 0)
+        assertEquals(Db.sharedInstance.travelers[0].tuid, 0)
     }
 
     @Test

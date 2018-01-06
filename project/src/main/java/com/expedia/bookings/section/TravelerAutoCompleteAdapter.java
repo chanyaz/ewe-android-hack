@@ -203,8 +203,8 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 				trav.setIsSelectable(true);
 
 				// update selection state from currently selected checkout form travelers
-				if (Db.getTravelers() != null) {
-					for (Traveler ckoFormTraveler : Db.getTravelers()) {
+				if (Db.sharedInstance.getTravelers() != null) {
+					for (Traveler ckoFormTraveler : Db.sharedInstance.getTravelers()) {
 						boolean isPopulated = ckoFormTraveler.hasName();
 						if (isPopulated && ckoFormTraveler.nameEquals(trav)) {
 							trav.setIsSelectable(false);

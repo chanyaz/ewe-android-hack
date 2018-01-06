@@ -88,7 +88,7 @@ class RailTravelerSummaryViewModelTest {
 
 
     fun addTravelerToDb(traveler: Traveler) {
-        val travelers = Db.getTravelers()
+        val travelers = Db.sharedInstance.travelers
         travelers.clear()
         travelers.add(traveler)
     }

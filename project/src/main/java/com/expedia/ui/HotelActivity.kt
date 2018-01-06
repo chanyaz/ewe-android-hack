@@ -71,7 +71,7 @@ class HotelActivity : AbstractAppCompatActivity() {
 
     override fun onBackPressed() {
         if (!hotelPresenter.back()) {
-            Db.setTemporarilySavedCard(null)
+            Db.sharedInstance.setTemporarilySavedCard(null)
             super.onBackPressed()
         }
     }

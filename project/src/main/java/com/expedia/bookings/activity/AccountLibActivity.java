@@ -220,10 +220,10 @@ public class AccountLibActivity extends AppCompatActivity
 		if (userStateManager.isUserAuthenticated()) {
 			if (userLoggedInWithFacebook) {
 				OmnitureTracking.trackLoginSuccess();
-				Db.setSignInType(Db.SignInTypeEnum.FACEBOOK_SIGN_IN);
+				Db.sharedInstance.setSignInType(Db.SignInTypeEnum.FACEBOOK_SIGN_IN);
 			}
 			else {
-				Db.setSignInType(Db.SignInTypeEnum.BRAND_SIGN_IN);
+				Db.sharedInstance.setSignInType(Db.SignInTypeEnum.BRAND_SIGN_IN);
 			}
 			AdTracker.trackLogin();
 			if (loginExtender != null) {
@@ -390,7 +390,7 @@ public class AccountLibActivity extends AppCompatActivity
 	private boolean isRecaptchaABTestEnabled() {
 		// Returns true if AB test enabled or abacus is missing the response. (i.e. "fail on")
 		return AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppAccountRecaptcha)
-				||	Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppAccountRecaptcha) == null;
+				||	Db.sharedInstance.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppAccountRecaptcha) == null;
 	}
 
 }

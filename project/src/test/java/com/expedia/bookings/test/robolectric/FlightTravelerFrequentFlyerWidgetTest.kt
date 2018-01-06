@@ -24,7 +24,6 @@ import com.expedia.bookings.widget.traveler.FrequentFlyerAdapter
 import com.expedia.bookings.widget.traveler.FrequentFlyerViewHolder
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FrequentFlyerProgramNumberViewModel
-import com.mobiata.android.util.SettingUtils
 import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
 import org.junit.Before
 import org.junit.Test
@@ -64,8 +63,8 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
         widget = LayoutInflater.from(activity).inflate(R.layout.test_flight_entry_widget, null) as FlightTravelerEntryWidget
-        Db.clear()
-        Db.getTravelers().add(traveler)
+        Db.sharedInstance.clear()
+        Db.sharedInstance.travelers.add(traveler)
         widget.viewModel = FlightTravelerEntryWidgetViewModel(activity, 0, BehaviorSubject.create(false), TravelerCheckoutStatus.CLEAN)
     }
 
@@ -118,7 +117,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
         val frequentFlyerPlansSubscriber = TestSubscriber.create<FlightCreateTripResponse.FrequentFlyerPlans>()
         val ffnAdapter = widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter
         ffnAdapter.viewModel.frequentFlyerPlans.subscribe(frequentFlyerPlansSubscriber)
-        Db.getTravelers()[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
+        Db.sharedInstance.travelers[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
         givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = true)
 
         frequentFlyerPlansSubscriber.assertValueCount(1)
@@ -139,7 +138,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testDifferentTravelerUpdatesEnrolledPrograms() {
-        Db.getTravelers()[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
+        Db.sharedInstance.travelers[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
         givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = true)
         val frequentFlyerViewHolder = getViewHolderAndOpen()
         Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog()).dismiss()
@@ -159,7 +158,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
     fun testNewSelectedTravelerClearsFFN() {
         val updateTravelerSubscriber = TestSubscriber.create<Traveler>()
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.updateTravelerObservable?.subscribe(updateTravelerSubscriber)
-        Db.getTravelers()[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
+        Db.sharedInstance.travelers[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
         givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = true)
         updateTravelerSubscriber.assertValueCount(0)
 
@@ -248,7 +247,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
     fun testFrequentFlyerDoesntCrashSwitchingTravelersWhileClosed() {
         val updateTravelerSubscriber = TestSubscriber.create<Traveler>()
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.updateTravelerObservable?.subscribe(updateTravelerSubscriber)
-        Db.getTravelers()[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
+        Db.sharedInstance.travelers[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable.onNext(listOf(buildMockFlight(3)))
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerPlans.onNext(getFrequentFlyerPlans(true))
         updateTravelerSubscriber.assertValueCount(0)
@@ -270,7 +269,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testFFNDialogEnrolledProgramsHidesProgramsWithoutNumbers() {
-        Db.getTravelers()[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "", "AA", "AA-A1"))
+        Db.sharedInstance.travelers[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "", "AA", "AA-A1"))
         givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = false)
 
         val frequentFlyerViewHolder = getViewHolderAndOpen()

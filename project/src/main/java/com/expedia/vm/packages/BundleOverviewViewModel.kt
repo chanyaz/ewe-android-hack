@@ -115,8 +115,8 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         stepOneContentDescriptionObservable.onNext(stepOneContentDesc)
 
         val stepTwo = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE)
-                .put("origin", Db.getPackageParams().origin?.hierarchyInfo?.airport?.airportCode)
-                .put("destination", Db.getPackageParams().destination?.hierarchyInfo?.airport?.airportCode)
+                .put("origin", Db.sharedInstance.packageParams.origin?.hierarchyInfo?.airport?.airportCode)
+                .put("destination", Db.sharedInstance.packageParams.destination?.hierarchyInfo?.airport?.airportCode)
                 .format().toString()
         stepTwoTextObservable.onNext(stepTwo)
         stepThreeTextObservale.onNext("")
@@ -164,8 +164,8 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     if (type == PackageSearchType.HOTEL) {
                         hotelResultsObservable.onNext(Unit)
                         val currentFlights = arrayOf(response.getFlightLegs()[0].legId, response.getFlightLegs()[1].legId)
-                        Db.getPackageParams().currentFlights = currentFlights
-                        Db.getPackageParams().defaultFlights = currentFlights.copyOf()
+                        Db.sharedInstance.packageParams.currentFlights = currentFlights
+                        Db.sharedInstance.packageParams.defaultFlights = currentFlights.copyOf()
                         PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE)
                     } else {
                         if (type == PackageSearchType.OUTBOUND_FLIGHT) {
@@ -199,9 +199,9 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 } else if (RetrofitUtils.isNetworkError(throwable)) {
                     val retryFun = fun() {
                         if (type.equals(PackageSearchType.HOTEL)) {
-                            hotelParamsObservable.onNext(Db.getPackageParams())
+                            hotelParamsObservable.onNext(Db.sharedInstance.packageParams)
                         } else {
-                            flightParamsObservable.onNext(Db.getPackageParams())
+                            flightParamsObservable.onNext(Db.sharedInstance.packageParams)
                         }
                     }
                     val cancelFun = fun() {

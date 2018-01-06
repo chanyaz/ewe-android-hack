@@ -66,7 +66,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
     }
 
     override fun updateDbTravelers() {
-        val params = Db.getPackageParams()
+        val params = Db.sharedInstance.packageParams
         travelerManager.updateDbTravelers(params)
         resetTravelers()
     }

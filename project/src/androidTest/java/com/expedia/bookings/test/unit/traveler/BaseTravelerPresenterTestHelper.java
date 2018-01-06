@@ -217,11 +217,11 @@ public class BaseTravelerPresenterTestHelper {
 				travelers.add(childTraveler);
 			}
 		}
-		Db.setTravelers(travelers);
+		Db.sharedInstance.setTravelers(travelers);
 	}
 
 	protected void addTravelerToDb(Traveler traveler) {
-		Db.getTravelers().add(traveler);
+		Db.sharedInstance.getTravelers().add(traveler);
 	}
 
 
@@ -252,7 +252,7 @@ public class BaseTravelerPresenterTestHelper {
 		setPackageParams(travelerCount);
 		setDbTravelers(travelerCount, null, false);
 		for (int i = 0; i < travelerCount; i++) {
-			Traveler traveler = Db.getTravelers().get(i);
+			Traveler traveler = Db.sharedInstance.getTravelers().get(i);
 			setIncompleteTraveler(traveler, i);
 		}
 		return mockViewModel;
@@ -263,7 +263,7 @@ public class BaseTravelerPresenterTestHelper {
 		setPackageParams(travelerCount);
 		setDbTravelers(travelerCount, null, false);
 		for (int i = 0; i < travelerCount; i++) {
-			Traveler traveler = Db.getTravelers().get(i);
+			Traveler traveler = Db.sharedInstance.getTravelers().get(i);
 			setValidTraveler(traveler, i);
 		}
 		return mockViewModel;

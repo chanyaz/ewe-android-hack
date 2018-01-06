@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils
 
-import android.content.Context
 import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
@@ -13,7 +12,7 @@ class TravelerManager(private val userStateManager: UserStateManager) {
     val travelersUpdated = PublishSubject.create<Unit>()
 
     fun updateDbTravelers(params: AbstractFlightSearchParams) {
-        val travelers = Db.getTravelers()
+        val travelers = Db.sharedInstance.travelers
         travelers.clear()
         for (i in 0..params.adults - 1) {
             val traveler = Traveler()
@@ -29,7 +28,7 @@ class TravelerManager(private val userStateManager: UserStateManager) {
             traveler.searchedAge = child
             travelers.add(traveler)
         }
-        Db.setTravelers(travelers)
+        Db.sharedInstance.setTravelers(travelers)
         if (userStateManager.isUserAuthenticated()) {
             onSignIn()
         }
@@ -37,7 +36,7 @@ class TravelerManager(private val userStateManager: UserStateManager) {
     }
 
     fun updateRailTravelers() {
-        val travelers = Db.getTravelers()
+        val travelers = Db.sharedInstance.travelers
         travelers.clear()
         // Rail only collects Primary Traveler so don't worry about the details of the others.
         if (userStateManager.isUserAuthenticated()) {
@@ -65,11 +64,11 @@ class TravelerManager(private val userStateManager: UserStateManager) {
     }
 
     fun onSignIn() {
-        if (userStateManager.isUserAuthenticated() && Db.getTravelers().isNotEmpty()) {
+        if (userStateManager.isUserAuthenticated() && Db.sharedInstance.travelers.isNotEmpty()) {
             val user = userStateManager.userSource.user
             val primaryTraveler = user?.primaryTraveler
-            primaryTraveler?.passengerCategory = Db.getTravelers()[0].passengerCategory
-            Db.getTravelers()[0] = primaryTraveler
+            primaryTraveler?.passengerCategory = Db.sharedInstance.travelers[0].passengerCategory
+            Db.sharedInstance.travelers[0] = primaryTraveler
         }
     }
 }

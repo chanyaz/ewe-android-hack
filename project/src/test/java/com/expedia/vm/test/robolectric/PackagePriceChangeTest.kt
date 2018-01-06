@@ -76,7 +76,7 @@ class PackagePriceChangeTest {
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         setUpPackageDb()
-        travelerValidator.updateForNewSearch(Db.getPackageParams())
+        travelerValidator.updateForNewSearch(Db.sharedInstance.packageParams)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         overview = activity.findViewById<View>(R.id.package_overview_presenter) as PackageOverviewPresenter
         checkout = overview.getCheckoutPresenter()

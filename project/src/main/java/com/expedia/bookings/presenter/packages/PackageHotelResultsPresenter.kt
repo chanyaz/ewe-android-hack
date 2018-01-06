@@ -75,7 +75,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     private fun shouldShowBreadcrumbsInToolbarTitle(): Boolean {
-        return (isBreadcrumbsPackagesEnabled(context) && !Db.getPackageParams().isChangePackageSearch())
+        return (isBreadcrumbsPackagesEnabled(context) && !Db.sharedInstance.packageParams.isChangePackageSearch())
     }
 
     val bundlePriceWidgetTop: BundleTotalPriceTopWidget by lazy {

@@ -14,7 +14,7 @@ class PackageFlightActivity : AbstractAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Db.getPackageParams() == null) {
+        if (Db.sharedInstance.packageParams == null) {
             setResult(Constants.PACKAGE_PARAMS_NULL_RESTORE)
             finish()
             return

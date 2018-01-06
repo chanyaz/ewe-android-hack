@@ -53,7 +53,7 @@ class HotelTravelersSummaryViewModelTest {
 
     @After
     fun tearDown() {
-        Db.resetTravelers()
+        Db.sharedInstance.resetTravelers()
     }
 
     @Test

@@ -74,11 +74,11 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
             destinationObservable.onNext(Db.getPackageSelectedHotel().city)
             destinationTitleObservable.onNext(Db.getPackageSelectedHotel().localizedName)
             val hotel = Db.getTripBucket().`package`.mPackageTripResponse.packageDetails.hotel
-            val params = Db.getPackageParams()
+            val params = Db.sharedInstance.packageParams
             destinationSubTitleObservable.onNext(getHotelSubtitle(hotel.checkInDate, hotel.checkOutDate, params.guests))
-            outboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
+            outboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.sharedInstance.packageParams.destination)))
             outboundFlightCardSubTitleObservable.onNext(getFlightSubtitle(Db.getPackageFlightBundle().first))
-            inboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
+            inboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.sharedInstance.packageParams.origin)))
             inboundFlightCardSubTitleObservable.onNext(getFlightSubtitle(Db.getPackageFlightBundle().second))
             val itinNumberMessage = Phrase.from(context, R.string.itinerary_sent_to_confirmation_TEMPLATE)
                     .put("itinerary", itinNumber)
@@ -140,7 +140,7 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
         val localDate = LocalDate.parse(selectedFlight.departureDateTimeISO, fmt)
 
         return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(localDate),
-                FlightV2Utils.formatTimeShort(context, selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
+                FlightV2Utils.formatTimeShort(context, selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.sharedInstance.packageParams.guests))
     }
 
     private fun getFlightSubtitleFromTripDetails(rawDepartureDateTime: String, guests: Int): String {

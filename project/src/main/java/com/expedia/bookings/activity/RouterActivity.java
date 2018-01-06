@@ -75,7 +75,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		loadSignInView = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
 		PointOfSale pos = PointOfSale.getPointOfSale();
 
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), pos.getTpid(), 0);
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.sharedInstance.getAbacusGuid(), pos.getTpid(), 0);
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAdvanceSearch.getKey());

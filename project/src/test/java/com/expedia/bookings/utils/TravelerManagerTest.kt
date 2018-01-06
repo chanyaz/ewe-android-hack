@@ -85,9 +85,9 @@ class TravelerManagerTest {
 
         mockTravelerProvider.updateDBWithMockTravelers(1, travelerWithCategory)
         travelerManager.onSignIn()
-        assertEquals(PassengerCategory.ADULT, Db.getTravelers()[0].passengerCategory,
+        assertEquals(PassengerCategory.ADULT, Db.sharedInstance.travelers[0].passengerCategory,
                 "Expected Primary Traveler to inherit the PassengerCategory from Db")
-        assertEquals(mockTravelerProvider.testFirstName, Db.getTravelers()[0].firstName,
+        assertEquals(mockTravelerProvider.testFirstName, Db.sharedInstance.travelers[0].firstName,
                 "Expected Db to inherit primary traveler attributes minus PC")
     }
 
@@ -100,17 +100,17 @@ class TravelerManagerTest {
 
         mockTravelerProvider.updateDBWithMockTravelers(1, traveler)
         travelerManager.onSignIn()
-        assertEquals(PassengerCategory.ADULT, Db.getTravelers()[0].passengerCategory,
+        assertEquals(PassengerCategory.ADULT, Db.sharedInstance.travelers[0].passengerCategory,
                 "Not Signed In, nothing about traveler should change")
-        assertEquals(mockTravelerProvider.testFirstName, Db.getTravelers()[0].firstName,
+        assertEquals(mockTravelerProvider.testFirstName, Db.sharedInstance.travelers[0].firstName,
                 "Not Signed In, nothing about traveler should change")
     }
 
     @Test
     fun testUpdateTravelersWhenUserNotLoggedIn() {
         travelerManager.updateRailTravelers()
-        assertTrue(Db.getTravelers().size == 1)
-        assertNull(Db.getTravelers()[0].lastName)
+        assertTrue(Db.sharedInstance.travelers.size == 1)
+        assertNull(Db.sharedInstance.travelers[0].lastName)
     }
 
     @Test
@@ -122,8 +122,8 @@ class TravelerManagerTest {
         UserLoginTestUtil.setupUserAndMockLogin(testUser, userStateManager)
 
         travelerManager.updateRailTravelers()
-        assertTrue(Db.getTravelers().size == 1)
-        assertEquals(mockTravelerProvider.testFirstName, Db.getTravelers()[0].firstName)
+        assertTrue(Db.sharedInstance.travelers.size == 1)
+        assertEquals(mockTravelerProvider.testFirstName, Db.sharedInstance.travelers[0].firstName)
     }
 
     private fun getPackageParams() : PackageSearchParams {

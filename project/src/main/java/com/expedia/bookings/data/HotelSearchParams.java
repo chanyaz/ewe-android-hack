@@ -1,17 +1,7 @@
 package com.expedia.bookings.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.joda.time.LocalDate;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.content.Context;
 import android.text.TextUtils;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -19,38 +9,38 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
+import org.joda.time.LocalDate;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @deprecated please stop using this class and only use the .kt version
  */
 @Deprecated
 public class HotelSearchParams implements JSONable {
 
-	private static final String SEARCH_PARAMS_KEY = "searchParams";
 	private SearchType mSearchType = SearchType.MY_LOCATION;
 
 	public enum SearchType {
-		MY_LOCATION(true, false),
-		ADDRESS(true, true),
-		POI(false, true),
-		CITY(false, false),
-		VISIBLE_MAP_AREA(false, false),
-		FREEFORM(false, false),
-		HOTEL(true, true),;
+		MY_LOCATION(true),
+		ADDRESS(true),
+		POI(false),
+		CITY(false),
+		VISIBLE_MAP_AREA(false),
+		FREEFORM(false),
+		HOTEL(true),;
 
 		private boolean mShouldShowDistance;
-		private boolean mShouldShowExactLocation;
 
-		SearchType(boolean shouldShowDistance, boolean shouldShowExactLocation) {
+		SearchType(boolean shouldShowDistance) {
 			mShouldShowDistance = shouldShowDistance;
-			mShouldShowExactLocation = shouldShowExactLocation;
 		}
 
 		public boolean shouldShowDistance() {
 			return mShouldShowDistance;
-		}
-
-		public boolean shouldShowExactLocation() {
-			return mShouldShowExactLocation;
 		}
 	}
 
@@ -103,11 +93,6 @@ public class HotelSearchParams implements JSONable {
 	public void setDefaultStay() {
 		mCheckInDate = getDefaultCheckInDate();
 		mCheckOutDate = getDefaultCheckOutDate();
-	}
-
-	public boolean isDefaultStay() {
-		return mCheckInDate != null && mCheckInDate.equals(getDefaultCheckInDate()) && mCheckOutDate != null
-				&& mCheckOutDate.equals(getDefaultCheckOutDate());
 	}
 
 	private LocalDate getDefaultCheckInDate() {
@@ -192,91 +177,6 @@ public class HotelSearchParams implements JSONable {
 	}
 
 	/**
-	 * get the original query as typed by the user.
-	 * @param userQuery
-	 */
-	public String getUserQuery() {
-		return mUserQuery;
-	}
-
-	/**
-	 * Returns whether this HotelSearchParams object has enough information to query E3.
-	 * It has enough information if it:
-	 * 1. Has a regionId
-	 * -or-
-	 * 2. Has Lat/Lng
-	 * @return
-	 */
-	public boolean hasEnoughToSearch() {
-		return hasRegionId() || hasSearchLatLon();
-	}
-
-	/**
-	 * @return the search string to display to user based on current params
-	 */
-	public String getSearchDisplayText(Context context) {
-		switch (mSearchType) {
-		case CITY:
-		case ADDRESS:
-		case POI:
-		case HOTEL:
-		case FREEFORM:
-			return mQuery;
-		case MY_LOCATION:
-			return context.getString(R.string.current_location);
-		case VISIBLE_MAP_AREA:
-			return context.getString(R.string.visible_map_area);
-		default:
-			return null;
-		}
-	}
-
-	public void fillFromHotelSearchParams(HotelSearchParams hotelSearchParams) {
-		setSearchType(hotelSearchParams.getSearchType());
-		setQuery(hotelSearchParams.getQuery());
-		setRegionId(hotelSearchParams.getRegionId());
-		setSearchLatLon(hotelSearchParams.getSearchLatitude(), hotelSearchParams.getSearchLongitude());
-	}
-
-	public boolean hasValidCheckInDate() {
-		// #1562 - Check for null
-		if (mCheckInDate == null) {
-			return false;
-		}
-
-		return JodaUtils.isBeforeOrEquals(LocalDate.now(), mCheckInDate);
-	}
-
-	public void ensureValidCheckInDate() {
-		if (!hasValidCheckInDate()) {
-			Log.d("Search params had a checkin date previous to today, resetting checkin/checkout dates.");
-			setDefaultStay();
-		}
-	}
-
-	public void ensureDatesSet() {
-		if (mCheckInDate == null || (mCheckInDate == null && mCheckOutDate == null)) {
-			setDefaultStay();
-		}
-		else if (mCheckOutDate == null) {
-			if (hasValidCheckInDate()) {
-				mCheckOutDate = mCheckInDate.plusDays(1);
-			}
-			else {
-				ensureValidCheckInDate();
-			}
-		}
-		else {
-			ensureValidCheckInDate();
-			if (mCheckInDate.isAfter(mCheckOutDate)) {
-				LocalDate tmpDate = mCheckInDate;
-				mCheckInDate = mCheckOutDate;
-				mCheckOutDate = tmpDate;
-			}
-		}
-	}
-
-	/**
 	 * Ensures that the check in date is not AFTER the check out date. Keeps the
 	 * duration of the stay the same.
 	 */
@@ -352,10 +252,6 @@ public class HotelSearchParams implements JSONable {
 		return mChildren;
 	}
 
-	public int getNumTravelers() {
-		return getNumAdults() + getNumChildren();
-	}
-
 	public String getSortType() {
 		return mSortType;
 	}
@@ -370,20 +266,12 @@ public class HotelSearchParams implements JSONable {
 		mSearchLatLonUpToDate = true;
 	}
 
-	public void setSearchLatLonUpToDate() {
-		mSearchLatLonUpToDate = true;
-	}
-
 	public double getSearchLatitude() {
 		return mSearchLatitude;
 	}
 
 	public double getSearchLongitude() {
 		return mSearchLongitude;
-	}
-
-	public boolean hasSearchLatLon() {
-		return mSearchLatLonUpToDate;
 	}
 
 	public void setRegionId(String regionId) {
@@ -404,25 +292,6 @@ public class HotelSearchParams implements JSONable {
 
 	public void setCorrespondingAirportCode(String code) {
 		mCorrespondingAirportCode = code;
-	}
-
-	public String getCorrespondingAirportCode() {
-		return mCorrespondingAirportCode;
-	}
-
-	public boolean hasRegionId() {
-		return mRegionId != null && !mRegionId.equals("0");
-	}
-
-	public static HotelSearchParams fromFlightParams(TripBucketItemFlight flight) {
-		FlightTrip trip = flight.getFlightTrip();
-		FlightLeg firstLeg = trip.getLeg(0);
-		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
-		FlightSearchParams params = flight.getFlightSearchParams();
-		int numFlightTravelers = params.getNumAdults();
-		List<ChildTraveler> childTravelers = params.getChildren();
-		String regionId = flight.getCheckoutResponse().getDestinationRegionId();
-		return fromFlightParams(regionId, firstLeg, secondLeg, numFlightTravelers, childTravelers);
 	}
 
 	/**

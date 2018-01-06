@@ -78,7 +78,7 @@ class HotelCheckoutPresenterTest {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
-        Db.resetTravelers()
+        Db.sharedInstance.resetTravelers()
         activity.setTheme(R.style.Theme_Hotels_Default)
         AbacusTestUtils.unbucketTestAndDisableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
@@ -90,7 +90,7 @@ class HotelCheckoutPresenterTest {
 
     @After
     fun tearDown() {
-        Db.resetTravelers()
+        Db.sharedInstance.resetTravelers()
     }
 
     @Test
@@ -323,8 +323,8 @@ class HotelCheckoutPresenterTest {
         val incompleteTraveler = Traveler()
         checkout.travelersPresenter.travelerEntryWidget.viewModel.updateTraveler(incompleteTraveler)
 
-        assertEquals(incompleteTraveler, Db.getTravelers()[0])
-        assertEquals("test@gmail.com", Db.getTravelers()[0].email)
+        assertEquals(incompleteTraveler, Db.sharedInstance.travelers[0])
+        assertEquals("test@gmail.com", Db.sharedInstance.travelers[0].email)
     }
 
     @Test
@@ -464,7 +464,7 @@ class HotelCheckoutPresenterTest {
         testUser.primaryTraveler = traveler
         userStateManager?.userSource?.user = testUser
         UserLoginTestUtil.setupUserAndMockLogin(testUser)
-        Db.setTravelers(listOf(traveler))
+        Db.sharedInstance.setTravelers(listOf(traveler))
     }
 
     private fun assertHotelOverviewVisibility(expectedVisibility: Int) {
@@ -498,7 +498,7 @@ class HotelCheckoutPresenterTest {
     private fun setupHotelCheckoutPresenter(): HotelCheckoutPresenter {
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
         checkoutView.hotelCheckoutViewModel = HotelCheckoutViewModel(mockHotelServices.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
-        Db.setTravelers(listOf(makeTraveler()))
+        Db.sharedInstance.setTravelers(listOf(makeTraveler()))
         checkoutView.hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.bind(makeTraveler())
         checkoutView.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(mockHotelServices.services!!,
                 PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))

@@ -30,8 +30,8 @@ class HotelTravelerEntryWidgetViewModel(val context: Context, travelerCheckoutSt
     }
 
     override fun getTraveler(): Traveler {
-        if (Db.getTravelers().isNotEmpty()) {
-            return Db.getTravelers()[0]
+        if (Db.sharedInstance.travelers.isNotEmpty()) {
+            return Db.sharedInstance.travelers[0]
         } else {
             val traveler = Traveler()
             traveler.email = ""

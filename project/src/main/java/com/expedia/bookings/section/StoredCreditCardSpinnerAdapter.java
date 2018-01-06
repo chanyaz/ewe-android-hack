@@ -40,7 +40,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 	public StoredCreditCardSpinnerAdapter(Context context, TripBucketItem item) {
 		super(context, R.layout.traveler_autocomplete_row);
 		mTripBucketItem = item;
-		hasTemporarilySavedCard = Db.getTemporarilySavedCard() != null;
+		hasTemporarilySavedCard = Db.sharedInstance.getTemporarilySavedCard() != null;
 		userStateManager = com.expedia.bookings.utils.Ui.getApplication(context).appComponent().userStateManager();
 	}
 
@@ -113,10 +113,10 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 			break;
 		case ITEM_VIEW_TYPE_TEMP_CREDITCARD:
 			retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);
-			BillingInfo info = Db.getTemporarilySavedCard();
+			BillingInfo info = Db.sharedInstance.getTemporarilySavedCard();
 			PaymentType cardType = info.getPaymentType(getContext());
 			retView = bindStoredCardTile(retView, cardType, getUserSavedTemporaryCardText(cardType, info.getNumber()), info.getSaveCardToExpediaAccount());
-			retView.setEnabled(!Db.getTemporarilySavedCard().getSaveCardToExpediaAccount());
+			retView.setEnabled(!Db.sharedInstance.getTemporarilySavedCard().getSaveCardToExpediaAccount());
 			break;
 		}
 
@@ -169,7 +169,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 	public void refresh(TripBucketItem item) {
 		mTripBucketItem = item;
-		hasTemporarilySavedCard = Db.getTemporarilySavedCard() != null;
+		hasTemporarilySavedCard = Db.sharedInstance.getTemporarilySavedCard() != null;
 		notifyDataSetChanged();
 	}
 }

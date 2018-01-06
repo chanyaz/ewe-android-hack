@@ -37,10 +37,10 @@ public class ClearPrivateDataUtil {
 		DismissedItinButton.clear();
 
 		// AirAsia Flight routes
-		Db.deleteCachedFlightRoutes(context);
+		Db.sharedInstance.deleteCachedFlightRoutes(context);
 
 		// Clear anything else out that might remain
-		Db.clear();
+		Db.sharedInstance.clear();
 
 		// Clear new hotels suggestions history
 		SuggestionV4Utils.deleteCachedSuggestions(context);

@@ -32,7 +32,7 @@ class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolba
 
     val menuItem: MenuItem by lazy {
         val item = menu.findItem(R.id.menu_share)
-        val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)
+        val variateForTest = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)
         if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
             item.icon = null
         }

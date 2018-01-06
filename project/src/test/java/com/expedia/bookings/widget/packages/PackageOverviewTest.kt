@@ -135,7 +135,7 @@ class PackageOverviewTest {
     }
 
     private fun getExpectedHotelRowContDescription(expandState: String): String {
-        val params = Db.getPackageParams()
+        val params = Db.sharedInstance.packageParams
         return Phrase.from(activity, R.string.select_hotel_selected_cont_desc_TEMPLATE)
                 .put("hotel", Db.getPackageSelectedHotel()?.localizedName ?: "")
                 .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))
@@ -147,7 +147,7 @@ class PackageOverviewTest {
     }
 
     private fun getExpectedFlightRowContDescription(expandState: String): String {
-        val params = Db.getPackageParams()
+        val params = Db.sharedInstance.packageParams
         return Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE)
                 .put("flight", StrUtils.formatAirportCodeCityName(params.origin))
                 .put("datetraveler", testTravelerInfoText)
@@ -213,7 +213,7 @@ class PackageOverviewTest {
     }
 
     private fun givenPackageSearchParamsWithPiid() : PackageSearchParams {
-        val searchParams = Db.getPackageParams()
+        val searchParams = Db.sharedInstance.packageParams
         searchParams.packagePIID = "123"
         return searchParams
     }

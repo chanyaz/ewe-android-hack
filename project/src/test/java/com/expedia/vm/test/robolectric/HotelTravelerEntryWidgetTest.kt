@@ -47,7 +47,7 @@ class HotelTravelerEntryWidgetTest {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
-        Db.resetTravelers()
+        Db.sharedInstance.resetTravelers()
         activity.setTheme(R.style.Theme_Hotels_Default)
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.test_hotel_traveler_presenter)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
@@ -57,7 +57,7 @@ class HotelTravelerEntryWidgetTest {
         travelerPresenter.viewModel = HotelTravelersViewModel(activity, LineOfBusiness.HOTELS, true)
         widget = travelerPresenter.travelerEntryWidget as HotelTravelerEntryWidget
         traveler = MockTravelerProvider().getCompleteTraveler()
-        Db.getTravelers().add(traveler)
+        Db.sharedInstance.travelers.add(traveler)
         val createTripOptInObservable = (travelerPresenter.viewModel as HotelTravelersViewModel).createTripOptInStatus
         testVM = HotelTravelerEntryWidgetViewModel(activity.applicationContext, TravelerCheckoutStatus.CLEAN, createTripOptInObservable)
         widget.viewModel = testVM

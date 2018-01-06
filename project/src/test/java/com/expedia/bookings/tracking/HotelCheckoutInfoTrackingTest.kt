@@ -166,7 +166,7 @@ class HotelCheckoutInfoTrackingTest {
     }
 
     private fun enableABTest(enable: Boolean, ABTestKey: Int) {
-        Db.getAbacusResponse().updateABTestForDebug(ABTestKey,
+        Db.sharedInstance.abacusResponse.updateABTestForDebug(ABTestKey,
                 if (enable) AbacusUtils.DefaultVariant.BUCKETED.ordinal else AbacusUtils.DefaultVariant.CONTROL.ordinal)
     }
 

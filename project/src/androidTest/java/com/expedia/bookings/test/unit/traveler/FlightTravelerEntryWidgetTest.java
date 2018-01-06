@@ -60,7 +60,7 @@ public class FlightTravelerEntryWidgetTest {
 
 	@Test
 	public void testPassportCountryIsShowing() throws Throwable {
-		Db.getTravelers().add(new Traveler());
+		Db.sharedInstance.getTravelers().add(new Traveler());
 		BehaviorSubject<Boolean> showPassportCountryObservable = BehaviorSubject.create();
 		showPassportCountryObservable.onNext(true);
 
@@ -76,7 +76,7 @@ public class FlightTravelerEntryWidgetTest {
 
 	@Test
 	public void testFocusValidation() throws Throwable {
-		Db.getTravelers().add(new Traveler());
+		Db.sharedInstance.getTravelers().add(new Traveler());
 		BehaviorSubject<Boolean> showPassportCountryObservable = BehaviorSubject.create();
 		showPassportCountryObservable.onNext(true);
 
@@ -97,7 +97,7 @@ public class FlightTravelerEntryWidgetTest {
 
 	@Test
 	public void testPassportCountryIsNotShowing() throws Throwable {
-		Db.getTravelers().add(new Traveler());
+		Db.sharedInstance.getTravelers().add(new Traveler());
 		BehaviorSubject<Boolean> showPassportCountryObservable = BehaviorSubject.create();
 		showPassportCountryObservable.onNext(false);
 
@@ -116,7 +116,7 @@ public class FlightTravelerEntryWidgetTest {
 		String pointOfSaleCountry = context.getString(PointOfSale.getPointOfSale().getCountryNameResId());
 		String testPointOfSalePassport = pointOfSaleCountry;
 
-		Db.getTravelers().add(new Traveler());
+		Db.sharedInstance.getTravelers().add(new Traveler());
 		BehaviorSubject<Boolean> showPassportCountryObservable = BehaviorSubject.create();
 		showPassportCountryObservable.onNext(true);
 

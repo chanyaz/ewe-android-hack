@@ -241,7 +241,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	}
 
 	private void setDbTraveler(Traveler traveler) {
-		ArrayList<Traveler> travelers = (ArrayList<Traveler>) Db.getTravelers();
+		ArrayList<Traveler> travelers = (ArrayList<Traveler>) Db.sharedInstance.getTravelers();
 		travelers.clear();
 		travelers.add(0, traveler != null ? traveler : new Traveler());
 	}

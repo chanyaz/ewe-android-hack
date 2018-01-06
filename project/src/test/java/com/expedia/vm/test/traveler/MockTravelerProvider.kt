@@ -118,11 +118,11 @@ class MockTravelerProvider {
         for (i in 1..travelerCount) {
             travelerList.add(mockTraveler)
         }
-        Db.setTravelers(travelerList as MutableList<Traveler>?)
+        Db.sharedInstance.setTravelers(travelerList as MutableList<Traveler>?)
     }
 
     fun addMockTravelerToDb(mockTraveler: Traveler) {
-        val travelerList = Db.getTravelers()
+        val travelerList = Db.sharedInstance.travelers
         travelerList.add(mockTraveler)
     }
 

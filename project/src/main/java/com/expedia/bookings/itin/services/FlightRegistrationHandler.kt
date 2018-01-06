@@ -40,7 +40,7 @@ class FlightRegistrationHandler(val context: Context,
 
     private fun getUser(): TNSUser {
         val siteId: Int = PointOfSale.getPointOfSale().siteId
-        val guid = Db.getAbacusGuid()
+        val guid = Db.sharedInstance.abacusGuid
         return TNSUser(siteId.toString(), userDetail.tuid.toString(), userDetail.expUserId.toString(), guid)
     }
 

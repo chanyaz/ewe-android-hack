@@ -144,11 +144,11 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (isLoggedIn && !isAtLeastPartiallyFilled()) {
                 val user = userStateManager.userSource.user
                 val numberOfSavedCards = user?.storedCreditCards?.size ?: 0
-                val tempSavedCard = Db.getTemporarilySavedCard()
+                val tempSavedCard = Db.sharedInstance.temporarilySavedCard
                 if (numberOfSavedCards >= 1 && tempSavedCard == null) {
                     selectFirstAvailableCard()
                 } else if (numberOfSavedCards == 0 && tempSavedCard != null) {
-                    storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
+                    storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.sharedInstance.temporarilySavedCard)
                 }
             }
             storedCreditCardList.updateAdapter()
@@ -208,7 +208,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             clearCCAndCVV()
             reset()
             sectionBillingInfo.billingInfo.storedCard = card
-            temporarilySavedCardIsSelected(false, Db.getTemporarilySavedCard())
+            temporarilySavedCardIsSelected(false, Db.sharedInstance.temporarilySavedCard)
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
             viewmodel.cardTypeSubject.onNext(Optional(card.type))
@@ -280,7 +280,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
         FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM)
-        Db.setTemporarilySavedCard(null)
+        Db.sharedInstance.setTemporarilySavedCard(null)
     }
 
     fun showPaymentForm(fromPaymentError: Boolean) {
@@ -301,8 +301,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     private fun selectTemporaryCard() {
-        temporarilySavedCardIsSelected(true, Db.getTemporarilySavedCard())
-        viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.getTemporarilySavedCard(), ContactDetailsCompletenessStatus.COMPLETE))
+        temporarilySavedCardIsSelected(true, Db.sharedInstance.temporarilySavedCard)
+        viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.sharedInstance.temporarilySavedCard, ContactDetailsCompletenessStatus.COMPLETE))
         viewmodel.onStoredCardChosen.onNext(Unit)
         viewmodel.onTemporarySavedCreditCardChosen.onNext(Unit)
     }
@@ -401,7 +401,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 viewmodel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.INCOMPLETE))
             }
         } else if (isCreditCardRequired() && hasTempCard()) {
-            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.getTemporarilySavedCard(), ContactDetailsCompletenessStatus.COMPLETE))
+            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.sharedInstance.temporarilySavedCard, ContactDetailsCompletenessStatus.COMPLETE))
         } else if (isAtLeastPartiallyFilled()) {
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.INCOMPLETE))
         } else {
@@ -411,7 +411,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     fun hasTempCard(): Boolean {
-        val info = Db.getTemporarilySavedCard()
+        val info = Db.sharedInstance.temporarilySavedCard
         return info?.saveCardToExpediaAccount == true
     }
 
@@ -422,7 +422,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             return true
         } else if (isCreditCardRequired() && (isAtLeastPartiallyFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
             return true
-        } else return isCreditCardRequired() && Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount
+        } else return isCreditCardRequired() && Db.sharedInstance.temporarilySavedCard != null && Db.sharedInstance.temporarilySavedCard.saveCardToExpediaAccount
     }
 
     fun isCreditCardRequired(): Boolean {
@@ -528,7 +528,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     })
             storedCreditCardList.bind()
             if (!forward) validateAndBind()
-            else viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true || Db.getTemporarilySavedCard() != null))
+            else viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true || Db.sharedInstance.temporarilySavedCard != null))
             updateToolbarMenu(forward, forward, !forward)
             if (forward) {
                 viewmodel.doneClickedMethod.onNext{ close() }
@@ -609,7 +609,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 }
                 showMaskedCreditCardNumber()
                 removeStoredCard()
-                temporarilySavedCardIsSelected(false, Db.getTemporarilySavedCard())
+                temporarilySavedCardIsSelected(false, Db.sharedInstance.temporarilySavedCard)
                 filledIn.onNext(isCompletelyFilled())
             }
             if (!forward) Ui.hideKeyboard(this@PaymentWidget)
@@ -617,7 +617,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             trackAnalytics()
             if (!forward) {
                 validateAndBind()
-                viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true || Db.getTemporarilySavedCard() != null))
+                viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true || Db.sharedInstance.temporarilySavedCard != null))
             }
             viewmodel.showingPaymentForm.onNext(forward)
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
@@ -655,7 +655,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         } else if (isCreditCardRequired() && (isAtLeastPartiallyFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
             return sectionBillingInfo.billingInfo.getPaymentType(context)
         } else if (hasTempCard()) {
-            return Db.getTemporarilySavedCard().getPaymentType(context)
+            return Db.sharedInstance.temporarilySavedCard.getPaymentType(context)
         }
 
         return PaymentType.CARD_UNKNOWN
@@ -666,7 +666,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
         return (userStateManager.isUserAuthenticated() && user?.storedCreditCards?.isNotEmpty() == true
                 && getLineOfBusiness() != LineOfBusiness.RAILS)
-                || Db.getTemporarilySavedCard() != null
+                || Db.sharedInstance.temporarilySavedCard != null
     }
 
     private fun temporarilySavedCardIsSelected(isSelected: Boolean, info: BillingInfo?) {
@@ -676,7 +676,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     fun userChoosesToSaveCard() {
         sectionBillingInfo.billingInfo.saveCardToExpediaAccount = true
         sectionBillingInfo.billingInfo.setIsTempCard(true)
-        Db.setTemporarilySavedCard(BillingInfo(sectionBillingInfo.billingInfo))
+        Db.sharedInstance.setTemporarilySavedCard(BillingInfo(sectionBillingInfo.billingInfo))
         selectTemporaryCard()
         close()
     }

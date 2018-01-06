@@ -15,7 +15,6 @@ import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.AcceptTermsWidget
@@ -51,7 +50,7 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppCheckoutButtonText)
+        val variateForTest = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppCheckoutButtonText)
         if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
             checkoutButton.text = context.getString(R.string.continue_booking)
         } else if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {

@@ -33,7 +33,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.data.Db
@@ -64,7 +63,7 @@ class HotelCheckoutSummaryViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun happy() {
-        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
+        Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
                 AbacusUtils.DefaultVariant.CONTROL.ordinal)
         givenHappyHotelProductResponse()
         setup()
@@ -329,7 +328,7 @@ class HotelCheckoutSummaryViewModelTest {
     fun testCheckOmnitureTrackingForHotelCheckinCheckoutDateInline() {
         createTripResponse = mockHotelServiceTestRule.getPriceChangeDownCreateTripResponse()
         val params = HotelPresenterTestUtil.getDummyHotelSearchParams(context)
-        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
+        Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
                 AbacusUtils.DefaultVariant.BUCKETED.ordinal)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
@@ -445,9 +444,9 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     private fun setABTestAndFeaturetoggleForPayLaterMessaging(payLaterAbTest: Boolean, featureToggle: Boolean) {
-        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key,
+        Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key,
                 if (payLaterAbTest) AbacusUtils.DefaultVariant.BUCKETED.ordinal else AbacusUtils.DefaultVariant.CONTROL.ordinal)
-        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
+        Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
                 AbacusUtils.DefaultVariant.BUCKETED.ordinal)
 
         SettingUtils.save(context, context.getString(R.string.pay_later_credit_card_messaging), featureToggle)

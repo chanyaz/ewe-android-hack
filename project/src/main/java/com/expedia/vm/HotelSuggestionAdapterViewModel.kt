@@ -26,7 +26,7 @@ class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: ISug
 
     override fun getSuggestionService(query: String) {
         val sameAsWeb = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelAutoSuggestSameAsWeb)
-        val guid: String? = if (sameAsWeb) Db.getAbacusGuid() else null
+        val guid: String? = if (sameAsWeb) Db.sharedInstance.abacusGuid else null
 
         suggestionsService.getHotelSuggestionsV4(query, generateSuggestionServiceCallback(), sameAsWeb, guid)
     }

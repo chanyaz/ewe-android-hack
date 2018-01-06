@@ -28,7 +28,7 @@ abstract class AbstractUniversalCKOTravelerEntryWidgetViewModel(context: Context
     abstract fun getTraveler(): Traveler
 
     open fun updateTraveler(traveler: Traveler) {
-        Db.getTravelers()[travelerIndex] = traveler
+        Db.sharedInstance.travelers[travelerIndex] = traveler
         if (userStateManager.isUserAuthenticated()) {
             traveler.email = userStateManager.userSource.user?.primaryTraveler?.email
         }

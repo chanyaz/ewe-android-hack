@@ -82,8 +82,8 @@ public class WorkingTravelerManager {
 	 * @param travelerNumber (0 indexed)
 	 */
 	public Traveler commitWorkingTravelerToDB(int travelerNumber) {
-		while (travelerNumber >= Db.getTravelers().size()) {
-			Db.getTravelers().add(new Traveler());
+		while (travelerNumber >= Db.sharedInstance.getTravelers().size()) {
+			Db.sharedInstance.getTravelers().add(new Traveler());
 		}
 		Traveler commitTrav = new Traveler();
 		commitTrav.fromJson(getWorkingTraveler().toJson());
@@ -91,7 +91,7 @@ public class WorkingTravelerManager {
 		if (commitTrav.isNew()) {
 			commitTrav.setIsNew(false);
 		}
-		Db.getTravelers().set(travelerNumber, commitTrav);
+		Db.sharedInstance.getTravelers().set(travelerNumber, commitTrav);
 		return commitTrav;
 	}
 

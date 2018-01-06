@@ -239,7 +239,7 @@ class FlightCheckoutToolbarTest {
         info.nameOnCard = "Expedia Chicago"
         info.expirationDate = LocalDate(2017, 1, 1)
         info.securityCode = "123"
-        Db.setTemporarilySavedCard(info)
+        Db.sharedInstance.setTemporarilySavedCard(info)
     }
 
     private fun setTravelersInDb(numOfTravelers: Int) {
@@ -248,6 +248,6 @@ class FlightCheckoutToolbarTest {
             val newTraveler = Traveler()
             travelerList.add(newTraveler)
         }
-        Db.setTravelers(travelerList)
+        Db.sharedInstance.setTravelers(travelerList)
     }
 }

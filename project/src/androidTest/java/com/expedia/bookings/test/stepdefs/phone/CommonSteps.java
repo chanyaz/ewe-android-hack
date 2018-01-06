@@ -101,7 +101,7 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.PackagesBackFlowFromOverview.getKey(),
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
-		Db.setAbacusResponse(abacusResponse);
+		Db.sharedInstance.setAbacusResponse(abacusResponse);
 	}
 
 	@And("^I put following tests in control$")
@@ -114,7 +114,7 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.PackagesBackFlowFromOverview.getKey(),
 				AbacusUtils.DefaultVariant.CONTROL.ordinal());
 		}
-		Db.setAbacusResponse(abacusResponse);
+		Db.sharedInstance.setAbacusResponse(abacusResponse);
 	}
 
 	@And("^I enable following features$")

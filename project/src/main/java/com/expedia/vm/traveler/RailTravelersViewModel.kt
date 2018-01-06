@@ -33,7 +33,7 @@ class RailTravelersViewModel(context: Context) : AbstractTravelersViewModel() {
     }
 
     override fun getTravelers() : List<Traveler> {
-        return Db.getTravelers()
+        return Db.sharedInstance.travelers
     }
 
     override fun requiresMultipleTravelers() = getTravelers().size > 1

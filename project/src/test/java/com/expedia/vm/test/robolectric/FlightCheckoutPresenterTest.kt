@@ -57,10 +57,10 @@ class FlightCheckoutPresenterTest {
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before fun before() {
-        Db.clear()
+        Db.sharedInstance.clear()
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         Ui.getApplication(RuntimeEnvironment.application).defaultFlightComponents()
-        Db.setTravelers(listOf(getTravelerWithFrequentFlyerMemberships()))
+        Db.sharedInstance.setTravelers(listOf(getTravelerWithFrequentFlyerMemberships()))
     }
 
     @Test
@@ -75,7 +75,7 @@ class FlightCheckoutPresenterTest {
     @Test
     fun testPassportRequiredObservables() {
         setupCheckout()
-        Db.setTravelers(listOf(Traveler(), Traveler()))
+        Db.sharedInstance.setTravelers(listOf(Traveler(), Traveler()))
         checkout.travelersPresenter.resetTravelers()
         val travelerPickerWidget = checkout.travelersPresenter.travelerPickerWidget
         val passportRequiredSubscriber = TestSubscriber<Boolean>()
@@ -178,7 +178,7 @@ class FlightCheckoutPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFrequentFlyerControlTracking() {
         setupCheckout(true)
-        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber.key,
+        Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber.key,
                 AbacusUtils.DefaultVariant.CONTROL.ordinal)
 
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()

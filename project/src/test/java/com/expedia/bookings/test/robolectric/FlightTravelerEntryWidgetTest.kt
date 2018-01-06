@@ -379,13 +379,13 @@ class FlightTravelerEntryWidgetTest {
 
     @Test
     fun testGetTravelerReturnsTravelerIfEmpty() {
-        Db.clear()
+        Db.sharedInstance.clear()
         givenMaterialForm()
-        assertEquals(2, Db.getTravelers().size)
-        assertEquals(12345, Db.getTravelers()[0].tuid)
+        assertEquals(2, Db.sharedInstance.travelers.size)
+        assertEquals(12345, Db.sharedInstance.travelers[0].tuid)
 
-        Db.resetTravelers()
-        assertEquals(2, Db.getTravelers().size)
+        Db.sharedInstance.resetTravelers()
+        assertEquals(2, Db.sharedInstance.travelers.size)
 
         setupViewModel(0, false)
 
@@ -401,8 +401,8 @@ class FlightTravelerEntryWidgetTest {
         traveler = Traveler()
         setTravelerName()
         traveler.tuid = 12345
-        Db.getTravelers().add(traveler)
-        Db.getTravelers().add(traveler)
+        Db.sharedInstance.travelers.add(traveler)
+        Db.sharedInstance.travelers.add(traveler)
     }
 
     private fun setupViewModel(travelerIndex: Int, showPassport: Boolean) {

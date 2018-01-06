@@ -8,7 +8,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.SuggestionV4Services
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import rx.Observable
 
@@ -17,7 +16,7 @@ class AirportSuggestionViewModel(context: Context, suggestionsService: Suggestio
     private val showSuggestionLabel: Boolean = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
 
     override fun getSuggestionService(query: String) {
-        suggestionsService.getAirports(query, isDest, generateSuggestionServiceCallback(), Db.getAbacusGuid())
+        suggestionsService.getAirports(query, isDest, generateSuggestionServiceCallback(), Db.sharedInstance.abacusGuid)
     }
 
     override fun getSuggestionHistoryFile(): String = SuggestionV4Utils.RECENT_AIRPORT_SUGGESTIONS_FILE

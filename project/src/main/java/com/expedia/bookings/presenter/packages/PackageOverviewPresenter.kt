@@ -29,21 +29,21 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.PackageCheckoutPresenter
-import com.expedia.ui.PackageHotelActivity
-import com.squareup.phrase.Phrase
-import org.joda.time.format.DateTimeFormat
-import rx.subjects.PublishSubject
 import com.expedia.bookings.widget.shared.WebCheckoutView
+import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.updateVisibility
 import com.expedia.vm.PackageWebCheckoutViewViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
+import com.expedia.vm.packages.OverviewHeaderData
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageTotalPriceViewModel
-import com.expedia.vm.packages.OverviewHeaderData
+import com.squareup.phrase.Phrase
 import org.joda.time.Days
+import org.joda.time.format.DateTimeFormat
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
@@ -149,7 +149,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             resetBundleTotalTax()
             bundleWidget.collapseBundleWidgets()
-            val params = Db.getPackageParams()
+            val params = Db.sharedInstance.packageParams
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
             params.searchProduct = null
             bundleWidget.viewModel.hotelParamsObservable.onNext(params)
@@ -165,7 +165,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             bundleWidget.collapseBundleWidgets()
             totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             resetBundleTotalTax()
-            val params = Db.getPackageParams()
+            val params = Db.sharedInstance.packageParams
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
             val intent = Intent(context, PackageHotelActivity::class.java)
             intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
@@ -182,7 +182,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             resetBundleTotalTax()
             bundleWidget.collapseBundleWidgets()
-            val params = Db.getPackageParams()
+            val params = Db.sharedInstance.packageParams
             params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
             params.searchProduct = Constants.PRODUCT_FLIGHT
             params.selectedLegId = null
@@ -224,7 +224,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     private fun setCheckoutHeaderOverviewDates() {
-        val params = Db.getPackageParams()
+        val params = Db.sharedInstance.packageParams
         val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
 
         //set the package start and end date
@@ -279,7 +279,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     override fun trackCheckoutPageLoad() {
-        PackagesTracking().trackCheckoutStart(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType))
+        PackagesTracking().trackCheckoutStart(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails, Strings.capitalizeFirstLetter(Db.sharedInstance.packageSelectedRoom.supplierType))
     }
 
     override fun trackPaymentCIDLoad() {
@@ -393,7 +393,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
     private fun setMandatoryFee() {
         val packagetotal = Db.getPackageResponse().getCurrentOfferPrice()?.packageTotalPrice
-        val rateInfo = Db.getPackageSelectedRoom().rateInfo.chargeableRateInfo
+        val rateInfo = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo
         var mandatoryFee: Float = 0F
 
         if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.TOTAL) {

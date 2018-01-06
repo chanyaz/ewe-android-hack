@@ -10,7 +10,6 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
-import com.expedia.util.safeSubscribe
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -47,8 +46,8 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
     }
 
     override fun getTraveler(): Traveler {
-        return if (Db.getTravelers().isNotEmpty()) {
-            Db.getTravelers()[travelerIndex]
+        return if (Db.sharedInstance.travelers.isNotEmpty()) {
+            Db.sharedInstance.travelers[travelerIndex]
         } else {
             Traveler()
         }

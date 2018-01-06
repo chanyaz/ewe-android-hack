@@ -33,7 +33,7 @@ public class AbacusPreferencesFragment extends BasePreferenceFragment {
 		@Override
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
 			int value = Integer.valueOf(newValue.toString());
-			Db.getAbacusResponse().updateABTestForDebug(Integer.valueOf(preference.getKey()), value);
+			Db.sharedInstance.getAbacusResponse().updateABTestForDebug(Integer.valueOf(preference.getKey()), value);
 			return true;
 		}
 	};

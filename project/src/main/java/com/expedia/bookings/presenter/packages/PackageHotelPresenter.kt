@@ -194,7 +194,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(resultsToOverview)
         addTransition(detailsToReview)
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_HOTEL)
-        
+
         resultsPresenter.viewModel.hotelResultsObservable.subscribe {
             bundleSlidingWidget.bundleOverViewWidget.viewModel.hotelResultsObservable.onNext(Unit)
             bindData()
@@ -244,14 +244,14 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         PackagesPageUsableData.HOTEL_INFOSITE.pageUsableData.markPageLoadStarted()
         selectedPackageHotel = hotel
-        val params = Db.getPackageParams()
+        val params = Db.sharedInstance.packageParams
         params.hotelId = hotel.hotelId
         params.latestSelectedFlightPIID = Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotel.hotelPid)
         params.latestSelectedProductOfferPrice = hotel.packageOfferModel.price
         val packageHotelOffers = if (isMidAPIEnabled(context)) {
             getMIDRoomSearch(params)
         } else {
-            getPSSRoomSearch(hotel.packageOfferModel.piid, hotel.hotelId, params.startDate.toString(), params.endDate.toString(), Db.getPackageSelectedRoom()?.ratePlanCode, Db.getPackageSelectedRoom()?.roomTypeCode, params.adults, params.children.firstOrNull())
+            getPSSRoomSearch(hotel.packageOfferModel.piid, hotel.hotelId, params.startDate.toString(), params.endDate.toString(), Db.sharedInstance.packageSelectedRoom?.ratePlanCode, Db.sharedInstance.packageSelectedRoom?.roomTypeCode, params.adults, params.children.firstOrNull())
         }
         getDetails(hotel.hotelId, packageHotelOffers)
         PackagesTracking().trackHotelMapCarouselPropertyClick()
@@ -305,7 +305,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
             resultsPresenter.bundlePriceWidgetTop.setOnClickListener(null)
         }
-        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
         val info = packageServices.hotelInfo(hotelId)
 
         Observable.zip(packageHotelOffers.doOnError {}, info.doOnError {},
@@ -411,7 +411,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 val countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
                 val currencyCode = CurrencyUtils.currencyForLocale(countryCode)
                 bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPersonObservable.onNext(Money(BigDecimal("0.00"), currencyCode).formattedMoney)
-                Db.clearPackageHotelRoomSelection()
+                Db.sharedInstance.clearPackageHotelRoomSelection()
             } else {
                 detailPresenter.hotelDetailView.refresh()
             }
@@ -464,7 +464,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val selectedRoomObserver = endlessObserver<HotelOffersResponse.HotelRoomResponse> { offer ->
         Db.setPackageSelectedHotel(selectedPackageHotel, offer)
         updatePackagePrice(offer)
-        val params = Db.getPackageParams()
+        val params = Db.sharedInstance.packageParams
         params.packagePIID = offer.productKey
         params.ratePlanCode = offer.ratePlanCode
         params.roomTypeCode = offer.roomTypeCode
@@ -497,7 +497,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 addDefaultTransition(defaultResultsTransition)
                 show(resultsPresenter)
                 resultsPresenter.showDefault()
-                resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+                resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
                 trackEventSubject.onNext(Unit)
             }
             PackageHotelActivity.Screen.DETAILS_ONLY -> {

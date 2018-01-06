@@ -70,7 +70,7 @@ class PackageCheckoutOverviewViewModelTest {
         val country = SuggestionV4.Country()
         country.name = "Japan"
         hierarchyInfo.country = country
-        Db.getPackageParams().destination?.hierarchyInfo = hierarchyInfo
+        Db.sharedInstance.packageParams.destination?.hierarchyInfo = hierarchyInfo
         viewmodel.tripResponseSubject.onNext(createOverviewHeaderData(trip))
 
         cityTestSubscriber.assertValueCount(2)

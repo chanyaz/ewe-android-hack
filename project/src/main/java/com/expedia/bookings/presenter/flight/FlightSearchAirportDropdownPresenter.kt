@@ -74,7 +74,7 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
         dividerParams.setMargins(paddingLeft, 0, paddingRight, 0)
         flightsSearchDivider.layoutParams = dividerParams
 
-        if (Db.getFlightRoutes() != null) {
+        if (Db.sharedInstance.flightRoutes != null) {
             onRoutesLoaded()
         } else {
             val bd = BackgroundDownloader.getInstance()
@@ -108,7 +108,7 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
     }
 
     private fun createFlightRouterAdapter(isOrigin: Boolean): FlightRouteAdapter {
-        return FlightRouteAdapter(context, Db.getFlightRoutes(), recentAirports.recentSearches,
+        return FlightRouteAdapter(context, Db.sharedInstance.flightRoutes, recentAirports.recentSearches,
                 isOrigin, true, false, R.layout.material_flights_spinner_airport_dropdown_row)
     }
 

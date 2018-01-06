@@ -168,8 +168,8 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
     }
 
     val checkoutSliderSlidObserver = endlessObserver<Boolean> {
-        val billingInfo = if (Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount)
-            Db.getTemporarilySavedCard()
+        val billingInfo = if (Db.sharedInstance.temporarilySavedCard != null && Db.sharedInstance.temporarilySavedCard.saveCardToExpediaAccount)
+            Db.sharedInstance.temporarilySavedCard
         else hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
 
         if (!it) {
@@ -225,8 +225,8 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
 
         val rewardsPointsDetails = hotelCreateTripResponse.getPointDetails()
 
-        val billingInfo = if (Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount)
-                            Db.getTemporarilySavedCard()
+        val billingInfo = if (Db.sharedInstance.temporarilySavedCard != null && Db.sharedInstance.temporarilySavedCard.saveCardToExpediaAccount)
+                            Db.sharedInstance.temporarilySavedCard
                             else hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
 
         // Pay with card if CVV is entered. Pay later can have 0 amount also.

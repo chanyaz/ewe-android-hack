@@ -42,20 +42,11 @@ public class WorkingBillingInfoManager {
 	}
 
 	/**
-	 * If the current BillingInfo was created by calling rebaseWorkingBillingInfo we store a copy of the argument BillingInfo.
-	 * We can then use origin BillingInfo to compare to our working BillingInfo and figure out what has changed.
-	 * @return
-	 */
-	public BillingInfo getBaseBillingInfo() {
-		return mBaseBillingInfo;
-	}
-
-	/**
 	 * Save the current working BillingInfo to the Db object effectively commiting the changes locally.
 	 */
 	public void commitWorkingBillingInfoToDB() {
 		BillingInfo commitBillingInfo = new BillingInfo(mWorkingBillingInfo);
-		Db.setBillingInfo(commitBillingInfo);
+		Db.sharedInstance.setBillingInfo(commitBillingInfo);
 	}
 
 	/**

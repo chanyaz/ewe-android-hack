@@ -3,7 +3,6 @@ package com.expedia.vm.test.traveler
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -21,7 +20,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelerSelectItemViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,7 +40,7 @@ class TravelersPresenterTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(activity).defaultTravelerComponent()
 
-        Db.setTravelers(getMockTravelers(5))
+        Db.sharedInstance.setTravelers(getMockTravelers(5))
     }
 
     private fun getMockTravelers(numberOfTravelers: Int): ArrayList<Traveler> {
@@ -56,20 +54,20 @@ class TravelersPresenterTest {
     @Test
     fun testChangedMoreTravelersDoesntCrash() {
         setupPresenterAndViewModel(LineOfBusiness.FLIGHTS_V2)
-        Db.setTravelers(getMockTravelers(1))
+        Db.sharedInstance.setTravelers(getMockTravelers(1))
         resetAndUpdateTravelers()
-        Db.setTravelers(getMockTravelers(2))
+        Db.sharedInstance.setTravelers(getMockTravelers(2))
         resetAndUpdateTravelers()
     }
 
     @Test
     fun testChangedLessTravelersDoesntCrash() {
         setupPresenterAndViewModel(LineOfBusiness.FLIGHTS_V2)
-        Db.setTravelers(getMockTravelers(2))
+        Db.sharedInstance.setTravelers(getMockTravelers(2))
         resetAndUpdateTravelers()
         travelersPresenter.travelerPickerWidget.refresh(getMockTravelers(2))
 
-        Db.setTravelers(getMockTravelers(1))
+        Db.sharedInstance.setTravelers(getMockTravelers(1))
         travelersPresenter.travelerPickerWidget.refresh(getMockTravelers(1))
         resetAndUpdateTravelers()
         travelersPresenter.viewModel.passportRequired.onNext(true)
@@ -79,7 +77,7 @@ class TravelersPresenterTest {
     @Test
     fun testFrequentFlyerWidgetHiddenForPackages() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
-        Db.setTravelers(getMockTravelers(0))
+        Db.sharedInstance.setTravelers(getMockTravelers(0))
         setupPresenterAndViewModel(LineOfBusiness.PACKAGES)
         resetAndUpdateTravelers()
 
@@ -99,11 +97,11 @@ class TravelersPresenterTest {
     fun testRightDataShownInAdvancedOptionsWhenMultipleTravelerIsPresent() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
         var travelers = getMockTravelers(2)
-        Db.setTravelers(travelers)
+        Db.sharedInstance.setTravelers(travelers)
         setupPresenterAndViewModel(LineOfBusiness.FLIGHTS_V2)
         resetAndUpdateTravelers()
 
-        travelersPresenter.travelerPickerWidget.refresh(Db.getTravelers())
+        travelersPresenter.travelerPickerWidget.refresh(Db.sharedInstance.travelers)
         var travelerToSelect = TravelerSelectItemViewModel(activity, 0, travelers[0].age, PassengerCategory.ADULT)
         travelersPresenter.travelerPickerWidget.viewModel.selectedTravelerSubject.onNext(travelerToSelect)
         var travelerEntryWidget = (travelersPresenter.travelerEntryWidget as FlightTravelerEntryWidget)

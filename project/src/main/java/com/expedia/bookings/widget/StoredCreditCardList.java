@@ -58,10 +58,10 @@ public class StoredCreditCardList extends LinearLayout {
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 				StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
 				if (mStoredCreditCardAdapter.isTemporarilySavedCard(position)) {
-					if (Db.getTemporarilySavedCard().getSaveCardToExpediaAccount()) {
+					if (Db.sharedInstance.getTemporarilySavedCard().getSaveCardToExpediaAccount()) {
 						return;
 					}
-					mStoredCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard());
+					mStoredCreditCardListener.onTemporarySavedCreditCardChosen(Db.sharedInstance.getTemporarilySavedCard());
 					setStatusForStoredCards(position);
 				}
 				else if (card != null && card.isSelectable()) {

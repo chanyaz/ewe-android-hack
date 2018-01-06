@@ -24,7 +24,7 @@ abstract class AbstractTravelersViewModel {
         } else if (allTravelersValid()) {
             allTravelersCompleteSubject.onNext(getTravelers())
             travelersCompletenessStatus.onNext(TravelerCheckoutStatus.COMPLETE)
-        } else if (Db.getTravelers().size > 1 && !isDirtyObservable.value) {
+        } else if (Db.sharedInstance.travelers.size > 1 && !isDirtyObservable.value) {
             invalidTravelersSubject.onNext(Unit)
             travelersCompletenessStatus.onNext(TravelerCheckoutStatus.CLEAN)
         } else {
@@ -51,7 +51,7 @@ abstract class AbstractTravelersViewModel {
     abstract fun requiresMultipleTravelers() : Boolean
 
     open fun getTraveler(index: Int) : Traveler {
-        val travelerList = Db.getTravelers()
+        val travelerList = Db.sharedInstance.travelers
         return travelerList[index]
     }
 

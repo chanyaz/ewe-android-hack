@@ -1,35 +1,34 @@
 package com.expedia.bookings.data.trips;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class TripBucketItemHotel extends TripBucketItem {
 
-	HotelSearch mHotelSearch;
-	HotelAvailability mAvailability;
-	Rate mRate;
-	Rate mOldRate;
+	private HotelSearch mHotelSearch;
+	private HotelAvailability mAvailability;
+	private Rate mRate;
+	private Rate mOldRate;
 
-	Rate mCouponRate;
-	boolean mIsCouponApplied;
+	private Rate mCouponRate;
+	private boolean mIsCouponApplied;
 
-	HotelBookingResponse mBookingResponse;
+	private HotelBookingResponse mBookingResponse;
 
-	public TripBucketItemHotel() {
+	TripBucketItemHotel() {
 		// ignore
 	}
 
-	public TripBucketItemHotel(HotelSearch hotelSearch, Rate rate, HotelAvailability availability) {
+	TripBucketItemHotel(HotelSearch hotelSearch, Rate rate, HotelAvailability availability) {
 		mHotelSearch = hotelSearch.generateForTripBucket();
 		mAvailability = availability.clone();
 		mRate = rate.clone();
@@ -38,10 +37,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 	@Override
 	public LineOfBusiness getLineOfBusiness() {
 		return LineOfBusiness.HOTELS;
-	}
-
-	public Property getProperty() {
-		return mHotelSearch.getSelectedProperty();
 	}
 
 	public Rate getRate() {
@@ -53,18 +48,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 		}
 	}
 
-	public Rate getRateNoCoupon() {
-		return mRate;
-	}
-
-	public Rate getOldRate() {
-		return mOldRate;
-	}
-
-	public HotelAvailability getHotelAvailability() {
-		return mAvailability;
-	}
-
 	public HotelSearch getHotelSearch() {
 		return mHotelSearch;
 	}
@@ -72,37 +55,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 	public HotelSearchParams getHotelSearchParams() {
 		return mHotelSearch.getSearchParams();
 	}
-
-	public void setNewRate(Rate rate) {
-		setNewRate(rate, true);
-	}
-
-	public void setNewRate(Rate rate, boolean hasPriceChanged) {
-		mOldRate = mRate;
-		mRate = rate;
-		setHasPriceChanged(hasPriceChanged);
-	}
-
-	public boolean hasAirAttachRate() {
-		return mRate != null && mRate.isAirAttached();
-	}
-
-	public boolean isCouponApplied() {
-		return mIsCouponApplied;
-	}
-
-	public void setIsCouponApplied(boolean isCouponApplied) {
-		mIsCouponApplied = isCouponApplied;
-	}
-
-	public void setCouponRate(Rate couponRate) {
-		mCouponRate = couponRate;
-	}
-
-	public Rate getCouponRate() {
-		return mCouponRate;
-	}
-
 
 	public HotelBookingResponse getBookingResponse() {
 		return mBookingResponse;

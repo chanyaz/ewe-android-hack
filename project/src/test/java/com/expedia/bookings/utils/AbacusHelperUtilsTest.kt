@@ -34,7 +34,7 @@ class AbacusHelperUtilsTest {
         test3 = ABTest(activeTests[2])
 
         val abacusResponse = getNewResponse()
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
 
         assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, test1))
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, test2))
@@ -46,13 +46,13 @@ class AbacusHelperUtilsTest {
         //Force bucket the user
         ForceBucketPref.setUserForceBucketed(context, true)
         ForceBucketPref.saveForceBucketedTestKeyValue(context, test1.key, 1)
-        Db.getAbacusResponse().forceUpdateABTest(test1.key, 1)
+        Db.sharedInstance.abacusResponse.forceUpdateABTest(test1.key, 1)
 
         assertEquals(1, ForceBucketPref.getForceBucketedTestValue(context, test1.key, -1))
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, test1))
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, test2))
         assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, test3))
-        assertEquals(0, Db.getAbacusResponse().testForKey(test3).value)
+        assertEquals(0, Db.sharedInstance.abacusResponse.testForKey(test3).value)
 
         AbacusHelperUtils.updateAbacusResponse(getNewResponse())
         AbacusHelperUtils.updateForceBucketedTests(context)
@@ -61,7 +61,7 @@ class AbacusHelperUtilsTest {
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, test1))
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, test2))
         assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, test3))
-        assertEquals(0, Db.getAbacusResponse().testForKey(test3).value)
+        assertEquals(0, Db.sharedInstance.abacusResponse.testForKey(test3).value)
     }
 
     private fun getNewResponse(): AbacusResponse? {

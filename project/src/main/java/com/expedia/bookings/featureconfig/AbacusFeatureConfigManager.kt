@@ -41,7 +41,7 @@ class AbacusFeatureConfigManager {
         }
 
         private fun isBucketed(abacusTest: ABTest): Boolean {
-            val test = Db.getAbacusResponse().testForKey(abacusTest)
+            val test = Db.sharedInstance.abacusResponse.testForKey(abacusTest)
             return test != null && test.isUserInBucket
         }
 

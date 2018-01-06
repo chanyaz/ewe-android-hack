@@ -74,13 +74,13 @@ public class AbacusHelperUtils {
 		// Modify the bucket values based on dev settings;
 		if (BuildConfig.DEBUG) {
 			for (Integer key : AbacusUtils.getActiveTests()) {
-				Db.getAbacusResponse().updateABTestForDebug(key, SettingUtils
+				Db.sharedInstance.getAbacusResponse().updateABTestForDebug(key, SettingUtils
 					.get(context, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
 			}
 		}
 
-		Log.v("AbacusData", Db.getAbacusResponse().toString());
-		Crashlytics.log(Db.getAbacusResponse().toString());
+		Log.v("AbacusData", Db.sharedInstance.getAbacusResponse().toString());
+		Crashlytics.log(Db.sharedInstance.getAbacusResponse().toString());
 	}
 
 	@VisibleForTesting
@@ -90,7 +90,7 @@ public class AbacusHelperUtils {
 			for (Integer key : AbacusUtils.getActiveTests()) {
 				int testVal = ForceBucketPref.getForceBucketedTestValue(context, key, AbacusUtils.ABTEST_IGNORE_DEBUG);
 				if (testVal != AbacusUtils.ABTEST_IGNORE_DEBUG) {
-					Db.getAbacusResponse().forceUpdateABTest(key, testVal);
+					Db.sharedInstance.getAbacusResponse().forceUpdateABTest(key, testVal);
 				}
 			}
 		}
@@ -98,11 +98,11 @@ public class AbacusHelperUtils {
 
 	@VisibleForTesting
 	static void updateAbacusResponse(AbacusResponse abacusResponse) {
-		if (Db.getAbacusResponse() == null) {
-			Db.setAbacusResponse(abacusResponse);
+		if (Db.sharedInstance.getAbacusResponse() == null) {
+			Db.sharedInstance.setAbacusResponse(abacusResponse);
 		}
 		else {
-			Db.getAbacusResponse().updateFrom(abacusResponse);
+			Db.sharedInstance.getAbacusResponse().updateFrom(abacusResponse);
 		}
 	}
 
@@ -137,7 +137,7 @@ public class AbacusHelperUtils {
 			return mc1CookieAndAbacusGuidNewUuid(context);
 		}
 		else if (mc1Cookie.contains(abacusGuid)) {
-			Db.setAbacusGuid(abacusGuid);
+			Db.sharedInstance.setAbacusGuid(abacusGuid);
 			return abacusGuid;
 		}
 		return abacusGuidFromMC1Cookie(context, mc1Cookie);
@@ -152,14 +152,14 @@ public class AbacusHelperUtils {
 		CookiesReference cookiesReference = new CookiesReference(context);
 		cookiesReference.mCookieManager.setMC1Cookie(mc1Cookie, host);
 		SettingUtils.save(context, PREF_ABACUS_GUID, abacusGuid);
-		Db.setAbacusGuid(abacusGuid);
+		Db.sharedInstance.setAbacusGuid(abacusGuid);
 		return abacusGuid;
 	}
 
 	private static String abacusGuidFromMC1Cookie(Context context, String mc1Cookie) {
 		String abacusGuid = mc1Cookie.replace("GUID=", "");
 		SettingUtils.save(context, PREF_ABACUS_GUID, abacusGuid);
-		Db.setAbacusGuid(abacusGuid);
+		Db.sharedInstance.setAbacusGuid(abacusGuid);
 		return abacusGuid;
 	}
 

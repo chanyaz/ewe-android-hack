@@ -17,7 +17,7 @@ object RoboTestHelper {
     fun updateABTest(abTest: ABTest, value: Int) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(abTest.key, value)
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
     fun bucketTests(vararg tests: ABTest) {
@@ -25,7 +25,7 @@ object RoboTestHelper {
         for (test in tests) {
             abacusResponse.updateABTestForDebug(test.key, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
         }
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
     fun controlTests(vararg tests: ABTest) {
@@ -33,7 +33,7 @@ object RoboTestHelper {
         for (test in tests) {
             abacusResponse.updateABTestForDebug(test.key, AbacusUtils.DefaultVariant.CONTROL.ordinal)
         }
-        Db.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
     fun assertVisible(view: View) {

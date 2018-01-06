@@ -3,7 +3,6 @@ package com.expedia.bookings.data.user
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.app.Activity
-import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.RestrictedProfileActivity
 import com.expedia.bookings.data.AirAttach
@@ -367,7 +366,7 @@ class UserStateManagerTests {
         val billingInfo = BillingInfo()
         billingInfo.email = "test@expedia.com"
 
-        Db.setBillingInfo(billingInfo)
+        Db.sharedInstance.setBillingInfo(billingInfo)
 
         assertNotNull(Db.getBillingInfo().email)
 
@@ -381,13 +380,13 @@ class UserStateManagerTests {
         val traveler = Traveler()
         traveler.email = "test@expedia.com"
 
-        Db.setTravelers(listOf(traveler))
+        Db.sharedInstance.setTravelers(listOf(traveler))
 
-        assertNotNull(Db.getTravelers().first().email)
+        assertNotNull(Db.sharedInstance.travelers.first().email)
 
         userStateManager.signOut()
 
-        assertNull(Db.getTravelers().first().email)
+        assertNull(Db.sharedInstance.travelers.first().email)
     }
 
     @Test

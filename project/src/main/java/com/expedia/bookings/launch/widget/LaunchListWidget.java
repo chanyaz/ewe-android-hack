@@ -1,8 +1,5 @@
 package com.expedia.bookings.launch.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
@@ -12,13 +9,16 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import butterknife.ButterKnife;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.SlideInItemAnimator;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.otto.Events;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
 
 public class LaunchListWidget extends RecyclerView {
 
@@ -83,7 +83,6 @@ public class LaunchListWidget extends RecyclerView {
 	@Subscribe
 	public void onNearbyHotelsSearchResults(Events.LaunchHotelSearchResponse event) {
 		String headerTitle = getResources().getString(R.string.nearby_deals_title);
-		Db.setLaunchListHotelData(event.topHotels);
 		List<LaunchDataItem> hotelDataItemList = new ArrayList<>();
 		for (int i = 0; i < event.topHotels.size(); i++) {
 			hotelDataItemList.add(new LaunchHotelDataItem(event.topHotels.get(i)));

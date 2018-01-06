@@ -203,17 +203,17 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     fun updateBundleViews(product: String) {
-        bundleOverViewWidget.viewModel.hotelParamsObservable.onNext(Db.getPackageParams())
+        bundleOverViewWidget.viewModel.hotelParamsObservable.onNext(Db.sharedInstance.packageParams)
         bundleOverViewWidget.viewModel.hotelResultsObservable.onNext(Unit)
 
         if (product == Constants.PRODUCT_FLIGHT) {
-            bundleOverViewWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
-            val type = if (Db.getPackageParams().isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+            bundleOverViewWidget.viewModel.flightParamsObservable.onNext(Db.sharedInstance.packageParams)
+            val type = if (Db.sharedInstance.packageParams.isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
             bundleOverViewWidget.viewModel.flightResultsObservable.onNext(type)
 
-            if (!Db.getPackageParams().isOutboundSearch(isMidAPIEnabled(context)) && Db.getPackageSelectedOutboundFlight() != null) {
+            if (!Db.sharedInstance.packageParams.isOutboundSearch(isMidAPIEnabled(context)) && Db.sharedInstance.packageSelectedOutboundFlight != null) {
                 bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-                bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
+                bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.sharedInstance.packageSelectedOutboundFlight)
                 bundleOverViewWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             }
             if (Db.getPackageSelectedHotel() != null) {
@@ -222,9 +222,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
             updateBundlePricing()
         }
 
-        if (Db.getPackageParams()?.pageType == Constants.PACKAGE_CHANGE_HOTEL) {
+        if (Db.sharedInstance.packageParams?.pageType == Constants.PACKAGE_CHANGE_HOTEL) {
             bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-            bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
+            bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.sharedInstance.packageSelectedOutboundFlight)
             bundleOverViewWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
             bundleOverViewWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
         }

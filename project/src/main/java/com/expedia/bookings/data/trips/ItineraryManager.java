@@ -1913,7 +1913,7 @@ public class ItineraryManager implements JSONable {
 			int siteId = pos.getSiteId();
 			String siteIdString = String.valueOf(siteId);
 			int langId = pos.getDualLanguageId();
-			String guid = Db.getAbacusGuid();
+			String guid = Db.sharedInstance.getAbacusGuid();
 			long userTuid = 0;
 			TNSUser tnsUser = new TNSUser(siteIdString, null, null, guid);
 			if (userStateManager.isUserAuthenticated()) {

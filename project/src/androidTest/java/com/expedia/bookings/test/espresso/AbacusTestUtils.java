@@ -8,9 +8,9 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 public class AbacusTestUtils {
 
 	public static void updateABTest(ABTest abTest, int value) {
-		AbacusResponse abacusResponse = Db.getAbacusResponse();
+		AbacusResponse abacusResponse = Db.sharedInstance.getAbacusResponse();
 		abacusResponse.updateABTestForDebug(abTest.getKey(), value);
-		Db.setAbacusResponse(abacusResponse);
+		Db.sharedInstance.setAbacusResponse(abacusResponse);
 	}
 
 	public static void bucketTests(ABTest... tests) {
@@ -18,6 +18,6 @@ public class AbacusTestUtils {
 		for (ABTest test : tests) {
 			abacusResponse.updateABTestForDebug(test.getKey(), AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
-		Db.setAbacusResponse(abacusResponse);
+		Db.sharedInstance.setAbacusResponse(abacusResponse);
 	}
 }

@@ -37,7 +37,7 @@ class PackageHotelActivityTest {
 
     @After
     fun tearDown() {
-        Db.clear()
+        Db.sharedInstance.clear()
     }
 
     @Test

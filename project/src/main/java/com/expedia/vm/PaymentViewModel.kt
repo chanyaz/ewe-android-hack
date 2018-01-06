@@ -211,7 +211,7 @@ open class PaymentViewModel(val context: Context) {
         }
 
         clearTemporaryCardObservable.subscribe {
-            Db.clearTemporaryCard()
+            Db.sharedInstance.clearTemporaryCard()
         }
         createFakeAddressObservable.subscribe {
             val location = Location()
@@ -295,7 +295,7 @@ open class PaymentViewModel(val context: Context) {
 
     fun hasCard(): Boolean {
         if (isCreditCardRequired.value) {
-            return hasStoredCard() || Db.getTemporarilySavedCard() != null || !cardBIN.value.isNullOrEmpty()
+            return hasStoredCard() || Db.sharedInstance.temporarilySavedCard != null || !cardBIN.value.isNullOrEmpty()
         }  else {
             return true
         }

@@ -1009,12 +1009,12 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 			if (paymentInfoCardView.getSectionBillingInfo().getBillingInfo() != null && !paymentInfoCardView
 				.getSectionBillingInfo().getBillingInfo().isCreditCardDataEnteredManually()
-				&& storedCreditCards.size() == 1 && Db.getTemporarilySavedCard() == null) {
+				&& storedCreditCards.size() == 1 && Db.sharedInstance.getTemporarilySavedCard() == null) {
 				paymentInfoCardView.selectFirstAvailableCard();
 			}
-			else if (storedCreditCards.size() == 0 && Db.getTemporarilySavedCard() != null) {
+			else if (storedCreditCards.size() == 0 && Db.sharedInstance.getTemporarilySavedCard() != null) {
 				paymentInfoCardView.getStoredCreditCardListener().onTemporarySavedCreditCardChosen(
-					Db.getTemporarilySavedCard());
+					Db.sharedInstance.getTemporarilySavedCard());
 			}
 		}
 	}

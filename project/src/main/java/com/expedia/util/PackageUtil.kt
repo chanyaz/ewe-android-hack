@@ -27,7 +27,7 @@ object PackageUtil {
     fun packageTitle(context: Context): Int {
         if (isPackagesLobTitleABTestEnabled) {
             if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.PackagesTitleChange)) {
-                val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.PackagesTitleChange)
+                val variateForTest = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.PackagesTitleChange)
                 if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
                     return R.string.nav_hotel_plus_flight
                 }

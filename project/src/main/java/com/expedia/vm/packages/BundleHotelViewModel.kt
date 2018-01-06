@@ -42,14 +42,14 @@ class BundleHotelViewModel(val context: Context) {
                 hotelSelectIconObservable.onNext(true)
                 hotelDetailsIconObservable.onNext(false)
             } else {
-                hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCityName(Db.getPackageParams().destination)))
+                hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCityName(Db.sharedInstance.packageParams.destination)))
 
                 if(Db.getPackageResponse() != null) {
                     val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
                     hotelDatesGuestObservable.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
                             .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))
                             .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate())))
-                            .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests))
+                            .put("guests", StrUtils.formatGuestString(context, Db.sharedInstance.packageParams.guests))
                             .format()
                             .toString())
                 }
@@ -59,7 +59,7 @@ class BundleHotelViewModel(val context: Context) {
         }
         selectedHotelObservable.subscribe {
             val selectedHotel = Db.getPackageSelectedHotel()
-            val selectHotelRoom = Db.getPackageSelectedRoom()
+            val selectHotelRoom = Db.sharedInstance.packageSelectedRoom
             hotelTextObservable.onNext(selectedHotel.localizedName)
             hotelIconImageObservable.onNext(R.drawable.packages_hotels_checkmark_icon)
             hotelSelectIconObservable.onNext(false)
@@ -85,7 +85,7 @@ class BundleHotelViewModel(val context: Context) {
             val cityCountry = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
                     .put("city", selectedHotel.city)
                     .put("country",
-                            if (selectedHotel.stateProvinceCode.isNullOrBlank()) Db.getPackageParams().destination?.hierarchyInfo?.country?.name else selectedHotel.stateProvinceCode)
+                            if (selectedHotel.stateProvinceCode.isNullOrBlank()) Db.sharedInstance.packageParams.destination?.hierarchyInfo?.country?.name else selectedHotel.stateProvinceCode)
                     .format().toString()
             hotelCityObservable.onNext(cityCountry)
         }

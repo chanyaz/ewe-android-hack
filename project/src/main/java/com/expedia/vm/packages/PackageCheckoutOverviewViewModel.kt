@@ -22,13 +22,13 @@ class PackageCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewV
         val links = HotelMedia(Images.getMediaHost() + hotelImageURL).getBestUrls(width)
         city.onNext(hotelCity)
         val shouldShowCountryName = !hotelCountry.equals("USA") || hotelStateProvince.isNullOrEmpty()
-        country.onNext(if (shouldShowCountryName) Db.getPackageParams().destination?.hierarchyInfo?.country?.name ?: "" else hotelStateProvince)
+        country.onNext(if (shouldShowCountryName) Db.sharedInstance.packageParams.destination?.hierarchyInfo?.country?.name ?: "" else hotelStateProvince)
         if (checkoutDate != null) {
             checkInAndCheckOutDate.onNext(Pair(checkinDate, checkoutDate))
         } else {
             checkInWithoutCheckoutDate.onNext(checkinDate)
         }
-        guests.onNext(Db.getPackageParams().guests)
+        guests.onNext(Db.sharedInstance.packageParams.guests)
 
         if (url.value != links) url.onNext(links)
     }

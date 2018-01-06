@@ -48,7 +48,7 @@ class CheckoutTravelerViewModelTest {
 
     @Test
     fun testEmptyListInvalid() {
-        Db.setTravelers(emptyList())
+        Db.sharedInstance.setTravelers(emptyList())
         assertFalse(testViewModel.allTravelersValid())
     }
 
