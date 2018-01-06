@@ -200,19 +200,13 @@ android {
         }
 
         release {
-            /*
-             We will provide value to these keys using -P commandline option of gradle
-            For Example,./gradlew assemleExpediaRelease
-            -PRELEASE_STORE_PASSWORD='Expedia_RELEASE_STORE_PASSWORD'
-            -PRELEASE_KEY_PASSWORD='Expedia_RELEASE_KEY_PASSWORD'
-            -PRELEASE_STORE_FILE='Expedia_RELEASE_STORE_FILE'
-            -PRELEASE_KEY_ALIAS='Expedia_RELEASE_KEY_ALIAS'
-            'Expedia_RELEASE_STORE_PASSWORD' etc will point to value in gradle.properties.
-            */
-            storeFile file(GradleUtil.getPropertyWithDefault(project, RELEASE_STORE_FILE, "."))
-            storePassword GradleUtil.getPropertyWithDefault(project, RELEASE_STORE_PASSWORD, "")
-            keyAlias GradleUtil.getPropertyWithDefault(project, RELEASE_KEY_ALIAS, "")
-            keyPassword GradleUtil.getPropertyWithDefault(project, RELEASE_KEY_PASSWORD, "")
+            /* We will provide these values using -P commandline option of gradle
+             * or using a .properties file, defaults are defined in gradle.properties
+             */
+            storeFile file(project.getProperty("RELEASE_STORE_FILE").toString())
+            storePassword project.getProperty("RELEASE_STORE_PASSWORD")
+            keyAlias project.getProperty("RELEASE_KEY_ALIAS")
+            keyPassword project.getProperty("RELEASE_KEY_PASSWORD")
         }
     }
 
@@ -384,7 +378,6 @@ android {
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
 
         debug {
             assets.srcDirs += '../lib/mocked/templates'
@@ -417,7 +410,6 @@ android {
         // These files are from outside our project
         exclude (
             '**/CustomEditText.java',
-            '**/SocketActivityHierarchyServer.java',
         )
 
         classpath = files()
@@ -496,12 +488,12 @@ public class GradleUtil {
         return shouldEnable;
     }
 
-    static def getPropertyWithDefault(Project project, String key, String thedefault) {
+    static def getPropertyWithDefault(Project project, String key, String defaultValue) {
         if (project.hasProperty(key)) {
             return project.getProperty(key).toString()
         }
 
-        return thedefault
+        return defaultValue
     }
 
     static def getBuildIdentifier(Project project) {
