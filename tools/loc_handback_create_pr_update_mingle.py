@@ -36,9 +36,9 @@ print "gitBaseBranchName = " + gitBaseBranchName
 print "mingleCardNumber = " + mingleCardNumber
 
 try:
+    # Files were already "git added" in earlier add-strings step
     subprocess.check_call('git status'.split())
     subprocess.check_call('git checkout -b {gitBranchName}'.format(gitBranchName=locHandbackChangesBranchName).split())
-    subprocess.check_call('git add project/src/{brandName}/res'.format(brandName=brandName).split())
     commitCommandWords= 'git -c user.name="ewe-mergebot" -c user.email="mobiataauto@gmail.com" commit -m'.split()
     commitCommandWords.append(locHandbackCommitMessage)
     subprocess.check_call(commitCommandWords)
