@@ -625,7 +625,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="16282"
+            android:key="24551"
             android:title="Packages New POS Launch" />
 
         <ListPreference
