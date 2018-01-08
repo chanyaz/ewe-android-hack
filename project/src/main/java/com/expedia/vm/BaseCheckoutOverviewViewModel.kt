@@ -10,7 +10,6 @@ import rx.subjects.PublishSubject
 
 open class BaseCheckoutOverviewViewModel(context: Context) {
     val city = PublishSubject.create<String>()
-    val country = PublishSubject.create<String>()
 
     val checkInAndCheckOutDate = PublishSubject.create<Pair<String, String>>()
     val checkInWithoutCheckoutDate = PublishSubject.create<String>()
@@ -26,13 +25,7 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
     val subTitleContDesc = BehaviorSubject.create<String>()
 
     init {
-        Observable.zip(city, country, { city, country ->
-            val text = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
-                    .put("city", city)
-                    .put("country", country)
-                    .format().toString()
-            cityTitle.onNext(text)
-        }).subscribe()
+        city.subscribe(cityTitle)
 
         checkInAndCheckOutDate.subscribe { (checkIn, checkOut) ->
             datesTitle.onNext(DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut))

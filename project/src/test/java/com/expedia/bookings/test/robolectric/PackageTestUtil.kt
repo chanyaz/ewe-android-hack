@@ -1,37 +1,40 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.multiitem.FlightOffer
-import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.multiitem.HotelOffer
+import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemError
 import com.expedia.bookings.data.multiitem.MultiItemFlightLeg
 import com.expedia.bookings.data.multiitem.MultiItemOffer
+import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.google.gson.Gson
 import org.joda.time.LocalDate
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import java.util.ArrayList
 
 class PackageTestUtil {
     companion object {
         @JvmStatic
-        fun getPackageSearchParams(startDate: LocalDate = LocalDate.now().plusDays(1), endDate: LocalDate = LocalDate.now().plusDays(2)) : PackageSearchParams {
+        fun getPackageSearchParams(startDate: LocalDate = LocalDate.now().plusDays(1),
+                                   endDate: LocalDate = LocalDate.now().plusDays(2),
+                                   destinationCityName: String = "San Francisco",
+                                   childCount: List<Int> = listOf(0)) : PackageSearchParams {
             return PackageSearchParams.Builder(maxRange = 1, maxStay = 1)
                     .startDate(startDate)
                     .endDate(endDate)
-                    .destination(getSuggestion("San Francisco", "SFO"))
+                    .destination(getSuggestion(destinationCityName, "SFO"))
                     .origin(getSuggestion("Seattle", "SEA"))
-                    .children(listOf(0))
+                    .children(childCount)
                     .adults(1)
                     .build() as PackageSearchParams
         }

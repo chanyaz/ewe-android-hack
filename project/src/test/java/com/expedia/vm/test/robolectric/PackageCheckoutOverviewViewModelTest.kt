@@ -6,13 +6,13 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
-import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.PackageTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.packages.OverviewHeaderData
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
-import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -32,7 +32,8 @@ class PackageCheckoutOverviewViewModelTest {
         packageDetails.pricing.bundleTotal = Money(1000, "USD")
         packageDetails.pricing.packageTotal = Money(950, "USD")
         val hotel = HotelCreateTripResponse.HotelProductResponse()
-        Db.setPackageParams(PackageSearchParams(SuggestionV4(), SuggestionV4(), LocalDate.now(), LocalDate.now(), 1, emptyList<Int>(), false))
+        Db.setPackageParams(PackageTestUtil.getPackageSearchParams(destinationCityName = "<B>New</B> <B>York</B>, NY, United States <ap>(JFK-John F. Kennedy Intl.)</ap>",
+                childCount = emptyList()))
         hotel.largeThumbnailUrl = "/testurl"
         hotel.hotelCity = "New York"
         hotel.hotelStateProvince = "NY"
@@ -66,15 +67,14 @@ class PackageCheckoutOverviewViewModelTest {
 
         trip.packageDetails.hotel.hotelCity = "Tokyo"
         trip.packageDetails.hotel.hotelCountry = "JPN"
-        val hierarchyInfo = SuggestionV4.HierarchyInfo()
-        val country = SuggestionV4.Country()
-        country.name = "Japan"
-        hierarchyInfo.country = country
-        Db.sharedInstance.packageParams.destination?.hierarchyInfo = hierarchyInfo
+        val regionNames = SuggestionV4.RegionNames()
+        regionNames.displayName = "<B>New</B> <B>York</B> University, <B>New</B> <B>York</B>, NY"
+
+        Db.sharedInstance.packageParams.destination?.regionNames = regionNames
         viewmodel.tripResponseSubject.onNext(createOverviewHeaderData(trip))
 
         cityTestSubscriber.assertValueCount(2)
-        assertEquals("Tokyo, Japan", cityTestSubscriber.onNextEvents[1])
+        assertEquals("New York University, New York", cityTestSubscriber.onNextEvents[1])
 
         assertEquals("$1,000", trip.bundleTotal.formattedMoney)
         packageDetails.pricing.bundleTotal = null
@@ -89,6 +89,8 @@ class PackageCheckoutOverviewViewModelTest {
 
     private fun createOverviewHeaderData(trip: PackageCreateTripResponse): OverviewHeaderData {
         val hotel = trip.packageDetails.hotel
-        return OverviewHeaderData(hotel.hotelCity, hotel.hotelCountry, hotel.hotelStateProvince, hotel.checkOutDate, hotel.checkInDate, hotel.largeThumbnailUrl)
+        val cityName = StrUtils.formatCity(Db.sharedInstance.packageParams.destination)
+
+        return OverviewHeaderData(cityName, hotel.checkOutDate, hotel.checkInDate, hotel.largeThumbnailUrl)
     }
 }

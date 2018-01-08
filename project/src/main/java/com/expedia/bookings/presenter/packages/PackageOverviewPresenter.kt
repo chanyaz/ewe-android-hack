@@ -106,7 +106,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             bundleWidget.viewModel.createTripObservable.onNext(trip)
 
             val hotelTripResponse = trip.packageDetails.hotel
-            val headerData = OverviewHeaderData(hotelTripResponse.hotelCity, hotelTripResponse.hotelCountry, hotelTripResponse.hotelStateProvince, hotelTripResponse.checkOutDate,
+            val cityName = StrUtils.formatCity(Db.sharedInstance.packageParams.destination)
+
+            val headerData = OverviewHeaderData(cityName, hotelTripResponse.checkOutDate,
                     hotelTripResponse.checkInDate, hotelTripResponse.largeThumbnailUrl)
             (bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel
                     as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)
@@ -378,9 +380,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         bundleWidget.viewModel.getHotelNameAndDaysToSetUpTitle()
         val hotel = Db.getPackageSelectedHotel()
         val searchResponse = Db.getPackageResponse()
+        val cityName = StrUtils.formatCity(Db.sharedInstance.packageParams.destination)
 
-
-        val headerData = OverviewHeaderData(hotel.city, hotel.countryCode, hotel.stateProvinceCode, searchResponse.getHotelCheckOutDate(),
+        val headerData = OverviewHeaderData(cityName, searchResponse.getHotelCheckOutDate(),
                 searchResponse.getHotelCheckInDate(), hotel.largeThumbnailUrl)
         (bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel
                 as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)

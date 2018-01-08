@@ -6,22 +6,17 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -30,10 +25,8 @@ import com.expedia.bookings.test.robolectric.PackageTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.BundleOverviewViewModel
-import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -187,7 +180,7 @@ class PackageOverviewPresenterTest {
 
         assertTrue(overviewPresenter.bundleOverviewHeader.isExpandable)
         assertEquals("Thu Dec 07, 2017 - Fri Dec 08, 2017", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.checkInOutDates.text)
-        assertEquals("Detroit, MI", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.destinationText.text)
+        assertEquals("San Francisco", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.destinationText.text)
         assertEquals("2 travelers", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.travelers.text)
     }
 
