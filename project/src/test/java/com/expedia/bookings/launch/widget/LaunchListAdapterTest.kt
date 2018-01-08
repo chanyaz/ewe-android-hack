@@ -31,7 +31,6 @@ import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
-import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import org.junit.After
 import org.junit.Before
@@ -679,7 +678,6 @@ class LaunchListAdapterTest {
 
     private fun givenLastMinuteDealIsEnabled() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLastMinuteDeals, 1)
-        SettingUtils.save(context, R.string.preference_enable_last_minute_deals, true)
     }
 
     private fun givenAirAttachCardEnabled() {

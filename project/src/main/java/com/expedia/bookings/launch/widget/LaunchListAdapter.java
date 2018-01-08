@@ -50,8 +50,8 @@ import com.expedia.bookings.widget.LaunchScreenAirAttachCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.util.PermissionsUtils;
 import com.expedia.vm.launch.ActiveItinViewModel;
-import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.BrandSignInLaunchHolderViewModel;
+import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
 
@@ -499,8 +499,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean showLastMinuteDeal() {
-		return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppLastMinuteDeals,
-			R.string.preference_enable_last_minute_deals);
+		return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppLastMinuteDeals);
+
 	}
 
 	private boolean showProWizard() {
