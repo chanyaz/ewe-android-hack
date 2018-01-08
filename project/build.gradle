@@ -34,7 +34,6 @@ dependencies {
     ])
     compile project(':lib:AndroidTime')
     compile project(':lib:AndroidUtils')
-    compile project(':lib:HolidayFun')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
     compile (project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'

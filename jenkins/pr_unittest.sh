@@ -64,7 +64,6 @@ function runUnitTests() {
             "checkstyle" "lintExpediaDebug" \
             ":lib:mocked:mocke3:test" \
             ":lib:AccountLib:testDebug" \
-            ":lib:HolidayFun:testDebug" \
             ":lib:ExpediaBookings:test" ":lib:ExpediaBookings:jacocoTestReport" \
             ":project:jacocoExpediaDebug"
         unitTestStatus=$?

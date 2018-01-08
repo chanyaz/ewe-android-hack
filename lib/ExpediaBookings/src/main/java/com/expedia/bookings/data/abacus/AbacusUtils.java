@@ -113,7 +113,6 @@ public class AbacusUtils {
 
 	// Launch
 	public static final ABTest ProWizardTest = new ABTest(16136);
-	public static final ABTest HolidayFun = new ABTest(16318);
 	public static final ABTest EBAndroidAppBrandColors = new ABTest(15846);
 	public static final ABTest MesoDestination = new ABTest(15842, true);
 
@@ -186,7 +185,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightFrequentFlyerNumber.getKey());
 		testIDs.add(EBAndroidAppAccountSinglePageSignUp.getKey());
 		testIDs.add(ProWizardTest.getKey());
-		testIDs.add(HolidayFun.getKey());
 		testIDs.add(EBAndroidPopulateCardholderName.getKey());
 		testIDs.add(EBAndroidAppSecureCheckoutIcon.getKey());
 		testIDs.add(EBAndroidAppPackagesMidApi.getKey());

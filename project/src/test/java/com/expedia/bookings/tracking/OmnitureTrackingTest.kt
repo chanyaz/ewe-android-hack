@@ -25,7 +25,6 @@ import com.expedia.bookings.utils.DebugInfoUtils
 import com.google.android.gms.common.GoogleApiAvailability
 import com.mobiata.android.util.SettingUtils
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.not
 import org.joda.time.DateTimeZone
 import org.junit.Before
 import org.junit.Test
@@ -115,24 +114,6 @@ class OmnitureTrackingTest {
             mockAnalyticsProvider)
 
         DateTimeZone.setDefault(originalDefaultTimeZone)
-    }
-
-    @Test
-    fun holidayPromoImpressionIsTrackedOnLaunchScreen() {
-        AbacusTestUtils.bucketTests(AbacusUtils.HolidayFun)
-
-        OmnitureTracking.trackPageLoadLaunchScreen(0)
-
-        assertStateTracked("App.LaunchScreen", withEventsString("event330"), mockAnalyticsProvider)
-
-        AbacusTestUtils.unbucketTests(AbacusUtils.HolidayFun)
-    }
-
-    @Test
-    fun holidayPromoImpressionIsNotTrackedWhenNotBucketed() {
-        OmnitureTracking.trackPageLoadLaunchScreen(0)
-
-        assertStateTracked("App.LaunchScreen", not(withEventsString("event330")), mockAnalyticsProvider)
     }
 
     @Test

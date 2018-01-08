@@ -23,12 +23,10 @@ import com.expedia.bookings.animation.ActivityTransitionUtil
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
 import com.expedia.bookings.data.Property
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.collections.Collection
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.launch.vm.LaunchLobViewModel
@@ -97,15 +95,8 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
     }
 
     private fun getFabHeightAndBottomMargin(): Float {
-        val normalHeightAndBottomMargin = context.resources.getDimensionPixelSize(R.dimen.new_launch_fab_height).toFloat() +
+        return context.resources.getDimensionPixelSize(R.dimen.new_launch_fab_height).toFloat() +
                 context.resources.getDimensionPixelSize(R.dimen.new_launch_screen_fab_bottom_margin).toFloat()
-        val extraHeightForHolidayFun = -context.resources.getDimensionPixelSize(R.dimen.bear_up).toFloat() +
-                context.resources.getDimensionPixelSize(R.dimen.bear_height).toFloat()
-
-        return if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HolidayFun))
-            normalHeightAndBottomMargin + extraHeightForHolidayFun
-        else
-            normalHeightAndBottomMargin
     }
 
     val launchListWidget: LaunchListWidget by bindView(R.id.launch_list_widget)

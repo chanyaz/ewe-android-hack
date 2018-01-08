@@ -1,5 +1,26 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
@@ -94,27 +115,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-
-import org.jetbrains.annotations.NotNull;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import kotlin.NotImplementedError;
 
@@ -282,12 +282,6 @@ public class OmnitureTracking {
 		s.setProp(16, APP_CKO_SLIDE_TO_BOOK);
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
-	}
-
-	public static void trackHolidayPromotionClick() {
-		ADMS_Measurement s = createTrackLinkEvent("App.LS.HolidayPromo");
-		s.setEvents("event331");
-		s.trackLink(null, "o", "Holiday Promotion", null, null);
 	}
 
 	public static void trackKrazyglueError(@NotNull String errorCause) {
@@ -3300,15 +3294,6 @@ public class OmnitureTracking {
 
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_last_minute_deals)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLastMinuteDeals);
-		}
-
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(sContext, AbacusUtils.HolidayFun)) {
-			if (trackingEvents != null) {
-				trackingEvents = trackingEvents + ",event330";
-			}
-			else {
-				s.setEvents("event330");
-			}
 		}
 
 		if (trackingEvents != null) {

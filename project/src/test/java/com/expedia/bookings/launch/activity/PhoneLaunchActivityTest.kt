@@ -1,9 +1,7 @@
 package com.expedia.bookings.launch.activity
 
 import android.app.Activity
-import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
@@ -16,7 +14,6 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.NullSafeMockitoHamcrest
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withAbacusTestBucketed
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withAbacusTestControl
-import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -32,34 +29,11 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class PhoneLaunchActivityTest {
-
-    @Test
-    fun startingHolidayFunIsTrackedInOmniture() {
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        AbacusTestUtils.bucketTests(AbacusUtils.HolidayFun)
-
-        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().postCreate(null).resume().get()
-        activity.findViewById<View>(R.id.holiday_fun_widget).callOnClick()
-
-        assertLinkTracked("Holiday Promotion", "App.LS.HolidayPromo", withEventsString("event331"), mockAnalyticsProvider)
-
-        activity.finish()
-
-        AbacusTestUtils.unbucketTests(AbacusUtils.HolidayFun)
-    }
-
-    @Test
-    fun holidayFunNotAvailableIfNotBucketed() {
-        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().postCreate(null).resume().get()
-        assertEquals(View.GONE, activity.findViewById<View>(R.id.holiday_fun_widget).visibility)
-        activity.finish()
-    }
 
     @Test
     fun testNotificationClickOmnitureTracking() {

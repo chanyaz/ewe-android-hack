@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <dimen name="animated_widget_expected_height">51dp</dimen>
-    <dimen name="bear_height" tools:ignore="UnusedResources">51dp</dimen>
-    <dimen name="bear_up">-28dp</dimen>
-    <dimen name="bear_down">20dp</dimen>
-    <dimen name="deer_up">-17dp</dimen>
-    <dimen name="deer_down">19dp</dimen>
-</resources>

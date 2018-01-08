@@ -60,15 +60,14 @@ import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.LXNavUtils
+import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
-import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
-import com.expedia.holidayfun.widget.HolidayFunCoordinator
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.ui.AbstractAppCompatActivity
 import com.expedia.util.PackageUtil
@@ -136,12 +135,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     private val bottomNavShadow by bindView<View>(R.id.bottom_tab_layout_shadow)
 
     private val bottomNavTabLayout by bindView<TabLayout>(R.id.bottom_tab_layout)
-
-    private val holidayFunCoordinator: HolidayFunCoordinator by lazy {
-        HolidayFunCoordinator(
-                findViewById(R.id.holiday_fun_widget),
-                findViewById(R.id.snowfall))
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -223,8 +216,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 requestLocationPermission(this)
             }
         }
-
-        holidayFunCoordinator.setAnalyticsListener { OmnitureTracking.trackHolidayPromotionClick() }
 
         val lastLocation = LocationServices.getLastBestLocation(this, 0)
         CarnivalUtils.getInstance().trackLaunch(
@@ -421,8 +412,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     @Synchronized private fun gotoWaterfall() {
-        holidayFunCoordinator.showCallToAction()
-
         if (pagerPosition != PAGER_POS_LAUNCH) {
             pagerPosition = PAGER_POS_LAUNCH
             viewPager.currentItem = PAGER_POS_LAUNCH
@@ -438,8 +427,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     @Synchronized private fun gotoItineraries() {
-        holidayFunCoordinator.hideCallToAction()
-
         if (pagerPosition != PAGER_POS_ITIN) {
 
             itinListFragment?.resetTrackingState()
@@ -478,7 +465,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     @Synchronized private fun gotoAccount() {
-        holidayFunCoordinator.hideCallToAction()
         if (userStateManager.isUserAuthenticated()) {
             accountFragment?.refreshUserInfo()
         }
@@ -534,12 +520,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
                 SettingUtils.save(this, PREF_USER_ENTERS_FROM_SIGNIN, false)
             }
-        }
-
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.HolidayFun)) {
-            holidayFunCoordinator.visibility = View.VISIBLE
-        } else {
-            holidayFunCoordinator.visibility = View.GONE
         }
     }
 
