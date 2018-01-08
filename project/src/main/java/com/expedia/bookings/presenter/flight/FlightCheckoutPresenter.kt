@@ -182,22 +182,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
                 }).subscribe()
     }
 
-    override val defaultTransition = object : DefaultCheckoutTransition() {
-        override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
-            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
-            insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!offerInsuranceInFlightSummary)
-        }
-    }
-
-    override val defaultToPayment = object : DefaultToPayment(this) {
-        override fun startTransition(forward: Boolean) {
-            super.startTransition(forward)
-            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
-            insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!forward && !offerInsuranceInFlightSummary)
-        }
-    }
-
     override fun createTravelersViewModel(): TravelersViewModel {
         return FlightTravelersViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
     }

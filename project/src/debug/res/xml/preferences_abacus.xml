@@ -93,14 +93,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="12268"
-            android:summary="%s"
-            android:title="Offer Insurance in Flight Summary - 12268" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="12763"
             android:summary="%s"
             android:title="Flight Seat Class And Booking Code View - 12763" />

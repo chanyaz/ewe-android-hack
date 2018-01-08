@@ -98,11 +98,6 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
             }
             FlightsV2Tracking.trackInsuranceUpdated(if (isSelected) InsuranceAction.ADD else InsuranceAction.REMOVE)
         }
-
-        widgetVisibilityAllowedObservable.subscribe {
-            canWidgetBeDisplayed = it
-            updateVisibility()
-        }
     }
 
     val insuranceSelectionUpdatedObserver = object : Observer<FlightCreateTripResponse> {

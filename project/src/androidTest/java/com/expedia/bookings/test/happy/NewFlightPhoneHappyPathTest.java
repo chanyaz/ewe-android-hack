@@ -14,8 +14,6 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
@@ -99,7 +97,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("happy_round_trip_with_insurance_available");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
-		assertInsuranceVisibilityTests();
 		FlightsScreen.selectInboundFlight().perform(click());
 
 		assertCheckoutOverview();
@@ -360,28 +357,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription(
 			"Trip total is $696. Includes taxes and fees. . Cost Breakdown dialog. Button."))));
-	}
-
-	private void assertInsuranceVisibilityTests() {
-		// insurance visibility in flight summary screen (Abacus 12268)
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary,
-			AbacusUtils.DefaultVariant.BUCKETED.ordinal());
-		FlightsScreen.selectInboundFlight().perform(click());
-		assertInsuranceIsVisible();
-		PackageScreen.checkout().perform(click());
-		assertInsuranceIsNotVisible();
-		Common.pressBack();
-		Common.pressBack();
-
-		// insurance visibility in checkout screen (control)
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary,
-			AbacusUtils.DefaultVariant.CONTROL.ordinal());
-		FlightsScreen.selectInboundFlight().perform(click());
-		assertInsuranceIsNotVisible();
-		PackageScreen.checkout().perform(click());
-		assertInsuranceIsVisible();
-		Common.pressBack();
-		Common.pressBack();
 	}
 
 	private void assertInsuranceBenefits() {

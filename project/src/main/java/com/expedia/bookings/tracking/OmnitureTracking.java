@@ -5587,7 +5587,6 @@ public class OmnitureTracking {
 
 		setDateValues(s, departureDate, returnDate);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCheckoutButtonText);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsBaggageWebViewHideAd);
 
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_rate_detail_from_cache)) {
