@@ -179,6 +179,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         removeView(flightSummary)
         bundleOverviewHeader.nestedScrollView.addView(flightSummary)
         viewModel.showFreeCancellationObservable.subscribeVisibility(flightSummary.freeCancellationInfoContainer)
+        flightSummary.freeCancellationInfoContainer.contentDescription =
+                Phrase.from(context, R.string.bundle_overview_free_canellation_collapsed_button_description_TEMPLATE)
+                        .put("rowdescription", flightSummary.freeCancellationInfoTextView.text.toString()).format().toString()
         viewModel.showSplitTicketMessagingObservable.subscribeVisibility(flightSummary.splitTicketInfoContainer)
         viewModel.splitTicketBaggageFeesLinksObservable.subscribeText(flightSummary.splitTicketBaggageFeesTextView)
         viewModel.evolableTermsConditionTextObservable.subscribeTextAndVisibility(flightSummary.evolableTermsConditionTextView)
@@ -207,7 +210,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
-            flightSummary.freeCancellationInfoTextView.visibility = View.GONE
+            flightSummary.freeCancellationMoreInfoTextView.visibility = View.GONE
             flightSummary.freeCancellationMoreInfoIcon.clearAnimation()
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(offerInsuranceInFlightSummary)
             flightFareFamilyDetailsWidget.visibility = View.INVISIBLE

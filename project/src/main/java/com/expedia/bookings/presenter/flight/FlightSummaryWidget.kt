@@ -20,6 +20,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
+import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
 class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -29,6 +30,7 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     val outboundFlightWidget: OutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
     val inboundFlightWidget: InboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
     val freeCancellationInfoTextView: TextView by bindView(R.id.free_cancellation_info)
+    val freeCancellationMoreInfoTextView: TextView by bindView(R.id.free_cancellation_more_info)
     val freeCancellationMoreInfoIcon: android.widget.ImageView by bindView(R.id.free_cancellation_more_info_icon)
     val freeCancellationInfoContainer: LinearLayout by bindView(R.id.free_cancellation_layout)
     val splitTicketBaggageFeesTextView: android.widget.TextView by bindView(R.id.split_ticket_baggage_fee_links)
@@ -75,13 +77,21 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
 
         freeCancellationInfoContainer.subscribeOnClick(vm.freeCancellationInfoClickSubject)
         vm.freeCancellationInfoSubject.subscribe {
-            if (it){
-                freeCancellationInfoTextView.visibility = View.VISIBLE
+            if (it) {
+                freeCancellationMoreInfoTextView.visibility = View.VISIBLE
                 AnimUtils.rotate(freeCancellationMoreInfoIcon)
+                freeCancellationInfoContainer.contentDescription =
+                        Phrase.from(context, R.string.bundle_overview_free_canellation_expanded_button_description_TEMPLATE)
+                                .put("rowtitle", freeCancellationInfoTextView.text.toString())
+                                .put("rowdescription", freeCancellationMoreInfoTextView.text.toString()).format().toString()
             } else {
-                freeCancellationInfoTextView.visibility = View.GONE
+                freeCancellationMoreInfoTextView.visibility = View.GONE
                 AnimUtils.reverseRotate(freeCancellationMoreInfoIcon)
+                freeCancellationInfoContainer.contentDescription =
+                        Phrase.from(context, R.string.bundle_overview_free_canellation_collapsed_button_description_TEMPLATE)
+                                .put("rowdescription", freeCancellationInfoTextView.text.toString()).format().toString()
             }
+            freeCancellationInfoContainer.announceForAccessibility(freeCancellationInfoContainer.contentDescription)
         }
     }
 
