@@ -1,74 +1,70 @@
 package com.expedia.bookings.test.unit.traveler;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.UiThreadTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.view.LayoutInflater;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.PlaygroundActivity;
 import com.expedia.bookings.data.TravelerName;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.rules.PlaygroundRule;
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.traveler.NameEntryView;
 import com.expedia.vm.traveler.TravelerNameViewModel;
 import com.mobiata.android.util.SettingUtils;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
+
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricRunner.class)
 public class NameEntryViewTest {
 	private final String testFirstName = "Oscar";
 	private final String testMiddleInitial = "T";
 	private final String testLastName = "Grouch";
 	private NameEntryView nameView;
-
-	@Rule
-	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
-
-	@Rule
-	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_name_entry_view,
-		R.style.V2_Theme_Packages);
+	private Activity activity;
 
 	@Before
 	public void setUp() {
-		nameView = (NameEntryView) activityTestRule.getRoot();
-		Ui.getApplication(InstrumentationRegistry.getTargetContext()).defaultTravelerComponent();
+		Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent();
+		Intent intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.test_name_entry_view);
+		Intent styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages);
+		activity = Robolectric.buildActivity(PlaygroundActivity.class, styledIntent).create().visible().get();
+		nameView = (NameEntryView) ((FrameLayout) activity.findViewById(android.R.id.content)).getChildAt(0);
 	}
 
 	@Test
 	public void testMaterialForm() throws Throwable {
-		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
+		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activity)
 			.inflate(R.layout.test_name_entry_view, null);
-		TextInputLayout textInputLayout = (TextInputLayout) nameEntryView.findViewById(R.id.first_name_layout_input);
-
+		TextInputLayout textInputLayout = nameEntryView.findViewById(R.id.first_name_layout_input);
 		assertNotNull(textInputLayout);
 	}
 
 	@Test
 	public void testNameUpdates() throws Throwable {
-		TravelerNameViewModel testViewModel = new TravelerNameViewModel(InstrumentationRegistry.getTargetContext());
+		TravelerNameViewModel testViewModel = new TravelerNameViewModel();
 		TravelerName traveler = new TravelerName();
 		testViewModel.updateTravelerName(traveler);
 		setViewModel(testViewModel);
 
-		onView(withId(R.id.first_name_input)).perform(typeText(testFirstName));
-		onView(withId(R.id.middle_name_input)).perform(typeText(testMiddleInitial));
-		onView(withId(R.id.last_name_input)).perform(typeText(testLastName));
+		setTestFirstMiddleAndLastNames();
 
 		assertEquals(testFirstName, traveler.getFirstName());
 		assertEquals(testMiddleInitial, traveler.getMiddleName());
@@ -81,7 +77,7 @@ public class NameEntryViewTest {
 		name.setFirstName(testFirstName);
 		name.setMiddleName(testMiddleInitial);
 		name.setLastName(testLastName);
-		TravelerNameViewModel testViewModel = new TravelerNameViewModel(InstrumentationRegistry.getTargetContext());
+		TravelerNameViewModel testViewModel = new TravelerNameViewModel();
 		testViewModel.updateTravelerName(name);
 		setViewModel(testViewModel);
 
@@ -92,28 +88,20 @@ public class NameEntryViewTest {
 
 	@Test
 	public void testErrorState() throws Throwable {
-		final TravelerNameViewModel testViewModel = new TravelerNameViewModel(InstrumentationRegistry.getTargetContext());
+		final TravelerNameViewModel testViewModel = new TravelerNameViewModel();
 		TravelerName traveler = new TravelerName();
 		testViewModel.updateTravelerName(traveler);
 		setViewModel(testViewModel);
-
-		uiThreadTestRule.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				testViewModel.getFirstNameViewModel().getErrorSubject().onNext(true);
-				testViewModel.getMiddleNameViewModel().getErrorSubject().onNext(true);
-				testViewModel.getLastNameViewModel().getErrorSubject().onNext(true);
-			}
-		});
+		testViewModel.getFirstNameViewModel().getErrorSubject().onNext(true);
+		testViewModel.getMiddleNameViewModel().getErrorSubject().onNext(true);
+		testViewModel.getLastNameViewModel().getErrorSubject().onNext(true);
 
 		//test for accessibility content description
 		assertEquals("Enter first name using letters only", ((TextInputLayout) nameView.getFirstName().getParent().getParent()).getError());
 		assertEquals("Enter middle name using letters only", ((TextInputLayout) nameView.getMiddleName().getParent().getParent()).getError());
 		assertEquals("Enter last name using letters only (minimum 2 characters)", ((TextInputLayout) nameView.getLastName().getParent().getParent()).getError());
 
-		onView(withId(R.id.first_name_input)).perform(typeText(testFirstName));
-		onView(withId(R.id.middle_name_input)).perform(typeText(testMiddleInitial));
-		onView(withId(R.id.last_name_input)).perform(typeText(testLastName));
+		setTestFirstMiddleAndLastNames();
 
 		assertNull(((TextInputLayout) nameView.getFirstName().getParent().getParent()).getError());
 		assertNull(((TextInputLayout) nameView.getMiddleName().getParent().getParent()).getError());
@@ -122,45 +110,41 @@ public class NameEntryViewTest {
 
 	@Test
 	public void testMiddleNameError() throws Throwable {
-		uiThreadTestRule.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
-					.inflate(R.layout.test_name_entry_view, null);
+		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activity)
+				.inflate(R.layout.test_name_entry_view, null);
 
-				TravelerNameViewModel testViewModel = new TravelerNameViewModel(InstrumentationRegistry.getTargetContext());
-				TravelerName traveler = new TravelerName();
-				testViewModel.updateTravelerName(traveler);
+		TravelerNameViewModel testViewModel = new TravelerNameViewModel();
+		TravelerName traveler = new TravelerName();
+		testViewModel.updateTravelerName(traveler);
 
-				nameEntryView.setViewModel(testViewModel);
-				testViewModel.getMiddleNameViewModel().getErrorSubject().onNext(true);
+		nameEntryView.setViewModel(testViewModel);
+		testViewModel.getMiddleNameViewModel().getErrorSubject().onNext(true);
 
-				TextInputLayout textInputLayout = (TextInputLayout) nameEntryView.findViewById(R.id.middle_name_layout_input);
-				assertEquals("Enter middle name using letters only", textInputLayout.getError());
-			}
-		});
+		TextInputLayout textInputLayout = nameEntryView.findViewById(R.id.middle_name_layout_input);
+		assertEquals("Enter middle name using letters only", textInputLayout.getError());
 	}
 
 	@Test
 	public void testMiddleNameAcceptsOneOrMoreLetter() throws Throwable {
 		final String validMiddleName = "The";
 		String initial = "The";
-		TravelerNameViewModel testViewModel = new TravelerNameViewModel(InstrumentationRegistry.getTargetContext());
+		TravelerNameViewModel testViewModel = new TravelerNameViewModel();
 		TravelerName traveler = new TravelerName();
 		testViewModel.updateTravelerName(traveler);
 		setViewModel(testViewModel);
 
-		onView(withId(R.id.middle_name_input)).perform(typeText(validMiddleName));
+		setViewText(R.id.middle_name_input, validMiddleName);
 		assertEquals("More than one letter allowed", initial, traveler.getMiddleName());
 		assertEquals("More than one letter allowed", initial, nameView.getMiddleName().getText().toString());
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void testMaterialReversedNameLayout() throws Throwable {
-		SettingUtils.save(activityTestRule.getActivity(), R.string.PointOfSaleKey, Integer.toString(PointOfSaleId.HONG_KONG.getId()));
-		PointOfSale.onPointOfSaleChanged(activityTestRule.getActivity());
+		SettingUtils.save(activity, R.string.PointOfSaleKey, Integer.toString(PointOfSaleId.HONG_KONG.getId()));
+		PointOfSale.onPointOfSaleChanged(activity);
 
-		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
+		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activity)
 			.inflate(R.layout.test_name_entry_view, null);
 
 		assertTrue(PointOfSale.getPointOfSale().showLastNameFirst());
@@ -176,7 +160,7 @@ public class NameEntryViewTest {
 
 	@Test
 	public void testMaterialNameLayoutOrder() throws Throwable {
-		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
+		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activity)
 			.inflate(R.layout.test_name_entry_view, null);
 
 		LinearLayout linearLayoutParent = (LinearLayout) nameEntryView.getChildAt(0);
@@ -190,12 +174,18 @@ public class NameEntryViewTest {
 		assertEquals(lastNameInputLayout, (nameEntryView.getLastName().getParent().getParent()));
 	}
 
+	private void setTestFirstMiddleAndLastNames() {
+		setViewText(R.id.first_name_input, testFirstName);
+		setViewText(R.id.middle_name_input, testMiddleInitial);
+		setViewText(R.id.last_name_input, testLastName);
+	}
+
+	private void setViewText(int viewId, String testMiddleInitial) {
+		EditText middleNameView = nameView.findViewById(viewId);
+		middleNameView.setText(testMiddleInitial);
+	}
+
 	private void setViewModel(final TravelerNameViewModel viewModel) throws Throwable {
-		uiThreadTestRule.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				nameView.setViewModel(viewModel);
-			}
-		});
+		nameView.setViewModel(viewModel);
 	}
 }
