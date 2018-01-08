@@ -13,7 +13,8 @@ import com.expedia.bookings.itin.vm.ItinWebviewInfoButtonViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import kotlinx.android.synthetic.main.widget_itin_webview_button.view.itin_webview_button_container
+import kotlinx.android.synthetic.main.widget_itin_webview_button.view.card_view
+
 
 
 class ItinWebviewInfoWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
@@ -32,7 +33,7 @@ class ItinWebviewInfoWidget(context: Context, attrs: AttributeSet?) : LinearLayo
                     buttonText.setTextColor(ContextCompat.getColor(context, color))
                 }
                 if (url != null) {
-                    itin_webview_button_container.setOnClickListener {
+                    card_view.setOnClickListener {
                         context.startActivity(buildWebViewIntent(text, url).intent, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
                         OmnitureTracking.trackItinFlightBaggageInfoClicked()
                     }

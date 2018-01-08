@@ -11,7 +11,7 @@ import com.expedia.bookings.itin.vm.FlightItinBagaggeInfoViewModel
 import com.expedia.bookings.itin.vm.ItinWebviewInfoButtonViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
-import kotlinx.android.synthetic.main.widget_itin_webview_button.view.itin_webview_button_container
+import kotlinx.android.synthetic.main.widget_itin_webview_button.view.card_view
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -46,8 +46,8 @@ class ItinWebviewInfoWidgetTest {
         assertEquals(View.VISIBLE, sut.visibility)
         assertEquals("Baggage information", sut.buttonText.text.toString())
         assertEquals(expectedTextColor, sut.buttonText.currentTextColor)
-        assertTrue(sut.itin_webview_button_container.hasOnClickListeners())
-        sut.itin_webview_button_container.performClick()
+        assertTrue(sut.card_view.hasOnClickListeners())
+        sut.card_view.performClick()
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.Baggage.Info", mockAnalyticsProvider)
     }
 
