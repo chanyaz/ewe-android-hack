@@ -81,7 +81,7 @@ class PackageOverviewPresenterTest {
     fun testMenuItemsWhenBackflowIsBucketed() {
         val testSubscriber = TestSubscriber.create<PackageCreateTripResponse>()
         val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
-        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.PackagesBackFlowFromOverview, R.string.preference_packages_back_flow_from_overview)
+        AbacusTestUtils.bucketTests(AbacusUtils.PackagesBackFlowFromOverview)
         setupOverviewPresenter()
         packageServiceRule.services!!.createTrip(params).subscribe(testSubscriber)
         overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])

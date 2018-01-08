@@ -89,8 +89,7 @@ fun isShowSavedCoupons(context: Context): Boolean {
 }
 
 fun isBackFlowFromOverviewEnabled(context: Context): Boolean {
-    return (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.PackagesBackFlowFromOverview) &&
-            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_back_flow_from_overview))
+    return (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.PackagesBackFlowFromOverview))
 }
 
 private fun isPackageForceUpdateEnabled(context: Context): Boolean {

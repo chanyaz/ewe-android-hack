@@ -244,8 +244,6 @@ Feature: Package Overview
     Given I launch the App
     And I bucket the following tests
       | PackagesBackFlowFromOverview |
-    And I enable following features
-      | preference_packages_back_flow_from_overview |
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
       | source                | SFO                                                |

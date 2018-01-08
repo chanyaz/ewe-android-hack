@@ -142,11 +142,6 @@
             android:summary="Packages MID: Force upgrade message for PSS clients"
             android:title="Packages MID: Force upgrade message for PSS clients" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_packages_back_flow_from_overview"
-            android:summary="Packages Back Flow"
-            android:title="Packages Back Flow" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>
