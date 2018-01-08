@@ -60,7 +60,7 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 
 		//test urgency messages
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(2));
-		assertViewWithTextIsDisplayedAtPosition(2, R.id.urgency_message, "4 Rooms Left");
+		assertViewWithTextIsDisplayedAtPosition(2, R.id.urgency_message, "We have 4 rooms left");
 		assertViewWithTextIsDisplayedAtPosition(3, R.id.urgency_message, "Tonight Only!");
 		assertViewWithTextIsDisplayedAtPosition(4, R.id.urgency_message, "Mobile Exclusive");
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(5));
