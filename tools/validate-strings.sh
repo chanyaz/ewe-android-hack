@@ -6,7 +6,7 @@ if [ "$1" = "" ] ; then
 fi
 
 path=$1
-brand=$2
+srcPath=$2
 options="-n -H"
 
 # Mal escaped characters
@@ -68,12 +68,11 @@ for i in $path/values*/strings.xml ; do
 
 done
 
-root="./project/src/$brand/res"
+root="./$srcPath/res"
 for i in $path/values*/strings.xml ; do
     other=${i/$path/$root}
 
-    #total_lines=`wc -l $other | awk '{ print $1 }'`
-    diff_lines=`diff $i $other | wc -l`
+    diff_lines=`diff $i $other | grep "^>" | wc -l`
     if [ "$diff_lines" -gt "200" ] ; then
         echo $i "too many lines changes" $diff_lines
     fi
