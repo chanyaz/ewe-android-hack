@@ -147,7 +147,7 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
         val localDate = DateTime.parse(rawDepartureDateTime).toLocalDate()
 
         return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(localDate),
-                FlightV2Utils.formatTimeShort(context, rawDepartureDateTime), guests)
+                FlightV2Utils.formatTimeShort(context, rawDepartureDateTime), StrUtils.formatTravelerString(context, guests))
     }
 
     private fun getAirportCodeWithCityTitle(airportCode: String, city: String): String {

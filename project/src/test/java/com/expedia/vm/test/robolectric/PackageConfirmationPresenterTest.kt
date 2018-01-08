@@ -14,6 +14,10 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
@@ -28,6 +32,7 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
+import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
@@ -37,6 +42,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class PackageConfirmationPresenterTest {
 
     lateinit var packagePresenter: PackagePresenter
@@ -116,9 +122,23 @@ class PackageConfirmationPresenterTest {
         assertEquals("Farmer's Daughter", confirmationPresenter.destinationCard.title.text)
         assertEquals("Mar 7 - Mar 8, 1 guest", confirmationPresenter.destinationCard.subTitle.text)
         assertEquals("Flight to (SNA) Orange County", confirmationPresenter.outboundFlightCard.title.text)
-        assertEquals("Mar 7 at 09:00:00, 1", confirmationPresenter.outboundFlightCard.subTitle.text)
+        assertEquals("Mar 7 at 09:00:00, 1 traveler", confirmationPresenter.outboundFlightCard.subTitle.text)
         assertEquals("Flight to (SFO) San Francisco", confirmationPresenter.inboundFlightCard.title.text)
-        assertEquals("Mar 8 at 11:25:00, 1", confirmationPresenter.inboundFlightCard.subTitle.text)
+        assertEquals("Mar 8 at 11:25:00, 1 traveler", confirmationPresenter.inboundFlightCard.subTitle.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPointsShownFromMidConfirmation() {
+        setupMIDWebCheckout()
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        val expediaRewards = "500"
+        packagePresenter.expediaRewards = expediaRewards
+        
+        val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
+        serviceRule.services!!.getTripDetails("mid_trip_details", makeItinResponseObserver)
+
+        assertEquals("$expediaRewards Expedia+ Points", packagePresenter.confirmationPresenter.expediaPoints.text)
     }
 
     @Test
