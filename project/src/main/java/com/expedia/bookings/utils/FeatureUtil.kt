@@ -59,7 +59,7 @@ fun isCreditCardMessagingForPayLaterEnabled(context: Context): Boolean {
 }
 
 fun isBrandColorEnabled(context: Context) : Boolean {
-    return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)
 }
 
 fun isHotelMaterialForms(context: Context): Boolean {

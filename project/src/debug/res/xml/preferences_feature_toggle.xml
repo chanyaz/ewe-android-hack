@@ -17,11 +17,6 @@
         android:title="Home Screen Feature">
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_launch_screen_brand_colors"
-            android:summary="Enable Brand Colors"
-            android:title="Enable Brand Colors" />
-
-        <CheckBoxPreference
             android:key="@string/preference_enable_meso_destination_card"
             android:summary="Enable Meso Destination Card"
             android:title="Enable Meso Destination Card" />
