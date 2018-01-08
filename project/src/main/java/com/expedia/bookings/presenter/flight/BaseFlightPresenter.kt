@@ -197,11 +197,15 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbar.visibility = if (forward) View.GONE else View.VISIBLE
-            AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
             viewBundleSetVisibility(false)
             overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
             paymentFeeInfoWebView.visibility = View.GONE
             baggageFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
+            if (forward) {
+                AccessibilityUtil.delayFocusToToolbarNavigationIcon(baggageFeeInfoWebView.toolbar, 50L)
+            } else {
+                AccessibilityUtil.delayFocusToToolbarNavigationIcon(toolbar, 50L)
+            }
         }
     }
 
