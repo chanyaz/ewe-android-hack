@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
@@ -16,8 +15,7 @@
         android:text="@string/itin_flight_modify_widget_change_reservation_text"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="14sp"
-        app:textStyle="medium" />
+        android:textSize="14sp" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/change_reservation_learn_more"
@@ -43,8 +41,7 @@
         android:text="@string/itin_flight_modify_widget_cancel_reservation_text"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="14sp"
-        app:textStyle="medium" />
+        android:textSize="14sp" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/cancel_reservation_learn_more"

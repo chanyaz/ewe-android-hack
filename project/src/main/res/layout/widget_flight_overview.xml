@@ -67,7 +67,6 @@
                 <Button
                     android:id="@+id/show_baggage_fees"
                     android:text="@string/package_flight_overview_baggage_fees"
-                    app:textStyle="medium"
                     android:layout_marginTop="12dp"
                     style="@style/Widget.InfoIconButton"/>
 
@@ -78,8 +77,7 @@
                     <Button
                         android:id="@+id/show_payment_fees"
                         style="@style/Widget.InfoIconButton"
-                        android:visibility="gone"
-                        app:textStyle="medium" />
+                        android:visibility="gone" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/show_airline_fee_warning_text"

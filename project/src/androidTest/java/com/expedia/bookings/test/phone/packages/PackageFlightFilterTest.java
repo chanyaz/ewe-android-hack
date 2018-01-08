@@ -257,8 +257,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		PackageScreen.flightFilterView().perform(waitForViewToDisplay());
 	}
 
-	@IdRes
-	private void visibleWithText(int resId, String text) {
+	private void visibleWithText(@IdRes int resId, String text) {
 		onView(allOf(withId(resId), withText(text))).check(matches(isDisplayed()));
 	}
 

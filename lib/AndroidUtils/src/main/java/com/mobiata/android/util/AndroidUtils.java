@@ -23,14 +23,6 @@ import com.mobiata.android.Params;
 import com.mobiata.android.R;
 
 public class AndroidUtils {
-	/**
-	 * Returns the SDK int.  Equivalent to Build.VERSION.SDK_INT.
-	 * @return the sdk version (as an int)
-	 */
-	public static int getSdkVersion() {
-		return Build.VERSION.SDK_INT;
-	}
-
 	public static boolean isTablet(Context context) {
 		return context.getResources().getBoolean(R.bool.tablet);
 	}

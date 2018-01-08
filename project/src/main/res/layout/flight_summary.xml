@@ -181,8 +181,7 @@
         android:layout_marginLeft="9dp"
         android:drawablePadding="12dp"
         android:gravity="left"
-        android:text="@string/flight_checkout_overview_basic_economy_message"
-        app:textStyle="medium" />
+        android:text="@string/flight_checkout_overview_basic_economy_message" />
 
     <Space
         android:id="@+id/scroll_space_flight"

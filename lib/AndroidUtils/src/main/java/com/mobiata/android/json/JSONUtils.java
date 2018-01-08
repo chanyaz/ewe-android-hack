@@ -12,13 +12,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
 public class JSONUtils {
 
@@ -461,30 +459,18 @@ public class JSONUtils {
 		return arr;
 	}
 
-	@TargetApi(9)
 	public static String getNormalizedString(JSONObject obj, String key) throws JSONException {
 		String str = obj.getString(key);
-		if (AndroidUtils.getSdkVersion() < 9) {
-			return str;
-		}
-		else {
-			return Normalizer.normalize(str, Normalizer.Form.NFC);
-		}
+		return Normalizer.normalize(str, Normalizer.Form.NFC);
 	}
 
-	@TargetApi(9)
 	public static String optNormalizedString(JSONObject obj, String key, String def) {
 		String str = obj.optString(key, def);
 		if (str == null) {
 			return null;
 		}
 		else {
-			if (AndroidUtils.getSdkVersion() < 9) {
-				return str;
-			}
-			else {
-				return Normalizer.normalize(str, Normalizer.Form.NFC);
-			}
+			return Normalizer.normalize(str, Normalizer.Form.NFC);
 		}
 	}
 

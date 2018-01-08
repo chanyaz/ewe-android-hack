@@ -6,9 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import android.annotation.TargetApi;
 import android.os.AsyncTask;
-import android.os.Build;
-
-import com.mobiata.android.util.AndroidUtils;
 
 /**
  * Class for downloading server messages in the background.  It allows
@@ -85,12 +82,7 @@ public class BackgroundDownloader {
 			// see the blog post below:
 			//
 			// http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html
-			if (AndroidUtils.getSdkVersion() >= Build.VERSION_CODES.HONEYCOMB) {
-				task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			}
-			else {
-				task.execute();
-			}
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		}
 
 		// Register the callback
