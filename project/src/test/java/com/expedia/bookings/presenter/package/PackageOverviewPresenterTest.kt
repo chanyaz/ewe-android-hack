@@ -26,6 +26,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.vm.PackageWebCheckoutViewViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -202,6 +203,23 @@ class PackageOverviewPresenterTest {
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
 
         assertEquals("$350", overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleTotalPrice.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDCheckoutBlankURLNotFiredAfterClosingWebView() {
+        val testSubscriber = TestSubscriber.create<String>()
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        setupOverviewPresenter()
+        overviewPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testSubscriber)
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
+        assertEquals(1, testSubscriber.onNextEvents.size)
+        assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=fd713193-3ec1-4773-9f0d-4ff51cc8c19f", testSubscriber.onNextEvents[0])
     }
 
     private fun setPointOfSale(posId: PointOfSaleId) {
