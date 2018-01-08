@@ -353,7 +353,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         if (!notificationManager.hasExisting(notification)) {
             return
         }
-        if (notification.uniqueId.contains("_activityCross"))
+        if (notification.uniqueId.contains("_activityCross") || notification.uniqueId.contains("_activityInTrip"))
             jumpToActivityCross = notification.itinId
         else{
             jumpToItinId = notification.itinId

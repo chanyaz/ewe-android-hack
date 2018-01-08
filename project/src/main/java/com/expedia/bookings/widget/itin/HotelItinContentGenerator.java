@@ -382,7 +382,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			notifications.add(generateGetReadyNotification());
 			notifications.add(generateActivityCrossSellNotification());
 		}
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.EBAndroidLXNotifications)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.EBAndroidLXNotifications) && isDurationLongerThanDays(1)) {
 			notifications.add(generateActivityInTripNotification());
 		}
 		return notifications;
@@ -578,11 +578,15 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		MutableDateTime trigger = startDate.toMutableDateTime();
 
-		if (startDate.getHourOfDay() >=  8  && startDate.getHourOfDay() <=  18) {
-			trigger.addHours(2);
+		if (startDate.getHourOfDay() <  8) {
+			trigger.setHourOfDay(10);
+		}
+		else if (startDate.getHourOfDay() >  18) {
+			trigger.addDays(1);
+			trigger.setHourOfDay(10);
 		}
 		else {
-			trigger.setHourOfDay(10);
+			trigger.addHours(2);
 		}
 		long triggerTimeMillis = trigger.getMillis();
 
@@ -591,7 +595,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		trigger.setMinuteOfHour(59);
 		long expirationTimeMillis = trigger.getMillis();
 
-		Notification notification = new Notification(itinId + "_activityCross", itinId, triggerTimeMillis);
+		Notification notification = new Notification(itinId + "_activityInTrip", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_ACTIVITY_IN_TRIP);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setFlags(Notification.FLAG_LOCAL);
