@@ -21,12 +21,12 @@ import rx.subjects.PublishSubject
 
 abstract class BaseSearchViewModel(val context: Context) {
     // Outputs
-    val dateAccessibilityObservable = BehaviorSubject.create<CharSequence>()
     var dateTextObservable = BehaviorSubject.create<CharSequence>()
+    val dateAccessibilityObservable = BehaviorSubject.create<CharSequence>()
     val dateInstructionObservable = PublishSubject.create<CharSequence>()
     val dateSetObservable = PublishSubject.create<Unit>()
-    val calendarTooltipContDescObservable = PublishSubject.create<String>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
+    val calendarTooltipContDescObservable = PublishSubject.create<String>()
     val locationTextObservable = PublishSubject.create<String>()
     val searchButtonObservable = PublishSubject.create<Boolean>()
     val errorNoDestinationObservable = PublishSubject.create<Unit>()

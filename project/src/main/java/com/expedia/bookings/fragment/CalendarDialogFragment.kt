@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.expedia.bookings.R
-import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.utils.CalendarShortDateRenderer
 import com.expedia.bookings.utils.FontCache
@@ -60,6 +59,7 @@ open class CalendarDialogFragment() : DialogFragment() {
             val maxDate = LocalDate.now().plusDays(rules!!.getMaxDateRange())
             calendarPickerView.setSelectableDateRange(rules!!.getFirstAvailableDate(), maxDate)
             calendarPickerView.setMaxSelectableDateRange(rules!!.getMaxSearchDurationDays())
+            calendarPickerView.setSameStartAndEndDateAllowed(rules!!.sameStartAndEndDateAllowed())
 
             val monthView = calendarPickerView.findViewById<MonthView>(R.id.month)
             val dayOfWeek = calendarPickerView.findViewById<DaysOfWeekView>(R.id.days_of_week)
@@ -155,7 +155,18 @@ open class CalendarDialogFragment() : DialogFragment() {
             calendar.visibility = CardView.INVISIBLE
             calendar.hideToolTip()
             if (calendar.startDate != null && calendar.endDate == null) {
-                val endDate = if (!(rules?.isStartDateOnlyAllowed() ?: false)) calendar.startDate.plusDays(1) else null
+                var endDate: LocalDate? = null
+
+                if (rules == null) {
+                    endDate = calendar.startDate.plusDays(1)
+                } else if (!rules!!.isStartDateOnlyAllowed()) {
+                    val maxDate = rules!!.getFirstAvailableDate().plusDays(rules!!.getMaxDateRange())
+                    if (calendar.startDate != maxDate) {
+                        endDate = calendar.startDate.plusDays(1)
+                    } else if (rules!!.sameStartAndEndDateAllowed()) {
+                        endDate = calendar.startDate
+                    }
+                }
                 calendar.setSelectedDates(calendar.startDate, endDate)
             }
             userTappedDone = true

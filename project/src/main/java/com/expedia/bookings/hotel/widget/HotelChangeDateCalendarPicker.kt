@@ -34,6 +34,7 @@ class HotelChangeDateCalendarPicker(context: Context, attrs: AttributeSet?) : Ca
         val maxDate = LocalDate.now().plusDays(rules.getMaxDateRange())
         setSelectableDateRange(rules.getFirstAvailableDate(), maxDate)
         setMaxSelectableDateRange(rules.getMaxSearchDurationDays())
+        setSameStartAndEndDateAllowed(rules.sameStartAndEndDateAllowed())
 
         val monthView = findViewById<MonthView>(R.id.month)
         val dayOfWeek = findViewById<DaysOfWeekView>(R.id.days_of_week)

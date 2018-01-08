@@ -424,6 +424,10 @@ public class CalendarPicker extends LinearLayout {
 		mState.setMaxSelectableDateRange(numDays);
 	}
 
+	public void setSameStartAndEndDateAllowed(boolean sameStartAndEndDateAllowed) {
+		mState.setSameStartAndEndDateAllowed(sameStartAndEndDateAllowed);
+	}
+
 	public LocalDate getStartDate() {
 		return mState.mStartDate;
 	}
@@ -754,6 +758,8 @@ public class CalendarPicker extends LinearLayout {
 
 		private int mMaxSelectableDateRange;
 
+		private boolean mSameStartAndEndDateAllowed;
+
 		// We keep track of what has changed so that we don't do unnecessary View updates
 		private CalendarState mLastState;
 
@@ -808,12 +814,17 @@ public class CalendarPicker extends LinearLayout {
 			}
 		}
 
+		public void setSameStartAndEndDateAllowed(boolean sameStartAndEndDateAllowed) {
+			mSameStartAndEndDateAllowed = sameStartAndEndDateAllowed;
+			validateAndSyncState();
+		}
+
 		/**
 		 * @return true if the date is selectable (within min/max date ranges)
 		 */
 		public boolean canSelectDate(LocalDate date) {
 			return (mMinSelectableDate == null || !date.isBefore(mMinSelectableDate))
-					&& (mMaxSelectableDate == null || !date.isAfter(mMaxSelectableDate));
+				&& (mMaxSelectableDate == null || !date.isAfter(mMaxSelectableDate));
 		}
 
 		/**
@@ -837,7 +848,6 @@ public class CalendarPicker extends LinearLayout {
 		}
 
 		private void validateAndSyncState() {
-
 			// Prevents edge case of endDate from multi touch interactions in SingleDateMode
 			if (isSingleDateMode() && mEndDate != null) {
 				mEndDate = null;
@@ -877,10 +887,19 @@ public class CalendarPicker extends LinearLayout {
 				}
 
 				if (mEndDate != null && mEndDate.isAfter(mMaxSelectableDate)) {
-					Log.v("End date (" + mEndDate
+					if (!mSameStartAndEndDateAllowed && mStartDate.isEqual(mMaxSelectableDate)) {
+						Log.v("End date (" + mEndDate
+							+ ") is AFTER max selectable date (" + mMaxSelectableDate
+							+ ") and start date (" + mStartDate
+							+ ") is at max selectable date;"
+							+ " can't have same start and end date; setting end date to null");
+						mEndDate = null;
+					} else {
+						Log.v("End date (" + mEndDate
 							+ ") is AFTER max selectable date (" + mMaxSelectableDate
 							+ "); setting end date to max date");
-					mEndDate = mMaxSelectableDate;
+						mEndDate = mMaxSelectableDate;
+					}
 				}
 
 				if (mStartDate != null && mStartDate.isAfter(mMaxSelectableDate)) {
@@ -970,6 +989,7 @@ public class CalendarPicker extends LinearLayout {
 			mLastState.mMinSelectableDate = mMinSelectableDate;
 			mLastState.mMaxSelectableDate = mMaxSelectableDate;
 			mLastState.mMaxSelectableDateRange = mMaxSelectableDateRange;
+			mLastState.mSameStartAndEndDateAllowed = mSameStartAndEndDateAllowed;
 		}
 	}
 
