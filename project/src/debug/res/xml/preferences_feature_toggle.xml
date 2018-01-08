@@ -17,11 +17,6 @@
         android:title="Home Screen Feature">
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_last_minute_deals"
-            android:summary="Enable Last Minute Deals"
-            android:title="Enable Last Minute Deals" />
-
-        <CheckBoxPreference
             android:key="@string/preference_enable_launch_screen_brand_colors"
             android:summary="Enable Brand Colors"
             android:title="Enable Brand Colors" />

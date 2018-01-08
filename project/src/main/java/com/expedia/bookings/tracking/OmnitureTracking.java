@@ -3292,9 +3292,7 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppBrandColors);
 		}
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_last_minute_deals)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppLastMinuteDeals);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLastMinuteDeals);
 
 		if (trackingEvents != null) {
 			s.setEvents(trackingEvents);
