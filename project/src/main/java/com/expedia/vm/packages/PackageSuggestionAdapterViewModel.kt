@@ -11,7 +11,7 @@ import rx.Observable
 
 class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
     override fun getSuggestionService(query: String) {
-        val guid = Db.getAbacusGuid()
+        val guid = Db.sharedInstance.getAbacusGuid()
         suggestionsService.suggestPackagesV4(query, isDest, isPackagesMISRealWorldGeoEnabled(context), generateSuggestionServiceCallback(), guid)
     }
 
