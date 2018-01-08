@@ -178,9 +178,10 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     }
 
     private fun createDiscountPercentageString(): String? {
-        val isApplyingDiscount = (hotelLoyaltyInfo?.isBurnApplied ?: false) || chargeableRateInfo.isShowAirAttached()
-        if (!isPackage && chargeableRateInfo.isDiscountPercentNotZero && !isApplyingDiscount) {
-            return context.resources.getString(R.string.percent_off_TEMPLATE, HotelUtils.getDiscountPercent(chargeableRateInfo))
+        val isDiscountApplied = chargeableRateInfo.isShowAirAttached()
+        if (!isPackage && chargeableRateInfo.isDiscountPercentNotZero && !isDiscountApplied) {
+            var discountPercent = chargeableRateInfo.discountPercentClipAtHundred.toInt()
+            return Phrase.from(context, R.string.hotel_discount_percent_Template).put("discount", discountPercent).format().toString()
         } else {
             return null
         }

@@ -386,13 +386,29 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	public void discountPercentageIsNotShownForSWP() {
+	public void discountPercentageIsShownForSWP() {
 		hotel.lowRateInfo.discountPercent = -12;
 		givenHotelWithShopWithPointsAvailable();
 		setupSystemUnderTest();
 
-		assertFalse(vm.getShowDiscount());
+		assertTrue(vm.getShowDiscount());
 		assertTrue(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void testHotelDiscountPercentageClipsAboveHundred() {
+		hotel.lowRateInfo.discountPercent = 1000;
+		setupSystemUnderTest();
+
+		assertEquals("100%", vm.getHotelDiscountPercentage());
+	}
+
+	@Test
+	public void testHotelDiscountPercentageClipsBelowNegativeHundred() {
+		hotel.lowRateInfo.discountPercent = -1000;
+		setupSystemUnderTest();
+
+		assertEquals("-100%", vm.getHotelDiscountPercentage());
 	}
 
 	@Test

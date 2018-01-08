@@ -46,10 +46,10 @@ open class HotelViewModel(private val context: Context) {
     val pricePerNightColor: Int get() = ContextCompat.getColor(context, getPricePerNightTextColor())
     val pricePerDescriptor: String? get() = getPricePerDescriptorString()
 
-    val topAmenityTitle: String get() = getTopAmenityTitle(resources)
+    val topAmenityTitle: String get() = getTopAmenityString()
     val loyaltyAvailable: Boolean get() = hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false
-    val showDiscount: Boolean get() = (hotel.lowRateInfo?.isDiscountPercentNotZero ?: false) && !(hotel.lowRateInfo?.airAttached ?: false) && !loyaltyAvailable
-    val hotelDiscountPercentage: String get() = Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo?.discountPercent?.toInt() ?: 0).format().toString()
+    val showDiscount: Boolean get() = (hotel.lowRateInfo?.isDiscountPercentNotZero ?: false) && !(hotel.lowRateInfo?.airAttached ?: false)
+    val hotelDiscountPercentage: String get() = getDiscountPercentageString()
 
     val hotelStarRating: Float get() = hotel.hotelStarRating
     val showStarRating: Boolean get() = hotelStarRating > 0
@@ -302,7 +302,7 @@ open class HotelViewModel(private val context: Context) {
         }
     }
 
-    private fun getTopAmenityTitle(resources: Resources): String {
+    private fun getTopAmenityString(): String {
         if (hotel.isSponsoredListing) {
             return resources.getString(R.string.sponsored)
         } else if (hotel.isShowEtpChoice) {
@@ -312,8 +312,13 @@ open class HotelViewModel(private val context: Context) {
         } else return ""
     }
 
+    private fun getDiscountPercentageString(): String {
+        var discountPercent = hotel.lowRateInfo?.discountPercentClipAtHundred?.toInt() ?: 0
+        return Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", discountPercent).format().toString()
+    }
+
     private fun getPricePerNightTextColor(): Int {
-        if (hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false) {
+        if (hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied == true) {
             return R.color.hotels_primary_color
         }
         return R.color.default_text_color

@@ -469,13 +469,13 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         val chargeableRateInfo = offerResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
         val packageLoyaltyInformation = offerResponse.hotelRoomResponse?.firstOrNull()?.packageLoyaltyInformation
         val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false
-        val discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
+        var discountPercentage: Int? = chargeableRateInfo?.discountPercentClipAtHundred?.toInt()
         discountPercentageObservable.onNext(Pair(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
                 .put("discount", discountPercentage ?: 0).format().toString(),
                 Phrase.from(context, R.string.hotel_discount_cont_desc_TEMPLATE)
                         .put("percent", Math.abs(discountPercentage ?: 0)).format().toString()))
 
-        showDiscountPercentageObservable.onNext(!offerResponse.isPackage && !isRateShopWithPoints && chargeableRateInfo?.isDiscountPercentNotZero ?: false)
+        showDiscountPercentageObservable.onNext(!offerResponse.isPackage && chargeableRateInfo?.isDiscountPercentNotZero ?: false)
         shopWithPointsObservable.onNext(isRateShopWithPoints)
         val isVipAccess = offerResponse.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
         hasVipAccessObservable.onNext(isVipAccess)

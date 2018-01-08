@@ -304,13 +304,13 @@ class HotelDetailViewModelTest {
         vm.addViewsAfterTransition()
     }
 
-    @Test fun discountPercentageShouldNotShowForSWP() {
+    @Test fun discountPercentageShouldShowForSWP() {
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), true)
         chargeableRateInfo.loyaltyInfo = loyaltyInfo
         vm.hotelOffersSubject.onNext(offer1)
-        assertFalse(vm.showDiscountPercentageObservable.value)
+        assertTrue(vm.showDiscountPercentageObservable.value)
         assertFalse(vm.showAirAttachSWPImageObservable.value)
     }
 
@@ -328,8 +328,24 @@ class HotelDetailViewModelTest {
         chargeableRateInfo.loyaltyInfo = loyaltyInfo
         chargeableRateInfo.airAttached = true
         vm.hotelOffersSubject.onNext(offer1)
-        assertFalse(vm.showDiscountPercentageObservable.value)
+        assertTrue(vm.showDiscountPercentageObservable.value)
         assertTrue(vm.showAirAttachSWPImageObservable.value)
+    }
+
+    @Test
+    fun testDiscountPercentageClipsAboveHundredString() {
+        offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo.discountPercent = 1000.0f
+        vm.hotelOffersSubject.onNext(offer1)
+
+        assertEquals("100%", vm.discountPercentageObservable.value.first)
+    }
+
+    @Test
+    fun testDiscountPercentageClipsBelowNegativeHundredString() {
+        offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo.discountPercent = -1000.0f
+        vm.hotelOffersSubject.onNext(offer1)
+
+        assertEquals("-100%", vm.discountPercentageObservable.value.first)
     }
 
     @Test

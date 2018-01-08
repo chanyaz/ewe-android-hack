@@ -370,7 +370,7 @@ class HotelRoomDetailViewModelTest {
         roomResponse.rateInfo.chargeableRateInfo.discountPercent = 10.0.toFloat()
         val viewModel = createViewModel(roomResponse, 3)
 
-        assertNull(viewModel.discountPercentageString)
+        assertEquals("10%", viewModel.discountPercentageString)
     }
 
     @Test
@@ -393,7 +393,7 @@ class HotelRoomDetailViewModelTest {
         val viewModel = createViewModel(roomResponse, 3)
 
         if (PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach()) {
-            assertEquals("-10%", viewModel.discountPercentageString)
+            assertEquals("10%", viewModel.discountPercentageString)
         } else {
             assertNull(viewModel.discountPercentageString)
         }
@@ -406,6 +406,28 @@ class HotelRoomDetailViewModelTest {
         val viewModel = createViewModel(roomResponse, 4)
 
         assertNull(viewModel.discountPercentageString)
+    }
+
+    @Test
+    fun testDiscountPercentageClipsAboveHundredString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), false)
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = false
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = 1000.0f
+        val viewModel = createViewModel(roomResponse, 3)
+
+        assertEquals("100%", viewModel.discountPercentageString)
+    }
+
+    @Test
+    fun testDiscountPercentageClipsBelowNegativeHundredString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), false)
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = false
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = -1000.0f
+        val viewModel = createViewModel(roomResponse, 3)
+
+        assertEquals("-100%", viewModel.discountPercentageString)
     }
 
     @Test

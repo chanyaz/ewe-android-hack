@@ -160,4 +160,16 @@ public class HotelRate {
 	public boolean isDiscountPercentNotZero() {
 		return discountPercent != 0;
 	}
+
+	public float getDiscountPercentClipAtHundred() {
+		if (discountPercent > 100.0f) {
+			return 100.0f;
+		}
+		else if (discountPercent < -100.0f) {
+			return -100.0f;
+		}
+		else {
+			return discountPercent;
+		}
+	}
 }
