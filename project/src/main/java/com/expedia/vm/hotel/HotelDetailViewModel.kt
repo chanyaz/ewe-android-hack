@@ -103,15 +103,6 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
     }
 
     override fun pricePerDescriptor(): String {
-        val firstHotelRoomResponse = hotelOffersResponse.hotelRoomResponse?.firstOrNull()
-        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
-        if (firstHotelRoomResponse != null && bucketedToShowPriceDescriptorProminence) {
-            val priceType = firstHotelRoomResponse?.rateInfo?.chargeableRateInfo?.getUserPriceType()
-            return when (priceType) {
-                HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.getString(R.string.total_stay)
-                else -> context.getString(R.string.per_night)
-            }
-        }
         return context.getString(R.string.per_night)
     }
 

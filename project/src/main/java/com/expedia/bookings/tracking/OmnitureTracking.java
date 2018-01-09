@@ -541,7 +541,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence);
 		// Send the tracking data
 		s.track();
 	}

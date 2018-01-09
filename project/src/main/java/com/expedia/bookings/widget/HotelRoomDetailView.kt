@@ -40,7 +40,6 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
     private val strikeThroughTextView: TextView by bindView(R.id.strike_through_price_text_view)
     private val priceTextView: TextView by bindView(R.id.price_text_view)
     private val pricePerDescriptorTextView: TextView by bindView(R.id.price_per_descriptor_text_view)
-    private val taxFeeDescriptorTextView: TextView by bindView(R.id.tax_fee_descriptor)
     private val hotelRoomRowButton: HotelRoomRateActionButton by bindView(R.id.hotel_room_row_button)
     private val roomLeftContainer: LinearLayout by bindView(R.id.room_left_container)
     private val urgencyIcon: ImageView by bindView(R.id.urgency_icon)
@@ -102,10 +101,8 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         }
 
         priceTextView.setTextAndVisibility(viewModel.priceString)
-        pricePerDescriptorTextView.setTextAndVisibility(viewModel.pricePerDescriptorString)
+        pricePerDescriptorTextView.updateVisibility(viewModel.showPerNight)
         mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
-
-        taxFeeDescriptorTextView.setTextAndVisibility(viewModel.taxFeeDescriptorString)
 
         hotelRoomRowButton.bookButtonClickedSubject.subscribe(hotelRoomRowClickedSubject)
 
