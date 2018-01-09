@@ -287,7 +287,7 @@ public class OmnitureTracking {
 
 	public static void trackKrazyglueError(@NotNull String errorCause) {
 		ADMS_Measurement s = getFreshTrackingObject();
-		s.setAppState(HOTELSV2_PURCHASE_CONFIRMATION);
+		s.setAppState(CHECKOUT_ERROR_PAGE_NAME);
 		s.setProp(36, "KG.Confirmation." + errorCause);
 		s.track();
 	}
