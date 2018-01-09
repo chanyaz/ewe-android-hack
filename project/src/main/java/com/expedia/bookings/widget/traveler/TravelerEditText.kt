@@ -3,7 +3,6 @@ package com.expedia.bookings.widget.traveler
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
@@ -114,9 +113,9 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         val text = this.text?.toString()
         var hint = this.hint?.toString()
         if (Strings.isEmpty(hint)) {
-            hint = (this.getParentTextInputLayout() as? TextInputLayout)?.hint.toString()
+            hint = this.getParentTextInputLayout()?.hint.toString()
         }
-        val error = (this.getParentTextInputLayout() as? TextInputLayout)?.error ?: errorContDesc
+        val error = this.getParentTextInputLayout()?.error ?: errorContDesc
         val conDescription = if (Strings.isNotEmpty(this.contentDescription)) {
             this.contentDescription.toString()
         } else ""
@@ -143,14 +142,8 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
     }
 
     private inner class TravelerTextWatcher : TextWatcher {
-        override fun afterTextChanged(p0: Editable?) {
-            viewModel.errorSubject.onNext(false)
-        }
-
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        }
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        }
-
+        override fun afterTextChanged(p0: Editable?) = viewModel.errorSubject.onNext(false)
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
     }
 }

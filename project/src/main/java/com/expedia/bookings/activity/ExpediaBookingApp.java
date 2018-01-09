@@ -154,10 +154,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			.build();
 		startupTimer.addSplit("Dagger AppModule created");
 
-		AppStartupTimeLogger appStartupTimeLogger = mAppComponent.appStartupTimeLogger();
+		AppStartupTimeLogger appStartupTimeLogger = appComponent().appStartupTimeLogger();
 		appStartupTimeLogger.setStartTime();
 
-		AppCreateTimeLogger appCreateTimeLogger = mAppComponent.appCreateTimeLogger();
+		AppCreateTimeLogger appCreateTimeLogger = appComponent().appCreateTimeLogger();
 		appCreateTimeLogger.setStartTime();
 
 		// We want this first so that we set this as the Provider before anything tries to use Joda time
@@ -176,7 +176,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			startupTimer.addSplit("Crashlytics started.");
 		}
 
-		if (mAppComponent.endpointProvider().getEndPoint() == EndPoint.MOCK_MODE) {
+		if (appComponent().endpointProvider().getEndPoint() == EndPoint.MOCK_MODE) {
 			MockModeShim.initMockWebServer(this);
 			startupTimer.addSplit("Mock mode init");
 		}
@@ -403,7 +403,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	public void defaultHotelComponents() {
 		setHotelComponent(DaggerHotelComponent.builder()
-			.appComponent(mAppComponent)
+			.appComponent(appComponent())
 			.build());
 	}
 
@@ -417,13 +417,13 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	public void defaultPackageComponents() {
 		setPackageComponent(DaggerPackageComponent.builder()
-			.appComponent(mAppComponent)
+			.appComponent(appComponent())
 			.build());
 	}
 
 	public void defaultTripComponents() {
 		setTripComponent(DaggerTripComponent.builder()
-			.appComponent(mAppComponent)
+			.appComponent(appComponent())
 			.build());
 	}
 
@@ -437,7 +437,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	public void defaultRailComponents() {
 		setRailComponent(DaggerRailComponent.builder()
-			.appComponent(mAppComponent)
+			.appComponent(appComponent())
 			.build());
 	}
 
@@ -479,14 +479,14 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	public void defaultFlightComponents() {
 		setFlightComponent(DaggerFlightComponent.builder()
-			.appComponent(mAppComponent)
+			.appComponent(appComponent())
 			.build());
 	}
 
 	public void defaultLXComponents() {
 		if (mLXTestComponent == null) {
 			mLXComponent = DaggerLXComponent.builder()
-				.appComponent(mAppComponent)
+				.appComponent(appComponent())
 				.build();
 		}
 		else {

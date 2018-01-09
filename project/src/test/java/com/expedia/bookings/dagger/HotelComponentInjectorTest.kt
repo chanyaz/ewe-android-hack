@@ -15,6 +15,7 @@ class HotelComponentInjectorTest {
 
     @Test
     fun testInject() {
+        Ui.getApplication(context).setHotelComponent(null)
         assertNull(Ui.getApplication(context).hotelComponent())
         testInjector.inject(context)
         assertNotNull(Ui.getApplication(context).hotelComponent())

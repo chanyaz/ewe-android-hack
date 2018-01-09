@@ -1,31 +1,27 @@
 package com.expedia.bookings.test.unit.traveler;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.PlaygroundActivity;
 import com.expedia.bookings.data.TravelerName;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
-import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.traveler.NameEntryView;
+import com.expedia.testutils.RobolectricPlaygroundRule;
 import com.expedia.vm.traveler.TravelerNameViewModel;
 import com.mobiata.android.util.SettingUtils;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RuntimeEnvironment;
 
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
@@ -40,13 +36,13 @@ public class NameEntryViewTest {
 	private NameEntryView nameView;
 	private Activity activity;
 
+	@Rule
+	public RobolectricPlaygroundRule playgroundRule = new RobolectricPlaygroundRule(R.layout.test_name_entry_view, R.style.V2_Theme_Packages);
+
 	@Before
 	public void setUp() {
-		Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent();
-		Intent intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.test_name_entry_view);
-		Intent styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages);
-		activity = Robolectric.buildActivity(PlaygroundActivity.class, styledIntent).create().visible().get();
-		nameView = (NameEntryView) ((FrameLayout) activity.findViewById(android.R.id.content)).getChildAt(0);
+		activity = playgroundRule.activity;
+		nameView = playgroundRule.findRoot();
 	}
 
 	@Test

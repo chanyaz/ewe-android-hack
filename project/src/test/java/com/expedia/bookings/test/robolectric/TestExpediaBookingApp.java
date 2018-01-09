@@ -1,12 +1,12 @@
 package com.expedia.bookings.test.robolectric;
 
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.shadows.ShadowTelephonyManager;
-
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
+
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.shadows.ShadowTelephonyManager;
 
 import static org.robolectric.Shadows.shadowOf;
 
@@ -21,5 +21,13 @@ public class TestExpediaBookingApp extends ExpediaBookingApp {
 
 		setIsRobolectric(true);
 		super.onCreate();
+		defaultFlightComponents();
+		defaultTripComponents();
+		defaultHotelComponents();
+		defaultTravelerComponent();
+		defaultRailComponents();
+		defaultPackageComponents();
+		defaultLXComponents();
+		defaultLaunchComponents();
 	}
 }
