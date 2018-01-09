@@ -959,8 +959,10 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">กิจกรรมใน {destination} ขายหมดเร็วมาก! สำรวจกิจกรรมที่น่าสนใจแล้วจองตั๋วเข้าชมล่วงหน้า</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">สวัสดีค่ะ {firstname} ไปสำรวจสถานที่ท่องเที่ยวและกิจกรรมยอดนิยมใกล้โรงแรมของคุณกัน</string>
-    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
-    <string name="flight_notification_delayed_flight_TEMPLATE">เที่ยวบินไป {arrival airport} ของคุณล่าช้า เวลาออกเดินทางใหม่คือ {departure time}</string>
+    <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">เที่ยวบินไป {arrival_airport} ของคุณล่าช้า เวลาออกเดินทางใหม่คือ {departure_time}</string>
+    <!--Notification title for Flight delayed notification -->
+    <string name="flight_notification_delayed_title">เที่ยวบินล่าช้า</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">แผนการเดินทาง</string>
@@ -1080,10 +1082,6 @@
     <string name="trips_back_button_label_cont_desc">กลับไปยังปุ่มหน้าจอการเดินทาง</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">กดปุ่มเพื่อขยายการเดินทาง</string>
-    <!-- Content Description for upgrade image to upgrade hotel room -->
-    <string name="trips_upgrade_hotel_button_label_cont_desc">อัพเกรดห้องพัก</string>
-    <!-- Web view header label for soft changes to hotel room booking -->
-    <string name="trips_edit_room_info_web_view_title">แก้ไขข้อมูลห้องพัก</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">รหัสยืนยันโรงแรม</string>
     <!-- Passengers Label -->
@@ -1280,13 +1278,9 @@
     <string name="itin_card_details_details">ข้อมูลเพิ่มเติม</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">ยกเลิกห้องพัก</string>
-    <!-- Label for button to upgrade Hotel room -->
-    <string name="itin_card_details_upgrade_hotel_button">เวลาจำกัด: อัพเกรดห้องพักได้!</string>
     <string name="itin_card_flight_checkin_title">เช็คอินเที่ยวบิน</string>
     <!-- Label for button to edit Hotel booking -->
     <string name="itin_card_edit_hotel_room_info">แก้ไขข้อมูลห้องพัก</string>
-    <!-- Accessibility announcement for button to edit Hotel booking -->
-    <string name="itin_card_change_hotel_options">เปลี่ยนตัวเลือกโรงแรม</string>
 
     <string name="itin_card_flight_checkin_details">ไปที่ไซต์ของ %s</string>
     <string name="itin_card_details_pick_up">รับรถ</string>
@@ -1315,13 +1309,6 @@
     <string name="itin_card_details_dropped_off_TEMPLATE">ส่งคืนรถ %1$s</string>
     <string name="itin_card_details_agency_phone">เบอร์โทรศัพท์บริษัทตัวแทน</string>
     <string name="itin_card_details_toll_free_phone">หมายเลขโทรฟรี</string>
-    <string name="itin_card_details_check_in">เช็คอิน</string>
-    <string name="itin_card_details_check_out">เช็คเอาท์</string>
-    <string name="itin_card_details_address">ที่อยู่</string>
-    <string name="itin_card_details_local_phone">โทรศัพท์ในประเทศ</string>
-    <string name="itin_card_details_room_type">ประเภทห้อง</string>
-    <string name="itin_card_details_non_price_promotion_includes">ราคารวม</string>
-    <string name="itin_card_details_bed_type">ประเภทเตียง</string>
     <string name="toast_copied_to_clipboard">คัดลอกไปยังคลิปบอร์ด</string>
     <string name="itin_card_details_reload">โหลดข้อมูลใหม่</string>
     <string name="itin_card_details_reload_activity">โหลดข้อมูลกิจกรรมใหม่</string>
@@ -1565,6 +1552,10 @@
     <string name="itin_flight_airline_support_widget_support_webview_title">ฝ่ายบริการลูกค้าของสายการบิน</string>
     <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
     <string name="itin_flight_airline_support_widget_number_text">หมายเลข</string>
+    <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_text">ยกเลิกการจอง</string>
+    <!--Flight itin, flight modify reservation widget's Change reservation text-->
+    <string name="itin_flight_modify_widget_change_reservation_text">เปลี่ยนแปลงการจอง</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}ว. {hours}ชม. {minutes}น.</string>
@@ -2846,6 +2837,9 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">ราคาไป-กลับต่อคน รวมโรงแรมและเที่ยวบิน • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
+    <string name="package_hotel_results_header">ราคาไป-กลับต่อคน • รวมโรงแรมและตั๋วเครื่องบินแล้ว
+</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">จองแล้ว {percentage}%</string>
@@ -4608,8 +4602,6 @@
 
     <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">ข้อผิดพลาด{title}: ป้อนรายละเอียดผู้เดินทางให้ครบถ้วน ปุ่ม</string>
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_complete_cont_desc">ข้อมูลผู้เดินทางสมบูรณ์แล้ว</string>
     <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, ปุ่มป้อนรายละเอียดผู้เดินทาง</string>
     <!--Packages accessibility content description for role Button-->
@@ -4626,8 +4618,6 @@
     <string name="accessibility_cont_desc_card_is_disabled">ปิดใช้งาน</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">ปุ่มให้คะแนนรีวิว</string>
-    <!-- Content Description for Searching for hotels -->
-    <string name="accessibility_cont_desc_searching_for_hotels">กำลังค้นหาโรงแรมให้คุณ</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">ราคา {activity_price} {ticket_type}</string>
@@ -4755,12 +4745,13 @@
     <string name="member_deals_toolbar_title">ราคาสำหรับสมาชิก</string>
     <string name="continue_booking">ดำเนินการจองต่อ</string>
     <string name="deals_hotel_only">เฉพาะโรงแรม</string>
-    <string name="deals_toolbar_close_cont_desc">ปิดหน้าจอราคาสำหรับสมาชิก</string>
+    <string name="member_deals_toolbar_close_cont_desc">ปิดหน้าจอราคาสำหรับสมาชิก</string>
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">ดีลนาทีสุดท้าย</string>
     <string name="last_minute_deal_subtitle">อยากไปเที่ยวไหน จองทริปราคาถูกนาทีสุดท้ายได้เลย!</string>
     <string name="last_minute_deals_toolbar_title">ดีลนาทีสุดท้าย</string>
+    <string name="last_minute_deals_toolbar_close_cont_desc">ปิดหน้าจอดีลนาทีสุดท้าย</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">วิธีการจัดเรียงผลการค้นหาโรงแรม</string>
@@ -4838,13 +4829,6 @@
     <string name="location_soft_prompt_enable">เปิดใช้ตำแหน่งที่ตั้ง</string>
     <string name="location_soft_prompt_disable">ไว้ก่อน</string>
 
-    <!--Soft Prompt For flights browser view-->
-    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
-    <string name="flights_browser_view_soft_prompt_title">อีกไม่นานเกินรอ</string>
-    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
-    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">เที่ยวบินจะเปิดให้จองผ่านแอพเร็วๆ นี้ ในระหว่างนี้ คุณสามารถจองเที่ยวบินราคาประหยัดสุดคุ้มได้บนเว็บไซต์ {brand_url}</string>
-    <string name="flights_browser_viewsoft_prompt_enable">เปิดในเบราว์เซอร์</string>
-
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">รวมภาษีและค่าธรรมเนียม</string>
     <string name="excluding_taxes_fees">ไม่รวมภาษีและค่าธรรมเนียม</string>
@@ -4892,5 +4876,8 @@
         <item quantity="one">ข้อเสนอจะหมดอายุใน {no_of_days} วัน</item>
         <item quantity="other">ข้อเสนอจะหมดอายุใน {no_of_days} วัน</item>
     </plurals>
+
+    <!-- Showing the header for the coupon widget to show the saved coupon -->
+    <string name="saved_coupon">คูปองที่บันทึกไว้</string>
 
 </resources>

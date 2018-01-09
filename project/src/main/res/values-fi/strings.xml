@@ -959,8 +959,10 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Aktiviteetit kohteessa {destination} myydään loppuun nopeasti! Tutustu aktiviteettitarjontaan ja varaa lippusi etukäteen.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hei {firstname}, tutustu huippunähtävyyksiin ja aktiviteetteihin hotellisi lähistöllä.</string>
-    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
-    <string name="flight_notification_delayed_flight_TEMPLATE">Lentosi kohteeseen {arrival airport} on myöhässä, ja sen uusi lähtöaika on {departure time}.</string>
+    <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Lentosi kohteeseen {arrival_airport} on myöhässä, ja sen uusi lähtöaika on {departure_time}.</string>
+    <!--Notification title for Flight delayed notification -->
+    <string name="flight_notification_delayed_title">Lento myöhässä</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Matkasuunnitelma</string>
@@ -1080,10 +1082,6 @@
     <string name="trips_back_button_label_cont_desc">Takaisin matkoihin -painike</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">Painike, jonka avulla näet lisätietoja matkasta</string>
-    <!-- Content Description for upgrade image to upgrade hotel room -->
-    <string name="trips_upgrade_hotel_button_label_cont_desc">Korota hotellihuoneen huoneluokkaa</string>
-    <!-- Web view header label for soft changes to hotel room booking -->
-    <string name="trips_edit_room_info_web_view_title">Muokkaa huonetietoja</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Hotellin vahvistusnumero</string>
     <!-- Passengers Label -->
@@ -1280,13 +1278,9 @@
     <string name="itin_card_details_details">Lisätietoja</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Peruuta hotellihuone</string>
-    <!-- Label for button to upgrade Hotel room -->
-    <string name="itin_card_details_upgrade_hotel_button">Vain rajoitetun ajan: huoneluokan korotus saatavilla!</string>
     <string name="itin_card_flight_checkin_title">Lennon lähtöselvitys</string>
     <!-- Label for button to edit Hotel booking -->
     <string name="itin_card_edit_hotel_room_info">Muokkaa huonetietoja</string>
-    <!-- Accessibility announcement for button to edit Hotel booking -->
-    <string name="itin_card_change_hotel_options">Muuta hotellin tietoja</string>
 
     <string name="itin_card_flight_checkin_details">Käy %sn sivustolla</string>
     <string name="itin_card_details_pick_up">Nouto</string>
@@ -1315,13 +1309,6 @@
     <string name="itin_card_details_dropped_off_TEMPLATE">Palautettu %1$s</string>
     <string name="itin_card_details_agency_phone">Matkatoimiston puhelinnumero</string>
     <string name="itin_card_details_toll_free_phone">Maksuton numero</string>
-    <string name="itin_card_details_check_in">Sisäänkirjautuminen</string>
-    <string name="itin_card_details_check_out">Uloskirjautuminen</string>
-    <string name="itin_card_details_address">Osoite</string>
-    <string name="itin_card_details_local_phone">Paikallinen puhelinnumero</string>
-    <string name="itin_card_details_room_type">Huonetyyppi</string>
-    <string name="itin_card_details_non_price_promotion_includes">Hintaan sisältyy:</string>
-    <string name="itin_card_details_bed_type">Vuodetyyppi</string>
     <string name="toast_copied_to_clipboard">Kopioitu leikepöydälle.</string>
     <string name="itin_card_details_reload">Lataa tiedot uudelleen</string>
     <string name="itin_card_details_reload_activity">Lataa aktiviteettitiedot uudelleen</string>
@@ -1565,6 +1552,10 @@
     <string name="itin_flight_airline_support_widget_support_webview_title">Lentoyhtiön asiakaspalvelu</string>
     <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
     <string name="itin_flight_airline_support_widget_number_text">numero</string>
+    <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_text">Peruuta varaus</string>
+    <!--Flight itin, flight modify reservation widget's Change reservation text-->
+    <string name="itin_flight_modify_widget_change_reservation_text">Muuta varausta</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} pv {hours} h {minutes} min</string>
@@ -2846,6 +2837,8 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Menopaluuhinta per henkilö. sisältää hotellin ja lennot • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
+    <string name="package_hotel_results_header">Menopaluumatkan kokonaishinta per henkilö • sisältää hotellin ja lennot</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage} % varattu</string>
@@ -4394,7 +4387,7 @@
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights.-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}, luokitus {starrating} / 5. Asiakasluokitus {guestrating} / 5. Hinta {price}. Sisältää hotellin ja lennot.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123. Includes hotel and flights.-->
-    <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel}, luokitus {starrating} / 5. Ei asiakasluokituksia..Hinta {price}. Sisältää hotellin ja lennot.\u0020</string>
+    <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel}, luokitus {starrating} / 5. Ei asiakasluokituksia. Hinta {price}. Sisältää hotellin ja lennot.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel}, luokitus {starrating} / 5. Asiakasluokitus {guestrating} / 5.  \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
@@ -4608,8 +4601,6 @@
 
     <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Virhe: Anna puuttuvat matkustajatiedot. Painike.</string>
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_complete_cont_desc">Matkustajan tiedot on täytetty</string>
     <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, kaikki matkustajan tiedot annettu. Painike.</string>
     <!--Packages accessibility content description for role Button-->
@@ -4626,8 +4617,6 @@
     <string name="accessibility_cont_desc_card_is_disabled">poistettu käytöstä</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Asiakasarvostelupainike</string>
-    <!-- Content Description for Searching for hotels -->
-    <string name="accessibility_cont_desc_searching_for_hotels">Haetaan satoja hotelleja.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Hinta on {activity_price}{ticket_type}</string>
@@ -4755,12 +4744,13 @@
     <string name="member_deals_toolbar_title">Jäsenhinnat</string>
     <string name="continue_booking">Jatka varauksen tekemistä</string>
     <string name="deals_hotel_only">Pelkkä hotelli</string>
-    <string name="deals_toolbar_close_cont_desc">Sulje jäsenhintasivu</string>
+    <string name="member_deals_toolbar_close_cont_desc">Sulje jäsenhintasivu</string>
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Viime hetken tarjouksia</string>
     <string name="last_minute_deal_subtitle">Haluatko lomalle? Tarkista meidän viime hetken halvat hinnat</string>
     <string name="last_minute_deals_toolbar_title">Äkkilähtötarjouksia</string>
+    <string name="last_minute_deals_toolbar_close_cont_desc">Sulje viime hetken tarjousten ikkuna</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Miten me päättelemme lajittelujärjestyksen</string>
@@ -4838,13 +4828,6 @@
     <string name="location_soft_prompt_enable">Salli sijainnin käyttö</string>
     <string name="location_soft_prompt_disable">Ei nyt</string>
 
-    <!--Soft Prompt For flights browser view-->
-    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
-    <string name="flights_browser_view_soft_prompt_title">Tulossa pian</string>
-    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
-    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Voit pian hakea sovelluksella myös lentoja. Tällä hetkellä voit varata halpoja lentoja kohteeseesi osoitteessa {brand_url}</string>
-    <string name="flights_browser_viewsoft_prompt_enable">Avaa selaimessa</string>
-
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Lopullinen hinta sisältäen verot ja maksut</string>
     <string name="excluding_taxes_fees">Ei sisällä veroja ja maksuja</string>
@@ -4892,5 +4875,8 @@
         <item quantity="one">Tarjous päättyy {no_of_days} päivän päästä</item>
         <item quantity="other">Tarjous päättyy {no_of_days} päivän päästä</item>
     </plurals>
+
+    <!-- Showing the header for the coupon widget to show the saved coupon -->
+    <string name="saved_coupon">Tallennetut kupongit</string>
 
 </resources>

@@ -959,8 +959,10 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Aktivitas di {destination} terjual dengan cepat! Jelajahi atraksi wisata dan pesan tiket dari sekarang.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hei {firstname}, jelajahi atraksi dan aktivitas populer di dekat hotel Anda.</string>
-    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
-    <string name="flight_notification_delayed_flight_TEMPLATE">Penerbangan Anda ke {arrival airport} ditunda dengan keberangkatan baru di {departure time}.</string>
+    <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Penerbangan Anda ke {arrival_airport} ditunda dengan keberangkatan baru di {departure_time}.</string>
+    <!--Notification title for Flight delayed notification -->
+    <string name="flight_notification_delayed_title">Penerbangan ditunda</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
@@ -1080,10 +1082,6 @@
     <string name="trips_back_button_label_cont_desc">Kembali ke tombol layar perjalanan</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">Tombol untuk membuka perjalanan</string>
-    <!-- Content Description for upgrade image to upgrade hotel room -->
-    <string name="trips_upgrade_hotel_button_label_cont_desc">Upgrade kamar hotel</string>
-    <!-- Web view header label for soft changes to hotel room booking -->
-    <string name="trips_edit_room_info_web_view_title">Edit Info Kamar</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Kode Konfirmasi Hotel</string>
     <!-- Passengers Label -->
@@ -1280,13 +1278,9 @@
     <string name="itin_card_details_details">Informasi Tambahan</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Batalkan Kamar Hotel</string>
-    <!-- Label for button to upgrade Hotel room -->
-    <string name="itin_card_details_upgrade_hotel_button">Waktu Terbatas: Upgrade Tersedia!</string>
     <string name="itin_card_flight_checkin_title">Check-In Penerbangan</string>
     <!-- Label for button to edit Hotel booking -->
     <string name="itin_card_edit_hotel_room_info">Edit Info Kamar</string>
-    <!-- Accessibility announcement for button to edit Hotel booking -->
-    <string name="itin_card_change_hotel_options">Ubah Opsi Hotel</string>
 
     <string name="itin_card_flight_checkin_details">Kunjungi situs %s</string>
     <string name="itin_card_details_pick_up">Pengambilan</string>
@@ -1315,13 +1309,6 @@
     <string name="itin_card_details_dropped_off_TEMPLATE">Dikembalikan %1$s</string>
     <string name="itin_card_details_agency_phone">Telepon Agen</string>
     <string name="itin_card_details_toll_free_phone">Nomor Bebas Pulsa</string>
-    <string name="itin_card_details_check_in">Check-In</string>
-    <string name="itin_card_details_check_out">Check-Out</string>
-    <string name="itin_card_details_address">Alamat</string>
-    <string name="itin_card_details_local_phone">Telepon Lokal</string>
-    <string name="itin_card_details_room_type">Jenis Kamar</string>
-    <string name="itin_card_details_non_price_promotion_includes">Mencakup</string>
-    <string name="itin_card_details_bed_type">Jenis Tempat Tidur</string>
     <string name="toast_copied_to_clipboard">Disalin ke clipboard.</string>
     <string name="itin_card_details_reload">Muat Ulang Informasi</string>
     <string name="itin_card_details_reload_activity">Muat Ulang Info Aktivitas</string>
@@ -1565,6 +1552,10 @@
     <string name="itin_flight_airline_support_widget_support_webview_title">Dukungan pelanggan maskapai penerbangan</string>
     <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
     <string name="itin_flight_airline_support_widget_number_text">Nomor</string>
+    <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_text">Batalkan reservasi</string>
+    <!--Flight itin, flight modify reservation widget's Change reservation text-->
+    <string name="itin_flight_modify_widget_change_reservation_text">Ubah reservasi</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}h {hours}j {minutes}m</string>
@@ -2846,6 +2837,8 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Harga total untuk pulang-pergi, per orang. termasuk hotel dan penerbangan • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
+    <string name="package_hotel_results_header">Harga total untuk pulang-pergi, per orang • termasuk hotel dan penerbangan</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">terpesan {percentage}%</string>
@@ -4608,8 +4601,6 @@
 
     <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Kesalahan: Lengkapi rincian traveler. Tombol.</string>
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_complete_cont_desc">Informasi Traveler Lengkap</string>
     <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, rincian traveler selesai. Tombol.</string>
     <!--Packages accessibility content description for role Button-->
@@ -4626,8 +4617,6 @@
     <string name="accessibility_cont_desc_card_is_disabled">nonaktif</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Tombol Penilaian Pengguna</string>
-    <!-- Content Description for Searching for hotels -->
-    <string name="accessibility_cont_desc_searching_for_hotels">Sedang memilihkan hotel yang tepat untuk Anda.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Harga adalah {activity_price}{ticket_type}</string>
@@ -4755,12 +4744,13 @@
     <string name="member_deals_toolbar_title">Harga Member</string>
     <string name="continue_booking">Lanjutkan Pemesanan</string>
     <string name="deals_hotel_only">Hanya Hotel</string>
-    <string name="deals_toolbar_close_cont_desc">Tutup layar harga member</string>
+    <string name="member_deals_toolbar_close_cont_desc">Tutup layar harga member</string>
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Promo Last-Minute</string>
     <string name="last_minute_deal_subtitle">Ingin liburan? Coba lihat harga rendah last-minute</string>
     <string name="last_minute_deals_toolbar_title">Promo Last Minute</string>
+    <string name="last_minute_deals_toolbar_close_cont_desc">Tutup layar promo last minute</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Cara kami menentukan urutan</string>
@@ -4838,13 +4828,6 @@
     <string name="location_soft_prompt_enable">Aktifkan Lokasi</string>
     <string name="location_soft_prompt_disable">Jangan sekarang</string>
 
-    <!--Soft Prompt For flights browser view-->
-    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
-    <string name="flights_browser_view_soft_prompt_title">Segera Hadir</string>
-    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
-    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Penerbangan akan tersedia di aplikasi segera. Sementara itu, pesan penerbangan termurah ke destinasi Anda di {brand_url}</string>
-    <string name="flights_browser_viewsoft_prompt_enable">Buka di browser</string>
-
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Harga total termasuk pajak dan biaya</string>
     <string name="excluding_taxes_fees">Tidak termasuk pajak dan biaya</string>
@@ -4892,5 +4875,8 @@
         <item quantity="one">Penawaran tinggal {no_of_days} hari lagi</item>
         <item quantity="other">Penawaran tinggal {no_of_days} hari lagi</item>
     </plurals>
+
+    <!-- Showing the header for the coupon widget to show the saved coupon -->
+    <string name="saved_coupon">Kupon yang disimpan</string>
 
 </resources>

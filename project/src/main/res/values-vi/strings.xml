@@ -699,7 +699,7 @@
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">Giá một chiều, mỗi người, từ</string>
     <!-- Label indicating the price shown is for delta pricing rather than generic one -->
-    <string name="delta_price_roundtrip_inbound_label">Giá tính thêm dành cho một người đối với chuyến bay nội địa</string>
+    <string name="delta_price_roundtrip_inbound_label">Giá bổ sung cho mỗi khách, chuyến bay về</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">Tổng giá hai chiều (gồm thuế &amp; phí), mỗi người - khách sạn và chuyến bay</string>
     <!-- Label indicating the price include hotel, flight-->
@@ -959,8 +959,10 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Nhiều khách đặt hoạt động giải trí tại {destination}! Khám phá các hoạt động trong vùng và đặt vé sớm.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Này {firstname}, khám phá những địa điểm và hoạt động hấp dẫn hàng đầu gần khách sạn của quý vị.</string>
-    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
-    <string name="flight_notification_delayed_flight_TEMPLATE">Chuyến bay của quý vị đến {arrival airport} đã hoãn, giờ khởi hành mới: {departure time}.</string>
+    <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Chuyến bay của quý vị đến {arrival_airport} đã hoãn, giờ khởi hành mới: {departure_time}.</string>
+    <!--Notification title for Flight delayed notification -->
+    <string name="flight_notification_delayed_title">Chuyến bay bị hoãn</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
@@ -1080,10 +1082,6 @@
     <string name="trips_back_button_label_cont_desc">Trở lại nút màn hình chuyến đi</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">Nút mở rộng trang chuyến đi</string>
-    <!-- Content Description for upgrade image to upgrade hotel room -->
-    <string name="trips_upgrade_hotel_button_label_cont_desc">Nâng hạng phòng</string>
-    <!-- Web view header label for soft changes to hotel room booking -->
-    <string name="trips_edit_room_info_web_view_title">Thay đổi thông tin phòng</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Mã xác nhận của Khách sạn</string>
     <!-- Passengers Label -->
@@ -1280,13 +1278,9 @@
     <string name="itin_card_details_details">Thông tin bổ sung</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Hủy đặt phòng</string>
-    <!-- Label for button to upgrade Hotel room -->
-    <string name="itin_card_details_upgrade_hotel_button">Trong thời gian giới hạn: Có thể nâng hạng!</string>
     <string name="itin_card_flight_checkin_title">Làm thủ tục chuyến bay</string>
     <!-- Label for button to edit Hotel booking -->
     <string name="itin_card_edit_hotel_room_info">Thay đổi thông tin phòng</string>
-    <!-- Accessibility announcement for button to edit Hotel booking -->
-    <string name="itin_card_change_hotel_options">Thay đổi tùy chọn khách sạn</string>
 
     <string name="itin_card_flight_checkin_details">Truy cập trang của %s</string>
     <string name="itin_card_details_pick_up">Nhận</string>
@@ -1315,13 +1309,6 @@
     <string name="itin_card_details_dropped_off_TEMPLATE">Trả xe %1$s</string>
     <string name="itin_card_details_agency_phone">Số điện thoại đại lý</string>
     <string name="itin_card_details_toll_free_phone">Số điện thoại miễn phí</string>
-    <string name="itin_card_details_check_in">Nhận phòng</string>
-    <string name="itin_card_details_check_out">Trả phòng</string>
-    <string name="itin_card_details_address">Địa chỉ</string>
-    <string name="itin_card_details_local_phone">Số điện thoại địa phương</string>
-    <string name="itin_card_details_room_type">Loại phòng</string>
-    <string name="itin_card_details_non_price_promotion_includes">Bao gồm</string>
-    <string name="itin_card_details_bed_type">Loại giường</string>
     <string name="toast_copied_to_clipboard">Chép vào clipboard.</string>
     <string name="itin_card_details_reload">Đang tải lại thông tin</string>
     <string name="itin_card_details_reload_activity">Đang tải lại thông tin Hoạt động</string>
@@ -1565,6 +1552,10 @@
     <string name="itin_flight_airline_support_widget_support_webview_title">Hỗ trợ khách hàng của hãng hàng không</string>
     <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
     <string name="itin_flight_airline_support_widget_number_text">Số</string>
+    <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_text">Hủy đặt chỗ</string>
+    <!--Flight itin, flight modify reservation widget's Change reservation text-->
+    <string name="itin_flight_modify_widget_change_reservation_text">Thay đổi đặt chỗ</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}ng {hours}g {minutes}p</string>
@@ -2846,6 +2837,8 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Tổng giá hai chiều, mỗi người. gồm khách sạn và chuyến bay • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
+    <string name="package_hotel_results_header">Tổng giá khứ hồi, mỗi người • bao gồm khách sạn và chuyến bay</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">Đã đặt {percentage}%</string>
@@ -3856,13 +3849,13 @@
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Bước 2: Chọn chuyến bay</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
-    <string name="step_two_variation">Bước 2: Chọn chuyến bay quốc tế</string>
+    <string name="step_two_variation">Bước 2: Chọn chuyến bay đi</string>
     <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
-    <string name="step_three">Bước 3: Chọn chuyến bay quốc nội</string>
+    <string name="step_three">Bước 3: Chọn chuyến bay về</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">Ưu đãi Không tưởng</string>
     <!-- package hotel results unreal deal message for freeHotel -->
-    <string name="free_hotel_deal">Miễn phí khách sạn khi đặt cùn lúc.</string>
+    <string name="free_hotel_deal">Miễn phí khách sạn khi đặt cùng lúc.</string>
     <!-- package hotel results unreal deal message for freeFlight -->
     <string name="free_flight_deal">Đặt và tiết kiệm 100% chuyến bay.</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
@@ -3960,7 +3953,7 @@
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays} ngày</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
-    <string name="departure_arrival_time_multi_day_TEMPLATE">{departuretime} - {arrivaltime} +{elapseddays}ng</string>
+    <string name="departure_arrival_time_multi_day_TEMPLATE">{departuretime} - {arrivaltime} +{elapseddays} ngày</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm minus 1d -->
     <string name="flight_departure_arrival_time_negative_days_cont_desc_TEMPLATE">{departuretime} đến {arrivaltime} trừ {elapseddays} ngày</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
@@ -4608,8 +4601,6 @@
 
     <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Lỗi {title}: Nhập thông tin còn thiếu của khách. Nút.</string>
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_complete_cont_desc">Thông tin khách hoàn tất</string>
     <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, hoàn tất thông tin khách. Nút.</string>
     <!--Packages accessibility content description for role Button-->
@@ -4626,8 +4617,6 @@
     <string name="accessibility_cont_desc_card_is_disabled">không hoạt động</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Nút Đánh giá của Người dùng</string>
-    <!-- Content Description for Searching for hotels -->
-    <string name="accessibility_cont_desc_searching_for_hotels">Tìm hàng trăm khách sạn cho quý vị.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Giá là {activity_price} {ticket_type}</string>
@@ -4755,12 +4744,13 @@
     <string name="member_deals_toolbar_title">Giá thành viên</string>
     <string name="continue_booking">Tiếp tục đặt</string>
     <string name="deals_hotel_only">Chỉ khách sạn</string>
-    <string name="deals_toolbar_close_cont_desc">Đóng màn hình giá thành viên</string>
+    <string name="member_deals_toolbar_close_cont_desc">Đóng màn hình giá thành viên</string>
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Ưu đãi phút chót</string>
     <string name="last_minute_deal_subtitle">Muốn đi du lịch? Hãy xem giá vé rẻ phút chót của chúng tôi</string>
     <string name="last_minute_deals_toolbar_title">Ưu đãi phút chót</string>
+    <string name="last_minute_deals_toolbar_close_cont_desc">Đóng màn hình ưu đãi phút chót</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Cách xác định thứ tự sắp xếp</string>
@@ -4838,13 +4828,6 @@
     <string name="location_soft_prompt_enable">Bật địa điểm</string>
     <string name="location_soft_prompt_disable">Để sau</string>
 
-    <!--Soft Prompt For flights browser view-->
-    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
-    <string name="flights_browser_view_soft_prompt_title">Sắp ra mắt</string>
-    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
-    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Sắp hỗ trợ đặt chuyến bay trong ứng dụng. Trong lúc này, quý vị có thể tìm kiếm chuyến bay giá rẻ đến địa điểm mong muốn tại {brand_url}</string>
-    <string name="flights_browser_viewsoft_prompt_enable">Mở trong trình duyệt</string>
-
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Tổng gồm thuế và phí</string>
     <string name="excluding_taxes_fees">Chưa gồm thuế và phí</string>
@@ -4892,5 +4875,8 @@
         <item quantity="one">Ưu đãi hết hạn trong {no_of_days} ngày</item>
         <item quantity="other">Ưu đãi hết hạn trong {no_of_days} ngày</item>
     </plurals>
+
+    <!-- Showing the header for the coupon widget to show the saved coupon -->
+    <string name="saved_coupon">Coupon đã lưu</string>
 
 </resources>

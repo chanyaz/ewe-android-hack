@@ -959,8 +959,10 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Le attività a {destination} vanno a ruba! Dai un\&apos;occhiata alle cose da fare e prenota i biglietti in anticipo.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Ciao {firstname}, scopri le migliori attività e attrazioni vicino al tuo hotel.</string>
-    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
-    <string name="flight_notification_delayed_flight_TEMPLATE">Il tuo volo per {arrival airport} è in ritardo. La nuova partenza è alle ore {departure time}.</string>
+    <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Il tuo volo per {arrival_airport} è in ritardo. La nuova partenza è alle ore {departure_time}.</string>
+    <!--Notification title for Flight delayed notification -->
+    <string name="flight_notification_delayed_title">Volo in ritardo</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario</string>
@@ -1080,10 +1082,6 @@
     <string name="trips_back_button_label_cont_desc">Pulsante per tornare alla schermata di viaggio</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">Pulsante per espandere l\&apos;itinerario</string>
-    <!-- Content Description for upgrade image to upgrade hotel room -->
-    <string name="trips_upgrade_hotel_button_label_cont_desc">Effettua l\&apos;upgrade della tua camera di hotel</string>
-    <!-- Web view header label for soft changes to hotel room booking -->
-    <string name="trips_edit_room_info_web_view_title">Modifica i dettagli della camera</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Codice di conferma dell\&apos;agenzia</string>
     <!-- Passengers Label -->
@@ -1280,13 +1278,9 @@
     <string name="itin_card_details_details">Informazioni aggiuntive</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Cancella camera in hotel</string>
-    <!-- Label for button to upgrade Hotel room -->
-    <string name="itin_card_details_upgrade_hotel_button">Upgrade disponibile: offerta a tempo limitato!</string>
     <string name="itin_card_flight_checkin_title">Check-in del volo</string>
     <!-- Label for button to edit Hotel booking -->
     <string name="itin_card_edit_hotel_room_info">Modifica i dettagli della camera</string>
-    <!-- Accessibility announcement for button to edit Hotel booking -->
-    <string name="itin_card_change_hotel_options">Modifica le opzioni dell\&apos;hotel</string>
 
     <string name="itin_card_flight_checkin_details">Visita il sito di %s</string>
     <string name="itin_card_details_pick_up">Ritiro</string>
@@ -1315,13 +1309,6 @@
     <string name="itin_card_details_dropped_off_TEMPLATE">Riconsegnato %1$s</string>
     <string name="itin_card_details_agency_phone">Numero di telefono dell\&apos;agenzia</string>
     <string name="itin_card_details_toll_free_phone">Numero verde</string>
-    <string name="itin_card_details_check_in">Arrivo</string>
-    <string name="itin_card_details_check_out">Partenza</string>
-    <string name="itin_card_details_address">Indirizzo</string>
-    <string name="itin_card_details_local_phone">Telefono locale</string>
-    <string name="itin_card_details_room_type">Tipologia camera</string>
-    <string name="itin_card_details_non_price_promotion_includes">Include</string>
-    <string name="itin_card_details_bed_type">Tipo di letto</string>
     <string name="toast_copied_to_clipboard">Copiato negli appunti.</string>
     <string name="itin_card_details_reload">Ricarica dati</string>
     <string name="itin_card_details_reload_activity">Ricarica informazioni attività</string>
@@ -1565,6 +1552,10 @@
     <string name="itin_flight_airline_support_widget_support_webview_title">Supporto clienti della compagnia aerea</string>
     <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
     <string name="itin_flight_airline_support_widget_number_text">numero</string>
+    <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_text">Cancella prenotazione</string>
+    <!--Flight itin, flight modify reservation widget's Change reservation text-->
+    <string name="itin_flight_modify_widget_change_reservation_text">Modifica prenotazione</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}g {hours}h {minutes}m</string>
@@ -2846,6 +2837,8 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Prezzo di andata e ritorno a persona, hotel e voli inclusi • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
+    <string name="package_hotel_results_header">Prezzo totale di andata e ritorno a persona • include l\&apos;hotel e i voli</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% di camere prenotate</string>
@@ -4608,8 +4601,6 @@
 
     <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Errore {title}: inserisci i dettagli sul viaggiatore mancanti. Pulsante.</string>
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_complete_cont_desc">Dati viaggiatore completi</string>
     <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, dettagli viaggiatore completi. Pulsante.</string>
     <!--Packages accessibility content description for role Button-->
@@ -4626,8 +4617,6 @@
     <string name="accessibility_cont_desc_card_is_disabled">disattivata</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Pulsante per vedere il giudizio degli ospiti</string>
-    <!-- Content Description for Searching for hotels -->
-    <string name="accessibility_cont_desc_searching_for_hotels">Stiamo cercando tra centinaia di hotel.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Il prezzo è di {activity_price} {ticket_type}</string>
@@ -4755,12 +4744,13 @@
     <string name="member_deals_toolbar_title">Tariffe per soli iscritti</string>
     <string name="continue_booking">Procedi alla prenotazione</string>
     <string name="deals_hotel_only">Solo hotel</string>
-    <string name="deals_toolbar_close_cont_desc">Chiudi la pagina con le tariffe per soli iscritti</string>
+    <string name="member_deals_toolbar_close_cont_desc">Chiudi la pagina con le tariffe per soli iscritti</string>
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Offerte last-minute</string>
     <string name="last_minute_deal_subtitle">Sogni di partire? Dai un\&apos;occhiata a queste tariffe last-minute</string>
     <string name="last_minute_deals_toolbar_title">Offerte last minute</string>
+    <string name="last_minute_deals_toolbar_close_cont_desc">Chiudi schermata delle offerte last minute</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Come funziona il nostro ordinamento</string>
@@ -4838,13 +4828,6 @@
     <string name="location_soft_prompt_enable">Attiva localizzazione</string>
     <string name="location_soft_prompt_disable">Non ora</string>
 
-    <!--Soft Prompt For flights browser view-->
-    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
-    <string name="flights_browser_view_soft_prompt_title">Disponibile a breve!</string>
-    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
-    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Presto potrai scegliere anche i voli dall\&apos;app.  Per il momento, prenota il volo più economico per la tua destinazione su {brand_url}</string>
-    <string name="flights_browser_viewsoft_prompt_enable">Apri nel browser</string>
-
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Tasse e oneri inclusi</string>
     <string name="excluding_taxes_fees">Tasse e oneri esclusi</string>
@@ -4892,5 +4875,8 @@
         <item quantity="one">L\&apos;offerta scade tra {no_of_days} giorno</item>
         <item quantity="other">L\&apos;offerta scade tra {no_of_days} giorni</item>
     </plurals>
+
+    <!-- Showing the header for the coupon widget to show the saved coupon -->
+    <string name="saved_coupon">Coupon salvati</string>
 
 </resources>

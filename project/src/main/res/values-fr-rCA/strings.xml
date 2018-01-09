@@ -606,7 +606,7 @@
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Nous sommes désolés, mais le prix de cette activité a changé. Veuillez essayer de réserver à nouveau.</string>
     <!-- LX Error Limited Inventory -->
-    <string name="lx_error_limited_inventory">Désolé, il ne reste pas assez de billets à la date sélectionnée. Veuillez sélectionner une autre date ou réduire le nombre de billets.</string>
+    <string name="lx_error_limited_inventory">Désolés, il ne reste pas assez de billets à la date sélectionnée. Veuillez sélectionner une autre date ou réduire le nombre de billets.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Vos billets ont été envoyés à</string>
     <!-- LX reservation confirmation text -->
@@ -959,8 +959,10 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Les activités à {destination} se vendent rapidement! Découvrez les choses à faire et réservez vos billets sans tarder.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Bonjour {firstname}, découvrez les attractions et activités populaires près de votre hôtel.</string>
-    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
-    <string name="flight_notification_delayed_flight_TEMPLATE">Votre vol vers {arrival airport} est retardé. Le nouveau départ aura lieu à {departure time}.</string>
+    <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
+    <string name="flight_notification_delayed_flight_TEMPLATE">Votre vol vers {arrival_airport} est retardé. Le nouveau départ aura lieu à {departure_time}.</string>
+    <!--Notification title for Flight delayed notification -->
+    <string name="flight_notification_delayed_title">Vol retardé</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinéraire</string>
@@ -1080,10 +1082,6 @@
     <string name="trips_back_button_label_cont_desc">Bouton de retour à l\&apos;écran des voyages</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">Bouton d\&apos;agrandissement du voyage</string>
-    <!-- Content Description for upgrade image to upgrade hotel room -->
-    <string name="trips_upgrade_hotel_button_label_cont_desc">Surclasser la chambre</string>
-    <!-- Web view header label for soft changes to hotel room booking -->
-    <string name="trips_edit_room_info_web_view_title">Modifier les renseignements sur la chambre</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Code de confirmation d\&apos;hôtel</string>
     <!-- Passengers Label -->
@@ -1280,13 +1278,9 @@
     <string name="itin_card_details_details">Renseignements complémentaires</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Annuler la chambre d\&apos;hôtel</string>
-    <!-- Label for button to upgrade Hotel room -->
-    <string name="itin_card_details_upgrade_hotel_button">Durée limitée : surclassement disponible!</string>
     <string name="itin_card_flight_checkin_title">Enregistrement pour le vol</string>
     <!-- Label for button to edit Hotel booking -->
     <string name="itin_card_edit_hotel_room_info">Modifier les renseignements sur la chambre</string>
-    <!-- Accessibility announcement for button to edit Hotel booking -->
-    <string name="itin_card_change_hotel_options">Modifier les options de l\&apos;hôtel</string>
 
     <string name="itin_card_flight_checkin_details">Visitez le site de %s</string>
     <string name="itin_card_details_pick_up">Prise en charge</string>
@@ -1315,13 +1309,6 @@
     <string name="itin_card_details_dropped_off_TEMPLATE">Remise %1$s</string>
     <string name="itin_card_details_agency_phone">Tél. agence</string>
     <string name="itin_card_details_toll_free_phone">Téléphone sans frais</string>
-    <string name="itin_card_details_check_in">Arrivée</string>
-    <string name="itin_card_details_check_out">Départ</string>
-    <string name="itin_card_details_address">Adresse</string>
-    <string name="itin_card_details_local_phone">Téléphone local</string>
-    <string name="itin_card_details_room_type">Type de chambre</string>
-    <string name="itin_card_details_non_price_promotion_includes">Comprend</string>
-    <string name="itin_card_details_bed_type">Type de lit</string>
     <string name="toast_copied_to_clipboard">Copié dans le presse-papiers.</string>
     <string name="itin_card_details_reload">Recharger l\&apos;information</string>
     <string name="itin_card_details_reload_activity">Recharger info. activité</string>
@@ -1565,6 +1552,10 @@
     <string name="itin_flight_airline_support_widget_support_webview_title">Soutien à la clientèle de la compagnie aérienne</string>
     <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
     <string name="itin_flight_airline_support_widget_number_text">numéro</string>
+    <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_text">Annuler la réservation</string>
+    <!--Flight itin, flight modify reservation widget's Change reservation text-->
+    <string name="itin_flight_modify_widget_change_reservation_text">Modifier la réservation</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} j {hours} h {minutes} min</string>
@@ -1839,7 +1830,7 @@
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Sélectionner</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
-    <string name="error_server_TEMPLATE">Désolé, la connexion aux serveurs {brand} a échoué. Veuillez réessayer plus tard.</string>
+    <string name="error_server_TEMPLATE">Désolés, la connexion aux serveurs {brand} a échoué. Veuillez réessayer plus tard.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Heure de départ</string>
     <!-- Sort by arrival time label -->
@@ -1860,7 +1851,7 @@
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">Aucune URL de site Web à charger.</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">Désolé, la réservation de vol sur appareil mobile n\&apos;est pas encore disponible dans votre région.</string>
+    <string name="invalid_flights_pos">Désolés, la réservation de vol sur appareil mobile n\&apos;est pas encore disponible dans votre région.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Veuillez vérifier que votre ville de départ est différente de votre destination.</string>
 
@@ -2025,7 +2016,7 @@
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Vous obtiendrez {reward_currency} points pour ce voyage!</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_total_price_TEMPLATE">Désolé, mais il semble que l\&apos;hôtel vient d\&apos;augmenter le coût total du séjour de %1$s à %2$s.</string>
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">Désolés, mais il semble que l\&apos;hôtel vient d\&apos;augmenter le coût total du séjour de %1$s à %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">Voici de très bonnes nouvelles! Le coût de votre séjour est passé de %1$s à %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
@@ -2531,7 +2522,7 @@
     <!-- Expedia ETP book now/pay later search results -->
     <string name="book_now_pay_later">Réservez maintenant, payez plus tard</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">Désolé, mais nous ne pouvons rechercher des séjours à l\&apos;hôtel de plus de %1$s jours.</string>
+    <string name="hotel_search_range_error_TEMPLATE">Désolés, mais nous ne pouvons rechercher des séjours à l\&apos;hôtel de plus de %1$s jours.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Erreur de recherche</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
@@ -2846,6 +2837,8 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Prix total aller-retour par personne. Hôtel et vols compris • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
+    <string name="package_hotel_results_header">Prix total aller-retour par personne • hôtel et vols compris</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">Réservé à {percentage} %</string>
@@ -2985,45 +2978,45 @@
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
-    <string name="coupon_error_unknown">Désolé, le code de ce bon de réduction est inconnu.</string>
+    <string name="coupon_error_unknown">Désolés, le code de ce bon de réduction est inconnu.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Désolé, le code de ce bon de réduction est inconnu.</string>
+    <string name="coupon_error_unrecognized">Désolés, le code de ce bon de réduction est inconnu.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Désolé, ce bon de réduction est expiré.</string>
+    <string name="coupon_error_expired">Désolés, ce bon de réduction est expiré.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Désolé, il semble y avoir un problème. Veuillez réessayer.</string>
+    <string name="coupon_error_not_redeemed">Désolés, il semble y avoir un problème. Veuillez réessayer.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Désolé, le code de ce bon de réduction a déjà été utilisé.</string>
+    <string name="coupon_error_duplicate">Désolés, le code de ce bon de réduction a déjà été utilisé.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Désolé, il semble y avoir un problème. Veuillez réessayer.</string>
+    <string name="coupon_error_fallback">Désolés, il semble y avoir un problème. Veuillez réessayer.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">Le coût de la réservation a changé; nous n\&apos;avons donc pas appliqué le bon de réduction. Veuillez vérifier et recommencer.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Désolé, le code de ce bon de réduction est pour un autre pays.</string>
+    <string name="coupon_error_invalid_region">Désolés, le code de ce bon de réduction est pour un autre pays.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Désolé, vous n\&apos;avez pas sélectionné le nombre minimal de nuits.</string>
+    <string name="coupon_error_min_stay_not_met">Désolés, vous n\&apos;avez pas sélectionné le nombre minimal de nuits.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Désolé, ce bon de réduction n\&apos;est pas valide aux dates indiquées.</string>
+    <string name="coupon_error_invalid_travel_dates">Désolés, ce bon de réduction n\&apos;est pas valide aux dates indiquées.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction.</string>
+    <string name="coupon_error_invalid_product">Désolés, cet hôtel n\&apos;accepte pas les bons de réduction.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Désolé, ceci ne respecte pas les exigences de coût minimal.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Désolés, ceci ne respecte pas les exigences de coût minimal.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_hotel_excluded">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction.</string>
+    <string name="coupon_error_hotel_excluded">Désolés, cet hôtel n\&apos;accepte pas les bons de réduction.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_invalid_hotel">Désolé! Votre bon de réduction ne peut être appliqué à cet hôtel.</string>
+    <string name="coupon_error_invalid_hotel">Désolés, votre bon de réduction ne peut être appliqué à cet hôtel.</string>
     <!-- Error when applying coupon - the package does not accept coupons -->
-    <string name="coupon_error_invalid_booking">Désolé! Votre bon de réduction ne peut être appliqué à cette réservation.</string>
+    <string name="coupon_error_invalid_booking">Désolés, votre bon de réduction ne peut être appliqué à cette réservation.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Désolé, nous ne pouvons pas traiter les bons de réduction en ce moment. Veuillez réessayer.</string>
+    <string name="coupon_error_service_down">Désolés, nous ne pouvons pas traiter les bons de réduction en ce moment. Veuillez réessayer.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
-    <string name="coupon_error_invalid_stay_dates">Désolé! Ce bon de réduction ne peut être appliqué aux dates de voyage indiquées.</string>
+    <string name="coupon_error_invalid_stay_dates">Désolés, ce bon de réduction ne peut être appliqué aux dates de voyage indiquées.</string>
     <!-- Error when applying coupon - Exceeded Earn Limit -->
-    <string name="coupon_error_exceeded_earn_limit">Désolé! Ce bon de réduction a été utilisé à plusieurs reprises et n\&apos;est donc plus valide.</string>
+    <string name="coupon_error_exceeded_earn_limit">Désolés, ce bon de réduction a été utilisé à plusieurs reprises et n\&apos;est donc plus valide.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
-    <string name="coupon_error_invalid_average_price">Désolé! Le prix moyen par nuitée ne correspond pas à la valeur minimale de ce bon de réduction.</string>
+    <string name="coupon_error_invalid_average_price">Désolés, le prix moyen par nuitée ne correspond pas à la valeur minimale de ce bon de réduction.</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Désolé, ce bon de réduction est expiré.</string>
+    <string name="coupon_error_not_active">Désolés, ce bon de réduction est expiré.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3131,7 +3124,7 @@
 
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
-        <item quantity="zero">%d adultes</item>
+        <item quantity="zero">%d adulte</item>
         <item quantity="one">%d adulte</item>
         <item quantity="two">%d adultes</item>
         <item quantity="many">%d adultes</item>
@@ -3232,7 +3225,7 @@
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
-    <string name="ean_error_no_results">Désolé, nous n\&apos;avons trouvé aucun hôtel disponible à cette date. Veuillez essayer des dates différentes ou un autre endroit.</string>
+    <string name="ean_error_no_results">Désolés, nous n\&apos;avons trouvé aucun hôtel disponible à cette date. Veuillez essayer des dates différentes ou un autre endroit.</string>
     <!-- Replaces "result was null" for no result search -->
     <string name="ean_error_connect_unavailable">Impossible d\&apos;établir la connexion à l\&apos;hôtel sélectionné pour trouver des chambres disponibles.</string>
     <!-- Error message displayed when the phone number sent via booking is invalid -->
@@ -3244,11 +3237,11 @@
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
     <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">Votre réservation d\&apos;hôtel a bien été effectuée! Pour obtenir un itinéraire dès maintenant, veuillez appeler le soutien à la clientèle de {brand}.</string>
     <!-- The hotel room is no longer available -->
-    <string name="e3_error_checkout_hotel_room_unavailable">Désolé, la chambre sélectionnée n\&apos;est plus disponible.</string>
+    <string name="e3_error_checkout_hotel_room_unavailable">Désolés, la chambre sélectionnée n\&apos;est plus disponible.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
     <string name="e3_error_checkout_invalid_input">Veuillez corriger l\&apos;information non valide.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-    <string name="e3_error_checkout_payment_failed">Désolé, nous n\&apos;avons pas pu traiter votre paiement. Veuillez vous assurer que l\&apos;information entrée est exacte.</string>
+    <string name="e3_error_checkout_payment_failed">Désolés, nous n\&apos;avons pas pu traiter votre paiement. Veuillez vous assurer que l\&apos;information entrée est exacte.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">Date d\&apos;expiration de la carte de crédit non valide.</string>
     <!-- Error message displayed when the traveler information is invalid -->
@@ -3258,20 +3251,20 @@
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_hotel_service_failure">Désolé, nous n\&apos;avons pas pu effectuer votre recherche. Veuillez réessayer.</string>
+    <string name="e3_error_search_results_hotel_service_failure">Désolés, nous n\&apos;avons pas pu effectuer votre recherche. Veuillez réessayer.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input">Désolé, nous n\&apos;avons obtenu aucun résultat sur les termes de votre recherche. Veuillez réessayer.</string>
+    <string name="e3_error_search_results_invalid_input">Désolés, nous n\&apos;avons obtenu aucun résultat sur les termes de votre recherche. Veuillez réessayer.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input_unknown">Désolé, nous n\&apos;avons obtenu aucun résultat sur les termes de votre recherche. Veuillez réessayer.</string>
+    <string name="e3_error_search_results_invalid_input_unknown">Désolés, nous n\&apos;avons obtenu aucun résultat sur les termes de votre recherche. Veuillez réessayer.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_unknown_error">Désolé, nous n\&apos;avons pas pu effectuer votre recherche. Veuillez réessayer.</string>
+    <string name="e3_error_search_results_unknown_error">Désolés, nous n\&apos;avons pas pu effectuer votre recherche. Veuillez réessayer.</string>
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Nous sommes désolés! L\&apos;offre pour cette chambre a pris fin et aucune autre offre n\&apos;est disponible.</string>
-    <string name="e3_error_hotel_offers_hotel_room_unavailable">Désolé, la chambre sélectionnée n\&apos;est plus disponible.</string>
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">Désolés, la chambre sélectionnée n\&apos;est plus disponible.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Désolé, nous n\&apos;avons pas pu établir la connexion à {brand}. Veuillez réessayer.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Désolés, nous n\&apos;avons pas pu établir la connexion à {brand}. Veuillez réessayer.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Nous sommes désolés! L\&apos;offre pour cette chambre a pris fin et aucune autre offre n\&apos;est disponible.</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -3699,7 +3692,7 @@
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Sélectionnez l\&apos;âge de chaque enfant</string>
 
-    <string name="lob_not_supported_error_message">Désolé, la réservation de {lob} depuis votre appareil mobile n\&apos;est pas encore disponible dans votre région.</string>
+    <string name="lob_not_supported_error_message">Désolés, la réservation de {lob} depuis votre appareil mobile n\&apos;est pas encore disponible dans votre région.</string>
 
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(26 à 59 ans)</string>
@@ -3870,7 +3863,7 @@
     <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
     <string name="packages_invalid_user_title_label">Mise à jour requise!</string>
     <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
-    <string name="packages_invalid_user_text_label">Désolé, la réservation de forfaits Hôtel + Vol n\&apos;est pas disponible sur cette version de l\&apos;application.\nFaites une mise à jour pour obtenir les forfaits Hôtel + Vol.</string>
+    <string name="packages_invalid_user_text_label">Désolés, la réservation de forfaits Hôtel + Vol n\&apos;est pas disponible sur cette version de l\&apos;application.\nFaites une mise à jour pour obtenir les forfaits Hôtel + Vol.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">{night} nuit gratuite en réservant ceci avec un vol.</item>
@@ -4448,9 +4441,9 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_unavailable_error_title">Modification impossible</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Désolé, la classe &lt;b&gt;{fare_family_name}&lt;/b&gt; n\&apos;est plus disponible. Veuillez réessayer en sélectionnant un tarif différent. Le tarif correspondant à votre choix de classe initial sera affiché à nouveau.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Désolés, la classe &lt;b&gt;{fare_family_name}&lt;/b&gt; n\&apos;est plus disponible. Veuillez réessayer en sélectionnant un tarif différent. Le tarif correspondant à votre choix de classe initial sera affiché à nouveau.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Désolé, la classe &lt;b&gt;{fare_family_name}&lt;/b&gt; n\&apos;est plus disponible. Veuillez réessayer en sélectionnant un tarif différent. Les tarifs correspondant à votre choix de classe initial seront affichés à nouveau.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Désolés, la classe &lt;b&gt;{fare_family_name}&lt;/b&gt; n\&apos;est plus disponible. Veuillez réessayer en sélectionnant un tarif différent. Les tarifs correspondant à votre choix de classe initial seront affichés à nouveau.</string>
     <!-- Label for fare family upgrade option. Example. You've selected Comfort+  -->
     <string name="flight_fare_family_fare_label_TEMPLATE">Vous avez sélectionné {fare_family_name}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
@@ -4544,7 +4537,7 @@
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Ajout de l\&apos;assurance voyage…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
-    <string name="insurance_add_error">Désolé, nous n\&apos;avons pas pu ajouter d\&apos;assurance voyage. Veuillez réessayer ou poursuivre la réservation sans assurance.</string>
+    <string name="insurance_add_error">Désolés, nous n\&apos;avons pas pu ajouter d\&apos;assurance voyage. Veuillez réessayer ou poursuivre la réservation sans assurance.</string>
     <!-- Benefits of purchasing insurance for domestic flights -->
     <string name="insurance_benefits_domestic">1. Votre billet n\&apos;est pas remboursable et vous êtes trop malade pour voyager.&lt;br/&gt;&lt;br/&gt;2. Vous vous blessez et n\&apos;êtes pas en mesure de prendre votre vol de retour.&lt;br/&gt;&lt;br/&gt;3. Votre compagnon de voyage a une urgence médicale admissible et ne peut pas voyager.</string>
     <!-- Benefits of purchasing insurance for international flights -->
@@ -4552,7 +4545,7 @@
     <!-- Insurance call to action; links to list of benefits -->
     <string name="insurance_description">3 situations où vous auriez besoin d\&apos;une assurance voyage</string>
     <!-- Error message displayed when insurance fails to be removed from a trip -->
-    <string name="insurance_remove_error">Désolé, nous n\&apos;avons pas pu retirer l\&apos;assurance voyage. Veuillez réessayer.</string>
+    <string name="insurance_remove_error">Désolés, nous n\&apos;avons pas pu retirer l\&apos;assurance voyage. Veuillez réessayer.</string>
     <!-- Status displayed in a modal dialog while insurance is being removed -->
     <string name="insurance_removing">Retrait de l\&apos;assurance voyage…</string>
     <!-- Label of link to insurance terms and conditions -->
@@ -4608,8 +4601,6 @@
 
     <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Erreur : entrez les détails manquants sur le voyageur. Bouton.</string>
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_complete_cont_desc">Renseignements sur le voyageur complets</string>
     <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, détails sur le voyageur remplis. Bouton.</string>
     <!--Packages accessibility content description for role Button-->
@@ -4626,8 +4617,6 @@
     <string name="accessibility_cont_desc_card_is_disabled">refusée</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Bouton d\&apos;évaluations des utilisateurs</string>
-    <!-- Content Description for Searching for hotels -->
-    <string name="accessibility_cont_desc_searching_for_hotels">Nous recherchons parmi des centaines d\&apos;hôtels pour vous.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Le prix est de {activity_price} {ticket_type}.</string>
@@ -4755,12 +4744,13 @@
     <string name="member_deals_toolbar_title">Prix réservé aux membres</string>
     <string name="continue_booking">Continuez la réservation</string>
     <string name="deals_hotel_only">Hôtel seulement</string>
-    <string name="deals_toolbar_close_cont_desc">Fermer l\&apos;écran affichant les prix réservés aux membres</string>
+    <string name="member_deals_toolbar_close_cont_desc">Fermer l\&apos;écran affichant les prix réservés aux membres</string>
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Offres de dernière minute</string>
     <string name="last_minute_deal_subtitle">Envie de vous évader? Consultez nos bas prix de dernière minute.</string>
     <string name="last_minute_deals_toolbar_title">Offres de dernière minute</string>
+    <string name="last_minute_deals_toolbar_close_cont_desc">Fermer l\&apos;écran affichant les offres de dernière minute</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Comment l\&apos;ordre de tri est-il déterminé</string>
@@ -4838,13 +4828,6 @@
     <string name="location_soft_prompt_enable">Activer la localisation</string>
     <string name="location_soft_prompt_disable">Pas maintenant</string>
 
-    <!--Soft Prompt For flights browser view-->
-    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
-    <string name="flights_browser_view_soft_prompt_title">Bientôt disponible</string>
-    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
-    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Des vols seront bientôt offerts sur l\&apos;application. En attendant, réservez des vols abordables vers votre destination sur {brand_url}.</string>
-    <string name="flights_browser_viewsoft_prompt_enable">Ouvrir dans un navigateur</string>
-
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Taxes et frais compris dans le total</string>
     <string name="excluding_taxes_fees">Taxes et frais en sus</string>
@@ -4892,5 +4875,8 @@
         <item quantity="one">L\&apos;offre expire dans {no_of_days} jour</item>
         <item quantity="other">L\&apos;offre expire dans {no_of_days} jours</item>
     </plurals>
+
+    <!-- Showing the header for the coupon widget to show the saved coupon -->
+    <string name="saved_coupon">Bons sauvegardés</string>
 
 </resources>
