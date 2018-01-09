@@ -5577,8 +5577,6 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache);
 		}
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsFrenchLegalBaggageInfo);
-
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview);
 
 		String products = getFlightProductString(false);

@@ -389,19 +389,6 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
-    fun testOutboundWidgetBaggageInfoClick() {
-        createExpectedFlightLeg()
-        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
-        val outboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
-        val outboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SEA"
-        flightLeg.baggageFeesUrl = outboundFlightBaggageFeesURL
-        outboundFlightWidget.viewModel.baggageInfoUrlSubject.subscribe(outboundFlightBaggageInfoTestSubscriber)
-        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
-        outboundFlightWidget.baggageFeesButton.performClick()
-        outboundFlightBaggageInfoTestSubscriber.assertValue(outboundFlightBaggageFeesURL)
-    }
-
-    @Test
     fun testOutboundBaggageFeeInfoEmptyCharge() {
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
@@ -453,38 +440,6 @@ class FlightOverviewPresenterTest {
         prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
         outboundFlightWidget.baggageInfoView.baggageInfoViewModel.makeBaggageInfoObserver().onError(null)
         outboundFlightBaggageInfoTestSubscriber.assertValue(outboundFlightBaggageFeesURL)
-    }
-
-    @Test
-    fun testInboundWidgetBaggageInfoClick() {
-        createExpectedFlightLeg()
-        val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
-        val inboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
-        val inboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO"
-        flightLeg.baggageFeesUrl = inboundFlightBaggageFeesURL
-        inboundFlightWidget.viewModel.baggageInfoUrlSubject.subscribe(inboundFlightBaggageInfoTestSubscriber)
-        prepareBundleWidgetViewModel(inboundFlightWidget.viewModel)
-        inboundFlightWidget.baggageFeesButton.performClick()
-        inboundFlightBaggageInfoTestSubscriber.assertValue(inboundFlightBaggageFeesURL)
-    }
-
-    @Test
-    fun testOutboundWidgetBaggageUrlUpdate() {
-        createExpectedFlightLeg()
-        val summaryWidgetViewModel = widget.flightSummary.viewmodel
-        summaryWidgetViewModel.params.onNext(setupFlightSearchParams())
-        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
-        val outboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
-        flightLeg.baggageFeesUrl = "http://old baggage url"
-        outboundFlightWidget.viewModel.baggageInfoUrlSubject.subscribe(outboundFlightBaggageInfoTestSubscriber)
-        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
-        outboundFlightWidget.baggageFeesButton.performClick()
-        assertEquals("http://old baggage url", outboundFlightBaggageInfoTestSubscriber.onNextEvents[0])
-
-        //After new create trip
-        summaryWidgetViewModel.tripResponse.onNext(getFlightCreateTripResponse())
-        outboundFlightWidget.baggageFeesButton.performClick()
-        assertEquals("http://new baggage url", outboundFlightBaggageInfoTestSubscriber.onNextEvents[1])
     }
 
     @Test
@@ -644,8 +599,9 @@ class FlightOverviewPresenterTest {
         val flightTripDetails = FlightTripDetails()
         flightTripDetails.legs = ArrayList()
         val flightLeg = FlightLeg()
-        flightLeg.segments = ArrayList()
-        flightLeg.segments.add(FlightLeg.FlightSegment())
+        val list: ArrayList<FlightLeg.FlightSegment> = ArrayList()
+        list.add(createFlightSegment())
+        flightLeg.segments = list
         flightLeg.baggageFeesUrl = "http://new baggage url"
         flightTripDetails.legs.add(flightLeg)
         flightOffer.pricePerPassengerCategory = pricePerPassengerList
@@ -701,6 +657,7 @@ class FlightOverviewPresenterTest {
         val list: ArrayList<FlightLeg.FlightSegment> = ArrayList()
         list.add(createFlightSegment())
         flightLeg.flightSegments = list
+        flightLeg.segments = list
     }
 
     private fun createFlightSegment(): FlightLeg.FlightSegment {

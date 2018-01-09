@@ -73,7 +73,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsKrazyglue = new ABTest(15790, true);
 	public static final ABTest EBAndroidAppFlightsEvolable = new ABTest(16345);
 	public static final ABTest EBAndroidAppFlightsDeltaPricing = new ABTest(15602);
-	public static final ABTest EBAndroidAppFlightsFrenchLegalBaggageInfo = new ABTest(16031);
 	public static final ABTest EBAndroidAppFlightsBaggageWebViewHideAd = new ABTest(16334);
 	public static final ABTest EBAndroidAppFlightsGreedySearchCall = new ABTest(15962, true);
 	public static final ABTest EBAndroidAppFlightsAPIKongEndPoint = new ABTest(16382, true);
@@ -216,7 +215,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsDeltaPricing.getKey());
 		testIDs.add(HotelEnableInfositeChangeDate.getKey());
 		testIDs.add(HotelRoomImageGallery.getKey());
-		testIDs.add(EBAndroidAppFlightsFrenchLegalBaggageInfo.getKey());
 		testIDs.add(EBAndroidAppAccountRecaptcha.getKey());
 		testIDs.add(EBAndroidAppHotelMaterialForms.getKey());
 		testIDs.add(TripsNewFlightAlerts.getKey());
