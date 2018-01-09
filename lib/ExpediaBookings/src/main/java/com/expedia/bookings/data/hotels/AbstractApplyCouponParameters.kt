@@ -5,23 +5,26 @@ import java.util.HashMap
 
 abstract class AbstractApplyCouponParameters(val tripId: String,
                                              val isFromNotSignedInToSignedIn: Boolean,
-                                             val userPreferencePointsDetails: List<UserPreferencePointsDetails>) {
+                                             private val userPreferencePointsDetails: List<UserPreferencePointsDetails>) {
 
     abstract class Builder<B : Builder<B>> {
         protected var tripId: String? = null
         protected var isFromNotSignedInToSignedIn: Boolean = false
         protected var userPreferencePointsDetails: List<UserPreferencePointsDetails>? = null
 
+        @Suppress("UNCHECKED_CAST")
         fun tripId(tripId: String): B {
             this.tripId = tripId
             return this as B
         }
 
+        @Suppress("UNCHECKED_CAST")
         fun isFromNotSignedInToSignedIn(isFromNotSignedInToSignedIn: Boolean): B {
             this.isFromNotSignedInToSignedIn = isFromNotSignedInToSignedIn
             return this as B
         }
 
+        @Suppress("UNCHECKED_CAST")
         fun userPreferencePointsDetails(userPreferencePointsDetails: List<UserPreferencePointsDetails>): B {
             this.userPreferencePointsDetails = userPreferencePointsDetails
             return this as B

@@ -88,8 +88,8 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         }
 
         override fun isOriginSameAsDestination(): Boolean {
-            var departureCity = "";
-            var arrivalCity = "";
+            val departureCity: String
+            val arrivalCity: String
             if (originLocation?.hierarchyInfo?.airport?.multicity != null) {
                 departureCity = originLocation?.hierarchyInfo?.airport?.multicity ?: ""
                 arrivalCity = destinationLocation?.hierarchyInfo?.airport?.multicity ?: ""
@@ -98,7 +98,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
                 departureCity = originLocation?.hierarchyInfo?.airport?.regionId ?: ""
                 arrivalCity = destinationLocation?.hierarchyInfo?.airport?.regionId ?: ""
             }
-            return departureCity.equals(arrivalCity)
+            return departureCity == arrivalCity
         }
     }
 

@@ -20,12 +20,10 @@ abstract class TripResponse : BaseApiResponse() {
 
     fun getPointDetails(): PointsDetails? {
         val programName = getProgramName()
-        return pointsDetails?.firstOrNull { it.programName == programName } ?: null
+        return pointsDetails?.firstOrNull { it.programName == programName }
     }
 
-    fun getProgramName(): ProgramName? {
-        return pointsDetails?.firstOrNull()?.programName ?: null
-    }
+    fun getProgramName(): ProgramName? = pointsDetails?.firstOrNull()?.programName
 
     abstract fun getTripTotalExcludingFee(): Money
 
@@ -42,11 +40,11 @@ abstract class TripResponse : BaseApiResponse() {
     var isRewardsEnabledForCurrentPOS: Boolean by Delegates.notNull()
     fun isRewardsRedeemable(): Boolean {
         if (!isRewardsEnabledForCurrentPOS) {
-            return false;
+            return false
         }
 
         val rewardsPointsDetails = getPointDetails()
-        return rewardsPointsDetails?.isAllowedToRedeem ?: false
+        return rewardsPointsDetails?.isAllowedToRedeem == true
     }
 
     fun rewardsUserAccountDetails(): PointsDetails {

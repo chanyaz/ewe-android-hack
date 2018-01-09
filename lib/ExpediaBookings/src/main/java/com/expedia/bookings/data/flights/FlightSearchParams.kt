@@ -71,7 +71,7 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         }
 
         fun legNo(legNo: Int?): Builder {
-            this.legNo = legNo  
+            this.legNo = legNo
             return this
         }
 
@@ -126,7 +126,7 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
     fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
         params.put("departureAirport", departureAirport.hierarchyInfo?.airport?.airportCode)
-        params.put("arrivalAirport", arrivalAirport?.hierarchyInfo?.airport?.airportCode)
+        params.put("arrivalAirport", arrivalAirport.hierarchyInfo?.airport?.airportCode)
         params.put("departureDate", departureDate.toString())
         if (returnDate != null) {
             params.put("returnDate", returnDate.toString())

@@ -1,8 +1,8 @@
 package com.expedia.bookings.data.payment
 
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.services.LoyaltyServices
 import rx.Observable
 import rx.Observer
@@ -107,9 +107,9 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     //Intermediate Stream to ensure side-effects like `doOnNext` execute only once even if the stream is subscribe to multiple times!
     //This Intermediate Stream is ultimately poured into `restoredPaymentSplitsInCaseOfDiscardedApiCall` which the clients can absorb.
     private val restoredPaymentSplitsInCaseOfDiscardedApiCallIntermediateStream = discardPendingCurrencyToPointsAPISubscription
-            .withLatestFrom(burnAmountToPointsApiSubscriptions, { unit, burnAmountToPointsApiSubscription -> burnAmountToPointsApiSubscription })
+            .withLatestFrom(burnAmountToPointsApiSubscriptions, { _, burnAmountToPointsApiSubscription -> burnAmountToPointsApiSubscription })
             .doOnNext { it?.unsubscribe() }
-            .withLatestFrom(paymentSplits, { unit, paymentSplits -> paymentSplits })
+            .withLatestFrom(paymentSplits, { _, paymentSplits -> paymentSplits })
 
     //Facade to ensure there are no glitches!
     //Whenever you need Payment Splits and Latest Trip response and TripTotal including fee paid at hotel, use this!

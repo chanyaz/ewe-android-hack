@@ -22,5 +22,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
+compileKotlin {
+    kotlinOptions.allWarningsAsErrors = true
+}
+
 mainClassName = "com.mobiata.mocke3.RunMockWebServer"
 

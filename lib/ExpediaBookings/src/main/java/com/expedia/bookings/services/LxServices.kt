@@ -317,7 +317,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         return lxSearchResponse
     }
 
-    private fun SortFilterThemeSearchResponse(theme: LXTheme, sortFilterMetadata: LXSortFilterMetadata): LXTheme {
+    private fun sortFilterThemeSearchResponse(theme: LXTheme, sortFilterMetadata: LXSortFilterMetadata): LXTheme {
 
         // Filtering
         val filteredSet = LinkedHashSet<LXActivity>()
@@ -366,16 +366,14 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         return theme
     }
 
-    fun lxThemeSortAndFilter(theme: LXTheme, lxSortType: LXSortFilterMetadata, categorySortObserver: Observer<LXTheme>, lxFilterTextSearchEnabled: Boolean): Subscription {
-
-        return Observable.combineLatest(Observable.just(theme), Observable.just(lxSortType),
-                { theme, lxSortType ->
+    fun lxThemeSortAndFilter(currentTheme: LXTheme, lxSortType: LXSortFilterMetadata, categorySortObserver: Observer<LXTheme>, lxFilterTextSearchEnabled: Boolean): Subscription {
+        return Observable.combineLatest(Observable.just(currentTheme), Observable.just(lxSortType),
+                { theme, sortType ->
                     if (lxFilterTextSearchEnabled) {
-                        theme.activities = theme.unfilteredActivities.applySortFilter(lxSortType)
+                        theme.activities = theme.unfilteredActivities.applySortFilter(sortType)
                         theme
                     } else {
-                        SortFilterThemeSearchResponse(theme, lxSortType)
-
+                        sortFilterThemeSearchResponse(theme, sortType)
                     }
                 })
                 .subscribeOn(this.subscribeOn)
@@ -392,12 +390,12 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         return (
                 if (lxSortFilterMetadata != null)
                     Observable.combineLatest(lxSearchResponseObservable, Observable.just(lxSortFilterMetadata),
-                            { lxSearchResponse, lxSortFilterMetadata ->
+                            { searchResponse, sortFilterMetadata ->
                                 if (lxFilterTextSearchEnabled) {
-                                    lxSearchResponse.activities = lxSearchResponse.unFilteredActivities.applySortFilter(lxSortFilterMetadata)
-                                    lxSearchResponse
+                                    searchResponse.activities = searchResponse.unFilteredActivities.applySortFilter(sortFilterMetadata)
+                                    searchResponse
                                 } else {
-                                    CombineSearchResponseAndSortFilterStreams(lxSearchResponse, lxSortFilterMetadata)
+                                    CombineSearchResponseAndSortFilterStreams(searchResponse, sortFilterMetadata)
                                 }
                             })
                 else lxSearch(lxSearchParams!!)
@@ -459,17 +457,18 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
             // Activity name filter
             var activities = this.filter { it.title.contains(lxCategoryMetadata.filter, true) }
             // Sorting
-            when (lxCategoryMetadata.sort) {
-                LXSortType.POPULARITY -> activities = activities.sortedBy { it.popularityForClientSort }
-                LXSortType.PRICE -> activities = activities.sortedBy { it.price.amount.toInt() }
+            activities = when (lxCategoryMetadata.sort) {
+                LXSortType.POPULARITY -> activities.sortedBy { it.popularityForClientSort }
+                LXSortType.PRICE -> activities.sortedBy { it.price.amount.toInt() }
+                null -> activities
             }
 
             val filteredSet = LinkedHashSet<LXActivity>()
             for (i in activities.indices) {
                 for (filterCategory in lxCategoryMetadata.lxCategoryMetadataMap.entries) {
-                    val lxCategoryMetadata = filterCategory.value
+                    val innerLxCategoryMetadata = filterCategory.value
                     val lxCategoryMetadataKey = filterCategory.key
-                    if (lxCategoryMetadata.checked) {
+                    if (innerLxCategoryMetadata.checked) {
                         if (activities[i].categories.contains(lxCategoryMetadataKey)) {
                             filteredSet.add(activities[i])
                 }

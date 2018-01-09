@@ -1,8 +1,8 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.AbstractApplyCouponParameters
+import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -153,7 +153,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
         val filterOptions = params.filterOptions
         if (filterOptions != null && !filterOptions.filterByNeighborhoodId.isNullOrEmpty()) {
             // Override default regionId for neighborhood search
-            regionId = params!!.filterOptions!!.filterByNeighborhoodId
+            regionId = params.filterOptions?.filterByNeighborhoodId
         }
         return regionId
     }

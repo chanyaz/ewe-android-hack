@@ -86,7 +86,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         private var userSort: SortType? = null
 
         override fun destination(city: SuggestionV4?): Builder {
-            this.destinationLocation = city?.copy() ?: null
+            this.destinationLocation = city?.copy()
             return this
         }
 
@@ -140,7 +140,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             shopWithPoints(params.shopWithPoints)
             params.filterOptions?.let { filterOptions ->
                 filterOptions.filterHotelName?.let { hotelName(it) }
-                filterOptions.filterStarRatings?.let { starRatings(it) }
+                filterOptions.filterStarRatings.let { starRatings(it) }
                 filterOptions.filterPrice?.let { priceRange(it) }
                 vipOnly(filterOptions.filterVipOnly)
                 filterOptions.filterByNeighborhoodId?.let { neighborhood(it) }

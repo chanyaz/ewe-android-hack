@@ -29,16 +29,17 @@ data class LoyaltyEarnInfo(val points: PointsEarnInfo?, val price: PriceEarnInfo
     fun getEarnMessagePointsOrPriceWithNonZeroValue(): String {
         when (loyaltyEarnInfoType()) {
             LoyaltyEarnInfoType.POINTS -> {
-                if (points?.total!! > 0) {
+                if (points != null && points.total > 0) {
                     val numberFormatter = NumberFormat.getInstance()
-                    return numberFormatter.format(points?.total)
+                    return numberFormatter.format(points.total)
                 }
             }
             LoyaltyEarnInfoType.MONEY -> {
-                if (price?.total?.getAmount()!! > BigDecimal.ZERO) {
-                    return price?.total?.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)!!
+                if (price != null && price.total.getAmount() > BigDecimal.ZERO) {
+                    return price.total.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)
                 }
             }
+            LoyaltyEarnInfoType.NONE -> return ""
         }
         return ""
     }

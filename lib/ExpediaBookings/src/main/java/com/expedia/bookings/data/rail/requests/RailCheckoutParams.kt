@@ -52,7 +52,7 @@ class RailCheckoutParams(val travelers: List<Traveler>,
 
         fun isValid(): Boolean {
             return travelers.isNotEmpty() && paymentInfo != null && paymentInfo!!.cards.isNotEmpty() && tripDetails != null
-                    && !paymentInfo!!.cards[0]?.cvv.isNullOrEmpty() && isValidTDO()
+                    && !paymentInfo!!.cards[0].cvv.isNullOrEmpty() && isValidTDO()
         }
 
         private fun isValidTDO(): Boolean {
@@ -104,10 +104,10 @@ class RailCheckoutParams(val travelers: List<Traveler>,
             val country:String? = null) {
         var state: String? = null
             set(value) {
-                if (value.isNullOrBlank()) {
+                field = if (value.isNullOrBlank()) {
                     null
                 } else {
-                    field = value
+                    value
                 }
         }
     }

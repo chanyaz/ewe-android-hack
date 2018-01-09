@@ -49,7 +49,7 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
                 .baseUrl(endpoint)
                 .addConverterFactory(buildRailGsonConverter())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).addInterceptor(hmacInterceptor).build())
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).addInterceptor(hmacInterceptor!!).build())
                 .build()
 
         adapter.create(RailApiHMAC::class.java)
