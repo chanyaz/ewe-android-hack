@@ -36,7 +36,7 @@ import kotlin.test.assertTrue
 class PhoneLaunchActivityTest {
 
     @Test
-    fun testNotificationClickOmnitureTracking() {
+    fun testNotificationClickOmnitureTrackingNoTemplateName() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val listOfNotificationTypes = listOf(
                 Notification.NotificationType.ACTIVITY_START,
@@ -68,6 +68,19 @@ class PhoneLaunchActivityTest {
             assertLinkTrackedWhenNotificationClicked(trackingLink, trackingLink, "event212", mockAnalyticsProvider)
         }
 
+    }
+
+    @Test
+    fun testNotificationClickOmnitureTrackingWithTemplateName() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val notification = Notification()
+        notification.itinId = "testID"
+        notification.notificationType = Notification.NotificationType.ACTIVITY_START
+        notification.templateName = "templateTest"
+        OmnitureTracking.trackNotificationClick(notification)
+
+        val trackingLink: String = OmnitureTracking.setItinNotificationLink(notification)
+        assertLinkTrackedWhenNotificationClicked(trackingLink, trackingLink, "event212", mockAnalyticsProvider)
     }
 
     @Test

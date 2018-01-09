@@ -29,6 +29,14 @@ public class Notification extends Model implements JSONable {
 	public static final long FLAG_REDEEM = 0x20;
 	public static final long FLAG_VIEW = 0x40;
 
+	public String getTemplateName() {
+		return mTemplateName;
+	}
+
+	public void setTemplateName(String mTemplateName) {
+		this.mTemplateName = mTemplateName;
+	}
+
 	/**
 	 * NEW = This notification has never been displayed to the user.
 	 * NOTIFIED = This notification has been displayed and is still visible/active.
@@ -145,6 +153,9 @@ public class Notification extends Model implements JSONable {
 	@Column(name = "ImageValue")
 	private String mImageValue;
 
+	@Column(name = "templateName")
+	private String mTemplateName;
+
 	@Column(name = "Flags")
 	private long mFlags;
 
@@ -173,6 +184,7 @@ public class Notification extends Model implements JSONable {
 		setExpirationTimeMillis(triggerTimeMillis + TimeUnit.DAYS.toMillis(1));
 		setStatus(StatusType.NEW);
 		setIconResId(R.drawable.ic_stat_expedia);
+		setTemplateName("");
 		setFlags(0);
 	}
 

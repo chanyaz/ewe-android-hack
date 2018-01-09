@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -2929,8 +2930,12 @@ public class OmnitureTracking {
 
 	@VisibleForTesting
 	public static String setItinNotificationLink(Notification notification) {
+		String templateName = notification.getTemplateName();
 		NotificationType type = notification.getNotificationType();
-		String link = null;
+		if (Strings.isNotEmpty(templateName)) {
+			return buildLinkBasedOnTemplateName(templateName);
+		}
+		String link;
 		switch (type) {
 		case ACTIVITY_START:
 			link = NOTIFICATION_ACTIVITY_START;
@@ -2983,12 +2988,20 @@ public class OmnitureTracking {
 			break;
 		case FLIGHT_DELAYED:
 			link = NOTIFICATION_FLIGHT_DELAYED;
+			break;
 		default:
 			link = "Itinerary." + type.name();
 			Log.w(TAG, "Unknown Notification Type \"" + type.name() + "\". Taking a guess.");
 			break;
 		}
 		return link;
+	}
+
+	@NonNull
+	private static String buildLinkBasedOnTemplateName(String templateName) {
+		StringBuilder sb = new StringBuilder("Itinerary.");
+		sb.append(templateName);
+		return sb.toString();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

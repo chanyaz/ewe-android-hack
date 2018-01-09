@@ -132,7 +132,22 @@ class NotificationReceiverTest {
     }
 
     @Test
-    fun testNotificationShownOmnitureTracking() {
+    fun testNotificationShownOmnitureTrackingForNotificationsWithLocTemplate() {
+        val context = Robolectric.buildActivity(Activity::class.java).create().get()
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val shadowNotificationManager = shadowOf(notificationManager)
+
+        shadowNotificationManager.cancelAll()
+        makeNotificationAndShow(context, id = "21321", templateName = "testTemplate")
+        val allNotifications = shadowNotificationManager.allNotifications
+        assertEquals(1, allNotifications.size)
+        val trackingLink: String = OmnitureTracking.setItinNotificationLink(makeNotification(uniqueId = "21321", notificationTemp = "testTemplate"))
+        assertLinkTrackedWhenNotificationShown(trackingLink, trackingLink, "event208", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testNotificationShownOmnitureTrackingForNotificationsWithNoLocTemplate() {
         val context = Robolectric.buildActivity(Activity::class.java).create().get()
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -174,6 +189,14 @@ class NotificationReceiverTest {
         listener.onSyncFinished(makeTrip(id))
     }
 
+    private fun makeNotificationAndShow(context: Context, templateName: String, id: String) {
+        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
+        val notificationReceiver = TestNotificationReceiver(mockItineraryManager, null, templateName = templateName)
+
+        val listener = notificationReceiver.makeValidTripSyncListener(context, makeNotification(id, notificationTemp = templateName), mockItineraryManager)
+        listener.onSyncFinished(makeTrip(id))
+    }
+
     private fun assertLinkTrackedWhenNotificationShown(linkName: String, rfrrId: String, event: String, mockAnalyticsProvider: AnalyticsProvider) {
         val expectedData = mapOf(
                 "&&linkType" to "o",
@@ -186,10 +209,11 @@ class NotificationReceiverTest {
         Mockito.verify(mockAnalyticsProvider).trackAction(Mockito.eq(linkName), NullSafeMockitoHamcrest.mapThat(CustomMatchers.hasEntries(expectedData)))
     }
 
-     fun makeNotification(uniqueId: String, type: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED): Notification {
+     fun makeNotification(uniqueId: String, type: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED, notificationTemp: String = ""): Notification {
         val ourNotification = Mockito.mock(Notification::class.java)
 
         Mockito.`when`(ourNotification.uniqueId).thenReturn(uniqueId)
+        Mockito.`when`(ourNotification.templateName).thenReturn(notificationTemp)
         Mockito.`when`(ourNotification.notificationType).thenReturn(type)
         Mockito.`when`(ourNotification.imageType).thenReturn(Notification.ImageType.NONE)
         Mockito.`when`(ourNotification.toJson()).thenReturn(JSONObject())
@@ -204,7 +228,9 @@ class NotificationReceiverTest {
         return listOf(ourTrip)
     }
 
-    class TestNotificationReceiver(val mockItineraryManager: ItineraryManager, val ourNotification: Notification?, val notificationType: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED) : NotificationReceiver() {
+    class TestNotificationReceiver(val mockItineraryManager: ItineraryManager, val ourNotification: Notification?,
+                                   val notificationType: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED,
+                                   val templateName: String = "") : NotificationReceiver() {
         override fun getItineraryManagerInstance(): ItineraryManager {
             return mockItineraryManager
         }
@@ -218,14 +244,16 @@ class NotificationReceiverTest {
         }
 
         override fun showNotification(finalNotification: Notification, context: Context) {
-            Notifier(context, createNotification(type = notificationType)).start()
+            Notifier(context, createNotification(type = notificationType, templateName = templateName)).start()
         }
 
-        private fun createNotification(uniqueId: String = "test123", type: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED): Notification {
+        private fun createNotification(uniqueId: String = "test123", type: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED,
+                                       templateName: String = ""): Notification {
             val ourNotification = Mockito.mock(Notification::class.java)
 
             Mockito.`when`(ourNotification.uniqueId).thenReturn(uniqueId)
             Mockito.`when`(ourNotification.notificationType).thenReturn(type)
+            Mockito.`when`(ourNotification.templateName).thenReturn(templateName)
             Mockito.doNothing().`when`(ourNotification).didNotify()
             Mockito.`when`(ourNotification.imageType).thenReturn(Notification.ImageType.NONE)
             Mockito.`when`(ourNotification.toJson()).thenReturn(JSONObject())

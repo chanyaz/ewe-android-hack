@@ -208,6 +208,7 @@ public class PushNotificationUtils {
 						notification.setTitle(title);
 						notification.setBody(formattedMessage);
 						notification.setTicker(formattedMessage);
+						notification.setTemplateName(locKey);
 
 						notification.save();
 						notificationManager.scheduleNotification(notification);
@@ -267,6 +268,7 @@ public class PushNotificationUtils {
 			notification.setTitle(title);
 			notification.setBody(formattedMessage);
 			notification.setTicker(formattedMessage);
+			notification.setTemplateName(locKey);
 
 			notification.save();
 			notificationManager.scheduleNotification(notification);
@@ -332,6 +334,7 @@ public class PushNotificationUtils {
 			notification.setTitle(context.getString(R.string.Itinerary_ready));
 			notification.setBody(formattedMessage);
 			notification.setTicker(formattedMessage);
+			notification.setTemplateName(locKey);
 
 			notification.save();
 			notificationManager.scheduleNotification(notification);
