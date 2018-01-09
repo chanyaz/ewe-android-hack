@@ -55,6 +55,11 @@ class UniversalDeepLinkParserTest {
         Assert.assertEquals("deals", output.sortType)
         Assert.assertEquals(2, output.numAdults)
 
+        data = data.buildUpon().appendQueryParameter("rm1", "a3:c3:c4").build()
+        output = parser.parseDeepLink(data) as HotelDeepLink
+        Assert.assertEquals(3, output.numAdults)
+        val expectedChildren = arrayOf(ChildTraveler(3, false), ChildTraveler(4, false))
+        assertChildTravelersEquals(expectedChildren, (output.children as ArrayList).toTypedArray())
     }
 
     @Test
@@ -251,8 +256,8 @@ class UniversalDeepLinkParserTest {
     fun pointOfSaleDateFormatParsing() {
         val data = Uri.parse("https://www.expedia.co.kr/mobile/deeplink/Hotel-Search?hotelId=12539&startDate=2017.05.24&endDate=2017.05.31")
         val parsed = parser.parseUniversalDeepLink(data) as HotelDeepLink
-        Assert.assertEquals(LocalDate(2017,5,24), parsed.checkInDate)
-        Assert.assertEquals(LocalDate(2017,5,31), parsed.checkOutDate)
+        Assert.assertEquals(LocalDate(2017, 5, 24), parsed.checkInDate)
+        Assert.assertEquals(LocalDate(2017, 5, 31), parsed.checkOutDate)
     }
 
     @Test
