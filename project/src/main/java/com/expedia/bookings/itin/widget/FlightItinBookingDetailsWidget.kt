@@ -2,9 +2,11 @@ package com.expedia.bookings.itin.widget
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.Animation
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightItinBookingInfoViewModel
@@ -28,10 +30,15 @@ class FlightItinBookingDetailsWidget(context: Context, attr: AttributeSet?) : Li
     }
 
     private fun setManageBookingOnClick(intent: Intent?) = manageBookingCard.setOnClickListener {
+        val animation: Bundle
+        when (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_trips_new_flights_managing_booking_design)) {
+            true -> animation = ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle()
+            false -> animation = ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle()
+        }
         if (!FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_trips_new_flights_managing_booking_design)) {
             OmnitureTracking.trackItinFlightManageBooking()
         }
-        if (intent != null) context.startActivity(intent, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
+        if (intent != null) context.startActivity(intent, animation)
     }
 
     private fun setPriceOnClick(intent: Intent?) = priceSummaryCard.setOnClickListener {

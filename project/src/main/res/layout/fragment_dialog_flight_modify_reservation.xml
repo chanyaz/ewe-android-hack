@@ -24,7 +24,8 @@
         android:textColor="@color/app_primary"
         android:textSize="14sp"
         android:text="@string/itin_flight_modify_widget_customer_support_text"
-        android:textStyle="normal" />
+        android:textStyle="normal"
+        android:background="?attr/selectableItemBackground"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/dialog_go_back"
@@ -34,8 +35,9 @@
         android:fontFamily="sans-serif-medium"
         android:textColor="@color/app_primary"
         android:textSize="14sp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="4dp"
         android:text="@string/itin_flight_modify_widget_go_back_text"
-        android:textStyle="normal" />
+        android:textStyle="normal"
+        android:background="?attr/selectableItemBackground"/>
 
 </LinearLayout>

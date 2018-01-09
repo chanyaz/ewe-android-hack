@@ -129,7 +129,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:textColor="@color/gray900"
                 android:textSize="14sp"
-                app:textStyle="bold" />
+                app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/airline_support_confirmation"
@@ -141,7 +141,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:textColor="@color/gray900"
                 android:textSize="14sp"
-                app:textStyle="bold" />
+                app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/airline_support_itinerary"
@@ -153,7 +153,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:textColor="@color/gray900"
                 android:textSize="14sp"
-                app:textStyle="bold" />
+                app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/airline_call_support_action_button"
