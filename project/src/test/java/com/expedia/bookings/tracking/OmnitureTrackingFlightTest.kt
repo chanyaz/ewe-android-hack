@@ -5,7 +5,9 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.FlightTestUtil
 import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getCheckoutResponse
@@ -18,6 +20,8 @@ import com.expedia.bookings.tracking.hotel.PageUsableData
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
+import org.mockito.Mockito.`when` as whenever
 
 @RunWith(RobolectricRunner::class)
 class OmnitureTrackingFlightTest {
@@ -27,6 +31,30 @@ class OmnitureTrackingFlightTest {
     fun setup() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         setupDb()
+    }
+
+    @Test
+    fun testTrackFlightCheckoutInfoPageLoadEvents() {
+        val mockResponse = Mockito.mock(FlightCreateTripResponse::class.java)
+        val mockOffer = Mockito.mock(FlightTripDetails.FlightOffer::class.java)
+        mockOffer.availableInsuranceProducts = emptyList()
+        whenever(mockResponse.getOffer()).thenReturn(mockOffer)
+
+        OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEventsString("event36, event71"), mockAnalyticsProvider,
+                "FAILED: Expected event36 (checkout start), event71 (flight checkout start)")
+    }
+
+    @Test
+    fun testTrackFlightCheckoutInfoPageLoadEventsWithInsurance() {
+        val mockResponse = Mockito.mock(FlightCreateTripResponse::class.java)
+        val mockOffer = Mockito.mock(FlightTripDetails.FlightOffer::class.java)
+        mockOffer.availableInsuranceProducts = listOf(InsuranceProduct())
+        whenever(mockResponse.getOffer()).thenReturn(mockOffer)
+
+        OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEventsString("event36, event71, event122"), mockAnalyticsProvider,
+                "FAILED: Expected event36 (checkout start), event71 (flight checkout start), and event 122 (insurance present)")
     }
 
     @Test

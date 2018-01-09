@@ -146,7 +146,15 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Trips in Mock Web Server", "https://www.expedia.com/mobile/deeplink/trips/1103274148635"),
 		new DeepLinkTrips(),
 
-		new DeepLink("Member Pricing", "https://www.expedia.com/mobile/deeplink/member-pricing")
+		new DeepLink("Member Pricing", "https://www.expedia.com/mobile/deeplink/member-pricing"),
+
+		new DeepLinkSection("Verify Tracking", R.color.app_primary_dark),
+		new DeepLink("email", "https://www.expedia.com/mobile/deeplink/Hotel-Search?emlcid=emlcidtest&emldtl=emldtltest"),
+		new DeepLink("sem", "https://www.expedia.com/mobile/deeplink/Hotel-Search?semcid=semcidtest&semdtl=semdtltest&gclid=gclidtest"),
+		new DeepLink("ola", "https://www.expedia.com/mobile/deeplink/Hotel-Search?olacid=olacidtest&oladtl=oladtltest"),
+		new DeepLink("affiliates", "https://www.expedia.com/mobile/deeplink/Hotel-Search?affcid=affcidtest&afflid=afflidtest"),
+		new DeepLink("brand", "https://www.expedia.com/mobile/deeplink/Hotel-Search?brandcid=brandcidtest"),
+		new DeepLink("seo", "https://www.expedia.com/mobile/deeplink/Hotel-Search?seocid=seocidtest")
 	};
 
 	@Override

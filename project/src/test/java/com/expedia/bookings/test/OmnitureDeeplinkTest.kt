@@ -163,6 +163,12 @@ class OmnitureDeeplinkTest {
         assertEvar22And26TrackedAs("SEM.SEM_KRABI_TEST_GCLID", "SEMGCLID_KRABI_TEST_GCLID")
     }
 
+    @Test
+    fun testEventsTrackedWithDeeplink() {
+        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?emlcid=emlcidtest&emldtl=emldtltest")
+        assertStateTracked(OmnitureMatchers.withEventsString("event320"), mockAnalyticsProvider)
+    }
+
     private fun trackDeepLink(url :String) {
         // This is what sets the omniture variables we're interested in testing
         deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(url))

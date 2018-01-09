@@ -36,8 +36,25 @@ open class ADMS_Measurement {
         return getOmnitureDataValue(PROP + i) as String?
     }
 
+    @Deprecated("Please use the method appendEvents", replaceWith = ReplaceWith("appendEvents(s)"))
     fun setEvents(s: String?) {
         cData.put(EVENTS, s ?: "")
+    }
+
+    fun appendEvents(eventString: String) {
+        val sb = StringBuilder()
+        if (getEvents() != null) {
+            sb.append(getEvents())
+        }
+
+        if (sb.isNotEmpty() && eventString.isNotEmpty()) {
+            sb.append(", ")
+        }
+        sb.append(eventString)
+
+        if (sb.isNotEmpty()) {
+            setEvents(sb.toString())
+        }
     }
 
     fun getEvents(): String? {

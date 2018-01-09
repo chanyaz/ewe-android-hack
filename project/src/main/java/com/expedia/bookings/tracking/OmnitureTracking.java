@@ -4019,6 +4019,8 @@ public class OmnitureTracking {
 				s.setEvar(36, deepLinkValue);
 			}
 
+			s.appendEvents("event320");
+
 			deepLinkArgs.clear();
 		}
 	}
@@ -5296,8 +5298,10 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 
 		// events
-		s.setEvents("event36, event71" /* checkout start, flight checkout start */ +
-			(tripResponse.getAvailableInsuranceProducts().isEmpty() ? "" : ", event122" /* insurance present */));
+		s.appendEvents("event36, event71");
+		if (!tripResponse.getAvailableInsuranceProducts().isEmpty()) {
+			s.appendEvents("event122");
+		}
 
 		String products = getFlightProductString(false) + getFlightInsuranceProductStringOnCheckout();
 
