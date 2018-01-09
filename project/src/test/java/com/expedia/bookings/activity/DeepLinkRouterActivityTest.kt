@@ -177,7 +177,7 @@ class DeepLinkRouterActivityTest {
     fun packageSearchDeeplinkWhenItShouldNotWork() {
         // When MID is disabled for user and force upgarde is enabled then when he tries to reach Packages through deeplink, he should be redirected to launch page instead.
         AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog, R.string.preference_packages_force_upgrade_for_pss_clients)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog)
         val packageSearchUrl = "expda://packageSearch"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(packageSearchUrl)
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()

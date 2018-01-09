@@ -93,6 +93,5 @@ fun isBackFlowFromOverviewEnabled(context: Context): Boolean {
 }
 
 private fun isPackageForceUpdateEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog) &&
-            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_force_upgrade_for_pss_clients)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog)
 }

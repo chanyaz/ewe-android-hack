@@ -132,11 +132,6 @@
             android:summary="Packages Breadcrumbs - Move Bundle Overview Bar"
             android:title="Packages Breadcrumbs - Move Bundle Overview Bar" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_packages_force_upgrade_for_pss_clients"
-            android:summary="Packages MID: Force upgrade message for PSS clients"
-            android:title="Packages MID: Force upgrade message for PSS clients" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>
