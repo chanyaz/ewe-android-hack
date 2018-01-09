@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.itin.vm.FlightItinModifyReservationViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TextView
@@ -20,6 +21,7 @@ import kotlin.test.assertEquals
 class FlightItinModifyReservationWidgetTest {
     lateinit var activity: Activity
     lateinit var modifyReservationWidget: FlightItinModifyReservationWidget
+    lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun before() {
@@ -27,6 +29,7 @@ class FlightItinModifyReservationWidgetTest {
         activity.setTheme(R.style.ItinTheme)
         modifyReservationWidget = LayoutInflater.from(activity).inflate(R.layout.test_flight_itin_modify_reservation_widget, null) as FlightItinModifyReservationWidget
         modifyReservationWidget.viewModel = FlightItinModifyReservationViewModel()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -61,8 +64,8 @@ class FlightItinModifyReservationWidgetTest {
         val webCancelPathURL = "https://www.expedia.com/flight-cancel-exchange?itinnumber=1157495899343&arl=304697418&bookingid=ZBZTFR"
         val params = FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webChangePathURL, true, webCancelPathURL, true, "(217)-546-7860")
         modifyReservationWidget.viewModel.modifyReservationSubject.onNext(params)
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         modifyReservationWidget.cancelReservationButton.performClick()
+
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.Manage.Cancel", mockAnalyticsProvider)
     }
 
@@ -72,16 +75,34 @@ class FlightItinModifyReservationWidgetTest {
         val webCancelPathURL = "https://www.expedia.com/flight-cancel-exchange?itinnumber=1157495899343&arl=304697418&bookingid=ZBZTFR"
         val params = FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webChangePathURL, true, webCancelPathURL, true, "(217)-546-7860")
         modifyReservationWidget.viewModel.modifyReservationSubject.onNext(params)
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         modifyReservationWidget.changeReservationButton.performClick()
+
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.Manage.Change", mockAnalyticsProvider)
     }
 
     @Test
-    fun testChangeLearnMoreClick() {
+    fun testOmnitureForChangeLearnMore() {
+        val webChangePathURL = "https://www.expedia.com/flight-change-gds?itinnumber=1157495899343&arl=304697418&cname=United"
+        modifyReservationWidget.viewModel.modifyReservationSubject.onNext(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams("", false, webChangePathURL, true, "(217)-546-7860"))
+        modifyReservationWidget.changeLearnMoreText.performClick()
+
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.Manage.Change.LearnMore", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOminitureForCancelLearnMore() {
         val webCancelPathURL = "https://www.expedia.com/flight-cancel-exchange?itinnumber=1157495899343&arl=304697418&bookingid=ZBZTFR"
+        modifyReservationWidget.viewModel.modifyReservationSubject.onNext(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webCancelPathURL, true, "", false, "(217)-546-7860"))
+        modifyReservationWidget.cancelLearnMoreText.performClick()
+
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.Manage.Cancel.LearnMore", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testChangeLearnMoreClick() {
+        val webChangePathURL = "https://www.expedia.com/flight-change-gds?itinnumber=1157495899343&arl=304697418&cname=United"
         val notChangeableText = "This reservation cannot be changed but you can contact customer support to explore your options."
-        modifyReservationWidget.viewModel.modifyReservationSubject.onNext(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams("", false, webCancelPathURL, true, "(217)-546-7860"))
+        modifyReservationWidget.viewModel.modifyReservationSubject.onNext(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams("", false, webChangePathURL, true, "(217)-546-7860"))
         modifyReservationWidget.changeLearnMoreText.performClick()
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val dialogContentView = alertDialog.findViewById<View>(R.id.dialog_text_content) as TextView
@@ -91,9 +112,9 @@ class FlightItinModifyReservationWidgetTest {
 
     @Test
     fun testCancelLearnMoreClick() {
-        val webChangePathURL = "https://www.expedia.com/flight-change-gds?itinnumber=1157495899343&arl=304697418&cname=United"
+        val webCancelPathURL = "https://www.expedia.com/flight-cancel-exchange?itinnumber=1157495899343&arl=304697418&bookingid=ZBZTFR"
         val notCancellableText = "This reservation cannot be canceled but you can contact customer support to explore your options."
-        modifyReservationWidget.viewModel.modifyReservationSubject.onNext(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webChangePathURL, true, "", false, "(217)-546-7860"))
+        modifyReservationWidget.viewModel.modifyReservationSubject.onNext(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webCancelPathURL, true, "", false, "(217)-546-7860"))
         modifyReservationWidget.cancelLearnMoreText.performClick()
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val dialogContentView = alertDialog.findViewById<TextView>(R.id.dialog_text_content)
@@ -108,6 +129,7 @@ class FlightItinModifyReservationWidgetTest {
         modifyReservationWidget.changeLearnMoreText.performClick()
         var alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         var dialogContentView = alertDialog.findViewById<View>(R.id.dialog_text_content) as TextView
+        val customerSupportButton = alertDialog.findViewById<View>(R.id.dialog_customer_support)
         assertEquals(true, alertDialog.isShowing)
         assertEquals(notChangeableOrCancellableText, dialogContentView.text.toString())
 
@@ -116,5 +138,8 @@ class FlightItinModifyReservationWidgetTest {
         dialogContentView = alertDialog.findViewById<View>(R.id.dialog_text_content) as TextView
         assertEquals(true, alertDialog.isShowing)
         assertEquals(notChangeableOrCancellableText, dialogContentView.text.toString())
+
+        customerSupportButton.performClick()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.Manage.Call.Expedia", mockAnalyticsProvider)
     }
 }

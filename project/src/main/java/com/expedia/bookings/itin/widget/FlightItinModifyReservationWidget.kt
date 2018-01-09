@@ -109,6 +109,10 @@ class FlightItinModifyReservationWidget(context: Context?, attrs: AttributeSet?)
         val dialog = FlightItinModifyReservationDialog.newInstance(content, supportNumber)
         view.setOnClickListener {
             dialog.show(fragmentManager, DIALOG_TAG)
+            when (view) {
+                cancelLearnMoreText -> OmnitureTracking.trackItinFlightCancelLearnMore()
+                changeLearnMoreText -> OmnitureTracking.trackItinFlightChangeLearnMore()
+            }
         }
     }
 }

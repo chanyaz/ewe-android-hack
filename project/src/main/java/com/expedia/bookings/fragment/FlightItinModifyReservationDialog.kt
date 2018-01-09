@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.widget.TextView
 import android.view.View
 import android.widget.Toast
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.Strings
@@ -67,6 +68,7 @@ class FlightItinModifyReservationDialog : DialogFragment() {
                 Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
             }
         }
+        OmnitureTracking.trackItinFlightCallSupport()
     }
 
     private fun setListenerForCustomerSupportView(view: TextView, number : String) {
