@@ -2244,6 +2244,8 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_CHANGE_CANCEL_RULES = "App.Itinerary.Hotel.Manage.Info.Change-Cancel";
 	private static final String ITIN_FLIGHT_LEG_DETAIL_WIDGET_RULES_RESTRICTION = "App.Itinerary.Flight.Manage.AirlineRules";
 	private static final String ITIN_FLIGHT_AIRLINE_CALL_SUPPORT = "App.Itinerary.Flight.Manage.Call.Airline";
+	private static final String ITIN_FLIGHT_CANCEL_FLIGHT = "App.Itinerary.Flight.Manage.Cancel";
+	private static final String ITIN_FLIGHT_CHANGE_FLIGHT = "App.Itinerary.Flight.Manage.Change";
 	private static final String ITIN_FLIGHT_AIRLINE_WEB_SUPPORT = "App.Itinerary.Flight.Manage.Support.Airline";
 
 	private static final String ITIN_HOTEL_CALL_HOTEL = "App.Itinerary.Hotel.Manage.Call.Hotel";
@@ -2490,6 +2492,16 @@ public class OmnitureTracking {
 
 	public static void trackFlightItinAirlineSupportCallClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_AIRLINE_CALL_SUPPORT);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackFlightItinCancelFlight() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CANCEL_FLIGHT);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackFlightItinChangeFlight() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHANGE_FLIGHT);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 

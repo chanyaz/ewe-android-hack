@@ -10,6 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.fragment.FlightItinModifyReservationDialog
 import com.expedia.bookings.itin.vm.FlightItinModifyReservationViewModel
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
@@ -69,10 +70,12 @@ class FlightItinModifyReservationWidget(context: Context?, attrs: AttributeSet?)
     }
 
     private fun onChangeReservationClick(param: FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams) = changeReservationButton.setOnClickListener {
+        OmnitureTracking.trackFlightItinChangeFlight()
         context.startActivity(buildWebViewIntent(R.string.itin_flight_modify_widget_change_reservation_text, param.changeReservationURL).intent)
     }
 
     private fun onCancelReservationClick(param: FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams) = cancelReservationButton.setOnClickListener {
+        OmnitureTracking.trackFlightItinCancelFlight()
         context.startActivity(buildWebViewIntent(R.string.itin_flight_modify_widget_cancel_reservation_text, param.cancelReservationURL).intent)
     }
 

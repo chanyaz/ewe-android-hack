@@ -4,6 +4,7 @@ import android.app.Activity
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightItinModifyReservationViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -52,6 +53,28 @@ class FlightItinModifyReservationWidgetTest {
         assertEquals(modifyReservationWidget.changeReservationButton.isEnabled, false)
         assertEquals(modifyReservationWidget.cancelLearnMoreText.visibility, View.VISIBLE)
         assertEquals(modifyReservationWidget.changeLearnMoreText.visibility, View.VISIBLE)
+    }
+
+    @Test
+    fun testOmnitureForCancelFlight(){
+        val webChangePathURL = "https://www.expedia.com/flight-change-gds?itinnumber=1157495899343&arl=304697418&cname=United"
+        val webCancelPathURL = "https://www.expedia.com/flight-cancel-exchange?itinnumber=1157495899343&arl=304697418&bookingid=ZBZTFR"
+        val params = FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webChangePathURL, true, webCancelPathURL, true, "(217)-546-7860")
+        modifyReservationWidget.viewModel.modifyReservationSubject.onNext(params)
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        modifyReservationWidget.cancelReservationButton.performClick()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.Manage.Cancel", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOmnitureForChangeFlight(){
+        val webChangePathURL = "https://www.expedia.com/flight-change-gds?itinnumber=1157495899343&arl=304697418&cname=United"
+        val webCancelPathURL = "https://www.expedia.com/flight-cancel-exchange?itinnumber=1157495899343&arl=304697418&bookingid=ZBZTFR"
+        val params = FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webChangePathURL, true, webCancelPathURL, true, "(217)-546-7860")
+        modifyReservationWidget.viewModel.modifyReservationSubject.onNext(params)
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        modifyReservationWidget.changeReservationButton.performClick()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.Manage.Change", mockAnalyticsProvider)
     }
 
     @Test
