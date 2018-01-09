@@ -38,6 +38,7 @@
     <color name="lx_ripple_color">#53a0d3</color>
     <color name="lx_secondary_color_disabled">#032E4D</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
+    <color name="lx_traveler_detail_screen_placeholder">#757575</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#7ABC00</color>

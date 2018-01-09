@@ -293,6 +293,7 @@
     <color name="lx_ticket_summary_color">@color/gray700</color>
 
     <color name="lx_checkout_text_color">@color/gray700</color>
+    <color name="lx_traveler_detail_screen_placeholder">#9E9E9E</color>
 
     <color name="lx_confirmation_email_text_color">@color/gray300</color>
     <color name="search_dropdown_disabled_stroke">@color/gray300</color>
