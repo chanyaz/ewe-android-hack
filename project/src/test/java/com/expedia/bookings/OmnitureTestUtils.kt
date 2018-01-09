@@ -30,6 +30,12 @@ class OmnitureTestUtils : ADMS_Measurement() {
         }
 
         @JvmStatic
+        fun assertLinkTracked(matcher: Matcher<Map<String, Any>>, analyticsProvider: AnalyticsProvider) {
+            Mockito.verify(analyticsProvider).trackAction(Mockito.anyString(),
+                    mapThat(matcher))
+        }
+
+        @JvmStatic
         fun assertLinkTracked(linkName: String, rfrrId: String, mockAnalyticsProvider: AnalyticsProvider) {
             val expectedData = mapOf(
                     "&&linkType" to "o",
