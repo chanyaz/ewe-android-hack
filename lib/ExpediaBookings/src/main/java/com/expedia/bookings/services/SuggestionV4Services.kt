@@ -7,6 +7,7 @@ import com.expedia.bookings.data.SuggestionV4Response
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -148,5 +149,11 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
     private fun suggestV4(query: String, suggestType: Int, isDest: Boolean, features: String, lineOfBusiness: String,
                           maxResults: Int? = null, guid: String? = null, abTest: String? = null): Observable<SuggestionV4Response> {
         return suggestApi.suggestV4(query, suggestType, isDest, features, lineOfBusiness, maxResults, guid, abTest)
+    }
+
+    fun essDomainResolution(): Observable<ResponseBody> {
+        return suggestApi.resolveEssDomain()
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn);
     }
 }
