@@ -960,7 +960,7 @@
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">สวัสดีค่ะ {firstname} ไปสำรวจสถานที่ท่องเที่ยวและกิจกรรมยอดนิยมใกล้โรงแรมของคุณกัน</string>
     <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
-    <string name="flight_notification_delayed_flight_TEMPLATE">เที่ยวบินไป {arrival airport} ของคุณล่าช้า เวลาออกเดินทางใหม่คือ {departure time}</string>
+    <string name="flight_notification_delayed_flight_TEMPLATE">เที่ยวบินไป {arrival_airport} ของคุณล่าช้า เวลาออกเดินทางใหม่คือ {departure_time}</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">แผนการเดินทาง</string>

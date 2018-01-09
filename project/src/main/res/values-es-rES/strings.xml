@@ -960,7 +960,7 @@
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">{firstname}, echa un vistazo a los puntos de interés y las actividades más populares cerca de tu hotel.</string>
     <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
-    <string name="flight_notification_delayed_flight_TEMPLATE">Tu vuelo a {arrival airport} se ha retrasado y ahora sale a las {departure time}.</string>
+    <string name="flight_notification_delayed_flight_TEMPLATE">Tu vuelo a {arrival_airport} se ha retrasado y ahora sale a las {departure_time}.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario</string>

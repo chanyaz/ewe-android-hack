@@ -960,7 +960,7 @@
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">{firstname} 様、ホテル付近の人気の現地ツアーを今すぐチェックしましょう !</string>
     <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
-    <string name="flight_notification_delayed_flight_TEMPLATE">{arrival airport}行きのフライトが遅れています。最新の出発予定時刻は {departure time} です。</string>
+    <string name="flight_notification_delayed_flight_TEMPLATE">{arrival_airport}行きのフライトが遅れています。最新の出発予定時刻は {departure_time} です。</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">旅程</string>
