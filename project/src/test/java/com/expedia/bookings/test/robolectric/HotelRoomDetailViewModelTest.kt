@@ -747,7 +747,7 @@ class HotelRoomDetailViewModelTest {
         roomResponse.currentAllotment = "1"
         val viewModel = createViewModel(roomResponse, 0)
 
-        assertEquals("1 Room Left!", viewModel.roomLeftString)
+        assertEquals("We have 1 room left!", viewModel.roomLeftString)
     }
 
     @Test
@@ -756,7 +756,7 @@ class HotelRoomDetailViewModelTest {
         roomResponse.currentAllotment = "5"
         val viewModel = createViewModel(roomResponse, 0)
 
-        assertEquals("5 Rooms Left", viewModel.roomLeftString)
+        assertEquals("We have 5 rooms left", viewModel.roomLeftString)
     }
 
     private fun createRoomResponse(): HotelOffersResponse.HotelRoomResponse {

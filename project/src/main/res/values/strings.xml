@@ -2543,10 +2543,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">%d Room Left!</item>
-        <item quantity="two">%d Rooms Left</item>
-        <item quantity="many">%d Rooms Left</item>
-        <item quantity="other">%d Rooms Left</item>
+        <item quantity="one">We have %d room left!</item>
+        <item quantity="two">We have %d rooms left</item>
+        <item quantity="many">We have %d rooms left</item>
+        <item quantity="other">We have %d rooms left</item>
     </plurals>
     <!-- No of filters applied on packages -->
     <plurals name="no_of_filters_applied_TEMPLATE">

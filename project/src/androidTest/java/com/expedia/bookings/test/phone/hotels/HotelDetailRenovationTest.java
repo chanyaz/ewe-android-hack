@@ -59,6 +59,6 @@ public class HotelDetailRenovationTest extends HotelTestCase {
 					HotelInfoSiteScreen.descendantOfSameGroupRoomWithBed("pay_later_room_0", "2 double")
 				))
 			))
-		)).check(matches(withText("1 Room Left!")));
+		)).check(matches(withText("We have 1 room left!")));
 	}
 }
