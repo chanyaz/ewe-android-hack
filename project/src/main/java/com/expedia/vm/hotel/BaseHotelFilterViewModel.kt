@@ -115,6 +115,87 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
+    val oneFilterObserver: Observer<Unit> = endlessObserver {
+        if (!userFilterChoices.amenity.one) {
+            userFilterChoices.amenity.one = true
+//            trackHotelRefineRating("1")
+        } else {
+            userFilterChoices.amenity.one = false
+        }
+        updateFilterCount()
+        handleFiltering()
+    }
+    val twoFilterObserver: Observer<Unit> = endlessObserver {
+        if (!userFilterChoices.amenity.two) {
+            userFilterChoices.amenity.two = true
+//            trackHotelRefineRating("1")
+        } else {
+            userFilterChoices.amenity.two = false
+        }
+        updateFilterCount()
+        handleFiltering()
+    }
+    val threeFilterObserver: Observer<Unit> = endlessObserver {
+        if (!userFilterChoices.amenity.three) {
+            userFilterChoices.amenity.three = true
+//            trackHotelRefineRating("1")
+        } else {
+            userFilterChoices.amenity.three = false
+        }
+        updateFilterCount()
+        handleFiltering()
+    }
+    val fourFilterObserver: Observer<Unit> = endlessObserver {
+        if (!userFilterChoices.amenity.four) {
+            userFilterChoices.amenity.four = true
+//            trackHotelRefineRating("1")
+        } else {
+            userFilterChoices.amenity.four = false
+        }
+        updateFilterCount()
+        handleFiltering()
+    }
+    val fiveFilterObserver: Observer<Unit> = endlessObserver {
+        if (!userFilterChoices.amenity.five) {
+            userFilterChoices.amenity.five = true
+//            trackHotelRefineRating("1")
+        } else {
+            userFilterChoices.amenity.five = false
+        }
+        updateFilterCount()
+        handleFiltering()
+    }
+    val sixFilterObserver: Observer<Unit> = endlessObserver {
+        if (!userFilterChoices.amenity.six) {
+            userFilterChoices.amenity.six = true
+//            trackHotelRefineRating("1")
+        } else {
+            userFilterChoices.amenity.six = false
+        }
+        updateFilterCount()
+        handleFiltering()
+    }
+    val sevenFilterObserver: Observer<Unit> = endlessObserver {
+        if (!userFilterChoices.amenity.seven) {
+            userFilterChoices.amenity.seven = true
+//            trackHotelRefineRating("1")
+        } else {
+            userFilterChoices.amenity.seven = false
+        }
+        updateFilterCount()
+        handleFiltering()
+    }
+    val eightFilterObserver: Observer<Unit> = endlessObserver {
+        if (!userFilterChoices.amenity.eight) {
+            userFilterChoices.amenity.eight = true
+//            trackHotelRefineRating("1")
+        } else {
+            userFilterChoices.amenity.eight = false
+        }
+        updateFilterCount()
+        handleFiltering()
+    }
+
     val priceRangeChangedObserver = endlessObserver<Pair<Int, Int>> { minMaxPair ->
         userFilterChoices.minPrice = minMaxPair.first
         userFilterChoices.maxPrice = minMaxPair.second
@@ -148,14 +229,14 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     }
 
     val selectAmenity: Observer<Int> = endlessObserver { amenityId ->
-        if (userFilterChoices.amenity.isEmpty() || !userFilterChoices.amenity.contains(amenityId)) {
-            userFilterChoices.amenity.add(amenityId)
-        } else {
-            userFilterChoices.amenity.remove(amenityId)
-        }
-
-        updateFilterCount()
-        handleFiltering()
+//        if (userFilterChoices.amenity.isEmpty() || !userFilterChoices.amenity.contains(amenityId)) {
+//            userFilterChoices.amenity.add(amenityId)
+//        } else {
+//            userFilterChoices.amenity.remove(amenityId)
+//        }
+//
+//        updateFilterCount()
+//        handleFiltering()
     }
 
     val selectNeighborhood = endlessObserver<HotelSearchResponse.Neighborhood> { neighborhood ->
@@ -277,7 +358,8 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.name = ""
         userFilterChoices.minPrice = 0
         userFilterChoices.maxPrice = 0
-        userFilterChoices.amenity = HashSet<Int>()
+//        userFilterChoices.amenity = HashSet<Int>()
+        userFilterChoices.amenity = UserFilterChoices.Amenities()
         userFilterChoices.neighborhoods = HashSet<HotelSearchResponse.Neighborhood>()
     }
 }

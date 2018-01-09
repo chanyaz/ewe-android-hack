@@ -245,7 +245,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
             animateMapCarouselOut()
         }
-
         mapWidget.newResults(response, updateBounds = true)
         adapter.resultsSubject.onNext(response)
         if (ExpediaBookingApp.isDeviceShitty() && response.hotelList.size <= 3 && previousWasList) {

@@ -38,6 +38,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     val optionLabel: TextView by bindView(R.id.option_label)
     val hotelSortOptionsView: HotelSortOptionsView by bindView(R.id.hotel_sort_options)
     val starRatingView: HotelStarRatingFilterView by bindView(R.id.star_rating_container)
+    val amenityView: HotelAmenityFilterView by bindView(R.id.amenities_filter_container)
     val hotelNameFilterView: HotelNameFilterView by bindView(R.id.hotel_filter_name_view)
 
     private val priceHeader: View by bindView(R.id.price)
@@ -117,6 +118,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         }
 
         resetStars()
+        resetAmenities()
     }
 
     open fun shakeForError() {
@@ -142,12 +144,14 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         neighborhoodView.neighborhoodOffSubject.subscribe(vm.deselectNeighborhood)
 
         bindStarRating(vm)
+        bindAmenities(vm)
 
         hotelNameFilterView.filterNameChangedSubject.subscribe(vm.filterHotelNameObserver)
 
         vm.finishClear.subscribe {
             hotelNameFilterView.reset()
             resetStars()
+            resetAmenities()
 
             filterVipView.reset()
             neighborhoodView.clear()
@@ -199,6 +203,21 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
 
     fun resetStars() {
         starRatingView.reset()
+    }
+
+    private fun bindAmenities(vm: BaseHotelFilterViewModel) {
+        amenityView.oneSubject.subscribe(vm.oneFilterObserver)
+        amenityView.twoSubject.subscribe(vm.twoFilterObserver)
+        amenityView.threeSubject.subscribe(vm.threeFilterObserver)
+        amenityView.fourSubject.subscribe(vm.fourFilterObserver)
+        amenityView.fiveSubject.subscribe(vm.fiveFilterObserver)
+        amenityView.sixSubject.subscribe(vm.sixFilterObserver)
+        amenityView.sevenSubject.subscribe(vm.sevenFilterObserver)
+        amenityView.eightSubject.subscribe(vm.eightFilterObserver)
+    }
+
+    fun resetAmenities() {
+        amenityView.reset()
     }
 
     fun show() {

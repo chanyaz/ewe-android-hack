@@ -12,7 +12,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
                              var name: String = "",
                              var minPrice: Int = 0,
                              var maxPrice: Int = 0,
-                             var amenity: HashSet<Int> = HashSet<Int>(),
+                             var amenity: Amenities = Amenities(),
                              var neighborhoods: HashSet<HotelSearchResponse.Neighborhood> = HashSet<HotelSearchResponse.Neighborhood>()) {
 
     fun filterCount(): Int {
@@ -21,7 +21,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
         if (isVipOnlyAccess) count++
         if (name.isNotEmpty()) count++
         if (neighborhoods.isNotEmpty()) count += neighborhoods.size
-        if (amenity.isNotEmpty()) count += amenity.size
+//        if (amenity.isNotEmpty()) count += amenity.size
         if (minPrice != 0 || maxPrice != 0) count++
         return count
     }
@@ -39,7 +39,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
         filterChoices.name = name
         filterChoices.minPrice = minPrice
         filterChoices.maxPrice = maxPrice
-        filterChoices.amenity = HashSet<Int>(amenity)
+//        filterChoices.amenity = HashSet<Int>(amenity)
         filterChoices.neighborhoods = HashSet<HotelSearchResponse.Neighborhood>(neighborhoods)
         return filterChoices
     }
@@ -86,6 +86,38 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
                 if (ratingList.contains(40)) ratings.four = true
                 if (ratingList.contains(50)) ratings.five = true
                 return ratings
+            }
+        }
+    }
+
+    data class Amenities(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false, var six: Boolean = false, var seven: Boolean = false, var eight: Boolean = false) {
+        fun getAmenitiesParamsAsList(): List<Int> {
+            val ratings = ArrayList<Int>()
+            if (one) ratings.add(10)
+            if (two) ratings.add(20)
+            if (three) ratings.add(30)
+            if (four) ratings.add(40)
+            if (five) ratings.add(50)
+            if (six) ratings.add(60)
+            if (seven) ratings.add(70)
+            if (eight) ratings.add(80)
+
+            return ratings
+        }
+
+        companion object {
+            @JvmStatic
+            fun fromParamList(ratingList: List<Int>) : Amenities {
+                val amenities = Amenities()
+                if (ratingList.contains(10)) amenities.one = true
+                if (ratingList.contains(20)) amenities.two = true
+                if (ratingList.contains(30)) amenities.three = true
+                if (ratingList.contains(40)) amenities.four = true
+                if (ratingList.contains(50)) amenities.five = true
+                if (ratingList.contains(60)) amenities.six = true
+                if (ratingList.contains(70)) amenities.seven = true
+                if (ratingList.contains(80)) amenities.eight = true
+                return amenities
             }
         }
     }

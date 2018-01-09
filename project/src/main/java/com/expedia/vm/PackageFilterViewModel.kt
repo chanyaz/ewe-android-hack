@@ -145,17 +145,17 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
     }
 
     private fun filterAmenity(hotel: Hotel): Boolean {
-        if (userFilterChoices.amenity.isEmpty()) return true
+//        if (userFilterChoices.amenity.isEmpty()) return true
         if (hotel.amenities == null) return false
         if (hotel.amenityFilterIdList == null) {
             hotel.amenityFilterIdList = mapAmenitiesToFilterId(hotel.amenities)
         }
 
-        for (i in userFilterChoices.amenity) {
-            if (!hotel.amenityFilterIdList.contains(i)) {
-                return false
-            }
-        }
+//        for (i in userFilterChoices.amenity) {
+//            if (!hotel.amenityFilterIdList.contains(i)) {
+//                return false
+//            }
+//        }
         return true
     }
 

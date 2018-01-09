@@ -2696,6 +2696,10 @@
     <string name="AmenityRestaurant">Dining</string>
     <!-- Spa on-site amenity -->
     <string name="AmenitySpa">Spa</string>
+    <!-- Air conditioning amenity -->
+    <string name="AmenityAC">Air Conditioning</string>
+    <!-- All inclusive amenity -->
+    <string name="AmenityAllInclusive">All Inclusive</string>
     <!-- Whirlpool bath amenity -->
     <string name="AmenityWhirlpoolBath">Whirlpool</string>
     <!-- Breakfast amenity -->
