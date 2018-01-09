@@ -40,7 +40,6 @@ dependencies {
     }
     compile 'com.expedia:svg-android:1.0.0'
     compile project(':lib:AccountLib')
-//    compile 'com.mobiata:android-utils:1.2.2'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
@@ -119,11 +118,11 @@ dependencies {
         transitive = false
     }
 
-    def stethoVersion = '1.4.2'
+    def stethoVersion = '1.5.0'
     debugCompile "com.facebook.stetho:stetho:${stethoVersion}"
     debugCompile "com.facebook.stetho:stetho-okhttp3:${stethoVersion}"
 
-    def chuckVersion='1.0.4'
+    def chuckVersion='1.1.0'
     debugCompile ("com.readystatesoftware.chuck:library:${chuckVersion}"){
         exclude group: 'com.android.support'
     }
