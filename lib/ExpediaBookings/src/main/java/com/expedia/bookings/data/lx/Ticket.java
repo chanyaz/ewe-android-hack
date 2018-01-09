@@ -14,6 +14,7 @@ public class Ticket implements Comparable<Ticket> {
 	// Count is manipulated from the ticket picker. But this is send back in create trip/ checkout api response.
 	public int count;
 	public List<LXPriceBreakdownItem> priceBreakdownItemList;
+	public List<LxTicketPrices> prices;
 
 	public LXPriceBreakdownItem getBreakdownForType(PriceBreakdownItemType type) {
 		for (LXPriceBreakdownItem lxPriceBreakdownItem : priceBreakdownItemList) {
@@ -22,6 +23,15 @@ public class Ticket implements Comparable<Ticket> {
 			}
 		}
 		return null;
+	}
+
+	public static class LxTicketPrices {
+		public String originalPrice;
+		public String cost;
+		public int travellerNum;
+		public String amount;
+		public String price;
+		public Money money;
 	}
 
 	@Override

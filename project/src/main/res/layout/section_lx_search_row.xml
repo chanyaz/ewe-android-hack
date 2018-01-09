@@ -228,6 +228,16 @@
                 android:textColor="@color/result_cells_gray_text"
                 style="@style/Core.Text.300"/>
 
+            <TextView
+                android:id="@+id/activity_vbp_lowest_price_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:gravity="right"
+                android:includeFontPadding="false"
+                android:textColor="@color/result_cells_gray_text"
+                style="@style/Core.Text.300"/>
+            
         </LinearLayout>
 
         <View

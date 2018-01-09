@@ -140,9 +140,16 @@ public class LXOffersListAdapter extends BaseAdapter {
 			List<String> priceSummaries = new ArrayList<String>();
 			ticketSelectionWidget.bind(offer, isGroundTransport);
 
+			Money ticketPerTraveller;
 			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
+				if (ticket.prices == null) {
+					ticketPerTraveller = ticket.money;
+				}
+				else {
+					ticketPerTraveller = ticket.prices.get(0).money;
+				}
 				priceSummaries.add(String.format("%s %s",
-					ticket.money.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
+						ticketPerTraveller.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
 					LXDataUtils.ticketDisplayName(itemView.getContext(), ticket.code)));
 			}
 			String priceSummaryText = Strings.joinWithoutEmpties(", ", priceSummaries);

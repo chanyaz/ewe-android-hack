@@ -150,6 +150,9 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		@InjectView(R.id.activity_discount_percentage)
 		TextView discountPercentageView;
 
+		@InjectView(R.id.activity_vbp_lowest_price_text)
+		TextView activityVbpLowestPriceText;
+
 		private boolean lxModTestEnabled;
 
 		@Override
@@ -177,6 +180,13 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			// Remove the extra margin that card view adds for pre-L devices.
 			cardView.setPreventCornerOverlap(false);
 			activityTitle.setText(activity.title);
+			activityVbpLowestPriceText.setText(activity.vbpLowestPriceText);
+			if (activity.vbpLowestPriceText == null) {
+				activityVbpLowestPriceText.setVisibility(View.GONE);
+			}
+			else {
+				activityVbpLowestPriceText.setVisibility(View.VISIBLE);
+			}
 			LXDataUtils.bindDuration(itemView.getContext(), activity.duration, activity.isMultiDuration, duration);
 
 			if (FeatureToggleUtil.isFeatureEnabled(itemView.getContext(), R.string.preference_enable_lx_srp_redesign)) {

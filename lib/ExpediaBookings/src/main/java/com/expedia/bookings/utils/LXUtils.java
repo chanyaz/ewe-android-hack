@@ -17,7 +17,17 @@ public class LXUtils {
 		}
 
 		for (Ticket ticket : selectedTickets) {
-			BigDecimal amountDueForTickets = ticket.money.getAmount().multiply(BigDecimal.valueOf(ticket.count));
+			BigDecimal amountDueForTickets = BigDecimal.ZERO;
+			if (ticket.prices == null || ticket.count == 0) {
+				amountDueForTickets = ticket.money.getAmount().multiply(BigDecimal.valueOf(ticket.count));
+			}
+			else {
+				for (Ticket.LxTicketPrices price : ticket.prices) {
+					if (ticket.count == price.travellerNum) {
+						amountDueForTickets = price.money.getAmount().multiply(BigDecimal.valueOf(price.travellerNum));
+					}
+				}
+			}
 			totalMoney.setAmount(totalMoney.getAmount().add(amountDueForTickets));
 		}
 

@@ -40,6 +40,7 @@ public class LXActivity {
 	public int recommendationScore;
 	public Money mipOriginalPrice;
 	public Money mipPrice;
+	public String vbpLowestPriceText;
 
 	public List<LXImage> getImages() {
 		List<LXImage> images = new ArrayList<>();

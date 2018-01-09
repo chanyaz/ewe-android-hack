@@ -53,6 +53,7 @@ public class LXTicketPicker extends LinearLayout {
 				.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
 				.format());
 		setTicketCount();
+		bind(ticket, offerId, ticket.count, isGroundTransport);
 	}
 
 	@OnClick(R.id.ticket_remove)
@@ -63,6 +64,7 @@ public class LXTicketPicker extends LinearLayout {
 				.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
 				.format());
 		setTicketCount();
+		bind(ticket, offerId, ticket.count, isGroundTransport);
 	}
 
 	public void trackAddOrRemove(String type) {
@@ -91,16 +93,30 @@ public class LXTicketPicker extends LinearLayout {
 		this.isGroundTransport = isGroundTransport;
 
 		String ticketDetailsText = null;
+		Money perTicketPrice = null;
+		if (ticket.prices == null) {
+			perTicketPrice = ticket.money;
+		}
+		else if (defaultCount == 0) {
+			perTicketPrice = ticket.prices.get(0).money;
+		}
+		else {
+			for (Ticket.LxTicketPrices price : ticket.prices) {
+				if (defaultCount == price.travellerNum) {
+					perTicketPrice = price.money;
+				}
+			}
+		}
 		if (Strings.isNotEmpty(ticket.restrictionText)) {
 			ticketDetailsText = String
-				.format(getResources().getString(R.string.ticket_details_template), ticket.money.getFormattedMoney(
-						Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
-					LXDataUtils.ticketDisplayName(getContext(), ticket.code), ticket.restrictionText);
+					.format(getResources().getString(R.string.ticket_details_template), perTicketPrice.getFormattedMoney(
+							Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
+							LXDataUtils.ticketDisplayName(getContext(), ticket.code), ticket.restrictionText);
 		}
 		else {
 			ticketDetailsText = String
 				.format(getResources().getString(R.string.ticket_details_no_restriction_TEMPLATE),
-					ticket.money.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
+						perTicketPrice.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
 					LXDataUtils.ticketDisplayName(getContext(), ticket.code));
 		}
 		ticketDetails.setText(ticketDetailsText);
@@ -125,6 +141,10 @@ public class LXTicketPicker extends LinearLayout {
 			ticketRemove.setEnabled(false);
 			ticketRemove.setColorFilter(disabledTicketSelectorColor,
 				PorterDuff.Mode.SRC_IN);
+		}
+		else if (ticket.prices != null && ticket.count == ticket.prices.size()) {
+			ticketAdd.setEnabled(false);
+			ticketAdd.setColorFilter(disabledTicketSelectorColor, PorterDuff.Mode.SRC_IN);
 		}
 		else if (ticket.count == MAX_TICKET_COUNT) {
 			ticketAdd.setEnabled(false);
