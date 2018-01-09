@@ -2,6 +2,7 @@ package com.expedia.bookings.hotel.map
 
 import android.content.Context
 import android.location.Location
+import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -217,7 +218,9 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
 
     private fun animateBounds() {
         currentBounds?.let { bounds ->
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(currentBounds, DEFAULT_ZOOM))
+            if (ViewCompat.isLaidOut(mapView)) {
+                googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(currentBounds, DEFAULT_ZOOM))
+            }
 
             val center = bounds.center
             val location = Location("currentRegion")
