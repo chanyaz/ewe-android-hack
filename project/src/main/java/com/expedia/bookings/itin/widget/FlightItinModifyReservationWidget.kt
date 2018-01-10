@@ -36,26 +36,22 @@ class FlightItinModifyReservationWidget(context: Context?, attrs: AttributeSet?)
     }
 
     private fun setUpWidget(param: FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams) {
-        if (!isValidForChange(param) && !isValidForCancel(param)) {
+        val isChangeable = param.isChangeable && Strings.isNotEmpty(param.changeReservationURL)
+        val isCancellable = param.isCancellable && Strings.isNotEmpty(param.cancelReservationURL)
+        if (!isChangeable && !isCancellable) {
             setUpDisabledView(changeReservationButton, changeLearnMoreText)
             setUpDisabledView(cancelReservationButton, cancelLearnMoreText)
             setUpChangeOrCancelLearnMoreClick(param.customerSupportNumber)
         } else {
-            if (!isValidForChange(param)) {
+            if (!isChangeable) {
                 setUpDisabledView(changeReservationButton, changeLearnMoreText)
                 setUpChangeLearnMoreClick(param.customerSupportNumber)
-            } else if (!isValidForCancel(param)) {
+            } else if (!isCancellable) {
                 setUpDisabledView(cancelReservationButton, cancelLearnMoreText)
                 setUpCancelLearnMoreClick(param.customerSupportNumber)
             }
         }
     }
-
-    private fun isValidForCancel(param: FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams) =
-            param.isCancellable || Strings.isNotEmpty(param.cancelReservationURL)
-
-    private fun isValidForChange(param: FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams) =
-            param.isChangeable || Strings.isNotEmpty(param.changeReservationURL)
 
     private fun setUpDisabledView(button: Button, learnMoreView: TextView) {
         button.alpha = 0.4f

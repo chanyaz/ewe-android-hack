@@ -56,6 +56,13 @@ class FlightItinModifyReservationWidgetTest {
         assertEquals(modifyReservationWidget.changeReservationButton.isEnabled, false)
         assertEquals(modifyReservationWidget.cancelLearnMoreText.visibility, View.VISIBLE)
         assertEquals(modifyReservationWidget.changeLearnMoreText.visibility, View.VISIBLE)
+
+        modifyReservationWidget.viewModel.modifyReservationSubject.onNext(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webChangePathURL, false, webCancelPathURL, false, "(217)-546-7860"))
+        modifyReservationWidget.viewModel.modifyReservationSubject.onNext(params)
+        assertEquals(modifyReservationWidget.cancelReservationButton.isEnabled, false)
+        assertEquals(modifyReservationWidget.changeReservationButton.isEnabled, false)
+        assertEquals(modifyReservationWidget.cancelLearnMoreText.visibility, View.VISIBLE)
+        assertEquals(modifyReservationWidget.changeLearnMoreText.visibility, View.VISIBLE)
     }
 
     @Test
