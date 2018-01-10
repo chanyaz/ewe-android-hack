@@ -11,14 +11,12 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.HotelValueAdd
 import com.expedia.bookings.data.hotel.ValueAddsEnum
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.extension.isShowAirAttached
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelUtils
@@ -69,11 +67,9 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
 
     val strikeThroughString: String? get() = createStrikeThroughString()
 
+    val showPerNight: Boolean get() = !isPayLater && !isTotalPrice
+
     val priceString: String? get() = createPriceString()
-
-    val taxFeeDescriptorString: String? get() = createTaxFeeDescriptorString()
-
-    val pricePerDescriptorString: String? get() = createPricePerDescriptorString()
 
     val hotelRoomRowButtonString: String get() = if (isPackage) context.getString(R.string.book_room_button_text) else context.getString(R.string.select)
 
@@ -221,35 +217,6 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
             } else {
                 return moneyToShowUser.formattedMoney
             }
-        }
-    }
-
-    private fun createTaxFeeDescriptorString(): String? {
-        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
-        if (bucketedToShowPriceDescriptorProminence) {
-            val priceType = hotelRoomResponse.rateInfo.chargeableRateInfo.getUserPriceType()
-            return when (priceType) {
-                HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.getString(R.string.total_including_taxes_fees)
-                HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> context.getString(R.string.excluding_taxes_fees)
-                else -> null
-            }
-        } else {
-            return null
-        }
-    }
-
-    private fun createPricePerDescriptorString(): String? {
-        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
-        if (!isPayLater && bucketedToShowPriceDescriptorProminence) {
-            val priceType = hotelRoomResponse.rateInfo?.chargeableRateInfo?.getUserPriceType()
-            return when (priceType) {
-                HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.getString(R.string.total_stay)
-                else -> context.getString(R.string.per_night)
-            }
-        } else if (!isPayLater && !isTotalPrice) {
-            return context.getString(R.string.per_night)
-        } else {
-            return null
         }
     }
 

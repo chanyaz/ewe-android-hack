@@ -155,16 +155,10 @@
                 style="@style/Core.Text.200.LightColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/primary_color" />
+                android:textColor="?attr/primary_color"
+                android:text="@string/per_night" />
 
         </LinearLayout>
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/tax_fee_descriptor"
-            style="@style/Core.Text.100.LightColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-2dp" />
 
         <com.expedia.bookings.widget.HotelRoomRateActionButton
             android:id="@+id/hotel_room_row_button"

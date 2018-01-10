@@ -44,7 +44,6 @@ open class HotelViewModel(private val context: Context) {
     val priceToShowUsers: Float get() = hotel.lowRateInfo?.priceToShowUsers ?: -1f
     val pricePerNight: CharSequence get() = priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage)
     val pricePerNightColor: Int get() = ContextCompat.getColor(context, getPricePerNightTextColor())
-    val pricePerDescriptor: String? get() = getPricePerDescriptorString()
 
     val topAmenityTitle: String get() = getTopAmenityTitle(resources)
     val loyaltyAvailable: Boolean get() = hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false
@@ -286,20 +285,6 @@ open class HotelViewModel(private val context: Context) {
                     resources.getString(R.string.mobile_exclusive))
         }
         return null
-    }
-
-    private fun getPricePerDescriptorString(): String? {
-        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
-        val priceType = hotel.lowRateInfo.getUserPriceType()
-        if (bucketedToShowPriceDescriptorProminence) {
-            return when (priceType) {
-                HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.getString(R.string.total_stay)
-                HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> context.getString(R.string.per_night)
-                else -> null
-            }
-        } else {
-            return null
-        }
     }
 
     private fun getTopAmenityTitle(resources: Resources): String {

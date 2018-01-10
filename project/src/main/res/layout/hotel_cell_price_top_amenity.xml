@@ -22,12 +22,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/price_per_descriptor"
-            style="@style/Core.Text.200"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
     </LinearLayout>
 
     <com.expedia.bookings.widget.TextView

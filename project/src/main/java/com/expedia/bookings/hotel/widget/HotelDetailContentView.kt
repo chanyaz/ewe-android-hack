@@ -96,7 +96,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     @VisibleForTesting val searchInfo: TextView by bindView(R.id.hotel_search_info)
     private val searchInfoGuests: TextView by bindView(R.id.hotel_search_info_guests)
     private val earnMessage: TextView by bindView(R.id.earn_message)
-    private val taxFeeDescriptor: TextView by bindView(R.id.tax_fee_descriptor)
 
     private val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     private val noGuestRating: TextView by bindView(R.id.no_guest_rating)
@@ -239,7 +238,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.searchInfoTextColorObservable.subscribeTextColor(searchInfo)
         vm.searchInfoGuestsObservable.subscribeText(searchInfoGuests)
         vm.perNightVisibility.subscribeVisibility(pricePerDescriptor)
-        vm.pricePerDescriptorObservable.subscribeText(pricePerDescriptor)
 
         vm.hotelPriceContentDesc.subscribeContentDescription(hotelPriceContainer)
 
@@ -274,8 +272,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.promoMessageObservable.subscribeText(promoMessage)
         vm.earnMessageObservable.subscribeText(earnMessage)
         vm.earnMessageVisibilityObservable.subscribeVisibility(earnMessage)
-        vm.taxFeeDescriptorObservable.subscribeText(taxFeeDescriptor)
-        vm.taxFeeDescriptorVisibilityObservable.subscribeVisibility(taxFeeDescriptor)
 
         vm.hotelMessagingContainerVisibility.subscribeVisibility(hotelMessagingContainer)
 

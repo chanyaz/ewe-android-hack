@@ -621,82 +621,21 @@ class HotelRoomDetailViewModelTest {
     }
 
     @Test
-    fun testTaxFeeDescriptorStringNotBucketedToProminence() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
-        val roomResponse = createRoomResponse()
-        val viewModel = createViewModel(roomResponse, 1)
-
-        assertNull(viewModel.taxFeeDescriptorString)
-    }
-
-    @Test
-    fun testPerNightTaxFeeDescriptorString() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
-        val roomResponse = createRoomResponse()
-        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "PerNightRateNoTaxes"
-        val viewModel = createViewModel(roomResponse, 1)
-
-        assertEquals("Excluding taxes and fees", viewModel.taxFeeDescriptorString)
-    }
-
-    @Test
-    fun testTotalTaxFeeDescriptorString() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
-        val roomResponse = createRoomResponse()
-        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "RateForWholeStayWithTaxes"
-        val viewModel = createViewModel(roomResponse, 1)
-
-        assertEquals("Total including taxes and fees", viewModel.taxFeeDescriptorString)
-    }
-
-    @Test
-    fun testPricePerDescriptorStringPayLater() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
-        val roomResponse = createRoomResponse()
-        roomResponse.isPayLater = true
-        val viewModel = createViewModel(roomResponse, -1)
-
-        assertNull(viewModel.pricePerDescriptorString)
-    }
-
-    @Test
-    fun testPricePerDescriptorStringNotBucketedToProminenceTotalPrice() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+    fun testNotShowPerNightForTotal() {
         val roomResponse = createRoomResponse()
         roomResponse.rateInfo.chargeableRateInfo.userPriceType = "RateForWholeStayWithTaxes"
         val viewModel = createViewModel(roomResponse, -1)
 
-        assertNull(viewModel.pricePerDescriptorString)
+        assertFalse(viewModel.showPerNight)
     }
 
     @Test
-    fun testPricePerDescriptorStringNotBucketedToProminencePerNight() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+    fun testShowPerNight() {
         val roomResponse = createRoomResponse()
         roomResponse.rateInfo.chargeableRateInfo.userPriceType = "PerNightRateNoTaxes"
         val viewModel = createViewModel(roomResponse, -1)
 
-        assertEquals("/night", viewModel.pricePerDescriptorString)
-    }
-
-    @Test
-    fun testPricePerDescriptorStringBucketedToProminenceTotalPrice() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
-        val roomResponse = createRoomResponse()
-        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "RateForWholeStayWithTaxes"
-        val viewModel = createViewModel(roomResponse, -1)
-
-        assertEquals(" total stay", viewModel.pricePerDescriptorString)
-    }
-
-    @Test
-    fun testPricePerDescriptorStringBucketedToProminencePerNight() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
-        val roomResponse = createRoomResponse()
-        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "PerNightRateNoTaxes"
-        val viewModel = createViewModel(roomResponse, -1)
-
-        assertEquals("/night", viewModel.pricePerDescriptorString)
+        assertTrue(viewModel.showPerNight)
     }
 
     @Test

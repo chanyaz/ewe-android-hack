@@ -2,11 +2,9 @@ package com.expedia.vm.hotel
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -42,19 +40,10 @@ class HotelResultsPricingStructureHeaderViewModel(val context: Context, val pric
                         .format()
                         .toString()
             } else {
-                val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
-                if (bucketedToShowPriceDescriptorProminence) {
-                    priceDescriptorAndResultsCountHeader = when (priceType) {
-                        HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.resources.getQuantityString(R.plurals.hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE, hotelResultsCount, hotelResultsCount)
-                        HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> context.resources.getQuantityString(R.plurals.hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE, hotelResultsCount, hotelResultsCount)
-                        else -> context.resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
-                    }
-                } else {
-                    priceDescriptorAndResultsCountHeader = when (priceType) {
-                        HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.resources.getQuantityString(R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE, hotelResultsCount, hotelResultsCount)
-                        HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> context.resources.getQuantityString(R.plurals.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE, hotelResultsCount, hotelResultsCount)
-                        else -> context.resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
-                    }
+                priceDescriptorAndResultsCountHeader = when (priceType) {
+                    HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.resources.getQuantityString(R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                    HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> context.resources.getQuantityString(R.plurals.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                    else -> context.resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
                 }
             }
 

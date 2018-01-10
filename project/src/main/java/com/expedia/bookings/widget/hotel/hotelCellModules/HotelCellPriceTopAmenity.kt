@@ -17,7 +17,6 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
     val priceContainer: LinearLayout by bindView(R.id.price_container)
     val strikeThroughPriceTextView: TextView by bindView(R.id.strike_through_price)
     val pricePerNightTextView: TextView by bindView(R.id.price_per_night)
-    val pricePerDescriptorTextView: TextView by bindView(R.id.price_per_descriptor)
     val topAmenityTextView: TextView by bindView(R.id.top_amenity)
     val soldOutTextView: TextView by bindView(R.id.sold_out_text)
 
@@ -41,9 +40,6 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
 
             pricePerNightTextView.text = viewModel.pricePerNight
             pricePerNightTextView.setTextColor(viewModel.pricePerNightColor)
-
-            pricePerDescriptorTextView.setTextAndVisibility(viewModel.pricePerDescriptor)
-            pricePerDescriptorTextView.setTextColor(viewModel.pricePerNightColor)
 
             topAmenityTextView.setTextAndVisibility(viewModel.topAmenityTitle)
         }
