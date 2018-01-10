@@ -202,10 +202,10 @@ android {
             /* We will provide these values using -P commandline option of gradle
              * or using a .properties file, defaults are defined in gradle.properties
              */
-            storeFile file(project.getProperty("RELEASE_STORE_FILE").toString())
-            storePassword project.getProperty("RELEASE_STORE_PASSWORD")
-            keyAlias project.getProperty("RELEASE_KEY_ALIAS")
-            keyPassword project.getProperty("RELEASE_KEY_PASSWORD")
+            storeFile file(GradleUtil.getPropertyWithDefault(project, RELEASE_STORE_FILE, "."))
+            storePassword GradleUtil.getPropertyWithDefault(project, RELEASE_STORE_PASSWORD, "")
+            keyAlias GradleUtil.getPropertyWithDefault(project, RELEASE_KEY_ALIAS, "")
+            keyPassword GradleUtil.getPropertyWithDefault(project, RELEASE_KEY_PASSWORD, "")
         }
     }
 
