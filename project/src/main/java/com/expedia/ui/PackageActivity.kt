@@ -144,6 +144,7 @@ class PackageActivity : AbstractAppCompatActivity() {
 
                     if (Db.sharedInstance.packageParams.isChangePackageSearch()) {
                         changedOutboundFlight = true
+                        //TODO put packageCreateTrip here?
                     }
                     if (!isMidAPIEnabled(this)) {
                         packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
@@ -165,6 +166,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                     } else {
                         //If change flight, remove changed outbound flight intent
                         packagePresenter.backStack.pop()
+                        //TODO put packageCreateTrip here?
                     }
                     packagePresenter.bundlePresenter.getCheckoutPresenter().toolbarDropShadow.visibility = View.GONE
 
@@ -196,7 +198,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                 packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(outbound)
             }
             packagePresenter.bundlePresenter.bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
-            packageCreateTrip()
+            // packageCreateTrip()
             packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
             packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
             packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
