@@ -7,7 +7,7 @@ Feature: Package Launch
     And I launch Package LOB with "<point_of_sale>" POS
     When I make a packages search with following parameters
       | source              | SFO                       |
-      | destination         | LAS                       |
+      | destination         | Las Vegas Strip           |
       | source_suggest      | SFO - San Francisco Intl. |
       | destination_suggest | Las Vegas Strip, NV       |
       | start_date          | 20                        |
@@ -38,7 +38,7 @@ Feature: Package Launch
     And I launch Package LOB with "<point_of_sale>" POS
     When I make a packages search with following parameters
       | source              | SFO                       |
-      | destination         | LAS                       |
+      | destination         | Las Vegas Strip           |
       | source_suggest      | SFO - San Francisco Intl. |
       | destination_suggest | Las Vegas Strip, NV       |
       | start_date          | 20                        |
