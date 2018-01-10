@@ -153,7 +153,7 @@ public class Notification extends Model implements JSONable {
 	@Column(name = "ImageValue")
 	private String mImageValue;
 
-	@Column(name = "templateName")
+	@Column(name = "TemplateName")
 	private String mTemplateName;
 
 	@Column(name = "Flags")
