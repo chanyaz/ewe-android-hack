@@ -28,6 +28,22 @@
                 "legId": "c69c1bfb0521dbe1eb2b3891ed4cbe84",
                 "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
                 "isBasicEconomy": true,
+                "jsonBaggageFeesUrl": {
+                    "requestPath": "https://www.expedia.com/api/flight/baggagefees",
+                    "formData": [
+                        {
+                            "bookingclass": " U",
+                            "originapt": "SFO",
+                            "segmentnumber": "1",
+                            "traveldate": "6/14/2018",
+                            "flightnumber": "9636",
+                            "destinationapt": "AMS",
+                            "opcarrier": "KL",
+                            "cabinclass": "4",
+                            "mktgcarrier": "DL"
+                        }
+                    ]
+                },
                 "segments": [
                     {
                         "airlineCode": "AA",
@@ -60,6 +76,22 @@
             {
                 "legId": "731b8ff3da1b46fd7acf8b7c26f6d82f",
                 "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
+                "jsonBaggageFeesUrl": {
+                    "requestPath": "https://www.expedia.com/api/flight/baggagefees",
+                    "formData": [
+                      {
+                        "bookingclass": " U",
+                        "originapt": "SFO",
+                        "segmentnumber": "1",
+                        "traveldate": "6/14/2018",
+                        "flightnumber": "9636",
+                        "destinationapt": "AMS",
+                        "opcarrier": "KL",
+                        "cabinclass": "3",
+                        "mktgcarrier": "DL"
+                      }
+                    ]
+                },
                 "segments": [
                     {
                         "airlineCode": "DL",
