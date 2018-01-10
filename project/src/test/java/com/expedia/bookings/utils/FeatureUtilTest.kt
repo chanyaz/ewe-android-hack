@@ -29,13 +29,13 @@ class FeatureUtilTest {
 
     @Test
     fun testEnableBrandColors() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppBrandColors)
         assertTrue(isBrandColorEnabled(context))
     }
 
     @Test
     fun testDisableBrandColors() {
-        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
         assertFalse(isBrandColorEnabled(context))
     }
 }

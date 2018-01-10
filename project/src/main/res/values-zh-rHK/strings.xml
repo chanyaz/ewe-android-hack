@@ -959,8 +959,10 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination}的活動很快訂滿！請預早搜尋當地玩樂並預訂門票。</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hi {firstname}！看看您酒店附近的熱門景點和活動。</string>
-    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
     <string name="flight_notification_delayed_flight_TEMPLATE">您前往 {arrival_airport} 的航班延誤，新的出發時間是 {departure_time}。</string>
+    <!--Notification title for Flight delayed notification -->
+    <string name="flight_notification_delayed_title">航班延誤</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
@@ -1080,10 +1082,6 @@
     <string name="trips_back_button_label_cont_desc">返回行程畫面按鈕</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">展開行程按鈕</string>
-    <!-- Content Description for upgrade image to upgrade hotel room -->
-    <string name="trips_upgrade_hotel_button_label_cont_desc">升級酒店客房</string>
-    <!-- Web view header label for soft changes to hotel room booking -->
-    <string name="trips_edit_room_info_web_view_title">更改客房資料</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">酒店確認碼</string>
     <!-- Passengers Label -->
@@ -1280,13 +1278,9 @@
     <string name="itin_card_details_details">其他資料</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">取消酒店客房</string>
-    <!-- Label for button to upgrade Hotel room -->
-    <string name="itin_card_details_upgrade_hotel_button">限時優惠：可供升級！</string>
     <string name="itin_card_flight_checkin_title">辦理登機手續</string>
     <!-- Label for button to edit Hotel booking -->
     <string name="itin_card_edit_hotel_room_info">更改客房資料</string>
-    <!-- Accessibility announcement for button to edit Hotel booking -->
-    <string name="itin_card_change_hotel_options">更改酒店選項</string>
 
     <string name="itin_card_flight_checkin_details">瀏覽 %s 網站</string>
     <string name="itin_card_details_pick_up">取車</string>
@@ -1315,13 +1309,6 @@
     <string name="itin_card_details_dropped_off_TEMPLATE">已於以下日期還車：%1$s</string>
     <string name="itin_card_details_agency_phone">代理電話</string>
     <string name="itin_card_details_toll_free_phone">免費電話</string>
-    <string name="itin_card_details_check_in">入住</string>
-    <string name="itin_card_details_check_out">退房</string>
-    <string name="itin_card_details_address">地址</string>
-    <string name="itin_card_details_local_phone">本地電話</string>
-    <string name="itin_card_details_room_type">客房類型</string>
-    <string name="itin_card_details_non_price_promotion_includes">包括項目</string>
-    <string name="itin_card_details_bed_type">睡床類型</string>
     <string name="toast_copied_to_clipboard">已複製至剪貼簿。</string>
     <string name="itin_card_details_reload">重新載入資料</string>
     <string name="itin_card_details_reload_activity">重新載入活動資料</string>
@@ -1565,6 +1552,10 @@
     <string name="itin_flight_airline_support_widget_support_webview_title">航空公司客戶支援</string>
     <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
     <string name="itin_flight_airline_support_widget_number_text">編號</string>
+    <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_text">取消預訂</string>
+    <!--Flight itin, flight modify reservation widget's Change reservation text-->
+    <string name="itin_flight_modify_widget_change_reservation_text">更改預訂</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}日 {hours}小時 {minutes}分</string>
@@ -2846,6 +2837,8 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">一位來回總價。包括酒店及機票 • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
+    <string name="package_hotel_results_header">一位來回總價 (包括酒店及機票)</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 已訂</string>
@@ -4608,8 +4601,6 @@
 
     <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title}錯誤：請輸入遺漏的旅客資料。按鈕。</string>
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_complete_cont_desc">旅客資料已填妥</string>
     <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}，{subtitle}，旅客資料已填妥。按鈕。</string>
     <!--Packages accessibility content description for role Button-->
@@ -4626,8 +4617,6 @@
     <string name="accessibility_cont_desc_card_is_disabled">已停用</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">使用者評分按鈕</string>
-    <!-- Content Description for Searching for hotels -->
-    <string name="accessibility_cont_desc_searching_for_hotels">正為您搜尋數百間酒店。</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">價格為{ticket_type} {activity_price}</string>
@@ -4755,12 +4744,13 @@
     <string name="member_deals_toolbar_title">會員價</string>
     <string name="continue_booking">繼續預訂</string>
     <string name="deals_hotel_only">酒店價格</string>
-    <string name="deals_toolbar_close_cont_desc">關閉會員價畫面</string>
+    <string name="member_deals_toolbar_close_cont_desc">關閉會員價畫面</string>
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">最後召集優惠</string>
     <string name="last_minute_deal_subtitle">想去旅行？看看最後召集超抵優惠吧！</string>
     <string name="last_minute_deals_toolbar_title">最後召集優惠</string>
+    <string name="last_minute_deals_toolbar_close_cont_desc">關閉最後召集優惠畫面</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">我們如何決定排列次序</string>
@@ -4838,13 +4828,6 @@
     <string name="location_soft_prompt_enable">開啟定位服務</string>
     <string name="location_soft_prompt_disable">暫時不用了</string>
 
-    <!--Soft Prompt For flights browser view-->
-    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
-    <string name="flights_browser_view_soft_prompt_title">即將推出</string>
-    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
-    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">很快就可以在 App 上訂機票了。現在您可以先上 {brand_url} 預訂您的超抵機票！</string>
-    <string name="flights_browser_viewsoft_prompt_enable">於瀏覽器中打開</string>
-
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">總房價包括稅項及附加費</string>
     <string name="excluding_taxes_fees">不包括稅項及附加費</string>
@@ -4892,5 +4875,8 @@
         <item quantity="one">優惠尚餘 {no_of_days} 日</item>
         <item quantity="other">優惠尚餘 {no_of_days} 日</item>
     </plurals>
+
+    <!-- Showing the header for the coupon widget to show the saved coupon -->
+    <string name="saved_coupon">已儲存的優惠券</string>
 
 </resources>

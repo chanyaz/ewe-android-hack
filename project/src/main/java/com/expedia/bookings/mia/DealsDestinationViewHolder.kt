@@ -18,16 +18,15 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelSearchParams
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.DiscountColors
 import com.expedia.bookings.mia.activity.MemberDealsActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBrandColorEnabled
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
@@ -174,7 +173,7 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
     }
 
     private fun setDiscountColors(vm: DealsDestinationViewModel) =
-            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(vm.context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors) && view.context is MemberDealsActivity) {
+            if (isBrandColorEnabled(view.context) && view.context is MemberDealsActivity) {
                 discountView.setBackgroundResource(DiscountColors.MEMBER_DEALS.backgroundColor)
                 discountView.setTextColor(ContextCompat.getColor(view.context, DiscountColors.MEMBER_DEALS.textColor))
             } else {

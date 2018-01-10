@@ -2,8 +2,8 @@ package com.expedia.bookings.launch.activity
 
 import android.app.Activity
 import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateNotTracked
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
-import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.user.RestrictedProfileSource
@@ -13,7 +13,6 @@ import com.expedia.bookings.test.CustomMatchers
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.NullSafeMockitoHamcrest
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withAbacusTestBucketed
-import com.expedia.bookings.test.OmnitureMatchers.Companion.withAbacusTestControl
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -22,12 +21,10 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.mobiata.android.util.SettingUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import kotlin.test.assertTrue
 
@@ -85,47 +82,20 @@ class PhoneLaunchActivityTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun brandColorsIsTrackedOnLaunchScreen_whenBucketedAndFeatureToggleEnabled() {
-        val context = RuntimeEnvironment.application
+    fun brandColorsIsTrackedOnLaunchScreen_whenBucketed() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppBrandColors)
         OmnitureTracking.trackPageLoadLaunchScreen(0)
         assertStateTracked("App.LaunchScreen", withAbacusTestBucketed(15846), mockAnalyticsProvider)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun brandColorsIsNotTrackedOnLaunchScreen_whenUnbucketedAndFeatureToggleDisabled() {
-        val context = RuntimeEnvironment.application
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)
-        OmnitureTracking.trackPageLoadLaunchScreen(0)
-
-        OmnitureTestUtils.assertStateNotTracked(withAbacusTestBucketed(15846), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateNotTracked(withAbacusTestControl(15846), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun brandColorsIsNotTracked_whenBucketedButFeatureNotEnabled() {
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppBrandColors)
-        OmnitureTracking.trackPageLoadLaunchScreen(0)
-
-        OmnitureTestUtils.assertStateNotTracked(withAbacusTestBucketed(15846), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateNotTracked(withAbacusTestControl(15846), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun brandColorsTracked_whenNotBucketedButFeatureEnabled() {
-        val context = RuntimeEnvironment.application
+    fun brandColorsIsNotTrackedOnLaunchScreen_whenUnbucketed() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
-        SettingUtils.save(context, R.string.preference_enable_launch_screen_brand_colors, true)
         OmnitureTracking.trackPageLoadLaunchScreen(0)
-
-        assertStateTracked(withAbacusTestControl(15846), mockAnalyticsProvider)
+        assertStateNotTracked(withAbacusTestBucketed(15846), mockAnalyticsProvider)
     }
 
     @Test
