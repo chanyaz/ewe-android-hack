@@ -198,7 +198,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                 packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(outbound)
             }
             packagePresenter.bundlePresenter.bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
-            // packageCreateTrip()
+            packageCreateTrip(isBackPressed = true)
             packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
             packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
             packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
@@ -236,8 +236,9 @@ class PackageActivity : AbstractAppCompatActivity() {
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.sharedInstance.packageParams)
     }
 
+    // TODO: if backpressed, doing do midCreateTrip but perform normal createTrip?
     @VisibleForTesting( otherwise = VisibleForTesting.PRIVATE)
-    fun packageCreateTrip() {
+    fun packageCreateTrip(isBackPressed: Boolean = false) {
         packagePresenter.bundleLoadingView.visibility = View.GONE
         Db.sharedInstance.packageParams.pageType = null
         changedOutboundFlight = false
