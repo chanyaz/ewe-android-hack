@@ -1,7 +1,6 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
