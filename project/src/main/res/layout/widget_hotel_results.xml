@@ -152,9 +152,9 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
         android:paddingTop="8dp"
-        android:text="@string/narrow_your_results"
         android:textColor="@color/white"
         android:visibility="gone"
+        tools:text="@string/narrow_your_results"
         tools:visibility="visible" />
 
     <android.support.design.widget.FloatingActionButton

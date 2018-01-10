@@ -158,7 +158,7 @@ open class HotelTracking {
             CarnivalUtils.getInstance().trackHotelInfoSite(hotelOffersResponse, searchParams)
         }
 
-        fun trackHotelNarrowPrompt(){
+        fun trackHotelNarrowPrompt() {
             OmnitureTracking.trackHotelNarrowSearchPrompt()
         }
 

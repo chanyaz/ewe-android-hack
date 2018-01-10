@@ -81,7 +81,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     init {
         filterView.viewModel.filterByParamsObservable.subscribe { params ->
-
             viewModel.filterParamsSubject.onNext(params)
         }
 
@@ -100,7 +99,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             }
         }
 
-        initSortCallToAction()
+        initSortFilterCallToAction()
 
         vm.hotelResultsObservable.subscribe {
             if (previousWasList && filterBtnWithCountWidget.translationY != 0f) {
@@ -167,7 +166,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         anim.start()
     }
 
-    private fun initSortCallToAction() {
+    private fun initSortFilterCallToAction() {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelNewFilterCtaText)) {
+            narrowResultsPromptView.setText(R.string.new_filters_available)
+        } else {
+            narrowResultsPromptView.setText(R.string.narrow_your_results)
+        }
+
         viewModel.hotelResultsObservable.subscribe {
             narrowResultsPromptView.visibility = View.GONE
             narrowFilterPromptSubscription = adapter.filterPromptSubject.subscribe {
