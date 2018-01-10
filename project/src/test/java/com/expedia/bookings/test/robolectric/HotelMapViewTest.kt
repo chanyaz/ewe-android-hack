@@ -59,7 +59,6 @@ class HotelMapViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testMapViewWhenStrikethroughPriceAndPriceAreSame() {
-        hotelMapView.viewmodel.isBucketForHideStrikeThough = false
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreSame()
         hotelMapView.viewmodel.offersObserver.onNext(hotelOffersResponse)
 
@@ -81,7 +80,6 @@ class HotelMapViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testMapViewWhenStrikethroughPriceAndPriceAreDifferent() {
-        hotelMapView.viewmodel.isBucketForHideStrikeThough = false
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreDifferent()
         hotelMapView.viewmodel.offersObserver.onNext(hotelOffersResponse)
 
@@ -105,8 +103,6 @@ class HotelMapViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testMapViewWhenHotelStarRatingIsZero() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
-        hotelMapView.viewmodel.isBucketForHideStrikeThough = false
         givenHotelOffersResponseWhenHotelStarRatingIsZero()
         hotelMapView.viewmodel.offersObserver.onNext(hotelOffersResponse)
 
@@ -126,7 +122,6 @@ class HotelMapViewTest {
     }
 
     @Test fun testMapViewWhenRoomOffersAreNotAvailable() {
-        hotelMapView.viewmodel.isBucketForHideStrikeThough = false
         hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, BehaviorSubject.create<Boolean>(true), LineOfBusiness.HOTELS)
         givenHotelOffersResponseWhenRoomOffersAreNotAvailable()
         hotelMapView.viewmodel.offersObserver.onNext(hotelOffersResponse)

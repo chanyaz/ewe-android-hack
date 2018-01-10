@@ -230,28 +230,6 @@ class HotelDetailContentViewTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testStrikeThroughPriceWithControl() {
-        testVM.isBucketForHideStrikeThroughPrice = false
-        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(true)
-        testVM.hotelSoldOut.onNext(false)
-        testVM.shopWithPointsObservable.onNext(false)
-        testVM.showAirAttachedObservable.onNext(false)
-        assertVisible(contentView.strikeThroughPrice)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testStrikeThroughPriceWithBucked() {
-        testVM.isBucketForHideStrikeThroughPrice = true
-        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(true)
-        testVM.hotelSoldOut.onNext(false)
-        testVM.shopWithPointsObservable.onNext(false)
-        testVM.showAirAttachedObservable.onNext(false)
-        assertGone(contentView.strikeThroughPrice)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFreeCancellationAndEtp() {
         testVM.hasETPObservable.onNext(true)
         testVM.hasFreeCancellationObservable.onNext(true)
