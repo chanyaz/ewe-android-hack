@@ -91,15 +91,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
         hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkin", DateTimeFormat.forPattern(dateFormat))
         hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkout", DateTimeFormat.forPattern(dateFormat))
         hotelDeepLink.mctc = getNullableIntegerParameterIfExists(data, queryParameterNames, "mctc")
-        if (queryParameterNames.contains("rm1")) {
-            val passengers = data.getQueryParameter("rm1").split(":".toRegex(), 2)
-            if (passengers.size > 0) {
-                hotelDeepLink.numAdults = Integer.parseInt(passengers[0].substring(1, passengers[0].length))
-                if (passengers.size > 1) {
-                    hotelDeepLink.children = parseChildAges(passengers[1], hotelDeepLink.numAdults)
-                }
-            }
-        }
+        parseNumberOfAdultsAndChildren(queryParameterNames, data, hotelDeepLink)
 
         return hotelDeepLink
     }
@@ -116,11 +108,25 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
         hotelDeepLink.selectedHotelId = getQueryParameterIfExists(data, queryParameterNames, "selected")
         hotelDeepLink.mctc = getNullableIntegerParameterIfExists(data, queryParameterNames, "mctc")
 
+        parseNumberOfAdultsAndChildren(queryParameterNames, data, hotelDeepLink)
+
         if (data.toString().toLowerCase().contains("/hotels") && queryParameterNames.size == 1 && hotelDeepLink.sortType?.toLowerCase() == "discounts") {
             hotelDeepLink.memberOnlyDealSearch = true
         }
 
         return hotelDeepLink
+    }
+
+    private fun parseNumberOfAdultsAndChildren(queryParameterNames: MutableSet<String>, data: Uri, hotelDeepLink: HotelDeepLink) {
+        if (queryParameterNames.contains("rm1")) {
+            val passengers = data.getQueryParameter("rm1").split(":".toRegex(), 2)
+            if (passengers.size > 0) {
+                hotelDeepLink.numAdults = Integer.parseInt(passengers[0].substring(1, passengers[0].length))
+                if (passengers.size > 1) {
+                    hotelDeepLink.children = parseChildAges(passengers[1], hotelDeepLink.numAdults)
+                }
+            }
+        }
     }
 
     private fun parseFlightUniversalDeepLink(data: Uri, dateFormat: String): DeepLink {
