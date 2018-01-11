@@ -4296,6 +4296,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTELS_FILTER_CLEAR = "App.Package.Hotels.Search.ClearFilter";
 
 	private static final String PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD = "App.Package.BundleView";
+	private static final String PACKAGES_BUNDLE_VIEW_TAP = "App.Package.BundleWidget.Tap";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_LOAD = "App.Package.RateDetails";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.Details.";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN = "App.Package.RD.TotalCost";
@@ -4695,8 +4696,13 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD, null);
 		if (isFirstBundleLaunch) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav);
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs);
 		}
 		s.track();
+	}
+
+	public static void trackPackagesBundleWidgetTap() {
+		createAndTrackLinkEvent(PACKAGES_BUNDLE_VIEW_TAP, "Bundle Widget Tap");
 	}
 
 	public static void trackPackagesBundlePageLoad(PackageCreateTripResponse.PackageDetails packageDetails, PageUsableData pageUsableData) {

@@ -6,6 +6,7 @@ import android.view.View
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.PackageFlightPresenter
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter
+import com.expedia.bookings.tracking.PackagesTracking
 
 class SlidingBundleWidgetListener (val widget: SlidingBundleWidget, val presenter: Presenter) {
 
@@ -35,6 +36,7 @@ class SlidingBundleWidgetListener (val widget: SlidingBundleWidget, val presente
                     } else if (distance <= Math.abs(lowerThreshold) && !isShowingBundle()) {
                         // currentState !=  BundleWidget, from BOTTOM to TOP and distance moved greater than threshold hence show widget again.
                         presenter.show(widget)
+                        PackagesTracking().trackBundleWidgetTap()
                     } else if (distance <= Math.abs(upperThreshold)) {
                         // currentState ==  BundleWidget, from TOP to BOTTOM but distance moved less than threshold hence show widget again.
                         widget.openBundleOverview()
@@ -60,6 +62,7 @@ class SlidingBundleWidgetListener (val widget: SlidingBundleWidget, val presente
             if (e1.y.minus(e2.y) > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
                 updateOverviewAnimationDuration(FAST_ANIMATION_DURATION)
                 if (!isShowingBundle()) {
+                    PackagesTracking().trackBundleWidgetTap()
                     presenter.show(widget)
                 } else {
                     presenter.back()
@@ -94,6 +97,7 @@ class SlidingBundleWidgetListener (val widget: SlidingBundleWidget, val presente
             if (isShowingBundle()) {
                 presenter.back()
             } else {
+                PackagesTracking().trackBundleWidgetTap()
                 presenter.show(widget)
             }
             return true

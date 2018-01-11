@@ -161,7 +161,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
             bundlePriceWidgetTopShadow.visibility = View.VISIBLE
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text_new))
-            bundlePriceWidgetTop.setOnClickListener { show(bundleSlidingWidget) }
+            bundlePriceWidgetTop.setOnClickListener {
+                PackagesTracking().trackBundleWidgetTap()
+                show(bundleSlidingWidget)
+            }
             bundleSlidingWidget.bundlePriceWidget.viewModel.perPersonTextLabelObservable.subscribeVisibility(bundlePriceWidgetTop.bundlePerPersonText)
             bundleSlidingWidget.bundlePriceFooter.viewModel.totalPriceObservable.subscribeTextAndVisibility(bundlePriceWidgetTop.bundleTotalPrice)
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.subscribeText(bundlePriceWidgetTop.bundleTitleText)
@@ -291,6 +294,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             }
         }
         bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
+            PackagesTracking().trackBundleWidgetTap()
             show(bundleSlidingWidget)
         }
 
