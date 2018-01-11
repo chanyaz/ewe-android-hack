@@ -6,6 +6,8 @@ import com.expedia.bookings.test.NullSafeMockitoHamcrest.mapThat
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.mockito.Mockito
+import org.mockito.exceptions.base.MockitoAssertionError
+import org.mockito.exceptions.verification.junit.ArgumentsAreDifferent
 
 class OmnitureTestUtils : ADMS_Measurement() {
     companion object {
@@ -64,6 +66,13 @@ class OmnitureTestUtils : ADMS_Measurement() {
         }
 
         @JvmStatic
+        fun assertStateTracked(matcher: Matcher<Map<String, Any>>, mockAnalyticsProvider: AnalyticsProvider,
+                               errorMessage: String) {
+            fun verify() = Mockito.verify(mockAnalyticsProvider).trackState(Mockito.anyString(), mapThat(matcher))
+            verifyWithMessage(::verify, errorMessage)
+        }
+
+        @JvmStatic
         fun assertStateTracked(appState: String, dataMatcher: Matcher<Map<String, Any>>, mockAnalyticsProvider: AnalyticsProvider) {
             Mockito.verify(mockAnalyticsProvider).trackState(Mockito.eq(appState), mapThat(dataMatcher))
         }
@@ -76,6 +85,16 @@ class OmnitureTestUtils : ADMS_Measurement() {
 
         fun assertStateNotTracked(matcher: Matcher<Map<String, Any>>, mockAnalyticsProvider: AnalyticsProvider) {
             Mockito.verify(mockAnalyticsProvider, Mockito.never()).trackState(Mockito.anyString(), mapThat(matcher))
+        }
+
+        private fun verifyWithMessage(verify: () -> Unit, errorMessage: String = "") {
+            try {
+                verify()
+            } catch (e: MockitoAssertionError) {
+                throw AssertionError(errorMessage + "\n" + e.message, e)
+            } catch (e: ArgumentsAreDifferent) {
+                throw AssertionError(errorMessage + "\n" + e.message, e)
+            }
         }
     }
 }
