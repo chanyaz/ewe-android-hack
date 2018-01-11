@@ -39,8 +39,8 @@
             android:layout_marginRight="16dp"
             android:background="?attr/selectableItemBackground"
             android:textColor="@color/gray900"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="14sp"
+            app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/call_support_action_button"

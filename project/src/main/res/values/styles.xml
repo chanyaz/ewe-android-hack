@@ -1226,6 +1226,7 @@
     <style name="customButtonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/new_launch_alert_dialog_button_color</item>
         <item name="android:background">@color/white</item>
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
     <style name="FlightFareFamilyTextStyle">
