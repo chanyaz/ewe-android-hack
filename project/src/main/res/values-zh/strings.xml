@@ -2726,11 +2726,11 @@
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">免费上网</string>
+    <string name="filter_high_speed_internet">免费上网</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">免费早餐</string>
+    <string name="filter_free_breakfast">免费早餐</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">免费机场班车</string>
+    <string name="filter_free_airport_transportation">免费机场班车</string>
 
 
     <!-- User Reviews list strings -->

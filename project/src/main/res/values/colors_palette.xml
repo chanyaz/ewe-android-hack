@@ -52,6 +52,8 @@
     <color name="black_20">#33000000</color>
     <color name="black_50">#80000000</color>
     <color name="black_70">#BF000000</color>
+    <color name="gray900_30">#4D1F1F1F</color>
+    <color name="blue2_30">#4D1369B3</color>
     <color name="exp_brand_blue_65">#A600355F</color>
     <color name="exp_launch_secondary_blue_70">#BF005199</color>
 

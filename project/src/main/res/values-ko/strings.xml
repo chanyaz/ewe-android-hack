@@ -2726,11 +2726,11 @@
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">무료 인터넷</string>
+    <string name="filter_high_speed_internet">무료 인터넷</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">무료 아침 식사</string>
+    <string name="filter_free_breakfast">무료 아침 식사</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">무료 공항 셔틀</string>
+    <string name="filter_free_airport_transportation">무료 공항 셔틀</string>
 
 
     <!-- User Reviews list strings -->

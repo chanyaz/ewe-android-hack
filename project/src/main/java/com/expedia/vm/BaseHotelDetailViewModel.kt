@@ -17,10 +17,11 @@ import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.DEFAULT_HOTEL_GALLERY_CODE
 import com.expedia.bookings.hotel.util.HotelResortFeeFormatter
+import com.expedia.bookings.hotel.data.HotelAmenity
+import com.expedia.bookings.hotel.util.HotelAmenityHelper
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.HotelUtils
@@ -88,7 +89,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
     val commonAmenityTextObservable = BehaviorSubject.create<String>()
 
-    val amenitiesListObservable = BehaviorSubject.create<List<Amenity>>()
+    val amenitiesListObservable = BehaviorSubject.create<List<HotelAmenity>>()
     val noAmenityObservable = BehaviorSubject.create<Unit>()
 
     val hasETPObservable = BehaviorSubject.create<Boolean>(false)
@@ -387,9 +388,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
         galleryManager?.saveHotelOfferMedia(offerResponse)
 
-        val amenityList = arrayListOf<Amenity>()
+        val amenityList = arrayListOf<HotelAmenity>()
         if (offerResponse.hotelAmenities != null) {
-            amenityList.addAll(Amenity.amenitiesToShow(offerResponse.hotelAmenities))
+            amenityList.addAll(HotelAmenityHelper.amenitiesToShow(offerResponse.hotelAmenities))
         }
 
         if (amenityList.isEmpty()) {

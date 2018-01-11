@@ -2726,11 +2726,11 @@
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">Ilmainen internet</string>
+    <string name="filter_high_speed_internet">Ilmainen internet</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">Ilmainen aamupala</string>
+    <string name="filter_free_breakfast">Ilmainen aamupala</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">Ilmaiset lentokenttäkuljetukset</string>
+    <string name="filter_free_airport_transportation">Ilmaiset lentokenttäkuljetukset</string>
 
 
     <!-- User Reviews list strings -->

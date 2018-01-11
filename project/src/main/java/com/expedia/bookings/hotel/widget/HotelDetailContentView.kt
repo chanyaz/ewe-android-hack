@@ -4,7 +4,9 @@ import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Handler
 import android.support.annotation.VisibleForTesting
 import android.support.v4.app.FragmentActivity
@@ -31,6 +33,7 @@ import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.hotel.activity.HotelGalleryActivity
 import com.expedia.bookings.hotel.animation.AlphaCalculator
+import com.expedia.bookings.hotel.data.HotelAmenity
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
@@ -39,7 +42,6 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.Constants
@@ -191,7 +193,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.amenitiesListObservable.subscribe { amenityList ->
             amenityContainer.visibility = View.VISIBLE
             amenityEtpDivider.visibility = View.VISIBLE
-            Amenity.addHotelAmenity(amenityContainer, amenityList)
+            addAmenities(amenityList)
         }
 
         vm.commonAmenityTextObservable.subscribe { text ->
@@ -700,5 +702,28 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         } else {
             payNowPayLaterTabs.selectPayLaterTab()
         }
+    }
+
+    private fun addAmenities(amenityList: List<HotelAmenity>) {
+        amenityContainer.removeAllViews()
+        val srcColor = ContextCompat.getColor(context, R.color.hotelsv2_amenity_icon_color)
+        val mode = PorterDuff.Mode.SRC_ATOP
+        val filter = PorterDuffColorFilter(srcColor, mode)
+        val paint = Paint()
+        paint.colorFilter = filter
+
+        for (index in 0..amenityList.size - 1) {
+
+            val amenityLayout = com.mobiata.android.util.Ui.inflate<LinearLayout>(R.layout.new_amenity_row, amenityContainer, false)
+            val amenityTextView = amenityLayout.findViewById<android.widget.TextView>(R.id.amenity_label)
+            val amenityIconView = amenityLayout.findViewById<ImageView>(R.id.amenity_icon)
+            amenityIconView.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
+            val amenityStr = context.getString(amenityList[index].propertyDescriptionId)
+
+            amenityTextView.text = amenityStr
+            amenityIconView.setImageDrawable(ContextCompat.getDrawable(context, amenityList[index].drawableRes))
+            amenityContainer.addView(amenityLayout)
+        }
+        amenityContainer.scheduleLayoutAnimation()
     }
 }

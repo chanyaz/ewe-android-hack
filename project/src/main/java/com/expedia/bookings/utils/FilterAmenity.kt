@@ -11,10 +11,10 @@ import java.util.Comparator
 import java.util.TreeMap
 
 enum class FilterAmenity(val preference: Int, val resId: Int, val strId: Int) {
-    FREE_INTERNET(1, R.drawable.ic_amenity_internet, R.string.FilterFreeInternet),
-    FREE_BREAKFAST(2, R.drawable.ic_amenity_breakfast, R.string.FilterFreeBreakfast),
-    FREE_PARKING(3, R.drawable.ic_amenity_parking, R.string.AmenityFreeParking),
-    FREE_AIRPORT_SHUTTLE(10, R.drawable.ic_amenity_airport_shuttle, R.string.FilterFreeAirportShuttle),
+    FREE_INTERNET(1, R.drawable.ic_amenity_internet, R.string.filter_high_speed_internet),
+    FREE_BREAKFAST(2, R.drawable.ic_amenity_breakfast, R.string.filter_free_breakfast),
+    FREE_PARKING(3, R.drawable.ic_amenity_local_parking, R.string.AmenityFreeParking),
+    FREE_AIRPORT_SHUTTLE(10, R.drawable.ic_amenity_airport_shuttle, R.string.filter_free_airport_transportation),
     KITCHEN(15, R.drawable.ic_amenity_kitchen, R.string.AmenityKitchen);
 
     companion object {

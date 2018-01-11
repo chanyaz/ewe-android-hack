@@ -2726,11 +2726,11 @@
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">Internet Gratis</string>
+    <string name="filter_high_speed_internet">Internet Gratis</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">Sarapan Gratis</string>
+    <string name="filter_free_breakfast">Sarapan Gratis</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">Antar-Jemput Bandara Gratis</string>
+    <string name="filter_free_airport_transportation">Antar-Jemput Bandara Gratis</string>
 
 
     <!-- User Reviews list strings -->

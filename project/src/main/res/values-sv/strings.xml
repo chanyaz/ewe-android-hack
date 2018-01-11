@@ -2726,11 +2726,11 @@
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">Gratis internet</string>
+    <string name="filter_high_speed_internet">Gratis internet</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">Frukost ingår</string>
+    <string name="filter_free_breakfast">Frukost ingår</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">Flygplatstransfer ingår</string>
+    <string name="filter_free_airport_transportation">Flygplatstransfer ingår</string>
 
 
     <!-- User Reviews list strings -->

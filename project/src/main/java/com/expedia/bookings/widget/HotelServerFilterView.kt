@@ -7,8 +7,12 @@ import android.view.View
 import android.view.ViewStub
 import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.UserFilterChoices
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.hotel.util.HotelAmenityHelper
 import com.expedia.bookings.hotel.widget.BaseNeighborhoodFilterView
+import com.expedia.bookings.hotel.widget.HotelAmenityGridItem
 import com.expedia.bookings.hotel.widget.ServerNeighborhoodFilterView
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
@@ -18,6 +22,8 @@ import com.expedia.vm.hotel.HotelFilterViewModel
 class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelFilterView(context, attrs) {
     val staticClearFilterButton: CardView by bindView(R.id.hotel_server_filter_clear_pill)
 
+    var amenityViews: ArrayList<HotelAmenityGridItem> = ArrayList()
+
     init {
         staticClearFilterButton.setOnClickListener(clearFilterClickListener)
     }
@@ -26,10 +32,25 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
         View.inflate(context, R.layout.hotel_server_filter_view, this)
     }
 
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelAmenityFilter)) {
+            amenitiesLabelView.visibility = View.VISIBLE
+            amenitiesGridView.visibility = View.VISIBLE
+            HotelAmenityHelper.getFilterAmenities().forEach { amenity ->
+                val gridItem = HotelAmenityGridItem(context, amenity)
+                amenitiesGridView.addView(gridItem)
+                amenityViews.add(gridItem)
+            }
+        }
+    }
+
     override fun bindViewModel(vm: BaseHotelFilterViewModel) {
         super.bindViewModel(vm)
         vm.finishClear.subscribe {
             staticClearFilterButton.visibility = GONE
+            amenityViews.forEach { view -> view.deselect() }
         }
 
         vm.filterCountObservable.subscribe { count ->

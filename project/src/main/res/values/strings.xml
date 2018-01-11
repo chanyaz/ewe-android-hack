@@ -2730,14 +2730,21 @@
     <string name="AmenityExtendedParking">Extended Parking</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">Free Parking</string>
+    <string name="AmenityAirConditioning">Air Conditioning</string>
+    <string name="AmenityAllInclusive">All Inclusive Available</string>
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">Free Internet</string>
+    <string name="filter_high_speed_internet">High Speed Internet</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">Free Breakfast</string>
-    <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">Free Airport Shuttle</string>
+    <string name="filter_free_breakfast">Free Breakfast</string>
+    <!-- Free airport transportation -->
+    <string name="filter_free_airport_transportation">Free Airport Transportation</string>
+    <!-- Pets Allowed -->
+    <string name="filter_pets_allowed">Pets Allowed</string>
+    <!-- All inclusive Options -->
+    <string name="filter_all_inclusive">All Inclusive Options</string>
+
 
 
     <!-- User Reviews list strings -->
