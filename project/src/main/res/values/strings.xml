@@ -3804,6 +3804,8 @@
     <string name="five_star">5 star</string>
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Narrow your results</string>
+    <!-- Prompt to try new filter after scrolling hotel results  -->
+    <string name="new_filters_available">New filters available!</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">There may be an additional fee based on your payment method.</string>

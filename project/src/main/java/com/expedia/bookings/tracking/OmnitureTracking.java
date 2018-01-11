@@ -590,25 +590,26 @@ public class OmnitureTracking {
 
 	public static void trackHotelV2SuperSearchSortBy(String type) {
 		String pageName = HOTELSV2_SUPER_SEARCH_SORT_BY + type;
-		createAndtrackLinkEvent(pageName, "Super Search Sort By");
+		createAndTrackLinkEvent(pageName, "Super Search Sort By");
 	}
 
 	public static void trackLinkHotelV2SuperSearchStarRating(String rating) {
 		String pageName = HOTELSV2_SUPER_SEARCH_STAR_RATING + rating;
-		createAndtrackLinkEvent(pageName, "Super Search Star Rating");
+		createAndTrackLinkEvent(pageName, "Super Search Star Rating");
 	}
 
 	public static void trackLinkHotelV2SuperSearchVip(String state) {
 		String pageName = HOTELSV2_SUPER_SEARCH_FILTER_VIP + state;
-		createAndtrackLinkEvent(pageName, "Super Search Vip");
+		createAndTrackLinkEvent(pageName, "Super Search Vip");
 	}
 
 	public static void trackLinkHotelV2SuperSearchClearFilter() {
-		createAndtrackLinkEvent(HOTELSV2_SUPER_SEARCH_CLEAR_FILTER, "Super Search Clear Filter");
+		createAndTrackLinkEvent(HOTELSV2_SUPER_SEARCH_CLEAR_FILTER, "Super Search Clear Filter");
 	}
 
 	public static void trackHotelNarrowSearchPrompt() {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_FILTER_PROMPT_TRIGGER);
+		trackAbacusTest(s, AbacusUtils.HotelNewFilterCtaText);
 		s.trackLink(null, "o", "Filter Prompt Triggered", null, null);
 	}
 
@@ -631,7 +632,7 @@ public class OmnitureTracking {
 
 	public static void trackHotelV2SortBy(String type) {
 		String pageName = HOTELSV2_SORT + type;
-		createAndtrackLinkEvent(pageName, "Search Results Sort");
+		createAndTrackLinkEvent(pageName, "Search Results Sort");
 	}
 
 	public static void trackHotelV2PriceSlider() {
@@ -2312,11 +2313,11 @@ public class OmnitureTracking {
 	}
 
 	public static void trackHotelItinGalleryOpen() {
-		createAndtrackLinkEvent(ITIN_HOTEL_GALLERY_OPEN, "Itinerary Action");
+		createAndTrackLinkEvent(ITIN_HOTEL_GALLERY_OPEN, "Itinerary Action");
 	}
 
 	public static void trackHotelItinRoomUpgradeClick() {
-		createAndtrackLinkEvent(ITIN_HOTEL_UPGRADE, "Itinerary Action");
+		createAndTrackLinkEvent(ITIN_HOTEL_UPGRADE, "Itinerary Action");
 	}
 
 	public static void trackItinChangePOS() {
@@ -4087,23 +4088,23 @@ public class OmnitureTracking {
 	private static final String RAIL_WEBVIEW_SIGNIN = "App.Rails.WebView.SignIn";
 
 	public static void trackAppCarWebViewRetry() {
-		createAndtrackLinkEvent(CAR_WEBVIEW_RETRY, "Car Webview");
+		createAndTrackLinkEvent(CAR_WEBVIEW_RETRY, "Car Webview");
 	}
 
 	public static void trackAppCarWebViewBack() {
-		createAndtrackLinkEvent(CAR_WEBVIEW_BACK, "Car Webview");
+		createAndTrackLinkEvent(CAR_WEBVIEW_BACK, "Car Webview");
 	}
 
 	public static void trackAppCarWebViewSignIn() {
-		createAndtrackLinkEvent(CAR_WEBVIEW_SIGNIN, "Car Webview");
+		createAndTrackLinkEvent(CAR_WEBVIEW_SIGNIN, "Car Webview");
 	}
 
 	public static void trackAppCarWebViewLogOut() {
-		createAndtrackLinkEvent(CAR_WEBVIEW_LOGOUT, "Car Webview");
+		createAndTrackLinkEvent(CAR_WEBVIEW_LOGOUT, "Car Webview");
 	}
 
 	public static void trackAppCarWebViewClose() {
-		createAndtrackLinkEvent(CAR_WEBVIEW_CLOSE, "Car Webview");
+		createAndTrackLinkEvent(CAR_WEBVIEW_CLOSE, "Car Webview");
 	}
 
 	public static void trackAppCarFlexViewABTest() {
@@ -4119,23 +4120,23 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppRailWebViewRetry() {
-		createAndtrackLinkEvent(RAIL_WEBVIEW_RETRY, "Rail Webview");
+		createAndTrackLinkEvent(RAIL_WEBVIEW_RETRY, "Rail Webview");
 	}
 
 	public static void trackAppRailWebViewBack() {
-		createAndtrackLinkEvent(RAIL_WEBVIEW_BACK, "Rail Webview");
+		createAndTrackLinkEvent(RAIL_WEBVIEW_BACK, "Rail Webview");
 	}
 
 	public static void trackAppRailWebViewSignIn() {
-		createAndtrackLinkEvent(RAIL_WEBVIEW_SIGNIN, "Rail Webview");
+		createAndTrackLinkEvent(RAIL_WEBVIEW_SIGNIN, "Rail Webview");
 	}
 
 	public static void trackAppRailWebViewLogOut() {
-		createAndtrackLinkEvent(RAIL_WEBVIEW_LOGOUT, "Rail Webview");
+		createAndTrackLinkEvent(RAIL_WEBVIEW_LOGOUT, "Rail Webview");
 	}
 
 	public static void trackAppRailWebViewClose() {
-		createAndtrackLinkEvent(RAIL_WEBVIEW_CLOSE, "Rail Webview");
+		createAndTrackLinkEvent(RAIL_WEBVIEW_CLOSE, "Rail Webview");
 	}
 
 	public static void trackAppRailWebViewABTest() {
@@ -4536,14 +4537,14 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static void createAndtrackLinkEvent(String link, String linkName) {
+	private static void createAndTrackLinkEvent(String link, String linkName) {
 		Log.d(TAG, "Tracking \"" + link + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(link);
 		s.trackLink(null, "o", linkName, null, null);
 	}
 
 	private static void trackPackagesHotelMapLinkEvent(String link) {
-		createAndtrackLinkEvent(link, "Search Results Map View");
+		createAndTrackLinkEvent(link, "Search Results Map View");
 	}
 
 	public static void trackPackagesHotelMapToList() {
@@ -4571,7 +4572,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesPaymentStoredCCSelect() {
-		createAndtrackLinkEvent(PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC, "Package Checkout");
+		createAndTrackLinkEvent(PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC, "Package Checkout");
 	}
 
 	public static void trackPackagesConfirmation(PackageCheckoutResponse response, String hotelSupplierType,
@@ -4654,7 +4655,7 @@ public class OmnitureTracking {
 		else {
 			link.append("Top");
 		}
-		createAndtrackLinkEvent(link.toString(), "Package Infosite");
+		createAndTrackLinkEvent(link.toString(), "Package Infosite");
 	}
 
 	public static void trackPackageHotelDetailGalleryClick() {
@@ -4683,7 +4684,7 @@ public class OmnitureTracking {
 
 	public static void trackPackagesHotelReviewCategoryChange(String category) {
 		String link = PACKAGES_HOTEL_DETAILS_REVIEWS_CATEGORY_TEMPLATE + category;
-		createAndtrackLinkEvent(link, "Package Reviews");
+		createAndTrackLinkEvent(link, "Package Reviews");
 	}
 
 	public static void trackPackagesHotelResortFeeInfo() {
@@ -4718,19 +4719,19 @@ public class OmnitureTracking {
 		StringBuilder link = new StringBuilder(PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE);
 		link.append(lobClicked);
 		link.append(isExpanding ? ".Expand" : ".Collapse");
-		createAndtrackLinkEvent(link.toString(), "Rate Details");
+		createAndTrackLinkEvent(link.toString(), "Rate Details");
 	}
 
 	public static void trackPackagesBundleCostBreakdownClick() {
-		createAndtrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN, "Rate Details");
+		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN, "Rate Details");
 	}
 
 	public static void trackPackagesSearchTravelerPickerChooser(String text) {
-		createAndtrackLinkEvent(PACKAGES_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
+		createAndTrackLinkEvent(PACKAGES_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
 	}
 
 	public static void trackPackagesFlightBaggageFeeClick() {
-		createAndtrackLinkEvent(PACKAGES_FLIGHT_BAGGAGE_FEE_CLICK, "Flight Baggage Fee");
+		createAndTrackLinkEvent(PACKAGES_FLIGHT_BAGGAGE_FEE_CLICK, "Flight Baggage Fee");
 	}
 
 	public static void trackPackagesFlightSortFilterLoad() {
@@ -4738,27 +4739,27 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesFlightSortBy(String sortedBy) {
-		createAndtrackLinkEvent(PACKAGES_FLIGHT_SORTBY_TEMPLATE + sortedBy, "Search Results Sort");
+		createAndTrackLinkEvent(PACKAGES_FLIGHT_SORTBY_TEMPLATE + sortedBy, "Search Results Sort");
 	}
 
 	public static void trackPackagesFlightFilterStops(String stops) {
-		createAndtrackLinkEvent(PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE + stops, "Search Results Filter");
+		createAndTrackLinkEvent(PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE + stops, "Search Results Filter");
 	}
 
 	public static void trackPackagesFlightFilterAirlines() {
-		createAndtrackLinkEvent(PACKAGES_FLIGHT_AIRLINES, "Search Results Filter");
+		createAndTrackLinkEvent(PACKAGES_FLIGHT_AIRLINES, "Search Results Filter");
 	}
 
 	public static void trackPackagesHotelRoomBookClick() {
-		createAndtrackLinkEvent(PACKAGES_HOTEL_DETAILS_BOOK_ROOM, "Room Info");
+		createAndTrackLinkEvent(PACKAGES_HOTEL_DETAILS_BOOK_ROOM, "Room Info");
 	}
 
 	public static void trackPackagesHotelViewBookClick() {
-		createAndtrackLinkEvent(PACKAGES_HOTEL_DETAILS_VIEW_ROOM, "Room Info");
+		createAndTrackLinkEvent(PACKAGES_HOTEL_DETAILS_VIEW_ROOM, "Room Info");
 	}
 
 	public static void trackPackagesHotelRoomInfoClick() {
-		createAndtrackLinkEvent(PACKAGES_HOTEL_DETAILS_ROOM_INFO, "Room Info");
+		createAndTrackLinkEvent(PACKAGES_HOTEL_DETAILS_ROOM_INFO, "Room Info");
 	}
 
 	public static void trackPackagesHotelMapViewClick() {
@@ -4766,7 +4767,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelMapSelectRoomClick() {
-		createAndtrackLinkEvent(PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM, "Infosite Map");
+		createAndTrackLinkEvent(PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM, "Infosite Map");
 	}
 
 	public static void trackPackagesSearchError(String errorType) {
@@ -4792,7 +4793,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesCheckoutErrorRetry() {
-		createAndtrackLinkEvent(PACKAGES_CHECKOUT_ERROR_RETRY, "Package Checkout");
+		createAndTrackLinkEvent(PACKAGES_CHECKOUT_ERROR_RETRY, "Package Checkout");
 	}
 
 	public static void trackPackagesCheckoutSelectTraveler() {
@@ -4828,41 +4829,41 @@ public class OmnitureTracking {
 
 	public static void trackPackagesHotelFilterRating(String rating) {
 		String pageName = PACKAGES_HOTELS_SEARCH_REFINE + "." + rating;
-		createAndtrackLinkEvent(pageName, "Search Results Sort");
+		createAndTrackLinkEvent(pageName, "Search Results Sort");
 	}
 
 	public static void trackPackagesHotelSortBy(String type) {
 		String pageName = PACKAGES_HOTELS_SORT_BY_TEMPLATE + type;
-		createAndtrackLinkEvent(pageName, "Search Results Sort");
+		createAndTrackLinkEvent(pageName, "Search Results Sort");
 	}
 
 	public static void trackPackagesHotelFilterPriceSlider() {
-		createAndtrackLinkEvent(PACKAGES_HOTELS_FILTER_PRICE, "Search Results Sort");
+		createAndTrackLinkEvent(PACKAGES_HOTELS_FILTER_PRICE, "Search Results Sort");
 	}
 
 	public static void trackPackagesHotelFilterVIP(String type) {
 		String pageName = PACKAGES_HOTELS_FILTER_VIP_TEMPLATE + type;
-		createAndtrackLinkEvent(pageName, "Search Results Sort");
+		createAndTrackLinkEvent(pageName, "Search Results Sort");
 	}
 
 	public static void trackPackagesHotelFilterNeighborhood() {
-		createAndtrackLinkEvent(PACKAGES_HOTELS_FILTER_NEIGHBOURHOOD, "Search Results Sort");
+		createAndTrackLinkEvent(PACKAGES_HOTELS_FILTER_NEIGHBOURHOOD, "Search Results Sort");
 	}
 
 	public static void trackPackagesHotelFilterByName() {
-		createAndtrackLinkEvent(PACKAGES_HOTELS_FILTER_BY_NAME, "Search Results Sort");
+		createAndTrackLinkEvent(PACKAGES_HOTELS_FILTER_BY_NAME, "Search Results Sort");
 	}
 
 	public static void trackPackagesHotelClearFilter() {
-		createAndtrackLinkEvent(PACKAGES_HOTELS_FILTER_CLEAR, "Search Results Sort");
+		createAndTrackLinkEvent(PACKAGES_HOTELS_FILTER_CLEAR, "Search Results Sort");
 	}
 
 	public static void trackPackagesBundleEditClick() {
-		createAndtrackLinkEvent(PACKAGES_BUNDLE_EDIT, "Rate Details");
+		createAndTrackLinkEvent(PACKAGES_BUNDLE_EDIT, "Rate Details");
 	}
 
 	public static void trackPackagesBundleEditItemClick(String itemType) {
-		createAndtrackLinkEvent(PACKAGES_BUNDLE_EDIT + "." + itemType, "Rate Details");
+		createAndTrackLinkEvent(PACKAGES_BUNDLE_EDIT + "." + itemType, "Rate Details");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5275,7 +5276,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightConfirmationShareItinClicked() {
-		createAndtrackLinkEvent(FLIGHTS_V2_ITIN_SHARE_CLICK, "Itinerary Sharing");
+		createAndTrackLinkEvent(FLIGHTS_V2_ITIN_SHARE_CLICK, "Itinerary Sharing");
 	}
 
 	public static void trackFlightConfirmationShareAppChosen(String tripType, String shareApp) {
@@ -5323,11 +5324,11 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightInsuranceAdd(String action) {
-		createAndtrackLinkEvent(FLIGHT_INSURANCE_ACTION_TEMPLATE + action, "Flight Checkout");
+		createAndTrackLinkEvent(FLIGHT_INSURANCE_ACTION_TEMPLATE + action, "Flight Checkout");
 	}
 
 	public static void trackFlightInsuranceBenefitsClick() {
-		createAndtrackLinkEvent(FLIGHT_INSURANCE_BENEFITS_VIEW, "Flight Checkout");
+		createAndTrackLinkEvent(FLIGHT_INSURANCE_BENEFITS_VIEW, "Flight Checkout");
 	}
 
 	public static void trackFlightInsuranceError(String message) {
@@ -5337,7 +5338,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightInsuranceTermsClick() {
-		createAndtrackLinkEvent(FLIGHT_INSURANCE_TERMS_VIEW, "Flight Checkout");
+		createAndTrackLinkEvent(FLIGHT_INSURANCE_TERMS_VIEW, "Flight Checkout");
 	}
 
 	public static void trackFlightPaymentFeesClick() {
@@ -5370,7 +5371,7 @@ public class OmnitureTracking {
 		StringBuilder link = new StringBuilder(FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX);
 		link.append(filterLabel);
 		link.append(isSelected ? ".Select" : ".Deselect");
-		createAndtrackLinkEvent(link.toString(), FLIGHTS_V2_TRAVELER_LINK_NAME);
+		createAndTrackLinkEvent(link.toString(), FLIGHTS_V2_TRAVELER_LINK_NAME);
 	}
 
 	public static void trackFlightLocationSwapViewClicked() {
@@ -5545,15 +5546,15 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightSortBy(String sortedBy) {
-		createAndtrackLinkEvent(FLIGHTS_V2_SORTBY_TEMPLATE + sortedBy, "Search Results Sort");
+		createAndTrackLinkEvent(FLIGHTS_V2_SORTBY_TEMPLATE + sortedBy, "Search Results Sort");
 	}
 
 	public static void trackFlightFilterStops(String stops) {
-		createAndtrackLinkEvent(FLIGHTS_V2_FILTER_STOPS_TEMPLATE + stops, "Search Results Filter");
+		createAndTrackLinkEvent(FLIGHTS_V2_FILTER_STOPS_TEMPLATE + stops, "Search Results Filter");
 	}
 
 	public static void trackFlightFilterAirlines() {
-		createAndtrackLinkEvent(FLIGHTS_V2_FLIGHT_AIRLINES, "Search Results Filter");
+		createAndTrackLinkEvent(FLIGHTS_V2_FLIGHT_AIRLINES, "Search Results Filter");
 	}
 
 	public static void trackFlightFilterZeroResults() {
@@ -5563,7 +5564,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightFilterDuration() {
-		createAndtrackLinkEvent(FLIGHTS_V2_FLIGHT_FILTER_DURATION, "Search Results Filter");
+		createAndTrackLinkEvent(FLIGHTS_V2_FLIGHT_FILTER_DURATION, "Search Results Filter");
 	}
 
 	public static void trackFlightFilterArrivalDeparture(boolean isDeparture) {
@@ -5574,7 +5575,7 @@ public class OmnitureTracking {
 		else {
 			link.append(".Arrival");
 		}
-		createAndtrackLinkEvent(link.toString(), "Search Results Filter");
+		createAndTrackLinkEvent(link.toString(), "Search Results Filter");
 	}
 
 	public static void trackShowFlightOverView(
@@ -5712,11 +5713,11 @@ public class OmnitureTracking {
 	public static void trackOverviewFlightExpandClick(boolean isExpanding) {
 		StringBuilder link = new StringBuilder(FLIGHTS_V2_DETAILS_EXPAND);
 		link.append(isExpanding ? "Expand" : "Collapse");
-		createAndtrackLinkEvent(link.toString(), "Rate Details");
+		createAndTrackLinkEvent(link.toString(), "Rate Details");
 	}
 
 	public static void trackFlightCostBreakdownClick() {
-		createAndtrackLinkEvent(FLIGHTS_V2_COST_SUMMARY, "Rate Details");
+		createAndTrackLinkEvent(FLIGHTS_V2_COST_SUMMARY, "Rate Details");
 	}
 
 	public static void trackFlightCreateTripPriceChange(int priceChangePercentage) {
@@ -5745,21 +5746,21 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightCheckoutSelectTraveler() {
-		createAndtrackLinkEvent(FLIGHTS_V2_SELECT_TRAVELER, "Flight Checkout");
+		createAndTrackLinkEvent(FLIGHTS_V2_SELECT_TRAVELER, "Flight Checkout");
 	}
 
 	public static void trackPaymentStoredCCSelect() {
-		createAndtrackLinkEvent(FLIGHTS_V2_SELECT_CARD, "Flight Checkout");
+		createAndTrackLinkEvent(FLIGHTS_V2_SELECT_CARD, "Flight Checkout");
 	}
 
 	public static void trackShowPaymentEnterNewCard(LineOfBusiness lineOfBusiness) {
 		switch (lineOfBusiness) {
 		case FLIGHTS_V2: {
-			createAndtrackLinkEvent(FLIGHTS_V2_ENTER_CARD, "Flight Checkout");
+			createAndTrackLinkEvent(FLIGHTS_V2_ENTER_CARD, "Flight Checkout");
 			break;
 		}
 		case PACKAGES: {
-			createAndtrackLinkEvent(PACKAGES_ENTER_CARD, "Package Checkout");
+			createAndTrackLinkEvent(PACKAGES_ENTER_CARD, "Package Checkout");
 			break;
 		}
 		default:
@@ -5939,11 +5940,11 @@ public class OmnitureTracking {
 	}
 
 	public static void trackRailSearchTravelerPickerChooser(String text) {
-		createAndtrackLinkEvent(RAIL_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
+		createAndTrackLinkEvent(RAIL_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
 	}
 
 	public static void trackRailCardPicker(String text) {
-		createAndtrackLinkEvent(RAIL_CARD_PICKER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
+		createAndTrackLinkEvent(RAIL_CARD_PICKER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
 	}
 
 	public static void trackRailRoundTripJourneyDetailsAndFareOptions() {
