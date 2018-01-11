@@ -1043,4 +1043,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 		}
 	}
+
+	public Boolean checkExpandedCardIsMaterialCouponCard() {
+		return currentExpandedCard instanceof MaterialFormsCouponWidget;
+	}
 }

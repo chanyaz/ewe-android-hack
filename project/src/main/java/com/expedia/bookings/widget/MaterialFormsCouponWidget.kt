@@ -4,18 +4,17 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponWidget
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isShowSavedCoupons
 import com.expedia.util.subscribeVisibility
-import rx.Observable
 
 class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidget(context, attrs) {
 
     val storedCouponWidget: StoredCouponWidget by bindView(R.id.stored_coupon_widget)
+
 
     override val textWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {
@@ -47,7 +46,11 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     override fun setUpViewModelSubscriptions() {
         storedCouponWidget.viewModel.hasStoredCoupons.subscribe(viewmodel.hasStoredCoupons)
+
         viewmodel.storedCouponWidgetVisibilityObservable.subscribeVisibility(storedCouponWidget)
+        getStoredCouponListAdapter().applyStoredCouponSubject.subscribe { instanceId ->
+            storedCouponApplyObservable.onNext(instanceId)
+        }
     }
 
     override fun getViewToInflate(): Int {
@@ -69,5 +72,22 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
     override fun setExpanded(expand: Boolean, animate: Boolean) {
         super.setExpanded(expand, animate)
         viewmodel.expandedObservable.onNext(expand)
+    }
+
+    override fun showHotelCheckoutView(couponInstanceId: String?): Boolean {
+        val couponAppliedFromStoredCoupon = getStoredCouponListAdapter().coupons.find {it.savedCoupon.instanceId == couponInstanceId} != null
+        if (isExpanded) {
+            return !couponAppliedFromStoredCoupon
+        } else {
+            return true
+        }
+    }
+
+    override fun addProgressView() {
+        textViewLayout.addView(progress)
+    }
+
+    private fun getStoredCouponListAdapter(): StoredCouponListAdapter {
+        return storedCouponWidget.storedCouponRecyclerView.adapter as StoredCouponListAdapter
     }
 }

@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/unexpanded"
@@ -54,38 +54,38 @@
     <LinearLayout
         android:id="@+id/expanded"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingBottom="12dp"
-        android:paddingLeft="3dp"
         android:paddingTop="12dp"
+        android:background="@color/white"
         android:visibility="gone">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:id="@+id/textview_layout"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:importantForAccessibility="no">
+                android:orientation="horizontal">
 
-
-                <com.expedia.bookings.widget.accessibility.AccessibleEditText
-                    android:id="@+id/edit_coupon_code"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/enter_coupon_code"
-                    android:maxLines="1" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:importantForAccessibility="no">
 
-            <include
-                layout="@layout/stored_coupon_widget" />
 
-        </LinearLayout>
+                    <com.expedia.bookings.widget.accessibility.AccessibleEditText
+                        android:id="@+id/edit_coupon_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/enter_coupon_code"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <include layout="@layout/stored_coupon_widget" />
+
     </LinearLayout>
 
 </merge>

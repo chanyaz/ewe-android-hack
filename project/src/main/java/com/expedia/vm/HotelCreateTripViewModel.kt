@@ -7,6 +7,8 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
+import com.expedia.bookings.presenter.shared.StoredCouponAdapter
+import com.expedia.bookings.presenter.shared.StoredCouponAppliedStatus
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
@@ -25,7 +27,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
 
     init {
         tripParams.subscribe { params ->
-            hotelServices.createTrip(params, PointOfSale.getPointOfSale().isPwPEnabledForHotels,  getCreateTripResponseObserver())
+            hotelServices.createTrip(params, PointOfSale.getPointOfSale().isPwPEnabledForHotels, getCreateTripResponseObserver())
         }
     }
 
@@ -59,6 +61,21 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
             override fun onCompleted() {
                 // ignore
             }
+        }
+    }
+
+    fun convertUserCouponToStoredCouponAdapter(userCoupons: List<HotelCreateTripResponse.SavedCoupon>?): List<StoredCouponAdapter> {
+        val appliedCouponInstanceId = tripResponseObservable.value.coupon?.instanceId
+        if (appliedCouponInstanceId == null) {
+            return userCoupons?.map { it -> StoredCouponAdapter(it, StoredCouponAppliedStatus.DEFAULT) } ?: emptyList()
+        } else {
+            return userCoupons?.map { it -> StoredCouponAdapter(it,
+                    if (appliedCouponInstanceId == it.instanceId) {
+                        StoredCouponAppliedStatus.SUCCESS
+                    } else {
+                    StoredCouponAppliedStatus.DEFAULT
+            })
+            } ?: emptyList()
         }
     }
 }

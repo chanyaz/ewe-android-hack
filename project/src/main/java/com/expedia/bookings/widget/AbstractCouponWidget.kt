@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.Gravity
@@ -23,10 +24,12 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isShowSavedCoupons
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelCouponViewModel
 import com.mobiata.android.util.Ui
+import rx.Observable
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -41,10 +44,12 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
     val unexpanded: TextView by bindView(R.id.unexpanded)
     val expanded: LinearLayout by bindView(R.id.expanded)
     val applied: LinearLayout by bindView(R.id.applied)
+    val textViewLayout: LinearLayout by bindView(R.id.textview_layout)
     val couponCode: AccessibleEditText by bindView(R.id.edit_coupon_code)
     val appliedCouponMessage: TextView by bindView(R.id.applied_coupon_text)
     val removeCoupon: ImageButton by bindView(R.id.remove_coupon_button)
     var progress: View by Delegates.notNull()
+    val storedCouponApplyObservable = PublishSubject.create<String>()
 
     val onCouponSubmitClicked = PublishSubject.create<Unit>()
 
@@ -66,6 +71,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
             showError(false)
             isExpanded = false
         }
+
         viewmodel.discountObservable.subscribe {
             appliedCouponMessage.text = context.getString(R.string.applied_coupon_message, it)
         }
@@ -81,12 +87,20 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
 
+        viewmodel.enableSubmitButtonObservable.subscribe { showButton ->
+            mToolbarListener.enableRightActionButton(showButton)
+        }
+
         setUpViewModelSubscriptions()
     }
 
     abstract fun showError(show: Boolean)
 
     abstract fun setUpViewModelSubscriptions()
+
+    abstract fun showHotelCheckoutView(couponInstanceId: String?): Boolean
+
+    abstract fun addProgressView()
 
     init {
         injectViewInHotelComponent()
@@ -117,13 +131,21 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
             }
             false
         })
-        expanded.addView(progress)
+        addProgressView()
         showProgress(false)
 
         removeCoupon.setOnClickListener {
             resetFields()
             viewmodel.removeObservable.onNext(true)
             HotelTracking.trackHotelCouponRemove(couponCode.text.toString())
+        }
+
+        storedCouponApplyObservable
+                .withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, { couponInstanceId, paymentSplitsAndTripResponse -> Pair(couponInstanceId, paymentSplitsAndTripResponse) })
+                .subscribe { viewmodel.submitStoredCoupon(it.second.paymentSplits, it.second.tripResponse, userStateManager, it.first) }
+
+        if (isShowSavedCoupons(context)) {
+            expanded.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
         }
     }
 
@@ -220,12 +242,11 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
         }
     }
 
-    private fun showProgress(show: Boolean) {
+    fun showProgress(show: Boolean) {
         progress.visibility = if (show) {
             View.VISIBLE
         } else {
             View.INVISIBLE
         }
     }
-
 }

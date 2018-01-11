@@ -7,7 +7,15 @@ import rx.subjects.PublishSubject
 
 class StoredCouponWidgetViewModel {
 
-    val storedCouponsSubject = PublishSubject.create<List<HotelCreateTripResponse.SavedCoupon>>()
+    val storedCouponsSubject = PublishSubject.create<List<StoredCouponAdapter>>()
 
     val hasStoredCoupons = PublishSubject.create<Boolean>()
+}
+
+data class StoredCouponAdapter(val savedCoupon: HotelCreateTripResponse.SavedCoupon, var savedCouponStatus: StoredCouponAppliedStatus)
+
+enum class StoredCouponAppliedStatus {
+    DEFAULT,
+    SUCCESS,
+    FAILURE
 }

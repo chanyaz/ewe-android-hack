@@ -45,10 +45,6 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidge
 
     override fun setUpViewModelSubscriptions() {
         viewmodel.errorMessageObservable.subscribeText(error)
-
-        viewmodel.enableSubmitButtonObservable.subscribe { showButton ->
-            mToolbarListener.enableRightActionButton(showButton)
-        }
     }
 
     override fun showError(show: Boolean) {
@@ -72,5 +68,11 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidge
         }
     }
 
+    override fun showHotelCheckoutView(couponInstanceId: String?): Boolean {
+        return true
+    }
 
+    override fun addProgressView() {
+        expanded.addView(progress)
+    }
 }

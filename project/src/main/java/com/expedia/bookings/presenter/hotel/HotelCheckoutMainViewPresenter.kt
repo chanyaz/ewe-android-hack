@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.hotel
 
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Handler
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -28,6 +29,7 @@ import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isHotelMaterialForms
+import com.expedia.bookings.utils.isShowSavedCoupons
 import com.expedia.bookings.widget.MaterialFormsCouponWidget
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
@@ -71,10 +73,13 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         createTripViewmodel.tripResponseObservable.subscribe(hotelCheckoutSummaryWidget.viewModel.createTripResponseObservable)
         if (hotelMaterialFormEnabled) {
             createTripViewmodel.tripResponseObservable.map {
-                it.userCoupons?.filter {it -> it.redemptionStatus == HotelCreateTripResponse.RedemptionStatus.VALID} ?: emptyList()}
+                it.userCoupons?.filter { it -> it.redemptionStatus == HotelCreateTripResponse.RedemptionStatus.VALID }
+            }.
+                    map { createTripViewmodel.convertUserCouponToStoredCouponAdapter(it) }
                     .subscribe((couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.storedCouponsSubject)
         }
         couponCardView.viewmodel.couponObservable.subscribe(createTripViewmodel.tripResponseObservable)
+        couponCardView.viewmodel.storedCouponSuccessObservable.subscribe(createTripViewmodel.tripResponseObservable)
         couponCardView.viewmodel.errorShowDialogObservable.subscribe {
 
             val builder = AlertDialog.Builder(context)
@@ -97,6 +102,13 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             builder.setNegativeButton(context.getString(R.string.retry), { dialog, which -> couponCardView.viewmodel.removeObservable.onNext(true) })
             val alertDialog = builder.create()
             alertDialog.show()
+        }
+
+        couponCardView.viewmodel.storedCouponSuccessObservable.subscribe {
+            Handler().postDelayed({
+                couponCardView.isExpanded = false
+                toolbar.enableRightActionButton(true)
+            }, 2000)
         }
     }
 
@@ -185,7 +197,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             clearCCNumber()
         }
 
-        couponCardView.isExpanded = false
+        if(!checkExpandedCardIsMaterialCouponCard()) {
+            couponCardView.isExpanded = false
+        }
 
         slideWidget.resetSlider()
         slideToContainer.visibility = View.INVISIBLE
@@ -238,9 +252,13 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         couponCardView.viewmodel.hasDiscountObservable.onNext(hasDiscount)
         checkoutOverviewViewModel = HotelCheckoutOverviewViewModel(getContext(), paymentModel)
         checkoutOverviewViewModel.newRateObserver.onNext(trip.newHotelProductResponse)
-        checkoutOverviewViewModel.resetMenuButton.onNext(Unit)
         bind()
-        show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
+        if (couponCardView.showHotelCheckoutView(trip.coupon?.instanceId)) {
+            checkoutOverviewViewModel.resetMenuButton.onNext(Unit)
+            show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
+        } else {
+            toolbar.enableRightActionButton(enable = false)
+        }
         acceptTermsWidget.vm.resetAcceptedTerms()
         pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
         trip.guestUserPromoEmailOptInStatus?.let { status ->

@@ -3,9 +3,12 @@ package com.expedia.bookings.presenter.shared
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
+import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.utils.bindView
+import rx.subjects.PublishSubject
 
 class StoredCouponWidget(context: Context, attr: AttributeSet?): LinearLayout(context, attr) {
 
@@ -28,5 +31,4 @@ class StoredCouponWidget(context: Context, attr: AttributeSet?): LinearLayout(co
         storedCouponRecyclerView.adapter = StoredCouponListAdapter(viewModel.storedCouponsSubject)
         storedCouponRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
-
 }

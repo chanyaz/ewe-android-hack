@@ -4,13 +4,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.util.safeSubscribe
 import rx.subjects.PublishSubject
 
-class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<HotelCreateTripResponse.SavedCoupon>?>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCouponAdapter>>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var coupons = arrayListOf<HotelCreateTripResponse.SavedCoupon>()
+    var coupons = arrayListOf<StoredCouponAdapter>()
+    val applyStoredCouponSubject = PublishSubject.create<String>()
 
     init {
         storedCouponsSubject.safeSubscribe { newCoupons ->
@@ -30,8 +30,20 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<HotelCre
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        (holder as StoredCouponViewHolder).viewModel.couponName.onNext(coupons[position].name)
+        val storedCouponHolder = holder as StoredCouponViewHolder
+        storedCouponHolder.viewModel.couponName.onNext(coupons[position].savedCoupon.name)
+        storedCouponHolder.viewModel.couponStatus.onNext(coupons[position].savedCouponStatus)
+        holder.itemView.tag = position
+        setupViewHolderListener(storedCouponHolder)
     }
 
+    private fun setupViewHolderListener(storedCouponView: StoredCouponViewHolder) {
+        storedCouponView?.itemView?.setOnClickListener {
+            storedCouponView.viewModel.defaultStateImageVisibility.onNext(false)
+            storedCouponView.viewModel.progressBarVisibility.onNext(true)
+            val clickHolderViewTag = storedCouponView.itemView.tag as Int
+            applyStoredCouponSubject.onNext(coupons[clickHolderViewTag].savedCoupon.instanceId)
+        }
+    }
 }
 

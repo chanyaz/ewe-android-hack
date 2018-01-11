@@ -1,23 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
+    android:layout_height="48dp"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/hotel_coupon_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
+        android:layout_weight="1"
         android:textColor="@color/saved_coupon_text_color"
         android:textSize="14sp" />
 
-    <RadioButton
-        android:id="@+id/stored_coupon_radio_button"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="@color/blue3"
-        android:clickable="false" />
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/stored_coupon_default"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center"
+            android:src="@drawable/stored_coupon_circle"/>
+
+        <ProgressBar
+            android:id="@+id/stored_coupon_progress_bar"
+            style="@style/MaterialProgressBar.Medium"
+            android:layout_width="22dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:layout_height="22dp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/coupon_applied_successful"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/validated"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
 </LinearLayout>
