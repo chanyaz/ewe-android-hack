@@ -112,6 +112,25 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
         return ArrayList<HotelValueAdd>(valueAddsTreeSet)
     }
 
+    fun getRoomPriceContentDescription(): String? {
+        val perNightString = if (showPerNight) context.getString(R.string.per_night) else ""
+        val discountPercentageString = if (!discountPercentageString.isNullOrBlank()) {
+            Phrase.from(context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE)
+                    .put("percentage", discountPercentageString).format().toString()
+        } else {
+            ""
+        }
+        return if (!strikeThroughString.isNullOrBlank()) {
+            Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
+                    .put("strikethroughprice", strikeThroughString)
+                    .put("price", priceString + perNightString)
+                    .format().toString() +
+                    discountPercentageString
+        } else {
+            priceString + perNightString
+        }
+    }
+
     private fun createOptionString(): SpannableString? {
         if (optionIndex >= 0) {
             val optionString = Phrase.from(context, R.string.option_TEMPLATE).put("number", optionIndex + 1).format().toString()
@@ -240,22 +259,5 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
                     .put("room", hotelRoomResponse.roomTypeDescription ?: "").format().toString()
         else Phrase.from(context, R.string.select_room_button_content_description_TEMPLATE)
                 .put("room", hotelRoomResponse.roomTypeDescription ?: "").format().toString()
-    }
-
-    fun getRoomPriceContentDescription(): String? {
-        return if (!strikeThroughString.isNullOrBlank()) {
-            Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
-                .put("strikethroughprice", strikeThroughString)
-                .put("price", priceString + if (showPerNight) context.getString(R.string.per_night) else "")
-                .format().toString() +
-                    if(!discountPercentageString.isNullOrBlank()) {
-                        Phrase.from(context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE)
-                                .put("percentage", discountPercentageString).format().toString()
-                    } else {
-                        ""
-                    }
-        } else {
-            priceString + if (showPerNight) context.getString(R.string.per_night) else ""
-        }
     }
 }
