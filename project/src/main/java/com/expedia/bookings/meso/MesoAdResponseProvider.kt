@@ -2,6 +2,8 @@ package com.expedia.bookings.meso
 
 import android.accounts.NetworkErrorException
 import android.content.Context
+import com.expedia.bookings.R
+import com.expedia.bookings.enums.MesoDestinationAdState
 import com.expedia.bookings.meso.model.MesoAdResponse
 import com.expedia.bookings.meso.model.MesoDestinationAdResponse
 import com.expedia.bookings.meso.model.MesoHotelAdResponse
@@ -33,7 +35,7 @@ open class MesoAdResponseProvider {
                     }) { hotelAdResponse, s -> }
                     .withAdListener(object : AdListener() {
                         override fun onAdFailedToLoad(errorCode: Int) {
-                            val errorMessage = "Ad failed to load: " + errorCode
+                            val errorMessage = "Hotel ad failed to load: " + errorCode
                             Log.d(errorMessage)
                             mesoHotelAdResponseSubject.onError(NetworkErrorException(errorMessage))
                         }
@@ -49,11 +51,18 @@ open class MesoAdResponseProvider {
                         if (destinationAdResponse == null) {
                             mesoDestinationAdResponseSubject.onError(Throwable("Destination Ad Response was null."))
                         } else {
-                            val mesoAdResponse = MesoAdResponse(null, generateDestinationAdResponse(destinationAdResponse))
+                            val mesoAdResponse = MesoAdResponse(null, generateDestinationAdResponse(context))
                             mesoDestinationAdResponseSubject.onNext(mesoAdResponse)
                         }
                         mesoDestinationAdResponseSubject.onComplete()
-                    }) { destinationAdResponse, s -> }.build()
+                    }) { destinationAdResponse, s -> }
+                    .withAdListener(object : AdListener() {
+                        override fun onAdFailedToLoad(errorCode: Int) {
+                            val errorMessage = "Destination ad failed to load: " + errorCode
+                            Log.d(errorMessage)
+                            mesoDestinationAdResponseSubject.onError(NetworkErrorException(errorMessage))
+                        }
+                    }).build()
 
             destinationAdLoader.loadAd(PublisherAdRequest.Builder().build())
         }
@@ -63,9 +72,10 @@ open class MesoAdResponseProvider {
                         adResponse.getText("HotelName"), adResponse.getText("OfferPrice"), adResponse.getText("PercentageOff"),
                         adResponse.getText("PropertyLocation"), adResponse.getText("RegionID"), adResponse.getText("StrikeThroughPrice"))
 
-        private fun generateDestinationAdResponse(adResponse: NativeCustomTemplateAd): MesoDestinationAdResponse =
-                MesoDestinationAdResponse(adResponse.getText("ImpressionTracker1"), adResponse.getText("ImpressionTracker2"), adResponse.getText("AccessibilityText"),
-                        adResponse.getText("DeeplinkURL"), adResponse.getText("Description"), adResponse.getText("Title"),
-                        adResponse.getText("SponsoredText"))
+        private fun generateDestinationAdResponse(context: Context): MesoDestinationAdResponse {
+            // randomly pick one destination for meso smoke test
+            val destination = MesoDestinationAdState.values()[(Math.random() * MesoDestinationAdState.values().size).toInt()]
+            return MesoDestinationAdResponse(context.resources.getString(destination.titleID), context.resources.getString(destination.subtitleID),
+                    context.resources.getString(R.string.meso_sponsored_text), destination.webviewUrl, destination.backgroundUrl) }
     }
 }

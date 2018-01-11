@@ -113,4 +113,16 @@ public class Constants {
 	public static final String MESO_DEV_DESTINATION_TEPLATEID = "11749411";
 //	public static final String MESO_PROD_HOTEL_TEMPLATEID = "11754433";
 //	public static final String MESO_PROD_DESTINATION_TEPLATEID = "";
+
+	public static final String MESO_LAS_VEGAS_BG_URL = "https://a.travel-assets.com/dynamic_images/178276.jpg";
+	public static final String MESO_LOS_ANGELES_BG_URL = "https://a.travel-assets.com/dynamic_images/178280.jpg";
+	public static final String MESO_MIAMI_BG_URL = "https://a.travel-assets.com/dynamic_images/178286.jpg";
+	public static final String MESO_CANCUN_BG_URL = "https://a.travel-assets.com/dynamic_images/179995.jpg";
+	public static final String MESO_SAN_DIEGO_BG_URL = "https://a.travel-assets.com/dynamic_images/3073.jpg";
+
+	public static final String MESO_LAS_VEGAS_WEBVIEW_URL = "https://viewfinder.expedia.com/features/vintage-las-vegas";
+	public static final String MESO_LOS_ANGELES_WEBVIEW_URL = "https://viewfinder.expedia.com/los-angeles/a-perfect-day-in-los-angeles";
+	public static final String MESO_MIAMI_WEBVIEW_URL = "https://viewfinder.expedia.com/miami/top-10-things-to-do-in-miami";
+	public static final String MESO_CANCUN_WEBVIEW_URL = "https://viewfinder.expedia.com/features/cancun-itineraries-schedule";
+	public static final String MESO_SAN_DIEGO_WEBVIEW_URL = "https://viewfinder.expedia.com/san-diego/top-10-things-to-do-in-san-diego";
 }

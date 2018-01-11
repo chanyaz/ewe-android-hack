@@ -14,17 +14,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Home Screen Feature">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_meso_destination_card"
-            android:summary="Enable Meso Destination Card"
-            android:title="Enable Meso Destination Card" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Flights Features">
 
         <CheckBoxPreference

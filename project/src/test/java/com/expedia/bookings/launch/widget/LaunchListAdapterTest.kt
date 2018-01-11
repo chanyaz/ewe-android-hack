@@ -22,10 +22,10 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.meso.model.MesoAdResponse
 import com.expedia.bookings.meso.model.MesoHotelAdResponse
+import com.expedia.bookings.meso.vm.MesoDestinationViewModel
 import com.expedia.bookings.meso.vm.MesoHotelAdViewModel
 import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.OmnitureMatchers
-import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -81,10 +81,10 @@ class LaunchListAdapterTest {
     @Test
     fun itemViewPosition_showingMesoHotelAdWithData() {
         givenMesoHotelAdIsEnabled()
-        createSystemUnderTest(isMesoCardEnabled = true)
+        createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
 
-        adapterUnderTest.initMesoHotelAd()
+        adapterUnderTest.initMesoAd()
         adapterUnderTest.updateState()
 
         val firstPosition = adapterUnderTest.getItemViewType(0)
@@ -103,7 +103,7 @@ class LaunchListAdapterTest {
     @Test
     fun itemViewPosition_notShowingMesoHotelAdWithoutData() {
         givenMesoHotelAdIsEnabled()
-        createSystemUnderTest(isMesoCardEnabled = true)
+        createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
 
         val adapterSize = adapterUnderTest.itemCount - 1
@@ -111,6 +111,28 @@ class LaunchListAdapterTest {
         for (i in 0..adapterSize) {
             assertNotEquals(adapterUnderTest.getItemViewType(i), LaunchDataItem.MESO_HOTEL_AD_VIEW)
         }
+    }
+
+    @Test
+    fun itemViewPosition_showingMesoDestinationAd() {
+        givenMesoDestinationAdEnabled()
+        createSystemUnderTest()
+        givenWeHaveCurrentLocationAndHotels()
+
+        adapterUnderTest.initMesoAd()
+        adapterUnderTest.updateState()
+
+        val firstPosition = adapterUnderTest.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
+
+        val thirdPosition = adapterUnderTest.getItemViewType(2)
+        assertEquals(LaunchDataItem.MESO_DESTINATION_AD_VIEW, thirdPosition)
+
+        val fourthPosition = adapterUnderTest.getItemViewType(3)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
     }
 
     @Test
@@ -695,8 +717,8 @@ class LaunchListAdapterTest {
         return hotel
     }
 
-    private fun createSystemUnderTest(isItinLaunchCardEnabled: Boolean = false, isCustomerAirAttachedQualified: Boolean = true, recentAirAttachFlightTrip: Trip? = Trip(), isMesoCardEnabled: Boolean = false) {
-        adapterUnderTest = TestLaunchListAdapter(context, headerView, isItinLaunchCardEnabled, null, isCustomerAirAttachedQualified, recentAirAttachFlightTrip, isMesoCardEnabled)
+    private fun createSystemUnderTest(isItinLaunchCardEnabled: Boolean = false, isCustomerAirAttachedQualified: Boolean = true, recentAirAttachFlightTrip: Trip? = Trip()) {
+        adapterUnderTest = TestLaunchListAdapter(context, headerView, isItinLaunchCardEnabled, null, isCustomerAirAttachedQualified, recentAirAttachFlightTrip)
         adapterUnderTest.onCreateViewHolder(parentView, 0)
     }
 
@@ -723,19 +745,22 @@ class LaunchListAdapterTest {
     }
 
     private fun givenMesoHotelAdIsEnabled() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.MesoDestination, R.string.preference_enable_meso_destination_card)
-        RoboTestHelper.updateABTest(AbacusUtils.MesoDestination, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.MesoAd, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
     }
 
-    inner class TestLaunchListAdapter(context: Context?, header: View?, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var isCustomerAirAttachedQualified: Boolean = true, var recentAirAttachFlightTrip: Trip? = Trip(), var isMesoCardEnabled: Boolean = false) : LaunchListAdapter(context, header) {
+    private fun givenMesoDestinationAdEnabled() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.MesoAd, AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal)
+    }
 
-        override fun showMesoHotelAd(): Boolean {
-            return isMesoCardEnabled
-        }
+    inner class TestLaunchListAdapter(context: Context?, header: View?, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var isCustomerAirAttachedQualified: Boolean = true, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListAdapter(context, header) {
 
-        override fun initMesoHotelAd() {
-            mesoHotelAdViewModel = MesoHotelAdViewModel(context = context)
-            mesoHotelAdViewModel.mesoHotelAdResponse = getMesoAdResponseMockData().HotelAdResponse
+        override fun initMesoAd() {
+            if (showMesoHotelAd()) {
+                mesoHotelAdViewModel = MesoHotelAdViewModel(context = context)
+                mesoHotelAdViewModel.mesoHotelAdResponse = getMesoAdResponseMockData().HotelAdResponse
+            } else if (showMesoDestinationAd()) {
+                mesoDestinationViewModel = MesoDestinationViewModel(context = context)
+            }
         }
 
         override fun showActiveItinLaunchScreenCard(): Boolean {

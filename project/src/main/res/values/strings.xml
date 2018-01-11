@@ -869,6 +869,21 @@
     <!-- Search screen title -->
     <string name="search_title">Search</string>
 
+    <!--Meso destination ad card-->
+    <string name="meso_destination_name_las_vegas">Las Vegas</string>
+    <string name="meso_destination_name_los_angeles">Los Angeles</string>
+    <string name="meso_destination_name_miami">Miami</string>
+    <string name="meso_destination_name_cancun">Cancun</string>
+    <string name="meso_destination_name_san_diego">San Diego</string>
+
+    <string name="meso_destination_description_las_vegas">Vintage Las Vegas</string>
+    <string name="meso_destination_description_los_angeles">A perfect day in Los Angeles</string>
+    <string name="meso_destination_description_miami">Top 10 things to do in Miami</string>
+    <string name="meso_destination_description_cancun">Cancun itineraries for any schedule</string>
+    <string name="meso_destination_description_san_diego">Top 10 things to do in San Diego</string>
+
+    <string name="meso_sponsored_text">Sponsored</string>
+
     <!-- Meso hotel ad card -->
 
     <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet

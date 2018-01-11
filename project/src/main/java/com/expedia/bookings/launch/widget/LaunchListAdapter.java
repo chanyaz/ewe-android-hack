@@ -34,14 +34,16 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
+import com.expedia.bookings.meso.model.MesoDestinationAdResponse;
 import com.expedia.bookings.meso.model.MesoHotelAdResponse;
+import com.expedia.bookings.meso.MesoDestinationViewHolder;
+import com.expedia.bookings.meso.vm.MesoDestinationViewModel;
 import com.expedia.bookings.meso.vm.MesoHotelAdViewModel;
 import com.expedia.bookings.mia.activity.LastMinuteDealActivity;
 import com.expedia.bookings.mia.activity.MemberDealsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.ProWizardBucketCache;
@@ -76,6 +78,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			|| itemViewKey == LaunchDataItem.AIR_ATTACH_VIEW
 			|| itemViewKey == LaunchDataItem.ITIN_VIEW
 			|| itemViewKey == LaunchDataItem.MESO_HOTEL_AD_VIEW
+			|| itemViewKey == LaunchDataItem.MESO_DESTINATION_AD_VIEW
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS
 			|| itemViewKey == LaunchDataItem.LAST_MINUTE_DEALS;
 	}
@@ -91,6 +94,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private ArrayList<LaunchDataItem> listData = new ArrayList<>();
 
 	private MesoHotelAdViewModel mesoHotelAdViewModel;
+	private MesoDestinationViewModel mesoDestinationViewModel;
+
 
 	private Context context;
 	private ViewGroup parentView;
@@ -156,6 +161,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			return new MesoHotelAdViewHolder(view, mesoHotelAdViewModel);
 		}
 
+		if (viewType == LaunchDataItem.MESO_DESTINATION_AD_VIEW) {
+			View view = LayoutInflater.from(context)
+				.inflate(R.layout.meso_destination_launch_card, parent, false);
+			return new MesoDestinationViewHolder(view, mesoDestinationViewModel);
+		}
+
 		if (viewType == LaunchDataItem.HOTEL_VIEW) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.section_launch_list_card, parent, false);
@@ -182,6 +193,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			View view = LayoutInflater.from(context).inflate(R.layout.launch_active_itin, parent, false);
 			return new ItinLaunchCard(view, context);
 		}
+
 
 		if (viewType == LaunchDataItem.MEMBER_ONLY_DEALS) {
 			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
@@ -273,6 +285,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (holder instanceof MesoHotelAdViewHolder) {
 			((MesoHotelAdViewHolder) holder).bindListData();
 		}
+		else if (holder instanceof MesoDestinationViewHolder) {
+			((MesoDestinationViewHolder) holder).bindData();
+		}
 		else if (holder instanceof ItinLaunchCard) {
 			((ItinLaunchCard) holder).bind(context, makeActiveItinViewModel());
 		}
@@ -353,6 +368,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				if (mesoHotelAdViewModel != null && mesoHotelAdViewModel.dataIsValid()) {
 					items.add(new LaunchDataItem(LaunchDataItem.MESO_HOTEL_AD_VIEW));
 				}
+			}
+			if (showMesoDestinationAd()) {
+				items.add(new LaunchDataItem(LaunchDataItem.MESO_DESTINATION_AD_VIEW));
 			}
 			if (showMemberDeal()) {
 				items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
@@ -460,9 +478,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			context.getString(R.string.sign_in_create_account));
 	}
 
-	private BigImageLaunchViewModel getDealViewModel(int lastMinuteDealsIcon, int backgroundGradient,
+	private BigImageLaunchViewModel getDealViewModel(int dealsIcon, int backgroundGradient,
 		int title, int subtitle) {
-		return new BigImageLaunchViewModel(lastMinuteDealsIcon,
+		return new BigImageLaunchViewModel(dealsIcon,
 			backgroundGradient,
 			title,
 			subtitle);
@@ -526,24 +544,29 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@VisibleForTesting
 	protected boolean showMesoHotelAd() {
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.MesoDestination,
-			R.string.preference_enable_meso_destination_card)) {
-			int variateForTest = Db.sharedInstance.getAbacusResponse().variateForTest(AbacusUtils.MesoDestination);
-			if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal()) {
-				return true;
-			}
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.MesoAd)) {
+			int variateForTest = Db.sharedInstance.getAbacusResponse().variateForTest(AbacusUtils.MesoAd);
+			return variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal();
 		}
-
 		return false;
 	}
 
-	public void initMesoHotelAd() {
+	@VisibleForTesting
+	protected boolean showMesoDestinationAd() {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.MesoAd)) {
+			int variateForTest = Db.sharedInstance.getAbacusResponse().variateForTest(AbacusUtils.MesoAd);
+			return variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal();
+		}
+		return false;
+	}
+
+	public void initMesoAd() {
 		if (showMesoHotelAd()) {
 			mesoHotelAdViewModel = new MesoHotelAdViewModel(context);
 			mesoHotelAdViewModel.fetchHotelMesoAd(new Observer<Optional<MesoHotelAdResponse>>() {
 				@Override
 				public void onSubscribe(Disposable d) {
-					// Not used. Calling fetching completes the Observer.
+					// Not used. Calling fetch completes the Observer.
 				}
 
 				@Override
@@ -554,6 +577,31 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				@Override
 				public void onComplete() {
 					Log.d("Meso hotel ad request has been completed");
+				}
+
+				@Override
+				public void onError(Throwable e) {
+					Log.d(e.getMessage());
+				}
+
+			});
+		}
+		else if (showMesoDestinationAd()) {
+			mesoDestinationViewModel = new MesoDestinationViewModel(context);
+			mesoDestinationViewModel.fetchDestinationMesoAd(new Observer<Optional<MesoDestinationAdResponse>>() {
+				@Override
+				public void onSubscribe(Disposable d) {
+					// Not used. Calling fetch completes the Observer.
+				}
+
+				@Override
+				public void onNext(Optional<MesoDestinationAdResponse> mesoDestinationAdResponse) {
+					updateState();
+				}
+
+				@Override
+				public void onComplete() {
+					Log.d("Meso destination ad request has been completed");
 				}
 
 				@Override
@@ -638,6 +686,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	public void setMesoHotelAdViewModel(MesoHotelAdViewModel mesoHotelAdViewModel) {
 		this.mesoHotelAdViewModel = mesoHotelAdViewModel;
+	}
+
+	public MesoDestinationViewModel getMesoDestinationViewModel() {
+		return mesoDestinationViewModel;
+	}
+
+	public void setMesoDestinationViewModel(MesoDestinationViewModel mesoDestinationViewModel) {
+		this.mesoDestinationViewModel = mesoDestinationViewModel;
 	}
 }
 

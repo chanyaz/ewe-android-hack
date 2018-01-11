@@ -3361,8 +3361,8 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountSinglePageSignUp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_meso_destination_card)) {
-			trackAbacusTest(s, AbacusUtils.MesoDestination);
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(sContext, AbacusUtils.MesoAd)) {
+			trackAbacusTest(s, AbacusUtils.MesoAd);
 		}
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppBrandColors);

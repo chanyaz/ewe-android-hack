@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/HomeScreenCardViewStyle"
+    app:cardPreventCornerOverlap="false">
+
+    <RelativeLayout
+        android:id="@+id/background_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/meso_destination_card_background"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="matrix"
+            android:layout_alignTop="@+id/meso_destination_container"
+            android:layout_alignBottom="@+id/meso_destination_container"
+            tools:src="@color/app_primary"/>
+
+        <View
+            android:id="@+id/meso_destination_foreground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignTop="@+id/meso_destination_container"
+            android:layout_alignBottom="@+id/meso_destination_container"/>
+
+        <LinearLayout
+            android:id="@+id/meso_destination_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="49dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/meso_destination_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/white"
+                android:paddingBottom="5dp"
+                android:gravity="center_horizontal"
+                style="@style/Core.Text.600"
+                app:textStyle="medium"
+                tools:text="Title"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/meso_destination_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                style="@style/Core.Text.200"
+                tools:text="subtitle"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/meso_destination_sponsored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                style="@style/Core.Text.200"
+                tools:text="Sponsored"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
