@@ -209,14 +209,26 @@ class HotelItinContentGeneratorTest {
     }
 
     @Test
-    fun activityInTripNotificationDoesShowTripsWhenBucketed() {
+    fun activityInTripNotificationDoesShowTripsWhenDurationTwoDaysOrMore() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidLXNotifications)
-        val itinCardDataHotel = givenHappyItinCardDataHotel(3)
+        val checkInTime = mTodayAtNoon.plusDays(1)
+        val checkOutTime = mTodayAtNoon.plusDays(5)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
         val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
         val notifications = hotelItinGenerator.generateNotifications()
         assertEquals(5, notifications.size)
         verify(hotelItinGenerator, Mockito.times(1)).generateActivityInTripNotification()
         assertEquals(notifications[4].notificationType, Notification.NotificationType.HOTEL_ACTIVITY_IN_TRIP)
+    }
+
+    @Test
+    fun activityInTripNotificationDoesNotShowTripsWhenDurationLessThanTwoDays() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidLXNotifications)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(3)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(4, notifications.size)
+        verify(hotelItinGenerator, Mockito.times(0)).generateActivityInTripNotification()
     }
 
     @Test
