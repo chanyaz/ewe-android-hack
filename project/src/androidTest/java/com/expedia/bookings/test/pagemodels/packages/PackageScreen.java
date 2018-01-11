@@ -456,4 +456,8 @@ public class PackageScreen {
 	public static ViewInteraction listView() {
 		return onView(withId(R.id.list_view));
 	}
+
+	public static ViewInteraction dockedOBTextView() {
+		return onView(withId(R.id.outbound_label));
+	}
 }

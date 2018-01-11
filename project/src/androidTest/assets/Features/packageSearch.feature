@@ -449,3 +449,21 @@ Feature: Package Search
     And I decrease the infant count by: 1
     When I press done
     Then 5 traveler count is as selected by user
+
+  @Packages @Prod
+  Scenario: Verify docked outbound flight on inbound flight results screen
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    When I make a packages search with following parameters
+      | source              | SFO                       |
+      | destination         | LAS                       |
+      | source_suggest      | SFO - San Francisco Intl. |
+      | destination_suggest | Las Vegas Strip, NV       |
+      | start_date          | 5                         |
+      | end_date            | 10                        |
+      | adults              | 2                         |
+      | child               | 2                         |
+    And I select hotel at position 1 on HSR screen
+    And I select first room
+    And I select outbound flight to destination at position 1
+    And Validate that there is a docked outbound flight
