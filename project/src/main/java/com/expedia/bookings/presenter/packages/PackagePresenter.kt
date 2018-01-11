@@ -219,7 +219,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         builder.setTitle(context.getString(R.string.booking_successful))
         builder.setMessage(context.getString(R.string.check_your_email_for_itin))
         builder.setPositiveButton(context.getString(R.string.ok), { dialog, _ ->
-            (context as Activity).finish()
+            if (currentState == WebCheckoutView::class.java.name) {
+                (context as Activity).finish()
+            }
             dialog.dismiss()
         })
         builder.create()

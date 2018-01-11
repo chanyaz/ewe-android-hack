@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.flight
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.ComponentName
 import android.view.LayoutInflater
 import android.view.View
@@ -59,6 +60,7 @@ import java.io.File
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -461,7 +463,7 @@ class FlightCheckoutViewTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testShowBookingSuccessDialogOnItinResponseError() {
+    fun testShowBookingSuccessDialogOnItinResponseErrorFinishesActivity() {
         setPOSToIndia()
         turnOnABTest()
         createMockFlightServices()
@@ -469,6 +471,8 @@ class FlightCheckoutViewTest {
 
         val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.show(flightPresenter.webCheckoutView)
+        flightPresenter.bookingSuccessDialog.show()
         flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
         serviceRule.services!!.getTripDetails("should_error", makeItinResponseObserver)
         testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
@@ -476,6 +480,27 @@ class FlightCheckoutViewTest {
         val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
         assertTrue(alertDialog.title.contains("Booking Successful!"))
         assertTrue(alertDialog.message.contains("Please check your email for the itinerary."))
+
+        flightPresenter.bookingSuccessDialog.getButton(Dialog.BUTTON_POSITIVE).performClick()
+
+        val activityShadow = Shadows.shadowOf(activity)
+        assertTrue(activityShadow.isFinishing)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testShowBookingSuccessDialogDoesNotFinishActivityIfWebCheckoutNotShown() {
+        setPOSToIndia()
+        turnOnABTest()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+
+        flightPresenter.bookingSuccessDialog.show()
+
+        flightPresenter.bookingSuccessDialog.getButton(Dialog.BUTTON_POSITIVE).performClick()
+
+        val activityShadow = Shadows.shadowOf(activity)
+        assertFalse(activityShadow.isFinishing)
     }
 
     @Test
