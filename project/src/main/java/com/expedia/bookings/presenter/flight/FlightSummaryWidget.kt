@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -45,8 +47,9 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         inboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
         outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight1_icon)
         inboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight2_icon)
-        outboundFlightWidget.showFlightCabinClass = true
-        inboundFlightWidget.showFlightCabinClass = true
+        val shouldShowSeatingAndCabinClass = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
+        outboundFlightWidget.showFlightCabinClass = shouldShowSeatingAndCabinClass
+        inboundFlightWidget.showFlightCabinClass = shouldShowSeatingAndCabinClass
         basicEconomyMessageTextView.subscribeOnClick(basicEconomyInfoClickedSubject)
     }
 

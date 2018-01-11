@@ -95,3 +95,9 @@ fun isBackFlowFromOverviewEnabled(context: Context): Boolean {
 private fun isPackageForceUpdateEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog)
 }
+
+
+fun isDisplayFlightSeatingClassForShoppingEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass) &&
+            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_show_flight_seating_class)
+}

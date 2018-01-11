@@ -41,6 +41,7 @@ public class FlightLeg {
 	public String originCity;
 	public boolean outbound;
 	public int stopCount;
+	private List<FlightTripDetails.SeatClassAndBookingCode> seatClassAndBookingCodeList;
 
 	public PackageOfferModel packageOfferModel;
 	public String flightPid;
@@ -61,6 +62,25 @@ public class FlightLeg {
 
 	public boolean isFreeCancellable() {
 		return freeCancellationBy != null;
+	}
+
+	public void setSeatClassAndBookingCodeList(List<FlightTripDetails.SeatClassAndBookingCode> value) {
+		this.seatClassAndBookingCodeList = value;
+	}
+
+	public List<FlightTripDetails.SeatClassAndBookingCode> getSeatClassAndBookingCodeList() {
+		if (this.seatClassAndBookingCodeList == null && flightSegments != null) {
+			this.seatClassAndBookingCodeList = new ArrayList<>();
+			for (FlightSegment segment : flightSegments) {
+				if (segment.seatClass != null && segment.bookingCode != null) {
+					FlightTripDetails.SeatClassAndBookingCode seatClassAndBookingCode = new FlightTripDetails.SeatClassAndBookingCode();
+					seatClassAndBookingCode.seatClass = segment.seatClass;
+					seatClassAndBookingCode.bookingCode = segment.bookingCode;
+					seatClassAndBookingCodeList.add(seatClassAndBookingCode);
+				}
+			}
+		}
+		return seatClassAndBookingCodeList;
 	}
 
 	public static FlightLeg convertMultiItemFlightLeg(String flightLegId, FlightOffer flightOffer, MultiItemFlightLeg multiItemFlightLeg,
@@ -162,6 +182,8 @@ public class FlightLeg {
 			else {
 				flightSegment.airplaneType = "";
 			}
+			flightSegment.seatClass = multiItemFlightSegment.getCabinClass();
+			flightSegment.bookingCode = multiItemFlightSegment.getBookingCode();
 			flightSegment.flightNumber = multiItemFlightSegment.getFlightNumber();
 			flightSegment.carrier = multiItemFlightSegment.getAirlineName();
 			flightSegment.airlineCode = multiItemFlightSegment.getAirlineCode();
