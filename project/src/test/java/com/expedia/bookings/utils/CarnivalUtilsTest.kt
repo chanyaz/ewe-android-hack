@@ -8,7 +8,13 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.data.rail.responses.*
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
+import com.expedia.bookings.data.rail.responses.RailDateTime
+import com.expedia.bookings.data.rail.responses.RailDomainProduct
+import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailStation
+import com.expedia.bookings.data.rail.responses.RailTripOffer
+import com.expedia.bookings.data.rail.responses.RailTripProduct
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.services.HotelCheckoutResponse
@@ -291,8 +297,9 @@ class CarnivalUtilsTest : CarnivalUtils() {
         val hotelTrip = Trip()
         hotelTrip.addTripComponent(tripComponent)
         val trips = arrayListOf(hotelTrip)
+        val posUrl = "expedia.fr"
 
-        this.trackLaunch(true, true, traveler, trips, com.expedia.bookings.data.LoyaltyMembershipTier.TOP, 100.1, 75.2)
+        this.trackLaunch(true, true, traveler, trips, com.expedia.bookings.data.LoyaltyMembershipTier.TOP, 100.1, 75.2, posUrl)
 
         assertEquals(eventNameToLog, "app_open_launch_relaunch")
         assertEquals(attributesToSend.get("app_open_launch_relaunch_location_enabled"), true)
@@ -303,6 +310,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
         assertEquals(attributesToSend.get("app_open_launch_relaunch_loyalty_tier"), "GOLD")
         assertEquals(attributesToSend.get("app_open_launch_relaunch_last_location"), "100.1, 75.2")
         assertEquals(attributesToSend.get("app_open_launch_relaunch_notification_type"), arrayListOf("MKTG", "SERV", "PROMO"))
+        assertEquals(attributesToSend.get("app_open_launch_relaunch_pos"), posUrl)
     }
 
     @Test

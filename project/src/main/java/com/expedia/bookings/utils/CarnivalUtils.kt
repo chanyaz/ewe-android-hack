@@ -45,7 +45,7 @@ open class CarnivalUtils {
         }
     }
 
-    fun trackLaunch(isLocationEnabled: Boolean, isSignedIn: Boolean, traveler: Traveler?, bookedProducts: MutableCollection<Trip>, loyaltyTier: LoyaltyMembershipTier?, latitude: Double?, longitude: Double?) {
+    fun trackLaunch(isLocationEnabled: Boolean, isSignedIn: Boolean, traveler: Traveler?, bookedProducts: MutableCollection<Trip>, loyaltyTier: LoyaltyMembershipTier?, latitude: Double?, longitude: Double?, posUrl: String) {
         if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
             val coordinates = latitude.toString() + ", " + longitude.toString()
@@ -62,6 +62,7 @@ open class CarnivalUtils {
             attributes.putString("app_open_launch_relaunch_loyalty_tier", loyaltyTier?.toApiValue())
             attributes.putString("app_open_launch_relaunch_last_location", coordinates)
             attributes.putStringArray("app_open_launch_relaunch_notification_type", arrayListOf("MKTG", "SERV", "PROMO")) //by default give them all types until the control is created to set these values
+            attributes.putString("app_open_launch_relaunch_pos", posUrl)
             setAttributes(attributes, "app_open_launch_relaunch")
         }
     }
