@@ -82,6 +82,7 @@
     <style name="AppTheme.Base.LX">
         <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
         <item name="checkout_card_view_style">@style/LXCardView</item>
+        <item name="android:textColorHint">@color/gray600</item>
         <item name="sliderText">@string/lx_slide_to_reserve</item>
         <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
         <item name="android:textColorSecondary">@color/lx_actionbar_text_color</item>
