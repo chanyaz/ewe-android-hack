@@ -99,7 +99,7 @@ Feature: Package Overview
     And I select inbound flight to source at position 1
     And Validate that Package Overview screen is displayed
     Then on Package Overview Screen validate the toolbar when hotel, outbound and inbound flight is selected
-      | destination       | Detroit, MI       |
+      | destination       | San Francisco, CA |
       | start_date        | 5                 |
       | end_date          | 10                |
       | totalTravelers    | 4 travelers       |
