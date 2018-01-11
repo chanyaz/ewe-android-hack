@@ -38,7 +38,6 @@ import com.expedia.bookings.mia.activity.MemberDealsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.ProWizardBucketCache;
@@ -147,7 +146,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		if (viewType == LaunchDataItem.SIGN_IN_VIEW) {
-			if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)) {
+			if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)) {
 				View view = LayoutInflater.from(context).inflate(R.layout.signin_prompt_card, parent, false);
 				return new BrandSignInLaunchCard(view, context);
 			}
@@ -172,7 +171,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			view.setOnClickListener(new MemberDealClickListener());
 
 			int memberDealsDrawable = R.drawable.ic_member_deals_icon;
-			if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)) {
+			if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)) {
 				memberDealsDrawable = R.drawable.ic_member_only_tag_bg;
 			}
 

@@ -59,7 +59,7 @@ fun isCreditCardMessagingForPayLaterEnabled(context: Context): Boolean {
 }
 
 fun isBrandColorEnabled(context: Context) : Boolean {
-    return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppBrandColors, R.string.preference_enable_launch_screen_brand_colors)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)
 }
 
 fun isHotelMaterialForms(context: Context): Boolean {
@@ -93,6 +93,5 @@ fun isBackFlowFromOverviewEnabled(context: Context): Boolean {
 }
 
 private fun isPackageForceUpdateEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog) &&
-            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_force_upgrade_for_pss_clients)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog)
 }

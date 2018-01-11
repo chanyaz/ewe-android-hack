@@ -17,11 +17,6 @@
         android:title="Home Screen Feature">
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_launch_screen_brand_colors"
-            android:summary="Enable Brand Colors"
-            android:title="Enable Brand Colors" />
-
-        <CheckBoxPreference
             android:key="@string/preference_enable_meso_destination_card"
             android:summary="Enable Meso Destination Card"
             android:title="Enable Meso Destination Card" />
@@ -131,11 +126,6 @@
             android:key="@string/preference_packages_breadcrumbs_move_bundle_overview"
             android:summary="Packages Breadcrumbs - Move Bundle Overview Bar"
             android:title="Packages Breadcrumbs - Move Bundle Overview Bar" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_packages_force_upgrade_for_pss_clients"
-            android:summary="Packages MID: Force upgrade message for PSS clients"
-            android:title="Packages MID: Force upgrade message for PSS clients" />
 
     </PreferenceCategory>
 

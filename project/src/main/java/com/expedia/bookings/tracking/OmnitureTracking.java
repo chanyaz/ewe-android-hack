@@ -3324,9 +3324,7 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.MesoDestination);
 		}
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_launch_screen_brand_colors)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppBrandColors);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppBrandColors);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLastMinuteDeals);
 

@@ -529,6 +529,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     val adapterListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
+            if (height == 0) {
+                return
+            }
             recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
             if (ExpediaBookingApp.isAutomation()) {
                 screenHeight = 0

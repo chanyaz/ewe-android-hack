@@ -959,8 +959,10 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination}の現地ツアーは売り切れ間近です ! 今すぐ現地ツアーをチェックし、事前に予約しましょう。</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">{firstname} 様、ホテル付近の人気の現地ツアーを今すぐチェックしましょう !</string>
-    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
     <string name="flight_notification_delayed_flight_TEMPLATE">{arrival_airport}行きのフライトが遅れています。最新の出発予定時刻は {departure_time} です。</string>
+    <!--Notification title for Flight delayed notification -->
+    <string name="flight_notification_delayed_title">フライト遅延</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">旅程</string>
@@ -1080,10 +1082,6 @@
     <string name="trips_back_button_label_cont_desc">旅行画面に戻るボタン</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">旅行拡大ボタン</string>
-    <!-- Content Description for upgrade image to upgrade hotel room -->
-    <string name="trips_upgrade_hotel_button_label_cont_desc">客室をアップグレードする</string>
-    <!-- Web view header label for soft changes to hotel room booking -->
-    <string name="trips_edit_room_info_web_view_title">客室情報を編集</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">ホテルの確認番号</string>
     <!-- Passengers Label -->
@@ -1280,13 +1278,9 @@
     <string name="itin_card_details_details">追加情報</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">客室をキャンセルする</string>
-    <!-- Label for button to upgrade Hotel room -->
-    <string name="itin_card_details_upgrade_hotel_button">期間限定 : アップグレード可 !</string>
     <string name="itin_card_flight_checkin_title">フライトのチェックイン</string>
     <!-- Label for button to edit Hotel booking -->
     <string name="itin_card_edit_hotel_room_info">客室情報を編集</string>
-    <!-- Accessibility announcement for button to edit Hotel booking -->
-    <string name="itin_card_change_hotel_options">ホテル オプションを変更する</string>
 
     <string name="itin_card_flight_checkin_details">%sのサイトを表示する</string>
     <string name="itin_card_details_pick_up">借出</string>
@@ -1315,13 +1309,6 @@
     <string name="itin_card_details_dropped_off_TEMPLATE">%1$s に返却済み</string>
     <string name="itin_card_details_agency_phone">エージェンシー電話番号</string>
     <string name="itin_card_details_toll_free_phone">フリーダイヤル</string>
-    <string name="itin_card_details_check_in">チェックイン</string>
-    <string name="itin_card_details_check_out">チェックアウト</string>
-    <string name="itin_card_details_address">住所</string>
-    <string name="itin_card_details_local_phone">現地の電話番号</string>
-    <string name="itin_card_details_room_type">客室タイプ</string>
-    <string name="itin_card_details_non_price_promotion_includes">含まれているもの :</string>
-    <string name="itin_card_details_bed_type">ベッドタイプ</string>
     <string name="toast_copied_to_clipboard">クリップボードにコピーしました。</string>
     <string name="itin_card_details_reload">情報をリロード</string>
     <string name="itin_card_details_reload_activity">現地ツアー情報を再読み込み</string>
@@ -1565,6 +1552,10 @@
     <string name="itin_flight_airline_support_widget_support_webview_title">航空会社のカスタマーサポート</string>
     <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
     <string name="itin_flight_airline_support_widget_number_text">番号</string>
+    <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_text">予約をキャンセル</string>
+    <!--Flight itin, flight modify reservation widget's Change reservation text-->
+    <string name="itin_flight_modify_widget_change_reservation_text">予約を変更</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} 日 {hours} 時間 {minutes} 分</string>
@@ -2846,6 +2837,8 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">往復 (1 名あたり) の最低料金。航空券 + ホテルを含む • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
+    <string name="package_hotel_results_header">往復 (1 名あたり) の合計料金 • 航空券 + ホテルを含む</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 予約済み</string>
@@ -4608,8 +4601,6 @@
 
     <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title}エラー : 未入力の旅行者情報を入力してくださいボタン。</string>
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_complete_cont_desc">旅行者情報の入力が完了しました</string>
     <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}、{subtitle}、旅行者情報の入力完了。ボタン。</string>
     <!--Packages accessibility content description for role Button-->
@@ -4626,8 +4617,6 @@
     <string name="accessibility_cont_desc_card_is_disabled">無効のクレジットカード タイプ</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">ユーザーの評価ボタン</string>
-    <!-- Content Description for Searching for hotels -->
-    <string name="accessibility_cont_desc_searching_for_hotels">条件に合ったホテルを検索しています。</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">料金は {activity_price} ({ticket_type}) です</string>
@@ -4755,12 +4744,13 @@
     <string name="member_deals_toolbar_title">会員価格</string>
     <string name="continue_booking">予約を続ける</string>
     <string name="deals_hotel_only">ホテル</string>
-    <string name="deals_toolbar_close_cont_desc">会員価格画面を閉じる</string>
+    <string name="member_deals_toolbar_close_cont_desc">会員価格画面を閉じる</string>
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">直前割引</string>
     <string name="last_minute_deal_subtitle">今すぐ旅へ ! お得な直前割引をチェック</string>
     <string name="last_minute_deals_toolbar_title">直前割引</string>
+    <string name="last_minute_deals_toolbar_close_cont_desc">直前割引画面を閉じる</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">並び替え順の定義</string>
@@ -4838,13 +4828,6 @@
     <string name="location_soft_prompt_enable">位置情報をオンにする</string>
     <string name="location_soft_prompt_disable">後で</string>
 
-    <!--Soft Prompt For flights browser view-->
-    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
-    <string name="flights_browser_view_soft_prompt_title">準備中…</string>
-    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
-    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">まもなく、アプリに航空券の予約機能が登場します。それまでお得な航空券は {brand_url} でご予約ください。</string>
-    <string name="flights_browser_viewsoft_prompt_enable">ブラウザで開く</string>
-
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">税金とサービス料込み</string>
     <string name="excluding_taxes_fees">税およびサービス料別</string>
@@ -4892,5 +4875,8 @@
         <item quantity="one">プロモーション終了まであと {no_of_days} 日</item>
         <item quantity="other">プロモーション終了まであと {no_of_days} 日</item>
     </plurals>
+
+    <!-- Showing the header for the coupon widget to show the saved coupon -->
+    <string name="saved_coupon">保存済みのクーポン</string>
 
 </resources>

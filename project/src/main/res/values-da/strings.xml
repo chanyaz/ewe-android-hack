@@ -959,8 +959,10 @@
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Aktiviteter i {destination} bliver hurtigt udsolgt! Tag et kig på de forskellige aktiviteter, og book dine billetter på forhånd.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hej {firstname}! Tag et kig på de mest populære seværdigheder og aktiviteter nær dit hotel.</string>
-    <!--Notification body for Flight delayed notification e.g. Your flight to SFO is delayed with a new departure at 12:30pm -->
+    <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
     <string name="flight_notification_delayed_flight_TEMPLATE">Dit fly til {arrival_airport} er forsinket. Det nye afrejsetidspunkt er {departure_time}.</string>
+    <!--Notification title for Flight delayed notification -->
+    <string name="flight_notification_delayed_title">Flyet er forsinket</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Rejseplan</string>
@@ -1080,10 +1082,6 @@
     <string name="trips_back_button_label_cont_desc">Knap, der tager dig tilbage til rejseoversigten</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">Knap til at udvide rejseoversigten</string>
-    <!-- Content Description for upgrade image to upgrade hotel room -->
-    <string name="trips_upgrade_hotel_button_label_cont_desc">Opgrader hotelværelse</string>
-    <!-- Web view header label for soft changes to hotel room booking -->
-    <string name="trips_edit_room_info_web_view_title">Rediger værelsesoplysninger</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Hotellets bekræftelseskode</string>
     <!-- Passengers Label -->
@@ -1280,13 +1278,9 @@
     <string name="itin_card_details_details">Yderligere oplysninger</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Afbestil dit hotelværelse</string>
-    <!-- Label for button to upgrade Hotel room -->
-    <string name="itin_card_details_upgrade_hotel_button">Begrænset periode: Mulighed for at opgradere!</string>
     <string name="itin_card_flight_checkin_title">Indtjekning til flyrejse</string>
     <!-- Label for button to edit Hotel booking -->
     <string name="itin_card_edit_hotel_room_info">Rediger værelsesoplysninger</string>
-    <!-- Accessibility announcement for button to edit Hotel booking -->
-    <string name="itin_card_change_hotel_options">Ændr valgmuligheder for hotel</string>
 
     <string name="itin_card_flight_checkin_details">Besøg %ss hjemmeside</string>
     <string name="itin_card_details_pick_up">Afhentning</string>
@@ -1315,13 +1309,6 @@
     <string name="itin_card_details_dropped_off_TEMPLATE">Afleveret %1$s</string>
     <string name="itin_card_details_agency_phone">Bureauets telefonnummer</string>
     <string name="itin_card_details_toll_free_phone">Gratis telefonnummer</string>
-    <string name="itin_card_details_check_in">Indtjekning</string>
-    <string name="itin_card_details_check_out">Udtjekning</string>
-    <string name="itin_card_details_address">Adresse</string>
-    <string name="itin_card_details_local_phone">Lokalt telefonnummer</string>
-    <string name="itin_card_details_room_type">Værelsestype</string>
-    <string name="itin_card_details_non_price_promotion_includes">Inkluderer</string>
-    <string name="itin_card_details_bed_type">Sengetype</string>
     <string name="toast_copied_to_clipboard">Kopieret til udklipsholder.</string>
     <string name="itin_card_details_reload">Genindlæs oplysninger</string>
     <string name="itin_card_details_reload_activity">Genindlæs aktivitetsinfo</string>
@@ -1565,6 +1552,10 @@
     <string name="itin_flight_airline_support_widget_support_webview_title">Kundeservice for flyselskabet</string>
     <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
     <string name="itin_flight_airline_support_widget_number_text">nummer</string>
+    <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_text">Afbestil reservation</string>
+    <!--Flight itin, flight modify reservation widget's Change reservation text-->
+    <string name="itin_flight_modify_widget_change_reservation_text">Ændr reservation</string>
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}d {hours}t {minutes}m</string>
@@ -2846,6 +2837,8 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Samlet pris pr. person tur-retur. inkl. hotel og fly • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
+    <string name="package_hotel_results_header">Samlet pris pr. person tur-retur • inklusive hotel og fly</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% reserveret</string>
@@ -4608,8 +4601,6 @@
 
     <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Fejl: Indtast manglende oplysninger om rejsende. Knap.</string>
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_complete_cont_desc">Oplysningerne om den rejsende er udfyldt</string>
     <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, oplysninger om rejsende er udfyldt. Knap.</string>
     <!--Packages accessibility content description for role Button-->
@@ -4626,8 +4617,6 @@
     <string name="accessibility_cont_desc_card_is_disabled">Deaktiveret</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Knap til at se anmeldelser</string>
-    <!-- Content Description for Searching for hotels -->
-    <string name="accessibility_cont_desc_searching_for_hotels">Søger blandt hundredvis af hoteller til dig.</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Prisen er {activity_price}{ticket_type}</string>
@@ -4755,12 +4744,13 @@
     <string name="member_deals_toolbar_title">Medlemspriser</string>
     <string name="continue_booking">Fortsæt med reservationen</string>
     <string name="deals_hotel_only">Kun hotel</string>
-    <string name="deals_toolbar_close_cont_desc">Luk vindue med medlemspriser</string>
+    <string name="member_deals_toolbar_close_cont_desc">Luk vindue med medlemspriser</string>
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Tilbud i sidste øjeblik</string>
     <string name="last_minute_deal_subtitle">Trænger du til en ferie? Tag et kig på vores tilbud i sidste øjeblik</string>
     <string name="last_minute_deals_toolbar_title">Sidste øjeblik-tilbud</string>
+    <string name="last_minute_deals_toolbar_close_cont_desc">Luk vinduet med sidste øjeblik-tilbud</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Sådan bestemmes sorteringsrækkefølgen</string>
@@ -4838,13 +4828,6 @@
     <string name="location_soft_prompt_enable">Aktiver placering</string>
     <string name="location_soft_prompt_disable">Ikke nu</string>
 
-    <!--Soft Prompt For flights browser view-->
-    <!--Label for india flights launch soft prompt title. E.g. Coming Soon-->
-    <string name="flights_browser_view_soft_prompt_title">Kommer snart</string>
-    <!--Label for india flights launch soft prompt subtitle. E.g. Flights will be available in the app soon. In the meantime, book the cheapest flights to your destination on Expedia.co.in -->
-    <string name="flights_browser_viewsoft_prompt_subtitle_TEMPLATE">Du kan snart booke flyrejser i appen. I mellemtiden kan du booke den billigste flyrejse til din destination på {brand_url}</string>
-    <string name="flights_browser_viewsoft_prompt_enable">Åbn i browser</string>
-
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Det samlede beløb, inkl. skatter og gebyrer</string>
     <string name="excluding_taxes_fees">Inkluderer ikke skatter og gebyrer</string>
@@ -4892,5 +4875,8 @@
         <item quantity="one">Tilbuddet udløber om {no_of_days} dag</item>
         <item quantity="other">Tilbuddet udløber om {no_of_days} dage</item>
     </plurals>
+
+    <!-- Showing the header for the coupon widget to show the saved coupon -->
+    <string name="saved_coupon">Gemte kuponer</string>
 
 </resources>

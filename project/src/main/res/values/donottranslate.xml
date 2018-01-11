@@ -136,7 +136,6 @@
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
     <string name="preference_packages_breadcrumbs_move_bundle_overview">preference_packages_breadcrumbs_move_bundle_overview</string>
-    <string name="preference_packages_force_upgrade_for_pss_clients">preference_packages_force_upgrade_for_pss_clients</string>
     <string name="preference_switch_to_from_flight_locations">preference_switch_to_from_flight_locations</string>
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
     <string name="preference_trips_new_flights_managing_booking_design">preference_trips_new_flights_managing_booking_design</string>
@@ -148,7 +147,6 @@
     <string name="preference_enable_production_abacus">preference_enable_production_abacus</string>
     <string name="pay_later_credit_card_messaging">pay_later_credit_card_messaging</string>
     <string name="preference_enable_hotel_material_forms">preference_enable_hotel_material_forms</string>
-    <string name="preference_enable_launch_screen_brand_colors">preference_enable_launch_screen_brand_colors</string>
     <string name="preference_enable_trips_flight_alerts">preference_enable_trips_flight_alerts</string>
     <string name="preference_enable_meso_destination_card">preference_enable_meso_destination_card</string>
     <string name="preference_enable_trips_hotel_messaging">preference_enable_trips_hotel_messaging</string>
