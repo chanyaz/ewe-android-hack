@@ -365,8 +365,6 @@
         android:layout_below="@+id/etp_and_free_cancellation_messaging_info_divider"
         android:background="@color/white"
         android:fillViewport="true"
-        android:paddingBottom="4dp"
-        android:paddingTop="10dp"
         android:scrollbarSize="3dp">
 
         <TableLayout

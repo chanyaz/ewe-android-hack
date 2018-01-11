@@ -13,6 +13,8 @@
     <color name="app_divider_on_white">@color/gray300</color>
     <color name="app_divider_on_gray">@color/gray400</color>
 
+    <color name="disabled_icon_color">@color/gray900_30</color>
+
     <!-- Action Bar colors -->
     <color name="launch_actionbar_bg_color">@color/exp_old_launch</color>
     <color name="action_bar_selected_tab_underline_color">#FFED18</color>
@@ -457,6 +459,7 @@
     <color name="result_cells_gray_text">@color/gray700</color>
 
     <color name="default_text_color">@color/gray900</color>
+    <color name="disabled_text_color">@color/gray900_30</color>
     <color name="light_text_color">@color/gray700</color>
 
     <!-- This color should be used on search result list header texts such as "All Flights", "Searching hundreds of hotels" and "Step 1: Select Hotel".  -->

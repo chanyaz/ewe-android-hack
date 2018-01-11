@@ -2666,71 +2666,71 @@
 
     <!-- Amenity strings -->
     <!-- Business center amenity -->
-    <string name="AmenityBusinessCenter">비즈니스 센터</string>
+    <string name="amenity_business_center">비즈니스 센터</string>
     <!-- Fitness center amenity -->
-    <string name="AmenityFitnessCenter">체육관</string>
+    <string name="amenity_fitness_center">체육관</string>
     <!-- Hot tub on-site amenity -->
-    <string name="AmenityHotTub">온수 욕조</string>
+    <string name="amenity_hot_tub">온수 욕조</string>
     <!-- Internet access amenity -->
-    <string name="AmenityInternet">인터넷</string>
+    <string name="amenity_internet">인터넷</string>
     <!-- Free Internet access amenity -->
-    <string name="AmenityFreeInternet">무료 인터넷</string>
+    <string name="amenity_free_internet">무료 인터넷</string>
     <!-- Kids' activities amenity -->
-    <string name="AmenityKidsActivities">어린이 활동</string>
+    <string name="amenity_kids_activities">어린이 활동</string>
     <!-- Kitchen/kitchenette amenity -->
-    <string name="AmenityKitchen">주방</string>
+    <string name="amenity_kitchen">주방</string>
     <!-- Pets allowed amenity -->
-    <string name="AmenityPetsAllowed">애완동물</string>
+    <string name="amenity_pets_allowed">애완동물</string>
     <!-- Pool amenity -->
-    <string name="AmenityPool">수영장</string>
+    <string name="amenity_pool">수영장</string>
     <!-- Restaurant on-site amenity -->
-    <string name="AmenityRestaurant">식당</string>
+    <string name="amenity_restaurant">식당</string>
     <!-- Spa on-site amenity -->
-    <string name="AmenitySpa">스파</string>
+    <string name="amenity_spa">스파</string>
     <!-- Whirlpool bath amenity -->
-    <string name="AmenityWhirlpoolBath">월풀 욕조</string>
+    <string name="amenity_whirlpool_bath">월풀 욕조</string>
     <!-- Breakfast amenity -->
-    <string name="AmenityBreakfast">아침 식사</string>
+    <string name="amenity_breakfast">아침 식사</string>
     <!-- Babysitting amenity -->
-    <string name="AmenityBabysitting">탁아 서비스</string>
+    <string name="amenity_babysitting">탁아 서비스</string>
     <!-- Jacuzzi amenity -->
-    <string name="AmenityJacuzzi">자쿠지</string>
+    <string name="amenity_jacuzzi">자쿠지</string>
     <!-- Parking amenity -->
-    <string name="AmenityParking">주차</string>
+    <string name="amenity_parking">주차</string>
     <!-- Room service amenity -->
-    <string name="AmenityRoomService">룸서비스</string>
+    <string name="amenity_room_service">룸서비스</string>
     <!-- Accessible path of travel amenity -->
-    <string name="AmenityAccessiblePaths">장애인 지원 복도</string>
+    <string name="amenity_accessible_paths">장애인 지원 복도</string>
     <!-- Accessible bathroom amenity -->
-    <string name="AmenityAccessibleBathroom">장애인 지원 욕실</string>
+    <string name="amenity_accessible_bathroom">장애인 지원 욕실</string>
     <!-- Roll-in shower amenity -->
-    <string name="AmenityRollInShower">롤인 샤워</string>
+    <string name="amenity_roll_in_shower">롤인 샤워</string>
     <!-- Handicapped parking amenity -->
-    <string name="AmenityHandicappedParking">장애인용 주차장</string>
+    <string name="amenity_handicapped_parking">장애인용 주차장</string>
     <!-- In-room accessibility amenity -->
-    <string name="AmenityInRoomAccessibility">장애인 지원 객실</string>
+    <string name="amenity_in_room_accessibility">장애인 지원 객실</string>
     <!-- Accessibility equipment for the deaf amenity -->
-    <string name="AmenityDeafAccessibilityEquipment">청각장애인 지원 시설</string>
+    <string name="amenity_deaf_accessibility_equipment">청각장애인 지원 시설</string>
     <!-- Braille or raised signage amenity -->
-    <string name="AmenityBrailleSignage">점자 표지판</string>
+    <string name="amenity_braille_signage">점자 표지판</string>
     <!-- Free airport shuttle amenity -->
-    <string name="AmenityFreeAirportShuttle">공항 셔틀</string>
+    <string name="amenity_free_airport_shuttle">공항 셔틀</string>
     <!-- Indoor pool amenity -->
-    <string name="AmenityPoolIndoor">실내 수영장</string>
+    <string name="amenity_pool_indoor">실내 수영장</string>
     <!-- Outdoor pool amenity -->
-    <string name="AmenityPoolOutdoor">야외 수영장</string>
+    <string name="amenity_pool_outdoor">야외 수영장</string>
     <!-- Extended parking amenity -->
-    <string name="AmenityExtendedParking">장기 주차</string>
+    <string name="amenity_extended_parking">장기 주차</string>
     <!-- Free parking amenity -->
-    <string name="AmenityFreeParking">무료 주차</string>
+    <string name="amenity_free_parking">무료 주차</string>
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">무료 인터넷</string>
+    <string name="filter_high_speed_internet">무료 인터넷</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">무료 아침 식사</string>
+    <string name="filter_free_breakfast">무료 아침 식사</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">무료 공항 셔틀</string>
+    <string name="filter_free_airport_transportation">무료 공항 셔틀</string>
 
 
     <!-- User Reviews list strings -->

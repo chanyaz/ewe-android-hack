@@ -8,6 +8,7 @@
     tools:orientation="vertical">
 
     <com.expedia.bookings.widget.TextView
+        style="@style/Core.Text.400.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -15,9 +16,7 @@
         android:paddingLeft="@dimen/hotel_sort_filter_padding"
         android:paddingRight="@dimen/hotel_sort_filter_padding"
         android:text="@string/Sort_By"
-        android:textColor="@color/hotel_filter_text"
-        android:textSize="15sp"
-        app:textStyle="medium" />
+        android:textColor="@color/hotel_filter_text" />
 
     <android.support.v7.widget.CardView
         style="@style/MaterialCardView"

@@ -8,14 +8,13 @@
     tools:orientation="vertical">
 
     <com.expedia.bookings.widget.TextView
+        style="@style/Core.Text.400.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:text="@string/Filter_By"
         android:textColor="@color/hotel_filter_text"
-        android:textSize="15sp"
-        app:textStyle="medium"
         android:labelFor="@+id/filter_hotel_name_edit_text"/>
 
     <RelativeLayout

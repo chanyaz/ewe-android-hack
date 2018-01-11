@@ -2666,71 +2666,71 @@
 
     <!-- Amenity strings -->
     <!-- Business center amenity -->
-    <string name="AmenityBusinessCenter">Trung tâm Dịch vụ Văn phòng</string>
+    <string name="amenity_business_center">Trung tâm Dịch vụ Văn phòng</string>
     <!-- Fitness center amenity -->
-    <string name="AmenityFitnessCenter">Gym</string>
+    <string name="amenity_fitness_center">Gym</string>
     <!-- Hot tub on-site amenity -->
-    <string name="AmenityHotTub">Bồn tắm nước nóng</string>
+    <string name="amenity_hot_tub">Bồn tắm nước nóng</string>
     <!-- Internet access amenity -->
-    <string name="AmenityInternet">Internet</string>
+    <string name="amenity_internet">Internet</string>
     <!-- Free Internet access amenity -->
-    <string name="AmenityFreeInternet">Internet miễn phí</string>
+    <string name="amenity_free_internet">Internet miễn phí</string>
     <!-- Kids' activities amenity -->
-    <string name="AmenityKidsActivities">Các hoạt động cho trẻ</string>
+    <string name="amenity_kids_activities">Các hoạt động cho trẻ</string>
     <!-- Kitchen/kitchenette amenity -->
-    <string name="AmenityKitchen">Nhà bếp</string>
+    <string name="amenity_kitchen">Nhà bếp</string>
     <!-- Pets allowed amenity -->
-    <string name="AmenityPetsAllowed">Thú nuôi</string>
+    <string name="amenity_pets_allowed">Thú nuôi</string>
     <!-- Pool amenity -->
-    <string name="AmenityPool">Hồ bơi</string>
+    <string name="amenity_pool">Hồ bơi</string>
     <!-- Restaurant on-site amenity -->
-    <string name="AmenityRestaurant">Dịch vụ ăn uống</string>
+    <string name="amenity_restaurant">Dịch vụ ăn uống</string>
     <!-- Spa on-site amenity -->
-    <string name="AmenitySpa">Spa</string>
+    <string name="amenity_spa">Spa</string>
     <!-- Whirlpool bath amenity -->
-    <string name="AmenityWhirlpoolBath">Bồn tắm thủy lực</string>
+    <string name="amenity_whirlpool_bath">Bồn tắm thủy lực</string>
     <!-- Breakfast amenity -->
-    <string name="AmenityBreakfast">Bữa sáng</string>
+    <string name="amenity_breakfast">Bữa sáng</string>
     <!-- Babysitting amenity -->
-    <string name="AmenityBabysitting">Giữ trẻ</string>
+    <string name="amenity_babysitting">Giữ trẻ</string>
     <!-- Jacuzzi amenity -->
-    <string name="AmenityJacuzzi">Bồn tắm Jacuzzi</string>
+    <string name="amenity_jacuzzi">Bồn tắm Jacuzzi</string>
     <!-- Parking amenity -->
-    <string name="AmenityParking">Bãi đậu xe</string>
+    <string name="amenity_parking">Bãi đậu xe</string>
     <!-- Room service amenity -->
-    <string name="AmenityRoomService">Dịch vụ phòng</string>
+    <string name="amenity_room_service">Dịch vụ phòng</string>
     <!-- Accessible path of travel amenity -->
-    <string name="AmenityAccessiblePaths">Lối đi hỗ trợ người khuyết tật</string>
+    <string name="amenity_accessible_paths">Lối đi hỗ trợ người khuyết tật</string>
     <!-- Accessible bathroom amenity -->
-    <string name="AmenityAccessibleBathroom">Phòng tắm phù hợp cho người khuyết tật</string>
+    <string name="amenity_accessible_bathroom">Phòng tắm phù hợp cho người khuyết tật</string>
     <!-- Roll-in shower amenity -->
-    <string name="AmenityRollInShower">Phòng tắm phù hợp cho xe lăn</string>
+    <string name="amenity_roll_in_shower">Phòng tắm phù hợp cho xe lăn</string>
     <!-- Handicapped parking amenity -->
-    <string name="AmenityHandicappedParking">Chỗ đậu xe cho người khuyết tật</string>
+    <string name="amenity_handicapped_parking">Chỗ đậu xe cho người khuyết tật</string>
     <!-- In-room accessibility amenity -->
-    <string name="AmenityInRoomAccessibility">Phòng có thiết bị hỗ trợ người khuyết tật</string>
+    <string name="amenity_in_room_accessibility">Phòng có thiết bị hỗ trợ người khuyết tật</string>
     <!-- Accessibility equipment for the deaf amenity -->
-    <string name="AmenityDeafAccessibilityEquipment">Có thiết bị hỗ trợ người khiếm thính</string>
+    <string name="amenity_deaf_accessibility_equipment">Có thiết bị hỗ trợ người khiếm thính</string>
     <!-- Braille or raised signage amenity -->
-    <string name="AmenityBrailleSignage">Biển báo bằng chữ Braille</string>
+    <string name="amenity_braille_signage">Biển báo bằng chữ Braille</string>
     <!-- Free airport shuttle amenity -->
-    <string name="AmenityFreeAirportShuttle">Dịch vụ đưa đón sân bay</string>
+    <string name="amenity_free_airport_shuttle">Dịch vụ đưa đón sân bay</string>
     <!-- Indoor pool amenity -->
-    <string name="AmenityPoolIndoor">Hồ bơi trong nhà</string>
+    <string name="amenity_pool_indoor">Hồ bơi trong nhà</string>
     <!-- Outdoor pool amenity -->
-    <string name="AmenityPoolOutdoor">Hồ bơi ngoài trời</string>
+    <string name="amenity_pool_outdoor">Hồ bơi ngoài trời</string>
     <!-- Extended parking amenity -->
-    <string name="AmenityExtendedParking">Chỗ đậu xe dài hạn</string>
+    <string name="amenity_extended_parking">Chỗ đậu xe dài hạn</string>
     <!-- Free parking amenity -->
-    <string name="AmenityFreeParking">Đậu xe miễn phí</string>
+    <string name="amenity_free_parking">Đậu xe miễn phí</string>
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">Internet miễn phí</string>
+    <string name="filter_high_speed_internet">Internet miễn phí</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">Bữa sáng miễn phí</string>
+    <string name="filter_free_breakfast">Bữa sáng miễn phí</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">Đưa đón sân bay miễn phí</string>
+    <string name="filter_free_airport_transportation">Đưa đón sân bay miễn phí</string>
 
 
     <!-- User Reviews list strings -->

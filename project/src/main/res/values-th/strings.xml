@@ -2666,71 +2666,71 @@
 
     <!-- Amenity strings -->
     <!-- Business center amenity -->
-    <string name="AmenityBusinessCenter">ศูนย์ธุรกิจ</string>
+    <string name="amenity_business_center">ศูนย์ธุรกิจ</string>
     <!-- Fitness center amenity -->
-    <string name="AmenityFitnessCenter">ฟิตเนส</string>
+    <string name="amenity_fitness_center">ฟิตเนส</string>
     <!-- Hot tub on-site amenity -->
-    <string name="AmenityHotTub">อ่างน้ำร้อน</string>
+    <string name="amenity_hot_tub">อ่างน้ำร้อน</string>
     <!-- Internet access amenity -->
-    <string name="AmenityInternet">อินเทอร์เน็ต</string>
+    <string name="amenity_internet">อินเทอร์เน็ต</string>
     <!-- Free Internet access amenity -->
-    <string name="AmenityFreeInternet">อินเทอร์เน็ตฟรี</string>
+    <string name="amenity_free_internet">อินเทอร์เน็ตฟรี</string>
     <!-- Kids' activities amenity -->
-    <string name="AmenityKidsActivities">กิจกรรมสำหรับเด็ก</string>
+    <string name="amenity_kids_activities">กิจกรรมสำหรับเด็ก</string>
     <!-- Kitchen/kitchenette amenity -->
-    <string name="AmenityKitchen">ห้องครัว</string>
+    <string name="amenity_kitchen">ห้องครัว</string>
     <!-- Pets allowed amenity -->
-    <string name="AmenityPetsAllowed">นำสัตว์เลี้ยงเข้าพักได้</string>
+    <string name="amenity_pets_allowed">นำสัตว์เลี้ยงเข้าพักได้</string>
     <!-- Pool amenity -->
-    <string name="AmenityPool">สระว่ายน้ำ</string>
+    <string name="amenity_pool">สระว่ายน้ำ</string>
     <!-- Restaurant on-site amenity -->
-    <string name="AmenityRestaurant">ห้องอาหาร</string>
+    <string name="amenity_restaurant">ห้องอาหาร</string>
     <!-- Spa on-site amenity -->
-    <string name="AmenitySpa">สปา</string>
+    <string name="amenity_spa">สปา</string>
     <!-- Whirlpool bath amenity -->
-    <string name="AmenityWhirlpoolBath">สระน้ำวน</string>
+    <string name="amenity_whirlpool_bath">สระน้ำวน</string>
     <!-- Breakfast amenity -->
-    <string name="AmenityBreakfast">อาหารเช้า</string>
+    <string name="amenity_breakfast">อาหารเช้า</string>
     <!-- Babysitting amenity -->
-    <string name="AmenityBabysitting">บริการดูแลเด็ก</string>
+    <string name="amenity_babysitting">บริการดูแลเด็ก</string>
     <!-- Jacuzzi amenity -->
-    <string name="AmenityJacuzzi">อ่างจากุชซี่</string>
+    <string name="amenity_jacuzzi">อ่างจากุชซี่</string>
     <!-- Parking amenity -->
-    <string name="AmenityParking">ที่จอดรถ</string>
+    <string name="amenity_parking">ที่จอดรถ</string>
     <!-- Room service amenity -->
-    <string name="AmenityRoomService">รูมเซอร์วิส</string>
+    <string name="amenity_room_service">รูมเซอร์วิส</string>
     <!-- Accessible path of travel amenity -->
-    <string name="AmenityAccessiblePaths">ทางสำหรับผู้พิการ</string>
+    <string name="amenity_accessible_paths">ทางสำหรับผู้พิการ</string>
     <!-- Accessible bathroom amenity -->
-    <string name="AmenityAccessibleBathroom">ห้องน้ำสำหรับผู้พิการ</string>
+    <string name="amenity_accessible_bathroom">ห้องน้ำสำหรับผู้พิการ</string>
     <!-- Roll-in shower amenity -->
-    <string name="AmenityRollInShower">ห้องอาบน้ำสำหรับผู้ใช้รถเข็น</string>
+    <string name="amenity_roll_in_shower">ห้องอาบน้ำสำหรับผู้ใช้รถเข็น</string>
     <!-- Handicapped parking amenity -->
-    <string name="AmenityHandicappedParking">ที่จอดรถสำหรับผู้พิการ</string>
+    <string name="amenity_handicapped_parking">ที่จอดรถสำหรับผู้พิการ</string>
     <!-- In-room accessibility amenity -->
-    <string name="AmenityInRoomAccessibility">ห้องพักสำหรับผู้ใช้รถเข็น</string>
+    <string name="amenity_in_room_accessibility">ห้องพักสำหรับผู้ใช้รถเข็น</string>
     <!-- Accessibility equipment for the deaf amenity -->
-    <string name="AmenityDeafAccessibilityEquipment">สิ่งอำนวยความสะดวกคนหูหนวก</string>
+    <string name="amenity_deaf_accessibility_equipment">สิ่งอำนวยความสะดวกคนหูหนวก</string>
     <!-- Braille or raised signage amenity -->
-    <string name="AmenityBrailleSignage">ป้ายอักษรเบรลล์</string>
+    <string name="amenity_braille_signage">ป้ายอักษรเบรลล์</string>
     <!-- Free airport shuttle amenity -->
-    <string name="AmenityFreeAirportShuttle">รถรับส่งสนามบิน</string>
+    <string name="amenity_free_airport_shuttle">รถรับส่งสนามบิน</string>
     <!-- Indoor pool amenity -->
-    <string name="AmenityPoolIndoor">สระว่ายน้ำในร่ม</string>
+    <string name="amenity_pool_indoor">สระว่ายน้ำในร่ม</string>
     <!-- Outdoor pool amenity -->
-    <string name="AmenityPoolOutdoor">สะว่ายน้ำกลางแจ้ง</string>
+    <string name="amenity_pool_outdoor">สะว่ายน้ำกลางแจ้ง</string>
     <!-- Extended parking amenity -->
-    <string name="AmenityExtendedParking">ที่จอดรถเพิ่มเติม</string>
+    <string name="amenity_extended_parking">ที่จอดรถเพิ่มเติม</string>
     <!-- Free parking amenity -->
-    <string name="AmenityFreeParking">ที่จอดรถฟรี</string>
+    <string name="amenity_free_parking">ที่จอดรถฟรี</string>
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">อินเทอร์เน็ตฟรี</string>
+    <string name="filter_high_speed_internet">อินเทอร์เน็ตฟรี</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">อาหารเช้าฟรี</string>
+    <string name="filter_free_breakfast">อาหารเช้าฟรี</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">รถรับส่งสนามบินฟรี</string>
+    <string name="filter_free_airport_transportation">รถรับส่งสนามบินฟรี</string>
 
 
     <!-- User Reviews list strings -->

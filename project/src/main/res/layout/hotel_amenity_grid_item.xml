@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:orientation="vertical"
+    tools:parentTag="LinearLayout">
+
+    <ImageView
+        android:id="@+id/hotel_filter_grid_item_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:elevation="1dp"
+        android:background="@drawable/amenity_filter_item_background"
+        android:tint="@color/amenity_filter_icon_tint"
+        tools:src="@drawable/ic_amenity_internet"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/hotel_filter_grid_item_text"
+        style="@style/Core.Text.100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:gravity="top|center_horizontal"
+        android:lines="2"
+        android:maxLines="2"
+        android:textColor="@color/amenity_filter_text_color"
+        tools:text="internet"/>
+</merge>
