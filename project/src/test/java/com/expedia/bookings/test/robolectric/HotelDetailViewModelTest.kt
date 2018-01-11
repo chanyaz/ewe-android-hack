@@ -22,6 +22,7 @@ import com.expedia.bookings.data.payment.PriceEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.services.HotelServices
@@ -101,6 +102,7 @@ class HotelDetailViewModelTest {
         offer2.latitude = 100.0
         offer2.longitude = 150.0
         offer2.hotelRoomResponse = makeHotel()
+        offer2.hotelAmenities = arrayListOf(HotelOffersResponse.HotelAmenities().apply { id = "-1" })
 
         soldOutOffer = HotelOffersResponse()
         offer1.hotelId = "hotel3"
@@ -111,6 +113,7 @@ class HotelDetailViewModelTest {
         soldOutOffer.latitude = 101.0
         soldOutOffer.longitude = 152.0
         soldOutOffer.hotelRoomResponse = emptyList()
+        soldOutOffer.hotelAmenities = arrayListOf(HotelOffersResponse.HotelAmenities().apply { id = "14" })
 
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
@@ -238,6 +241,30 @@ class HotelDetailViewModelTest {
         vm.hotelOffersSubject.onNext(offer1)
 
         assertEquals("$110/night", testSubscriberText.onNextEvents[0])
+    }
+
+    @Test
+    fun testNullAmenityList() {
+        val testAmenitySubscriber = TestSubscriber<Unit>()
+        vm.noAmenityObservable.subscribe(testAmenitySubscriber)
+        vm.hotelOffersSubject.onNext(offer1)
+        assertTrue(testAmenitySubscriber.onNextEvents.isNotEmpty())
+    }
+
+    @Test
+    fun testNonExistentAmenity() {
+        val testAmenitySubscriber = TestSubscriber<Unit>()
+        vm.noAmenityObservable.subscribe(testAmenitySubscriber)
+        vm.hotelOffersSubject.onNext(offer2)
+        assertTrue(testAmenitySubscriber.onNextEvents.isNotEmpty())
+    }
+
+    @Test
+    fun testPoolAmenity() {
+        val testAmenitySubscriber = TestSubscriber<List<Amenity>>()
+        vm.amenitiesListObservable.subscribe(testAmenitySubscriber)
+        vm.hotelOffersSubject.onNext(soldOutOffer)
+        assertEquals(Amenity.POOL, testAmenitySubscriber.onNextEvents[0][0])
     }
 
     @Test fun discountPercentageShouldNotShowForPackages() {

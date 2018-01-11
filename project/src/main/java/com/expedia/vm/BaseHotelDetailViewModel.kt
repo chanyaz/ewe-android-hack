@@ -385,7 +385,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
         val amenityList = arrayListOf<Amenity>()
         if (offerResponse.hotelAmenities != null) {
-            amenityList.addAll(Amenity.amenitiesToShow(offerResponse.hotelAmenities))
+            amenityList.addAll(Amenity.amenitiesToShow(offerResponse.hotelAmenities, context))
         }
 
         if (amenityList.isEmpty()) {
