@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.tracking.TimeSource;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.json.JSONUtils;
@@ -325,8 +326,8 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		mAirAttach = updatedTrip.getAirAttach();
 	}
 
-	public void markUpdated(boolean isFullUpdate) {
-		long updateTime = DateTime.now().getMillis();
+	public void markUpdated(boolean isFullUpdate, TimeSource timeSource) {
+		long updateTime = timeSource.now();
 
 		// A full update also counts as a cached update (since it has
 		// more data)

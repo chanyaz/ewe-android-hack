@@ -6,6 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Url
+import rx.Observable
 
 interface TripsApi {
 
@@ -26,4 +27,22 @@ interface TripsApi {
             @Query("email") guestEmail: String,
             @Query("useCache") cache: String
     ): Call<JSONObject>
+
+    @GET("/api/trips/{tripId}")
+    fun tripDetailsObservable(
+            @Path("tripId") tripId: String,
+            @Query("useCache") cache: String
+    ): Observable<JSONObject>
+
+    @GET
+    fun sharedTripDetailsObservable(
+            @Url sharedTripUrl: String
+    ): Observable<JSONObject>
+
+    @GET("/api/trips/{tripId}?idtype=itineraryNumber")
+    fun guestTripObservable(
+            @Path("tripId") tripId: String,
+            @Query("email") guestEmail: String,
+            @Query("useCache") cache: String
+    ): Observable<JSONObject>
 }
