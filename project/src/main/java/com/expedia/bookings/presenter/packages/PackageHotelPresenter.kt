@@ -235,13 +235,17 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
         bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
             show(bundleSlidingWidget)
+            PackagesTracking().trackBundleWidgetTap()
         }
         loadingOverlay.setBackground(R.color.packages_primary_color)
         val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this)
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
 
         if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-            resultsPresenter.bundlePriceWidgetTop.setOnClickListener { show(bundleSlidingWidget) }
+            resultsPresenter.bundlePriceWidgetTop.setOnClickListener {
+                show(bundleSlidingWidget)
+                PackagesTracking().trackBundleWidgetTap()
+            }
             bundleSlidingWidget.bundlePriceWidget.viewModel.perPersonTextLabelObservable.subscribeVisibility(resultsPresenter.bundlePriceWidgetTop.bundlePerPersonText)
             bundleSlidingWidget.bundlePriceFooter.viewModel.totalPriceObservable.subscribeTextAndVisibility(resultsPresenter.bundlePriceWidgetTop.bundleTotalPrice)
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.subscribeText(resultsPresenter.bundlePriceWidgetTop.bundleTitleText)
@@ -377,9 +381,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
                 bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
                     show(bundleSlidingWidget)
+                    PackagesTracking().trackBundleWidgetTap()
                 }
                 if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-                    resultsPresenter.bundlePriceWidgetTop.setOnClickListener { show(bundleSlidingWidget) }
+                    resultsPresenter.bundlePriceWidgetTop.setOnClickListener {
+                        show(bundleSlidingWidget)
+                        PackagesTracking().trackBundleWidgetTap()
+                    }
                 }
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
@@ -436,7 +444,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar)
                 trackEventSubject.onNext(Unit)
                 if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-                    resultsPresenter.bundlePriceWidgetTop.setOnClickListener { show(bundleSlidingWidget) }
+                    resultsPresenter.bundlePriceWidgetTop.setOnClickListener {
+                        show(bundleSlidingWidget)
+                        PackagesTracking().trackBundleWidgetTap()
+                    }
                 }
             }
         }
@@ -447,6 +458,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
             bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
                 show(bundleSlidingWidget)
+                PackagesTracking().trackBundleWidgetTap()
             }
         }
     }

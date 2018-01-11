@@ -87,7 +87,7 @@ class PackagesTracking {
     fun trackCheckoutPaymentSelectStoredCard() {
         OmnitureTracking.trackPackagesPaymentStoredCCSelect()
     }
-    
+
     fun trackCheckoutPaymentConfirmation(response: PackageCheckoutResponse, hotelSupplierType: String, pageUsableData: PageUsableData, packageParams: PackageSearchParams) {
         OmnitureTracking.trackPackagesConfirmation(response, hotelSupplierType, pageUsableData)
         CarnivalUtils.getInstance().trackPackagesConfirmation(packageParams)
@@ -156,6 +156,10 @@ class PackagesTracking {
 
     fun trackViewBundlePageLoad(isFirstBundleLaunch: Boolean = false) {
         OmnitureTracking.trackPackagesViewBundleLoad(isFirstBundleLaunch)
+    }
+
+    fun trackBundleWidgetTap() {
+        OmnitureTracking.trackPackagesBundleWidgetTap()
     }
 
     fun trackBundleOverviewPageLoad(packageDetails: PackageCreateTripResponse.PackageDetails, pageUsableData: PageUsableData) {

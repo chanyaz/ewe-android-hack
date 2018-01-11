@@ -101,6 +101,14 @@ class PackagesTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackViewBundleWidgetTap() {
+        sut.trackBundleWidgetTap()
+        val controlEvar = mapOf(28 to "App.Package.BundleWidget.Tap")
+        OmnitureTestUtils.assertLinkTracked("Bundle Widget Tap", "App.Package.BundleWidget.Tap", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelDetailMapViewClick() {
         sut.trackHotelDetailMapViewClick()
         val controlEvar = mapOf(18 to "D=pageName")

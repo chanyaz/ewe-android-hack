@@ -20,6 +20,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -104,5 +105,42 @@ class PackageHotelPresenterTest {
         assertEquals("$0.00", widget.resultsPresenter.bundlePriceWidgetTop.bundleTotalPrice.text)
         assertEquals("View your trip", widget.resultsPresenter.bundlePriceWidgetTop.bundleTitleText.text)
         assertEquals(View.VISIBLE, widget.resultsPresenter.bundlePriceWidgetTop.bundleInfoIcon.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBundleWidgetTapTracking() {
+        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse))
+
+        widget.bundleSlidingWidget.bundlePriceWidget.performClick()
+
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(28 to "App.Package.BundleWidget.Tap"))
+                , mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(16 to "App.Package.BundleWidget.Tap"))
+                , mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBundleWidgetTopTapTracking() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
+        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse))
+
+        widget.resultsPresenter.bundlePriceWidgetTop.performClick()
+
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(28 to "App.Package.BundleWidget.Tap"))
+                , mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(16 to "App.Package.BundleWidget.Tap"))
+                , mockAnalyticsProvider)
     }
 }
