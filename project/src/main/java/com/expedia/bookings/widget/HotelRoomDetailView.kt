@@ -16,9 +16,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomDetailViewModel
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.HotelValueAdd
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.util.LoyaltyUtil
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.setTextAndVisibility
@@ -95,8 +93,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         val isShopWithPoints = LoyaltyUtil.isShopWithPoints(viewModel.hotelRoomResponse.rateInfo.chargeableRateInfo)
         val isAirAttached = viewModel.hotelRoomResponse.rateInfo.chargeableRateInfo.airAttached
 
-        if (isShopWithPoints || !isAirAttached &&
-            !AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
+        if (isShopWithPoints || !isAirAttached) {
             strikeThroughTextView.setTextAndVisibility(viewModel.strikeThroughString)
         }
 

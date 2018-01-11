@@ -247,8 +247,7 @@ open class HotelViewModel(private val context: Context) {
             return showPackageTripSavings
         } else if (LoyaltyUtil.isShopWithPoints(hotel.lowRateInfo)) {
             return true
-        } else if (!hotel.lowRateInfo.airAttached &&
-                !AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
+        } else if (!hotel.lowRateInfo.airAttached) {
             return priceToShowUsers < strikeThroughPriceToShowUsers
         } else {
             return false

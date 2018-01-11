@@ -9,10 +9,8 @@ import android.text.style.StyleSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
@@ -38,11 +36,9 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     val fromPriceVisibility = fromPrice.map { it != null && !it.equals("") }
     var isShopWithPoints = PublishSubject.create<Boolean>()
     var isAirAttached = PublishSubject.create<Boolean>()
-    var isBucketForHideStrikeThough = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
     val strikethroughPriceVisibility = Observable.combineLatest(fromPriceVisibility, strikethroughPrice, isShopWithPoints, isAirAttached)
                                         {fromPriceVisible, strikethroughPrice, isShopWithPoints, isAirAttached ->
-                                            ((fromPriceVisible && strikethroughPrice.isNotEmpty()) && (isShopWithPoints ||
-                                                (!isAirAttached && !isBucketForHideStrikeThough)))}
+                                            ((fromPriceVisible && strikethroughPrice.isNotEmpty()) && (isShopWithPoints || !isAirAttached))}
     val hotelLatLng = BehaviorSubject.create<DoubleArray>()
     val selectARoomInvisibility = BehaviorSubject.create<Boolean>(false)
     var selectRoomContDescription = PublishSubject.create<String>()
