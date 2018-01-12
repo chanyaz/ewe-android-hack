@@ -437,6 +437,7 @@ public class AccountView extends BufferedPresenter {
 										vEmailNameLayout.setAccessibilityTraversalAfter(R.id.parent_user_image_presenter);
 									}
 									vEmailNameLayout.setAccessibilityLiveRegion(ACCESSIBILITY_LIVE_REGION_ASSERTIVE);
+									vEmailNameLayout.announceForAccessibility(mConfig.signupString);
 								}
 								else {
 									vEmailNameLayout.focusEmailAddress();
