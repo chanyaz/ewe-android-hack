@@ -74,7 +74,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         }
 
         webCheckoutViewModel.blankViewObservable.subscribe {
-            super.back()
+            webCheckoutView.toggleLoading(true)
         }
         webCheckoutView
     }
@@ -211,6 +211,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
         if (isMidAPIEnabled(context)) {
             performMIDCreateTripSubject.subscribe {
+                webCheckoutView.clearHistory()
+                webCheckoutView.webView.clearHistory()
+                webCheckoutView.viewModel.webViewURLObservable.onNext("about:blank")
                 (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).doCreateTrip()
                 setupOverviewPresenterForMID()
             }

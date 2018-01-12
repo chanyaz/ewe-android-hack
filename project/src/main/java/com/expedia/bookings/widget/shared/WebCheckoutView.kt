@@ -90,7 +90,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     fun back() {
-        if (webView.canGoBack()) {
+        if (!previousURLIsAboutBlank() && webView.canGoBack()) {
             webView.goBack()
             return
         }
@@ -99,6 +99,19 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     fun clearHistory() {
         clearHistory = true
+    }
+
+    private fun previousURLIsAboutBlank(): Boolean {
+        val copyBackForwardList = webView.copyBackForwardList()
+        copyBackForwardList?.let {
+            val currentURLIndex = copyBackForwardList.currentIndex
+            if (currentURLIndex > 0) {
+                val previousIndex = currentURLIndex - 1
+                val previousItem = copyBackForwardList.getItemAtIndex(previousIndex)
+                return previousItem?.url?.contains("about:blank") ?: false
+            }
+        }
+        return false
     }
 
     private fun urlHasPOSWebBookingConfirmationUrl(url: String): Boolean {

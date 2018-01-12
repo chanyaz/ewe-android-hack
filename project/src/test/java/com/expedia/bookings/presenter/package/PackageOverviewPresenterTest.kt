@@ -26,7 +26,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.PackageWebCheckoutViewViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -34,6 +33,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.Shadows
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -169,7 +169,8 @@ class PackageOverviewPresenterTest {
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
-        assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=fd713193-3ec1-4773-9f0d-4ff51cc8c19f", testSubscriber.onNextEvents[0])
+        val currentURLIndex = testSubscriber.onNextEvents.size - 1
+        assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=fd713193-3ec1-4773-9f0d-4ff51cc8c19f", testSubscriber.onNextEvents[currentURLIndex])
     }
 
     @Test
@@ -207,7 +208,7 @@ class PackageOverviewPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testMIDCheckoutBlankURLNotFiredAfterClosingWebView() {
+    fun testMidCheckoutViewShowsAfterGoingBackFromOverviewScreenToCheckout() {
         val testSubscriber = TestSubscriber.create<String>()
         AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
@@ -217,9 +218,15 @@ class PackageOverviewPresenterTest {
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
-        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
-        assertEquals(1, testSubscriber.onNextEvents.size)
-        assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=fd713193-3ec1-4773-9f0d-4ff51cc8c19f", testSubscriber.onNextEvents[0])
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+        overviewPresenter.show(overviewPresenter.webCheckoutView)
+        Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
+
+        overviewPresenter.checkoutButton.performClick()
+        overviewPresenter.webCheckoutView.viewModel.backObservable.onNext(Unit)
+        overviewPresenter.checkoutButton.performClick()
+
+        assert((Shadows.shadowOf(overviewPresenter.webCheckoutView.webView).lastLoadedUrl).contains("https://www.${ PointOfSale.getPointOfSale().url}/MultiItemCheckout?tripid="))
     }
 
     private fun setPointOfSale(posId: PointOfSaleId) {
