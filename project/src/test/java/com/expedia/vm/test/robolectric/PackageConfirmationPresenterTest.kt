@@ -115,7 +115,7 @@ class PackageConfirmationPresenterTest {
         serviceRule.services!!.getTripDetails("mid_trip_details", makeItinResponseObserver)
         testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
-        assertTrue(testObserver.valueCount == 1)
+        testObserver.assertValueCount(1)
         val confirmationPresenter = packagePresenter.confirmationPresenter
         assertEquals("#7316992699395 sent to seokev@gmail.com", confirmationPresenter.itinNumber.text)
         assertEquals("Los Angeles", confirmationPresenter.destination.text)
@@ -129,12 +129,32 @@ class PackageConfirmationPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDMultipleFlightsPopulatesConfirmationCorrectly() {
+        setupMIDWebCheckout()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
+        packagePresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+
+        serviceRule.services!!.getTripDetails("mid_multiple_flights_trip_details", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        testObserver.assertValueCount(1)
+        val confirmationPresenter = packagePresenter.confirmationPresenter
+        assertEquals("Flight to (LGA) New York", confirmationPresenter.outboundFlightCard.title.text)
+        assertEquals("Feb 22 at 23:15:00, 1 traveler", confirmationPresenter.outboundFlightCard.subTitle.text)
+        assertEquals("Flight to (SFO) San Francisco", confirmationPresenter.inboundFlightCard.title.text)
+        assertEquals("Feb 24 at 21:50:00, 1 traveler", confirmationPresenter.inboundFlightCard.subTitle.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPointsShownFromMidConfirmation() {
         setupMIDWebCheckout()
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         val expediaRewards = "500"
         packagePresenter.expediaRewards = expediaRewards
-        
+
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
         serviceRule.services!!.getTripDetails("mid_trip_details", makeItinResponseObserver)
 

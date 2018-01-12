@@ -1,0 +1,1319 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "b1d5ab57-2895-4aa4-8f3c-62642167b7c3",
+    "webDetailsURL": "https://www.expedia.com/trips/7321688650313?email=seokev@gmail.com",
+    "tripNumber": 7321688650313,
+    "title": "Pod 51, New York",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/b1d5ab57-2895-4aa4-8f3c-62642167b7c3/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-02-22T15:00:00-05:00",
+      "localized": "Feb 22, 2018 3:00:00 PM",
+      "epochSeconds": 1519329600,
+      "timeZoneOffsetSeconds": -18000,
+      "localizedShortDate": "2/22/2018",
+      "localizedMediumDate": "Feb 22",
+      "localizedFullDate": "Thu, Feb 22",
+      "localizedLongDate": "Feb 22, 2018",
+      "localizedShortTime": "3:00pm"
+    },
+    "endTime": {
+      "raw": "2018-02-25T01:23:00-08:00",
+      "localized": "Feb 25, 2018 1:23:00 AM",
+      "epochSeconds": 1519550580,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "2/25/2018",
+      "localizedMediumDate": "Feb 25",
+      "localizedFullDate": "Sun, Feb 25",
+      "localizedLongDate": "Feb 25, 2018",
+      "localizedShortTime": "1:23am"
+    },
+    "tripCreatedTime": {
+      "raw": "2018-01-11T19:37:38Z",
+      "localized": "Jan 11, 2018 7:37:38 PM",
+      "epochSeconds": 1515699458,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Thu, 11 Jan",
+      "localizedMediumDate": "Jan 11, 2018",
+      "localizedFullDate": "Thursday, January 11, 2018",
+      "localizedLongDate": "January 11, 2018",
+      "localizedShortTime": "7:37 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2018-01-11T19:42:13Z",
+      "localized": "Jan 11, 2018 7:42:13 PM",
+      "epochSeconds": 1515699733,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Thu, 11 Jan",
+      "localizedMediumDate": "Jan 11, 2018",
+      "localizedFullDate": "Thursday, January 11, 2018",
+      "localizedLongDate": "January 11, 2018",
+      "localizedShortTime": "7:42 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2018-01-11T19:42:17Z",
+      "localized": "Jan 11, 2018 7:42:17 PM",
+      "epochSeconds": 1515699737,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Thu, 11 Jan",
+      "localizedMediumDate": "Jan 11, 2018",
+      "localizedFullDate": "Thursday, January 11, 2018",
+      "localizedLongDate": "January 11, 2018",
+      "localizedShortTime": "7:42 PM"
+    },
+    "ownerId": 968314230,
+    "bookingStatus": "BOOKED",
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/Jhivmeab1bzHbYM9rGg-48CAKKJcvn6klSVQjrixoLc0rJDjlX3oiqR7GARsstnE2tmvcrlwXD2l1_TV_f3NWnHB",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneInfo": [
+        "Call us at 1-800-839-5470",
+        "For faster service, mention <strong>itinerary #7321688650313 </strong>"
+      ],
+      "customerSupportPhoneNumberDomestic": "+1-800-839-5470",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia+ blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention <strong>itinerary #7321688650313 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "hotels": [
+      {
+        "uniqueID": "F8BE5C1C-8FDE-4094-8320-7D902AEF5474_0",
+        "hotelId": "5358",
+        "checkInDateTime": {
+          "raw": "2018-02-22T15:00:00-05:00",
+          "localized": "Feb 22, 2018 3:00:00 PM",
+          "epochSeconds": 1519329600,
+          "timeZoneOffsetSeconds": -18000,
+          "localizedShortDate": "2/22/2018",
+          "localizedMediumDate": "Feb 22",
+          "localizedFullDate": "Thu, Feb 22",
+          "localizedLongDate": "Feb 22, 2018",
+          "localizedShortTime": "3:00pm"
+        },
+        "checkOutDateTime": {
+          "raw": "2018-02-24T11:00:00-05:00",
+          "localized": "Feb 24, 2018 11:00:00 AM",
+          "epochSeconds": 1519488000,
+          "timeZoneOffsetSeconds": -18000,
+          "localizedShortDate": "2/24/2018",
+          "localizedMediumDate": "Feb 24",
+          "localizedFullDate": "Sat, Feb 24",
+          "localizedLongDate": "Feb 24, 2018",
+          "localizedShortTime": "11:00am"
+        },
+        "checkInDate": "2018-02-22T15:00:00-05:00",
+        "checkOutDate": "2018-02-24T11:00:00-05:00",
+        "checkInDateLocalized": "Feb 22, 2018",
+        "checkOutDateLocalized": "Feb 24, 2018",
+        "numberOfNights": 2,
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Booked",
+        "bookingStatusMessage": "Your reservation is booked. No need to call us to reconfirm this reservation.",
+        "inventoryType": "MERCHANT",
+        "inventoryTypeEnum": "MERCHANT",
+        "inventorySource": "INTERNAL",
+        "paymentModel": "EXPEDIA_COLLECT",
+        "inventoryVisibility": "VISIBLE",
+        "orderNumber": "8085224956174",
+        "state": "PRE_START_4",
+        "infositeURL": "http://www.expedia.com/itin.h5358.Hotel-Information?langid=1033",
+        "epcConversationURL": "https://www.expedia.com/createConversation/create/?bookingId=795265895&bookingItemId=966880154&itineraryId=7321688650313&checkinDate=02/22/2018&checkoutDate=02/24/2018&tpid=1&eapid=0&siteId=1&hotelId=5358&hotelName=Pod 51&userTokenString=VzbV_rXmyMfGCdaudtFUXVd9gma0_-H8oUSKubaegm0_jlIgMfDgA346f1YmqhpAAQgOJdgUooPV8AhC7CDXqGVhR7lZXc2fvIZ7KtcsGH8oJ6Cn5Qdjiw",
+        "hotelPropertyInfo": {
+          "address": {
+            "addressLine1": "230 E 51st St",
+            "city": "New York",
+            "countrySubdivisionCode": "NY",
+            "postalCode": "10022",
+            "countryCode": "USA",
+            "countryName": " United States of America",
+            "fullAddress": "230 E 51st St, New York, NY, 10022 United States of America",
+            "airportCode": "LGA"
+          },
+          "name": "Pod 51",
+          "starRating": "30",
+          "photoThumbnailURL": "/hotels/1000000/10000/5400/5358/0000713a_l.jpg",
+          "photoThumbnail500pixURL": "/hotels/1000000/10000/5400/5358/0000713a_y.jpg",
+          "photoThumbnail1000pixURL": "/hotels/1000000/10000/5400/5358/0000713a_z.jpg",
+          "localPhone": "1-212-355-0300",
+          "tollFreePhone": "1-800-742-5945",
+          "formattedPhoneNumbers": "Tel: 1 (212) 355-0300, Fax: 1 (212) 755-5029",
+          "checkInPolicies": [
+            "Check-in time starts at 3 PM",
+            "Minimum check-in age is 18"
+          ],
+          "checkInStartTimePolicy": {
+            "label": "Check-in time starts at",
+            "value": "3 PM"
+          },
+          "checkInEndTimePolicy": {},
+          "checkOutTimePolicy": {
+            "label": "Check-out time is",
+            "value": "noon"
+          },
+          "generalRules": [
+            "Check-out time is noon",
+            "No rollaway/extra beds available",
+            "No cribs (infant beds) available"
+          ],
+          "restrictionPolicies": [],
+          "fees": [],
+          "mandatoryFees": [],
+          "specialCheckInInstructions": [],
+          "latitude": 40.755889,
+          "longitude": -73.968987,
+          "isVipAccess": false,
+          "googleMapsLink": "//maps.google.com/?q=10022+New+York%2C+230+E+51st+St+",
+          "regionId": "6141525"
+        },
+        "totalPriceDetails": {
+          "primaryCurrencyCode": "USD",
+          "base": "277.28",
+          "baseFormatted": "$277.28",
+          "baseWithAdjustmentForDRRRateDiscount": "249.78",
+          "baseWithAdjustmentForDRRRateDiscountFormatted": "$249.78",
+          "taxesAndFees": "43.86",
+          "taxesAndFeesFormatted": "$43.86",
+          "adjustmentForDRRRateDiscount": "-27.50",
+          "adjustmentForDRRRateDiscountFormatted": "-$27.50",
+          "drrRateDiscountDescription": "Book now and save",
+          "subTotalBeforeCoupon": "293.64",
+          "subTotalBeforeCouponFormatted": "$293.64",
+          "taxStatus": "ESTIMATED",
+          "total": "293.64",
+          "totalFormatted": "$293.64",
+          "chargedTotalFormatted": "$293.64",
+          "isCurrencyConversionEnabled": false,
+          "hasFees": false,
+          "expediaChangeFee": "0",
+          "expediaChangeFeeFormatted": "$0.00"
+        },
+        "rules": {
+          "cancelChangeRulesIntroduction": "We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Pod 51 charges the following cancellation and change fees.",
+          "cancelChangeRules": [
+            "Cancellations or changes made after 3:00pm (Eastern Daylight Time (US & Canada)) on Feb 21, 2018 or no-shows are subject to a property fee equal to the first nights rate plus taxes and fees."
+          ],
+          "cancellationWindowTime": {
+            "raw": "2018-02-21T15:00:00-05:00",
+            "localized": "Feb 21, 2018 3:00:00 PM",
+            "epochSeconds": 1519243200,
+            "timeZoneOffsetSeconds": -18000,
+            "localizedShortDate": "Wed, 21 Feb",
+            "localizedMediumDate": "Feb 21, 2018",
+            "localizedFullDate": "Wednesday, February 21, 2018",
+            "localizedLongDate": "February 21, 2018",
+            "localizedShortTime": "3:00 PM"
+          },
+          "opaqueRules": [],
+          "opaquePolicies": [],
+          "lateArrivalInstructions": "Your room/unit will be guaranteed for late arrival.",
+          "loyaltyPointsDisclaimer": "Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.",
+          "currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+          "extraGuestPolicies": [
+            "Availability of accommodation in the same property for extra guests is not guaranteed."
+          ],
+          "occupancyPolicies": [
+            "Base rate is for 2 guests.",
+            "Total maximum number of guests per room/unit is 2.",
+            "Maximum number of adults per room/unit is 2.",
+            "Maximum number of children per room/unit is 1.",
+            "Maximum number of infants per room/unit is 1.",
+            "This property considers guests aged 17 and under, at time of travel, to be children."
+          ],
+          "paymentPolicies": [
+            "Your credit card is charged the total cost at time of purchase. Prices and room/unit availability are not guaranteed until full payment is received.",
+            "Some properties request that we wait to submit guest names until 7 days prior to check in. In such a case, your room/unit is reserved, but your name is not yet on file with the property."
+          ],
+          "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+          "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel."
+        },
+        "rooms": [
+          {
+            "uniqueID": "F8BE5C1C-8FDE-4094-8320-7D902AEF5474_0_966880154",
+            "roomRatePlanDescription": "Double Room, Private Bathroom",
+            "roomTypeCode": "102452",
+            "ratePlanCode": "235000",
+            "bookingStatus": "BOOKED",
+            "bookingStatusEnum": "BOOKED",
+            "drrRateDiscountDescription": "Book now and save",
+            "orderLineNumber": "29998d19-585d-4032-adfd-ea1e54090fdf",
+            "refundabilityStatus": "REFUNDABLE",
+            "availableOnAllDates": true,
+            "roomCancelLink": "https://www.expedia.com/hotel-cancel-details?tripid=b1d5ab57-2895-4aa4-8f3c-62642167b7c3&ordernumber=8085224956174&orderlineguid=29998d19-585d-4032-adfd-ea1e54090fdf&roomNumber=0",
+            "roomChangeLink": "https://www.expedia.com/trips/b1d5ab57-2895-4aa4-8f3c-62642167b7c3/ordernumber/8085224956174/orderlinenumber/29998d19-585d-4032-adfd-ea1e54090fdf/change",
+            "roomChangeLinkForMobileWebView": "https://www.expedia.com/trips/b1d5ab57-2895-4aa4-8f3c-62642167b7c3/ordernumber/8085224956174/orderlinenumber/29998d19-585d-4032-adfd-ea1e54090fdf/change?blockHardChange=true&mobileWebView=true",
+            "totalPriceDetails": {
+              "primaryCurrencyCode": "USD",
+              "base": "277.28",
+              "baseFormatted": "$277.28",
+              "baseWithAdjustmentForDRRRateDiscount": "249.78",
+              "baseWithAdjustmentForDRRRateDiscountFormatted": "$249.78",
+              "taxesAndFees": "43.86",
+              "taxesAndFeesFormatted": "$43.86",
+              "adjustmentForDRRRateDiscount": "-27.50",
+              "adjustmentForDRRRateDiscountFormatted": "-$27.50",
+              "subTotalBeforeCoupon": "293.64",
+              "subTotalBeforeCouponFormatted": "$293.64",
+              "total": "293.64",
+              "totalFormatted": "$293.64",
+              "chargedTotalFormatted": "$293.64",
+              "isCurrencyConversionEnabled": false,
+              "averagePricePerDay": "124.89",
+              "averagePricePerDayFormatted": "$124.89",
+              "averageTaxPerDay": "21.93",
+              "averageTaxPerDayFormatted": "$21.93",
+              "priceDetailsPerDay": [
+                {
+                  "day": {
+                    "raw": "2018-02-22T15:00:00-05:00",
+                    "localized": "Feb 22, 2018 3:00:00 PM",
+                    "epochSeconds": 1519329600,
+                    "timeZoneOffsetSeconds": -18000,
+                    "localizedShortDate": "Thu, 22 Feb",
+                    "localizedMediumDate": "Feb 22, 2018",
+                    "localizedFullDate": "Thursday, February 22, 2018",
+                    "localizedLongDate": "February 22, 2018",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "USD",
+                  "amount": "124.89",
+                  "amountFormatted": "$124.89",
+                  "localizedDay": {
+                    "raw": "2018-02-22T15:00:00-05:00",
+                    "localized": "Feb 22, 2018 3:00:00 PM",
+                    "epochSeconds": 1519329600,
+                    "timeZoneOffsetSeconds": -18000,
+                    "localizedShortDate": "2/22/2018",
+                    "localizedMediumDate": "Feb 22",
+                    "localizedFullDate": "Thu, Feb 22",
+                    "localizedLongDate": "Feb 22, 2018",
+                    "localizedShortTime": "3:00pm"
+                  }
+                },
+                {
+                  "day": {
+                    "raw": "2018-02-23T15:00:00-05:00",
+                    "localized": "Feb 23, 2018 3:00:00 PM",
+                    "epochSeconds": 1519416000,
+                    "timeZoneOffsetSeconds": -18000,
+                    "localizedShortDate": "Fri, 23 Feb",
+                    "localizedMediumDate": "Feb 23, 2018",
+                    "localizedFullDate": "Friday, February 23, 2018",
+                    "localizedLongDate": "February 23, 2018",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "USD",
+                  "amount": "124.89",
+                  "amountFormatted": "$124.89",
+                  "localizedDay": {
+                    "raw": "2018-02-23T15:00:00-05:00",
+                    "localized": "Feb 23, 2018 3:00:00 PM",
+                    "epochSeconds": 1519416000,
+                    "timeZoneOffsetSeconds": -18000,
+                    "localizedShortDate": "2/23/2018",
+                    "localizedMediumDate": "Feb 23",
+                    "localizedFullDate": "Fri, Feb 23",
+                    "localizedLongDate": "Feb 23, 2018",
+                    "localizedShortTime": "3:00pm"
+                  }
+                }
+              ],
+              "isSameRateForAllNights": true,
+              "expediaChangeFee": "0",
+              "expediaChangeFeeFormatted": "$0.00"
+            },
+            "roomPreferences": {
+              "primaryOccupant": {
+                "firstName": "Kevin Minguk",
+                "fullName": "Kevin Minguk Seo",
+                "email": "Seokev@gmail.com",
+                "phone": "1-408-3157399"
+              },
+              "otherOccupantInfo": {
+                "adultCount": 1,
+                "childCount": 0,
+                "infantCount": 0,
+                "childAndInfantCount": 0,
+                "maxGuestCount": 0,
+                "childAndInfantAges": []
+              },
+              "occupantSelectedRoomOptions": {
+                "bedTypeName": "1 double bed",
+                "defaultBedTypeName": "1 double bed",
+                "smokingPreference": "NONSMOKING_ROOM",
+                "accessibilityOptions": [],
+                "hasExtraBedAdult": false,
+                "hasExtraBedChild": false,
+                "hasExtraBedInfant": false,
+                "isSmokingPreferenceSelected": true,
+                "isRoomOptionsAvailable": true
+              },
+              "availableRoomOptions": {
+                "bedTypes": [
+                  {
+                    "id": "37316",
+                    "description": "1 Double Bed",
+                    "selected": false
+                  }
+                ],
+                "isNewBedTypes": true,
+                "accessibilityOptions": [
+                  {
+                    "id": "2420",
+                    "description": "Accessible bathroom",
+                    "selected": false
+                  },
+                  {
+                    "id": "2421",
+                    "description": "Roll-in shower",
+                    "selected": false
+                  },
+                  {
+                    "id": "2423",
+                    "description": "In-room accessibility",
+                    "selected": false
+                  }
+                ],
+                "isSmokingRoomAvailable": false,
+                "isNonSmokingRoomAvailable": true
+              }
+            },
+            "amenities": [
+              "Free Wireless Internet"
+            ],
+            "amenityIds": [
+              2048
+            ],
+            "nonPricePromotionData": {},
+            "hotelRatePlan": {
+              "m_type": 524288
+            }
+          }
+        ],
+        "isFreeCancellationAvailable": false,
+        "paymentsAndCreditFees": {
+          "paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+          "noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+          "isDirectAgency": false,
+          "isGDS": false,
+          "isFullyCancelled": false,
+          "isAnyRoomCancelled": false,
+          "isDepositRequired": false,
+          "isPaymentsCreditsVisible": false
+        },
+        "showVATDisclaimer": false,
+        "action": {
+          "isChangeable": true,
+          "isCancellable": true
+        }
+      }
+    ],
+    "splitTicketDetail": {
+      "splitTicketItemList": [
+        {
+          "itemLabel": "San Francisco to New York",
+          "itemFare": {
+            "subTotal": "127.0",
+            "subTotalFormatted": "$127.00",
+            "currency": "USD",
+            "base": "127.0",
+            "baseFormatted": "$127.00",
+            "total": "127.0",
+            "totalFormatted": "$127.00"
+          }
+        },
+        {
+          "itemLabel": "Newark to San Francisco",
+          "itemFare": {
+            "subTotal": "113.3",
+            "subTotalFormatted": "$113.30",
+            "currency": "USD",
+            "base": "113.3",
+            "baseFormatted": "$113.30",
+            "total": "113.3",
+            "totalFormatted": "$113.30"
+          }
+        }
+      ],
+      "totalCombinedFare": {
+        "total": "240.3",
+        "totalFormatted": "$240.30"
+      },
+      "totalCombinedAirlineCredit": {},
+      "splitTicketDisclaimertext": "All prices include taxes & fees and are quoted in US dollars. Your two one-way fares may be processed through multiple transactions.",
+      "passengerWithFaresList": [
+        {
+          "passengerType": "Adult",
+          "passengerTitle": "Traveler 1: ",
+          "passengerTotalFare": "$240.30",
+          "farePerPassengerList": [
+            {
+              "passengerIndex": 0,
+              "passengerTypeCode": "ADULT",
+              "passengerTypeCodeLocalized": "Adult",
+              "currency": "USD",
+              "base": "127.0",
+              "baseFormatted": "$127.00",
+              "taxesFormatted": "$0.00",
+              "total": "127.0",
+              "totalFormatted": "$127.00",
+              "fromToAirportCodes": "SFO to LGA",
+              "toAirportCode": "LGA"
+            },
+            {
+              "passengerIndex": 0,
+              "passengerTypeCode": "ADULT",
+              "passengerTypeCodeLocalized": "Adult",
+              "currency": "USD",
+              "base": "113.3",
+              "baseFormatted": "$113.30",
+              "taxesFormatted": "$0.00",
+              "total": "113.3",
+              "totalFormatted": "$113.30",
+              "fromToAirportCodes": "EWR to SFO",
+              "toAirportCode": "SFO"
+            }
+          ]
+        }
+      ],
+      "fareTotal": {
+        "subTotal": "240.3",
+        "subTotalFormatted": "$240.30",
+        "currency": "USD",
+        "base": "240.3",
+        "baseFormatted": "$240.30",
+        "total": "240.3",
+        "totalFormatted": "$240.30"
+      },
+      "destinationArrivalTime": {
+        "raw": "2018-02-23T09:10:00-05:00",
+        "localized": "Feb 23, 2018 9:10:00 AM",
+        "epochSeconds": 1519395000,
+        "timeZoneOffsetSeconds": -18000,
+        "localizedShortDate": "2/23/2018",
+        "localizedMediumDate": "Feb 23",
+        "localizedFullDate": "Fri, Feb 23",
+        "localizedLongDate": "Feb 23, 2018",
+        "localizedShortTime": "9:10am"
+      },
+      "destinationDepartureTime": {
+        "raw": "2018-02-24T21:50:00-05:00",
+        "localized": "Feb 24, 2018 9:50:00 PM",
+        "epochSeconds": 1519527000,
+        "timeZoneOffsetSeconds": -18000,
+        "localizedShortDate": "2/24/2018",
+        "localizedMediumDate": "Feb 24",
+        "localizedFullDate": "Sat, Feb 24",
+        "localizedLongDate": "Feb 24, 2018",
+        "localizedShortTime": "9:50pm"
+      }
+    },
+    "flights": [
+      {
+        "uniqueID": "D714F0D0-ECA0-42AB-AC7F-33CC68F12452_0",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "Your reservation is booked and confirmed. There is no need to call us to reconfirm this reservation.",
+        "startTime": {
+          "raw": "2018-02-22T23:15:00-08:00",
+          "localized": "Feb 22, 2018 11:15:00 PM",
+          "epochSeconds": 1519370100,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "2/22/2018",
+          "localizedMediumDate": "Feb 22",
+          "localizedFullDate": "Thu, Feb 22",
+          "localizedLongDate": "Feb 22, 2018",
+          "localizedShortTime": "11:15pm"
+        },
+        "endTime": {
+          "raw": "2018-02-23T09:10:00-05:00",
+          "localized": "Feb 23, 2018 9:10:00 AM",
+          "epochSeconds": 1519395000,
+          "timeZoneOffsetSeconds": -18000,
+          "localizedShortDate": "2/23/2018",
+          "localizedMediumDate": "Feb 23",
+          "localizedFullDate": "Fri, Feb 23",
+          "localizedLongDate": "Feb 23, 2018",
+          "localizedShortTime": "9:10am"
+        },
+        "ticketingStatus": "COMPLETE",
+        "orderNumber": "8085224956174",
+        "webCancelPathURL": "https://www.expedia.com/flight-cancel-exchange?tripnumber=7321688650313&arl=376037450&bookingid=SSLX2J",
+        "updateFrequentFlyerPathURL": "https://www.expedia.com/api/trips/b1d5ab57-2895-4aa4-8f3c-62642167b7c3/updateFrequentFlyerInformation",
+        "orderLineNumber": "a02e6479-57f9-4ae5-9156-94096c54ace2",
+        "expediaBookingId": "SSLX2J",
+        "paymentModel": "AGENCY",
+        "fareType": "PUBLISHED",
+        "flightType": "ONE_WAY",
+        "isInternational": false,
+        "fareTotal": {
+          "subTotal": "127.0",
+          "subTotalFormatted": "$127.00",
+          "currency": "USD",
+          "base": "127.0",
+          "baseFormatted": "$127.00",
+          "total": "127.0",
+          "totalFormatted": "$127.00"
+        },
+        "farePerPassenger": [
+          {
+            "passengerIndex": 0,
+            "passengerTypeCode": "ADULT",
+            "passengerTypeCodeLocalized": "Adult",
+            "currency": "USD",
+            "base": "127.0",
+            "baseFormatted": "$127.00",
+            "taxesFormatted": "$0.00",
+            "total": "127.0",
+            "totalFormatted": "$127.00",
+            "fromToAirportCodes": "SFO to LGA",
+            "toAirportCode": "LGA"
+          }
+        ],
+        "isSplitTicket": true,
+        "fulfillmentMethod": "ETICKET",
+        "passengers": [
+          {
+            "typeCode": "ADULT",
+            "typeLocalized": "Adult",
+            "firstName": "Kevin",
+            "middleName": "Minguk",
+            "lastName": "Seo",
+            "fullName": "Kevin Minguk Seo",
+            "age": 23,
+            "gender": "Male",
+            "dateOfBirth": "1994-9-22",
+            "TSARedressNumber": "",
+            "phoneNumbers": [
+              {
+                "countryCode": "1",
+                "phone": "4083157399"
+              }
+            ],
+            "ticketNumbers": [],
+            "frequentFlyerPlans": [],
+            "seats": [],
+            "seatPreferenceCode": "Z"
+          }
+        ],
+        "brandedFareFamilyName": "BASIC ECONOMY",
+        "orderedFareFamilyDetails": {
+          "chargeable": [
+            "Bags"
+          ],
+          "notoffered": [
+            "RefundBeforeDeparture4",
+            "SeatReservation2",
+            "ChangesBeforeDeparture4",
+            "PriorityBoarding",
+            "CarryOnBag2",
+            "ExtraLegroom2"
+          ],
+          "included": [
+            "BonusMiles"
+          ]
+        },
+        "legs": [
+          {
+            "type": "ONESTOP",
+            "state": "PRE_START_4",
+            "numberOfStops": 1,
+            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+            "segments": [
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "name": "San Francisco Intl.",
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "airportCode": "SFO",
+                  "city": "San Francisco",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "departureTime": {
+                  "raw": "2018-02-22T23:15:00-08:00",
+                  "localized": "Feb 22, 2018 11:15:00 PM",
+                  "epochSeconds": 1519370100,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "2/22/2018",
+                  "localizedMediumDate": "Feb 22",
+                  "localizedFullDate": "Thu, Feb 22",
+                  "localizedLongDate": "Feb 22, 2018",
+                  "localizedShortTime": "11:15pm"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 41.976928,
+                  "longitude": -87.904787,
+                  "name": "O'Hare Intl.",
+                  "longName": "Chicago, IL (ORD-O'Hare Intl.)",
+                  "airportCode": "ORD",
+                  "airportMetroCode": "CHI",
+                  "city": "Chicago",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " IL",
+                  "timeZoneName": "America/Chicago"
+                },
+                "arrivalTime": {
+                  "raw": "2018-02-23T05:15:00-06:00",
+                  "localized": "Feb 23, 2018 5:15:00 AM",
+                  "epochSeconds": 1519384500,
+                  "timeZoneOffsetSeconds": -21600,
+                  "localizedShortDate": "2/23/2018",
+                  "localizedMediumDate": "Feb 23",
+                  "localizedFullDate": "Fri, Feb 23",
+                  "localizedLongDate": "Feb 23, 2018",
+                  "localizedShortTime": "5:15am"
+                },
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "airlineName": "United",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "United",
+                "flightNumber": "995",
+                "layoverDuration": "PT2H45M",
+                "formattedLayoverDuration": "2h 45m",
+                "duration": "PT6H",
+                "formattedDuration": "6h",
+                "providerCode": "Amadeus",
+                "bookingCode": "N",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "D714F0D0-ECA0-42AB-AC7F-33CC68F12452_0_L1_S1_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false
+              },
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 41.976928,
+                  "longitude": -87.904787,
+                  "name": "O'Hare Intl.",
+                  "longName": "Chicago, IL (ORD-O'Hare Intl.)",
+                  "airportCode": "ORD",
+                  "airportMetroCode": "CHI",
+                  "city": "Chicago",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " IL",
+                  "timeZoneName": "America/Chicago"
+                },
+                "departureTime": {
+                  "raw": "2018-02-23T06:00:00-06:00",
+                  "localized": "Feb 23, 2018 6:00:00 AM",
+                  "epochSeconds": 1519387200,
+                  "timeZoneOffsetSeconds": -21600,
+                  "localizedShortDate": "2/23/2018",
+                  "localizedMediumDate": "Feb 23",
+                  "localizedFullDate": "Fri, Feb 23",
+                  "localizedLongDate": "Feb 23, 2018",
+                  "localizedShortTime": "6:00am"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 40.77429,
+                  "longitude": -73.872035,
+                  "name": "LaGuardia",
+                  "longName": "New York, NY (LGA-LaGuardia)",
+                  "airportCode": "LGA",
+                  "airportMetroCode": "NYC",
+                  "city": "New York",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " NY",
+                  "timeZoneName": "America/New_York"
+                },
+                "arrivalTime": {
+                  "raw": "2018-02-23T09:10:00-05:00",
+                  "localized": "Feb 23, 2018 9:10:00 AM",
+                  "epochSeconds": 1519395000,
+                  "timeZoneOffsetSeconds": -18000,
+                  "localizedShortDate": "2/23/2018",
+                  "localizedMediumDate": "Feb 23",
+                  "localizedFullDate": "Fri, Feb 23",
+                  "localizedLongDate": "Feb 23, 2018",
+                  "localizedShortTime": "9:10am"
+                },
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "airlineName": "United",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "United",
+                "flightNumber": "1187",
+                "formattedLayoverDuration": "",
+                "duration": "PT3H10M",
+                "formattedDuration": "3h 10m",
+                "providerCode": "Amadeus",
+                "bookingCode": "N",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "D714F0D0-ECA0-42AB-AC7F-33CC68F12452_0_L1_S2_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false
+              }
+            ],
+            "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/SY5TTb5zxpSRi2iS-m8hPMCAtsMOjPx_2AiR8ODryrL_nB0yDzAZRxrYTIjS7Ux270z0fyOoe6wRXuq814lCQaX60mffAs-jdwMGWiMyMt4eOtTQY-ioxDd-wwJtf1pJMPlznki6p_3oa2sr8tRrpln6yrCvKRtyVsGE2hDQc_PM6Q",
+            "duration": "PT9H55M",
+            "formattedDuration": "9h 55m",
+            "departingAirport": {
+              "code": "SFO",
+              "name": "San Francisco (San Francisco Intl.)",
+              "city": "San Francisco",
+              "latitude": 37.61594,
+              "longitude": -122.387996,
+              "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": true,
+              "isMetroCode": false,
+              "airportID": 5195347,
+              "localName": "San Francisco Intl.",
+              "airportCityCode": "San Francisco, CA (SFO)",
+              "airportStateCode": " CA",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Terminal 1",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 2",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 3",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "International Terminal",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/Los_Angeles"
+            },
+            "arrivalAirport": {
+              "code": "LGA",
+              "name": "New York (LGA)",
+              "city": "New York",
+              "metroCode": "NYC",
+              "latitude": 40.77429,
+              "longitude": -73.872035,
+              "longName": "New York, NY (LGA-LaGuardia)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 4278092,
+              "localName": "LaGuardia",
+              "airportCityCode": "New York, NY (LGA)",
+              "airportStateCode": " NY",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/lga_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Terminal A",
+                  "url": "https://a.travel-assets.com/mobile/maps/lga_terminal_a.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal B",
+                  "url": "https://a.travel-assets.com/mobile/maps/lga_terminal_b.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal C",
+                  "url": "https://a.travel-assets.com/mobile/maps/lga_terminal_c.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal D",
+                  "url": "https://a.travel-assets.com/mobile/maps/lga_terminal_d.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/New_York"
+            },
+            "legDepartureTime": {
+              "raw": "2018-02-22T23:15:00-08:00",
+              "localized": "Feb 22, 2018 11:15:00 PM",
+              "epochSeconds": 1519370100,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "2/22/2018",
+              "localizedMediumDate": "Feb 22",
+              "localizedFullDate": "Thu, Feb 22",
+              "localizedLongDate": "Feb 22, 2018",
+              "localizedShortTime": "11:15pm"
+            },
+            "legArrivaltime": {
+              "raw": "2018-02-23T09:10:00-05:00",
+              "localized": "Feb 23, 2018 9:10:00 AM",
+              "epochSeconds": 1519395000,
+              "timeZoneOffsetSeconds": -18000,
+              "localizedShortDate": "2/23/2018",
+              "localizedMediumDate": "Feb 23",
+              "localizedFullDate": "Fri, Feb 23",
+              "localizedLongDate": "Feb 23, 2018",
+              "localizedShortTime": "9:10am"
+            },
+            "fareBasisCode": "KAG2AKBS"
+          }
+        ],
+        "rules": {
+          "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+          "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+          "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+          "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed.",
+          "refundableStatus": "NonRefundable",
+          "completePenaltyRules": {
+            "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+            "url": "https://www.expedia.com/Fare-Rules?tripid=b1d5ab57-2895-4aa4-8f3c-62642167b7c3",
+            "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://www.expedia.com/Fare-Rules?tripid=b1d5ab57-2895-4aa4-8f3c-62642167b7c3\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> applicable to this fare.",
+            "apiURL": "https://www.expedia.com/api/trips/7321688650313/items/D714F0D0-ECA0-42AB-AC7F-33CC68F12452_0/gdsFareRulesText?useCache=true"
+          },
+          "additionalAirlineFees": {
+            "text": "The airline may charge additional fees for checked baggage or other optional services.",
+            "url": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LGA&cabinclass=3&mktgcarrier=UA&opcarrier=UA&farebasis=KAG2AKBS&bookingclass=N&travelDate=2018-02-22&flightNumber=995",
+            "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LGA&cabinclass=3&mktgcarrier=UA&opcarrier=UA&farebasis=KAG2AKBS&bookingclass=N&travelDate=2018-02-22&flightNumber=995\" target=\"rulesAndRestrictions\">additional fees <span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> for checked baggage or other optional services."
+          },
+          "airlineLiabilityLimitations": {
+            "text": "Please read important information regarding airline liability limitations.",
+            "url": "https://www.expedia.com/p/info-main/warsaw",
+            "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/p/info-main/warsaw?\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+          },
+          "splitTicketingMessage": "Your roundtrip flight consists of two one-way fares which are subject to their own rules and restrictions. If one of your flights is changed or cancelled, it will not automatically change the other flight. You may incur a penalty fee for each flight for additional itinerary changes.",
+          "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
+          "railFeederMessages": [],
+          "expediaChangeFeeChargeable": false,
+          "hasElectronicsBannedMessage": false
+        },
+        "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/LGfPkqhMwQdusJcPiTYBBsCA819MNWFs4YZrlkosdKgchKatQnDeXbGNEIAzNZVoTnHFN4PEzDUsfXyeWggGiwhIoSvn6yo9NfL569d8ZW_dJdOkk-aVvXx0c66WDkGcnKnLaElWnR7WCyK5cYjV6Kmb",
+        "airRecordLocator": "376037450",
+        "isSeatMapAvailable": true,
+        "webChangePathURL": "https://www.expedia.com/flight-change-gds?tripnumber=7321688650313&arl=376037450&cname=United",
+        "bookingProvider": "Amadeus",
+        "hasTrainTransfer": false,
+        "ticketingAirCarrierNames": [
+          "United"
+        ],
+        "isLccOrCharter": false,
+        "destinationRegionId": 4278092,
+        "action": {
+          "isChangeable": false,
+          "isCancellable": false
+        }
+      },
+      {
+        "uniqueID": "D714F0D0-ECA0-42AB-AC7F-33CC68F12452_1",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "Your reservation is booked and confirmed. There is no need to call us to reconfirm this reservation.",
+        "startTime": {
+          "raw": "2018-02-24T21:50:00-05:00",
+          "localized": "Feb 24, 2018 9:50:00 PM",
+          "epochSeconds": 1519527000,
+          "timeZoneOffsetSeconds": -18000,
+          "localizedShortDate": "2/24/2018",
+          "localizedMediumDate": "Feb 24",
+          "localizedFullDate": "Sat, Feb 24",
+          "localizedLongDate": "Feb 24, 2018",
+          "localizedShortTime": "9:50pm"
+        },
+        "endTime": {
+          "raw": "2018-02-25T01:23:00-08:00",
+          "localized": "Feb 25, 2018 1:23:00 AM",
+          "epochSeconds": 1519550580,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "2/25/2018",
+          "localizedMediumDate": "Feb 25",
+          "localizedFullDate": "Sun, Feb 25",
+          "localizedLongDate": "Feb 25, 2018",
+          "localizedShortTime": "1:23am"
+        },
+        "ticketingStatus": "COMPLETE",
+        "orderNumber": "8085224956174",
+        "webCancelPathURL": "https://www.expedia.com/flight-cancel-exchange?tripnumber=7321688650313&arl=376037449&bookingid=SWCBVP",
+        "updateFrequentFlyerPathURL": "https://www.expedia.com/api/trips/b1d5ab57-2895-4aa4-8f3c-62642167b7c3/updateFrequentFlyerInformation",
+        "orderLineNumber": "18123f6b-8eb8-4dd0-bf68-03a06a9cb875",
+        "paymentModel": "AGENCY",
+        "fareType": "PUBLISHED",
+        "flightType": "ONE_WAY",
+        "isInternational": false,
+        "fareTotal": {
+          "subTotal": "113.3",
+          "subTotalFormatted": "$113.30",
+          "currency": "USD",
+          "base": "113.3",
+          "baseFormatted": "$113.30",
+          "total": "113.3",
+          "totalFormatted": "$113.30"
+        },
+        "farePerPassenger": [
+          {
+            "passengerIndex": 0,
+            "passengerTypeCode": "ADULT",
+            "passengerTypeCodeLocalized": "Adult",
+            "currency": "USD",
+            "base": "113.3",
+            "baseFormatted": "$113.30",
+            "taxesFormatted": "$0.00",
+            "total": "113.3",
+            "totalFormatted": "$113.30",
+            "fromToAirportCodes": "EWR to SFO",
+            "toAirportCode": "SFO"
+          }
+        ],
+        "isSplitTicket": true,
+        "fulfillmentMethod": "ETICKET",
+        "passengers": [
+          {
+            "typeCode": "ADULT",
+            "typeLocalized": "Adult",
+            "firstName": "Kevin",
+            "middleName": "Minguk",
+            "lastName": "Seo",
+            "fullName": "Kevin Minguk Seo",
+            "age": 23,
+            "gender": "Male",
+            "dateOfBirth": "1994-9-22",
+            "TSARedressNumber": "",
+            "phoneNumbers": [
+              {
+                "countryCode": "1",
+                "phone": "4083157399"
+              }
+            ],
+            "ticketNumbers": [],
+            "frequentFlyerPlans": [],
+            "seats": [],
+            "seatPreferenceCode": "Z"
+          }
+        ],
+        "brandedFareFamilyName": "BASIC ECONOMY",
+        "orderedFareFamilyDetails": {
+          "chargeable": [
+            "Bags"
+          ],
+          "notoffered": [
+            "RefundBeforeDeparture4",
+            "SeatReservation2",
+            "ChangesBeforeDeparture4",
+            "PriorityBoarding",
+            "CarryOnBag2",
+            "ExtraLegroom2"
+          ],
+          "included": [
+            "BonusMiles"
+          ]
+        },
+        "legs": [
+          {
+            "type": "NONSTOP",
+            "state": "PRE_START_4",
+            "numberOfStops": 0,
+            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+            "segments": [
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 40.69085,
+                  "longitude": -74.17747,
+                  "name": "Liberty Intl.",
+                  "longName": "Newark, NJ (EWR-Liberty Intl.)",
+                  "airportCode": "EWR",
+                  "airportMetroCode": "NYC",
+                  "city": "Newark",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " NJ",
+                  "timeZoneName": "America/New_York"
+                },
+                "departureTime": {
+                  "raw": "2018-02-24T21:50:00-05:00",
+                  "localized": "Feb 24, 2018 9:50:00 PM",
+                  "epochSeconds": 1519527000,
+                  "timeZoneOffsetSeconds": -18000,
+                  "localizedShortDate": "2/24/2018",
+                  "localizedMediumDate": "Feb 24",
+                  "localizedFullDate": "Sat, Feb 24",
+                  "localizedLongDate": "Feb 24, 2018",
+                  "localizedShortTime": "9:50pm"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "name": "San Francisco Intl.",
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "airportCode": "SFO",
+                  "city": "San Francisco",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "arrivalTime": {
+                  "raw": "2018-02-25T01:23:00-08:00",
+                  "localized": "Feb 25, 2018 1:23:00 AM",
+                  "epochSeconds": 1519550580,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "2/25/2018",
+                  "localizedMediumDate": "Feb 25",
+                  "localizedFullDate": "Sun, Feb 25",
+                  "localizedLongDate": "Feb 25, 2018",
+                  "localizedShortTime": "1:23am"
+                },
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "airlineName": "United",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "United",
+                "flightNumber": "506",
+                "formattedLayoverDuration": "",
+                "duration": "PT6H33M",
+                "formattedDuration": "6h 33m",
+                "providerCode": "SABRE",
+                "bookingCode": "N",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "D714F0D0-ECA0-42AB-AC7F-33CC68F12452_1_L1_S1_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "SS",
+                "isHidden": false
+              }
+            ],
+            "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/UcKYWd-qwtUHZe7jA78P78CAwwJKRJGsF96xS8QG10yG7VHoTHLuJg7zFXY5iLxrpySwq-8ZzvswnVN8KqA5Pl22EwzjLK6s9h2sZ2S9yr1PXSGxPqV2xazWa7HCJtg6MdJzaHG-YWhTjvZLqFN_tDfkz6bXTWaehI8_mkNOeM5uAw",
+            "duration": "PT6H33M",
+            "formattedDuration": "6h 33m",
+            "departingAirport": {
+              "code": "EWR",
+              "name": "Newark (EWR)",
+              "city": "Newark",
+              "metroCode": "NYC",
+              "latitude": 40.69085,
+              "longitude": -74.17747,
+              "longName": "Newark, NJ (EWR-Liberty Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 5396293,
+              "localName": "Liberty Intl.",
+              "airportCityCode": "Newark, NJ (EWR)",
+              "airportStateCode": " NJ",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/ewr_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Terminal A",
+                  "url": "https://a.travel-assets.com/mobile/maps/ewr_terminal_a.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal B",
+                  "url": "https://a.travel-assets.com/mobile/maps/ewr_terminal_b.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal C",
+                  "url": "https://a.travel-assets.com/mobile/maps/ewr_terminal_c.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/New_York"
+            },
+            "arrivalAirport": {
+              "code": "SFO",
+              "name": "San Francisco (San Francisco Intl.)",
+              "city": "San Francisco",
+              "latitude": 37.61594,
+              "longitude": -122.387996,
+              "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": true,
+              "isMetroCode": false,
+              "airportID": 5195347,
+              "localName": "San Francisco Intl.",
+              "airportCityCode": "San Francisco, CA (SFO)",
+              "airportStateCode": " CA",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Terminal 1",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 2",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 3",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "International Terminal",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/Los_Angeles"
+            },
+            "legDepartureTime": {
+              "raw": "2018-02-24T21:50:00-05:00",
+              "localized": "Feb 24, 2018 9:50:00 PM",
+              "epochSeconds": 1519527000,
+              "timeZoneOffsetSeconds": -18000,
+              "localizedShortDate": "2/24/2018",
+              "localizedMediumDate": "Feb 24",
+              "localizedFullDate": "Sat, Feb 24",
+              "localizedLongDate": "Feb 24, 2018",
+              "localizedShortTime": "9:50pm"
+            },
+            "legArrivaltime": {
+              "raw": "2018-02-25T01:23:00-08:00",
+              "localized": "Feb 25, 2018 1:23:00 AM",
+              "epochSeconds": 1519550580,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "2/25/2018",
+              "localizedMediumDate": "Feb 25",
+              "localizedFullDate": "Sun, Feb 25",
+              "localizedLongDate": "Feb 25, 2018",
+              "localizedShortTime": "1:23am"
+            },
+            "fareBasisCode": "GAK2AHBN"
+          }
+        ],
+        "rules": {
+          "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+          "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+          "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+          "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed.",
+          "refundableStatus": "NonRefundable",
+          "completePenaltyRules": {
+            "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+            "url": "https://www.expedia.com/Fare-Rules?tripid=b1d5ab57-2895-4aa4-8f3c-62642167b7c3",
+            "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://www.expedia.com/Fare-Rules?tripid=b1d5ab57-2895-4aa4-8f3c-62642167b7c3\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> applicable to this fare.",
+            "apiURL": "https://www.expedia.com/api/trips/7321688650313/items/D714F0D0-ECA0-42AB-AC7F-33CC68F12452_1/gdsFareRulesText?useCache=true"
+          },
+          "additionalAirlineFees": {
+            "text": "The airline may charge additional fees for checked baggage or other optional services.",
+            "url": "https://www.expedia.com/Flights-BagFees?originapt=EWR&destinationapt=SFO&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=GAK2AHBN&bookingclass=N&travelDate=2018-02-24&flightNumber=506",
+            "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=EWR&destinationapt=SFO&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=GAK2AHBN&bookingclass=N&travelDate=2018-02-24&flightNumber=506\" target=\"rulesAndRestrictions\">additional fees <span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> for checked baggage or other optional services."
+          },
+          "airlineLiabilityLimitations": {
+            "text": "Please read important information regarding airline liability limitations.",
+            "url": "https://www.expedia.com/p/info-main/warsaw",
+            "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/p/info-main/warsaw?\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+          },
+          "splitTicketingMessage": "Your roundtrip flight consists of two one-way fares which are subject to their own rules and restrictions. If one of your flights is changed or cancelled, it will not automatically change the other flight. You may incur a penalty fee for each flight for additional itinerary changes.",
+          "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
+          "railFeederMessages": [],
+          "expediaChangeFeeChargeable": false,
+          "hasElectronicsBannedMessage": false
+        },
+        "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/eFqTZyWRIWQHFrKIVOW3QMCAQtWipQpwHNCjiCeD5OSb3_3sRaQ14gm7_vSp61cwGHM4w75Bjv_zmKyMcLEomp5BKnqZvMX1ZJyPYhyefucXpHpw45ZajqvsB6l35fj6QYH6mzNnEGj9N0GuDgEV3o8H",
+        "airRecordLocator": "376037449",
+        "isSeatMapAvailable": true,
+        "webChangePathURL": "https://www.expedia.com/flight-change-gds?tripnumber=7321688650313&arl=376037450&cname=United",
+        "bookingProvider": "SABRE",
+        "hasTrainTransfer": false,
+        "ticketingAirCarrierNames": [
+          "United"
+        ],
+        "isLccOrCharter": false,
+        "destinationRegionId": 4278092,
+        "action": {
+          "isChangeable": false,
+          "isCancellable": false
+        }
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "240.3",
+      "totalFormatted": "$240.30"
+    },
+    "isCouponApplied": false,
+    "paymentSummary": {
+      "totalPaidPrice": {
+        "amount": 533.94,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidTaxAndFees": {
+        "amount": 43.86,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "subTotalPaid": {
+        "amount": 490.08,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPropertyFee": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidLocalizedPrice": "$533.94",
+      "totalPaidTaxAndFeesLocalizedPrice": "$43.86",
+      "subTotalPaidLocalizedPrice": "$490.08",
+      "totalPropertyFeeLocalizedPrice": ""
+    },
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "fromCloud": [
+      "hotels"
+    ],
+    "tripDataSource": "EXPWEB_HYBRID",
+    "isTripUpgradable": false,
+    "mipQualifications": [],
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Blue"
+  }
+}
