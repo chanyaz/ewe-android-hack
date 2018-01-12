@@ -12,10 +12,10 @@ repositories {
 }
 
 dependencies {
-    compile 'joda-time:joda-time:2.9.9'
-    compile 'net.danlew:android.joda:2.9.9@aar'
-    compile 'com.squareup.phrase:phrase:1.1.0'
-    compile project(':lib:AndroidUtils')
+    implementation 'joda-time:joda-time:2.9.9'
+    implementation 'net.danlew:android.joda:2.9.9@aar'
+    implementation 'com.squareup.phrase:phrase:1.1.0'
+    implementation project(':lib:AndroidUtils')
 }
 
 android {
