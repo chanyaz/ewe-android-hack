@@ -4,10 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.squareup.phrase.Phrase
@@ -35,9 +33,9 @@ class HotelItinLocationDetailsTest {
     fun testMapWidget() {
         locationDetailsWidget.setupWidget(itinCardDataHotel)
         assertEquals(View.VISIBLE, locationDetailsWidget.mapView.visibility)
+        assertEquals(View.VISIBLE, locationDetailsWidget.directionsButton.visibility)
         assertEquals(locationDetailsWidget.addressLine1.text, itinCardDataHotel.propertyLocation.streetAddressString)
         assertEquals(locationDetailsWidget.addressLine2.text, itinCardDataHotel.propertyLocation.toTwoLineAddressFormattedString())
-        assertEquals(locationDetailsWidget.actionButtons.getmLeftButton().text, itinCardDataHotel.localPhone)
         locationDetailsWidget.address.performClick()
         val address: String = Phrase.from(activity, R.string.itin_hotel_details_address_clipboard_TEMPLATE)
                 .put("addresslineone", locationDetailsWidget.addressLine1.text.toString())
@@ -58,7 +56,7 @@ class HotelItinLocationDetailsTest {
     fun testDirectionsOmnitureClick() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         locationDetailsWidget.setupWidget(itinCardDataHotel)
-        val directionsButton = locationDetailsWidget.actionButtons.getmRightButton()
+        val directionsButton = locationDetailsWidget.directionsButton
         directionsButton.performClick()
 
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Directions", mockAnalyticsProvider)
