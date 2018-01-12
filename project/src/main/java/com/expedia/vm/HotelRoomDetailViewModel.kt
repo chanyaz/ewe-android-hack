@@ -75,6 +75,8 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
 
     val roomLeftString: String? get() = createRoomLeftString()
 
+    val bookButtonContentDescriptionString: String get() = getBookButtonContentDescription()
+
     val roomSoldOut = BehaviorSubject.create<Boolean>(false)
 
     private val chargeableRateInfo = hotelRoomResponse.rateInfo.chargeableRateInfo
@@ -230,5 +232,13 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
             return null
         }
         return null
+    }
+
+    private fun getBookButtonContentDescription(): String {
+        return if (isPackage)
+            Phrase.from(context, R.string.book_room_button_content_description_TEMPLATE)
+                    .put("room", hotelRoomResponse.roomTypeDescription ?: "").format().toString()
+        else Phrase.from(context, R.string.select_room_button_content_description_TEMPLATE)
+                .put("room", hotelRoomResponse.roomTypeDescription ?: "").format().toString()
     }
 }

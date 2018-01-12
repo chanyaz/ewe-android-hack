@@ -104,6 +104,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         hotelRoomRowButton.bookButtonClickedSubject.subscribe(hotelRoomRowClickedSubject)
 
         hotelRoomRowButton.setBookButtonText(viewModel.hotelRoomRowButtonString)
+        hotelRoomRowButton.bookButton.contentDescription = viewModel.bookButtonContentDescriptionString
 
         viewModel.roomSoldOut.subscribe { soldOut ->
             if (soldOut) {

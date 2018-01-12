@@ -4868,4 +4868,9 @@
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">Saved coupons</string>
 
+    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
+    <string name="book_room_button_content_description_TEMPLATE">Book, {room}</string>
+    <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
+    <string name="select_room_button_content_description_TEMPLATE">Select, {room}</string>
+
 </resources>
