@@ -22,7 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/flight_itin_airline_operated_by"
         app:layout_constraintLeft_toRightOf="@+id/flight_itin_airline_logo"
         app:layout_constraintRight_toLeftOf="@+id/flight_status_indicator_container"
         app:layout_constraintTop_toTopOf="parent"
