@@ -119,6 +119,7 @@ public class FlightLeg {
 		AirlineMessageModel airlineMessageModel = new AirlineMessageModel();
 		airlineMessageModel.airlineFeeLink = multiItemFlightLeg.getObFeesUrl();
 		flightLeg.airlineMessageModel = airlineMessageModel;
+		flightLeg.isBasicEconomy = multiItemFlightLeg.isBasicEconomy();
 		return flightLeg;
 	}
 

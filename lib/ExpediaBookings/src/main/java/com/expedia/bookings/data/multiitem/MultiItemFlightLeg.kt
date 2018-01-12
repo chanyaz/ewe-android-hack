@@ -7,5 +7,6 @@ data class MultiItemFlightLeg(
         val baggageFeesUrl: String,
         val stops: Int,
         val duration: Duration,
-        val elapsedDays: Int
+        val elapsedDays: Int,
+        var isBasicEconomy: Boolean
 )
