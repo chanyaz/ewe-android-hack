@@ -4592,6 +4592,8 @@
 
     <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Error: Enter missing traveler details. Button.</string>
+    <!--Packages accessibility content description for  traveler details complete-->
+    <string name="traveler_details_complete_cont_desc">Traveler Information Complete</string>
     <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, traveler details complete. Button.</string>
     <!--Packages accessibility content description for role Button-->
