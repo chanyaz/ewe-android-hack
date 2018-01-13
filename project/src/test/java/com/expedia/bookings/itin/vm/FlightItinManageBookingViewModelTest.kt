@@ -84,6 +84,7 @@ class FlightItinManageBookingViewModelTest {
         val testItinCardData = ItinCardDataFlightBuilder().build()
         val segments = testItinCardData.flightLeg.segments
         testItinCardData.flightLeg.segments[segments.size - 1].destinationWaypoint = TestWayPoint("Las Vegas")
+        testItinCardData.flightLeg.segments[segments.size - 1].originWaypoint = TestWayPoint("San Francisco")
         whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
         sut.itineraryManager = mockItinManager
         sut.setUp()

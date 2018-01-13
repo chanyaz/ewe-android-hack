@@ -18,10 +18,18 @@ class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: Arra
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         PicassoHelper.Builder(holder?.image).build().load(legsDetailList.get(position).imagePath)
-        holder?.title?.text = getTitle(position)
+
+        val titleText = getTitle(position)
+        if (titleText.isNotEmpty()) {
+            holder?.title?.visibility = View.VISIBLE
+            holder?.title?.text = titleText
+        }
         val subtitleText = getSubTitle(position)
-        holder?.subtitle?.text = subtitleText
-        holder?.subtitle?.contentDescription = getContentDescriptionForSubTitle(subtitleText)
+        if (subtitleText.isNotEmpty()) {
+            holder?.subtitle?.visibility = View.VISIBLE
+            holder?.subtitle?.text = subtitleText
+            holder?.subtitle?.contentDescription = getContentDescriptionForSubTitle(subtitleText)
+        }
         if (position == legsDetailList.size - 1)
             holder?.divider?.visibility = View.GONE
     }
@@ -45,21 +53,29 @@ class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: Arra
     }
 
     private fun getTitle(position: Int): String {
-        val departureAirportCode = legsDetailList.get(position).departureAirportCode
-        val arrivalAirportCode = legsDetailList.get(position).arrivalAirportCode
-        val title = Phrase.from(context, R.string.itin_flight_leg_detail_widget_title_TEMPLATE).put("departure", departureAirportCode).put("arrival", arrivalAirportCode).format().toString()
+        var title = ""
+        val departureAirportCode = legsDetailList[position].departureAirportCode
+        val arrivalAirportCode = legsDetailList[position].arrivalAirportCode
+        if (departureAirportCode.isNotBlank() && arrivalAirportCode.isNotBlank()) {
+            title = Phrase.from(context, R.string.itin_flight_leg_detail_widget_title_TEMPLATE).put("departure", departureAirportCode).put("arrival", arrivalAirportCode).format().toString()
+        }
         return title
     }
 
     private fun getSubTitle(position: Int): String {
+        var subtitle = ""
         val departureTime = legsDetailList.get(position).departureTime
         val departureDate = legsDetailList.get(position).departureMonthDay
         val arrivalTime = legsDetailList.get(position).arrivalTime
         val stops = Integer.parseInt(legsDetailList.get(position).stopNumber)
         val numberOfStops = if (isZero(legsDetailList.get(position).stopNumber)) context.getString(R.string.itin_flight_leg_detail_widget_nonstop) else context.resources.getQuantityString(R.plurals.itin_flight_leg_detail_widget_stops_TEMPLATE, stops, stops)
-        val departureDateTime = Phrase.from(context, R.string.itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE).put("date", departureDate).put("time", departureTime).format().toString()
-        val subtitle = Phrase.from(context, R.string.itin_flight_leg_detail_widget_sub_title_TEMPLATE).put("departure_date_time", departureDateTime).put("arrival_date_time", arrivalTime).put("stops", numberOfStops).format().toString()
+        if (departureTime.isNotBlank() && departureDate.isNotBlank() && arrivalTime.isNotBlank()) {
+            val departureDateTime = Phrase.from(context, R.string.itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE).put("date", departureDate).put("time", departureTime).format().toString()
+            subtitle = Phrase.from(context, R.string.itin_flight_leg_detail_widget_sub_title_TEMPLATE).put("departure_date_time", departureDateTime).put("arrival_date_time", arrivalTime).put("stops", numberOfStops).format().toString()
+            return subtitle
+        }
         return subtitle
+
     }
 
     private fun isZero(value: String?): Boolean {

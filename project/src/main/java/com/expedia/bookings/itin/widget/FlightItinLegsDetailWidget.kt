@@ -33,7 +33,7 @@ class FlightItinLegsDetailWidget(context: Context?, attrs: AttributeSet?) : Line
     }
 
     var viewModel: FlightItinLegsDetailWidgetViewModel by notNullAndObservable { vm ->
-        vm.updateWidgetRecyclerViewSubjet.subscribe { param ->
+        vm.updateWidgetRecyclerViewSubject.subscribe { param ->
             setUpRecyclerView(param)
         }
         vm.rulesAndRestrictionDialogTextSubject.subscribe { param ->
