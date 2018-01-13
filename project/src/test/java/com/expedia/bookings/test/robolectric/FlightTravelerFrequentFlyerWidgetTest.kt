@@ -41,14 +41,14 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = [(ShadowGCM::class), (ShadowUserManager::class), (ShadowAccountManagerEB::class)])
 
 class FlightTravelerFrequentFlyerWidgetTest {
     private lateinit var widget: FlightTravelerEntryWidget
     private val context = RuntimeEnvironment.application
 
-    val testRegionName = "Chicago"
-    val testAirportCode = "ORD"
+    private val testRegionName = "Chicago"
+    private val testAirportCode = "ORD"
     val traveler = Traveler()
 
     @Before
@@ -319,7 +319,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
     private fun createFlightSegments(flight: FlightLeg, airlineNames: List<String>, size: Int?) {
         flight.segments = ArrayList<FlightSegment>()
         if (size != null) {
-            for (i in 0 until size!!) {
+            for (i in 0 until size) {
                 flight.segments.add(FlightSegment())
                 flight.segments[i].airlineName = airlineNames[i]
                 flight.segments[i].airlineCode = "AA"

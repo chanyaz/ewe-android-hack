@@ -36,15 +36,15 @@ class FlightItinDetailsViewModelTest {
     private lateinit var context: Context
     private lateinit var dateTime: DateTime
 
-    val itinCardDataValidSubscriber = TestObserver<Unit>()
-    val itinCardDataSubscriber = TestObserver<ItinCardDataFlight>()
-    val updateToolbarSubscriber = TestObserver<ItinToolbarViewModel.ToolbarParams>()
-    val clearLegSummaryContainerSubscriber = TestObserver<Unit>()
-    val createLegSummaryWidgetsSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
-    val updateConfirmationSubscriber = TestObserver<ItinConfirmationViewModel.WidgetParams>()
-    val createLayoverSubscriber = TestObserver<String>()
-    val createBaggageInfoWebviewSubcriber = TestObserver<String>()
-    val createBookingInfoWidgetSubscriber = TestObserver<FlightItinBookingInfoViewModel.WidgetParams>()
+    private val itinCardDataValidSubscriber = TestObserver<Unit>()
+    private val itinCardDataSubscriber = TestObserver<ItinCardDataFlight>()
+    private val updateToolbarSubscriber = TestObserver<ItinToolbarViewModel.ToolbarParams>()
+    private val clearLegSummaryContainerSubscriber = TestObserver<Unit>()
+    private val createLegSummaryWidgetsSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
+    private val updateConfirmationSubscriber = TestObserver<ItinConfirmationViewModel.WidgetParams>()
+    private val createLayoverSubscriber = TestObserver<String>()
+    private val createBaggageInfoWebviewSubcriber = TestObserver<String>()
+    private val createBookingInfoWidgetSubscriber = TestObserver<FlightItinBookingInfoViewModel.WidgetParams>()
 
     @Before
     fun setup() {
@@ -494,7 +494,6 @@ class FlightItinDetailsViewModelTest {
 
     @Test
     fun testIsDataAvailableFromFlightStats() {
-        val dateTime = DateTime.now()
         val testItinCardData = ItinCardDataFlightBuilder().build()
         val flight = testItinCardData.flightLeg.segments[0]
         flight.mFlightHistoryId = -1
@@ -523,7 +522,7 @@ class FlightItinDetailsViewModelTest {
         assertEquals(expectedValues, values)
     }
 
-    class TestWayPoint(val code: String, val city: String, val dateTime: DateTime) : Waypoint(ACTION_UNKNOWN) {
+    class TestWayPoint(val code: String, val city: String, private val dateTime: DateTime) : Waypoint(ACTION_UNKNOWN) {
         override fun getAirport(): Airport {
             val airport = Airport()
             airport.mAirportCode = code

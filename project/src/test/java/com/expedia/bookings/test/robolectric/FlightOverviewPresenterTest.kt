@@ -58,7 +58,7 @@ import java.util.ArrayList
 import kotlin.test.assertEquals
 
 @RunWith(RxJavaTestImmediateSchedulerRunner::class)
-@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = [(ShadowUserManager::class), (ShadowAccountManagerEB::class)])
 class FlightOverviewPresenterTest {
 
     private val context = RuntimeEnvironment.application
@@ -85,7 +85,7 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testFareFamilyWidgetVisibility() {
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         val testSubscriber = TestObserver.create<FlightCreateTripResponse>()
@@ -96,7 +96,7 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testFareFamilyCreateTripFiring() {
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         val cardViewViewModel = widget.fareFamilyCardView.viewModel
@@ -126,7 +126,7 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testFareFamilyUnavailableError() {
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         val testSubscriber = TestObserver.create<FlightCreateTripResponse>()
@@ -232,7 +232,7 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testResetCheckout() {
         val flightCheckoutPresenter = widget.getCheckoutPresenter()
         Db.loadTripBucket(context)
@@ -321,7 +321,7 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testFreeCancellationInfo() {
-        var flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
+        val flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
         widget.viewModel.showFreeCancellationObservable.onNext(true)
         flightSummaryWidget.viewmodel = FlightOverviewSummaryViewModel(context)
         flightSummaryWidget.viewmodel.params.onNext(setupFlightSearchParams(false))
@@ -445,7 +445,7 @@ class FlightOverviewPresenterTest {
     @Test
     fun testOutboundWidgetBaggageFlightLegUpdate() {
         createExpectedFlightLeg()
-        var flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
+        val flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
         val summaryWidgetViewModel = widget.flightSummary.viewmodel
         summaryWidgetViewModel.params.onNext(setupFlightSearchParams())
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
@@ -464,7 +464,7 @@ class FlightOverviewPresenterTest {
     @Test
     fun testInboundWidgetBaggageFlightLegUpdate() {
         createExpectedFlightLeg()
-        var flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
+        val flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
         val summaryWidgetViewModel = widget.flightSummary.viewmodel
         summaryWidgetViewModel.params.onNext(setupFlightSearchParams())
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
@@ -519,7 +519,7 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testEvolableTermsConditionInfo() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsEvolable)
         createExpectedFlightLeg()
@@ -648,7 +648,7 @@ class FlightOverviewPresenterTest {
 
     private fun getToolbarDateText(params: FlightSearchParams): String {
         val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-        val checkIn = params.departureDate?.toString(formatter)
+        val checkIn = params.departureDate.toString(formatter)
         val checkOut = params.returnDate?.toString(formatter)
         return DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut)
     }
@@ -765,7 +765,7 @@ class FlightOverviewPresenterTest {
     private fun makeBaggageInfoResponse(): BaggageInfoResponse {
         val baggageInfoResponse = BaggageInfoResponse()
         baggageInfoResponse.airlineName = "JetBlue Airways"
-        var chargesList = ArrayList<HashMap<String, String>>()
+        val chargesList = ArrayList<HashMap<String, String>>()
         baggageInfoResponse.charges = chargesList
         return baggageInfoResponse
     }

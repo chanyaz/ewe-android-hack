@@ -3,22 +3,22 @@ package com.expedia.bookings.utils
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import junit.framework.Assert.assertEquals
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+@RunForBrands(brands = [(MultiBrand.EXPEDIA)])
 class LocaleBasedDateFormatUtilsTests {
 
-    val localDateExpected = LocalDate()
+    private val localDateExpected = LocalDate()
             .withMonthOfYear(6)
             .withYear(2020)
             .withDayOfMonth(25)
 
-    val dateTimeExpected = DateTime()
+    private val dateTimeExpected = DateTime()
             .withDate(localDateExpected)
             .withHourOfDay(10)
             .withMinuteOfHour(40)

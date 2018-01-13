@@ -19,7 +19,7 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelIntentBuilderTest {
-    val testBuilder = HotelIntentBuilder()
+    private val testBuilder = HotelIntentBuilder()
 
     private val context = RuntimeEnvironment.application
 
@@ -94,7 +94,7 @@ class HotelIntentBuilderTest {
         assertNotNull(params)
         assertEquals(com.expedia.bookings.data.HotelSearchParams.SearchType.CITY.name,
                 params!!.suggestion.type)
-        assertEquals(expectedLocation, params!!.suggestion.regionNames.displayName)
+        assertEquals(expectedLocation, params.suggestion.regionNames.displayName)
     }
 
     @Test

@@ -22,8 +22,6 @@ import com.expedia.bookings.widget.HotelTravelerEntryWidget
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.HotelTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.HotelTravelersViewModel
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,9 +30,11 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
 import kotlin.properties.Delegates.notNull
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = [(ShadowGCM::class), (ShadowUserManager::class), (ShadowAccountManagerEB::class)])
 class HotelTravelerEntryWidgetTest {
 
     private var activity: FragmentActivity by Delegates.notNull()
@@ -70,7 +70,7 @@ class HotelTravelerEntryWidgetTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testCreateTripTravelerEmailStatusUpdatesEntryWidgetOptOut() {
         (travelerPresenter.viewModel as HotelTravelersViewModel).createTripOptInStatus.onNext(MerchandiseSpam.CONSENT_TO_OPT_OUT)
         travelerPresenter.showSelectOrEntryState()
@@ -81,7 +81,7 @@ class HotelTravelerEntryWidgetTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testCreateTripTravelerEmailStatusUpdatesEntryWidgetOptIn() {
         (travelerPresenter.viewModel as HotelTravelersViewModel).createTripOptInStatus.onNext(MerchandiseSpam.CONSENT_TO_OPT_IN)
         travelerPresenter.showSelectOrEntryState()

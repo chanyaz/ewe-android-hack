@@ -12,9 +12,9 @@ import java.io.File
 
 class ItinCardDataFlightBuilder {
 
-    val now = DateTime.now()
-    val startTime = now.plusDays(30)
-    val endTime = startTime.plusDays(7)
+    val now: DateTime = DateTime.now()
+    val startTime: DateTime = now.plusDays(30)
+    private val endTime = startTime.plusDays(7)
 
     fun build(airAttachEnabled: Boolean = false, multiSegment: Boolean = false, confirmationNumber: String? = null, isShared: Boolean = false): ItinCardDataFlight {
         val itinCardDataFlight = makeFlight(multiSegment)
@@ -32,13 +32,14 @@ class ItinCardDataFlightBuilder {
     }
 
     private fun makeFlight(multiSegment: Boolean): ItinCardDataFlight {
-        var filename: String? = null
+        var filename = "flight_trip_details"
+
         if (multiSegment) {
             filename = "flight_trip_details_multi_segment"
-        } else {
-            filename = "flight_trip_details"
         }
+
         val tripFlight = fetchTripFlight(filename)
+
         return ItinCardDataFlight(tripFlight, 0)
     }
 
@@ -71,13 +72,9 @@ class ItinCardDataFlightBuilder {
 
     private fun getFlightTrip(jsonObject: JSONObject): TripFlight? {
         val tripParser = TripParser()
-
         val tripObj = tripParser.parseTrip(jsonObject)
         val tripComponent = tripObj.tripComponents[0]
-        if (tripComponent is TripFlight) {
-            return tripComponent
-        } else {
-            return null
-        }
+
+        return tripComponent as? TripFlight
     }
 }

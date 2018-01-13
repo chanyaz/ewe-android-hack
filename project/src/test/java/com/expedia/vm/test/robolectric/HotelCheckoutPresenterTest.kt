@@ -75,16 +75,18 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = [(ShadowGCM::class), (ShadowUserManager::class), (ShadowAccountManagerEB::class)])
 class HotelCheckoutPresenterTest {
     private var checkout: HotelCheckoutMainViewPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
     val loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
-    val mockHotelServices: MockHotelServiceTestRule = MockHotelServiceTestRule()
+    @Suppress("MemberVisibilityCanPrivate")
+    val mockHotelServices = MockHotelServiceTestRule()
         @Rule get
-    val mockTravelerProvider = MockTravelerProvider()
+
+    private val mockTravelerProvider = MockTravelerProvider()
 
     @Before
     fun setup() {
@@ -100,6 +102,7 @@ class HotelCheckoutPresenterTest {
         checkout.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
         goToCheckout()
     }
+
 
     @After
     fun tearDown() {
@@ -218,7 +221,7 @@ class HotelCheckoutPresenterTest {
         checkout.show(CheckoutBasePresenter.Ready())
         val travelerContactDetailsWidget = (LayoutInflater.from(activity).inflate(R.layout.test_traveler_contact_details_widget, null) as TravelerContactDetailsWidget)
         checkout.toolbar.viewModel.expanded.onNext(travelerContactDetailsWidget)
-        checkout.mainContactInfoCardView.setExpanded(true)
+        checkout.mainContactInfoCardView.isExpanded = true
 
         doneMenuVisibilitySubscriber.assertNoValues()
         assertEquals("Next", checkout.menuDone.title.toString())
@@ -361,7 +364,7 @@ class HotelCheckoutPresenterTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = setupHotelCheckoutPresenter()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
-        var paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
+        val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
 
         checkoutView.onBookV2(null, paymentSplits)
@@ -375,7 +378,7 @@ class HotelCheckoutPresenterTest {
         val testCheckoutParams = TestObserver<HotelCheckoutV2Params>()
         val checkoutView = setupHotelCheckoutPresenter()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
-        var paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
+        val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
 
         checkoutView.onBookV2(null, paymentSplits)
@@ -388,7 +391,7 @@ class HotelCheckoutPresenterTest {
     fun testHotelMaterialCouponExpandWithNoValidCoupon() {
         setupHotelMaterialForms()
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
-        checkout.couponCardView.setExpanded(true)
+        checkout.couponCardView.isExpanded = true
 
         assertEquals(View.GONE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
     }
@@ -409,7 +412,7 @@ class HotelCheckoutPresenterTest {
     fun testHotelMaterialCouponExpandWithValidCoupon() {
         setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
-        checkout.couponCardView.setExpanded(true)
+        checkout.couponCardView.isExpanded = true
 
         assertEquals(View.VISIBLE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
     }
@@ -418,7 +421,7 @@ class HotelCheckoutPresenterTest {
     fun testMaterialFormCouponSavedCount() {
         setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
-        checkout.couponCardView.setExpanded(true)
+        checkout.couponCardView.isExpanded = true
 
         assertEquals(3, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.storedCouponRecyclerView.adapter.itemCount)
     }
@@ -426,7 +429,7 @@ class HotelCheckoutPresenterTest {
     @Test
     fun testHotelMaterialCouponExpandWithCouponSavedABTestOff() {
         setupHotelMaterialForms()
-        checkout.couponCardView.setExpanded(true)
+        checkout.couponCardView.isExpanded = true
 
         assertEquals(View.GONE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
     }
@@ -739,7 +742,7 @@ class HotelCheckoutPresenterTest {
         testUser.primaryTraveler = traveler
         userStateManager?.userSource?.user = testUser
         UserLoginTestUtil.setupUserAndMockLogin(testUser)
-        Db.sharedInstance.setTravelers(listOf(traveler))
+        Db.sharedInstance.travelers = listOf(traveler)
     }
 
     private fun assertHotelOverviewVisibility(expectedVisibility: Int) {
@@ -772,11 +775,11 @@ class HotelCheckoutPresenterTest {
 
     private fun setupHotelCheckoutPresenter(): HotelCheckoutPresenter {
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
-        checkoutView.hotelCheckoutViewModel = HotelCheckoutViewModel(mockHotelServices.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
-        Db.sharedInstance.setTravelers(listOf(makeTraveler()))
+        checkoutView.hotelCheckoutViewModel = HotelCheckoutViewModel(mockHotelServices.services!!, PaymentModel(loyaltyServiceRule.services!!))
+        Db.sharedInstance.travelers = listOf(makeTraveler())
         checkoutView.hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.bind(makeTraveler())
         checkoutView.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(mockHotelServices.services!!,
-                PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
+                PaymentModel(loyaltyServiceRule.services!!))
         checkoutView.hotelCheckoutWidget.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
         checkoutView.hotelSearchParams = HotelPresenterTestUtil.getDummyHotelSearchParams(activity)
         return checkoutView
@@ -784,7 +787,7 @@ class HotelCheckoutPresenterTest {
 
     private fun goToCheckout(withTripResponse: HotelCreateTripResponse = mockHotelServices.getHappyCreateTripResponse()) {
         checkout.createTripViewmodel = HotelCreateTripViewModel(mockHotelServices.services!!,
-                PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
+                PaymentModel(loyaltyServiceRule.services!!))
         checkout.showCheckout(HotelOffersResponse.HotelRoomResponse())
         checkout.createTripViewmodel.tripResponseObservable.onNext(withTripResponse)
     }

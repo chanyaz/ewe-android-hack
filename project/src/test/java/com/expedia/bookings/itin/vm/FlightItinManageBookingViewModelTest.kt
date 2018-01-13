@@ -36,10 +36,10 @@ class FlightItinManageBookingViewModelTest {
     private lateinit var activity: Activity
     private lateinit var sut: FlightItinManageBookingViewModel
 
-    val itinCardDataValidSubscriber = TestObserver<Unit>()
-    val itinCardDataSubscriber = TestObserver<ItinCardDataFlight>()
-    val updateToolbarSubscriber = TestObserver<ItinToolbarViewModel.ToolbarParams>()
-    val customerSupportDetailSubscriber = TestObserver<ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams>()
+    private val itinCardDataValidSubscriber = TestObserver<Unit>()
+    private val itinCardDataSubscriber = TestObserver<ItinCardDataFlight>()
+    private val updateToolbarSubscriber = TestObserver<ItinToolbarViewModel.ToolbarParams>()
+    private val customerSupportDetailSubscriber = TestObserver<ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams>()
 
     @Before
     fun setup() {
@@ -184,7 +184,7 @@ class FlightItinManageBookingViewModelTest {
         val penaltyRulesAssert = "Please read the <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Fare-Rules?tripid=028c321c-fbb7-4a83-95ae-e6a7d9924474\">complete penalty rules for changes and cancellations</a> applicable to this fare."
         val liabilityRulesAssert = "Please read important information regarding href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/p/info-main/warsaw?\">airline liability limitations</a>."
 
-        val assertValue = cancelChange + "<br><br>" + "<b>" + refundability + "</b>" + "<br><br>" + penaltyRulesAssert + "<br><br>" + liabilityRulesAssert
+        val assertValue = "$cancelChange<br><br><b>$refundability</b><br><br>$penaltyRulesAssert<br><br>$liabilityRulesAssert"
 
         whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
         sut.itineraryManager = mockItinManager
@@ -291,7 +291,6 @@ class FlightItinManageBookingViewModelTest {
         sut.updateItinCardDataFlight()
         sut.airlineSupportDetailsData()
 
-        val airlineName = R.string.itin_flight_airline_support_widget_airline_text
         val title = Phrase.from(context, R.string.itin_flight_airline_support_widget_airlines_for_help_TEMPLATE).put("airline_name", context.getString(R.string.itin_flight_airline_support_widget_the_airline_text)).format().toString()
         val airlineSupport = Phrase.from(context, R.string.itin_flight_airline_support_widget_airlines_support_TEMPLATE).put("airline_name", context.getString(R.string.itin_flight_airline_support_widget_airline_text)).format().toString()
         val ticket = ""
@@ -350,11 +349,12 @@ class FlightItinManageBookingViewModelTest {
     class TestWayPoint(val city: String) : Waypoint(ACTION_UNKNOWN) {
         override fun getAirport(): Airport? {
             val airport = Airport()
-            if (city.isEmpty()) {
-                return null
-            } else {
-                airport.mCity = city
-                return airport
+            return when {
+                city.isEmpty() -> null
+                else -> {
+                    airport.mCity = city
+                    airport
+                }
             }
         }
     }

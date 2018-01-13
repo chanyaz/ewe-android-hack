@@ -17,7 +17,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class HotelSearchTrackingDataBuilderTests {
 
-    lateinit var trackingDataBuilder: HotelSearchTrackingDataBuilder
+    private lateinit var trackingDataBuilder: HotelSearchTrackingDataBuilder
 
     @Before
     fun setup() {
@@ -333,18 +333,11 @@ class HotelSearchTrackingDataBuilderTests {
     private fun createSearchParams(suggestion: SuggestionV4 = createSuggestion(),
                                    checkIn: LocalDate = LocalDate().plusDays(1), checkOut: LocalDate = LocalDate().plusDays(2),
                                    adults: Int = 1, children: List<Int> = listOf(4, 5),
-                                   shopWithPoints: Boolean = false, filterUnavailable: Boolean = true): HotelSearchParams {
-        val params = HotelSearchParams(suggestion,
-                checkIn, checkOut,
-                adults, children,
-                shopWithPoints)
-
-        return params
+                                   shopWithPoints: Boolean = false): HotelSearchParams {
+        return HotelSearchParams(suggestion, checkIn, checkOut, adults, children, shopWithPoints)
     }
 
-    private fun getHotelSearchResponse(filePath: String): HotelSearchResponse {
-        val resourceReader = JSONResourceReader(filePath)
-        val searchResponse = resourceReader.constructUsingGson(HotelSearchResponse::class.java)
-        return searchResponse
+    private fun getHotelSearchResponse(filePath: String) : HotelSearchResponse {
+        return JSONResourceReader(filePath).constructUsingGson(HotelSearchResponse::class.java)
     }
 }

@@ -271,7 +271,7 @@ class FlightOffersViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA), (MultiBrand.ORBITZ)])
     fun testShowFlightChargesObFees() {
         val showObChargesTestSubscriber = TestObserver<Boolean>()
         val urlTestSubscriber = TestObserver<String>()
@@ -300,7 +300,7 @@ class FlightOffersViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA), (MultiBrand.ORBITZ)])
     fun testFlightChargesObFeesPosNotAirlineSpecific() {
         val testSubscriber = TestObserver<String>()
         sut.offerSelectedChargesObFeesSubject.subscribe(testSubscriber)
@@ -521,6 +521,8 @@ class FlightOffersViewModelTest {
     private fun getMakeResultsObserver(): Observer<FlightSearchResponse> {
         val makeResultsObserverMethod = sut.javaClass.superclass.getDeclaredMethod("makeResultsObserver")
         makeResultsObserverMethod.isAccessible = true
+
+        @Suppress("UNCHECKED_CAST")
         return makeResultsObserverMethod.invoke(sut) as Observer<FlightSearchResponse>
     }
 

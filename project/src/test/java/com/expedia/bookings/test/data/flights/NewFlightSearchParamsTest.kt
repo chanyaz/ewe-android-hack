@@ -4,9 +4,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Constants
-import junit.framework.Assert.assertNull
 import org.joda.time.LocalDate
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,22 +12,23 @@ import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class NewFlightSearchParamsTest {
-    val maxStay = 26
-    val maxRange = 329
+    private val maxStay = 26
+    private val maxRange = 329
     val builder = FlightSearchParams.Builder(maxStay, maxRange)
 
-    val expectedOrigin = getDummySuggestion("San Francisco", "SFO")
-    val expectedDestination = getDummySuggestion("Seattle", "SEA")
+    private val expectedOrigin = getDummySuggestion("San Francisco", "SFO")
+    private val expectedDestination = getDummySuggestion("Seattle", "SEA")
 
-    val expectedNumAdults = 2
-    val tomorrow = LocalDate.now().plusDays(1)
-    val expectedReturnDate = tomorrow.plusDays(2)
-    lateinit var expectedChildrenString: String
-    val expectedNumChildren = 2
+    private val expectedNumAdults = 2
+    private val tomorrow = LocalDate.now().plusDays(1)
+    private val expectedReturnDate = tomorrow.plusDays(2)
+    private lateinit var expectedChildrenString: String
+    private val expectedNumChildren = 2
 
     var children = ArrayList<Int>()
 
@@ -161,13 +160,13 @@ class NewFlightSearchParamsTest {
         builder.destination(expectedDestination)
 
         val params = builder.build()
-        Assert.assertEquals(expectedNumAdults.toLong(), params.adults.toLong())
-        Assert.assertEquals(expectedNumChildren.toLong(), params.children.size.toLong())
-        Assert.assertEquals(tomorrow, params.departureDate)
-        Assert.assertEquals(expectedReturnDate, params.returnDate)
-        Assert.assertEquals(expectedChildrenString, params.childrenString)
-        Assert.assertEquals(expectedOrigin.hierarchyInfo?.airport, params.departureAirport.hierarchyInfo?.airport)
-        Assert.assertEquals(expectedDestination.hierarchyInfo?.airport, params.arrivalAirport?.hierarchyInfo?.airport)
+        assertEquals(expectedNumAdults.toLong(), params.adults.toLong())
+        assertEquals(expectedNumChildren.toLong(), params.children.size.toLong())
+        assertEquals(tomorrow, params.departureDate)
+        assertEquals(expectedReturnDate, params.returnDate)
+        assertEquals(expectedChildrenString, params.childrenString)
+        assertEquals(expectedOrigin.hierarchyInfo?.airport, params.departureAirport.hierarchyInfo?.airport)
+        assertEquals(expectedDestination.hierarchyInfo?.airport, params.arrivalAirport.hierarchyInfo?.airport)
     }
 
     @Test
@@ -220,15 +219,15 @@ class NewFlightSearchParamsTest {
     fun testBuildParamsForInboundSearchWithoutSeatClassPreference() {
         val params = giveSearchParams(Constants.FEATURE_SUBPUB)
         val inboundSearchParams = giveSearchParams(Constants.FEATURE_SUBPUB).buildParamsForInboundSearch(maxStay, maxRange, "outboundleg")
-        Assert.assertEquals(params.adults, inboundSearchParams.adults)
-        Assert.assertEquals(params.children.size, inboundSearchParams.children.size)
-        Assert.assertEquals(params.departureDate, inboundSearchParams.departureDate)
-        Assert.assertEquals(params.returnDate, inboundSearchParams.returnDate)
-        Assert.assertEquals(params.departureAirport, inboundSearchParams.departureAirport)
-        Assert.assertEquals(params.arrivalAirport, inboundSearchParams.arrivalAirport)
-        Assert.assertEquals(1, inboundSearchParams.legNo)
-        Assert.assertNull(inboundSearchParams.flightCabinClass)
-        Assert.assertEquals("outboundleg", inboundSearchParams.selectedOutboundLegId)
+        assertEquals(params.adults, inboundSearchParams.adults)
+        assertEquals(params.children.size, inboundSearchParams.children.size)
+        assertEquals(params.departureDate, inboundSearchParams.departureDate)
+        assertEquals(params.returnDate, inboundSearchParams.returnDate)
+        assertEquals(params.departureAirport, inboundSearchParams.departureAirport)
+        assertEquals(params.arrivalAirport, inboundSearchParams.arrivalAirport)
+        assertEquals(1, inboundSearchParams.legNo)
+        assertNull(inboundSearchParams.flightCabinClass)
+        assertEquals("outboundleg", inboundSearchParams.selectedOutboundLegId)
     }
 
     @Test
@@ -242,7 +241,7 @@ class NewFlightSearchParamsTest {
         val params = builder.build()
         val inboundSearchParams = params.buildParamsForInboundSearch(maxStay, maxRange, "outboundleg")
 
-        Assert.assertEquals("BUSINESS", inboundSearchParams.flightCabinClass)
+        assertEquals("BUSINESS", inboundSearchParams.flightCabinClass)
     }
 
     @Test

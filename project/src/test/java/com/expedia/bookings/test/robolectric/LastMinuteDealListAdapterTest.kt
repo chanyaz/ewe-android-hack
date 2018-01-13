@@ -17,8 +17,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
-import org.robolectric.shadows.ShadowActivity
 import org.robolectric.android.controller.ActivityController
+import org.robolectric.shadows.ShadowActivity
 import java.util.ArrayList
 
 @RunWith(RobolectricRunner::class)

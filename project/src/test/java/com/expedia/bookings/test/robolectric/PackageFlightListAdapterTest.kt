@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import android.app.Application
 import android.widget.FrameLayout
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
@@ -7,8 +8,6 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.interceptors.MockInterceptor
-import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -16,10 +15,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.FlightSearchViewModel
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import okhttp3.OkHttpClient
-import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,10 +26,10 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class PackageFlightListAdapterTest {
 
-    val context = RuntimeEnvironment.application
+    val context: Application = RuntimeEnvironment.application
     lateinit var sut: PackageFlightListAdapter
-    lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
-    lateinit var flightSearchViewModel: FlightSearchViewModel
+    private lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
+    private lateinit var flightSearchViewModel: FlightSearchViewModel
     lateinit var flightLeg: FlightLeg
 
     @Before
@@ -41,11 +37,6 @@ class PackageFlightListAdapterTest {
         Ui.getApplication(context).defaultTravelerComponent()
 
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
-
-        val server = MockWebServer()
-        val service = FlightServices("http://localhost:" + server.port,
-                OkHttpClient.Builder().build(), listOf(MockInterceptor()),
-                Schedulers.trampoline(), Schedulers.trampoline(), false)
         flightSearchViewModel = FlightSearchViewModel(context)
     }
 
@@ -192,7 +183,7 @@ class PackageFlightListAdapterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun flightResultsHeader() {
         createSystemUnderTest()
         val headerViewHolder = createHeaderViewHolder()
@@ -207,7 +198,7 @@ class PackageFlightListAdapterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testflightResultsHeaderForUKPointOfSale() {
         createSystemUnderTest()
         val headerViewHolder = createHeaderViewHolder()
@@ -222,7 +213,7 @@ class PackageFlightListAdapterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testWhenBestFlightViewHolder() {
         createSystemUnderTest()
         createExpectedFlightLeg()

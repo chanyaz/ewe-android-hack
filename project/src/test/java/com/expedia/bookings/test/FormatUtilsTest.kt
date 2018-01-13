@@ -13,20 +13,15 @@ import com.mobiata.flightlib.utils.FormatUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import junit.framework.Assert.assertEquals
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import java.util.*
+import java.util.TimeZone
+import kotlin.test.assertEquals
 
-/**
- * Created by vsuriyal on 2/2/17.
- */
 @RunWith(RobolectricRunner::class)
 class FormatUtilsTest {
 
-    private fun getContext(): Context {
-        return RuntimeEnvironment.application
-    }
+    private fun getContext(): Context = RuntimeEnvironment.application
 
     @Test
     fun formatFlightNumberTest() {

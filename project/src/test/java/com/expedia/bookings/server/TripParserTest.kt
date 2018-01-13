@@ -1,7 +1,6 @@
 package com.expedia.bookings.server
 
 import com.expedia.bookings.data.trips.TripHotel
-import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripActivity
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -20,8 +19,8 @@ import kotlin.test.fail
 @RunWith(RobolectricRunner::class)
 class TripParserTest {
 
-    val roomUpgradeOfferApiUrl = "https://localhost/api/trips/c65fb5fb-489a-4fa8-a007-715b946d3b04/8066893350319/74f89606-241f-4d08-9294-8c17942333dd/1/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/upgradeOffers"
-    val roomUpgradeWebViewLink = "https://localhost/hotelUpgrades/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/c65fb5fb-489a-4fa8-a007-715b946d3b04/1/upgradeDeals?mcicid=App.Itinerary.Hotel.Upgrade&mobileWebView=true"
+    private val roomUpgradeOfferApiUrl = "https://localhost/api/trips/c65fb5fb-489a-4fa8-a007-715b946d3b04/8066893350319/74f89606-241f-4d08-9294-8c17942333dd/1/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/upgradeOffers"
+    private val roomUpgradeWebViewLink = "https://localhost/hotelUpgrades/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/c65fb5fb-489a-4fa8-a007-715b946d3b04/1/upgradeDeals?mcicid=App.Itinerary.Hotel.Upgrade&mobileWebView=true"
 
     private lateinit var tripFlight: TripFlight
 
@@ -80,14 +79,13 @@ class TripParserTest {
         val lxTripJsonObj = jsonArray.get(0) as JSONObject
 
         val tripParser = TripParser()
-        val trip: Trip
-        try {
-            trip = tripParser.parseTrip(lxTripJsonObj)
+        val trip = try {
+            tripParser.parseTrip(lxTripJsonObj)
         } catch (e: Exception) {
             fail("Oops, we shouldn't have ended up here")
         }
         val tripActivity = trip.tripComponents[0] as TripActivity
-        val activity = tripActivity.getActivity()
+        val activity = tripActivity.activity
         assertEquals("200E974C-C7DA-445E-A392-DD12578A96A0_0_358734_358736", activity.id)
         assertEquals("Day Trip to New York by Train with Hop-on Hop-Off Pass: Full-Day Excursion", activity.title)
         assertEquals(5, activity.guestCount)
@@ -101,14 +99,13 @@ class TripParserTest {
         val lxTripJsonObj = jsonArray.get(1) as JSONObject
 
         val tripParser = TripParser()
-        val trip: Trip
-        try {
-            trip = tripParser.parseTrip(lxTripJsonObj)
+        val trip = try {
+            tripParser.parseTrip(lxTripJsonObj)
         } catch (e: Exception) {
             fail("Oops, we shouldn't have ended up here")
         }
         val tripActivity = trip.tripComponents[0] as TripActivity
-        val activity = tripActivity.getActivity()
+        val activity = tripActivity.activity
         assertEquals("8AEE006B-E82D-40C1-A77D-5063EF3D47A9_0_224793_224797", activity.id)
         assertEquals("Shared Shuttle: Detroit International Airport (DTW): Hotels to Airport in Detroit City Center", activity.title)
         assertEquals(1, activity.guestCount)
@@ -122,14 +119,13 @@ class TripParserTest {
         val lxTripJsonObj = jsonArray.get(2) as JSONObject
 
         val tripParser = TripParser()
-        val trip: Trip
-        try {
-            trip = tripParser.parseTrip(lxTripJsonObj)
+        val trip = try {
+            tripParser.parseTrip(lxTripJsonObj)
         } catch (e: Exception) {
             fail("Oops, we shouldn't have ended up here")
         }
         val tripActivity = trip.tripComponents[0] as TripActivity
-        val activity = tripActivity.getActivity()
+        val activity = tripActivity.activity
         assertEquals("8AEE006B-E82D-40C1-A77D-5063EF3D47A9_0_224793_224797", activity.id)
         assertEquals("Shared Shuttle: Detroit International Airport (DTW): Hotels to Airport in Detroit City Center", activity.title)
         assertEquals(0, activity.guestCount)
@@ -139,7 +135,7 @@ class TripParserTest {
     fun flightDurationExpectedFormat() {
         createFlightTripResponse()
         val duration = "PT4H32M"
-        tripFlight.flightTrip.legs[0].setLegDuration(duration)
+        tripFlight.flightTrip.legs[0].legDuration = duration
         val parseLegDurationMinutes = tripFlight.flightTrip.legs[0].durationMinutes()
         assertEquals(272, parseLegDurationMinutes)
     }
@@ -148,7 +144,7 @@ class TripParserTest {
     fun flightDurationNull() {
         createFlightTripResponse()
         val duration = null
-        tripFlight.flightTrip.legs[0].setLegDuration(duration)
+        tripFlight.flightTrip.legs[0].legDuration = duration
         val parseLegDurationMinutes = tripFlight.flightTrip.legs[0].durationMinutes()
         assertEquals(0, parseLegDurationMinutes)
     }
@@ -157,7 +153,7 @@ class TripParserTest {
     fun flightDurationEmpty() {
         createFlightTripResponse()
         val duration = " "
-        tripFlight.flightTrip.legs[0].setLegDuration(duration)
+        tripFlight.flightTrip.legs[0].legDuration = duration
         val parseLegDurationMinutes = tripFlight.flightTrip.legs[0].durationMinutes()
         assertEquals(0, parseLegDurationMinutes)
     }
@@ -166,7 +162,7 @@ class TripParserTest {
     fun flightDurationUnexpectedFormat() {
         createFlightTripResponse()
         val duration = "2016-12-07T15:00:00-08:00"
-        tripFlight.flightTrip.legs[0].setLegDuration(duration)
+        tripFlight.flightTrip.legs[0].legDuration = duration
         val parseLegDurationMinutes = tripFlight.flightTrip.legs[0].durationMinutes()
         assertEquals(0, parseLegDurationMinutes)
     }
@@ -245,8 +241,7 @@ class TripParserTest {
         val jsonObject = JSONObject(data)
         val responseData = jsonObject.getJSONObject("responseData")
         val flight = responseData.getJSONArray("flights").getJSONObject(0)
-        val passengers = flight.getJSONArray("passengers")
-        return passengers
+        return flight.getJSONArray("passengers")
     }
 
     private fun createFlightTripResponse() {
@@ -403,11 +398,6 @@ class TripParserTest {
         assertEquals(flight.assignedSeats, "")
         assertEquals(flight.cabinCode, "Economy / Coach")
         assertEquals(flight.seats, emptyList())
-    }
-
-    @Test
-    fun testPassengerParser() {
-        val tripParser = TripParser()
     }
 
     @Test

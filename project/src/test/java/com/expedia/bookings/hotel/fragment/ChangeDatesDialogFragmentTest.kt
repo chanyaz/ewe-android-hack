@@ -36,7 +36,7 @@ class ChangeDatesDialogFragmentTest {
         testFragment.onViewCreated(view, null)
 
         assertNotNull(testFragment.pickerView)
-        testFragment.pickerView?.let { picker ->
+        testFragment.pickerView.let { picker ->
             assertNull(picker.startDate)
             assertNull(picker.endDate)
         }
@@ -52,7 +52,7 @@ class ChangeDatesDialogFragmentTest {
         testFragment.onViewCreated(view, null)
 
         assertNotNull(testFragment.pickerView)
-        testFragment.pickerView?.let { picker ->
+        testFragment.pickerView.let { picker ->
             assertEquals(expectedStart, picker.startDate)
             assertEquals(expectedEnd, picker.endDate)
         }

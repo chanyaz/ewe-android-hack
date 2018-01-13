@@ -4,7 +4,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailCardSelected
-import com.expedia.bookings.data.rail.responses.RailCardsResponse
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
@@ -26,13 +25,14 @@ import kotlin.test.assertNull
 @RunWith(RobolectricRunner::class)
 class RailCardPickerViewModelTest {
 
+    @Suppress("MemberVisibilityCanPrivate")
     var railServicesRule = ServicesRule(RailServices::class.java)
         @Rule get
 
     val context: Context = RuntimeEnvironment.application
 
     var viewModel by Delegates.notNull<RailCardPickerViewModel>()
-    val testSubscriber = TestObserver.create<List<RailCard>>()
+    val testSubscriber: TestObserver<List<RailCard>> = TestObserver.create<List<RailCard>>()
 
     @Before
     fun before() {
@@ -171,7 +171,7 @@ class RailCardPickerViewModelTest {
         val mockServices = Mockito.mock(RailServices::class.java)
         Mockito.`when`(mockServices.railGetCards(Mockito.anyString(), anyObject())).thenAnswer { invocation ->
             val args = invocation.arguments
-            val cardsObserver = args[1] as Observer<RailCardsResponse>
+            val cardsObserver = args[1] as Observer<*>
             cardsObserver.onError(Throwable("404"))
             Mockito.mock(Disposable::class.java)
         }
@@ -182,9 +182,7 @@ class RailCardPickerViewModelTest {
         assertEquals(context.getString(R.string.no_rail_cards_error_message), testSub.values()[0])
     }
 
-    private fun <T> anyObject(): T {
-        return Mockito.anyObject<T>()
-    }
+    private fun <T> anyObject(): T = Mockito.anyObject<T>()
 
     private fun mockRailCardTypeOne() = RailCard("categoryOne", "programOne", "One")
     private fun mockRailCardTypeTwo() = RailCard("categoryTwo", "programTwo", "Two")

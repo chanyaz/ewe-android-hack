@@ -31,9 +31,7 @@ class AbstractCheckoutViewModelTest {
             override fun injectComponents() {
                 paymentViewModel = PaymentViewModel(activity)
             }
-            override fun getTripId(): String {
-                return createTripResponseObservable.value.value!!.tripId
-            }
+            override fun getTripId(): String = createTripResponseObservable.value.value!!.tripId
         }
         testViewModel.builder.tripId("4321")
         testViewModel.builder.expectedTotalFare("42")
@@ -43,7 +41,7 @@ class AbstractCheckoutViewModelTest {
     @Test
     fun testTravelersCleared() {
         val testSubscriber = TestObserver<BaseCheckoutParams>()
-        val expectedResults = arrayListOf(false, true, true, true, false, true)
+
         testViewModel.checkoutParams.subscribe(testSubscriber)
 
         var travelers = arrayListOf(getTraveler(), getTraveler(), getTraveler())
@@ -173,7 +171,7 @@ class AbstractCheckoutViewModelTest {
         return Optional(info)
     }
 
-    fun getTraveler(): Traveler {
+    private fun getTraveler(): Traveler {
         val traveler = Traveler()
         traveler.firstName = "malcolm"
         traveler.lastName = "nguyen"
@@ -194,7 +192,7 @@ class AbstractCheckoutViewModelTest {
         return traveler
     }
 
-    fun getStoredCard(): StoredCreditCard {
+    private fun getStoredCard(): StoredCreditCard {
         val card = StoredCreditCard()
         card.id = "12345"
         card.cardNumber = "4111111111111111"

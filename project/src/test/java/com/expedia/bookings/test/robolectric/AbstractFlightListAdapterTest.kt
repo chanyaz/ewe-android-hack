@@ -43,13 +43,13 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class AbstractFlightListAdapterTest {
 
-    val activity = Robolectric.buildActivity(FlightActivity::class.java).create().get()
+    val activity: FlightActivity = Robolectric.buildActivity(FlightActivity::class.java).create().get()
     lateinit var sut: AbstractFlightListAdapter
-    lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
-    lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
-    lateinit var flightCabinClassSubject: BehaviorSubject<String>
-    lateinit var isNonStopSubject: BehaviorSubject<Boolean>
-    lateinit var isRefundableSubject: BehaviorSubject<Boolean>
+    private lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
+    private lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
+    private lateinit var flightCabinClassSubject: BehaviorSubject<String>
+    private lateinit var isNonStopSubject: BehaviorSubject<Boolean>
+    private lateinit var isRefundableSubject: BehaviorSubject<Boolean>
     lateinit var flightLeg: FlightLeg
 
     @Before
@@ -62,7 +62,7 @@ class AbstractFlightListAdapterTest {
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_disabled.json", false)
     }
 
-    fun createTestFlightListAdapter() {
+    private fun createTestFlightListAdapter() {
         isRoundTripSubject.onNext(false)
         flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
         sut = TestFlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject)
@@ -127,7 +127,6 @@ class AbstractFlightListAdapterTest {
         val packageBannerHeaderViewHolder = sut.onCreateViewHolder(FrameLayout(activity), AbstractFlightListAdapter.ViewTypes.PACKAGE_BANNER_VIEW.ordinal)
                 as AbstractFlightListAdapter.PackageBannerHeaderViewHolder
 
-        assertTrue(packageBannerHeaderViewHolder is AbstractFlightListAdapter.PackageBannerHeaderViewHolder)
         assertEquals(View.VISIBLE, packageBannerHeaderViewHolder.packageBannerWidget.visibility)
 
         val packageBannerTitle = packageBannerHeaderViewHolder.packageBannerWidget.findViewById<TextView>(R.id.package_flight_banner_title)
@@ -233,7 +232,7 @@ class AbstractFlightListAdapterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA), (MultiBrand.ORBITZ), (MultiBrand.CHEAPTICKETS), (MultiBrand.TRAVELOCITY)])
     fun testEarnMessageForMoney() {
         createTestFlightListAdapter()
         createFlightLegWithThreeAirlines(true, "50")
@@ -407,36 +406,22 @@ class AbstractFlightListAdapterTest {
 
     private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) :
             AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
-        override fun getPriceDescriptorMessageIdForFSR(): Int? {
-            return null
-        }
+        override fun getPriceDescriptorMessageIdForFSR(): Int? = null
 
-        override fun isShowOnlyNonStopSearch(): Boolean {
-            return false
-        }
+        override fun isShowOnlyNonStopSearch(): Boolean = false
 
-        override fun isShowOnlyRefundableSearch(): Boolean {
-            return false
-        }
+        override fun isShowOnlyRefundableSearch(): Boolean = false
 
-        override fun showAllFlightsHeader(): Boolean {
-            return false
-        }
+        override fun showAllFlightsHeader(): Boolean = false
 
-        override fun adjustPosition(): Int {
-            return 1
-        }
+        override fun adjustPosition(): Int = 1
 
         override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): AbstractFlightViewModel {
             return FlightViewModel(context, flightLeg)
         }
 
-        override fun showAdvanceSearchFilterHeader(): Boolean {
-            return true
-        }
+        override fun showAdvanceSearchFilterHeader(): Boolean = true
 
-        override fun getRoundTripStringResourceId(): Int {
-            return R.string.prices_roundtrip_label
-        }
+        override fun getRoundTripStringResourceId(): Int = R.string.prices_roundtrip_label
     }
 }

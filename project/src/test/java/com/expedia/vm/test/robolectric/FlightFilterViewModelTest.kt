@@ -39,16 +39,14 @@ class FlightFilterViewModelTest {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
-    private fun getContext(): Context {
-        return RuntimeEnvironment.application
-    }
+    private fun getContext(): Context = RuntimeEnvironment.application
 
     @Test
     fun sortByPrice() {
         vm.filteredList = getFlightList()
         vm.sortObserver.onNext(FlightFilter.Sort.PRICE)
 
-        for (i in 1..vm.filteredList.size - 1) {
+        for (i in 1 until vm.filteredList.size) {
             val current = vm.filteredList.elementAt(i).packageOfferModel.price.packageTotalPrice.amount.toInt()
             val previous = vm.filteredList.elementAt(i - 1).packageOfferModel.price.packageTotalPrice.amount.toInt()
             assertTrue(current >= previous, "Expected $current >= $previous")
@@ -60,7 +58,7 @@ class FlightFilterViewModelTest {
         vm.filteredList = getFlightList()
         vm.sortObserver.onNext(FlightFilter.Sort.DEPARTURE)
 
-        for (i in 1..vm.filteredList.size - 1) {
+        for (i in 1 until vm.filteredList.size) {
             val current = DateTime.parse(vm.filteredList.elementAt(i).departureDateTimeISO)
             val previous = DateTime.parse(vm.filteredList.elementAt(i - 1).departureDateTimeISO)
             assertTrue(previous.isBefore(current), "Expected $current >= $previous")
@@ -72,7 +70,7 @@ class FlightFilterViewModelTest {
         vm.filteredList = getFlightList()
         vm.sortObserver.onNext(FlightFilter.Sort.ARRIVAL)
 
-        for (i in 1..vm.filteredList.size - 1) {
+        for (i in 1 until vm.filteredList.size) {
             val current = DateTime.parse(vm.filteredList.elementAt(i).arrivalDateTimeISO)
             val previous = DateTime.parse(vm.filteredList.elementAt(i - 1).arrivalDateTimeISO)
             assertTrue(previous.isBefore(current), "Expected $current >= $previous")
@@ -86,7 +84,7 @@ class FlightFilterViewModelTest {
 
         assertEquals(widget.stopsContainer.childCount, 1)
 
-        val filterOption = widget.stopsContainer.getChildAt(0) as LabeledCheckableFilter<Int>
+        val filterOption = widget.stopsContainer.getChildAt(0) as LabeledCheckableFilter<*>
 
         assertFalse(filterOption.isClickable)
 

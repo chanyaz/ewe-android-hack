@@ -11,14 +11,14 @@ class CountryConfigTest {
 
     @Test
     fun testCountryConfigContainsBillingCountryConfigs() {
-        val countryConfig = CountryConfig.countryConfig!!
+        val countryConfig = CountryConfig.countryConfig
         val billingCountryConfigs = countryConfig.billingCountryConfigs
         assertTrue(billingCountryConfigs.containsKey("1"))
     }
 
     @Test
     fun testCountryConfigContainsCountryConfigs() {
-        val countryConfig = CountryConfig.countryConfig!!
+        val countryConfig = CountryConfig.countryConfig
         val countryName = "IN"
         val expectedConfigForIndia = HashMap<String, String>()
         expectedConfigForIndia.put("configID", "1")

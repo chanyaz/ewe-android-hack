@@ -56,7 +56,7 @@ import java.util.ArrayList
 import kotlin.test.assertNull
 
 @RunWith(RxJavaTestImmediateSchedulerRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = [(ShadowGCM::class), (ShadowUserManager::class), (ShadowAccountManagerEB::class)])
 class BillingDetailsPaymentWidgetTest {
 
     private lateinit var billingDetailsPaymentWidget: BillingDetailsPaymentWidget
@@ -155,7 +155,7 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testSavePromptDisplayed() {
         UserLoginTestUtil.setupUserAndMockLogin(getUserWithStoredCard())
         billingDetailsPaymentWidget.viewmodel.userLogin.onNext(true)
@@ -267,7 +267,7 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testIsAtLeastPartiallyFilled() {
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
@@ -803,7 +803,7 @@ class BillingDetailsPaymentWidgetTest {
         givenTripResponse("AmericanExpress")
         val completeBillingInfo = getIncompleteCCBillingInfo()
         // Set to an unknown card type with a valid number
-        completeBillingInfo.setNumber("1234567812345670")
+        completeBillingInfo.number = "1234567812345670"
         billingDetailsPaymentWidget.sectionBillingInfo.bind(completeBillingInfo)
         billingDetailsPaymentWidget.sectionLocation.bind(completeBillingInfo.location)
 
@@ -819,7 +819,7 @@ class BillingDetailsPaymentWidgetTest {
         givenTripResponse("AmericanExpress")
         val completeBillingInfo = getIncompleteCCBillingInfo()
         // Set to an unknown card type with an invalid number
-        completeBillingInfo.setNumber("1111111111111111")
+        completeBillingInfo.number = "1111111111111111"
         billingDetailsPaymentWidget.sectionBillingInfo.bind(completeBillingInfo)
         billingDetailsPaymentWidget.sectionLocation.bind(completeBillingInfo.location)
 
@@ -835,7 +835,7 @@ class BillingDetailsPaymentWidgetTest {
         givenTripResponse("AmericanExpress")
         val completeBillingInfo = getIncompleteCCBillingInfo()
         // Set to an unknown card type with a valid number
-        completeBillingInfo.setNumber("1234567812345670")
+        completeBillingInfo.number = "1234567812345670"
         billingDetailsPaymentWidget.sectionBillingInfo.bind(completeBillingInfo)
         billingDetailsPaymentWidget.sectionLocation.bind(completeBillingInfo.location)
 
@@ -976,8 +976,8 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     private fun assertBillingAddressSectionHidden(shouldHide: Boolean) {
-        assertTrue(billingDetailsPaymentWidget.billingAddressTitle?.visibility == if (shouldHide) View.GONE else View.VISIBLE)
-        assertTrue(billingDetailsPaymentWidget.sectionLocation?.visibility == if (shouldHide) View.GONE else View.VISIBLE)
+        assertTrue(billingDetailsPaymentWidget.billingAddressTitle.visibility == if (shouldHide) View.GONE else View.VISIBLE)
+        assertTrue(billingDetailsPaymentWidget.sectionLocation.visibility == if (shouldHide) View.GONE else View.VISIBLE)
     }
 
     private fun assertValidFakeAddress(fakeAddress: Location) {

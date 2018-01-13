@@ -47,11 +47,11 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = [(ShadowGCM::class), (ShadowUserManager::class), (ShadowAccountManagerEB::class)])
 
 class FlightConfirmationViewModelTest {
 
-    val customerEmail = "fakeEmail@mobiata.com"
+    private val customerEmail = "fakeEmail@mobiata.com"
     private var vm: FlightConfirmationViewModel by Delegates.notNull()
     private var shadowApplication: ShadowApplication? = null
     private var activity: Activity by Delegates.notNull()
@@ -68,7 +68,7 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun flightConfirmationViewModelTest() {
         val expiresInFuture = DateTime.now().plusDays(50).toString()
         val response = getCheckoutResponse(expiresInFuture)
@@ -97,8 +97,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun crossSellNotOfferedTest() {
-        val pastExpiration = DateTime.now().minusDays(50).toString()
-        val response = getCheckoutResponseWithoutAirAttachOffer(pastExpiration)
+        val response = getCheckoutResponseWithoutAirAttachOffer()
         val crossSellWidgetView = TestObserver<Boolean>()
 
         vm = FlightConfirmationViewModel(activity)
@@ -108,7 +107,7 @@ class FlightConfirmationViewModelTest {
         crossSellWidgetView.assertValue(false)
     }
 
-    fun getCheckoutResponse(dateOfExpiration: String, totalPrice: Money? = Money("100", "USD"), hasAirAttach: Boolean = true, isRoundTrip: Boolean = false): FlightCheckoutResponse {
+    private fun getCheckoutResponse(dateOfExpiration: String, totalPrice: Money? = Money("100", "USD"), hasAirAttach: Boolean = true, isRoundTrip: Boolean = false): FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         setFlightLeg(response, isRoundTrip)
@@ -160,7 +159,7 @@ class FlightConfirmationViewModelTest {
         }
     }
 
-    fun getCheckoutResponseWithoutAirAttachOffer(dateOfExpiration: String): FlightCheckoutResponse {
+    private fun getCheckoutResponseWithoutAirAttachOffer(): FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         val qualifierObject = FlightCheckoutResponse.AirAttachInfo()
@@ -239,7 +238,7 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testTripTotalPriceStringWhenToggled() {
         val priceString = TestObserver<String>()
         vm = FlightConfirmationViewModel(activity)
@@ -484,7 +483,7 @@ class FlightConfirmationViewModelTest {
         vm = FlightConfirmationViewModel(activity)
     }
 
-    fun assertKrazyglueParams(expectedReturnDateTime: String, testKrazyglueSearchParams: KrazyglueSearchParams, withChild: Boolean = true) {
+    private fun assertKrazyglueParams(expectedReturnDateTime: String, testKrazyglueSearchParams: KrazyglueSearchParams, withChild: Boolean = true) {
         assertEquals(expectedReturnDateTime, testKrazyglueSearchParams.returnDateTime)
         assertEquals(testArrivalDateTimeTomorrow, testKrazyglueSearchParams.arrivalDateTime)
         assertEquals("LAX", testKrazyglueSearchParams.destinationCode)

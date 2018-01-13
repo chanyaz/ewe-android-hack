@@ -1,5 +1,6 @@
 package com.expedia.bookings.featureconfig
 
+import android.app.Application
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusResponse
@@ -16,12 +17,10 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class AbacusFeatureConfigManagerTest {
-    val context = RuntimeEnvironment.application
+    val context: Application = RuntimeEnvironment.application
 
     @Before
-    fun before() {
-        setup()
-    }
+    fun before() = setup()
 
     @Test
     fun testSatelliteManagedEnabledABTest() {
@@ -41,7 +40,7 @@ class AbacusFeatureConfigManagerTest {
     fun testSatelliteManagedDisabledWithOverrideABTest() {
         val abTest = ABTest(99999, true)
         AbacusTestUtils.updateABTest(abTest, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
-        updateTestOverride(abTest.key, AbacusUtils.DefaultVariant.BUCKETED)
+        updateTestOverride(abTest.key)
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
     }
 
@@ -80,7 +79,7 @@ class AbacusFeatureConfigManagerTest {
     @Test
     fun testShouldTrackIfRemoteDisabledWithOverride() {
         val abTest = ABTest(99999, true)
-        updateTestOverride(abTest.key, AbacusUtils.DefaultVariant.BUCKETED)
+        updateTestOverride(abTest.key)
         assertTrue(AbacusFeatureConfigManager.shouldTrackTest(context, abTest))
     }
 
@@ -88,10 +87,10 @@ class AbacusFeatureConfigManagerTest {
         val testList = listOf("12345")
         SatelliteFeatureConfigManager.cacheFeatureConfig(context, testList)
         val abacusResponse = AbacusResponse()
-        Db.sharedInstance.setAbacusResponse(abacusResponse)
+        Db.sharedInstance.abacusResponse = abacusResponse
     }
 
-    private fun updateTestOverride(testKey: Int, bucketed: AbacusUtils.DefaultVariant) {
+    private fun updateTestOverride(testKey: Int) {
         SettingUtils.save(context, testKey.toString(), AbacusUtils.DefaultVariant.BUCKETED.ordinal)
     }
 }

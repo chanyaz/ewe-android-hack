@@ -30,13 +30,13 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner :: class)
-@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+@RunForBrands(brands = [(MultiBrand.EXPEDIA)])
 
 class FlightCheckoutPresenterTest {
 
     private var activity: FragmentActivity by Delegates.notNull()
-    lateinit var checkoutPresenter: FlightCheckoutPresenter
-    val mockTravelerProvider = MockTravelerProvider()
+    private lateinit var checkoutPresenter: FlightCheckoutPresenter
+    private val mockTravelerProvider = MockTravelerProvider()
 
     @Before
     fun setup() {
@@ -64,8 +64,8 @@ class FlightCheckoutPresenterTest {
     fun shouldShowFlightAndPackagesRulesActivity() {
         checkoutPresenter.legalInformationText.performClick()
         val shadowActivity = shadowOf(activity)
-        val intent = shadowActivity.getNextStartedActivity()
-        assertEquals(FlightAndPackagesRulesActivity::class.java!!.getName(), intent.component.className)
+        val intent = shadowActivity.nextStartedActivity
+        assertEquals(FlightAndPackagesRulesActivity::class.java.name, intent.component.className)
     }
 
     @Test
@@ -92,7 +92,7 @@ class FlightCheckoutPresenterTest {
         assertFalse(checkoutPresenter.flightCheckoutViewModel.showCardFeeWarningText.value)
         assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
 
-        testSubscriber = TestObserver<Spanned>()
+        testSubscriber = TestObserver()
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.subscribe(testSubscriber)
         checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(0))
         testSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
