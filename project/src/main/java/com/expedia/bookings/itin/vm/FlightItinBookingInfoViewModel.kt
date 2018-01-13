@@ -40,15 +40,12 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
                 FlightItinTravelerInfoActivity.createIntent(context, cardId)
         ))
 
-        val webViewIntent = buildWebViewIntent(R.string.itin_flight_details_manage_booking_heading, url, "manage_reservation")?.intent
-        val manageBookingIntent = FlightItinManageBookingActivity.createIntent(context, itinId)
-        val intent = if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_trips_new_flights_managing_booking_design)) manageBookingIntent else webViewIntent
         manageBookingCardViewWidgetVM.updateCardView(params = ItinLinkOffCardViewViewModel.CardViewParams(
                 context.getString(R.string.itin_hotel_manage_booking_header),
                 context.getString(R.string.itin_hotel_details_manage_booking_subheading),
                 false,
                 R.drawable.ic_itin_manage_booking_icon,
-                intent
+                FlightItinManageBookingActivity.createIntent(context, itinId)
         ))
 
         priceSummaryCardViewWidgetVM.updateCardView(params = ItinLinkOffCardViewViewModel.CardViewParams(

@@ -139,7 +139,6 @@
     <string name="preference_packages_show_flight_seating_class">preference_packages_show_flight_seating_class</string>
     <string name="preference_switch_to_from_flight_locations">preference_switch_to_from_flight_locations</string>
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
-    <string name="preference_trips_new_flights_managing_booking_design">preference_trips_new_flights_managing_booking_design</string>
     <string name="preference_user_search_history">preference_user_search_history</string>
     <string name="preference_launch_all_trip_notifications">preference_launch_all_trip_notifications</string>
     <string name="preference_mock_flights">preference_mock_flights</string>
