@@ -78,6 +78,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsAPIKongEndPoint = new ABTest(16382, true);
 
 	// Hotel Tests
+	public static final ABTest HotelNewCurrencyPOSFees = new ABTest(16455, true);
 	public static final ABTest EBAndroidAppHotelUrgencyMessage = new ABTest(13277);
 	public static final ABTest EBAndroidAppHotelPinnedSearch = new ABTest(15082);
 	public static final ABTest HotelAutoSuggestSameAsWeb = new ABTest(15637, true);
@@ -164,6 +165,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightByotSearch.getKey());
 		testIDs.add(EBAndroidAppShowAirAttachMessageOnLaunchScreen.getKey());
 		testIDs.add(EBAndroidAppHotelUrgencyMessage.getKey());
+		testIDs.add(HotelNewCurrencyPOSFees.getKey());
 		testIDs.add(EBAndroidAppLXNavigateToSRP.getKey());
 		testIDs.add(EBAndroidAppLastMinuteDeals.getKey());
 		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview.getKey());
