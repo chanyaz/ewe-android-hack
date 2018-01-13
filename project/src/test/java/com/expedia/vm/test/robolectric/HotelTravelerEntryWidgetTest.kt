@@ -72,7 +72,7 @@ class HotelTravelerEntryWidgetTest {
 
         assertCheckBoxValues(visibility = View.VISIBLE,
                 text = "I do not want to receive emails from Expedia with travel deals, special offers, and other information.",
-                isChecked = true)
+                isChecked = false)
     }
 
     @Test

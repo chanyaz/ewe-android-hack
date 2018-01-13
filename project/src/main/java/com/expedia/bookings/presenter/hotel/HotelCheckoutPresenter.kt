@@ -18,6 +18,7 @@ import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.RewardDetails
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.data.payment.TripDetails
+import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
@@ -196,8 +197,9 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         } else {
             hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.traveler
         }
+        val hotelCreateTripResponse = Db.getTripBucket().hotelV2.mHotelTripResponse
         val isEmailOptedIn = if (isMaterialHotelEnabled) {
-            (hotelCheckoutWidget.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget).merchandiseOptCheckBox.isChecked
+            getMaterialEmailOptInStatus(hotelCreateTripResponse.guestUserPromoEmailOptInStatus)
         } else {
             hotelCheckoutWidget.mainContactInfoCardView.emailOptIn ?: false
         }
@@ -207,7 +209,6 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
                 primaryTraveler.phoneNumber,
                 primaryTraveler.email,
                 isEmailOptedIn)
-        val hotelCreateTripResponse = Db.getTripBucket().hotelV2.mHotelTripResponse
         val hotelRate = hotelCreateTripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
         val expectedTotalFare = java.lang.String.format(Locale.ENGLISH, "%.2f", hotelRate.total)
         val expectedFareCurrencyCode = hotelRate.currencyCode
@@ -281,5 +282,18 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
                                     .misc(miscParams).paymentInfo(paymentInfo).build()
 
         hotelCheckoutViewModel.checkoutParams.onNext(hotelCheckoutParams)
+    }
+
+    private fun getMaterialEmailOptInStatus(createTripOptInStatus: String?): Boolean {
+        createTripOptInStatus?.let { status ->
+            val isOptInChecked = (hotelCheckoutWidget.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget)
+                    .merchandiseOptCheckBox.isChecked
+            if (MerchandiseSpam.valueOf(status) === MerchandiseSpam.CONSENT_TO_OPT_OUT) {
+                return !isOptInChecked
+            } else {
+                return isOptInChecked
+            }
+        }
+        return false
     }
 }

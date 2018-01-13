@@ -11,7 +11,9 @@ import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class HotelTravelerEntryWidgetViewModel(val context: Context, travelerCheckoutStatus: TravelerCheckoutStatus, val createTripOptInStatus: BehaviorSubject<MerchandiseSpam>) : AbstractUniversalCKOTravelerEntryWidgetViewModel(context, 0) {
+class HotelTravelerEntryWidgetViewModel(val context: Context, travelerCheckoutStatus: TravelerCheckoutStatus,
+                                        val createTripOptInStatus: BehaviorSubject<MerchandiseSpam>)
+    : AbstractUniversalCKOTravelerEntryWidgetViewModel(context, 0) {
 
     val optInEmailStatusSubject = PublishSubject.create<MerchandiseSpam>()
     val checkboxTextSubject = PublishSubject.create<String>()
@@ -42,10 +44,11 @@ class HotelTravelerEntryWidgetViewModel(val context: Context, travelerCheckoutSt
     fun updateMerchandiseStatus(status: MerchandiseSpam) {
         if (!userStateManager.isUserAuthenticated()) {
             when (status) {
-                MerchandiseSpam.ALWAYS ->
+                MerchandiseSpam.ALWAYS -> {
                     emailOptInSubject.onNext(true)
+                    checkBoxVisibilitySubject.onNext(false)
+                }
                 MerchandiseSpam.CONSENT_TO_OPT_IN -> {
-                    emailOptInSubject.onNext(false)
                     val optInText = Phrase.from(context, R.string.hotel_checkout_merchandise_guest_opt_in_TEMPLATE)
                             .put("brand", BuildConfig.brand)
                             .format().toString()
@@ -53,7 +56,6 @@ class HotelTravelerEntryWidgetViewModel(val context: Context, travelerCheckoutSt
                     checkBoxVisibilitySubject.onNext(true)
                 }
                 MerchandiseSpam.CONSENT_TO_OPT_OUT -> {
-                    emailOptInSubject.onNext(true)
                     val optOutText = Phrase.from(context, R.string.hotel_checkout_merchandise_guest_opt_out_TEMPLATE)
                             .put("brand", BuildConfig.brand)
                             .format().toString()
