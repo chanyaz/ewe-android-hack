@@ -506,6 +506,14 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         return super.handleBack(flags, currentChild)
     }
 
+    override fun back(): Boolean {
+        if (bundlePresenter.webCheckoutView.visibility == View.VISIBLE) {
+            bundlePresenter.webCheckoutView.back()
+            return true
+        }
+        return super.back()
+    }
+
     private fun displayFlightDropDownRoutes(): Boolean {
         return PointOfSale.getPointOfSale().displayFlightDropDownRoutes()
     }
