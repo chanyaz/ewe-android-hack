@@ -639,6 +639,36 @@ class HotelRoomDetailViewModelTest {
     }
 
     @Test
+    fun testPricePerDescriptorStringPerNight() {
+        val roomResponse = createRoomResponse()
+        val viewModel = createViewModel(roomResponse, -1)
+
+        assertEquals("/night", viewModel.pricePerDescriptorString)
+    }
+
+    @Test
+    fun testPricePerDescriptorStringPerPerson() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+
+        val roomResponse = createRoomResponse()
+        val viewModel = createViewModel(roomResponse, -1)
+        roomResponse.packageHotelDeltaPrice = Money("23", "USD")
+
+        assertTrue(roomResponse.isPackage)
+        assertEquals("/person", viewModel.pricePerDescriptorString)
+    }
+
+    @Test
+    fun testPricePerDescriptorStringPerNightForPSS() {
+        val roomResponse = createRoomResponse()
+        val viewModel = createViewModel(roomResponse, -1)
+        roomResponse.packageHotelDeltaPrice = Money("23", "USD")
+
+        assertTrue(roomResponse.isPackage)
+        assertEquals("/night", viewModel.pricePerDescriptorString)
+    }
+
+    @Test
     fun testHotelRoomRowButtonString() {
         val roomResponse = createRoomResponse()
         val viewModel = createViewModel(roomResponse, 1)

@@ -60,7 +60,7 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
     }
 
     override fun pricePerDescriptor(): String {
-        return " " + context.getString(R.string.price_per_person)
+        return context.getString(R.string.price_per_person)
     }
 
     override fun getLobPriceObservable(rate: HotelRate) {

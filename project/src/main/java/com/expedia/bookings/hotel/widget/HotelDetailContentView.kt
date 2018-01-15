@@ -238,6 +238,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.searchInfoTextColorObservable.subscribeTextColor(searchInfo)
         vm.searchInfoGuestsObservable.subscribeText(searchInfoGuests)
         vm.perNightVisibility.subscribeVisibility(pricePerDescriptor)
+        pricePerDescriptor.text = vm.pricePerDescriptor()
 
         vm.hotelPriceContentDesc.subscribeContentDescription(hotelPriceContainer)
 
