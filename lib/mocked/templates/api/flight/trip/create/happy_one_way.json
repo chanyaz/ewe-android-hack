@@ -4,6 +4,7 @@
         {
           "legId": "c69c1bfb0521dbe1eb2b3891ed4cbe84",
           "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
+          "isBasicEconomy":"false",
           "segments": [
             {
               "airlineCode": "AA",
@@ -120,12 +121,6 @@
                         "bookingCode": "K",
                         "cabinCode": "coach"
                     }
-                ],
-                [
-                    {
-                        "bookingCode": "V",
-                        "cabinCode": "coach"
-                    }
                 ]
             ],
             "showFees": true,
@@ -200,5 +195,116 @@
         {
             "name": "Visa"
         }
+    ],
+  "fareFamilyList": {
+    "productKey": "${productKey}",
+    "fareFamilyDetails": [
+      {
+        "fareFamilyName": "ECONOMY",
+        "fareFamilyCode": "ECONOMY",
+        "cabinClass": "coach",
+        "totalPrice": {
+          "amount": "142.20",
+          "roundedAmount": "142",
+          "formattedPrice": "$142.20",
+          "formattedWholePrice": "$142",
+          "currencyCode": "USD"
+        },
+        "deltaTotalPrice": {
+          "amount": "0.00",
+          "formattedPrice": "+$0.00",
+          "formattedWholePrice": "+$0.00",
+          "currencyCode": "USD"
+        },
+        "fareFamilyComponents": {
+          "chargeable": {
+            "Bags": "Checked Bags",
+            "ExtraLegroom": "Premium Seat",
+            "PriorityBoarding": "Priority Boarding",
+            "ChangesBeforeDeparture": "Changes"
+          },
+          "notoffered": {
+            "RefundBeforeDeparture": "Cancellation"
+          },
+          "included": {
+            "SeatReservation": "Seat Choice",
+            "FourLuggage": "4 x Free Luggage",
+            "BonusMiles": "Bonus Miles"
+          },
+          "unknown": {}
+        },
+        "deltaPositive": true
+      },
+      {
+        "fareFamilyName": "FIRST OR BUSINESS",
+        "fareFamilyCode": "PREMIUM",
+        "cabinClass": "first",
+        "totalPrice": {
+          "amount": "241.20",
+          "roundedAmount": "241",
+          "formattedPrice": "$241.20",
+          "formattedWholePrice": "$241",
+          "currencyCode": "USD"
+        },
+        "deltaTotalPrice": {
+          "amount": "99.00",
+          "formattedPrice": "+$99.00",
+          "formattedWholePrice": "+$99.00",
+          "currencyCode": "USD"
+        },
+        "fareFamilyComponents": {
+          "chargeable": {
+            "SeatReservation": "Seat Choice",
+            "ChangesBeforeDeparture": "Changes"
+          },
+          "notoffered": {},
+          "included": {
+            "PriorityBoarding": "Priority Boarding",
+            "BonusMiles": "Bonus Miles"
+          },
+          "unknown": {
+            "CarryOnBag": "Carry On Bag"
+          }
+        },
+        "deltaPositive": true
+      },
+      {
+        "fareFamilyName": "ECONOMY FLEXIBLE",
+        "fareFamilyCode": "ECOFLEX",
+        "cabinClass": "coach",
+        "totalPrice": {
+          "amount": "413.20",
+          "roundedAmount": "413",
+          "formattedPrice": "$413.20",
+          "formattedWholePrice": "$413",
+          "currencyCode": "USD"
+        },
+        "deltaTotalPrice": {
+          "amount": "-271.00",
+          "formattedPrice": "-$271.00",
+          "formattedWholePrice": "-$271.00",
+          "currencyCode": "USD"
+        },
+        "fareFamilyComponents": {
+          "chargeable": {
+            "Bags": "Checked Bags",
+            "ExtraLegroom": "Premium Seat",
+            "PriorityBoarding": "Priority Boarding"
+          },
+          "notoffered": {
+            "SeatReservation": "Seat Choice"
+          },
+          "included": {
+            "CarryOnBag": "Carry On Bag",
+            "ChangesBeforeDeparture": "Changes",
+            "BonusMiles": "Bonus Miles",
+            "RefundBeforeDeparture": "Cancellation"
+          },
+          "unknown": {}
+        },
+        "deltaPositive": false
+      }
     ]
+  },
+  "createTripStatus": "SUCCESS"
 }
