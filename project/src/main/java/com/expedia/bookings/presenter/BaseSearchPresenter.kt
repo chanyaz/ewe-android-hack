@@ -41,8 +41,6 @@ import com.expedia.bookings.launch.widget.LobToolbarWidget
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.CalendarShortDateRenderer
-import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -57,9 +55,6 @@ import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.launch.LobToolbarViewModel
-import com.mobiata.android.time.widget.CalendarPicker
-import com.mobiata.android.time.widget.DaysOfWeekView
-import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import rx.Observer
 import rx.subjects.PublishSubject
@@ -470,7 +465,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 }
             }
             if (forward) suggestionListShownSubject.onNext(Unit)
-            scrollView.contentDescription = context.resources.getText(R.string.suggested_location_list);
+            scrollView.contentDescription = context.resources.getText(R.string.suggested_location_list)
         }
     }
 
