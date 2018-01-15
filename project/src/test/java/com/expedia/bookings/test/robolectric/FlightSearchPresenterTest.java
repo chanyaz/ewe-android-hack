@@ -651,6 +651,22 @@ public class FlightSearchPresenterTest {
 			toolTipContDescTestSubscriber.getOnNextEvents().get(1));
 	}
 
+	@Test
+	public void testRoundTripTabContentDescription() {
+		initializeWidget();
+		TabLayout.Tab tab = widget.getTabs().getTabAt(0);
+		tab.select();
+		assertEquals("Roundtrip tab", tab.getContentDescription());
+	}
+
+	@Test
+	public void testOnewayTabContentDescription() {
+		initializeWidget();
+		TabLayout.Tab tab = widget.getTabs().getTabAt(1);
+		tab.select();
+		assertEquals("One way tab", tab.getContentDescription());
+	}
+
 	private String getExpectedToolTipContDesc(LocalDate startDate, LocalDate endDate) {
 		return (endDate == null) ? LocaleBasedDateFormatUtils.localDateToMMMd(startDate) + ". Next: Select return date" :
 			LocaleBasedDateFormatUtils.localDateToMMMd(startDate)
