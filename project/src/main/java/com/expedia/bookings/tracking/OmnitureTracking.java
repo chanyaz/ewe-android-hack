@@ -4697,12 +4697,16 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static void trackPackagesPageLoadWithDPageName(String pageName, PageUsableData pageUsableData) {
+	private static void trackPackagesPageLoadWithDPageName(String pageName, PageUsableData pageUsableData,
+		ABTest... abTests) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName, null);
 		s.setEvar(18, "D=pageName");
 		if (pageUsableData != null) {
 			addPageLoadTimeTrackingEvents(s, pageUsableData);
+		}
+		for (ABTest testKey : abTests) {
+			trackAbacusTest(s, testKey);
 		}
 		s.track();
 	}
@@ -4712,7 +4716,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesFlightRoundTripOutDetailsLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_DETAILS, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_DETAILS, null,
+			AbacusUtils.EBAndroidAppPackagesDisplayBasicEconomyTooltip);
 	}
 
 	public static void trackPackagesFlightRoundTripInLoad(PageUsableData pageUsableData) {

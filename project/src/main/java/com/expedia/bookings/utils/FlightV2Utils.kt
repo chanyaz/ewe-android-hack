@@ -266,26 +266,25 @@ object FlightV2Utils {
     @JvmStatic fun getFlightCabinPreferences(context: Context, flightLeg: FlightLeg): String {
         if (flightLeg.isBasicEconomy) {
             return context.resources.getString(R.string.cabin_code_basic_economy)
-        } else if (!CollectionUtils.isEmpty(flightLeg.seatClassAndBookingCodeList)) {
-            var flightCabinPreferences = ""
-            val seatClassAndBookingCodeList = flightLeg.seatClassAndBookingCodeList
-            if (seatClassAndBookingCodeList.size == 1) {
-                flightCabinPreferences = context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[0].seatClass))
-            } else if (seatClassAndBookingCodeList.size == 2) {
-                flightCabinPreferences = Phrase.from(context, R.string.flight_cabin_class_for_two_segment_TEMPLATE)
-                        .put("cabin_class_one", context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[0].seatClass)))
-                        .put("cabin_class_second", context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[1].seatClass)))
-                        .format()
-                        .toString()
-            } else if (isAllFlightCabinPreferencesSame(seatClassAndBookingCodeList)) {
-                flightCabinPreferences = context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[0].seatClass))
-            } else {
-                flightCabinPreferences = context.resources.getString(R.string.flight_cabin_mixed_classes)
-            }
-
-            return flightCabinPreferences
         } else {
-            return ""
+            var flightCabinPreferences = ""
+            if (flightLeg.seatClassAndBookingCodeList.isNotEmpty()) {
+                val seatClassAndBookingCodeList = flightLeg.seatClassAndBookingCodeList
+                if (seatClassAndBookingCodeList.size == 1) {
+                    flightCabinPreferences = context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[0].seatClass))
+                } else if (seatClassAndBookingCodeList.size == 2) {
+                    flightCabinPreferences = Phrase.from(context, R.string.flight_cabin_class_for_two_segment_TEMPLATE)
+                            .put("cabin_class_one", context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[0].seatClass)))
+                            .put("cabin_class_second", context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[1].seatClass)))
+                            .format()
+                            .toString()
+                } else if (isAllFlightCabinPreferencesSame(seatClassAndBookingCodeList)) {
+                    flightCabinPreferences = context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[0].seatClass))
+                } else {
+                    flightCabinPreferences = context.resources.getString(R.string.flight_cabin_mixed_classes)
+                }
+            }
+            return flightCabinPreferences
         }
     }
 

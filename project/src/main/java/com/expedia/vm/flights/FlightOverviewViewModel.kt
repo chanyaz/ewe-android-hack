@@ -31,6 +31,11 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
         return false
     }
 
+    //no conversion needed for flights
+    override fun convertTooltipInfo(selectedFlight: FlightLeg): List<FlightLeg.BasicEconomyTooltipInfo> {
+        return selectedFlight.basicEconomyTooltipInfo
+    }
+
     private fun getBundleLabelText(selectedFlight: FlightLeg): String {
         return selectedFlight.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context, true) ?: ""
     }

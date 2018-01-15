@@ -1,6 +1,8 @@
 package com.expedia.bookings.presenter.shared
 
+import android.view.LayoutInflater
 import android.view.View
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -15,6 +17,7 @@ import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightOverviewPresenterTest {
@@ -27,11 +30,12 @@ class FlightOverviewPresenterTest {
 
     @Before
     fun setup() {
-        sut = FlightOverviewPresenter(context, null)
+        sut = LayoutInflater.from(context).inflate(R.layout.test_flight_overview_presenter, null) as FlightOverviewPresenter
         sut.vm = FlightOverviewViewModel(context)
     }
 
-    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun showBaggageFees() {
         val expectedUrl = "https://www.expedia.com/" + BAGGAGE_FEES_URL_PATH
         createSelectedFlightLeg(true)
@@ -115,6 +119,7 @@ class FlightOverviewPresenterTest {
 
     private fun createSelectedFlightLeg(hasObFees: Boolean) {
         flightLeg = FlightLeg()
+        flightLeg.carrierName = "United Airlines"
         flightLeg.flightSegments = emptyList()
         flightLeg.packageOfferModel = PackageOfferModel()
         flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
@@ -136,4 +141,66 @@ class FlightOverviewPresenterTest {
         flightLeg.basicEconomyTooltipInfo = ArrayList<FlightLeg.BasicEconomyTooltipInfo>()
         flightLeg.basicEconomyTooltipInfo.add(toolTipInfo)
     }
+
+    @Test
+    fun basicEconomyTooltipDialogTestForPackages() {
+        sut.vm = com.expedia.vm.packages.FlightOverviewViewModel(context)
+        val toolTipRulesTestSubscriber = TestObserver<Array<String>>()
+        val toolTipTitleTestSubscriber = TestObserver<String>()
+        sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe(toolTipTitleTestSubscriber)
+        sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipFareRules.subscribe(toolTipRulesTestSubscriber)
+        createSelectedFlightLeg(true)
+        createBasicEconomyRulesForPackages(getFareRules())
+        sut.vm.selectedFlightLegSubject.onNext(flightLeg)
+        sut.vm.basicEconomyMessagingToolTipInfo.onNext(sut.vm.convertTooltipInfo(flightLeg))
+        assertEquals(2, toolTipRulesTestSubscriber.values()[0].size)
+        assertEquals("1 personal item only, no access to overhead bin.", toolTipRulesTestSubscriber.values()[0][0])
+        assertEquals("Seats assigned at check-in.", toolTipRulesTestSubscriber.values()[0][1])
+        assertEquals("United Airlines Basic Economy Fare", toolTipTitleTestSubscriber.values()[0])
+        assertNotEquals(null, sut.basicEconomyTooltip.compoundDrawables[2])
+    }
+
+    @Test
+    fun basicEconomyTooltipDialogTestForPackagesWithUnknownFareRules() {
+        sut.vm = com.expedia.vm.packages.FlightOverviewViewModel(context)
+        val toolTipRulesTestSubscriber = TestObserver<Array<String>>()
+        val toolTipTitleTestSubscriber = TestObserver<String>()
+        sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe(toolTipTitleTestSubscriber)
+        sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipFareRules.subscribe(toolTipRulesTestSubscriber)
+        createSelectedFlightLeg(true)
+        createBasicEconomyRulesForPackages(getFareRulesWithUnknowns())
+        sut.vm.selectedFlightLegSubject.onNext(flightLeg)
+        sut.vm.basicEconomyMessagingToolTipInfo.onNext(sut.vm.convertTooltipInfo(flightLeg))
+        assertEquals(2, toolTipRulesTestSubscriber.values()[0].size)
+        assertEquals("1 personal item only, no access to overhead bin.", toolTipRulesTestSubscriber.values()[0][0])
+        assertEquals("Seats assigned at check-in.", toolTipRulesTestSubscriber.values()[0][1])
+        assertEquals("United Airlines Basic Economy Fare", toolTipTitleTestSubscriber.values()[0])
+        assertNotEquals(null, sut.basicEconomyTooltip.compoundDrawables[2])
+    }
+
+    @Test
+    fun basicEconomyTooltipDialogTestForPackagesWithEmptyFareRules() {
+        sut.vm = com.expedia.vm.packages.FlightOverviewViewModel(context)
+        val toolTipRulesTestSubscriber = TestObserver<Array<String>>()
+        val toolTipTitleTestSubscriber = TestObserver<String>()
+        sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe(toolTipTitleTestSubscriber)
+        sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipFareRules.subscribe(toolTipRulesTestSubscriber)
+        createSelectedFlightLeg(true)
+        createBasicEconomyRulesForPackages(getEmptyFareRules())
+        sut.vm.selectedFlightLegSubject.onNext(flightLeg)
+        sut.vm.basicEconomyMessagingToolTipInfo.onNext(sut.vm.convertTooltipInfo(flightLeg))
+        assertEquals(0, toolTipRulesTestSubscriber.values()[0].size)
+        assertEquals(null, sut.basicEconomyTooltip.compoundDrawables[2])
+    }
+
+    private fun createBasicEconomyRulesForPackages(fareRules: List<String>) {
+        flightLeg.isBasicEconomy = true
+        flightLeg.basicEconomyRuleLocIds = fareRules
+    }
+
+    private fun getFareRules(): List<String> = listOf<String>("onePersonalItemNoOverheadAccess", "seatsAssignedAtCheckin")
+
+    private fun getFareRulesWithUnknowns(): List<String> = listOf<String>("onePersonalItemNoOverheadAccess", "seatsAssignedAtCheckin", "unknown")
+
+    private fun getEmptyFareRules(): List<String> = listOf<String>()
 }

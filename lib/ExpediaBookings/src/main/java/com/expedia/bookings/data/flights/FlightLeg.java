@@ -51,6 +51,7 @@ public class FlightLeg {
 	public boolean mayChargeObFees;
 	public boolean isBasicEconomy;
 	public List<BasicEconomyTooltipInfo> basicEconomyTooltipInfo = new ArrayList<>();
+	public List<String> basicEconomyRuleLocIds = new ArrayList<>();
 	public int legRank;
 	public BaggageInfoFormData jsonBaggageFeesUrl;
 
@@ -120,6 +121,9 @@ public class FlightLeg {
 		airlineMessageModel.airlineFeeLink = multiItemFlightLeg.getObFeesUrl();
 		flightLeg.airlineMessageModel = airlineMessageModel;
 		flightLeg.isBasicEconomy = multiItemFlightLeg.isBasicEconomy();
+		if (multiItemFlightLeg.getBasicEconomyRuleLocIds() != null) {
+			flightLeg.basicEconomyRuleLocIds = multiItemFlightLeg.getBasicEconomyRuleLocIds();
+		}
 		return flightLeg;
 	}
 

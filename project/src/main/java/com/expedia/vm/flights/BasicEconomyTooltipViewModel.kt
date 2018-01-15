@@ -5,6 +5,6 @@ import io.reactivex.subjects.PublishSubject
 
 class BasicEconomyTooltipViewModel {
     val basicEconomyTooltipInfo = PublishSubject.create<List<FlightLeg.BasicEconomyTooltipInfo>>()
-    val basicEconomyTooltipFareRules = basicEconomyTooltipInfo.map { it[0].fareRules }
-    val basicEconomyTooltipTitle = basicEconomyTooltipInfo.map { it[0].fareRulesTitle }
+    val basicEconomyTooltipFareRules = basicEconomyTooltipInfo.filter { it.isNotEmpty() }.map { it[0].fareRules }
+    val basicEconomyTooltipTitle = basicEconomyTooltipInfo.filter { it.isNotEmpty() }.map { it[0].fareRulesTitle }
 }

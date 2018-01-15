@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BasicEconomyToolTipView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.setRightDrawable
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeOnClick
@@ -86,6 +87,17 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
         basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe { title ->
             dialog.setTitle(title)
         }
+        basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipInfo.subscribe {
+            if (!it.isEmpty() && !it[0].fareRules.isEmpty()) {
+                basicEconomyTooltip.setRightDrawable(R.drawable.ic_checkout_info)
+                basicEconomyTooltip.setOnClickListener {
+                    dialog.show()
+                }
+            } else {
+                basicEconomyTooltip.setRightDrawable(0)
+                basicEconomyTooltip.setOnClickListener(null)
+            }
+        }
         vm.basicEconomyMessagingToolTipInfo.subscribe(basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipInfo)
         vm.totalDurationSubject.subscribeText(totalDurationText)
         vm.totalDurationContDescSubject.subscribeContentDescription(totalDurationText)
@@ -105,9 +117,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
                 } else {
                     baggageFeeShowSubject.onNext(e3EndpointUrl + selectedFlight.baggageFeesUrl)
                 }
-            }
-            basicEconomyTooltip.setOnClickListener {
-                dialog.show()
             }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentbreakdowns)
             selectFlightButton.subscribeOnClick(vm.selectFlightClickObserver)

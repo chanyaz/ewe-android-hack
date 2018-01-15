@@ -33,6 +33,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     abstract val showEarnMessage: BehaviorSubject<Boolean>
 
     abstract fun shouldShowSeatingClassAndBookingCode(): Boolean
+    abstract fun convertTooltipInfo(selectedFlight: FlightLeg): List<FlightLeg.BasicEconomyTooltipInfo>
     abstract fun shouldShowDeltaPositive(): Boolean
     abstract fun pricePerPersonString(selectedFlight: FlightLeg): String
     abstract fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean
@@ -54,7 +55,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
 
         ObservableOld.zip(showBasicEconomyTooltip, selectedFlightLegSubject, { showBasicEconomyTooltip, selectedFlightLeg ->
             if (showBasicEconomyTooltip) {
-                basicEconomyMessagingToolTipInfo.onNext(selectedFlightLeg.basicEconomyTooltipInfo)
+                basicEconomyMessagingToolTipInfo.onNext(convertTooltipInfo(selectedFlightLeg))
             }
         }).subscribe()
     }
