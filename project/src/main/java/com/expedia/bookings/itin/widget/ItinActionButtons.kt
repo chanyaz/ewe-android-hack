@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.ItinActionButtonsViewModel
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeOnClick
@@ -27,8 +28,14 @@ class ItinActionButtons(context: Context, attrs: AttributeSet?) : ConstraintLayo
 
         itinActionButtonsViewModel.leftButtonVisibilityObservable.subscribeVisibility(leftButton)
         itinActionButtonsViewModel.rightButtonVisibilityObservable.subscribeVisibility(rightButton)
-        itinActionButtonsViewModel.leftButtonTextObservable.subscribeText(leftButtonText)
-        itinActionButtonsViewModel.rightButtonTextObservable.subscribeText(rightButtonText)
+        itinActionButtonsViewModel.leftButtonTextObservable.subscribe { text ->
+            leftButtonText.text = text
+            AccessibilityUtil.appendRoleContDesc(leftButton, text, R.string.accessibility_cont_desc_role_button)
+        }
+        itinActionButtonsViewModel.rightButtonTextObservable.subscribe { text ->
+            rightButtonText.text = text
+            AccessibilityUtil.appendRoleContDesc(rightButton, text, R.string.accessibility_cont_desc_role_button)
+        }
         itinActionButtonsViewModel.leftButtonDrawableObservable.subscribe {
             leftButtonText.setTintedDrawable(context.getDrawable(it), ContextCompat.getColor(context, R.color.exp_launch_blue))
         }
