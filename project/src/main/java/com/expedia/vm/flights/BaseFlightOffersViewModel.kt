@@ -127,6 +127,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
         cancelOutboundSearchObservable.subscribe {
             flightOutboundSearchSubscription?.unsubscribe()
+            flightCacheSearchSubscription?.unsubscribe()
         }
 
         cancelInboundSearchObservable.subscribe {
