@@ -121,7 +121,6 @@ import kotlin.NotImplementedError;
 
 import static com.expedia.bookings.utils.FeatureUtilKt.isFlightGreedySearchEnabled;
 import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
-import static com.expedia.bookings.utils.FeatureUtilKt.isPackagesMISRealWorldGeoEnabled;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -4463,9 +4462,7 @@ public class OmnitureTracking {
 		if (isMidAPIEnabled(sContext)) {
 			abTests.add(AbacusUtils.EBAndroidAppPackagesMidApi);
 		}
-		if (isPackagesMISRealWorldGeoEnabled(sContext)) {
-			abTests.add(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo);
-		}
+		abTests.add(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo);
 		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData, abTests);
 	}
 
