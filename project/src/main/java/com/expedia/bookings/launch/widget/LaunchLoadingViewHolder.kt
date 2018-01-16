@@ -8,7 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 
-class LaunchLoadingViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+open class LaunchLoadingViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val backgroundImageView: View by bindView(R.id.background_image_view)
 
     private var animation: ValueAnimator? = null

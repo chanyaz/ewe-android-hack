@@ -759,6 +759,13 @@
         <item>@string/preference_abacus_setting_bucketed</item>
     </string-array>
 
+    <string-array name="abacus_meso_variant_choices">
+        <item>@string/preference_abacus_setting_server</item>
+        <item>@string/preference_abacus_setting_control</item>
+        <item>@string/preference_abacus_setting_meso_hotel</item>
+        <item>@string/preference_abacus_setting_meso_destination</item>
+    </string-array>
+
     <string-array name="abacus_checkout_text_choices">
         <item>@string/preference_abacus_setting_server</item>
         <item>@string/preference_abacus_setting_control</item>
@@ -826,6 +833,13 @@
         <item>-1</item>
         <item>0</item>
         <item>1</item>
+    </string-array>
+
+    <string-array name="abacus_meso_variant_choice_values">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="hoursList">

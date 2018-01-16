@@ -9,6 +9,7 @@ open class LaunchDataItem(private val key: Int) {
         @JvmField val LOADING_VIEW = 0
         @JvmField val LOB_VIEW = 1
         @JvmField val SIGN_IN_VIEW = 2
+        @JvmField val MESO_HOTEL_AD_VIEW = 3
         @JvmField val MEMBER_ONLY_DEALS = 4
         @JvmField val LAST_MINUTE_DEALS = 5
         @JvmField val HEADER_VIEW = 6
