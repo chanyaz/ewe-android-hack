@@ -66,7 +66,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         webCheckoutView.viewModel = webCheckoutViewModel
 
         webCheckoutViewModel.closeView.subscribe {
-            super.back()
+            if (checkoutPresenter.visibility == View.GONE) {
+                super.back()
+            }
         }
 
         webCheckoutViewModel.backObservable.subscribe {

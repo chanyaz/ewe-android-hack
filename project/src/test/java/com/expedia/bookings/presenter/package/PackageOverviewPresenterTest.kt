@@ -26,6 +26,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.vm.PackageWebCheckoutViewViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -227,6 +228,20 @@ class PackageOverviewPresenterTest {
         overviewPresenter.checkoutButton.performClick()
 
         assert((Shadows.shadowOf(overviewPresenter.webCheckoutView.webView).lastLoadedUrl).contains("https://www.${ PointOfSale.getPointOfSale().url}/MultiItemCheckout?tripid="))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDCloseWebViewOnOverviewScreenDoesNothing() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        setupOverviewPresenter()
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+
+        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
+
+        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
+
+        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
     }
 
     private fun setPointOfSale(posId: PointOfSaleId) {
