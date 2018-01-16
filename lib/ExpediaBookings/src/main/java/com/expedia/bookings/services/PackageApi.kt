@@ -88,5 +88,7 @@ interface PackageApi {
                             @Query("adults") adults: Int,
                             @Query("checkInDate") checkInDate: String,
                             @Query("checkOutDate") checkOutDate: String,
-                            @Query("totalPrice") totalPrice: BigDecimal): Observable<MultiItemApiCreateTripResponse>
+                            @Query("totalPrice") totalPrice: BigDecimal,
+                            @Query("childAges") childAges: String? = null,
+                            @Query("infantInSeats") infantsInSeats: Boolean?): Observable<MultiItemApiCreateTripResponse>
 }

@@ -60,6 +60,8 @@ class PackagesCreateTripTest {
         assertEquals("ratePlanCode", fromPackageSearchParams.ratePlanCode)
         assertEquals("inventoryType", fromPackageSearchParams.inventoryType)
         assertEquals(BigDecimal(300.50), fromPackageSearchParams.totalPrice.packageTotalPrice.amount)
+        assertEquals("1,14", fromPackageSearchParams.childAges)
+        assertEquals(true, fromPackageSearchParams.infantsInSeats)
     }
 
     @Test
@@ -107,8 +109,14 @@ class PackagesCreateTripTest {
     private fun getDummySearchParams(): PackageSearchParams {
         val originDestSuggestions = getOriginDestSuggestions()
         val date = LocalDate.now()
-        val params = PackageSearchParams.Builder(0, 0).destination(originDestSuggestions.first).origin(originDestSuggestions.second)
-                .adults(1).children(listOf(12, 14)).startDate(date).endDate(date.plusDays(2)).build() as PackageSearchParams
+        val params = PackageSearchParams.Builder(0, 0)
+                .destination(originDestSuggestions.first)
+                .origin(originDestSuggestions.second)
+                .adults(1)
+                .children(listOf(1, 14))
+                .startDate(date)
+                .endDate(date.plusDays(2))
+                .build() as PackageSearchParams
         params.hotelId = "hotelID"
         params.latestSelectedFlightPIID = "mid_create_trip"
         params.packagePIID = "packagePIID"

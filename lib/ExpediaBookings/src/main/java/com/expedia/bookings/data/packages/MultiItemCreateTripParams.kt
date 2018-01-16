@@ -2,9 +2,17 @@ package com.expedia.bookings.data.packages;
 
 import org.joda.time.LocalDate
 
-class MultiItemCreateTripParams(val flightPIID: String, val hotelID: String, val inventoryType: String,
-                                val ratePlanCode: String, val roomTypeCode: String, val totalPrice: PackageOfferModel.PackagePrice,
-                                val startDate: LocalDate, val endDate: LocalDate, val adults: Int) {
+class MultiItemCreateTripParams(val flightPIID: String,
+                                val hotelID: String,
+                                val inventoryType: String,
+                                val ratePlanCode: String,
+                                val roomTypeCode: String,
+                                val totalPrice: PackageOfferModel.PackagePrice,
+                                val startDate: LocalDate,
+                                val endDate: LocalDate,
+                                val adults: Int,
+                                val childAges: String?,
+                                val infantsInSeats: Boolean?) {
     companion object {
         fun fromPackageSearchParams(searchParams: PackageSearchParams): MultiItemCreateTripParams {
             return MultiItemCreateTripParams(searchParams.latestSelectedFlightPIID!!,
@@ -15,7 +23,9 @@ class MultiItemCreateTripParams(val flightPIID: String, val hotelID: String, val
                     searchParams.latestSelectedProductOfferPrice!!,
                     searchParams.startDate,
                     searchParams.endDate!!,
-                    searchParams.adults)
+                    searchParams.adults,
+                    searchParams.childAges,
+                    searchParams.infantsInSeats)
         }
     }
 
