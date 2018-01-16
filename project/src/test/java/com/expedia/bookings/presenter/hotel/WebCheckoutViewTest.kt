@@ -1,6 +1,8 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
@@ -20,6 +22,7 @@ import com.expedia.vm.HotelWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,6 +30,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.robolectric.Robolectric
+import org.robolectric.Shadows
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
@@ -196,6 +200,20 @@ class WebCheckoutViewTest {
         val testURL = "abcdefg?ab=c"
         hotelPresenter.webCheckoutView.viewModel.webViewURLObservable.onNext(testURL)
         assert((shadowOf(hotelPresenter.webCheckoutView.webView).lastLoadedUrl).startsWith("$testURL&adobe_mc="))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTelephoneUrlLoadsPhoneActivity() {
+        getToWebCheckoutView()
+        val phoneUrl = "tel:800-423-5498"
+        hotelPresenter.webCheckoutView.webClient.onPageStarted(hotelPresenter.webCheckoutView.webView, phoneUrl, null)
+
+        val shadowActivity = Shadows.shadowOf(activity)
+        val intent = shadowActivity.peekNextStartedActivityForResult().intent
+        
+        Assert.assertEquals(Uri.parse(phoneUrl), intent.data)
+        Assert.assertEquals(Intent.ACTION_VIEW, intent.action)
     }
 
     @Test

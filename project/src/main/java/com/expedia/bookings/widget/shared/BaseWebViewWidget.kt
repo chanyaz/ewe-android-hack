@@ -43,7 +43,13 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
 
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-            onWebPageStarted(view, url, favicon)
+            if (url.startsWith("http") || url.startsWith("about:blank")) {
+                onWebPageStarted(view, url, favicon)
+            }
+            else {
+                view.stopLoading()
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
         }
 
         override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
