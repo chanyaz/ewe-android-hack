@@ -228,7 +228,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         CarnivalUtils.getInstance().trackLaunch(
                 havePermissionToAccessLocation(this), userStateManager.isUserAuthenticated(),
                 userStateManager.userSource.user?.primaryTraveler, ItineraryManager.getInstance().trips,
-                userStateManager.getCurrentUserLoyaltyTier(), lastLocation?.latitude, lastLocation?.longitude)
+                userStateManager.getCurrentUserLoyaltyTier(), lastLocation?.latitude, lastLocation?.longitude, PointOfSale.getPointOfSale().url)
     }
 
     private fun requestLocationPermissionViaSoftPrompt() {
