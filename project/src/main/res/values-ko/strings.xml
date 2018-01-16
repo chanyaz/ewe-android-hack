@@ -1556,7 +1556,18 @@
     <string name="itin_flight_modify_widget_cancel_reservation_text">예약 취소</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
     <string name="itin_flight_modify_widget_change_reservation_text">예약 변경</string>
-
+    <!--Flight itin, flight modify reservation widget's Learn more text-->
+    <string name="itin_flight_modify_widget_learn_more_text">자세히 알아보기</string>
+    <!--Flight itin, flight modify reservation widget's call customer support text-->
+    <string name="itin_flight_modify_widget_customer_support_text">고객 지원에 전화하기</string>
+    <!-- Flight Itin Modify Reservation dialog GO BACK button text-->
+    <string name="itin_flight_modify_widget_go_back_text">뒤로 돌아가기</string>
+    <!-- Flight Itin Modify Reservation dialog, change reservation content text-->
+    <string name="itin_flight_modify_widget_change_reservation_dialog_text">이 예약은 변경할 수 없지만, 고객 지원에 연락하여 다른 옵션을 알아보실 수 있습니다.</string>
+    <!-- Flight Itin Modify Reservation dialog, cancel reservation content text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_dialog_text">이 예약은 취소할 수 없지만, 고객 지원에 연락하여 다른 옵션을 알아보실 수 있습니다.</string>
+    <!-- Flight Itin Modify Reservation dialog, flight neither Changeable nor Cancellable text for reservation dialog-->
+    <string name="itin_flight_modify_widget_neither_changeable_nor_cancellable_reservation_dialog_text">이 예약은 변경하거나 취소할 수 없지만, 고객 지원에 연락하여 다른 옵션을 알아보실 수 있습니다.</string>
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}일 {hours}시간 {minutes}분</string>
     <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->
@@ -2532,10 +2543,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">%d개 객실 남음!</item>
-        <item quantity="two">%d개 객실 남음</item>
-        <item quantity="many">%d개 객실 남음</item>
-        <item quantity="other">%d개 객실 남음</item>
+        <item quantity="one">저희 사이트에 객실 %d개 남았어요!</item>
+        <item quantity="two">저희 사이트에 객실 %d개 남았어요.</item>
+        <item quantity="many">저희 사이트에 객실 %d개 남았어요.</item>
+        <item quantity="other">저희 사이트에 객실 %d개 남았어요.</item>
     </plurals>
     <!-- No of filters applied on packages -->
     <plurals name="no_of_filters_applied_TEMPLATE">
@@ -2600,8 +2611,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/1박</string>
-    <!-- The label for total price for the stay - "$120 total stay", for example -->
-    <string name="total_stay">총 숙박 요금</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">평점 없음</string>
 
@@ -2800,14 +2809,6 @@
         <item quantity="other">1박 평균 요금 • %d개 결과</item>
     </plurals>
 
-    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
-        <item quantity="zero">검색 결과 없음</item>
-        <item quantity="one">&lt;b&gt;1박 평균 요금&lt;/b&gt; • 1개 결과</item>
-        <item quantity="many">&lt;b&gt;1박 평균 요금&lt;/b&gt; • %d개 결과</item>
-        <item quantity="other">&lt;b&gt;1박 평균 요금&lt;/b&gt; • %d개 결과</item>
-    </plurals>
-
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">검색 결과 없음</item>
@@ -2821,14 +2822,6 @@
         <item quantity="one">총 숙박 요금 • 1개 결과</item>
         <item quantity="many">총 숙박 요금 • %d개 결과</item>
         <item quantity="other">총 숙박 요금 • %d개 결과</item>
-    </plurals>
-
-    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
-        <item quantity="zero">검색 결과 없음</item>
-        <item quantity="one">&lt;b&gt;총 숙박 요금&lt;/b&gt; • 1개 결과</item>
-        <item quantity="many">&lt;b&gt;총 숙박 요금&lt;/b&gt; • %d개 결과</item>
-        <item quantity="other">&lt;b&gt;총 숙박 요금&lt;/b&gt; • %d개 결과</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -2962,8 +2955,6 @@
     <!-- Coupon dialog -->
     <!-- Coupon Widget Title -->
     <string name="coupon_promo_title">쿠폰 및 프로모션</string>
-    <!-- Title on dialog imploring users to enter coupons -->
-    <string name="enter_coupon_promo_code">쿠폰 또는 프로모션 코드 입력</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">쿠폰 코드 입력</string>
     <!-- Coupon submit button -->
@@ -3813,6 +3804,8 @@
     <string name="five_star">5성급</string>
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">결과 자세히 검색</string>
+    <!-- Prompt to try new filter after scrolling hotel results  -->
+    <string name="new_filters_available">새 필터를 추가했어요!</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">결제 방법에 따라 추가 수수료가 있을 수 있습니다.</string>
@@ -4828,10 +4821,6 @@
     <string name="location_soft_prompt_enable">위치 설정 켜기</string>
     <string name="location_soft_prompt_disable">나중에 하기</string>
 
-    <!--price descriptor for different hotel rate type-->
-    <string name="total_including_taxes_fees">세금 및 수수료를 포함한 총액</string>
-    <string name="excluding_taxes_fees">세금 및 수수료 제외</string>
-
     <!-- Amenities String -->
     <string name="amenity_checked_bags">위탁 수하물</string>
     <string name="amenity_carry_on_bag">휴대 수하물</string>
@@ -4878,5 +4867,10 @@
 
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">저장된 쿠폰</string>
+
+    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
+    <string name="book_room_button_content_description_TEMPLATE">{room} 예약하기</string>
+    <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
+    <string name="select_room_button_content_description_TEMPLATE">{room} 선택하기</string>
 
 </resources>

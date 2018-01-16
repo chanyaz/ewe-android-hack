@@ -1069,7 +1069,7 @@
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">航空会社の確認</string>
     <!-- Flight Itinerary airline support number -->
-    <string name="flight_itin_airline_support_number_label">航空会社のカスタマー サポート</string>
+    <string name="flight_itin_airline_support_number_label">航空会社のカスタマーサポート</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$sの確認</string>
     <!-- Car rental agency name and location in car itin detail -->
@@ -1365,11 +1365,11 @@
     <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_hotel_itinerary_number_TEMPLATE">旅程番号 : {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
-    <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} カスタマー サポート</string>
+    <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} カスタマーサポート</string>
     <!--Hotel customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
     <string name="itin_hotel_customer_support_site_button_content_description_TEMPLATE">{brand} カスタマーサポート リンク ボタン</string>
     <!--Hotel customer support website toolbar header-->
-    <string name="itin_hotel_customer_support_site_toolbar_header">カスタマー サービス</string>
+    <string name="itin_hotel_customer_support_site_toolbar_header">カスタマーサービス</string>
     <!--Hotel itin manage booking call hotel button content description. Call hotel at {phonenumber}. Button (eg., Call hotel at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">ホテル ({phonenumber}) に電話する。ボタン</string>
     <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
@@ -1496,9 +1496,9 @@
     <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_flight_itinerary_number_TEMPLATE">旅程番号 : {itin_number}</string>
     <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
-    <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} カスタマー サポート</string>
+    <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} カスタマーサポート</string>
     <!--Flight customer support website toolbar header-->
-    <string name="itin_flight_customer_support_site_toolbar_header">カスタマー サービス</string>
+    <string name="itin_flight_customer_support_site_toolbar_header">カスタマーサービス</string>
     <!--Flight itin, flight leg detail widget title. {departure} to {arrival} (eg., SFO to SEA)-->
     <string name="itin_flight_leg_detail_widget_title_TEMPLATE">{departure} → {arrival}</string>
     <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
@@ -1556,7 +1556,18 @@
     <string name="itin_flight_modify_widget_cancel_reservation_text">予約をキャンセル</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
     <string name="itin_flight_modify_widget_change_reservation_text">予約を変更</string>
-
+    <!--Flight itin, flight modify reservation widget's Learn more text-->
+    <string name="itin_flight_modify_widget_learn_more_text">詳細情報</string>
+    <!--Flight itin, flight modify reservation widget's call customer support text-->
+    <string name="itin_flight_modify_widget_customer_support_text">カスタマーサポートに電話する</string>
+    <!-- Flight Itin Modify Reservation dialog GO BACK button text-->
+    <string name="itin_flight_modify_widget_go_back_text">戻る</string>
+    <!-- Flight Itin Modify Reservation dialog, change reservation content text-->
+    <string name="itin_flight_modify_widget_change_reservation_dialog_text">このご予約は変更できません。カスタマーサポートまでお問い合わせください。</string>
+    <!-- Flight Itin Modify Reservation dialog, cancel reservation content text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_dialog_text">このご予約はキャンセルできません。カスタマーサポートまでお問い合わせください。</string>
+    <!-- Flight Itin Modify Reservation dialog, flight neither Changeable nor Cancellable text for reservation dialog-->
+    <string name="itin_flight_modify_widget_neither_changeable_nor_cancellable_reservation_dialog_text">このご予約は変更またはキャンセルできません。カスタマーサポートまでお問い合わせください。</string>
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} 日 {hours} 時間 {minutes} 分</string>
     <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->
@@ -2303,7 +2314,7 @@
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">カレンダーに追加</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_customer_support_TEMPLATE">{brand}カスタマー サポートに電話する</string>
+    <string name="call_customer_support_TEMPLATE">{brand}カスタマーサポートに電話する</string>
     <!-- Insurance -->
     <string name="insurance">保険</string>
     <!-- Insurance label on itin section -->
@@ -2357,7 +2368,7 @@
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">空港への行き方 : %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">{brand}カスタマー サポート : {phone}</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">{brand}カスタマーサポート : {phone}</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -2532,10 +2543,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">残り %d 室 !</item>
-        <item quantity="two">残り %d 室</item>
-        <item quantity="many">残り %d 室</item>
-        <item quantity="other">残り %d 室</item>
+        <item quantity="one">エクスペディアで残り %d 室 !</item>
+        <item quantity="two">エクスペディアで残り %d 室</item>
+        <item quantity="many">エクスペディアで残り %d 室</item>
+        <item quantity="other">エクスペディアで残り %d 室</item>
     </plurals>
     <!-- No of filters applied on packages -->
     <plurals name="no_of_filters_applied_TEMPLATE">
@@ -2600,8 +2611,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/ 泊</string>
-    <!-- The label for total price for the stay - "$120 total stay", for example -->
-    <string name="total_stay">合計</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">評価なし</string>
 
@@ -2800,14 +2809,6 @@
         <item quantity="other">1 泊平均料金 • 結果 %d 件</item>
     </plurals>
 
-    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
-        <item quantity="zero">検索結果が見つかりませんでした</item>
-        <item quantity="one">&lt;b&gt;1 泊平均料金&lt;/b&gt; • 結果 1 件</item>
-        <item quantity="many">&lt;b&gt;1 泊平均料金&lt;/b&gt; • 結果 %d 件</item>
-        <item quantity="other">&lt;b&gt;1 泊平均料金&lt;/b&gt; • 結果 %d 件</item>
-    </plurals>
-
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">検索結果が見つかりませんでした</item>
@@ -2821,14 +2822,6 @@
         <item quantity="one">合計宿泊料金 • 結果 1 件</item>
         <item quantity="many">合計宿泊料金 • 結果 %d 件</item>
         <item quantity="other">合計宿泊料金 • 結果 %d 件</item>
-    </plurals>
-
-    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
-        <item quantity="zero">検索結果が見つかりませんでした</item>
-        <item quantity="one">&lt;b&gt;合計宿泊料金&lt;/b&gt; • 結果 1 件</item>
-        <item quantity="many">&lt;b&gt;合計宿泊料金&lt;/b&gt; • 結果 %d 件</item>
-        <item quantity="other">&lt;b&gt;合計宿泊料金&lt;/b&gt; • 結果 %d 件</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -2962,8 +2955,6 @@
     <!-- Coupon dialog -->
     <!-- Coupon Widget Title -->
     <string name="coupon_promo_title">クーポンとプロモーション</string>
-    <!-- Title on dialog imploring users to enter coupons -->
-    <string name="enter_coupon_promo_code">クーポンあるいはプロモーション コードを入力</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">クーポンコードを入力</string>
     <!-- Coupon submit button -->
@@ -3813,6 +3804,8 @@
     <string name="five_star">5 つ星</string>
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">検索結果を絞り込む</string>
+    <!-- Prompt to try new filter after scrolling hotel results  -->
+    <string name="new_filters_available">新しい絞り込み条件登場 !</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">お支払い方法に応じて追加手数料が課金される場合があります。</string>
@@ -4828,10 +4821,6 @@
     <string name="location_soft_prompt_enable">位置情報をオンにする</string>
     <string name="location_soft_prompt_disable">後で</string>
 
-    <!--price descriptor for different hotel rate type-->
-    <string name="total_including_taxes_fees">税金とサービス料込み</string>
-    <string name="excluding_taxes_fees">税およびサービス料別</string>
-
     <!-- Amenities String -->
     <string name="amenity_checked_bags">預け入れ手荷物</string>
     <string name="amenity_carry_on_bag">機内持ち込み手荷物</string>
@@ -4878,5 +4867,10 @@
 
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">保存済みのクーポン</string>
+
+    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
+    <string name="book_room_button_content_description_TEMPLATE">{room}を予約する</string>
+    <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
+    <string name="select_room_button_content_description_TEMPLATE">{room}を選択する</string>
 
 </resources>
