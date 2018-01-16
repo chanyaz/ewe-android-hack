@@ -29,6 +29,10 @@ class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, heade
         } else if (shouldShowPackageIncludesMessage) {
             return R.string.package_hotel_results_header_TEMPLATE
         } else
-            return null
+            return R.string.package_hotel_results_header
+    }
+
+    override fun shouldShowResultDescriptionLabel(context: Context): Boolean {
+        return true
     }
 }
