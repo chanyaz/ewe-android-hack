@@ -378,6 +378,7 @@ public class Notification extends Model implements JSONable {
 			obj.put("ImageId", mImageId);
 			obj.put("ImageValue", mImageValue);
 			obj.put("Flags", mFlags);
+			obj.put("TemplateName", mTemplateName);
 			obj.put("NotificationType", mNotificationType);
 			return obj;
 		}
@@ -402,6 +403,7 @@ public class Notification extends Model implements JSONable {
 		mImageValue = obj.optString("ImageValue");
 		mFlags = obj.optLong("Flags");
 		mNotificationType = obj.optString("NotificationType");
+		mTemplateName = obj.optString("TemplateName");
 		return true;
 	}
 
