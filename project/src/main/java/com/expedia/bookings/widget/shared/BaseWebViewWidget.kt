@@ -1,7 +1,9 @@
 package com.expedia.bookings.widget.shared
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -72,6 +74,12 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         setToolbarPadding()
         webView.webViewClient = webClient
         webView.settings.javaScriptEnabled = true
+
+        webView.setDownloadListener { url, _, _, _, _ ->
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            context.startActivity(intent)
+        }
+
     }
 
     open var viewModel: WebViewViewModel by notNullAndObservable { vm ->
