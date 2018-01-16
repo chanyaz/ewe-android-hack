@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
@@ -9,22 +8,15 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.HotelUtils
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
-import com.mobiata.android.text.StrikethroughTagHandler
+import com.expedia.vm.launch.RecommendedHotelViewModel
 import io.reactivex.subjects.PublishSubject
 
-/**
- * A Viewholder for the case where our data are hotels.
- */
 class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, HeaderBitmapDrawable.PicassoTargetListener {
     private val green: Int
     private val orange: Int
@@ -35,9 +27,12 @@ class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickL
     private var hotelSelectedSubject: PublishSubject<Hotel>? = null
     private val FULL_TILE_TEXT_SIZE = 18
     private val HALF_TILE_TEXT_SIZE = 15
+    private var discountTenPercentOrBetter: Boolean = true
+    private var isDiscountRestrictedToCurrentSourceType = false
+    private var isSameDayDRR = false
+    private var isAirAttached = false
 
     val gradient: View by bindView(R.id.gradient)
-
     val cardView: CardView by bindView(R.id.card_view)
     val title: TextView by bindView(R.id.title)
     val subtitle: TextView by bindView(R.id.subtitle)
@@ -61,111 +56,102 @@ class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickL
         blue = ContextCompat.getColor(view.context, R.color.launch_tonight_only)
         mobileOnly = ContextCompat.getDrawable(view.context, R.drawable.ic_mobile_only)
         tonightOnly = ContextCompat.getDrawable(view.context, R.drawable.ic_tonight_only)
-
         itemView.setOnClickListener(this)
     }
 
-    fun bindListData(data: Any, fullWidthTile: Boolean, hotelSelectedSubject: PublishSubject<Hotel>) {
-        val context = itemView.context
+    fun bindListData(data: Any, fullWidthTile: Boolean, hotelSelectedSubject: PublishSubject<Hotel>, vm: RecommendedHotelViewModel) {
+        this.hotelSelectedSubject = hotelSelectedSubject
+
+        bindViewModel(vm)
+
         itemView.tag = data
         cardView.preventCornerOverlap = false
+        subtitle.visibility = View.GONE
+        cardView.contentDescription = vm.hotelContentDesc
+
+        createDiscountBanner(fullWidthTile)
+        checkForHideStrikethrough()
 
         if (fullWidthTile) {
             title.setTextSize(TypedValue.COMPLEX_UNIT_SP, FULL_TILE_TEXT_SIZE.toFloat())
             fullTilePriceContainer.visibility = View.VISIBLE
             halfTilePriceContainer.visibility = View.GONE
+            createFullWidthRating()
         } else {
             title.setTextSize(TypedValue.COMPLEX_UNIT_SP, HALF_TILE_TEXT_SIZE.toFloat())
             fullTilePriceContainer.visibility = View.GONE
             halfTilePriceContainer.visibility = View.VISIBLE
+            createHalfWidthRating()
         }
-
-        val hotel = data as Hotel
-        this.hotelSelectedSubject = hotelSelectedSubject
-        bindHotelData(hotel, context, fullWidthTile)
     }
 
-    private fun bindHotelData(hotel: Hotel, context: Context, fullWidth: Boolean) {
-        title.text = hotel.localizedName
-        subtitle.visibility = View.GONE
-        ratingInfo.visibility = View.VISIBLE
-        noRatingText.visibility = View.GONE
+    private fun bindViewModel(vm: RecommendedHotelViewModel) {
+        title.text = vm.title
+        rating.text = vm.rating
+        fullTilePrice.text = vm.price
+        halfTilePrice.text = vm.price
+        saleTextView.text = vm.saleText
+        fullTileStrikethroughPrice.text = vm.strikeThroughPrice
+        halfTileStrikethroughPrice.text = vm.strikeThroughPrice
+        discountTenPercentOrBetter = vm.discountTenPercentOrBetter
+        isDiscountRestrictedToCurrentSourceType = vm.isDiscountRestrictedToCurrentSourceType
+        isSameDayDRR = vm.isSameDayDRR
+        isAirAttached = vm.isAirAttached
+    }
 
-        if (fullWidth) {
-            if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
-                fullTileStrikethroughPrice.visibility = View.VISIBLE
-                fullTileStrikethroughPrice.text = HtmlCompat.fromHtml(context.getString(R.string.strike_template,
-                        StrUtils.formatHotelPrice(Money(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers).toString(), hotel.lowRateInfo.currencyCode))),
-                        null,
-                        StrikethroughTagHandler())
-            } else {
-                fullTileStrikethroughPrice.visibility = View.GONE
-            }
-            fullTilePrice.text = StrUtils.formatHotelPrice(Money(Math.round(hotel.lowRateInfo.priceToShowUsers).toString(), hotel.lowRateInfo.currencyCode))
-            if (hotel.hotelGuestRating == 0f) {
-                ratingInfo.visibility = View.GONE
-                noRatingText.visibility = View.VISIBLE
-            } else {
-                rating.text = java.lang.Float.toString(hotel.hotelGuestRating)
-                ratingText.visibility = View.VISIBLE
-            }
+    private fun createHalfWidthRating() {
+        ratingText.visibility = View.GONE
+        if (rating.text.equals("0.0")) {
+            ratingInfo.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun createFullWidthRating() {
+        if (rating.text.equals("0.0")) {
+            ratingInfo.visibility = View.GONE
+            noRatingText.visibility = View.VISIBLE
         } else {
-            if (PointOfSale.getPointOfSale().supportsStrikethroughPrice() && HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
-                halfTileStrikethroughPrice.visibility = View.VISIBLE
-                halfTileStrikethroughPrice.text = HtmlCompat.fromHtml(context.getString(R.string.strike_template,
-                        StrUtils.formatHotelPrice(Money(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers).toString(), hotel.rateCurrencyCode))),
-                        null,
-                        StrikethroughTagHandler())
-            } else {
-                halfTileStrikethroughPrice.visibility = View.GONE
-            }
-            halfTilePrice.text = StrUtils.formatHotelPrice(Money(Math.round(hotel.lowRateInfo.priceToShowUsers).toString(), hotel.lowRateInfo.currencyCode))
-            if (hotel.hotelGuestRating == 0f) {
-                ratingInfo.visibility = View.INVISIBLE
-            } else {
-                rating.text = java.lang.Float.toString(hotel.hotelGuestRating)
-            }
-            ratingText.visibility = View.GONE
+            ratingText.visibility = View.VISIBLE
         }
-        setHotelDiscountBanner(hotel, context, fullWidth)
     }
 
-    // Set appropriate discount and / or DRR message
-    private fun setHotelDiscountBanner(hotel: Hotel, context: Context, fullWidth: Boolean) {
-        if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
+    private fun checkForHideStrikethrough() {
+        if (!PointOfSale.getPointOfSale().supportsStrikethroughPrice() || !discountTenPercentOrBetter) {
+            fullTileStrikethroughPrice.visibility = View.GONE
+            halfTileStrikethroughPrice.visibility = View.GONE
+        } else {
+            fullTileStrikethroughPrice.visibility = View.VISIBLE
+            halfTileStrikethroughPrice.visibility = View.VISIBLE
+        }
+    }
+
+    private fun createDiscountBanner(fullWidth: Boolean) {
+        if (discountTenPercentOrBetter) {
             saleTextView.visibility = View.VISIBLE
-            // Mobile exclusive case
-            if (hotel.isDiscountRestrictedToCurrentSourceType) {
-                saleTextView.setBackgroundColor(purple)
-                saleTextView.setCompoundDrawablesWithIntrinsicBounds(mobileOnly, null, null, null)
-                if (fullWidth) {
-                    saleTextView.setText(R.string.launch_mobile_exclusive)
-                } else {
-                    saleTextView.text = context.getString(R.string.percent_off_TEMPLATE,
-                            HotelUtils.getDiscountPercent(hotel.lowRateInfo))
-                }
-            } else if (hotel.isSameDayDRR) {
-                saleTextView.setBackgroundColor(blue)
-                saleTextView.setCompoundDrawablesWithIntrinsicBounds(tonightOnly, null, null, null)
-                if (fullWidth) {
-                    saleTextView.setText(R.string.launch_tonight_only)
-                } else {
-                    saleTextView.text = context.getString(R.string.percent_off_TEMPLATE,
-                            HotelUtils.getDiscountPercent(hotel.lowRateInfo))
-                }
-            } else {
-                saleTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
-                saleTextView.text = context.getString(R.string.percent_off_TEMPLATE,
-                        HotelUtils.getDiscountPercent(hotel.lowRateInfo))
-                if (hotel.lowRateInfo.airAttached) {
-                    saleTextView.setBackgroundColor(orange)
-                } else {
-                    saleTextView.setBackgroundColor(green)
-                }
-            } // Default discount case
-            // Tonight only case
+            showDiscountMessage(fullWidth)
         } else {
             saleTextView.visibility = View.GONE
+        }
+    }
+
+    private fun showDiscountMessage(fullWidth: Boolean) {
+        if (isDiscountRestrictedToCurrentSourceType) {
+            saleTextView.setBackgroundColor(purple)
+            saleTextView.setCompoundDrawablesWithIntrinsicBounds(mobileOnly, null, null, null)
+            if (fullWidth) {
+                saleTextView.setText(R.string.launch_mobile_exclusive)
+            }
+        } else if (isSameDayDRR) {
+            saleTextView.setBackgroundColor(blue)
+            saleTextView.setCompoundDrawablesWithIntrinsicBounds(tonightOnly, null, null, null)
+            if (fullWidth) {
+                saleTextView.setText(R.string.launch_tonight_only)
+            }
+        } else if (isAirAttached) {
+            saleTextView.setBackgroundColor(orange)
+        } else {
+            saleTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+            saleTextView.setBackgroundColor(green)
         }
     }
 
