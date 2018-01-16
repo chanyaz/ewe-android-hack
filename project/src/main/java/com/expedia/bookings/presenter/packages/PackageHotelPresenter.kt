@@ -109,7 +109,15 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         removeView(resultsMapView)
         presenter.mapWidget.setMapView(resultsMapView)
         presenter.viewModel = PackageHotelResultsViewModel(context)
-        presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
+        presenter.hotelSelectedSubject.subscribe { hotel ->
+            val params = Db.sharedInstance.packageParams
+            params.hotelId = hotel.hotelId
+            params.latestSelectedFlightPIID = Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotel.hotelPid)
+            params.latestSelectedProductOfferPrice = hotel.packageOfferModel.price
+
+            PackagesTracking().trackHotelMapCarouselPropertyClick()
+            hotelSelectedObserver.onNext(hotel)
+        }
         presenter.hideBundlePriceOverviewSubject.subscribe(hideBundlePriceOverviewObserver)
         presenter
     }
@@ -245,16 +253,12 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         PackagesPageUsableData.HOTEL_INFOSITE.pageUsableData.markPageLoadStarted()
         selectedPackageHotel = hotel
         val params = Db.sharedInstance.packageParams
-        params.hotelId = hotel.hotelId
-        params.latestSelectedFlightPIID = Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotel.hotelPid)
-        params.latestSelectedProductOfferPrice = hotel.packageOfferModel.price
         val packageHotelOffers = if (isMidAPIEnabled(context)) {
             getMIDRoomSearch(params)
         } else {
             getPSSRoomSearch(hotel.packageOfferModel.piid, hotel.hotelId, params.startDate.toString(), params.endDate.toString(), Db.sharedInstance.packageSelectedRoom?.ratePlanCode, Db.sharedInstance.packageSelectedRoom?.roomTypeCode, params.adults, params.children.firstOrNull())
         }
         getDetails(hotel.hotelId, packageHotelOffers)
-        PackagesTracking().trackHotelMapCarouselPropertyClick()
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_HOTEL)
     }
 
