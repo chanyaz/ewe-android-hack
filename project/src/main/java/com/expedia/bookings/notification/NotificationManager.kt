@@ -8,7 +8,7 @@ import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
 import com.mobiata.android.Log
 
-open class NotificationManager(private val context: Context) {
+class NotificationManager(private val context: Context) : INotificationManager {
 
     private val LOGGING_TAG = "NotificationManager"
 
@@ -87,7 +87,7 @@ open class NotificationManager(private val context: Context) {
     /**
      * Schedules all new or updated notifications.
      */
-    fun scheduleAll() {
+    override fun scheduleAll() {
         val notifications = Select()
                 .from(Notification::class.java)
                 .where("Status=? AND ExpirationTimeMillis>?", Notification.StatusType.NEW.name, System.currentTimeMillis())
@@ -102,7 +102,7 @@ open class NotificationManager(private val context: Context) {
      * Cancels all new or notified notifications, and removes them
      * from the notification bar if they've already been notified.
      */
-    fun cancelAllExpired() {
+    override fun cancelAllExpired() {
         val notifications = Select()
                 .from(Notification::class.java)
                 .where("ExpirationTimeMillis<?", System.currentTimeMillis())
@@ -145,7 +145,7 @@ open class NotificationManager(private val context: Context) {
         Delete().from(Notification::class.java).where("ItinId=?", itinId).execute<Model>()
     }
 
-    fun searchForExistingAndUpdate(notification: Notification) {
+    override fun searchForExistingAndUpdate(notification: Notification) {
         // If we already have this notification, don't notify again.
         val existing = findExisting(notification)
         val newNotificationTime = com.expedia.bookings.utils.DateUtils

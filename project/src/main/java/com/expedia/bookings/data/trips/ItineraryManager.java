@@ -1,60 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.text.TextUtils;
-
-import com.expedia.account.data.FacebookLinkResponse;
-import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Courier;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.PushNotificationRegistrationResponse;
-import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.TNSFlight;
-import com.expedia.bookings.data.TNSUser;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
-import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.data.user.UserSource;
-import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.notification.GCMRegistrationKeeper;
-import com.expedia.bookings.notification.Notification;
-import com.expedia.bookings.notification.NotificationManager;
-import com.expedia.bookings.notification.PushNotificationUtils;
-import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.PushRegistrationResponseHandler;
-import com.expedia.bookings.server.TripDetailsResponseHandler;
-import com.expedia.bookings.services.TNSServices;
-import com.expedia.bookings.services.TripsServicesInterface;
-import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.TimeSource;
-import com.expedia.bookings.utils.FeatureToggleUtil;
-import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.ServicesUtil;
-import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.UniqueIdentifierHelper;
-import com.expedia.bookings.widget.itin.ItinContentGenerator;
-import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.IoUtils;
-import com.mobiata.android.util.SettingUtils;
-import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.data.FlightCode;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -73,11 +18,53 @@ import java.util.TimeZone;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.text.TextUtils;
+
+import com.expedia.account.data.FacebookLinkResponse;
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
+import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.itin.utils.NotificationScheduler;
+import com.expedia.bookings.notification.GCMRegistrationKeeper;
+import com.expedia.bookings.notification.NotificationManager;
+import com.expedia.bookings.notification.PushNotificationUtils;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.TripDetailsResponseHandler;
+import com.expedia.bookings.services.TripsServicesInterface;
+import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.tracking.TimeSource;
+import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
+import com.mobiata.android.util.IoUtils;
+import com.mobiata.android.util.SettingUtils;
+import com.mobiata.flightlib.data.Flight;
+
 import rx.Observable;
 import rx.Observer;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.FuncN;
+import rx.subjects.PublishSubject;
 
 /**
  * This singleton keeps all of our itinerary data together.  It loads, syncs and stores all itin data.
@@ -134,8 +121,6 @@ public class ItineraryManager implements JSONable {
 	private UserStateManager userStateManager;
 	private NotificationManager notificationManager;
 
-	private TNSServices tnsServices;
-
 	// Don't try refreshing too often
 	private long mLastUpdateTime;
 
@@ -152,6 +137,9 @@ public class ItineraryManager implements JSONable {
 	// determine whether you should launch in itin or not.
 	private List<DateTime> mStartTimes = new ArrayList<>();
 	private List<DateTime> mEndTimes = new ArrayList<>();
+
+	private final PublishSubject<List<ItinCardData>> syncFinishObserverable = PublishSubject.create();
+	private final PublishSubject<List<ItinCardData>> syncFailedObserverable = PublishSubject.create();
 
 	/**
 	 * Adds a guest trip to the itinerary list.
@@ -174,8 +162,6 @@ public class ItineraryManager implements JSONable {
 		mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
-		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
 		startSyncIfNotInProgress();
 	}
@@ -291,32 +277,6 @@ public class ItineraryManager implements JSONable {
 	}
 
 	/**
-	 * Get the Flight instances represented in our Itineraries
-	 * <p/>
-	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
-	 * in the itin list will be searched
-
-	 * @return a list of Flight instances
-	 */
-	public List<Flight> getItinFlights() {
-		List<Flight> retFlights = new ArrayList<>();
-		List<ItinCardData> itinCardDatas = getItinCardData();
-		synchronized (itinCardDatas) {
-			for (ItinCardData data : itinCardDatas) {
-				if (data.getTripComponentType() != null && data.getTripComponentType() == Type.FLIGHT
-					&& data.getTripComponent() != null && data instanceof ItinCardDataFlight) {
-					ItinCardDataFlight dataFlight = (ItinCardDataFlight) data;
-						FlightLeg leg = dataFlight.getFlightLeg();
-						if (leg != null && leg.getSegments() != null) {
-							retFlights.addAll(leg.getSegments());
-						}
-				}
-			}
-		}
-		return retFlights;
-	}
-
-	/**
 	 * Clear all data from the itinerary manager.  Used on sign out or
 	 * when private data is cleared.
 	 */
@@ -392,8 +352,8 @@ public class ItineraryManager implements JSONable {
 		mContext = context;
 		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 		notificationManager = Ui.getApplication(context).appComponent().notificationManager();
-
-		tnsServices = Ui.getApplication(context).appComponent().tnsService();
+		NotificationScheduler notificationScheduler = Ui.getApplication(context).appComponent().notificationScheduler();
+		notificationScheduler.subscribeToListeners(syncFinishObserverable, syncFailedObserverable);
 
 		loadStartAndEndTimes();
 
@@ -781,6 +741,7 @@ public class ItineraryManager implements JSONable {
 
 	private void onSyncFailed(SyncError error) {
 		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
+		syncFailedObserverable.onNext(mItinCardDatas);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFailure(error);
 		}
@@ -789,6 +750,7 @@ public class ItineraryManager implements JSONable {
 	@VisibleForTesting
 	public void onSyncFinished(Collection<Trip> trips) {
 		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
+		syncFinishObserverable.onNext(mItinCardDatas);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFinished(trips);
 		}
@@ -857,12 +819,6 @@ public class ItineraryManager implements JSONable {
 
 		GENERATE_ITIN_CARDS,
 		// Generates itin card data for use
-
-		SCHEDULE_NOTIFICATIONS,
-		// Schedule local notifications
-
-		REGISTER_FOR_PUSH_NOTIFICATIONS,
-		//Tell the push server which flights to notify us about
 	}
 
 	private class Task implements Comparable<Task> {
@@ -989,8 +945,6 @@ public class ItineraryManager implements JSONable {
 				mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
 				mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 				mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-				mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
-				mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 			}
 
 			startSyncIfNotInProgress();
@@ -1031,8 +985,6 @@ public class ItineraryManager implements JSONable {
 		// We're set to sync; add the rest of the ops and go
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
-		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
 		startSyncIfNotInProgress();
 
@@ -1047,8 +999,6 @@ public class ItineraryManager implements JSONable {
 		mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
-		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
 		startSyncIfNotInProgress();
 
@@ -1060,7 +1010,6 @@ public class ItineraryManager implements JSONable {
 		mSyncOpQueue.add(new Task(Operation.REMOVE_ITIN, tripNumber));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
 		startSyncIfNotInProgress();
 
@@ -1203,12 +1152,6 @@ public class ItineraryManager implements JSONable {
 					break;
 				case GENERATE_ITIN_CARDS:
 					generateItinCardData();
-					break;
-				case SCHEDULE_NOTIFICATIONS:
-					scheduleLocalNotifications();
-					break;
-				case REGISTER_FOR_PUSH_NOTIFICATIONS:
-					registerForPushNotifications();
 					break;
 				}
 
@@ -1929,136 +1872,6 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Push Notifications
-
-	private void registerForPushNotifications() {
-
-		Log.d(LOGGING_TAG, "ItineraryManager.registerForPushNotifications");
-
-		//NOTE: If this is the first time we are registering for push notifications, regId will likely be empty
-		//we need to wait for a gcm callback before we will get a regid, so we just skip for now and wait for the next sync
-		//at which time we should have a valid id (assuming network is up and running)
-		String regId = GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext);
-		Log.d(LOGGING_TAG, "ItineraryManager.registerForPushNotifications regId:" + regId);
-		if (!TextUtils.isEmpty(regId)) {
-			Log.d(LOGGING_TAG, "ItineraryManager.registerForPushNotifications regId:" + regId + " is not empty!");
-			ExpediaServices services = new ExpediaServices(mContext);
-
-			PointOfSale pos = PointOfSale.getPointOfSale();
-			int siteId = pos.getSiteId();
-			String siteIdString = String.valueOf(siteId);
-			int langId = pos.getDualLanguageId();
-			String guid = Db.sharedInstance.getAbacusGuid();
-			long userTuid = 0;
-			TNSUser tnsUser = new TNSUser(siteIdString, null, null, guid);
-			if (userStateManager.isUserAuthenticated()) {
-				UserSource userDetail = userStateManager.getUserSource();
-				tnsUser = new TNSUser(siteIdString, userDetail.getTuid().toString(), userDetail.getExpUserId().toString(), guid);
-			}
-
-			Courier courier = new Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(mContext));
-			//use old Flight Alert system
-			if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(mContext, AbacusUtils.TripsNewFlightAlerts,
-				R.string.preference_enable_trips_flight_alerts)) {
-				JSONObject payload = PushNotificationUtils
-					.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
-						getItinFlights());
-
-				Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
-
-				Log.d(LOGGING_TAG, "registering with old alert system");
-				PushNotificationRegistrationResponse resp = services.registerForPushNotifications(
-					new PushRegistrationResponseHandler(mContext), payload, regId);
-				Log.d(LOGGING_TAG,
-					"registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
-
-				if (FeatureToggleUtil.isFeatureEnabled(mContext,
-					R.string.preference_enable_trips_flight_alerts)) {
-					tnsServices.deregisterForFlights(tnsUser, courier);
-				}
-
-			}
-			//use new TNS system
-			else {
-				JSONObject payload = PushNotificationUtils
-					.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
-						new ArrayList<Flight>());
-
-				Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
-
-				PushNotificationRegistrationResponse resp = services.registerForPushNotifications(
-					new PushRegistrationResponseHandler(mContext), payload, regId);
-				Log.d(LOGGING_TAG,
-					"registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
-
-				tnsServices.registerForFlights(tnsUser, courier, getFlightsForNewSystem());
-			}
-		}
-	}
-
-	protected List<TNSFlight> getFlightsForNewSystem() {
-		List<TNSFlight> flights = new ArrayList<>();
-		List<Flight> itinFlights = getItinFlights();
-		String dateTimeTimeZonePattern = "yyyy-MM-dd\'T\'HH:mm:ss.SSSZ";
-		for (Flight flight : itinFlights) {
-			if (isFlightDataAvailable(flight)) {
-				FlightCode primaryFlightCode = flight.getPrimaryFlightCode();
-				TNSFlight flightToAdd = new TNSFlight(primaryFlightCode.mAirlineCode,
-					JodaUtils.format(flight.getSegmentArrivalTime(), dateTimeTimeZonePattern),
-					JodaUtils.format(flight.getSegmentDepartureTime(), dateTimeTimeZonePattern),
-					flight.getDestinationWaypoint().mAirportCode,
-					primaryFlightCode.mNumber,
-					flight.getOriginWaypoint().mAirportCode
-				);
-				flights.add(flightToAdd);
-			}
-		}
-		return flights;
-	}
-
-	protected boolean isFlightDataAvailable(Flight flight) {
-		FlightCode primaryFlightCode = flight.getPrimaryFlightCode();
-		boolean isAirlineCodeAvailable = (primaryFlightCode != null) && Strings.isNotEmpty(primaryFlightCode.mAirlineCode);
-		boolean isFlightNumberAvailable = (primaryFlightCode != null) && Strings.isNotEmpty(primaryFlightCode.mNumber);
-		boolean isSegmentArrivalTimeAvailable = (flight.getSegmentArrivalTime() != null);
-		boolean isSegmentDepartureTimeAvailable = (flight.getSegmentDepartureTime() != null);
-		boolean isDestinationAirportCodeAvailable = (flight.getDestinationWaypoint() != null) && Strings.isNotEmpty(flight.getDestinationWaypoint().mAirportCode);
-		boolean isOriginAirportCodeAvailable = (flight.getOriginWaypoint() != null) && Strings.isNotEmpty(flight.getOriginWaypoint().mAirportCode);
-		return isAirlineCodeAvailable && isFlightNumberAvailable && isSegmentArrivalTimeAvailable
-			&& isSegmentDepartureTimeAvailable && isDestinationAirportCodeAvailable && isOriginAirportCodeAvailable;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Local Notifications
-
-	private void scheduleLocalNotifications() {
-		synchronized (mItinCardDatas) {
-			for (ItinCardData data : mItinCardDatas) {
-				// #2224 disable local notifications for shared itineraries.
-				if (data.isSharedItin()) {
-					continue;
-				}
-
-				ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(mContext, data);
-
-				List<Notification> notifications = generator.generateNotifications();
-				if (notifications == null) {
-					continue;
-				}
-				for (Notification notification : notifications) {
-					if (SettingUtils.get(mContext, mContext.getString(R.string.preference_launch_all_trip_notifications), false)) {
-						notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
-					}
-
-					notificationManager.searchForExistingAndUpdate(notification);
-				}
-			}
-		}
-
-		notificationManager.scheduleAll();
-		notificationManager.cancelAllExpired();
-	}
 
 	private void deletePendingNotification(Trip trip) {
 		List<TripComponent> components = trip.getTripComponents(true);

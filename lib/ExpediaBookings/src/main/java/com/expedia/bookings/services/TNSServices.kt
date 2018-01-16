@@ -16,21 +16,17 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHttpClient, interceptors: List<Interceptor>, val observeOn: Scheduler, val subscribeOn: Scheduler, val serviceObserver: Observer<TNSRegisterDeviceResponse> = TNSServices.Companion.noopObserver) {
+class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHttpClient, interceptors: List<Interceptor>, val observeOn: Scheduler, val subscribeOn: Scheduler, private val serviceObserver: Observer<TNSRegisterDeviceResponse> = TNSServices.Companion.noopObserver) : ITNSServices {
 
     companion object {
 
         val noopObserver: Observer<TNSRegisterDeviceResponse> =
                 object : Observer<TNSRegisterDeviceResponse> {
-                    override fun onCompleted() {
-                    }
+                    override fun onCompleted() = Unit
 
-                    override fun onError(e: Throwable) {
-                    }
+                    override fun onError(e: Throwable) = Unit
 
-                    override fun onNext(tnsRegisterDeviceResponse: TNSRegisterDeviceResponse?) {
-
-                    }
+                    override fun onNext(tnsRegisterDeviceResponse: TNSRegisterDeviceResponse?) = Unit
                 }
     }
 
@@ -54,8 +50,8 @@ class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHt
     private var userDeviceSubscription: Subscription? = null
     private var userDeviceDeregistrationSubscription: Subscription? = null
 
-    fun registerForFlights(user: TNSUser, courier: Courier, flights: List<TNSFlight>): Subscription {
-        val requestBody = TNSRegisterUserDeviceFlightsRequestBody(courier, flights, user);
+    override fun registerForFlights(user: TNSUser, courier: Courier, flights: List<TNSFlight>): Subscription {
+        val requestBody = TNSRegisterUserDeviceFlightsRequestBody(courier, flights, user)
         userDeviceFlightsSubscription?.unsubscribe()
 
         userDeviceFlightsSubscription = tnsAPI.registerUserDeviceFlights(requestBody)
@@ -65,7 +61,7 @@ class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHt
         return userDeviceFlightsSubscription as Subscription
     }
 
-    fun deregisterForFlights(user: TNSUser, courier: Courier) {
+    override fun deregisterForFlights(user: TNSUser, courier: Courier) {
         registerForFlights(user, courier, emptyList())
     }
 
@@ -82,7 +78,7 @@ class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHt
 
     fun deregisterDevice(courier: Courier): Subscription {
         userDeviceDeregistrationSubscription?.unsubscribe()
-        val requestBody = TNSDeregister(courier);
+        val requestBody = TNSDeregister(courier)
         userDeviceDeregistrationSubscription = tnsAPI.deregisterUserDevice(requestBody)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

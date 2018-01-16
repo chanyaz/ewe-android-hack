@@ -1,5 +1,13 @@
 package com.expedia.bookings.dagger;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import android.content.Context;
 
 import com.expedia.bookings.R;
@@ -12,6 +20,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.http.TravelGraphRequestInterceptor;
 import com.expedia.bookings.itin.services.FlightRegistrationHandler;
+import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.server.EndpointProvider;
@@ -40,14 +49,6 @@ import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -384,5 +385,12 @@ public class AppModule {
 	@Singleton
 	NotificationManager provideNotificationManager(Context context) {
 		return new NotificationManager(context);
+	}
+
+	@Provides
+	@Singleton
+	NotificationScheduler provideNotificationScheduler(Context context, NotificationManager notificationManager,
+		UserStateManager userStateManager, TNSServices tnsServices) {
+		return new NotificationScheduler(context, notificationManager, userStateManager, tnsServices);
 	}
 }

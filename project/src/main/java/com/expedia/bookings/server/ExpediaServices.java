@@ -88,7 +88,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 @SuppressLint("SimpleDateFormat")
-public class ExpediaServices implements DownloadListener {
+public class ExpediaServices implements DownloadListener, ExpediaServicesPushInterface {
 
 	/**
 	 * Tag reserved for request URLs (or params).  Often times we're only
@@ -815,6 +815,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
+	@Override
 	public PushNotificationRegistrationResponse registerForPushNotifications(
 		ResponseHandler<PushNotificationRegistrationResponse> responseHandler, JSONObject payload, String regId) {
 		String serverUrl = PushNotificationUtils.getRegistrationUrl();

@@ -1,5 +1,8 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import android.content.Context;
 
 import com.expedia.bookings.activity.AccountLibActivity;
@@ -8,6 +11,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.fragment.AccountSettingsFragment;
 import com.expedia.bookings.hotel.util.HotelGalleryManager;
 import com.expedia.bookings.itin.services.FlightRegistrationHandler;
+import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
@@ -28,9 +32,6 @@ import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Component;
 import okhttp3.Interceptor;
@@ -103,4 +104,6 @@ public interface AppComponent {
 
 	TNSServices tnsService();
 	FlightRegistrationHandler flightRegistrationService();
+
+	NotificationScheduler notificationScheduler();
 }
