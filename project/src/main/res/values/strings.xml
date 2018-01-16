@@ -3878,8 +3878,12 @@
     <string name="hotel_deal_TEMPLATE">Book this and save {price} ({savings}%)</string>
     <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
     <string name="packages_invalid_user_title_label">Time to update!</string>
-    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
-    <string name="packages_invalid_user_text_label">Sorry, Hotel + Flight booking is not available on this version of the app.\nUpdate now to get Hotel + Flight deals.</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades
+    e.g Sorry, Bundle deals booking is not available on this version of the app.\nUpdate now to get Bundle deals. -->
+    <string name="packages_invalid_user_text_label_TEMPLATE1">Sorry, {lob} booking is not available on this version of the app.\nUpdate now to get {lob}.</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades
+    e.g Sorry, Hotel + Flight booking is not available on this version of the app.\nUpdate now to get Hotel + Flight deals. -->
+    <string name="packages_invalid_user_text_label_TEMPLATE2">Sorry, {lob} booking is not available on this version of the app.\nUpdate now to get {lob} deals.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">{night} free night when you book with a flight.</item>

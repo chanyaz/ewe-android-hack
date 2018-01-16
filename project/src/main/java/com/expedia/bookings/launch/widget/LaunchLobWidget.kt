@@ -67,7 +67,7 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 LineOfBusiness.CARS -> nav.goToCars(null)
                 LineOfBusiness.PACKAGES -> {
                     if (shouldPackageForceUpdateBeVisible(context)) {
-                        PlayStoreUtil.showForceUpgradeDailogWithMessage(context, R.string.packages_invalid_user_text_label)
+                        PlayStoreUtil.showForceUpgradeDailogWithMessage(context)
                     } else {
                         nav.goToPackages(null, null)
                     }

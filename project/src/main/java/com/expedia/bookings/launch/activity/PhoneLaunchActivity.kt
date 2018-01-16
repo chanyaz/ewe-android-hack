@@ -203,11 +203,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok)
         } else if (intent.getBooleanExtra(ARG_FORCE_UPGRADE, false)) {
             val lineOfBusiness = intent.getSerializableExtra(ARG_LINE_OF_BUSINESS) as LineOfBusiness?
-            val messageId = when (lineOfBusiness) {
-                LineOfBusiness.PACKAGES -> R.string.packages_invalid_user_text_label
-                else -> R.string.packages_invalid_user_text_label
-            }
-            PlayStoreUtil.showForceUpgradeDailogWithMessage(this, messageId)
+            PlayStoreUtil.showForceUpgradeDailogWithMessage(this)
         }
 
         GooglePlayServicesDialog(this).startChecking()
