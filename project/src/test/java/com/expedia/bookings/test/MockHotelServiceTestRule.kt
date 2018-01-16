@@ -35,8 +35,12 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         return getCreateTripResponse("pay_later_offer")
     }
 
-    fun getHappyCreateTripEmailOptInResponse(): HotelCreateTripResponse {
+    fun getHappyCreateTripEmailOptOutResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("hotel_email_opt_in_1")
+    }
+
+    fun getHappyCreateTripEmailOptInResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("hotel_email_opt_in_0")
     }
 
     fun getHappyCreateTripResponse(): HotelCreateTripResponse {

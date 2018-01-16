@@ -19,7 +19,7 @@
             android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
             android:gravity="center_vertical" />
 
-        <com.expedia.bookings.widget.traveler.NameEntryView
+        <com.expedia.bookings.widget.traveler.HotelNameEntryView
             android:id="@+id/name_entry_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

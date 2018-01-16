@@ -16,6 +16,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.DEFAULT_HOTEL_GALLERY_CODE
+import com.expedia.bookings.hotel.util.HotelResortFeeFormatter
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
@@ -157,6 +158,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     var selectedRoomIndex = -1
     val loadTimeData = PageUsableData()
 
+    private val resortFeeFormatter = HotelResortFeeFormatter()
     private var roomSubscriptions: CompositeSubscription? = null
 
     val bookByPhoneContainerClickObserver: Observer<Unit> = endlessObserver {
@@ -343,27 +345,11 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         }
 
         val firstRoomDetails = hotelOffersResponse.hotelRoomResponse?.firstOrNull()
-        if (firstRoomDetails?.rateInfo?.chargeableRateInfo?.showResortFeeMessage ?: false) {
-            val rate = firstRoomDetails!!.rateInfo.chargeableRateInfo
-            val resortText: String
-
-            if (hotelOffersResponse.isPackage && PointOfSale.getPointOfSale().showResortFeesInHotelLocalCurrency()) {
-                val df = DecimalFormat("#.00")
-                val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), CurrencyUtils.currencyForLocale(hotelOffersResponse.hotelCountry))
-                resortText = Phrase.from(context, R.string.non_us_resort_fee_format_TEMPLATE)
-                        .put("amount", df.format(resortFees.amount)).put("currency", resortFees.currencyCode).format().toString()
-            } else {
-                val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), rate.currencyCode)
-                resortText = resortFees.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)
-            }
-
-            hotelResortFeeObservable.onNext(resortText)
-            val includedNotIncludedStrId = if (rate.resortFeeInclusion) R.string.included_in_the_price else R.string.not_included_in_the_price
-            hotelResortFeeIncludedTextObservable.onNext(context.resources.getString(includedNotIncludedStrId))
-        } else {
-            hotelResortFeeObservable.onNext("")
-            hotelResortFeeIncludedTextObservable.onNext("")
-        }
+        val resortFee = resortFeeFormatter.getResortFee(context, firstRoomDetails,
+                hotelOffersResponse.isPackage, hotelOffersResponse.hotelCountry)
+        val inclusionText = resortFeeFormatter.getResortFeeInclusionText(context, firstRoomDetails)
+        hotelResortFeeObservable.onNext(resortFee)
+        hotelResortFeeIncludedTextObservable.onNext(inclusionText)
 
         showBookByPhoneObservable.onNext(shouldShowBookByPhone())
 

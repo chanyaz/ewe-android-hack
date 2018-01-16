@@ -79,8 +79,14 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
         val flightLegsList = (itinCardDataFlight.tripComponent as TripFlight).flightTrip.legs
 
         for (leg: FlightLeg in flightLegsList) {
-            val departureAirportCode = leg.firstWaypoint.mAirportCode
-            val arrivalAirportCode = leg.lastWaypoint.mAirportCode
+            var departureAirportCode = ""
+            var arrivalAirportCode = ""
+            if (!leg.firstWaypoint.mAirportCode.isNullOrEmpty()) {
+                  departureAirportCode = leg.firstWaypoint.mAirportCode
+            }
+            if (!leg.lastWaypoint.mAirportCode.isNullOrEmpty())   {
+                arrivalAirportCode = leg.lastWaypoint.mAirportCode
+            }
             val imgPath = leg.airlineLogoURL
             val numbOfStops = leg.numberOfStops
             val departureMonthDay = leg.legDepartureTime.localizedMediumDate

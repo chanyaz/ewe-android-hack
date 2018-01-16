@@ -1479,8 +1479,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">Ticket # {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(Infant in lap)</string>
-    <!--Flight itin manage booking title-->
-    <string name="itin_flight_details_manage_booking_heading">Manage booking</string>
     <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
     <string name="itin_flight_customer_support_header_text_TEMPLATE">Contact {brand} if you need help managing this itinerary.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->

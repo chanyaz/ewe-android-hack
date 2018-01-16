@@ -1,15 +1,21 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.R
 import com.expedia.bookings.data.GaiaSuggestion
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.services.ISuggestionV4Services
+import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.packages.PackageSuggestionAdapterViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.Observable
 import rx.Observer
 import rx.Subscription
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -20,6 +26,25 @@ class PackageSuggestionAdapterViewModelTest {
         val mockSuggestionV4Services = MockSuggestionV4Services()
         val viewModel = PackageSuggestionAdapterViewModel(RuntimeEnvironment.application, mockSuggestionV4Services, true, null)
         assertTrue(viewModel.shouldShowOnlyAirportNearbySuggestions())
+    }
+
+    @Test
+    fun isMISForRealWorldEnabledTrue() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
+
+        val mockSuggestionV4Services = MockSuggestionV4Services()
+        val viewModel = PackageSuggestionAdapterViewModel(RuntimeEnvironment.application, mockSuggestionV4Services, true, null)
+        assertTrue(viewModel.isMISForRealWorldEnabled())
+    }
+
+    @Test
+    fun isMISForRealWorldEnabledFalseForMID() {
+        SettingUtils.save(getContext(), R.string.preference_packages_mid_api, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
+
+        val mockSuggestionV4Services = MockSuggestionV4Services()
+        val viewModel = PackageSuggestionAdapterViewModel(RuntimeEnvironment.application, mockSuggestionV4Services, true, null)
+        assertFalse(viewModel.isMISForRealWorldEnabled())
     }
 
     class MockSuggestionV4Services : ISuggestionV4Services {

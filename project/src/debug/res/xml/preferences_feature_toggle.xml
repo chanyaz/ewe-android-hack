@@ -92,11 +92,6 @@
         android:title="Itin Features">
 
         <CheckBoxPreference
-            android:key="@string/preference_trips_new_flights_managing_booking_design"
-            android:summary="Trips New Flights Managing Booking Design"
-            android:title="Trips New Flights Managing Booking Design" />
-
-        <CheckBoxPreference
             android:key="@string/preference_enable_trips_flight_alerts"
             android:summary="Trips New Flight Alerts"
             android:title="Trips - Flight Alerts" />
@@ -121,11 +116,6 @@
             android:key="@string/preference_packages_mid_api"
             android:summary="Packages MID API"
             android:title="Packages MID API" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_packages_breadcrumbs_move_bundle_overview"
-            android:summary="Packages Breadcrumbs - Move Bundle Overview Bar"
-            android:title="Packages Breadcrumbs - Move Bundle Overview Bar" />
 
         <CheckBoxPreference
             android:key="@string/preference_packages_show_flight_seating_class"

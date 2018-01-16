@@ -72,7 +72,7 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
             customerSupportDetails.viewModel.updateWidget(params)
         }
         vm.flightLegDetailWidgetLegDataSubject.subscribe { params ->
-            legsDetailWidget.viewModel.updateWidgetRecyclerViewSubjet.onNext(params)
+            legsDetailWidget.viewModel.updateWidgetRecyclerViewSubject.onNext(params)
         }
         vm.flightLegDetailRulesAndRegulationSubject.subscribe { param ->
             legsDetailWidget.viewModel.rulesAndRestrictionDialogTextSubject.onNext(param)

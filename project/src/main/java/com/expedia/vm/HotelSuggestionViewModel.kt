@@ -11,7 +11,9 @@ open class HotelSuggestionViewModel {
 
     fun bind(suggestion: SuggestionV4) {
         this.suggestion = suggestion
-        if (suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON) {
+        if (suggestion.isHistoryItem) {
+            iconDrawableRes = R.drawable.recents
+        } else if (suggestion.isRecentSearchItem) {
             iconDrawableRes = R.drawable.recents
         } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {
             iconDrawableRes = R.drawable.ic_suggest_current_location

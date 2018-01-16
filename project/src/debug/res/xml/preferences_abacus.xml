@@ -55,6 +55,14 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
+            android:key="16455"
+            android:summary="%s"
+            android:title="Enable New POS Currency Field on InfoSite - 16455" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
             android:key="15220"
             android:summary="%s"
             android:title="Enable change date in infosite - 15220" />

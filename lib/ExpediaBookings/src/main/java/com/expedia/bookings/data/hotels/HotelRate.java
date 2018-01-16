@@ -21,6 +21,7 @@ public class HotelRate {
 	public float discountPercent;
 	public float total;
 	public String currencyCode;
+	public String currencyCodePOSu;
 	public String currencySymbol;
 	public String discountMessage;
 	public float priceToShowUsers;

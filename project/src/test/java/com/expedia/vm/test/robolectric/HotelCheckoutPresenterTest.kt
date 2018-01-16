@@ -420,7 +420,7 @@ class HotelCheckoutPresenterTest {
         val testEmailOptInSubscriber = TestSubscriber<MerchandiseSpam>()
         checkout.hotelCheckoutMainViewModel.emailOptInStatus.subscribe(testEmailOptInSubscriber)
         goToCheckout()
-        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptInResponse())
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
 
         testEmailOptInSubscriber.assertValueCount(1)
     }
@@ -431,7 +431,7 @@ class HotelCheckoutPresenterTest {
         val travelerEmailOptInSubscriber = TestSubscriber<MerchandiseSpam>()
         (checkout.travelersPresenter.viewModel as HotelTravelersViewModel).createTripOptInStatus.subscribe(travelerEmailOptInSubscriber)
         goToCheckout()
-        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptInResponse())
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
 
         travelerEmailOptInSubscriber.assertValue(MerchandiseSpam.CONSENT_TO_OPT_OUT)
         assertEquals(null, checkout.mainContactInfoCardView.emailOptIn)
@@ -440,7 +440,7 @@ class HotelCheckoutPresenterTest {
     @Test
     fun testTravelerEmailOptInObservableMaterialFormOff() {
         goToCheckout()
-        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptInResponse())
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
 
         assertEquals(checkout.mainContactInfoCardView.emailOptIn, true)
     }
@@ -451,6 +451,7 @@ class HotelCheckoutPresenterTest {
         val checkoutView = setupHotelCheckoutPresenter()
         val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
+        checkoutView.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptInResponse())
 
         checkoutView.hotelCheckoutWidget.travelerSummaryCardView.performClick()
         (checkoutView.hotelCheckoutWidget.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget).merchandiseOptCheckBox.isChecked = true
@@ -468,12 +469,56 @@ class HotelCheckoutPresenterTest {
         goToCheckout()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
 
-        checkoutView.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptInResponse())
+        checkoutView.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
         val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
         checkoutView.onBookV2(null, paymentSplits)
 
         assertEquals(true, testCheckoutParams.onNextEvents.last().traveler.expediaEmailOptIn)
+    }
+
+    @Test
+    fun testCheckboxRetainsCheckAfterClosingMaterialFormOn() {
+        setupHotelMaterialForms()
+        goToCheckout()
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
+        checkout.travelerSummaryCardView.performClick()
+
+        (checkout.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget).merchandiseOptCheckBox.performClick()
+        checkout.travelersPresenter.closeSubject.onNext(Unit)
+
+        assertEquals(true, (checkout.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget).merchandiseOptCheckBox.isChecked)
+    }
+
+    @Test
+    fun testCheckboxRetainsCheckAfterReEnteringMaterialFormOn() {
+        setupHotelMaterialForms()
+        goToCheckout()
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
+        checkout.travelerSummaryCardView.performClick()
+
+        (checkout.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget).merchandiseOptCheckBox.performClick()
+        checkout.travelersPresenter.closeSubject.onNext(Unit)
+        checkout.travelerSummaryCardView.performClick()
+
+        assertEquals(true, (checkout.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget).merchandiseOptCheckBox.isChecked)
+    }
+
+    @Test
+    fun testOptOutCheckedSetsFalseParamMaterialFormOn() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        val checkoutView = setupHotelCheckoutPresenter()
+        val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
+        checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
+        checkoutView.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
+
+        checkoutView.hotelCheckoutWidget.travelerSummaryCardView.performClick()
+        (checkoutView.hotelCheckoutWidget.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget).merchandiseOptCheckBox.isChecked = true
+        val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
+                PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
+        checkoutView.onBookV2(null, paymentSplits)
+
+        assertEquals(false, testCheckoutParams.onNextEvents.last().traveler.expediaEmailOptIn)
     }
 
     private fun givenLoggedInUserAndTravelerInDb() {

@@ -91,7 +91,7 @@ class PackageHotelPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testBundleTotalPriceWidgetTopVisibility() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs, R.string.preference_packages_breadcrumbs_move_bundle_overview)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
         hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
         Db.setPackageResponse(hotelResponse)
 

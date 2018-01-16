@@ -73,8 +73,8 @@ class ADMS_MeasurementTest {
         assertEquals(event1, adms.getOmnitureDataValue("&&events"))
 
         adms.appendEvents(event2)
-        assertEquals("$event1, $event2", adms.getEvents())
-        assertEquals("$event1, $event2", adms.getOmnitureDataValue("&&events"))
+        assertEquals("$event1,$event2", adms.getEvents())
+        assertEquals("$event1,$event2", adms.getOmnitureDataValue("&&events"))
     }
 
     @Test

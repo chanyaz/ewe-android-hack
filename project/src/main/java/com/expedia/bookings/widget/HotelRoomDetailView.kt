@@ -8,19 +8,19 @@ import android.graphics.PorterDuffColorFilter
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
-import com.expedia.bookings.R
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeOnClick
-import com.expedia.vm.HotelRoomDetailViewModel
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.HotelValueAdd
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.util.LoyaltyUtil
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.setTextAndVisibility
+import com.expedia.util.subscribeOnClick
 import com.expedia.util.updateVisibility
+import com.expedia.vm.HotelRoomDetailViewModel
 import rx.subjects.PublishSubject
 
 class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewModel) : RelativeLayout(context) {
@@ -100,6 +100,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         priceTextView.setTextAndVisibility(viewModel.priceString)
         pricePerDescriptorTextView.updateVisibility(viewModel.showPerNight)
         priceTextView.contentDescription = viewModel.getRoomPriceContentDescription()
+        pricePerDescriptorTextView.text = viewModel.pricePerDescriptorString
         mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
 
         hotelRoomRowButton.bookButtonClickedSubject.subscribe(hotelRoomRowClickedSubject)

@@ -121,7 +121,6 @@ import kotlin.NotImplementedError;
 
 import static com.expedia.bookings.utils.FeatureUtilKt.isFlightGreedySearchEnabled;
 import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
-import static com.expedia.bookings.utils.FeatureUtilKt.isPackagesMISRealWorldGeoEnabled;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -323,7 +322,7 @@ public class OmnitureTracking {
 
 		//SWP is visible and toggle is ON, when user lands on Search Screen
 		if (swpIsVisibleAndToggleIsOn) {
-			s.setEvents("event118");
+			s.appendEvents("event118");
 		}
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelGreedySearch);
@@ -511,9 +510,9 @@ public class OmnitureTracking {
 			s.setProp(16, sponsoredListingPresent);
 		}
 
-		String events = "event12,event51";
+		s.appendEvents("event12,event51");
 		if (searchTrackingData.getSwpEnabled()) {
-			events += ",event118";
+			s.appendEvents("event118");
 		}
 
 		String products = getSearchResultsHotelProductStrings(searchTrackingData.getHotels());
@@ -521,18 +520,18 @@ public class OmnitureTracking {
 
 		if (searchTrackingData.getHasPinnedHotel()) {
 			if (searchTrackingData.getPinnedHotelSoldOut()) {
-				events += ",event283";
+				s.appendEvents("event283");
 			}
 			else {
-				events += ",event282";
+				s.appendEvents("event282");
 			}
 		}
 
 		if (searchTrackingData.getHasSoldOutHotel()) {
-			events += ",event14";
+			s.appendEvents("event14");
 		}
 
-		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), events);
+		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), s.getEvents());
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);
 		// Send the tracking data
@@ -754,21 +753,21 @@ public class OmnitureTracking {
 		String drrString = internalGenerateHotelV2DRRString(hotelOffersResponse);
 		s.setEvar(9, drrString);
 
-		String events = "event3";
+		s.appendEvents("event3");
 		if (isHotelSoldOut) {
-			events += ",event14";
+			s.appendEvents("event14");
 		}
 		else {
 			if (isETPEligible) {
-				events += ",event5";
+				s.appendEvents("event5");
 			}
 			if (isRoomSoldOut) {
-				events += ",event18";
+				s.appendEvents("event18");
 			}
 		}
 
 		if (swpEnabled) {
-			events += ",event118";
+			s.appendEvents("event118");
 		}
 
 		s.setEvar(2, "D=c2");
@@ -793,11 +792,9 @@ public class OmnitureTracking {
 				products += ";;;;eVar66=Flight:Hotel Infosite X-Sell";
 				s.setProducts(products);
 
-				events += ",event57";
+				s.appendEvents("event57");
 			}
 		}
-
-		s.setEvents(events);
 
 		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 
@@ -4463,7 +4460,7 @@ public class OmnitureTracking {
 		if (isMidAPIEnabled(sContext)) {
 			abTests.add(AbacusUtils.EBAndroidAppPackagesMidApi);
 		}
-		if (isPackagesMISRealWorldGeoEnabled(sContext)) {
+		else {
 			abTests.add(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo);
 		}
 		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData, abTests);
@@ -5295,7 +5292,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 
 		// events
-		s.appendEvents("event36, event71");
+		s.appendEvents("event36,event71");
 		if (!tripResponse.getAvailableInsuranceProducts().isEmpty()) {
 			s.appendEvents("event122");
 		}

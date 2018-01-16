@@ -28,7 +28,7 @@ class AirportSuggestionViewModel(context: Context, suggestionsService: Suggestio
     override fun getCurrentLocationLabel(): String =
             context.getString(R.string.flight_search_suggestion_label_airport_near)
 
-    override fun getRecentSuggestionLabel(): String =
+    override fun getPastSuggestionsLabel(): String =
             context.getString(R.string.flight_search_suggestion_label_recent_search)
 
     override fun getLineOfBusiness(): LineOfBusiness = LineOfBusiness.FLIGHTS_V2

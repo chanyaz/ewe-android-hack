@@ -1,28 +1,47 @@
 package com.expedia.bookings.data.travelgraph
 
+import com.expedia.bookings.data.SuggestionV4
+
 class TravelGraphHotelSearchInfo {
     var numberOfRooms: Int = 0
     var numberOfTravelers: Int = 0
     var searchRegion: TravelGraphSearchRegion? = null
-    var allRegions: List<TravelGraphSearchRegion>? = emptyList()
-    var roomList: List<TravelGraphHotelRoom>? = emptyList()
+    var allRegions: List<TravelGraphSearchRegion> = emptyList()
+    var roomList: List<TravelGraphHotelRoom> = emptyList()
 
-    inner class TravelGraphSearchRegion {
+    class TravelGraphSearchRegion {
         var id: String? = null
         var type: String? = null
-        var name: String? = null
-        var shortName: String? = null
+        var name: String = ""
+        var shortName: String = ""
         var imageURL: String? = null
 
         val regionType: TravelGraphRegionType
             get() = TravelGraphRegionType.toEnum(type)
+
+        fun toSuggestionV4(): SuggestionV4? {
+            if (id != null) {
+                val suggestion = SuggestionV4()
+                suggestion.gaiaId = id
+                suggestion.iconType = SuggestionV4.IconType.RECENT_SEARCH_ICON
+                val regionName = SuggestionV4.RegionNames()
+                regionName.displayName = shortName
+                regionName.shortName = shortName
+                regionName.fullName = name
+                suggestion.regionNames = regionName
+                suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
+                suggestion.hierarchyInfo?.isChild = false
+                return suggestion
+            }
+            return null
+        }
     }
 
-    inner class TravelGraphHotelRoom {
+    class TravelGraphHotelRoom {
         var roomOccupants: TravelGraphTravelerDetails? = null
     }
 
-    inner class TravelGraphTravelerDetails {
+    class TravelGraphTravelerDetails {
         var numberOfAdults: Int = 0
         var numberOfOccupants: Int = 0
         var agesOfChildren: List<Int> = emptyList()

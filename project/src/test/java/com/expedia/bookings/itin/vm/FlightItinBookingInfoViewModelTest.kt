@@ -65,14 +65,6 @@ class FlightItinBookingInfoViewModelTest {
     }
 
     @Test
-    fun testIntentForManageBooking() {
-        val intent = sut.buildWebViewIntent(R.string.itin_flight_details_manage_booking_heading, url, "manage_reservation")!!.intent
-        assertEquals(context.getString(R.string.itin_flight_details_manage_booking_heading), intent.extras.getString("ARG_TITLE"))
-        assertTrue(intent.extras.getString("ARG_URL").startsWith(url))
-        assertTrue(intent.extras.getString("ARG_URL").endsWith("#manage_reservation"))
-    }
-
-    @Test
     fun testIntentForPriceSummary() {
         val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, url, "price-summary")!!.intent
         assertEquals(context.getString(R.string.itin_hotel_details_price_summary_heading), intent.extras.getString("ARG_TITLE"))

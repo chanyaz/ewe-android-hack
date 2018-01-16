@@ -9,4 +9,8 @@ class TravelGraphItem {
     var lastViewedDateUTCTimestamp: Long? = null
     var price: Price? = null
     var searchInfo: TravelGraphHotelSearchInfo? = null
+
+    fun isValid() : Boolean {
+        return searchInfo?.searchRegion?.toSuggestionV4() != null
+    }
 }

@@ -27,7 +27,7 @@ class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
         suggestionObserver.subscribe { suggestion ->
 
             val isChild = suggestion.hierarchyInfo?.isChild ?: false
-            val isHistory = suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON
+            val isHistory = suggestion.isHistoryItem
             val displayName = HtmlCompat.stripHtml(suggestion.regionNames.displayName)
             val shortName = HtmlCompat.stripHtml(suggestion.regionNames.shortName)
 
@@ -43,7 +43,7 @@ class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
             isChildObservable.onNext(isChild && !isHistory)
 
             iconObservable.onNext(
-                    if (suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON) {
+                    if (suggestion.isHistoryItem) {
                         R.drawable.recents
                     } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {
                         R.drawable.ic_suggest_current_location

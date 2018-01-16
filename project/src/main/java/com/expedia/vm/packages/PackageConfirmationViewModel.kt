@@ -105,14 +105,17 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
             destinationTitleObservable.onNext(hotel.hotelPropertyInfo.name)
             destinationSubTitleObservable.onNext(getHotelSubtitle(hotel.checkInDateTime.toLocalDate().toString(),
                     hotel.checkOutDateTime.toLocalDate().toString(), guests))
-            val outboundFlightSegment = details.flights.first().legs.first().segments.last()
+
+
+            val outboundFlightSegments = details.flights.first().legs.first().segments
             outboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to,
-                    getAirportCodeWithCityTitle(outboundFlightSegment.arrivalLocation.airportCode, outboundFlightSegment.arrivalLocation.city)))
-            outboundFlightCardSubTitleObservable.onNext(getFlightSubtitleFromTripDetails(outboundFlightSegment.departureTime.raw, guests))
-            val inboundFlightSegment = details.flights.first().legs.last().segments.last()
+                    getAirportCodeWithCityTitle(outboundFlightSegments.last().arrivalLocation.airportCode, outboundFlightSegments.last().arrivalLocation.city)))
+            outboundFlightCardSubTitleObservable.onNext(getFlightSubtitleFromTripDetails(outboundFlightSegments.first().departureTime.raw, guests))
+            val inboundFlightSegments = details.flights.last().legs.last().segments
             inboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to,
-                    getAirportCodeWithCityTitle(inboundFlightSegment.arrivalLocation.airportCode, inboundFlightSegment.arrivalLocation.city)))
-            inboundFlightCardSubTitleObservable.onNext(getFlightSubtitleFromTripDetails(inboundFlightSegment.departureTime.raw, guests))
+                    getAirportCodeWithCityTitle(inboundFlightSegments.last().arrivalLocation.airportCode, inboundFlightSegments.last().arrivalLocation.city)))
+
+            inboundFlightCardSubTitleObservable.onNext(getFlightSubtitleFromTripDetails(inboundFlightSegments.first().departureTime.raw, guests))
             val itinNumberMessage = Phrase.from(context, R.string.itinerary_sent_to_confirmation_TEMPLATE)
                     .put("itinerary", itinNumber)
                     .put("email", email)

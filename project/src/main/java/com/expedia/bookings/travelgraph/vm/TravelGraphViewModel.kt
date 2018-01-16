@@ -3,13 +3,14 @@ package com.expedia.bookings.travelgraph.vm
 import android.content.Context
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.travelgraph.TravelGraphUserHistoryResponse
+import com.expedia.bookings.data.travelgraph.TravelGraphUserHistoryResult
 import com.expedia.bookings.services.travelgraph.TravelGraphServices
 import com.expedia.bookings.utils.Ui
 import rx.Observer
 import rx.subjects.PublishSubject
 
 class TravelGraphViewModel(val context: Context, private val travelGraphServices: TravelGraphServices) {
-    val userHistoryResponseSubject = PublishSubject.create<TravelGraphUserHistoryResponse>()
+    val searchHistoryResultSubject = PublishSubject.create<TravelGraphUserHistoryResult>()
 
     fun fetchUserHistory() {
         //fetch history only if a user is logged in
@@ -26,8 +27,14 @@ class TravelGraphViewModel(val context: Context, private val travelGraphServices
     private fun createTravelGraphResponseObserver(): Observer<TravelGraphUserHistoryResponse> {
         return object : Observer<TravelGraphUserHistoryResponse> {
             override fun onNext(response: TravelGraphUserHistoryResponse) {
-                //TODO extract useful stuff. Handle invalid results?
-                userHistoryResponseSubject.onNext(response)
+                val searchResult = getHotelSearchHistoryItems(response)
+                if (searchResult != null) {
+                    searchHistoryResultSubject.onNext(searchResult)
+                }
+            }
+
+            private fun getHotelSearchHistoryItems(response: TravelGraphUserHistoryResponse): TravelGraphUserHistoryResult? {
+                return response.getSearchHistoryResultFor(TravelGraphUserHistoryResponse.TravelGraphItemLOB.HOTEL)
             }
 
             override fun onCompleted() {}

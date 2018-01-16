@@ -50,11 +50,11 @@ public class CustomSeekBarView extends android.widget.SeekBar {
 		int backgroundColor = DEFAULT_GRAY;
 
 		if (attrs != null) {
-			TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.rsb__RangeSeekBar, 0, 0);
+			TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CustomSeekBarView, 0, 0);
 			try {
-				barHeight = a.getDimensionPixelSize(R.styleable.rsb__RangeSeekBar_rsb__barHeight, barHeight);
-				activeColor = a.getColor(R.styleable.rsb__RangeSeekBar_rsb__activeColor, activeColor);
-				backgroundColor = a.getColor(R.styleable.rsb__RangeSeekBar_rsb__defaultColor, backgroundColor);
+				barHeight = a.getDimensionPixelSize(R.styleable.CustomSeekBarView_rsb__barHeight, barHeight);
+				activeColor = a.getColor(R.styleable.CustomSeekBarView_rsb__activeColor, activeColor);
+				backgroundColor = a.getColor(R.styleable.CustomSeekBarView_rsb__defaultColor, backgroundColor);
 
 				Drawable thumb = new BitmapDrawable(getResources(), getThumbnail());
 				if (thumb != null) {
