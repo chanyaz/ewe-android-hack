@@ -285,7 +285,9 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 body.adults,
                 body.startDate.toString(),
                 body.endDate.toString(),
-                body.totalPrice.packageTotalPrice.amount)
+                body.totalPrice.packageTotalPrice.amount,
+                body.childAges,
+                body.infantsInSeats)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
