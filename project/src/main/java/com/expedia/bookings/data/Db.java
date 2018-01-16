@@ -92,6 +92,7 @@ public class Db {
 	private Hotel mPackageSelectedHotel;
 	private HotelOffersResponse.HotelRoomResponse mPackageSelectedRoom;
 	private FlightLeg mPackageSelectedOutboundFlight;
+	private BundleSearchResponse cachedPackageResponse;
 
 	//Package outbound and inbound flight pair
 	//Save inbound flight in this pair, to avoid stale inbound info if outbound is changed
@@ -366,6 +367,14 @@ public class Db {
 
 	public static void setPackageResponse(BundleSearchResponse hotelPackage) {
 		sharedInstance.mPackageResponse = hotelPackage;
+	}
+
+	public static void setCachedPackageResponse(BundleSearchResponse hotelPackage) {
+		sharedInstance.cachedPackageResponse = hotelPackage;
+	}
+
+	public static BundleSearchResponse getCachedPackageResponse() {
+		return sharedInstance.cachedPackageResponse;
 	}
 
 	public void clearTemporaryCard() {

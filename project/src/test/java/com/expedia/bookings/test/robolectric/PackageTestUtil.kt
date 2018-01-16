@@ -3,6 +3,7 @@ package com.expedia.bookings.test.robolectric
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -47,6 +48,37 @@ class PackageTestUtil {
             flight.flightFareTypeString = flightFareTypeString
             flight.carrierCode = carrierCode
             return flight
+        }
+
+        @JvmStatic fun getDummyPackageFlightLeg(): FlightLeg {
+            val flightLeg = FlightLeg()
+            flightLeg.elapsedDays = 1
+            flightLeg.segments = arrayListOf()
+            flightLeg.flightSegments = arrayListOf()
+            flightLeg.durationHour = 19
+            flightLeg.durationMinute = 10
+            flightLeg.departureTimeShort = "1:10AM"
+            flightLeg.arrivalTimeShort = "12:20PM"
+            flightLeg.departureDateTimeISO = "2016-07-10T01:10:00.000-05:00"
+            flightLeg.arrivalDateTimeISO = "2016-07-10T12:20:00.000-07:00"
+            flightLeg.stopCount = 1
+            flightLeg.packageOfferModel = PackageOfferModel()
+            flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
+            flightLeg.packageOfferModel.price.packageTotalPrice = Money("111", "USD")
+            flightLeg.packageOfferModel.price.deltaPositive = true
+            flightLeg.packageOfferModel.price.differentialPriceFormatted = "$11"
+            flightLeg.packageOfferModel.price.pricePerPersonFormatted = "200.0"
+            flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
+            flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
+            flightLeg.baggageFeesUrl = ""
+
+            val airlines = ArrayList<Airline>()
+            val airline1 = Airline("United", null)
+            val airline2 = Airline("Delta", null)
+            airlines.add(airline1)
+            airlines.add(airline2)
+            flightLeg.airlines = airlines
+            return flightLeg
         }
 
         @JvmStatic

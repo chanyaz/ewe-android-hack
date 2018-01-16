@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.packages
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
@@ -145,35 +146,12 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         }
 
         changeHotel.setOnMenuItemClickListener({
-            bundleOverviewHeader.toggleOverviewHeader(false)
-            resetAndShowTotalPriceWidget()
-            checkoutPresenter.clearPaymentInfo()
-            checkoutPresenter.updateDbTravelers()
-            totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
-            resetBundleTotalTax()
-            bundleWidget.collapseBundleWidgets()
-            val params = Db.sharedInstance.packageParams
-            params.pageType = Constants.PACKAGE_CHANGE_HOTEL
-            params.searchProduct = null
-            bundleWidget.viewModel.hotelParamsObservable.onNext(params)
-            bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")
-            PackagesTracking().trackBundleEditItemClick("Hotel")
+            onChangeHotelClicked()
             true
         })
 
         changeHotelRoom.setOnMenuItemClickListener({
-            resetAndShowTotalPriceWidget()
-            checkoutPresenter.clearPaymentInfo()
-            checkoutPresenter.updateDbTravelers()
-            bundleWidget.collapseBundleWidgets()
-            totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
-            resetBundleTotalTax()
-            val params = Db.sharedInstance.packageParams
-            params.pageType = Constants.PACKAGE_CHANGE_HOTEL
-            val intent = Intent(context, PackageHotelActivity::class.java)
-            intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
-            (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
-            PackagesTracking().trackBundleEditItemClick("Room")
+            onChangeHotelRoomClicked()
             true
         })
 
@@ -220,6 +198,41 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 setupOverviewPresenterForMID()
             }
         }
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun onChangeHotelClicked() {
+        Db.setCachedPackageResponse(Db.getPackageResponse())
+        bundleOverviewHeader.toggleOverviewHeader(false)
+        resetAndShowTotalPriceWidget()
+        checkoutPresenter.clearPaymentInfo()
+        checkoutPresenter.updateDbTravelers()
+        totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+        resetBundleTotalTax()
+        bundleWidget.collapseBundleWidgets()
+        val params = Db.sharedInstance.packageParams
+        params.pageType = Constants.PACKAGE_CHANGE_HOTEL
+        params.searchProduct = null
+        bundleWidget.viewModel.hotelParamsObservable.onNext(params)
+        bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")
+        PackagesTracking().trackBundleEditItemClick("Hotel")
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun onChangeHotelRoomClicked() {
+        Db.setCachedPackageResponse(Db.getPackageResponse())
+        resetAndShowTotalPriceWidget()
+        checkoutPresenter.clearPaymentInfo()
+        checkoutPresenter.updateDbTravelers()
+        bundleWidget.collapseBundleWidgets()
+        totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+        resetBundleTotalTax()
+        val params = Db.sharedInstance.packageParams
+        params.pageType = Constants.PACKAGE_CHANGE_HOTEL
+        val intent = Intent(context, PackageHotelActivity::class.java)
+        intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
+        (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
+        PackagesTracking().trackBundleEditItemClick("Room")
     }
 
     private fun resetBundleTotalTax() {

@@ -1,13 +1,13 @@
 package com.expedia.bookings.presenter.`package`
 
 import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -26,6 +26,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.ui.PackageHotelActivity
 import com.expedia.vm.PackageWebCheckoutViewViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
 import org.junit.Assert.assertEquals
@@ -38,6 +39,8 @@ import org.robolectric.Shadows
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner :: class)
@@ -53,11 +56,12 @@ class PackageOverviewPresenterTest {
 
     @Before
     fun setup() {
-        activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
+        activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(activity).defaultFlightComponents()
         Ui.getApplication(activity).defaultTravelerComponent()
         Ui.getApplication(activity).defaultPackageComponents()
+        Db.setCachedPackageResponse(null)
     }
 
     @Test
@@ -206,6 +210,58 @@ class PackageOverviewPresenterTest {
 
         assertEquals("$350", overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleTotalPrice.text)
     }
+    
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCacheResponseUsedOnChangeHotelRoomBack() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        setupOverviewPresenter()
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+
+        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
+
+        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
+
+        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
+
+        assertNull(Db.getCachedPackageResponse())
+
+        overviewPresenter.onChangeHotelRoomClicked()
+
+        assertNotNull(Db.getCachedPackageResponse())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCacheResponseUsedOnChangeHotelBack() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        setupOverviewPresenter()
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+
+        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
+
+        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
+
+        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
+
+        assertNull(Db.getCachedPackageResponse())
+
+        overviewPresenter.onChangeHotelClicked()
+
+        val actualCachedResponse = Db.getCachedPackageResponse()
+        assertNotNull(actualCachedResponse)
+
+        Db.setPackageResponse(null)
+
+        val newIntent= Shadows.shadowOf(activity).peekNextStartedActivity()
+        val packageHotelActivity = Robolectric.buildActivity(PackageHotelActivity::class.java).withIntent(newIntent).create().get()
+
+        packageHotelActivity.onBackPressed()
+
+        assertNotNull(Db.getPackageResponse())
+        assertNull(Db.getCachedPackageResponse())
+
+    }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -250,12 +306,14 @@ class PackageOverviewPresenterTest {
 
     private fun setUpPackageDb() {
         PackageTestUtil.setDbPackageSelectedHotel()
-        val outboundFlight = FlightLeg()
+        val outboundFlight = PackageTestUtil.getDummyPackageFlightLeg()
         Db.setPackageSelectedOutboundFlight(outboundFlight)
+        Db.setPackageFlightBundle(outboundFlight, PackageTestUtil.getDummyPackageFlightLeg())
         Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
         val createTripResponse = mockPackageServiceRule.getPSSCreateTripResponse("create_trip")
         Db.getTripBucket().add(TripBucketItemPackages(createTripResponse))
         Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
+
         val baseMidResponse = PackageTestUtil.getMockMIDResponse(offers = emptyList(),
                 hotels = mapOf("1" to PackageTestUtil.dummyMidHotelRoomOffer()))
         baseMidResponse.setCurrentOfferPrice(setPackagePrice())

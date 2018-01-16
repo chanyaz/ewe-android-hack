@@ -99,6 +99,10 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
 
     override fun onBackPressed() {
         if (!hotelsPresenter.back()) {
+            if (Db.getCachedPackageResponse() != null) {
+                Db.setPackageResponse(Db.getCachedPackageResponse())
+                Db.setCachedPackageResponse(null)
+            }
             super.onBackPressed()
         }
     }
