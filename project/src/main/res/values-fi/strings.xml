@@ -1504,7 +1504,7 @@
     <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
     <string name="itin_flight_leg_detail_widget_sub_title_TEMPLATE">{departure_date_time} – {arrival_date_time} · {stops}</string>
     <!--Flight itin, flight leg detail widget sub title date time template. {date} {time} (eg., Aug 20 8:00am)-->
-    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
+    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} kello {time}</string>
     <!--Flight itin, flight leg detail widget Nonstop text-->
     <string name="itin_flight_leg_detail_widget_nonstop">Suora lento</string>
     <!--Flight itin, flight leg detail widget "to" text-->
@@ -1556,7 +1556,18 @@
     <string name="itin_flight_modify_widget_cancel_reservation_text">Peruuta varaus</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
     <string name="itin_flight_modify_widget_change_reservation_text">Muuta varausta</string>
-
+    <!--Flight itin, flight modify reservation widget's Learn more text-->
+    <string name="itin_flight_modify_widget_learn_more_text">Lisätietoja</string>
+    <!--Flight itin, flight modify reservation widget's call customer support text-->
+    <string name="itin_flight_modify_widget_customer_support_text">SOITA ASIAKASPALVELUUN</string>
+    <!-- Flight Itin Modify Reservation dialog GO BACK button text-->
+    <string name="itin_flight_modify_widget_go_back_text">TAKAISIN</string>
+    <!-- Flight Itin Modify Reservation dialog, change reservation content text-->
+    <string name="itin_flight_modify_widget_change_reservation_dialog_text">Tätä varausta ei voi muuttaa, mutta voit ottaa yhteyttä asiakaspalveluun ja kysyä saatavillasi olevista vaihtoehdoista.</string>
+    <!-- Flight Itin Modify Reservation dialog, cancel reservation content text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_dialog_text">Tätä varausta ei voi peruuttaa, mutta voit ottaa yhteyttä asiakaspalveluun ja kysyä saatavillasi olevista vaihtoehdoista.</string>
+    <!-- Flight Itin Modify Reservation dialog, flight neither Changeable nor Cancellable text for reservation dialog-->
+    <string name="itin_flight_modify_widget_neither_changeable_nor_cancellable_reservation_dialog_text">Tätä varausta ei voi muuttaa tai peruuttaa, mutta voit ottaa yhteyttä asiakaspalveluun ja kysyä saatavillasi olevista vaihtoehdoista.</string>
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} pv {hours} h {minutes} min</string>
     <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->
@@ -2532,10 +2543,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">%d huone jäljellä!</item>
-        <item quantity="two">%d huonetta jäljellä!</item>
-        <item quantity="many">%d huonetta jäljellä!</item>
-        <item quantity="other">%d huonetta jäljellä!</item>
+        <item quantity="one">Meillä on %d huone jäljellä!</item>
+        <item quantity="two">Meillä on %d huonetta jäljellä</item>
+        <item quantity="many">Meillä on %d huonetta jäljellä</item>
+        <item quantity="other">Meillä on %d huonetta jäljellä</item>
     </plurals>
     <!-- No of filters applied on packages -->
     <plurals name="no_of_filters_applied_TEMPLATE">
@@ -2600,8 +2611,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/ yö</string>
-    <!-- The label for total price for the stay - "$120 total stay", for example -->
-    <string name="total_stay">kokonaishinta</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Ei arvosteltu</string>
 
@@ -2800,14 +2809,6 @@
         <item quantity="other">Hinnat keskimäärin per yö • %d tulosta</item>
     </plurals>
 
-    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
-        <item quantity="zero">Ei tuloksia</item>
-        <item quantity="one">&lt;b&gt;Hinnat keskimäärin per yö&lt;/b&gt; • 1 tulos</item>
-        <item quantity="many">&lt;b&gt;Hinnat keskimäärin per yö&lt;/b&gt; • %d tulosta</item>
-        <item quantity="other">&lt;b&gt;Hinnat keskimäärin per yö&lt;/b&gt; • %d tulosta</item>
-    </plurals>
-
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">Ei tuloksia</item>
@@ -2820,15 +2821,7 @@
         <item quantity="zero">Ei tuloksia</item>
         <item quantity="one">Yöpymisen hinta • 1 tulos</item>
         <item quantity="many">Yöpymisen hinta • %d tulosta</item>
-        <item quantity="other">Yöpymisen kokonaishinta • %d tulosta</item>
-    </plurals>
-
-    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
-        <item quantity="zero">Ei tuloksia</item>
-        <item quantity="one">&lt;b&gt;Yöpymisen kokonaishinta&lt;/b&gt; • 1 tulos</item>
-        <item quantity="many">&lt;b&gt;Yöpymisen kokonaishinta&lt;/b&gt; • %d tulosta</item>
-        <item quantity="other">&lt;b&gt;Yöpymisen kokonaishinta&lt;/b&gt; • %d tulosta</item>
+        <item quantity="other">Yöpymisen hinta • %d tulosta</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -2962,8 +2955,6 @@
     <!-- Coupon dialog -->
     <!-- Coupon Widget Title -->
     <string name="coupon_promo_title">Kupongit ja kampanjat</string>
-    <!-- Title on dialog imploring users to enter coupons -->
-    <string name="enter_coupon_promo_code">Anna kuponki- tai mainoskoodi</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Anna kuponkikoodi</string>
     <!-- Coupon submit button -->
@@ -3813,6 +3804,8 @@
     <string name="five_star">5 tähteä</string>
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Tarkenna hakutuloksia</string>
+    <!-- Prompt to try new filter after scrolling hotel results  -->
+    <string name="new_filters_available">Uusia suodattimia saatavilla!</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Maksutavasta riippuen sinulta saatetaan veloittaa lisämaksu.</string>
@@ -4828,10 +4821,6 @@
     <string name="location_soft_prompt_enable">Salli sijainnin käyttö</string>
     <string name="location_soft_prompt_disable">Ei nyt</string>
 
-    <!--price descriptor for different hotel rate type-->
-    <string name="total_including_taxes_fees">Lopullinen hinta sisältäen verot ja maksut</string>
-    <string name="excluding_taxes_fees">Ei sisällä veroja ja maksuja</string>
-
     <!-- Amenities String -->
     <string name="amenity_checked_bags">Kirjattavat matkatavarat</string>
     <string name="amenity_carry_on_bag">Käsimatkatavara</string>
@@ -4878,5 +4867,10 @@
 
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">Tallennetut kupongit</string>
+
+    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
+    <string name="book_room_button_content_description_TEMPLATE">Varaa {room}</string>
+    <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
+    <string name="select_room_button_content_description_TEMPLATE">Valitse {room}</string>
 
 </resources>

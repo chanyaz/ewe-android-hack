@@ -1556,7 +1556,18 @@
     <string name="itin_flight_modify_widget_cancel_reservation_text">Cancel reservation</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
     <string name="itin_flight_modify_widget_change_reservation_text">Change reservation</string>
-
+    <!--Flight itin, flight modify reservation widget's Learn more text-->
+    <string name="itin_flight_modify_widget_learn_more_text">Learn more</string>
+    <!--Flight itin, flight modify reservation widget's call customer support text-->
+    <string name="itin_flight_modify_widget_customer_support_text">CALL CUSTOMER SUPPORT</string>
+    <!-- Flight Itin Modify Reservation dialog GO BACK button text-->
+    <string name="itin_flight_modify_widget_go_back_text">GO BACK</string>
+    <!-- Flight Itin Modify Reservation dialog, change reservation content text-->
+    <string name="itin_flight_modify_widget_change_reservation_dialog_text">This reservation cannot be changed but you can contact customer support to explore your options.</string>
+    <!-- Flight Itin Modify Reservation dialog, cancel reservation content text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_dialog_text">This reservation cannot be cancelled but you can contact customer support to explore your options.</string>
+    <!-- Flight Itin Modify Reservation dialog, flight neither Changeable nor Cancellable text for reservation dialog-->
+    <string name="itin_flight_modify_widget_neither_changeable_nor_cancellable_reservation_dialog_text">This reservation cannot be changed or cancelled but you can contact customer support to explore your options.</string>
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}d {hours}h {minutes}m</string>
     <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->
@@ -2532,10 +2543,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">%d Room Left!</item>
-        <item quantity="two">%d Rooms Left</item>
-        <item quantity="many">%d Rooms Left</item>
-        <item quantity="other">%d Rooms Left</item>
+        <item quantity="one">We have %d room left!</item>
+        <item quantity="two">We have %d rooms left</item>
+        <item quantity="many">We have %d rooms left</item>
+        <item quantity="other">We have %d rooms left</item>
     </plurals>
     <!-- No of filters applied on packages -->
     <plurals name="no_of_filters_applied_TEMPLATE">
@@ -2600,8 +2611,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/night</string>
-    <!-- The label for total price for the stay - "$120 total stay", for example -->
-    <string name="total_stay">total stay</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Not Rated</string>
 
@@ -2800,14 +2809,6 @@
         <item quantity="other">Prices average per night • %d Results</item>
     </plurals>
 
-    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
-        <item quantity="zero">No Results</item>
-        <item quantity="one">&lt;b&gt;Prices average per night&lt;/b&gt; • 1 Result</item>
-        <item quantity="many">&lt;b&gt;Prices average per night&lt;/b&gt; • %d Results</item>
-        <item quantity="other">&lt;b&gt;Prices average per night&lt;/b&gt; • %d Results</item>
-    </plurals>
-
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">No Results</item>
@@ -2821,14 +2822,6 @@
         <item quantity="one">Total price for stay • 1 Result</item>
         <item quantity="many">Total price for stay • %d Results</item>
         <item quantity="other">Total price for stay • %d Results</item>
-    </plurals>
-
-    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
-        <item quantity="zero">No Results</item>
-        <item quantity="one">&lt;b&gt;Total price for stay&lt;/b&gt; • 1 Result</item>
-        <item quantity="many">&lt;b&gt;Total price for stay&lt;/b&gt; • %d Results</item>
-        <item quantity="other">&lt;b&gt;Total price for stay&lt;/b&gt; • %d Results</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -2962,8 +2955,6 @@
     <!-- Coupon dialog -->
     <!-- Coupon Widget Title -->
     <string name="coupon_promo_title">Vouchers and Promotions</string>
-    <!-- Title on dialog imploring users to enter coupons -->
-    <string name="enter_coupon_promo_code">Enter vouchers or promotional code</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Enter Voucher Code</string>
     <!-- Coupon submit button -->
@@ -3813,6 +3804,8 @@
     <string name="five_star">5 star</string>
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Narrow your results</string>
+    <!-- Prompt to try new filter after scrolling hotel results  -->
+    <string name="new_filters_available">New filters available!</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">There may be an additional fee based on your payment method.</string>
@@ -3853,7 +3846,7 @@
     <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
     <string name="step_three">Step 3: Select inbound flight</string>
     <!-- package hotel results unreal deal text label -->
-    <string name="unreal_deal_text">Smart Deal</string>
+    <string name="unreal_deal_text">Unreal Deal</string>
     <!-- package hotel results unreal deal message for freeHotel -->
     <string name="free_hotel_deal">Get your hotel for free by booking together.</string>
     <!-- package hotel results unreal deal message for freeFlight -->
@@ -4405,7 +4398,7 @@
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Original price discounted {percentage}.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
-    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Smart Deal {unrealdeal}\u0020</string>
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Unreal Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
     <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} to {arrivalairport}. {durationhours} {durationmins}. \u0020</string>
     <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
@@ -4828,10 +4821,6 @@
     <string name="location_soft_prompt_enable">Enable Location</string>
     <string name="location_soft_prompt_disable">Not now</string>
 
-    <!--price descriptor for different hotel rate type-->
-    <string name="total_including_taxes_fees">Total including taxes and fees</string>
-    <string name="excluding_taxes_fees">Excluding taxes and fees</string>
-
     <!-- Amenities String -->
     <string name="amenity_checked_bags">Checked Bags</string>
     <string name="amenity_carry_on_bag">Carry on Bag</string>
@@ -4878,5 +4867,10 @@
 
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">Saved vouchers</string>
+
+    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
+    <string name="book_room_button_content_description_TEMPLATE">Book, {room}</string>
+    <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
+    <string name="select_room_button_content_description_TEMPLATE">Select, {room}</string>
 
 </resources>
