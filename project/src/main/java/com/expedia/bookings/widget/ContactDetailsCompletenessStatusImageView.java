@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 
+@SuppressLint("CustomViewStyleable")
 public class ContactDetailsCompletenessStatusImageView extends ImageView {
 
 	private static final int[] STATE_DEFAULT = { R.attr.state_default };

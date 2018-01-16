@@ -596,7 +596,7 @@ public class CustomEditText extends EditText {
 		}
 
 		Drawable cancelDrawable = getContext().getResources().getDrawable(R.drawable.ic_clear_edittext);
-		Drawable transparentDrawable = new ColorDrawable(android.R.color.transparent);
+		Drawable transparentDrawable = new ColorDrawable(getResources().getColor(android.R.color.transparent));
 		transparentDrawable.setBounds(0, 0, cancelDrawable.getIntrinsicWidth(), cancelDrawable.getIntrinsicHeight());
 
 		Drawable dr[] = getCompoundDrawables();

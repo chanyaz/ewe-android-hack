@@ -322,7 +322,7 @@
         <attr name="show_lob_in_header" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="rsb__RangeSeekBar">
+    <declare-styleable name="CustomSeekBarView">
         <attr format="dimension" name="rsb__barHeight"/>
         <attr format="color" name="rsb__defaultColor"/>
         <attr format="color" name="rsb__activeColor"/>

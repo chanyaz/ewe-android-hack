@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -15,6 +16,7 @@ import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TravelerIconUtils;
 import com.expedia.bookings.utils.Ui;
 
+@SuppressLint("CustomViewStyleable")
 public class ContactInitialsImageView extends ImageView {
 
 	private static final int[] STATE_DEFAULT_INCOMPLETE = {R.attr.state_default, R.attr.state_incomplete};
