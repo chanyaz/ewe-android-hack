@@ -72,8 +72,7 @@ fun isBreadcrumbsPackagesEnabled(context: Context): Boolean {
 }
 
 fun isBreadcrumbsMoveBundleOverviewPackagesEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs) &&
-            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_breadcrumbs_move_bundle_overview)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
 }
 
 fun isPackagesMISRealWorldGeoEnabled(context: Context): Boolean {
