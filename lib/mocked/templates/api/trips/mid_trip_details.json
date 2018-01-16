@@ -54,6 +54,25 @@
     },
     "ownerId": 968314230,
     "bookingStatus": "CANCELLED",
+    "rewardList": [
+      {
+        "totalPoints": 4462.00,
+        "basePoints": 2231.00,
+        "bonusPoints": [
+          {
+            "m_pointValue": 2231.00,
+            "m_pointType": "offerPoint",
+            "m_pointDescription": "App Booking Double Points",
+            "m_status": "PENDING",
+            "m_programId": 3
+          }
+        ],
+        "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+        "signUpUrl": "",
+        "viewStatementURL": "/user/rewards",
+        "programName": "ExpediaRewards"
+      }
+    ],
     "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/qVCojEZwsh9qBrI_QlyOdsCAB7gPz1tHtb-BCwRv9NnZfUbVhEwP8DTucXr_gwHoQkOb03y6Il4qnUNf9dcBfyLg",
     "customerSupport": {
       "customerSupportURL": "https://www.expedia.com/service/",

@@ -107,7 +107,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         viewModel.itinDetailsResponseObservable.onNext(response)
         hotelCrossSell.viewModel.itinDetailsResponseObservable.onNext(response)
         toolbar.viewModel.bindTripId(response.responseData.tripId ?: "")
-        val expediaRewards = response.responseData.rewardList?.firstOrNull()?.totalPoints?.toString()
+        val expediaRewards = response.responseData.rewardList.firstOrNull()?.totalPoints?.toString()
         viewModel.setRewardsPoints.onNext(Optional(expediaRewards))
     }
 

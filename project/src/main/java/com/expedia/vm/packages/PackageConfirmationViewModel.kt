@@ -121,6 +121,9 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
                     .put("email", email)
                     .format().toString()
             itinNumberMessageObservable.onNext(itinNumberMessage)
+            details.rewardList.firstOrNull()?.totalPoints?.let { points ->
+                setRewardsPoints.onNext(points.toString())
+            }
             if (!userStateManager.isUserAuthenticated() && !ExpediaBookingApp.isRobolectric()) {
                 getItineraryManager().addGuestTrip(email, itinNumber)
             }

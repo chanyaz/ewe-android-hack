@@ -15,6 +15,7 @@ abstract class AbstractItinDetailsResponse {
         var title: String? = null
         var updateTripNameDescPathURL: String? = null
         val sharableDetailsURL: String? = null
+        var rewardList = emptyList<Rewards>()
 
         lateinit var startTime: Time
         lateinit var endTime: Time
@@ -25,6 +26,10 @@ abstract class AbstractItinDetailsResponse {
             var currency: String? = null
             var total: String? = null
             var totalFormatted: String? = null
+        }
+
+        class Rewards {
+            var totalPoints: Long? = null
         }
     }
 

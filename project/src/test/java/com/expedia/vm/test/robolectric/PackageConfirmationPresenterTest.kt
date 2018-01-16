@@ -107,6 +107,7 @@ class PackageConfirmationPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDConfirmationPresenterFromWebView() {
         setupMIDWebCheckout()
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
 
         val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
@@ -125,6 +126,7 @@ class PackageConfirmationPresenterTest {
         assertEquals("Mar 7 at 09:00:00, 1 traveler", confirmationPresenter.outboundFlightCard.subTitle.text)
         assertEquals("Flight to (SFO) San Francisco", confirmationPresenter.inboundFlightCard.title.text)
         assertEquals("Mar 8 at 11:25:00, 1 traveler", confirmationPresenter.inboundFlightCard.subTitle.text)
+        assertEquals("4462 Expedia+ Points", confirmationPresenter.expediaPoints.text)
     }
 
     @Test
@@ -149,20 +151,6 @@ class PackageConfirmationPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testPointsShownFromMidConfirmation() {
-        setupMIDWebCheckout()
-        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val expediaRewards = "500"
-        packagePresenter.expediaRewards = expediaRewards
-
-        val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
-        serviceRule.services!!.getTripDetails("mid_trip_details", makeItinResponseObserver)
-
-        assertEquals("$expediaRewards Expedia+ Points", packagePresenter.confirmationPresenter.expediaPoints.text)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDShowBookingSuccessDialogOnItinResponseError() {
         setupMIDWebCheckout()
 
@@ -175,6 +163,24 @@ class PackageConfirmationPresenterTest {
         val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
         assertTrue(alertDialog.title.contains("Booking Successful!"))
         assertTrue(alertDialog.message.contains("Please check your email for the itinerary."))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDDontShowPointsOnConfirmation() {
+        setupMIDWebCheckout()
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
+        packagePresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+
+        serviceRule.services!!.getTripDetails("mid_multiple_flights_trip_details", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        testObserver.assertValueCount(1)
+        val confirmationPresenter = packagePresenter.confirmationPresenter
+        assertTrue(confirmationPresenter.expediaPoints.text.isEmpty())
     }
 
     fun assertShouldShowCarsCrossSellButton(show: Boolean) {

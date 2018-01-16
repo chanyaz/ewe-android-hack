@@ -8,13 +8,8 @@ class FlightItinDetailsResponse: AbstractItinDetailsResponse() {
 
     class FlightResponseData : ResponseData() {
         var flights = emptyList<Flight>()
-        var rewardList: List<Reward>? = null
         lateinit var airAttachQualificationInfo: AirAttachQualificationInfo
         var insurance: List<Insurance>? = null
-
-        class Reward {
-            var totalPoints: Int? = null
-        }
 
         class AirAttachQualificationInfo {
             var airAttachQualified: Boolean = false
