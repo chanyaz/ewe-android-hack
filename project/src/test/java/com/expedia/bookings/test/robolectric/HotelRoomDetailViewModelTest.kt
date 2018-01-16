@@ -93,6 +93,58 @@ class HotelRoomDetailViewModelTest {
     }
 
     @Test
+    fun testRoomPriceContentDescription() {
+        var roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 200f
+
+        var viewModel = createViewModel(roomResponse, -1)
+
+        val expectedStrikeThrough = Money(200, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+        val expectedPrice = Money(109, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+
+        assertEquals("Regularly " + expectedStrikeThrough + ", now " + expectedPrice + "/night.\u0020Original price discounted -20%.\u0020", viewModel.getRoomPriceContentDescription())
+    }
+
+    @Test
+    fun testRoomPriceContentDescriptionDontShowPerNight() {
+        var roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 200f
+        roomResponse.rateInfo.chargeableRateInfo.userPriceType = "RateForWholeStayWithTaxes"
+
+        var viewModel = createViewModel(roomResponse, 0)
+
+        val expectedStrikeThrough = Money(200, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+        val expectedPrice = Money(109, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+
+        assertEquals("Regularly " + expectedStrikeThrough + ", now " + expectedPrice + ".\u0020Original price discounted -20%.\u0020", viewModel.getRoomPriceContentDescription())
+    }
+
+    @Test
+    fun testRoomPriceContentDescriptionNoDiscountPercentage() {
+        var roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 200f
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = 0f
+
+        var viewModel = createViewModel(roomResponse, 1)
+
+        val expectedStrikeThrough = Money(200, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+        val expectedPrice = Money(109, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+
+        assertEquals("Regularly " + expectedStrikeThrough + ", now " + expectedPrice + "/night.\u0020", viewModel.getRoomPriceContentDescription())
+    }
+
+    @Test
+    fun testRoomPriceContentDescriptionNoStrikeThrough() {
+        var roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 0f
+        var viewModel = createViewModel(roomResponse, 4)
+
+        val expectedPrice = Money(109, "USD").getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL)
+
+        assertEquals(expectedPrice + "/night", viewModel.getRoomPriceContentDescription())
+    }
+
+    @Test
     fun testDontShowExactDuplicateValueAdds() {
         val valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
 
