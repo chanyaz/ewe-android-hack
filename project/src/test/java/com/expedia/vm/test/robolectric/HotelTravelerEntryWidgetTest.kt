@@ -23,6 +23,7 @@ import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.HotelTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.HotelTravelersViewModel
 import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -63,6 +64,10 @@ class HotelTravelerEntryWidgetTest {
         widget.viewModel = testVM
     }
 
+    @Test
+    fun testMiddleNameNull() {
+        assertNull(widget.nameEntryView.middleName)
+    }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))

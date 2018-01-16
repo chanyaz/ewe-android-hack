@@ -12,7 +12,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerNameViewModel
 
-class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+open class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val firstName: TravelerEditText by bindView(R.id.first_name_input)
     val middleName: TravelerEditText? by bindOptionalView(R.id.middle_name_input)
@@ -30,12 +30,18 @@ class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(conte
     }
 
     init {
-        val layout = if (PointOfSale.getPointOfSale().showLastNameFirst() || PointOfSale.getPointOfSale().hideMiddleName()) {
+        val layout = getLayout()
+        View.inflate(context, layout, this)
+        orientation = VERTICAL
+    }
+
+    open fun getLayout(): Int {
+        return if (PointOfSale.getPointOfSale().showLastNameFirst()) {
             R.layout.material_reversed_name_entry_view
+        }  else if (PointOfSale.getPointOfSale().hideMiddleName()) {
+            R.layout.material_name_entry_view_no_middle_name
         } else {
             R.layout.material_name_entry_view
         }
-        View.inflate(context, layout, this)
-        orientation = VERTICAL
     }
 }
