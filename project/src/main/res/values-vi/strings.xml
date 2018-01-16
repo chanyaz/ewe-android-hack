@@ -642,7 +642,7 @@
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Sắp xếp &amp; Lọc</string>
     <!-- Accessibility content description for Sort & Filter button -->
-    <string name="sort_and_filter_cont_desc">Nút sắp xết &amp; lọc</string>
+    <string name="sort_and_filter_cont_desc">Nút sắp xếp &amp; lọc</string>
     <!-- "Done" list header label -->
     <string name="Done">Hoàn tất</string>
     <!-- Filter checkbox selected status for accessibility. for example: Spa checkbox is checked" -->
@@ -1556,7 +1556,18 @@
     <string name="itin_flight_modify_widget_cancel_reservation_text">Hủy đặt chỗ</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
     <string name="itin_flight_modify_widget_change_reservation_text">Thay đổi đặt chỗ</string>
-
+    <!--Flight itin, flight modify reservation widget's Learn more text-->
+    <string name="itin_flight_modify_widget_learn_more_text">Tìm hiểu thêm</string>
+    <!--Flight itin, flight modify reservation widget's call customer support text-->
+    <string name="itin_flight_modify_widget_customer_support_text">GỌI BỘ PHẬN HỖ TRỢ KHÁCH HÀNG</string>
+    <!-- Flight Itin Modify Reservation dialog GO BACK button text-->
+    <string name="itin_flight_modify_widget_go_back_text">QUAY LẠI</string>
+    <!-- Flight Itin Modify Reservation dialog, change reservation content text-->
+    <string name="itin_flight_modify_widget_change_reservation_dialog_text">Đặt chỗ này không thể thay đổi nhưng quý vị có thể liên hệ bộ phận hỗ trợ khách hàng để khám phá tùy chọn.</string>
+    <!-- Flight Itin Modify Reservation dialog, cancel reservation content text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_dialog_text">Đặt chỗ này không thể hủy nhưng quý vị có thể liên hệ bộ phận hỗ trợ khách hàng để khám phá tùy chọn.</string>
+    <!-- Flight Itin Modify Reservation dialog, flight neither Changeable nor Cancellable text for reservation dialog-->
+    <string name="itin_flight_modify_widget_neither_changeable_nor_cancellable_reservation_dialog_text">Đặt chỗ này không thể thay đổi hay hủy nhưng quý vị có thể liên hệ bộ phận hỗ trợ khách hàng để khám phá tùy chọn.</string>
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}ng {hours}g {minutes}p</string>
     <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->
@@ -2532,10 +2543,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">Còn %d phòng!</item>
-        <item quantity="two">Còn %d phòng</item>
-        <item quantity="many">Còn %d phòng</item>
-        <item quantity="other">Còn %d phòng</item>
+        <item quantity="one">Chúng tôi chỉ còn %d phòng!</item>
+        <item quantity="two">Chúng tôi chỉ còn %d phòng</item>
+        <item quantity="many">Chúng tôi chỉ còn %d phòng</item>
+        <item quantity="other">Chúng tôi chỉ còn %d phòng</item>
     </plurals>
     <!-- No of filters applied on packages -->
     <plurals name="no_of_filters_applied_TEMPLATE">
@@ -2600,8 +2611,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/đêm</string>
-    <!-- The label for total price for the stay - "$120 total stay", for example -->
-    <string name="total_stay">tổng phí lưu trú</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Chưa được xếp hạng</string>
 
@@ -2800,14 +2809,6 @@
         <item quantity="other">Giá trung bình mỗi đêm • %d kết quả</item>
     </plurals>
 
-    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
-        <item quantity="zero">Không có kết quả</item>
-        <item quantity="one">&lt;b&gt;Giá trung bình mỗi đêm&lt;/b&gt; • 1 kết quả</item>
-        <item quantity="many">&lt;b&gt;Giá trung bình mỗi đêm&lt;/b&gt; • %d kết quả</item>
-        <item quantity="other">&lt;b&gt;Giá trung bình mỗi đêm&lt;/b&gt; • %d kết quả</item>
-    </plurals>
-
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">Không có kết quả</item>
@@ -2821,14 +2822,6 @@
         <item quantity="one">Tổng giá cho thời gian lưu trú • 1 kết quả</item>
         <item quantity="many">Tổng giá cho thời gian lưu trú • %d kết quả</item>
         <item quantity="other">Tổng giá cho thời gian lưu trú • %d kết quả</item>
-    </plurals>
-
-    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
-        <item quantity="zero">Không có kết quả</item>
-        <item quantity="one">&lt;b&gt;Tổng giá cho thời gian lưu trú&lt;/b&gt; • 1 kết quả</item>
-        <item quantity="many">&lt;b&gt;Tổng giá cho thời gian lưu trú&lt;/b&gt; • %d kết quả</item>
-        <item quantity="other">&lt;b&gt;Tổng giá cho thời gian lưu trú&lt;/b&gt; • %d kết quả</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -2962,8 +2955,6 @@
     <!-- Coupon dialog -->
     <!-- Coupon Widget Title -->
     <string name="coupon_promo_title">Coupon và khuyến mãi</string>
-    <!-- Title on dialog imploring users to enter coupons -->
-    <string name="enter_coupon_promo_code">Nhập mã coupon hoặc mã khuyến mãi</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Nhập Mã Coupon</string>
     <!-- Coupon submit button -->
@@ -3813,6 +3804,8 @@
     <string name="five_star">5 sao</string>
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Thu hẹp phạm vi tìm kiếm</string>
+    <!-- Prompt to try new filter after scrolling hotel results  -->
+    <string name="new_filters_available">Bộ lọc mới!</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Có thể áp dụng phụ phí, tùy phương thức thanh toán của quý vị.</string>
@@ -4828,10 +4821,6 @@
     <string name="location_soft_prompt_enable">Bật địa điểm</string>
     <string name="location_soft_prompt_disable">Để sau</string>
 
-    <!--price descriptor for different hotel rate type-->
-    <string name="total_including_taxes_fees">Tổng gồm thuế và phí</string>
-    <string name="excluding_taxes_fees">Chưa gồm thuế và phí</string>
-
     <!-- Amenities String -->
     <string name="amenity_checked_bags">Hành lý ký gửi</string>
     <string name="amenity_carry_on_bag">Hành lý xách tay</string>
@@ -4878,5 +4867,10 @@
 
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">Coupon đã lưu</string>
+
+    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
+    <string name="book_room_button_content_description_TEMPLATE">Đặt, {room}</string>
+    <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
+    <string name="select_room_button_content_description_TEMPLATE">Chọn {room}</string>
 
 </resources>

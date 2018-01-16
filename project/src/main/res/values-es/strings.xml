@@ -1556,7 +1556,18 @@
     <string name="itin_flight_modify_widget_cancel_reservation_text">Cancelar reservación</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
     <string name="itin_flight_modify_widget_change_reservation_text">Cambiar reservación</string>
-
+    <!--Flight itin, flight modify reservation widget's Learn more text-->
+    <string name="itin_flight_modify_widget_learn_more_text">Más información</string>
+    <!--Flight itin, flight modify reservation widget's call customer support text-->
+    <string name="itin_flight_modify_widget_customer_support_text">LLAMAR A ATENCIÓN AL CLIENTE</string>
+    <!-- Flight Itin Modify Reservation dialog GO BACK button text-->
+    <string name="itin_flight_modify_widget_go_back_text">VOLVER</string>
+    <!-- Flight Itin Modify Reservation dialog, change reservation content text-->
+    <string name="itin_flight_modify_widget_change_reservation_dialog_text">Esta reservación no se puede cambiar. Llama al servicio de atención a clientes para analizar otras opciones.</string>
+    <!-- Flight Itin Modify Reservation dialog, cancel reservation content text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_dialog_text">Esta reservación no se puede cancelar, llama al servicio de atención a clientes para analizar otras opciones.</string>
+    <!-- Flight Itin Modify Reservation dialog, flight neither Changeable nor Cancellable text for reservation dialog-->
+    <string name="itin_flight_modify_widget_neither_changeable_nor_cancellable_reservation_dialog_text">Esta reservación no se puede cambiar o cancelar. Llama al servicio de atención a clientes para analizar otras opciones.</string>
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} d {hours} h {minutes} m</string>
     <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->
@@ -2532,10 +2543,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">¡Queda %d habitación!</item>
-        <item quantity="two">¡Quedan %d habitaciones!</item>
-        <item quantity="many">¡Quedan %d habitaciones!</item>
-        <item quantity="other">quedan %d habitaciones</item>
+        <item quantity="one">¡Nos queda %d habitación!</item>
+        <item quantity="two">¡Nos %d quedan habitaciones!</item>
+        <item quantity="many">¡Nos %d quedan habitaciones!</item>
+        <item quantity="other">¡Nos %d quedan habitaciones!</item>
     </plurals>
     <!-- No of filters applied on packages -->
     <plurals name="no_of_filters_applied_TEMPLATE">
@@ -2600,8 +2611,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/noche</string>
-    <!-- The label for total price for the stay - "$120 total stay", for example -->
-    <string name="total_stay">(total de la estadía)</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">No ha sido evaluado</string>
 
@@ -2800,14 +2809,6 @@
         <item quantity="other">Precios promedio por noche • %d resultados</item>
     </plurals>
 
-    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
-        <item quantity="zero">Sin resultados</item>
-        <item quantity="one">&lt;b&gt;Precios promedio por noche&lt;/b&gt; • 1 resultado</item>
-        <item quantity="many">&lt;b&gt;Precios promedio por noche&lt;/b&gt; • %d resultados</item>
-        <item quantity="other">&lt;b&gt;Precios promedio por noche&lt;/b&gt; • %d resultados</item>
-    </plurals>
-
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">Sin resultados</item>
@@ -2821,14 +2822,6 @@
         <item quantity="one">Precio total por la estadía • 1 resultado</item>
         <item quantity="many">Precio total por la estadía • %d resultados</item>
         <item quantity="other">Precio total por la estadía • %d resultados</item>
-    </plurals>
-
-    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
-        <item quantity="zero">Sin resultados</item>
-        <item quantity="one">&lt;b&gt;Precio total de la estadía&lt;/b&gt; • 1 resultado</item>
-        <item quantity="many">&lt;b&gt;Precio total por la estadía&lt;/b&gt; • %d resultados</item>
-        <item quantity="other">&lt;b&gt;Precio total por la estadía&lt;/b&gt; • %d resultados</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -2962,8 +2955,6 @@
     <!-- Coupon dialog -->
     <!-- Coupon Widget Title -->
     <string name="coupon_promo_title">Cupones y promociones</string>
-    <!-- Title on dialog imploring users to enter coupons -->
-    <string name="enter_coupon_promo_code">Ingresa un cupón o un código de promoción</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Ingresa el código de cupón</string>
     <!-- Coupon submit button -->
@@ -3813,6 +3804,8 @@
     <string name="five_star">5 estrellas</string>
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Limita tus resultados</string>
+    <!-- Prompt to try new filter after scrolling hotel results  -->
+    <string name="new_filters_available">¡Nuevos filtros disponibles!</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Puede aplicarse un cargo adicional según el método de pago utilizado.</string>
@@ -4828,10 +4821,6 @@
     <string name="location_soft_prompt_enable">Activar ubicación</string>
     <string name="location_soft_prompt_disable">Ahora no</string>
 
-    <!--price descriptor for different hotel rate type-->
-    <string name="total_including_taxes_fees">Total con impuestos y cargos</string>
-    <string name="excluding_taxes_fees">Sin impuestos ni cargos</string>
-
     <!-- Amenities String -->
     <string name="amenity_checked_bags">Equipaje en la bodega del avión</string>
     <string name="amenity_carry_on_bag">Equipaje de mano</string>
@@ -4878,5 +4867,10 @@
 
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">Cupones guardados</string>
+
+    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
+    <string name="book_room_button_content_description_TEMPLATE">Reservar, {room}</string>
+    <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
+    <string name="select_room_button_content_description_TEMPLATE">Seleccionar {room}</string>
 
 </resources>

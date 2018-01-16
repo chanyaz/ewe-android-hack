@@ -1556,7 +1556,18 @@
     <string name="itin_flight_modify_widget_cancel_reservation_text">Batalkan reservasi</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
     <string name="itin_flight_modify_widget_change_reservation_text">Ubah reservasi</string>
-
+    <!--Flight itin, flight modify reservation widget's Learn more text-->
+    <string name="itin_flight_modify_widget_learn_more_text">Pelajari lebih lanjut</string>
+    <!--Flight itin, flight modify reservation widget's call customer support text-->
+    <string name="itin_flight_modify_widget_customer_support_text">HUBUNGI DUKUNGAN PELANGGAN</string>
+    <!-- Flight Itin Modify Reservation dialog GO BACK button text-->
+    <string name="itin_flight_modify_widget_go_back_text">KEMBALI</string>
+    <!-- Flight Itin Modify Reservation dialog, change reservation content text-->
+    <string name="itin_flight_modify_widget_change_reservation_dialog_text">Reservasi ini tidak dapat diubah, namun Anda dapat menghubungi dukungan pelanggan untuk mencari tahu opsi lainnya.</string>
+    <!-- Flight Itin Modify Reservation dialog, cancel reservation content text-->
+    <string name="itin_flight_modify_widget_cancel_reservation_dialog_text">Reservasi ini tidak dapat dibatalkan, namun Anda dapat menghubungi dukungan pelanggan untuk mencari tahu opsi lainnya.</string>
+    <!-- Flight Itin Modify Reservation dialog, flight neither Changeable nor Cancellable text for reservation dialog-->
+    <string name="itin_flight_modify_widget_neither_changeable_nor_cancellable_reservation_dialog_text">Reservasi ini tidak dapat diubah atau dibatalkan, namun Anda dapat menghubungi dukungan pelanggan untuk mencari tahu opsi lainnya.</string>
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}h {hours}j {minutes}m</string>
     <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->
@@ -2532,10 +2543,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">Sisa %d Kamar!</item>
-        <item quantity="two">Sisa %d Kamar</item>
-        <item quantity="many">Sisa %d Kamar</item>
-        <item quantity="other">Sisa %d Kamar</item>
+        <item quantity="one">Kami memiliki %d kamar yang tersisa!</item>
+        <item quantity="two">Kami memiliki %d kamar yang tersisa</item>
+        <item quantity="many">Kami memiliki %d kamar yang tersisa</item>
+        <item quantity="other">Kami memiliki %d kamar yang tersisa</item>
     </plurals>
     <!-- No of filters applied on packages -->
     <plurals name="no_of_filters_applied_TEMPLATE">
@@ -2600,8 +2611,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/malam</string>
-    <!-- The label for total price for the stay - "$120 total stay", for example -->
-    <string name="total_stay">total masa menginap</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Tanpa Peringkat</string>
 
@@ -2800,14 +2809,6 @@
         <item quantity="other">Harga rata-rata per malam • %d hasil</item>
     </plurals>
 
-    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
-        <item quantity="zero">Tidak Ditemukan Hasil</item>
-        <item quantity="one">&lt;b&gt;Rata-rata harg per malam&lt;/b&gt; • 1 Hasil</item>
-        <item quantity="many">&lt;b&gt;Rata-rata harga per malam&lt;/b&gt; • %d Hasil</item>
-        <item quantity="other">&lt;b&gt;Rata-rata harga per malam&lt;/b&gt; • %d Hasil</item>
-    </plurals>
-
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">Tidak Ditemukan Hasil</item>
@@ -2821,14 +2822,6 @@
         <item quantity="one">Harga total untuk menginap • 1 Hasil</item>
         <item quantity="many">Harga total untuk menginap • %d Hasil</item>
         <item quantity="other">Harga total untuk menginap • %d Hasil</item>
-    </plurals>
-
-    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
-    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
-        <item quantity="zero">Tidak Ditemukan Hasil</item>
-        <item quantity="one">&lt;b&gt;Harga total untuk menginap&lt;/b&gt; • 1 Hasil</item>
-        <item quantity="many">&lt;b&gt;Harga total untuk menginap&lt;/b&gt; • %d Hasil</item>
-        <item quantity="other">&lt;b&gt;Harga total untuk menginap&lt;/b&gt; • %d Hasil</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -2962,8 +2955,6 @@
     <!-- Coupon dialog -->
     <!-- Coupon Widget Title -->
     <string name="coupon_promo_title">Kupon dan Promosi</string>
-    <!-- Title on dialog imploring users to enter coupons -->
-    <string name="enter_coupon_promo_code">Masukkan kupon atau kode promo</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Masukkan Kode Kupon</string>
     <!-- Coupon submit button -->
@@ -3813,6 +3804,8 @@
     <string name="five_star">5 bintang</string>
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Persempit pencarian Anda</string>
+    <!-- Prompt to try new filter after scrolling hotel results  -->
+    <string name="new_filters_available">Tersedia fitur baru!</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Maskapai mungkin mengenakan biaya tambahan berdasarkan metode pembayaran Anda.</string>
@@ -4828,10 +4821,6 @@
     <string name="location_soft_prompt_enable">Aktifkan Lokasi</string>
     <string name="location_soft_prompt_disable">Jangan sekarang</string>
 
-    <!--price descriptor for different hotel rate type-->
-    <string name="total_including_taxes_fees">Harga total termasuk pajak dan biaya</string>
-    <string name="excluding_taxes_fees">Tidak termasuk pajak dan biaya</string>
-
     <!-- Amenities String -->
     <string name="amenity_checked_bags">Bagasi</string>
     <string name="amenity_carry_on_bag">Tas Jinjing</string>
@@ -4878,5 +4867,10 @@
 
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">Kupon yang disimpan</string>
+
+    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
+    <string name="book_room_button_content_description_TEMPLATE">Pesan, {room}</string>
+    <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
+    <string name="select_room_button_content_description_TEMPLATE">Pilih, {room}</string>
 
 </resources>
