@@ -48,7 +48,7 @@ open class ADMS_Measurement {
         }
 
         if (sb.isNotEmpty() && eventString.isNotEmpty()) {
-            sb.append(", ")
+            sb.append(",")
         }
         sb.append(eventString)
 

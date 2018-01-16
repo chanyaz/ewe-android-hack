@@ -41,7 +41,7 @@ class OmnitureTrackingFlightTest {
         whenever(mockResponse.getOffer()).thenReturn(mockOffer)
 
         OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEventsString("event36, event71"), mockAnalyticsProvider,
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEventsString("event36,event71"), mockAnalyticsProvider,
                 "FAILED: Expected event36 (checkout start), event71 (flight checkout start)")
     }
 
@@ -53,7 +53,7 @@ class OmnitureTrackingFlightTest {
         whenever(mockResponse.getOffer()).thenReturn(mockOffer)
 
         OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEventsString("event36, event71, event122"), mockAnalyticsProvider,
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEventsString("event36,event71,event122"), mockAnalyticsProvider,
                 "FAILED: Expected event36 (checkout start), event71 (flight checkout start), and event 122 (insurance present)")
     }
 

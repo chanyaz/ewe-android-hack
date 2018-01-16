@@ -5,7 +5,7 @@ import com.expedia.bookings.tracking.hotel.PageUsableData
 open class AbstractSearchTrackingData {
     var performanceData = PerformanceData()
 
-    class PerformanceData {
+    open class PerformanceData {
         private val pageUsableData = PageUsableData()
 
         var requestStartTime: Long? = null
@@ -34,7 +34,7 @@ open class AbstractSearchTrackingData {
             resultsUserActiveTime = time
         }
 
-        fun getPageLoadTime() : String? {
+        open fun getPageLoadTime() : String? {
             return pageUsableData.getLoadTimeInSeconds()
         }
     }
