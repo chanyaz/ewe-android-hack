@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import com.expedia.bookings.R
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.SearchSuggestion
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.vm.HotelSuggestionViewModel
 import rx.subjects.PublishSubject
@@ -16,13 +16,13 @@ class HotelSuggestionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), 
     val suggestionClicked = PublishSubject.create<SearchSuggestion>()
 
     private var suggestions: List<SuggestionV4> = emptyList()
-    private var recentSuggestionsShownCount = 0
+    private var pastSuggestionsShownCount = 0
 
     fun setSuggestions(suggestions: List<SuggestionV4>) {
         this.suggestions = suggestions
-        recentSuggestionsShownCount = 0
+        pastSuggestionsShownCount = 0
         for (suggestion in suggestions) {
-            if (suggestion.isHistoryItem) recentSuggestionsShownCount++
+            if (suggestion.isHistoryItem) pastSuggestionsShownCount++
         }
         notifyDataSetChanged()
     }
@@ -63,7 +63,7 @@ class HotelSuggestionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), 
         val trackingData = SuggestionTrackingData()
         trackingData.selectedSuggestionPosition = position + 1
         trackingData.suggestionsShownCount = suggestions.count()
-        trackingData.previousSuggestionsShownCount = recentSuggestionsShownCount
+        trackingData.previousSuggestionsShownCount = pastSuggestionsShownCount
 
         // api doesn't give us parent information so we need to manually check
         if (!suggestion.isChild && position + 1 < suggestions.count()) {

@@ -168,6 +168,10 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         suggestionViewModel = HotelSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, true)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
 
+        travelGraphViewModel.searchHistoryResultSubject.subscribe { searchHistory ->
+            suggestionViewModel.setUserSearchHistory(searchHistory )
+        }
+
         advancedOptionsDetails.viewModel = advancedOptionsViewModel
         addTransition(searchToAdvancedOptions)
 
@@ -234,10 +238,13 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     }
 
     fun fetchUserSearchHistory() {
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_user_search_history)) {
+        if (isUserSearchHistoryEnabled()) {
             travelGraphViewModel.fetchUserHistory()
         }
     }
+
+    private fun isUserSearchHistoryEnabled() : Boolean =
+            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_user_search_history)
 
     private fun updateSearchOptions(suggestion: SuggestionV4) {
         if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)) {

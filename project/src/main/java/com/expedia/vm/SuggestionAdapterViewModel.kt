@@ -9,6 +9,7 @@ import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionType
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.travelgraph.TravelGraphUserHistoryResult
 import com.expedia.bookings.services.ISuggestionV4Services
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.SuggestionV4Utils
@@ -35,6 +36,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     private var nearby: ArrayList<SuggestionV4> = ArrayList()
     private var lastQuery: String = ""
     private var isCustomerSelectingOrigin: Boolean = false
+    private var userRecentSearches: List<SuggestionV4> = emptyList()     //TODO eventually, we need to store and display search params+location
 
     init {
         locationObservable?.subscribe(generateLocationServiceCallback())
@@ -60,28 +62,34 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     }
 
     private fun suggestionsListWithNearby(): List<SuggestionV4> {
-        return nearby + loadRecentSuggestions()
+        val suggestions = nearby + loadPastSuggestions()
+        //TODO for skeleton - return without labels for now.
+        if (isSearchHistorySupported()) {
+            return suggestions + userRecentSearches
+        }
+        return suggestions
     }
 
     private fun suggestionsListWithNearbyAndLabels(): List<SuggestionType> {
         val suggestions = ArrayList<SuggestionType>()
         if (nearby.size > 0) {
             suggestions.add(SuggestionType.SUGGESTIONLABEL(getCurrentLocationLabel()))
-            nearby.forEach {
-                suggestions.add(SuggestionType.SUGGESTIONV4(it))
+            nearby.forEach {nearbySuggestion ->
+                suggestions.add(SuggestionType.SUGGESTIONV4(nearbySuggestion))
             }
         }
-        val loadRecentSuggestions = loadRecentSuggestions()
-        if (loadRecentSuggestions.size > 0) {
-            suggestions.add(SuggestionType.SUGGESTIONLABEL(getRecentSuggestionLabel()))
-            loadRecentSuggestions.forEach {
+
+        val loadPastSuggestions = loadPastSuggestions()
+        if (loadPastSuggestions.size > 0) {
+            suggestions.add(SuggestionType.SUGGESTIONLABEL(getPastSuggestionsLabel()))
+            loadPastSuggestions.forEach {
                 suggestions.add(SuggestionType.SUGGESTIONV4(it))
             }
         }
         return suggestions
     }
 
-    private fun loadRecentSuggestions(): List<SuggestionV4> {
+    private fun loadPastSuggestions(): List<SuggestionV4> {
         return SuggestionV4Utils.loadSuggestionHistory(context, getSuggestionHistoryFile())
     }
 
@@ -91,8 +99,8 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
         return suggestionsService
                 .suggestNearbyGaia(location.latitude, location.longitude, getNearbySortTypeForGaia(),
                         getLineOfBusinessForGaia(), PointOfSale.getSuggestLocaleIdentifier(), PointOfSale.getPointOfSale().siteId, isMISForRealWorldEnabled())
-                .map { it ->
-                    SuggestionV4Utils.convertToSuggestionV4(it)
+                .map { gaiaSuggestion ->
+                    SuggestionV4Utils.convertToSuggestionV4(gaiaSuggestion)
                 }
                 .doOnNext { nearbySuggestions ->
                     if (nearbySuggestions.size < 1) {
@@ -111,7 +119,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
 
     private fun getSuggestionsWithLabel(location: Location) {
         getGaiaNearbySuggestions(location)
-                .subscribe(object: Observer<List<SuggestionV4>>{
+                .subscribe(object : Observer<List<SuggestionV4>> {
                     override fun onCompleted() {
                     }
 
@@ -132,7 +140,10 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     private fun getSuggestions(location: Location) {
         getGaiaNearbySuggestions(location)
                 .doOnNext { nearBySuggestions ->
-                    nearBySuggestions += loadRecentSuggestions()
+                    nearBySuggestions += loadPastSuggestions()
+                    if (isSearchHistorySupported()) {
+                        nearBySuggestions+= userRecentSearches
+                    }
                 }
                 .subscribe(generateSuggestionServiceCallback())
     }
@@ -177,12 +188,12 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
         return object : Observer<List<SuggestionV4>> {
             override fun onNext(essSuggestions: List<SuggestionV4>) {
                 val rawQuerySuggestion = if (rawQueryEnabled && !lastQuery.isNullOrBlank()) listOf(suggestionWithRawQueryString(lastQuery)) else emptyList()
-                val essAndRawTextSuggestion = ArrayList<SuggestionV4>(rawQuerySuggestion)
-                essAndRawTextSuggestion.addAll(essSuggestions)
+                val essAndRawTextSuggestions = ArrayList<SuggestionV4>(rawQuerySuggestion)
+                essAndRawTextSuggestions.addAll(essSuggestions)
                 if (showSuggestionsAndLabel()) {
-                    suggestionsAndLabelObservable.onNext(essAndRawTextSuggestion.map { SuggestionType.SUGGESTIONV4(it) })
+                    suggestionsAndLabelObservable.onNext(essAndRawTextSuggestions.map { SuggestionType.SUGGESTIONV4(it) })
                 } else {
-                    suggestionsObservable.onNext(essAndRawTextSuggestion)
+                    suggestionsObservable.onNext(essAndRawTextSuggestions)
                 }
             }
 
@@ -193,6 +204,10 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
                 Log.e("Hotel Suggestions Error", e)
             }
         }
+    }
+
+    fun setUserSearchHistory(userSearchHistory: TravelGraphUserHistoryResult) {
+        userRecentSearches = userSearchHistory.convertToSuggestionV4List()
     }
 
     private fun suggestionWithRawQueryString(query: String): SuggestionV4 {
@@ -228,23 +243,15 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
         return isCustomerSelectingOrigin
     }
 
-    open fun getCurrentLocationLabel(): String {
-        return ""
-    }
+    open fun getCurrentLocationLabel(): String = ""
 
-    open fun getRecentSuggestionLabel(): String {
-        return ""
-    }
+    open fun getPastSuggestionsLabel(): String = ""
 
-    open fun getLineOfBusiness(): LineOfBusiness {
-        return LineOfBusiness.NONE
-    }
+    open fun getLineOfBusiness(): LineOfBusiness = LineOfBusiness.NONE
 
-    open fun showSuggestionsAndLabel(): Boolean {
-        return false
-    }
+    open fun showSuggestionsAndLabel(): Boolean = false
 
-    open fun isSuggestionOnOneCharEnabled(): Boolean {
-        return false
-    }
+    open fun isSuggestionOnOneCharEnabled(): Boolean = false
+
+    open fun isSearchHistorySupported(): Boolean = false
 }

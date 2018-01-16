@@ -26,7 +26,8 @@ public class SuggestionV4 {
 		HISTORY_ICON,
 		CURRENT_LOCATION_ICON,
 		SEARCH_TYPE_ICON,
-		MAGNIFYING_GLASS_ICON
+		MAGNIFYING_GLASS_ICON,
+		RECENT_SEARCH_ICON
 	}
 
 	public IconType iconType = IconType.SEARCH_TYPE_ICON;
@@ -112,6 +113,10 @@ public class SuggestionV4 {
 
 	public boolean isHistoryItem() {
 		return iconType == IconType.HISTORY_ICON;
+	}
+
+	public boolean isRecentSearchItem() {
+		return iconType == IconType.RECENT_SEARCH_ICON;
 	}
 
 	public boolean isCurrentLocationSearch() {
