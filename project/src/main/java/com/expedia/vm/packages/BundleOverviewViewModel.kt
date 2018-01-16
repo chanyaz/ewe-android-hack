@@ -13,11 +13,11 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.isMidAPIEnabled
-import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.google.gson.Gson
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
@@ -188,26 +188,28 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
 
             override fun onError(throwable: Throwable?) {
                 Log.i("package error: " + throwable?.message)
-                if (throwable is HttpException) {
-                    try {
+                when {
+                    throwable is HttpException -> try {
                         val response = throwable.response().errorBody()
                         val midError = Gson().fromJson(response?.charStream(), MultiItemApiSearchResponse::class.java)
                         errorObservable.onNext(midError.firstError)
                     } catch (e: Exception) {
                         errorObservable.onNext(PackageApiError.Code.pkg_error_code_not_mapped)
                     }
-                } else if (RetrofitUtils.isNetworkError(throwable)) {
-                    val retryFun = fun() {
-                        if (type.equals(PackageSearchType.HOTEL)) {
-                            hotelParamsObservable.onNext(Db.sharedInstance.packageParams)
-                        } else {
-                            flightParamsObservable.onNext(Db.sharedInstance.packageParams)
+                    RetrofitUtils.isNetworkError(throwable) -> {
+                        val retryFun = fun() {
+                            if (type.equals(PackageSearchType.HOTEL)) {
+                                hotelParamsObservable.onNext(Db.sharedInstance.packageParams)
+                            } else {
+                                flightParamsObservable.onNext(Db.sharedInstance.packageParams)
+                            }
                         }
+                        val cancelFun = fun() {
+                            showSearchObservable.onNext(Unit)
+                        }
+                        DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                     }
-                    val cancelFun = fun() {
-                        showSearchObservable.onNext(Unit)
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                    else -> errorObservable.onNext(PackageApiError.Code.pkg_error_code_not_mapped)
                 }
             }
         }
