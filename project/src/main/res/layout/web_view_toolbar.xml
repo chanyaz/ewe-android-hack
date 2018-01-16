@@ -20,15 +20,20 @@
         android:layout_gravity="center"
         android:indeterminate="true" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="?attr/primary_color"
-        android:minHeight="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-        app:contentInsetStartWithNavigation="0dp" />
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="?attr/primary_color"
+            android:minHeight="?attr/actionBarSize"
+            app:contentInsetStartWithNavigation="0dp"
+            app:navigationIcon="@drawable/ic_close_white_24dp"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+    </android.support.design.widget.AppBarLayout>
 
 </FrameLayout>
