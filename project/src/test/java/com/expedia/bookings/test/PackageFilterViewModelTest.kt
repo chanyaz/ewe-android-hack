@@ -102,14 +102,6 @@ class PackageFilterViewModelTest {
     }
 
     @Test
-    fun filterAmenity() {
-        val amenityId = 16
-        vm.originalResponse = fakeFilteredResponse()
-        vm.selectAmenity.onNext(amenityId)
-        assertEquals(1, vm.filteredResponse.hotelList.size)
-    }
-
-    @Test
     fun emptyFilters() {
         vm.doneObservable.onNext(Unit)
         assertEquals(0, vm.filteredResponse.hotelList.size)
@@ -203,17 +195,8 @@ class PackageFilterViewModelTest {
         vm.fourStarFilterObserver.onNext(Unit)
         assertTrue(vm.filterCountObservable.value == 2)
 
-        vm.selectAmenity.onNext(16)
-        assertTrue(vm.filterCountObservable.value == 3)
-
-        vm.selectAmenity.onNext(1)
-        assertTrue(vm.filterCountObservable.value == 4)
-
-        vm.selectAmenity.onNext(16)
-        assertTrue(vm.filterCountObservable.value == 3)
-
         vm.vipFilteredObserver.onNext(true)
-        assertTrue(vm.filterCountObservable.value == 4)
+        assertTrue(vm.filterCountObservable.value == 3)
     }
 
     private fun fakeFilteredResponse(): HotelSearchResponse {
@@ -242,11 +225,6 @@ class PackageFilterViewModelTest {
         hotel1.packageOfferModel.price = PackageOfferModel.PackagePrice()
         hotel1.packageOfferModel.price.tripSavings = Money()
         hotel1.packageOfferModel.price.tripSavings.amount = BigDecimal(36.5)
-        val amenities1 = ArrayList<Hotel.HotelAmenity>()
-        val amenity1 = Hotel.HotelAmenity()
-        amenity1.id = "4"
-        amenities1.add(amenity1)
-        hotel1.amenities = amenities1
 
 
         val hotel2 = Hotel()
@@ -267,11 +245,6 @@ class PackageFilterViewModelTest {
         hotel2.packageOfferModel.price = PackageOfferModel.PackagePrice()
         hotel2.packageOfferModel.price.tripSavings = Money()
         hotel2.packageOfferModel.price.tripSavings.amount = BigDecimal(46.5)
-        val amenities2 = ArrayList<Hotel.HotelAmenity>()
-        val amenity2 = Hotel.HotelAmenity()
-        amenity2.id = "1"
-        amenities2.add(amenity2)
-        hotel2.amenities = amenities2
 
         val hotel3 = Hotel()
         hotel3.sortIndex = 3

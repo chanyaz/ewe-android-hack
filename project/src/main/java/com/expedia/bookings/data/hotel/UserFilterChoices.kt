@@ -12,7 +12,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
                              var name: String = "",
                              var minPrice: Int = 0,
                              var maxPrice: Int = 0,
-                             var amenity: HashSet<Int> = HashSet<Int>(),
+                             var amenity: HashSet<String> = HashSet<String>(),
                              var neighborhoods: HashSet<HotelSearchResponse.Neighborhood> = HashSet<HotelSearchResponse.Neighborhood>()) {
 
     fun filterCount(): Int {
@@ -39,7 +39,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
         filterChoices.name = name
         filterChoices.minPrice = minPrice
         filterChoices.maxPrice = maxPrice
-        filterChoices.amenity = HashSet<Int>(amenity)
+        filterChoices.amenity = HashSet<String>(amenity)
         filterChoices.neighborhoods = HashSet<HotelSearchResponse.Neighborhood>(neighborhoods)
         return filterChoices
     }

@@ -16,6 +16,7 @@ import rx.subjects.PublishSubject
 
 class HotelAmenityGridItem(context: Context, private val amenity: HotelAmenity) : LinearLayout(context, null) {
     val amenitySelected = PublishSubject.create<String>()
+    val amenityDeselected = PublishSubject.create<String>()
 
     private val icon by bindView<ImageView>(R.id.hotel_filter_grid_item_image)
     private val textView by bindView<TextView>(R.id.hotel_filter_grid_item_text)
@@ -37,6 +38,8 @@ class HotelAmenityGridItem(context: Context, private val amenity: HotelAmenity) 
             icon.isSelected = !icon.isSelected
             if (icon.isSelected) {
                 amenitySelected.onNext(HotelAmenityHelper.getSearchKey(amenity))
+            } else {
+                amenityDeselected.onNext(HotelAmenityHelper.getSearchKey(amenity))
             }
         }
 

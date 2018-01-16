@@ -147,7 +147,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         trackHotelFilterVIP(vipOnly)
     }
 
-    val selectAmenity: Observer<Int> = endlessObserver { amenityId ->
+    val toggleAmenity: Observer<String> = endlessObserver { amenityId ->
         if (userFilterChoices.amenity.isEmpty() || !userFilterChoices.amenity.contains(amenityId)) {
             userFilterChoices.amenity.add(amenityId)
         } else {
@@ -277,7 +277,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.name = ""
         userFilterChoices.minPrice = 0
         userFilterChoices.maxPrice = 0
-        userFilterChoices.amenity = HashSet<Int>()
+        userFilterChoices.amenity = HashSet<String>()
         userFilterChoices.neighborhoods = HashSet<HotelSearchResponse.Neighborhood>()
     }
 }

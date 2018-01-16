@@ -169,6 +169,11 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             searchBuilder.starRatings(filterParams.hotelStarRating.getStarRatingParamsAsList())
         }
 
+        val amenityList = filterParams.amenity.toList()
+        if (amenityList.isNotEmpty()) {
+            searchBuilder.amenities(amenityList)
+        }
+
         if (filterParams.hasPriceRange()) {
             searchBuilder.priceRange(HotelSearchParams.PriceRange(filterParams.minPrice, filterParams.maxPrice))
         }

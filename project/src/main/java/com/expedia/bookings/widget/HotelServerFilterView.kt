@@ -18,9 +18,12 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelFilterViewModel
+import rx.subjects.PublishSubject
 
 class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelFilterView(context, attrs) {
     val staticClearFilterButton: CardView by bindView(R.id.hotel_server_filter_clear_pill)
+
+    private val amenityToggledSubject = PublishSubject.create<String>()
 
     var amenityViews: ArrayList<HotelAmenityGridItem> = ArrayList()
 
@@ -40,6 +43,8 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
             amenitiesGridView.visibility = View.VISIBLE
             HotelAmenityHelper.getFilterAmenities().forEach { amenity ->
                 val gridItem = HotelAmenityGridItem(context, amenity)
+                gridItem.amenitySelected.subscribe(amenityToggledSubject)
+                gridItem.amenityDeselected.subscribe(amenityToggledSubject)
                 amenitiesGridView.addView(gridItem)
                 amenityViews.add(gridItem)
             }
@@ -48,6 +53,8 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
 
     override fun bindViewModel(vm: BaseHotelFilterViewModel) {
         super.bindViewModel(vm)
+        amenityToggledSubject.subscribe(vm.toggleAmenity)
+
         vm.finishClear.subscribe {
             staticClearFilterButton.visibility = GONE
             amenityViews.forEach { view -> view.deselect() }
