@@ -77,14 +77,14 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
 
     val isFlightAdvanceSearchTestEnabled = !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
-            AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
+            AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch)
     val swapFlightsLocationsButton: ImageView by bindView(R.id.swapFlightsLocationsButton)
     val flightsSearchDivider: View by bindView(R.id.flight_search_divider)
-    val isSwitchToAndFromFieldsFeatureEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSwitchFields)
+    val isSwitchToAndFromFieldsFeatureEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSwitchFields)
 
     val travelerFlightCardViewStub: ViewStub by bindView(R.id.traveler_flight_stub)
     override val travelerWidgetV2 by lazy {
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp))
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp))
             travelerFlightCardViewStub.inflate().findViewById<FlightTravelerWidgetV2>(R.id.traveler_card)
         else
             travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
@@ -215,9 +215,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                     }).subscribe()
         }
 
-    Observable.combineLatest(vm.hasValidDatesObservable, vm.errorNoDatesObservable, { hasValidDates, invalidDates -> hasValidDates }).subscribe { hasValidDates ->
-        calendarWidgetV2.setEndDrawable(if (hasValidDates) null else errorDrawable)
-    }
+        Observable.combineLatest(vm.hasValidDatesObservable, vm.errorNoDatesObservable, { hasValidDates, invalidDates -> hasValidDates }).subscribe { hasValidDates ->
+            calendarWidgetV2.setEndDrawable(if (hasValidDates) null else errorDrawable)
+        }
 
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
@@ -225,12 +225,23 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         if (isShowSuggestionLabelTestEnabled) {
             originSuggestionAdapter = SuggestionAndLabelAdapter(originSuggestionViewModel as AirportSuggestionViewModel)
             destinationSuggestionAdapter = SuggestionAndLabelAdapter(destinationSuggestionViewModel as AirportSuggestionViewModel)
-        }
-        else {
+        } else {
             originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
             destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
         }
 
+        setContentDescriptionToolbarTabs()
+    }
+
+    private fun setContentDescriptionToolbarTabs() {
+        for (index in 0 .. tabs.tabCount) {
+            val tab = tabs.getTabAt(index)
+            if (tab != null) {
+                val tabContDesc = Phrase.from(context, R.string.accessibility_cont_desc_flight_search_type_TEMPLATE)
+                        .put("flightsearchtype", tab.text).format().toString()
+                tab.contentDescription = tabContDesc
+            }
+        }
     }
 
     lateinit private var originSuggestionAdapter: SuggestionAdapter
@@ -330,6 +341,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
         return super.back()
     }
+
     private fun initializeProWizardTabs() {
         oneWayRoundTripTabs.oneWayClickedSubject.subscribe {
             roundTripChanged(roundTrip = false)
@@ -346,7 +358,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
         tabs.setupWithViewPager(viewpager)
 
-        tabs.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // do nothing
             }
