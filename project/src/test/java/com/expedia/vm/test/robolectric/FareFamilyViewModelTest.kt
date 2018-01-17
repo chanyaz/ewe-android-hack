@@ -156,7 +156,7 @@ class FareFamilyViewModelTest {
 
     private fun tripResponseWithoutFareFamilyAvailable(): FlightCreateTripResponse {
         val offer = FlightTripDetails.FlightOffer()
-        val seatClassAndBookingCode = FlightTripDetails.SeatClassAndBookingCode()
+        val seatClassAndBookingCode = FlightTripDetails().SeatClassAndBookingCode()
         seatClassAndBookingCode.seatClass = "coach"
         offer.offersSeatClassAndBookingCode = listOf(listOf(seatClassAndBookingCode))
         val details = FlightTripDetails()

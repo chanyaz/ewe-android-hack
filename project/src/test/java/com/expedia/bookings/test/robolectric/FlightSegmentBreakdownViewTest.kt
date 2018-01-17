@@ -35,9 +35,9 @@ class FlightSegmentBreakdownViewTest {
     @Test
     fun testVisibiltyOfCollapseIcon() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
-        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true, true))
+        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true))
         assertEquals(View.VISIBLE, sut.linearLayout.findViewById<View>(R.id.flight_overview_collapse_icon).visibility)
-        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", false, false))
+        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", false))
         assertEquals(View.GONE, sut.linearLayout.findViewById<View>(R.id.flight_overview_collapse_icon).visibility)
     }
 
@@ -49,19 +49,19 @@ class FlightSegmentBreakdownViewTest {
 
     fun seatClassAndBookingCodeTestCases() {
         //Cabin Code is coach
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach", true)
+        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
         assertEquals("Economy (O)", seatClassAndBookingCodeTextView.text)
         //Cabin Code is premium coach
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("premium coach", true)
+        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("premium coach")
         assertEquals("Premium Economy (O)", seatClassAndBookingCodeTextView.text)
         //Cabin Code is business
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("business", true)
+        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("business")
         assertEquals("Business (O)", seatClassAndBookingCodeTextView.text)
         //Cabin Code is first
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("first", true)
+        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("first")
         assertEquals("First Class (O)", seatClassAndBookingCodeTextView.text)
         //Cabin Code is empty
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("", true)
+        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("")
         assertEquals(View.GONE, seatClassAndBookingCodeTextView.visibility)
     }
 
@@ -69,35 +69,35 @@ class FlightSegmentBreakdownViewTest {
     fun testSeatClassAndBookingCodeViewVisibilityForSeatClassAbacusTest() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
         //Cabin Code is coach
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach", true)
+        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
         assertEquals(View.VISIBLE, seatClassAndBookingCodeTextView.visibility)
 
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
         //Cabin Code is coach
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach", false)
+        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
         assertEquals(View.GONE, seatClassAndBookingCodeTextView.visibility)
     }
 
     @Test
     fun testSeatClassAndBookingCodeViewVisibility() {
         //Cabin Code is coach
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach", true)
+        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
         assertEquals(View.VISIBLE, seatClassAndBookingCodeTextView.visibility)
 
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
         //Cabin Code is coach
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach", false)
+        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
         assertEquals(View.GONE, seatClassAndBookingCodeTextView.visibility)
     }
 
-    private fun getTextViewForSeatClassAndBookingCode(seatClass: String, isBucketed: Boolean): TextView {
-        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList(seatClass, isBucketed))
+    private fun getTextViewForSeatClassAndBookingCode(seatClass: String): TextView {
+        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList(seatClass))
         return sut.linearLayout.findViewById<View>(R.id.flight_seat_class_booking_code) as TextView
     }
 
-    private fun getFlightSegmentBreakdownList(seatClass: String, showSeatClassAndBookingCode: Boolean, showCollapseIcon: Boolean = false): List<FlightSegmentBreakdown> {
+    private fun getFlightSegmentBreakdownList(seatClass: String, showCollapseIcon: Boolean = false): List<FlightSegmentBreakdown> {
         val flightSegment = createFlightSegment(seatClass);
-        val breakdown = FlightSegmentBreakdown(flightSegment, false, showSeatClassAndBookingCode, showCollapseIcon);
+        val breakdown = FlightSegmentBreakdown(flightSegment, false, true, showCollapseIcon);
         val list: ArrayList<FlightSegmentBreakdown> = ArrayList()
         list.add(breakdown)
         return list.toList()

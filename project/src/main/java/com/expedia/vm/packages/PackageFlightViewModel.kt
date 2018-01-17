@@ -5,7 +5,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.isDisplayFlightSeatingClassForShoppingEnabled
 import com.expedia.vm.AbstractFlightViewModel
 
 class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightViewModel(context, flightLeg) {
@@ -22,7 +21,7 @@ class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractF
     }
 
     override fun getFlightCabinPreferenceVisibility(): Boolean {
-        return Strings.isNotEmpty(updateflightCabinPreferenceObservable.value) && isDisplayFlightSeatingClassForShoppingEnabled(context)
+        return false
     }
 
     override fun isEarnMessageVisible(earnMessage: String): Boolean {

@@ -91,13 +91,13 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
         vm.totalDurationContDescSubject.subscribeContentDescription(totalDurationText)
         vm.selectedFlightLegSubject.subscribe { selectedFlight ->
             val segmentbreakdowns = arrayListOf<FlightSegmentBreakdown>()
-            val segmentSeatClassAndBookingCode = selectedFlight.seatClassAndBookingCodeList
+            val segmentSeatClassAndBookingCode = selectedFlight.packageOfferModel.segmentsSeatClassAndBookingCode
             for ((index, segment) in selectedFlight.flightSegments.withIndex()) {
                 if (segmentSeatClassAndBookingCode != null) {
                     segment.seatClass = segmentSeatClassAndBookingCode[index].seatClass
                     segment.bookingCode = segmentSeatClassAndBookingCode[index].bookingCode
                 }
-                segmentbreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover, vm.shouldShowSeatingClassAndBookingCode()))
+                segmentbreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover, vm.showSeatClassAndBookingCode.value))
             }
             showBaggageFeesButton.setOnClickListener {
                 if(selectedFlight.baggageFeesUrl.contains("http")){
