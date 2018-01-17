@@ -58,7 +58,9 @@
         android:orientation="vertical"
         android:paddingBottom="12dp"
         android:paddingTop="12dp"
-        android:background="@color/white"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:background="@color/material_checkout_background_color"
         android:visibility="gone">
 
             <LinearLayout

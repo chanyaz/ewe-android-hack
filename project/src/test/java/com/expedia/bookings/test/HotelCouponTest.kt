@@ -129,7 +129,7 @@ class HotelCouponTest {
                 .build()
 
         val testSubscriber = TestSubscriber<HotelCreateTripResponse>()
-        vm.couponObservable.subscribe(testSubscriber)
+        vm.storedCouponSuccessObservable.subscribe(testSubscriber)
 
         vm.couponParamsObservable.onNext(couponParams)
 

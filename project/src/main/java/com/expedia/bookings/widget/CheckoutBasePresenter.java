@@ -269,7 +269,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		});
 	}
 
-	private void updateMaterialBackgroundColor(Boolean isMaterialFormShowing) {
+	public void updateMaterialBackgroundColor(Boolean isMaterialFormShowing) {
 		int color = isMaterialFormShowing ? R.color.material_checkout_background_color : R.color.checkout_overview_background_color;
 		scrollView.setBackgroundColor(ContextCompat.getColor(getContext(), color));
 	}

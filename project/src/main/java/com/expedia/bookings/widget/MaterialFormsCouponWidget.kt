@@ -9,6 +9,7 @@ import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponWidget
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isShowSavedCoupons
 import com.expedia.util.subscribeVisibility
 
 class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidget(context, attrs) {
@@ -72,6 +73,7 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
     override fun setExpanded(expand: Boolean, animate: Boolean) {
         super.setExpanded(expand, animate)
         viewmodel.expandedObservable.onNext(expand)
+        viewmodel.onCouponWidgetExpandSubject.onNext(expand && isShowSavedCoupons(context))
     }
 
     override fun showHotelCheckoutView(couponInstanceId: String?): Boolean {

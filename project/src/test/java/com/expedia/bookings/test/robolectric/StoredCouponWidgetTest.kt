@@ -4,8 +4,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.bookings.presenter.shared.*
+import com.expedia.bookings.presenter.shared.StoredCouponWidget
+import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
+import com.expedia.bookings.presenter.shared.StoredCouponAppliedStatus
+import com.expedia.bookings.presenter.shared.StoredCouponViewHolder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,31 +39,20 @@ class StoredCouponWidgetTest {
         setupStoredCouponWidget()
         val storedCouponViewHolderAt0 = findStoredCouponViewHolderAtPosition(0)
 
-        assertEquals("A", storedCouponViewHolderAt0.hotelNameTextView.text.toString())
-        assertEquals(View.VISIBLE, storedCouponViewHolderAt0.defaultStateImage.visibility)
+        testViewsInStoredCouponViewHolder(View.VISIBLE, "A", View.GONE, storedCouponViewHolderAt0, View.GONE)
 
         var storedCouponViewHolderAt1 = findStoredCouponViewHolderAtPosition(1)
 
-        assertEquals("B", storedCouponViewHolderAt1.hotelNameTextView.text.toString())
-        assertEquals(View.VISIBLE, storedCouponViewHolderAt1.defaultStateImage.visibility)
+        testViewsInStoredCouponViewHolder(View.VISIBLE, "B", View.GONE, storedCouponViewHolderAt1, View.GONE)
 
         val storedCouponViewHolderAt2 = findStoredCouponViewHolderAtPosition(2)
 
-        assertEquals("C", storedCouponViewHolderAt2.hotelNameTextView.text.toString())
-        assertEquals(View.VISIBLE, storedCouponViewHolderAt2.defaultStateImage.visibility)
+        testViewsInStoredCouponViewHolder(View.VISIBLE, "C", View.GONE, storedCouponViewHolderAt2, View.GONE)
 
-        val storedCouponData = createStoredCouponAdapterData()
-        storedCouponData[1].savedCouponStatus = StoredCouponAppliedStatus.SUCCESS
-        storedCouponData[1].savedCoupon.name = "BB"
-        storedCouponWidget.viewModel.storedCouponsSubject.onNext(storedCouponData)
-        storedCouponWidget.storedCouponRecyclerView.measure(0, 0)
-        storedCouponWidget.storedCouponRecyclerView.layout(0, 0, 100, 10000)
-
+        setupStoredCouponWidget(listOf("A", "BB", "C"), listOf(StoredCouponAppliedStatus.DEFAULT, StoredCouponAppliedStatus.SUCCESS, StoredCouponAppliedStatus.DEFAULT))
         storedCouponViewHolderAt1 = findStoredCouponViewHolderAtPosition(1)
 
-        assertEquals("BB", storedCouponViewHolderAt1.hotelNameTextView.text.toString())
-        assertEquals(View.GONE, storedCouponViewHolderAt1.defaultStateImage.visibility)
-        assertEquals(View.VISIBLE, storedCouponViewHolderAt1.couponApplied.visibility)
+        testViewsInStoredCouponViewHolder(View.GONE, "BB", View.VISIBLE, storedCouponViewHolderAt1, View.GONE)
     }
 
     @Test
@@ -75,44 +66,27 @@ class StoredCouponWidgetTest {
         storedCouponViewHolderAt0.itemView.performClick()
 
         assertEquals("1", applyStoredCouponTestSubject.onNextEvents[0])
-        assertEquals(View.VISIBLE, storedCouponViewHolderAt0.progressBar.visibility)
-        assertEquals(View.GONE, storedCouponViewHolderAt0.defaultStateImage.visibility)
 
-        findStoredCouponViewHolderAtPosition(2).itemView.performClick()
-
-        assertEquals("3", applyStoredCouponTestSubject.onNextEvents[1])
-        assertEquals(View.VISIBLE, storedCouponViewHolderAt0.progressBar.visibility)
-        assertEquals(View.GONE, storedCouponViewHolderAt0.defaultStateImage.visibility)
+        testViewsInStoredCouponViewHolder(View.GONE, "A", View.GONE, storedCouponViewHolderAt0, View.VISIBLE)
     }
 
-
-    fun createStoredCouponAdapterData(): List<StoredCouponAdapter> {
-        val savedCoupon1 = createSavedCoupon("A", "1")
-        val storedCouponAdapter1 = StoredCouponAdapter(savedCoupon1, StoredCouponAppliedStatus.DEFAULT)
-        val savedCoupon2 = createSavedCoupon("B", "2")
-        val storedCouponAdapter2 = StoredCouponAdapter(savedCoupon2, StoredCouponAppliedStatus.DEFAULT)
-        val savedCoupon3 = createSavedCoupon("C", "3")
-        val storedCouponAdapter3 = StoredCouponAdapter(savedCoupon3, StoredCouponAppliedStatus.DEFAULT)
-
-        return listOf<StoredCouponAdapter>(storedCouponAdapter1, storedCouponAdapter2, storedCouponAdapter3)
-    }
-
-    fun createSavedCoupon(name: String, instanceId: String, redemptionStatus: HotelCreateTripResponse.RedemptionStatus = HotelCreateTripResponse.RedemptionStatus.VALID): HotelCreateTripResponse.SavedCoupon {
-        val savedCoupon = HotelCreateTripResponse.SavedCoupon()
-        savedCoupon.instanceId = instanceId
-        savedCoupon.name = name
-        savedCoupon.redemptionStatus = redemptionStatus
-        return savedCoupon
-    }
-
-    fun setupStoredCouponWidget() {
-        storedCouponWidget.viewModel.storedCouponsSubject.onNext(createStoredCouponAdapterData())
+    fun setupStoredCouponWidget(couponNames: List<String> = listOf("A", "B", "C"),
+                                visibility: List<StoredCouponAppliedStatus> = listOf(StoredCouponAppliedStatus.DEFAULT, StoredCouponAppliedStatus.DEFAULT, StoredCouponAppliedStatus.DEFAULT)) {
+        storedCouponWidget.viewModel.storedCouponsSubject.onNext(CouponTestUtil.createStoredCouponAdapterData(couponNames, visibility))
         storedCouponWidget.storedCouponRecyclerView.measure(0, 0)
         storedCouponWidget.storedCouponRecyclerView.layout(0, 0, 100, 10000)
     }
 
     fun findStoredCouponViewHolderAtPosition(position: Int): StoredCouponViewHolder {
         return (storedCouponWidget.storedCouponRecyclerView.findViewHolderForAdapterPosition(position) as StoredCouponViewHolder)
+    }
+
+    fun testViewsInStoredCouponViewHolder(visibilityOfDefaultImage: Int, couponText: String, visibilityOfAppliedImage: Int, viewHolder: StoredCouponViewHolder, visibilityOfProgressBar: Int) {
+        assertEquals(couponText, viewHolder.couponNameTextView.text.toString())
+        assertEquals(visibilityOfDefaultImage, viewHolder.defaultStateImage.visibility)
+        assertEquals(visibilityOfAppliedImage, viewHolder.couponApplied.visibility)
+        assertEquals(visibilityOfProgressBar, viewHolder.progressBar.visibility)
+
     }
 
 }

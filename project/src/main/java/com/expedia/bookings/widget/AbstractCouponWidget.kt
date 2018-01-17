@@ -242,7 +242,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
         }
     }
 
-    fun showProgress(show: Boolean) {
+    private fun showProgress(show: Boolean) {
         progress.visibility = if (show) {
             View.VISIBLE
         } else {

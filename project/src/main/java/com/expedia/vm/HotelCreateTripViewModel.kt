@@ -70,11 +70,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
             return userCoupons?.map { it -> StoredCouponAdapter(it, StoredCouponAppliedStatus.DEFAULT) } ?: emptyList()
         } else {
             return userCoupons?.map { it -> StoredCouponAdapter(it,
-                    if (appliedCouponInstanceId == it.instanceId) {
-                        StoredCouponAppliedStatus.SUCCESS
-                    } else {
-                    StoredCouponAppliedStatus.DEFAULT
-            })
+                    if (appliedCouponInstanceId == it.instanceId) StoredCouponAppliedStatus.SUCCESS else StoredCouponAppliedStatus.DEFAULT)
             } ?: emptyList()
         }
     }

@@ -45,6 +45,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val storedCouponWidgetVisibilityObservable = PublishSubject.create<Boolean>()
     val expandedObservable = PublishSubject.create<Boolean>()
     val hasStoredCoupons = PublishSubject.create<Boolean>()
+    val onCouponWidgetExpandSubject = PublishSubject.create<Boolean>()
 
 
     val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()

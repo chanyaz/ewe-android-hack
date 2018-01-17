@@ -12,14 +12,14 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.StoredCouponViewHolderViewModel
 
 class StoredCouponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val hotelNameTextView: TextView by bindView(R.id.hotel_coupon_name)
+    val couponNameTextView: TextView by bindView(R.id.hotel_coupon_name)
     val defaultStateImage: ImageView by bindView(R.id.stored_coupon_default)
     val progressBar: ProgressBar by bindView(R.id.stored_coupon_progress_bar)
     val couponApplied: ImageView by bindView(R.id.coupon_applied_successful)
 
     val viewModel: StoredCouponViewHolderViewModel by lazy {
         val vm = StoredCouponViewHolderViewModel()
-        vm.couponName.subscribeText(hotelNameTextView)
+        vm.couponName.subscribeText(couponNameTextView)
         vm.progressBarVisibility.subscribeVisibility(progressBar)
         vm.couponAppliedVisibility.subscribeVisibility(couponApplied)
         vm.defaultStateImageVisibility.subscribeVisibility(defaultStateImage)

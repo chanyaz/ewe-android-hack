@@ -2,7 +2,6 @@ package com.expedia.bookings.presenter.hotel
 
 import android.app.AlertDialog
 import android.content.Context
-import android.os.Handler
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -29,7 +28,6 @@ import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isHotelMaterialForms
-import com.expedia.bookings.utils.isShowSavedCoupons
 import com.expedia.bookings.widget.MaterialFormsCouponWidget
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
@@ -49,7 +47,10 @@ import com.expedia.vm.HotelCreateTripViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -104,11 +105,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             alertDialog.show()
         }
 
-        couponCardView.viewmodel.storedCouponSuccessObservable.subscribe {
-            Handler().postDelayed({
-                couponCardView.isExpanded = false
-                toolbar.enableRightActionButton(true)
-            }, 2000)
+        couponCardView.viewmodel.storedCouponSuccessObservable.delay(2000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            couponCardView.isExpanded = false
+            toolbar.enableRightActionButton(true)
         }
     }
 
@@ -185,6 +184,10 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
 
         val params = couponCardView.layoutParams as LayoutParams
         params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt(), 0, 0)
+
+        couponCardView.viewmodel.onCouponWidgetExpandSubject.subscribe { changeColor ->
+            updateMaterialBackgroundColor(changeColor)
+        }
     }
 
     fun bind() {
@@ -197,7 +200,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             clearCCNumber()
         }
 
-        if(!checkExpandedCardIsMaterialCouponCard()) {
+        if (!checkExpandedCardIsMaterialCouponCard()) {
             couponCardView.isExpanded = false
         }
 
