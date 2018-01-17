@@ -542,7 +542,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14655"
             android:summary="%s"
-            android:title="Trips New Flights Design - 14655" />
+            android:title="Trips - New Flights Design - 14655" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -550,7 +550,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="16205"
             android:summary="%s"
-            android:title="New Flight Alerts - 16205" />
+            android:title="Trips - New Flight Alerts - 16205" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -558,7 +558,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="16176"
             android:summary="%s"
-            android:title="Hotel Trip - Message Hotel - 16176" />
+            android:title="Trips - Message Hotel - 16176" />
 
     </PreferenceCategory>
 

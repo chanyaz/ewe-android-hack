@@ -256,12 +256,6 @@
             android:summary="Launch notifications for all trips in account"
             android:title="Show all Trip Notifications" />
 
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/preference_mock_flights"
-            android:summary="Mock Flights for flight redesign"
-            android:title="Mock Flights for redesign" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
