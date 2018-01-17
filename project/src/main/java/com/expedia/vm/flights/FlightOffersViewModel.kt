@@ -41,7 +41,6 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
                 if (outboundLeg.legRank == 0) {
                     outboundLeg.legRank = outBoundFlights.size
                 }
-                outboundLeg.seatClassAndBookingCodeList = offer.offersSeatClassAndBookingCode?.first()
             }
             var flights = flightMap[outboundId]
             if (flights == null) {
@@ -49,7 +48,6 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
             }
             if (inboundLeg != null) {
                 flights.add(inboundLeg)
-                inboundLeg.seatClassAndBookingCodeList = offer.offersSeatClassAndBookingCode?.last()
             }
             flightMap.put(outboundId, flights)
         }

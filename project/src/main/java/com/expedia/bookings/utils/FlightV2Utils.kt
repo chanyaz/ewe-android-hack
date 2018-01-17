@@ -268,10 +268,10 @@ object FlightV2Utils {
     @JvmStatic fun getFlightCabinPreferences(context: Context, flightLeg: FlightLeg): String {
         if (flightLeg.isBasicEconomy) {
             return context.resources.getString(R.string.cabin_code_basic_economy)
-        } else if (flightLeg.seatClassAndBookingCodeList != null &&
-                flightLeg.seatClassAndBookingCodeList.size > 0) {
+        } else if (flightLeg.packageOfferModel?.segmentsSeatClassAndBookingCode != null &&
+                flightLeg.packageOfferModel.segmentsSeatClassAndBookingCode.size > 0) {
             var flightCabinPreferences = ""
-            val seatClassAndBookingCodeList = flightLeg.seatClassAndBookingCodeList
+            val seatClassAndBookingCodeList = flightLeg.packageOfferModel.segmentsSeatClassAndBookingCode
             if (seatClassAndBookingCodeList.size == 1) {
                 flightCabinPreferences = context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[0].seatClass))
             } else if (seatClassAndBookingCodeList.size == 2) {
