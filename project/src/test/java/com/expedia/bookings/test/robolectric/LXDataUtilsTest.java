@@ -10,11 +10,13 @@ import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.view.View;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
@@ -207,5 +209,39 @@ public class LXDataUtilsTest {
 		assertEquals("$180", activityPrice.getText());
 		assertEquals("Price is $180 per traveler. Price before discount was $220 per traveler", activityPrice.getContentDescription().toString());
 		assertEquals("per traveler", fromPriceTicketType.getText());
+	}
+
+	@Test
+	public void bindRecommendationTest() {
+		TextView recommendationText = new TextView(getContext());
+		TextView recommendationScore = new TextView(getContext());
+
+		LXDataUtils.bindRecommendation(getContext(), 63, recommendationScore, recommendationText);
+		assertEquals("3.2", recommendationScore.getText());
+		assertEquals("of 5", recommendationText.getText());
+
+		LXDataUtils.bindRecommendation(getContext(), 89, recommendationScore, recommendationText);
+		assertEquals("4.5", recommendationScore.getText());
+		assertEquals("of 5 - Great!", recommendationText.getText());
+
+		LXDataUtils.bindRecommendation(getContext(), 43, recommendationScore, recommendationText);
+		assertEquals(View.GONE, recommendationScore.getVisibility());
+		assertEquals(View.GONE, recommendationText.getVisibility());
+	}
+
+	@Test
+	public void bindDiscountPercentageTest() {
+		TextView discountPercentage = new TextView(getContext());
+
+		LXActivity activity1 = new LXActivity();
+		activity1.discountPercentage = 10;
+
+		LXDataUtils.bindDiscountPercentage(activity1, discountPercentage);
+		assertEquals("-10%", discountPercentage.getText());
+
+		LXActivity activity2 = new LXActivity();
+
+		LXDataUtils.bindDiscountPercentage(activity2, discountPercentage);
+		assertEquals(View.GONE, discountPercentage.getVisibility());
 	}
 }

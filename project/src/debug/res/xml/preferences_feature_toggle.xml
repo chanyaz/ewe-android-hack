@@ -54,6 +54,11 @@
             android:summary="Activity Infosite Map."
             android:title="Enable Activity Infosite Map" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_enable_lx_srp_redesign"
+            android:summary="Enable new LX SRP Design."
+            android:title="Enable new LX SRP Design" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

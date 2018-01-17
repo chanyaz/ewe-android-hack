@@ -27,6 +27,7 @@ public class LXActivity {
 	public String mipFromPriceValue;
 	public String discountType;
 	public int mipDiscountPercentage;
+	public int discountPercentage;
 
 	//Utility Members
 	public String location;

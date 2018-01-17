@@ -132,6 +132,7 @@
     <dimen name="gt_results_bottom_padding">0dp</dimen>
     <dimen name="lx_category_image_width">300dp</dimen>
     <dimen name="space_below_lx_filter_view_height">52dp</dimen>
+    <dimen name="lx_price_text_size">20sp</dimen>
 
     <dimen name="calendar_month_view_max_text_size">12dp</dimen>
     <dimen name="time_slider_rectangle_width">50dp</dimen>

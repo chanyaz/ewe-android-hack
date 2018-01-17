@@ -19,6 +19,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
@@ -402,6 +403,46 @@ public class LXDataUtils {
 			fromPriceTicketType.setText("");
 			activityPrice.setText("");
 			activityPrice.setContentDescription(null);
+		}
+	}
+
+	public static void bindRecommendation(Context context, int recommendationScore, TextView recommendationScoreView, TextView recommendationTextView) {
+
+		// Calculating the recommendation score from 5 (we get the score from 100) and rounding it up to 1 decimal place
+		double recommendRating  = (double) recommendationScore / 20;
+		recommendRating = Math.ceil(recommendRating * 10) / 10;
+		String recommendText;
+		if (recommendationScore >= 60) {
+			if (recommendationScore >= 70 && recommendationScore < 80) {
+				recommendText = context.getResources().getString(R.string.lx_recommendation_superlativeGood);
+			}
+			else if (recommendationScore >= 80 && recommendationScore < 90) {
+				recommendText = context.getResources().getString(R.string.lx_recommendation_superlativeGreat);
+			}
+			else if (recommendationScore >= 90) {
+				recommendText = context.getResources().getString(R.string.lx_recommendation_superlativeAmazing);
+			}
+			else {
+				recommendText = context.getResources().getString(R.string.lx_recommendation_no_superlative);
+			}
+			recommendationScoreView.setText(String.valueOf(recommendRating));
+			recommendationTextView.setText(recommendText);
+			recommendationScoreView.setVisibility(View.VISIBLE);
+			recommendationTextView.setVisibility(View.VISIBLE);
+		}
+		else {
+			recommendationScoreView.setVisibility(View.GONE);
+			recommendationTextView.setVisibility(View.GONE);
+		}
+	}
+
+	public static void bindDiscountPercentage(LXActivity activity, TextView discountBadge) {
+		if (activity.discountPercentage != 0) {
+			discountBadge.setText("-" + String.valueOf(activity.discountPercentage) + "%");
+			discountBadge.setVisibility(View.VISIBLE);
+		}
+		else {
+			discountBadge.setVisibility(View.GONE);
 		}
 	}
 

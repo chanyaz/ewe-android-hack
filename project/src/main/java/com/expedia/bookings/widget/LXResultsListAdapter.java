@@ -20,6 +20,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -140,6 +141,15 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		@InjectView(R.id.urgency_message_layout_lx)
 		LinearLayout urgencyMessage;
 
+		@InjectView(R.id.activity_recommendation_rating)
+		TextView recommendationScoreView;
+
+		@InjectView(R.id.activity_recommended_text)
+		TextView recommendationTextView;
+
+		@InjectView(R.id.activity_discount_percentage)
+		TextView discountPercentageView;
+
 		private boolean lxModTestEnabled;
 
 		@Override
@@ -168,6 +178,11 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			cardView.setPreventCornerOverlap(false);
 			activityTitle.setText(activity.title);
 			LXDataUtils.bindDuration(itemView.getContext(), activity.duration, activity.isMultiDuration, duration);
+
+			if (FeatureToggleUtil.isFeatureEnabled(itemView.getContext(), R.string.preference_enable_lx_srp_redesign)) {
+				LXDataUtils.bindRecommendation(itemView.getContext(), activity.recommendationScore, recommendationScoreView, recommendationTextView);
+				LXDataUtils.bindDiscountPercentage(activity, discountPercentageView);
+			}
 
 			List<String> imageURLs = Images
 				.getLXImageURLBasedOnWidth(activity.getImages(), AndroidUtils.getDisplaySize(itemView.getContext()).x);

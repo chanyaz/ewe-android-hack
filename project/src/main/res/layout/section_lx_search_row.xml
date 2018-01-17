@@ -76,14 +76,15 @@
             android:paddingBottom="9dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:paddingTop="9dp">
+            android:paddingTop="9dp"
+            android:weightSum="1">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/activity_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
                 android:ellipsize="end"
                 android:gravity="left"
                 android:maxLines="2"
@@ -91,33 +92,35 @@
                 android:textSize="16sp"
                 app:textStyle="medium" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:layout_marginLeft="18dp"
-                android:orientation="vertical">
+                android:layout_weight="0.3"
+                android:layout_gravity="bottom">
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/activity_original_price"
+                <com.expedia.bookings.widget.RoundedCornerFrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:importantForAccessibility="no"
-                    android:textColor="@color/hotel_details_separator"
-                    android:textSize="12sp"
-                    app:textStyle="medium" />
+                    app:radius="2dp"
+                    android:layout_gravity="right">
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/activity_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    app:textStyle="medium" />
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/activity_discount_percentage"
+                        style="@style/Core.Text.300.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/success_green"
+                        android:gravity="center"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="3dp"
+                        android:textColor="@color/white"
+                        android:visibility="gone"/>
 
-            </LinearLayout>
+                </com.expedia.bookings.widget.RoundedCornerFrameLayout>
+
+            </FrameLayout>
 
         </LinearLayout>
 
@@ -126,35 +129,106 @@
     <LinearLayout
         android:id="@+id/activity_info_container"
         android:layout_width="match_parent"
-        android:layout_height="?attr/card_details_container_height"
+        android:layout_height="wrap_content"
         android:layout_marginTop="?attr/card_list_image_container_height"
         android:background="@android:color/white"
-        android:gravity="center"
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <TextView
-            android:id="@+id/activity_duration"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
-            android:drawableLeft="@drawable/time"
-            android:drawablePadding="4dp"
-            android:gravity="center_vertical"
-            android:includeFontPadding="false"
-            android:textColor="@color/result_cells_gray_text"
-            android:textSize="10sp" />
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical|left">
 
-        <TextView
-            android:id="@+id/activity_from_price_ticket_type"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginLeft="4dp"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:textColor="@color/result_cells_gray_text"
-            android:textSize="10sp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/activity_recommendation_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:visibility="gone"
+                    android:textColor="@color/gray900"
+                    android:layout_marginBottom="4dp"
+                    style="@style/Core.Text.400"
+                    android:fontFamily="sans-serif-medium"/>
+
+                <TextView
+                    android:id="@+id/activity_recommended_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    style="@style/Core.Text.400"
+                    android:textColor="@color/gray900"
+                    android:layout_marginBottom="4dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/activity_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:drawableLeft="@drawable/time"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:textColor="@color/result_cells_gray_text"
+                style="@style/Core.Text.300"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical|right"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/activity_original_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:importantForAccessibility="no"
+                    android:textColor="@color/gray700"
+                    style="@style/Core.Text.400"
+                    app:textStyle="light"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="6dp"/>
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/activity_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:textSize="@dimen/lx_price_text_size"
+                    android:textColor="@color/gray900"
+                    android:fontFamily="sans-serif-medium"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/activity_from_price_ticket_type"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:textColor="@color/result_cells_gray_text"
+                style="@style/Core.Text.300"/>
+
+        </LinearLayout>
 
         <View
             android:layout_width="1dp"

@@ -636,6 +636,11 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
+    <string name="lx_recommendation_no_superlative">of 5</string>
+    <string name="lx_recommendation_superlativeGood">of 5 - Good!</string>
+    <string name="lx_recommendation_superlativeGreat">of 5 - Great!</string>
+    <string name="lx_recommendation_superlativeAmazing">of 5 - Amazing!</string>
+
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">Keyword or phrase</string>
 
