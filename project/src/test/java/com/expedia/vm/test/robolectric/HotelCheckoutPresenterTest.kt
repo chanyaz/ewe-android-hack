@@ -80,7 +80,7 @@ class HotelCheckoutPresenterTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         Db.sharedInstance.resetTravelers()
         activity.setTheme(R.style.Theme_Hotels_Default)
-        AbacusTestUtils.unbucketTestAndDisableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
         checkout = checkoutView.hotelCheckoutWidget
         checkout.paymentInfoCardView.viewmodel.lineOfBusiness.onNext(LineOfBusiness.HOTELS)
@@ -346,7 +346,7 @@ class HotelCheckoutPresenterTest {
     @Test
     fun testTravelerCheckoutParamsWhenHotelMaterialFormIsTurnedOn() {
         val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
-        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = setupHotelCheckoutPresenter()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
         var paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
@@ -447,7 +447,7 @@ class HotelCheckoutPresenterTest {
 
     @Test
     fun testEmailOptedInTravelerDetailsOnBookMaterialFormOn() {
-        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = setupHotelCheckoutPresenter()
         val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
@@ -506,7 +506,7 @@ class HotelCheckoutPresenterTest {
 
     @Test
     fun testOptOutCheckedSetsFalseParamMaterialFormOn() {
-        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = setupHotelCheckoutPresenter()
         val testCheckoutParams = TestSubscriber<HotelCheckoutV2Params>()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
@@ -550,7 +550,7 @@ class HotelCheckoutPresenterTest {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
         activity.setTheme(R.style.Theme_Hotels_Default)
-        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
         checkout = checkoutView.hotelCheckoutWidget
         checkout.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))

@@ -1033,9 +1033,7 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppDisabledSTPStateHotels);
 		}
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_hotel_material_forms)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMaterialForms);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMaterialForms);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSavedCoupons);
 
 		StringBuilder events = new StringBuilder("event70");

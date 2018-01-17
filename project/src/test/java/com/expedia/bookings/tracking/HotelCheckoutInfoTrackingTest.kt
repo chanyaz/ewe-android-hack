@@ -35,6 +35,7 @@ class HotelCheckoutInfoTrackingTest {
     fun before() {
         context = RuntimeEnvironment.application
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        AbacusTestUtils.resetABTests()
     }
 
     @Test
@@ -93,9 +94,7 @@ class HotelCheckoutInfoTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMaterialFormsBucketedTrackingCallFiredWhenFeatureToggleON() {
-
-        enableFeatureFlag(true, R.string.preference_enable_hotel_material_forms)
+    fun testHotelMaterialFormsBucketedTracking() {
         enableABTest(true, AbacusUtils.EBAndroidAppHotelMaterialForms.key)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
@@ -108,9 +107,7 @@ class HotelCheckoutInfoTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMaterialFormsControlTrackingCallFiredWhenFeatureToggleON() {
-
-        enableFeatureFlag(true, R.string.preference_enable_hotel_material_forms)
+    fun testHotelMaterialFormsControlTracking() {
         enableABTest(false, AbacusUtils.EBAndroidAppHotelMaterialForms.key)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
@@ -119,30 +116,6 @@ class HotelCheckoutInfoTrackingTest {
 
         val expectedEvars = mapOf(34 to "16138.0.0")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMaterialFormsBucketedTrackingCallNotFiredWhenFeatureToggleOFF() {
-
-        enableFeatureFlag(false, R.string.preference_enable_hotel_material_forms)
-        enableABTest(true, AbacusUtils.EBAndroidAppHotelMaterialForms.key)
-
-        trackPageLoadHotelCheckoutInfo()
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "16138.0.0")), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "16138.0.1")), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMaterialFormsControlTrackingCallNotFiredWhenFeatureToggleOFF() {
-
-        enableFeatureFlag(false, R.string.preference_enable_hotel_material_forms)
-        enableABTest(false, AbacusUtils.EBAndroidAppHotelMaterialForms.key)
-
-        trackPageLoadHotelCheckoutInfo()
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "16138.0.0")), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "16138.0.1")), mockAnalyticsProvider)
     }
 
     @Test

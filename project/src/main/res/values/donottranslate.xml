@@ -149,7 +149,6 @@
     <string name="preference_enable_disabled_stp_hotels">preference_enable_disabled_stp_hotels</string>
     <string name="preference_enable_production_abacus">preference_enable_production_abacus</string>
     <string name="pay_later_credit_card_messaging">pay_later_credit_card_messaging</string>
-    <string name="preference_enable_hotel_material_forms">preference_enable_hotel_material_forms</string>
     <string name="preference_enable_trips_flight_alerts">preference_enable_trips_flight_alerts</string>
     <string name="preference_enable_meso_destination_card">preference_enable_meso_destination_card</string>
     <string name="preference_enable_trips_hotel_messaging">preference_enable_trips_hotel_messaging</string>

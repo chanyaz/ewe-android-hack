@@ -17,13 +17,13 @@ class FeatureUtilTest {
 
     @Test
     fun testEnableHotelMaterialForms() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         assertTrue(isHotelMaterialForms(context))
     }
 
     @Test
     fun testDisableHotelMaterialForms() {
-        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         assertFalse(isHotelMaterialForms(context))
     }
 

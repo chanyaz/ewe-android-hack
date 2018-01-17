@@ -63,8 +63,7 @@ fun isBrandColorEnabled(context: Context) : Boolean {
 }
 
 fun isHotelMaterialForms(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelMaterialForms) &&
-            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_hotel_material_forms)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelMaterialForms)
 }
 
 fun isBreadcrumbsPackagesEnabled(context: Context): Boolean {

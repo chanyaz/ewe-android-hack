@@ -159,7 +159,7 @@ class PaymentWidgetV2Test {
     fun testPaymentTitleWithPayWithPointsHotelWithNoDepositRequirement() {
         sut.validateAndBind()
         paymentModel.createTripSubject.onNext(getPayLaterResponse())
-        
+
         testPaymentTileInfo("Enter payment details", "",  ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard), View.GONE)
     }
 
@@ -693,7 +693,7 @@ class PaymentWidgetV2Test {
     }
 
     private fun setupHotelMaterialForms() {
-        AbacusTestUtils.bucketTestAndEnableFeature(getContext(), AbacusUtils.EBAndroidAppHotelMaterialForms, R.string.preference_enable_hotel_material_forms)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
