@@ -33,6 +33,7 @@
             android:minHeight="?attr/actionBarSize"
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_close_white_24dp"
+            app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc"
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
     </android.support.design.widget.AppBarLayout>
 

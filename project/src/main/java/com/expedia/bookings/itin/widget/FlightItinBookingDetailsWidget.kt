@@ -12,6 +12,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightItinBookingInfoViewModel
 import com.expedia.bookings.itin.vm.ItinLinkOffCardViewViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -74,6 +75,7 @@ class FlightItinBookingDetailsWidget(context: Context, attr: AttributeSet?) : Li
 
     private fun setUpCardView(params: ItinLinkOffCardViewViewModel.CardViewParams, card: ItinLinkOffCardView) {
         card.setHeadingText(params.heading)
+        AccessibilityUtil.appendRoleContDesc(card, params.heading.toString(), R.string.accessibility_cont_desc_role_button)
         if (params.subHeading != null) {
             card.setSubHeadingText(params.subHeading)
             if (params.wrapSubHeading) card.wrapSubHeading()

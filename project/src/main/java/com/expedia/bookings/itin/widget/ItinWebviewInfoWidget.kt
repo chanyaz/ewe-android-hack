@@ -11,6 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.vm.ItinWebviewInfoButtonViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import kotlinx.android.synthetic.main.widget_itin_webview_button.view.card_view
@@ -24,8 +25,10 @@ class ItinWebviewInfoWidget(context: Context, attrs: AttributeSet?) : LinearLayo
     var viewModel: ItinWebviewInfoButtonViewModel by notNullAndObservable { vm ->
         vm.createWebviewButtonWidgetSubject.subscribe { (text, drawable, color, url) ->
             if (!url.isNullOrEmpty()) {
-                if (!text.isNullOrEmpty())
+                if (!text.isNullOrEmpty()) {
                     buttonText.text = text
+                    AccessibilityUtil.appendRoleContDesc(card_view, buttonText.text.toString(), R.string.accessibility_cont_desc_role_button)
+                }
                 if (drawable != null) {
                     buttonText.setCompoundDrawablesWithIntrinsicBounds(drawable, 0, 0, 0)
                 }
