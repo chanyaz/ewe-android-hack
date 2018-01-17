@@ -156,17 +156,14 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         })
 
         changeFlight.setOnMenuItemClickListener({
-            resetAndShowTotalPriceWidget()
-            checkoutPresenter.clearPaymentInfo()
-            checkoutPresenter.updateDbTravelers()
+            resetBundleOverview()
             bundleOverviewHeader.toggleOverviewHeader(false)
-            totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
-            resetBundleTotalTax()
-            bundleWidget.collapseBundleWidgets()
+
             val params = Db.sharedInstance.packageParams
             params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
             params.searchProduct = Constants.PRODUCT_FLIGHT
             params.selectedLegId = null
+
             bundleWidget.viewModel.flightParamsObservable.onNext(params)
             PackagesTracking().trackBundleEditItemClick("Flight")
 
@@ -203,32 +200,37 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun onChangeHotelClicked() {
         Db.setCachedPackageResponse(Db.getPackageResponse())
+
+        resetBundleOverview()
         bundleOverviewHeader.toggleOverviewHeader(false)
-        resetAndShowTotalPriceWidget()
-        checkoutPresenter.clearPaymentInfo()
-        checkoutPresenter.updateDbTravelers()
-        totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
-        resetBundleTotalTax()
-        bundleWidget.collapseBundleWidgets()
+
         val params = Db.sharedInstance.packageParams
         params.pageType = Constants.PACKAGE_CHANGE_HOTEL
         params.searchProduct = null
+
         bundleWidget.viewModel.hotelParamsObservable.onNext(params)
         bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")
         PackagesTracking().trackBundleEditItemClick("Hotel")
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun onChangeHotelRoomClicked() {
-        Db.setCachedPackageResponse(Db.getPackageResponse())
+    private fun resetBundleOverview() {
         resetAndShowTotalPriceWidget()
         checkoutPresenter.clearPaymentInfo()
         checkoutPresenter.updateDbTravelers()
-        bundleWidget.collapseBundleWidgets()
         totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
         resetBundleTotalTax()
+        bundleWidget.collapseBundleWidgets()
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun onChangeHotelRoomClicked() {
+        Db.setCachedPackageResponse(Db.getPackageResponse())
+
+        resetBundleOverview()
+
         val params = Db.sharedInstance.packageParams
         params.pageType = Constants.PACKAGE_CHANGE_HOTEL
+
         val intent = Intent(context, PackageHotelActivity::class.java)
         intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
         (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
