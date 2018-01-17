@@ -159,6 +159,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         Db.sharedInstance.packageParams.flightLegList = allFlights
         trackFlightResultsLoad()
         if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+            bundlePriceWidgetTopShadow.visibility = View.VISIBLE
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text_new))
             bundlePriceWidgetTop.setOnClickListener { show(bundleSlidingWidget) }
             bundleSlidingWidget.bundlePriceWidget.viewModel.perPersonTextLabelObservable.subscribeVisibility(bundlePriceWidgetTop.bundlePerPersonText)
@@ -313,10 +314,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun viewBundleSetVisibility(forward: Boolean) {
         bundleSlidingWidget.visibility = if (forward) View.VISIBLE else View.GONE
-        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-            bundlePriceWidgetTop.visibility = if (forward) View.VISIBLE else View.GONE
-            bundlePriceWidgetTopShadow.visibility = if (forward) View.VISIBLE else View.GONE
-        }
     }
 
     private val resultsToOverview = object : Transition(FlightResultsListViewPresenter::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), bundleSlidingWidget.REGULAR_ANIMATION_DURATION) {
