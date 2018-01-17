@@ -613,7 +613,7 @@ class FlightOverviewPresenterTest {
         pricePerPassengerList.add(passengerInfo)
         val flightOffer = FlightTripDetails.FlightOffer()
         flightOffer.totalPrice = Money(223, "USD")
-        val seatClassAndBookingCode = FlightTripDetails.SeatClassAndBookingCode()
+        val seatClassAndBookingCode = FlightTripDetails().SeatClassAndBookingCode()
         seatClassAndBookingCode.seatClass = "coach"
         flightOffer.offersSeatClassAndBookingCode = listOf(listOf(seatClassAndBookingCode))
         val flightTripDetails = FlightTripDetails()

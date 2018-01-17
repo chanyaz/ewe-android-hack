@@ -172,6 +172,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 flightCellWidget.bind(flightOverviewRowViewModel, 0)
                 viewModel.updateUpsellClassPreference.map {
                     selectedFlight.isBasicEconomy = it.second
+                    selectedFlight.packageOfferModel.segmentsSeatClassAndBookingCode = it.first
                     FlightV2Utils.getFlightCabinPreferences(context, selectedFlight)
                 }.subscribe(flightCellWidget.viewModel.updateflightCabinPreferenceObservable)
                 flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById<ImageView>(R.id.flight_overview_collapse_icon)

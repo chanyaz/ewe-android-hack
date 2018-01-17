@@ -235,6 +235,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         price.pricePerPersonFormatted = offer.averageTotalPricePerTicket.formattedWholePrice
         offerModel.urgencyMessage = urgencyMessage
         offerModel.price = price
+        offerModel.segmentsSeatClassAndBookingCode = if (isOutbound) offer.offersSeatClassAndBookingCode[0] else offer.offersSeatClassAndBookingCode[1]
         offerModel.loyaltyInfo = offer.loyaltyInfo
         return offerModel
     }
