@@ -3891,6 +3891,10 @@
     <string name="row_expand_button_description">Collapsed button. Double tap to expand.</string>
     <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} Expanded button. Double tap to collapse.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
+    <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Collapsed button. Double tap to expand.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
+    <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}. {rowdescription} Expanded button. Double tap to collapse.</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">Flight time is {time}. Flying with {airline}. The flight duration is {hours} {minutes} with {stops} stops\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->

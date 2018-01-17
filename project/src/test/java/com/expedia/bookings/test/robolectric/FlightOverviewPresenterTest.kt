@@ -326,12 +326,12 @@ class FlightOverviewPresenterTest {
         flightSummaryWidget.viewmodel = FlightOverviewSummaryViewModel(context)
         flightSummaryWidget.viewmodel.params.onNext(setupFlightSearchParams(false))
         assertEquals(View.VISIBLE, flightSummaryWidget.freeCancellationInfoContainer.visibility)
-        assertEquals(View.GONE, flightSummaryWidget.freeCancellationInfoTextView.visibility)
+        assertEquals(View.GONE, flightSummaryWidget.freeCancellationMoreInfoTextView.visibility)
         flightSummaryWidget.freeCancellationInfoContainer.performClick()
-        assertEquals(View.VISIBLE, flightSummaryWidget.freeCancellationInfoTextView.visibility)
-        assertEquals("After 24 hours, standard flight rules apply.", flightSummaryWidget.freeCancellationInfoTextView.text)
+        assertEquals(View.VISIBLE, flightSummaryWidget.freeCancellationMoreInfoTextView.visibility)
+        assertEquals("After 24 hours, standard flight rules apply.", flightSummaryWidget.freeCancellationMoreInfoTextView.text)
         flightSummaryWidget.freeCancellationInfoContainer.performClick()
-        assertEquals(View.GONE, flightSummaryWidget.freeCancellationInfoTextView.visibility)
+        assertEquals(View.GONE, flightSummaryWidget.freeCancellationMoreInfoTextView.visibility)
     }
 
     @Test
@@ -532,6 +532,26 @@ class FlightOverviewPresenterTest {
 
         assertEquals("This flight booking is made through Evolable Asia. Supplier's Terms and Conditions apply.",
                 HtmlCompat.stripHtml(evolableTermsConditionView.text.toString()).trim())
+    }
+
+    @Test
+    fun testFreeCancellationContentDescription() {
+        createExpectedFlightLeg()
+        val createTripResponse = getFlightCreateTripResponse()
+        createTripResponse.details.legs = listOf(flightLeg)
+
+        assertEquals("Free cancellation within 24 hours. Collapsed button. Double tap to expand.",
+                widget.flightSummary.freeCancellationInfoContainer.contentDescription)
+
+        widget.flightSummary.freeCancellationInfoContainer.performClick()
+
+        assertEquals("Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse.",
+                widget.flightSummary.freeCancellationInfoContainer.contentDescription)
+
+        widget.flightSummary.freeCancellationInfoContainer.performClick()
+
+        assertEquals("Free cancellation within 24 hours. Collapsed button. Double tap to expand.",
+                widget.flightSummary.freeCancellationInfoContainer.contentDescription)
     }
 
     private fun setupFlightSearchParams(isRoundTrip: Boolean = true): FlightSearchParams {
