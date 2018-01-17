@@ -1,6 +1,8 @@
 package com.expedia.bookings.itin.widget
 
 import android.view.LayoutInflater
+import android.view.View
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
@@ -19,6 +21,7 @@ class HotelItinImageTest {
 
     lateinit var hotelItinImageWidget: HotelItinImage
     lateinit private var activity: HotelItinDetailsActivity
+    var itinCardDataHotel = ItinCardDataHotelBuilder().build()
 
     @Before
     fun before() {
@@ -29,7 +32,6 @@ class HotelItinImageTest {
 
     @Test
     fun testHotelItinImage() {
-        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         val hotelImageView: HotelItinImage = activity.hotelImageView
         val prevDrawable = hotelImageView.hotelImageView.drawable
         hotelImageView.setUpWidget(itinCardDataHotel)
@@ -39,7 +41,6 @@ class HotelItinImageTest {
 
     @Test
     fun testHotelItinImageNull() {
-        var itinCardDataHotel = ItinCardDataHotelBuilder().build()
         val mock = Mockito.mock(HotelMedia::class.java)
         itinCardDataHotel.property.thumbnail = mock
         Mockito.`when`(mock.originalUrl).thenReturn(null)
@@ -51,7 +52,6 @@ class HotelItinImageTest {
 
     @Test
     fun testHotelItinImageBlank() {
-        var itinCardDataHotel = ItinCardDataHotelBuilder().build()
         val mock = Mockito.mock(HotelMedia::class.java)
         itinCardDataHotel.property.thumbnail = mock
         Mockito.`when`(mock.originalUrl).thenReturn(" ")
@@ -60,4 +60,26 @@ class HotelItinImageTest {
         hotelImageView.setUpWidget(itinCardDataHotel)
         assertEquals(prevDrawable, hotelImageView.hotelImageView.drawable)
     }
+
+    @Test
+    fun testHotelPhoneBlank() {
+        itinCardDataHotel.property.localPhone = ""
+        hotelItinImageWidget.setUpWidget(itinCardDataHotel)
+        val actionButtons = hotelItinImageWidget.actionButtons
+
+        assertEquals(View.GONE, actionButtons.visibility)
+    }
+
+    @Test
+    fun testHotelHasPhone() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        hotelItinImageWidget.setUpWidget(itinCardDataHotel)
+        val callButton = hotelItinImageWidget.actionButtons.getmLeftButton()
+
+        assertEquals(View.VISIBLE, callButton.visibility)
+
+        callButton.performClick()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Call", mockAnalyticsProvider)
+    }
+
 }

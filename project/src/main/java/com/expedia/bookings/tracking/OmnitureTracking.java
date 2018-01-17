@@ -2643,7 +2643,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackItinHotelCall() {
-		internalTrackLink(ITIN_HOTEL_CALL);
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
 	private static void trackItinHotelInfo() {
