@@ -147,13 +147,14 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val scrollToRoom = PublishSubject.create<Unit>()
     val returnToSearchSubject = PublishSubject.create<Unit>()
     val hotelSelectedObservable = PublishSubject.create<Unit>()
-    private val allRoomsSoldOut = BehaviorSubject.createDefault<Boolean>(false)
+    val allRoomsSoldOut = BehaviorSubject.createDefault<Boolean>(false)
 
     lateinit var hotelId: String
     var isCurrentLocationSearch = false
     var selectedRoomIndex = -1
     val loadTimeData = PageUsableData()
 
+    private var hasSoldOutRoom = false
     private val resortFeeFormatter = HotelResortFeeFormatter()
     private var roomSubscriptions: CompositeDisposable? = null
 
@@ -228,6 +229,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
         selectedRoomSoldOut.subscribe {
             if (selectedRoomIndex != -1) {
+                hasSoldOutRoom = true
                 hotelRoomDetailViewModelsObservable.value.elementAt(selectedRoomIndex).roomSoldOut.onNext(true)
             }
         }
@@ -400,7 +402,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         hotelRatingObservableVisibility.onNext(offerResponse.hotelStarRating > 0)
         hotelRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, offerResponse.hotelStarRating))
 
-        allRoomsSoldOut.onNext(CollectionUtils.isEmpty(offerResponse.hotelRoomResponse))
+        val noRoomsAvailable = CollectionUtils.isEmpty(offerResponse.hotelRoomResponse)
+        hasSoldOutRoom = noRoomsAvailable
+        allRoomsSoldOut.onNext(noRoomsAvailable)
 
         val firstHotelRoomResponse = offerResponse.hotelRoomResponse?.firstOrNull()
         if (firstHotelRoomResponse != null) {
@@ -493,6 +497,10 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         } else {
             priceToShowCustomerObservable.value + context.getString(R.string.per_night)
         }
+    }
+
+    fun shouldTrackPartialSoldOut() : Boolean {
+        return hasSoldOutRoom && !allRoomsSoldOut.value
     }
 
     private fun getCommonValueAdds(hotelOffersResponse: HotelOffersResponse): List<String> {

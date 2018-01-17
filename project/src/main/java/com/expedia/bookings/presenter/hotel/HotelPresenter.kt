@@ -68,7 +68,6 @@ import com.expedia.vm.HotelConfirmationViewModel
 import com.expedia.vm.HotelCreateTripViewModel
 import com.expedia.vm.HotelErrorViewModel
 import com.expedia.vm.HotelMapViewModel
-import com.expedia.vm.HotelPresenterViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelWebCheckoutViewViewModel
@@ -210,30 +209,26 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView)
         presenter.hotelDetailView.viewmodel = hotelDetailViewModel
-        presenter.hotelDetailView.viewmodel.depositInfoContainerClickObservable.subscribe { pair: Pair<String, HotelOffersResponse.HotelRoomResponse> ->
+        hotelDetailViewModel.depositInfoContainerClickObservable.subscribe { pair: Pair<String, HotelOffersResponse.HotelRoomResponse> ->
             presenter.hotelDepositInfoObserver.onNext(pair)
         }
-        presenter.hotelDetailView.viewmodel.reviewsDataObservable.subscribe(reviewsOfferObserver)
-        presenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(presenter.hotelRenovationObserver)
-        presenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe { pair: Pair<String, List<HotelOffersResponse.HotelRoomResponse>> ->
+        hotelDetailViewModel.reviewsDataObservable.subscribe(reviewsOfferObserver)
+        hotelDetailViewModel.hotelRenovationObservable.subscribe(presenter.hotelRenovationObserver)
+        hotelDetailViewModel.hotelPayLaterInfoObservable.subscribe { pair: Pair<String, List<HotelOffersResponse.HotelRoomResponse>> ->
             presenter.hotelPayLaterInfoObserver.onNext(pair)
         }
 
-        presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
-        presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
-        presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut, presenter.hotelDetailView.viewmodel.getLOB())
-        presenter.hotelDetailView.viewmodel.returnToSearchSubject.subscribe(goToSearchScreen)
+        hotelDetailViewModel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
+        hotelDetailViewModel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
+        presenter.hotelMapView.viewmodel = HotelMapViewModel(context, hotelDetailViewModel.scrollToRoom, hotelDetailViewModel.hotelSoldOut, hotelDetailViewModel.getLOB())
+        hotelDetailViewModel.returnToSearchSubject.subscribe(goToSearchScreen)
 
-        if (shouldUseWebCheckout()) {
-            viewModel = HotelPresenterViewModel((webCheckoutView.viewModel as HotelWebCheckoutViewViewModel).createTripViewModel, null, presenter.hotelDetailView.viewmodel)
-        } else {
-            viewModel = HotelPresenterViewModel(checkoutPresenter.hotelCheckoutWidget.createTripViewmodel, checkoutPresenter.hotelCheckoutViewModel, presenter.hotelDetailView.viewmodel)
-        }
-        viewModel.selectedRoomSoldOut.subscribe(presenter.hotelDetailView.viewmodel.selectedRoomSoldOut)
         //ResultsPresenter doesn't inflate with roboelectric due to missing shadows for google map
         if (!ExpediaBookingApp.isRobolectric()) {
-            viewModel.hotelSoldOutWithHotelId.subscribe { hotelId ->
-                resultsPresenter.handleSoldOutHotel(hotelId)
+            hotelDetailViewModel.allRoomsSoldOut.subscribe { soldOut ->
+                if (soldOut) {
+                    resultsPresenter.handleSoldOutHotel(hotelDetailViewModel.hotelId)
+                }
             }
         }
         presenter
@@ -364,7 +359,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val ANIMATION_DURATION = 400
     val geoCodeSearchModel = GeocodeSearchModel(context)
     private val checkoutDialog = ProgressDialog(context)
-    var viewModel: HotelPresenterViewModel by Delegates.notNull()
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -498,6 +492,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
 
         errorPresenter.viewmodel.soldOutObservable.subscribe {
+            hotelDetailViewModel.selectedRoomSoldOut.onNext(Unit)
             show(detailPresenter, FLAG_CLEAR_TOP)
         }
 
@@ -550,7 +545,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             detailPresenter.visibility = View.VISIBLE
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
-                detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
+                hotelDetailViewModel.addViewsAfterTransition()
                 backStack.push(searchPresenter)
             }
         }
@@ -752,7 +747,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             super.endTransition(forward)
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
-                detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
+                hotelDetailViewModel.addViewsAfterTransition()
             } else {
                 searchPresenter.resetSuggestionTracking()
                 HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
@@ -848,7 +843,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
-        detailPresenter.hotelDetailView.viewmodel.hotelSelectedObservable.onNext(Unit)
+        hotelDetailViewModel.hotelSelectedObservable.onNext(Unit)
         //If hotel is known to be "Sold Out", simply show the Hotel Details Screen in "Sold Out" state, otherwise fetch Offers and show those as well
         showDetails(hotel.hotelId)
     }
@@ -1039,6 +1034,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun trackHotelDetail() {
-        detailPresenter.hotelDetailView.viewmodel.trackHotelDetailLoad(viewModel.didLastCreateTripOrCheckoutResultInRoomSoldOut.value)
+        hotelDetailViewModel.trackHotelDetailLoad(isRoomSoldOut = hotelDetailViewModel.shouldTrackPartialSoldOut())
     }
 }
