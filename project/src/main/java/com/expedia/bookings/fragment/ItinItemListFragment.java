@@ -76,6 +76,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private static final String STATE_ALLOW_LOAD_ITINS = "STATE_ALLOW_LOAD_ITINS";
 	private static final String STATE_ITIN_LIST_TRACKED = "STATE_ITIN_LIST_TRACKED";
 	private static final String STATE_JUMP_TO_UNIQUE_ID = "STATE_JUMP_TO_UNIQUE_ID";
+	private static final String STATE_NUMBER_ITIN_CARD_GUEST_USER = "STATE_NUMBER_ITIN_CARD_GUEST_USER";
 
 	private ItinItemListFragmentListener mListener;
 
@@ -102,6 +103,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private String mJumpToItinId = null;
 	private UserStateManager userStateManager;
 	private boolean isAttached = false;
+	private int mNumberOfItinCardsOfGuestUser = 0;
 
 	//Have we tracked this itin list view yet?
 	private boolean mItinListTracked = false;
@@ -230,6 +232,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			mAllowLoadItins = savedInstanceState.getBoolean(STATE_ALLOW_LOAD_ITINS);
 			mItinListTracked = savedInstanceState.getBoolean(STATE_ITIN_LIST_TRACKED, false);
 			mJumpToItinId = savedInstanceState.getString(STATE_JUMP_TO_UNIQUE_ID);
+			mNumberOfItinCardsOfGuestUser = savedInstanceState.getInt(STATE_NUMBER_ITIN_CARD_GUEST_USER);
 		}
 		else if (getArguments() != null) {
 			mJumpToItinId = getArguments().getString(ARG_JUMP_TO_UNIQUE_ID);
@@ -288,6 +291,10 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public void onResume() {
 		super.onResume();
 
+		if (!userStateManager.isUserAuthenticated()) {
+			mNumberOfItinCardsOfGuestUser = getItinCardCount();
+		}
+
 		setSignInView(getView());
 		syncItinManager(true, false);
 
@@ -306,6 +313,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		outState.putBoolean(STATE_ALLOW_LOAD_ITINS, mAllowLoadItins);
 		outState.putBoolean(STATE_ITIN_LIST_TRACKED, mItinListTracked);
 		outState.putString(STATE_JUMP_TO_UNIQUE_ID, mJumpToItinId);
+		outState.putInt(STATE_NUMBER_ITIN_CARD_GUEST_USER, mNumberOfItinCardsOfGuestUser);
 	}
 
 	@Override
@@ -382,7 +390,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		if (mAllowLoadItins && mItinListView != null && isAttached) {
 			boolean syncing = getItineraryManager().startSync(forceRefresh);
 			setIsLoading(syncing);
-			if (syncing && (showLoading || getItinCardCount() <= 0)) {
+			if (syncing && (showLoading || getItinCardCount() <= 0 || mNumberOfItinCardsOfGuestUser > 0)) {
 				setIsLoading(true);
 				mItinListView.enableScrollToRevelentWhenDataSetChanged();
 			}
@@ -402,6 +410,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		invalidateOptionsMenu();
 
 		if (isLoading && mSignInPresenter != null) {
+			if (mNumberOfItinCardsOfGuestUser > 0) {
+				mItinListView.getItinCardDataAdapter().clearAdapter();
+			}
 			mSignInPresenter.showItinFetchProgress();
 		}
 	}
@@ -423,7 +434,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public void enableLoadItins() {
 		mAllowLoadItins = true;
-		syncItinManager(false, false);
+		if (mNumberOfItinCardsOfGuestUser == 0) {
+			syncItinManager(false, false);
+		}
 	}
 
 	public void disableLoadItins() {
@@ -733,6 +746,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public void onSyncFinished(Collection<Trip> trips) {
 		mItinListView.syncWithManager();
 		setIsLoading(false);
+		if (userStateManager.isUserAuthenticated()) {
+			mNumberOfItinCardsOfGuestUser = 0;
+		}
 		if (mCurrentSyncHasErrors) {
 			if (trips == null) {
 				setState(MessageState.TRIPS_ERROR);
