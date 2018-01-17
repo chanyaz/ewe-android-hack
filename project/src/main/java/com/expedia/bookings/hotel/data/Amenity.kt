@@ -51,17 +51,17 @@ enum class Amenity(@DrawableRes val drawableRes: Int,
                     Amenity.AC_UNIT, Amenity.ALL_INCLUSIVE)
         }
 
-        fun getSearchKey(amenity: Amenity) : String {
+        fun getSearchKey(amenity: Amenity) : Int {
             return when (amenity) {
-                Amenity.BREAKFAST -> "16"
-                Amenity.POOL -> "7"
-                Amenity.PARKING -> "14"
-                Amenity.INTERNET -> "19"
-                Amenity.PETS -> "17"
-                Amenity.AIRPORT_SHUTTLE -> "66"
-                Amenity.AC_UNIT -> "27"
-                Amenity.ALL_INCLUSIVE -> "30"
-                else -> ""
+                Amenity.BREAKFAST -> 16
+                Amenity.POOL -> 7
+                Amenity.PARKING -> 14
+                Amenity.INTERNET -> 19
+                Amenity.PETS -> 17
+                Amenity.AIRPORT_SHUTTLE -> 66
+                Amenity.AC_UNIT -> 27
+                Amenity.ALL_INCLUSIVE -> 30
+                else -> -1
             }
         }
 

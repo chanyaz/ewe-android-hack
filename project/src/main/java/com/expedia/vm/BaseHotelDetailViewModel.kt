@@ -357,8 +357,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         return CollectionUtils.isNotEmpty(response.hotelRoomResponse) && response.hotelRoomResponse.any { it.payLaterOffer != null }
     }
 
-    //get list of unique amenity for hotel room offers
-    //we display this unique amenity offered in the expanded room view
+    //get list of unique amenities for hotel room offers
+    //we display this unique amenities offered in the expanded room view
     fun getValueAdd(hotelRooms: List<HotelOffersResponse.HotelRoomResponse>?): List<String> {
         if (CollectionUtils.isEmpty(hotelRooms)) {
             return emptyList()

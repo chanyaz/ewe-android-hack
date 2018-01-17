@@ -2,7 +2,6 @@ package com.expedia.bookings.data.hotel
 
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import java.util.ArrayList
 import java.util.HashSet
 
@@ -12,7 +11,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
                              var name: String = "",
                              var minPrice: Int = 0,
                              var maxPrice: Int = 0,
-                             var amenity: HashSet<Int> = HashSet<Int>(),
+                             var amenities: HashSet<Int> = HashSet(),
                              var neighborhoods: HashSet<HotelSearchResponse.Neighborhood> = HashSet<HotelSearchResponse.Neighborhood>()) {
 
     fun filterCount(): Int {
@@ -21,7 +20,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
         if (isVipOnlyAccess) count++
         if (name.isNotEmpty()) count++
         if (neighborhoods.isNotEmpty()) count += neighborhoods.size
-        if (amenity.isNotEmpty()) count += amenity.size
+        if (amenities.isNotEmpty()) count += amenities.size
         if (minPrice != 0 || maxPrice != 0) count++
         return count
     }
@@ -39,7 +38,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
         filterChoices.name = name
         filterChoices.minPrice = minPrice
         filterChoices.maxPrice = maxPrice
-        filterChoices.amenity = HashSet<Int>(amenity)
+        filterChoices.amenities = HashSet<Int>(amenities)
         filterChoices.neighborhoods = HashSet<HotelSearchResponse.Neighborhood>(neighborhoods)
         return filterChoices
     }

@@ -179,6 +179,9 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         if (filterParams.neighborhoods.isNotEmpty()) {
             searchBuilder.neighborhood(filterParams.neighborhoods.elementAt(0).id)
         }
+
+        searchBuilder.amenities(filterParams.amenities)
+
         searchBuilder.userSort(filterParams.userSort.toServerSort())
     }
 

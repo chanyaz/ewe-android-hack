@@ -84,6 +84,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         private var neighborhoodRegionId: String? = null
         private var vipOnly: Boolean = false
         private var userSort: SortType? = null
+        private var amenities: HashSet<Int> = HashSet()
 
         override fun destination(city: SuggestionV4?): Builder {
             this.destinationLocation = city?.copy()
@@ -134,6 +135,10 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             this.userSort = null
         }
 
+        fun amenities(amenities: HashSet<Int>) {
+            this.amenities = amenities
+        }
+
         fun from(params: HotelSearchParams): Builder {
             destination(params.suggestion)
             forPackage(params.forPackage)
@@ -145,6 +150,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
                 vipOnly(filterOptions.filterVipOnly)
                 filterOptions.filterByNeighborhoodId?.let { neighborhood(it) }
                 filterOptions.userSort?.let { userSort(it) }
+                filterOptions.amenities.let { amenities(it) }
             }
             adults(params.adults)
             children(params.children)
@@ -184,6 +190,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             filterOptions.filterVipOnly = vipOnly
             filterOptions.filterByNeighborhoodId = neighborhoodRegionId
             filterOptions.userSort = userSort
+            filterOptions.amenities = amenities
             return filterOptions
         }
     }
@@ -195,6 +202,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         var filterVipOnly: Boolean = false
         var filterByNeighborhoodId: String? = null
         var userSort: SortType? = null
+        var amenities: HashSet<Int> = HashSet()
 
         fun getFiltersQueryMap(): Map<String, Any?> {
             val params = HashMap<String, Any?>()
@@ -214,6 +222,10 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
                 params.put("vipOnly", filterVipOnly.toString())
             }
 
+            if (!amenities.isEmpty()) {
+                params.put("filterAmenities", amenities.joinToString(","))
+            }
+
             return params
         }
 
@@ -223,6 +235,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
                     && (filterPrice == null || !filterPrice!!.isValid())
                     && !filterVipOnly
                     && userSort == null
+                    && amenities.isEmpty()
         }
 
         fun isNotEmpty() :Boolean {

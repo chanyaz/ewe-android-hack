@@ -52,7 +52,6 @@ public class Hotel {
 	public boolean isShowEtpChoice;
 	public boolean isMemberDeal;
 
-	public List<Integer> amenityFilterIdList;
 	public boolean isSoldOut = false;
 	public boolean isPackage = false;
 	public String hotelPid;

@@ -4,11 +4,8 @@ import android.content.Context
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.PackagesFilterTracker
 import com.expedia.bookings.tracking.hotel.FilterTracker
-import com.expedia.bookings.utils.FilterAmenity
-import com.expedia.bookings.utils.Strings
 import com.expedia.util.endlessObserver
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import rx.subjects.PublishSubject
@@ -105,7 +102,6 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
                 && filterHotelStarRating(hotel)
                 && filterName(hotel)
                 && filterPriceRange(hotel)
-                && filterAmenity(hotel)
                 && filterNeighborhood(hotel)
     }
 
@@ -142,25 +138,6 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
         val price = hotel.lowRateInfo.priceToShowUsers
         return (userFilterChoices.minPrice == 0 && price < 0) || (userFilterChoices.minPrice <= price &&
                 (userFilterChoices.maxPrice == 0 || price <= userFilterChoices.maxPrice))
-    }
-
-    private fun filterAmenity(hotel: Hotel): Boolean {
-        if (userFilterChoices.amenity.isEmpty()) return true
-        if (hotel.amenities == null) return false
-        if (hotel.amenityFilterIdList == null) {
-            hotel.amenityFilterIdList = mapAmenitiesToFilterId(hotel.amenities)
-        }
-
-        for (i in userFilterChoices.amenity) {
-            if (!hotel.amenityFilterIdList.contains(i)) {
-                return false
-            }
-        }
-        return true
-    }
-
-    private fun mapAmenitiesToFilterId(amenities: List<Hotel.HotelAmenity>): List<Int> {
-        return amenities.map {amenity -> FilterAmenity.amenityIdToFilterId(amenity.id.toInt()) }
     }
 
     private fun filterNeighborhood(hotel: Hotel): Boolean {

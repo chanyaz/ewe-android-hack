@@ -53,6 +53,15 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
             amenityViews.forEach { view -> view.deselect() }
         }
 
+        amenityViews.forEach {
+            it.amenitySelected.subscribe {
+                vm.selectAmenity.onNext(it)
+            }
+            it.amenityDeselected.subscribe {
+                vm.deselectAmenity.onNext(it)
+            }
+        }
+
         vm.filterCountObservable.subscribe { count ->
             if (count <= 0) {
                 staticClearFilterButton.visibility = GONE

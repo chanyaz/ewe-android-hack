@@ -102,14 +102,6 @@ class PackageFilterViewModelTest {
     }
 
     @Test
-    fun filterAmenity() {
-        val amenityId = 16
-        vm.originalResponse = fakeFilteredResponse()
-        vm.selectAmenity.onNext(amenityId)
-        assertEquals(1, vm.filteredResponse.hotelList.size)
-    }
-
-    @Test
     fun emptyFilters() {
         vm.doneObservable.onNext(Unit)
         assertEquals(0, vm.filteredResponse.hotelList.size)
@@ -203,17 +195,8 @@ class PackageFilterViewModelTest {
         vm.fourStarFilterObserver.onNext(Unit)
         assertTrue(vm.filterCountObservable.value == 2)
 
-        vm.selectAmenity.onNext(16)
-        assertTrue(vm.filterCountObservable.value == 3)
-
-        vm.selectAmenity.onNext(1)
-        assertTrue(vm.filterCountObservable.value == 4)
-
-        vm.selectAmenity.onNext(16)
-        assertTrue(vm.filterCountObservable.value == 3)
-
         vm.vipFilteredObserver.onNext(true)
-        assertTrue(vm.filterCountObservable.value == 4)
+        assertTrue(vm.filterCountObservable.value == 3)
     }
 
     private fun fakeFilteredResponse(): HotelSearchResponse {

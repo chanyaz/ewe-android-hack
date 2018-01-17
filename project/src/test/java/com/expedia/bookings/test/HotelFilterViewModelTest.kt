@@ -73,13 +73,16 @@ class HotelFilterViewModelTest {
         neighborhood.name = "Civic Center"
         vm.selectNeighborhood.onNext(neighborhood)
 
-        assertEquals(5, vm.userFilterChoices.filterCount())
+        vm.selectAmenity.onNext(4)
+
+        assertEquals(6, vm.userFilterChoices.filterCount())
         assertEquals(str, vm.userFilterChoices.name)
         assertEquals(true, vm.userFilterChoices.hotelStarRating.one)
         assertEquals(true, vm.userFilterChoices.isVipOnlyAccess)
         assertTrue(vm.userFilterChoices.neighborhoods.size == 1)
         assertEquals(20, vm.userFilterChoices.minPrice)
         assertEquals(50, vm.userFilterChoices.maxPrice)
+        assertEquals(1, vm.userFilterChoices.amenities.size)
     }
 
     @Test
@@ -99,6 +102,8 @@ class HotelFilterViewModelTest {
         neighborhood.name = "Civic Center"
         vm.selectNeighborhood.onNext(neighborhood)
 
+        vm.selectAmenity.onNext(4)
+
         vm.clearObservable.onNext(Unit)
 
         assertEquals(0, vm.userFilterChoices.filterCount())
@@ -108,6 +113,7 @@ class HotelFilterViewModelTest {
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
         assertEquals(0, vm.userFilterChoices.minPrice)
         assertEquals(0, vm.userFilterChoices.maxPrice)
+        assertTrue(vm.userFilterChoices.amenities.isEmpty())
     }
 
     @Test
@@ -139,6 +145,14 @@ class HotelFilterViewModelTest {
         assertEquals(2, vm.userFilterChoices.filterCount())
 
         vm.deselectNeighborhood.onNext(neighborhood1)
+        vm.doneObservable.onNext(Unit)
+        assertEquals(1, vm.userFilterChoices.filterCount())
+
+        vm.selectAmenity.onNext(4)
+        vm.doneObservable.onNext(Unit)
+        assertEquals(2, vm.userFilterChoices.filterCount())
+
+        vm.deselectAmenity.onNext(4)
         vm.doneObservable.onNext(Unit)
         assertEquals(1, vm.userFilterChoices.filterCount())
     }

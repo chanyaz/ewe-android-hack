@@ -6,7 +6,6 @@ import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.hotel.FilterTracker
 import com.expedia.util.endlessObserver
 import rx.Observer
@@ -148,14 +147,11 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     }
 
     val selectAmenity: Observer<Int> = endlessObserver { amenityId ->
-        if (userFilterChoices.amenity.isEmpty() || !userFilterChoices.amenity.contains(amenityId)) {
-            userFilterChoices.amenity.add(amenityId)
-        } else {
-            userFilterChoices.amenity.remove(amenityId)
-        }
+        toggleAmenity(amenityId, true)
+    }
 
-        updateFilterCount()
-        handleFiltering()
+    val deselectAmenity: Observer<Int> = endlessObserver { amenityId ->
+        toggleAmenity(amenityId, false)
     }
 
     val selectNeighborhood = endlessObserver<HotelSearchResponse.Neighborhood> { neighborhood ->
@@ -203,6 +199,16 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         neighborhoodListObservable.onNext(neighborhoods)
         neighborhoodsExist = neighborhoods != null && neighborhoods.size > 0
         sendNewPriceRange()
+    }
+
+    private fun toggleAmenity(id: Int, on: Boolean) {
+        if (on) {
+            userFilterChoices.amenities.add(id)
+        } else {
+            userFilterChoices.amenities.remove(id)
+        }
+        updateFilterCount()
+        handleFiltering()
     }
 
     fun sendNewPriceRange() {
@@ -277,7 +283,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.name = ""
         userFilterChoices.minPrice = 0
         userFilterChoices.maxPrice = 0
-        userFilterChoices.amenity = HashSet<Int>()
+        userFilterChoices.amenities = HashSet<Int>()
         userFilterChoices.neighborhoods = HashSet<HotelSearchResponse.Neighborhood>()
     }
 }

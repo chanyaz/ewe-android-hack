@@ -87,4 +87,12 @@ class HotelFilterOptionsTest {
         testFilterOptions.userSort = HotelSearchParams.SortType.MOBILE_DEALS
         assertTrue(testFilterOptions.isNotEmpty())
     }
+
+    @Test
+    fun testNotEmpty_amenities() {
+        assertFalse(testFilterOptions.isNotEmpty()) // sanity check
+
+        testFilterOptions.amenities = hashSetOf(4,16)
+        assertTrue(testFilterOptions.isNotEmpty())
+    }
 }
