@@ -83,6 +83,7 @@
     <!-- Preference keys -->
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_launch_screen_overflow">preference_launch_screen_overflow</string>
+    <string name="preference_which_lang_to_use_key">which_lang</string>
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
     <string name="preference_fake_hotel_price_change">fake_hotel_price_change</string>
@@ -443,6 +444,7 @@
     <string name="etp_pay_now_earn_text"></string>
 
     <string name="server_change_message">Changing the server requires a restart. By clicking OK, the app will close and relaunch</string>
+    <string name="language_change_message">The app will close and relaunch on changing the language.</string>
     <string name="exp_u">fe627e29-3afb-4384-9fc0-a1d2a4dcd30c</string>
 
     <!-- Transition strings -->
