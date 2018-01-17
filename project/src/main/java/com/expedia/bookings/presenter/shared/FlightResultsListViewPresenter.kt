@@ -47,7 +47,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         View.inflate(getContext(), R.layout.widget_flight_results_package, this)
     }
 
-    private fun bind(shouldShowDeltaPricing: Boolean) {
+    private fun bind(shouldShowDeltaPricing: Boolean, doNotOverrideFilterButton: Boolean) {
         val dockedOutboundFlightSelectionStub = findViewById<ViewStub>(R.id.widget_docked_outbound_flight_stub)
         val selectedOutboundFlightViewModel =  SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context, shouldShowDeltaPricing)
         if (shouldShowDeltaPricing) {
@@ -61,7 +61,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             dockedOutboundFlightWidget.viewModel = selectedOutboundFlightViewModel
             this.dockedOutboundFlightSelection = dockedOutboundFlightWidget
         }
-        setupFilterButton()
+        setupFilterButton(doNotOverrideFilterButton)
     }
 
     override fun back(): Boolean {
@@ -89,7 +89,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->
-        bind(vm.shouldShowDeltaPricing)
+        bind(vm.shouldShowDeltaPricing, vm.doNotOverrideFilterButton)
         vm.flightResultsObservable.subscribe(listResultsObserver)
         vm.isOutboundResults.subscribe { isShowingOutboundResults = it }
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)
@@ -105,11 +105,13 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
     }
 
-    private fun setupFilterButton() {
+    private fun setupFilterButton(doNotOverrideFilterButton: Boolean) {
         val outValue = TypedValue()
         context.theme.resolveAttribute(R.attr.hotel_select_room_ripple_drawable, outValue, true)
-        filterButton.setBackground(outValue.resourceId)
-        filterButton.setTextAndFilterIconColor(R.color.white)
+        if (!doNotOverrideFilterButton) {
+            filterButton.setBackground(outValue.resourceId)
+            filterButton.setTextAndFilterIconColor(R.color.white)
+        }
         filterButton.setOnClickListener {
             showSortAndFilterViewSubject.onNext(Unit)
         }
