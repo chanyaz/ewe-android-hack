@@ -132,6 +132,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     private val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
     private val renovationContainer: ViewGroup by bindView(R.id.renovation_container)
+    private val renovationBottomDivider: View by bindView(R.id.renovation_bottom_divider)
 
     private val payNowPayLaterTabs: PayNowPayLaterTabs by bindView(R.id.pay_now_pay_later_tabs)
     private val payByPhoneContainer: ViewGroup by bindView(R.id.book_by_phone_container)
@@ -229,6 +230,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         transparentViewOverMiniMap.subscribeOnClick(vm.mapClickedSubject)
         vm.renovationObservable.subscribeVisibility(renovationContainer)
+        vm.renovationObservable.subscribeVisibility(renovationBottomDivider)
 
         vm.sectionBodyObservable.subscribe { htmlBodyText -> setHotelDescriptionText(htmlBodyText) }
 

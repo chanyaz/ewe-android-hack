@@ -417,12 +417,12 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/body_text"
             android:background="@android:color/transparent"
-            android:tint="@color/gray700"
             android:clickable="false"
             android:focusable="false"
             android:importantForAccessibility="no"
             android:paddingTop="5dp"
-            android:src="@drawable/read_more" />
+            android:src="@drawable/read_more"
+            android:tint="@color/gray700" />
 
     </RelativeLayout>
 
@@ -566,26 +566,11 @@
         android:layout_below="@+id/common_amenities_divider"
         android:orientation="vertical" />
 
-    <TableLayout
-        android:id="@+id/property_info_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/room_container"
-        android:paddingTop="10dp" />
-
-    <View
-        android:id="@+id/property_amenities_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_below="@+id/property_info_container"
-        android:background="@color/gray200"
-        android:paddingTop="10dp" />
-
     <RelativeLayout
         android:id="@+id/renovation_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/property_amenities_divider"
+        android:layout_below="@+id/room_container"
         android:background="?attr/selectableItemBackground"
         android:paddingBottom="12dp"
         android:paddingLeft="18dp"
@@ -604,6 +589,7 @@
             app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
+            android:id="@+id/renovation_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/renovation_title"
@@ -623,11 +609,33 @@
 
     </RelativeLayout>
 
+    <View
+        android:id="@+id/renovation_bottom_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/renovation_container"
+        android:background="@drawable/grey_divider" />
+
+    <TableLayout
+        android:id="@+id/property_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/renovation_bottom_divider"
+        android:paddingTop="10dp" />
+
+    <View
+        android:id="@+id/property_amenities_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/property_info_container"
+        android:background="@color/gray200"
+        android:paddingTop="10dp" />
+
     <LinearLayout
         android:id="@+id/book_by_phone_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/renovation_container"
+        android:layout_below="@+id/property_amenities_divider"
         android:background="@drawable/spinner_ripple"
         android:orientation="vertical"
         android:paddingBottom="20dp"
