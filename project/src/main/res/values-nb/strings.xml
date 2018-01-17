@@ -2666,71 +2666,71 @@
 
     <!-- Amenity strings -->
     <!-- Business center amenity -->
-    <string name="AmenityBusinessCenter">Forretningssenter</string>
+    <string name="amenity_business_center">Forretningssenter</string>
     <!-- Fitness center amenity -->
-    <string name="AmenityFitnessCenter">Treningssenter</string>
+    <string name="amenity_fitness_center">Treningssenter</string>
     <!-- Hot tub on-site amenity -->
-    <string name="AmenityHotTub">Boblebad</string>
+    <string name="amenity_hot_tub">Boblebad</string>
     <!-- Internet access amenity -->
-    <string name="AmenityInternet">Internett</string>
+    <string name="amenity_internet">Internett</string>
     <!-- Free Internet access amenity -->
-    <string name="AmenityFreeInternet">Gratis internett</string>
+    <string name="amenity_free_internet">Gratis internett</string>
     <!-- Kids' activities amenity -->
-    <string name="AmenityKidsActivities">Aktiviteter for barn</string>
+    <string name="amenity_kids_activities">Aktiviteter for barn</string>
     <!-- Kitchen/kitchenette amenity -->
-    <string name="AmenityKitchen">Kjøkken</string>
+    <string name="amenity_kitchen">Kjøkken</string>
     <!-- Pets allowed amenity -->
-    <string name="AmenityPetsAllowed">Kjæledyr</string>
+    <string name="amenity_pets_allowed">Kjæledyr</string>
     <!-- Pool amenity -->
-    <string name="AmenityPool">Basseng</string>
+    <string name="amenity_pool">Basseng</string>
     <!-- Restaurant on-site amenity -->
-    <string name="AmenityRestaurant">Servering</string>
+    <string name="amenity_restaurant">Servering</string>
     <!-- Spa on-site amenity -->
-    <string name="AmenitySpa">Spa</string>
+    <string name="amenity_spa">Spa</string>
     <!-- Whirlpool bath amenity -->
-    <string name="AmenityWhirlpoolBath">Boblebad</string>
+    <string name="amenity_whirlpool_bath">Boblebad</string>
     <!-- Breakfast amenity -->
-    <string name="AmenityBreakfast">Frokost</string>
+    <string name="amenity_breakfast">Frokost</string>
     <!-- Babysitting amenity -->
-    <string name="AmenityBabysitting">Barnepass</string>
+    <string name="amenity_babysitting">Barnepass</string>
     <!-- Jacuzzi amenity -->
-    <string name="AmenityJacuzzi">Boblebad</string>
+    <string name="amenity_jacuzzi">Boblebad</string>
     <!-- Parking amenity -->
-    <string name="AmenityParking">Parkering</string>
+    <string name="amenity_parking">Parkering</string>
     <!-- Room service amenity -->
-    <string name="AmenityRoomService">Romservice</string>
+    <string name="amenity_room_service">Romservice</string>
     <!-- Accessible path of travel amenity -->
-    <string name="AmenityAccessiblePaths">Vei tilpasset funksjonshemmede</string>
+    <string name="amenity_accessible_paths">Vei tilpasset funksjonshemmede</string>
     <!-- Accessible bathroom amenity -->
-    <string name="AmenityAccessibleBathroom">Bad tilpasset funksjonshemmede</string>
+    <string name="amenity_accessible_bathroom">Bad tilpasset funksjonshemmede</string>
     <!-- Roll-in shower amenity -->
-    <string name="AmenityRollInShower">Dusj tilpasset funksjonshemmede</string>
+    <string name="amenity_roll_in_shower">Dusj tilpasset funksjonshemmede</string>
     <!-- Handicapped parking amenity -->
-    <string name="AmenityHandicappedParking">Handikapparkering</string>
+    <string name="amenity_handicapped_parking">Handikapparkering</string>
     <!-- In-room accessibility amenity -->
-    <string name="AmenityInRoomAccessibility">Rom tilpasset funksjonshemmede</string>
+    <string name="amenity_in_room_accessibility">Rom tilpasset funksjonshemmede</string>
     <!-- Accessibility equipment for the deaf amenity -->
-    <string name="AmenityDeafAccessibilityEquipment">Tilpasset hørselshemmede</string>
+    <string name="amenity_deaf_accessibility_equipment">Tilpasset hørselshemmede</string>
     <!-- Braille or raised signage amenity -->
-    <string name="AmenityBrailleSignage">Skilt med blindeskrift</string>
+    <string name="amenity_braille_signage">Skilt med blindeskrift</string>
     <!-- Free airport shuttle amenity -->
-    <string name="AmenityFreeAirportShuttle">Flyplasstransport</string>
+    <string name="amenity_free_airport_shuttle">Flyplasstransport</string>
     <!-- Indoor pool amenity -->
-    <string name="AmenityPoolIndoor">Innendørs basseng</string>
+    <string name="amenity_pool_indoor">Innendørs basseng</string>
     <!-- Outdoor pool amenity -->
-    <string name="AmenityPoolOutdoor">Utendørs basseng</string>
+    <string name="amenity_pool_outdoor">Utendørs basseng</string>
     <!-- Extended parking amenity -->
-    <string name="AmenityExtendedParking">Forlenget parkering</string>
+    <string name="amenity_extended_parking">Forlenget parkering</string>
     <!-- Free parking amenity -->
-    <string name="AmenityFreeParking">Gratis parkering</string>
+    <string name="amenity_free_parking">Gratis parkering</string>
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">Gratis Internett</string>
+    <string name="filter_high_speed_internet">Gratis Internett</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">Gratis frokost</string>
+    <string name="filter_free_breakfast">Gratis frokost</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">Gratis flyplasstransport</string>
+    <string name="filter_free_airport_transportation">Gratis flyplasstransport</string>
 
 
     <!-- User Reviews list strings -->

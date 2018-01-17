@@ -2666,71 +2666,71 @@
 
     <!-- Amenity strings -->
     <!-- Business center amenity -->
-    <string name="AmenityBusinessCenter">商務中心</string>
+    <string name="amenity_business_center">商務中心</string>
     <!-- Fitness center amenity -->
-    <string name="AmenityFitnessCenter">健身館</string>
+    <string name="amenity_fitness_center">健身館</string>
     <!-- Hot tub on-site amenity -->
-    <string name="AmenityHotTub">熱水浴缸</string>
+    <string name="amenity_hot_tub">熱水浴缸</string>
     <!-- Internet access amenity -->
-    <string name="AmenityInternet">上網</string>
+    <string name="amenity_internet">上網</string>
     <!-- Free Internet access amenity -->
-    <string name="AmenityFreeInternet">免費上網</string>
+    <string name="amenity_free_internet">免費上網</string>
     <!-- Kids' activities amenity -->
-    <string name="AmenityKidsActivities">兒童活動</string>
+    <string name="amenity_kids_activities">兒童活動</string>
     <!-- Kitchen/kitchenette amenity -->
-    <string name="AmenityKitchen">廚房</string>
+    <string name="amenity_kitchen">廚房</string>
     <!-- Pets allowed amenity -->
-    <string name="AmenityPetsAllowed">可攜帶寵物</string>
+    <string name="amenity_pets_allowed">可攜帶寵物</string>
     <!-- Pool amenity -->
-    <string name="AmenityPool">游泳池</string>
+    <string name="amenity_pool">游泳池</string>
     <!-- Restaurant on-site amenity -->
-    <string name="AmenityRestaurant">用餐</string>
+    <string name="amenity_restaurant">用餐</string>
     <!-- Spa on-site amenity -->
-    <string name="AmenitySpa">Spa</string>
+    <string name="amenity_spa">Spa</string>
     <!-- Whirlpool bath amenity -->
-    <string name="AmenityWhirlpoolBath">漩渦浴缸</string>
+    <string name="amenity_whirlpool_bath">漩渦浴缸</string>
     <!-- Breakfast amenity -->
-    <string name="AmenityBreakfast">早餐</string>
+    <string name="amenity_breakfast">早餐</string>
     <!-- Babysitting amenity -->
-    <string name="AmenityBabysitting">托兒服務</string>
+    <string name="amenity_babysitting">托兒服務</string>
     <!-- Jacuzzi amenity -->
-    <string name="AmenityJacuzzi">按摩浴缸</string>
+    <string name="amenity_jacuzzi">按摩浴缸</string>
     <!-- Parking amenity -->
-    <string name="AmenityParking">停車場</string>
+    <string name="amenity_parking">停車場</string>
     <!-- Room service amenity -->
-    <string name="AmenityRoomService">客房送餐服務</string>
+    <string name="amenity_room_service">客房送餐服務</string>
     <!-- Accessible path of travel amenity -->
-    <string name="AmenityAccessiblePaths">無障礙步道</string>
+    <string name="amenity_accessible_paths">無障礙步道</string>
     <!-- Accessible bathroom amenity -->
-    <string name="AmenityAccessibleBathroom">無障礙浴廁</string>
+    <string name="amenity_accessible_bathroom">無障礙浴廁</string>
     <!-- Roll-in shower amenity -->
-    <string name="AmenityRollInShower">無障礙淋浴間</string>
+    <string name="amenity_roll_in_shower">無障礙淋浴間</string>
     <!-- Handicapped parking amenity -->
-    <string name="AmenityHandicappedParking">殘障人士專用車位</string>
+    <string name="amenity_handicapped_parking">殘障人士專用車位</string>
     <!-- In-room accessibility amenity -->
-    <string name="AmenityInRoomAccessibility">無障礙客房</string>
+    <string name="amenity_in_room_accessibility">無障礙客房</string>
     <!-- Accessibility equipment for the deaf amenity -->
-    <string name="AmenityDeafAccessibilityEquipment">聽障無障礙設施</string>
+    <string name="amenity_deaf_accessibility_equipment">聽障無障礙設施</string>
     <!-- Braille or raised signage amenity -->
-    <string name="AmenityBrailleSignage">盲人點字標示</string>
+    <string name="amenity_braille_signage">盲人點字標示</string>
     <!-- Free airport shuttle amenity -->
-    <string name="AmenityFreeAirportShuttle">機場接送服務</string>
+    <string name="amenity_free_airport_shuttle">機場接送服務</string>
     <!-- Indoor pool amenity -->
-    <string name="AmenityPoolIndoor">室內游泳池</string>
+    <string name="amenity_pool_indoor">室內游泳池</string>
     <!-- Outdoor pool amenity -->
-    <string name="AmenityPoolOutdoor">室外游泳池</string>
+    <string name="amenity_pool_outdoor">室外游泳池</string>
     <!-- Extended parking amenity -->
-    <string name="AmenityExtendedParking">延時停車</string>
+    <string name="amenity_extended_parking">延時停車</string>
     <!-- Free parking amenity -->
-    <string name="AmenityFreeParking">免費停車</string>
+    <string name="amenity_free_parking">免費停車</string>
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">免費上網</string>
+    <string name="filter_high_speed_internet">免費上網</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">免費早餐</string>
+    <string name="filter_free_breakfast">免費早餐</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">免費機場接駁車</string>
+    <string name="filter_free_airport_transportation">免費機場接駁車</string>
 
 
     <!-- User Reviews list strings -->

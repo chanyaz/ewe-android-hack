@@ -2666,71 +2666,71 @@
 
     <!-- Amenity strings -->
     <!-- Business center amenity -->
-    <string name="AmenityBusinessCenter">Centro de negocios</string>
+    <string name="amenity_business_center">Centro de negocios</string>
     <!-- Fitness center amenity -->
-    <string name="AmenityFitnessCenter">Gimnasio</string>
+    <string name="amenity_fitness_center">Gimnasio</string>
     <!-- Hot tub on-site amenity -->
-    <string name="AmenityHotTub">Hidromasaje</string>
+    <string name="amenity_hot_tub">Hidromasaje</string>
     <!-- Internet access amenity -->
-    <string name="AmenityInternet">Internet</string>
+    <string name="amenity_internet">Internet</string>
     <!-- Free Internet access amenity -->
-    <string name="AmenityFreeInternet">Internet gratuito</string>
+    <string name="amenity_free_internet">Internet gratuito</string>
     <!-- Kids' activities amenity -->
-    <string name="AmenityKidsActivities">Actividades infantiles</string>
+    <string name="amenity_kids_activities">Actividades infantiles</string>
     <!-- Kitchen/kitchenette amenity -->
-    <string name="AmenityKitchen">Cocina</string>
+    <string name="amenity_kitchen">Cocina</string>
     <!-- Pets allowed amenity -->
-    <string name="AmenityPetsAllowed">Mascotas</string>
+    <string name="amenity_pets_allowed">Mascotas</string>
     <!-- Pool amenity -->
-    <string name="AmenityPool">Piscina</string>
+    <string name="amenity_pool">Piscina</string>
     <!-- Restaurant on-site amenity -->
-    <string name="AmenityRestaurant">Comedor</string>
+    <string name="amenity_restaurant">Comedor</string>
     <!-- Spa on-site amenity -->
-    <string name="AmenitySpa">Spa</string>
+    <string name="amenity_spa">Spa</string>
     <!-- Whirlpool bath amenity -->
-    <string name="AmenityWhirlpoolBath">Bañera spa</string>
+    <string name="amenity_whirlpool_bath">Bañera spa</string>
     <!-- Breakfast amenity -->
-    <string name="AmenityBreakfast">Desayuno</string>
+    <string name="amenity_breakfast">Desayuno</string>
     <!-- Babysitting amenity -->
-    <string name="AmenityBabysitting">Servicio de niñera</string>
+    <string name="amenity_babysitting">Servicio de niñera</string>
     <!-- Jacuzzi amenity -->
-    <string name="AmenityJacuzzi">Jacuzzi</string>
+    <string name="amenity_jacuzzi">Jacuzzi</string>
     <!-- Parking amenity -->
-    <string name="AmenityParking">Aparcamiento</string>
+    <string name="amenity_parking">Aparcamiento</string>
     <!-- Room service amenity -->
-    <string name="AmenityRoomService">Servicio de habitaciones</string>
+    <string name="amenity_room_service">Servicio de habitaciones</string>
     <!-- Accessible path of travel amenity -->
-    <string name="AmenityAccessiblePaths">Rampas de acceso</string>
+    <string name="amenity_accessible_paths">Rampas de acceso</string>
     <!-- Accessible bathroom amenity -->
-    <string name="AmenityAccessibleBathroom">Cuarto de baño accesible</string>
+    <string name="amenity_accessible_bathroom">Cuarto de baño accesible</string>
     <!-- Roll-in shower amenity -->
-    <string name="AmenityRollInShower">Ducha adaptada</string>
+    <string name="amenity_roll_in_shower">Ducha adaptada</string>
     <!-- Handicapped parking amenity -->
-    <string name="AmenityHandicappedParking">Aparcamiento para personas con discapacidad</string>
+    <string name="amenity_handicapped_parking">Aparcamiento para personas con discapacidad</string>
     <!-- In-room accessibility amenity -->
-    <string name="AmenityInRoomAccessibility">Habitación accesible</string>
+    <string name="amenity_in_room_accessibility">Habitación accesible</string>
     <!-- Accessibility equipment for the deaf amenity -->
-    <string name="AmenityDeafAccessibilityEquipment">Accesible para personas sordas</string>
+    <string name="amenity_deaf_accessibility_equipment">Accesible para personas sordas</string>
     <!-- Braille or raised signage amenity -->
-    <string name="AmenityBrailleSignage">Señalización en braille</string>
+    <string name="amenity_braille_signage">Señalización en braille</string>
     <!-- Free airport shuttle amenity -->
-    <string name="AmenityFreeAirportShuttle">Servicio de traslado al aeropuerto</string>
+    <string name="amenity_free_airport_shuttle">Servicio de traslado al aeropuerto</string>
     <!-- Indoor pool amenity -->
-    <string name="AmenityPoolIndoor">Piscina cubierta</string>
+    <string name="amenity_pool_indoor">Piscina cubierta</string>
     <!-- Outdoor pool amenity -->
-    <string name="AmenityPoolOutdoor">Piscina al aire libre</string>
+    <string name="amenity_pool_outdoor">Piscina al aire libre</string>
     <!-- Extended parking amenity -->
-    <string name="AmenityExtendedParking">Aparcamiento ampliado</string>
+    <string name="amenity_extended_parking">Aparcamiento ampliado</string>
     <!-- Free parking amenity -->
-    <string name="AmenityFreeParking">Aparcamiento gratuito</string>
+    <string name="amenity_free_parking">Aparcamiento gratuito</string>
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">Internet gratuito</string>
+    <string name="filter_high_speed_internet">Internet gratuito</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">Desayuno incluido</string>
+    <string name="filter_free_breakfast">Desayuno incluido</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">Traslado al aeropuerto gratuito</string>
+    <string name="filter_free_airport_transportation">Traslado al aeropuerto gratuito</string>
 
 
     <!-- User Reviews list strings -->

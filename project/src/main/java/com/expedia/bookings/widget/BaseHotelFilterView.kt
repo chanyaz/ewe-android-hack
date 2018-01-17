@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayout
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -38,6 +39,8 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     val optionLabel: TextView by bindView(R.id.option_label)
     val hotelSortOptionsView: HotelSortOptionsView by bindView(R.id.hotel_sort_options)
     val starRatingView: HotelStarRatingFilterView by bindView(R.id.star_rating_container)
+    val amenitiesLabelView: com.expedia.bookings.widget.TextView by bindView(R.id.filter_amenity_label)
+    val amenitiesGridView: GridLayout by bindView(R.id.filter_amenities_grid_layout)
     val hotelNameFilterView: HotelNameFilterView by bindView(R.id.hotel_filter_name_view)
 
     private val priceHeader: View by bindView(R.id.price)

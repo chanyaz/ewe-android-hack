@@ -55,14 +55,13 @@
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/price"
+                        style="@style/Core.Text.400.Medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:text="@string/price_range"
-                        android:textColor="@color/hotel_filter_text"
-                        android:textSize="15sp"
-                        app:textStyle="medium" />
+                        android:textColor="@color/hotel_filter_text" />
 
                     <com.expedia.bookings.hotel.widget.HotelPriceFilterView
                         android:id="@+id/price_range_filter_view"
@@ -73,15 +72,14 @@
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/star_rating_bar"
+                        style="@style/Core.Text.400.Medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:paddingTop="15dp"
                         android:text="@string/star_rating"
-                        android:textColor="@color/hotel_filter_text"
-                        android:textSize="15sp"
-                        app:textStyle="medium" />
+                        android:textColor="@color/hotel_filter_text" />
 
                     <com.expedia.bookings.widget.HotelStarRatingFilterView
                         android:id="@+id/star_rating_container"
@@ -93,7 +91,33 @@
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.TextView
+                    android:id="@+id/filter_amenity_label"
+                    style="@style/Core.Text.400.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="@dimen/hotel_sort_filter_padding"
+                    android:paddingRight="@dimen/hotel_sort_filter_padding"
+                    android:paddingTop="21dp"
+                    android:text="@string/amenities"
+                    android:textColor="@color/hotel_filter_text"
+                    android:visibility="gone"/>
+
+                <android.support.v7.widget.GridLayout
+                    android:id="@+id/filter_amenities_grid_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="7dp"
+                    android:paddingLeft="@dimen/hotel_sort_filter_padding"
+                    android:paddingRight="@dimen/hotel_sort_filter_padding"
+                    android:visibility="gone"
+                    app:columnCount="4"/>
+
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/option_label"
+                    style="@style/Core.Text.400.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:focusable="true"
@@ -104,9 +128,7 @@
                     android:paddingTop="21dp"
                     android:text="@string/vip"
                     android:textColor="@color/hotel_filter_text"
-                    android:textSize="15sp"
-                    android:visibility="gone"
-                    app:textStyle="medium" />
+                    android:visibility="gone" />
 
                 <com.expedia.bookings.hotel.widget.HotelFilterVipView
                     android:id="@+id/filter_vip_view"
@@ -121,30 +143,8 @@
                     android:visibility="gone" />
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/amenity_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:paddingLeft="@dimen/hotel_sort_filter_padding"
-                    android:paddingRight="@dimen/hotel_sort_filter_padding"
-                    android:paddingTop="@dimen/hotel_sort_filter_padding"
-                    android:text="@string/amenities"
-                    android:textColor="@color/hotel_filter_text"
-                    android:textSize="15sp"
-                    android:visibility="gone"
-                    app:textStyle="medium" />
-
-                <GridLayout
-                    android:id="@+id/amenities_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/amenity_label"
-                    android:layout_marginBottom="20dp"
-                    android:columnCount="4" />
-
-                <com.expedia.bookings.widget.TextView
                     android:id="@+id/neighborhood_label"
+                    style="@style/Core.Text.400.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:focusable="true"
@@ -154,9 +154,7 @@
                     android:paddingRight="@dimen/hotel_sort_filter_padding"
                     android:text="@string/neighborhoods"
                     android:textColor="@color/hotel_filter_text"
-                    android:textSize="15sp"
-                    android:visibility="gone"
-                    app:textStyle="medium" />
+                    android:visibility="gone"/>
 
                 <ViewStub
                     android:id="@+id/neighborhood_view_stub"
