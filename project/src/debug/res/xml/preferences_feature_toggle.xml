@@ -102,6 +102,11 @@
             android:title="Trips Use Retrofit Details Call" />
 
         <CheckBoxPreference
+            android:key="@string/preference_trips_fetch_trip_details_asynchronously"
+            android:summary="Trips Fetch Details Asynchronously"
+            android:title="Trips Fetch Details Asynchronously" />
+
+        <CheckBoxPreference
             android:key="@string/preference_enable_trips_hotel_messaging"
             android:summary="Hotel Trip - Enable Hotel Messaging"
             android:title="Hotel Trip - Message Hotel" />

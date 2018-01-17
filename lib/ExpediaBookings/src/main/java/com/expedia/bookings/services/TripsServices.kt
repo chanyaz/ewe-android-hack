@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import rx.Observable
 import rx.Scheduler
 
 class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) : TripsServicesInterface {
@@ -63,5 +64,23 @@ class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
                 null
             }
         }
+    }
+
+    override fun getTripDetailsObservable(tripId: String, useCache: Boolean): Observable<JSONObject> {
+        return tripsApi.tripDetailsObservable(tripId, if (useCache) "1" else "0")
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+    }
+
+    override fun getSharedTripDetailsObservable(sharedTripUrl: String): Observable<JSONObject> {
+        return tripsApi.sharedTripDetailsObservable(sharedTripUrl)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+    }
+
+    override fun getGuestTripObservable(tripId: String, guestEmail: String, useCache: Boolean): Observable<JSONObject> {
+        return tripsApi.guestTripObservable(tripId, guestEmail, if (useCache) "1" else "0")
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
     }
 }
