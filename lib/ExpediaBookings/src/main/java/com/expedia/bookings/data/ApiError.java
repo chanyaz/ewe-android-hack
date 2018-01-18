@@ -88,7 +88,10 @@ public class ApiError extends RuntimeException {
 		// This is not returned by the rails domain API but set manually.
 		RAIL_SEARCH_NO_RESULTS,
 		// Any other error other than INVALID_INPUT is handled as unknown.
-		RAIL_UNKNOWN_CKO_ERROR
+		RAIL_UNKNOWN_CKO_ERROR,
+
+		//MID errors
+		MID_COULD_NOT_FIND_RESULTS
 	}
 
 	public enum DetailCode {

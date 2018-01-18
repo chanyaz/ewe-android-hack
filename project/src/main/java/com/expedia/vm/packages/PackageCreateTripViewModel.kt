@@ -1,12 +1,14 @@
 package com.expedia.vm.packages
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
+import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
@@ -19,6 +21,7 @@ import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
+import retrofit2.HttpException
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -48,7 +51,8 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
         }
     }
 
-    private fun makeMultiItemCreateTripResponseObserver(): Observer<MultiItemApiCreateTripResponse> {
+    @VisibleForTesting
+    fun makeMultiItemCreateTripResponseObserver(): Observer<MultiItemApiCreateTripResponse> {
         return object : Observer<MultiItemApiCreateTripResponse> {
             override fun onError(e: Throwable) {
                 showCreateTripDialogObservable.onNext(false)
@@ -61,6 +65,8 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                         activity.onBackPressed()
                     }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                } else if (e is HttpException) {
+                    createTripErrorObservable.onNext(ApiError(ApiError.Code.MID_COULD_NOT_FIND_RESULTS))
                 }
             }
 

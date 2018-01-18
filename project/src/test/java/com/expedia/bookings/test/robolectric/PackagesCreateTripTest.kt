@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
@@ -13,6 +14,8 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
@@ -49,7 +52,6 @@ class PackagesCreateTripTest {
     fun testMultiItemCreateTripParamsFromSearchParams() {
         val searchParams = getDummySearchParams()
         val fromPackageSearchParams = MultiItemCreateTripParams.fromPackageSearchParams(searchParams)
-
 
         assertEquals("mid_create_trip", fromPackageSearchParams.flightPIID)
         assertEquals(1, fromPackageSearchParams.adults)
@@ -104,6 +106,25 @@ class PackagesCreateTripTest {
         createTripSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         createTripSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDCreateTripShowErrorPresenter() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        val showErrorPresenterTestSubscriber = TestSubscriber<ApiError>()
+        val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
+        createTripViewModel.createTripErrorObservable.subscribe(showErrorPresenterTestSubscriber)
+        createTripViewModel.packageServices = packageServiceRule.services!!
+
+        val packagePrice = PackageOfferModel.PackagePrice()
+        packagePrice.packageTotalPrice = Money()
+        val errorParams = MultiItemCreateTripParams("", "", "", "", "", packagePrice, LocalDate(), LocalDate(), 0, null, null)
+        showErrorPresenterTestSubscriber.assertValueCount(0)
+
+        createTripViewModel.packageServices.multiItemCreateTrip(errorParams).subscribe(createTripViewModel.makeMultiItemCreateTripResponseObserver())
+
+        showErrorPresenterTestSubscriber.assertValueCount(1)
     }
 
     private fun getDummySearchParams(): PackageSearchParams {
