@@ -1549,6 +1549,10 @@ public class ItineraryManager implements JSONable {
 
 				mTripsRefreshed++;
 
+				if (trip.getAirAttach() != null && !trip.isShared()) {
+					Db.getTripBucket().setAirAttach(trip.getAirAttach());
+				}
+
 				if (!(trip.getLevelOfDetail() == LevelOfDetail.SUMMARY_FALLBACK)) {
 					mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_FLIGHT_STATUS, trip));
 					mSyncOpQueue.add(new Task(Operation.PUBLISH_TRIP_UPDATE, trip));
