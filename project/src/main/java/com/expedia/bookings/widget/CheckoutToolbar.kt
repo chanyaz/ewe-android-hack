@@ -68,7 +68,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
             setNavArrowBarParameter(it)
         }
 
-        vm.formFilledIn.subscribe { isFilledIn ->
+        vm.showDone.subscribe { isFilledIn ->
             vm.menuTitle.onNext(if (isFilledIn) context.getString(R.string.done) else context.getString(R.string.next))
         }
 
@@ -76,7 +76,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
             navigationContentDescription = it
         }
 
-        Observable.combineLatest(vm.menuVisibility, vm.formFilledIn, { menuVisibility, formFilledIn -> Pair(menuVisibility, formFilledIn) })
+        Observable.combineLatest(vm.menuVisibility, vm.showDone, { menuVisibility, formFilledIn -> Pair(menuVisibility, formFilledIn) })
                 .filter { it.first }
                 .subscribe {
                     AccessibilityUtil.setMenuItemContentDescription(this, if (it.second) context.getString(R.string.done_cont_desc) else context.getString(R.string.next_cont_desc))

@@ -48,10 +48,10 @@ class CheckoutToolbarTest {
         val actionView = actionMenuView.getChildAt(0) as ActionMenuItemView
         assertNotNull(actionView)
 
-        toolbar.viewModel.formFilledIn.onNext(false)
+        toolbar.viewModel.showDone.onNext(false)
         assertEquals("Next", actionView.text)
 
-        toolbar.viewModel.formFilledIn.onNext(true)
+        toolbar.viewModel.showDone.onNext(true)
         assertEquals("Done", actionView.text)
     }
 
@@ -72,12 +72,14 @@ class CheckoutToolbarTest {
         assertNull(actionMenuView.getChildAt(0))
 
         toolbar.viewModel.menuVisibility.onNext(true)
-        toolbar.viewModel.formFilledIn.onNext(false)
+        assertNull(actionMenuView.getChildAt(0).contentDescription)
+
+        toolbar.viewModel.showDone.onNext(false)
 
         assertNotNull(actionMenuView.getChildAt(0))
         assertEquals("Next button", actionMenuView.getChildAt(0).contentDescription)
 
-        toolbar.viewModel.formFilledIn.onNext(true)
+        toolbar.viewModel.showDone.onNext(true)
         assertEquals("Done button", actionMenuView.getChildAt(0).contentDescription)
     }
 

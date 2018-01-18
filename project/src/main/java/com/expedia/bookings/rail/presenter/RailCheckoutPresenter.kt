@@ -12,7 +12,6 @@ import android.view.animation.Animation
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
@@ -328,7 +327,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         paymentWidget.viewmodel.doneClickedMethod.subscribe(toolbarViewModel.doneClickedMethod)
         paymentWidget.toolbarTitle.subscribe(toolbarViewModel.toolbarTitle)
         paymentWidget.focusedView.subscribe(toolbarViewModel.currentFocus)
-        paymentWidget.filledIn.subscribe(toolbarViewModel.formFilledIn)
+        paymentWidget.filledIn.subscribe(toolbarViewModel.showDone)
         paymentWidget.viewmodel.menuVisibility.subscribe(toolbarViewModel.menuVisibility)
         paymentWidget.viewmodel.enableMenuItem.subscribe(toolbarViewModel.enableMenuItem)
         paymentWidget.visibleMenuWithTitleDone.subscribe(toolbarViewModel.visibleMenuWithTitleDone)

@@ -15,7 +15,7 @@ class CheckoutToolbarViewModel(val context: Context) {
     val toolbarTitle = PublishSubject.create<String>()
     val toolbarSubtitle = PublishSubject.create<String>()
     val menuTitle = PublishSubject.create<String>()
-    val formFilledIn = PublishSubject.create<Boolean>()
+    val showDone = PublishSubject.create<Boolean>()
     val enableMenuItem = PublishSubject.create<Boolean>()
     val menuVisibility = PublishSubject.create<Boolean>()
     val visibleMenuWithTitleDone = PublishSubject.create<Unit>()

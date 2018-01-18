@@ -25,7 +25,6 @@ import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
-import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.util.safeSubscribeOptional
@@ -405,8 +404,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     private fun setupPaymentWidgetSubscriptions() {
         checkoutPresenter.paymentWidget.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         checkoutPresenter.paymentWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
-        if (!checkoutPresenter.paymentWidget.viewmodel.newCheckoutIsEnabled.value) {
-            checkoutPresenter.paymentWidget.filledIn.subscribe(bundleOverviewHeader.toolbar.viewModel.formFilledIn)
+        if (checkoutPresenter.paymentWidget.viewmodel.newCheckoutIsEnabled.value) {
+            bundleOverviewHeader.toolbar.viewModel.showDone.onNext(true)
+        } else {
+            checkoutPresenter.paymentWidget.filledIn.subscribe(bundleOverviewHeader.toolbar.viewModel.showDone)
         }
         checkoutPresenter.paymentWidget.viewmodel.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
         checkoutPresenter.paymentWidget.viewmodel.enableMenuItem.subscribe(bundleOverviewHeader.toolbar.viewModel.enableMenuItem)

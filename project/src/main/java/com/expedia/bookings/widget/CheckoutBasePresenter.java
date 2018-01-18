@@ -176,7 +176,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.setViewmodel(new PaymentViewModel(getContext()));
 		paymentInfoCardView.getViewmodel().getLineOfBusiness().onNext(getLineOfBusiness());
 		paymentInfoCardView.getViewmodel().getExpandObserver().subscribe(expandPaymentObserver);
-		paymentInfoCardView.getFilledIn().subscribe(toolbar.getViewModel().getFormFilledIn());
+		paymentInfoCardView.getFilledIn().subscribe(toolbar.getViewModel().getShowDone());
 		paymentInfoCardView.getToolbarTitle().subscribe(toolbar.getViewModel().getToolbarTitle());
 		paymentInfoCardView.getToolbarNavIcon().subscribe(toolbar.getViewModel().getToolbarNavIcon());
 		paymentInfoCardView.getFocusedView().subscribe(toolbar.getViewModel().getCurrentFocus());
@@ -204,7 +204,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			});
 		}
 
-		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getFormFilledIn());
+		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getShowDone());
 		mainContactInfoCardView.onDoneClickedMethod.subscribe(toolbar.getViewModel().getDoneClickedMethod());
 		paymentInfoCardView.getToolbarNavIconFocusObservable().subscribe(new Observer<Boolean>() {
 			@Override
