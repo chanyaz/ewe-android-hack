@@ -141,6 +141,10 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
     init {
         View.inflate(context, R.layout.bottom_checkout_container, this)
         setUpClickListeners()
+        AccessibilityUtil.appendRoleContDesc(slideToPurchase, context.getString(R.string.slide_to_book_text),
+                R.string.accessibility_cont_desc_role_button)
+        AccessibilityUtil.appendRoleContDesc(accessiblePurchaseButton,
+                context.getString(R.string.accessibility_purchase_button), R.string.accessibility_cont_desc_role_button)
     }
 
     private fun setUpClickListeners() {

@@ -12,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 
@@ -41,5 +42,12 @@ class BottomCheckoutContainerAccessibilityTest {
         bottomContainer.toggleCheckoutButtonOrSlider(true, TwoScreenOverviewState.CHECKOUT)
         assertTrue(bottomContainer.checkoutButtonContainer.visibility == View.GONE)
         assertTrue(bottomContainer.accessiblePurchaseButton.visibility == View.VISIBLE)
+    }
+
+    @Test
+    fun testPurchaseButtonContentDescription() {
+        bottomContainer.toggleCheckoutButtonOrSlider(true, TwoScreenOverviewState.CHECKOUT)
+        assertEquals("Slide to purchase Button", bottomContainer.slideToPurchase.contentDescription)
+        assertEquals("Purchase Button", bottomContainer.accessiblePurchaseButton.contentDescription)
     }
 }
