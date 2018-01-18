@@ -57,6 +57,7 @@ class PackageConfirmationViewModelTest {
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
         shadowApplication = ShadowApplication.getInstance()
+        Db.sharedInstance.clear()
     }
 
     @Test

@@ -66,7 +66,6 @@ class StoredCouponWidgetTest {
         storedCouponViewHolderAt0.itemView.performClick()
 
         assertEquals("1", applyStoredCouponTestSubject.onNextEvents[0])
-
         testViewsInStoredCouponViewHolder(View.GONE, "A", View.GONE, storedCouponViewHolderAt0, View.VISIBLE)
     }
 
@@ -86,7 +85,6 @@ class StoredCouponWidgetTest {
         assertEquals(visibilityOfDefaultImage, viewHolder.defaultStateImage.visibility)
         assertEquals(visibilityOfAppliedImage, viewHolder.couponApplied.visibility)
         assertEquals(visibilityOfProgressBar, viewHolder.progressBar.visibility)
-
     }
 
 }

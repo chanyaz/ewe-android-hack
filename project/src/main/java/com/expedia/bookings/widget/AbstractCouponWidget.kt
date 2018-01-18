@@ -145,7 +145,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
                 .subscribe { viewmodel.submitStoredCoupon(it.second.paymentSplits, it.second.tripResponse, userStateManager, it.first) }
 
         if (isShowSavedCoupons(context)) {
-            expanded.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+            expanded.setBackgroundColor(ContextCompat.getColor(context, R.color.material_checkout_background_color))
         }
     }
 

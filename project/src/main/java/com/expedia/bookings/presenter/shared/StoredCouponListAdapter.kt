@@ -33,17 +33,10 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
         val storedCouponHolder = holder as StoredCouponViewHolder
         storedCouponHolder.viewModel.couponName.onNext(coupons[position].savedCoupon.name)
         storedCouponHolder.viewModel.couponStatus.onNext(coupons[position].savedCouponStatus)
-        holder.itemView.tag = position
-        setupViewHolderListener(storedCouponHolder)
-    }
-
-    private fun setupViewHolderListener(storedCouponView: StoredCouponViewHolder) {
-        storedCouponView?.itemView?.setOnClickListener {
-            storedCouponView.viewModel.defaultStateImageVisibility.onNext(false)
-            storedCouponView.viewModel.progressBarVisibility.onNext(true)
-            val clickHolderViewTag = storedCouponView.itemView.tag as Int
-            applyStoredCouponSubject.onNext(coupons[clickHolderViewTag].savedCoupon.instanceId)
+        storedCouponHolder.viewModel.couponClickActionSubject.subscribe { viewHolderTag ->
+            applyStoredCouponSubject.onNext(coupons[viewHolderTag].savedCoupon.instanceId)
         }
+        holder.itemView.tag = position
     }
 }
 

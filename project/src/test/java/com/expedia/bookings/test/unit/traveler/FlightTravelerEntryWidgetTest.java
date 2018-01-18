@@ -40,6 +40,7 @@ public class FlightTravelerEntryWidgetTest {
 	@Before
 	public void setUp() {
 		entryWidget = activityTestRule.findRoot();
+		Db.sharedInstance.clear();
 	}
 
 	@Test

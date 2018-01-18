@@ -25,4 +25,13 @@ class StoredCouponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         vm.defaultStateImageVisibility.subscribeVisibility(defaultStateImage)
         vm
     }
+
+    init {
+        view.setOnClickListener {
+            viewModel.defaultStateImageVisibility.onNext(false)
+            viewModel.progressBarVisibility.onNext(true)
+            val clickHolderViewTag = itemView.tag as Int
+            viewModel.couponClickActionSubject.onNext(clickHolderViewTag)
+        }
+    }
 }

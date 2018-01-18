@@ -10,6 +10,7 @@ class StoredCouponViewHolderViewModel {
     val couponAppliedVisibility = PublishSubject.create<Boolean>()
     val progressBarVisibility = PublishSubject.create<Boolean>()
     val defaultStateImageVisibility = PublishSubject.create<Boolean>()
+    val couponClickActionSubject = PublishSubject.create<Int>()
 
     init {
         couponStatus.subscribe { status ->
