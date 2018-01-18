@@ -86,7 +86,7 @@ class ItineraryManagerTest {
             MultiBrand.EBOOKERS, MultiBrand.VOYAGES))
     fun testOmnitureTrackingTripRefreshCallSuccessWithFlight() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsNewFlightAlerts, R.string.preference_enable_trips_flight_alerts)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.TripsNewFlightAlerts)
         OmnitureTracking.trackItinTripRefreshCallSuccess(true)
         assertLinkTrackedWithExposure("Trips Call", "App.Itinerary.Call.Success", "event287", "16205.0.1", mockAnalyticsProvider)
     }

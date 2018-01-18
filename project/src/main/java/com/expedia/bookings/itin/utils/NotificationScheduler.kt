@@ -13,6 +13,7 @@ import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.data.user.UserStateManager
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.notification.GCMRegistrationKeeper
 import com.expedia.bookings.notification.INotificationManager
 import com.expedia.bookings.notification.PushNotificationUtils
@@ -20,7 +21,6 @@ import com.expedia.bookings.server.ExpediaServices
 import com.expedia.bookings.server.ExpediaServicesPushInterface
 import com.expedia.bookings.server.PushRegistrationResponseHandler
 import com.expedia.bookings.services.ITNSServices
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.UniqueIdentifierHelper
 import com.expedia.bookings.widget.itin.ItinContentGenerator
@@ -95,8 +95,7 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
 
             val courier = Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(context))
             //use old Flight Alert system
-            if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.TripsNewFlightAlerts,
-                    R.string.preference_enable_trips_flight_alerts)) {
+            if (!AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.TripsNewFlightAlerts)) {
                 val payload = PushNotificationUtils
                         .buildPushRegistrationPayload(context, regId, siteId, userTuid,
                                 getItinFlights(itinCardDatas))
@@ -109,12 +108,10 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
                 Log.d(LOGGING_TAG,
                         "registerForPushNotifications response:" + resp.success)
 
-                if (FeatureToggleUtil.isFeatureEnabled(context,
-                        R.string.preference_enable_trips_flight_alerts)) {
-                    tnsServices.deregisterForFlights(tnsUser, courier)
-                }
+                tnsServices.deregisterForFlights(tnsUser, courier)
 
             } else {
+                //use new TNS system
                 val payload = PushNotificationUtils
                         .buildPushRegistrationPayload(context, regId, siteId, userTuid,
                                 ArrayList())
@@ -127,7 +124,7 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
                         "registerForPushNotifications response:" + resp.success)
 
                 tnsServices.registerForFlights(tnsUser, courier, getFlightsForNewSystem(itinCardDatas))
-            }//use new TNS system
+            }
         }
     }
 

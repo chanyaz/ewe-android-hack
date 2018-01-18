@@ -60,7 +60,6 @@ import com.expedia.bookings.utils.CarnivalUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.util.LanguageHelper;
 import com.expedia.bookings.utils.MockModeShim;
@@ -325,12 +324,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		initializeFeatureConfig();
 		CarnivalUtils.getInstance().initialize(this);
 
-		if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_enable_trips_flight_alerts)) {
-			FlightRegistrationHandler flightRegistrationHandler = appComponent().flightRegistrationService();
-			flightRegistrationHandler.setup();
-			appComponent().userLoginStateChangedModel().getUserLoginStateChanged()
-				.subscribe(flightRegistrationHandler.getUserLoginStateChanged());
-		}
+		FlightRegistrationHandler flightRegistrationHandler = appComponent().flightRegistrationService();
+		flightRegistrationHandler.setup();
+		appComponent().userLoginStateChangedModel().getUserLoginStateChanged()
+			.subscribe(flightRegistrationHandler.getUserLoginStateChanged());
 
 		UserAccountRefresher refresher = new UserAccountRefresher(getApplicationContext(), LineOfBusiness.NONE, null);
 		UserStateManager userStateManager = appComponent().userStateManager();

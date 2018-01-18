@@ -49,7 +49,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidRailHybridAppForUKEnabled = new ABTest(15413);
 
 	// Trips tests
-	public static final ABTest TripsNewFlightAlerts = new ABTest(16205);
+	public static final ABTest TripsNewFlightAlerts = new ABTest(16205, true);
 	public static final ABTest TripsFlightsNewDesign = new ABTest(14655, true);
 	public static final ABTest EBAndroidAppTripsMessageHotel = new ABTest(16176, true);
 

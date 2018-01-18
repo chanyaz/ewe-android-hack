@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
-import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.IMedia
 import com.expedia.bookings.data.Courier
 import com.expedia.bookings.data.Db
@@ -110,8 +109,7 @@ class NotificationSchedulerTest {
 
     @Test
     fun registerForPushNotificationsToggleOnTest() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context,
-                AbacusUtils.TripsNewFlightAlerts, R.string.preference_enable_trips_flight_alerts)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.TripsNewFlightAlerts)
 
         Mockito.`when`(sut.getGenerator(itinDatas[0])).thenReturn(MockItinGenerator(context, itinDatas[0]))
         sut.registerForPushNotifications(itinDatas)
