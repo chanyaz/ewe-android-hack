@@ -75,7 +75,7 @@ class SatelliteFeatureConfigManager {
 
         private fun isEnabledFetchIfStale(context: Context, featureString: String): Boolean {
             val default = false
-            if (configValid(context)) {
+            if (ExpediaBookingApp.isAutomation() || configValid(context)) {
                 return isEnabled(context, featureString)
             } else {
                 fetchRemoteConfig(context)

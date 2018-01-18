@@ -40,6 +40,8 @@ import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
+import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
+import com.expedia.bookings.featureconfig.SatelliteFeatureConstants;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.notification.PushNotificationUtils;
@@ -48,7 +50,6 @@ import com.expedia.bookings.server.TripDetailsResponseHandler;
 import com.expedia.bookings.services.TripsServicesInterface;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TimeSource;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Ui;
@@ -1588,13 +1589,13 @@ public class ItineraryManager implements JSONable {
 		}
 
 		private boolean featureFlagForRetrofitServiceEnabled() {
-			return FeatureToggleUtil
-				.isFeatureEnabled(mContext, R.string.preference_trips_use_retrofit_call_for_details);
+			return SatelliteFeatureConfigManager
+				.isFeatureEnabled(mContext, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS);
 		}
 
 		private boolean featureFlagForAsynchronousRefreshEnabled() {
-			return FeatureToggleUtil
-				.isFeatureEnabled(mContext, R.string.preference_trips_fetch_trip_details_asynchronously);
+			return SatelliteFeatureConfigManager.isFeatureEnabled(mContext,
+				SatelliteFeatureConstants.ITINERARY_MANAGER_MAKE_ASYNCHRONOUS_CALLS_REFRESH_TRIPS);
 		}
 
 		// If the user is logged in, retrieve a listing of current trips for logged in user

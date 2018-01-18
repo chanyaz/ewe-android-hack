@@ -143,8 +143,6 @@
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
     <string name="preference_user_search_history">preference_user_search_history</string>
     <string name="preference_launch_all_trip_notifications">preference_launch_all_trip_notifications</string>
-    <string name="preference_trips_use_retrofit_call_for_details">preference_trips_use_retrofit_call_for_details</string>
-    <string name="preference_trips_fetch_trip_details_asynchronously">preference_trips_fetch_trip_details_asynchronously</string>
     <string name="preference_enable_disabled_stp_hotels">preference_enable_disabled_stp_hotels</string>
     <string name="preference_enable_production_abacus">preference_enable_production_abacus</string>
     <string name="pay_later_credit_card_messaging">pay_later_credit_card_messaging</string>

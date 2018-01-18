@@ -61,10 +61,11 @@ import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
+import com.expedia.bookings.featureconfig.SatelliteFeatureConstants;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -458,8 +459,8 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		query.add(new BasicNameValuePair("filterTimePeriod", "RECENTLY_COMPLETED"));
 		query.add(new BasicNameValuePair("sort", "SORT_STARTDATE_ASCENDING"));
 
-		if (getCachedDetails && !FeatureToggleUtil
-			.isFeatureEnabled(mContext, R.string.preference_trips_use_retrofit_call_for_details)) {
+		if (getCachedDetails && !SatelliteFeatureConfigManager
+			.isFeatureEnabled(mContext, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS)) {
 			query.add(new BasicNameValuePair("getCachedDetails", "10"));
 		}
 

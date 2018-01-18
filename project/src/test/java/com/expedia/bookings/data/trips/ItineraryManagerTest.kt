@@ -4,6 +4,7 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.SatelliteFeatureConstants
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.NullSafeMockitoHamcrest.mapThat
@@ -12,6 +13,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.TimeSource
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.SatelliteFeatureConfigTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
@@ -220,7 +222,7 @@ class ItineraryManagerTest {
 
     @Test
     fun testGetTripDetailsResponse() {
-        SettingUtils.save(context, R.string.preference_trips_use_retrofit_call_for_details, true)
+        SatelliteFeatureConfigTestUtils.enableFeatureForTest(context, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS)
         val itinManager = ItineraryManager.getInstance()
 
         //SUCCESSFUL RESPONSE
