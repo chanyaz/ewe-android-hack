@@ -1,5 +1,6 @@
 package com.expedia.vm.test.robolectric
 
+import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
@@ -10,6 +11,7 @@ import android.view.View.VISIBLE
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
@@ -27,6 +29,8 @@ import com.expedia.bookings.data.payment.PointsType
 import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
+import com.expedia.bookings.presenter.shared.StoredCouponRecyclerView
+import com.expedia.bookings.presenter.shared.StoredCouponViewHolder
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
@@ -53,6 +57,7 @@ import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.HotelTravelersViewModel
 import org.junit.After
 import com.expedia.vm.HotelCheckoutViewModel
+import junit.framework.Assert.assertFalse
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -61,6 +66,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -423,6 +429,152 @@ class HotelCheckoutPresenterTest {
     }
 
     @Test
+    fun testUiDisabledOnApplyBucketed() {
+        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        checkout.couponCardView.isExpanded = true
+        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
+        val storedCouponRecycler = getStoredCouponRecycler()
+        val testEnableStoredCouponsSubscriber = TestSubscriber<Boolean>()
+        (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.enableStoredCouponsSubject
+                .subscribe(testEnableStoredCouponsSubscriber)
+
+        checkout.couponCardView.viewmodel.applyObservable.onNext("1")
+
+        enableMenuButtonSubscriber.assertValue(false)
+        testEnableStoredCouponsSubscriber.assertValue(false)
+        assertStoredCouponsEnabled(storedCouponRecycler, isEnabled = false)
+        assertFalse(checkout.menuDone.isEnabled)
+        assertFalse(checkout.couponCardView.couponCode.isEnabled)
+    }
+
+    @Test
+    fun testUiDisabledOnApplyControl() {
+        setup()
+        goToCheckout(mockHotelServices.getHotelCouponCreateTripResponse())
+        checkout.couponCardView.isExpanded = true
+
+        checkout.couponCardView.viewmodel.applyObservable.onNext("1")
+
+        assertFalse(checkout.menuDone.isEnabled)
+        assertFalse(checkout.couponCardView.couponCode.isEnabled)
+    }
+
+    @Test
+    fun testUiEnabledOnErrorControl() {
+        setup()
+        goToCheckout(mockHotelServices.getHotelCouponCreateTripResponse())
+        checkout.couponCardView.isExpanded = true
+        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
+
+        checkout.couponCardView.viewmodel.applyObservable.onNext("1")
+        onCouponError()
+
+        enableMenuButtonSubscriber.assertValues(false, true)
+        assertTrue(checkout.menuDone.isEnabled)
+        assertTrue(checkout.couponCardView.couponCode.isEnabled)
+    }
+
+    @Test
+    fun testUiEnabledOnErrorBucketed() {
+        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        checkout.couponCardView.isExpanded = true
+        val testEnableStoredCouponsSubscriber = TestSubscriber<Boolean>()
+        (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.enableStoredCouponsSubject
+                .subscribe(testEnableStoredCouponsSubscriber)
+        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
+
+        checkout.couponCardView.viewmodel.applyObservable.onNext("1")
+        onCouponError()
+
+        enableMenuButtonSubscriber.assertValues(false, true)
+        testEnableStoredCouponsSubscriber.assertValues(false, true)
+        assertStoredCouponsEnabled(getStoredCouponRecycler(), isEnabled = true)
+        assertTrue(checkout.menuDone.isEnabled)
+        assertTrue(checkout.couponCardView.couponCode.isEnabled)
+    }
+
+    @Test
+    fun testUiEnabledOnSuccessfulCouponBucketed() {
+        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        checkout.couponCardView.isExpanded = true
+        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
+        val testEnableStoredCouponsSubscriber = TestSubscriber<Boolean>()
+        (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.enableStoredCouponsSubject
+                .subscribe(testEnableStoredCouponsSubscriber)
+
+        checkout.couponCardView.viewmodel.applyObservable.onNext("1")
+        checkout.couponCardView.viewmodel.couponObservable.onNext(mockHotelServices.getHotelCouponCreateTripResponse())
+
+        enableMenuButtonSubscriber.assertValues(false, true)
+        testEnableStoredCouponsSubscriber.assertValues(false, true)
+        assertStoredCouponsEnabled(getStoredCouponRecycler(), isEnabled = true)
+        assertTrue(checkout.menuDone.isEnabled)
+        assertTrue(checkout.couponCardView.couponCode.isEnabled)
+    }
+
+
+    @Test
+    fun testUiEnabledOnSuccessfulCouponControl() {
+        setup()
+        goToCheckout(mockHotelServices.getHotelCouponCreateTripResponse())
+        checkout.couponCardView.isExpanded = true
+        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
+
+        checkout.couponCardView.viewmodel.applyObservable.onNext("1")
+        checkout.couponCardView.viewmodel.couponObservable.onNext(mockHotelServices.getHotelCouponCreateTripResponse())
+
+        enableMenuButtonSubscriber.assertValues(false, true)
+        assertTrue(checkout.menuDone.isEnabled)
+        assertTrue(checkout.couponCardView.couponCode.isEnabled)
+    }
+
+    @Test
+    fun testUiEnabledOnNetworkErrorCanceledControl() {
+        setup()
+        goToCheckout(mockHotelServices.getHotelCouponCreateTripResponse())
+        checkout.couponCardView.isExpanded = true
+        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
+
+        checkout.couponCardView.viewmodel.applyObservable.onNext("1")
+        checkout.couponCardView.viewmodel.networkErrorAlertDialogObservable.onNext(Unit)
+        val networkAlert = ShadowAlertDialog.getLatestAlertDialog()
+        networkAlert.getButton(DialogInterface.BUTTON_NEGATIVE).performClick()
+
+        enableMenuButtonSubscriber.assertValues(false, true)
+        assertTrue(checkout.menuDone.isEnabled)
+        assertTrue(checkout.couponCardView.couponCode.isEnabled)
+    }
+
+    @Test
+    fun testUiEnabledOnNetworkErrorCanceledBucketed() {
+        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        checkout.couponCardView.isExpanded = true
+        val enableMenuButtonSubscriber = TestSubscriber<Boolean>()
+        checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
+        val testEnableStoredCouponsSubscriber = TestSubscriber<Boolean>()
+        (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.enableStoredCouponsSubject
+                .subscribe(testEnableStoredCouponsSubscriber)
+
+        checkout.couponCardView.viewmodel.applyObservable.onNext("1")
+        checkout.couponCardView.viewmodel.networkErrorAlertDialogObservable.onNext(Unit)
+        val networkAlert = ShadowAlertDialog.getLatestAlertDialog()
+        networkAlert.getButton(DialogInterface.BUTTON_NEGATIVE).performClick()
+
+
+        testEnableStoredCouponsSubscriber.assertValues(false, true)
+        assertStoredCouponsEnabled(getStoredCouponRecycler(), isEnabled = true)
+        enableMenuButtonSubscriber.assertValues(false, true)
+        assertTrue(checkout.menuDone.isEnabled)
+        assertTrue(checkout.couponCardView.couponCode.isEnabled)
+    }
+
+    @Test
     fun testCreateTripEmailOptInStatusWithEmailStatus() {
         val testEmailOptInSubscriber = TestSubscriber<MerchandiseSpam>()
         checkout.hotelCheckoutMainViewModel.emailOptInStatus.subscribe(testEmailOptInSubscriber)
@@ -621,5 +773,28 @@ class HotelCheckoutPresenterTest {
         assertEquals("4155555555", traveler.phone)
         assertEquals("1", traveler.phoneCountryCode)
         assertEquals(false, traveler.expediaEmailOptIn)
+    }
+
+    private fun getStoredCouponRecycler() : StoredCouponRecyclerView {
+        val storedCouponsRecycler = (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.storedCouponRecyclerView
+        storedCouponsRecycler.measure(0, 0);
+        storedCouponsRecycler.layout(0, 0, 100, 10000);
+        return storedCouponsRecycler
+    }
+
+    private fun onCouponError() {
+        val error = ApiError()
+        error.errorCode = ApiError.Code.APPLY_COUPON_ERROR
+        error.errorInfo = ApiError.ErrorInfo()
+        error.errorInfo.couponErrorType = "Expired"
+
+        checkout.couponCardView.viewmodel.hasDiscountObservable.onNext(true)
+        checkout.couponCardView.viewmodel.errorObservable.onNext(error)
+    }
+
+    private fun assertStoredCouponsEnabled(storedCouponsRecycler: StoredCouponRecyclerView, isEnabled: Boolean) {
+        assertEquals(isEnabled, (storedCouponsRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).itemView.isEnabled)
+        assertEquals(isEnabled, (storedCouponsRecycler.findViewHolderForAdapterPosition(1) as StoredCouponViewHolder).itemView.isEnabled)
+        assertEquals(isEnabled, (storedCouponsRecycler.findViewHolderForAdapterPosition(2) as StoredCouponViewHolder).itemView.isEnabled)
     }
 }

@@ -23,6 +23,9 @@ class StoredCouponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         vm.progressBarVisibility.subscribeVisibility(progressBar)
         vm.couponAppliedVisibility.subscribeVisibility(couponApplied)
         vm.defaultStateImageVisibility.subscribeVisibility(defaultStateImage)
+        vm.enableViewHolder.subscribe {
+            view.isEnabled = it
+        }
         vm
     }
 

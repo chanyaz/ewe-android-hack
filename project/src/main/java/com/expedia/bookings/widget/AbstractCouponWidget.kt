@@ -30,7 +30,6 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelCouponViewModel
 import com.mobiata.android.util.Ui
-import rx.Observable
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -58,9 +57,11 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
         viewmodel.applyObservable.subscribe {
             showProgress(true)
             showError(false)
+            enableCouponUi(false)
         }
         viewmodel.errorObservable.subscribe {
             showProgress(false)
+            enableCouponUi(true)
             if (viewmodel.hasDiscountObservable.value != null && viewmodel.hasDiscountObservable.value) {
                 isExpanded = false
             } else {
@@ -70,6 +71,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
         viewmodel.couponObservable.subscribe {
             showProgress(false)
             showError(false)
+            enableCouponUi(true)
             isExpanded = false
         }
 
@@ -83,7 +85,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
             }
             val cancelFun = fun() {
                 showProgress(false)
-                viewmodel.enableSubmitButtonObservable.onNext(true)
+                enableCouponUi(true)
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
@@ -250,5 +252,10 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
         } else {
             View.INVISIBLE
         }
+    }
+
+    open fun enableCouponUi(enable: Boolean) {
+        couponCode.isEnabled = enable
+        viewmodel.enableSubmitButtonObservable.onNext(enable)
     }
 }

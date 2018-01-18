@@ -8,7 +8,7 @@ import rx.subjects.PublishSubject
 class StoredCouponWidgetViewModel {
 
     val storedCouponsSubject = PublishSubject.create<List<StoredCouponAdapter>>()
-
+    val enableStoredCouponsSubject = PublishSubject.create<Boolean>()
     val hasStoredCoupons = PublishSubject.create<Boolean>()
 }
 

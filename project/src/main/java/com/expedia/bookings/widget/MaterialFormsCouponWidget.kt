@@ -59,7 +59,7 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     override fun injectViewInHotelComponent() {
-        com.expedia.bookings.utils.Ui.getApplication(getContext()).hotelComponent().inject(this)
+        com.expedia.bookings.utils.Ui.getApplication(context).hotelComponent().inject(this)
     }
 
     override fun getMenuButtonTitle(): String? {
@@ -91,5 +91,10 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     private fun getStoredCouponListAdapter(): StoredCouponListAdapter {
         return storedCouponWidget.storedCouponRecyclerView.adapter as StoredCouponListAdapter
+    }
+
+    override fun enableCouponUi(enable: Boolean) {
+        super.enableCouponUi(enable)
+        storedCouponWidget.viewModel.enableStoredCouponsSubject.onNext(enable)
     }
 }

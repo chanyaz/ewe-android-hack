@@ -6,6 +6,7 @@ import rx.subjects.PublishSubject
 class StoredCouponViewHolderViewModel {
     val couponName = PublishSubject.create<String>()
     val couponStatus = PublishSubject.create<StoredCouponAppliedStatus>()
+    val enableViewHolder = PublishSubject.create<Boolean>()
 
     val couponAppliedVisibility = PublishSubject.create<Boolean>()
     val progressBarVisibility = PublishSubject.create<Boolean>()

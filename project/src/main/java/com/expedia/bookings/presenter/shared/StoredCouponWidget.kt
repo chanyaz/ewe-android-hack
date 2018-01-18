@@ -14,18 +14,14 @@ class StoredCouponWidget(context: Context, attr: AttributeSet?): LinearLayout(co
     val viewModel by lazy {
         val storedCouponViewModel = StoredCouponWidgetViewModel()
         storedCouponViewModel.storedCouponsSubject.subscribe {
-            if (it.size == 0) {
-                storedCouponViewModel.hasStoredCoupons.onNext(false)
-            } else {
-                storedCouponViewModel.hasStoredCoupons.onNext(true)
-            }
+            storedCouponViewModel.hasStoredCoupons.onNext(!it.isEmpty())
         }
         storedCouponViewModel
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        storedCouponRecyclerView.adapter = StoredCouponListAdapter(viewModel.storedCouponsSubject)
+        storedCouponRecyclerView.adapter = StoredCouponListAdapter(viewModel.storedCouponsSubject, viewModel.enableStoredCouponsSubject)
         storedCouponRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 }

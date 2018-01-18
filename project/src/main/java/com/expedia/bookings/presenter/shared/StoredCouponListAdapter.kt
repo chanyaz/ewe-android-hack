@@ -7,7 +7,8 @@ import com.expedia.bookings.R
 import com.expedia.util.safeSubscribe
 import rx.subjects.PublishSubject
 
-class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCouponAdapter>>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCouponAdapter>>,
+                              val enableStoredCouponsSubject: PublishSubject<Boolean>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var coupons = arrayListOf<StoredCouponAdapter>()
     val applyStoredCouponSubject = PublishSubject.create<String>()
@@ -37,6 +38,7 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
             applyStoredCouponSubject.onNext(coupons[viewHolderTag].savedCoupon.instanceId)
         }
         holder.itemView.tag = position
+        enableStoredCouponsSubject.subscribe(holder.viewModel.enableViewHolder)
     }
 }
 
