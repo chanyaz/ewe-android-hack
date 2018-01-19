@@ -6,5 +6,5 @@ import com.expedia.bookings.data.PushNotificationRegistrationResponse
 
 interface ExpediaServicesPushInterface {
     fun registerForPushNotifications(
-            responseHandler: ResponseHandler<PushNotificationRegistrationResponse>, payload: JSONObject, regId: String): PushNotificationRegistrationResponse
+            responseHandler: ResponseHandler<PushNotificationRegistrationResponse>, payload: JSONObject, regId: String): PushNotificationRegistrationResponse?
 }

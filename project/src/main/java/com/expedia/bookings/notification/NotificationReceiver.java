@@ -21,7 +21,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
 
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.StandaloneShareActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
@@ -30,11 +29,11 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
@@ -135,12 +134,18 @@ public class NotificationReceiver extends BroadcastReceiver {
 	@VisibleForTesting
 	protected void checkTripValidAndShowNotification(final Context context, final Notification finalNotification) {
 
-		boolean isNotificationNotBooking = !finalNotification.getNotificationType().equals(NotificationType.DESKTOP_BOOKING);
+		boolean isNotificationNotBooking = !finalNotification.getNotificationType()
+			.equals(NotificationType.DESKTOP_BOOKING);
 
 		if (isNotificationNotBooking) { // check trip is still valid (i.e. not cancelled)
-			getItineraryManagerInstance()
-				.addSyncListener(makeValidTripSyncListener(context, finalNotification, getItineraryManagerInstance()));
-			getItineraryManagerInstance().startSync(true);
+			if (getItineraryManagerInstance().startSync(false)) {
+				getItineraryManagerInstance()
+					.addSyncListener(
+						makeValidTripSyncListener(context, finalNotification, getItineraryManagerInstance()));
+			}
+			else {
+				scheduleNotification(getItineraryManagerInstance().getTrips(), finalNotification, context);
+			}
 		}
 		else {
 			showNotification(finalNotification, context); //show booking notification
@@ -164,36 +169,49 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 			@Override
 			public void onSyncFinished(Collection<Trip> trips) {
-				// Show notification only if trip exists
-				com.expedia.bookings.notification.NotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
-
+				scheduleNotification(trips, finalNotification, context);
 				itineraryManager.removeSyncListener(this);
-				boolean validTripForScheduledNotification = isValidTripForScheduledNotification(trips);
-				if (!validTripForScheduledNotification) {
-					notificationManager.cancelNotificationIntent(finalNotification);
-					notificationManager.dismissNotification(finalNotification);
-				}
-				else {
-					Notification updatedNotificiation = findExistingNotification(notificationManager, finalNotification);
-					if (updatedNotificiation != null) {
-						showNotification(updatedNotificiation, context);
-					}
-				}
-			}
-
-			private boolean isValidTripForScheduledNotification(Collection<Trip> trips) {
-				for (Trip trip : trips) {
-					for (TripComponent tripComponent : trip.getTripComponents()) {
-						boolean isPushNotification = PushNotificationUtils.isFlightAlertsNotification(finalNotification);
-						boolean isValidTripForNotification = finalNotification.getUniqueId().contains(tripComponent.getUniqueId());
-						if (isValidTripForNotification || isPushNotification) {
-							return true;
-						}
-					}
-				}
-				return false;
 			}
 		};
+	}
+
+	private boolean isValidTripForScheduledNotification(Collection<Trip> trips, final Notification finalNotification) {
+		for (Trip trip : trips) {
+			for (TripComponent tripComponent : trip.getTripComponents()) {
+				boolean isPushNotification = PushNotificationUtils
+					.isFlightAlertsNotification(finalNotification);
+				boolean isValidTripForNotification = finalNotification.getUniqueId()
+					.contains(tripComponent.getUniqueId());
+				if (isValidTripForNotification || isPushNotification) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private void scheduleNotification(Collection<Trip> trips, final Notification finalNotification, Context context) {
+		// Show notification only if trip exists
+		com.expedia.bookings.notification.NotificationManager notificationManager = Ui.getApplication(context)
+			.appComponent().notificationManager();
+
+		boolean validTripForScheduledNotification = isValidTripForScheduledNotification(trips, finalNotification);
+		if (!validTripForScheduledNotification) {
+			notificationManager.cancelNotificationIntent(finalNotification);
+			notificationManager.dismissNotification(finalNotification);
+		}
+		else {
+			notificationUpdateAndShow(notificationManager, finalNotification, context);
+		}
+	}
+
+	private void notificationUpdateAndShow(com.expedia.bookings.notification.NotificationManager notificationManager,
+		Notification finalNotification,
+		Context context) {
+		Notification updatedNotification = findExistingNotification(notificationManager, finalNotification);
+		if (updatedNotification != null) {
+			showNotification(updatedNotification, context);
+		}
 	}
 
 	protected ItineraryManager getItineraryManagerInstance() {

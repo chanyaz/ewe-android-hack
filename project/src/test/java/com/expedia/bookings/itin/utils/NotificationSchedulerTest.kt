@@ -255,7 +255,7 @@ class NotificationSchedulerTest {
         var mPayload: JSONObject? = null
         var mRegID = ""
 
-        override fun registerForPushNotifications(responseHandler: ResponseHandler<PushNotificationRegistrationResponse>, payload: JSONObject, regId: String): PushNotificationRegistrationResponse {
+        override fun registerForPushNotifications(responseHandler: ResponseHandler<PushNotificationRegistrationResponse>, payload: JSONObject, regId: String): PushNotificationRegistrationResponse? {
             handler = responseHandler
             mPayload = payload
             mRegID = regId

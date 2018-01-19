@@ -44,8 +44,8 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
 
     fun subscribeToListeners(finishObserver: PublishSubject<List<ItinCardData>>,
                              failObserver: PublishSubject<List<ItinCardData>>) {
-        finishObserver.observeOn(Schedulers.io()).doOnNext { makeNewFinishedObserver().onNext(it) }
-        failObserver.observeOn(Schedulers.io()).doOnNext { makeNewFailedObserver().onNext(it) }
+        finishObserver.observeOn(Schedulers.io()).subscribe(makeNewFinishedObserver())
+        failObserver.observeOn(Schedulers.io()).subscribe(makeNewFailedObserver())
     }
 
     fun scheduleLocalNotifications(dataCards: List<ItinCardData>) {
@@ -103,7 +103,7 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
                 val resp = services.registerForPushNotifications(
                         PushRegistrationResponseHandler(context), payload, regId)
                 Log.d(LOGGING_TAG,
-                        "registerForPushNotifications response:" + resp.success)
+                        "registerForPushNotifications response:" + resp?.success)
 
                 tnsServices.deregisterForFlights(tnsUser, courier)
             } else {
@@ -117,7 +117,7 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
                 val resp = services.registerForPushNotifications(
                         PushRegistrationResponseHandler(context), payload, regId)
                 Log.d(LOGGING_TAG,
-                        "registerForPushNotifications response:" + resp.success)
+                        "registerForPushNotifications response:" + resp?.success)
 
                 tnsServices.registerForFlights(tnsUser, courier, getFlightsForNewSystem(itinCardDatas))
             }

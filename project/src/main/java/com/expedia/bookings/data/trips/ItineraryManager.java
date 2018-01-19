@@ -32,6 +32,7 @@ import android.text.TextUtils;
 
 import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -354,8 +355,9 @@ public class ItineraryManager implements JSONable {
 		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 		notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 		NotificationScheduler notificationScheduler = Ui.getApplication(context).appComponent().notificationScheduler();
-		notificationScheduler.subscribeToListeners(syncFinishObserverable, syncFailedObserverable);
-
+		if (!ExpediaBookingApp.isAutomation()) {
+			notificationScheduler.subscribeToListeners(syncFinishObserverable, syncFailedObserverable);
+		}
 		loadStartAndEndTimes();
 
 		Log.d(LOGGING_TAG, "Initialized ItineraryManager in " + ((System.nanoTime() - start) / 1000000) + " ms");

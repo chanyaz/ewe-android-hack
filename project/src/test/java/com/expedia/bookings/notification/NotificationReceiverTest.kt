@@ -55,8 +55,9 @@ class NotificationReceiverTest {
         notificationReceiver = TestNotificationReceiver(mockItineraryManager, ourNotification)
         notificationReceiver.onReceive(context, ourIntent)
 
-        Mockito.verify(mockItineraryManager, Mockito.times(1)).addSyncListener(Mockito.any(ItineraryManager.ItinerarySyncAdapter::class.java))
-        Mockito.verify(mockItineraryManager, Mockito.times(1)).startSync(true)
+        Mockito.verify(mockItineraryManager, Mockito.times(0)).addSyncListener(Mockito.any(ItineraryManager.ItinerarySyncAdapter::class.java))
+        Mockito.verify(mockItineraryManager, Mockito.times(1)).startSync(false)
+        Mockito.verify(mockItineraryManager, Mockito.times(1)).trips
     }
 
     @Test
