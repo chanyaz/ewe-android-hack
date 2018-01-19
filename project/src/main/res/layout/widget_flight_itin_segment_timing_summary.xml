@@ -6,6 +6,15 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp">
 
+    <View
+        android:id="@+id/center_view"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/flight_itin_departure_details"
         android:layout_width="0dp"
@@ -15,7 +24,7 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/flight_itin_arrival_details"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/flight_itin_to_arrow"
+        app:layout_constraintRight_toRightOf="@+id/center_view"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -34,15 +43,37 @@
                 android:textColor="@color/gray600"
                 android:textSize="12sp" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/flight_itin_new_departure_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="6dp"
-                android:textSize="20sp"
-                app:textStyle="medium"
-                tools:text="6:45am"
-                tools:textColor="@color/itin_status_indicator_error" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_itin_new_departure_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="6dp"
+                    android:textSize="20sp"
+                    app:textStyle="medium"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="6:45am"
+                    tools:textColor="@color/itin_status_indicator_error" />
+
+                <ImageView
+                    android:id="@+id/flight_itin_new_departure_to_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/itin_flight_summary_arrow_cont_desc"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:tint="@color/gray900"
+                    app:srcCompat="@drawable/itin_arrow_icon" />
+            </android.support.constraint.ConstraintLayout>
 
             <com.expedia.bookings.widget.TextView
                 android:layout_width="wrap_content"
@@ -64,15 +95,33 @@
             tools:text="Fri, Oct 2"
             tools:visibility="visible" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/flight_itin_departure_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="6dp"
-            android:textColor="@color/gray900"
-            android:textSize="20sp"
-            app:textStyle="medium"
-            tools:text="6:45am" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/flight_itin_departure_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:textColor="@color/gray900"
+                android:textSize="20sp"
+                app:textStyle="medium"
+                tools:text="6:45am" />
+
+            <ImageView
+                android:id="@+id/flight_itin_to_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/itin_flight_summary_arrow_cont_desc"
+                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:tint="@color/gray900"
+                app:srcCompat="@drawable/itin_arrow_icon" />
+        </android.support.constraint.ConstraintLayout>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_itin_departure_airport"
@@ -96,20 +145,6 @@
             tools:visibility="visible" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/flight_itin_to_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:contentDescription="@string/itin_flight_summary_arrow_cont_desc"
-        android:focusable="true"
-        android:tint="@color/gray900"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/flight_itin_departure_details"
-        app:layout_constraintRight_toLeftOf="@+id/flight_itin_arrival_details"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/itin_arrow_icon" />
-
     <LinearLayout
         android:id="@+id/flight_itin_arrival_details"
         android:layout_width="0dp"
@@ -120,7 +155,7 @@
         android:orientation="vertical"
         app:layout_constraintBaseline_toBaselineOf="@+id/flight_itin_departure_details"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/flight_itin_to_arrow"
+        app:layout_constraintLeft_toRightOf="@id/center_view"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -195,8 +230,8 @@
                 android:paddingLeft="3dp"
                 android:textColor="@color/error_red"
                 android:textSize="12sp"
-                app:textStyle="medium"
                 android:visibility="gone"
+                app:textStyle="medium"
                 tools:text="+1"
                 tools:visibility="visible" />
         </LinearLayout>

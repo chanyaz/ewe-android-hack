@@ -63,6 +63,7 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
     val newArrivalDetailsContainer: LinearLayout by bindView(R.id.flight_itin_new_arrival_details_container)
     @VisibleForTesting
     val newArrivalTimeText: TextView by bindView(R.id.flight_itin_new_arrival_time)
+    val flightItinArrow: ImageView by bindView(R.id.flight_itin_to_arrow)
 
     var viewModel: FlightItinSegmentSummaryViewModel by notNullAndObservable { vm ->
         vm.createAirlineWidgetSubject.subscribe { params ->
@@ -129,6 +130,7 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
             if (!flightStatsParams.newArrivalTimeText.isNullOrEmpty() && !flightStatsParams.newDepartureTimeText.isNullOrEmpty()) {
                 newDepartureDetailsContainer.visibility = View.VISIBLE
                 newArrivalDetailsContainer.visibility = View.VISIBLE
+                flightItinArrow.visibility = View.GONE
                 newDepartureTimeText.text = flightStatsParams.newDepartureTimeText
                 newArrivalTimeText.text = flightStatsParams.newArrivalTimeText
                 newDepartureTimeText.setTextColor(ContextCompat.getColor(context, flightStatsParams.indicatorTextColor))
