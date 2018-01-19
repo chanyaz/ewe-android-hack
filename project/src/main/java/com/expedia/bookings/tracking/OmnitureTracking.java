@@ -2459,6 +2459,7 @@ public class OmnitureTracking {
 
 	public static void trackHotelItinManageBookingClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MANAGE_BOOKING);
+		trackAbacusTest(s, AbacusUtils.TripsHotelsM2);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
