@@ -360,5 +360,9 @@ open class HotelTracking {
             val eSourceErrorId = error.errorInfo?.sourceErrorId ?: error.errorCode
             return "$errorType$eSource$eSourceErrorId"
         }
+
+        fun trackSlideToBook() {
+            OmnitureTracking.trackSlideToBookAction()
+        }
     }
 }

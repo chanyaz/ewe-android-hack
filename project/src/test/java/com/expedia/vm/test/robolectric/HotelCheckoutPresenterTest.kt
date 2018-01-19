@@ -10,7 +10,6 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -26,6 +25,7 @@ import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.payment.PointsType
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
@@ -44,6 +44,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.FacebookEvents.Companion.userStateManager
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CouponWidget
@@ -83,8 +84,6 @@ class HotelCheckoutPresenterTest {
     val mockHotelServices: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
     val mockTravelerProvider = MockTravelerProvider()
-
-    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun setup() {
@@ -683,7 +682,7 @@ class HotelCheckoutPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testOmnitureTrackingOnCouponClick() {
-        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         checkout.couponCardView.performClick()
         val couponTrackingString = "App.CKO.Coupon"
         val expectedEvars = mapOf(28 to couponTrackingString, 61 to "1")
@@ -691,6 +690,17 @@ class HotelCheckoutPresenterTest {
 
         OmnitureTestUtils.assertLinkTracked("Universal Checkout", couponTrackingString, OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
         OmnitureTestUtils.assertLinkTracked("Universal Checkout", couponTrackingString, OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testSlideToBookTracking() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+
+        checkout.onSlideAllTheWay()
+
+        val expectedEvars = mapOf(61 to PointOfSale.getPointOfSale().tpid.toString())
+        OmnitureTestUtils.assertLinkTracked("Universal Checkout", "App.CKO.SlideToBook", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+
     }
 
     private fun givenLoggedInUserAndTravelerInDb() {

@@ -301,6 +301,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
 
     override fun onSlideAllTheWay() {
         slideAllTheWayObservable.onNext(Unit)
+        HotelTracking.trackSlideToBook()
     }
 
     override fun onSlideAbort() {
