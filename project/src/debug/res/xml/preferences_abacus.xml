@@ -83,6 +83,14 @@
             android:summary="%s"
             android:title="New filter call to action prompt test - 24583" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="24648"
+            android:summary="%s"
+            android:title="Dateless infosite - 24648" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
