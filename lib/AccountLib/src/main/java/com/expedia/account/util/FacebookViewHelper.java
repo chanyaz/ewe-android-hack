@@ -35,7 +35,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
+import com.mobiata.android.Log;
 
 public class FacebookViewHelper {
 
@@ -83,7 +83,7 @@ public class FacebookViewHelper {
 	 * It uses the Facebook app if it is installed, otherwise it'll use a webview.
 	 */
 	public void doFacebookLogin() {
-		Timber.d("FACEBOOK: doFacebookLogin");
+		Log.d("FACEBOOK: doFacebookLogin");
 		LoginManager loginManager = LoginManager.getInstance();
 		ArrayList<String> permissions = new ArrayList<>();
 		permissions.add("email");
@@ -112,7 +112,7 @@ public class FacebookViewHelper {
 	}
 
 	void onFacebookLoginCancelled() {
-		Timber.d("FACEBOOK: LoginResult: onCancel!");
+		Log.d("FACEBOOK: LoginResult: onCancel!");
 		vFacebookAPIHostLayout.setMessage(R.string.acct__fb_sign_in_cancelled);
 		mAccountView.getHandler().postDelayed(new Runnable() {
 			@Override
@@ -123,7 +123,7 @@ public class FacebookViewHelper {
 	}
 
 	void onFacebookLoginError() {
-		Timber.d("FACEBOOK: LoginResult: onError!");
+		Log.d("FACEBOOK: LoginResult: onError!");
 		mAccountView.onFacebookError();
 		showErrorFacebookUnknown();
 	}
@@ -131,7 +131,7 @@ public class FacebookViewHelper {
 	void onFacebookLoginSuccess(LoginResult loginResult) {
 		// A successful login from Facebook means now we're ready to try
 		// connecting the Facebook account to the Expedia account.
-		Timber.d("FACEBOOK: LoginResult: onSuccess!");
+		Log.d("FACEBOOK: LoginResult: onSuccess!");
 		AccessToken token = loginResult.getAccessToken();
 
 		if (token.getDeclinedPermissions().contains("email")) {
@@ -152,13 +152,13 @@ public class FacebookViewHelper {
 	 * that to be useful. So let's get it.
 	 */
 	void fetchFacebookUserInfo(AccessToken token) {
-		Timber.d("FACEBOOK: fetchFacebookUserInfo");
+		Log.d("FACEBOOK: fetchFacebookUserInfo");
 
 		GraphRequest request = GraphRequest.newMeRequest(token, new GraphRequest.GraphJSONObjectCallback() {
 			@Override
 			public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
 				if (jsonObject == null) {
-					Timber.d("FACEBOOK: nullJsonObject");
+					Log.d("FACEBOOK: nullJsonObject");
 					mAccountView.onFacebookError();
 					showErrorFacebookUnknown();
 					return;
@@ -173,7 +173,7 @@ public class FacebookViewHelper {
 	}
 
 	void onFacebookUserInfoFetched(JSONObject jsonObject) {
-		Timber.d("FACEBOOK: meRequest: " + jsonObject.toString());
+		Log.d("FACEBOOK: meRequest: " + jsonObject.toString());
 
 		PartialUser user = Db.getNewUser();
 		user.email = jsonObject.optString("email");
@@ -212,7 +212,7 @@ public class FacebookViewHelper {
 
 				@Override
 				public void onError(Throwable e) {
-					Timber.d("FACEBOOK: unable to facebookAutoLogin: " + e);
+					Log.d("FACEBOOK: unable to facebookAutoLogin: " + e);
 					mAccountView.onFacebookError();
 					showErrorFacebookUnknown();
 				}
@@ -224,7 +224,7 @@ public class FacebookViewHelper {
 
 				@Override
 				public void onNext(FacebookLinkResponse facebookLinkResponse) {
-					Timber.d("FACEBOOK: facebookAutoLogin response: "
+					Log.d("FACEBOOK: facebookAutoLogin response: "
 						+ facebookLinkResponse.status.name());
 					switch (facebookLinkResponse.status) {
 					case notLinked:
@@ -322,7 +322,7 @@ public class FacebookViewHelper {
 
 				@Override
 				public void onError(Throwable e) {
-					Timber.d("FACEBOOK: unable to facebookLinkNewAccount: " + e);
+					Log.d("FACEBOOK: unable to facebookLinkNewAccount: " + e);
 					showErrorFacebookUnknown();
 					mAccountView.onFacebookError();
 				}
@@ -338,7 +338,7 @@ public class FacebookViewHelper {
 						fbSignInRefreshProfile();
 					}
 					else {
-						Timber.d("FACEBOOK: facebookLinkNewAccount failure: " + response);
+						Log.d("FACEBOOK: facebookLinkNewAccount failure: " + response);
 						showErrorFacebookUnknown();
 						mAccountView.onFacebookError();
 					}
@@ -403,7 +403,7 @@ public class FacebookViewHelper {
 
 				@Override
 				public void onError(Throwable e) {
-					Timber.d("FACEBOOK: unable to fbSignInRefreshProfile: " + e);
+					Log.d("FACEBOOK: unable to fbSignInRefreshProfile: " + e);
 					mAccountView.onFacebookError();
 					showErrorFacebookUnknown();
 				}
@@ -419,7 +419,7 @@ public class FacebookViewHelper {
 						fbSignInSuccessful();
 					}
 					else {
-						Timber.d("FACEBOOK: fbSignInRefreshProfile not successful: " + response);
+						Log.d("FACEBOOK: fbSignInRefreshProfile not successful: " + response);
 						mAccountView.onFacebookError();
 						showErrorFacebookUnknown();
 					}
@@ -428,7 +428,7 @@ public class FacebookViewHelper {
 	}
 
 	private void fbSignInSuccessful() {
-		Timber.d("!!!Sign in succeeded");
+		Log.d("!!!Sign in succeeded");
 		mAccountView.doFacebookSignInSuccessful();
 		mAccountView.show(AccountView.STATE_WELCOME);
 	}

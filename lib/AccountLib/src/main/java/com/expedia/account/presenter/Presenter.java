@@ -21,7 +21,7 @@ import android.widget.FrameLayout;
 
 import com.expedia.account.util.Events;
 
-import timber.log.Timber;
+import com.mobiata.android.Log;
 
 /**
  * A FrameLayoutPresenter that maintains child presenters and animates
@@ -142,7 +142,7 @@ public class Presenter extends FrameLayout {
 
 	public void show(Object newState, int flags) {
 		String newStateAsString = (newState instanceof String) ? (String) newState : newState.getClass().getName();
-		Timber.d("state: " + newStateAsString);
+		Log.d("state: " + newStateAsString);
 		if (currentState == null) {
 			// If we have a default transition added, execute it.
 			if (toDefaultTransition != null && newStateAsString.equals(toDefaultTransition.state2)) {
@@ -489,13 +489,13 @@ public class Presenter extends FrameLayout {
 		private void logAnimStats() {
 			float avgFramePercentageChange = lastAnimPercentage / frames;
 			float animFrameRate = 1000f / avgFrameDuration;
-			Timber.v("Start: " + meta.getOrigin() + " --> " + meta.getDestination());
-			Timber.v("  TotalFrames: " + frames);
-			Timber.v("  FrameRate: " + animFrameRate + "f/s");
-			Timber.v("  AverageFrameDuration: " + avgFrameDuration + "ms");
-			Timber.v("  AverageFramePercentageChange: " + avgFramePercentageChange);
-			Timber.v("  LastPercentageFromAnimator: " + lastAnimPercentage);
-			Timber.d("End:   " + meta.getOrigin() + " --> " + meta.getDestination());
+			Log.v("Start: " + meta.getOrigin() + " --> " + meta.getDestination());
+			Log.v("  TotalFrames: " + frames);
+			Log.v("  FrameRate: " + animFrameRate + "f/s");
+			Log.v("  AverageFrameDuration: " + avgFrameDuration + "ms");
+			Log.v("  AverageFramePercentageChange: " + avgFramePercentageChange);
+			Log.v("  LastPercentageFromAnimator: " + lastAnimPercentage);
+			Log.d("End:   " + meta.getOrigin() + " --> " + meta.getDestination());
 		}
 	}
 

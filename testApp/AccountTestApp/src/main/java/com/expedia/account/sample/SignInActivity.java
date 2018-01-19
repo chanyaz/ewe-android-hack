@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import okhttp3.OkHttpClient;
-import timber.log.Timber;
+import com.mobiata.android.Log;
 
 public class SignInActivity extends FragmentActivity {
 
@@ -236,7 +236,7 @@ public class SignInActivity extends FragmentActivity {
 			for (Signature signature : info.signatures) {
 				MessageDigest md = MessageDigest.getInstance("SHA");
 				md.update(signature.toByteArray());
-				Timber.d("Facebook Info: "
+				Log.d("Facebook Info: "
 					+ "Package: " + packageName + ", "
 					+ "KeyHash: " + Base64.encodeToString(md.digest(), Base64.DEFAULT));
 			}

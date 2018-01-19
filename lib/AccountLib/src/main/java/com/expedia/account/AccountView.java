@@ -55,7 +55,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
+import com.mobiata.android.Log;
 
 public class AccountView extends BufferedPresenter {
 
@@ -1119,7 +1119,7 @@ public class AccountView extends BufferedPresenter {
 
 	// Networking error
 	private void showCreateAccountError(Throwable throwable) {
-		Timber.e("ohno " + throwable);
+		Log.e("ohno " + throwable);
 		if (mConfig != null) {
 			AnalyticsListener analyticsListener = mConfig.getAnalyticsListener();
 			if (analyticsListener != null) {
@@ -1138,7 +1138,7 @@ public class AccountView extends BufferedPresenter {
 
 	// API returned !success
 	private void showCreateAccountError(AccountResponse response) {
-		Timber.e("ohno " + response);
+		Log.e("ohno " + response);
 		if (mConfig != null) {
 			AnalyticsListener analyticsListener = mConfig.getAnalyticsListener();
 			if (analyticsListener != null) {

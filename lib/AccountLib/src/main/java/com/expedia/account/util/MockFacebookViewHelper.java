@@ -14,7 +14,7 @@ import com.expedia.account.AccountView;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginResult;
 
-import timber.log.Timber;
+import com.mobiata.android.Log;
 
 /**
  * Created by doug on 8/31/15.
@@ -153,7 +153,7 @@ public class MockFacebookViewHelper extends FacebookViewHelper {
 			onFacebookUserInfoFetched(object);
 		}
 		catch (JSONException e) {
-			Timber.e(e.toString());
+			Log.e(e.toString());
 		}
 	}
 

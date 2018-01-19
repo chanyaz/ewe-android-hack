@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.squareup.otto.Bus;
-import timber.log.Timber;
+import com.mobiata.android.Log;
 
 /**
  * This singleton class houses a list of all the events currently supported on the Otto Event Bus.
@@ -48,17 +48,17 @@ public class Events {
 	}
 
 	public static void register(Object obj) {
-		Timber.v("Registering: " + obj);
+		Log.v("Registering: " + obj);
 		sBus.register(obj);
 	}
 
 	public static void unregister(Object obj) {
-		Timber.v("Unregistering: " + obj);
+		Log.v("Unregistering: " + obj);
 		sBus.unregister(obj);
 	}
 
 	public static void post(Object obj) {
-		Timber.v("Posting event: " + obj);
+		Log.v("Posting event: " + obj);
 		sBus.post(obj);
 	}
 

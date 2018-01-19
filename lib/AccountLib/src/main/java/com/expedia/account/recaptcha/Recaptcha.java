@@ -9,7 +9,7 @@ import com.google.android.gms.safetynet.SafetyNetApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import timber.log.Timber;
+import com.mobiata.android.Log;
 
 /**
  * Created by Jeff on 11/3/2017.
@@ -35,17 +35,17 @@ public class Recaptcha {
 							// An error occurred when communicating with the reCAPTCHA service.
 							ApiException apiException = (ApiException) e;
 							int statusCode = apiException.getStatusCode();
-							Timber.e(e, "RECAPTCHA: API EXCEPTION: " + statusCode);
+							Log.e("RECAPTCHA: API EXCEPTION: " + statusCode, e);
 						}
 						else {
-							Timber.e(e, "RECAPTCHA: FAILURE");
+							Log.e("RECAPTCHA: FAILURE", e);
 						}
 						handler.onFailure();
 					}
 				});
 		}
 		catch (Exception e) {
-			Timber.e(e, "RECAPTCHA: SDK EXCEPTION");
+			Log.e("RECAPTCHA: SDK EXCEPTION", e);
 			handler.onFailure();
 		}
 	}

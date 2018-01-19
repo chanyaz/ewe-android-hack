@@ -10,7 +10,7 @@ import com.expedia.account.util.MockFacebookViewHelper;
 
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
-import timber.log.Timber;
+import com.mobiata.android.Log;
 
 public class MockExpediaAccountApi implements ExpediaAccountApi {
 	public static final String NEW_USER = "newuser@test.com";
@@ -94,7 +94,7 @@ public class MockExpediaAccountApi implements ExpediaAccountApi {
 
 	@Override
 	public Observable<FacebookLinkResponse> facebookAutoLogin(String provider, String userId, String accessToken) {
-		Timber.e("FACEBOOK: facebookAutoLogin: " + provider + ", " + userId + ", " + accessToken);
+		Log.e("FACEBOOK: facebookAutoLogin: " + provider + ", " + userId + ", " + accessToken);
 		FacebookLinkResponse response = new FacebookLinkResponse();
 		switch (userId) {
 		case MockFacebookViewHelper.NOT_LINKED_ADDRESS:
