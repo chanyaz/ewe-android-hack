@@ -17,10 +17,6 @@ fun isSecureIconEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppSecureCheckoutIcon)
 }
 
-fun isFrequentFlyerNumberForFlightsEnabled(): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
-}
-
 fun isMidAPIEnabled(context: Context): Boolean {
     return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
 }

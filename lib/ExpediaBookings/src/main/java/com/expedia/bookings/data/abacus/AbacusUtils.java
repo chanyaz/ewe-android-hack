@@ -66,7 +66,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightSwitchFields = new ABTest(14918);
 	public static final ABTest EBAndroidAppFlightTravelerFormRevamp = new ABTest(14647);
 	public static final ABTest EBAndroidAppFlightSearchSuggestionLabel = new ABTest(16366);
-	public static final ABTest EBAndroidAppFlightFrequentFlyerNumber = new ABTest(14971);
 	public static final ABTest EBAndroidAppFlightSuggestionOnOneCharacter = new ABTest(15349);
 	public static final ABTest EBAndroidAppFlightRateDetailsFromCache = new ABTest(14769);
 	public static final ABTest EBAndroidAppFlightsSearchResultCaching = new ABTest(14888);
@@ -182,7 +181,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelGreedySearch.getKey());
 		testIDs.add(EBAndroidAppHotelSuperSearch.getKey());
 		testIDs.add(EBAndroidAppAPIMAuth.getKey());
-		testIDs.add(EBAndroidAppFlightFrequentFlyerNumber.getKey());
 		testIDs.add(EBAndroidAppAccountSinglePageSignUp.getKey());
 		testIDs.add(ProWizardTest.getKey());
 		testIDs.add(EBAndroidPopulateCardholderName.getKey());

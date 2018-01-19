@@ -9,7 +9,6 @@ import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerUtils
-import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -23,7 +22,6 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
     val flightLegsObservable = PublishSubject.create<List<FlightLeg>>()
     val frequentFlyerPlans = PublishSubject.create<FlightCreateTripResponse.FrequentFlyerPlans>()
     var frequentFlyerAdapterViewModel: FrequentFlyerAdapterViewModel? = null
-    val isFrequentFlyerEnabled = isFrequentFlyerNumberForFlightsEnabled()
 
     init {
         updateTraveler(getTraveler())
@@ -38,11 +36,9 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
             numberOfInvalidFields.onNext(numberOfInvalidFields.value + newNumberOfInvalidFields)
         }
 
-        if (isFrequentFlyerEnabled) {
-            frequentFlyerAdapterViewModel = FrequentFlyerAdapterViewModel(getTraveler())
-            flightLegsObservable.subscribe(frequentFlyerAdapterViewModel?.flightLegsObservable)
-            frequentFlyerPlans.subscribe(frequentFlyerAdapterViewModel?.frequentFlyerPlans)
-        }
+        frequentFlyerAdapterViewModel = FrequentFlyerAdapterViewModel(getTraveler())
+        flightLegsObservable.subscribe(frequentFlyerAdapterViewModel?.flightLegsObservable)
+        frequentFlyerPlans.subscribe(frequentFlyerAdapterViewModel?.frequentFlyerPlans)
     }
 
     override fun getTraveler(): Traveler {
@@ -72,8 +68,6 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
         tsaViewModel.updateTraveler(traveler)
         advancedOptionsViewModel.updateTraveler(traveler)
         passportCountrySubject.onNext(traveler.primaryPassportCountry)
-        if (isFrequentFlyerEnabled) {
-            frequentFlyerAdapterViewModel?.updateTravelerObservable?.onNext(traveler)
-        }
+        frequentFlyerAdapterViewModel?.updateTravelerObservable?.onNext(traveler)
     }
 }

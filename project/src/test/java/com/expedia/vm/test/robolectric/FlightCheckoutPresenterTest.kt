@@ -133,7 +133,7 @@ class FlightCheckoutPresenterTest {
 
     @Test
     fun testEnrolledFrequentFlyerPrograms() {
-        setupCheckout(true)
+        setupCheckout()
         checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(getPassportRequiredCreateTripResponse(false)))
         checkout.travelersPresenter.showSelectOrEntryState()
         val frequentFlyerPlans = (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).frequentFlyerPlans
@@ -147,7 +147,7 @@ class FlightCheckoutPresenterTest {
 
     @Test
     fun testAllFrequentFlyerPrograms() {
-        setupCheckout(true)
+        setupCheckout()
         val tripResponseWithoutEnrolledFFPlans = getPassportRequiredCreateTripResponse(false)
         tripResponseWithoutEnrolledFFPlans?.frequentFlyerPlans?.enrolledFrequentFlyerPlans = null
         checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(tripResponseWithoutEnrolledFFPlans))
@@ -162,37 +162,7 @@ class FlightCheckoutPresenterTest {
         assertEquals(null, firstPlan.membershipNumber)
     }
 
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testFrequentFlyerBucketedTracking() {
-        setupCheckout(true)
-        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        val bucketedEvar = mapOf(34 to "14971.0.1")
-        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
-
-        FlightsV2Tracking.trackCheckoutEditTraveler()
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(bucketedEvar), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testFrequentFlyerControlTracking() {
-        setupCheckout(true)
-        Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber.key,
-                AbacusUtils.DefaultVariant.CONTROL.ordinal)
-
-        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        val controlEvar = mapOf(34 to "14971.0.0")
-        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
-
-        FlightsV2Tracking.trackCheckoutEditTraveler()
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
-    }
-
-    private fun setupCheckout(isFrequentFlyerEnabled: Boolean = false) {
-        if (isFrequentFlyerEnabled) {
-            AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
-        }
+    private fun setupCheckout() {
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.flight_checkout_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()

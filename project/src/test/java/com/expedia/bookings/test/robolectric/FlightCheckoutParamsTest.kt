@@ -28,7 +28,6 @@ class FlightCheckoutParamsTest {
         builder.billingInfo(getBillingInfo()).cvv("").tripId("").expectedFareCurrencyCode("").expectedTotalFare("")
         builder.tealeafTransactionId("")
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
     }
 
     @Test

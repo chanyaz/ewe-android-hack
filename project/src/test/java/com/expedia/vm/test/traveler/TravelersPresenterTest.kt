@@ -76,7 +76,6 @@ class TravelersPresenterTest {
 
     @Test
     fun testFrequentFlyerWidgetHiddenForPackages() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
         Db.sharedInstance.setTravelers(getMockTravelers(0))
         setupPresenterAndViewModel(LineOfBusiness.PACKAGES)
         resetAndUpdateTravelers()
@@ -86,7 +85,6 @@ class TravelersPresenterTest {
         travelersPresenter.showSelectOrEntryState()
         val flightTravelerEntryWidget = (travelersPresenter.travelerEntryWidget as FlightTravelerEntryWidget)
 
-        assertTrue(flightTravelerEntryWidget.frequentflyerTestEnabled)
         assertEquals(View.VISIBLE, flightTravelerEntryWidget.advancedButton.visibility)
         assertEquals(View.GONE, flightTravelerEntryWidget.frequentFlyerButton?.visibility)
         assertEquals(View.GONE, flightTravelerEntryWidget.frequentFlyerRecycler?.visibility)
@@ -95,7 +93,6 @@ class TravelersPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testRightDataShownInAdvancedOptionsWhenMultipleTravelerIsPresent() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
         var travelers = getMockTravelers(2)
         Db.sharedInstance.setTravelers(travelers)
         setupPresenterAndViewModel(LineOfBusiness.FLIGHTS_V2)

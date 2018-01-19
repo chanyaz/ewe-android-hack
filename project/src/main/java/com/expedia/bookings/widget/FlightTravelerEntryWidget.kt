@@ -20,7 +20,6 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
 import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.traveler.FrequentFlyerAdapter
@@ -32,7 +31,6 @@ import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FrequentFlyerAdapterViewModel
 
 class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : AbstractTravelerEntryWidget(context, attrs) {
-    val frequentflyerTestEnabled = isFrequentFlyerNumberForFlightsEnabled()
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountryInputLayout: TextInputLayout by bindView(R.id.passport_country_layout_btn)
     val passportCountryEditBox: AccessibleEditTextForSpinner by bindView(R.id.passport_country_btn)
@@ -108,12 +106,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
-        if (frequentflyerTestEnabled) {
-            vm.frequentFlyerAdapterViewModel?.let { viewModel ->
-                setUpFrequentFlyerRecyclerView(context, viewModel)
-            }
-            vm.frequentFlyerAdapterViewModel?.showFrequentFlyerObservable?.subscribeVisibility(frequentFlyerButton)
+        vm.frequentFlyerAdapterViewModel?.let { viewModel ->
+            setUpFrequentFlyerRecyclerView(context, viewModel)
         }
+        vm.frequentFlyerAdapterViewModel?.showFrequentFlyerObservable?.subscribeVisibility(frequentFlyerButton)
         vm.passportCountrySubject.subscribe { countryCode ->
             val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
                     R.layout.material_item)
@@ -147,12 +143,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         setOnFocusChangeListenerForView(passportCountryEditBox)
         setOnFocusChangeListenerForView(advancedOptionsWidget.seatPreferenceEditBox)
         setOnFocusChangeListenerForView(advancedOptionsWidget.assistancePreferenceEditBox)
-        if (frequentflyerTestEnabled) {
-            frequentFlyerButton = findViewById<LinearLayout>(R.id.traveler_frequent_flyer_button)
-            frequentFlyerRecycler = findViewById<RecyclerView>(R.id.frequent_flyer_recycler_view)
-            frequentFlyerIcon = findViewById<ImageView>(R.id.traveler_frequent_flyer_program_icon)
-            frequentFlyerText = findViewById<TextView>(R.id.frequent_flyer_program_text)
-        }
+        frequentFlyerButton = findViewById<LinearLayout>(R.id.traveler_frequent_flyer_button)
+        frequentFlyerRecycler = findViewById<RecyclerView>(R.id.frequent_flyer_recycler_view)
+        frequentFlyerIcon = findViewById<ImageView>(R.id.traveler_frequent_flyer_program_icon)
+        frequentFlyerText = findViewById<TextView>(R.id.frequent_flyer_program_text)
         advancedOptionsWidget.redressNumber.addOnFocusChangeListener(this)
     }
 
@@ -162,11 +156,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         passportCountryEditBox.setOnClickListener {
             showCountryAlertDialog()
         }
-        if (frequentflyerTestEnabled) {
-            updateFrequentFlyerVisibility(show = false)
-            frequentFlyerButton?.setOnClickListener {
-                updateFrequentFlyerVisibility(frequentFlyerRecycler?.visibility == Presenter.GONE)
-            }
+        updateFrequentFlyerVisibility(show = false)
+        frequentFlyerButton?.setOnClickListener {
+            updateFrequentFlyerVisibility(frequentFlyerRecycler?.visibility == Presenter.GONE)
         }
         setOnFocusChangeListenerForView(tsaEntryView.genderEditText!!)
         advancedButton.setOnClickListener {

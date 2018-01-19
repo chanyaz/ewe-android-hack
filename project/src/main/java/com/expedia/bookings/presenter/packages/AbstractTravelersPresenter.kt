@@ -17,7 +17,6 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
 import com.expedia.bookings.widget.AbstractTravelerEntryWidget
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.traveler.TravelerPickerWidget
@@ -278,6 +277,6 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
     }
 
     private fun shouldShowFrequentFlyerWidget() : Boolean {
-        return isFrequentFlyerNumberForFlightsEnabled() && viewModel.lob == LineOfBusiness.FLIGHTS_V2
+        return viewModel.lob == LineOfBusiness.FLIGHTS_V2
     }
 }

@@ -97,7 +97,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
                 params.put(prefix + "tuid", traveler.tuid.toString())
             }
 
-            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber) && flightLegs.isNotEmpty()) {
+            if (flightLegs.isNotEmpty()) {
                 val frequentFlyerCards = FlightV2Utils.getAirlineNames(flightLegs)
                 frequentFlyerCards.forEachIndexed { index, frequentFlyerCard ->
                     val flyerMembership = traveler.frequentFlyerMemberships[frequentFlyerCard.airlineCode]
@@ -142,7 +142,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             params.put(prefix + "seatPreference", !travelers[i].seatPreference.name.isNullOrBlank())
             params.put(prefix + "TSARedressNumber", !traveler.redressNumber.isNullOrBlank())
             params.put(prefix + "knownTravelerNumber", !traveler.knownTravelerNumber.isNullOrBlank())
-            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber) && flightLegs.isNotEmpty()) {
+            if (flightLegs.isNotEmpty()) {
                 val frequentFlyerCards = FlightV2Utils.getAirlineNames(flightLegs)
                 frequentFlyerCards.forEachIndexed { index, frequentFlyerCard ->
                     val flyerMembership = traveler.frequentFlyerMemberships[frequentFlyerCard.airlineCode]
