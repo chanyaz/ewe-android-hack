@@ -210,7 +210,6 @@ class PackageOverviewPresenterTest {
 
         assertEquals("$350", overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleTotalPrice.text)
     }
-    
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCacheResponseUsedOnChangeHotelRoomBack() {
@@ -254,7 +253,7 @@ class PackageOverviewPresenterTest {
         Db.setPackageResponse(null)
 
         val newIntent= Shadows.shadowOf(activity).peekNextStartedActivity()
-        val packageHotelActivity = Robolectric.buildActivity(PackageHotelActivity::class.java).withIntent(newIntent).create().get()
+        val packageHotelActivity = Robolectric.buildActivity(PackageHotelActivity::class.java, newIntent).create().get()
 
         packageHotelActivity.onBackPressed()
 
