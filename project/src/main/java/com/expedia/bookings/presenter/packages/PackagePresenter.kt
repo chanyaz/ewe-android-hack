@@ -115,12 +115,12 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         checkoutPresenter.getCheckoutViewModel().checkoutRequestStartTimeObservable.subscribe { startTime ->
             pageUsableData.markPageLoadStarted(startTime)
         }
-        presenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
+        presenter.bundleWidget.viewModel.showBundleTotalObservable.filter { !isMidAPIEnabled(context) || it }.subscribe { visible ->
             val packagePrice = Db.getPackageResponse().getCurrentOfferPrice() ?: return@subscribe
 
             val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                     packagePrice.tripSavings.currencyCode)
-            presenter.totalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
+            presenter.totalPriceWidget.visibility = View.VISIBLE
             presenter.totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
                     packagePrice.packageTotalPrice.currencyCode))
             presenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)

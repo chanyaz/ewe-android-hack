@@ -41,6 +41,7 @@ import com.expedia.vm.packages.OverviewHeaderData
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageTotalPriceViewModel
+import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import org.joda.time.Days
 import org.joda.time.format.DateTimeFormat
@@ -89,6 +90,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     override fun injectComponents() {}
 
     init {
+        android.util.Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!__________!!!!!!!!!!!!!!!!!!!!!", "Mahak")
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
         toolbarNavIconContDescSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIconContentDesc)
