@@ -1,5 +1,7 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
+
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
@@ -9,6 +11,7 @@ import com.expedia.bookings.hotel.util.HotelInfoManager;
 import com.expedia.bookings.hotel.util.HotelSearchManager;
 import com.expedia.bookings.hotel.util.HotelSearchParamsProvider;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.server.apollo.GraphQLServices;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.LoyaltyServices;
@@ -26,8 +29,6 @@ import com.expedia.vm.interfaces.IBucksViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel;
 
-import javax.inject.Named;
-
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Interceptor;
@@ -43,6 +44,13 @@ public final class HotelModule {
 		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new HotelServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@HotelScope
+	GraphQLServices provideApolloServices(OkHttpClient httpClient) {
+		String url = "http://satellite-graphql.ewetest.ch.lab.stockyard.io/graphql";
+		return new GraphQLServices(url, httpClient, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
@@ -146,8 +154,8 @@ public final class HotelModule {
 
 	@Provides
 	@HotelScope
-	HotelSearchManager provideHotelSearchManager(HotelServices hotelServices) {
-		return new HotelSearchManager(hotelServices);
+	HotelSearchManager provideHotelSearchManager(HotelServices hotelServices, GraphQLServices graphQLServices) {
+		return new HotelSearchManager(hotelServices, graphQLServices);
 	}
 
 	@Provides

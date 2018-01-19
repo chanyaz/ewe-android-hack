@@ -5,6 +5,7 @@ def CHANGELOG_PATH = "changelog.txt"
 def CRASHLYTICS_BETA_GROUPS_PATH = "jenkins/crashlytics_beta_groups.txt"
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.apollographql.android'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
@@ -25,6 +26,7 @@ repositories {
         }
     }
     maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
 dependencies {
@@ -98,6 +100,12 @@ dependencies {
         exclude group: 'com.intellij'
     }
 
+    //Apollo
+    implementation 'com.apollographql.apollo:apollo-runtime:0.4.4-SNAPSHOT'
+    implementation 'com.apollographql.apollo:apollo-rx2-support:0.4.4-SNAPSHOT'
+    //compile project(":apollo-rx2-support")
+    //compile project(":apollo-runtime")
+
     // Dagger 2.6.1
     implementation "com.google.dagger:dagger:${dagger_version}"
     kapt "com.google.dagger:dagger-compiler:${dagger_version}"
@@ -168,6 +176,7 @@ dependencies {
     androidTestImplementation "tools.fastlane:screengrab:0.5.5"
     androidTestImplementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     androidTestImplementation 'com.linkedin.testbutler:test-butler-library:1.2.0'
+    androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
 }
 
 if (!project.ext.has("cucumberInstrumentation")) {

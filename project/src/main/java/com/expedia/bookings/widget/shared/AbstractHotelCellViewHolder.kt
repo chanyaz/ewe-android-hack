@@ -38,6 +38,7 @@ import com.expedia.vm.hotel.HotelViewModel
 import com.larvalabs.svgandroid.widget.SVGView
 import com.squareup.picasso.Picasso
 import io.reactivex.subjects.PublishSubject
+import java.text.NumberFormat
 import kotlin.properties.Delegates
 
 abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
@@ -167,7 +168,12 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
     private fun updateHotelGuestRating() {
         if (viewModel.isHotelGuestRatingAvailable) {
             val rating = viewModel.hotelGuestRating
-            guestRating.text = rating.toString()
+
+            val nf = NumberFormat.getInstance()
+            nf.maximumFractionDigits = 2
+
+            //guestRating.text = rating.toString()
+            guestRating.text = nf.format(rating)
             guestRatingRecommendedText.text = getGuestRatingText(rating, itemView.resources)
         }
 

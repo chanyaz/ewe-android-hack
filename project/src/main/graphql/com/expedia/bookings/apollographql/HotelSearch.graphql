@@ -1,0 +1,30 @@
+query hotelSearch($context: Context, $searchCriteria: SearchCriteria) {
+    hotels(context: $context, criteria: $searchCriteria) {
+        listings {
+            ... HotelResult
+        }
+    }
+}
+
+fragment HotelResult on Listing {
+    id
+    propertyName
+    star
+    price {
+        raw
+        formatted
+    }
+    strikeoutPrice {
+        raw
+        formatted
+    }
+    regionId
+    image {
+        url
+        alt
+    }
+    vip
+    reviewScore
+    reviewTotal
+    minRoomsLeft
+}

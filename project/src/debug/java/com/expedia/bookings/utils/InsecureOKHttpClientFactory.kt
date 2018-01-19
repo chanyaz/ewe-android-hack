@@ -119,7 +119,7 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
             val spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
                                      .allEnabledCipherSuites()
                                      .build()
-            client.connectionSpecs(listOf(spec))
+            client.connectionSpecs(listOf(spec, ConnectionSpec.CLEARTEXT))
         } catch (e: Exception) {
             Log.e("", "Something went wrong and I couldn't setup the okhttp client to support any server", e)
         }
