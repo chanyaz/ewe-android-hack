@@ -68,4 +68,8 @@ fi
 if [ "$hasPullId" = "true" ]; then
 	python ./jenkins/pr_ui_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $SLACK_ACCESS_TOKEN
 fi
+
+adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X shell svc data enable
+adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X shell svc wifi enable
+
 exit $?
