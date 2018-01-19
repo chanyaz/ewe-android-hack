@@ -273,6 +273,7 @@ public class OmnitureTracking {
 	private static final String APP_CKO_TRAVELER_SAVE = "App.CKO.Traveler.Save";
 	private static final String APP_CKO_TRAVELER_DECLINE_SAVE = "App.CKO.Traveler.DeclineSave";
 	private static final String APP_CKO_SLIDE_TO_BOOK = "App.CKO.SlideToBook";
+	private static final String APP_CKO_ENTER_COUPON = "App.CKO.Coupon";
 
 	private static final String UNIVERSAL_CHECKOUT = "Universal Checkout";
 
@@ -449,6 +450,12 @@ public class OmnitureTracking {
 
 	public static void trackUserChoosesToSaveTraveler() {
 		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_TRAVELER_SAVE);
+		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
+	}
+
+	public static void trackUserEnterCouponWidget() {
+		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_ENTER_COUPON);
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
 	}
 
@@ -922,8 +929,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_GALLERY_CLICK + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_GALLERY_CLICK);
-
-		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 
 		s.trackLink(null, "o", "Gallery View", null, null);
 	}

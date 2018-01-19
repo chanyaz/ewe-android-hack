@@ -22,6 +22,7 @@ import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isShowSavedCoupons
@@ -238,6 +239,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
         if (applied.visibility == View.VISIBLE) {
             return
         } else if (!isExpanded) {
+            OmnitureTracking.trackUserEnterCouponWidget()
             isExpanded = true
         }
     }

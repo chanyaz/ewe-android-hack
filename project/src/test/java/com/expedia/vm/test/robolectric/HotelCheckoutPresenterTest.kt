@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
@@ -27,6 +29,9 @@ import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -72,6 +77,8 @@ class HotelCheckoutPresenterTest {
     val mockHotelServices: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
     val mockTravelerProvider = MockTravelerProvider()
+
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun setup() {
@@ -519,6 +526,19 @@ class HotelCheckoutPresenterTest {
         checkoutView.onBookV2(null, paymentSplits)
 
         assertEquals(false, testCheckoutParams.onNextEvents.last().traveler.expediaEmailOptIn)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testOmnitureTrackingOnCouponClick() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        checkout.couponCardView.performClick()
+        val couponTrackingString = "App.CKO.Coupon"
+        val expectedEvars = mapOf(28 to couponTrackingString, 61 to "1")
+        val expectedProps = mapOf(16 to couponTrackingString)
+
+        OmnitureTestUtils.assertLinkTracked("Universal Checkout", couponTrackingString, OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Universal Checkout", couponTrackingString, OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
     }
 
     private fun givenLoggedInUserAndTravelerInDb() {
