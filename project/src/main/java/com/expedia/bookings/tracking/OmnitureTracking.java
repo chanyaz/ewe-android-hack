@@ -2208,6 +2208,7 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_UPGRADE = "App.Itinerary.Hotel.Upgrade";
 	private static final String ITIN_NEW_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions";
 	private static final String ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call";
+	private static final String ITIN_HOTEL_MESSAGE = "App.Itinerary.Hotel.Message.Hotel";
 	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
 	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Share.";
 	private static final String ITIN_FLIGHT = "App.Itinerary.Flight";
@@ -2659,6 +2660,12 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
+
+	public static void trackItinHotelMessage() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MESSAGE);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
 
 	private static void trackItinHotelInfo() {
 		internalTrackLink(ITIN_HOTEL_INFO);

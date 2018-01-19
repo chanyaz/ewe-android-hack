@@ -70,13 +70,21 @@ public class ItinActionsSection extends android.widget.LinearLayout implements O
 	}
 
 	@VisibleForTesting
-	public TextView getmRightButton() {
+	public TextView getRightButton() {
 		return mRightButton;
 	}
 
 	@VisibleForTesting
-	public TextView getmLeftButton() {
+	public TextView getLeftButton() {
 		return mLeftButton;
+	}
+
+	public View getRightLayout() {
+		return mRightLayout;
+	}
+
+	public View getLeftLayout() {
+		return mLeftLayout;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -10,7 +10,7 @@ import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinBookingDetails
 import com.expedia.bookings.itin.widget.HotelItinCheckInCheckOutDetails
-import com.expedia.bookings.itin.widget.HotelItinImage
+import com.expedia.bookings.itin.widget.HotelItinImageWidget
 import com.expedia.bookings.itin.widget.HotelItinRoomDetails
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
@@ -18,7 +18,6 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
-import com.mobiata.android.util.SettingUtils
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -27,8 +26,6 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelItinDetailsActivityTest {
@@ -48,7 +45,6 @@ class HotelItinDetailsActivityTest {
 
     @After
     fun tearDown() {
-        SettingUtils.save(activity, R.string.preference_enable_trips_hotel_messaging, false)
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsMessageHotel)
     }
 
@@ -61,7 +57,7 @@ class HotelItinDetailsActivityTest {
         val roomDetailsView: HotelItinRoomDetails = activity.roomDetailsView
         assertEquals(View.GONE, roomDetailsView.visibility)
 
-        val hotelImageView: HotelItinImage = activity.hotelImageView
+        val hotelImageView: HotelItinImageWidget = activity.hotelImageView
         assertEquals(View.VISIBLE, hotelImageView.visibility)
 
         val hotelCheckinCheckout: HotelItinCheckInCheckOutDetails = activity.checkinCheckoutView
@@ -99,7 +95,6 @@ class HotelItinDetailsActivityTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun hotelMessagingTestsBucketedWithURL() {
-        SettingUtils.save(activity, R.string.preference_enable_trips_hotel_messaging, true)
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
 
         val itinCardDataHotelWithMessaging = ItinCardDataHotelBuilder().build()
@@ -113,7 +108,6 @@ class HotelItinDetailsActivityTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun hotelMessagingTestsBucketedNoURL() {
-        SettingUtils.save(activity, R.string.preference_enable_trips_hotel_messaging, true)
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
 
         val itinCardDataHotelNoMessaging = ItinCardDataHotelBuilder().build()
@@ -138,7 +132,6 @@ class HotelItinDetailsActivityTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun hotelMessagingTestsUnBucketetNoURL() {
-        SettingUtils.save(activity, R.string.preference_enable_trips_hotel_messaging, false)
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel, 0)
         val itinCardDataHotelNoMessaging = ItinCardDataHotelBuilder().build()
         activity.itinCardDataHotel = itinCardDataHotelNoMessaging

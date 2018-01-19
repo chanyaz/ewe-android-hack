@@ -5,8 +5,10 @@ import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.junit.Before
 import org.junit.Test
@@ -17,9 +19,9 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 @RunWith(RobolectricRunner::class)
-class HotelItinImageTest {
+class HotelItinImageWidgetTest {
 
-    lateinit var hotelItinImageWidget: HotelItinImage
+    lateinit var hotelItinImageWidget: HotelItinImageWidget
     lateinit private var activity: HotelItinDetailsActivity
     var itinCardDataHotel = ItinCardDataHotelBuilder().build()
 
@@ -27,12 +29,12 @@ class HotelItinImageTest {
     fun before() {
         activity = Robolectric.buildActivity(HotelItinDetailsActivity::class.java).create().get()
         activity.setTheme(R.style.ItinTheme)
-        hotelItinImageWidget = LayoutInflater.from(activity).inflate(R.layout.test_hotel_itin_image, null) as HotelItinImage
+        hotelItinImageWidget = LayoutInflater.from(activity).inflate(R.layout.test_hotel_itin_image, null) as HotelItinImageWidget
     }
 
     @Test
     fun testHotelItinImage() {
-        val hotelImageView: HotelItinImage = activity.hotelImageView
+        val hotelImageView: HotelItinImageWidget = activity.hotelImageView
         val prevDrawable = hotelImageView.hotelImageView.drawable
         hotelImageView.setUpWidget(itinCardDataHotel)
         assertEquals(itinCardDataHotel.propertyName, hotelImageView.hotelNameTextView.text)
@@ -44,7 +46,7 @@ class HotelItinImageTest {
         val mock = Mockito.mock(HotelMedia::class.java)
         itinCardDataHotel.property.thumbnail = mock
         Mockito.`when`(mock.originalUrl).thenReturn(null)
-        val hotelImageView: HotelItinImage = activity.hotelImageView
+        val hotelImageView: HotelItinImageWidget = activity.hotelImageView
         val prevDrawable = hotelImageView.hotelImageView.drawable
         hotelImageView.setUpWidget(itinCardDataHotel)
         assertEquals(prevDrawable, hotelImageView.hotelImageView.drawable)
@@ -55,7 +57,7 @@ class HotelItinImageTest {
         val mock = Mockito.mock(HotelMedia::class.java)
         itinCardDataHotel.property.thumbnail = mock
         Mockito.`when`(mock.originalUrl).thenReturn(" ")
-        val hotelImageView: HotelItinImage = activity.hotelImageView
+        val hotelImageView: HotelItinImageWidget = activity.hotelImageView
         val prevDrawable = hotelImageView.hotelImageView.drawable
         hotelImageView.setUpWidget(itinCardDataHotel)
         assertEquals(prevDrawable, hotelImageView.hotelImageView.drawable)
@@ -74,12 +76,45 @@ class HotelItinImageTest {
     fun testHotelHasPhone() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         hotelItinImageWidget.setUpWidget(itinCardDataHotel)
-        val callButton = hotelItinImageWidget.actionButtons.getmLeftButton()
+        val callButton = hotelItinImageWidget.actionButtons.getLeftButton()
 
         assertEquals(View.VISIBLE, callButton.visibility)
 
         callButton.performClick()
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Call", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testHotelHasMessaging() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
+        itinCardDataHotel.property.epcConversationUrl = "google.com"
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        hotelItinImageWidget.setUpWidget(itinCardDataHotel)
+        val messageButton = hotelItinImageWidget.actionButtons.getRightButton()
+
+        assertEquals(View.VISIBLE, messageButton.visibility)
+
+        messageButton.performClick()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Message.Hotel", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testHotelHasNoMessaging() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
+        itinCardDataHotel.property.epcConversationUrl = ""
+        hotelItinImageWidget.setUpWidget(itinCardDataHotel)
+        val messsageButton = hotelItinImageWidget.actionButtons.getRightLayout()
+
+        assertEquals(View.GONE, messsageButton.visibility)
+    }
+
+    @Test
+    fun testHotelMessagingTestOff() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel, 0)
+        hotelItinImageWidget.setUpWidget(itinCardDataHotel)
+        val messsageButton = hotelItinImageWidget.actionButtons.getRightLayout()
+
+        assertEquals(View.GONE, messsageButton.visibility)
     }
 
 }

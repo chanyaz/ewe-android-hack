@@ -34,7 +34,7 @@
             android:paddingTop="19dp">
 
             <!--Hotel thumbnail-->
-            <com.expedia.bookings.itin.widget.HotelItinImage
+            <com.expedia.bookings.itin.widget.HotelItinImageWidget
                 android:id="@+id/hotel_itin_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

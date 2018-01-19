@@ -1346,6 +1346,8 @@
     <string name="itin_hotel_details_map_view_content_description">Hotel location Google map</string>
     <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Call hotel at {phonenumber}</string>
+    <!--Hotel itin message hotel button-->
+    <string name="itin_hotel_details_message_hotel_button">Message hotel</string>
     <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Hotel address. {address}. Click to copy to clipboard. Button</string>
     <!--Hotel itin card manage booking subheading-->

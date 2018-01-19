@@ -2,14 +2,18 @@ package com.expedia.bookings.itin.widget
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.support.v4.app.ActivityOptionsCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
@@ -21,7 +25,7 @@ import com.expedia.bookings.widget.itin.SummaryButton
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
 
-class HotelItinImage(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
+class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
     val hotelImageView: ImageView by bindView(R.id.hotel_image)
     val hotelNameTextView: TextView by bindView(R.id.hotel_name)
@@ -32,6 +36,9 @@ class HotelItinImage(context: Context, attr: AttributeSet?) : LinearLayout(conte
     }
 
     fun setUpWidget(itinCardDataHotel: ItinCardDataHotel) {
+        val callActionButton = setupHotelPhone(itinCardDataHotel)
+        val messageActionButton = setupHotelMessaging(itinCardDataHotel)
+
         if (!itinCardDataHotel.property.thumbnail.originalUrl.isNullOrBlank()) {
             val hotelMedia = HotelMedia(itinCardDataHotel.property.thumbnail.originalUrl)
             PicassoHelper.Builder(hotelImageView)
@@ -42,10 +49,10 @@ class HotelItinImage(context: Context, attr: AttributeSet?) : LinearLayout(conte
                     .load(hotelMedia.getBestUrls(Ui.getScreenSize(context).x / 2))
         }
         hotelNameTextView.text = itinCardDataHotel.propertyName
-        val callActionButton = setupHotelPhone(itinCardDataHotel)
-        if (callActionButton != null) {
+
+        if (callActionButton != null || messageActionButton != null) {
             actionButtons.visibility = View.VISIBLE
-            actionButtons.bind(callActionButton, null)
+            actionButtons.bind(callActionButton, messageActionButton)
         }
     }
 
@@ -75,5 +82,40 @@ class HotelItinImage(context: Context, attr: AttributeSet?) : LinearLayout(conte
             return null
         }
     }
-    
+
+    private fun setupHotelMessaging(itinCardDataHotel: ItinCardDataHotel): SummaryButton? {
+        val messagingUrl = itinCardDataHotel.property.epcConversationUrl
+        val messagingButton: SummaryButton
+        val messagingText: String = context.getString(R.string.itin_hotel_details_message_hotel_button)
+
+        if (messagingUrl.isNotEmpty() && isHotelMessagingEnabled()) {
+            messagingButton = SummaryButton(R.drawable.ic_hotel_message_icon,
+                    messagingText,
+                    messagingText,
+                    OnClickListener {
+                        OmnitureTracking.trackItinHotelMessage()
+                        context.startActivity(buildWebViewIntent(messagingText, messagingUrl).intent,
+                                ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0)
+                                        .toBundle())
+                    })
+            return messagingButton
+        }
+        else {
+            return null
+        }
+    }
+
+    private fun buildWebViewIntent(title: String?, url: String): WebViewActivity.IntentBuilder {
+        val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(context)
+        builder.setUrl(url)
+        builder.setTitle(title)
+        builder.setInjectExpediaCookies(true)
+        builder.setAllowMobileRedirects(false)
+        return builder
+    }
+
+    private fun isHotelMessagingEnabled(): Boolean {
+        return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppTripsMessageHotel)
+    }
+
 }

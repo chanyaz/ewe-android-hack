@@ -147,7 +147,6 @@
     <string name="preference_enable_production_abacus">preference_enable_production_abacus</string>
     <string name="pay_later_credit_card_messaging">pay_later_credit_card_messaging</string>
     <string name="preference_enable_meso_destination_card">preference_enable_meso_destination_card</string>
-    <string name="preference_enable_trips_hotel_messaging">preference_enable_trips_hotel_messaging</string>
     <string name="preference_enable_lx_srp_redesign">preference_enable_lx_srp_redesign</string>
 
     <!-- Default values for preference keys -->

@@ -86,11 +86,6 @@
         android:layout="@layout/preference_category_title"
         android:title="Itin Features">
 
-        <CheckBoxPreference
-            android:key="@string/preference_enable_trips_hotel_messaging"
-            android:summary="Hotel Trip - Enable Hotel Messaging"
-            android:title="Trips - Message Hotel" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

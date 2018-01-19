@@ -9,18 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.itin.widget.HotelItinBookingDetails
 import com.expedia.bookings.itin.widget.HotelItinCheckInCheckOutDetails
-import com.expedia.bookings.itin.widget.HotelItinImage
+import com.expedia.bookings.itin.widget.HotelItinImageWidget
 import com.expedia.bookings.itin.widget.HotelItinLocationDetails
 import com.expedia.bookings.itin.widget.HotelItinRoomDetails
 import com.expedia.bookings.itin.widget.HotelItinToolbar
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 
 open class HotelItinDetailsActivity : HotelItinBaseActivity() {
@@ -28,7 +26,7 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
     val locationDetailsView by bindView<HotelItinLocationDetails>(R.id.widget_hotel_itin_location_details)
     val roomDetailsView by bindView<HotelItinRoomDetails>(R.id.widget_hotel_itin_room_details)
     val roomDetailsHeader by bindView<View>(R.id.itin_hotel_room_details_header)
-    val hotelImageView by bindView<HotelItinImage>(R.id.hotel_itin_image)
+    val hotelImageView by bindView<HotelItinImageWidget>(R.id.hotel_itin_image)
     val checkinCheckoutView by bindView<HotelItinCheckInCheckOutDetails>(R.id.widget_hotel_itin_checkin_checkout_details)
     val toolbar by bindView<HotelItinToolbar>(R.id.widget_hotel_itin_toolbar)
     val hotelBookingDetailsView by bindView<HotelItinBookingDetails>(R.id.widget_hotel_itin_booking_details)
