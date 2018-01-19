@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginTop="?attr/actionBarSize">
+    android:layout_marginTop="?attr/actionBarSize"
+    android:orientation="vertical">
 
     <ViewStub
         android:id="@+id/bundle_total_top_stub"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_dropshadow_height"
         android:background="@drawable/tb_shadow"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/airline_charges_fees_header"
@@ -38,20 +38,26 @@
         android:background="@drawable/tb_shadow"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.FlightListRecyclerView
-        android:id="@+id/list_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:overScrollMode="never" />
+        android:layout_height="match_parent">
 
-    <com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
-        android:id="@+id/sort_filter_button_container"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/hotel_filter_height"
-        android:layout_gravity="bottom"
-        android:accessibilityTraversalAfter="@+id/menu_search"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:targetApi="22" />
+        <com.expedia.bookings.widget.FlightListRecyclerView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+        <com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
+            android:id="@+id/sort_filter_button_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/hotel_filter_height"
+            android:layout_gravity="bottom"
+            android:accessibilityTraversalAfter="@+id/menu_search"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:targetApi="22" />
+
+    </FrameLayout>
+
 </LinearLayout>
