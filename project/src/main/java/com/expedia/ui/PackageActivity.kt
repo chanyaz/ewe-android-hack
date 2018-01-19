@@ -110,7 +110,8 @@ class PackageActivity : AbstractAppCompatActivity() {
                         packagePresenter.hotelOffersErrorObservable.onNext(errorCode)
                     } else {
                         //is is change hotel search, call createTrip, otherwise start outbound flight search
-                        if (!Db.sharedInstance.packageParams.isChangePackageSearch()) {
+                        val changePackageSearch = Db.sharedInstance.packageParams.isChangePackageSearch()
+                        if (!changePackageSearch) {
                             PackagesPageUsableData.FLIGHT_OUTBOUND.pageUsableData.markPageLoadStarted()
                             packageFlightSearch()
                             val intent = Intent(this, PackageHotelActivity::class.java)
@@ -122,9 +123,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                         }
                         packagePresenter.showBundleOverView()
                         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
-                        if (!isMidAPIEnabled(this)) {
-                            packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
-                        }
+                        packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(!changePackageSearch)
                     }
                 }
             }
@@ -143,9 +142,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                     if (Db.sharedInstance.packageParams.isChangePackageSearch()) {
                         changedOutboundFlight = true
                     }
-                    if (!isMidAPIEnabled(this)) {
-                        packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
-                    }
+                    packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
                     packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.sharedInstance.packageSelectedOutboundFlight)
                 }
             }
@@ -171,9 +168,7 @@ class PackageActivity : AbstractAppCompatActivity() {
 
                     packageCreateTrip()
                     packagePresenter.showBundleOverView()
-                    if (!isMidAPIEnabled(this)) {
-                        packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
-                    }
+                    packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(false)
                     packagePresenter.bundlePresenter.setToolbarNavIcon(false)
                     packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageFlightBundle().second)
                 }
