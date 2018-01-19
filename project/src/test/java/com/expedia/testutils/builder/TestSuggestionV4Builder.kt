@@ -8,6 +8,7 @@ class TestSuggestionV4Builder() {
     init {
         suggestion.regionNames = SuggestionV4.RegionNames()
         suggestion.coordinates = SuggestionV4.LatLng()
+        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
     }
 
     fun type(type: String): TestSuggestionV4Builder {
@@ -38,6 +39,16 @@ class TestSuggestionV4Builder() {
 
     fun gaiaId(gaiaId: String): TestSuggestionV4Builder {
         suggestion.gaiaId = gaiaId
+        return this
+    }
+
+    fun child(child: Boolean): TestSuggestionV4Builder {
+        suggestion.hierarchyInfo!!.isChild = child
+        return this
+    }
+
+    fun iconType(iconType: SuggestionV4.IconType): TestSuggestionV4Builder {
+        suggestion.iconType = iconType
         return this
     }
 

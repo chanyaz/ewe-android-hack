@@ -3,7 +3,8 @@
 <com.expedia.bookings.widget.TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/flights_suggestion_label"
+    android:id="@+id/suggestion_dropdown_label"
+    style="@style/Core.Text.300.Medium"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -12,6 +13,4 @@
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     android:paddingTop="15dp"
-    android:textColor="?attr/primary_color"
-    android:textSize="14sp"
     tools:text="Dummy Text" />

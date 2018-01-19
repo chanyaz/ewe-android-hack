@@ -22,7 +22,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.TravelerWidgetV2
-import com.expedia.bookings.widget.suggestions.SuggestionAdapter
+import com.expedia.bookings.widget.packages.PackageSuggestionAdapter
+import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
 import com.expedia.util.PackageUtil
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -47,8 +48,8 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
         }
     }
 
-    private var originSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
-    private var destinationSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
+    private var originSuggestionAdapter: BaseSuggestionAdapter by Delegates.notNull()
+    private var destinationSuggestionAdapter: BaseSuggestionAdapter by Delegates.notNull()
     val widgetTravelerAndCabinClassStub: ViewStub by bindView(R.id.widget_traveler_and_cabin_clas_stub)
 
     var searchViewModel: PackageSearchViewModel by notNullAndObservable { vm ->
@@ -121,10 +122,8 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
 
         originSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
-        originSuggestionViewModel.setCustomerSelectingOrigin(true)
-        destinationSuggestionViewModel.setCustomerSelectingOrigin(false)
-        originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
-        destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
+        originSuggestionAdapter = PackageSuggestionAdapter(originSuggestionViewModel, isOrigin = true)
+        destinationSuggestionAdapter = PackageSuggestionAdapter(destinationSuggestionViewModel, isOrigin = false)
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = getLineOfBusiness()
     }

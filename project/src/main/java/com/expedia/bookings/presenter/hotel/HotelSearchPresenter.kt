@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.SuggestionDataItem
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -118,14 +119,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     private var suggestionTrackingData = SuggestionTrackingData()
 
-    private val hotelSuggestionAdapter by lazy {
-        val adapter = HotelSuggestionAdapter()
-        adapter.suggestionClicked.subscribe(suggestionViewModel.suggestionSelectedSubject)
-        suggestionViewModel.suggestionsObservable.subscribe { list ->
-            adapter.setSuggestions(list)
-        }
-        adapter
-    }
+    private val hotelSuggestionAdapter by lazy { HotelSuggestionAdapter(suggestionViewModel) }
 
     var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { searchSuggestion ->
@@ -165,11 +159,12 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     override fun onFinishInflate() {
         super.onFinishInflate()
         val service = Ui.getApplication(context).hotelComponent().suggestionsService()
-        suggestionViewModel = HotelSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, true)
+        suggestionViewModel = HotelSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context))
         searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
 
         travelGraphViewModel.searchHistoryResultSubject.subscribe { searchHistory ->
-            suggestionViewModel.setUserSearchHistory(searchHistory )
+            val suggestions = searchHistory.convertToSuggestionV4List()
+            suggestionViewModel.setUserSearchHistory(suggestions)
         }
 
         advancedOptionsDetails.viewModel = advancedOptionsViewModel

@@ -16,13 +16,14 @@ import com.expedia.bookings.rail.widget.RailSearchPagerAdapter
 import com.expedia.bookings.rail.widget.RailSearchWidget
 import com.expedia.bookings.rail.widget.RailTravelerWidgetV2
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.shared.GenericSuggestionAdapter
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.shared.SearchInputTextView
-import com.expedia.bookings.widget.suggestions.SuggestionAdapter
+import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
@@ -43,8 +44,8 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         return Ui.getToolbarSize(context)
     }
 
-    private lateinit var originSuggestionAdapter: SuggestionAdapter
-    private lateinit var destinationSuggestionAdapter: SuggestionAdapter
+    private lateinit var originSuggestionAdapter: BaseSuggestionAdapter
+    private lateinit var destinationSuggestionAdapter: BaseSuggestionAdapter
     private val searchWidget by bindView<RailSearchWidget>(R.id.rail_search_widget)
 
     override val tabs: PositionObservableTabLayout by bindView(R.id.tabs)
@@ -97,8 +98,8 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         // we dont want to do current location now - TODO future enhancement
         originSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, false, null)
         destinationSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, true, null)
-        originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
-        destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
+        originSuggestionAdapter = GenericSuggestionAdapter(originSuggestionViewModel)
+        destinationSuggestionAdapter = GenericSuggestionAdapter(destinationSuggestionViewModel)
 
         vm.formattedOriginObservable.subscribeText(originCardView)
         vm.formattedDestinationObservable.subscribeText(destinationCardView)

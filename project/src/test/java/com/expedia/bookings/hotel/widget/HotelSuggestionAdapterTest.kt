@@ -3,13 +3,18 @@ package com.expedia.bookings.hotel.widget
 import android.support.v7.widget.RecyclerView
 import android.widget.LinearLayout
 import com.expedia.bookings.data.SearchSuggestion
+import com.expedia.bookings.data.SuggestionDataItem
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.hotel.vm.HotelSuggestionViewModel
+import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
+import com.expedia.vm.HotelSuggestionAdapterViewModel
+import org.mockito.Mockito
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -17,22 +22,25 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelSuggestionAdapterTest {
-    val testAdapter = HotelSuggestionAdapter()
+    private val testVM = HotelSuggestionAdapterViewModel(RuntimeEnvironment.application,
+            Mockito.mock(SuggestionV4Services::class.java), null)
+    val testAdapter = HotelSuggestionAdapter(testVM)
+
     lateinit var testClickObserver: TestObserver<SearchSuggestion>
 
     @Before
     fun setup() {
         testClickObserver = TestObserver<SearchSuggestion>()
-        testAdapter.suggestionClicked.subscribe(testClickObserver)
+        testAdapter.viewModel.suggestionSelectedSubject.subscribe(testClickObserver)
     }
 
     @Test
     fun testRecentCounter() {
         val list = buildSuggestionLists(3)
-        list[0].iconType = SuggestionV4.IconType.HISTORY_ICON
-        list[1].iconType = SuggestionV4.IconType.HISTORY_ICON
+        list[0].suggestion.iconType = SuggestionV4.IconType.HISTORY_ICON
+        list[1].suggestion.iconType = SuggestionV4.IconType.HISTORY_ICON
 
-        testAdapter.setSuggestions(list)
+        testVM.suggestionItemsSubject.onNext(list)
         val testHolder = createAndBindNewHolder(0)
         testHolder.itemView.callOnClick()
 
@@ -40,7 +48,7 @@ class HotelSuggestionAdapterTest {
 
         assertEquals(2, historyData.previousSuggestionsShownCount)
 
-        testAdapter.setSuggestions(buildSuggestionLists(2))
+        testVM.suggestionItemsSubject.onNext(buildSuggestionLists(2))
         testHolder.itemView.callOnClick()
         val noHistoryData = testClickObserver.values()[1].trackingData!!
         assertEquals(0, noHistoryData.previousSuggestionsShownCount, "FAILURE: Expected History data to reset after getting new list")
@@ -49,11 +57,11 @@ class HotelSuggestionAdapterTest {
     @Test
     fun testParent() {
         val list = buildSuggestionLists(3)
-        list[0].hierarchyInfo!!.isChild = false
-        list[1].hierarchyInfo!!.isChild = true
-        list[2].hierarchyInfo!!.isChild = true
+        list[0].suggestion.hierarchyInfo!!.isChild = false
+        list[1].suggestion.hierarchyInfo!!.isChild = true
+        list[2].suggestion.hierarchyInfo!!.isChild = true
 
-        testAdapter.setSuggestions(list)
+        testVM.suggestionItemsSubject.onNext(list)
         val testHolder = createAndBindNewHolder(0)
         testHolder.itemView.callOnClick()
 
@@ -66,11 +74,11 @@ class HotelSuggestionAdapterTest {
     @Test
     fun testChildCantBeParent() {
         val list = buildSuggestionLists(3)
-        list[0].hierarchyInfo!!.isChild = false
-        list[1].hierarchyInfo!!.isChild = true
-        list[2].hierarchyInfo!!.isChild = true
+        list[0].suggestion.hierarchyInfo!!.isChild = false
+        list[1].suggestion.hierarchyInfo!!.isChild = true
+        list[2].suggestion.hierarchyInfo!!.isChild = true
 
-        testAdapter.setSuggestions(list)
+        testVM.suggestionItemsSubject.onNext(list)
         val testHolder = createAndBindNewHolder(1)
         testHolder.itemView.callOnClick()
 
@@ -81,7 +89,7 @@ class HotelSuggestionAdapterTest {
     @Test
     fun testSuggestionTrackingDepth() {
         val list = buildSuggestionLists(3)
-        testAdapter.setSuggestions(list)
+        testVM.suggestionItemsSubject.onNext(list)
 
         val firstItemHolder = createAndBindNewHolder(0)
         firstItemHolder.itemView.callOnClick()
@@ -99,7 +107,7 @@ class HotelSuggestionAdapterTest {
     @Test
     fun testTrackingTotalCount() {
         val list = buildSuggestionLists(3)
-        testAdapter.setSuggestions(list)
+        testVM.suggestionItemsSubject.onNext(list)
 
         val firstItemHolder = createAndBindNewHolder(0)
         firstItemHolder.itemView.callOnClick()
@@ -114,10 +122,10 @@ class HotelSuggestionAdapterTest {
         val expectedTypeText = "Neighborhood"
         val expectedDisplayName = "Sesame Street, NY"
         val list = buildSuggestionLists(3)
-        list[0].type = expectedTypeText
-        list[0].gaiaId = expectedGaiaId
-        list[0].regionNames.displayName = expectedDisplayName
-        testAdapter.setSuggestions(list)
+        list[0].suggestion.type = expectedTypeText
+        list[0].suggestion.gaiaId = expectedGaiaId
+        list[0].suggestion.regionNames.displayName = expectedDisplayName
+        testVM.suggestionItemsSubject.onNext(list)
 
         val firstItemHolder = createAndBindNewHolder(0)
         firstItemHolder.itemView.callOnClick()
@@ -128,14 +136,14 @@ class HotelSuggestionAdapterTest {
         assertEquals(expectedDisplayName, firstPositionData.displayName)
     }
 
-    private fun buildSuggestionLists(count: Int): List<SuggestionV4> {
-        val list = ArrayList<SuggestionV4>()
+    private fun buildSuggestionLists(count: Int): List<SuggestionDataItem.V4> {
+        val list = ArrayList<SuggestionDataItem.V4>()
         for (i in 1..count) {
             val suggestion = SuggestionV4()
             suggestion.regionNames = SuggestionV4.RegionNames()
             suggestion.regionNames.displayName = ""
             suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
-            list.add(suggestion)
+            list.add(SuggestionDataItem.V4(suggestion))
         }
         return list
     }

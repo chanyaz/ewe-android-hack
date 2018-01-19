@@ -2606,7 +2606,7 @@
     <string name="flight_search_suggestion_label_airport_near">現在地付近の空港</string>
 
     <!-- Showing search suggestion label for recent search history -->
-    <string name="flight_search_suggestion_label_recent_search">最近の検索履歴</string>
+    <string name="suggestion_label_recent_search">最近の検索履歴</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->

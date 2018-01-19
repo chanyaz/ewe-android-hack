@@ -2606,7 +2606,7 @@
     <string name="flight_search_suggestion_label_airport_near">您附近的机场</string>
 
     <!-- Showing search suggestion label for recent search history -->
-    <string name="flight_search_suggestion_label_recent_search">最近的搜索</string>
+    <string name="suggestion_label_recent_search">最近的搜索</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->

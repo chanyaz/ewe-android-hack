@@ -24,6 +24,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.shared.GenericSuggestionAdapter
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
@@ -38,8 +39,7 @@ import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.flights.FlightOneWayRoundTripTabs
-import com.expedia.bookings.widget.suggestions.SuggestionAdapter
-import com.expedia.bookings.widget.suggestions.SuggestionAndLabelAdapter
+import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
 import com.expedia.vm.BaseSearchViewModel
@@ -88,7 +88,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             travelerFlightCardViewStub.inflate().findViewById<FlightTravelerWidgetV2>(R.id.traveler_card)
         else travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
     }
-    val isShowSuggestionLabelTestEnabled: Boolean = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -219,13 +218,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
 
-        if (isShowSuggestionLabelTestEnabled) {
-            originSuggestionAdapter = SuggestionAndLabelAdapter(originSuggestionViewModel as AirportSuggestionViewModel)
-            destinationSuggestionAdapter = SuggestionAndLabelAdapter(destinationSuggestionViewModel as AirportSuggestionViewModel)
-        } else {
-            originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
-            destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
-        }
+        originSuggestionAdapter = GenericSuggestionAdapter(originSuggestionViewModel)
+        destinationSuggestionAdapter = GenericSuggestionAdapter(destinationSuggestionViewModel)
 
         setContentDescriptionToolbarTabs()
     }
@@ -241,8 +235,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
     }
 
-    private lateinit var originSuggestionAdapter: SuggestionAdapter
-    private lateinit var destinationSuggestionAdapter: SuggestionAdapter
+    private lateinit var originSuggestionAdapter: BaseSuggestionAdapter
+    private lateinit var destinationSuggestionAdapter: BaseSuggestionAdapter
     override val delayBeforeShowingDestinationSuggestions = 5L
     override val waitForOtherSuggestionListeners = 5L
 
