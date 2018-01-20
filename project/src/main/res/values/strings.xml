@@ -3806,6 +3806,10 @@
     <string name="hotels_filter_show_less_cont_desc">Show fewer neighborhoods. Button</string>
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Coupon applied: You saved %1$s!</string>
+    <!-- Hotel material coupon applied text -->
+    <string name="material_applied_coupon_message">Coupon applied!</string>
+    <!-- Hotel material coupon applied coupon code text on cko screen template e.g. 1234567 (-$25.00) -->
+    <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (-{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">Coupon Failed</string>
     <string name="coupon_error_remove_dialog_title">Coupon Removal Failed</string>

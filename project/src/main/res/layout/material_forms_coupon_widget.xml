@@ -22,30 +22,49 @@
         android:id="@+id/applied"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="horizontal">
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/applied_coupon_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:padding="16dp"
-            android:text="@string/applied_coupon_message"
-            android:textColor="@color/hotelsv2_coupon_applied_color"
-            android:textSize="15sp"
-            app:textStyle="normal" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/remove_coupon_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/bg_clickable_row"
-            android:contentDescription="@string/toolbar_nav_icon_close_cont_desc"
-            android:padding="16dp"
-            android:src="@drawable/widget_close" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/applied_coupon_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:fontFamily="sans-serif-medium"
+                android:paddingLeft="16dp"
+                android:text="@string/material_applied_coupon_message"
+                android:textColor="@color/hotelsv2_coupon_applied_color"
+                android:textSize="14sp"
+                app:textStyle="normal" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/applied_coupon_subtitle_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/applied_coupon_text"
+                android:fontFamily="sans-serif"
+                android:paddingLeft="16dp"
+                android:paddingTop="2dp"
+                android:textColor="#4a4a4a"
+                android:textSize="12sp"
+                android:textStyle="normal" />
+
+            <ImageButton
+                android:id="@+id/remove_coupon_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_clickable_row"
+                android:contentDescription="@string/toolbar_nav_icon_close_cont_desc"
+                android:paddingRight="19dp"
+                android:src="@drawable/widget_close" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

@@ -10,11 +10,13 @@ import com.expedia.bookings.presenter.shared.StoredCouponWidget
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isShowSavedCoupons
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 
 class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidget(context, attrs) {
 
     val storedCouponWidget: StoredCouponWidget by bindView(R.id.stored_coupon_widget)
+    val appliedCouponSubtitle: TextView by bindView(R.id.applied_coupon_subtitle_text)
 
 
     override val textWatcher: TextWatcher = object : TextWatcher {
@@ -52,6 +54,7 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
         getStoredCouponListAdapter().applyStoredCouponSubject.subscribe { instanceId ->
             storedCouponApplyObservable.onNext(instanceId)
         }
+        viewmodel.couponSubtitleObservable.subscribeText(appliedCouponSubtitle)
     }
 
     override fun getViewToInflate(): Int {

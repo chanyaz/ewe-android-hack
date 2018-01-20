@@ -5,6 +5,7 @@ import android.os.Handler
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.hotels.AbstractApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters
@@ -19,7 +20,9 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.isHotelMaterialForms
 import com.expedia.bookings.utils.isShowSavedCoupons
+import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
@@ -37,6 +40,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val errorRemoveCouponShowDialogObservable = PublishSubject.create<ApiError>()
     val errorMessageObservable = BehaviorSubject.create<String>()
     val discountObservable = PublishSubject.create<String>()
+    val couponSubtitleObservable = PublishSubject.create<String>()
     val couponParamsObservable = BehaviorSubject.create<AbstractApplyCouponParameters>()
     val couponRemoveObservable = PublishSubject.create<String>()
     val hasDiscountObservable = BehaviorSubject.create<Boolean>()
@@ -82,7 +86,6 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                 val stringId = couponErrorMap[errorType] ?: R.string.coupon_error_fallback
                 val text = context.resources.getString(stringId)
                 hasDiscountObservable.onNext(false)
-
                 errorMessageObservable.onNext(text)
                 errorObservable.onNext(trip.firstError)
                 if (couponParams.isFromNotSignedInToSignedIn) {
@@ -108,7 +111,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
         val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()
         val hasDiscount = couponRate != null && !couponRate.isZero
         if (hasDiscount) {
-            discountObservable.onNext(couponRate.formattedMoney)
+            setCouponAppliedSubtitle(trip, couponRate)
         }
         hasDiscountObservable.onNext(hasDiscount)
         Db.getTripBucket().clearHotelV2()
@@ -162,7 +165,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
         }
     }
 
-     fun raiseAlertDialog(e: Throwable?) {
+    fun raiseAlertDialog(e: Throwable?) {
         if (RetrofitUtils.isNetworkError(e)) {
             networkErrorAlertDialogObservable.onNext(Unit)
         }
@@ -184,5 +187,17 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                 .build()
         couponParamsObservable.onNext(couponParams)
         enableSubmitButtonObservable.onNext(false)
+    }
+
+    private fun setCouponAppliedSubtitle(trip: HotelCreateTripResponse, couponRate: Money) {
+        if (isHotelMaterialForms(context)) {
+            val couponName = trip.userCoupons.find { it.instanceId == trip.coupon.instanceId }?.name ?: ""
+            val subtitle = Phrase.from(context, R.string.material_applied_coupon_subtitle_TEMPLATE)
+                    .put("name", couponName)
+                    .put("discount", couponRate.formattedMoney).format().toString()
+            couponSubtitleObservable.onNext(subtitle)
+        } else {
+            discountObservable.onNext(couponRate.formattedMoney)
+        }
     }
 }
