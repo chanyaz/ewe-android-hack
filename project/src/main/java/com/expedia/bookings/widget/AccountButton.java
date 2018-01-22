@@ -243,6 +243,9 @@ public class AccountButton extends LinearLayout {
 		}
 
 		String email = user.getPrimaryTraveler().getEmail();
+		if (email == null) {
+			email = "";
+		}
 
 		// Traveler Email Text
 		TextView travelerEmailTextView = Ui.findView(mLogoutContainer, R.id.account_top_textview);

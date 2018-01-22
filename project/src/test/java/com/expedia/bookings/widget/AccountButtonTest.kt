@@ -19,6 +19,8 @@ import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.trips.TripBucketItemLX
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.trips.TripBucketItemTransport
+import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserJSONHelper
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -296,4 +298,15 @@ class AccountButtonTest {
         val shadowDrawable = Shadows.shadowOf(loginContainer.background);
         assertEquals(R.drawable.material_cko_acct_btn_bg, shadowDrawable.createdFromResId)
     }
+
+    @Test
+    fun partialUserDoesNotCrash() {
+        val user = User()
+        user.fromJson(UserJSONHelper.versionTwoUserJSONObject)
+        val partialUser = User()
+        partialUser.fromJson(user.toPersistentStorageJson())
+
+        accountButton.bind(false, true, partialUser, LineOfBusiness.HOTELS)
+    }
+
 }
