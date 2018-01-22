@@ -95,7 +95,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     val isByotEnabled = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch)
     val pageUsableData = PageUsableData()
-    val showMoreInfoOnOverview = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
     val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)
     val isUserEvolableBucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
 
@@ -333,7 +332,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
             show(confirmationPresenter)
             pageUsableData.markAllViewsLoaded(Date().time)
-            FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse, pageUsableData, flightOverviewPresenter.flightSummary)
+            FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse, pageUsableData, presenter.flightSummary)
         }
 
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()

@@ -153,7 +153,8 @@ class FlightCheckoutViewModelTest {
         assertEquals(newTripResponse.tripId, flightCheckoutParams.tripId)
     }
 
-    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun selectedFlightHasFeesShowCardFeeWarnings() {
         setupSystemUnderTest()
 
@@ -181,7 +182,8 @@ class FlightCheckoutViewModelTest {
                 cardFeeWarningTestSubscriber.values()[3].toString())
     }
 
-    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun selectedFlightHasFeesNoLinkCardFeeWarnings() {
         setupSystemUnderTest()
 
@@ -225,6 +227,7 @@ class FlightCheckoutViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun zeroCardFeesAirlineMayChargeFees() {
         givenGoodCheckoutParams()
         givenGoodTripResponse()

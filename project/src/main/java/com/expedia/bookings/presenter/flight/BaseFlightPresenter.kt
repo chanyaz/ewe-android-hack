@@ -116,11 +116,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             trackShowBaggageFee()
             show(baggageFeeInfoWebView)
         }
-        presenter.showPaymentFeesObservable.subscribe {
-            if (it) {
-                trackShowPaymentFees()
-                show(paymentFeeInfoWebView)
-            }
+        presenter.showPaymentFeesObservable.filter { it }.subscribe {
+            show(paymentFeeInfoWebView)
         }
         alignViewWithStatusBar(presenter)
         presenter

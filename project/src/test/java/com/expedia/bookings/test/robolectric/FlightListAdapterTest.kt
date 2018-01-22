@@ -191,7 +191,7 @@ class FlightListAdapterTest {
     }
 
     private fun configurePointOfSale() {
-        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_with_airline_payment_fees.json")
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
     }
 
     private fun createHeaderViewHolder(): AbstractFlightListAdapter.HeaderViewHolder {
@@ -201,7 +201,7 @@ class FlightListAdapterTest {
     @Test
     fun testAdjustPositionShowingPackageBanner() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
-        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
+        configurePointOfSale()
         isRoundTripSubject.onNext(true)
         isOutboundSearch = true
         createSystemUnderTest()
