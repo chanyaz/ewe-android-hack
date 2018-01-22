@@ -2,6 +2,7 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import android.support.annotation.StringRes
+import android.support.design.widget.TabLayout
 import android.support.design.widget.TextInputLayout
 import android.support.v7.widget.ActionMenuView
 import android.support.v7.widget.AppCompatTextView
@@ -13,6 +14,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.squareup.phrase.Phrase
 
 object AccessibilityUtil {
     @JvmStatic fun isTalkBackEnabled(context: Context): Boolean {
@@ -102,4 +104,15 @@ fun View.setAccessibilityHoverFocus(delayMillis: Long) {
 fun TextInputLayout.hideErrorTextViewFromHoverFocus() {
     val errorText = this.findViewById<AppCompatTextView>(R.id.textinput_error)
     errorText.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+}
+
+fun setContentDescriptionToolbarTabs(context: Context, tabs: TabLayout) {
+    for (index in 0..tabs.tabCount) {
+        val tab = tabs.getTabAt(index)
+        if (tab != null) {
+            val tabContDesc = Phrase.from(context, R.string.accessibility_cont_desc_search_type_TEMPLATE)
+                    .put("tabname", tab.text).format().toString()
+            tab.contentDescription = tabContDesc
+        }
+    }
 }

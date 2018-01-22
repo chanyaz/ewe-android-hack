@@ -9,7 +9,9 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
@@ -133,5 +135,24 @@ class AccessibilityUtilTest {
         val contentDescription = "Done button"
         AccessibilityUtil.setMenuItemContentDescription(toolbar, contentDescription)
         assertEquals(contentDescription, actionMenuView.getChildAt(0).contentDescription)
+    }
+
+    @Test
+    fun testToolbarTabContentDescription() {
+
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().postCreate(null).resume().get()
+        val spyContext = Mockito.spy(RuntimeEnvironment.application)
+        val mockAccessibilityManager = Mockito.mock(AccessibilityManager::class.java)
+
+        Mockito.`when`(spyContext.getSystemService(Context.ACCESSIBILITY_SERVICE)).thenReturn(mockAccessibilityManager)
+        Mockito.`when`(mockAccessibilityManager.isEnabled).thenReturn(true)
+        Mockito.`when`(mockAccessibilityManager.isTouchExplorationEnabled).thenReturn(true)
+
+        val contentDescription = "Shop travel tab"
+        setContentDescriptionToolbarTabs(activity, activity.toolbar.tabLayout)
+        assertEquals(contentDescription, activity.toolbar.tabLayout.getTabAt(0)?.contentDescription)
+
+        activity.finish()
     }
 }

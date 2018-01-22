@@ -34,6 +34,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
+import com.expedia.bookings.utils.setContentDescriptionToolbarTabs
 import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
@@ -221,18 +222,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
         destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
 
-        setContentDescriptionToolbarTabs()
-    }
-
-    private fun setContentDescriptionToolbarTabs() {
-        for (index in 0..tabs.tabCount) {
-            val tab = tabs.getTabAt(index)
-            if (tab != null) {
-                val tabContDesc = Phrase.from(context, R.string.accessibility_cont_desc_flight_search_type_TEMPLATE)
-                        .put("flightsearchtype", tab.text).format().toString()
-                tab.contentDescription = tabContDesc
-            }
-        }
+        setContentDescriptionToolbarTabs(context, tabs)
     }
 
     private lateinit var originSuggestionAdapter: SuggestionAdapter

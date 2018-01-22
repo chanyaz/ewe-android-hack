@@ -68,6 +68,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
+import com.expedia.bookings.utils.setContentDescriptionToolbarTabs
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.model.UserLoginStateChangedModel
@@ -736,6 +737,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         toolbar.visibility = View.VISIBLE
         toolbar.tabLayout.setupWithViewPager(viewPager)
         toolbar.tabLayout.setOnTabSelectedListener(pageChangeListener)
+        setContentDescriptionToolbarTabs(this, toolbar.tabLayout)
 
         bottomNavShadow.visibility = View.GONE
         bottomNavTabLayout.visibility = View.GONE
