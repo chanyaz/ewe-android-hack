@@ -99,11 +99,12 @@ open class FlightErrorTestCase : NewFlightTestCase() {
         selectOutboundFlight(searchResultsResponseType.responseName)
     }
 
-    protected fun selectOutboundFlight(code: ApiError.Code) {
-        selectOutboundFlight(code.toString())
+    protected fun selectOutboundFlight(code: ApiError.Code, scrollToPosition: Int = 1) {
+        selectOutboundFlight(code.toString(), scrollToPosition)
     }
 
-    private fun selectOutboundFlight(flight: String) {
+    private fun selectOutboundFlight(flight: String, scrollToPosition: Int = 1) {
+        FlightsScreen.outboundFlightList().perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(scrollToPosition))
         FlightsScreen.outboundFlightList().perform(waitForViewToDisplay())
         FlightsScreen.outboundFlightList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(flight)), ViewActions.click()))
         FlightsScreen.selectOutboundFlight().perform(ViewActions.click())

@@ -24,6 +24,7 @@ import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
 import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
@@ -113,6 +114,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
         View.inflate(getContext(), R.layout.package_flight_presenter, this)
         resultsPresenter.showFilterButton = isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)
+        resultsPresenter.resultsViewModel.airlineChargesFeesSubject.onNext(PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage())
         val activity = (context as AppCompatActivity)
         val intent = activity.intent
         if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {

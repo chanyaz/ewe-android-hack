@@ -501,6 +501,7 @@
   ],
   "obFeesDetails": "http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033",
   "hasSubPub" : true,
+  "mayChargePaymentFees": true,
   "offers": [
     {
       "averageTotalPricePerTicket": {

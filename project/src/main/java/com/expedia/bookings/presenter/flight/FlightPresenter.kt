@@ -429,6 +429,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     }
         }
 
+        Observable.combineLatest(viewModel.isRoundTripSearchSubject, viewModel.mayChargePaymentFeesSubject, {
+            isRoundTripSearch, mayChargePaymentFees ->
+            outBoundPresenter.handlePaymentFee(mayChargePaymentFees)
+            if (isRoundTripSearch) {
+                inboundPresenter.handlePaymentFee(mayChargePaymentFees)
+            }
+        }).subscribe()
+
         viewModel.errorObservable.subscribe {
             errorPresenter.viewmodel.searchApiErrorObserver.onNext(it)
             show(errorPresenter)

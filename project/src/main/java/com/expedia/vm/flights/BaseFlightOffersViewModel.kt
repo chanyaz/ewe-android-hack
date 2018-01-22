@@ -65,6 +65,8 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val refundableFilterAppliedSearchSubject = BehaviorSubject.create<Boolean>()
     val cachedFlightSearchObservable = PublishSubject.create<FlightSearchParams>()
     val cachedSearchTrackingString = PublishSubject.create<String>()
+    val mayChargePaymentFeesSubject = PublishSubject.create<Boolean>()
+
     var isOutboundSearch = true
     var totalOutboundResults = 0
     var totalInboundResults = 0
@@ -321,6 +323,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                     if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)) {
                         setSubPubAvailability(response.hasSubPub)
                     }
+                    mayChargePaymentFeesSubject.onNext(response.mayChargePaymentFees)
                     makeFlightOffer(response)
                 }
             }

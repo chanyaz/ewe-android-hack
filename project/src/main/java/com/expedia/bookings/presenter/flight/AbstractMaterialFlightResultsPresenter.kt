@@ -66,6 +66,10 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         }
     }
 
+    fun handlePaymentFee(mayChargePaymentFees: Boolean) {
+        resultsPresenter.resultsViewModel.airlineChargesFeesSubject.onNext(mayChargePaymentFees)
+    }
+
     override fun makeFlightOverviewModel(): AbstractFlightOverviewViewModel {
         return FlightOverviewViewModel(context)
     }

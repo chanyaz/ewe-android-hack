@@ -17,6 +17,7 @@ import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.packages.PackageFlightPresenter
 import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -176,6 +177,17 @@ class PackageFlightPresenterTest {
         presenter.toolbarViewModel.country.onNext(Optional("India"))
         presenter.toolbarViewModel.airport.onNext(Optional("BLR"))
         assertEquals("Step 3: Flight to Bengaluru", presenter.toolbar.title.toString())
+    }
+
+    @Test
+    fun testPaymentLegalMessageOnResultsPage() {
+        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
+        setPackageResponseHotels()
+        setPackageResponseOutboundFlight()
+        presenter = getPackageFlightPresenter()
+        assertEquals("There may be an additional fee based on your payment method.",
+                presenter.resultsPresenter.getAirlinePaymentFeesTextView().text)
+        assertEquals(View.VISIBLE, presenter.resultsPresenter.getAirlinePaymentFeesTextView().visibility)
     }
 
     private fun getDummySuggestion(): SuggestionV4 {
