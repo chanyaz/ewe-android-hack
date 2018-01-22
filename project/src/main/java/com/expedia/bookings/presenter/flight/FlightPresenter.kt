@@ -304,7 +304,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val checkoutViewModel = presenter.getCheckoutPresenter().getCheckoutViewModel()
 
         flightOfferViewModel.offerSelectedChargesObFeesSubject.subscribe(checkoutViewModel.selectedFlightChargesFees)
-        flightOfferViewModel.obFeeDetailsUrlObservable.subscribe(checkoutViewModel.obFeeDetailsUrlSubject)
+        flightOfferViewModel.obFeeDetailsUrlObservable.subscribe { obFeeDetailsUrl ->
+            presenter.viewModel.obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
+        }
         flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
             presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable)
             presenter.viewModel.outboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalOutboundResults)
@@ -313,13 +315,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOfferViewModel.confirmedInboundFlightSelection.subscribe {
             presenter.viewModel.inboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalInboundResults)
         }
-        flightOfferViewModel.flightOfferSelected.subscribe { presenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
 
-        if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
-            presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
-            presenter.viewModel.airlineFeeWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
-        } else {
-            presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
+        flightOfferViewModel.flightOfferSelected.subscribe { flightOffer ->
+            val mayChargeObFees = flightOffer.mayChargeOBFees
+            presenter.viewModel.showSplitTicketMessagingObservable.onNext(flightOffer.isSplitTicket)
+            presenter.viewModel.showAirlineFeeWarningObservable.onNext(mayChargeObFees)
+
+            if (mayChargeObFees) {
+                presenter.viewModel.airlineFeeWarningTextObservable.onNext(context.resources.getString(R.string.airline_additional_fee_notice))
+            } else {
+                presenter.viewModel.airlineFeeWarningTextObservable.onNext("")
+            }
         }
 
         checkoutViewModel.checkoutRequestStartTimeObservable.subscribe { startTime ->
@@ -429,7 +435,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     }
         }
 
-        Observable.combineLatest(viewModel.isRoundTripSearchSubject, viewModel.mayChargePaymentFeesSubject, {
+        ObservableOld.combineLatest(viewModel.isRoundTripSearchSubject, viewModel.mayChargePaymentFeesSubject, {
             isRoundTripSearch, mayChargePaymentFees ->
             outBoundPresenter.handlePaymentFee(mayChargePaymentFees)
             if (isRoundTripSearch) {

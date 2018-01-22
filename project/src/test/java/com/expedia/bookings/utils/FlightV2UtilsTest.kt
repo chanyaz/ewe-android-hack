@@ -3,6 +3,7 @@ package com.expedia.bookings.utils
 import android.app.Activity
 import android.content.res.Resources
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -10,6 +11,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
+import com.expedia.bookings.text.HtmlCompat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -470,5 +472,26 @@ class FlightV2UtilsTest {
         }
         fareFamilyComponentMap.put("included", amenityMap)
         return fareFamilyComponentMap
+    }
+
+    @Test
+    fun testAirlineMayChargeFeeText() {
+        val hasPaymentFeeText = Strings.isNotEmpty(activity.resources.getString(R.string.payment_and_baggage_fees_may_apply))
+        var airlineMayChargeFee = FlightV2Utils.getAirlineMayChargeFeeText(activity, true, hasPaymentFeeText, "").toString()
+        assertEquals("There may be an additional fee based on your payment method.", airlineMayChargeFee)
+
+        airlineMayChargeFee = FlightV2Utils.getAirlineMayChargeFeeText(activity, true, hasPaymentFeeText, "https://testurl.uk").toString()
+        assertEquals("There may be an additional fee based on your payment method.", HtmlCompat.stripHtml(airlineMayChargeFee))
+
+        airlineMayChargeFee = FlightV2Utils.getAirlineMayChargeFeeText(activity, false, hasPaymentFeeText, "").toString()
+        assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
+                airlineMayChargeFee)
+
+        airlineMayChargeFee = FlightV2Utils.getAirlineMayChargeFeeText(activity, false, hasPaymentFeeText, "https://testurl.uk").toString()
+        assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
+                HtmlCompat.stripHtml(airlineMayChargeFee))
+
+        airlineMayChargeFee = FlightV2Utils.getAirlineMayChargeFeeText(activity, false, false, "").toString()
+        assertEquals("", airlineMayChargeFee)
     }
 }

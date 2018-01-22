@@ -26,7 +26,7 @@ class FlightCreateTripErrorTest : FlightErrorTestCase() {
     @Test
     fun testCreateTripFlightSoldOut() {
         searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH)
-        selectOutboundFlight(ApiError.Code.FLIGHT_SOLD_OUT)
+        selectOutboundFlight(ApiError.Code.FLIGHT_SOLD_OUT, 5)
 
         assertFlightErrorPresenterDisplayed()
         assertButtonDisplayedWithText("New Search")
@@ -40,7 +40,7 @@ class FlightCreateTripErrorTest : FlightErrorTestCase() {
     @Test
     fun testCreateTripFlightProductNotFound() {
         searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH)
-        selectOutboundFlight(ApiError.Code.FLIGHT_PRODUCT_NOT_FOUND)
+        selectOutboundFlight(ApiError.Code.FLIGHT_PRODUCT_NOT_FOUND, 6)
 
         assertFlightErrorPresenterDisplayed()
         assertButtonDisplayedWithText("New Search")
@@ -54,7 +54,7 @@ class FlightCreateTripErrorTest : FlightErrorTestCase() {
     @Test
     fun testCreateTripSessionTimeout() {
         searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH)
-        selectOutboundFlight(ApiError.Code.SESSION_TIMEOUT)
+        selectOutboundFlight(ApiError.Code.SESSION_TIMEOUT, 7)
 
         assertFlightErrorPresenterDisplayed()
         assertButtonDisplayedWithText("New Search")

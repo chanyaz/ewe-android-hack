@@ -589,4 +589,39 @@ object FlightV2Utils {
         }
         return amenityCategory
     }
+
+    @JvmStatic fun getAirlineMayChargeFeeText(context: Context, hasPaymentFeeCharges: Boolean, hasFlightChargesFeesTxt: Boolean, obFeeUrl: String): SpannableStringBuilder {
+        var mayChargeFeeText = SpannableStringBuilder()
+        if (hasFlightChargesFeesTxt) {
+            if (!obFeeUrl.isNullOrBlank()) {
+                mayChargeFeeText = getPaymentFeeTextWithUrl(context, hasPaymentFeeCharges, obFeeUrl)
+            } else {
+                mayChargeFeeText = getPaymentFeeTextWithoutUrl(context, hasPaymentFeeCharges)
+            }
+        }
+        return mayChargeFeeText
+    }
+
+    @JvmStatic fun getPaymentFeeTextWithUrl(context: Context, hasPaymentFeeCharges: Boolean, obFeeUrl: String): SpannableStringBuilder {
+        val resId = if (hasPaymentFeeCharges) {
+            R.string.flights_there_maybe_additional_fee_TEMPLATE
+        } else {
+            R.string.flights_fee_added_based_on_payment_TEMPLATE
+        }
+        val airlineFeeWithLink =
+                Phrase.from(context, resId)
+                        .put("airline_fee_url", obFeeUrl)
+                        .format().toString()
+        return StrUtils.getSpannableTextByColor(airlineFeeWithLink, ContextCompat.getColor(context, R.color.flight_primary_color), true)
+    }
+
+    @JvmStatic fun getPaymentFeeTextWithoutUrl(context: Context, hasPaymentFeeCharges: Boolean): SpannableStringBuilder {
+        val resId = if (hasPaymentFeeCharges) {
+            R.string.airline_additional_fee_notice
+        } else {
+            R.string.flights_fee_added_based_on_payment
+        }
+        val airlineFee = context.resources.getString(resId)
+        return SpannableStringBuilder(airlineFee)
+    }
 }

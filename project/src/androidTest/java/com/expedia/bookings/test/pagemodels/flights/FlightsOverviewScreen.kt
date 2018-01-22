@@ -23,7 +23,7 @@ object FlightsOverviewScreen {
     fun assertCardFeeWarningShown() {
         cardFeeWarningTextView()
                 .check(matches(isDisplayed()))
-                .check(matches(withText("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.")))
+                .check(matches(withText("There may be an additional fee based on your payment method.")))
     }
 
     fun assertPriceChangeShown(priceChangeText: String) {

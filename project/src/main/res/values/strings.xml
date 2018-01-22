@@ -1863,9 +1863,7 @@
     <string name="flights_fee_added_based_on_payment">An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
     <!-- There may be an additional fee based on payment method
          Example: There may be an additional fee based on your payment method -->
-    <string name="flights_there_maybe_additional_fee_TEMPLATE">There may be an &lt;a href=\"{airline_fee_url}\"&gt;additional fee&lt;/a&gt;, based on your payment method.</string>
-    <!-- There may be an additional fee based on payment method without linking to webview -->
-    <string name="flights_there_maybe_additional_fee">There may be an additional fee, based on your payment method.</string>
+    <string name="flights_there_maybe_additional_fee_TEMPLATE">There may be an &lt;a href=\"{airline_fee_url}\"&gt;additional fee&lt;/a&gt; based on your payment method.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Debit cards are not accepted.</string>
     <!-- Flights Sold out error screen:- warning message -->

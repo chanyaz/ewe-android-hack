@@ -129,15 +129,6 @@
                 android:layout_marginLeft="30dp"
                 android:text="@string/package_flight_overview_baggage_fees" />
 
-            <Button
-                android:id="@+id/show_payment_fees_button"
-                style="@style/Widget.InfoIconButton"
-                android:layout_gravity="left"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="-5dp"
-                android:text="@string/payment_and_baggage_fees_may_apply"
-                android:visibility="gone" />
-
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/flight_total_duration"
                 style="@style/PackagesFlightTotalDuration"

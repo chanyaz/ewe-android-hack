@@ -69,7 +69,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
     val baggagePaymentDivider: View by bindView(R.id.baggage_payment_divider)
     val baggageFeesButton: View by bindView(R.id.show_baggage_fees_button)
-    val paymentFeesButton: View by bindView(R.id.show_payment_fees_button)
     lateinit var baggageInfoView: BaggageInfoView
 
     var viewModel: BundleFlightViewModel by notNullAndObservable { vm ->
@@ -115,13 +114,9 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             flightIcon.setColorFilter(pair.second)
         }
 
-        ObservableOld.combineLatest(vm.showBaggageInfoLinkObservable, vm.showPaymentInfoLinkObservable, {
-            showBaggageInfoLink, showPaymentInfoLink -> (showBaggageInfoLink || showPaymentInfoLink)
-        }).subscribeVisibility(baggagePaymentDivider)
+        vm.showBaggageInfoLinkObservable.subscribeVisibility(baggagePaymentDivider)
         vm.showBaggageInfoLinkObservable.subscribeVisibility(baggageFeesButton)
-        vm.showPaymentInfoLinkObservable.subscribeVisibility(paymentFeesButton)
         baggageFeesButton.subscribeOnClick(vm.baggageInfoClickSubject)
-        paymentFeesButton.subscribeOnClick(vm.paymentFeeInfoClickSubject)
 
         vm.showLoadingStateObservable.subscribe { showLoading ->
             this.loadingStateObservable.onNext(showLoading)

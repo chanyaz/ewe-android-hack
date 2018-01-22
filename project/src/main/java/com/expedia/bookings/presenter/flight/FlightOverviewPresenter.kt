@@ -31,6 +31,7 @@ import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -118,12 +119,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             show(baggageFeeInfoWebView)
         }
 
-        Observable.merge(flightSummary.outboundFlightWidget.viewModel.paymentFeeInfoClickSubject, flightSummary.inboundFlightWidget.viewModel.paymentFeeInfoClickSubject).subscribe {
-            if (!getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.value.isNullOrBlank()) {
-                show(paymentFeeInfoWebView)
-            }
-        }
-
         flightFareFamilyDetailsWidget.viewModel.doneButtonObservable.withLatestFrom(
                 flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, flightFareFamilyDetailsWidget.viewModel.choosingFareFamilyObservable, {
             _, selectedFareFamily, choosingFareFamily ->
@@ -186,9 +181,23 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         viewModel.splitTicketBaggageFeesLinksObservable.subscribeText(flightSummary.splitTicketBaggageFeesTextView)
         viewModel.evolableTermsConditionTextObservable.subscribeTextAndVisibility(flightSummary.evolableTermsConditionTextView)
         flightSummary.evolableTermsConditionTextView.movementMethod = LinkMovementMethod.getInstance()
-        viewModel.showAirlineFeeWarningObservable.subscribeVisibility(flightSummary.airlineFeeWarningTextView)
         viewModel.showBasicEconomyMessageObservable.subscribeVisibility(flightSummary.basicEconomyMessageTextView)
-        viewModel.airlineFeeWarningTextObservable.subscribeText(flightSummary.airlineFeeWarningTextView)
+        viewModel.airlineFeeWarningTextObservable.withLatestFrom(viewModel.obFeeDetailsUrlObservable, viewModel.showAirlineFeeWarningObservable, {
+            paymentMessage, obFeeUrl, showAirlineFeeWarning ->
+            object {
+                val paymentMessage = paymentMessage
+                val obFeeUrl = obFeeUrl
+                val showAirlineFeeWarning = showAirlineFeeWarning
+            }
+        }).map {
+            FlightV2Utils.getAirlineMayChargeFeeText(context, it.showAirlineFeeWarning, Strings.isNotEmpty(it.paymentMessage), it.obFeeUrl)
+        }.subscribeText(flightSummary.airlineFeeWarningTextView)
+        viewModel.showAirlineFeeWarningObservable.subscribeVisibility(flightSummary.airlineFeeWarningTextView)
+        viewModel.obFeeDetailsUrlObservable.filter { !it.isNullOrBlank() }.subscribe {
+            flightSummary.airlineFeeWarningTextView.setOnClickListener {
+                show(paymentFeeInfoWebView)
+            }
+        }
         checkoutPresenter.getCreateTripViewModel().showCreateTripDialogObservable.subscribe {
             show ->
             if (show) {

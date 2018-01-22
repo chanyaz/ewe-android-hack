@@ -157,23 +157,24 @@ class FlightOverviewPresenterTest {
         val airlineFeeWarningText = widget.flightSummary.airlineFeeWarningTextView
         val basicEconomyMessaging = widget.flightSummary.basicEconomyMessageTextView
 
-        widget.viewModel.airlineFeeWarningTextObservable.onNext("There may be an additional fee based on your payment method.")
+        widget.viewModel.showAirlineFeeWarningObservable.onNext(true)
+        widget.viewModel.airlineFeeWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
         widget.viewModel.showFreeCancellationObservable.onNext(true)
         widget.viewModel.showSplitTicketMessagingObservable.onNext(true)
-        widget.viewModel.showAirlineFeeWarningObservable.onNext(true)
         widget.viewModel.showBasicEconomyMessageObservable.onNext(true)
-        assertEquals("There may be an additional fee based on your payment method.", airlineFeeWarningText.text)
+        assertEquals("There may be an additional fee based on your payment method.", HtmlCompat.stripHtml(airlineFeeWarningText.text.toString()))
         assertEquals(View.VISIBLE, freeCancellationInfoContainer.visibility)
         assertEquals(View.VISIBLE, splitTicketBaggageFeeLinkContainer.visibility)
         assertEquals(View.VISIBLE, airlineFeeWarningText.visibility)
         assertEquals(View.VISIBLE, basicEconomyMessaging.visibility)
 
-        widget.viewModel.airlineFeeWarningTextObservable.onNext("There may be an additional fee based on your payment method.")
+        widget.viewModel.showAirlineFeeWarningObservable.onNext(false)
+        widget.viewModel.airlineFeeWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
         widget.viewModel.showFreeCancellationObservable.onNext(false)
         widget.viewModel.showSplitTicketMessagingObservable.onNext(false)
-        widget.viewModel.showAirlineFeeWarningObservable.onNext(false)
         widget.viewModel.showBasicEconomyMessageObservable.onNext(false)
-        assertEquals("There may be an additional fee based on your payment method.", airlineFeeWarningText.text)
+        assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
+                HtmlCompat.stripHtml(airlineFeeWarningText.text.toString()))
         assertEquals(View.GONE, freeCancellationInfoContainer.visibility)
         assertEquals(View.GONE, splitTicketBaggageFeeLinkContainer.visibility)
         assertEquals(View.GONE, airlineFeeWarningText.visibility)
@@ -369,9 +370,6 @@ class FlightOverviewPresenterTest {
         val outboundFlightShowBaggageFeesInfo = outboundFlightWidget.baggageFeesButton as Button
         assertEquals(View.VISIBLE, outboundFlightShowBaggageFeesInfo.visibility)
         assertEquals(outboundFlightShowBaggageFeesInfo.text, context.getString(R.string.package_flight_overview_baggage_fees))
-        val outboundFlightShowPaymentFeesInfo = outboundFlightWidget.paymentFeesButton as Button
-        assertEquals(View.VISIBLE, outboundFlightShowPaymentFeesInfo.visibility)
-        assertEquals(outboundFlightShowPaymentFeesInfo.text, context.getString(R.string.payment_and_baggage_fees_may_apply))
     }
 
     @Test
@@ -385,9 +383,6 @@ class FlightOverviewPresenterTest {
         val inboundFlightShowBaggageFeesInfo = inboundFlightWidget.baggageFeesButton as Button
         assertEquals(View.VISIBLE, inboundFlightShowBaggageFeesInfo.visibility)
         assertEquals(inboundFlightShowBaggageFeesInfo.text, context.getString(R.string.package_flight_overview_baggage_fees))
-        val inboundFlightShowPaymentFeesInfo = inboundFlightWidget.paymentFeesButton as Button
-        assertEquals(View.VISIBLE, inboundFlightShowPaymentFeesInfo.visibility)
-        assertEquals(inboundFlightShowPaymentFeesInfo.text, context.getString(R.string.payment_and_baggage_fees_may_apply))
     }
 
     @Test
@@ -503,44 +498,6 @@ class FlightOverviewPresenterTest {
         inboundSeatClassTestSubscriber.assertValueCount(0)
         assertEquals(outboundSeatClassTestSubscriber.values()[0].get(0).seatClass, "coach")
         assertEquals(outboundSeatClassTestSubscriber.values()[0].get(0).bookingCode, "X")
-    }
-
-//    TODO: Will create a mingle card for it
-//    @Test
-//    fun testOutboundWidgetPaymentInfoClick() {
-//        createExpectedFlightLeg()
-//        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
-//        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("http://www.expedia.com/p/regulatory/obfees?langid=2057")
-//        outboundFlightWidget.paymentFeesButton.performClick()
-//        assertEquals(View.VISIBLE, widget.paymentFeeInfoWebView.visibility)
-//    }
-
-//   TODO https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/6024
-//    @Test
-//    fun testInboundWidgetPaymentInfoClick() {
-//        createExpectedFlightLeg()
-//        val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
-//        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("http://www.expedia.com/p/regulatory/obfees?langid=2057")
-//        inboundFlightWidget.paymentFeesButton.performClick()
-//        assertEquals(View.VISIBLE, widget.paymentFeeInfoWebView.visibility)
-//    }
-
-    @Test
-    fun testOutboundWidgetPaymentInfoClickWithNoURL() {
-        createExpectedFlightLeg()
-        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
-        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("")
-        outboundFlightWidget.paymentFeesButton.performClick()
-        assertEquals(View.GONE, widget.paymentFeeInfoWebView.visibility)
-    }
-
-    @Test
-    fun testInboundWidgetPaymentInfoClickWithNoURL() {
-        createExpectedFlightLeg()
-        val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
-        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("")
-        inboundFlightWidget.paymentFeesButton.performClick()
-        assertEquals(View.GONE, widget.paymentFeeInfoWebView.visibility)
     }
 
     @Test
@@ -693,7 +650,6 @@ class FlightOverviewPresenterTest {
     private fun createExpectedFlightLeg() {
         flightLeg = FlightLeg()
         flightLeg.flightSegments = ArrayList()
-        flightLeg.mayChargeObFees = true
         flightLeg.elapsedDays = 1
         flightLeg.durationHour = 19
         flightLeg.durationMinute = 10

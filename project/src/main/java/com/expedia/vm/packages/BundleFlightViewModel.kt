@@ -10,7 +10,6 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -49,11 +48,9 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val showRowContainerWithMoreInfo = BehaviorSubject.createDefault<Boolean>(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
             && (lob == LineOfBusiness.FLIGHTS_V2))
     val updateUpsellClassPreference = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
-    val showPaymentInfoLinkObservable = PublishSubject.create<Boolean>()
     val showBaggageInfoLinkObservable = PublishSubject.create<Boolean>()
     val baggageInfoUrlSubject = PublishSubject.create<String>()
     val baggageInfoClickSubject = PublishSubject.create<Unit>()
-    val paymentFeeInfoClickSubject = PublishSubject.create<Unit>()
     val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
     val showBaggageInfoSubject = PublishSubject.create<FlightLeg>()
     lateinit var baggageUrl: String
@@ -126,9 +123,6 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             }
 
             showBaggageInfoLinkObservable.onNext(lob == LineOfBusiness.FLIGHTS_V2)
-
-            showPaymentInfoLinkObservable.onNext(lob == LineOfBusiness.FLIGHTS_V2 &&
-                    (flight.mayChargeObFees || PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()))
 
             baggageInfoClickSubject.subscribe {
                 OmnitureTracking.trackFlightBaggageFeesClick()
