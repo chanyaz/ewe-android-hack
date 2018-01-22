@@ -340,7 +340,14 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private boolean handleHotelSearch(HotelDeepLink deepLink) {
 		Intent hotelIntent = new HotelIntentBuilder().from(this, deepLink).build(this);
-		HotelNavUtils.goToHotels(this, hotelIntent);
+
+		if (deepLink.isBaseURL()) {
+			HotelNavUtils.goToHotels(this, NavUtils.FLAG_DEEPLINK);
+		}
+		else {
+			HotelNavUtils.goToHotels(this, hotelIntent);
+		}
+
 		finish();
 		return false;
 	}
@@ -381,7 +388,12 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			params.setNumAdults(flightDeepLink.getNumAdults());
 		}
 
-		FlightNavUtils.goToFlights(this, params);
+		if (flightDeepLink.isBaseURL()) {
+			FlightNavUtils.goToFlights(this);
+		}
+		else {
+			FlightNavUtils.goToFlights(this, params);
+		}
 	}
 
 	private void handleShortUrl(ShortUrlDeepLink shortUrlDeepLink) {

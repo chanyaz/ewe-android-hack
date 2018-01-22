@@ -114,6 +114,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLinkCustom(),
 
 		new DeepLinkSection("Universal Links", R.color.hotels_primary_color),
+		new DeepLink("Basic Hotel Search", "https://www.expedia.com/mobile/deeplink/Hotels"),
 		new DeepLink("Current Location Search", "https://www.expedia.com/mobile/deeplink/Hotel-Search"),
 		new DeepLink("Location Search with Location ID", "https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=6119916"),
 		new DeepLink("Hotel Search with Adults", "https://www.expedia.com/mobile/deeplink/Hotel-Search?adults=3", "startDate", 90, "endDate", 97, "MM/dd/yyyy"),
@@ -127,6 +128,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("MCTC - InfoSite", "https://www.expedia.com/mobile/deeplink/Paris-Hotels-Hotel-Wilson-Opera.h1808319.Hotel-Information?langid=1033&mctc=5&chid=5bb6a8b1-86c6-4340-9ba1-fd3ef6906566&mrp=1&mdpcid=US.META.TRIVAGO.HOTELSCORESEARCH.HOTEL&mdpdtl=HTL.1808319.PARIS&trv_curr=USD&chkin=4/26/2017&chkout=4/30/2017&rateplanid=200803984_200803984_24&trv_dp=147&rm1=a2&paandi=true"),
 		new DeepLink("SEMDTL param search", "https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=6119916&semdtl=a1416242820.b127031966820.d1115895306900.e1c.f11t1.g1kwd-275058426.h1e.i16139906654.j19033253.k1.l1g.m1.n1"),
 
+		new DeepLink("Basic Flight Search", "https://www.expedia.com/mobile/deeplink/Flights"),
 		new DeepLink("Flight Search", "https://www.expedia.com/mobile/deeplink/Flights-Search"),
 		new DeepLink("Flight Search Round Trip", "https://www.expedia.com/mobile/deeplink/Flights-Search?trip=roundtrip&leg1=from:Seattle, WA (SEA-Seattle - Tacoma Intl.),to:BKK,departure:09/27/2017TANYT&leg2=from:BKK,to:Seattle, WA (SEA-Seattle - Tacoma Intl.),departure:10/11/2017TANYT"),
 		new DeepLink("Flight Search With Passengers", "https://www.expedia.com/mobile/deeplink/Flights-Search?trip=roundtrip&leg1=from:Seattle, WA (SEA-Seattle - Tacoma Intl.),to:BKK,departure:09/27/2017TANYT&leg2=from:BKK,to:Seattle, WA (SEA-Seattle - Tacoma Intl.),departure:10/11/2017TANYT&passengers=children:0,adults:3,seniors:0,infantinlap:Y"),

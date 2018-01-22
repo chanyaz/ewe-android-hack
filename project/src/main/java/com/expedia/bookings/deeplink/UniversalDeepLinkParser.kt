@@ -41,6 +41,7 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
             "/hotels" -> return parseHotelUniversalDeepLink(data, dateFormat)
             "hotel-infosite" -> return parseHotelInfoSiteUniversalDeepLink(data, dateFormat)
             "/flights-search" -> return parseFlightUniversalDeepLink(data, dateFormat)
+            "/flights" -> return parseFlightUniversalDeepLink(data, dateFormat)
             "/carsearch" -> return parseCarUniversalDeepLink(data, dateFormat)
             "/things-to-do/search" -> return parseActivityUniversalDeepLink(data, dateFormat)
             "shareditin" -> return parseSharedItineraryUniversalDeepLink(data)
@@ -121,6 +122,10 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
             hotelDeepLink.memberOnlyDealSearch = true
         }
 
+        if (data.toString().toLowerCase().contains("/hotels") && queryParameterNames.size == 0) {
+            hotelDeepLink.isBaseURL = true
+        }
+
         return hotelDeepLink
     }
 
@@ -189,6 +194,10 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
             if (numAdultsMatcher.find()) {
                 flightDeepLink.numAdults = Integer.parseInt(numAdultsMatcher.group(1))
             }
+        }
+
+        if (!queryParameterNames.any()) {
+            flightDeepLink.isBaseURL = true
         }
 
         return flightDeepLink

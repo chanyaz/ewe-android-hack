@@ -293,6 +293,22 @@ class UniversalDeepLinkParserTest {
         assertEquals("https://www.expedia.com/mobile/deeplink/RandomLinkForExpedia", parsed.url)
     }
 
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun basicHotelDeeplink() {
+        val data = Uri.parse("https://www.expedia.com/mobile/deeplink/Hotels")
+        val parsed = parser.parseUniversalDeepLink(data) as HotelDeepLink
+        Assert.assertEquals(true, parsed.isBaseURL)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun basicFlightDeeplink() {
+        val data = Uri.parse("https://www.expedia.com/mobile/deeplink/Flights")
+        val parsed = parser.parseUniversalDeepLink(data) as FlightDeepLink
+        Assert.assertEquals(true, parsed.isBaseURL)
+    }
+
     private fun assertChildTravelersEquals(childrenExpected: Array<ChildTraveler>, childrenActual: Array<ChildTraveler>) {
         Assert.assertEquals(childrenExpected.size, childrenActual.size)
         for (i in childrenExpected.indices) {

@@ -8,4 +8,5 @@ class FlightDeepLink : DeepLink() {
     var departureDate: LocalDate? = null
     var returnDate: LocalDate? = null
     var numAdults: Int = 0
+    var isBaseURL: Boolean = false
 }
