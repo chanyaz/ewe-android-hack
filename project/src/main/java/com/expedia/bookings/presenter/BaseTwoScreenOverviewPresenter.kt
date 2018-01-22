@@ -399,6 +399,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { currentState ->
             toggleBottomContainerViews(currentState)
         }
+        checkoutPresenter.getCheckoutViewModel().toolbarNavIconFocusObservable.subscribe { AccessibilityUtil.setFocusToToolbarNavigationIcon(bundleOverviewHeader.toolbar) }
     }
 
     private fun setupPaymentWidgetSubscriptions() {

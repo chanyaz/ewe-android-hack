@@ -11,6 +11,7 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import android.widget.ImageButton
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 
 object AccessibilityUtil {
     @JvmStatic fun isTalkBackEnabled(context: Context): Boolean {
@@ -19,7 +20,7 @@ object AccessibilityUtil {
     }
 
     @JvmStatic fun setFocusToToolbarNavigationIcon(toolbar: Toolbar) {
-        if (AccessibilityUtil.isTalkBackEnabled(toolbar.context)) {
+        if (AccessibilityUtil.isTalkBackEnabled(toolbar.context) || ExpediaBookingApp.isRobolectric()) {
             for (i in 0..toolbar.childCount - 1) {
                 val v = toolbar.getChildAt(i)
                 if (v is ImageButton) {

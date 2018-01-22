@@ -61,6 +61,7 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val cardFeeWarningTextSubject = PublishSubject.create<Spanned>()
     val showCardFeeWarningText = BehaviorSubject.create<Boolean>()
     val paymentTypeSelectedHasCardFee = PublishSubject.create<Boolean>()
+    val toolbarNavIconFocusObservable = PublishSubject.create<Unit>()
 
     protected var compositeSubscription: CompositeSubscription? = null
 
