@@ -103,6 +103,10 @@ open class HotelTracking {
             OmnitureTracking.trackLinkHotelV2FilterByName()
         }
 
+        fun trackLinkHotelAmenityFilter(amenity: String) {
+            OmnitureTracking.trackLinkHotelV2FilterAmenity(amenity)
+        }
+
         fun trackHotelReviews() {
             OmnitureTracking.trackHotelV2Reviews()
         }

@@ -1,6 +1,9 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.hotel.HotelFilterViewModel
@@ -16,12 +19,14 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelFilterViewModelTest {
-    var vm: HotelFilterViewModel by Delegates.notNull()
+    private var vm: HotelFilterViewModel by Delegates.notNull()
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun before() {
         val context = RuntimeEnvironment.application
         vm = HotelFilterViewModel(context)
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -59,6 +64,21 @@ class HotelFilterViewModelTest {
     }
 
     @Test
+    fun filterAmenity() {
+        vm.selectAmenity.onNext(Amenity.KITCHEN)
+        vm.selectAmenity.onNext(Amenity.AIRPORT_SHUTTLE)
+        assertEquals(2, vm.userFilterChoices.amenities.count())
+        assertTrue(vm.userFilterChoices.amenities.contains(-1))
+        assertTrue(vm.userFilterChoices.amenities.contains(66))
+    }
+
+    @Test
+    fun filterAmenityTracking() {
+        vm.selectAmenity.onNext(Amenity.ALL_INCLUSIVE)
+        OmnitureTestUtils.assertLinkTracked("Search Results Sort", "App.Hotels.Search.Filter.ALL_INCLUSIVE", mockAnalyticsProvider)
+    }
+
+    @Test
     fun setAllFilters() {
         val str = "Hilton"
         vm.filterHotelNameObserver.onNext(str)
@@ -73,7 +93,7 @@ class HotelFilterViewModelTest {
         neighborhood.name = "Civic Center"
         vm.selectNeighborhood.onNext(neighborhood)
 
-        vm.selectAmenity.onNext(4)
+        vm.selectAmenity.onNext(Amenity.PETS)
 
         assertEquals(6, vm.userFilterChoices.filterCount())
         assertEquals(str, vm.userFilterChoices.name)
@@ -83,6 +103,7 @@ class HotelFilterViewModelTest {
         assertEquals(20, vm.userFilterChoices.minPrice)
         assertEquals(50, vm.userFilterChoices.maxPrice)
         assertEquals(1, vm.userFilterChoices.amenities.size)
+        assertTrue(vm.userFilterChoices.amenities.contains(17))
     }
 
     @Test
@@ -102,7 +123,7 @@ class HotelFilterViewModelTest {
         neighborhood.name = "Civic Center"
         vm.selectNeighborhood.onNext(neighborhood)
 
-        vm.selectAmenity.onNext(4)
+        vm.selectAmenity.onNext(Amenity.POOL)
 
         vm.clearObservable.onNext(Unit)
 
@@ -148,11 +169,11 @@ class HotelFilterViewModelTest {
         vm.doneObservable.onNext(Unit)
         assertEquals(1, vm.userFilterChoices.filterCount())
 
-        vm.selectAmenity.onNext(4)
+        vm.selectAmenity.onNext(Amenity.INTERNET)
         vm.doneObservable.onNext(Unit)
         assertEquals(2, vm.userFilterChoices.filterCount())
 
-        vm.deselectAmenity.onNext(4)
+        vm.deselectAmenity.onNext(Amenity.INTERNET)
         vm.doneObservable.onNext(Unit)
         assertEquals(1, vm.userFilterChoices.filterCount())
     }

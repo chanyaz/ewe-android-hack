@@ -6,6 +6,7 @@ import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.tracking.hotel.FilterTracker
 import com.expedia.util.endlessObserver
 import rx.Observer
@@ -146,12 +147,12 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         trackHotelFilterVIP(vipOnly)
     }
 
-    val selectAmenity: Observer<Int> = endlessObserver { amenityId ->
-        toggleAmenity(amenityId, true)
+    val selectAmenity: Observer<Amenity> = endlessObserver { amenity ->
+        toggleAmenity(amenity, true)
     }
 
-    val deselectAmenity: Observer<Int> = endlessObserver { amenityId ->
-        toggleAmenity(amenityId, false)
+    val deselectAmenity: Observer<Amenity> = endlessObserver { amenity ->
+        toggleAmenity(amenity, false)
     }
 
     val selectNeighborhood = endlessObserver<HotelSearchResponse.Neighborhood> { neighborhood ->
@@ -201,7 +202,8 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         sendNewPriceRange()
     }
 
-    private fun toggleAmenity(id: Int, on: Boolean) {
+    private fun toggleAmenity(amenity: Amenity, on: Boolean) {
+        val id = Amenity.getSearchKey(amenity)
         if (on) {
             userFilterChoices.amenities.add(id)
         } else {
@@ -209,9 +211,10 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         }
         updateFilterCount()
         handleFiltering()
+        trackHotelFilterAmenity(amenity)
     }
 
-    fun sendNewPriceRange() {
+    private fun sendNewPriceRange() {
         val response = originalResponse
         if (response != null && response.priceOptions.isNotEmpty()) {
             val min = response.priceOptions.first().minPrice
@@ -271,6 +274,10 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         filterTracker.trackHotelRefineRating(rating)
     }
 
+    private fun trackHotelFilterAmenity(amenity: Amenity) {
+        filterTracker.trackHotelFilterAmenity(amenity.toString())
+    }
+
     private fun updateFilterCount() {
         filterCountObservable.onNext(userFilterChoices.filterCount())
     }
@@ -283,7 +290,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.name = ""
         userFilterChoices.minPrice = 0
         userFilterChoices.maxPrice = 0
-        userFilterChoices.amenities = HashSet<Int>()
-        userFilterChoices.neighborhoods = HashSet<HotelSearchResponse.Neighborhood>()
+        userFilterChoices.amenities = HashSet()
+        userFilterChoices.neighborhoods = HashSet()
     }
 }

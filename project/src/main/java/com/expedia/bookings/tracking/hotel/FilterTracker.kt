@@ -8,4 +8,5 @@ interface FilterTracker {
     fun trackClearFilter()
     fun trackHotelFilterNeighborhood()
     fun trackHotelRefineRating(rating: String)
+    fun trackHotelFilterAmenity(amenity: String)
 }

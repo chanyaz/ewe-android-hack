@@ -30,4 +30,8 @@ class PackagesFilterTracker : FilterTracker {
     override fun trackHotelRefineRating(rating: String) {
         PackagesTracking().trackHotelRefineRating(rating)
     }
+
+    override fun trackHotelFilterAmenity(amenity: String) {
+        // not available on package
+    }
 }

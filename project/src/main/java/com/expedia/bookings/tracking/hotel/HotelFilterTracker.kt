@@ -28,4 +28,8 @@ class HotelFilterTracker : FilterTracker {
     override fun trackHotelRefineRating(rating: String) {
         HotelTracking.trackLinkHotelRefineRating(rating)
     }
+
+    override fun trackHotelFilterAmenity(amenity: String) {
+        HotelTracking.trackLinkHotelAmenityFilter(amenity)
+    }
 }

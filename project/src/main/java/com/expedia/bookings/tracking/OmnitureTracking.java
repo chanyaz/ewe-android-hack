@@ -630,9 +630,9 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
 
+		trackAbacusTest(s, AbacusUtils.HotelAmenityFilter);
 		// Send the tracking data
 		s.track();
-
 	}
 
 	public static void trackHotelV2SortBy(String type) {
@@ -674,6 +674,13 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_FILTER_BY_NAME + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_FILTER_BY_NAME);
+		s.trackLink(null, "o", "Search Results Sort", null, null);
+	}
+
+	public static void trackLinkHotelV2FilterAmenity(String amenity) {
+		String pageName = HOTELS_SEARCH_REFINE + "." + amenity;
+		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
 		s.trackLink(null, "o", "Search Results Sort", null, null);
 	}
 

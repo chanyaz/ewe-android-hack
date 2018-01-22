@@ -13,8 +13,8 @@ import com.expedia.bookings.hotel.data.Amenity
 import rx.subjects.PublishSubject
 
 class HotelAmenityGridItem(context: Context, private val amenity: Amenity) : LinearLayout(context, null) {
-    val amenitySelected = PublishSubject.create<Int>()
-    val amenityDeselected = PublishSubject.create<Int>()
+    val amenitySelected = PublishSubject.create<Amenity>()
+    val amenityDeselected = PublishSubject.create<Amenity>()
 
     private val icon by bindView<ImageView>(R.id.hotel_filter_grid_item_image)
     private val textView by bindView<TextView>(R.id.hotel_filter_grid_item_text)
@@ -35,9 +35,9 @@ class HotelAmenityGridItem(context: Context, private val amenity: Amenity) : Lin
         icon.setOnClickListener {
             icon.isSelected = !icon.isSelected
             if (icon.isSelected) {
-                amenitySelected.onNext(Amenity.getSearchKey(amenity))
+                amenitySelected.onNext(amenity)
             } else {
-                amenityDeselected.onNext(Amenity.getSearchKey(amenity))
+                amenityDeselected.onNext(amenity)
             }
         }
 
