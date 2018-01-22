@@ -15,8 +15,8 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.isFlexEnabled
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.subjects.BehaviorSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -29,12 +29,14 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
     abstract fun getCardFeesCallback(): Observer<CardFeeResponse>
 
     val selectedCardFeeObservable = BehaviorSubject.create<Money>()
-    val selectedFlightChargesFees = BehaviorSubject.create<String>("")
-    val obFeeDetailsUrlSubject = BehaviorSubject.create<String>("")
+    val selectedFlightChargesFees = BehaviorSubject.create<String>()
+    val obFeeDetailsUrlSubject = BehaviorSubject.create<String>()
     private var lastFetchedCardFeeKeyPair: Pair<String, String>? = null
     val cardFeeFlexStatus = BehaviorSubject.create<String>()
 
     init {
+        selectedFlightChargesFees.onNext("")
+        obFeeDetailsUrlSubject.onNext("")
         compositeDisposable?.add(paymentViewModel.resetCardFees.subscribe {
             lastFetchedCardFeeKeyPair = null
             resetCardFees()
