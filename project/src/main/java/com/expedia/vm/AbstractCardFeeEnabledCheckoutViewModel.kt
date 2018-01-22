@@ -1,17 +1,14 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.text.SpannableStringBuilder
 import android.text.SpannedString
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.CardFeeService
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.isFlexEnabled
 import com.squareup.phrase.Phrase
@@ -33,10 +30,12 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
     val obFeeDetailsUrlSubject = BehaviorSubject.create<String>()
     private var lastFetchedCardFeeKeyPair: Pair<String, String>? = null
     val cardFeeFlexStatus = BehaviorSubject.create<String>()
+    val hasPaymentChargeFeesSubject = BehaviorSubject.create<Boolean>()
 
     init {
         selectedFlightChargesFees.onNext("")
         obFeeDetailsUrlSubject.onNext("")
+        hasPaymentChargeFeesSubject.onNext(false)
         compositeDisposable?.add(paymentViewModel.resetCardFees.subscribe {
             lastFetchedCardFeeKeyPair = null
             resetCardFees()
@@ -67,9 +66,10 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
     }
 
     private fun setupCardFeeSubjects() {
-        ObservableOld.combineLatest(selectedFlightChargesFees, obFeeDetailsUrlSubject, {
-            flightChargesFees, obFeeDetailsUrl ->
-            cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(flightChargesFees, obFeeDetailsUrl))
+        ObservableOld.combineLatest(selectedFlightChargesFees, obFeeDetailsUrlSubject, hasPaymentChargeFeesSubject, {
+            flightChargesFees, obFeeDetailsUrl, hasPaymentChargeFees ->
+            cardFeeWarningTextSubject.onNext(FlightV2Utils.getAirlineMayChargeFeeText(context, hasPaymentChargeFees,
+                    Strings.isNotEmpty(flightChargesFees), obFeeDetailsUrl))
             showCardFeeWarningText.onNext(!flightChargesFees.isNullOrBlank())
         }).subscribe()
 
@@ -77,7 +77,8 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
             cardFeeService?.cancel()
             paymentTypeSelectedHasCardFee.onNext(false)
             cardFeeTextSubject.onNext(SpannedString(""))
-            cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(selectedFlightChargesFees.value, obFeeDetailsUrlSubject.value))
+            cardFeeWarningTextSubject.onNext(FlightV2Utils.getAirlineMayChargeFeeText(context, hasPaymentChargeFeesSubject.value,
+                    Strings.isNotEmpty(selectedFlightChargesFees.value), obFeeDetailsUrlSubject.value))
         })
 
         selectedCardFeeObservable
@@ -102,31 +103,5 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
                         cardFeeWarningTextSubject.onNext(HtmlCompat.fromHtml(cardFeeWarningText))
                     }
                 }
-    }
-
-    private fun getAirlineMayChargeFeeText(flightChargesFeesTxt: String, obFeeUrl: String): SpannableStringBuilder {
-        if (Strings.isNotEmpty(flightChargesFeesTxt)) {
-            if (!obFeeUrl.isNullOrBlank()) {
-                val resId = if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
-                    R.string.flights_there_maybe_additional_fee_TEMPLATE
-                } else {
-                    R.string.flights_fee_added_based_on_payment_TEMPLATE
-                }
-                val airlineFeeWithLink =
-                        Phrase.from(context, resId)
-                                .put("airline_fee_url", obFeeUrl)
-                                .format().toString()
-                return StrUtils.getSpannableTextByColor(airlineFeeWithLink, ContextCompat.getColor(context, R.color.flight_primary_color), true)
-            } else {
-                val resId = if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
-                    R.string.flights_there_maybe_additional_fee
-                } else {
-                    R.string.flights_fee_added_based_on_payment
-                }
-                val airlineFee = context.resources.getString(resId)
-                return SpannableStringBuilder(airlineFee)
-            }
-        }
-        return SpannableStringBuilder()
     }
 }

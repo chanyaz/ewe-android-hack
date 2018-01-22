@@ -306,6 +306,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOfferViewModel.offerSelectedChargesObFeesSubject.subscribe(checkoutViewModel.selectedFlightChargesFees)
         flightOfferViewModel.obFeeDetailsUrlObservable.subscribe { obFeeDetailsUrl ->
             presenter.viewModel.obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
+            checkoutViewModel.obFeeDetailsUrlSubject.onNext(obFeeDetailsUrl)
         }
         flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
             presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable)
@@ -320,6 +321,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             val mayChargeObFees = flightOffer.mayChargeOBFees
             presenter.viewModel.showSplitTicketMessagingObservable.onNext(flightOffer.isSplitTicket)
             presenter.viewModel.showAirlineFeeWarningObservable.onNext(mayChargeObFees)
+            checkoutViewModel.hasPaymentChargeFeesSubject.onNext(mayChargeObFees)
 
             if (mayChargeObFees) {
                 presenter.viewModel.airlineFeeWarningTextObservable.onNext(context.resources.getString(R.string.airline_additional_fee_notice))

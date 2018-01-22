@@ -35,6 +35,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
     }
 
     init {
+        hasPaymentChargeFeesSubject.onNext(PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage())
         createTripResponseObservable.safeSubscribeOptional {
             it as PackageCreateTripResponse
             builder.tripId(it.packageDetails.tripId)

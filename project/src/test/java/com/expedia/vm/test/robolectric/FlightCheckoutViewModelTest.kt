@@ -41,9 +41,6 @@ import com.expedia.vm.FlightCheckoutViewModel
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
@@ -53,6 +50,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import rx.Scheduler
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -163,23 +163,28 @@ class FlightCheckoutViewModelTest {
 
         givenObFeeUrl()
         givenAirlineChargesFees()
+        givenSelectedOfferMayChargeOBFee(mayChargeOBFees = true)
 
-        cardFeeWarningTestSubscriber.assertValueCount(2)
+        cardFeeWarningTestSubscriber.assertValueCount(3)
         assertEquals("", cardFeeWarningTestSubscriber.values()[0].toString())
         assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
                 cardFeeWarningTestSubscriber.values()[1].toString())
-
-        setPOS(PointOfSaleId.FRANCE)
-
-        givenAirlineChargesFees()
-        cardFeeWarningTestSubscriber.assertValueCount(3)
-        assertEquals("There may be an additional fee, based on your payment method.",
+        assertEquals("There may be an additional fee based on your payment method.",
                 cardFeeWarningTestSubscriber.values()[2].toString())
 
-        sut.selectedCardFeeObservable.onNext(Money())
-        cardFeeWarningTestSubscriber.assertValueCount(4)
-        assertEquals("",
+        setPOS(PointOfSaleId.FRANCE)
+        givenAirlineChargesFees()
+        givenSelectedOfferMayChargeOBFee()
+
+        cardFeeWarningTestSubscriber.assertValueCount(5)
+        assertEquals("There may be an additional fee based on your payment method.",
                 cardFeeWarningTestSubscriber.values()[3].toString())
+        assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
+                cardFeeWarningTestSubscriber.values()[4].toString())
+
+        sut.selectedCardFeeObservable.onNext(Money())
+        cardFeeWarningTestSubscriber.assertValueCount(6)
+        assertEquals("", cardFeeWarningTestSubscriber.values()[5].toString())
     }
 
     @Test
@@ -192,18 +197,21 @@ class FlightCheckoutViewModelTest {
 
         sut.obFeeDetailsUrlSubject.onNext("")
         givenAirlineChargesFees()
+        givenSelectedOfferMayChargeOBFee(mayChargeOBFees = true)
 
-        cardFeeWarningTestSubscriber.assertValueCount(2)
+        cardFeeWarningTestSubscriber.assertValueCount(3)
         assertEquals("", cardFeeWarningTestSubscriber.values()[0].toString())
         assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
                 cardFeeWarningTestSubscriber.values()[1].toString())
+        assertEquals("There may be an additional fee based on your payment method.",
+                cardFeeWarningTestSubscriber.values()[2].toString())
 
         setPOS(PointOfSaleId.FRANCE)
-
         givenAirlineChargesFees()
-        cardFeeWarningTestSubscriber.assertValueCount(3)
-        assertEquals("There may be an additional fee, based on your payment method.",
-                cardFeeWarningTestSubscriber.values()[2].toString())
+
+        cardFeeWarningTestSubscriber.assertValueCount(4)
+        assertEquals("There may be an additional fee based on your payment method.",
+                cardFeeWarningTestSubscriber.values()[3].toString())
     }
 
     private fun setPOS(pos: PointOfSaleId) {
@@ -220,10 +228,12 @@ class FlightCheckoutViewModelTest {
 
         sut.obFeeDetailsUrlSubject.onNext("")
         sut.selectedFlightChargesFees.onNext("")
+        givenSelectedOfferMayChargeOBFee()
 
-        cardFeeWarningTestSubscriber.assertValueCount(2)
+        cardFeeWarningTestSubscriber.assertValueCount(3)
         assertEquals("", cardFeeWarningTestSubscriber.values()[0].toString())
         assertEquals("", cardFeeWarningTestSubscriber.values()[1].toString())
+        assertEquals("", cardFeeWarningTestSubscriber.values()[2].toString())
     }
 
     @Test
@@ -254,7 +264,7 @@ class FlightCheckoutViewModelTest {
         assertEquals("", cardFeeTextSubscriber.values()[0].toString())
 
         if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
-            assertEquals("There may be an additional fee, based on your payment method.",
+            assertEquals("There may be an additional fee based on your payment method.",
                     cardFeeWarningTextSubscriber.values()[0].toString())
         } else {
             assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
@@ -651,6 +661,10 @@ class FlightCheckoutViewModelTest {
 
     private fun givenAirlineChargesFees() {
         sut.selectedFlightChargesFees.onNext("Airline Fee")
+    }
+
+    private fun givenSelectedOfferMayChargeOBFee(mayChargeOBFees: Boolean = false) {
+        sut.hasPaymentChargeFeesSubject.onNext(mayChargeOBFees)
     }
 
     private fun getNewCard(): StoredCreditCard {
