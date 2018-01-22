@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import javax.inject.Inject
 
 class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractMaterialFlightResultsPresenter(context, attrs) {
@@ -18,6 +19,10 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
 
     override fun back(): Boolean {
         flightOfferViewModel.cancelOutboundSearchObservable.onNext(Unit)
+        if (isFlightGreedySearchEnabled(context)) {
+            flightOfferViewModel.isGreedyCallAborted = true
+            flightOfferViewModel.cancelGreedyCalls()
+        }
         return super.back()
     }
 

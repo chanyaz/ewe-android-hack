@@ -93,6 +93,9 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                 flightOutboundSearchSubscription = flightServices.flightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
                 showDebugToast("Normal Search call is triggerred")
             }
+            if (isFlightGreedySearchEnabled(context) && isGreedyCallAborted) {
+                cancelGreedyCalls()
+            }
         }
 
         cachedFlightSearchObservable.subscribe { params ->
@@ -240,6 +243,13 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         offerModel.segmentsSeatClassAndBookingCode = if (isOutbound) offer.offersSeatClassAndBookingCode[0] else offer.offersSeatClassAndBookingCode[1]
         offerModel.loyaltyInfo = offer.loyaltyInfo
         return offerModel
+    }
+
+    fun cancelGreedyCalls() {
+        cancelGreedySearchObservable.onNext(Unit)
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
+            cancelGreedyCachedSearchObservable.onNext(Unit)
+        }
     }
 
     protected fun makeResultsObserver(): Observer<FlightSearchResponse> {

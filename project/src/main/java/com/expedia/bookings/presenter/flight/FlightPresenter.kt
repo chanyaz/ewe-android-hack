@@ -178,6 +178,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         presenter.menuSearch.setOnMenuItemClickListener({
             show(searchPresenter)
+            flightOfferViewModel.isGreedyCallAborted = true
             true
         })
         presenter.setupComplete()
@@ -226,6 +227,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         presenter.menuSearch.setOnMenuItemClickListener({
             show(searchPresenter)
+            flightOfferViewModel.isGreedyCallAborted = true
             true
         })
         presenter.setupComplete()
@@ -819,9 +821,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 FlightsV2Tracking.trackSearchPageLoad()
                 flightCreateTripViewModel.reset()
                 outBoundPresenter.resultsPresenter.recyclerView.scrollToPosition(0)
-                if (isFlightGreedySearchEnabled(context)) {
-                    searchViewModel.abortGreedyCallObservable.onNext(Unit)
-                }
             }
         }
     }
@@ -895,6 +894,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             webCheckoutView.back()
             return true
         } else {
+            if (isFlightGreedySearchEnabled(context) && currentState == FlightSearchPresenter::class.java.name) {
+                if (backStack.size == 1) {
+                    searchViewModel.abortGreedyCallObservable.onNext(Unit)
+                } else {
+                    flightOfferViewModel.isGreedyCallAborted = false
+                }
+            }
             return super.back()
         }
     }

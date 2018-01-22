@@ -335,13 +335,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         return LineOfBusiness.FLIGHTS
     }
 
-    override fun back(): Boolean {
-        if (InputSelectionState::class.java.name == currentState && isFlightGreedySearchEnabled(context)) {
-            searchViewModel.abortGreedyCallObservable.onNext(Unit)
-        }
-        return super.back()
-    }
-
     private fun initializeProWizardTabs() {
         oneWayRoundTripTabs.oneWayClickedSubject.subscribe {
             roundTripChanged(roundTrip = false)
