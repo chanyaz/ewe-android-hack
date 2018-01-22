@@ -41,6 +41,10 @@ public class FileCipher {
 	private Cipher mEncryptCipher;
 	private Cipher mDecryptCipher;
 
+	// Following constructor should only be used for testing purpose as we do not need encryption/decryption ciphers under tests
+	protected FileCipher() {
+	}
+
 	public FileCipher(String password) {
 		mInitialized = false;
 		try {

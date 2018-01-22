@@ -153,9 +153,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		CountryConfig.loadCountryConfigs(getAssets());
 
-		mAppComponent = DaggerAppComponent.builder()
-			.appModule(new AppModule(this))
-			.build();
+		defaultAppComponents();
 		startupTimer.addSplit("Dagger AppModule created");
 
 		AppStartupTimeLogger appStartupTimeLogger = appComponent().appStartupTimeLogger();
@@ -401,6 +399,16 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	public AppComponent appComponent() {
 		return mAppComponent;
+	}
+
+	protected void defaultAppComponents() {
+		setAppComponent(DaggerAppComponent.builder()
+			.appModule(new AppModule(this))
+			.build());
+	}
+
+	protected void setAppComponent(AppComponent appComponent) {
+		mAppComponent = appComponent;
 	}
 
 	public void defaultHotelComponents() {
