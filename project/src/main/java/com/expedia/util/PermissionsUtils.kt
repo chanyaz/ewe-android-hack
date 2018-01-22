@@ -32,5 +32,3 @@ object PermissionsUtils {
         return isFirstTime
     }
 }
-
-

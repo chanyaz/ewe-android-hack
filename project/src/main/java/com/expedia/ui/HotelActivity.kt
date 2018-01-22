@@ -138,6 +138,9 @@ class HotelActivity : AbstractAppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (Ui.getApplication(this).hotelComponent() == null) {
+            hotelComponentInjector.inject(this)
+        }
         handleDeepLink(intent)
     }
 
