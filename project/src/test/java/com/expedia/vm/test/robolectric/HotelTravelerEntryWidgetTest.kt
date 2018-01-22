@@ -122,6 +122,13 @@ class HotelTravelerEntryWidgetTest {
         assertCheckBoxValues(visibility = View.GONE, text = "", isChecked = false)
     }
 
+    @Test
+    fun testRootContainerNotFocusable() {
+        assertEquals(false, widget.rootContainer.isFocusable)
+        assertEquals(false, widget.rootContainer.isFocusableInTouchMode)
+        assertEquals(false, widget.rootContainer.isImportantForAccessibility)
+    }
+
     private fun assertCheckBoxValues(visibility: Int, text: String, isChecked: Boolean) {
         assertEquals(visibility, widget.merchandiseOptCheckBox.visibility)
         assertEquals(text, widget.merchandiseOptCheckBox.text)

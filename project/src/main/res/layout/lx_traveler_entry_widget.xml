@@ -6,9 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="9dp"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
-        android:descendantFocusability="beforeDescendants"
         android:background="@drawable/card_background"
         android:orientation="vertical"
         android:padding="@dimen/checkout_form_padding">

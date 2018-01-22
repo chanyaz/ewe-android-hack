@@ -7,7 +7,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.enums.PassengerCategory
@@ -15,7 +14,6 @@ import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.vm.traveler.FlightTravelersViewModel
@@ -26,7 +24,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import java.util.ArrayList
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class TravelersPresenterTest {
@@ -124,6 +121,16 @@ class TravelersPresenterTest {
         assertEquals("", travelerEntryWidget.advancedOptionsWidget.redressNumber.text.toString())
         assertEquals("", travelerEntryWidget.advancedOptionsWidget.travelerNumber.text.toString())
         assertEquals("", travelerEntryWidget.advancedOptionsWidget.redressNumber.text.toString())
+    }
+
+    @Test
+    fun testTravelerEntryWidgetRootContainerNotFocusable() {
+        setupPresenterAndViewModel(LineOfBusiness.FLIGHTS_V2)
+        val rootContainer = (travelersPresenter.travelerEntryWidget as FlightTravelerEntryWidget).rootContainer
+
+        assertEquals(false, rootContainer.isFocusable)
+        assertEquals(false, rootContainer.isFocusableInTouchMode)
+        assertEquals(false, rootContainer.isImportantForAccessibility)
     }
 
     private fun resetAndUpdateTravelers() {

@@ -124,7 +124,6 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
 
     open inner class SelectToEntryTransition(className: Class<*>) : Presenter.Transition(TravelerPickerWidget::class.java, className) {
         override fun startTransition(forward: Boolean) {
-            travelerEntryWidget.rootContainer.requestFocus()
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
             travelerEntryWidget.travelerButton.visibility = if (userStateManager.isUserAuthenticated() && forward) View.VISIBLE else View.GONE
             if (!forward) travelerPickerWidget.show() else travelerPickerWidget.visibility = View.GONE
