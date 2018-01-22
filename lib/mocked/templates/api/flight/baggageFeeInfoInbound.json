@@ -1,0 +1,15 @@
+{
+  "airlineName": "Emirates",
+  "charges": [
+    {
+      "Carry-on Bag": "No fee"
+    },
+    {
+      "1st Checked Bag": "No fee up to 30 kg"
+    },
+    {
+      "2nd Checked Bag": "$25.00 per kg"
+    }
+  ],
+  "airlineUrl": "http://www.emirates.com/au/english/plan_book/essential_information/baggages/baggages.aspx"
+}

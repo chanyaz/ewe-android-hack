@@ -135,4 +135,11 @@ object FlightsOverviewScreen {
         return onView(withIndex(withId(R.id.fare_family_traveler_text), position - 1))
     }
 
+    @JvmStatic fun flightOverviewBaggagePopUpHeading(): ViewInteraction {
+        return onView(AllOf.allOf(withText("Baggage fee information"), isDescendantOfA(withId(R.id.baggage_info_parent))));
+    }
+
+    @JvmStatic fun flightOverviewBaggagePopUpMessage(): ViewInteraction {
+        return onView(AllOf.allOf(withText("Baggage fees when purchased at the airport:"), isDescendantOfA(withId(R.id.baggage_info_parent))));
+    }
 }

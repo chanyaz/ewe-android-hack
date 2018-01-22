@@ -684,3 +684,40 @@ Feature: Flights Overview
     Then I click on fare family widget card
     Then Validate fare family item info at position 1 is selected: true
     Then Validate fare family item info at position 2 is selected: false
+
+@Flights @FlightsOverviewSet3
+Scenario: Validate Baggage Info Pop-up
+  Given I launch the App
+  And I launch "Flights" LOB
+  When I make a flight search with following parameters
+    | source              | SFO                                      |
+    | destination         | DEL                                      |
+    | source_suggest      | San Francisco, CA                        |
+    | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    | start_date          | 5                                        |
+    | end_date            | 25                                       |
+    | adults              | 1                                        |
+    | child               | 0                                        |
+  And I wait for results to load
+  And I select outbound flight at position 1 and reach inbound FSR
+  And I wait for inbound flights results to load
+  And I select inbound flight at position 1 and reach overview
+  And Close price change Alert dialog if it is visible
+  Then toggle the outbound widget
+  And Click on baggage fees button on isOutBound : true
+  Then Validate the baggage pop up heading
+  And Validate the pop up box content
+    | Airline             | Emirates           |
+    | Carry-on Bag        | No fee             |
+    | 1st Checked Bag     | No fee up to 30 kg |
+    | 2nd Checked Bag     | $45.00 per kg      |
+  And I click on Ok button of Alert dialog
+  Then toggle the outbound widget
+  Then toggle the inbound widget
+  And Click on baggage fees button on isOutBound : false
+  Then Validate the baggage pop up heading
+  And Validate the pop up box content
+    | Airline             | Emirates           |
+    | Carry-on Bag        | No fee             |
+    | 1st Checked Bag     | No fee up to 30 kg |
+    | 2nd Checked Bag     | $25.00 per kg      |

@@ -103,9 +103,29 @@ public class FlightsOverviewScreenSteps {
 		closeAlertDialog();
 	}
 
+	@And("^Click on baggage fees button on isOutBound : (true|false)$")
+	public void clickBaggageFeesButton(Boolean outBound) throws Throwable {
+		onView(allOf(outBound ? isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))
+			: isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withId(R.id.show_baggage_fees_button)))
+			.perform(click());
+	}
+
 	@And("^Click on \"(.*?)\" button$")
 	public void clickErrorButton(String errorButtonText) {
 		onView(allOf(withId(R.id.error_action_button), withText(errorButtonText))).perform(click());
+	}
+
+	@And("^Validate the pop up box content$")
+	public void validateBaggageInfoPopUpContent(Map<String, String> params) throws Throwable {
+		for (String key : params.keySet()) {
+			onView(allOf(withId(R.id.baggage_fee_key), withText(key), hasSibling(allOf(withId(R.id.baggage_fee_value), withText(params.get(key)))))).check(matches(isDisplayed()));
+		}
+	}
+
+	@Then("^Validate the baggage pop up heading$")
+	public void validateBaggagePopUpHeadings() throws Throwable {
+		FlightsOverviewScreen.flightOverviewBaggagePopUpHeading().perform(waitForViewToDisplay()).check(matches(isDisplayed()));
+		FlightsOverviewScreen.flightOverviewBaggagePopUpMessage().check(matches(isDisplayed()));
 	}
 
 	@Then("^toggle the outbound widget$")

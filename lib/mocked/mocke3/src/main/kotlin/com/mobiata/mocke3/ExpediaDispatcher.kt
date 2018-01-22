@@ -66,7 +66,8 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
         //Flight Baggage Info API
         if (request.path.contains("/api/flight/baggagefees")) {
-            return dispatchBaggageInfo()
+            var params = request.body.readUtf8()
+            return dispatchBaggageInfo(params.contains("4"))
         }
 
         // Flights API
@@ -411,8 +412,12 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         return make404()
     }
 
-    private fun dispatchBaggageInfo(): MockResponse {
-        return makeResponse("api/flight/baggageFeeInfo.json")
+    private fun dispatchBaggageInfo(isOutBound : Boolean): MockResponse {
+        if (isOutBound) {
+            return makeResponse("api/flight/baggageFeeInfoOutbound.json")
+        } else {
+            return makeResponse("api/flight/baggageFeeInfoInbound.json")
+        }
     }
 
     private fun dispatchTNSResponse(): MockResponse {
