@@ -3,7 +3,7 @@
 
 # Defaults
 debug="false" # Making debug by default as false
-declare -i maxReRuns=2 # integer, 0 is the first run, 1 is the rerun, etc...
+declare -i maxReRuns=0 # integer, 0 is the first run, 1 is the rerun, etc...
 
 while echo $1 | grep -q ^-; do
     eval $( echo $1 | sed 's/^-//' )=$2
@@ -16,6 +16,7 @@ packageName=$package
 tags=$tags
 debug=$debug
 noclean=$noclean
+rerun_count=$rerun_count
 
 parentDir=`pwd`"/project/build/outputs"
 failedTagsFile="$parentDir/failedTagsFile.txt"
@@ -126,8 +127,8 @@ function runCucumberTests() {
         tagsPassed="-e tags \"${tagsPassed}\""
     fi
     adb -s $device shell input keyevent KEYCODE_WAKEUP
-    echo adb -s $device shell am instrument -w -r -e debug ${debug} ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
-    adb -s $device shell am instrument -w -r -e debug ${debug} ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
+    echo adb -s $device shell am instrument -w -r -e debug ${debug} -e rerun ${rerun_count} ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
+    adb -s $device shell am instrument -w -r -e debug ${debug} -e rerun ${rerun_count} ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
     runCucumberTests=$?
 }
 
