@@ -7,6 +7,7 @@ class FlightSearchResponse : BaseApiResponse() {
     var offers: List<FlightTripDetails.FlightOffer> = emptyList()
     lateinit var obFeesDetails: String
     var hasSubPub = false
+    var mayChargePaymentFees = false
     var cachedResultsFound: Boolean? = null
     var bookable: Boolean? = null
     var searchType = FlightSearchType.NORMAL
