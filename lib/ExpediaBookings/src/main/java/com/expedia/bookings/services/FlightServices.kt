@@ -100,9 +100,6 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
     private fun processSearchResponse(response: FlightSearchResponse) {
         if (response.hasErrors() || response.legs.isEmpty() || response.offers.isEmpty()) return
         response.legs.forEach { leg ->
-            leg.mayChargeObFees = response.offers.filter { it.legIds.contains(leg.legId) }
-                    .filter { it.mayChargeOBFees == true }
-                    .isNotEmpty()
             leg.carrierName = leg.segments.first().airlineName
             leg.flightSegments = leg.segments
             val departure = leg.flightSegments.first()
