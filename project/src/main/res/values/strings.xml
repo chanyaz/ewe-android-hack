@@ -3000,13 +3000,13 @@
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Sorry, but this coupon has expired.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Sorry, but we\&apos;re having a problem. Please try again.</string>
+    <string name="coupon_error_not_redeemed">Sorry, we couldn\&apos;t apply the coupon. Please try again.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">Sorry, but this coupon code has already been used.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Sorry, but we\&apos;re having a problem. Please try again.</string>
+    <string name="coupon_error_fallback">Sorry, we\&apos;re having a problem. Please try again.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">The booking cost changed, so we didn\&apos;t apply the coupon. Please review and try again.</string>
+    <string name="coupon_error_price_change">The booking cost changed. Please review your new total and try again.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Sorry, but this coupon code is for a different country.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
