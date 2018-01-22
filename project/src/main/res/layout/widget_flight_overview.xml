@@ -20,6 +20,11 @@
                 android:orientation="vertical">
 
                 <com.expedia.bookings.widget.TextView
+                    android:id="@+id/airline_payment_fees_header"
+                    style="@style/WarningBar"
+                    android:visibility="gone" />
+
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/flight_overview_urgency_messaging"
                     style="@style/ResultsDescriptionText.Center"
                     android:layout_width="match_parent"

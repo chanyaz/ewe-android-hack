@@ -32,12 +32,12 @@ object FlightsResultsScreen {
         onView(allOf(withId(R.id.price_per_person), withText(price))).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
-    @JvmStatic fun assertPaymentFeesMayApplyLinkShowing(resultsView: Matcher<View>) {
-        paymentFeesLinkTextView(resultsView).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-                .check(ViewAssertions.matches(ViewMatchers.withText("Payment fees may apply")))
+    @JvmStatic fun assertPaymentFeesMessageShowing(resultsView: Matcher<View>) {
+        paymentFeeMessageTextView(resultsView).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+                .check(ViewAssertions.matches(ViewMatchers.withText("There may be an additional fee based on your payment method.")))
     }
 
-    fun paymentFeesLinkTextView(resultsView: Matcher<View>) = onView(allOf(withId(R.id.show_payment_fees), ViewMatchers.isDescendantOfA(resultsView)))
+    fun paymentFeeMessageTextView(resultsView: Matcher<View>) = onView(allOf(withId(R.id.airline_payment_fees_header), ViewMatchers.isDescendantOfA(resultsView)))
 
     fun assertAirlineChargesFeesHeadingShown(resultsView: Matcher<View>, id: Int) {
         val airlineFeesHeaderView = onView(allOf(withId(R.id.airline_charges_fees_header), ViewMatchers.isDescendantOfA(resultsView)))

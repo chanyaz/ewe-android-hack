@@ -44,6 +44,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     val showBaggageFeesButton: Button by bindView(R.id.show_baggage_fees)
     val paymentFeesMayApplyTextView: Button by bindView(R.id.show_payment_fees)
     val airlineFeeWarningTextView: TextView by bindView(R.id.show_airline_fee_warning_text)
+    val airlinePaymentFeesTextView: TextView by bindView(R.id.airline_payment_fees_header)
     val baggageFeeShowSubject = PublishSubject.create<String>()
     val showPaymentFeesObservable = PublishSubject.create<Boolean>()
     val e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().e3EndpointUrl
@@ -74,6 +75,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     var vm: AbstractFlightOverviewViewModel by notNullAndObservable {
         vm.chargesObFeesTextSubject.subscribeTextAndVisibility(paymentFeesMayApplyTextView)
         vm.airlineFeesWarningTextSubject.subscribeTextAndVisibility(airlineFeeWarningTextView)
+        vm.airlinePaymentFeesTextSubject.subscribeTextAndVisibility(airlinePaymentFeesTextView)
         vm.bundlePriceSubject.subscribeText(bundlePriceTextView)
         vm.earnMessage.subscribeText(earnMessageTextView)
         vm.showEarnMessage.subscribeVisibility(earnMessageTextView)

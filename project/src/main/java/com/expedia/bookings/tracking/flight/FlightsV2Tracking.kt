@@ -64,10 +64,6 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightBaggageFeesClick()
     }
 
-    fun trackPaymentFeesClick() {
-        OmnitureTracking.trackFlightPaymentFeesClick()
-    }
-
     fun trackSortFilterClick() {
         OmnitureTracking.trackSortFilterClick()
     }

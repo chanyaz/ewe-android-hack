@@ -326,7 +326,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     abstract fun trackFlightOverviewLoad(flight: FlightLeg)
     abstract fun trackFlightSortFilterLoad()
     abstract fun trackShowBaggageFee()
-    abstract fun trackShowPaymentFees()
     abstract fun viewBundleSetVisibility(forward: Boolean)
     abstract fun getResultsViewModel(context: Context): BaseResultsViewModel
 }

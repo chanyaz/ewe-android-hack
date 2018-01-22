@@ -8,9 +8,9 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import io.reactivex.Observer
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
+import rx.Observer
+import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 
 abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val selectedFlightLegSubject = BehaviorSubject.create<FlightLeg>()
@@ -24,6 +24,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val selectedFlightClickedSubject = BehaviorSubject.create<FlightLeg>()
     val chargesObFeesTextSubject = PublishSubject.create<String>()
     val airlineFeesWarningTextSubject = PublishSubject.create<String>()
+    val airlinePaymentFeesTextSubject = PublishSubject.create<String>()
     var numberOfTravelers = BehaviorSubject.createDefault<Int>(0)
     val obFeeDetailsUrlObservable = PublishSubject.create<String>()
     val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl

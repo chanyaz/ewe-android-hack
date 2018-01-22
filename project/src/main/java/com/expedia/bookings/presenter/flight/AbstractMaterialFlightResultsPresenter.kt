@@ -6,7 +6,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.widget.flights.FlightListAdapter
@@ -46,18 +45,6 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         }
         resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
-        overviewPresenter.paymentFeesMayApplyTextView.setOnClickListener {
-            if (!flightOfferViewModel.obFeeDetailsUrlObservable.value.isNullOrBlank()) {
-                overviewPresenter.showPaymentFeesObservable.onNext(true)
-            } else {
-                overviewPresenter.paymentFeesMayApplyTextView.background = null
-                overviewPresenter.showPaymentFeesObservable.onNext(false)
-            }
-        }
-        overviewPresenter.showPaymentFeesObservable.subscribe {
-            paymentFeeInfoWebView.viewModel.webViewURLObservable.onNext(flightOfferViewModel.obFeeDetailsUrlObservable.value)
-        }
-        flightOfferViewModel.offerSelectedChargesObFeesSubject.subscribeTextAndVisibility(overviewPresenter.paymentFeesMayApplyTextView)
         if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppSimplifyFlightShopping)) {
             resultsPresenter.flightSelectedSubject.subscribe {
                 overviewPresenter.vm.selectedFlightLegSubject.onNext(it)
@@ -67,6 +54,11 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
     }
 
     fun handlePaymentFee(mayChargePaymentFees: Boolean) {
+        var paymentFeeText = ""
+        if (mayChargePaymentFees) {
+            paymentFeeText = context.resources.getString(R.string.airline_additional_fee_notice)
+        }
+        overviewPresenter.vm.airlinePaymentFeesTextSubject.onNext(paymentFeeText)
         resultsPresenter.resultsViewModel.airlineChargesFeesSubject.onNext(mayChargePaymentFees)
     }
 
@@ -79,8 +71,6 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
     }
 
     override fun trackShowBaggageFee() = FlightsV2Tracking.trackFlightBaggageFeeClick()
-
-    override fun trackShowPaymentFees() = FlightsV2Tracking.trackPaymentFeesClick()
 
     override fun viewBundleSetVisibility(forward: Boolean) {
     }

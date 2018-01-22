@@ -12,7 +12,6 @@ import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightServices
@@ -157,27 +156,18 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
         setupFlightSelectionObservables()
 
-        outboundSelected.subscribe { flightLeg ->
-            showChargesObFeesSubject.onNext(flightLeg.mayChargeObFees)
-        }
-
-        inboundSelected.subscribe { flightLeg ->
-            showChargesObFeesSubject.onNext(flightLeg.mayChargeObFees)
+        flightOfferSelected.subscribe { selectedOffer ->
+            showChargesObFeesSubject.onNext(selectedOffer.mayChargeOBFees)
         }
 
         showChargesObFeesSubject.subscribe { hasObFee ->
-            if (hasObFee || doAirlinesChargeAdditionalFees()) {
-                val stringID = if (doAirlinesChargeAdditionalFees()) {
-                    R.string.airline_fee_apply
-                } else {
-                    R.string.payment_and_baggage_fees_may_apply
-                }
-                val paymentFeeText = context.getString(stringID)
-                offerSelectedChargesObFeesSubject.onNext(paymentFeeText)
+            if (hasObFee) {
+                offerSelectedChargesObFeesSubject.onNext(context.getString(R.string.airline_fee_apply))
             } else {
                 offerSelectedChargesObFeesSubject.onNext("")
             }
         }
+
         outboundResultsObservable.subscribe { totalOutboundResults = it.size }
         inboundResultsObservable.subscribe { totalInboundResults = it.size }
     }
@@ -214,10 +204,6 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             val offer = getFlightOffer(outboundSelected.value.legId, it.legId)
             flightOfferSelected.onNext(offer!!)
         }
-    }
-
-    protected fun doAirlinesChargeAdditionalFees(): Boolean {
-        return PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()
     }
 
     protected fun getFlightOffer(outboundLegId: String, inboundLegId: String): FlightTripDetails.FlightOffer? {

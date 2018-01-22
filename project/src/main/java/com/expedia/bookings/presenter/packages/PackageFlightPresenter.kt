@@ -373,10 +373,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun trackShowBaggageFee() = PackagesTracking().trackFlightBaggageFeeClick()
 
-    override fun trackShowPaymentFees() {
-        // do nothing. Not applicable to Packages LOB
-    }
-
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.PACKAGES
     }

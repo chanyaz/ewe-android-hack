@@ -250,6 +250,12 @@ class FlightInboundPresenterTest {
         assertEquals(View.VISIBLE, urgencyTextView.visibility)
     }
 
+    @Test
+    fun testPaymentFeeMayApplyVisibility() {
+        invokeSetupComplete()
+        assertEquals(View.GONE, flightInboundPresenter.overviewPresenter.paymentFeesMayApplyTextView.visibility)
+    }
+
     private fun createFlightSegment(departureCity: String, departureAirport: String, arrivalCity: String, arrivalAirport: String, layoverHrs: Int, layoverMins: Int): FlightLeg.FlightSegment {
         val airlineSegment = FlightLeg.FlightSegment()
         airlineSegment.flightNumber = "51"

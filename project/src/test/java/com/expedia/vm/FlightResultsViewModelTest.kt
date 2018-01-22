@@ -32,8 +32,7 @@ class FlightResultsViewModelTest {
 
         sut.isOutboundResults.onNext(true)
 
-        //testSubscriber.assertValue(true)
-        testSubscriber.assertValuesAndClear(true)
+        testSubscriber.assertValue(true)
     }
 
     @Test
@@ -45,7 +44,6 @@ class FlightResultsViewModelTest {
 
         sut.isOutboundResults.onNext(false)
 
-        //testSubscriber.assertValue(false)
-        testSubscriber.assertValuesAndClear(false)
+        testSubscriber.assertValue(false)
     }
 }

@@ -24,7 +24,6 @@ import io.reactivex.Observer
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -58,7 +57,6 @@ class FlightOffersViewModelTest {
     private lateinit var flightSearchParams: FlightSearchParams
 
     private val context = RuntimeEnvironment.application
-    private val isRoundTripSearchSubject = BehaviorSubject.create<Boolean>()
 
     @Before
     fun setup() {
@@ -271,7 +269,6 @@ class FlightOffersViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = [(MultiBrand.EXPEDIA), (MultiBrand.ORBITZ)])
     fun testShowFlightChargesObFees() {
         val showObChargesTestSubscriber = TestObserver<Boolean>()
         val urlTestSubscriber = TestObserver<String>()
@@ -280,34 +277,39 @@ class FlightOffersViewModelTest {
 
         performFlightSearch(roundTrip = true)
 
-        sut.outboundSelected.onNext(makeFlightLegWithOBFees("leg0"))
-        sut.inboundSelected.onNext(makeFlightLegWithOBFees("leg1"))
+        sut.outboundSelected.onNext(makeFlightLeg("leg1"))
+        sut.inboundSelected.onNext(makeFlightLeg("leg0"))
 
-        showObChargesTestSubscriber.assertValues(true, true)
+        showObChargesTestSubscriber.assertValues(true)
         urlTestSubscriber.assertValue("http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033")
     }
 
     @Test
-    fun testFlightChargesObFeesText() {
-        configurePointOfSaleAirlinesChargeAdditionalFees()
+    fun testHideFlightChargesObFeesForSelectedOnewayOffer() {
+        val showObChargesTestSubscriber = TestObserver<Boolean>()
+        val urlTestSubscriber = TestObserver<String>()
+        sut.showChargesObFeesSubject.subscribe(showObChargesTestSubscriber)
+        sut.obFeeDetailsUrlObservable.subscribe(urlTestSubscriber)
 
         val testSubscriber = TestObserver<String>()
         sut.offerSelectedChargesObFeesSubject.subscribe(testSubscriber)
+        performFlightSearch(roundTrip = false)
 
-        sut.showChargesObFeesSubject.onNext(true)
+        val outboundFlightId = FlightLeg()
+        outboundFlightId.legId = "leg0"
+        sut.confirmedOutboundFlightSelection.onNext(outboundFlightId)
 
-        testSubscriber.assertValue("Payment Fees May Apply")
+        showObChargesTestSubscriber.assertValues(false)
+        urlTestSubscriber.assertValue("http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033")
     }
 
     @Test
-    @RunForBrands(brands = [(MultiBrand.EXPEDIA), (MultiBrand.ORBITZ)])
     fun testFlightChargesObFeesPosNotAirlineSpecific() {
         val testSubscriber = TestObserver<String>()
         sut.offerSelectedChargesObFeesSubject.subscribe(testSubscriber)
-
         sut.showChargesObFeesSubject.onNext(true)
 
-        testSubscriber.assertValue("Payment fees may apply")
+        testSubscriber.assertValue("Payment Fees May Apply")
     }
 
     @Test
@@ -315,7 +317,6 @@ class FlightOffersViewModelTest {
         val offerSelectedSubscriber = TestObserver<FlightTripDetails.FlightOffer>()
         val flightProductIdSubscriber = TestObserver<String>()
 
-        isRoundTripSearchSubject.onNext(true)
         performFlightSearch(roundTrip = true)
 
         sut.flightOfferSelected.subscribe(offerSelectedSubscriber)
@@ -345,7 +346,6 @@ class FlightOffersViewModelTest {
         val offerSelectedSubscriber = TestObserver<FlightTripDetails.FlightOffer>()
         val flightProductIdSubscriber = TestObserver<String>()
 
-        isRoundTripSearchSubject.onNext(false)
         performFlightSearch(roundTrip = false)
 
         sut.flightOfferSelected.subscribe(offerSelectedSubscriber)
@@ -370,8 +370,8 @@ class FlightOffersViewModelTest {
 
         performFlightSearch(roundTrip = true)
 
-        sut.outboundSelected.onNext(makeFlightLegWithOBFees("leg1"))
-        sut.inboundSelected.onNext(makeFlightLegWithOBFees("leg0"))
+        sut.outboundSelected.onNext(makeFlightLeg("leg1"))
+        sut.inboundSelected.onNext(makeFlightLeg("leg0"))
 
         offerSelectedSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         offerSelectedSubscriber.assertValueCount(1)
@@ -399,8 +399,10 @@ class FlightOffersViewModelTest {
 
     @Test
     fun testObFeeDetailsUrl() {
+        val urlTestSubscriber = TestObserver<String>()
+        sut.obFeeDetailsUrlObservable.subscribe(urlTestSubscriber)
         sut.searchParamsObservable.onNext(flightSearchParams)
-        assertEquals(sut.obFeeDetailsUrlObservable.value, "http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033")
+        urlTestSubscriber.assertValue("http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033")
     }
 
     @Test
@@ -416,8 +418,8 @@ class FlightOffersViewModelTest {
         val testSubscriber = TestObserver<List<FlightLeg>>()
         sut.inboundResultsObservable.take(2).subscribe(testSubscriber)
 
-        sut.confirmedOutboundFlightSelection.onNext(makeFlightLegWithOBFees(firstOutboundFlightId))
-        sut.confirmedOutboundFlightSelection.onNext(makeFlightLegWithOBFees(secondOutboundFlightId))
+        sut.confirmedOutboundFlightSelection.onNext(makeFlightLeg(firstOutboundFlightId))
+        sut.confirmedOutboundFlightSelection.onNext(makeFlightLeg(secondOutboundFlightId))
 
         val outboundFlight1 = FlightLeg()
         outboundFlight1.legId = firstOutboundFlightId
@@ -433,10 +435,6 @@ class FlightOffersViewModelTest {
         assertEquals("leg0", inboundFlights1[0].legId)
         assertEquals("0558a569d2c6b1af709befca2e617390", inboundFlights2[0].legId)
         testSubscriber.assertValueCount(2)
-    }
-
-    private fun configurePointOfSaleAirlinesChargeAdditionalFees() {
-        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airlines_charge_additional_fees.json")
     }
 
     private fun performFlightSearch(roundTrip: Boolean) {
@@ -474,10 +472,9 @@ class FlightOffersViewModelTest {
                 .origin(origin) as FlightSearchParams.Builder
     }
 
-    private fun makeFlightLegWithOBFees(legId: String): FlightLeg {
+    private fun makeFlightLeg(legId: String): FlightLeg {
         val flightLeg = FlightLeg()
         flightLeg.legId = legId
-        flightLeg.mayChargeObFees = true
         return flightLeg
     }
 

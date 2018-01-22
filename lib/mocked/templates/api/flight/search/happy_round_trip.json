@@ -548,7 +548,7 @@
         "leg1",
         "leg0"
       ],
-      "mayChargeOBFees": false,
+      "mayChargeOBFees": true,
       "numberOfTickets": 1,
       "pricePerPassengerCategory": [
         {

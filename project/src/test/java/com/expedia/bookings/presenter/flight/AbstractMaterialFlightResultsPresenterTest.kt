@@ -14,17 +14,13 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.services.TestObserver
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.PointOfSaleTestConfiguration
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
-import io.reactivex.schedulers.Schedulers
+import rx.schedulers.Schedulers
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
@@ -76,7 +72,6 @@ class AbstractMaterialFlightResultsPresenterTest {
     @Test
     fun showResultsOnNewResults() {
         createSystemUnderTest(isOutboundPresenter = true)
-
         sut.resultsPresenter.resultsViewModel.flightResultsObservable.onNext(emptyList())
 
         assertEquals(FlightResultsListViewPresenter::class.java.name, sut.currentState)
@@ -85,8 +80,8 @@ class AbstractMaterialFlightResultsPresenterTest {
     @Test
     fun showOverviewWhenNotInSimplifyTest() {
         createSystemUnderTest(isOutboundPresenter = true)
+        sut.resultsPresenter.flightSelectedSubject.onNext(createFlightLeg("leg0"))
 
-        sut.resultsPresenter.flightSelectedSubject.onNext(setupFlightLeg())
         assertEquals(com.expedia.bookings.presenter.shared.FlightOverviewPresenter::class.java.name, sut.currentState)
     }
 
@@ -98,77 +93,25 @@ class AbstractMaterialFlightResultsPresenterTest {
         sut.resultsPresenter.resultsViewModel.flightResultsObservable.onNext(emptyList())
         assertEquals(FlightResultsListViewPresenter::class.java.name, sut.currentState)
 
-        sut.resultsPresenter.flightSelectedSubject.onNext(setupFlightLeg())
+        sut.resultsPresenter.flightSelectedSubject.onNext(createFlightLeg("leg0"))
         assertEquals(FlightResultsListViewPresenter::class.java.name, sut.currentState)
     }
 
     @Test
-    fun obFeesOfferSelectedShowPaymentFees() {
+    fun testPaymentFeesVisibilityForOutboundFlight() {
         createSystemUnderTest(false)
-
-        val flightLegYesObFees = FlightLeg()
-        flightLegYesObFees.mayChargeObFees = true
-        sut.flightOfferViewModel.outboundSelected.onNext(flightLegYesObFees)
-
-        assertEquals(View.VISIBLE, sut.overviewPresenter.paymentFeesMayApplyTextView.visibility)
-    }
-
-    @Test
-    fun testLegalPaymentMessageOnOutboundFlight() {
-        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
-        createSystemUnderTest(isOutboundPresenter = true)
-        assertEquals(context.getString(R.string.airline_additional_fee_notice),
-                sut.resultsPresenter.getAirlinePaymentFeesTextView().text)
-        assertEquals(View.VISIBLE, sut.resultsPresenter.getAirlinePaymentFeesTextView().visibility)
-    }
-
-    @Test
-    fun testLegalPaymentMessageOnInboundFlight() {
-        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
-        createSystemUnderTest(isOutboundPresenter = false)
-        assertEquals(context.getString(R.string.airline_additional_fee_notice),
-                sut.resultsPresenter.getAirlinePaymentFeesTextView().text)
-        assertEquals(View.VISIBLE, sut.resultsPresenter.getAirlinePaymentFeesTextView().visibility)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
-    fun noObFeesOfferDontShowPaymentFees() {
-        createSystemUnderTest(false)
-
-        val flightLegNoObFees = FlightLeg()
-        flightLegNoObFees.mayChargeObFees = false
-        sut.flightOfferViewModel.outboundSelected.onNext(flightLegNoObFees)
+        sut.flightOfferViewModel.outboundSelected.onNext(createFlightLeg("leg0"))
 
         assertEquals(View.GONE, sut.overviewPresenter.paymentFeesMayApplyTextView.visibility)
     }
 
     @Test
-    fun obFeeDetailsUrlNotSetWhenOBFeeNotShown() {
+    fun testPaymentFeesVisibilityForInboundFlight() {
         createSystemUnderTest(false)
+        sut.flightOfferViewModel.outboundSelected.onNext(createFlightLeg("leg0"))
+        sut.flightOfferViewModel.inboundSelected.onNext(createFlightLeg("leg0"))
 
-        val testSubscriber = TestObserver<String>()
-        val expectedUrl = "http://url"
-        sut.paymentFeeInfoWebView.viewModel.webViewURLObservable.subscribe(testSubscriber)
-
-        sut.flightOfferViewModel.obFeeDetailsUrlObservable.onNext(expectedUrl)
-
-        testSubscriber.assertValueCount(0)
-    }
-
-    @Test
-    fun obFeeDetailsUrlSet() {
-        createSystemUnderTest(false)
-
-        val testSubscriber = TestObserver<String>()
-        val expectedUrl = "http://url"
-        sut.paymentFeeInfoWebView.viewModel.webViewURLObservable.subscribe(testSubscriber)
-
-        sut.flightOfferViewModel.obFeeDetailsUrlObservable.onNext(expectedUrl)
-
-        sut.overviewPresenter.showPaymentFeesObservable.onNext(true)
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue(expectedUrl)
+        assertEquals(View.GONE, sut.overviewPresenter.paymentFeesMayApplyTextView.visibility)
     }
 
     @Test
@@ -183,32 +126,6 @@ class AbstractMaterialFlightResultsPresenterTest {
         createSystemUnderTest(isOutboundPresenter = false)
 
         assertFalse(sut.toolbarViewModel.isOutboundSearch.value)
-    }
-
-    @Test
-    fun showPaymentFees() {
-        createSystemUnderTest(true)
-        setupFlightLeg()
-        val testSubscriber = TestObserver<Boolean>()
-        sut.overviewPresenter.showPaymentFeesObservable.subscribe(testSubscriber)
-
-        sut.overviewPresenter.paymentFeesMayApplyTextView.performClick()
-
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue(true)
-    }
-
-    @Test
-    fun showTextPaymentFees() {
-        createSystemUnderTest(true)
-        setupFlightLeg(false)
-        val testSubscriber = TestObserver<Boolean>()
-        sut.overviewPresenter.showPaymentFeesObservable.subscribe(testSubscriber)
-        sut.flightOfferViewModel.obFeeDetailsUrlObservable.onNext("")
-        sut.overviewPresenter.paymentFeesMayApplyTextView.performClick()
-
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue(false)
     }
 
     private fun createSystemUnderTest(isOutboundPresenter: Boolean) {
@@ -252,10 +169,10 @@ class AbstractMaterialFlightResultsPresenterTest {
         return suggestion
     }
 
-    private fun setupFlightLeg(hasObFees: Boolean = true): FlightLeg {
+    private fun createFlightLeg(legId: String): FlightLeg {
         val flightLeg = FlightLeg()
         flightLeg.flightSegments = arrayListOf<FlightLeg.FlightSegment>()
-        flightLeg.legId = "leg-id"
+        flightLeg.legId = legId
         flightLeg.baggageFeesUrl = "test"
         flightLeg.packageOfferModel = PackageOfferModel()
         flightLeg.packageOfferModel.urgencyMessage = PackageOfferModel.UrgencyMessage()
@@ -263,7 +180,6 @@ class AbstractMaterialFlightResultsPresenterTest {
         flightLeg.packageOfferModel.price.differentialPriceFormatted = "$646.00"
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "$646.00"
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("646.00", "USD")
-        flightLeg.mayChargeObFees = hasObFees
         return flightLeg
     }
 

@@ -38,7 +38,8 @@ class FlightOverviewPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun showBaggageFees() {
         val expectedUrl = "https://www.expedia.com/" + BAGGAGE_FEES_URL_PATH
-        createSelectedFlightLeg(true)
+
+        createSelectedFlightLeg()
         val testSubscriber = TestObserver<String>()
         sut.baggageFeeShowSubject.subscribe(testSubscriber)
 
@@ -50,7 +51,7 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun selectFlightButton() {
-        createSelectedFlightLeg(true)
+        createSelectedFlightLeg()
         val testSubscriber = TestObserver<FlightLeg>()
         sut.vm.selectedFlightClickedSubject.subscribe(testSubscriber)
 
@@ -87,7 +88,7 @@ class FlightOverviewPresenterTest {
         val testSubscriber = TestObserver<Boolean>()
         sut.vm.showBasicEconomyTooltip.subscribe(testSubscriber)
 
-        createSelectedFlightLeg(true)
+        createSelectedFlightLeg()
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue(false)
         assertEquals(View.GONE, sut.basicEconomyTooltip.visibility)
@@ -108,7 +109,7 @@ class FlightOverviewPresenterTest {
         sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe(toolTipTitleTestSubscriber)
         sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipFareRules.subscribe(toolTipRulesTestSubscriber)
 
-        createSelectedFlightLeg(true)
+        createSelectedFlightLeg()
         createBasicEconomyTooltipInfo()
         sut.vm.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals(2, toolTipRulesTestSubscriber.values()[0].size)
@@ -117,7 +118,7 @@ class FlightOverviewPresenterTest {
         assertEquals("United Airlines Basic Economy Fare", toolTipTitleTestSubscriber.values()[0])
     }
 
-    private fun createSelectedFlightLeg(hasObFees: Boolean) {
+    private fun createSelectedFlightLeg() {
         flightLeg = FlightLeg()
         flightLeg.carrierName = "United Airlines"
         flightLeg.flightSegments = emptyList()
@@ -128,7 +129,6 @@ class FlightOverviewPresenterTest {
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket.formattedPrice = "$42.00"
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("42.00", "USD")
         flightLeg.baggageFeesUrl = BAGGAGE_FEES_URL_PATH
-        flightLeg.mayChargeObFees = hasObFees
         sut.vm.selectedFlightLegSubject.onNext(flightLeg)
     }
 

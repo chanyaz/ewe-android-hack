@@ -120,7 +120,7 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
         Common.delay(2) // We wait for a short delay (in implementation) jic customer changes their card
         onView(withId(R.id.card_fee_warning_text)).perform(ViewActions.waitForViewToDisplay())
                 .check(ViewAssertions.matches(isDisplayed()))
-                .check(ViewAssertions.matches(withText("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.")))
+                .check(ViewAssertions.matches(withText("There may be an additional fee based on your payment method.")))
     }
 
     private fun assertCheckoutOverviewCardFeeWarningShown() {
@@ -145,30 +145,17 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
 
     private fun selectFlightsProceedToCheckout() {
         SearchScreenActions.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.MAY_CHARGE_OB_FEES, 0)
-
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
         SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
         SearchScreen.searchButton().perform(click())
         FlightTestHelpers.assertFlightOutbound()
-
         FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0)
-        FlightsResultsScreen.assertPaymentFeesMayApplyLinkShowing(withId(R.id.widget_flight_outbound))
-        FlightsResultsScreen.paymentFeesLinkTextView(withId(R.id.widget_flight_outbound)).perform(click())
-        val paymentFeeWebViewOutboundResults = onView(allOf(withId(R.id.web_view), isDescendantOfA(withId(R.id.widget_flight_outbound)), isDescendantOfA(withId(R.id.payment_fee_info))))
-        paymentFeeWebViewOutboundResults.check(ViewAssertions.matches(isDisplayed()))
-        Espresso.pressBack()
-
+        FlightsResultsScreen.assertPaymentFeesMessageShowing(withId(R.id.widget_flight_outbound))
         FlightsScreen.selectOutboundFlight().perform(click())
         FlightTestHelpers.assertFlightInbound()
         FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0)
-
-        FlightsResultsScreen.assertPaymentFeesMayApplyLinkShowing(withId(R.id.widget_flight_inbound))
-        FlightsResultsScreen.paymentFeesLinkTextView(withId(R.id.widget_flight_inbound)).perform(scrollTo(), click())
-        val paymentFeeWebViewInboundResults = onView(allOf(withId(R.id.web_view), isDescendantOfA(withId(R.id.widget_flight_inbound)), isDescendantOfA(withId(R.id.payment_fee_info))))
-        paymentFeeWebViewInboundResults.check(ViewAssertions.matches(isDisplayed()))
-        Espresso.pressBack()
-
+        FlightsResultsScreen.assertPaymentFeesMessageShowing(withId(R.id.widget_flight_inbound))
         FlightsScreen.selectInboundFlight().perform(click())
         PackageScreen.checkout().perform(click())
     }
