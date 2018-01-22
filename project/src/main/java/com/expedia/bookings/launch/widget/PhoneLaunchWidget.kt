@@ -217,6 +217,9 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         }
 
         initializeProWizard()
+
+        //init the meso card if the test is bucketed
+        (launchListWidget.adapter as LaunchListAdapter).initMesoHotelAd()
     }
 
     fun initializeProWizard() {
