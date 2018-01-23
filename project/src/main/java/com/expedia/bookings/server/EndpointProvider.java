@@ -300,6 +300,21 @@ public class EndpointProvider {
 		return endpoint;
 	}
 
+	private static final String OFFER_SERVICE_ENDPOINT = "https://offersvc.expedia.com";
+
+	public String getOfferServiceEndpoint() {
+		String endpoint;
+		switch (getEndPoint()) {
+		case MOCK_MODE:
+			endpoint = getCustomServerAddress();
+			break;
+		default:
+			endpoint = OFFER_SERVICE_ENDPOINT;
+		}
+		return endpoint;
+	}
+
+
 	public String getCustomServerAddress() {
 		String server = SettingUtils.get(context, R.string.preference_proxy_server_address, "localhost:3000");
 		return "https://" + server + "/";

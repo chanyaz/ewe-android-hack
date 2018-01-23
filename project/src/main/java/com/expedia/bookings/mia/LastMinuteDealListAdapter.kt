@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.data.os.LastMinuteDealsResponse
 import com.expedia.bookings.data.sos.DealsDestination
-import com.expedia.bookings.data.sos.DealsResponse
 import com.expedia.bookings.mia.activity.LastMinuteDealActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -19,18 +19,18 @@ import java.util.ArrayList
 
 class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var listData: List<DealsDestination> = emptyList()
-    val resultSubject = BehaviorSubject.create<DealsResponse>()
+    private var listData: List<DealsDestination.Hotel> = emptyList()
+    val resultSubject = BehaviorSubject.create<LastMinuteDealsResponse>()
     private var currency: String? = null
     private var loading = true
 
     init {
         listData = generateLoadingCells(3)
         resultSubject.subscribe { response ->
-            if (response != null && response.destinations != null) {
+            if (response != null && response.offers?.Hotel != null) {
                 loading = false
                 currency = response.offerInfo?.currency
-                listData = response.destinations!!
+                listData = response.getLeadingHotels()
                 notifyDataSetChanged()
             }
         }
@@ -38,12 +38,9 @@ class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<Rec
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (holder is DealsDestinationViewHolder) {
-            val destination = listData[position]
-            val leadingHotel = destination.getLeadingHotel()
-            if (leadingHotel != null) {
-                val vm = DealsDestinationViewModel(context, leadingHotel, currency)
-                holder.bind(vm)
-            }
+            val lastMinuteHotel = listData[position]
+            val vm = DealsDestinationViewModel(context, lastMinuteHotel, currency)
+            holder.bind(vm)
         }
         if (holder is LoadingViewHolder) {
             holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, (position - 1) % 2 == 0))
@@ -90,10 +87,10 @@ class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<Rec
         }
     }
 
-    private fun generateLoadingCells(count: Int): List<DealsDestination> {
-        val listLoading = ArrayList<DealsDestination>()
+    private fun generateLoadingCells(count: Int): List<DealsDestination.Hotel> {
+        val listLoading = ArrayList<DealsDestination.Hotel>()
         for (i in 1..count) {
-            listLoading.add(DealsDestination())
+            listLoading.add(DealsDestination().Hotel())
         }
         return listLoading
     }

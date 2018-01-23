@@ -1,7 +1,7 @@
-package com.expedia.bookings.services.sos
+package com.expedia.bookings.services.os
 
-import com.expedia.bookings.data.sos.DealsResponse
-import com.expedia.bookings.data.sos.MemberDealsRequest
+import com.expedia.bookings.data.os.LastMinuteDealsResponse
+import com.expedia.bookings.data.os.LastMinuteDealsRequest
 import com.expedia.bookings.subscribeObserver
 import com.google.gson.GsonBuilder
 import io.reactivex.Observer
@@ -13,9 +13,9 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SmartOfferService(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
-                        val observeOn: Scheduler, val subscribeOn: Scheduler) {
-    val api: SmartOfferApi by lazy {
+class OfferService(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
+                   val observeOn: Scheduler, val subscribeOn: Scheduler) {
+    val api: OfferApi by lazy {
 
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
@@ -24,14 +24,12 @@ class SmartOfferService(endpoint: String, okHttpClient: OkHttpClient, intercepto
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 
-        adapter.create(SmartOfferApi::class.java)
+        adapter.create(OfferApi::class.java)
     }
 
-    fun fetchMemberDeals(request: MemberDealsRequest,
-                         dealsObserver: Observer<DealsResponse>): Disposable {
-
-        return api.memberDeals(request.siteId, request.locale, request.productType, request.groupBy,
-                request.destinationLimit, request.clientId)
+    fun fetchLastMinuteDeals(request: LastMinuteDealsRequest,
+                             dealsObserver: Observer<LastMinuteDealsResponse>): Disposable {
+        return api.lastMinuteDeals(request.siteId, request.locale, request.groupBy, request.productType, request.destinationLimit, request.clientId, request.page, request.uid, request.scenario, request.stayDateRanges)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribeObserver(dealsObserver)

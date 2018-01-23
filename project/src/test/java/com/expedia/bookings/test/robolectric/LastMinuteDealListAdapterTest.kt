@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.os.LastMinuteDealsResponse
 import com.expedia.bookings.data.sos.DealsDestination
-import com.expedia.bookings.data.sos.DealsResponse
 import com.expedia.bookings.mia.DealsDestinationViewHolder
 import com.expedia.bookings.mia.LastMinuteDealListAdapter
 import com.expedia.bookings.mia.activity.LastMinuteDealActivity
@@ -19,7 +19,6 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.shadows.ShadowActivity
-import java.util.ArrayList
 
 @RunWith(RobolectricRunner::class)
 class LastMinuteDealListAdapterTest {
@@ -64,15 +63,18 @@ class LastMinuteDealListAdapterTest {
         viewHolder.itemView.performClick()
     }
 
-    class MockDealResponse : DealsResponse() {
+    class MockDealResponse : LastMinuteDealsResponse() {
         init {
-            destinations = generateCells(2)
+            offers = Offers()
+            offers?.Hotel = generateCells(2)
         }
 
-        private fun generateCells(count: Int): List<DealsDestination> {
-            val listLoading = ArrayList<DealsDestination>()
+        private fun generateCells(count: Int): List<DealsDestination.Hotel> {
+            val listLoading = ArrayList<DealsDestination.Hotel>()
             for (i in 1..count) {
-                listLoading.add(DealsDestination())
+                val lastMinuteDealsDestination = DealsDestination().Hotel()
+                lastMinuteDealsDestination.offerMarkers = listOf("LEADIN_PRICE")
+                listLoading.add(lastMinuteDealsDestination)
             }
             return listLoading
         }

@@ -33,7 +33,9 @@ class LastMinuteDealActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        lastMinuteDealsResponseProvider = LastMinuteDealsResponseProvider(Ui.getApplication(this).appComponent().smartOfferService())
+        val tuid = Ui.getApplication(this).appComponent().userStateManager().userSource.tuid
+
+        lastMinuteDealsResponseProvider = LastMinuteDealsResponseProvider(Ui.getApplication(this).appComponent().offerService(), tuid)
         lastMinuteDealsResponseProvider.dealsResponseSubject.subscribe(adapter.resultSubject)
 
         if (isBrandColorEnabled(this@LastMinuteDealActivity)) {
