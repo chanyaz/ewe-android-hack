@@ -35,13 +35,17 @@ import com.expedia.bookings.deeplink.ShortUrlDeepLink;
 import com.expedia.bookings.deeplink.SignInDeepLink;
 import com.expedia.bookings.deeplink.SupportEmailDeepLink;
 import com.expedia.bookings.deeplink.TripDeepLink;
+import com.expedia.bookings.deeplink.WebDeepLink;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
+import com.expedia.bookings.featureconfig.SatelliteFeatureConstants;
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.DeepLinkUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.ShortcutUtils;
@@ -251,6 +255,15 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			handleFlightShareDeepLink((FlightShareDeepLink)deepLink);
 			finish = true;
 		}
+		else if (deepLink instanceof WebDeepLink) {
+			if (isWebViewFeatureEnabled()) {
+				handleWebDeepLink((WebDeepLink) deepLink);
+			}
+			else {
+				NavUtils.goToLaunchScreen(this, true);
+			}
+			finish = true;
+		}
 		else {
 			com.mobiata.android.util.Ui.showToast(this, "Cannot yet handle data: " + data);
 			finish = true;
@@ -259,6 +272,15 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		if (finish) {
 			finish();
 		}
+	}
+
+	private boolean isWebViewFeatureEnabled() {
+		return SatelliteFeatureConfigManager.isFeatureEnabled(this,
+			SatelliteFeatureConstants.UNIVERSAL_WEBVIEW_DEEP_LINK) || FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_enable_universal_deeplink);
+	}
+
+	private void handleWebDeepLink(WebDeepLink deepLink) {
+		NavUtils.goToWebView(this, deepLink.getUrl());
 	}
 
 	private void handleForceBucketing(ForceBucketDeepLink forceBucketDeepLink) {

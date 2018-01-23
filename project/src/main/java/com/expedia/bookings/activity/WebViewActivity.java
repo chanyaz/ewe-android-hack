@@ -35,6 +35,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 	private static final String ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW = "ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW";
 	private static final String ARG_HANDLE_BACK = "ARG_HANDLE_BACK";
 	private static final String ARG_HANDLE_RETRY_ON_ERROR = "ARG_HANDLE_RETRY_ON_ERROR";
+	protected static final String ARG_USE_WEB_VIEW_TITLE = "ARG_USE_WEB_VIEW_TITLE";
 	private static final String APP_VISITOR_ID_PARAM = "appvi=";
 
 
@@ -42,6 +43,8 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 
 	private WebViewFragment webViewFragment;
 	private ProgressBar mProgressBar;
+
+	private boolean useOriginalTitle;
 
 	public static class IntentBuilder {
 
@@ -85,6 +88,11 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 
 		public IntentBuilder setCheckInLink(Boolean checkInLink) {
 			mIntent.putExtra(ARG_ITIN_CHECKIN, checkInLink);
+			return this;
+		}
+
+		public IntentBuilder setOriginalWebViewTitle(Boolean scrapTitle) {
+			mIntent.putExtra(ARG_USE_WEB_VIEW_TITLE, scrapTitle);
 			return this;
 		}
 
@@ -193,6 +201,8 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 			title = extras.getString(ARG_TITLE);
 		}
 
+		useOriginalTitle = extras.getBoolean(ARG_USE_WEB_VIEW_TITLE, false);
+
 		setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.toolbar));
 
 		if (!TextUtils.isEmpty(title)) {
@@ -286,6 +296,13 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 		}
 		else {
 			mProgressBar.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	public void setScrapedTitle(String title) {
+		if (useOriginalTitle) {
+			setTitle(title);
 		}
 	}
 

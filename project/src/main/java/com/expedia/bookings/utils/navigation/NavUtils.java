@@ -3,11 +3,13 @@ package com.expedia.bookings.utils.navigation;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import com.expedia.account.Config;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ActivityKillReceiver;
+import com.expedia.bookings.activity.DeepLinkWebViewActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -149,6 +152,18 @@ public class NavUtils {
 
 	public static void goToSignIn(Context context, int flags) {
 		goToSignIn(context, true, false, flags);
+	}
+
+	public static void goToWebView(Context context, String url) {
+		DeepLinkWebViewActivity.IntentBuilder builder = new DeepLinkWebViewActivity.IntentBuilder(context);
+		builder.setUrl(url);
+		builder.setHandleBack(true);
+		builder.setAllowMobileRedirects(true);
+		builder.setOriginalWebViewTitle(true);
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+		stackBuilder.addNextIntentWithParentStack(builder.getIntent());
+		context.startActivities(stackBuilder.getIntents(), ActivityOptionsCompat
+			.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle());
 	}
 
 	public static void goToSignIn(Context context, boolean showAccount, boolean useItinSyncExtender, int flags) {

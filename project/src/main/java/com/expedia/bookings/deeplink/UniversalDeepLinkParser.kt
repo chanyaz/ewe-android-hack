@@ -48,8 +48,13 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
             "/signin" -> return SignInDeepLink()
             "/member-pricing" -> return MemberPricingDeepLink()
             "/trips" -> return parseTripUniversalDeepLink(data)
-            else ->
-                return HomeDeepLink()
+            else -> {
+                return if (data.path.contains("mobile/deeplink")) {
+                    parseWebUniversalDeepLink(data)
+                } else {
+                    HomeDeepLink()
+                }
+            }
         }
     }
 
@@ -92,6 +97,10 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
         parseNumberOfAdultsAndChildren(queryParameterNames, data, hotelDeepLink)
 
         return hotelDeepLink
+    }
+
+    private fun parseWebUniversalDeepLink(data: Uri): DeepLink {
+        return WebDeepLink(url = data.toString())
     }
 
     private fun parseHotelUniversalDeepLink(data: Uri, dateFormat: String): HotelDeepLink {

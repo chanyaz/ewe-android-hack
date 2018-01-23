@@ -332,6 +332,16 @@
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" />
 
+        <activity
+            android:name="com.expedia.bookings.activity.DeepLinkWebViewActivity"
+            android:parentActivityName=".launch.activity.PhoneLaunchActivity"
+            android:resizeableActivity="false"
+            tools:ignore="UnusedAttribute">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".launch.activity.PhoneLaunchActivity" />
+        </activity>
+
         <!-- Login/Facebook activities -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

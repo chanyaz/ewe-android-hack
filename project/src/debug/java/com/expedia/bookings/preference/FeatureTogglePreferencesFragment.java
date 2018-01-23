@@ -41,6 +41,9 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		//Flight Features
 		initializeFeatureCheck(R.string.preference_flight_rate_detail_from_cache);
+
+		//Itin Features
+		initializeFeatureCheck(R.string.preference_enable_universal_deeplink);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

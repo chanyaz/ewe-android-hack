@@ -9,6 +9,7 @@ import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.featureconfig.SatelliteFeatureConstants
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.test.MultiBrand
@@ -17,6 +18,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.HotelsV2DataUtil
+import com.expedia.bookings.utils.SatelliteFeatureConfigTestUtils
 import com.expedia.ui.FlightActivity
 import com.expedia.ui.HotelActivity
 import com.expedia.ui.PackageActivity
@@ -82,6 +84,28 @@ class DeepLinkRouterActivityTest {
     fun homeDeepLink() {
         val homeUrl = "expda://home"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(homeUrl)
+
+        val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
+
+        assertIntentForActivity(PhoneLaunchActivity::class.java, startedIntent)
+        assertBooleanExtraEquals(true, PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, startedIntent)
+    }
+
+    @Test
+    fun webDeepLinkWithFeatureOn() {
+        val url = "https://www.expedia.com/mobile/deeplink/mobileTest"
+        SatelliteFeatureConfigTestUtils.enableFeatureForTest(context, SatelliteFeatureConstants.UNIVERSAL_WEBVIEW_DEEP_LINK)
+        val deepLinkRouterActivity = getDeepLinkRouterActivity(url)
+
+        val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
+        assertIntentForActivity(DeepLinkWebViewActivity::class.java, startedIntent)
+        assertBooleanExtraEquals(true, WebViewActivity.ARG_USE_WEB_VIEW_TITLE, startedIntent)
+    }
+
+    @Test
+    fun webDeepLinkWithFeatureOff() {
+        val url = "https://www.expedia.com/mobile/deeplink/mobileTest"
+        val deepLinkRouterActivity = getDeepLinkRouterActivity(url)
 
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
 

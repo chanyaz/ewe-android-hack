@@ -389,6 +389,10 @@ public class WebViewFragment extends DialogFragment {
 					"document.getElementById('SmartBanner').style.display='none'; " +
 					"})()");
 
+				if (mListener != null) {
+					mListener.setScrapedTitle(webview.getTitle());
+				}
+
 				//If we are showing the fragment as a dialog, we need to request layout after the page renders, otherwise the dialog
 				//doesnt measure correctly.
 				if (getArguments().getBoolean(ARG_DIALOG_MODE)) {
@@ -468,6 +472,7 @@ public class WebViewFragment extends DialogFragment {
 
 	public interface WebViewFragmentListener {
 		void setLoading(boolean loading);
+		void setScrapedTitle(String title);
 	}
 
 	@Override

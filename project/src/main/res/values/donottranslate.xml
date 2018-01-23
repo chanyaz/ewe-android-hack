@@ -148,6 +148,7 @@
     <string name="pay_later_credit_card_messaging">pay_later_credit_card_messaging</string>
     <string name="preference_enable_meso_destination_card">preference_enable_meso_destination_card</string>
     <string name="preference_enable_lx_srp_redesign">preference_enable_lx_srp_redesign</string>
+    <string name="preference_enable_universal_deeplink">preference_enable_universal_deeplink</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
