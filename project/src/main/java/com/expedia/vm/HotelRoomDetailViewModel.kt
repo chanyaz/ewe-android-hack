@@ -259,8 +259,8 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     private fun getBookButtonContentDescription(): String {
         return if (isPackage)
             Phrase.from(context, R.string.book_room_button_content_description_TEMPLATE)
-                    .put("room", hotelRoomResponse.roomTypeDescription ?: "").put("option", optionString ?: "").format().toString()
+                    .put("room", hotelRoomResponse.roomTypeDescription ?: "").format().toString()
         else Phrase.from(context, R.string.select_room_button_content_description_TEMPLATE)
-                .put("room", hotelRoomResponse.roomTypeDescription ?: "").put("option", optionString ?: "").format().toString()
+                .put("room", hotelRoomResponse.roomTypeDescription ?: "").format().toString()
     }
 }
