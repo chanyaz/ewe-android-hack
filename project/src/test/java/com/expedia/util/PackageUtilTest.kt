@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class PackageUtilTest {
@@ -135,6 +136,29 @@ class PackageUtilTest {
     fun testPackageUNITED_STATESLOBDisabled() {
         RoboTestHelper.setPOS(PointOfSaleId.UNITED_STATES)
         assertFalse(PackageUtil.isPackageLOBUnderABTest)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EBOOKERS))
+    fun testPackageEBOOKERS_GERMANYLOBEnabled() {
+        RoboTestHelper.setPOS(PointOfSaleId.EBOOKERS_GERMANY)
+        assertTrue(PackageUtil.isPackageLOBUnderABTest)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.AIRASIAGO))
+    fun testPackageLOBTitleStringAAG_TH() {
+        assertPackageTitle(posId = PointOfSaleId.AIRASIAGO_THAILAND,
+                expectedPackagesLobTitleABTestEnabled = false,
+                expectedPackageTitle = "Hotel + Flight")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EBOOKERS))
+    fun testPackageLOBTitleStringEbookers_GERMANY() {
+        assertPackageTitle(posId = PointOfSaleId.EBOOKERS_GERMANY,
+                expectedPackagesLobTitleABTestEnabled = false,
+                expectedPackageTitle = "Hotel + Flight")
     }
 
     @Test

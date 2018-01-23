@@ -15,7 +15,8 @@ object PackageUtil {
         get() {
             val pointOfSaleId = PointOfSale.getPointOfSale().pointOfSaleId
             return pointOfSaleId == PointOfSaleId.GERMANY ||
-                    pointOfSaleId == PointOfSaleId.THAILAND
+                    pointOfSaleId == PointOfSaleId.THAILAND ||
+                    pointOfSaleId == PointOfSaleId.EBOOKERS_GERMANY
         }
 
     val isPackagesLobTitleABTestEnabled: Boolean
@@ -47,7 +48,9 @@ object PackageUtil {
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_SINGAPORE ||
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_JAPAN ||
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_MALAYSIA ||
-                pointOfSaleId == PointOfSaleId.AIRASIAGO_HONG_KONG ) {
+                pointOfSaleId == PointOfSaleId.AIRASIAGO_HONG_KONG ||
+                pointOfSaleId == PointOfSaleId.AIRASIAGO_THAILAND ||
+                pointOfSaleId == PointOfSaleId.EBOOKERS_GERMANY ) {
             return R.string.nav_hotel_plus_flight
         }
 
