@@ -6,8 +6,8 @@
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="11dp"
         android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -15,12 +15,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.expedia.bookings.itin.widget.GoogleMapsLiteMapView
-                android:id="@+id/widget_hotel_itin_map"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="126dp"
-                android:clickable="true"
-                android:contentDescription="@string/itin_hotel_details_map_view_content_description" />
+                android:layout_height="wrap_content">
+
+                <com.expedia.bookings.itin.widget.GoogleMapsLiteMapView
+                    android:id="@+id/widget_hotel_itin_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="126dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/itin_hotel_details_map_view_content_description" />
+
+                <ImageView
+                    android:id="@+id/hotel_directions_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginRight="13dp"
+                    android:src="@drawable/ic_directions_hotel_map_details" />
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/widget_hotel_itin_address"
