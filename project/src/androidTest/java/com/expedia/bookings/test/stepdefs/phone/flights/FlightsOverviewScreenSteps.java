@@ -107,7 +107,7 @@ public class FlightsOverviewScreenSteps {
 	public void clickBaggageFeesButton(Boolean outBound) throws Throwable {
 		onView(allOf(outBound ? isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))
 			: isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withId(R.id.show_baggage_fees_button)))
-			.perform(click());
+			.perform(scrollTo(), click());
 	}
 
 	@And("^Click on \"(.*?)\" button$")

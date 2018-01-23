@@ -5,11 +5,11 @@ Feature: Sorting of Flight results
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 15                                        |
+      | source              | LHR                                      |
+      | destination         | Malaga                                   |
+      | source_suggest      | London, England, UK (LHR - Heathrow)     |
+      | destination_suggest | AGP, Malaga, Spain                       |
+      | start_date          | 15                                       |
       | end_date            | 20                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
@@ -24,11 +24,11 @@ Feature: Sorting of Flight results
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 15                                        |
+      | source              | LHR                                      |
+      | destination         | Malaga                                   |
+      | source_suggest      | London, England, UK (LHR - Heathrow)     |
+      | destination_suggest | AGP, Malaga, Spain                       |
+      | start_date          | 15                                       |
       | end_date            | 20                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
@@ -45,10 +45,10 @@ Feature: Sorting of Flight results
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | source              | LHR                                      |
+      | destination         | Malaga                                   |
+      | source_suggest      | London, England, UK (LHR - Heathrow)     |
+      | destination_suggest | AGP, Malaga, Spain                       |
       | start_date          | 5                                        |
       | end_date            | 10                                       |
       | adults              | 3                                        |
@@ -61,7 +61,7 @@ Feature: Sorting of Flight results
     Then flight results are sorted by "Arrival time"
 
 
-  @Prod @Flights @FlightSortSet2
+  @Prod @Flights @FlightSortSet2 @WIP1
   Scenario: Verify flight results can be sorted by flight duration
     Given I launch the App
     And I launch "Flights" LOB
