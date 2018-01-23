@@ -13,5 +13,4 @@ class FlightItinModifyReservationViewModel {
     )
 
     val modifyReservationSubject = PublishSubject.create<FlightItinModifyReservationWidgetParams>()
-
 }

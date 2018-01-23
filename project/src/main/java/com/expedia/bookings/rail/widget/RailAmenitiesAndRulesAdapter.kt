@@ -5,8 +5,6 @@ import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.rail.widget.RailAmenitiesWidget
-import com.expedia.bookings.rail.widget.RailFareRulesWidget
 
 class RailAmenitiesAndRulesAdapter(val context: Context) : PagerAdapter() {
 

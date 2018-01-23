@@ -4,12 +4,7 @@ import android.app.Activity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.lx.LxSearchParams
-import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
-import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
-import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import org.joda.time.LocalDate
@@ -17,7 +12,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.annotation.Config
 import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -25,7 +19,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class LXSearchViewModelTests {
     var vm: LXSearchViewModel by Delegates.notNull()
-    var activity : Activity by Delegates.notNull()
+    var activity: Activity by Delegates.notNull()
 
     @Before
     fun before() {
@@ -33,7 +27,6 @@ class LXSearchViewModelTests {
         activity.setTheme(R.style.V2_Theme_LX)
         Ui.getApplication(activity).defaultLXComponents()
         vm = LXSearchViewModel(activity)
-
     }
 
     @Test
@@ -73,7 +66,6 @@ class LXSearchViewModelTests {
         val dateErrorTestSubscriber = TestObserver<Unit>()
         val searchParamsTestSubscriber = TestObserver<LxSearchParams>()
 
-
         val suggestion = getDummySuggestion()
 
         vm.errorNoDestinationObservable.subscribe(destinationErrorTestSubscriber)
@@ -92,15 +84,14 @@ class LXSearchViewModelTests {
         searchParamsTestSubscriber.assertValueCount(0)
     }
 
-
     @Test
-    fun testComputeDateInstructionText(){
+    fun testComputeDateInstructionText() {
         //When user has not selected the start date
-        assertEquals("Select date",vm.getDateInstructionText(null, null))
+        assertEquals("Select date", vm.getDateInstructionText(null, null))
 
         //When user has selected the start date
-        val startDate = LocalDate.now();
-        assertEquals(LocaleBasedDateFormatUtils.localDateToMMMd(startDate),vm.getDateInstructionText(startDate, null))
+        val startDate = LocalDate.now()
+        assertEquals(LocaleBasedDateFormatUtils.localDateToMMMd(startDate), vm.getDateInstructionText(startDate, null))
     }
 
     private fun getDummySuggestion(): SuggestionV4 {

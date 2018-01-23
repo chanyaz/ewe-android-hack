@@ -66,7 +66,7 @@ class FlightItinModifyReservationWidgetTest {
     }
 
     @Test
-    fun testOmnitureForCancelFlight(){
+    fun testOmnitureForCancelFlight() {
         val webChangePathURL = "https://www.expedia.com/flight-change-gds?itinnumber=1157495899343&arl=304697418&cname=United"
         val webCancelPathURL = "https://www.expedia.com/flight-cancel-exchange?itinnumber=1157495899343&arl=304697418&bookingid=ZBZTFR"
         val params = FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webChangePathURL, true, webCancelPathURL, true, "(217)-546-7860")
@@ -77,7 +77,7 @@ class FlightItinModifyReservationWidgetTest {
     }
 
     @Test
-    fun testOmnitureForChangeFlight(){
+    fun testOmnitureForChangeFlight() {
         val webChangePathURL = "https://www.expedia.com/flight-change-gds?itinnumber=1157495899343&arl=304697418&cname=United"
         val webCancelPathURL = "https://www.expedia.com/flight-cancel-exchange?itinnumber=1157495899343&arl=304697418&bookingid=ZBZTFR"
         val params = FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webChangePathURL, true, webCancelPathURL, true, "(217)-546-7860")

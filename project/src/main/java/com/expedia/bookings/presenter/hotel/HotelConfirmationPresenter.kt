@@ -77,7 +77,6 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
         addToCalendarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddToCalendarBtnObserver(getContext()))
         callSupportBtn.subscribeOnClick(hotelConfirmationViewModel.getCallSupportBtnObserver(getContext()))
         directionsToHotelBtn.subscribeOnClick(hotelConfirmationViewModel.getDirectionsToHotelBtnObserver(getContext()))
-
     }
 
     init {

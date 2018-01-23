@@ -17,8 +17,8 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelItinManageBookingActivityTest {
-    lateinit private var activity: HotelItinManageBookingActivity
-    lateinit private var itinCardDataHotel: ItinCardDataHotel
+    private lateinit var activity: HotelItinManageBookingActivity
+    private lateinit var itinCardDataHotel: ItinCardDataHotel
     lateinit var roomDetailsWidget: HotelItinRoomDetails
 
     @Before

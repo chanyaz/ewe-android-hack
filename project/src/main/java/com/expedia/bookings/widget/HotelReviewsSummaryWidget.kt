@@ -11,11 +11,11 @@ import com.expedia.vm.HotelReviewsSummaryViewModel
 
 class HotelReviewsSummaryWidget(context: Context) : LinearLayout(context) {
 
-    val overallRating: TextView  by bindView(R.id.overall_rating)
-    val roomCleanliness: TextView  by bindView(R.id.room_cleanliness)
-    val roomComfort: TextView  by bindView(R.id.room_comfort)
-    val serviceStaff: TextView  by bindView(R.id.service_staff)
-    val hotelCondition: TextView  by bindView(R.id.hotel_condition)
+    val overallRating: TextView by bindView(R.id.overall_rating)
+    val roomCleanliness: TextView by bindView(R.id.room_cleanliness)
+    val roomComfort: TextView by bindView(R.id.room_comfort)
+    val serviceStaff: TextView by bindView(R.id.service_staff)
+    val hotelCondition: TextView by bindView(R.id.hotel_condition)
 
     init {
         View.inflate(context, R.layout.hotel_reviews_summary_widget, this)
@@ -29,7 +29,7 @@ class HotelReviewsSummaryWidget(context: Context) : LinearLayout(context) {
         setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_reviews_summary_background_color))
     }
 
-    fun bindData(vm: HotelReviewsSummaryViewModel){
+    fun bindData(vm: HotelReviewsSummaryViewModel) {
         vm.overallRatingObservable.subscribeText(overallRating)
         vm.roomCleanlinessObservable.subscribeText(roomCleanliness)
         vm.roomComfortObservable.subscribeText(roomComfort)

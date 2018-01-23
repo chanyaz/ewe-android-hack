@@ -45,7 +45,6 @@ class PackageDatePickerWidgetTest {
         Mockito.verify(mockCalendarDialog).show(Mockito.any<FragmentManager>(), Mockito.anyString())
     }
 
-
     fun getMockViewModel(): BaseSearchViewModel {
         val mockViewModel = Mockito.mock(BaseSearchViewModel::class.java)
         Mockito.`when`(mockViewModel.getCalendarRules()).thenReturn(HotelCalendarRules(activity))

@@ -2,7 +2,6 @@ package com.expedia.vm.traveler
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.Ui
@@ -42,6 +41,4 @@ class HotelTravelerSummaryViewModel(context: Context) : BaseSummaryViewModel (co
         }
         return false
     }
-
-
 }

@@ -35,7 +35,7 @@ class RailTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravel
     val youthTravelerPickerSpinnersContainer: TravelerPickerSpinnersContainer by bindView(R.id.youth_spinners_container)
     val seniorTravelerPickerSpinnersContainer: TravelerPickerSpinnersContainer by bindView(R.id.senior_spinners_container)
 
-    var viewModel : RailTravelerPickerViewModel by notNullAndObservable { vm ->
+    var viewModel: RailTravelerPickerViewModel by notNullAndObservable { vm ->
         adultCountSelector.minusClickedSubject.subscribe(vm.decrementAdultsObserver)
         adultCountSelector.plusClickedSubject.subscribe(vm.incrementAdultsObserver)
         childCountSelector.minusClickedSubject.subscribe(vm.decrementChildrenObserver)
@@ -118,7 +118,7 @@ class RailTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravel
         }
     }
 
-    fun findBottomContainerVisibility(travelerPickerSpinnersContainer : TravelerPickerSpinnersContainer, numberOfTravelers: Int) {
+    fun findBottomContainerVisibility(travelerPickerSpinnersContainer: TravelerPickerSpinnersContainer, numberOfTravelers: Int) {
         if (numberOfTravelers in 1..8) {
             travelerPickerSpinnersContainer.travelerAgesBottomContainer1.visibility = View.VISIBLE
         } else {
@@ -141,7 +141,7 @@ class RailTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravel
         }
     }
 
-    fun showAgesSpinner(travelerPickerSpinnersContainer : TravelerPickerSpinnersContainer, defaultAge: Int, numberOfTravelers : Int, ageNumber : String) {
+    fun showAgesSpinner(travelerPickerSpinnersContainer: TravelerPickerSpinnersContainer, defaultAge: Int, numberOfTravelers: Int, ageNumber: String) {
         for (i in travelerPickerSpinnersContainer.ageSpinners.indices) {
             val spinner = travelerPickerSpinnersContainer.ageSpinners[i]
             if (i >= numberOfTravelers) {

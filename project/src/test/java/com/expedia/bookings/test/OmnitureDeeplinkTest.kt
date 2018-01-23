@@ -18,7 +18,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.android.controller.ActivityController
 
-
 @RunWith(RobolectricRunner::class)
 class OmnitureDeeplinkTest {
 
@@ -169,7 +168,7 @@ class OmnitureDeeplinkTest {
         assertStateTracked(OmnitureMatchers.withEventsString("event320"), mockAnalyticsProvider)
     }
 
-    private fun trackDeepLink(url :String) {
+    private fun trackDeepLink(url: String) {
         // This is what sets the omniture variables we're interested in testing
         deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(url))
         deepLinkRouterActivityController.setup()

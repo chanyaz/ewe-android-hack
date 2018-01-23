@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class RailTravelMediumDrawableProviderTest {
     @Test
-    fun testLondonUndergroundDisplaysAsSubway()  {
+    fun testLondonUndergroundDisplaysAsSubway() {
         val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_underground_travel_segment.json")
         val railTravelSegment = resourceReader.constructUsingGson(RailSegment::class.java)
 

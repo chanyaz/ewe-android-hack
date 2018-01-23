@@ -22,7 +22,6 @@ import com.expedia.bookings.launch.widget.PhoneLaunchWidget
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.subscribeObserver
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.mobiata.android.Log
@@ -180,5 +179,4 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     interface LaunchFragmentListener {
         fun onLaunchFragmentAttached(frag: PhoneLaunchFragment)
     }
-
 }

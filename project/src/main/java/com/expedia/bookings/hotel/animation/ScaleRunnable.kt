@@ -5,14 +5,14 @@ import io.reactivex.subjects.PublishSubject
 import java.lang.ref.WeakReference
 
 abstract class ScaleRunnable(view: View, private val duration: Long, private val startDelay: Long) : Runnable {
-    abstract fun startScale() : Float
-    abstract fun endScale() : Float
-    abstract fun getYPivot() : Float
+    abstract fun startScale(): Float
+    abstract fun endScale(): Float
+    abstract fun getYPivot(): Float
 
     val startSubject = PublishSubject.create<Unit>()
     val endSubject = PublishSubject.create<Unit>()
 
-    protected  val viewRef: WeakReference<View>
+    protected val viewRef: WeakReference<View>
 
     init {
         viewRef = WeakReference(view)

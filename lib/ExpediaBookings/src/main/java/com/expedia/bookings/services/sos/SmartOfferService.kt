@@ -29,7 +29,7 @@ class SmartOfferService(endpoint: String, okHttpClient: OkHttpClient, intercepto
     }
 
     fun fetchMemberDeals(request: MemberDealsRequest,
-                         dealsObserver: Observer<DealsResponse>) : Disposable {
+                         dealsObserver: Observer<DealsResponse>): Disposable {
 
         return api.memberDeals(request.siteId, request.locale, request.productType, request.groupBy,
                 request.destinationLimit, request.clientId)
@@ -39,7 +39,7 @@ class SmartOfferService(endpoint: String, okHttpClient: OkHttpClient, intercepto
     }
 
     fun fetchLastMinuteDeals(request: LastMinuteDealsRequest,
-                             dealsObserver: Observer<DealsResponse>) : Disposable {
+                             dealsObserver: Observer<DealsResponse>): Disposable {
         return api.lastMinuteDeals(request.siteId, request.locale, request.groupBy, request.productType, request.destinationLimit, request.clientId, request.stayDateRanges)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)

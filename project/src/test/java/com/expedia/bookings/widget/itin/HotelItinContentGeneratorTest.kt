@@ -2,18 +2,12 @@ package com.expedia.bookings.widget.itin
 
 import android.content.Context
 import android.text.format.DateUtils
-import android.view.View
-import android.widget.FrameLayout
-import com.expedia.bookings.R
-import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.itin.data.ItinCardDataHotel
-import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.joda.time.DateTime
@@ -28,9 +22,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.spy
-import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.Shadows.shadowOf
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
@@ -51,7 +43,6 @@ class HotelItinContentGeneratorTest {
         AbacusTestUtils.resetABTests()
     }
 
-
     @Test
     fun testIsDurationLongerThenInputsIsLonger() {
         val checkInTime = mTodayAtNoon.plusDays(4)
@@ -59,7 +50,6 @@ class HotelItinContentGeneratorTest {
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
         assertTrue(hotelItinGenerator.isDurationLongerThanDays(3))
-
     }
 
     @Test
@@ -69,7 +59,6 @@ class HotelItinContentGeneratorTest {
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
         assertFalse { hotelItinGenerator.isDurationLongerThanDays(3) }
-
     }
 
     @Test
@@ -335,7 +324,6 @@ class HotelItinContentGeneratorTest {
                 .withCheckOutDate(checkOut).build()
         return itinCardDataHotel
     }
-
 
     private fun givenHappyItinCardDataHotel(traveler: Int): ItinCardDataHotel {
         val checkInTime = mTodayAtNoon.plusDays(4)

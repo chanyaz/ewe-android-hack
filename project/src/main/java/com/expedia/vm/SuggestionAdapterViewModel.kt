@@ -37,7 +37,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     private var nearby: ArrayList<SuggestionV4> = ArrayList()
     private var lastQuery: String = ""
     private var isCustomerSelectingOrigin: Boolean = false
-    private var userRecentSearches: List<SuggestionV4> = emptyList()     //TODO eventually, we need to store and display search params+location
+    private var userRecentSearches: List<SuggestionV4> = emptyList() //TODO eventually, we need to store and display search params+location
 
     init {
         locationObservable?.subscribe(generateLocationServiceCallback())
@@ -75,7 +75,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
         val suggestions = ArrayList<SuggestionType>()
         if (nearby.size > 0) {
             suggestions.add(SuggestionType.SUGGESTIONLABEL(getCurrentLocationLabel()))
-            nearby.forEach {nearbySuggestion ->
+            nearby.forEach { nearbySuggestion ->
                 suggestions.add(SuggestionType.SUGGESTIONV4(nearbySuggestion))
             }
         }
@@ -143,7 +143,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
                 .doOnNext { nearBySuggestions ->
                     nearBySuggestions += loadPastSuggestions()
                     if (isSearchHistorySupported()) {
-                        nearBySuggestions+= userRecentSearches
+                        nearBySuggestions += userRecentSearches
                     }
                 }
                 .subscribe(generateSuggestionServiceCallback())

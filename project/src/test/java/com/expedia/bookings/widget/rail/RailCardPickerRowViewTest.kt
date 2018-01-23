@@ -55,7 +55,7 @@ class RailCardPickerRowViewTest {
         assertSelectionDetails(testSubscriber.values()[2], 0, 2, mockRailCardTwo)
     }
 
-    private fun assertSelectionDetails(railCardSelectedDetails:RailCardSelected, id: Int, quantity: Int, cardType: RailCard) {
+    private fun assertSelectionDetails(railCardSelectedDetails: RailCardSelected, id: Int, quantity: Int, cardType: RailCard) {
         assertEquals(id, railCardSelectedDetails.id)
         assertEquals(quantity, railCardSelectedDetails.quantity)
         assertEquals(cardType, railCardSelectedDetails.cardType)

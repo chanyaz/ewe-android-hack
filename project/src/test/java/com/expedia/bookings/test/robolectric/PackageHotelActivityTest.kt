@@ -5,17 +5,13 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemError
 import com.expedia.bookings.data.multiitem.ProductType
-import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
 import com.expedia.ui.PackageHotelActivity
 import org.junit.After
 import org.junit.Test
@@ -46,7 +42,7 @@ class PackageHotelActivityTest {
         givenPackageHotelActivity(enableMidTest = true)
 
         assertNotEquals(midResponseWithError.errors?.size, (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
-        assertEquals(baseMidResponse.errors?.size,  (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
+        assertEquals(baseMidResponse.errors?.size, (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
     }
 
     @Test
@@ -54,7 +50,7 @@ class PackageHotelActivityTest {
         setupPackageDb(baseMidResponse, midResponseWithError)
         givenPackageHotelActivity(enableMidTest = false)
 
-        assertEquals(midResponseWithError.errors?.size,  (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
+        assertEquals(midResponseWithError.errors?.size, (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
     }
 
     private fun givenPackageHotelActivity(enableMidTest: Boolean) {

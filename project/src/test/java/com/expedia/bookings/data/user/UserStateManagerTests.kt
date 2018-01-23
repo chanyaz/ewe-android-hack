@@ -46,11 +46,10 @@ import kotlin.test.assertNull
 class UserStateManagerTests {
     private val expediaUrl = HttpUrl.Builder().scheme("https").host("www.expedia.com").build()
 
-    lateinit private var notificationManager: NotificationManager
-    lateinit private var userStateManager: UserStateManager
+    private lateinit var notificationManager: NotificationManager
+    private lateinit var userStateManager: UserStateManager
 
     val context = RuntimeEnvironment.application
-
 
     @Before
     fun setup() {
@@ -138,7 +137,7 @@ class UserStateManagerTests {
 
     @Test
     fun testUserIsLoadedIfNotInMemoryWhenIsUserAuthenticatedIsCalled() {
-        class TestUserSource: UserSource(RuntimeEnvironment.application) {
+        class TestUserSource : UserSource(RuntimeEnvironment.application) {
             var didCallLoadUser = false
                 private set
             override var user: User? = null
@@ -582,7 +581,7 @@ class UserStateManagerTests {
     }
 
     private fun populateAndGetCookieManager(): PersistentCookieManager {
-        val services =  ExpediaServices(RuntimeEnvironment.application)
+        val services = ExpediaServices(RuntimeEnvironment.application)
         val cookieManager = services.mCookieManager as PersistentCookieManager
 
         val cookiePairs = hashMapOf(Pair("user", Cookie.parse(expediaUrl, "user=user")),
@@ -594,11 +593,11 @@ class UserStateManagerTests {
         return cookieManager
     }
 
-    private class TestRestrictedProfileSource: RestrictedProfileSource(Activity()) {
+    private class TestRestrictedProfileSource : RestrictedProfileSource(Activity()) {
         override fun isRestrictedProfile(): Boolean = true
     }
 
-    private class TestListener: UserAccountRefresher.IUserAccountRefreshListener {
+    private class TestListener : UserAccountRefresher.IUserAccountRefreshListener {
         var onUserAccountRefreshCalled = false
             private set
 
@@ -607,7 +606,7 @@ class UserStateManagerTests {
         }
     }
 
-    private class TestUserAccountRefresher: UserAccountRefresher(RuntimeEnvironment.application, LineOfBusiness.NONE, TestListener()) {
+    private class TestUserAccountRefresher : UserAccountRefresher(RuntimeEnvironment.application, LineOfBusiness.NONE, TestListener()) {
         var didCallForceAccountRefresh = false
             private set
 
@@ -616,7 +615,7 @@ class UserStateManagerTests {
         }
     }
 
-    private class TestExceptionLoggingProvider: ExceptionLoggingProvider() {
+    private class TestExceptionLoggingProvider : ExceptionLoggingProvider() {
         var didLogException = false
             private set
 

@@ -310,12 +310,11 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         bundleWidget.toggleMenuObservable.onNext(!forward)
     }
 
-    override fun setToolbarNavIcon(forward : Boolean) {
+    override fun setToolbarNavIcon(forward: Boolean) {
         if (forward || isBackFlowFromOverviewEnabled(context)) {
             toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
             toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
-        }
-        else {
+        } else {
             toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_close_cont_desc))
             toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         }
@@ -343,8 +342,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                     R.string.cost_summary_breakdown_total_due_today
                 else if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN)
                     R.string.packages_trip_total
-                else
-                    R.string.bundle_total_text
+                else R.string.bundle_total_text
         totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
         if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
             totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
@@ -421,7 +419,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         } else if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.DAILY) {
             mandatoryFee = rateInfo.totalMandatoryFees * getNumberOfDaysInHotel()
         }
-         val packageTotalWithMandatoryFee =packagetotal?.amount?.plus(BigDecimal(mandatoryFee.toString()))
+         val packageTotalWithMandatoryFee = packagetotal?.amount?.plus(BigDecimal(mandatoryFee.toString()))
         totalPriceWidget.viewModel.addMandatoryFeeWithTotalPrice(packageTotalWithMandatoryFee, packagetotal?.currencyCode)
     }
 

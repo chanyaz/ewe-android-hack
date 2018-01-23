@@ -6,9 +6,9 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class TravelerFrequentFlyerMembership : JSONable {
-    lateinit var membershipNumber : String
-    lateinit var planCode : String
-    lateinit var airlineCode : String
+    lateinit var membershipNumber: String
+    lateinit var planCode: String
+    lateinit var airlineCode: String
     var programName = ""
     var frequentFlyerPlanID = ""
 
@@ -21,11 +21,10 @@ class TravelerFrequentFlyerMembership : JSONable {
             obj.putOpt("airlineCode", airlineCode)
             obj.putOpt("programName", programName)
             return obj
-        } catch (e : JSONException) {
+        } catch (e: JSONException) {
             Log.e("Could not convert TravelerFrequentFlyerMembership to JSON", e)
             return null
         }
-
     }
 
     override fun fromJson(obj: JSONObject): Boolean {
@@ -35,5 +34,4 @@ class TravelerFrequentFlyerMembership : JSONable {
         programName = obj.optString("programName", null)
         return true
     }
-
 }

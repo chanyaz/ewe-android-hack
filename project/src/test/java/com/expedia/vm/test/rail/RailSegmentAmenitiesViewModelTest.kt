@@ -76,7 +76,6 @@ class RailSegmentAmenitiesViewModelTest {
         val amenity2 = PassengerSegmentFare.Amenity()
         amenity2.displayName = "WC"
 
-
         val amenities = ArrayList<PassengerSegmentFare.Amenity>()
         amenities.add(amenity1)
         amenities.add(amenity2)

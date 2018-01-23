@@ -2,24 +2,21 @@ package com.expedia.bookings.itin
 
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.activity.HotelItinExpandedMapActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 
-
 @RunWith(RobolectricRunner::class)
 class HotelItinExpandedMapActivityTest {
 
     lateinit var activity: HotelItinExpandedMapActivity
-    lateinit private var itinCardDataHotel: ItinCardDataHotel
+    private lateinit var itinCardDataHotel: ItinCardDataHotel
 
     @Before
     fun before() {
@@ -59,5 +56,4 @@ class HotelItinExpandedMapActivityTest {
         OmnitureTracking.trackItinExpandedMapZoomPan()
         OmnitureTestUtils.assertLinkTracked("Map Action", "App.Map.Directions.Pan", mockAnalyticsProvider)
     }
-
 }

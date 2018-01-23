@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.TextView
 
-class SlideToPurchaseWidget(context: Context, attrs : AttributeSet?) : LinearLayout(context, attrs) {
+class SlideToPurchaseWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val purchaseTotalText: TextView by bindView(R.id.purchase_total_text_view)
 

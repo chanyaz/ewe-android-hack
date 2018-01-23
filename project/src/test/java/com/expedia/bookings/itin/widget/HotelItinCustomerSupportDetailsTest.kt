@@ -31,9 +31,9 @@ class HotelItinCustomerSupportDetailsTest {
     lateinit var customerSupportWidget: HotelItinCustomerSupportDetails
     lateinit var activity: HotelItinManageBookingActivity
     lateinit var intent: Intent
-    lateinit private var intentBuilder: WebViewActivity.IntentBuilder
+    private lateinit var intentBuilder: WebViewActivity.IntentBuilder
     lateinit var shadowActivity: ShadowActivity
-    lateinit private var itinCardDataHotel: ItinCardDataHotel
+    private lateinit var itinCardDataHotel: ItinCardDataHotel
 
     @Before
     fun before() {

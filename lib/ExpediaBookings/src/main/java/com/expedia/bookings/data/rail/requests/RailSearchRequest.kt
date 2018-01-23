@@ -118,4 +118,3 @@ class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destin
         }
     }
 }
-

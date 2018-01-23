@@ -7,14 +7,12 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailCard
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.SpinnerAdapterWithHint
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.RailCardPickerRowViewModel
-import kotlin.properties.Delegates
 
-class RailCardPickerRowView(context: Context): LinearLayout(context) {
+class RailCardPickerRowView(context: Context) : LinearLayout(context) {
 
     val cardTypeSpinner: Spinner by bindView(R.id.card_type_spinner)
     val cardQuantitySpinner: Spinner by bindView(R.id.card_quantity_spinner)
@@ -32,7 +30,6 @@ class RailCardPickerRowView(context: Context): LinearLayout(context) {
             }
             railCardAdapter.dataSetChanged(cardTypeOptions)
             post({ cardTypeSpinner.setSelection(railCardAdapter.count) })
-
         }
 
         vm.resetRow.subscribe {
@@ -67,7 +64,6 @@ class RailCardPickerRowView(context: Context): LinearLayout(context) {
                     cardQuantitySpinner.setSelection(0)
                 }
             }
-
         }
 
         cardQuantitySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -80,8 +76,6 @@ class RailCardPickerRowView(context: Context): LinearLayout(context) {
                 val cardQuantity = if (selectedItem.value.equals(cardQuantitySpinnerHint)) 0 else selectedItem.item as Int
                 viewModel.cardQuantitySelected.onNext(cardQuantity)
             }
-
         }
     }
-
 }

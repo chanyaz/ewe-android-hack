@@ -7,8 +7,6 @@ import android.support.v7.widget.ListPopupWindow
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.navigation.NavUtils
-import com.expedia.bookings.widget.FlightRouteAdapter
-
 
 class AirportDropDownUtils {
 

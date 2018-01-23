@@ -329,4 +329,3 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     abstract fun trackShowPaymentFees()
     abstract fun viewBundleSetVisibility(forward: Boolean)
 }
-

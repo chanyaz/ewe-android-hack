@@ -135,7 +135,6 @@ class FlightItinSegmentSummaryWidgetTest {
         assertEquals("Wed, Oct 18", sut.departureRedEye.text)
         assertEquals("Arrives on Thu, Oct 19", sut.arrivalRedEye.text)
         assertEquals("+1", sut.redEyeDays.text)
-
     }
 
     @Test

@@ -90,7 +90,6 @@ class ClientLog(val pageName: String?, val eventName: String?, val deviceName: S
         fun build(): ClientLog {
             return ClientLog(pageName, eventName, deviceName, null, responseTime, null, null)
         }
-
     }
 
     class AppStartupTimeBuilder() {
@@ -110,6 +109,5 @@ class ClientLog(val pageName: String?, val eventName: String?, val deviceName: S
         fun build(): ClientLog {
             return ClientLog(pageName, null, null, null, null, null, requestToUser)
         }
-
     }
 }

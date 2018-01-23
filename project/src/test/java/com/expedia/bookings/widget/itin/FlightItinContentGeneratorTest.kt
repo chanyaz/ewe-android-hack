@@ -33,11 +33,11 @@ import kotlin.test.assertFalse
 @RunWith(RobolectricRunner::class)
 class FlightItinContentGeneratorTest {
 
-    lateinit private var tripFlight: TripFlight
-    lateinit private var flightDetailView: View
-    lateinit private var sut: FlightItinContentGenerator
-    lateinit private var itinCardData: ItinCardDataFlight
-    lateinit private var activity: PhoneLaunchActivity
+    private lateinit var tripFlight: TripFlight
+    private lateinit var flightDetailView: View
+    private lateinit var sut: FlightItinContentGenerator
+    private lateinit var itinCardData: ItinCardDataFlight
+    private lateinit var activity: PhoneLaunchActivity
 
     @Before
     fun setup() {

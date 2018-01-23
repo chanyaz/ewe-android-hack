@@ -29,7 +29,7 @@ import kotlin.test.assertEquals
 class TravelersPresenterTest {
 
     lateinit var travelersPresenter: AbstractTravelersPresenter
-    lateinit var activity : FragmentActivity
+    lateinit var activity: FragmentActivity
 
     @Before
     fun setUp() {
@@ -111,7 +111,6 @@ class TravelersPresenterTest {
         assertEquals("456", travelers[0].redressNumber)
         assertEquals("123456", travelerEntryWidget.advancedOptionsWidget.travelerNumber.text.toString())
         assertEquals("456", travelerEntryWidget.advancedOptionsWidget.redressNumber.text.toString())
-
 
         travelerToSelect = TravelerSelectItemViewModel(activity, 1, travelers[1].age, PassengerCategory.ADULT)
         travelersPresenter.travelerPickerWidget.viewModel.selectedTravelerSubject.onNext(travelerToSelect)

@@ -8,7 +8,6 @@ import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 
-
 abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSearchViewModel(context) {
     val departTimeSubject = BehaviorSubject.createDefault<Int>(0)
     val returnTimeSubject = BehaviorSubject.createDefault<Optional<Int>>(Optional(0))
@@ -44,8 +43,7 @@ abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSea
                     returnTimeSubject.onNext(Optional(now.plusHours(3).millisOfDay))
                 }
                 validateTimes()
-            }
-            else{
+            } else {
                 departTimeSubject.onNext(DateTime().withHourOfDay(9).withMinuteOfHour(0).millisOfDay)
                 returnTimeSubject.onNext(Optional(DateTime().withHourOfDay(18).withMinuteOfHour(0).millisOfDay))
             }
@@ -72,8 +70,8 @@ abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSea
     abstract fun onTimesChanged(times: Pair<Int, Int>)
     abstract fun validateTimes()
     abstract fun getAllowedMinProgress(now: DateTime): Int
-    abstract fun getStartTimeContDesc(time: String) : String
-    abstract fun getEndTimeContDesc(time: String) : String
+    abstract fun getStartTimeContDesc(time: String): String
+    abstract fun getEndTimeContDesc(time: String): String
 
     private fun isStartDateEqualToToday(): Boolean {
         return if (startDate() != null) startDate()!!.isEqual(LocalDate.now()) else false

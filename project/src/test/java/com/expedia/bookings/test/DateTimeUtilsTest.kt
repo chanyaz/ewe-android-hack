@@ -75,7 +75,7 @@ class DateTimeUtilsTest {
     }
 
     @Test
-    fun  testFormatDurationDaysHoursMinutes() {
+    fun testFormatDurationDaysHoursMinutes() {
         var actualValue = DateTimeUtils.formatDurationDaysHoursMinutes(getContext(), 424)
         assertEquals("7h 4m", actualValue)
 
@@ -125,4 +125,3 @@ class DateTimeUtilsTest {
         assertEquals(null, durationMins)
     }
 }
-

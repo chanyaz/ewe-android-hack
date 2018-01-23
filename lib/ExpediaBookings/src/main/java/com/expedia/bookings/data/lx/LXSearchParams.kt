@@ -5,11 +5,11 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Strings
 import org.joda.time.LocalDate
 
-open class LxSearchParams(val location: String, val activityStartDate: LocalDate, val activityEndDate: LocalDate, val searchType:SearchType, val filters: String, val activityId: String?, val imageCode: String?, val modQualified: Boolean) : BaseSearchParams(null, null, 0, emptyList(), activityStartDate, activityEndDate) {
+open class LxSearchParams(val location: String, val activityStartDate: LocalDate, val activityEndDate: LocalDate, val searchType: SearchType, val filters: String, val activityId: String?, val imageCode: String?, val modQualified: Boolean) : BaseSearchParams(null, null, 0, emptyList(), activityStartDate, activityEndDate) {
 
     companion object {
-        val lxMaxStay: Int = 0;
-        val lxMaxRange: Int = 314;
+        val lxMaxStay: Int = 0
+        val lxMaxRange: Int = 314
     }
 
     class Builder() : BaseSearchParams.Builder(LxSearchParams.lxMaxStay, LxSearchParams.lxMaxRange) {
@@ -69,7 +69,6 @@ open class LxSearchParams(val location: String, val activityStartDate: LocalDate
         override fun isOriginSameAsDestination(): Boolean {
             return false
         }
-
     }
 
     fun toServerStartDate(): String {
@@ -79,5 +78,4 @@ open class LxSearchParams(val location: String, val activityStartDate: LocalDate
     fun toServerEndDate(): String {
         return DateUtils.convertToLXDate(activityEndDate)
     }
-
 }

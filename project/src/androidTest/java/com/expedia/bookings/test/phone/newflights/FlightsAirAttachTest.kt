@@ -11,7 +11,6 @@ import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import org.hamcrest.Matchers
 import org.joda.time.DateTime
@@ -96,7 +95,7 @@ class FlightsAirAttachTest : NewFlightTestCase() {
 
         Espresso.onView(Matchers.allOf<View>(ViewMatchers.withId(R.id.subtitle),
                 ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.hotel_results_toolbar)),
-                ViewMatchers.withText("${testHotelCheckinDate} - ${testHotelCheckoutDate}, 1 Guest"),
+                ViewMatchers.withText("$testHotelCheckinDate - $testHotelCheckoutDate, 1 Guest"),
                 ViewMatchers.isDisplayed()))
     }
 
@@ -115,7 +114,7 @@ class FlightsAirAttachTest : NewFlightTestCase() {
 
         Espresso.onView(Matchers.allOf<View>(ViewMatchers.withId(R.id.subtitle),
                 ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.hotel_results_toolbar)),
-                ViewMatchers.withText("${testHotelCheckinDate} - ${testHotelCheckoutDate}, 3 Guests"),
+                ViewMatchers.withText("$testHotelCheckinDate - $testHotelCheckoutDate, 3 Guests"),
                 ViewMatchers.isDisplayed()))
     }
 
@@ -132,7 +131,6 @@ class FlightsAirAttachTest : NewFlightTestCase() {
                 ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.hotel_cross_sell_widget)),
                 ViewMatchers.isCompletelyDisplayed()))
     }
-
 
     private fun selectFlightsProceedToCheckoutSingleGuest(startDate: LocalDate, endDate: LocalDate) {
         SearchScreen.origin().perform(ViewActions.click())

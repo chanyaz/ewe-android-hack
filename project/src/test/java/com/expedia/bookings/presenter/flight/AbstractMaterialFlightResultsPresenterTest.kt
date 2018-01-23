@@ -44,7 +44,7 @@ class AbstractMaterialFlightResultsPresenterTest {
 
     private val context = RuntimeEnvironment.application
     private lateinit var sut: AbstractMaterialFlightResultsPresenter
-    lateinit private var service: FlightServices
+    private lateinit var service: FlightServices
     var server: MockWebServer = MockWebServer()
         @Rule get
 

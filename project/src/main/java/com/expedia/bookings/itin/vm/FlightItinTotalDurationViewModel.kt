@@ -17,5 +17,4 @@ class FlightItinTotalDurationViewModel(val context: Context) : ItinTimeDurationV
                 null
         ))
     }
-
 }

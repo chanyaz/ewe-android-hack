@@ -96,7 +96,6 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
         } else {
             setUpCheckoutResponseSubscription(context)
         }
-
     }
 
     private fun setUpCheckoutResponseSubscription(context: Context) {
@@ -352,7 +351,6 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             }
         }
     }
-
 
     fun setSearchParams(params: HotelSearchParams) {
         hotelSearchParams = params

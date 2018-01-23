@@ -39,7 +39,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
     val subtitleObservable = BehaviorSubject.create<String>()
     val subtitleTextColorObservable = BehaviorSubject.create<Int>()
     val titleFontObservable = BehaviorSubject.create<FontCache.Font>()
-    val refreshStatusObservable= PublishSubject.create<Unit>()
+    val refreshStatusObservable = PublishSubject.create<Unit>()
     var passportRequired = BehaviorSubject.createDefault<Boolean>(false)
     var currentStatusObservable = BehaviorSubject.createDefault<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
 
@@ -48,7 +48,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
         setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
         subtitleTextColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
         passportRequired.map { Unit }.subscribe(refreshStatusObservable)
-        refreshStatusObservable.subscribe{
+        refreshStatusObservable.subscribe {
             refreshStatus()
         }
     }
@@ -72,25 +72,25 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
         }
     }
 
-    private fun getTitle(traveler : Traveler) : String {
+    private fun getTitle(traveler: Traveler): String {
         return if (isNameEmpty(traveler)) emptyText else traveler.fullNameBasedOnPos
     }
 
-    private fun getErrorSubtitle() : String? {
+    private fun getErrorSubtitle(): String? {
         subtitleTextColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_incomplete_text_color))
         return resources.getString(R.string.enter_missing_traveler_details)
     }
 
-    private fun getCompletedFormSubtitle(traveler : Traveler): String? {
+    private fun getCompletedFormSubtitle(traveler: Traveler): String? {
         subtitleTextColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
         return traveler.birthDate?.toString("MM/dd/yyyy")
     }
 
-    private fun getFont(traveler : Traveler): FontCache.Font {
+    private fun getFont(traveler: Traveler): FontCache.Font {
         return if (isNameEmpty(traveler)) FontCache.Font.ROBOTO_REGULAR else FontCache.Font.ROBOTO_MEDIUM
     }
 
-    private fun isNameEmpty(traveler: Traveler): Boolean{
+    private fun isNameEmpty(traveler: Traveler): Boolean {
         return traveler.fullName.isNullOrEmpty()
     }
 
@@ -105,7 +105,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
         titleFontObservable.onNext(font)
     }
 
-    open fun getTraveler() : Traveler {
+    open fun getTraveler(): Traveler {
         return Db.sharedInstance.travelers[index]
     }
 
@@ -119,11 +119,10 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
         return ageText
     }
 
-    private fun getPassengerAgeRangeString(context: Context, category: PassengerCategory) : String {
+    private fun getPassengerAgeRangeString(context: Context, category: PassengerCategory): String {
         return Phrase.from(context.getString(R.string.traveler_age_range_TEMPLATE))
                 .put("category", category.getBucketedCategoryString(context))
                 .put("range", category.getBucketedAgeString(context))
                 .format().toString()
     }
-
 }

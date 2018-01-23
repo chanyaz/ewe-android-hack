@@ -11,7 +11,6 @@ import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.rail.widget.RailCardPickerRowView
 import com.expedia.bookings.withLatestFrom
-import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -126,7 +125,6 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
             override fun onComplete() {
                 // Ignore
             }
-
         })
     }
 

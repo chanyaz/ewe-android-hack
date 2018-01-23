@@ -11,7 +11,6 @@ import com.expedia.bookings.widget.AdvanceSearchCheckableFilter
 import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.vm.flights.AdvanceSearchFilter
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel
-import com.mobiata.android.util.SettingUtils
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule

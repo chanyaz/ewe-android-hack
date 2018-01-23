@@ -19,21 +19,20 @@ class DebugColorPaletteAdapter : RecyclerView.Adapter<ViewHolder>() {
         return colorPaletteList.size
     }
 
-    override fun getItemViewType(position: Int) : Int {
+    override fun getItemViewType(position: Int): Int {
         return colorPaletteList[position].type
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
         if (viewType == DebugColorPaletteItem.TITLE) {
             val titleView = LayoutInflater.from(parent?.context)
-                    .inflate(R.layout.debug_color_palette_title_cell, parent, false);
+                    .inflate(R.layout.debug_color_palette_title_cell, parent, false)
             return TitleViewHolder(titleView)
         } else {
             val colorView = LayoutInflater.from(parent?.context)
-                    .inflate(R.layout.debug_color_cell, parent, false);
+                    .inflate(R.layout.debug_color_cell, parent, false)
             return ColorViewHolder(colorView)
         }
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -55,7 +54,7 @@ class DebugColorPaletteAdapter : RecyclerView.Adapter<ViewHolder>() {
         val colorBackgroundView: ImageView by bindView<ImageView>(R.id.debug_color_background)
         val colorHexTextView: TextView by bindView<TextView>(R.id.debug_color_hex_code)
 
-        fun bind( @ColorRes colorId : Int) {
+        fun bind( @ColorRes colorId: Int) {
             val context = view.context
             colorIdTextView.text = context.resources.getResourceEntryName(colorId)
             colorBackgroundView.setBackgroundColor(ContextCompat.getColor(context, colorId))

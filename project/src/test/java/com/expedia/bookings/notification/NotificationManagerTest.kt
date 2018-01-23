@@ -71,7 +71,7 @@ class NotificationManagerTest {
 
     @RequiresApi(23)
     @Test
-    fun testDismissNotification(){
+    fun testDismissNotification() {
         val testId = "123abc"
         val notificationA = makeNotification(testId, Notification.NotificationType.HOTEL_CHECK_OUT)
         val mNotifyMgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
@@ -223,7 +223,6 @@ class NotificationManagerTest {
         notificationManager.scheduleAll()
         assertEquals(5, shadowAlarmManager.scheduledAlarms.size)
     }
-
 
     /*@Test
     fun testFindExisting() {

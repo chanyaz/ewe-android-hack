@@ -1,10 +1,7 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.subscribeObserver
 import io.reactivex.Observable
-import io.reactivex.Observer
 import io.reactivex.Scheduler
-import io.reactivex.disposables.Disposable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.json.JSONObject

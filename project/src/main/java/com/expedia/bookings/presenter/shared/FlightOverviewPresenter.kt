@@ -64,7 +64,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val filter = PorterDuffColorFilter(ContextCompat.getColor(this.context,R.color.flight_overview_color_filter), PorterDuff.Mode.SRC_ATOP)
+        val filter = PorterDuffColorFilter(ContextCompat.getColor(this.context, R.color.flight_overview_color_filter), PorterDuff.Mode.SRC_ATOP)
         showBaggageFeesButton.compoundDrawables[0].colorFilter = filter
         paymentFeesMayApplyTextView.compoundDrawables[0].colorFilter = filter
         basicEconomyTooltip.compoundDrawables[2].colorFilter = filter
@@ -100,10 +100,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
                 segmentbreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover, vm.showSeatClassAndBookingCode.value))
             }
             showBaggageFeesButton.setOnClickListener {
-                if(selectedFlight.baggageFeesUrl.contains("http")){
+                if (selectedFlight.baggageFeesUrl.contains("http")) {
                     baggageFeeShowSubject.onNext(selectedFlight.baggageFeesUrl)
-                }
-                else {
+                } else {
                     baggageFeeShowSubject.onNext(e3EndpointUrl + selectedFlight.baggageFeesUrl)
                 }
             }

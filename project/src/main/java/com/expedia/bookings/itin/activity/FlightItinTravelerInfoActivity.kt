@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.itin.vm.FlightItinTravelerPreferenceViewModel

@@ -26,7 +26,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.Locale
 
-
 class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener {
 
     override fun onCameraIdle() {
@@ -44,17 +43,13 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             if (checkForPan()) {
                     OmnitureTracking.trackItinExpandedMapZoomPan()
                     panTracked = true
-
             }
             if (panTracked && zoomTracked) {
                 fullyTracked = true
             }
             moveStarted = false
-
         }
     }
-
-
 
     fun checkForPan(): Boolean {
         return !panTracked && currentZoom == googleMap?.cameraPosition?.zoom
@@ -66,7 +61,6 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             currentZoom = googleMap?.cameraPosition!!.zoom
         }
     }
-
 
     lateinit var itinCardDataHotel: ItinCardDataHotel
     private val mapView by bindView<MapView>(R.id.expanded_map_view_hotel)
@@ -145,7 +139,6 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         googleMap?.setOnCameraIdleListener(this)
         startPosition = googleMap?.cameraPosition!!.target
         currentZoom = MAP_ZOOM_LEVEL
-
     }
 
     override fun updateItinCardDataHotel() {

@@ -5,7 +5,6 @@ import com.expedia.bookings.utils.JodaUtils
 import org.joda.time.DateTime
 import org.joda.time.Days
 
-
 class FlightItinOmnitureUtils {
 
     fun createOmnitureTrackingValues(itinCardData: ItinCardDataFlight): HashMap<String, String?> {
@@ -87,10 +86,8 @@ class FlightItinOmnitureUtils {
                 2 -> return "RT"
                 else -> return "MD"
             }
-        }
-        else {
+        } else {
             return "ST"
         }
     }
-
 }

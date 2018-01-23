@@ -24,11 +24,9 @@ import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
-
 class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices::class.java) {
 
     var activity: Activity by Delegates.notNull()
-
 
     fun getPSSHotelSearchResponse(): BundleSearchResponse {
         val observer = TestObserver<BundleSearchResponse>()

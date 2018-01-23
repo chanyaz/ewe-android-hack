@@ -37,8 +37,7 @@ class FlightActivity : AbstractAppCompatActivity() {
         if (isFinishing) {
             clearCCNumber()
             clearStoredCard()
-        }
-        else {
+        } else {
             Ui.hideKeyboard(this)
         }
     }
@@ -61,8 +60,8 @@ class FlightActivity : AbstractAppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        when(requestCode) {
-            Constants.FLIGHT_REQUEST_CODE -> when(resultCode) {
+        when (requestCode) {
+            Constants.FLIGHT_REQUEST_CODE -> when (resultCode) {
                 android.app.Activity.RESULT_OK -> finish()
             }
         }

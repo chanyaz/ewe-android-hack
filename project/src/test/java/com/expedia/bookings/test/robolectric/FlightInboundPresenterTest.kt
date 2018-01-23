@@ -50,9 +50,9 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 @Config(application = ExpediaBookingApp::class)
 class FlightInboundPresenterTest {
-    lateinit private var service: FlightServices
-    lateinit private var activity: Activity
-    lateinit private var flightInboundPresenter: FlightInboundPresenter
+    private lateinit var service: FlightServices
+    private lateinit var activity: Activity
+    private lateinit var flightInboundPresenter: FlightInboundPresenter
 
     val server: MockWebServer = MockWebServer()
         @Rule get
@@ -179,14 +179,14 @@ class FlightInboundPresenterTest {
         flightInboundPresenter.toolbarViewModel.airport.onNext(Optional("BLR"))
         flightInboundPresenter.toolbarViewModel.lob.onNext(flightInboundPresenter.getLineOfBusiness())
         val travelDate = DateFormatUtils.formatLocalDateToShortDayAndDate(currentTime)
-        assertEquals(View.VISIBLE,flightInboundPresenter.toolbar.visibility)
-        assertEquals(travelDate+", 1 traveler",flightInboundPresenter.toolbar.subtitle)
+        assertEquals(View.VISIBLE, flightInboundPresenter.toolbar.visibility)
+        assertEquals(travelDate + ", 1 traveler", flightInboundPresenter.toolbar.subtitle)
         assertEquals("Select return flight", flightInboundPresenter.toolbar.title.toString())
 
         flightInboundPresenter.toolbarViewModel.travelers.onNext(2)
-        assertEquals(View.VISIBLE,flightInboundPresenter.toolbar.visibility)
+        assertEquals(View.VISIBLE, flightInboundPresenter.toolbar.visibility)
         assertEquals("Select return flight", flightInboundPresenter.toolbar.title.toString())
-        assertEquals(travelDate+", 2 travelers",flightInboundPresenter.toolbar.subtitle)
+        assertEquals(travelDate + ", 2 travelers", flightInboundPresenter.toolbar.subtitle)
     }
 
     @Test
@@ -388,6 +388,6 @@ class FlightInboundPresenterTest {
         val checkIn = LocalDate().plusDays(2)
         val checkOut = LocalDate().plusDays(3)
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null, null, null,null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null, null, null, null)
     }
 }

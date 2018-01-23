@@ -17,7 +17,7 @@ class TravelerValidator(private val userStateManager: UserStateManager) {
     private var endOfTrip: LocalDate? = null
     private var infantsInLap: Boolean = false
 
-    fun updateForNewSearch(params : AbstractFlightSearchParams) {
+    fun updateForNewSearch(params: AbstractFlightSearchParams) {
         startOfTrip = params.startDate
         endOfTrip = params.getEndOfTripDate()
         infantsInLap = params.infantSeatingInLap
@@ -30,7 +30,7 @@ class TravelerValidator(private val userStateManager: UserStateManager) {
                 && (!passportRequired || hasValidPassport(traveler))
     }
 
-    fun isValidForRailBooking(traveler: Traveler) : Boolean {
+    fun isValidForRailBooking(traveler: Traveler): Boolean {
         return hasValidTravelerDetails(traveler)
     }
 
@@ -40,7 +40,7 @@ class TravelerValidator(private val userStateManager: UserStateManager) {
                 && isValidEmail(traveler.email)
     }
 
-    fun isValidForHotelBooking(traveler: Traveler) : Boolean {
+    fun isValidForHotelBooking(traveler: Traveler): Boolean {
         return hasValidTravelerDetails(traveler)
     }
 
@@ -52,16 +52,16 @@ class TravelerValidator(private val userStateManager: UserStateManager) {
         return CommonSectionValidators.TELEPHONE_NUMBER_VALIDATOR_STRING.validate(number) == ValidationError.NO_ERROR
     }
 
-    fun isRequiredNameValid(name: String?) : Boolean {
+    fun isRequiredNameValid(name: String?): Boolean {
         return CommonSectionValidators.NON_EMPTY_VALIDATOR.validate(name) == ValidationError.NO_ERROR
                 && hasAllValidChars(name)
     }
 
-    fun isLastNameValid(name: String?) : Boolean {
+    fun isLastNameValid(name: String?): Boolean {
         return isRequiredNameValid(name) && name?.length ?: 0 >= 2
     }
 
-    fun isMiddleNameValid(name: String?) : Boolean {
+    fun isMiddleNameValid(name: String?): Boolean {
         return hasAllValidChars(name)
     }
 
@@ -84,11 +84,11 @@ class TravelerValidator(private val userStateManager: UserStateManager) {
         return validFirstName && validMiddleName && validLastName
     }
 
-    fun isTravelerEmpty(traveler: Traveler) : Boolean {
+    fun isTravelerEmpty(traveler: Traveler): Boolean {
         return traveler.name.isEmpty && TextUtils.isEmpty(traveler.phoneNumber) && traveler.birthDate == null
     }
 
-    fun hasValidPassport(traveler: Traveler) : Boolean {
+    fun hasValidPassport(traveler: Traveler): Boolean {
         return Strings.isNotEmpty(traveler.primaryPassportCountry)
     }
 
@@ -106,11 +106,10 @@ class TravelerValidator(private val userStateManager: UserStateManager) {
         return true
     }
 
-    fun validatePassengerCategory(birthDate: LocalDate?, category: PassengerCategory?) : Boolean {
+    fun validatePassengerCategory(birthDate: LocalDate?, category: PassengerCategory?): Boolean {
         if (startOfTrip == null || endOfTrip == null) {
             throw RuntimeException("Error: Attempted to validate PassengerCategory before trip dates were properly initialized")
-        }
-        else if (birthDate == null || category == null) {
+        } else if (birthDate == null || category == null) {
             return false
         } else {
             return PassengerCategory.isDateWithinPassengerCategoryRange(birthDate, endOfTrip, startOfTrip, category)

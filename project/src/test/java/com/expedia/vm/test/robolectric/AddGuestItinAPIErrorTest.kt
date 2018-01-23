@@ -25,9 +25,9 @@ import java.util.concurrent.TimeUnit
 class AddGuestItinAPIErrorTest {
     private val context = RuntimeEnvironment.application
 
-    lateinit private var sut: TestAddGuestItinViewModel
+    private lateinit var sut: TestAddGuestItinViewModel
 
-    lateinit private var mockItineraryManager: ItineraryManager
+    private lateinit var mockItineraryManager: ItineraryManager
 
     @Before
     fun before() {

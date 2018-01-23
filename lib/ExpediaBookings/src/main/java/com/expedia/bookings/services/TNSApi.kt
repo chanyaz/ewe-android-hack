@@ -1,4 +1,4 @@
-package com.expedia.bookings.services;
+package com.expedia.bookings.services
 
 import com.expedia.bookings.data.TNSDeregister
 import com.expedia.bookings.data.TNSRegisterDeviceResponse

@@ -2,7 +2,6 @@ package com.expedia.bookings.itin.widget
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -12,7 +11,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 
-class FlightItinTravelerInfoWidget(context: Context, attr: AttributeSet?): LinearLayout(context, attr) {
+class FlightItinTravelerInfoWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
     @VisibleForTesting val travelerName: TextView by bindView(R.id.traveler_name_text_view)
     @VisibleForTesting val travelerTicketNumber: TextView by bindView(R.id.traveler_ticket_number)

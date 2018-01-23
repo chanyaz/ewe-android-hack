@@ -29,5 +29,4 @@ class OmnitureAnalyticsProvider : AnalyticsProvider {
     override fun onPauseActivity() {
         Config.pauseCollectingLifecycleData()
     }
-
 }

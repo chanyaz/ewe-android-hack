@@ -23,5 +23,4 @@ class RailTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerWid
         val view = LayoutInflater.from(context).inflate(R.layout.widget_rail_traveler_search, null)
         view
     }
-
 }

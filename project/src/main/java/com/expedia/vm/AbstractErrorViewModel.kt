@@ -48,9 +48,9 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
         searchApiErrorObserver.subscribe(searchErrorHandler())
     }
 
-    abstract protected fun searchErrorHandler(): Observer<ApiError>
-    abstract protected fun createTripErrorHandler(): Observer<ApiError>
-    abstract protected fun checkoutApiErrorHandler(): Observer<ApiError>
+    protected abstract fun searchErrorHandler(): Observer<ApiError>
+    protected abstract fun createTripErrorHandler(): Observer<ApiError>
+    protected abstract fun checkoutApiErrorHandler(): Observer<ApiError>
 
     protected fun subscribeActionToButtonPress(action: Observer<Unit>) {
         // Unsubscribe current button action

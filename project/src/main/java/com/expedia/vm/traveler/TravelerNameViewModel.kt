@@ -48,7 +48,7 @@ open class TravelerNameViewModel {
         val middleNameValid = middleNameViewModel.validate()
         val lastNameValid = lastNameViewModel.validate()
 
-        numberOfInvalidFields.onNext(AccessibilityUtil.getNumberOfInvalidFields(firstNameValid, middleNameValid,lastNameValid))
+        numberOfInvalidFields.onNext(AccessibilityUtil.getNumberOfInvalidFields(firstNameValid, middleNameValid, lastNameValid))
         return firstNameValid && middleNameValid && lastNameValid
     }
 }

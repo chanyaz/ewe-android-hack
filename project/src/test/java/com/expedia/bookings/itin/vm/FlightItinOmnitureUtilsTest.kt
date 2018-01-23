@@ -13,10 +13,9 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightItinOmnitureUtilsTest {
-    lateinit private var activity: Activity
-    lateinit private var sut: FlightItinOmnitureUtils
-    lateinit private var context: Context
-
+    private lateinit var activity: Activity
+    private lateinit var sut: FlightItinOmnitureUtils
+    private lateinit var context: Context
 
     @Before
     fun setup() {
@@ -48,7 +47,7 @@ class FlightItinOmnitureUtilsTest {
 
     @Test
     fun buildProductString() {
-        val testItinCardData = ItinCardDataFlightBuilder().build(false,true)
+        val testItinCardData = ItinCardDataFlightBuilder().build(false, true)
         val productString = sut.buildFlightProductString(testItinCardData)
         assertEquals(";Flight:UA:RT;;", productString)
     }

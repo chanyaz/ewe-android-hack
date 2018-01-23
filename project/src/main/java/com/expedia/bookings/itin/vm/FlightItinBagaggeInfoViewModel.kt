@@ -3,7 +3,6 @@ package com.expedia.bookings.itin.vm
 import android.content.Context
 import com.expedia.bookings.R
 
-
 class FlightItinBagaggeInfoViewModel(val context: Context) : ItinWebviewInfoButtonViewModel() {
 
     override fun updateWidgetWithBaggageInfoUrl(webviewLink: String) {
@@ -13,5 +12,4 @@ class FlightItinBagaggeInfoViewModel(val context: Context) : ItinWebviewInfoButt
                 R.color.app_primary,
                 webviewLink))
     }
-
 }

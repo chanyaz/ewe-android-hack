@@ -7,7 +7,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.vm.flights.FlightCreateTripViewModel
 
-class FlightWebCheckoutViewViewModel(var context:Context): WebCheckoutViewViewModel(context) {
+class FlightWebCheckoutViewViewModel(var context: Context) : WebCheckoutViewViewModel(context) {
 
     var flightCreateTripViewModel by notNullAndObservable<FlightCreateTripViewModel> {
         it.createTripResponseObservable.safeSubscribeOptional { createTripResponse ->

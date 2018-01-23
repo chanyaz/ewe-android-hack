@@ -76,7 +76,7 @@ object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
             }
 
             if (flightTrips.isNotEmpty()) {
-                val closestFlightTrip = flightTrips.sortedBy{ flight -> flight.startDate }.first()
+                val closestFlightTrip = flightTrips.sortedBy { flight -> flight.startDate }.first()
                 val tripFlightComponent = closestFlightTrip.tripComponents.first { tripComponent -> tripComponent.type == TripComponent.Type.FLIGHT && tripComponent.startDate.isAfterNow } as TripFlight
                 val shareString = shareUtils.getFlightShareTextShort(tripFlightComponent.flightTrip.getLeg(0), closestFlightTrip.shareInfo.sharableDetailsUrl, false, tripFlightComponent.travelers.first().firstName)
 
@@ -114,7 +114,6 @@ object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
                 true -> shortcutManager?.dynamicShortcuts = allShortcuts
                 false -> shortcutManager?.dynamicShortcuts = noFlightShortcuts
             }
-
         } else {
             shortcutManager?.dynamicShortcuts = noFlightShortcuts
         }

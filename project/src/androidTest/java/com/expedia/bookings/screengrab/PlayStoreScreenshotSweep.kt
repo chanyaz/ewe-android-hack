@@ -139,8 +139,7 @@ class PlayStoreScreenshotSweep {
             if (BuildConfig.ITIN_SCREENSHOT_BUILD) {
                 takeItinScreens()
             }
-        }
-        catch (e: Throwable) {
+        } catch (e: Throwable) {
              //shoot, something failed, but ignore so that the rest of the screens finish
         }
     }
@@ -227,7 +226,6 @@ class PlayStoreScreenshotSweep {
             onData(airportDropDownEntryWithAirportCode(searchCriteria.departureAirport.code)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
             SearchScreen.destination().perform(click())
             onData(airportDropDownEntryWithAirportCode(searchCriteria.arrivalAirport.code)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
-
         } else {
             SearchScreen.origin().perform(click())
             SearchScreen.searchEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.departureAirport.code))
@@ -313,7 +311,7 @@ class PlayStoreScreenshotSweep {
         return EmulateTypeTextAction(str)
     }
 
-    class EmulateTypeTextAction(private val stringToType: String): ViewAction {
+    class EmulateTypeTextAction(private val stringToType: String) : ViewAction {
         override fun getConstraints(): Matcher<View> {
             return allOf(isDisplayed(), isAssignableFrom(EditText::class.java))
         }
@@ -556,6 +554,4 @@ class PlayStoreScreenshotSweep {
 
         class HotelSearchCriteria(val city: String, val hotelName: String)
     }
-
-
 }

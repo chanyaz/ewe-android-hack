@@ -45,7 +45,6 @@ import kotlin.properties.Delegates
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-
 @RunWith(RobolectricRunner::class)
 class PaymentViewModelTest {
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
@@ -73,7 +72,7 @@ class PaymentViewModelTest {
         Db.getTripBucket().clear()
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
     }
-    
+
     @Test
     fun showCardInfoLabelHaveInvalidPaymentWarning() {
         val testSubscriber = TestObserver<Boolean>()
@@ -219,7 +218,7 @@ class PaymentViewModelTest {
         //User has not filled billing Info
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
 
-        paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(),R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful),
+        paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful),
                 ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard))
         cardTitleTestSubscriber.assertValues("Visa …1111", "Paying with Points & Visa …1111", "Enter payment details")
         cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "")
@@ -243,7 +242,7 @@ class PaymentViewModelTest {
         //User has not filled billing Info
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.INCOMPLETE))
-        cardSubtitleTestSubscriber.assertValues("","Enter missing payment details")
+        cardSubtitleTestSubscriber.assertValues("", "Enter missing payment details")
         cardTitleTestSubscriber.assertValues("Enter payment details", "Enter payment details")
     }
 
@@ -266,7 +265,6 @@ class PaymentViewModelTest {
         cardTitleTestSubscriber.assertValues("Enter payment details", "Paying with Points", "Enter payment details")
         cardSubtitleTestSubscriber.assertValues("", "Tap to edit", "")
         pwpSmallIconTestSubscriber.assertValues(false, false, false)
-
     }
 
     @Test
@@ -312,7 +310,6 @@ class PaymentViewModelTest {
         toggleAllowUnknownCardTypesABTest(false)
         assertFalse(isAllowUnknownCardTypesEnabled(getContext()))
     }
-
 
     @Test
     fun testAllowUnknownCardTypesNoPaymentTypeWarning() {
@@ -393,13 +390,12 @@ class PaymentViewModelTest {
     private fun toggleAllowUnknownCardTypesABTest(toggleOn: Boolean) {
         if (toggleOn) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
-        }
-        else {
+        } else {
             AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
         }
     }
 
-    class TestPaymentViewModelClass(context: Context): PaymentViewModel(context) {
+    class TestPaymentViewModelClass(context: Context) : PaymentViewModel(context) {
         override fun getScheduler(): Scheduler {
             return Schedulers.trampoline()
         }

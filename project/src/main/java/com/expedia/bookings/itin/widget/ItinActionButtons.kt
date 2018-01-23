@@ -12,7 +12,6 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 
 class ItinActionButtons(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs) {

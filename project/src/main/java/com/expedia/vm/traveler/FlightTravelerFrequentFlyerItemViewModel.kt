@@ -55,7 +55,7 @@ class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
         enrolledFrequentFlyerPlansObservable.onNext(enrolledPlans)
     }
 
-    private fun createEnrolledPlansFromTraveler() : LinkedHashMap<String, FrequentFlyerPlansTripResponse> {
+    private fun createEnrolledPlansFromTraveler(): LinkedHashMap<String, FrequentFlyerPlansTripResponse> {
         val enrolledPlans = LinkedHashMap<String, FrequentFlyerPlansTripResponse>()
         traveler.frequentFlyerMemberships.asIterable().forEach { plan ->
             val tripResponse = FrequentFlyerPlansTripResponse()

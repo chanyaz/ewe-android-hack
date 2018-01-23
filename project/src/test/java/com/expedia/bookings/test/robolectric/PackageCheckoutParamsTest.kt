@@ -21,7 +21,7 @@ import kotlin.test.assertTrue
 class PackageCheckoutParamsTest {
     var builder: PackageCheckoutParams.Builder by Delegates.notNull()
 
-    var activity : Activity by Delegates.notNull()
+    var activity: Activity by Delegates.notNull()
 
     val expectedMainTravelerKey = "flight.mainFlightPassenger.firstName"
     val expectedAddTravelerKey1 = "flight.associatedFlightPassengers[0].firstName"
@@ -165,7 +165,7 @@ class PackageCheckoutParamsTest {
         return traveler
     }
 
-    fun getStoredCard() : StoredCreditCard {
+    fun getStoredCard(): StoredCreditCard {
         val card = StoredCreditCard()
         card.id = "12345"
         card.cardNumber = "4111111111111111"

@@ -92,7 +92,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         return tripViewModel as PackageCreateTripViewModel
     }
 
-
     override fun showMainTravelerMinimumAgeMessaging(): Boolean {
         return true
     }
@@ -112,5 +111,4 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
 
         return type ?: PaymentType.CARD_UNKNOWN
     }
-
 }

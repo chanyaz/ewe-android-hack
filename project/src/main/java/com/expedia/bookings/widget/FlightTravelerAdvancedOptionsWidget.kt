@@ -68,7 +68,7 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         alert
     }
 
-    val assistanceAdapter : AssistanceTypeSpinnerAdapter by lazy {
+    val assistanceAdapter: AssistanceTypeSpinnerAdapter by lazy {
         val adapter = AssistanceTypeSpinnerAdapter(context, R.layout.material_item)
         adapter
     }

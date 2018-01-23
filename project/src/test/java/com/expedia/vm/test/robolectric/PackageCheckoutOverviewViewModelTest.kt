@@ -81,7 +81,6 @@ class PackageCheckoutOverviewViewModelTest {
         packageDetails.pricing.bundleTotal = null
 
         assertEquals("$950", trip.bundleTotal.formattedMoney)
-
     }
 
     private fun getContext(): Context {

@@ -54,6 +54,5 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
                     .put("date", datesTitleContDesc).put("guests", travelersTitle)
                     .format().toString())
         }.subscribe()
-
     }
 }

@@ -92,7 +92,7 @@ class HotelFilterOptionsTest {
     fun testNotEmpty_amenities() {
         assertFalse(testFilterOptions.isNotEmpty()) // sanity check
 
-        testFilterOptions.amenities = hashSetOf(4,16)
+        testFilterOptions.amenities = hashSetOf(4, 16)
         assertTrue(testFilterOptions.isNotEmpty())
     }
 }

@@ -9,7 +9,6 @@ import com.expedia.util.endlessObserver
 import io.reactivex.Observer
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import io.reactivex.Observable
 
 class FlightTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(context) {
 
@@ -26,7 +25,6 @@ class FlightTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewMo
     private val infantAgeUpperLimit = 1
     private val childAgeUpperLimit = 11
     private val YouthAgeUpperLimit = 17
-
 
     val youthTravelerCountChangeObservable = BehaviorSubject.create<Unit>()
     val infantTravelerCountChangeObservable = BehaviorSubject.create<Unit>()
@@ -53,7 +51,6 @@ class FlightTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewMo
 
     init {
         lob = LineOfBusiness.FLIGHTS_V2
-
 
         travelerParamsObservable.subscribe { travelers ->
             val total = travelers.numberOfAdults + travelers.childrenAges.size
@@ -91,7 +88,6 @@ class FlightTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewMo
             youthMinusObservable.onNext(youth > MIN_CHILDREN)
             childMinusObservable.onNext(child > MIN_CHILDREN)
             infantMinusObservable.onNext(infant > MIN_CHILDREN)
-
         }
         isInfantInLapObservable.subscribe { inLap ->
             validateInfants()
@@ -171,5 +167,4 @@ class FlightTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewMo
         tooManyInfantsInLap.onNext(showSeatingPreference && isInfantInLapObservable.value && (numberOfInfants > (travelerParams.numberOfAdults + numberOfYouth)))
         tooManyInfantsInSeat.onNext(showSeatingPreference && !isInfantInLapObservable.value && (numberOfInfants > 2 && (travelerParams.numberOfAdults + numberOfYouth) == 1))
     }
-
 }

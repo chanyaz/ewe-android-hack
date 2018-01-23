@@ -14,5 +14,4 @@ open class PackageBaseApiResponse {
             }
             return errors[0] ?: PackageApiError.Code.pkg_error_code_not_mapped
         }
-
 }

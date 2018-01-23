@@ -29,7 +29,7 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class FareFamilyAmenityDialogTest {
-    lateinit private var activity: FragmentActivity
+    private lateinit var activity: FragmentActivity
     lateinit var widget: FareFamilyItemWidget
 
     @Before
@@ -145,7 +145,7 @@ class FareFamilyAmenityDialogTest {
         Db.setFlightSearchParams(params)
     }
 
-    private fun getFakeSuggestion(airportCode: String) : SuggestionV4 {
+    private fun getFakeSuggestion(airportCode: String): SuggestionV4 {
         val suggestion = SuggestionV4()
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
         val airport = SuggestionV4.Airport()

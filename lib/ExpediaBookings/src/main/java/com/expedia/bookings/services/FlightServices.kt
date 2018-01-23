@@ -148,13 +148,13 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
                 leg.durationMinute += travelPeriod.minutes
 
                 if (lastSegment != null) {
-                    val layOverPeriod = Period(lastArrival, segmentDepartureTime);
+                    val layOverPeriod = Period(lastArrival, segmentDepartureTime)
                     leg.durationHour += layOverPeriod.hours
                     leg.durationMinute += layOverPeriod.minutes
                     lastSegment.layoverDurationHours = layOverPeriod.hours
                     lastSegment.layoverDurationMinutes = layOverPeriod.minutes
                 }
-                lastArrival = segmentArrivalTime;
+                lastArrival = segmentArrivalTime
                 lastSegment = segment
             }
             leg.airlines = airlines
@@ -172,8 +172,7 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
 
         val createTripObservable = if (isUserBucketedForAPIMAuth) {
             flightApi.createTrip(params.flexEnabled, params.toQueryMap(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
-        }
-        else {
+        } else {
             flightApi.oldCreateTrip(params.flexEnabled, params.toQueryMap(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
         }
         createTripRequestSubscription = createTripObservable.observeOn(observeOn)
@@ -210,7 +209,7 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
 
         return checkoutRequestSubscription as Disposable
     }
-    private fun setAirlineLogoUrl(segment: FlightLeg.FlightSegment){
+    private fun setAirlineLogoUrl(segment: FlightLeg.FlightSegment) {
         if (segment.airlineCode != null) {
             segment.airlineLogoURL = Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", segment.airlineCode)
         }

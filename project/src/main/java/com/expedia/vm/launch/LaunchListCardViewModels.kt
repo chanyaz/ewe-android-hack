@@ -7,6 +7,6 @@ interface GenericViewModel {
     val buttonTwoLabel: String
 }
 
-data class SignInPlaceHolderViewModel(override val firstLine: String, override val secondLine: String, override val buttonOneLabel: String, override val buttonTwoLabel: String): GenericViewModel
+data class SignInPlaceHolderViewModel(override val firstLine: String, override val secondLine: String, override val buttonOneLabel: String, override val buttonTwoLabel: String) : GenericViewModel
 data class PopularHotelsTonightViewModel(val background: Int, val firstLine: String, val secondLine: String)
 data class BrandSignInLaunchHolderViewModel(val firstLine: String, val secondLine: String, val buttonOneLabel: String)

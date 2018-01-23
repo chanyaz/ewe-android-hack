@@ -29,7 +29,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val burnAmountToPointsApiError = PublishSubject.create<ApiError>()
 
     private fun makeCalculatePointsApiResponseObserver(): Observer<CalculatePointsResponse> {
-        return object: DisposableObserver<CalculatePointsResponse>() {
+        return object : DisposableObserver<CalculatePointsResponse>() {
             override fun onError(apiError: Throwable) {
                 if (!this.isDisposed) {
                     burnAmountToPointsApiError.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
@@ -125,7 +125,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     }
 
     init {
-        burnAmountAndLatestTripResponse.filter { it.burnAmount.compareTo(BigDecimal.ZERO) == 0 }.map { it.latestTripResponse}.subscribe{
+        burnAmountAndLatestTripResponse.filter { it.burnAmount.compareTo(BigDecimal.ZERO) == 0 }.map { it.latestTripResponse }.subscribe {
             tripTotalPayable.onNext(it.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             paymentSplitsFromBurnAmountUpdates.onNext(it.paymentSplitsWhenZeroPayableWithPoints() )
         }
@@ -152,8 +152,8 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
 
         createTripSubject.withLatestFrom(swpOpted, { createTripResponse, swpOpted ->
             object {
-                val createTripResponse = createTripResponse;
-                val swpOpted = swpOpted;
+                val createTripResponse = createTripResponse
+                val swpOpted = swpOpted
             }
         }).subscribe {
             //Explicitly ensuring that tripResponses has the latest Trip Response onloaded to it before a Payment-Split is onloaded to paymentSplits (via createTripResponsePaymentSplits)

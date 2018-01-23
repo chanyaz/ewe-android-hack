@@ -66,11 +66,11 @@ class HotelReviewsTest {
                 .subscribe(vm.reviewsObserver)
 
         val recordedRequest1 = reviewServicesRule.server.takeRequest()
-        assertEquals(getExpectedReviewRequestStr(0), recordedRequest1.path);
+        assertEquals(getExpectedReviewRequestStr(0), recordedRequest1.path)
         val recordedRequest2 = reviewServicesRule.server.takeRequest()
-        assertEquals(getExpectedReviewRequestStr(25), recordedRequest2.path);
+        assertEquals(getExpectedReviewRequestStr(25), recordedRequest2.path)
         val recordedRequest3 = reviewServicesRule.server.takeRequest()
-        assertEquals(getExpectedReviewRequestStr(50), recordedRequest3.path);
+        assertEquals(getExpectedReviewRequestStr(50), recordedRequest3.path)
     }
 
     @Test

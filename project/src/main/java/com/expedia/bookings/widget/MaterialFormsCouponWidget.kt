@@ -32,18 +32,15 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
         }
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
         }
     }
 
     private fun clearError() {
         couponCode.setMaterialFormsError(true, "")
     }
-
 
     override fun onExpand() {
         clearError()
@@ -93,7 +90,7 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     override fun showHotelCheckoutView(couponInstanceId: String?): Boolean {
-        val couponAppliedFromStoredCoupon = getStoredCouponListAdapter().coupons.find {it.savedCoupon.instanceId == couponInstanceId} != null
+        val couponAppliedFromStoredCoupon = getStoredCouponListAdapter().coupons.find { it.savedCoupon.instanceId == couponInstanceId } != null
         if (isExpanded) {
             return !couponAppliedFromStoredCoupon
         } else {

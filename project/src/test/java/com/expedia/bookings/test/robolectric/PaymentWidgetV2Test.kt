@@ -152,7 +152,7 @@ class PaymentWidgetV2Test {
         paymentModel.createTripSubject.onNext(getPayLaterResponse())
         sut.viewmodel.shouldShowPayLaterMessaging.onNext(true)
 
-        testPaymentTileInfo("Enter payment details", "Only needed to confirm your booking",  ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard), View.GONE)
+        testPaymentTileInfo("Enter payment details", "Only needed to confirm your booking", ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard), View.GONE)
     }
 
     @Test
@@ -160,7 +160,7 @@ class PaymentWidgetV2Test {
         sut.validateAndBind()
         paymentModel.createTripSubject.onNext(getPayLaterResponse())
 
-        testPaymentTileInfo("Enter payment details", "",  ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard), View.GONE)
+        testPaymentTileInfo("Enter payment details", "", ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard), View.GONE)
     }
 
     @Test
@@ -537,8 +537,7 @@ class PaymentWidgetV2Test {
         val createTripResponse: HotelCreateTripResponse
         if (hasRedeemablePoints)
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
-        else
-            createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
+        else createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
 
         createTripResponse.tripId = "happy"
         Db.getTripBucket().clearHotelV2()
@@ -667,7 +666,7 @@ class PaymentWidgetV2Test {
         }
     }
 
-    private  fun assertCardTypeDisplayed(validFormsOfPayment: ArrayList<PaymentType>) {
+    private fun assertCardTypeDisplayed(validFormsOfPayment: ArrayList<PaymentType>) {
         for (i in 0..(validCardsList.childCount - 1)) {
             val cardInList = (validCardsList.getChildAt(i) as ImageView)
             assertEquals(cardInList.tag, BookingInfoUtils.getCreditCardIcon(validFormsOfPayment.get(i)))
@@ -684,7 +683,7 @@ class PaymentWidgetV2Test {
     }
 
     private fun createValidFormOfPaymentList(): ArrayList<PaymentType> {
-        val validFormsOfPayment =  ArrayList<PaymentType>()
+        val validFormsOfPayment = ArrayList<PaymentType>()
         validFormsOfPayment.add(PaymentType.CARD_AMERICAN_EXPRESS)
         validFormsOfPayment.add(PaymentType.CARD_CARTE_BLEUE)
         validFormsOfPayment.add(PaymentType.CARD_MASTERCARD)

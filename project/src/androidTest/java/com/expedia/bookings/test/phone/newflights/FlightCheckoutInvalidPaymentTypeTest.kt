@@ -15,7 +15,7 @@ import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.joda.time.LocalDate
 import org.junit.Test
 
-class FlightCheckoutInvalidPaymentTypeTest: NewFlightTestCase() {
+class FlightCheckoutInvalidPaymentTypeTest : NewFlightTestCase() {
 
     @Test
     fun testInvalidPaymentTypeWarningShown() {

@@ -2,7 +2,6 @@ package com.expedia.util
 
 import android.content.Context
 import android.text.TextUtils
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.mobiata.android.util.SettingUtils
 import java.util.Locale
@@ -42,12 +41,10 @@ object LanguageHelper {
 
         if (!TextUtils.isEmpty(region)) {
             Locale.setDefault(Locale(lang, region))
-
         } else {
             Locale.setDefault(Locale(lang))
         }
         config.locale = Locale.getDefault()
         resources.updateConfiguration(config, resources.displayMetrics)
     }
-
 }

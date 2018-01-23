@@ -86,8 +86,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     override val travelerWidgetV2 by lazy {
         if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp))
             travelerFlightCardViewStub.inflate().findViewById<FlightTravelerWidgetV2>(R.id.traveler_card)
-        else
-            travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
+        else travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
     }
     val isShowSuggestionLabelTestEnabled: Boolean = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
 
@@ -113,8 +112,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             swapFlightsLocationsButton.setOnClickListener {
                 if (!vm.toAndFromFlightFieldsSwitched)
                     AnimUtils.rotate(swapFlightsLocationsButton)
-                else
-                    AnimUtils.reverseRotate(swapFlightsLocationsButton)
+                else AnimUtils.reverseRotate(swapFlightsLocationsButton)
                 vm.toAndFromFlightFieldsSwitched = !(vm.toAndFromFlightFieldsSwitched)
                 vm.swapToFromFieldsObservable.onNext(Unit)
             }
@@ -124,8 +122,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.getTravelerCount()
-            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
-                    put("travelers", noOfTravelers).format().toString()
+            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers))
+                    .put("travelers", noOfTravelers).format().toString()
         }
 
         vm.errorNoDestinationObservable.subscribe {
@@ -161,8 +159,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                         Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
                                 .put("to_destination", text)
                                 .format().toString()
-                    else
-                        context.resources.getString(R.string.fly_to_hint)
+                    else context.resources.getString(R.string.fly_to_hint)
             if (this.visibility == VISIBLE && vm.startDate() == null && text.isNotEmpty() && !vm.hasPreviousSearchParams) {
                 calendarWidgetV2.showCalendarDialog()
             }
@@ -234,7 +231,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     }
 
     private fun setContentDescriptionToolbarTabs() {
-        for (index in 0 .. tabs.tabCount) {
+        for (index in 0..tabs.tabCount) {
             val tab = tabs.getTabAt(index)
             if (tab != null) {
                 val tabContDesc = Phrase.from(context, R.string.accessibility_cont_desc_flight_search_type_TEMPLATE)
@@ -244,8 +241,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
     }
 
-    lateinit private var originSuggestionAdapter: SuggestionAdapter
-    lateinit private var destinationSuggestionAdapter: SuggestionAdapter
+    private lateinit var originSuggestionAdapter: SuggestionAdapter
+    private lateinit var destinationSuggestionAdapter: SuggestionAdapter
     override val delayBeforeShowingDestinationSuggestions = 5L
     override val waitForOtherSuggestionListeners = 5L
 

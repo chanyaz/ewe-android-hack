@@ -27,19 +27,18 @@ class CommonSectionValidatorTest {
     fun testNamePatternValidator() {
         val validator = CommonSectionValidators.NAME_PATTERN_VALIDATOR
         editText.setText("")
-        assertEquals(ValidationError.ERROR_DATA_MISSING,  validator.validate(editText))
+        assertEquals(ValidationError.ERROR_DATA_MISSING, validator.validate(editText))
         editText.setText("m")
-        assertEquals(ValidationError.ERROR_DATA_INVALID,  validator.validate(editText))
+        assertEquals(ValidationError.ERROR_DATA_INVALID, validator.validate(editText))
         editText.setText("mN")
-        assertEquals(ValidationError.ERROR_DATA_INVALID,  validator.validate(editText))
+        assertEquals(ValidationError.ERROR_DATA_INVALID, validator.validate(editText))
         editText.setText("MalcolmNguyen")
-        assertEquals(ValidationError.ERROR_DATA_INVALID,  validator.validate(editText))
+        assertEquals(ValidationError.ERROR_DATA_INVALID, validator.validate(editText))
         editText.setText("m n")
-        assertEquals(ValidationError.NO_ERROR,  validator.validate(editText))
+        assertEquals(ValidationError.NO_ERROR, validator.validate(editText))
         editText.setText("mA n")
-        assertEquals(ValidationError.NO_ERROR,  validator.validate(editText))
+        assertEquals(ValidationError.NO_ERROR, validator.validate(editText))
         editText.setText("Malcolm Nguyen")
-        assertEquals(ValidationError.NO_ERROR,  validator.validate(editText))
+        assertEquals(ValidationError.NO_ERROR, validator.validate(editText))
     }
-
 }

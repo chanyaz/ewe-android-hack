@@ -213,7 +213,6 @@ class HotelCheckoutPresenterTest {
         val doneMenuVisibilitySubscriber = TestObserver<Unit>()
         checkout.toolbar.viewModel.visibleMenuWithTitleDone.subscribe(doneMenuVisibilitySubscriber)
 
-
         checkout.show(CheckoutBasePresenter.Ready())
         val travelerContactDetailsWidget = (LayoutInflater.from(activity).inflate(R.layout.test_traveler_contact_details_widget, null) as TravelerContactDetailsWidget)
         checkout.toolbar.viewModel.expanded.onNext(travelerContactDetailsWidget)
@@ -437,7 +436,6 @@ class HotelCheckoutPresenterTest {
         (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.enableStoredCouponsSubject
                 .subscribe(testEnableStoredCouponsSubscriber)
 
-
         val storedCouponRecycler = getStoredCouponRecycler()
         (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).itemView.performClick()
 
@@ -536,7 +534,6 @@ class HotelCheckoutPresenterTest {
         assertTrue(checkout.couponCardView.couponCode.isEnabled)
     }
 
-
     @Test
     fun testUiEnabledOnSuccessfulCouponControl() {
         setup()
@@ -585,7 +582,6 @@ class HotelCheckoutPresenterTest {
         checkout.couponCardView.viewmodel.networkErrorAlertDialogObservable.onNext(Unit)
         val networkAlert = ShadowAlertDialog.getLatestAlertDialog()
         networkAlert.getButton(DialogInterface.BUTTON_NEGATIVE).performClick()
-
 
         testEnableStoredCouponsSubscriber.assertValues(false, true)
         assertStoredCouponsEnabled(getStoredCouponRecycler(), isEnabled = true)
@@ -721,7 +717,6 @@ class HotelCheckoutPresenterTest {
 
         val expectedEvars = mapOf(61 to PointOfSale.getPointOfSale().tpid.toString())
         OmnitureTestUtils.assertLinkTracked("Universal Checkout", "App.CKO.SlideToBook", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
-
     }
 
     private fun givenLoggedInUserAndTravelerInDb() {
@@ -806,10 +801,10 @@ class HotelCheckoutPresenterTest {
         assertEquals(false, traveler.expediaEmailOptIn)
     }
 
-    private fun getStoredCouponRecycler() : StoredCouponRecyclerView {
+    private fun getStoredCouponRecycler(): StoredCouponRecyclerView {
         val storedCouponsRecycler = (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.storedCouponRecyclerView
-        storedCouponsRecycler.measure(0, 0);
-        storedCouponsRecycler.layout(0, 0, 100, 10000);
+        storedCouponsRecycler.measure(0, 0)
+        storedCouponsRecycler.layout(0, 0, 100, 10000)
         return storedCouponsRecycler
     }
 

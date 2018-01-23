@@ -18,13 +18,13 @@ class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(c
         findViewById<TextView>(R.id.description)
     }
 
-    val readMore : ImageButton by lazy {
+    val readMore: ImageButton by lazy {
         findViewById<ImageButton>(R.id.read_more)
     }
 
-    val maxLineCount : Int = 2
+    val maxLineCount: Int = 2
 
-    val ANIMATION_DURATION : Long = 100
+    val ANIMATION_DURATION: Long = 100
 
     init {
         View.inflate(context, R.layout.widget_lx_offer_description, this)
@@ -38,7 +38,7 @@ class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(c
         offerDescription.text = description
     }
 
-    @Subscribe fun onOfferExpanded(@Suppress("UNUSED_PARAMETER") event : Events.LXOfferExpanded) {
+    @Subscribe fun onOfferExpanded(@Suppress("UNUSED_PARAMETER") event: Events.LXOfferExpanded) {
         readMore.clearAnimation()
         isClickable = false
 
@@ -50,14 +50,12 @@ class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(c
                 if (lines > maxLineCount) {
                     readMore.visibility = View.VISIBLE
                     isClickable = true
-                }
-                else {
+                } else {
                     readMore.visibility = View.GONE
                     isClickable = false
                 }
             }
         })
-
     }
 
     override fun onClick(v: View) {

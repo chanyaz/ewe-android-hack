@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.HotelSuggestionViewModel
 
-class HotelSuggestionViewHolder(val root: ViewGroup, private val vm : HotelSuggestionViewModel) : RecyclerView.ViewHolder(root) {
+class HotelSuggestionViewHolder(val root: ViewGroup, private val vm: HotelSuggestionViewModel) : RecyclerView.ViewHolder(root) {
     val title: TextView by bindView(R.id.title_textview)
     val icon: ImageView by bindView(R.id.icon_imageview)
     val hierarchyIcon: ImageView by bindView(R.id.hierarchy_imageview)
@@ -19,7 +19,7 @@ class HotelSuggestionViewHolder(val root: ViewGroup, private val vm : HotelSugge
         vm.bind(suggestion)
         title.text = vm.getTitle()
         icon.setImageResource(vm.getIcon())
-        if (vm.isChild() && !vm.isHistoryItem()){
+        if (vm.isChild() && !vm.isHistoryItem()) {
             hierarchyIcon.visibility = View.VISIBLE
             icon.visibility = View.GONE
         } else {

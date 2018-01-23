@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class NewAddGuestItinActivityTest {
-    lateinit private var activity: NewAddGuestItinActivity
+    private lateinit var activity: NewAddGuestItinActivity
 
     @Before
     fun before() {
@@ -24,7 +24,7 @@ class NewAddGuestItinActivityTest {
         var newAddGuestItinActivityMock = Shadows.shadowOf(activity)
         activity.isSyncCalledFromHere = true
         activity.syncListenerAdapter.onSyncFinished(null)
-        assertTrue {(newAddGuestItinActivityMock.isFinishing)}
+        assertTrue { (newAddGuestItinActivityMock.isFinishing) }
     }
 
     @Test
@@ -32,8 +32,6 @@ class NewAddGuestItinActivityTest {
         var newAddGuestItinActivityMock = Shadows.shadowOf(activity)
         activity.isSyncCalledFromHere = false
         activity.syncListenerAdapter.onSyncFinished(null)
-        assertFalse {(newAddGuestItinActivityMock.isFinishing)}
-
+        assertFalse { (newAddGuestItinActivityMock.isFinishing) }
     }
-
 }

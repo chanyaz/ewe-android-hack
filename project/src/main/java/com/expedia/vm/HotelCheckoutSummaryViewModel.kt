@@ -26,7 +26,6 @@ import org.joda.time.LocalDate
 import java.math.BigDecimal
 import java.text.NumberFormat
 
-
 class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
     // output
     val newDataObservable = BehaviorSubject.create<Unit>()
@@ -193,7 +192,6 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
                 amountDueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
                 appendFeesPaidCostSummaryContDesc(accessibilityCostSummaryContentDescription)
                 accessibilityCostSummaryContentDescription.append(Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()).append(" ").append(dueNowAmount.value).append(" ")
-
             } else if (isPayLaterOrResortCase.value) {
                 amountDueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
                 appendFeesPaidCostSummaryContDesc(accessibilityCostSummaryContentDescription)

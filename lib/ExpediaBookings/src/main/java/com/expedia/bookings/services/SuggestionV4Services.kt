@@ -57,7 +57,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         return suggestV4(query, type, false, "ta_hierarchy", "ACTIVITIES")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions}
+                .map { response -> response.suggestions }
                 .subscribeObserver(observer)
     }
 
@@ -156,6 +156,6 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
     fun essDomainResolution(): Observable<ResponseBody> {
         return suggestApi.resolveEssDomain()
                 .observeOn(observeOn)
-                .subscribeOn(subscribeOn);
+                .subscribeOn(subscribeOn)
     }
 }

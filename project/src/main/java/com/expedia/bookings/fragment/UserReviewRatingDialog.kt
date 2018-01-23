@@ -11,7 +11,6 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.UserReviewDialogViewModel
 
-
 class UserReviewRatingDialog(context: Context) {
 
     val dialog: Dialog by lazy {

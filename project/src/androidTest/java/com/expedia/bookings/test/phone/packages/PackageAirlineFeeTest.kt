@@ -16,7 +16,7 @@ import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import org.junit.Test
 import java.util.concurrent.TimeUnit
 
-class PackageAirlineFeeTest: PackageTestCase() {
+class PackageAirlineFeeTest : PackageTestCase() {
 
     @Test
     fun testAirlineFees() {

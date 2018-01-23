@@ -23,7 +23,5 @@ class OmnitureProductStringTest {
         val actualProductStringNoHotelId = OmnitureTracking.getHotelProductString(null, 2, "320.23", "DirectAgency")
         val expectedProductStringNoHotelId = "Hotel;DirectAgency Hotel:;2;320.23"
         assertEquals(expectedProductStringNoHotelId, actualProductStringNoHotelId)
-
     }
-
 }

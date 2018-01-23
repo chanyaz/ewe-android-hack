@@ -41,11 +41,11 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                 val paymentSplitsType = paymentSplitsWithTripTotalPayableAndTripResponse.paymentSplits.paymentSplitsType()
                 val isExpediaRewardsRedeemable = paymentSplitsWithTripTotalPayableAndTripResponse.tripResponse.isRewardsRedeemable()
                 val dueNowAmount = paymentSplitsWithTripTotalPayableAndTripResponse.tripResponse.getTripTotalExcludingFee()
-                val tripTotalPayableInclundingFee  = paymentSplitsWithTripTotalPayableAndTripResponse.tripTotalPayableIncludingFee
+                val tripTotalPayableInclundingFee = paymentSplitsWithTripTotalPayableAndTripResponse.tripTotalPayableIncludingFee
                 val roomResponse = newRateObserver.hotelRoomResponse
             }
         }).subscribe {
-            val tripTotal : String
+            val tripTotal: String
             if (it.isExpediaRewardsRedeemable) {
                 priceAboveSlider.onNext(getPayWithPointsAndOrCardMessaging(it.paymentSplitsType, it.payingWithPoints, it.payingWithCards))
                 tripTotal = it.tripTotalPayableInclundingFee.formattedMoneyFromAmountAndCurrencyCode
@@ -118,7 +118,6 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                             .put("dueamount", payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
                             .format().toString()
                 }
-
         }
     }
 }

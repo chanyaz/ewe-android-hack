@@ -33,7 +33,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import org.mockito.Mockito.`when` as whenever
 
-
 @RunWith(RobolectricRunner::class)
 class ItinItemListFragmentTest {
 

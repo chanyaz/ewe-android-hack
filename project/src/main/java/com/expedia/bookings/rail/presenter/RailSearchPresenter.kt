@@ -43,8 +43,8 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         return Ui.getToolbarSize(context)
     }
 
-    lateinit private var originSuggestionAdapter: SuggestionAdapter
-    lateinit private var destinationSuggestionAdapter: SuggestionAdapter
+    private lateinit var originSuggestionAdapter: SuggestionAdapter
+    private lateinit var destinationSuggestionAdapter: SuggestionAdapter
     private val searchWidget by bindView<RailSearchWidget>(R.id.rail_search_widget)
 
     override val tabs: PositionObservableTabLayout by bindView(R.id.tabs)
@@ -90,8 +90,8 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.getTravelerCount()
-            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
-                    put("travelers", noOfTravelers).format().toString()
+            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers))
+                    .put("travelers", noOfTravelers).format().toString()
         }
 
         // we dont want to do current location now - TODO future enhancement

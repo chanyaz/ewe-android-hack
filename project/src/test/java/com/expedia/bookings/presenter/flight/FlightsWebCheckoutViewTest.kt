@@ -30,8 +30,7 @@ class FlightsWebCheckoutViewTest {
     private fun setUpFlightsWebCheckoutViewTest(bucketed: Boolean) {
         if (bucketed) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
-        }
-        else {
+        } else {
             AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
         }
     }

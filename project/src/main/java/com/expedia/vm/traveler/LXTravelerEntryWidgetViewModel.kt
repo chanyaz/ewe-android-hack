@@ -6,13 +6,12 @@ import com.expedia.bookings.enums.TravelerCheckoutStatus
 
 class LXTravelerEntryWidgetViewModel(context: Context, travelerCheckoutStatus: TravelerCheckoutStatus) : AbstractUniversalCKOTravelerEntryWidgetViewModel(context, 0) {
 
-    init{
+    init {
         updateTraveler(getTraveler())
         if (travelerCheckoutStatus != TravelerCheckoutStatus.CLEAN) {
             validate()
         }
         showPhoneNumberObservable.onNext(true)
-
     }
 
     override fun getTraveler(): Traveler {
@@ -21,5 +20,4 @@ class LXTravelerEntryWidgetViewModel(context: Context, travelerCheckoutStatus: T
         traveler.email = ""
         return traveler
     }
-
 }

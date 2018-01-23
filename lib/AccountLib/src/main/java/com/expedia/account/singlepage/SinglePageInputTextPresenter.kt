@@ -12,8 +12,7 @@ import com.expedia.account.util.StatusObservableWrapper
 import com.expedia.account.util.Utils
 import com.expedia.account.view.AccessibleEditText
 
-
-open class SinglePageInputTextPresenter(context: Context, attrs: AttributeSet): BaseInputTextPresenter(context, attrs) {
+open class SinglePageInputTextPresenter(context: Context, attrs: AttributeSet) : BaseInputTextPresenter(context, attrs) {
 
     private val editTextLayout: TextInputLayout by lazy {
         findViewById<TextInputLayout>(R.id.single_page_text_field_layout)

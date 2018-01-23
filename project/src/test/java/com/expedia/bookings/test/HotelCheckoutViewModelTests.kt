@@ -162,7 +162,7 @@ class HotelCheckoutViewModelTests {
                 .checkoutInfo(HotelCheckoutParamsMock.checkoutInfo())
                 .paymentInfo(HotelCheckoutParamsMock.paymentInfo())
                 .traveler(HotelCheckoutParamsMock.traveler())
-                .misc(miscParameters).build();
+                .misc(miscParameters).build()
     }
 
     private fun givenWeHadAHappyCreateTripResponse() {
@@ -170,7 +170,7 @@ class HotelCheckoutViewModelTests {
         Db.getTripBucket().add(TripBucketItemHotelV2(happyCreateTripResponse))
     }
 
-    class TestHotelCheckoutViewModel(val testSubscriber: TestObserver<HotelCheckoutResponse>, hotelServices: HotelServices, paymentModel: PaymentModel<HotelCreateTripResponse>): HotelCheckoutViewModel(hotelServices,paymentModel) {
+    class TestHotelCheckoutViewModel(val testSubscriber: TestObserver<HotelCheckoutResponse>, hotelServices: HotelServices, paymentModel: PaymentModel<HotelCreateTripResponse>) : HotelCheckoutViewModel(hotelServices, paymentModel) {
         override fun getCheckoutResponseObserver(): Observer<HotelCheckoutResponse> {
             return testSubscriber
         }

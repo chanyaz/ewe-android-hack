@@ -46,12 +46,12 @@ class HotelCheckoutSummaryViewModelTest {
 
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
-    lateinit private var sut: HotelCheckoutSummaryViewModel
-    lateinit private var createTripResponse: HotelCreateTripResponse
-    lateinit private var hotelProductResponse: HotelCreateTripResponse.HotelProductResponse
+    private lateinit var sut: HotelCheckoutSummaryViewModel
+    private lateinit var createTripResponse: HotelCreateTripResponse
+    private lateinit var hotelProductResponse: HotelCreateTripResponse.HotelProductResponse
     private var createTripResponseObservable = PublishSubject.create<HotelCreateTripResponse>()
-    lateinit private var paymentModel: PaymentModel<HotelCreateTripResponse>
-    lateinit private var context: Application
+    private lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+    private lateinit var context: Application
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
@@ -211,7 +211,7 @@ class HotelCheckoutSummaryViewModelTest {
         createTripResponseObservable.onNext(createTripResponse)
 
         val formattedCheckInDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(checkInDate)
-        assertEquals("Free cancellation before ${formattedCheckInDate}", testTextSubscriber.values()[0])
+        assertEquals("Free cancellation before $formattedCheckInDate", testTextSubscriber.values()[0])
     }
 
     @Test

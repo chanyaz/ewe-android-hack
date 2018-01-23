@@ -46,8 +46,8 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     private val haveProduct: Boolean get() = product != null
     private var product: InsuranceProduct? = null
 
-    lateinit private var lastAction: InsuranceAction
-    lateinit private var trip: FlightTripResponse
+    private lateinit var lastAction: InsuranceAction
+    private lateinit var trip: FlightTripResponse
     lateinit var tripId: String
 
     enum class InsuranceAction {
@@ -113,7 +113,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
             FlightsV2Tracking.trackInsuranceError(message)
 
             val displayMessage = context.resources.getString(when (lastAction) {
-                InsuranceAction.ADD    -> R.string.insurance_add_error
+                InsuranceAction.ADD -> R.string.insurance_add_error
                 InsuranceAction.REMOVE -> R.string.insurance_remove_error
             })
 

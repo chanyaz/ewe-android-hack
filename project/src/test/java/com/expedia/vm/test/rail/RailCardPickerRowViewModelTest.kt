@@ -27,5 +27,4 @@ class RailCardPickerRowViewModelTest {
         assertEquals(3, railCardSelectedDetails.quantity)
         assertEquals(mockRailCard, railCardSelectedDetails.cardType)
     }
-
 }

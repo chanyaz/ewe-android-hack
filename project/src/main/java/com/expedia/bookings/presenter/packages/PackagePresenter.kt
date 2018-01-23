@@ -470,7 +470,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         PackagesTracking().trackDestinationSearchInit(PackagesPageUsableData.SEARCH.pageUsableData)
     }
 
-    fun trackViewBundlePageLoad(isFirstBundleLaunch: Boolean = false){
+    fun trackViewBundlePageLoad(isFirstBundleLaunch: Boolean = false) {
         PackagesTracking().trackViewBundlePageLoad(isFirstBundleLaunch)
     }
 
@@ -527,5 +527,4 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             PackageSearchPresenter::class.java.name
         }
     }
-
 }

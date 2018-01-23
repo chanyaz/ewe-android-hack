@@ -16,8 +16,8 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class OmnitureTrackingDeeplinkTest {
 
-    private lateinit var context: Context;
-    private lateinit var adms: ADMS_Measurement;
+    private lateinit var context: Context
+    private lateinit var adms: ADMS_Measurement
 
     private val AFFCID_TEST_LINK = "TEST_BRAD_AFFCID_UNIVERSAL_LINK"
     private val AFFLID_TEST_LINK = "TEST_BRAD_AFFLID_UNIVERSAL_LINK"
@@ -122,7 +122,6 @@ class OmnitureTrackingDeeplinkTest {
         OmnitureTracking.setDeepLinkTrackingParams("mdpcid", MDPCID_TEST_LINK)
         OmnitureTracking.setDeepLinkTrackingParams("mdpdtl", MDPDTL_TEST_LINK)
 
-
         OmnitureTracking.addDeepLinkData(adms)
         assertEquals("MDP.$MDPCID_TEST_LINK&MDPDTL=$MDPDTL_TEST_LINK", adms.getEvar(22))
     }
@@ -211,7 +210,6 @@ class OmnitureTrackingDeeplinkTest {
         OmnitureTracking.addDeepLinkData(adms)
         assertEquals("Brand.$BRANDCID_TEST_LINK", adms.getEvar(22))
     }
-
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))

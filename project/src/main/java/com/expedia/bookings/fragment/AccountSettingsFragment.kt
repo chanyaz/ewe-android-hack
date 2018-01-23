@@ -134,7 +134,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     val firstRowCountry: View by bindView(R.id.first_row_country)
     val secondRowCountry: View by bindView(R.id.second_row_country)
 
-
     val memberNameView: TextView by bindView(R.id.toolbar_name)
     val memberEmailView: TextView by bindView(R.id.toolbar_email)
     val memberTierView: TextView by bindView(R.id.toolbar_loyalty_tier_text)
@@ -328,8 +327,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         createAccountButton.setOnClickListener {
             if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
                 NavUtils.goToAccount(activity, Config.InitialState.SinglePageCreateAccount)
-            }
-            else {
+            } else {
                 NavUtils.goToAccount(activity, Config.InitialState.CreateAccount)
             }
         }
@@ -495,7 +493,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
                     memberTierView.visibility = View.GONE
                 }
 
-
                 val numberFormatter = NumberFormat.getInstance()
                 if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) {
                     availablePointsTextView.text = numberFormatter.format(userLoyaltyInfo?.loyaltyPointsAvailable ?: 0)
@@ -533,7 +530,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
                     firstRowCountry.visibility = View.VISIBLE
                     rowDivider2.visibility = View.GONE
                 }
-
             } else {
                 currencyTextView.text = CurrencyUtils.currencyForLocale(PointOfSale.getPointOfSale().threeLetterCountryCode)
                 setupCountryView(secondRowCountry)
@@ -659,7 +655,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
                 }
                 return true
             }
-
         }
 
         return false
@@ -687,8 +682,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     private fun setGoogleAccountChangeVisibility(view: View) {
         view.visibility = if (ProductFlavorFeatureConfiguration.getInstance().isGoogleAccountChangeEnabled)
             View.VISIBLE
-        else
-            View.GONE
+        else View.GONE
     }
 
     private inner class GoogleAccountChangeListener : View.OnClickListener {

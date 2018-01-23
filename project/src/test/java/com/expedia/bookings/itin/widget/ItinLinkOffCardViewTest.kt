@@ -32,11 +32,11 @@ class ItinLinkOffCardViewTest {
 
     @Test
     fun testHideSubheading() {
-        assertEquals(View.VISIBLE,subHeading.visibility)
+        assertEquals(View.VISIBLE, subHeading.visibility)
         assertEquals(0, heading.minLines)
         assertEquals(Gravity.TOP or Gravity.START, heading.gravity)
         sut.hideSubheading()
-        assertEquals(View.GONE,subHeading.visibility)
+        assertEquals(View.GONE, subHeading.visibility)
         assertEquals(2, heading.minLines)
         assertEquals(Gravity.CENTER_VERTICAL or Gravity.START, heading.gravity)
     }

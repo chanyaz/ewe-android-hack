@@ -13,9 +13,8 @@ abstract class AbstractTravelersViewModel {
     val refreshSelectedTravelerStatus = BehaviorSubject.create<Unit>()
     val isDirtyObservable = BehaviorSubject.createDefault<Boolean>(false)
 
-    abstract fun isValidForBooking(traveler: Traveler, index: Int) : Boolean
-    abstract fun isTravelerEmpty(traveler: Traveler) : Boolean
-
+    abstract fun isValidForBooking(traveler: Traveler, index: Int): Boolean
+    abstract fun isTravelerEmpty(traveler: Traveler): Boolean
 
     fun updateCompletionStatus() {
         if (areTravelersEmpty()) {
@@ -46,16 +45,16 @@ abstract class AbstractTravelersViewModel {
         return true
     }
 
-    abstract fun getTravelers() : List<Traveler>
+    abstract fun getTravelers(): List<Traveler>
 
-    abstract fun requiresMultipleTravelers() : Boolean
+    abstract fun requiresMultipleTravelers(): Boolean
 
-    open fun getTraveler(index: Int) : Traveler {
+    open fun getTraveler(index: Int): Traveler {
         val travelerList = Db.sharedInstance.travelers
         return travelerList[index]
     }
 
-    open fun areTravelersEmpty() : Boolean {
+    open fun areTravelersEmpty(): Boolean {
         val travelerList = getTravelers()
         for (traveler in travelerList) {
             if (!isTravelerEmpty(traveler)) {

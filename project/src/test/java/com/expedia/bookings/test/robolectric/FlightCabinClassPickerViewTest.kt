@@ -41,7 +41,6 @@ class FlightCabinClassPickerViewTest {
         assertFails {
             flightCabinClassPicker.getSelectedClass()
         }
-
     }
 
     @Test
@@ -51,5 +50,4 @@ class FlightCabinClassPickerViewTest {
         assertEquals(flightCabinClassPicker.premiumEcoClassRadioButton.id, flightCabinClassPicker.getIdByClass(FlightServiceClassType.CabinCode.PREMIUM_COACH))
         assertEquals(flightCabinClassPicker.economyClassRadioButton.id, flightCabinClassPicker.getIdByClass(FlightServiceClassType.CabinCode.COACH))
     }
-
 }

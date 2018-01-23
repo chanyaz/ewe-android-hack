@@ -50,8 +50,7 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
         if (isDiscount) {
             priceValue.text = "(" + breakdown.cost + ")"
             priceValue.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
-        }
-        else {
+        } else {
             priceValue.text = breakdown.cost
         }
         return row

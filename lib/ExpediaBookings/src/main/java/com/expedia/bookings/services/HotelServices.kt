@@ -145,7 +145,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 .subscribeObserver(observer)
     }
 
-    private fun getRegionId(params: HotelSearchParams) : String? {
+    private fun getRegionId(params: HotelSearchParams): String? {
         // null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
         // null out region Id if zip code search (regionID = 0)
         var regionId = if (params.suggestion.gaiaId?.isNotBlank() == true && params.suggestion.gaiaId != "0") {
@@ -159,12 +159,12 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
         return regionId
     }
 
-    private fun getLatitude(suggestion: SuggestionV4) : Double? {
+    private fun getLatitude(suggestion: SuggestionV4): Double? {
         // null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
         return if (suggestion.coordinates.lat != 0.0) suggestion.coordinates.lat else null
     }
 
-    private fun getLongitude(suggestion: SuggestionV4) : Double? {
+    private fun getLongitude(suggestion: SuggestionV4): Double? {
         // null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
         return if (suggestion.coordinates.lng != 0.0) suggestion.coordinates.lng else null
     }
@@ -174,8 +174,8 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
             val payLater = roomResponse.payLaterOffer
             payLater?.isPayLater = true
             if (payLater != null && roomResponse.depositPolicy != null && !roomResponse.depositPolicy.isEmpty()) {
-                roomResponse.rateInfo.chargeableRateInfo.depositAmount = "0";
-                roomResponse.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
+                roomResponse.rateInfo.chargeableRateInfo.depositAmount = "0"
+                roomResponse.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0"
             }
 
             if (roomResponse.rateInfo?.chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false) {
@@ -227,8 +227,8 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
         private fun updatePayLaterRateInfo(hotelCreateTripResponse: HotelCreateTripResponse) {
             val payLater = hotelCreateTripResponse.newHotelProductResponse?.hotelRoomResponse
             if (payLater != null && payLater.isPayLater && payLater.depositPolicy != null && !payLater.depositPolicy.isEmpty()) {
-                payLater.rateInfo.chargeableRateInfo.depositAmount = "0";
-                payLater.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
+                payLater.rateInfo.chargeableRateInfo.depositAmount = "0"
+                payLater.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0"
             }
         }
 

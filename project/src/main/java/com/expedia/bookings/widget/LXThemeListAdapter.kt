@@ -23,7 +23,6 @@ import com.expedia.bookings.utils.bindView
 import com.squareup.picasso.Picasso
 import io.reactivex.subjects.PublishSubject
 
-
 class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
     var themeClickSubject = PublishSubject.create<LXTheme>()
     var imageCode: String? = null
@@ -75,11 +74,11 @@ class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
             themeTitle.text = theme.title
             val activitySize = theme.unfilteredActivities.size
             themeCount.text = activitySize.toString()
-            themeDescription.text  = theme.description
+            themeDescription.text = theme.description
 
             if (activitySize in 1..9) {
                 themeCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_more_than_one_digit)
-            } else  {
+            } else {
                 themeCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_more_than_one_digit)
             }
 
@@ -134,5 +133,4 @@ class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
     fun setDestinationImageCode(imageCode: String?) {
         this.imageCode = imageCode
     }
-
 }

@@ -5,7 +5,7 @@ import com.tune.TuneDeeplinkListener
 import com.tune.TuneDeeplinker
 import com.tune.TuneEvent
 
-class MockTune: Tune() {
+class MockTune : Tune() {
     val deepLinker = TuneDeeplinker("advertiser_id", "conversion_key", "package_name")
     private var userId = ""
     private var googleUserId = ""

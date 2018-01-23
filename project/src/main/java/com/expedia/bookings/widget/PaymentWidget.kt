@@ -104,7 +104,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         init(vm)
     }
 
-    open protected fun init(vm: PaymentViewModel) {
+    protected open fun init(vm: PaymentViewModel) {
         vm.cardTitle.subscribeText(cardInfoName)
         vm.cardSubtitle.subscribeTextAndVisibility(cardInfoExpiration)
         vm.subtitleColorObservable.subscribeTextColor(cardInfoExpiration)
@@ -201,7 +201,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
-
     open val storedCreditCardListener = object : StoredCreditCardList.IStoredCreditCardListener {
 
         override fun onStoredCreditCardChosen(card: StoredCreditCard) {
@@ -224,7 +223,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             selectTemporaryCard()
             viewmodel.cardBIN.onNext(info.number.replace(" ", "").substring(0, 6))
         }
-
     }
 
     override fun onFinishInflate() {
@@ -456,8 +454,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 if (!cardBIN.equals(currentCardBIN)) {
                     viewmodel.cardBIN.onNext(cardBIN)
                 }
-            }
-            else if (cardNumber.length == 0 && currentCardBIN.isNotBlank()) {
+            } else if (cardNumber.length == 0 && currentCardBIN.isNotBlank()) {
                 viewmodel.resetCardFees.onNext(Unit)
             }
         }
@@ -531,7 +528,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             else viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true || Db.sharedInstance.temporarilySavedCard != null))
             updateToolbarMenu(forward, forward, !forward)
             if (forward) {
-                viewmodel.doneClickedMethod.onNext{ close() }
+                viewmodel.doneClickedMethod.onNext { close() }
             }
         }
     }
@@ -573,7 +570,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             trackAnalytics()
             if (!forward) validateAndBind()
             if (forward) {
-                viewmodel.doneClickedMethod.onNext{ onDoneClicked() }
+                viewmodel.doneClickedMethod.onNext { onDoneClicked() }
                 if (populateCardholderNameTestEnabled) {
                     populateCardholderName()
                 }
@@ -603,7 +600,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             }
             onFocusChange(creditCardNumber, true)
             if (forward) {
-                viewmodel.doneClickedMethod.onNext{ onDoneClicked() }
+                viewmodel.doneClickedMethod.onNext { onDoneClicked() }
                 if (populateCardholderNameTestEnabled) {
                     populateCardholderName()
                 }
@@ -627,7 +624,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 else viewmodel.clearHiddenBillingAddress.onNext(Unit)
             }
             if (forward) {
-                toolbarNavIconFocusObservable.onNext(true);
+                toolbarNavIconFocusObservable.onNext(true)
             }
         }
     }
@@ -751,8 +748,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             } else {
                 userChoosesNotToSaveCard()
             }
-        }
-        else {
+        } else {
             announceErrorsOnForm()
             if (viewmodel.newCheckoutIsEnabled.value) {
                 sectionBillingInfo.requestFocus()

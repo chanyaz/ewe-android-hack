@@ -45,10 +45,10 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
 
     companion object {
         @JvmStatic
-        fun fromHotelFilterOptions(searchOptions: HotelSearchParams.HotelFilterOptions) : UserFilterChoices {
+        fun fromHotelFilterOptions(searchOptions: HotelSearchParams.HotelFilterOptions): UserFilterChoices {
             //advanced search options support only hotel name, vip, star ratings and sort for now
             val filterChoices = UserFilterChoices()
-            filterChoices.name = searchOptions.filterHotelName?: ""
+            filterChoices.name = searchOptions.filterHotelName ?: ""
             filterChoices.isVipOnlyAccess = searchOptions.filterVipOnly
 
             if (searchOptions.userSort != null) {
@@ -77,7 +77,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
 
         companion object {
             @JvmStatic
-            fun fromParamList(ratingList: List<Int>) : StarRatings {
+            fun fromParamList(ratingList: List<Int>): StarRatings {
                 val ratings = StarRatings()
                 if (ratingList.contains(10)) ratings.one = true
                 if (ratingList.contains(20)) ratings.two = true

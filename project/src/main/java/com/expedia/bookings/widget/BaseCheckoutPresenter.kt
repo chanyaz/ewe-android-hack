@@ -357,7 +357,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     private fun updateCardFeeWarningVisibility(showingGuestPaymentForm: Boolean, haveCardFee: Boolean, warningText: Spanned?) {
-        val hasValidCardFee =  haveCardFee && !warningText.isNullOrBlank()
+        val hasValidCardFee = haveCardFee && !warningText.isNullOrBlank()
         val shouldShowCardFeeWarning = !showingGuestPaymentForm && (!paymentWidget.viewmodel.hasCard() || hasValidCardFee)
         ckoViewModel.showCardFeeWarningText.onNext(shouldShowCardFeeWarning)
     }

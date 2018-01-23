@@ -35,7 +35,6 @@ class FlightItinTravelerPreferenceWidget(context: Context, attr: AttributeSet?) 
                     frequentFlyerPlan.append(entry.value.programName)
                     frequentFlyerNumber.append(entry.value.membershipNumber)
                 }
-
             }
         }
         vm.specialRequestSubject.subscribe {

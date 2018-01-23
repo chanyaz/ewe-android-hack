@@ -39,5 +39,4 @@ class TripBucketItemHotelV2Tests {
         assertNotNull(createTripResponse.pointsDetails)
         assertNotNull(createTripResponse.userPreferencePoints)
     }
-
 }

@@ -50,12 +50,10 @@ class MemberDealListAdapter(private val context: Context, private val searchHote
             val holder = MemberDealHeaderViewHolder(view)
             holder.rootCardView.subscribeOnClick(searchHotelsClickedObserver)
             return MemberDealHeaderViewHolder(view)
-        }
-        else if (viewType == itemType.LOADING_VIEW.ordinal) {
+        } else if (viewType == itemType.LOADING_VIEW.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.deal_loading_cell, parent, false)
             return LoadingViewHolder(view)
-        }
-        else if (viewType == itemType.DESTINATION_CARD.ordinal) {
+        } else if (viewType == itemType.DESTINATION_CARD.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.deals_card, parent, false)
             val holder = DealsDestinationViewHolder(view)
 

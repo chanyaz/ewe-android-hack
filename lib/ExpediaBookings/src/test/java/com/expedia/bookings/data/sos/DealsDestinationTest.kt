@@ -28,7 +28,7 @@ class DealsDestinationTest {
     @Test
     fun testDestinationHasLeadingHotel() {
         val destination = DealsDestination()
-        destination.hotels  = getHotelListWithLeadingHotel()
+        destination.hotels = getHotelListWithLeadingHotel()
         assertNotEquals(null, destination.getLeadingHotel())
         assertTrue(destination.getLeadingHotel()!!.hasLeadingPrice())
     }
@@ -36,7 +36,7 @@ class DealsDestinationTest {
     @Test
     fun testDestinationHasNoLeadingHotel() {
         val destination = DealsDestination()
-        destination.hotels  = getHotelListWithoutLeadingHotel()
+        destination.hotels = getHotelListWithoutLeadingHotel()
         assertEquals(null, destination.getLeadingHotel())
     }
 

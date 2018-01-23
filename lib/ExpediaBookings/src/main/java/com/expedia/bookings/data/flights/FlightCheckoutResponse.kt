@@ -21,7 +21,7 @@ class FlightCheckoutResponse() : FlightTripResponse() {
     }
 
     @SerializedName("flightDetailResponse")
-    lateinit override var details: FlightTripDetails
+    override lateinit var details: FlightTripDetails
 
     class FlightAggregatedResponse {
         lateinit var flightsDetailResponse: List<FlightTripDetails>
@@ -104,6 +104,4 @@ class FlightCheckoutResponse() : FlightTripResponse() {
         val flightsDetailResponse = flightAggregatedResponse?.flightsDetailResponse
         return if (flightsDetailResponse != null) flightsDetailResponse[0].offer else details.offer
     }
-
-
 }

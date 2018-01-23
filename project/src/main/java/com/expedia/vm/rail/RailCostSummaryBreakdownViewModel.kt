@@ -68,8 +68,7 @@ class RailCostSummaryBreakdownViewModel(context: Context, val isCheckout: Boolea
     override fun trackBreakDownClicked() {
         if (isCheckout) {
             RailTracking().trackRailCheckoutTotalCostToolTip()
-        }
-        else {
+        } else {
             RailTracking().trackRailDetailsTotalCostToolTip()
         }
     }

@@ -54,7 +54,7 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
 
         clearObservable.subscribe {
             setFilteredHotelListAndRetainLoyaltyInformation(originalResponse?.hotelList.orEmpty())
-            previousSortType = DisplaySort.RECOMMENDED   //the original response is always sorted by Recommended
+            previousSortType = DisplaySort.RECOMMENDED //the original response is always sorted by Recommended
         }
     }
 

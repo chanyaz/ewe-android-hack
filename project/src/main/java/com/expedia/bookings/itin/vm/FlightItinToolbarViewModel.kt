@@ -1,6 +1,5 @@
 package com.expedia.bookings.itin.vm
 
-
 class FlightItinToolbarViewModel : ItinToolbarViewModel() {
 
     override fun updateWidget(toolbarParams: ToolbarParams) {

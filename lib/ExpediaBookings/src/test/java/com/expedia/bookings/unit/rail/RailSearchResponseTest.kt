@@ -35,7 +35,7 @@ class RailSearchResponseTest {
 
         legOptions = response.getInboundLegOptionsForOffer(offer)
         assertTrue(legOptions.size == 2, "2 inbound leg option should be returned")
-        assertLegOptions(legOptions, listOf(3,4))
+        assertLegOptions(legOptions, listOf(3, 4))
     }
 
     @Test

@@ -266,7 +266,7 @@ class AccountButtonTest {
                 Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)
         val rewardContentDescriptionText = accountButton.getSignInWithRewardsContentDescriptionText(rewardsToEarn).toString()
         val expectedText = Phrase.from(context, R.string.Sign_in_to_earn_cont_desc_TEMPLATE).put("reward", "$12" ).format().toString()
-        assertEquals(expectedText,rewardContentDescriptionText)
+        assertEquals(expectedText, rewardContentDescriptionText)
     }
 
     @Test
@@ -294,8 +294,8 @@ class AccountButtonTest {
         Mockito.`when`(context.getResources().getBoolean(R.bool.tablet)).thenReturn(false)
         Db.getTripBucket().clear()
         accountButton.bind(false, false, null, LineOfBusiness.HOTELS)
-        val loginContainer = accountButton.findViewById<View>(R.id.account_login_container);
-        val shadowDrawable = Shadows.shadowOf(loginContainer.background);
+        val loginContainer = accountButton.findViewById<View>(R.id.account_login_container)
+        val shadowDrawable = Shadows.shadowOf(loginContainer.background)
         assertEquals(R.drawable.material_cko_acct_btn_bg, shadowDrawable.createdFromResId)
     }
 
@@ -308,5 +308,4 @@ class AccountButtonTest {
 
         accountButton.bind(false, true, partialUser, LineOfBusiness.HOTELS)
     }
-
 }

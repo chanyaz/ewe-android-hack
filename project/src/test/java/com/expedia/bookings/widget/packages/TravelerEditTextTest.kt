@@ -41,8 +41,7 @@ class TravelerEditTextTest {
     }
 
     @Test
-    fun testContentDescriptionTravelerEditTextWithText()
-    {
+    fun testContentDescriptionTravelerEditTextWithText() {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.setText("Test text")
         editText.onInitializeAccessibilityNodeInfo(testNode)
@@ -50,8 +49,7 @@ class TravelerEditTextTest {
     }
 
     @Test
-    fun testContentDescriptionTravelerEditTextWithTextAndError()
-    {
+    fun testContentDescriptionTravelerEditTextWithTextAndError() {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.setText("Test text")
         editText.valid = false
@@ -60,8 +58,7 @@ class TravelerEditTextTest {
     }
 
     @Test
-    fun testContentDescriptionTravelerEditTextWithTextAndErrorMessage()
-    {
+    fun testContentDescriptionTravelerEditTextWithTextAndErrorMessage() {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.setText("Test text")
         editText.errorContDesc = "Enter valid text"
@@ -69,5 +66,4 @@ class TravelerEditTextTest {
         editText.onInitializeAccessibilityNodeInfo(testNode)
         assertEquals(" Last Name, Test text, Error, Enter valid text, ", testNode.text.toString())
     }
-
 }

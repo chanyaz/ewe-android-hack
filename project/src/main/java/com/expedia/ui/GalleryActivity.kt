@@ -71,7 +71,7 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
 
     private fun resizeImageViews(index: Int) {
         if (index >= 0 && index < gallery.adapter.itemCount) {
-            val height  = gallery.height
+            val height = gallery.height
             val galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
             var holder = gallery.findViewHolderForAdapterPosition(index)
             if (holder != null) {
@@ -95,8 +95,8 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
     }
 
     override fun onGalleryItemScrolled(position: Int) {
-        galleryIndicator.animate().translationX((position * galleryIndicator.width).toFloat()).
-                setInterpolator(LinearInterpolator()).start()
+        galleryIndicator.animate().translationX((position * galleryIndicator.width).toFloat())
+                .setInterpolator(LinearInterpolator()).start()
         galleryDescription.text = mediaList[position].mDescription
     }
 }

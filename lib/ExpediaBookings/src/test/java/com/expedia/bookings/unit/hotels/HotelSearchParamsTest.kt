@@ -43,7 +43,7 @@ class HotelSearchParamsTest {
                 .hotelName(name)
                 .starRatings(listOf(10, 20))
                 .priceRange(HotelSearchParams.PriceRange(10, 30))
-                .amenities(hashSetOf(4,16))
+                .amenities(hashSetOf(4, 16))
 
         val searchParams = testParamBuilder.build()
         val map = searchParams.filterOptions!!.getFiltersQueryMap()
@@ -276,7 +276,6 @@ class HotelSearchParamsTest {
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
         val testFilterOptions = HotelSearchParams.HotelFilterOptions()
         testFilterOptions.filterPrice = expectedPriceRange
-
 
         testParams.filterOptions = testFilterOptions
 

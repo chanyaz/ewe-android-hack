@@ -57,7 +57,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         makePaymentErrorSubscriber(getCheckoutViewModel().showDebitCardsNotAcceptedSubject, ckoViewModel.showingPaymentWidgetSubject,
                 debitCardsNotAcceptedTextView, debitCardsNotAcceptedSubject)
 
-
         getCreateTripViewModel().showNoInternetRetryDialog.subscribe {
             val retryFun = fun() {
                 getCreateTripViewModel().performCreateTrip.onNext(Unit)
@@ -77,7 +76,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
-
     }
 
     val insuranceWidget: InsuranceWidget by lazy {
@@ -146,7 +144,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         FlightsV2Tracking.trackShowSlideToPurchase(cardType ?: PaymentType.CARD_UNKNOWN, flexStatus)
     }
 
-
     override fun makeCheckoutViewModel(): FlightCheckoutViewModel {
         return flightCheckoutViewModel
     }
@@ -213,5 +210,4 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     override fun trackCreateTripPriceChange(diffPercentage: Int) {
         FlightsV2Tracking.trackFlightCreateTripPriceChange(diffPercentage)
     }
-
 }

@@ -10,9 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import io.reactivex.Observable
-import io.reactivex.Observer
 import io.reactivex.Scheduler
-import io.reactivex.disposables.Disposable
 
 open class UrgencyServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
                       private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
@@ -33,7 +31,7 @@ open class UrgencyServices(endpoint: String, okHttpClient: OkHttpClient, interce
         adapter.create(UrgencyApi::class.java)
     }
 
-    open fun compressionUrgency(regionId : String, checkIn: String, checkOut: String) : Observable<UrgencyResponse> {
+    open fun compressionUrgency(regionId: String, checkIn: String, checkOut: String): Observable<UrgencyResponse> {
         return api.compression(regionId, checkIn, checkOut, clientId).observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }

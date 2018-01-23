@@ -20,7 +20,6 @@ class HotelReviewsSummaryViewModel(val context: Context) {
     val serviceStaffObservable = BehaviorSubject.create<CharSequence>()
     val hotelConditionObservable = BehaviorSubject.create<CharSequence>()
 
-
     val reviewsSummaryObserver = endlessObserver<HotelReviewsResponse.ReviewSummary> { reviewsSummary ->
         overallRatingObservable.onNext(getDisplayRating(reviewsSummary.avgOverallRating))
         roomCleanlinessObservable.onNext(getDisplayTextForRating(R.string.hotel_rating_room_cleanliness, reviewsSummary.cleanliness))

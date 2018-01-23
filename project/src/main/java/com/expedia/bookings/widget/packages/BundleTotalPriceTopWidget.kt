@@ -18,5 +18,4 @@ class BundleTotalPriceTopWidget(context: Context, attrs: AttributeSet) : LinearL
     init {
         View.inflate(context, R.layout.bundle_price_top, this)
     }
-
 }

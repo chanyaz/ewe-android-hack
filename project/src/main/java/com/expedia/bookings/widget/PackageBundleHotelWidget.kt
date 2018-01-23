@@ -81,7 +81,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         viewModel.showLoadingStateObservable.subscribe { showLoading ->
             this.loadingStateObservable.onNext(showLoading)
             if (showLoading) {
-                postDelayed({rowContainer.setFocusForView()}, 500L)
+                postDelayed({ rowContainer.setFocusForView() }, 500L)
                 isRowClickable = false
                 hotelInfoContainer.isEnabled = false
                 AnimUtils.progressForward(hotelLoadingBar)

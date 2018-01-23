@@ -3,7 +3,6 @@ package com.expedia.bookings.unit
 import com.expedia.bookings.data.lx.LXThemeType
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class LXThemeTypeTest {
 

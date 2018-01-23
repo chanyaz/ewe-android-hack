@@ -73,7 +73,6 @@ class FlightV2UtilsTest {
         assertEquals(expectedWithElapsedDaysAccesibleString, testString)
     }
 
-
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
             MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
@@ -205,7 +204,7 @@ class FlightV2UtilsTest {
     }
 
     @Test
-    fun testGetSelectedClassesStringForOneWay(){
+    fun testGetSelectedClassesStringForOneWay() {
         val flightTripDetails = FlightTripDetails()
         flightTripDetails.offer = FlightTripDetails.FlightOffer()
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(1))
@@ -228,7 +227,7 @@ class FlightV2UtilsTest {
     }
 
     @Test
-    fun testGetSelectedClassesStringForRoundTrip(){
+    fun testGetSelectedClassesStringForRoundTrip() {
         val flightTripDetails = FlightTripDetails()
         flightTripDetails.offer = FlightTripDetails.FlightOffer()
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(1), buildTestSeatClassAndBookingCodeList(1))
@@ -448,11 +447,11 @@ class FlightV2UtilsTest {
         return fareFamilyComponentMap
     }
 
-    private fun getFareFamilyComponents(amenityKey:String, amenityDispValue: String, amenityCategory: String): HashMap<String, HashMap<String, String>> {
+    private fun getFareFamilyComponents(amenityKey: String, amenityDispValue: String, amenityCategory: String): HashMap<String, HashMap<String, String>> {
         val fareFamilyComponentMap = HashMap<String, HashMap<String, String>>()
         val amenityMap = HashMap<String, String>()
         amenityMap.put(amenityKey, amenityDispValue)
-        when(amenityCategory) {
+        when (amenityCategory) {
             FARE_FAMILY_INCLUDED_CATEGORY -> fareFamilyComponentMap.put("included", amenityMap)
             FARE_FAMILY_CHARGEABLE_CATEGORY -> fareFamilyComponentMap.put("chargeable", amenityMap)
             FARE_FAMILY_NOT_OFFERED_CATEGORY -> fareFamilyComponentMap.put("notoffered", amenityMap)
@@ -463,7 +462,7 @@ class FlightV2UtilsTest {
     private fun getBagLuggageFareFamilyComponents(bagCount: Int): HashMap<String, HashMap<String, String>> {
         val fareFamilyComponentMap = HashMap<String, HashMap<String, String>>()
         val amenityMap = HashMap<String, String>()
-        when(bagCount) {
+        when (bagCount) {
             1 -> amenityMap.put("OneLuggage", "1 x Free Luggage")
             2 -> amenityMap.put("TwoLuggage", "2 x Free Luggage")
             3 -> amenityMap.put("ThreeLuggage", "3 x Free Luggage")

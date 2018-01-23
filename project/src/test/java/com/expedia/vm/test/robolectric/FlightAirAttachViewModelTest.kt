@@ -6,9 +6,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
-import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
-import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.HotelCrossSellViewModel
 import org.joda.time.DateTime
@@ -16,9 +13,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.Shadows
-import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowApplication
 import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 
@@ -90,7 +84,7 @@ class FlightAirAttachViewModelTest {
         crossSellExpiresTodayView.assertValue(true)
     }
 
-   private fun getCheckoutResponse(dateOfExpiration: String) : FlightCheckoutResponse {
+   private fun getCheckoutResponse(dateOfExpiration: String): FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         val qualifierObject = FlightCheckoutResponse.AirAttachInfo()

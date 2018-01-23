@@ -10,7 +10,6 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
@@ -161,5 +160,4 @@ open class ItinSignInViewModel(val context: Context) {
             statusImageColorSubject.onNext(colorMatrix)
         }
     }
-
 }

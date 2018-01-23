@@ -243,7 +243,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         }
     }
 
-    private fun isUserSearchHistoryEnabled() : Boolean =
+    private fun isUserSearchHistoryEnabled(): Boolean =
             FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_user_search_history)
 
     private fun updateSearchOptions(suggestion: SuggestionV4) {

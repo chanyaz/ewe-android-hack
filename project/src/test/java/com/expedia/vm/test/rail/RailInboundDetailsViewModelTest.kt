@@ -17,7 +17,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-
 @RunWith(RobolectricRunner::class)
 class RailInboundDetailsViewModelTest {
     val viewModel = RailInboundDetailsViewModel(RuntimeEnvironment.application)
@@ -77,7 +76,7 @@ class RailInboundDetailsViewModelTest {
         assertTrue(pair.first[0].isOpenReturn)
     }
 
-    private fun mockSearchResponse():RailSearchResponse {
+    private fun mockSearchResponse(): RailSearchResponse {
         val response = RailSearchResponse()
         response.legList = getLegs()
         response.offerList = generateOffersForLeg()

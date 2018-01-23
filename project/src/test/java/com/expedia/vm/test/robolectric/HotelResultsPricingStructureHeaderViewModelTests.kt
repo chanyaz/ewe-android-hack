@@ -155,7 +155,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
     }
 
     private fun getContext(): Context {
-        return RuntimeEnvironment.application;
+        return RuntimeEnvironment.application
     }
 
     private fun setPointOfSale(posId: PointOfSaleId) {

@@ -23,7 +23,7 @@ open class HotelSuggestionManager(private val service: SuggestionV4Services) {
         service.getHotelSuggestionsV4(regionName, getSuggestionServiceCallback(), sameAsWeb, guid)
     }
 
-    fun getSuggestionServiceCallback() : Observer<List<SuggestionV4>> {
+    fun getSuggestionServiceCallback(): Observer<List<SuggestionV4>> {
         return object : DisposableObserver<List<SuggestionV4>>() {
             override fun onNext(essSuggestions: List<SuggestionV4>) {
                 suggestionReturnSubject.onNext(essSuggestions.first())

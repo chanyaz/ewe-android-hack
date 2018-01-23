@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.lx
 
-enum class LXThemeType(val categories:List<LXCategoryType>) {
+enum class LXThemeType(val categories: List<LXCategoryType>) {
     TopRatedActivities(emptyList()),
     AdventureAround(arrayListOf(LXCategoryType.Adventures, LXCategoryType.DayTripsExcursions, LXCategoryType.MultiDayExtendedTours)),
     SeeTheSights(arrayListOf(LXCategoryType.SightseeingPasses, LXCategoryType.ToursSightseeing, LXCategoryType.WalkingBikeTours, LXCategoryType.AirBalloonHelicopterTours, LXCategoryType.HoponHopoff)),
@@ -10,4 +10,3 @@ enum class LXThemeType(val categories:List<LXCategoryType>) {
     EatPlayEnjoy(arrayListOf(LXCategoryType.FoodDrink, LXCategoryType.Nightlife, LXCategoryType.Spa, LXCategoryType.Attractions, LXCategoryType.WaterActivities, LXCategoryType.WeddingCeremonies)),
     AllThingsToDo(emptyList()),
 }
-

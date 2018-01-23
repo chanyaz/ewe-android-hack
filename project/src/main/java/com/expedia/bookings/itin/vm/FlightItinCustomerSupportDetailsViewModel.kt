@@ -5,5 +5,4 @@ class FlightItinCustomerSupportDetailsViewModel : ItinCustomerSupportDetailsView
     override fun updateWidget(param: ItinCustomerSupportDetailsWidgetParams) {
         updateItinCustomerSupportDetailsWidgetSubject.onNext(param)
     }
-
 }

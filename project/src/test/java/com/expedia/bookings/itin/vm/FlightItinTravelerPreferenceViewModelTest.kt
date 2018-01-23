@@ -11,7 +11,7 @@ import org.junit.runner.RunWith
 @RunWith(RobolectricRunner::class)
 class FlightItinTravelerPreferenceViewModelTest {
 
-    lateinit private var sut: FlightItinTravelerPreferenceViewModel
+    private lateinit var sut: FlightItinTravelerPreferenceViewModel
 
     val testString = "12345"
 

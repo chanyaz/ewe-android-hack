@@ -11,7 +11,6 @@ import com.expedia.bookings.section.RailDeliverySpinnerWithValidationIndicator
 import com.expedia.bookings.section.SectionLocation
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import com.expedia.bookings.widget.accessibility.AccessibleSpinner
 import io.reactivex.subjects.PublishSubject
 
 class RailDeliveryAddressEntry(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs), EntryManager.FormListener {
@@ -48,11 +47,11 @@ class RailDeliveryAddressEntry(context: Context, attrs: AttributeSet?) : FrameLa
         formsFilledInSubject.onNext(areFormsFilledIn())
     }
 
-    fun isValid() : Boolean {
+    fun isValid(): Boolean {
         return mailDeliverySectionLocation.performValidation()
     }
 
-    fun areFormsFilledIn() : Boolean {
+    fun areFormsFilledIn(): Boolean {
         return addressLineOne.text.isNotEmpty()
                 && addressCity.text.isNotEmpty()
                 && addressPostalCode.text.isNotEmpty()
@@ -65,7 +64,7 @@ class RailDeliveryAddressEntry(context: Context, attrs: AttributeSet?) : FrameLa
         nextFocus?.requestFocus() ?: addressLineOne.requestFocus()
     }
 
-    fun getLocation() : RailLocation {
+    fun getLocation(): RailLocation {
         return mailDeliverySectionLocation.location as RailLocation
     }
 }

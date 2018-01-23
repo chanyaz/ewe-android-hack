@@ -25,7 +25,7 @@ class ItinPOSHeaderViewTest {
     lateinit var context: Context
     lateinit var itinPosHeader: ItinPOSHeader
 
-    lateinit private var pointOfSaleStateModel: PointOfSaleStateModel
+    private lateinit var pointOfSaleStateModel: PointOfSaleStateModel
 
     @Before
     fun setup() {

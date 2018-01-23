@@ -25,7 +25,7 @@ import kotlin.test.assertTrue
 class InsuranceViewModelTest {
     private enum class FlightType { DOMESTIC, INTERNATIONAL }
 
-    lateinit private var sut: InsuranceViewModel
+    private lateinit var sut: InsuranceViewModel
 
     @Before
     fun setup() {
@@ -73,7 +73,6 @@ class InsuranceViewModelTest {
         widgetVisibilitySubscriber.assertValueCount(1)
         val widgetIsVisible = widgetVisibilitySubscriber.values()[0]
         assertTrue(widgetIsVisible)
-
     }
 
     @Test

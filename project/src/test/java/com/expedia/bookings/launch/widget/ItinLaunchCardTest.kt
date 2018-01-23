@@ -23,7 +23,7 @@ import kotlin.test.assertTrue
 class ItinLaunchCardTest {
 
     val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-    lateinit private var sut: ItinLaunchCard
+    private lateinit var sut: ItinLaunchCard
 
     @Test
     fun bindFirstLineSecondLineSignedIn() {

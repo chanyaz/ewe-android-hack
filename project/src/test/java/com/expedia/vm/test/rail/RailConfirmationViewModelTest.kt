@@ -71,8 +71,7 @@ class RailConfirmationViewModelTest {
         assertTrue(testInboundVisibleSub.values()[0])
     }
 
-
-    private fun buildCheckoutResponse() : RailCheckoutResponse {
+    private fun buildCheckoutResponse(): RailCheckoutResponse {
         val resourceReader = JSONResourceReader("../lib/mocked/templates/m/api/rails/trip/checkout/oneway_happy.json")
         val checkoutResponse = resourceReader.constructUsingGson(RailCheckoutResponse::class.java)
 
@@ -80,7 +79,7 @@ class RailConfirmationViewModelTest {
         return checkoutResponse
     }
 
-    private fun getMockOneWayOffer() : RailTripOffer {
+    private fun getMockOneWayOffer(): RailTripOffer {
         val mockTripOffer = Mockito.mock(RailTripOffer::class.java)
         Mockito.`when`(mockTripOffer.isRoundTrip).thenReturn(false)
         Mockito.`when`(mockTripOffer.isOpenReturn).thenReturn(false)
@@ -89,7 +88,7 @@ class RailConfirmationViewModelTest {
         return mockTripOffer
     }
 
-    private fun getMockRoundTripOffer() : RailTripOffer {
+    private fun getMockRoundTripOffer(): RailTripOffer {
         val mockTripOffer = Mockito.mock(RailTripOffer::class.java)
         Mockito.`when`(mockTripOffer.isRoundTrip).thenReturn(true)
         Mockito.`when`(mockTripOffer.isOpenReturn).thenReturn(false)
@@ -99,7 +98,7 @@ class RailConfirmationViewModelTest {
         return mockTripOffer
     }
 
-    private fun getMockOpenReturnOffer() : RailTripOffer {
+    private fun getMockOpenReturnOffer(): RailTripOffer {
         val mockTripOffer = Mockito.mock(RailTripOffer::class.java)
         Mockito.`when`(mockTripOffer.isRoundTrip).thenReturn(false)
         Mockito.`when`(mockTripOffer.isOpenReturn).thenReturn(true)
@@ -115,7 +114,7 @@ class RailConfirmationViewModelTest {
         return legOption
     }
 
-    private fun getExpectedEmailSent() : String {
+    private fun getExpectedEmailSent(): String {
         return "#$expectedItinNumber sent to $expectedEmail"
     }
 }

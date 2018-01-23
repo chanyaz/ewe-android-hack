@@ -26,5 +26,4 @@ class PackageApiError {
     }
 
     val errorCode: Code = Code.pkg_unknown_error
-
 }

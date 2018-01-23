@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.launch.GenericViewModel
 
-abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Context): RecyclerView.ViewHolder(itemView) {
+abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Context) : RecyclerView.ViewHolder(itemView) {
     val firstLineTextView: TextView by bindView(R.id.first_line)
     val secondLineTextView: TextView by bindView(R.id.second_line)
     val button_one: TextView by bindView(R.id.button_one)
@@ -29,7 +29,7 @@ abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Conte
         button_two.contentDescription = (vm.buttonTwoLabel + " " + context.getString(R.string.accessibility_cont_desc_role_button))
         button_two.visibility = if (vm.buttonTwoLabel.isNotBlank()) View.VISIBLE else View.GONE
 
-        if (Build.VERSION.SDK_INT >= 21){
+        if (Build.VERSION.SDK_INT >= 21) {
             button_one.letterSpacing = .05f
             button_two.letterSpacing = .05f
         }
@@ -40,7 +40,5 @@ abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Conte
         FontCache.setTypeface(secondLineTextView, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(button_one, FontCache.Font.ROBOTO_MEDIUM)
         FontCache.setTypeface(button_two, FontCache.Font.ROBOTO_MEDIUM)
-
     }
-
 }

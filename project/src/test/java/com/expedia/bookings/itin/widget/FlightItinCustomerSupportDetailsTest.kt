@@ -43,4 +43,3 @@ class FlightItinCustomerSupportDetailsTest {
         assertEquals(customerSupportWidget.customerSupportSiteButton.text, customerSupportButton)
     }
 }
-

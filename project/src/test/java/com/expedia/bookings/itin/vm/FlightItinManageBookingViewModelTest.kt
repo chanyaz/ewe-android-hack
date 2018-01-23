@@ -32,9 +32,9 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightItinManageBookingViewModelTest {
-    lateinit private var context: Context
-    lateinit private var activity: Activity
-    lateinit private var sut: FlightItinManageBookingViewModel
+    private lateinit var context: Context
+    private lateinit var activity: Activity
+    private lateinit var sut: FlightItinManageBookingViewModel
 
     val itinCardDataValidSubscriber = TestObserver<Unit>()
     val itinCardDataSubscriber = TestObserver<ItinCardDataFlight>()
@@ -90,8 +90,8 @@ class FlightItinManageBookingViewModelTest {
         sut.setUp()
 
         val title = context.getString(R.string.itin_flight_manage_booking_header)
-        val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE).
-                put("destination", "Las Vegas").format().toString()
+        val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)
+                .put("destination", "Las Vegas").format().toString()
 
         updateToolbarSubscriber.assertValue(ItinToolbarViewModel.ToolbarParams(title, destinationCity, false))
     }
@@ -154,7 +154,6 @@ class FlightItinManageBookingViewModelTest {
         leg.legArrivalTime.localizedShortTime = "12:19pm"
         leg.numberOfStops = "1"
 
-
         whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
         sut.itineraryManager = mockItinManager
         sut.setUp()
@@ -166,7 +165,7 @@ class FlightItinManageBookingViewModelTest {
     }
 
     @Test
-    fun testRulesAndRegualationText(){
+    fun testRulesAndRegualationText() {
         val flightLegDetailRulesAndRegulationSubject = TestObserver<String>()
         sut.flightLegDetailRulesAndRegulationSubject.subscribe(flightLegDetailRulesAndRegulationSubject)
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
@@ -177,16 +176,15 @@ class FlightItinManageBookingViewModelTest {
         val refundability = "Tickets are nonrefundable, nontransferable and name changes are not allowed."
         val penaltyRules = "Please read the <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Fare-Rules?tripid=028c321c-fbb7-4a83-95ae-e6a7d9924474\">complete penalty rules for changes and cancellations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> applicable to this fare."
         val liabilityRules = "Please read important information regarding href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/p/info-main/warsaw?\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
-        flightTrip.addRule(getRule("cancelChangeIntroductionText",cancelChange,""))
-        flightTrip.addRule(getRule("refundabilityText",refundability,""))
-        flightTrip.addRule(getRule("completePenaltyRules","",penaltyRules))
-        flightTrip.addRule(getRule("airlineLiabilityLimitations","",liabilityRules))
+        flightTrip.addRule(getRule("cancelChangeIntroductionText", cancelChange, ""))
+        flightTrip.addRule(getRule("refundabilityText", refundability, ""))
+        flightTrip.addRule(getRule("completePenaltyRules", "", penaltyRules))
+        flightTrip.addRule(getRule("airlineLiabilityLimitations", "", liabilityRules))
 
         val penaltyRulesAssert = "Please read the <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Fare-Rules?tripid=028c321c-fbb7-4a83-95ae-e6a7d9924474\">complete penalty rules for changes and cancellations</a> applicable to this fare."
         val liabilityRulesAssert = "Please read important information regarding href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/p/info-main/warsaw?\">airline liability limitations</a>."
 
-
-        val assertValue = cancelChange+"<br><br>"+"<b>"+refundability+"</b>"+"<br><br>"+penaltyRulesAssert+"<br><br>"+liabilityRulesAssert
+        val assertValue = cancelChange + "<br><br>" + "<b>" + refundability + "</b>" + "<br><br>" + penaltyRulesAssert + "<br><br>" + liabilityRulesAssert
 
         whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
         sut.itineraryManager = mockItinManager
@@ -251,7 +249,6 @@ class FlightItinManageBookingViewModelTest {
         tripFlight.flightTrip.airlineManageBookingURL = airlineSupportUrlValue
         tripFlight.parentTrip.tripNumber = itineraryNumber
 
-
         tripFlight.confirmations.clear()
         val flightConfirmation = FlightConfirmation()
         flightConfirmation.confirmationCode = confirmationValue
@@ -264,15 +261,14 @@ class FlightItinManageBookingViewModelTest {
 
         sut.airlineSupportDetailsData()
 
-        val title = Phrase.from(context,R.string.itin_flight_airline_support_widget_airlines_for_help_TEMPLATE).put("airline_name",airlineName).format().toString()
-        val airlineSupport = Phrase.from(context,R.string.itin_flight_airline_support_widget_airlines_support_TEMPLATE).put("airline_name",airlineName).format().toString()
-        val ticket = Phrase.from(context,R.string.itin_flight_airline_support_widget_ticket_TEMPLATE).put("ticket_number",ticketValue).format().toString()
-        val confirmation = Phrase.from(context,R.string.itin_flight_airline_support_widget_confirmation_TEMPLATE).put("confirmation_number",confirmationValue).format().toString()
-        val itinerary = Phrase.from(context,R.string.itin_flight_airline_support_widget_itinerary_TEMPLATE).put("itinerary_number",itineraryNumber).format().toString()
+        val title = Phrase.from(context, R.string.itin_flight_airline_support_widget_airlines_for_help_TEMPLATE).put("airline_name", airlineName).format().toString()
+        val airlineSupport = Phrase.from(context, R.string.itin_flight_airline_support_widget_airlines_support_TEMPLATE).put("airline_name", airlineName).format().toString()
+        val ticket = Phrase.from(context, R.string.itin_flight_airline_support_widget_ticket_TEMPLATE).put("ticket_number", ticketValue).format().toString()
+        val confirmation = Phrase.from(context, R.string.itin_flight_airline_support_widget_confirmation_TEMPLATE).put("confirmation_number", confirmationValue).format().toString()
+        val itinerary = Phrase.from(context, R.string.itin_flight_airline_support_widget_itinerary_TEMPLATE).put("itinerary_number", itineraryNumber).format().toString()
         val callSupportNumber = ""
-        val customerSupportSitetext = Phrase.from(context,R.string.itin_flight_airline_support_widget_customer_support_TEMPLATE).put("airline_name",airlineName).format().toString()
-        flightItinAirlineSupportDetailsSubject.assertValue(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title,airlineSupport,ticket,confirmation,itinerary,callSupportNumber,customerSupportSitetext,airlineSupportUrlValue))
-
+        val customerSupportSitetext = Phrase.from(context, R.string.itin_flight_airline_support_widget_customer_support_TEMPLATE).put("airline_name", airlineName).format().toString()
+        flightItinAirlineSupportDetailsSubject.assertValue(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title, airlineSupport, ticket, confirmation, itinerary, callSupportNumber, customerSupportSitetext, airlineSupportUrlValue))
     }
 
     @Test
@@ -296,15 +292,15 @@ class FlightItinManageBookingViewModelTest {
         sut.airlineSupportDetailsData()
 
         val airlineName = R.string.itin_flight_airline_support_widget_airline_text
-        val title = Phrase.from(context,R.string.itin_flight_airline_support_widget_airlines_for_help_TEMPLATE).put("airline_name",context.getString(R.string.itin_flight_airline_support_widget_the_airline_text)).format().toString()
-        val airlineSupport = Phrase.from(context,R.string.itin_flight_airline_support_widget_airlines_support_TEMPLATE).put("airline_name",context.getString(R.string.itin_flight_airline_support_widget_airline_text)).format().toString()
+        val title = Phrase.from(context, R.string.itin_flight_airline_support_widget_airlines_for_help_TEMPLATE).put("airline_name", context.getString(R.string.itin_flight_airline_support_widget_the_airline_text)).format().toString()
+        val airlineSupport = Phrase.from(context, R.string.itin_flight_airline_support_widget_airlines_support_TEMPLATE).put("airline_name", context.getString(R.string.itin_flight_airline_support_widget_airline_text)).format().toString()
         val ticket = ""
         val confirmation = ""
         val itinerary = ""
         val callSupportNumber = ""
         val airlineSupportUrlValue = ""
-        val customerSupportSitetext = Phrase.from(context,R.string.itin_flight_airline_support_widget_customer_support_TEMPLATE).put("airline_name",context.getString(R.string.itin_flight_airline_support_widget_airline_text)).format().toString()
-        flightItinAirlineSupportDetailsSubject.assertValue(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title,airlineSupport,ticket,confirmation,itinerary,callSupportNumber,customerSupportSitetext,airlineSupportUrlValue))
+        val customerSupportSitetext = Phrase.from(context, R.string.itin_flight_airline_support_widget_customer_support_TEMPLATE).put("airline_name", context.getString(R.string.itin_flight_airline_support_widget_airline_text)).format().toString()
+        flightItinAirlineSupportDetailsSubject.assertValue(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title, airlineSupport, ticket, confirmation, itinerary, callSupportNumber, customerSupportSitetext, airlineSupportUrlValue))
     }
 
     @Test
@@ -363,12 +359,11 @@ class FlightItinManageBookingViewModelTest {
         }
     }
 
-    private fun getRule(key:String, text: String, textAndURL :String): Rule {
+    private fun getRule(key: String, text: String, textAndURL: String): Rule {
         val rule = Rule()
         rule.name = key
         rule.text = text
         rule.textAndURL = textAndURL
         return rule
     }
-
 }

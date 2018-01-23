@@ -1,4 +1,4 @@
-package com.expedia.bookings.unit;
+package com.expedia.bookings.unit
 
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.HotelItinDetailsResponse

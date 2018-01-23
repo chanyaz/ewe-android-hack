@@ -26,7 +26,6 @@ import com.expedia.vm.ConfirmationToolbarViewModel
 import com.mobiata.android.util.SettingUtils
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
-import javax.inject.Inject
 
 class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs) {
 
@@ -104,7 +103,6 @@ class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolba
             }
 
             override fun onError(e: Throwable) {
-
             }
         }
     }

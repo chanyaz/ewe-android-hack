@@ -17,7 +17,7 @@ class HotelStarRatingFilterItem(context: Context, attrs: AttributeSet?) : FrameL
 
     private val filterStar: ImageButton by bindView(R.id.hotel_star_rating_image)
 
-    private var valueContentDescription : String? = null
+    private var valueContentDescription: String? = null
     private var starSelected = false
 
     init {

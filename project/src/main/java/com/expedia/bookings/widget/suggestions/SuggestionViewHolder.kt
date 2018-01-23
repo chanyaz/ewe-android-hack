@@ -32,7 +32,6 @@ class SuggestionViewHolder(val root: ViewGroup, val vm: SuggestionViewModel) : R
             if (isChild) {
                 hierarchyIcon.visibility = View.VISIBLE
                 icon.visibility = View.GONE
-
             } else {
                 hierarchyIcon.visibility = View.GONE
                 icon.visibility = View.VISIBLE
@@ -48,5 +47,4 @@ class SuggestionViewHolder(val root: ViewGroup, val vm: SuggestionViewModel) : R
         val suggestion = vm.suggestionObserver.value
         vm.suggestionSelected.onNext(SearchSuggestion(suggestion))
     }
-
 }

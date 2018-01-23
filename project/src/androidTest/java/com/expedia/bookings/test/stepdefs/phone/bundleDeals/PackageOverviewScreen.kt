@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.stepdefs.phone.bundleDeals
 
-
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -332,7 +331,6 @@ class PackageOverviewScreen {
     fun verifyDetailsOverviewScreen(isDisplayed: Boolean, info: Map<String, String>) {
         validateDisplayedOnBundleOverview(R.id.step_one_text, info["Step 1 Text"], isDisplayed)
 
-
         validateDisplayedOnBundleOverview(R.id.hotels_card_view_text, info["Hotel Bar - Hotel text"],
                 isDisplayed)
         validateDateOnBundleOverview(R.id.hotels_dates_guest_info_text, info["Hotel Bar - Date"])
@@ -340,10 +338,8 @@ class PackageOverviewScreen {
                 info["Hotel Bar - travelers"])
         validateDrawableDisplayedOnBundleOverview(R.id.package_hotel_luggage_icon, info["Hotel Image"])
 
-
         validateDisplayedOnBundleOverview(R.id.step_two_text, info["Step 2 Text"],
                 isDisplayed)
-
 
         validateDisplayedOnBundleOverview(R.id.flight_card_view_text, info["Outbound Flight Bar - Flight Text"],
                 isDisplayed)
@@ -352,14 +348,12 @@ class PackageOverviewScreen {
                 info["Outbound Flight Bar - traveler"])
         validateDrawableDisplayedOnBundleOverview(R.id.package_flight_icon, info["Flight Outbound Image"])
 
-
         validateDisplayedOnBundleOverview(R.id.flight_card_view_text, info["Inbound Flight Bar - Flight Text"],
                 isDisplayed)
         validateDateOnBundleOverview(R.id.travel_info_view_text, info["Inbound Flight Bar - date"])
         validateTravelersOnBundleOverview(R.id.package_bundle_inbound_flight_widget, R.id.travel_info_view_text,
                 info["Inbound Flight Bar - traveler"])
         validateDrawableDisplayedOnBundleOverview(R.id.package_flight_icon, info["Flight Inbound Image"])
-
     }
 
     @And("^Wait for checkout button to display")
@@ -411,7 +405,6 @@ class PackageOverviewScreen {
             PackageScreen.inboundFlightInfo()
                     .check(matches(if (isDisabled) not<View>(isEnabled()) else isEnabled()))
         }
-
     }
 
     @When("^I tap on \"(.*?)\" on bundle overview screen$")
@@ -446,7 +439,6 @@ class PackageOverviewScreen {
         onView(
                 allOf(withParent(withId(R.id.bundle_widget)), withId(R.id.package_bundle_hotel_widget)))
                 .perform(click())
-
     }
 
     @And("^I collapse the hotel card view")
@@ -454,7 +446,6 @@ class PackageOverviewScreen {
     fun collapseHotelCardView() {
         onView(allOf(withParent(withId(R.id.bundle_widget)), withId(R.id.package_bundle_hotel_widget)))
                 .perform(click())
-
     }
 
     @And("^I expand the flight outbound card view$")
@@ -518,7 +509,6 @@ class PackageOverviewScreen {
     private fun validateSummaryPopup(guestDetails: String, taxDetails: String) {
 
         onView(AllOf.allOf(withId(R.id.price_type_text_view), withText(containsString(guestDetails)))).check(matches(withText(containsString(taxDetails))))
-
     }
 
     @Throws(Throwable::class)
@@ -556,7 +546,6 @@ class PackageOverviewScreen {
         onView(allOf(withParent(withParent(withId(R.id.checkout_toolbar))),
                 withContentDescription("More options")))
                 .check(matches(isDisplayed()))
-
     }
 
     fun getViewYourBundleText(brand: String): String {
@@ -588,6 +577,4 @@ class PackageOverviewScreen {
             }
         }
     }
-
-
 }

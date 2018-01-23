@@ -180,6 +180,4 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
                 discountView.setBackgroundResource(DiscountColors.LAST_MINUTE_DEALS.backgroundColor)
                 discountView.setTextColor(ContextCompat.getColor(view.context, DiscountColors.LAST_MINUTE_DEALS.textColor))
             }
-
 }
-

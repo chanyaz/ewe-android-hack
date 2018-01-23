@@ -106,7 +106,7 @@ class SlidingBundleWidgetListener (val widget: SlidingBundleWidget, val presente
 
     private val gestureDetector: GestureDetector = GestureDetector(presenter.context, gestureListener)
 
-    private fun isShowingBundle() : Boolean {
+    private fun isShowingBundle(): Boolean {
         when (presenter) {
             is PackageFlightPresenter -> return presenter.isShowingBundle()
             is PackageHotelPresenter -> return presenter.isShowingBundle()

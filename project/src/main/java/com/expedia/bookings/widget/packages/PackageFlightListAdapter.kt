@@ -13,7 +13,7 @@ import com.expedia.vm.packages.PackageFlightViewModel
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
-class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isChangePackageSearch: Boolean)  : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearch = true) {
+class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isChangePackageSearch: Boolean) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearch = true) {
 
     var shouldShowBestFlight = false
 
@@ -22,7 +22,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         val newFlights = ArrayList(flights)
 
         //best flight could be filtered out
-        shouldShowBestFlight = !isChangePackageSearch && (newFlights[0]?.isBestFlight?:false)
+        shouldShowBestFlight = !isChangePackageSearch && (newFlights[0]?.isBestFlight ?: false)
 
         //remove best flight view if there is only 1 flight
         if (shouldShowBestFlight && newFlights.size == 2) {
@@ -44,8 +44,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
     override fun getRoundTripStringResourceId(): Int {
         if (PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee())
             return R.string.prices_roundtrip_minimum_label
-        else
-            return R.string.prices_roundtrip_label
+        else return R.string.prices_roundtrip_label
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
@@ -98,8 +97,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
             return R.string.package_prices_taxes_fees_included_label
         } else if (shouldShowPackageIncludesMessage) {
             return R.string.package_prices_roundtrip_person_minimum_fsr_label
-        } else
-            return null
+        } else return null
     }
 
     override fun showAllFlightsHeader(): Boolean {

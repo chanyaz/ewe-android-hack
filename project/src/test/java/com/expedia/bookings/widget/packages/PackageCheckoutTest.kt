@@ -81,7 +81,7 @@ class PackageCheckoutTest {
 
     private var checkout: PackageCheckoutPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
-    private var overview : PackageOverviewPresenter by Delegates.notNull()
+    private var overview: PackageOverviewPresenter by Delegates.notNull()
 
     @Before fun before() {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
@@ -472,7 +472,7 @@ class PackageCheckoutTest {
         traveler.redressNumber = "123456"
         traveler.age = 18
         traveler.passengerCategory = PassengerCategory.ADULT
-        traveler.primaryPassportCountry =  "USA"
+        traveler.primaryPassportCountry = "USA"
         traveler.tuid = 12345
         return traveler
     }
@@ -548,7 +548,7 @@ class PackageCheckoutTest {
         return PackageSearchParams.Builder(12, 329).infantSeatingInLap(infantsInLap).startDate(LocalDate.now().plusDays(1)).endDate(LocalDate.now().plusDays(2)).origin(origin).destination(destination).adults(adults).children(children).build() as PackageSearchParams
     }
 
-    private fun setUpCreditCards(cardNumber: String, description: String, type: PaymentType, id: String) : StoredCreditCard{
+    private fun setUpCreditCards(cardNumber: String, description: String, type: PaymentType, id: String): StoredCreditCard {
         val fakeCreditCard = StoredCreditCard()
         val billingInfo = getBillingInfo()
         fakeCreditCard.cardNumber = cardNumber

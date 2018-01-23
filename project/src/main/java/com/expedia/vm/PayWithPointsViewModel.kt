@@ -66,7 +66,6 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
     override val clearUserEnteredBurnAmount = PublishSubject.create<Unit>()
     override val userToggledPwPSwitchWithUserEnteredBurnedAmountSubject = PublishSubject.create<Pair<Boolean, String>>()
 
-
     //OUTLETS
     //MESSAGING START
     override val totalPointsAndAmountAvailableToRedeem = paymentModel.tripResponses.filter { it.isRewardsRedeemable() }.map {
@@ -171,7 +170,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
 
     override val enablePwpEditBox = Observable.merge(
             pointsAppliedAndErrorMessages.map { true },
-            showCalculatingPointsMessage.map { false } )
+            showCalculatingPointsMessage.map { false })
 
     init {
         paymentModel.paymentSplitsSuggestionUpdates.withLatestFrom(paymentModel.tripResponses,
@@ -210,7 +209,6 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
         setupTracking()
     }
 
-
     private fun setupTracking() {
         // User decides to change the pay with points amount
         paymentModel.burnAmountToPointsApiResponse.map {
@@ -221,7 +219,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
             HotelTracking.trackPayWithPointsAmountUpdateSuccess(it)
         }
 
-        distinctBurnAmountEntered.filter { pwpOpted.value && it.compareTo(BigDecimal.ZERO) == 0}.subscribe {
+        distinctBurnAmountEntered.filter { pwpOpted.value && it.compareTo(BigDecimal.ZERO) == 0 }.subscribe {
             HotelTracking.trackPayWithPointsAmountUpdateSuccess(0)
         }
 
@@ -235,9 +233,8 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
         }).subscribe {
             if (!it.pwpSwitchState) {
                 HotelTracking.trackPayWithPointsDisabled()
-            }
-            else {
-                val percentage  = if(Strings.isNotEmpty(it.userEnteredBurnAmount)) NumberUtils.getPercentagePaidWithPointsForOmniture(BigDecimal(it.userEnteredBurnAmount), it.trip.getTripTotalExcludingFee().amount) else 0
+            } else {
+                val percentage = if (Strings.isNotEmpty(it.userEnteredBurnAmount)) NumberUtils.getPercentagePaidWithPointsForOmniture(BigDecimal(it.userEnteredBurnAmount), it.trip.getTripTotalExcludingFee().amount) else 0
                 HotelTracking.trackPayWithPointsReEnabled(percentage)
             }
         }

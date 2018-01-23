@@ -80,10 +80,9 @@ class FlightModuleTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testKongEndPointForUSPOS() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(RuntimeEnvironment.application, AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint, 1);
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(RuntimeEnvironment.application, AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint, 1)
         val flightServices = givenFlightServicesInitialized()
         assertEquals("https://apim.expedia.com/m/", flightServices.endpoint)
-
     }
 
     @Test

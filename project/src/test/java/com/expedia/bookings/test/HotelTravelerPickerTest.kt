@@ -81,7 +81,6 @@ class HotelTravelerPickerTest {
         // Can't add children if we have max adults
         vm.incrementChildrenObserver.onNext(Unit)
         testSubscriber.assertValueCount(6)
-
     }
 
     @Test

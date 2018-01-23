@@ -48,8 +48,7 @@ class HotelActivity : AbstractAppCompatActivity() {
             val locationPermission = ContextCompat.checkSelfPermission(this.baseContext, android.Manifest.permission.ACCESS_FINE_LOCATION)
             if (locationPermission == PackageManager.PERMISSION_DENIED) {
                 requestLocationPermission(this)
-            }
-            else {
+            } else {
                 handleDeepLink(intent)
             }
         } else {
@@ -84,8 +83,7 @@ class HotelActivity : AbstractAppCompatActivity() {
         if (isFinishing) {
             clearCCNumber()
             clearStoredCard()
-        }
-        else {
+        } else {
             Ui.hideKeyboard(this)
         }
     }
@@ -160,7 +158,5 @@ class HotelActivity : AbstractAppCompatActivity() {
         val sharedReturnTransition = ChangeBounds()
         sharedReturnTransition.duration = res.getInteger(R.integer.pro_wizard_shared_return_duration).toLong()
         window.sharedElementReturnTransition = sharedReturnTransition
-
     }
 }
-

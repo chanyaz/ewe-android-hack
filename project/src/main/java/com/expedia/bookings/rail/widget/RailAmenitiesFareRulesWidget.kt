@@ -9,7 +9,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.rail.widget.RailAmenitiesAndRulesAdapter
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.tracking.RailTracking
@@ -24,7 +23,7 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
     val tabs: TabLayout by bindView(R.id.amenities_rules_tabs)
 
     lateinit var adapter: RailAmenitiesAndRulesAdapter
-    
+
     private val amenitiesViewModel = RailAmenitiesViewModel()
     private val fareRulesViewModel = RailFareRulesViewModel(context)
 
@@ -39,7 +38,7 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
         adapter.fareRulesWidget.viewModel = fareRulesViewModel
     }
 
-    fun showAmenitiesForOffer(legOption : RailLegOption, railProduct: RailProduct) {
+    fun showAmenitiesForOffer(legOption: RailLegOption, railProduct: RailProduct) {
         updateAmenitiesData(legOption, railProduct)
         updateFareRulesData(railProduct)
 
@@ -55,7 +54,7 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
         updateToolbar(RailAmenitiesAndRulesAdapter.Tab.FARE_RULES.ordinal)
     }
 
-    private fun updateAmenitiesData(legOption : RailLegOption, railProduct: RailProduct) {
+    private fun updateAmenitiesData(legOption: RailLegOption, railProduct: RailProduct) {
         amenitiesViewModel.legOptionObservable.onNext(legOption)
         amenitiesViewModel.railProductObservable.onNext(railProduct)
     }

@@ -14,7 +14,7 @@ import com.expedia.bookings.utils.RecentAirports
 import com.expedia.bookings.widget.FlightRouteAdapter
 import com.mobiata.android.BackgroundDownloader
 
-class PackageSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet): PackageSearchPresenter(context, attrs) {
+class PackageSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet) : PackageSearchPresenter(context, attrs) {
 
     private val recentAirports = RecentAirports(context)
 
@@ -130,5 +130,4 @@ class PackageSearchAirportDropdownPresenter(context: Context, attrs: AttributeSe
                 }
             }
     }
-
 }

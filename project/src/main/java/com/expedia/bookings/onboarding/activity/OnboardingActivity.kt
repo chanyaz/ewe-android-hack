@@ -26,7 +26,6 @@ import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.RouterToOnboardingTimeLogger
 import com.expedia.bookings.utils.CarnivalUtils
-import com.expedia.bookings.utils.ClientLogConstants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
@@ -34,7 +33,7 @@ import com.expedia.bookings.widget.DisableableViewPager
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
 
-class OnboardingActivity: AppCompatActivity() {
+class OnboardingActivity : AppCompatActivity() {
 
     lateinit var clientLogServices: IClientLogServices
         @Inject set
@@ -104,12 +103,12 @@ class OnboardingActivity: AppCompatActivity() {
         AppStartupTimeClientLog.trackTimeLogger(routerToOnboardingTimeLogger, clientLogServices)
     }
 
-    private val onPageSelectedListener = object: ViewPager.OnPageChangeListener {
+    private val onPageSelectedListener = object : ViewPager.OnPageChangeListener {
         override fun onPageSelected(position: Int) {
             updateTitle(position)
             updateButtonVisibility(position)
             updateCircles(position)
-            when(position) {
+            when (position) {
                 OnboardingPagerState.BOOKING_PAGE.ordinal -> OmnitureTracking.trackNewUserOnboardingPage(OnboardingPagerState.BOOKING_PAGE)
                 OnboardingPagerState.TRIP_PAGE.ordinal -> OmnitureTracking.trackNewUserOnboardingPage(OnboardingPagerState.TRIP_PAGE)
                 OnboardingPagerState.REWARD_PAGE.ordinal -> OmnitureTracking.trackNewUserOnboardingPage(OnboardingPagerState.REWARD_PAGE)
@@ -136,18 +135,17 @@ class OnboardingActivity: AppCompatActivity() {
 
         if (position == 0 || position < previousItem) {
             animateTextWhenNewPageLoaded(R.anim.reset_translate_and_fade_in)
-        }
-        else {
+        } else {
             animateTextWhenNewPageLoaded(R.anim.slide_in_right)
         }
     }
 
     private fun updateButtonVisibility(position: Int) {
         when (position) {
-            0  -> {
+            0 -> {
                 previousButton.visibility = View.INVISIBLE
                 nextButton.visibility = View.VISIBLE
-                finalButton.visibility  = View.INVISIBLE
+                finalButton.visibility = View.INVISIBLE
             }
             OnboardingPagerState.values().size - 1 -> {
                 previousButton.visibility = View.VISIBLE
@@ -163,18 +161,17 @@ class OnboardingActivity: AppCompatActivity() {
     }
 
     private fun updateCircles(position: Int) {
-        for (i in 0..circles.size-1) {
+        for (i in 0..circles.size - 1) {
             if (i == position) {
                 circles[i].setBackgroundResource(R.drawable.onboarding_circle_active)
-            }
-            else {
+            } else {
                 circles[i].setBackgroundResource(R.drawable.onboarding_circle)
             }
         }
     }
 
     private fun showNext() {
-        if (!isAnimating && viewPager.currentItem < OnboardingPagerState.values().size -1 ) {
+        if (!isAnimating && viewPager.currentItem < OnboardingPagerState.values().size - 1 ) {
             animateTextThenGoToNewPage(FlingType.RIGHT_FLING)
         }
     }
@@ -194,7 +191,7 @@ class OnboardingActivity: AppCompatActivity() {
         animateView2.duration = this.resources.getInteger(R.integer.onboarding_text_animation_duration).toLong()
         animateView2.startOffset = this.resources.getInteger(R.integer.onboarding_text_animation_delay).toLong() * 2
 
-        animateView2.setAnimationListener(object : AnimationListenerAdapter(){
+        animateView2.setAnimationListener(object : AnimationListenerAdapter() {
             override fun onAnimationEnd(animation: Animation?) {
                 super.onAnimationEnd(animation)
                 isAnimating = false
@@ -203,7 +200,6 @@ class OnboardingActivity: AppCompatActivity() {
         subtitle.startAnimation(animateView1)
         title.startAnimation(animateView2)
     }
-
 
     fun animateTextThenGoToNewPage(flingtype: FlingType) {
         isAnimating = true
@@ -214,14 +210,13 @@ class OnboardingActivity: AppCompatActivity() {
         animateView2.duration = this.resources.getInteger(R.integer.onboarding_text_animation_duration).toLong()
         animateView2.startOffset = this.resources.getInteger(R.integer.onboarding_text_animation_delay).toLong()
 
-        animateView2.setAnimationListener(object : AnimationListenerAdapter(){
+        animateView2.setAnimationListener(object : AnimationListenerAdapter() {
             override fun onAnimationEnd(animation: Animation?) {
                 super.onAnimationEnd(animation)
                 isAnimating = false
                 if (flingtype == FlingType.RIGHT_FLING) {
                     viewPager.setCurrentItem(viewPager.currentItem + 1, true)
-                }
-                else if (flingtype == FlingType.LEFT_FLING) {
+                } else if (flingtype == FlingType.LEFT_FLING) {
                     viewPager.setCurrentItem(viewPager.currentItem - 1, true)
                 }
             }

@@ -40,8 +40,8 @@ class LxCheckoutErrorTests {
 
     private val mockActivityObjects = MockActivityObjects()
 
-    lateinit private var apiError: ApiError
-    lateinit private var checkoutResponseForPriceChange: LXCheckoutResponse
+    private lateinit var apiError: ApiError
+    private lateinit var checkoutResponseForPriceChange: LXCheckoutResponse
     lateinit var errorWidget: LXErrorWidget
     private var activity: Activity by Delegates.notNull()
     lateinit var errorText: android.widget.TextView
@@ -64,7 +64,6 @@ class LxCheckoutErrorTests {
         errorToolbar = errorWidget.findViewById<View>(R.id.error_toolbar) as android.support.v7.widget.Toolbar
         checkoutToolbar = checkoutPresenter.findViewById<View>(R.id.checkout_toolbar) as ViewGroup
         Events.register(checkoutPresenter)
-
     }
 
     @After fun after() {
@@ -72,7 +71,7 @@ class LxCheckoutErrorTests {
     }
 
     @Test
-     fun testPaymentFailed(){
+     fun testPaymentFailed() {
         performLxCheckoutError("PaymentFailed")
 
         assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.errorCode)
@@ -85,14 +84,13 @@ class LxCheckoutErrorTests {
         errorButton.performClick()
 
         val editbox = checkoutPresenter.findViewById<View>(R.id.edit_creditcard_number)
-        val sectionBillingInfo =  checkoutPresenter.findViewById<View>(R.id.section_billing_info)
+        val sectionBillingInfo = checkoutPresenter.findViewById<View>(R.id.section_billing_info)
         assertEquals(View.VISIBLE, sectionBillingInfo.visibility)
         assertEquals(View.VISIBLE, editbox.visibility)
-
     }
 
     @Test
-    fun testUnknownError(){
+    fun testUnknownError() {
         performLxCheckoutError("UnknownError")
 
         assertEquals(ApiError.Code.UNKNOWN_ERROR, apiError.errorCode)
@@ -104,7 +102,7 @@ class LxCheckoutErrorTests {
     }
 
     @Test
-    fun testInvalidInput(){
+    fun testInvalidInput() {
 
         performLxCheckoutError("InvalidInput")
 
@@ -119,13 +117,13 @@ class LxCheckoutErrorTests {
 
         //Assert that Traveller details screen is displayed
         val checkoutToolbarTitle = checkoutToolbar.getChildAt(2) as android.widget.TextView
-        val mainContactInfoCardView =  checkoutPresenter.findViewById<View>(R.id.main_contact_info_card_view) as android.widget.FrameLayout
+        val mainContactInfoCardView = checkoutPresenter.findViewById<View>(R.id.main_contact_info_card_view) as android.widget.FrameLayout
         assertEquals("Traveler details", checkoutToolbarTitle.text.toString())
         assertEquals(View.VISIBLE, mainContactInfoCardView.visibility)
     }
 
     @Test
-    fun testTripAlreadyBooked(){
+    fun testTripAlreadyBooked() {
         performLxCheckoutError("AlreadyBooked")
 
         assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, apiError.errorCode)
@@ -137,7 +135,7 @@ class LxCheckoutErrorTests {
     }
 
     @Test
-    fun testSessionTimeout(){
+    fun testSessionTimeout() {
         performLxCheckoutError("SessionTimeout")
 
         assertEquals(ApiError.Code.SESSION_TIMEOUT, apiError.errorCode)
@@ -146,11 +144,10 @@ class LxCheckoutErrorTests {
         assertEquals(activity.getResources().getString(R.string.session_timeout), errorToolbar.title)
         assertEquals(activity.getResources().getString(R.string.edit_search), errorButton.text)
         assertEquals(activity.getResources().getString(R.string.reservation_time_out), errorText.text)
-
     }
 
     @Test
-    fun testPriceChangeErrorMessageOnErrorScreen(){
+    fun testPriceChangeErrorMessageOnErrorScreen() {
         performLxCheckoutWithPriceChange()
 
         assertEquals(ApiError.Code.PRICE_CHANGE, checkoutResponseForPriceChange.firstError.errorCode)
@@ -162,7 +159,7 @@ class LxCheckoutErrorTests {
     }
 
     @Test
-    fun testPriceChangeErrorMessageOnCheckoutScreen(){
+    fun testPriceChangeErrorMessageOnCheckoutScreen() {
         performLxCheckoutWithPriceChange()
 
         val checkoutSummaryWidget = LayoutInflater.from(activity).inflate(R.layout.lx_checkout_summary_widget, null) as LXCheckoutSummaryWidget
@@ -178,7 +175,6 @@ class LxCheckoutErrorTests {
         assertEquals(View.VISIBLE, priceChangeContainer.visibility)
         assertEquals(View.VISIBLE, priceChangeText.visibility)
         assertEquals(expectedPriceChangeString, priceChangeText.text)
-
     }
 
     @Test
@@ -233,7 +229,7 @@ class LxCheckoutErrorTests {
         errorWidget.bind(apiError)
     }
 
-    private fun performLxCheckoutWithPriceChange(){
+    private fun performLxCheckoutWithPriceChange() {
         checkoutResponseForPriceChange = mockActivityObjects.getCheckoutResponseForPriceChange()
         val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityObjects.getCheckoutParams())
         checkoutPresenter.onDoCheckoutCall(lxKickoffCheckoutCallEvent)

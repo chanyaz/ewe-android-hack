@@ -28,7 +28,7 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
 
     private var prefetchSearch = false
 
-    fun fetchResponse() : HotelSearchResponse? {
+    fun fetchResponse(): HotelSearchResponse? {
         return searchResponse
     }
 

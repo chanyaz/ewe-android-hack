@@ -5,4 +5,3 @@ data class RailStation(
         val stationDisplayName: String,
         val stationType: String,
         val stationCity: String)
-

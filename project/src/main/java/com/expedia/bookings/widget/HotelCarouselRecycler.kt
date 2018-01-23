@@ -14,7 +14,7 @@ class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerVie
 
     val carouselSwipedSubject = PublishSubject.create<Hotel>()
 
-    val layoutManager = object: LinearLayoutManager(getContext()) {
+    val layoutManager = object : LinearLayoutManager(getContext()) {
         override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
             return AndroidUtils.getScreenSize(context).x
         }
@@ -43,5 +43,4 @@ class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerVie
         }
         return true
     }
-
 }

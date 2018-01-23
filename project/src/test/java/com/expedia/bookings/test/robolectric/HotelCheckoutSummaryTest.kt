@@ -25,7 +25,6 @@ import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-
 @RunWith(RobolectricRunner::class)
 class HotelCheckoutSummaryTest {
 
@@ -34,14 +33,12 @@ class HotelCheckoutSummaryTest {
 
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
-    lateinit private var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget
-    lateinit private var hotelCheckoutSummaryViewModel: HotelCheckoutSummaryViewModel
-    lateinit private var paymentModel: PaymentModel<HotelCreateTripResponse>
-    lateinit private var activity: Activity
-    lateinit private var createTripResponse: HotelCreateTripResponse
+    private lateinit var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget
+    private lateinit var hotelCheckoutSummaryViewModel: HotelCheckoutSummaryViewModel
+    private lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+    private lateinit var activity: Activity
+    private lateinit var createTripResponse: HotelCreateTripResponse
     private var createTripResponseObservable = PublishSubject.create<HotelCreateTripResponse>()
-
-
 
     @Before
     fun before() {
@@ -134,8 +131,7 @@ class HotelCheckoutSummaryTest {
     private fun toggleABTestCheckinCheckoutDatesInline(toggleOn: Boolean) {
         if (toggleOn) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
-        }
-        else {
+        } else {
             AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
         }
     }

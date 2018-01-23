@@ -13,7 +13,6 @@ import com.squareup.phrase.Phrase
 
 class FlightCabinClassWidget(context: Context, attrs: AttributeSet?) : SearchInputTextView(context, attrs) {
 
-
     init {
         setOnClickListener {
             showFlightCabinClassDialog()
@@ -29,8 +28,8 @@ class FlightCabinClassWidget(context: Context, attrs: AttributeSet?) : SearchInp
         val flightClassView = flightCabinClassDialogView.findViewById<FlightCabinClassPickerView>(R.id.flight_class_view)
         flightClassView.viewmodel.flightCabinClassObservable.subscribe { cabinClass ->
             val cabinClassName = context.resources.getString(cabinClass.resId)
-            this.contentDescription = Phrase.from(context.resources.getString(R.string.select_preferred_flight_class_cont_desc_TEMPLATE)).
-                    put("seatingclass", cabinClassName).format().toString()
+            this.contentDescription = Phrase.from(context.resources.getString(R.string.select_preferred_flight_class_cont_desc_TEMPLATE))
+                    .put("seatingclass", cabinClassName).format().toString()
             this.text = cabinClassName
             flightClassView.viewmodel.flightSelectedCabinClassIdObservable.onNext(flightClassView.getIdByClass(cabinClass))
         }

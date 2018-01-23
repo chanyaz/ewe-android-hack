@@ -46,21 +46,21 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
                 .toString())
         if (flightSegments != null) {
             for (segment in flightSegments) {
-                result.append(Phrase.from(context, R.string.flight_detail_flight_duration_card_cont_desc_TEMPLATE).
-                        put("departureairport", segment.departureAirportCode).
-                        put("arrivalairport", segment.arrivalAirportCode).
-                        put("durationhours", getHourTimeContDesc(segment.durationHours)).
-                        put("durationmins", getMinuteTimeContDesc(segment.durationMinutes)).format().toString())
+                result.append(Phrase.from(context, R.string.flight_detail_flight_duration_card_cont_desc_TEMPLATE)
+                        .put("departureairport", segment.departureAirportCode)
+                        .put("arrivalairport", segment.arrivalAirportCode)
+                        .put("durationhours", getHourTimeContDesc(segment.durationHours))
+                        .put("durationmins", getMinuteTimeContDesc(segment.durationMinutes)).format().toString())
                 if (segment.layoverDurationHours != 0 || segment.layoverDurationMinutes != 0) {
-                    result.append(Phrase.from(context, R.string.flight_detail_layover_duration_card_cont_desc_TEMPLATE).
-                            put("layoverhours", getHourTimeContDesc(segment.layoverDurationHours)).
-                            put("layovermins", getMinuteTimeContDesc(segment.layoverDurationMinutes)).format().toString())
+                    result.append(Phrase.from(context, R.string.flight_detail_layover_duration_card_cont_desc_TEMPLATE)
+                            .put("layoverhours", getHourTimeContDesc(segment.layoverDurationHours))
+                            .put("layovermins", getMinuteTimeContDesc(segment.layoverDurationMinutes)).format().toString())
                 }
             }
         }
         if (getFlightCabinPreferenceVisibility()) {
-            result.append(Phrase.from(context, R.string.flight_detail_cabin_class_desc_TEMPLATE).
-                    put("class", updateflightCabinPreferenceObservable.value).format().toString())
+            result.append(Phrase.from(context, R.string.flight_detail_cabin_class_desc_TEMPLATE)
+                    .put("class", updateflightCabinPreferenceObservable.value).format().toString())
         }
         if (getUrgencyMessageVisibility(seatsLeftUrgencyMessage)) {
             val seatsLeft = flightLeg.packageOfferModel.urgencyMessage.ticketsLeft
@@ -80,7 +80,7 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
         return Phrase.from(context.resources.getQuantityString(R.plurals.minutes_from_now, minutes)).put("minutes", minutes).format().toString()
     }
 
-    open fun appendAccessibilityContentDescription(): String{
+    open fun appendAccessibilityContentDescription(): String {
         return context.getString(R.string.accessibility_cont_desc_role_button)
     }
 }

@@ -15,10 +15,9 @@ import org.robolectric.Robolectric
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-
 @RunWith(RobolectricRunner::class)
 class BottomCheckoutContainerAccessibilityTest {
-    lateinit private var bottomContainer: BottomCheckoutContainer
+    private lateinit var bottomContainer: BottomCheckoutContainer
 
     @Before
     fun setup() {

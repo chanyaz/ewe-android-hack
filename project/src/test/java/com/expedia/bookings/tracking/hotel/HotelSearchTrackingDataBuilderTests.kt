@@ -316,7 +316,7 @@ class HotelSearchTrackingDataBuilderTests {
 
     private fun createSuggestion(gaiaId: String? = "gaiaId",
                                  displayName: String? = "displayName", fullName: String? = "fullName", shortName: String? = "shortName",
-                                 lat: Double =  41.8781, lng: Double =  -87.6298): SuggestionV4 {
+                                 lat: Double = 41.8781, lng: Double = -87.6298): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = gaiaId
         suggestion.regionNames = SuggestionV4.RegionNames()
@@ -325,7 +325,7 @@ class HotelSearchTrackingDataBuilderTests {
         suggestion.regionNames.shortName = shortName
         suggestion.coordinates = SuggestionV4.LatLng()
         suggestion.coordinates.lat = lat
-        suggestion.coordinates.lng =lng
+        suggestion.coordinates.lng = lng
 
         return suggestion
     }
@@ -342,7 +342,7 @@ class HotelSearchTrackingDataBuilderTests {
         return params
     }
 
-    private fun getHotelSearchResponse(filePath: String) : HotelSearchResponse {
+    private fun getHotelSearchResponse(filePath: String): HotelSearchResponse {
         val resourceReader = JSONResourceReader(filePath)
         val searchResponse = resourceReader.constructUsingGson(HotelSearchResponse::class.java)
         return searchResponse

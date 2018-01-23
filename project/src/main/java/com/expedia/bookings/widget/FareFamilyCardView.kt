@@ -16,7 +16,6 @@ import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeContentDescription
 import com.expedia.vm.FareFamilyViewModel
 
-
 class FareFamilyCardView(context: Context, attrs: AttributeSet) : CardView(context, attrs) {
 
     val selectedClassTextView: TextView by bindView(R.id.selected_classes)

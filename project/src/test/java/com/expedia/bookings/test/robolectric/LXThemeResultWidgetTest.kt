@@ -25,7 +25,6 @@ import kotlin.properties.Delegates
         Ui.getApplication(activity).defaultLXComponents()
         activity.setTheme(R.style.V2_Theme_LX)
         themeResultsWidget = LayoutInflater.from(activity).inflate(R.layout.widget_theme_results, null) as LXThemeResultsWidget
-
     }
 
     @Test fun themesDescriptionAndTitleUpdated() {
@@ -45,15 +44,14 @@ import kotlin.properties.Delegates
         assertEquals(0, themeResultsWidget.recyclerView.visibility)
         assertEquals(2, themeResultsWidget.recyclerView.adapter.itemCount)
 
-        val holder = themeResultsWidget.recyclerView.adapter.createViewHolder(themeResultsWidget.recyclerView,1) as LXThemeListAdapter.ViewHolder
-        themeResultsWidget.recyclerView.adapter.bindViewHolder(holder,0)
+        val holder = themeResultsWidget.recyclerView.adapter.createViewHolder(themeResultsWidget.recyclerView, 1) as LXThemeListAdapter.ViewHolder
+        themeResultsWidget.recyclerView.adapter.bindViewHolder(holder, 0)
         assertEquals("All Things To Do", holder.themeTitle.text)
 
-        themeResultsWidget.recyclerView.adapter.bindViewHolder(holder,1)
+        themeResultsWidget.recyclerView.adapter.bindViewHolder(holder, 1)
         assertEquals("Explore, take day trips and find great excursions at your destination", holder.themeDescription.text)
         assertEquals(0, holder.themeTitle.visibility)
         assertEquals(0, holder.themeDescription.visibility)
-
     }
 
     private fun createThemes(): ArrayList<LXTheme> {
@@ -65,5 +63,4 @@ import kotlin.properties.Delegates
         themes.add(adventureAroundTheme)
         return themes
     }
-
 }

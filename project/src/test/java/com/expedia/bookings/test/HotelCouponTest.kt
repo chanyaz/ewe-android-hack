@@ -40,11 +40,10 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-
 @RunWith(RobolectricRunner::class)
 class HotelCouponTest {
 
-    var service= ServicesRule(HotelServices::class.java)
+    var service = ServicesRule(HotelServices::class.java)
         @Rule get
 
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
@@ -226,7 +225,6 @@ class HotelCouponTest {
         assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", alertDialog.message)
     }
 
-
     private fun checkCouponFailure(tripId: String, expectedErrorCode: ApiError.Code) {
         val testSubscriberCouponRemoveErrorDialog = TestObserver<ApiError>()
         vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
@@ -242,7 +240,7 @@ class HotelCouponTest {
         assertEquals(expectedErrorCode, testSubscriberCouponRemoveErrorDialog.values()[0].errorCode)
     }
 
-    fun makeErrorInfo(code : ApiError.Code, message : String): ApiError {
+    fun makeErrorInfo(code: ApiError.Code, message: String): ApiError {
         val error = ApiError()
         error.errorCode = code
         error.errorInfo = ApiError.ErrorInfo()

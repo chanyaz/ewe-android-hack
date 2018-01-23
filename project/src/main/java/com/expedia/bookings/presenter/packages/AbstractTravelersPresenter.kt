@@ -29,7 +29,7 @@ import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 
-abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+abstract class AbstractTravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val travelerPickerWidget: TravelerPickerWidget by bindView(R.id.traveler_picker_widget)
     val travelerEntryWidget: AbstractTravelerEntryWidget by bindView(R.id.traveler_entry_widget)
     val dropShadow: View by bindView(R.id.drop_shadow)
@@ -77,9 +77,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
                 updateFlightTravelerEntryWidgetViewModel()
             }
         }
-
     }
-
 
     fun onDoneClicked() {
         travelerPickerWidget.viewModel.selectedTravelerSubject.value?.refreshStatusObservable?.onNext(Unit)
@@ -169,8 +167,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
 
         if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
             travelerEntryWidget.viewModel.validate()
-        }
-        else if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.CLEAN) {
+        } else if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.CLEAN) {
             travelerEntryWidget.resetErrorState()
         }
         if (shouldShowFrequentFlyerWidget()) {
@@ -256,12 +253,11 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         }
     }
 
-    fun shouldShowTravelerDialog() : Boolean {
+    fun shouldShowTravelerDialog(): Boolean {
         return currentState == FlightTravelerEntryWidget::class.java.name &&
                 userStateManager.isUserAuthenticated() &&
                 (travelerEntryWidget.viewModel.getTraveler().compareTo(Db.getWorkingTravelerManager().workingTraveler)) != 0 &&
                 travelerEntryWidget.getNumberOfInvalidFields() == 0
-
     }
 
     private fun updateFlightTravelerEntryWidgetViewModel() {
@@ -275,7 +271,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         }
     }
 
-    private fun shouldShowFrequentFlyerWidget() : Boolean {
+    private fun shouldShowFrequentFlyerWidget(): Boolean {
         return viewModel.lob == LineOfBusiness.FLIGHTS_V2
     }
 }

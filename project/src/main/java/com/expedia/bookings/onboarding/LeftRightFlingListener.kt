@@ -5,7 +5,6 @@ import android.view.MotionEvent
 import com.expedia.bookings.utils.Constants
 import io.reactivex.subjects.PublishSubject
 
-
 class LeftRightFlingListener : GestureDetector.SimpleOnGestureListener() {
 
     val leftFlingSubject = PublishSubject.create<Unit>()

@@ -48,7 +48,7 @@ class FlightCheckoutPresenterTest {
     }
 
     @Test
-    fun flightCheckoutPresenterDefaultState(){
+    fun flightCheckoutPresenterDefaultState() {
         assertNotNull(checkoutPresenter)
         val accountButton = checkoutPresenter.loginWidget
         assertViewIsVisible(accountButton)
@@ -69,14 +69,14 @@ class FlightCheckoutPresenterTest {
     }
 
     @Test
-    fun shouldShowTravlerEntryWidget(){
+    fun shouldShowTravlerEntryWidget() {
         mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
         checkoutPresenter.travelerSummaryCardView.findViewById<TravelerSummaryCard>(R.id.traveler_default_state).performClick()
         assertEquals(FlightTravelersPresenter::class.java.name, checkoutPresenter.currentState)
     }
 
     @Test
-    fun showCardFeeWarnings(){
+    fun showCardFeeWarnings() {
         checkoutPresenter.flightCheckoutViewModel.showCardFeeWarningText.onNext(true)
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.onNext(SpannedString("ABCDEFG"))
         assertViewIsVisible(checkoutPresenter.cardFeeWarningTextView)
@@ -96,7 +96,7 @@ class FlightCheckoutPresenterTest {
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.subscribe(testSubscriber)
         checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(0))
         testSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
-        assertEquals("",checkoutPresenter.cardFeeWarningTextView.text.toString())
+        assertEquals("", checkoutPresenter.cardFeeWarningTextView.text.toString())
         checkoutPresenter.paymentWidget.viewmodel.cardBIN.onNext("654321")
         checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(false)
         assertFalse(checkoutPresenter.flightCheckoutViewModel.showCardFeeWarningText.value)
@@ -156,8 +156,7 @@ class FlightCheckoutPresenterTest {
 
     private fun getMoney(moneyValue: Int): Money {
         val money = Money(moneyValue, "USD")
-        money.formattedPrice = "$"+moneyValue
+        money.formattedPrice = "$" + moneyValue
         return money
     }
-
 }

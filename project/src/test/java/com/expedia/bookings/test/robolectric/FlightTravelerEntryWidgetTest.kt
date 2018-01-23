@@ -108,7 +108,7 @@ class FlightTravelerEntryWidgetTest {
     }
 
     @Test
-    @Config(qualifiers="fr")
+    @Config(qualifiers = "fr")
     fun testMaterialGenderNonEnglishLanguage() {
         givenMaterialForm()
         setupViewModel(0, true)
@@ -421,7 +421,7 @@ class FlightTravelerEntryWidgetTest {
         PointOfSale.onPointOfSaleChanged(activity)
     }
 
-    private fun setTravelerName() : TravelerName {
+    private fun setTravelerName(): TravelerName {
         val name = TravelerName()
         traveler.firstName = "Oscar"
         traveler.middleName = "The"
@@ -432,7 +432,7 @@ class FlightTravelerEntryWidgetTest {
         return name
     }
 
-    private fun getIncompleteTraveler() : Traveler {
+    private fun getIncompleteTraveler(): Traveler {
         val traveler = Traveler()
         traveler.firstName = "test"
         traveler.lastName = "testing"

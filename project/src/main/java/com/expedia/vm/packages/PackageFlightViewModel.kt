@@ -16,7 +16,7 @@ class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractF
         }
     }
 
-    override fun getUrgencyMessageVisibility(seatsLeft : String): Boolean {
+    override fun getUrgencyMessageVisibility(seatsLeft: String): Boolean {
         return false
     }
 

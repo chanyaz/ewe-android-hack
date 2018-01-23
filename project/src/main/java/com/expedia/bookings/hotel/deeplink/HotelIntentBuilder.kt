@@ -20,7 +20,7 @@ class HotelIntentBuilder() {
     private var fromDeepLink = false
     private var memberDealSearch = false
 
-    fun from(context: Context, deepLink: HotelDeepLink) : HotelIntentBuilder {
+    fun from(context: Context, deepLink: HotelDeepLink): HotelIntentBuilder {
         val hotelSearchParams = com.expedia.bookings.data.HotelSearchParams()
         fromDeepLink = true
 
@@ -79,8 +79,7 @@ class HotelIntentBuilder() {
         return this
     }
 
-
-    fun build(context: Context) : Intent {
+    fun build(context: Context): Intent {
         val intent = Intent()
 
         if (fromDeepLink) {

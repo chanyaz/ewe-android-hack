@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.rail.widget.RailDetailsFareOptionsView
@@ -56,5 +55,4 @@ open class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Present
         return false
     }
 }
-
 

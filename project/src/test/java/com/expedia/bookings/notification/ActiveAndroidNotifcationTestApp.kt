@@ -4,7 +4,6 @@ import android.app.Application
 import com.activeandroid.ActiveAndroid
 import com.activeandroid.Configuration
 
-
 class ActiveAndroidNotifcationTestApp : Application() {
 
     override fun onCreate() {
@@ -18,5 +17,4 @@ class ActiveAndroidNotifcationTestApp : Application() {
         ActiveAndroid.dispose()
         super.onTerminate()
     }
-
 }

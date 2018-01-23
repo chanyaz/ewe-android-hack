@@ -32,6 +32,4 @@ class PackageCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewV
     }
 }
 
-data class OverviewHeaderData(val hotelCity: String, val checkOutDate: String, val checkinDate: String, val largeThumbnailUrl: String) {
-
-}
+data class OverviewHeaderData(val hotelCity: String, val checkOutDate: String, val checkinDate: String, val largeThumbnailUrl: String)

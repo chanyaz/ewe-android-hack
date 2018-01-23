@@ -15,7 +15,7 @@ import com.tune.Tune
 import com.tune.TuneDeeplinkListener
 import com.tune.TuneEvent
 
-interface TuneTrackingProvider: TuneDeeplinkListener {
+interface TuneTrackingProvider : TuneDeeplinkListener {
     val authenticatedUser: User?
     val tuid: String
     val membershipTier: String?
@@ -25,7 +25,7 @@ interface TuneTrackingProvider: TuneDeeplinkListener {
     fun trackEvent(event: TuneEvent)
 }
 
-class TuneTrackingProviderImpl(private val tune: Tune, app: Application, private val userStateManager: UserStateManager, shouldSetExistingUserForTune: Boolean = false): TuneTrackingProvider {
+class TuneTrackingProviderImpl(private val tune: Tune, app: Application, private val userStateManager: UserStateManager, shouldSetExistingUserForTune: Boolean = false) : TuneTrackingProvider {
     val context: Context = app.applicationContext
 
     override val authenticatedUser: User?

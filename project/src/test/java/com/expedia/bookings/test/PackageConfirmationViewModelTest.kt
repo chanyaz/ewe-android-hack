@@ -161,8 +161,8 @@ class PackageConfirmationViewModelTest {
         setUpSelectedFlight()
         viewModel = TestPackageConfirmationViewModel(activity)
         val mockItineraryManager = viewModel.mockItineraryManager
-        Mockito.doNothing().
-                `when`(mockItineraryManager).addGuestTrip("expedia.imt@gmail.com", "11111111")
+        Mockito.doNothing()
+                .`when`(mockItineraryManager).addGuestTrip("expedia.imt@gmail.com", "11111111")
     }
 
     private fun setupTripBucket() {

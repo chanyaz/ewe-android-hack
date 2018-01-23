@@ -36,9 +36,9 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class) @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class SlidingBundleWidgetTest {
-    lateinit private var packageFlightPresenter: PackageFlightPresenter
-    lateinit private var packageHotelPresenter: PackageHotelPresenter
-    lateinit private var activity: Activity
+    private lateinit var packageFlightPresenter: PackageFlightPresenter
+    private lateinit var packageHotelPresenter: PackageHotelPresenter
+    private lateinit var activity: Activity
     lateinit var params: PackageSearchParams
     lateinit var flightResponse: BundleSearchResponse
     lateinit var hotelResponse: BundleSearchResponse
@@ -285,7 +285,7 @@ class SlidingBundleWidgetTest {
         params.isOutboundSearch(true)
         Db.setPackageParams(params)
         searchFLights()
-        flightResponse  = flightObserver.values().get(0)
+        flightResponse = flightObserver.values().get(0)
         flightResponse.setCurrentOfferPrice(flightObserver.values()[0].getFlightLegs()[0].packageOfferModel.price)
         Db.setPackageResponse(flightResponse)
     }
@@ -324,4 +324,3 @@ class SlidingBundleWidgetTest {
                 as PackageFlightPresenter
     }
 }
-

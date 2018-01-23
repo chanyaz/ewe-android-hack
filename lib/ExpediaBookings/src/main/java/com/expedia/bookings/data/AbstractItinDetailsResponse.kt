@@ -40,6 +40,5 @@ abstract class AbstractItinDetailsResponse {
         lateinit var raw: String
     }
 
-
     abstract fun getResponseDataForItin(): ResponseData?
 }

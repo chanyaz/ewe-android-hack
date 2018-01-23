@@ -41,7 +41,7 @@ class TestSuggestionV4Builder() {
         return this
     }
 
-    fun build() : SuggestionV4 {
+    fun build(): SuggestionV4 {
         return suggestion
     }
 }

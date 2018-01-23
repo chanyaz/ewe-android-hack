@@ -15,7 +15,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import kotlin.test.assertEquals
 
-
 @RunWith(RobolectricRunner::class)
 class TravelerContactDetailsWidgetTest {
 
@@ -100,7 +99,7 @@ class TravelerContactDetailsWidgetTest {
         assertEquals("Oscartest", travelerWidget.firstName.text.toString())
     }
 
-    private fun getCompletedTraveler() : Traveler{
+    private fun getCompletedTraveler(): Traveler {
         val traveler = Traveler()
         traveler.age = 40
         traveler.email = "12345@aol.com"
@@ -111,5 +110,4 @@ class TravelerContactDetailsWidgetTest {
         traveler.phoneNumber = "4053615992"
         return traveler
     }
-
 }

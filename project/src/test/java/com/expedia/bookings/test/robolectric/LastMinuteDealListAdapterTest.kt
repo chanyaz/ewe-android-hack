@@ -30,7 +30,6 @@ class LastMinuteDealListAdapterTest {
     private lateinit var lastMinuteDealShadowActivity: ShadowActivity
     private var dealResponse: MockDealResponse = MockDealResponse()
 
-
     @Before
     fun setUp() {
         lastMinuteDealActivityController = Robolectric.buildActivity(LastMinuteDealActivity::class.java)
@@ -57,7 +56,6 @@ class LastMinuteDealListAdapterTest {
 
         clickOnViewHolderForAdapterPosition(recyclerView, vm, 1)
         OmnitureTestUtils.assertLinkTracked("Last Minute Deals", "App.LMD.Rank.1", mockAnalyticsProvider)
-
     }
 
     private fun clickOnViewHolderForAdapterPosition(recyclerView: RecyclerView, vm: DealsDestinationViewModel, position: Int) {
@@ -65,7 +63,6 @@ class LastMinuteDealListAdapterTest {
         viewHolder.bind(vm)
         viewHolder.itemView.performClick()
     }
-
 
     class MockDealResponse : DealsResponse() {
         init {

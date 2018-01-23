@@ -45,7 +45,7 @@ class HotelSearchPresenterTest {
                 "FAILURE: Suggestion selection change should not trigger a query change")
     }
 
-    private fun getSuggestion() : SearchSuggestion {
+    private fun getSuggestion(): SearchSuggestion {
         val mockSuggestion = Mockito.mock(SuggestionV4::class.java)
         mockSuggestion.regionNames = SuggestionV4.RegionNames()
         mockSuggestion.regionNames.displayName = displayName

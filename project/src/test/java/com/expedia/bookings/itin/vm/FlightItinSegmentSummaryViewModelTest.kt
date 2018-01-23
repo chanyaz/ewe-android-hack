@@ -16,10 +16,10 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightItinSegmentSummaryViewModelTest {
-    lateinit private var activity: Activity
-    lateinit private var sut: FlightItinSegmentSummaryViewModel
-    lateinit private var dateTime: DateTime
-    lateinit private var frozenTime: DateTime
+    private lateinit var activity: Activity
+    private lateinit var sut: FlightItinSegmentSummaryViewModel
+    private lateinit var dateTime: DateTime
+    private lateinit var frozenTime: DateTime
 
     val createAirlineWidgetSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.AirlineWidgetParams>()
     val createTimingWidgetSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.TimingWidgetParams>()

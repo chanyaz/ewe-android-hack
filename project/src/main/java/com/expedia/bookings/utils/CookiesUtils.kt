@@ -37,8 +37,6 @@ class CookiesUtils {
             val mgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent)
             System.exit(0)
-
         }
-
     }
 }

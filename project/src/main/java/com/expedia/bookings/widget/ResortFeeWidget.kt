@@ -6,8 +6,6 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.endlessObserver
-import io.reactivex.Observer
 
 class ResortFeeWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -19,5 +17,4 @@ class ResortFeeWidget(context: Context, attrs: AttributeSet) : LinearLayout(cont
     init {
         View.inflate(getContext(), R.layout.resort_fee_widget, this)
     }
-
 }

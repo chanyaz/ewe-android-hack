@@ -20,7 +20,6 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.larvalabs.svgandroid.widget.SVGView
 
-
 class HotelCrossSellView(context: Context, attrs: AttributeSet) : CardView(context, attrs) {
 
     val airAttachContainer: LinearLayout by bindView(R.id.hotel_cross_sell_body)

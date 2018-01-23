@@ -3,8 +3,6 @@ package com.expedia.bookings.test.pagemodels.hotels
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.withContentDescription
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withParent
@@ -13,20 +11,15 @@ import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.UiObject
 import android.support.test.uiautomator.UiObjectNotFoundException
 import android.support.test.uiautomator.UiSelector
-import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.CustomMatchers.withIndex
 import com.expedia.bookings.test.espresso.EspressoUtils
-import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.espresso.ViewActions.swipeUntilUiObjectIsVisible
-import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.endsWith
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.startsWith
 import org.junit.Assert.assertTrue
-import org.mockito.Matchers
 import java.util.concurrent.TimeUnit
 
 object HotelSearchResults {

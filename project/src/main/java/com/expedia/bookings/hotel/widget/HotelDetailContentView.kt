@@ -118,7 +118,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
     private val amenityEtpDivider: View by bindView(R.id.etp_and_free_cancellation_divider)
 
-
     private val miniMapView: LocationMapImageView by bindView(R.id.mini_map_view)
     private val transparentViewOverMiniMap: View by bindView(R.id.transparent_view_over_mini_map)
 
@@ -152,14 +151,13 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     init {
         View.inflate(context, R.layout.hotel_detail_content_view, this)
 
-
         val phoneIconDrawable = ContextCompat.getDrawable(context, R.drawable.detail_phone).mutate()
         phoneIconDrawable.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
 
         AccessibilityUtil.appendRoleContDesc(etpInfoTextSmall, etpInfoTextSmall.text.toString(), R.string.accessibility_cont_desc_role_button)
 
-        hotelDescriptionContainer.setAccessibilityDelegate(object: AccessibilityDelegate() {
+        hotelDescriptionContainer.setAccessibilityDelegate(object : AccessibilityDelegate() {
             override fun onInitializeAccessibilityNodeInfo(host: View?, info: AccessibilityNodeInfo?) {
                 super.onInitializeAccessibilityNodeInfo(host, info)
 
@@ -202,7 +200,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             commonAmenityText.visibility = View.VISIBLE
             commonAmenityText.text = HtmlCompat.fromHtml(text)
         }
-
 
         vm.roomResponseListObservable.subscribe { roomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             if (CollectionUtils.isEmpty(roomList.first)) {
@@ -298,7 +295,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             (hasETP || hasFreeCancellation) && !hotelSoldOut
         }.subscribeVisibility(etpAndFreeCancellationMessagingContainer)
 
-
         vm.ratingContainerBackground.subscribeBackground(ratingContainer)
         vm.isUserRatingAvailableObservable.filter { it }.subscribe {
             ratingContainer.contentDescription = context.resources.getString(R.string.accessibility_cont_desc_user_rating_button)
@@ -371,7 +367,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         }
     }
 
-    fun getPriceContainerYScreenLocation() : Int {
+    fun getPriceContainerYScreenLocation(): Int {
         if (hotelMessagingContainer.visibility == View.VISIBLE) {
             hotelMessagingContainer.getLocationOnScreen(priceContainerLocation)
         } else {
@@ -380,7 +376,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         return priceContainerLocation[1]
     }
 
-    fun isRoomContainerInBounds(bottom: Float, top: Float) : Boolean {
+    fun isRoomContainerInBounds(bottom: Float, top: Float): Boolean {
         val offScreenAboveTop = isRoomContainerAbove(top)
 
         roomContainer.getLocationOnScreen(roomContainerPosition)
@@ -389,7 +385,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         return onScreenAboveBottom && !offScreenAboveTop
     }
 
-    fun isRoomContainerAbove(top: Float) : Boolean {
+    fun isRoomContainerAbove(top: Float): Boolean {
         roomContainer.getLocationOnScreen(roomContainerPosition)
         return roomContainerPosition[1] + roomContainer.height < top
     }
@@ -526,7 +522,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         }
     }
 
-    private fun getRoomHeaderView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, roomCount: Int) : HotelRoomHeaderView {
+    private fun getRoomHeaderView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, roomCount: Int): HotelRoomHeaderView {
         val headerViewModel = HotelRoomHeaderViewModel(context, hotelRoomResponse, roomCount)
 
         val header = HotelRoomHeaderView(context, headerViewModel)
@@ -688,7 +684,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         HotelTracking.trackPayNowContainerClick()
     }
 
-    private fun payLaterClicked()  {
+    private fun payLaterClicked() {
         //pay later show only etp offers
         payNowLaterSelectionChanged(false)
         viewModel.etpRoomResponseListObservable.onNext(Pair(viewModel.etpOffersList,

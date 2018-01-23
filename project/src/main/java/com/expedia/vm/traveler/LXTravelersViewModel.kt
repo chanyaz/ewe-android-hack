@@ -13,7 +13,7 @@ class LXTravelersViewModel(context: Context, lob: LineOfBusiness, showMainTravel
 
     val traveler = Traveler()
 
-    override fun getTravelers() : List<Traveler> {
+    override fun getTravelers(): List<Traveler> {
         return arrayListOf(traveler)
     }
 

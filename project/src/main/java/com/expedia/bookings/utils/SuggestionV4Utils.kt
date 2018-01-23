@@ -19,7 +19,7 @@ object SuggestionV4Utils {
     val RECENT_AIRPORT_SUGGESTIONS_FILE = "recent-airport-suggest-list.dat"
     val RECENT_CAR_SUGGESTIONS_FILE = "recent-cars-airport-routes-list-v4.dat"
     val RECENT_RAIL_SUGGESTIONS_FILE = "recent-rail-suggest-list.dat"
-    val RECENT_LX_SUGGESTIONS_FILE =  "recent-lx-city-list-v4.dat"
+    val RECENT_LX_SUGGESTIONS_FILE = "recent-lx-city-list-v4.dat"
 
     val testSuggestionSavedSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
 

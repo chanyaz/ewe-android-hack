@@ -18,7 +18,7 @@ data class HotelStayDates(private val startDate: LocalDate?, private val endDate
         return endDate
     }
 
-    fun sameHotelStayDates(other: HotelStayDates?) : Boolean {
+    fun sameHotelStayDates(other: HotelStayDates?): Boolean {
         if (other == null) {
             return false
         }

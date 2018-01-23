@@ -11,7 +11,7 @@ import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import org.junit.Test
 
-class HotelNonMerchantTest: HotelTestCase() {
+class HotelNonMerchantTest : HotelTestCase() {
 
     @Test
     fun testNonMerchantHotel() {

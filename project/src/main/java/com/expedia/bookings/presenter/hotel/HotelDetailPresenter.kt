@@ -22,9 +22,9 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
 
     val hotelDetailView: HotelDetailView by bindView(R.id.hotel_detail)
     val hotelRenovationDesc: SpecialNoticeWidget by bindView(R.id.hotel_detail_desc)
-    val hotelPayLaterInfo : PayLaterInfoWidget by bindView(R.id.hotel_pay_later_info)
-    val hotelDepositInfo : DepositTermsInfoWidget by bindView(R.id.hotel_deposit_info)
-    val hotelVIPAccessInfo : VIPAccessInfoWidget by bindView(R.id.hotel_vip_access_info)
+    val hotelPayLaterInfo: PayLaterInfoWidget by bindView(R.id.hotel_pay_later_info)
+    val hotelDepositInfo: DepositTermsInfoWidget by bindView(R.id.hotel_deposit_info)
+    val hotelVIPAccessInfo: VIPAccessInfoWidget by bindView(R.id.hotel_vip_access_info)
     val hotelMapView: HotelMapView by bindView(R.id.hotel_map_view)
 
     val hotelDepositInfoObserver = endlessObserver<Pair<String, HotelOffersResponse.HotelRoomResponse>> { pair ->
@@ -61,7 +61,7 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         show(hotelDetailView)
     }
 
-    private val detailToMap = object: ScaleTransition(this, HotelDetailView::class.java, HotelMapView::class.java) {
+    private val detailToMap = object : ScaleTransition(this, HotelDetailView::class.java, HotelMapView::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (forward) {

@@ -142,7 +142,6 @@ class PackageSearchViewModelTest {
         sut = PackageSearchViewModel(context)
     }
 
-
     private fun getDummyPackageSearchParams(startDateOffset: Int, endDateOffset: Int): PackageSearchParams {
         val origin = getDummySuggestion()
         val destination = getDummySuggestion()
@@ -154,12 +153,12 @@ class PackageSearchViewModelTest {
                 .destination(destination)
                 .startDate(startDate)
                 .adults(1)
-                .children(listOf(1,2,3))
+                .children(listOf(1, 2, 3))
                 .endDate(endDate) as PackageSearchParams.Builder
 
         return paramsBuilder.build()
     }
-    
+
     private fun getDummySuggestion(): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""

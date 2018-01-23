@@ -18,12 +18,11 @@ import com.expedia.vm.flights.FlightOverviewViewModel as FlightsOverviewViewMode
 import com.expedia.vm.packages.FlightOverviewViewModel as PackagesOverviewViewModel
 
 @RunWith(RobolectricRunner::class)
-class  FlightOverviewViewModelTest {
-    lateinit private var sutFlight: FlightsOverviewViewModel
-    lateinit private var sutPackages: PackagesOverviewViewModel
-    lateinit private var flightLeg: FlightLeg
+class FlightOverviewViewModelTest {
+    private lateinit var sutFlight: FlightsOverviewViewModel
+    private lateinit var sutPackages: PackagesOverviewViewModel
+    private lateinit var flightLeg: FlightLeg
     private val context = RuntimeEnvironment.application
-
 
     @Before
     fun setup() {
@@ -67,6 +66,5 @@ class  FlightOverviewViewModelTest {
         flightLeg.packageOfferModel.price.deltaPositive = true
         flightLeg.packageOfferModel.price.deltaPrice = Money("4", "USD")
         flightLeg.packageOfferModel.price.deltaPrice.roundedAmount = BigDecimal("4")
-
     }
 }

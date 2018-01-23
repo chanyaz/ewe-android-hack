@@ -10,7 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.AcceptTermsViewModel
 
-class AcceptTermsWidget(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {
+class AcceptTermsWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     val acceptButton: Button by bindView(R.id.i_accept_terms_button)
     var vm: AcceptTermsViewModel

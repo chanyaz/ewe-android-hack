@@ -28,8 +28,7 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
                 val amount = Money(BigDecimal(rate.rate), hotelCheckoutSummaryViewModel.currencyCode.value)
                 val amountStr = if ((amount.isZero))
                     context.getString(R.string.free)
-                else
-                    amount.formattedMoney
+                else amount.formattedMoney
 
                 breakdowns.add(Breakdown(date, amountStr, BreakdownItem.DATE))
                 count++

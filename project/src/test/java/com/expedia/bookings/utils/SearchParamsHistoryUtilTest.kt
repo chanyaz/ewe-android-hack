@@ -1,11 +1,9 @@
 package com.expedia.bookings.utils
 
-import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,7 +24,7 @@ class SearchParamsHistoryUtilTest {
             SearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedSearchParams ->
                 assertEquals(searchParamsToSave.flightCabinClass, loadedSearchParams.flightCabinClass)
                 assertEquals(searchParamsToSave.adults, 1)
-                assertEquals(searchParamsToSave.children, listOf(1,2,3))
+                assertEquals(searchParamsToSave.children, listOf(1, 2, 3))
             })
         })
     }
@@ -50,11 +48,10 @@ class SearchParamsHistoryUtilTest {
                 assertEquals(searchParamsToSave.startDate, loadedSearchParams.startDate)
                 assertEquals(searchParamsToSave.endDate, loadedSearchParams.endDate)
                 assertEquals(searchParamsToSave.adults, 1)
-                assertEquals(searchParamsToSave.children, listOf(1,2,3))
+                assertEquals(searchParamsToSave.children, listOf(1, 2, 3))
             })
         })
     }
-
 
     private fun getDummyFlightSearchParams(): FlightSearchParams {
         val origin = SuggestionV4()
@@ -67,7 +64,7 @@ class SearchParamsHistoryUtilTest {
                 .destination(destination)
                 .startDate(startDate)
                 .adults(1)
-                .children(listOf(1,2,3))
+                .children(listOf(1, 2, 3))
                 .endDate(endDate) as FlightSearchParams.Builder
 
         return paramsBuilder.build()
@@ -84,7 +81,7 @@ class SearchParamsHistoryUtilTest {
                 .destination(destination)
                 .startDate(startDate)
                 .adults(1)
-                .children(listOf(1,2,3))
+                .children(listOf(1, 2, 3))
                 .endDate(endDate) as PackageSearchParams.Builder
 
         return paramsBuilder.build()

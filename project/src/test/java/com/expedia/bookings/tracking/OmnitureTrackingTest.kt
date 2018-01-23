@@ -89,7 +89,6 @@ class OmnitureTrackingTest {
         OmnitureTracking.trackAccountPageLoad()
 
         assertStateTracked(withProps(mapOf(27 to "11000001")), mockAnalyticsProvider)
-
     }
 
     @Test

@@ -30,14 +30,14 @@ class PackageFlightResultTest {
     val context = RuntimeEnvironment.application
 
     @Before
-    fun before(){
+    fun before() {
         flight = makeFlight()
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
             MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
-    fun testFlightTime(){
+    fun testFlightTime() {
         vm = PackageFlightViewModel(context, flight)
         assertEquals(vm.flightTime, "1:10 am - 12:20 pm +1d")
         flight.elapsedDays = 0
@@ -77,7 +77,7 @@ class PackageFlightResultTest {
     }
 
     @Test
-    fun testFlightDuration(){
+    fun testFlightDuration() {
         vm = PackageFlightViewModel(context, flight)
         assertEquals(vm.duration, "19h 10m (1 Stop)")
         flight.stopCount = 0

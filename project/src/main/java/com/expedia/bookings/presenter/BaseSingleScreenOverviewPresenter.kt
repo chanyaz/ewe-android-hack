@@ -16,13 +16,13 @@ import com.expedia.vm.CheckoutToolbarViewModel
 
 abstract class BaseSingleScreenOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
-    val summaryContainer : FrameLayout by bindView(R.id.summary_container)
-    val bottomLayout : LinearLayout by bindView(R.id.bottom_container)
-    val mainContent : LinearLayout by bindView(R.id.main_content)
+    val summaryContainer: FrameLayout by bindView(R.id.summary_container)
+    val bottomLayout: LinearLayout by bindView(R.id.bottom_container)
+    val mainContent: LinearLayout by bindView(R.id.main_content)
 
     val statusBarHeight = Ui.getStatusBarHeight(context)
-    val toolbar : CheckoutToolbar by bindView(R.id.checkout_toolbar)
-    val toolbarBackground : View by bindView(R.id.toolbar_background)
+    val toolbar: CheckoutToolbar by bindView(R.id.checkout_toolbar)
+    val toolbarBackground: View by bindView(R.id.toolbar_background)
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -45,7 +45,7 @@ abstract class BaseSingleScreenOverviewPresenter(context: Context, attrs: Attrib
         checkoutPresenter.travelersPresenter.menuVisibility.subscribe(toolbar.viewModel.menuVisibility)
         checkoutPresenter.travelersPresenter.toolbarNavIcon.subscribe(toolbar.viewModel.toolbarNavIcon)
         checkoutPresenter.travelersPresenter.toolbarTitleSubject.subscribe(toolbar.viewModel.toolbarTitle)
-        
+
         toolbar.setNavigationOnClickListener {
             val activity = context as AppCompatActivity
             activity.onBackPressed()

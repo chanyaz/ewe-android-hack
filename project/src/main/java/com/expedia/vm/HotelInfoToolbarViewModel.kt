@@ -15,4 +15,3 @@ class HotelInfoToolbarViewModel(val context: Context, val hotelName: String,
     val hotelRatingContentDescriptionObservable = BehaviorSubject.createDefault<String>(HotelsV2DataUtil.getHotelDetailRatingContentDescription(context, hotelStarRating.toDouble()))
     val hotelRatingObservableVisibility = BehaviorSubject.createDefault<Boolean>(hotelStarRating > 0)
 }
-

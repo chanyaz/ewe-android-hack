@@ -32,7 +32,7 @@ class TravelGraphServices(endpoint: String, okHttpClient: OkHttpClient, intercep
     //Guest user not supported for now
     fun fetchUserHistory(expUserId: String, siteId: String, locale: String, observer: Observer<TravelGraphUserHistoryResponse>): Disposable {
         val transactionGUID = UUID.randomUUID().toString().replace("-".toRegex(), "")
-        val lobs = arrayListOf("HOTEL_SEARCH")      //Hardcoded to get just search info for now.
+        val lobs = arrayListOf("HOTEL_SEARCH") //Hardcoded to get just search info for now.
 
         return travelGraphApi.fetchUserHistory(siteId, locale, expUserId, transactionGUID, lobs)
                 .subscribeOn(subscribeOn)

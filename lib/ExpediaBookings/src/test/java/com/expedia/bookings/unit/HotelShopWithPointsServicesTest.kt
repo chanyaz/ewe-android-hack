@@ -42,7 +42,6 @@ class HotelShopWithPointsServicesTest {
         testObserver.assertValueCount(1)
         val searchResponse = testObserver.values()[0]
         assertFalse(searchResponse.hasLoyaltyInformation)
-
     }
 
     // Loyalty earn in ExpediaRewards is in Points
@@ -184,5 +183,4 @@ class HotelShopWithPointsServicesTest {
         assertNotNull(loyaltyInfo.earn.price)
         assertTrue(loyaltyInfo.isBurnApplied)
     }
-
 }

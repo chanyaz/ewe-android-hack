@@ -19,5 +19,4 @@ class HotelReviewsTabbar(context: Context, attrs: AttributeSet) : Toolbar(contex
     override fun onFinishInflate() {
         super.onFinishInflate()
     }
-
 }

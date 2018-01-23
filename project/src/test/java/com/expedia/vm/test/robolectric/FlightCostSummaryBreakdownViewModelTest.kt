@@ -29,9 +29,9 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class) @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class FlightCostSummaryBreakdownViewModelTest {
 
-    lateinit private var activity: Activity
-    lateinit private var newTripResponse: FlightCreateTripResponse
-    lateinit private var sut: FlightCostSummaryBreakdownViewModel
+    private lateinit var activity: Activity
+    private lateinit var newTripResponse: FlightCreateTripResponse
+    private lateinit var sut: FlightCostSummaryBreakdownViewModel
 
     private fun setupSystemUnderTest() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -291,7 +291,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         assertEvents(expectedBreakdown, breakdownRowsTestObservable.values()[0])
     }
 
-    private fun setupInsuranceFees()  {
+    private fun setupInsuranceFees() {
        val insurance = Money("10.00", "USD")
 
         newTripResponse.details.offer.selectedInsuranceProduct = InsuranceProduct()

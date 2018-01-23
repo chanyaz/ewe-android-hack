@@ -43,11 +43,10 @@ class TravelerCountSelector(context: Context, attrs: AttributeSet?) : LinearLayo
         travelerMinus.subscribeOnClick(minusClickedSubject)
     }
 
-    private fun getColorFilter(enabled: Boolean) : Int {
+    private fun getColorFilter(enabled: Boolean): Int {
         if (enabled)
            return enabledColor
-        else
-            return disabledColor
+        else return disabledColor
     }
 
     fun enablePlus(enabled: Boolean) {

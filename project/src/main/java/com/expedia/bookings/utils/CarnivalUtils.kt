@@ -229,18 +229,18 @@ open class CarnivalUtils {
         setUserInfo(null, null)
     }
 
-    private fun getAllAirlinesInTrip(outboundLeg: FlightLeg?, inboundLeg: FlightLeg?, isRoundTrip: Boolean) : ArrayList<String> {
+    private fun getAllAirlinesInTrip(outboundLeg: FlightLeg?, inboundLeg: FlightLeg?, isRoundTrip: Boolean): ArrayList<String> {
         val segmentAirlines = hashSetOf<String>()
         outboundLeg?.segments?.mapTo(segmentAirlines) { it.airlineName }
 
-        if(isRoundTrip) {
+        if (isRoundTrip) {
             inboundLeg?.segments?.mapTo(segmentAirlines) { it.airlineName }
         }
 
         return ArrayList(segmentAirlines.distinct())
     }
 
-    private fun getAllFlightNumbersInTrip(outboundLeg: FlightLeg?, inboundLeg: FlightLeg?, isRoundTrip: Boolean) : ArrayList<String> {
+    private fun getAllFlightNumbersInTrip(outboundLeg: FlightLeg?, inboundLeg: FlightLeg?, isRoundTrip: Boolean): ArrayList<String> {
         val segmentFlightNumbers = hashSetOf<String>()
         outboundLeg?.segments?.mapTo(segmentFlightNumbers) { it.flightNumber }
 
@@ -251,7 +251,7 @@ open class CarnivalUtils {
         return ArrayList(segmentFlightNumbers.distinct())
     }
 
-    private fun calculateTotalTravelTime(outboundFlight: FlightLeg?, inboundFlight: FlightLeg?, isRoundTrip: Boolean) : String {
+    private fun calculateTotalTravelTime(outboundFlight: FlightLeg?, inboundFlight: FlightLeg?, isRoundTrip: Boolean): String {
         var totalDuration = 0
         val totalSegments = arrayListOf<FlightLeg.FlightSegment>()
 

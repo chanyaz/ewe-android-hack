@@ -35,7 +35,7 @@ import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import io.reactivex.disposables.Disposable
 
-abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener{
+abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
     open fun setBundleWidgetAndToolbar(forward: Boolean) { }
     open fun setToolbarMenu(forward: Boolean) { }
@@ -53,7 +53,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     val ANIMATION_DURATION = 400
 
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
-    protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById<BaseCheckoutPresenter>(R.id.checkout_presenter) }
+    protected val checkoutPresenter: BaseCheckoutPresenter by lazy { findViewById<BaseCheckoutPresenter>(R.id.checkout_presenter) }
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
     val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
 
@@ -212,7 +212,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             checkoutPresenter.mainContent.visibility = View.VISIBLE
 
             bundleOverviewHeader.nestedScrollView.foreground = ContextCompat.getDrawable(context, R.drawable.dim_background)
-            behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
+            behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
                 override fun canDrag(appBarLayout: AppBarLayout): Boolean {
                     return bundleOverviewHeader.isExpandable && currentState == BundleDefault::class.java.name
                 }
@@ -241,7 +241,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE
             bundleOverviewHeader.isDisabled = forward
             bundleOverviewHeader.nestedScrollView.foreground.alpha = if (forward) 255 else 0
-            bundleOverviewHeader.nestedScrollView.visibility =  if (forward) GONE else VISIBLE
+            bundleOverviewHeader.nestedScrollView.visibility = if (forward) GONE else VISIBLE
             bundleOverviewHeader.toolbar.subtitle = ""
             if (forward) {
                 checkoutPresenter.adjustScrollingSpace(bottomContainer)
@@ -260,10 +260,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             checkoutPresenter.mainContent.translationY = if (forward) translationDistance + ((1 - f) * distance) else translationDistance + (f * distance)
             bundleOverviewHeader.nestedScrollView.foreground.alpha = (255 * if (forward) f else (1 - f)).toInt()
         }
-
     }
 
-    open protected fun translateHeader(f: Float, forward: Boolean) {
+    protected open fun translateHeader(f: Float, forward: Boolean) {
         val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior as AppBarLayout.Behavior
         val userStoppedScrollingAt = behavior.topAndBottomOffset
@@ -271,7 +270,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         behavior.topAndBottomOffset = scrollY.toInt()
     }
 
-    open protected fun resetCheckoutState() {
+    protected open fun resetCheckoutState() {
         bottomCheckoutContainer.viewModel.resetSliderObservable.onNext(Unit)
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(true)
@@ -318,7 +317,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     class BundleDefault
 
-    inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {
+    inner class OverviewLayoutListener : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout () {
             updateScrollingSpace(scrollSpaceView)
         }

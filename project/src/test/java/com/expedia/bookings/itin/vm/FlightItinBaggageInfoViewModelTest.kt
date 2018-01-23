@@ -13,8 +13,8 @@ import org.robolectric.Robolectric
 @RunWith(RobolectricRunner::class)
 class FlightItinBaggageInfoViewModelTest {
 
-    lateinit private var activity: Activity
-    lateinit private var sut: FlightItinBagaggeInfoViewModel
+    private lateinit var activity: Activity
+    private lateinit var sut: FlightItinBagaggeInfoViewModel
 
     private val createBaggageInfoWidgetSubscriber = TestObserver<ItinWebviewInfoButtonViewModel.ItinWebviewInfoButtonWidgetParams>()
 
@@ -36,5 +36,4 @@ class FlightItinBaggageInfoViewModelTest {
                 R.color.app_primary,
                 "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=GAA4AKEN&bookingclass=G&travelDate=2017-09-05&flightNumber=681"))
     }
-
 }

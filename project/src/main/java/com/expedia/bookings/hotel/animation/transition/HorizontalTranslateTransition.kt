@@ -1,7 +1,6 @@
 package com.expedia.bookings.hotel.animation.transition
 
 import android.view.View
-import com.expedia.bookings.hotel.animation.transition.TranslateTransition
 
 class HorizontalTranslateTransition(view: View, origin: Int, target: Int) : TranslateTransition(view, origin, target) {
 

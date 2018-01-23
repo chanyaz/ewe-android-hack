@@ -17,7 +17,6 @@ import com.expedia.bookings.utils.ItinUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 
-
 class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<ItinCardDataFlight>(context, attributeSet) {
 
     val mCheckInLayout: ViewGroup by bindView(R.id.checkin_layout)

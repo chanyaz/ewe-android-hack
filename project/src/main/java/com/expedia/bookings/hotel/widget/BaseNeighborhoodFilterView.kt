@@ -17,7 +17,7 @@ abstract class BaseNeighborhoodFilterView(context: Context, attrs: AttributeSet?
     val neighborhoodOnSubject = PublishSubject.create<HotelSearchResponse.Neighborhood>()
     val neighborhoodOffSubject = PublishSubject.create<HotelSearchResponse.Neighborhood>()
 
-    protected  val collapseViewCount = 3
+    protected val collapseViewCount = 3
     private val ANIMATION_DURATION = 500L
     private var expanded = false
 
@@ -33,8 +33,7 @@ abstract class BaseNeighborhoodFilterView(context: Context, attrs: AttributeSet?
     }
 
     abstract fun clear()
-    protected abstract fun getNeighborhoodContainer() : LinearLayout
-
+    protected abstract fun getNeighborhoodContainer(): LinearLayout
 
     @CallSuper
     open fun updateNeighborhoods(list: List<HotelSearchResponse.Neighborhood>) {

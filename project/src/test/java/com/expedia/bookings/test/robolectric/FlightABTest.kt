@@ -26,5 +26,4 @@ class FlightABTest {
         val intent = Shadows.shadowOf(activity).peekNextStartedActivity()
         assertEquals(FlightActivity::class.java.name, intent.component.className)
     }
-
 }

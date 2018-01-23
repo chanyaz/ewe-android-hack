@@ -12,8 +12,8 @@ import org.robolectric.RuntimeEnvironment
 
 @RunWith(RobolectricRunner::class)
 class TravelerItinToolBarViewModelTest {
-    lateinit private var activity: Activity
-    lateinit private var sut: ItinToolbarViewModel
+    private lateinit var activity: Activity
+    private lateinit var sut: ItinToolbarViewModel
     lateinit var context: Context
 
     val toolbarTitleSubscriber = TestObserver<String>()
@@ -40,5 +40,4 @@ class TravelerItinToolBarViewModelTest {
         toolbarTitleSubscriber.assertValue("cool title")
         toolbarSubTitleSubscriber.assertValue("really cool sub")
     }
-
 }

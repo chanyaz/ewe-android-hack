@@ -1,7 +1,6 @@
 package com.expedia.vm.flights
 
 import android.content.Context
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.FlightV2Utils

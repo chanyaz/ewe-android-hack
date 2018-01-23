@@ -45,7 +45,6 @@ class HotelConfirmationPresenterTest {
     var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.trampoline(), "../lib/mocked/templates")
         @Rule get
 
-
     lateinit var hotelPresenter: HotelPresenter
     lateinit var activity: Activity
 

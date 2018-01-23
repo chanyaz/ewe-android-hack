@@ -44,5 +44,4 @@ class FlightCabinClassPickerView(context: Context, attrs: AttributeSet) : Linear
             else -> throw RuntimeException("Could not find cabinCode : " + cabinCode)
         }
     }
-
 }

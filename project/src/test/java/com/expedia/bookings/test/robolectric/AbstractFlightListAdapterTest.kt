@@ -292,8 +292,7 @@ class AbstractFlightListAdapterTest {
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
         val earnInfo = PointsEarnInfo(100, 100, 100)
 
-        val loyaltyInfo = if (!isCurrencyTypeMoney) LoyaltyInformation(null, LoyaltyEarnInfo(earnInfo, null), false) else
-            LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money(price, "USD"), Money("0", "USD"), Money(price, "USD"))), true)
+        val loyaltyInfo = if (!isCurrencyTypeMoney) LoyaltyInformation(null, LoyaltyEarnInfo(earnInfo, null), false) else LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money(price, "USD"), Money("0", "USD"), Money(price, "USD"))), true)
 
         flightLeg.packageOfferModel.loyaltyInfo = loyaltyInfo
     }

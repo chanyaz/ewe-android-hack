@@ -17,7 +17,7 @@ import com.expedia.bookings.utils.RecentAirports
 import com.expedia.bookings.widget.FlightRouteAdapter
 import com.mobiata.android.BackgroundDownloader
 
-class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet): FlightSearchPresenter(context, attrs) {
+class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet) : FlightSearchPresenter(context, attrs) {
 
     private val recentAirports = RecentAirports(context)
 
@@ -117,7 +117,7 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
         return AdapterView.OnItemClickListener { parent, view, position, id ->
                 val airport = originListAdapter.getAirport(position)
                 if (airport != null) {
-                    val suggestionV4FromAirport = FlightsV2DataUtil.getSuggestionV4FromAirport(context,  airport)
+                    val suggestionV4FromAirport = FlightsV2DataUtil.getSuggestionV4FromAirport(context, airport)
                     searchViewModel.originLocationObserver.onNext(suggestionV4FromAirport)
                     originAirportListPopup.dismiss()
 
@@ -144,5 +144,4 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
                 }
             }
     }
-
 }

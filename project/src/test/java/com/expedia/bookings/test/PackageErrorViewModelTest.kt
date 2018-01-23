@@ -52,7 +52,6 @@ class PackageErrorViewModelTest {
         val errorMessageObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
-
         subjectUnderTest.paramsSubject.onNext(getPackageSearchParams())
 
         subjectUnderTest.packageSearchApiErrorObserver.onNext(apiError)
@@ -180,7 +179,7 @@ class PackageErrorViewModelTest {
         val errorButtonObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
-        val apiError = ApiError(ApiError.Code.UNKNOWN_ERROR);
+        val apiError = ApiError(ApiError.Code.UNKNOWN_ERROR)
         apiError.errorInfo = ApiError.ErrorInfo()
         apiError.errorInfo.source = "UK"
 
@@ -290,7 +289,7 @@ class PackageErrorViewModelTest {
         val errorButtonObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
-        val apiError = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR);
+        val apiError = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
         apiError.errorInfo = ApiError.ErrorInfo()
         apiError.errorInfo.source = "Atlantis"
         apiError.errorInfo.sourceErrorId = "K2401"

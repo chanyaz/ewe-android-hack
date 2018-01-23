@@ -651,7 +651,7 @@ class PackagesTrackingTest {
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
-                .children(listOf(10,2))
+                .children(listOf(10, 2))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
@@ -677,11 +677,11 @@ class PackagesTrackingTest {
         suggestion.regionNames.fullName = ""
         suggestion.regionNames.shortName = ""
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
-        val airport =  SuggestionV4.Airport();
-        airport.airportCode = "";
-        airport.multicity = code;
+        val airport = SuggestionV4.Airport()
+        airport.airportCode = ""
+        airport.multicity = code
         hierarchyInfo.airport = airport
-        suggestion.hierarchyInfo = hierarchyInfo;
+        suggestion.hierarchyInfo = hierarchyInfo
         return suggestion
     }
 }

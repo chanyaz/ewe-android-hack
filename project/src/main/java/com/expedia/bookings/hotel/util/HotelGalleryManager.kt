@@ -19,7 +19,7 @@ open class HotelGalleryManager() {
         response.hotelRoomResponse?.let { saveRoomImages(response.hotelRoomResponse) }
     }
 
-    fun fetchMediaList(roomCode: String) : ArrayList<HotelMedia> {
+    fun fetchMediaList(roomCode: String): ArrayList<HotelMedia> {
         if (roomCode == DEFAULT_HOTEL_GALLERY_CODE) {
             return overviewImages
         }
@@ -33,7 +33,7 @@ open class HotelGalleryManager() {
 
     private fun saveRoomImages(rooms: List<HotelOffersResponse.HotelRoomResponse>) {
         roomImages.clear()
-        for (i  in rooms.indices) {
+        for (i in rooms.indices) {
             val room = rooms[i]
             val code = room.roomGroupingKey()
             room.roomThumbnailUrlArray?.forEach { url ->

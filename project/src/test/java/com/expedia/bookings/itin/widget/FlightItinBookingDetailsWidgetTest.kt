@@ -31,7 +31,6 @@ class FlightItinBookingDetailsWidgetTest {
     val activity = Robolectric.buildActivity(Activity::class.java).create().get()
     val testItinCardData = ItinCardDataFlightBuilder().build()
 
-
     @Before
     fun before() {
         context = RuntimeEnvironment.application

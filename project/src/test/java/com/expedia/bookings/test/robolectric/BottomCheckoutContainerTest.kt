@@ -4,13 +4,10 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.BottomCheckoutContainer
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,7 +23,7 @@ class BottomCheckoutContainerTest {
 
     private val context = RuntimeEnvironment.application
 
-    lateinit private var bottomContainer: BottomCheckoutContainer
+    private lateinit var bottomContainer: BottomCheckoutContainer
 
     @Before
     fun setup() {

@@ -13,8 +13,8 @@ class ItinActionButtonsViewModel {
     val leftButtonClickedObservable = PublishSubject.create<Unit>()
     val rightButtonClickedObservable = PublishSubject.create<Unit>()
     val dividerVisibilityObservable = PublishSubject.create<Boolean>()
-    
-    init{
+
+    init {
         ObservableOld.zip(leftButtonVisibilityObservable, rightButtonVisibilityObservable, { leftButtonVisible: Boolean, rightButtonVisible: Boolean ->
             dividerVisibilityObservable.onNext(leftButtonVisible && rightButtonVisible)
         }).subscribe()

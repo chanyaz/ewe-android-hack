@@ -38,7 +38,6 @@ class RailCheckoutViewModelTest {
     var railServicesRule = ServicesRule(RailServices::class.java)
         @Rule get
 
-
     @Before
     fun setUp() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -174,7 +173,7 @@ class RailCheckoutViewModelTest {
         assertEquals(expectedCheckoutItinNumber, checkoutTestSub.values()[0].first.newTrip.itineraryNumber)
     }
 
-    private fun getCheckoutRequest() : RailCheckoutParams {
+    private fun getCheckoutRequest(): RailCheckoutParams {
         val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_cko_request.json")
         val checkoutParams = resourceReader.constructUsingGson(RailCheckoutParams::class.java)
         return checkoutParams

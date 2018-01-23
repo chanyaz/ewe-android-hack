@@ -20,18 +20,18 @@ import java.io.IOException
 import java.lang.reflect.InvocationTargetException
 import kotlin.properties.Delegates
 
-open class ServicesRule<T : Any>(val servicesClass: Class<T>, val scheduler:Scheduler = Schedulers.trampoline(), val rootPath: String = "../lib/mocked/templates", val setExpediaDispatcher: Boolean = true) : TestRule {
+open class ServicesRule<T : Any>(val servicesClass: Class<T>, val scheduler: Scheduler = Schedulers.trampoline(), val rootPath: String = "../lib/mocked/templates", val setExpediaDispatcher: Boolean = true) : TestRule {
 
     var server: MockWebServer by Delegates.notNull()
     var services: T? = null
 
-    fun setDefaultExpediaDispatcher(){
+    fun setDefaultExpediaDispatcher() {
         server.setDispatcher(diskExpediaDispatcher())
     }
 
     override fun apply(base: Statement, description: Description): Statement {
         server = MockWebServer()
-        if(setExpediaDispatcher) {
+        if (setExpediaDispatcher) {
             server.setDispatcher(diskExpediaDispatcher())
         }
 
@@ -59,18 +59,15 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>, val scheduler:Sche
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java, Interceptor::class.java, Interceptor::class.java, Boolean::class.java, Scheduler::class.java,
                     Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(), MockInterceptor(),
                     MockInterceptor(), MockInterceptor(), false, Schedulers.trampoline(), Schedulers.trampoline())
-        }
-        else if (servicesClass.equals(FlightServices::class.java)) {
+        } else if (servicesClass.equals(FlightServices::class.java)) {
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, List::class.java, Scheduler::class.java,
                     Scheduler::class.java, Boolean::class.java).newInstance("http://localhost:" + server.port, client.build(), listOf(MockInterceptor()),
                     Schedulers.trampoline(), scheduler, false)
-        }
-        else if (servicesClass.equals(CardFeeService::class.java)) {
+        } else if (servicesClass.equals(CardFeeService::class.java)) {
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, List::class.java, Scheduler::class.java,
                     Scheduler::class.java, Boolean::class.java).newInstance("http://localhost:" + server.port, client.build(), listOf(MockInterceptor()),
                     Schedulers.trampoline(), scheduler)
-        }
-        else {
+        } else {
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java, Scheduler::class.java,
                     Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(), MockInterceptor(),
                     Schedulers.trampoline(), scheduler)

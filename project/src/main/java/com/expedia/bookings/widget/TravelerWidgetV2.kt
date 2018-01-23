@@ -67,5 +67,4 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
         }
         dialog
     }
-
 }

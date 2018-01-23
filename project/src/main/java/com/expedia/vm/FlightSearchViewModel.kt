@@ -396,5 +396,4 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     fun getFormattedDate(date: LocalDate?): String? {
             return DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(date)
     }
-
 }

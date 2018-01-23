@@ -7,8 +7,7 @@ import android.view.Window
 
 class ActivityTransitionUtil {
     companion object {
-        fun createPairsWithAndroidComponents(activity: AppCompatActivity, view: View, name: String)
-                : Array<android.support.v4.util.Pair<View, String>> {
+        fun createPairsWithAndroidComponents(activity: AppCompatActivity, view: View, name: String): Array<android.support.v4.util.Pair<View, String>> {
 
             val pairs = ArrayList<Pair<View, String>>()
             val pair1 = Pair.create<View, String>(view, name)
@@ -25,7 +24,7 @@ class ActivityTransitionUtil {
           You are wrong. Working with the xml caused a flashing of the window background on top of those components.
           This solution solves that for shared component transitions, for all api levels.
           */
-        private fun getSharedAndroidPairs(activity: AppCompatActivity) : ArrayList<android.support.v4.util.Pair<View, String>> {
+        private fun getSharedAndroidPairs(activity: AppCompatActivity): ArrayList<android.support.v4.util.Pair<View, String>> {
             val pairs = ArrayList<android.support.v4.util.Pair<View, String>>()
             val decorView = activity.window.decorView
 

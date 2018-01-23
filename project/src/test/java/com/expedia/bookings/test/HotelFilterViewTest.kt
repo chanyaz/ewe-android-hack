@@ -172,7 +172,7 @@ class HotelFilterViewTest {
         hotelFilterView.shopWithPointsViewModel = shopWithPointsViewModel
     }
 
-    private fun getNeighborhoodList() : List<HotelSearchResponse.Neighborhood> {
+    private fun getNeighborhoodList(): List<HotelSearchResponse.Neighborhood> {
         val list = ArrayList<HotelSearchResponse.Neighborhood>()
         list.add(HotelSearchResponse.Neighborhood())
         list.add(HotelSearchResponse.Neighborhood())

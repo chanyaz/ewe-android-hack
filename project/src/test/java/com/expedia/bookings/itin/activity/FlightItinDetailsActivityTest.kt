@@ -18,8 +18,8 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class FlightItinDetailsActivityTest {
 
-    lateinit private var activity: FlightItinDetailsActivity
-    lateinit private var itinCardData: ItinCardDataFlight
+    private lateinit var activity: FlightItinDetailsActivity
+    private lateinit var itinCardData: ItinCardDataFlight
     private val flightBuilder = ItinCardDataFlightBuilder()
 
     @Before

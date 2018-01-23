@@ -16,7 +16,7 @@ import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import com.expedia.bookings.test.espresso.Common
 
-class FlightPriceChangeTest: FlightErrorTestCase() {
+class FlightPriceChangeTest : FlightErrorTestCase() {
 
     enum class PriceChangeType {
         CHECKOUT,

@@ -8,15 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeText
 import com.expedia.vm.AbstractFlightViewModel
-import com.mobiata.android.Log
 
 class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayout(context) {
     val cardView: CardView by bindView(R.id.card_view)
@@ -30,7 +25,7 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
     val urgencyMessageTextView: TextView by bindView(R.id.urgency_message)
     val urgencyMessageContainer: LinearLayout by bindView(R.id.urgency_message_layout)
     val flightToggleIcon: ImageView by bindView(R.id.flight_overview_expand_icon)
-    lateinit var viewModel : AbstractFlightViewModel
+    lateinit var viewModel: AbstractFlightViewModel
 
     init {
         View.inflate(context, R.layout.flight_cell, this)

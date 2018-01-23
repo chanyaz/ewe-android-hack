@@ -35,8 +35,8 @@ import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class PackageFlightPresenterTest {
-    lateinit private var presenter: PackageFlightPresenter
-    lateinit private var activity: Activity
+    private lateinit var presenter: PackageFlightPresenter
+    private lateinit var activity: Activity
     lateinit var params: PackageSearchParams
     lateinit var flightResponse: BundleSearchResponse
     lateinit var hotelResponse: BundleSearchResponse
@@ -45,7 +45,6 @@ class PackageFlightPresenterTest {
 
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
-
 
     @Before
     fun setup() {

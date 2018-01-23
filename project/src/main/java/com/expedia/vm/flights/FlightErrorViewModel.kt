@@ -161,8 +161,7 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
                     if (isTravelerFormInputError) {
                         subscribeActionToButtonPress(showTravelerForm)
                         buttonOneTextObservable.onNext(context.getString(R.string.edit_traveler_details))
-                    }
-                    else {
+                    } else {
                         subscribeActionToButtonPress(showPaymentForm)
                         buttonOneTextObservable.onNext(context.resources.getString(R.string.edit_payment))
                     }

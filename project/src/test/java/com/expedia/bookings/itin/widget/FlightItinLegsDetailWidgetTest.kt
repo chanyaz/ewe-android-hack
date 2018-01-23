@@ -40,7 +40,7 @@ class FlightItinLegsDetailWidgetTest {
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val rulesText = alertDialog.findViewById<View>(R.id.fragment_dialog_scrollable_text_content) as TextView
         assertEquals(true, alertDialog.isShowing)
-        assertEquals(cancelChange,rulesText.text.toString())
+        assertEquals(cancelChange, rulesText.text.toString())
     }
 
     @Test
@@ -61,6 +61,5 @@ class FlightItinLegsDetailWidgetTest {
         legsDetailsWidget.viewModel.shouldShowSplitTicketTextSubject.onNext(true)
         assertEquals(View.VISIBLE, legsDetailsWidget.splitTicketText.visibility)
         assertEquals(View.VISIBLE, legsDetailsWidget.splitTicketDividerView.visibility)
-
     }
 }

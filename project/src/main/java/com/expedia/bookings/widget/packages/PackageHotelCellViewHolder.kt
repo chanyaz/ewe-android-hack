@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget.packages
 
 import android.content.Context
-import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.expedia.bookings.R

@@ -59,5 +59,3 @@ class RailSegmentAmenitiesViewModel(val context: Context) {
     }
 }
 
-
-

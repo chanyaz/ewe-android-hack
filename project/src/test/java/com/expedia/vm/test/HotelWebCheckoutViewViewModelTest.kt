@@ -72,5 +72,4 @@ class HotelWebCheckoutViewViewModelTest {
         assertFalse(testSubscriber.values()[0].qualityAirAttach)
         assertEquals(roomInfoFields.room, testSubscriber.values()[0].roomInfoFields.room)
     }
-
 }

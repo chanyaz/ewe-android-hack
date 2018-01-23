@@ -35,7 +35,7 @@ open class FlightErrorTestCase : NewFlightTestCase() {
         val startDate = LocalDate.now().plusDays(3)
         if (isOneWay) {
             SearchScreen.selectDate(startDate)
-        } else{
+        } else {
             SearchScreen.selectDates(startDate, startDate.plusDays(5))
         }
         SearchScreen.searchButton().perform(ViewActions.click())
@@ -113,5 +113,4 @@ open class FlightErrorTestCase : NewFlightTestCase() {
         FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0)
         FlightsScreen.selectInboundFlight().perform(ViewActions.click())
     }
-
 }

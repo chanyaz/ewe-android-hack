@@ -38,7 +38,7 @@ open class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(
     open fun getLayout(): Int {
         return if (PointOfSale.getPointOfSale().showLastNameFirst()) {
             R.layout.material_reversed_name_entry_view
-        }  else if (PointOfSale.getPointOfSale().hideMiddleName()) {
+        } else if (PointOfSale.getPointOfSale().hideMiddleName()) {
             R.layout.material_name_entry_view_no_middle_name
         } else {
             R.layout.material_name_entry_view

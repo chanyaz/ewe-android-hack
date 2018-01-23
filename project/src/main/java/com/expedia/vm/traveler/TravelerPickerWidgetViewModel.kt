@@ -5,7 +5,7 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 class TravelerPickerWidgetViewModel {
-    
+
     var passportRequired = BehaviorSubject.createDefault<Boolean>(false)
 
     val selectedTravelerSubject = BehaviorSubject.create<TravelerSelectItemViewModel>()

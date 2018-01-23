@@ -59,7 +59,7 @@ class HotelSuggestionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), 
         return position.toLong()
     }
 
-    private fun getSuggestionTrackingData(suggestion: SuggestionV4, position: Int) : SuggestionTrackingData {
+    private fun getSuggestionTrackingData(suggestion: SuggestionV4, position: Int): SuggestionTrackingData {
         val trackingData = SuggestionTrackingData()
         trackingData.selectedSuggestionPosition = position + 1
         trackingData.suggestionsShownCount = suggestions.count()

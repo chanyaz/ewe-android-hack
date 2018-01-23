@@ -21,14 +21,14 @@ class ProWizardBucketCache {
             editor.apply()
         }
 
-        @JvmStatic fun isBucketed(context: Context) : Boolean {
+        @JvmStatic fun isBucketed(context: Context): Boolean {
             val prefs = context.getSharedPreferences(ABACUS_FILE_NAME, Context.MODE_PRIVATE)
             val testValue = prefs.getInt(PREFS_PRO_WIZARD_BUCKET, NO_BUCKET_VALUE)
 
             return testValue == AbacusUtils.DefaultVariant.BUCKETED.ordinal
         }
 
-        @JvmStatic fun getTrackingValue(context: Context) : Int {
+        @JvmStatic fun getTrackingValue(context: Context): Int {
             val prefs = context.getSharedPreferences(ABACUS_FILE_NAME, Context.MODE_PRIVATE)
             val testValue = prefs.getInt(PREFS_PRO_WIZARD_BUCKET, NO_BUCKET_VALUE)
 

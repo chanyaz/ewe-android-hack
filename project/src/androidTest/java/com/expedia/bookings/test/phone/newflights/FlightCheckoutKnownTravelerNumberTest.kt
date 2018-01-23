@@ -66,5 +66,4 @@ class FlightCheckoutKnownTravelerNumberTest : NewFlightTestCase() {
         Espresso.closeSoftKeyboard()
         TravelerDetails.clickAdvanced()
     }
-    
 }

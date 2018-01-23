@@ -15,9 +15,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
-import java.io.File
-import java.util.concurrent.TimeUnit
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -31,11 +28,10 @@ import org.junit.Rule
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 
-
 @RunWith(RobolectricRunner::class)
 class PackageHotelPresenterTest {
-    lateinit private var widget: PackageHotelPresenter
-    lateinit private var activity: Activity
+    private lateinit var widget: PackageHotelPresenter
+    private lateinit var activity: Activity
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
     lateinit var params: PackageSearchParams
     val context = RuntimeEnvironment.application
@@ -69,7 +65,6 @@ class PackageHotelPresenterTest {
                 47 to "PKG|1R|RT|A1|C3|L1"
         )
         OmnitureTestUtils.assertStateTracked(withEvars(expectedEvars), mockAnalyticsProvider)
-
     }
 
     @Test

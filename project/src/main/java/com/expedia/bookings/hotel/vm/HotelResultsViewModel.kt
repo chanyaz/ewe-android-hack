@@ -79,7 +79,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         hotelSearchManager.dispose()
     }
 
-    fun getSearchParams() : HotelSearchParams? {
+    fun getSearchParams(): HotelSearchParams? {
         return cachedParams
     }
 
@@ -128,7 +128,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         })
     }
 
-    private fun newParamBuilder(suggestion: SuggestionV4?, params: HotelSearchParams?) : HotelSearchParams.Builder {
+    private fun newParamBuilder(suggestion: SuggestionV4?, params: HotelSearchParams?): HotelSearchParams.Builder {
         val maxStay = context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
         val maxRange = context.resources.getInteger(R.integer.max_calendar_selectable_date_range_hotels_only)
         val builder = HotelSearchParams.Builder(maxStay, maxRange)

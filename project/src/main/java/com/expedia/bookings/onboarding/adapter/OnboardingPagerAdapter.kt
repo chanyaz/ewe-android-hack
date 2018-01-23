@@ -14,7 +14,7 @@ import com.expedia.bookings.utils.Akeakamai
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.picasso.Picasso
 
-class OnboardingPagerAdapter(val context: Context): PagerAdapter() {
+class OnboardingPagerAdapter(val context: Context) : PagerAdapter() {
 
     override fun isViewFromObject(view: View?, `object`: Any?): Boolean {
         return `object` == view
@@ -42,5 +42,4 @@ class OnboardingPagerAdapter(val context: Context): PagerAdapter() {
         akeakamai.resizeExactly(AndroidUtils.getDisplaySize(context).x, AndroidUtils.getDisplaySize(context).y)
         return akeakamai.build()
     }
-
 }

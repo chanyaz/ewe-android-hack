@@ -23,11 +23,11 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class ItinSignInViewModelTest {
-    lateinit private var activity: Activity
-    lateinit private var sut: ItinSignInViewModel
-    lateinit private var testItinSignInViewModel: TestItinSignInViewModel
-    lateinit private var mockItinPageUsablePerformanceModel: ItinPageUsableTracking
-    lateinit private var notificationManager: NotificationManager
+    private lateinit var activity: Activity
+    private lateinit var sut: ItinSignInViewModel
+    private lateinit var testItinSignInViewModel: TestItinSignInViewModel
+    private lateinit var mockItinPageUsablePerformanceModel: ItinPageUsableTracking
+    private lateinit var notificationManager: NotificationManager
 
     val statusTextTestSubscriber = TestObserver<String>()
     val buttonTextTestSubscriber = TestObserver<String>()
@@ -139,7 +139,5 @@ class ItinSignInViewModelTest {
         override fun doItinSignIn() {
             this.userLoginStateChangedModel.userLoginStateChanged.onNext(true)
         }
-
     }
-
 }

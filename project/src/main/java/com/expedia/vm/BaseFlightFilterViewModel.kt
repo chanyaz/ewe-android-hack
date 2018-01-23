@@ -91,7 +91,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         private fun toHour(value: Int): Int = value + minDurationHours
 
         fun formatValue(value: Int): String {
-            val hourID = if(DateFormat.is24HourFormat(context)) R.array.twentyFourHoursList else R.array.hoursList
+            val hourID = if (DateFormat.is24HourFormat(context)) R.array.twentyFourHoursList else R.array.hoursList
             return context.resources.getStringArray(hourID)[toHour(value)]
         }
 
@@ -179,7 +179,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
 
             if (filteredList.isNotEmpty()) {
                 filterObservable.onNext(filteredList)
-                if(lob == LineOfBusiness.FLIGHTS_V2) {
+                if (lob == LineOfBusiness.FLIGHTS_V2) {
                     FlightsV2Tracking.trackFlightFilterDone(filteredList)
                 }
             } else {

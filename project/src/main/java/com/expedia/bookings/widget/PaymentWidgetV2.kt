@@ -69,7 +69,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             }
         }
 
-        enableToolbarMenuButton.subscribe{ enable ->
+        enableToolbarMenuButton.subscribe { enable ->
             if (paymentOptionsContainer.visibility == View.VISIBLE) {
                 viewmodel.enableMenuItem.onNext(enable && isComplete())
             }
@@ -118,7 +118,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     override fun onFinishInflate() {
         super.onFinishInflate()
         val layoutId = ProductFlavorFeatureConfiguration.getInstance().rewardsLayoutId
-        if(layoutId != 0){
+        if (layoutId != 0) {
             rewardWidget.layoutResource = layoutId
             rewardWidget.inflate()
         }

@@ -93,8 +93,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
             if (originLocation?.hierarchyInfo?.airport?.multicity != null) {
                 departureCity = originLocation?.hierarchyInfo?.airport?.multicity ?: ""
                 arrivalCity = destinationLocation?.hierarchyInfo?.airport?.multicity ?: ""
-            }
-            else {
+            } else {
                 departureCity = originLocation?.hierarchyInfo?.airport?.regionId ?: ""
                 arrivalCity = destinationLocation?.hierarchyInfo?.airport?.regionId ?: ""
             }
@@ -148,7 +147,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         for (i in startIndex..valueList.size) {
             val key = StringBuilder(keyString)
             key.append("[").append(i).append("]")
-            val childAge = valueList[i-1]
+            val childAge = valueList[i - 1]
             params.put(key.toString(), childAge)
             if (childAge < 2) {
                 params.put("infantsInSeats", if (infantSeatingInLap) 0 else 1)

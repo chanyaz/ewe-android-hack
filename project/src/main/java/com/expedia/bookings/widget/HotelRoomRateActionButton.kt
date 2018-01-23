@@ -33,20 +33,18 @@ class HotelRoomRateActionButton(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     fun showBookButton() {
-        if(soldOutButton.visibility == View.VISIBLE) {
+        if (soldOutButton.visibility == View.VISIBLE) {
             showSoldOutButton()
-        }
-        else {
+        } else {
             soldOutButton.visibility = View.GONE
             viewRoomButton.visibility = View.GONE
             bookButton.visibility = View.VISIBLE
         }
     }
     fun showViewRoomButton() {
-        if(soldOutButton.visibility == View.VISIBLE) {
+        if (soldOutButton.visibility == View.VISIBLE) {
             showSoldOutButton()
-        }
-        else {
+        } else {
             soldOutButton.visibility = View.GONE
             viewRoomButton.visibility = View.VISIBLE
             bookButton.visibility = View.GONE

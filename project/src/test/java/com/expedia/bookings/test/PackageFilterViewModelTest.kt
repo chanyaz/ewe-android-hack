@@ -231,7 +231,6 @@ class PackageFilterViewModelTest {
         amenities1.add(amenity1)
         hotel1.amenities = amenities1
 
-
         val hotel2 = Hotel()
         hotel2.sortIndex = 2
         hotel2.localizedName = "Double Tree"
@@ -291,7 +290,7 @@ class PackageFilterViewModelTest {
                 // List Sorted by DEALS
                 arrayListOf("air_attached_hotel", "Non Merchant Hotel", "happypath", "error_room_unavailable", "error_create_trip", "error_checkout_session_timeout", "error_checkout_card_limit_exceeded", "Sold_out_hotel", "valid_forms_of_payment", "hotel_coupon_errors", "hotel_etp_renovation_resort", "hotel_etp_renovation_resort_with_free_cancellation", "hotel_non_etp_with_free_cancellation", "error_checkout_card", "error_checkout_traveller_info", "error_checkout_unknown", "error_checkout_trip_already_booked", "hotel_email_opt_in", "tealeaf_id", "sold_out_hotel_with_2_rooms", "happypath_pwp", "visa_not_supported", "happypath_with_loyalty_points", "no_guest_review", "vip_hotel", "hotel_price_change"),
                 // List Sorted by RATING
-                arrayListOf("vip_hotel", "happypath",  "error_room_unavailable", "error_create_trip", "error_checkout_session_timeout", "error_checkout_card_limit_exceeded", "Sold_out_hotel", "valid_forms_of_payment", "hotel_coupon_errors", "hotel_etp_renovation_resort", "hotel_etp_renovation_resort_with_free_cancellation", "hotel_non_etp_with_free_cancellation", "error_checkout_card", "error_checkout_traveller_info", "error_checkout_unknown", "error_checkout_trip_already_booked", "hotel_email_opt_in", "tealeaf_id", "sold_out_hotel_with_2_rooms", "happypath_pwp", "visa_not_supported", "happypath_with_loyalty_points", "air_attached_hotel", "hotel_price_change", "Non Merchant Hotel", "no_guest_review"))
+                arrayListOf("vip_hotel", "happypath", "error_room_unavailable", "error_create_trip", "error_checkout_session_timeout", "error_checkout_card_limit_exceeded", "Sold_out_hotel", "valid_forms_of_payment", "hotel_coupon_errors", "hotel_etp_renovation_resort", "hotel_etp_renovation_resort_with_free_cancellation", "hotel_non_etp_with_free_cancellation", "error_checkout_card", "error_checkout_traveller_info", "error_checkout_unknown", "error_checkout_trip_already_booked", "hotel_email_opt_in", "tealeaf_id", "sold_out_hotel_with_2_rooms", "happypath_pwp", "visa_not_supported", "happypath_with_loyalty_points", "air_attached_hotel", "hotel_price_change", "Non Merchant Hotel", "no_guest_review"))
         val resultsList = ArrayList<List<String>>()
 
         vm.filterObservable

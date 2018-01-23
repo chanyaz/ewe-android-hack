@@ -18,7 +18,7 @@ class ItinCardDataFlightTest {
     @Before
     fun setup() {
         context = RuntimeEnvironment.application
-        testItinCardData = ItinCardDataFlightBuilder().build(confirmationNumber =  "123")
+        testItinCardData = ItinCardDataFlightBuilder().build(confirmationNumber = "123")
     }
 
     @Test
@@ -44,7 +44,7 @@ class ItinCardDataFlightTest {
     @Test
     fun testGetTravelersFullNames() {
         val trip = (testItinCardData.tripComponent as TripFlight)
-        var names =  testItinCardData.travelersFullName
+        var names = testItinCardData.travelersFullName
         assertEquals(names, "Girija Balachandran")
         val newTraveler = Traveler()
         newTraveler.firstName = "Jim"
@@ -56,37 +56,36 @@ class ItinCardDataFlightTest {
     }
 
     @Test
-    fun testGetAirlineName(){
+    fun testGetAirlineName() {
         val trip = (testItinCardData.tripComponent as TripFlight)
         trip.confirmations[0].carrier = "UNITED"
-        assertEquals("UNITED",testItinCardData.airlineName)
+        assertEquals("UNITED", testItinCardData.airlineName)
 
         trip.confirmations.clear()
         trip.flightTrip.legs[0].segments[0].airlineName = "SpiceJet"
-        assertEquals("SpiceJet",testItinCardData.airlineName)
+        assertEquals("SpiceJet", testItinCardData.airlineName)
 
         trip.flightTrip.legs.clear()
-        assertEquals("",testItinCardData.airlineName)
+        assertEquals("", testItinCardData.airlineName)
     }
 
     @Test
-    fun testGetTicketNumbers(){
+    fun testGetTicketNumbers() {
         val trip = (testItinCardData.tripComponent as TripFlight)
         val ticketNumberList = ArrayList<String>()
         ticketNumberList.add("0167939252191")
         ticketNumberList.add("0265936252123")
         trip.travelers[0].ticketNumbers = ticketNumberList
-        assertEquals("0167939252191 , 0265936252123",testItinCardData.ticketNumbers)
+        assertEquals("0167939252191 , 0265936252123", testItinCardData.ticketNumbers)
         val traveler = Traveler()
         val secondTicketNumberList = ArrayList<String>()
         secondTicketNumberList.add("0364925253116")
         traveler.ticketNumbers = secondTicketNumberList
         trip.travelers.add(traveler)
 
-        assertEquals("0167939252191 , 0265936252123 , 0364925253116",testItinCardData.ticketNumbers)
+        assertEquals("0167939252191 , 0265936252123 , 0364925253116", testItinCardData.ticketNumbers)
         trip.travelers.clear()
-        assertEquals("",testItinCardData.ticketNumbers)
-
+        assertEquals("", testItinCardData.ticketNumbers)
     }
 
     fun setBookingStatus(bookingStatus: BookingStatus) {

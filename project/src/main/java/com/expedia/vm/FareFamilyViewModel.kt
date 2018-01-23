@@ -61,7 +61,6 @@ class FareFamilyViewModel(private val context: Context) {
                                     .put("amount", Money.getFormattedMoneyFromAmountAndCurrencyCode(fareFamilyDetail.deltaTotalPrice.amount, fareFamilyDetail.deltaTotalPrice.currencyCode))
                                     .put("guest", StrUtils.formatTravelerString(context, Db.getFlightSearchParams().guests))
                                     .put("class", FlightV2Utils.getSelectedClassesString(context, trip.details, true)).format().toString())
-
                 } else {
                     selectedClassObservable.onNext(context.getString(R.string.flight_change_fare_class))
                     deltaPriceObservable.onNext("")

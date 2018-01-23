@@ -5,8 +5,6 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import okhttp3.HttpUrl
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import io.reactivex.schedulers.Schedulers
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue

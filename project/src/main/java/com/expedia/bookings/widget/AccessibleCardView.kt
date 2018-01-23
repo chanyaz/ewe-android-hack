@@ -21,8 +21,7 @@ abstract class AccessibleCardView(context: Context, attrs: AttributeSet?) : Card
         loadingStateObservable.subscribe { isLoading ->
             if (isLoading) {
                 getRowInfoContainer().contentDescription = loadingContentDescription()
-            }
-            else {
+            } else {
                 getRowInfoContainer().contentDescription = contentDescription()
             }
         }

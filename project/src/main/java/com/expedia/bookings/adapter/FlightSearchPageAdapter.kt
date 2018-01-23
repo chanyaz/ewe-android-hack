@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 
-class FlightSearchPageAdapter(val context: Context): PagerAdapter() {
+class FlightSearchPageAdapter(val context: Context) : PagerAdapter() {
 
     enum class Tab(val titleResourceId: Int) {
         RETURN(R.string.flights_round_trip_label),

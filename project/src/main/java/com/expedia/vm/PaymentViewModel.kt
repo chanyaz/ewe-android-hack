@@ -148,8 +148,7 @@ open class PaymentViewModel(val context: Context) {
             if (firstName.valid && lastName.valid) {
                 if (firstName.text.isEmpty() && lastName.text.isEmpty()) {
                     populateCardholderNameObservable.onNext("")
-                }
-                else if (firstName.text.isNotEmpty() && lastName.text.isNotEmpty()) {
+                } else if (firstName.text.isNotEmpty() && lastName.text.isNotEmpty()) {
                     populateCardholderNameObservable.onNext(TravelerUtils.getFullName(firstName, lastName))
                 }
             }
@@ -244,7 +243,6 @@ open class PaymentViewModel(val context: Context) {
                     if (isRedeemable) R.string.checkout_payment_options else R.string.checkout_hotelsv2_enter_payment_details_line2)
         }
         return Pair(title, subTitle)
-
     }
 
     @VisibleForTesting
@@ -296,16 +294,15 @@ open class PaymentViewModel(val context: Context) {
     fun hasCard(): Boolean {
         if (isCreditCardRequired.value) {
             return hasStoredCard() || Db.sharedInstance.temporarilySavedCard != null || !cardBIN.value.isNullOrEmpty()
-        }  else {
+        } else {
             return true
         }
     }
 
-    fun hasStoredCard() : Boolean {
+    fun hasStoredCard(): Boolean {
         billingInfoAndStatusUpdate.value?.first?.let { info ->
             return info.hasStoredCard()
         }
         return false
     }
 }
-

@@ -74,7 +74,6 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         vm.createBaggageInfoWebviewWidgetSubject.subscribe { webviewURL ->
             flightItinBaggageInfoWidget.viewModel = FlightItinBagaggeInfoViewModel(this)
             flightItinBaggageInfoWidget.viewModel.updateWidgetWithBaggageInfoUrl(webviewURL)
-
         }
         vm.updateConfirmationSubject.subscribe { params ->
             itinConfirmationWidget.viewModel.updateWidget(params)
@@ -128,7 +127,7 @@ class FlightItinDetailsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.onResume()
-        if(!trackingFired) {
+        if (!trackingFired) {
             OmnitureTracking.trackItinFlight(this, viewModel.createOmnitureTrackingValues())
             trackingFired = true
         }

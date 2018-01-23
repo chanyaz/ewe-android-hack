@@ -14,7 +14,6 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
-import com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable
 import com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable
 import com.expedia.bookings.test.espresso.EspressoUser
 import com.expedia.bookings.test.espresso.EspressoUtils
@@ -95,7 +94,6 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         onView(withText(R.string.first_name_validation_error_message)).check(matches(isDisplayed()))
         onView(withText(R.string.last_name_validation_error_message)).check(matches(isDisplayed()))
 
-
         Common.pressBack()
         EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
         Espresso.closeSoftKeyboard()
@@ -122,7 +120,6 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         onView(allOf(withImageDrawable(R.drawable.invalid),
                 isDescendantOfA(withId(R.id.additional_traveler_container)))).check(
                 matches(isDisplayed()))
-
     }
 
     @Test
@@ -139,7 +136,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         onView(withId(R.id.select_traveler_button)).perform(click())
         onView(withText("Add New Traveler")).perform(click())
 
-        Common.pressBack();
+        Common.pressBack()
         onView(allOf(withId(R.id.primary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
                 matches(withText("Enter traveler details")))
         onView(allOf(withId(R.id.secondary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
@@ -214,5 +211,4 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         PackageScreen.checkout().perform(click())
     }
 }
-
 

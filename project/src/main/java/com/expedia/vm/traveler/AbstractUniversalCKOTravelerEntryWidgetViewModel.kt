@@ -46,5 +46,4 @@ abstract class AbstractUniversalCKOTravelerEntryWidgetViewModel(context: Context
         numberOfInvalidFields.onNext(nameViewModel.numberOfInvalidFields.value + AccessibilityUtil.getNumberOfInvalidFields(phoneValid, emailValid))
         return nameValid && emailValid && phoneValid
     }
-
 }

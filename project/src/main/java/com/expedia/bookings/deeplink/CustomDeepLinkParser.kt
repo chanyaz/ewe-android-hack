@@ -12,13 +12,13 @@ import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
 
-class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
+class CustomDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
 
     private val locationId = Pattern.compile("^(ID)?([0-9]+)")
 
      fun parseCustomDeepLink(data: Uri): DeepLink {
         val routingDestination = data.host.toLowerCase(Locale.US)
-        when(routingDestination) {
+        when (routingDestination) {
             "hotelsearch" -> return parseHotelCustomDeepLink(data)
             "flightsearch" -> return parseFlightCustomDeepLink(data)
             "carsearch" -> return parseCarCustomDeepLink(data)
@@ -46,8 +46,7 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
             val matcher = locationId.matcher(location)
             if (matcher.find()) {
                 hotelDeepLink.regionId = matcher.group(2)
-            }
-            else {
+            } else {
                 hotelDeepLink.location = location
             }
         }

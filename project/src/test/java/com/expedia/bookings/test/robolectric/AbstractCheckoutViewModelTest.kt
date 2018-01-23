@@ -22,7 +22,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class AbstractCheckoutViewModelTest {
     var testViewModel: AbstractCheckoutViewModel by Delegates.notNull()
-    var activity : Activity by Delegates.notNull()
+    var activity: Activity by Delegates.notNull()
 
     @Before
     fun before() {
@@ -185,7 +185,7 @@ class AbstractCheckoutViewModelTest {
         return traveler
     }
 
-    private fun  getSecondaryTraveler(): Traveler {
+    private fun getSecondaryTraveler(): Traveler {
         val traveler = Traveler()
         traveler.firstName = "test"
         traveler.lastName = "traveler"
@@ -194,8 +194,7 @@ class AbstractCheckoutViewModelTest {
         return traveler
     }
 
-
-    fun getStoredCard() : StoredCreditCard {
+    fun getStoredCard(): StoredCreditCard {
         val card = StoredCreditCard()
         card.id = "12345"
         card.cardNumber = "4111111111111111"

@@ -70,7 +70,6 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
 
                 // Adding divider line
                 breakdowns.add(CostSummaryBreakdownRow.Builder().separator())
-
             }
 
             if (flightOffer.fees != null) {

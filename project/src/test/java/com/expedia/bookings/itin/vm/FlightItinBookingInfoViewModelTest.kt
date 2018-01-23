@@ -17,18 +17,16 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class FlightItinBookingInfoViewModelTest {
 
-    lateinit private var activity: Activity
-    lateinit private var sut: FlightItinBookingInfoViewModel
-    lateinit private var url: String
-    lateinit private var context: Context
-
+    private lateinit var activity: Activity
+    private lateinit var sut: FlightItinBookingInfoViewModel
+    private lateinit var url: String
+    private lateinit var context: Context
 
     private val createWidgetSharedSubject = TestObserver<Boolean>()
     private val createAdditionalInfoSubject = TestObserver<ItinLinkOffCardViewViewModel.CardViewParams>()
     private val createTravelerlInfoSubject = TestObserver<ItinLinkOffCardViewViewModel.CardViewParams>()
     private val createPriceSummarySubject = TestObserver<ItinLinkOffCardViewViewModel.CardViewParams>()
     private val createManageBookingSubject = TestObserver<ItinLinkOffCardViewViewModel.CardViewParams>()
-
 
     @Before
     fun setup() {

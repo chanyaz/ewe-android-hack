@@ -193,7 +193,6 @@ class HotelBreakdownTest {
         paymentModel.createTripSubject.onNext(createTripResponse)
         createTripResponseObservable.onNext(createTripResponse)
 
-
         runBeforeComplete?.run()
 
         assertTrue(latch.await(10, TimeUnit.SECONDS))

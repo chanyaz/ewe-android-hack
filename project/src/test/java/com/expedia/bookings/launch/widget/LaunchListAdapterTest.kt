@@ -49,13 +49,12 @@ import kotlin.test.assertTrue
 @Config(sdk = intArrayOf(21), shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class LaunchListAdapterTest {
 
-    lateinit private var adapterUnderTest: TestLaunchListAdapter
-    lateinit private var notificationManager: NotificationManager
+    private lateinit var adapterUnderTest: TestLaunchListAdapter
+    private lateinit var notificationManager: NotificationManager
 
-    lateinit private var context: Context
-    lateinit private var parentView: ViewGroup
-    lateinit private var headerView: View
-
+    private lateinit var context: Context
+    private lateinit var parentView: ViewGroup
+    private lateinit var headerView: View
 
     @Before
     @Throws(Exception::class)
@@ -89,7 +88,6 @@ class LaunchListAdapterTest {
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
         assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
-
     }
 
     @Test
@@ -116,7 +114,6 @@ class LaunchListAdapterTest {
 
         val sixthPosition = adapterUnderTest.getItemViewType(5)
         assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
-
     }
 
     @Test
@@ -448,7 +445,6 @@ class LaunchListAdapterTest {
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
 
-
         val firstPosition = adapterUnderTest.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
@@ -525,7 +521,6 @@ class LaunchListAdapterTest {
         createSystemUnderTest(isCustomerAirAttachedQualified = true, recentAirAttachFlightTrip = null)
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
-
 
         val firstPosition = adapterUnderTest.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
@@ -682,7 +677,6 @@ class LaunchListAdapterTest {
         adapterUnderTest.onCreateViewHolder(parentView, 0)
     }
 
-
     private fun givenCustomerSignedIn() {
         val mockUser = UserLoginTestUtil.mockUser()
         UserLoginTestUtil.setupUserAndMockLogin(mockUser, context as Activity)
@@ -733,8 +727,7 @@ class LaunchListAdapterTest {
                 return emptyList()
             }
 
-            return trips;
+            return trips
         }
     }
-
 }

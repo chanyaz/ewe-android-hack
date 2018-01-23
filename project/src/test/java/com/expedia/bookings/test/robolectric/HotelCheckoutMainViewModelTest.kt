@@ -35,14 +35,14 @@ class HotelCheckoutMainViewModelTest {
     private var sut: HotelCheckoutMainViewModel by Delegates.notNull()
 
     @Before
-    fun before(){
+    fun before() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(RuntimeEnvironment.application, paymentModel, UserLoginStateChangedModel())
         sut = HotelCheckoutMainViewModel(paymentModel, shopWithPointsViewModel)
     }
 
     @Test
-    fun testUpdateEarnedRewardsPoint(){
+    fun testUpdateEarnedRewardsPoint() {
         val updateEarnPointsText = TestObserver.create<Float>()
         sut.updateEarnedRewards.map { it.points }.subscribe(updateEarnPointsText)
         paymentModel.createTripSubject.onNext(getCreateTripResponse())
@@ -57,7 +57,6 @@ class HotelCheckoutMainViewModelTest {
 
         updateEarnPointsText.assertValueCount(2)
         updateEarnPointsText.assertValues(1000f, 507f)
-
     }
 
     private fun getCreateTripResponse(): HotelCreateTripResponse {
@@ -68,4 +67,3 @@ class HotelCheckoutMainViewModelTest {
         return createTripResponse
     }
 }
-

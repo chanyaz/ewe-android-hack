@@ -54,7 +54,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
         val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp).mutate()
         icon.setColorFilter(ContextCompat.getColor(context, R.color.flight_cabin_class_text), PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
-        button.setOnClickListener{
+        button.setOnClickListener {
             viewModel.doneButtonObservable.onNext(Unit)
             (context as Activity).onBackPressed()
         }
@@ -103,7 +103,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
         }
 
         val initialY = scrollViewContainer.y.toInt()
-        scrollViewContainer.addOnScrollListener(object: ScrollView.OnScrollListener {
+        scrollViewContainer.addOnScrollListener(object : ScrollView.OnScrollListener {
             override fun onScrollChanged(scrollView: ScrollView?, x: Int, y: Int, oldx: Int, oldy: Int) {
                 if (y == initialY) {
                     appbar.elevation = 0.0f

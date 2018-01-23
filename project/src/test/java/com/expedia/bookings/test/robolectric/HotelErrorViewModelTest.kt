@@ -23,7 +23,7 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelErrorViewModelTest {
-    lateinit private var subjectUnderTest: HotelErrorViewModel
+    private lateinit var subjectUnderTest: HotelErrorViewModel
     lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
@@ -470,8 +470,8 @@ class HotelErrorViewModelTest {
 
     private fun validateError(errorCode: ApiError.Code, source: String?, sourceErrorId: String?): String {
         var errorCheck = "CKO:"
-        errorCheck += if (!source.isNullOrEmpty()) "${source}:" else ":"
-        errorCheck += if (!sourceErrorId.isNullOrEmpty()) "${sourceErrorId}" else "${errorCode}"
+        errorCheck += if (!source.isNullOrEmpty()) "$source:" else ":"
+        errorCheck += if (!sourceErrorId.isNullOrEmpty()) "$sourceErrorId" else "$errorCode"
         return errorCheck
     }
 }

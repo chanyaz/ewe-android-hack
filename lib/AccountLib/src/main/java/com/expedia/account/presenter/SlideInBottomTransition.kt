@@ -2,7 +2,7 @@ package com.expedia.account.presenter
 
 import android.view.View
 
-class SlideInBottomTransition(targetView: View): OffScreenBottomTransition(targetView){
+class SlideInBottomTransition(targetView: View) : OffScreenBottomTransition(targetView) {
 
     override fun startTransition(forward: Boolean) {
         super.startTransition(!forward)

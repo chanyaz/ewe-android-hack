@@ -14,15 +14,14 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 
 @RunWith(RobolectricRunner::class)
 class PackagesFlightOverviewViewModelTest {
 
     private val context = RuntimeEnvironment.application
 
-    lateinit private var sut: FlightOverviewViewModel
-    lateinit private var flightLeg: FlightLeg
+    private lateinit var sut: FlightOverviewViewModel
+    private lateinit var flightLeg: FlightLeg
 
     private fun setupSystemUnderTest() {
         sut = FlightOverviewViewModel(context)

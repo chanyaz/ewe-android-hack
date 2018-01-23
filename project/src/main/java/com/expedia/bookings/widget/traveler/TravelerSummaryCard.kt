@@ -3,11 +3,8 @@ package com.expedia.bookings.widget.traveler
 import android.content.Context
 import android.util.AttributeSet
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
@@ -46,4 +43,3 @@ class TravelerSummaryCard(context: Context, attrs: AttributeSet?) : TravelerDeta
         }
     }
 }
-

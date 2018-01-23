@@ -79,6 +79,5 @@ class FlightAdvanceSearchWidget(context: Context, attrs: AttributeSet?) : Linear
                 .put("expandstate", expandState)
                 .format()
                 .toString()
-
     }
 }

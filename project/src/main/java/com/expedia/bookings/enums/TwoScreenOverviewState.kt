@@ -1,4 +1,4 @@
-package com.expedia.bookings.enums;
+package com.expedia.bookings.enums
 
 enum class TwoScreenOverviewState {
 	CHECKOUT,

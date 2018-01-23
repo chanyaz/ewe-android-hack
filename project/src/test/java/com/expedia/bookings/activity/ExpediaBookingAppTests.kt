@@ -28,7 +28,7 @@ class ExpediaBookingAppTests {
         assertTrue(testRefresher.didForceAccountRefresh)
     }
 
-    class TestUserAccountRefresher: UserAccountRefresher(RuntimeEnvironment.application, LineOfBusiness.NONE, null) {
+    class TestUserAccountRefresher : UserAccountRefresher(RuntimeEnvironment.application, LineOfBusiness.NONE, null) {
         var didForceAccountRefresh = false
             private set
 

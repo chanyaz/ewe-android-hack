@@ -26,7 +26,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     var clearHistory = false
 
-    val chromeClient: WebChromeClient =  object : WebChromeClient() {
+    val chromeClient: WebChromeClient = object : WebChromeClient() {
         override fun onProgressChanged(view: WebView?, loadProgress: Int) {
             super.onProgressChanged(view, loadProgress)
             if (loadProgress > 33 && loadingWebview.visibility == View.VISIBLE) {

@@ -143,7 +143,7 @@ class HotelItinRoomDetailsTest {
         roomDetailsWidget.setUpWidget(itinCardDataHotel)
 
         assertEquals(View.VISIBLE, roomDetailsWidget.amenitiesContainer.visibility)
-        if(roomDetailsWidget.amenitiesContainer.childCount > 0) {
+        if (roomDetailsWidget.amenitiesContainer.childCount > 0) {
             val amenity: HotelItinRoomAmenity? = roomDetailsWidget.amenitiesContainer.getChildAt(0) as HotelItinRoomAmenity?
             assertEquals("Free\nWifi", amenity?.getLabel()?.text?.toString())
             val shadowDrawable: ShadowDrawable = Shadows.shadowOf(amenity?.getIcon()?.drawable)

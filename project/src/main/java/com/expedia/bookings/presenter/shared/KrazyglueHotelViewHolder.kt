@@ -24,7 +24,7 @@ import com.expedia.vm.KrazyglueHotelViewHolderViewModel
 import io.reactivex.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
-class KrazyglueHotelViewHolder(itemView: View, searchParams: BehaviorSubject<HotelSearchParams>, regionId: BehaviorSubject<String>) : RecyclerView.ViewHolder(itemView){
+class KrazyglueHotelViewHolder(itemView: View, searchParams: BehaviorSubject<HotelSearchParams>, regionId: BehaviorSubject<String>) : RecyclerView.ViewHolder(itemView) {
 
     val hotelNameTextView: TextView by bindView(R.id.hotel_name_text_view)
     val hotelGuestRating: TextView by bindView(R.id.hotel_guest_rating)
@@ -73,5 +73,4 @@ class KrazyglueHotelViewHolder(itemView: View, searchParams: BehaviorSubject<Hot
         vm.hotelPricePerNightObservable.subscribeText(hotelPricePerNight)
         vm
     }
-
 }

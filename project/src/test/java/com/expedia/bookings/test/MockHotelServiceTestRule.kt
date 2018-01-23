@@ -170,8 +170,8 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
     private fun getApplyCouponResponse(responseFileName: String): HotelCreateTripResponse {
         val observer = TestObserver<HotelCreateTripResponse>()
         val applyCouponParams = HotelApplyCouponCodeParameters.Builder()
-                .couponCode(responseFileName).isFromNotSignedInToSignedIn(false).tripId("tripId").
-                userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))))
+                .couponCode(responseFileName).isFromNotSignedInToSignedIn(false).tripId("tripId")
+                .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))))
                 .build()
 
         services?.applyCoupon(applyCouponParams, true)!!.subscribe(observer)
@@ -190,7 +190,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
                 .checkoutInfo(HotelCheckoutParamsMock.checkoutInfo())
                 .paymentInfo(HotelCheckoutParamsMock.paymentInfo())
                 .traveler(HotelCheckoutParamsMock.traveler())
-                .misc(miscParameters).build();
+                .misc(miscParameters).build()
         services?.checkout(checkoutParams, observer)
         observer.awaitTerminalEvent()
         observer.assertComplete()

@@ -86,5 +86,4 @@ class StoredCouponWidgetTest {
         assertEquals(visibilityOfAppliedImage, viewHolder.couponApplied.visibility)
         assertEquals(visibilityOfProgressBar, viewHolder.progressBar.visibility)
     }
-
 }

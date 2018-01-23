@@ -7,7 +7,6 @@ import android.os.Build
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.widget.EditText
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.country.CountryConfig
@@ -39,13 +38,13 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     val addressLineOne: AccessibleEditText by bindView(R.id.edit_address_line_one)
     val addressLineTwo: AccessibleEditText by bindView(R.id.edit_address_line_two)
     val addressCity: AccessibleEditText by bindView(R.id.edit_address_city)
-    var addressStateLayout: TextInputLayout ?= null
+    var addressStateLayout: TextInputLayout ? = null
     val addressState: AccessibleEditText by bindView(R.id.edit_address_state)
     val creditCardFeeDisclaimer: TextView by bindView(R.id.card_fee_disclaimer)
-    var maskedCreditLayout: TextInputLayout ?= null
-    var defaultCreditCardNumberLayout: TextInputLayout ?= null
-    var editCountryEditText: AccessibleEditTextForSpinner ?= null
-    var postalCodeLayout: TextInputLayout ?= null
+    var maskedCreditLayout: TextInputLayout ? = null
+    var defaultCreditCardNumberLayout: TextInputLayout ? = null
+    var editCountryEditText: AccessibleEditTextForSpinner ? = null
+    var postalCodeLayout: TextInputLayout ? = null
     val cardInfoSummary: LinearLayout by bindView(R.id.card_info_summary)
 
     val creditCardFeesView = CreditCardFeesView(context, null)
@@ -182,7 +181,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         addressStateLayout = findViewById<TextInputLayout>(R.id.material_edit_address_state)
         postalCodeLayout = findViewById<TextInputLayout>(R.id.material_edit_address_postal_code)
 
-        editCountryEditText?.setOnClickListener{
+        editCountryEditText?.setOnClickListener {
             showCountryDialog()
         }
         editCountryEditText?.setOnFocusChangeListener { view, hasFocus ->

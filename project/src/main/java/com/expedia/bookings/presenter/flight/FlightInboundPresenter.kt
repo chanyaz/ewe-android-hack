@@ -11,7 +11,6 @@ import javax.inject.Inject
 
 class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMaterialFlightResultsPresenter(context, attrs) {
 
-
     lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
         @Inject set
 
@@ -57,5 +56,4 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
         val trackingData = searchTrackingBuilder.build()
         FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank, flightOfferViewModel.totalOutboundResults))
     }
-
 }

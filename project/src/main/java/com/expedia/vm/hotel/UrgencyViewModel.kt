@@ -48,7 +48,7 @@ class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices
     }
 
     @VisibleForTesting
-    internal fun getUrgencyDateFormat(date: LocalDate) : String {
+    internal fun getUrgencyDateFormat(date: LocalDate): String {
         return date.toString("MM/d/YYYY")
     }
 
@@ -71,7 +71,7 @@ class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices
         }
     }
 
-    private fun getDisplayScore(score: Int) : Int {
+    private fun getDisplayScore(score: Int): Int {
         val roundedScore = (5 * (Math.round(score.toDouble() / 5))).toInt()
         if (roundedScore > scoreMaximum) {
             return scoreMaximum
@@ -79,7 +79,7 @@ class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices
         return roundedScore
     }
 
-    private fun isValidRegionId(id: String) : Boolean {
+    private fun isValidRegionId(id: String): Boolean {
         return !invalidRegionId.equals(id)
     }
 }

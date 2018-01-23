@@ -59,8 +59,8 @@ import kotlin.test.assertNull
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class BillingDetailsPaymentWidgetTest {
 
-    lateinit private var billingDetailsPaymentWidget: BillingDetailsPaymentWidget
-    lateinit private var activity: Activity
+    private lateinit var billingDetailsPaymentWidget: BillingDetailsPaymentWidget
+    private lateinit var activity: Activity
     private var cardExpiry = DateTime.now().plusYears(1).toLocalDate()
 
     @Before
@@ -175,7 +175,6 @@ class BillingDetailsPaymentWidgetTest {
         assertEquals("No Thanks", cancelButton.text)
     }
 
-
     @Test
     fun testAmexSecurityCodeValidator() {
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
@@ -229,7 +228,6 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
     }
-
 
     @Test
     fun testAddressLimit() {
@@ -562,7 +560,6 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("CAN")
         assertValidState(stateLayout, "Province", "Province")
 
-
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("CAN")
         assertValidState(stateLayout, "Province", "Province")
 
@@ -581,7 +578,7 @@ class BillingDetailsPaymentWidgetTest {
         val testHasErrorSubscriber = TestObserver<Boolean>()
         billingDetailsPaymentWidget.sectionLocation.billingCountryErrorSubject.subscribe(testHasErrorSubscriber)
         val pointOfSale = PointOfSale.getPointOfSale().threeLetterCountryCode
-        val position =  billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(pointOfSale)
+        val position = billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(pointOfSale)
         val countryName = billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getItem(position)
 
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
@@ -602,11 +599,11 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
-    fun testMaterialBillingCountryDialog(){
+    fun testMaterialBillingCountryDialog() {
         givenMaterialPaymentBillingWidget()
         val countryLayout = billingDetailsPaymentWidget.editCountryEditText?.getParentTextInputLayout()!!
         val pointOfSale = PointOfSale.getPointOfSale().threeLetterCountryCode
-        val position =  billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(pointOfSale)
+        val position = billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(pointOfSale)
         val countryName = billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getItem(position)
 
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
@@ -973,7 +970,7 @@ class BillingDetailsPaymentWidgetTest {
         Db.getTripBucket().add(TripBucketItemPackages(packageCreateTripResponse))
     }
 
-    private fun assertFormFieldsHiddenProperly(addressStateVisibility: Int, postalCodeVisiblity: Int)  {
+    private fun assertFormFieldsHiddenProperly(addressStateVisibility: Int, postalCodeVisiblity: Int) {
         assertTrue(billingDetailsPaymentWidget.addressStateLayout?.visibility == addressStateVisibility)
         assertTrue(billingDetailsPaymentWidget.postalCodeLayout?.visibility == postalCodeVisiblity)
     }
@@ -995,8 +992,7 @@ class BillingDetailsPaymentWidgetTest {
     private fun toggleAllowUnknownCardTypesABTest(toggleOn: Boolean) {
         if (toggleOn) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
-        }
-        else {
+        } else {
             AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
         }
     }

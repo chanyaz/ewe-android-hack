@@ -99,14 +99,12 @@ class FlightToolbarViewModel(private val context: Context) {
                         .put("destination", cityName)
                         .format()
                         .toString()
-
             } else {
                 return Phrase.from(context, R.string.flight_to_inbound_breadcrumbs_TEMPLATE)
                         .put("origin", cityName)
                         .format()
                         .toString()
             }
-
         } else {
             if (isOutbound) {
                 return Phrase.from(context, R.string.package_flight_outbound_toolbar_title_TEMPLATE)

@@ -24,32 +24,32 @@ class AnimationRunner(view: View, private val context: Context) {
         viewRef = WeakReference(view)
     }
 
-    fun animIn(@AnimRes anim: Int) : AnimationRunner {
+    fun animIn(@AnimRes anim: Int): AnimationRunner {
         animationIn = AnimationUtils.loadAnimation(context, anim)
         return this
     }
 
-    fun animOut(@AnimRes anim: Int) : AnimationRunner {
+    fun animOut(@AnimRes anim: Int): AnimationRunner {
         animationOut = AnimationUtils.loadAnimation(context, anim)
         return this
     }
 
-    fun duration(duration: Long) : AnimationRunner {
+    fun duration(duration: Long): AnimationRunner {
         this.duration = duration
         return this
     }
 
-    fun outDelay(delay: Long) : AnimationRunner {
+    fun outDelay(delay: Long): AnimationRunner {
         outDelay = delay
         return this
     }
 
-    fun beforeAction(beforeAction: () -> Unit) : AnimationRunner {
+    fun beforeAction(beforeAction: () -> Unit): AnimationRunner {
         this.beforeAction = beforeAction
         return this
     }
 
-    fun afterAction(afterAction: () -> Unit) : AnimationRunner {
+    fun afterAction(afterAction: () -> Unit): AnimationRunner {
         this.afterAction = afterAction
         return this
     }
@@ -64,7 +64,7 @@ class AnimationRunner(view: View, private val context: Context) {
         animationOut?.let { animation ->
             animation.duration = duration
             animation.startOffset = outDelay
-            animation.setAnimationListener(object: AnimationListenerAdapter() {
+            animation.setAnimationListener(object : AnimationListenerAdapter() {
                 override fun onAnimationEnd(animation: Animation?) {
                     afterAction()
                 }
@@ -73,7 +73,7 @@ class AnimationRunner(view: View, private val context: Context) {
 
         animationIn?.let { animation ->
             animation.duration = duration
-            animation.setAnimationListener(object: AnimationListenerAdapter() {
+            animation.setAnimationListener(object : AnimationListenerAdapter() {
                 override fun onAnimationStart(animation: Animation?) {
                     beforeAction()
                 }

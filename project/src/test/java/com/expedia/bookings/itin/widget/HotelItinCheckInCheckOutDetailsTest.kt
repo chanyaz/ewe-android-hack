@@ -1,6 +1,5 @@
 package com.expedia.bookings.itin.widget
 
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
@@ -14,14 +13,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.shadows.ShadowAlertDialog
-import java.util.Locale
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelItinCheckInCheckOutDetailsTest {
 
     lateinit var hotelItinCheckinCheckOutWidget: HotelItinCheckInCheckOutDetails
-    lateinit private var activity: HotelItinDetailsActivity
+    private lateinit var activity: HotelItinDetailsActivity
 
     @Before
     fun before() {

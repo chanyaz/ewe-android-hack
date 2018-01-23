@@ -77,7 +77,6 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
 
             override fun onComplete() {
             }
-
         }
     }
 

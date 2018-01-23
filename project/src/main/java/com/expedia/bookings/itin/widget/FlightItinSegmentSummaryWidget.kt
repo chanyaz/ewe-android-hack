@@ -101,7 +101,6 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
             }
         }
 
-
         vm.updateTerminalGateSubject.subscribe { params ->
             if (!params.departureTerminalGate.isNullOrEmpty()) {
                 departureTerminalGate.visibility = View.VISIBLE

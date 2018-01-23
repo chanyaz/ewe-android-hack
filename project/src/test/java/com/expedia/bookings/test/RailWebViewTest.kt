@@ -1,7 +1,6 @@
 package com.expedia.bookings.test
 
 import android.app.Activity
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
@@ -20,9 +19,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import com.expedia.bookings.R
 import com.expedia.bookings.rail.activity.RailActivity
-import com.expedia.bookings.server.EndpointProvider
 import com.expedia.ui.LOBWebViewActivity
-import org.junit.Ignore
 import kotlin.test.assertTrue
 
 /**
@@ -86,7 +83,7 @@ class RailWebViewTest {
         PointOfSale.onPointOfSaleChanged(activity)
     }
 
-    private fun verifyRailsWebViewIsLaunched() : String {
+    private fun verifyRailsWebViewIsLaunched(): String {
         goToRails()
         val intent = shadowApplication!!.nextStartedActivity
         val intentUrl = intent.getStringExtra("ARG_URL")

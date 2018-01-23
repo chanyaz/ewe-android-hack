@@ -20,7 +20,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class UserSignInTest {
 
-    var expediaServices : ExpediaServices by Delegates.notNull()
+    var expediaServices: ExpediaServices by Delegates.notNull()
     private fun getContext(): Context {
         return RuntimeEnvironment.application
     }

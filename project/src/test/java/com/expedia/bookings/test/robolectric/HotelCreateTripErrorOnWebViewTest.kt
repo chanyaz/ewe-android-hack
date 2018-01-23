@@ -18,7 +18,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.WebCheckoutViewViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -106,5 +105,4 @@ class HotelCreateTripErrorOnWebViewTest {
         suggestion.regionNames.shortName = ""
         return suggestion
     }
-
 }

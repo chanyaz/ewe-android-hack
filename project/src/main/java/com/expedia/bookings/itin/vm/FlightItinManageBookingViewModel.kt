@@ -28,10 +28,9 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
     val customerSupportDetailsSubject = PublishSubject.create<ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams>()
     val flightLegDetailWidgetLegDataSubject = PublishSubject.create<ArrayList<FlightItinLegsDetailData>>()
     val flightLegDetailRulesAndRegulationSubject = PublishSubject.create<String>()
-    val flightSplitTicketVisibilitySubject =  PublishSubject.create<Boolean>()
+    val flightSplitTicketVisibilitySubject = PublishSubject.create<Boolean>()
     val flightItinAirlineSupportDetailsSubject = PublishSubject.create<FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams>()
     val flightItinModifyReservationSubject = PublishSubject.create<FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams>()
-
 
     fun setUp() {
         updateItinCardDataFlight()
@@ -69,8 +68,8 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
 
     private fun updateToolbar() {
         val title = context.getString(R.string.itin_flight_manage_booking_header)
-        val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE).
-                put("destination", itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: "").format().toString()
+        val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)
+                .put("destination", itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: "").format().toString()
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(title, destinationCity, false))
     }
 
@@ -84,7 +83,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
             if (!leg.firstWaypoint.mAirportCode.isNullOrEmpty()) {
                   departureAirportCode = leg.firstWaypoint.mAirportCode
             }
-            if (!leg.lastWaypoint.mAirportCode.isNullOrEmpty())   {
+            if (!leg.lastWaypoint.mAirportCode.isNullOrEmpty()) {
                 arrivalAirportCode = leg.lastWaypoint.mAirportCode
             }
             val imgPath = leg.airlineLogoURL
@@ -102,13 +101,13 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
     private fun rulesAndRestrictionText() {
         val stringBuilder = StringBuilder()
         val flightTrip = (itinCardDataFlight.tripComponent as TripFlight).flightTrip
-        val cancelChangeIntroductionText:String? = flightTrip.getRule(CANCEL_CHANGE_INTRODUCTION_TEXT)?.text
+        val cancelChangeIntroductionText: String? = flightTrip.getRule(CANCEL_CHANGE_INTRODUCTION_TEXT)?.text
         appendStringWithBreak(stringBuilder, cancelChangeIntroductionText)
-        val refundabilityText:String?  = flightTrip.getRule(REFUNDABILITY_TEXT)?.text
+        val refundabilityText: String? = flightTrip.getRule(REFUNDABILITY_TEXT)?.text
         appendBoldStringWithBreak(stringBuilder, refundabilityText)
-        val completePenaltyRulesText:String?  = flightTrip.getRule(COMPLETE_PENALTY_RULES)?.textAndURL
+        val completePenaltyRulesText: String? = flightTrip.getRule(COMPLETE_PENALTY_RULES)?.textAndURL
         appendStringWithBreak(stringBuilder, completePenaltyRulesText)
-        val airlineLiabilityLimitationsText:String?  = flightTrip.getRule(AIRLINE_LIABILITY_LIMITATIONS)?.textAndURL
+        val airlineLiabilityLimitationsText: String? = flightTrip.getRule(AIRLINE_LIABILITY_LIMITATIONS)?.textAndURL
         if (Strings.isNotEmpty(airlineLiabilityLimitationsText)) {
             stringBuilder.append(airlineLiabilityLimitationsText)
         }
@@ -148,7 +147,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
         return htmlString.toString()
     }
 
-    private fun flightSplitTicketText(){
+    private fun flightSplitTicketText() {
         val flightTrip = (itinCardDataFlight.tripComponent as TripFlight).flightTrip
         flightSplitTicketVisibilitySubject.onNext(flightTrip.isSplitTicket)
     }

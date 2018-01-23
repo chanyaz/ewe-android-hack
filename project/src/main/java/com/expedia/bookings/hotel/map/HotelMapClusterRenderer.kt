@@ -90,7 +90,7 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         return BitmapDescriptorFactory.fromBitmap(factory.makeIcon())
     }
 
-    private fun getClusterBackground(isSoldOutCluster: Boolean) : Drawable {
+    private fun getClusterBackground(isSoldOutCluster: Boolean): Drawable {
         if (isSoldOutCluster) {
             return ContextCompat.getDrawable(context, R.drawable.sold_out_pin)
         } else {
@@ -98,7 +98,7 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         }
     }
 
-    private fun getButtonContDesc(description: String) : String {
+    private fun getButtonContDesc(description: String): String {
         return Phrase.from(context, R.string.a11y_button_TEMPLATE)
                 .put("description", description)
                 .format().toString()

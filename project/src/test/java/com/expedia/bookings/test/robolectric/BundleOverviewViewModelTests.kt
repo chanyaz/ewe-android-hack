@@ -149,13 +149,13 @@ class BundleOverviewViewModelTests {
         sut.searchParamsChangeObservable.onNext(Unit)
 
         stepOneTestSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(stepOneTestSubscriber.values()[0],"Step 1: Select hotel")
+        assertEquals(stepOneTestSubscriber.values()[0], "Step 1: Select hotel")
 
         stepTwoTestSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(stepTwoTestSubscriber.values()[0],"Step 2: Select flights")
+        assertEquals(stepTwoTestSubscriber.values()[0], "Step 2: Select flights")
 
         stepThreeTestSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(stepThreeTestSubscriber.values()[0],"")
+        assertEquals(stepThreeTestSubscriber.values()[0], "")
     }
 
     @Test
@@ -173,17 +173,17 @@ class BundleOverviewViewModelTests {
         sut.searchParamsChangeObservable.onNext(Unit)
 
         stepOneTestSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(stepOneTestSubscriber.values()[0],"Step 1: Select hotel")
+        assertEquals(stepOneTestSubscriber.values()[0], "Step 1: Select hotel")
 
         stepTwoTestSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(stepTwoTestSubscriber.values()[0],"Step 2: Select outbound flight")
+        assertEquals(stepTwoTestSubscriber.values()[0], "Step 2: Select outbound flight")
 
         stepThreeTestSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(stepThreeTestSubscriber.values()[0],"Step 3: Select inbound flight")
+        assertEquals(stepThreeTestSubscriber.values()[0], "Step 3: Select inbound flight")
     }
 
     @Test
-    fun testStepTitleAfterCreateTrip(){
+    fun testStepTitleAfterCreateTrip() {
         val stepOneTestSubscriber = TestObserver<String>()
         val stepTwoTestSubscriber = TestObserver<String>()
         val stepThreeTestSubscriber = TestObserver<String>()
@@ -208,13 +208,13 @@ class BundleOverviewViewModelTests {
         sut.createTripObservable.onNext(createTripResponse)
 
         stepOneTestSubscriber.awaitValueCount(2, 1, TimeUnit.SECONDS)
-        assertEquals(stepOneTestSubscriber.values()[1],"Hotel in New York - 1 room, 1 night")
+        assertEquals(stepOneTestSubscriber.values()[1], "Hotel in New York - 1 room, 1 night")
 
         stepTwoTestSubscriber.awaitValueCount(2, 1, TimeUnit.SECONDS)
-        assertEquals(stepTwoTestSubscriber.values()[1],"Flights - JFK to LHR, round trip")
+        assertEquals(stepTwoTestSubscriber.values()[1], "Flights - JFK to LHR, round trip")
 
         stepThreeTestSubscriber.awaitValueCount(2, 1, TimeUnit.SECONDS)
-        assertEquals(stepThreeTestSubscriber.values()[1],"")
+        assertEquals(stepThreeTestSubscriber.values()[1], "")
     }
 
     private fun setUpParams(originAirportCode: String = ""): PackageSearchParams {

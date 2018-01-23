@@ -59,7 +59,7 @@ class AccessibilityUtilTest {
         Mockito.`when`(mockAccessibilityManager.isTouchExplorationEnabled).thenReturn(true)
 
         val toolbar = Toolbar(spyContext)
-        toolbar.navigationIcon = ArrowXDrawableUtil.getNavigationIconDrawable(spyContext, ArrowXDrawableUtil.ArrowDrawableType.CLOSE);
+        toolbar.navigationIcon = ArrowXDrawableUtil.getNavigationIconDrawable(spyContext, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
 
         assertNull(toolbar.findFocus())
         AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
@@ -92,7 +92,7 @@ class AccessibilityUtilTest {
         Mockito.`when`(mockAccessibilityManager.isTouchExplorationEnabled).thenReturn(true)
 
         val toolbar = Toolbar(spyContext)
-        toolbar.navigationIcon = ArrowXDrawableUtil.getNavigationIconDrawable(spyContext, ArrowXDrawableUtil.ArrowDrawableType.CLOSE);
+        toolbar.navigationIcon = ArrowXDrawableUtil.getNavigationIconDrawable(spyContext, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
 
         assertNull(toolbar.findFocus())
         AccessibilityUtil.delayFocusToToolbarNavigationIcon(toolbar, 0)

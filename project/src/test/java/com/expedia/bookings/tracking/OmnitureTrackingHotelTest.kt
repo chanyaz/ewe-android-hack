@@ -2,7 +2,6 @@ package com.expedia.bookings.tracking
 
 import android.content.Context
 import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateNotTracked
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.hotels.Hotel
@@ -95,7 +94,7 @@ class OmnitureTrackingHotelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDestSearchEventsSwp() {
-        OmnitureTracking.trackHotelV2SearchBox(true);
+        OmnitureTracking.trackHotelV2SearchBox(true)
         assertStateTracked(withEventsString("event118"), mockAnalyticsProvider)
     }
 
@@ -253,7 +252,7 @@ class OmnitureTrackingHotelTest {
         return pageLoadTimeData
     }
 
-    private fun searchTrackingData() : HotelSearchTrackingData {
+    private fun searchTrackingData(): HotelSearchTrackingData {
         val trackingData = HotelSearchTrackingData()
         trackingData.checkInDate = LocalDate.now()
         trackingData.duration = 1

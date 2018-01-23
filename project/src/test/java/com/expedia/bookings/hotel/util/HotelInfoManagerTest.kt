@@ -80,7 +80,7 @@ class HotelInfoManagerTest {
         return hotelSearchParams
     }
 
-    private fun makeSuggestion(gaiaId : String): SuggestionV4 {
+    private fun makeSuggestion(gaiaId: String): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = gaiaId
         suggestion.regionNames = SuggestionV4.RegionNames()

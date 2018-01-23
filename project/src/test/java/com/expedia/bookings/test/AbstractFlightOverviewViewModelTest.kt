@@ -22,8 +22,8 @@ import kotlin.test.assertFalse
 
 @RunWith(RobolectricRunner::class)
 class AbstractFlightOverviewViewModelTest {
-    lateinit private var sut: AbstractFlightOverviewViewModel
-    lateinit private var flightLeg: FlightLeg
+    private lateinit var sut: AbstractFlightOverviewViewModel
+    private lateinit var flightLeg: FlightLeg
     private val context = RuntimeEnvironment.application
 
     @Before
@@ -106,10 +106,9 @@ class AbstractFlightOverviewViewModelTest {
         flightLeg.airlineMessageModel = FlightLeg.AirlineMessageModel()
         flightLeg.airlineMessageModel.hasAirlineWithCCfee = false
         flightLeg.airlineMessageModel.airlineFeeLink = "p/regulatory/obfees"
-
     }
 
-    private fun addObFees(){
+    private fun addObFees() {
         flightLeg.airlineMessageModel.hasAirlineWithCCfee = true
     }
 

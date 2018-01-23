@@ -15,7 +15,6 @@ import org.robolectric.shadows.ShadowLog
 import org.robolectric.android.controller.ActivityController
 import kotlin.test.assertEquals
 
-
 /**
  * Created by cplachta on 12/7/17.
  */
@@ -35,8 +34,8 @@ class MemberDealsActivityTest {
     fun testHotelDealSearchWasNavigatedTo() {
         val recyclerView = activityController.get().findViewById<RecyclerView>(R.id.member_deal_recycler_view)
 
-        recyclerView.measure(0,0)
-        recyclerView.layout(0,0,100,1000)
+        recyclerView.measure(0, 0)
+        recyclerView.layout(0, 0, 100, 1000)
 
         recyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById<CardView>(R.id.search_for_hotel_deals_card_view).performClick()
 

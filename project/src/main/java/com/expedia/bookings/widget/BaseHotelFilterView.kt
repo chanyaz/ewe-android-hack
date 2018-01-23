@@ -131,7 +131,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         viewModel.trackClearFilter()
     }
 
-    open protected fun bindViewModel(vm: BaseHotelFilterViewModel) {
+    protected open fun bindViewModel(vm: BaseHotelFilterViewModel) {
         doneButton.subscribeOnClick(vm.doneObservable)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceRangeView)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceHeader)
@@ -214,10 +214,10 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         }
     }
 
-    open protected fun inflate() {
+    protected open fun inflate() {
     }
 
-    open protected fun inflateNeighborhoodView(stub: ViewStub): BaseNeighborhoodFilterView {
+    protected open fun inflateNeighborhoodView(stub: ViewStub): BaseNeighborhoodFilterView {
         stub.layoutResource = R.layout.client_neighborhood_filter_stub
         return stub.inflate() as ClientNeighborhoodFilterView
     }

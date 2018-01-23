@@ -31,5 +31,4 @@ abstract class AbstractUniversalCKOTotalPriceViewModel(val context: Context,
             contentDescriptionObservable.onNext(getAccessibleContentDescription(isCostBreakdownEnabled))
         }
     }
-
 }

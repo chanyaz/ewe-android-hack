@@ -31,11 +31,11 @@ abstract class BaseTravelerValidatorViewModel : InvalidCharacterHelper.InvalidCh
         return valid
     }
 
-    fun getText() : String {
+    fun getText(): String {
        return textSubject.value ?: ""
     }
 
-    protected fun isRequiredNameValid(name: String?) : Boolean {
+    protected fun isRequiredNameValid(name: String?): Boolean {
         return CommonSectionValidators.NON_EMPTY_VALIDATOR.validate(name) == ValidationError.NO_ERROR
                 && hasAllValidChars(name)
     }

@@ -135,7 +135,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
         return calendarInstructions.getCompleteDateText(start, end, forContentDescription)
     }
 
-    fun hasDestination() : Boolean {
+    fun hasDestination(): Boolean {
         return hotelParamsBuilder.hasDestinationLocation()
     }
 
@@ -175,7 +175,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
         }
     }
 
-    private fun shouldPrefetchSearch() : Boolean {
+    private fun shouldPrefetchSearch(): Boolean {
         if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelGreedySearch)
                 && builderHasValidParams()) {
             val params = hotelParamsBuilder.build()
@@ -187,8 +187,8 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
         return false
     }
 
-    private fun builderHasValidParams() : Boolean {
-        return  hotelParamsBuilder.areRequiredParamsFilled()
+    private fun builderHasValidParams(): Boolean {
+        return hotelParamsBuilder.areRequiredParamsFilled()
                 && hotelParamsBuilder.hasValidDateDuration()
                 && hotelParamsBuilder.isWithinDateRange()
     }

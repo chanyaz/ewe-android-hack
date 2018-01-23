@@ -89,8 +89,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         // show 3 tiles during loading if map is hidden to user
         if (ExpediaBookingApp.isDeviceShitty())
             hotels = arrayListOf(Hotel(), Hotel(), Hotel())
-        else
-            hotels = arrayListOf(Hotel(), Hotel())
+        else hotels = arrayListOf(Hotel(), Hotel())
         notifyDataSetChanged()
     }
 
@@ -223,7 +222,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                     infoIcon.setOnClickListener {
                         pricingHeaderSelectedSubject.onNext(Unit)
                     }
-
                 } else {
                     infoIcon.visibility = View.GONE
                     resultsDescriptionHeader.setOnClickListener(null)

@@ -5,7 +5,6 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 
-
 class CustomMatchers {
     companion object {
         @JvmStatic

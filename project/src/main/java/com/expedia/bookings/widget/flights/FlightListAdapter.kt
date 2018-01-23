@@ -23,7 +23,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
     val ScrollDepth1 = 25
     val ScrollDepth2 = 60
     val ScrollDepth3 = 90
-    lateinit var scrollDepthMap : HashMap<Int, Int>
+    lateinit var scrollDepthMap: HashMap<Int, Int>
     val trackScrollDepthSubject = PublishSubject.create<Int>()
     val showDeltaPricing = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
 
@@ -57,7 +57,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
 
     private fun shouldShowCrossSellPackageBanner() = (PointOfSale.getPointOfSale().isCrossSellPackageOnFSR &&
             AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR) &&
-            (context as FlightActivity).intent.getStringExtra(Codes.SEARCH_PARAMS)?.isEmpty()?:true)
+            (context as FlightActivity).intent.getStringExtra(Codes.SEARCH_PARAMS)?.isEmpty() ?: true)
 
     private fun showCrossSellPackageBannerCell(): Boolean {
         return (shouldShowCrossSellPackageBanner() && isRoundTripSearchSubject.value && isOutboundSearch &&

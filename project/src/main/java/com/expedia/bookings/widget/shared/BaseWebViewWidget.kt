@@ -26,7 +26,6 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     val HEADER_CLASS = "site-header-primary"
     val FACEBOOK_LOGIN_CLASS = "facebook-login-pane"
 
-
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val webView: WebView by bindView(R.id.web_view)
     val progressView: ProgressBar by bindView(R.id.webview_progress_view)
@@ -45,8 +44,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
             if (url.startsWith("http") || url.startsWith("about:blank")) {
                 onWebPageStarted(view, url, favicon)
-            }
-            else {
+            } else {
                 view.stopLoading()
                 context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             }
@@ -56,7 +54,6 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
             super.onReceivedError(view, request, error)
             toggleLoading(false)
         }
-
     }
 
     open fun onPageFinished(url: String) {
@@ -85,7 +82,6 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             context.startActivity(intent)
         }
-
     }
 
     open var viewModel: WebViewViewModel by notNullAndObservable { vm ->

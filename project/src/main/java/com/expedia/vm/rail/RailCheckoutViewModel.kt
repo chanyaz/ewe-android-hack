@@ -203,7 +203,7 @@ class RailCheckoutViewModel(val context: Context) {
 
     private fun getCardFeesCallback(): Observer<CardFeeResponse> {
 
-        return object: DisposableObserver<CardFeeResponse>() {
+        return object : DisposableObserver<CardFeeResponse>() {
             override fun onNext(it: CardFeeResponse) {
                 if (!it.hasErrors()) {
                     updateCostBreakdownWithFees(it.feePrice, it.tripTotalPrice)

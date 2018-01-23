@@ -47,7 +47,6 @@ class HotelDeepLinkHandlerTest {
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams, null)
 
-
         assertNotNull(testGenericSearchSubscriber.values()[0])
         val returnedSuggestion = testGenericSearchSubscriber.values()[0].suggestion
 

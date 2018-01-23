@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment
 
-
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
@@ -11,7 +10,7 @@ import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.util.PermissionsUtils.requestLocationPermission
 
-class SoftPromptDialogFragment: DialogFragment() {
+class SoftPromptDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val alertDialogBuilder = AlertDialog.Builder(activity)
@@ -33,9 +32,8 @@ class SoftPromptDialogFragment: DialogFragment() {
         }
 
         alertDialogBuilder.setView(view)
-        val dialog =  alertDialogBuilder.create()
+        val dialog = alertDialogBuilder.create()
         dialog.setCanceledOnTouchOutside(false)
         return dialog
     }
-
 }

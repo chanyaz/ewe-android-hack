@@ -45,13 +45,12 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
             Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE, isMidAPIEnabled(this)))
             val hotelOffers = PackageResponseUtils.loadHotelOfferResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE) ?: return
             hotelsPresenter.selectedPackageHotel = Db.getPackageSelectedHotel()
-            hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+            hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
             hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
             hotelsPresenter.detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS)
-            hotelsPresenter.resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+            hotelsPresenter.resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
             hotelsPresenter.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
-
         } else if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             // change hotel room
             if (isMidAPIEnabled(this)) {
@@ -59,7 +58,6 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
             }
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS_ONLY)
             hotelsPresenter.hotelSelectedObserver.onNext(Db.getPackageSelectedHotel())
-
         } else {
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.RESULTS)
         }

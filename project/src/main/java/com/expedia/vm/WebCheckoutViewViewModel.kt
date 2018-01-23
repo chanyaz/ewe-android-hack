@@ -8,7 +8,7 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-abstract class WebCheckoutViewViewModel(context: Context) : WebViewViewModel(), UserAccountRefresher.IUserAccountRefreshListener  {
+abstract class WebCheckoutViewViewModel(context: Context) : WebViewViewModel(), UserAccountRefresher.IUserAccountRefreshListener {
     // var so that we can mock it for unit testing
     var userAccountRefresher: UserAccountRefresher = UserAccountRefresher(context, LineOfBusiness.PROFILE, this)
 
@@ -32,5 +32,4 @@ abstract class WebCheckoutViewViewModel(context: Context) : WebViewViewModel(), 
             closeView.onNext(Unit)
         }
     }
-
 }

@@ -24,7 +24,6 @@ import com.expedia.bookings.presenter.flight.FlightConfirmationPresenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -36,7 +35,6 @@ import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -62,7 +60,7 @@ class FlightConfirmationPresenterTest {
     private var activity: FragmentActivity by Delegates.notNull()
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
-    private lateinit var inboundSupplementaryText : TextView
+    private lateinit var inboundSupplementaryText: TextView
     private lateinit var outboundSupplementaryText: TextView
 
     private val firstLegDeparture = DateTime.now().plusDays(5).toString()
@@ -269,13 +267,13 @@ class FlightConfirmationPresenterTest {
     }
 
     private fun givenCheckoutResponse(isRoundTrip: Boolean = true, numberOfTravelers: Int = 1) {
-        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = isRoundTrip, numberOfTravelers = numberOfTravelers)
+        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true, isRoundTrip = isRoundTrip, numberOfTravelers = numberOfTravelers)
         presenter.viewModel.inboundCardVisibility.onNext(true)
         presenter.viewModel.setRewardsPoints.onNext(Optional(rewardPoints))
         presenter.showConfirmationInfo(checkoutResponse, "test@mail.com")
     }
 
-    private fun getCheckoutResponse(dateOfExpiration: String, hasAirAttach: Boolean = false, isRoundTrip: Boolean = false, numberOfTravelers: Int = 1) : FlightCheckoutResponse {
+    private fun getCheckoutResponse(dateOfExpiration: String, hasAirAttach: Boolean = false, isRoundTrip: Boolean = false, numberOfTravelers: Int = 1): FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         response.details = FlightTripDetails()
@@ -317,7 +315,7 @@ class FlightConfirmationPresenterTest {
         return response
     }
 
-    private fun makeFlightLeg(departureTime: String, arrivalTime: String = "", isInbound: Boolean = false) : FlightLeg {
+    private fun makeFlightLeg(departureTime: String, arrivalTime: String = "", isInbound: Boolean = false): FlightLeg {
         val flight = FlightLeg()
         flight.segments = java.util.ArrayList<FlightLeg.FlightSegment>()
 
@@ -338,7 +336,7 @@ class FlightConfirmationPresenterTest {
         return flight
     }
 
-    private fun makeFlightSegment(arrivalAirportCode: String, arrivalCity: String, departureAirportCode: String, departureCity: String) :  FlightLeg.FlightSegment{
+    private fun makeFlightSegment(arrivalAirportCode: String, arrivalCity: String, departureAirportCode: String, departureCity: String): FlightLeg.FlightSegment {
         val arrivalSegment = FlightLeg.FlightSegment()
         arrivalSegment.arrivalAirportAddress = FlightLeg.FlightSegment.AirportAddress()
         arrivalSegment.departureAirportAddress = FlightLeg.FlightSegment.AirportAddress()

@@ -60,5 +60,4 @@ class ItinWebviewInfoWidgetTest {
                         null))
         assertEquals(View.GONE, sut.visibility)
     }
-
 }

@@ -2,7 +2,7 @@ package com.expedia.bookings.data.hotel
 
 import android.content.Context
 
-class HotelValueAdd(val context: Context, val valueAddsEnum: ValueAddsEnum, val apiDescription: String): Comparable<HotelValueAdd>  {
+class HotelValueAdd(val context: Context, val valueAddsEnum: ValueAddsEnum, val apiDescription: String) : Comparable<HotelValueAdd> {
 
     val iconId: Int get() = valueAddsEnum.iconId
 

@@ -1,4 +1,4 @@
-package com.expedia.bookings.data.packages;
+package com.expedia.bookings.data.packages
 
 import org.joda.time.LocalDate
 
@@ -28,5 +28,4 @@ class MultiItemCreateTripParams(val flightPIID: String,
                     searchParams.infantsInSeats)
         }
     }
-
 }

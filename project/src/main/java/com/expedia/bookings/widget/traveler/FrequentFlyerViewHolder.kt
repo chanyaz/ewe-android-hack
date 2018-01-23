@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget.traveler
 
-import com.expedia.vm.FrequentFlyerProgramViewModel
-
 import android.content.Context
 import android.app.AlertDialog
 import android.view.ViewGroup

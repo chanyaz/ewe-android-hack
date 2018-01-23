@@ -7,9 +7,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.CalendarWidgetWithTimeSlider
-import com.expedia.bookings.rail.widget.RailCardsPickerWidget
-import com.expedia.bookings.rail.widget.RailSearchLocationWidget
-import com.expedia.bookings.rail.widget.RailTravelerWidgetV2
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailSearchViewModel
 
@@ -44,4 +41,3 @@ class RailSearchWidget(context: Context, attr: AttributeSet?) : FrameLayout(cont
                 .subscribe(cardPickerWidget.railCardPickerViewModel.numberOfTravelers)
     }
 }
-

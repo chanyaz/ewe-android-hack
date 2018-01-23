@@ -76,12 +76,10 @@ open class CalendarDialogFragment() : DialogFragment() {
                             // Do not select an end date beyond the allowed range
                             calendarPickerView.setSelectedDates(start, null)
                         }
-
                     } else {
                         vm.datesUpdated(start, end)
                     }
                     updateDoneVisibilityForDate(start)
-
                 } else {
                     vm.datesUpdated(start, end)
                 }

@@ -35,7 +35,7 @@ class RailInboundResultsViewModelTest {
         testViewModel.titleSubject.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 
-        assertEquals("${testOriginString} - ${testDestinationString}", testSubscriber.values()[0])
+        assertEquals("$testOriginString - $testDestinationString", testSubscriber.values()[0])
     }
 
     @Test
@@ -94,12 +94,11 @@ class RailInboundResultsViewModelTest {
         assertEquals(context.getString(R.string.select_return), testSubscriber.values()[0])
     }
 
-    private fun defaultBuilder() : RailSearchRequest.Builder {
+    private fun defaultBuilder(): RailSearchRequest.Builder {
         return RailSearchRequest.Builder(20, 100)
                 .departDateTimeMillis(RailSearchRequestMock.departTime())
                 .startDate(RailSearchRequestMock.departDate())
                 .origin(RailSearchRequestMock.origin(testOriginString))
                 .destination(RailSearchRequestMock.destination(testDestinationString)) as RailSearchRequest.Builder
     }
-
 }

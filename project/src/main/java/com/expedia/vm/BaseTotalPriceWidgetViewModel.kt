@@ -3,7 +3,6 @@ package com.expedia.vm
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.utils.CurrencyUtils
 import java.math.BigDecimal
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -24,7 +23,7 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
     val costBreakdownEnabledObservable = BehaviorSubject.create<Boolean>()
 
     abstract fun getAccessibleContentDescription(isCostBreakdownShown: Boolean = false,
-                                                 isSlidable: Boolean = false, isExpanded: Boolean = false) : String
+                                                 isSlidable: Boolean = false, isExpanded: Boolean = false): String
 
     abstract fun shouldShowTotalPriceLoadingProgress(): Boolean
     init {
@@ -54,5 +53,4 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
         val totalPackagePriceWithMandatoryFee = Money(mandatoryFee, currencyCode)
         totalPriceObservable.onNext(totalPackagePriceWithMandatoryFee.getFormattedMoneyFromAmountAndCurrencyCode(getMoneyFormatFlagForInteger()))
     }
-
 }

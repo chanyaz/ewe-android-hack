@@ -15,7 +15,7 @@ import com.squareup.phrase.Phrase
 import java.util.ArrayList
 import java.util.Collections
 
-class RailsItinContentGenerator(context: Context, val railItinCardData: ItinCardDataRails): ItinContentGenerator<ItinCardDataRails>(context, railItinCardData) {
+class RailsItinContentGenerator(context: Context, val railItinCardData: ItinCardDataRails) : ItinContentGenerator<ItinCardDataRails>(context, railItinCardData) {
 
     override fun hasDetails(): Boolean {
         return false
@@ -69,8 +69,7 @@ class RailsItinContentGenerator(context: Context, val railItinCardData: ItinCard
         val view: TextView
         if (convertView != null) {
             view = convertView as TextView
-        }
-        else {
+        } else {
             view = layoutInflater.inflate(R.layout.include_itin_card_summary_rail, container, false) as TextView
         }
 

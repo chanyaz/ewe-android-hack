@@ -55,7 +55,7 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val checkoutErrorObservable = PublishSubject.create<ApiError>()
     var email: String by Delegates.notNull()
     val slideToBookA11yActivateObservable = PublishSubject.create<Unit>()
-    val cardFeeTripResponse  = PublishSubject.create<TripResponse>()
+    val cardFeeTripResponse = PublishSubject.create<TripResponse>()
     val showCheckoutDialogObservable = PublishSubject.create<Boolean>()
     val cardFeeTextSubject = PublishSubject.create<Spanned>()
     val cardFeeWarningTextSubject = PublishSubject.create<Spanned>()
@@ -72,7 +72,7 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
             builder.clearTravelers()
         }
 
-        checkoutParams.subscribe{
+        checkoutParams.subscribe {
             checkoutRequestStartTimeObservable.onNext(Date().time)
         }
 
@@ -103,11 +103,11 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     }
 
     abstract fun injectComponents()
-    abstract fun getTripId() : String
+    abstract fun getTripId(): String
 
-    open protected fun getScheduler(): Scheduler = if (ExpediaBookingApp.isRobolectric()) Schedulers.trampoline() else AndroidSchedulers.mainThread()
+    protected open fun getScheduler(): Scheduler = if (ExpediaBookingApp.isRobolectric()) Schedulers.trampoline() else AndroidSchedulers.mainThread()
 
-    fun isValidForBooking() : Boolean {
+    fun isValidForBooking(): Boolean {
         return builder.hasValidTravelerAndBillingInfo()
     }
 

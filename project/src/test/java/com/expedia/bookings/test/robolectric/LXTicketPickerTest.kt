@@ -47,13 +47,11 @@ class LXTicketPickerTest {
         assertNotNull(ticketRemove)
         assertNotNull(ticketDetails)
 
-
         assertEquals("1", ticketCount.text)
         assertEquals("$99 Adult (16+ years)", ticketDetails.text)
         assertEquals("Add Adult", ticketAdd.contentDescription.toString())
         assertEquals("Remove Adult", ticketRemove.contentDescription.toString())
     }
-
 
     private fun buildTicket(): Ticket {
         val gson = GsonBuilder().create()
@@ -63,5 +61,4 @@ class LXTicketPickerTest {
 
         return ticket
     }
-
 }

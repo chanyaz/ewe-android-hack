@@ -75,7 +75,7 @@ class CustomDeepLinkParserTest {
         Assert.assertEquals(LocalDate(2017, 6, 6), output.checkOutDate)
         Assert.assertEquals("Discounts", output.sortType)
         Assert.assertEquals(3, output.numAdults)
-        assertChildTravelersEquals(children,  (output.children as ArrayList).toTypedArray())
+        assertChildTravelersEquals(children, (output.children as ArrayList).toTypedArray())
     }
 
     @Test
@@ -227,7 +227,6 @@ class CustomDeepLinkParserTest {
         val data = Uri.parse("expda://signIn")
         val output = parser.parseDeepLink(data)
         Assert.assertTrue(output is SignInDeepLink)
-
     }
 
     @Test
@@ -243,7 +242,6 @@ class CustomDeepLinkParserTest {
         data = Uri.parse("expda://trips?itinNum=7238447666975")
         output = parser.parseDeepLink(data) as TripDeepLink
         Assert.assertEquals("7238447666975", output.itinNum)
-
     }
 
     @Test

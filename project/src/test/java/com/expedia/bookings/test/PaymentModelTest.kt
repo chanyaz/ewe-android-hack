@@ -60,10 +60,9 @@ class PaymentModelTest {
     private fun setupCreateTrip(hasRedemablePoints: Boolean) {
         if (hasRedemablePoints)
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
-        else
-            createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
+        else createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
 
-        createTripResponse.tripId = "happy";
+        createTripResponse.tripId = "happy"
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
     }
@@ -169,7 +168,7 @@ class PaymentModelTest {
     @Test
     fun testCreateTripForLoggedInUserWithRedeemablePointsCurrencyToPointUserSelectedAPIError() {
         setupCreateTrip(true)
-        createTripResponse.tripId = "";
+        createTripResponse.tripId = ""
 
         paymentModel.createTripSubject.onNext(createTripResponse)
         createTripResponseTestSubscriber.assertNoErrors()
@@ -267,7 +266,6 @@ class PaymentModelTest {
         currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
 
         paymentModel.pwpOpted.onNext(true)
-
     }
 
     @Test
@@ -319,8 +317,6 @@ class PaymentModelTest {
         currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
     }
 
-
-
     @Test
     fun testCheckoutPriceChangeWithUserPreferenceWhenSwpisOff() {
         setupCheckout(true)
@@ -355,7 +351,7 @@ class PaymentModelTest {
                 paymentSplits.payingWithPoints.pointsType.equals(expectedPaymentSplits.payingWithPoints.pointsType)
     }
 
-    private fun getPaymentSplitsForSwpOff(): PaymentSplits{
+    private fun getPaymentSplitsForSwpOff(): PaymentSplits {
         val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money("0", createTripResponse.getTripTotalExcludingFee().currencyCode))
         val payingWithCards = PointsAndCurrency(createTripResponse.rewards?.totalPointsToEarn ?: 0f, PointsType.EARN, createTripResponse.getTripTotalExcludingFee())
         return PaymentSplits(payingWithPoints, payingWithCards)

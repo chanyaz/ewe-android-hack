@@ -78,7 +78,7 @@ class SearchScreenTest : HotelTestCase() {
 
         SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"))
         Common.closeSoftKeyboard(SearchScreen.searchEditText())
-        SearchScreen.selectLocation("Hyatt Regency San Francisco");
+        SearchScreen.selectLocation("Hyatt Regency San Francisco")
         onView(withText(R.string.DONE)).perform(ViewActions.waitForViewToDisplay())
         val firstStartDate = LocalDate.now().plusDays(10)
         SearchScreen.selectDates(firstStartDate, firstStartDate.plusDays(2))
@@ -151,7 +151,7 @@ class SearchScreenTest : HotelTestCase() {
     fun testNewSearchScreenToDetail() {
         SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"))
         Common.closeSoftKeyboard(SearchScreen.searchEditText())
-        SearchScreen.selectLocation("Hyatt Regency San Francisco");
+        SearchScreen.selectLocation("Hyatt Regency San Francisco")
 
         onView(withText(R.string.DONE)).perform(ViewActions.waitForViewToDisplay())
         onView(withText(R.string.DONE)).check(matches(isDisplayed()))
@@ -176,7 +176,7 @@ class SearchScreenTest : HotelTestCase() {
         if (start != null && end != null) {
             val nightCount = JodaUtils.daysBetween(start, end)
             val nightsString = instrumentation.targetContext.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
-            sb.append(" ");
+            sb.append(" ")
             sb.append(instrumentation.targetContext.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
         }
         return sb.build()

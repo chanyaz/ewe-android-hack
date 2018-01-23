@@ -58,7 +58,7 @@ class TravelGraphServicesTest {
 
     @Test
     fun tgServiceHitsAllInterceptors() {
-        val testObserver =  TestObserver<TravelGraphUserHistoryResponse>()
+        val testObserver = TestObserver<TravelGraphUserHistoryResponse>()
 
         service.fetchUserHistory("1234", "1", "en_US", testObserver)
         testObserver.awaitTerminalEvent()
@@ -67,5 +67,4 @@ class TravelGraphServicesTest {
         assertTrue(interceptor.wasCalled())
         assertTrue(tgInterceptor.wasCalled())
     }
-
 }

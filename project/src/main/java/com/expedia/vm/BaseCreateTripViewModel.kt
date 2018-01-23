@@ -15,7 +15,7 @@ open class BaseCreateTripViewModel {
     val showCreateTripDialogObservable = PublishSubject.create<Boolean>()
     val createTripErrorObservable = PublishSubject.create<ApiError>()
     val showPriceChangeAlertObservable = PublishSubject.create<Boolean>()
-    val priceChangeAlertPriceObservable =  PublishSubject.create<Optional<TripResponse>>()
+    val priceChangeAlertPriceObservable = PublishSubject.create<Optional<TripResponse>>()
     val noNetworkObservable = PublishSubject.create<Unit>()
     val updateOverviewUiObservable = PublishSubject.create<TripResponse>()
 
@@ -23,7 +23,7 @@ open class BaseCreateTripViewModel {
         createTripResponseObservable.onNext(Optional(null))
     }
 
-    fun isValidContext(context: Context) : Boolean {
+    fun isValidContext(context: Context): Boolean {
         return if (context is Activity) {
             !context.isDestroyed && !context.isFinishing
         } else {

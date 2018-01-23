@@ -22,8 +22,8 @@ import kotlin.test.assertTrue
 class HotelItinBookingDetailsTest {
 
     lateinit var bookingDetailsWidget: HotelItinBookingDetails
-    lateinit private var intentBuilder: WebViewActivity.IntentBuilder
-    lateinit private var itinCardDataHotel: ItinCardDataHotel
+    private lateinit var intentBuilder: WebViewActivity.IntentBuilder
+    private lateinit var itinCardDataHotel: ItinCardDataHotel
     lateinit var intent: Intent
     lateinit var shadowActivity: ShadowActivity
 
@@ -58,5 +58,4 @@ class HotelItinBookingDetailsTest {
         // we cannot check against the Visitor ID stuff that gets added to the URL, because it adds unique data every time it is called
         assertTrue(intent.extras.getString("ARG_URL").startsWith(itinCardDataHotel.detailsUrl))
     }
-
 }

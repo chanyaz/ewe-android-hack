@@ -11,11 +11,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.Strings
 import com.expedia.util.subscribeText
 import com.expedia.vm.FlightTravelerPickerViewModel
-import io.reactivex.subjects.BehaviorSubject
 
 class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerWidgetV2(context, attrs) {
 
-    var oldInfantPreferenceInLap :Boolean = true
+    var oldInfantPreferenceInLap: Boolean = true
 
     override val traveler: FlightTravelerPickerView by lazy {
         val travelerView = travelerDialogView.findViewById<FlightTravelerPickerView>(R.id.flight_traveler_view)
@@ -38,7 +37,7 @@ class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerW
         view
     }
 
-    override  val travelerDialog: AlertDialog by lazy {
+    override val travelerDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
         traveler
         builder.setView(travelerDialogView)
@@ -64,5 +63,4 @@ class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerW
         }
         dialog
     }
-
 }

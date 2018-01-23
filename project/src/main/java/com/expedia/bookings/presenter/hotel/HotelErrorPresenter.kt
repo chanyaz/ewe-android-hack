@@ -17,7 +17,7 @@ class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPres
     val hotelDetailsToolbar: HotelDetailsToolbar by bindView(R.id.hotel_details_toolbar)
 
     var hotelDetailViewModel: HotelDetailViewModel by notNullAndObservable { vm ->
-        vm.hotelOffersSubject.subscribe{
+        vm.hotelOffersSubject.subscribe {
             hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
         }
     }
@@ -30,7 +30,6 @@ class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPres
             getViewModel().handleCheckoutErrors()
         }
         hotelDetailsToolbar.hideGradient()
-
     }
 
     override fun setupViewModel(vm: AbstractErrorViewModel) {

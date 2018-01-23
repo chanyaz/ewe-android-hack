@@ -14,7 +14,6 @@ enum class LobInfo(val lineOfBusiness: LineOfBusiness, @StringRes val labelRes: 
     PACKAGES(LineOfBusiness.PACKAGES, R.string.nav_packages, R.drawable.ic_lob_packages, R.color.new_launch_packages_lob_color),
     RAILS(LineOfBusiness.RAILS, R.string.nav_rail, R.drawable.ic_lob_rail, R.color.new_launch_rail_lob_color);
 
-
     companion object {
         @ColorRes
         val disabledColorRes = R.color.new_launch_lob_disabled_color

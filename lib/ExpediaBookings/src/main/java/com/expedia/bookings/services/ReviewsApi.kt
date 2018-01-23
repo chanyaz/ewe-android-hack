@@ -16,5 +16,4 @@ interface ReviewsApi {
                      @Query("start") start: Int,
                      @Query("items") items: Int,
                      @Query("locale") locale: String): Observable<HotelReviewsResponse>
-
 }

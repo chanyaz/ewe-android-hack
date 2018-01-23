@@ -16,7 +16,7 @@ import com.expedia.account.util.CombiningFakeObservable
 import com.expedia.account.util.InvalidCharacterTextWatcher
 import io.reactivex.subjects.BehaviorSubject
 
-class SinglePageEmailNamePasswordLayout(context: Context, attrs: AttributeSet): LinearLayout (context, attrs) {
+class SinglePageEmailNamePasswordLayout(context: Context, attrs: AttributeSet) : LinearLayout (context, attrs) {
 
     private val vFirstNameInput: SinglePageInputTextPresenter by lazy {
         findViewById<SinglePageInputTextPresenter>(R.id.single_page_first_name)
@@ -37,7 +37,7 @@ class SinglePageEmailNamePasswordLayout(context: Context, attrs: AttributeSet): 
     val mValidationObservable = CombiningFakeObservable()
     val allTextValidSubject = BehaviorSubject.create<Boolean>()
 
-    init{
+    init {
         orientation = LinearLayout.VERTICAL
         View.inflate(context, R.layout.acct__widget_single_page_email_name_password, this)
         mValidationObservable.addSource(vEmailAddress.statusObservable)

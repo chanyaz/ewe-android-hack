@@ -20,7 +20,6 @@ class LXCreateTripViewModel(val context: Context) : BaseCreateTripViewModel() {
     lateinit var lxServices: LxServices
         @Inject set
 
-
     lateinit var lxState: LXState
         @Inject set
 
@@ -37,7 +36,6 @@ class LXCreateTripViewModel(val context: Context) : BaseCreateTripViewModel() {
         return object : DisposableObserver<LXCreateTripResponseV2>() {
             override fun onComplete() {
                 showCreateTripDialogObservable.onNext(false)
-
             }
 
             override fun onError(e: Throwable) {
@@ -60,6 +58,5 @@ class LXCreateTripViewModel(val context: Context) : BaseCreateTripViewModel() {
                 createTripResponseObservable.onNext(Optional(response))
             }
         }
-
     }
 }

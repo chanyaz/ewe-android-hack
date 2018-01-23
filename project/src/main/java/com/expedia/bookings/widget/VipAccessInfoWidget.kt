@@ -27,5 +27,4 @@ class VIPAccessInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(c
         }
         container.setPadding(0, toolBarHeight + statusBarHeight, 0, 0)
     }
-
 }

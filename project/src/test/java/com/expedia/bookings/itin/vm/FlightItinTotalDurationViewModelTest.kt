@@ -11,8 +11,8 @@ import org.robolectric.Robolectric
 @RunWith(RobolectricRunner::class)
 class FlightItinTotalDurationViewModelTest {
 
-    lateinit private var activity: Activity
-    lateinit private var sut: FlightItinTotalDurationViewModel
+    private lateinit var activity: Activity
+    private lateinit var sut: FlightItinTotalDurationViewModel
 
     private val createTotalDurationWidgetSubscriber = TestObserver<ItinTimeDurationViewModel.TimeDurationWidgetParams>()
 

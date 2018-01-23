@@ -145,7 +145,6 @@ class PhoneEntryViewTest {
         newPhone.number = "098765432101234"
         widget.viewModel.updatePhone(newPhone)
         assertEquals("098-765-432101234", phoneNumberField.text.toString())
-
     }
 
     @Test
@@ -237,7 +236,7 @@ class PhoneEntryViewTest {
         assertEquals(true, dropdownDrawable.isVisible)
     }
 
-    private fun setupViewModelWithPhone() : TravelerPhoneViewModel{
+    private fun setupViewModelWithPhone(): TravelerPhoneViewModel {
         val vm = TravelerPhoneViewModel(appContext)
         val phone = Phone()
         phone.countryCode = testCodeString

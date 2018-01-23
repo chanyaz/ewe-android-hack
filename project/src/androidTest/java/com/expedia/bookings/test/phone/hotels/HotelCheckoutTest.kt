@@ -19,7 +19,7 @@ import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import org.junit.Test
 
-class HotelCheckoutTest: HotelTestCase() {
+class HotelCheckoutTest : HotelTestCase() {
 
     @Test
     fun testCardNumberClearedAfterCreateTrip() {
@@ -130,7 +130,7 @@ class HotelCheckoutTest: HotelTestCase() {
 
         CheckoutViewModel.freeCancellationWidget().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
         Common.pressBack()
-        
+
         CheckoutViewModel.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
 

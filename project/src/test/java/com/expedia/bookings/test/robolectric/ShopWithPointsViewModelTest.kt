@@ -35,9 +35,9 @@ class ShopWithPointsViewModelTest {
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
-    lateinit private var shopWithPointsViewModel: ShopWithPointsViewModel
-    lateinit private var paymentModel: PaymentModel<HotelCreateTripResponse>
-    lateinit private var userLoginStateChangedModel: UserLoginStateChangedModel
+    private lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
+    private lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+    private lateinit var userLoginStateChangedModel: UserLoginStateChangedModel
 
     private val context = RuntimeEnvironment.application
 

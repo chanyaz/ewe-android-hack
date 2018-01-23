@@ -12,7 +12,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.text.HtmlCompat
@@ -84,7 +83,6 @@ class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickL
         val hotel = data as Hotel
         this.hotelSelectedSubject = hotelSelectedSubject
         bindHotelData(hotel, context, fullWidthTile)
-
     }
 
     private fun bindHotelData(hotel: Hotel, context: Context, fullWidth: Boolean) {
@@ -164,7 +162,7 @@ class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickL
                 } else {
                     saleTextView.setBackgroundColor(green)
                 }
-            }// Default discount case
+            } // Default discount case
             // Tonight only case
         } else {
             saleTextView.visibility = View.GONE
@@ -191,5 +189,4 @@ class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickL
     override fun onPrepareLoad() {
         gradient.visibility = View.GONE
     }
-
 }

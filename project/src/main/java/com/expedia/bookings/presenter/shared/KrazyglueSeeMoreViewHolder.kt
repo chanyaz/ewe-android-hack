@@ -30,6 +30,4 @@ class KrazyglueSeeMoreViewHolder(itemView: View, context: Context, searchParams:
             HotelNavUtils.goToHotelsV2Params(it.context, searchParams.value, null, flags)
         }
     }
-
 }
-

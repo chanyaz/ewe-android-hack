@@ -3,7 +3,6 @@ package com.expedia.vm
 import com.expedia.bookings.data.flights.KrazyglueResponse
 import io.reactivex.subjects.PublishSubject
 
-
 class KrazyglueHotelViewHolderViewModel {
     val hotelNameObservable = PublishSubject.create<String>()
     val hotelStarRatingObservable = PublishSubject.create<Float>()

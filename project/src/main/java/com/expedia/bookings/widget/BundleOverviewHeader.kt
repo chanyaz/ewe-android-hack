@@ -21,11 +21,10 @@ import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.CheckoutToolbarViewModel
 import com.larvalabs.svgandroid.widget.SVGView
 
-class BundleOverviewHeader(context : Context, attrs : AttributeSet) : CoordinatorLayout(context, attrs), AppBarLayout.OnOffsetChangedListener  {
+class BundleOverviewHeader(context: Context, attrs: AttributeSet) : CoordinatorLayout(context, attrs), AppBarLayout.OnOffsetChangedListener {
     val toolbar: CheckoutToolbar by bindView(R.id.checkout_toolbar)
     val collapsingToolbarLayout: CollapsingToolbarLayout by bindView(R.id.collapsing_toolbar)
     val appBarLayout: AppBarLayout by bindView(R.id.app_bar)

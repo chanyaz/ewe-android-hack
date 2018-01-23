@@ -50,8 +50,8 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         return SortType.EXPERT_PICKS
     }
 
-    fun equalForPrefetch(other: HotelSearchParams?) : Boolean {
-        return other!= null && suggestion.equals(other.suggestion)
+    fun equalForPrefetch(other: HotelSearchParams?): Boolean {
+        return other != null && suggestion.equals(other.suggestion)
                 && checkIn == other.checkIn && checkOut == other.checkOut
                 && adults == other.adults && children.size == other.children.size
                 && shopWithPoints == other.shopWithPoints
@@ -75,7 +75,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         return null
     }
 
-    class Builder(maxStay: Int, maxRange: Int): BaseSearchParams.Builder(maxStay, maxRange) {
+    class Builder(maxStay: Int, maxRange: Int) : BaseSearchParams.Builder(maxStay, maxRange) {
         private var isPackage: Boolean = false
         private var shopWithPoints: Boolean = false
         private var priceRange: PriceRange? = null
@@ -229,7 +229,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             return params
         }
 
-        fun isEmpty() : Boolean {
+        fun isEmpty(): Boolean {
             return filterHotelName.isNullOrEmpty()
                     && filterStarRatings.isEmpty()
                     && (filterPrice == null || !filterPrice!!.isValid())
@@ -238,7 +238,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
                     && amenities.isEmpty()
         }
 
-        fun isNotEmpty() :Boolean {
+        fun isNotEmpty(): Boolean {
             return !isEmpty()
       }
     }

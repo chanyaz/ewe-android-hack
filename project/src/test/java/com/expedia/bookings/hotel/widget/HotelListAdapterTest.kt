@@ -85,7 +85,7 @@ class HotelListAdapterTest {
         assertEquals(View.GONE, viewHolder.pinnedHotelTextView.visibility, "FAIL: Only first item in pinned search should be pinned.")
     }
 
-    fun getMockSearchResponse(hotelCount: Int, pinned: Boolean?) : HotelSearchResponse {
+    fun getMockSearchResponse(hotelCount: Int, pinned: Boolean?): HotelSearchResponse {
         val response: HotelSearchResponse
         if (pinned == null) {
             response = getHotelSearchResponse("src/test/resources/raw/hotel/hotel_happy_search_response.json")
@@ -98,19 +98,19 @@ class HotelListAdapterTest {
         }
 
         response.hotelList = ArrayList()
-        for(i in 0..hotelCount) {
+        for (i in 0..hotelCount) {
             response.hotelList.add(getHappyHotel())
         }
         return response
     }
 
-    fun getHappyHotel() : Hotel {
+    fun getHappyHotel(): Hotel {
         val resourceReader = JSONResourceReader("src/test/resources/raw/hotel/the_talbott_hotel.json")
         val searchResponse = resourceReader.constructUsingGson(Hotel::class.java)
         return searchResponse
     }
 
-    private fun getHotelSearchResponse(filePath: String) : HotelSearchResponse {
+    private fun getHotelSearchResponse(filePath: String): HotelSearchResponse {
         val resourceReader = JSONResourceReader(filePath)
         val searchResponse = resourceReader.constructUsingGson(HotelSearchResponse::class.java)
         return searchResponse

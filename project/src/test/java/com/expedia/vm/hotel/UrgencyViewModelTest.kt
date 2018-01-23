@@ -24,7 +24,7 @@ class UrgencyViewModelTest {
     var server = MockWebServer()
         @Rule get
 
-    lateinit var urgencyService : UrgencyServices
+    lateinit var urgencyService: UrgencyServices
     lateinit var testViewModel: UrgencyViewModel
     lateinit var today: LocalDate
 
@@ -123,20 +123,19 @@ class UrgencyViewModelTest {
         testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
         testViewModel.urgencyDescriptionSubject.subscribe(testDescriptionTextSub)
 
-
         testViewModel.fetchCompressionScore("0", today.plusYears(1), today.plusYears(1).plusDays(1))
 
         testSoldOutTextSub.assertNoValues()
         testDescriptionTextSub.assertNoValues()
     }
 
-    private fun getExpectedScoreText(score: Int) : String {
+    private fun getExpectedScoreText(score: Int): String {
         return Phrase.from(RuntimeEnvironment.application, R.string.urgency_percent_booked_TEMPLATE)
                 .put("percentage", score)
                 .format().toString()
     }
 
-    private fun getExpectedDescription(displayName: String) : String {
+    private fun getExpectedDescription(displayName: String): String {
         return Phrase.from(RuntimeEnvironment.application, R.string.urgency_destination_description_TEMPLATE)
                 .put("destination", displayName)
                 .format().toString()

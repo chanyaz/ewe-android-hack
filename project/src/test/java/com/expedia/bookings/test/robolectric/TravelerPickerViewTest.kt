@@ -168,7 +168,6 @@ class TravelerPickerViewTest {
             val actualText = (travelerPicker.child1.adapter.getDropDownView(i, null, travelerPicker.child1) as CheckedTextView).text
             assertEquals(expectedText, actualText)
         }
-
     }
 
     fun getExpectedChildAgeText(number: Int): String {
@@ -176,8 +175,7 @@ class TravelerPickerViewTest {
             return "Less than 1 year old"
         else if (number == 1)
             return "1 year old"
-        else
-            return (number.toString() + " years old")
+        else return (number.toString() + " years old")
     }
 
     fun incrementAdult(count: Int) {
@@ -192,11 +190,11 @@ class TravelerPickerViewTest {
         }
     }
 
-    fun isAdultIncrementButtonEnabled() : Boolean {
+    fun isAdultIncrementButtonEnabled(): Boolean {
         return travelerPicker.adultPlus.isEnabled
     }
 
-    fun isAdultDecrementButtonEnabled() : Boolean {
+    fun isAdultDecrementButtonEnabled(): Boolean {
         return travelerPicker.adultMinus.isEnabled
     }
 
@@ -212,27 +210,27 @@ class TravelerPickerViewTest {
         }
     }
 
-    fun isChildIncrementButtonEnabled() : Boolean {
+    fun isChildIncrementButtonEnabled(): Boolean {
         return travelerPicker.childPlus.isEnabled
     }
 
-    fun isChildDecrementButtonEnabled() : Boolean {
+    fun isChildDecrementButtonEnabled(): Boolean {
         return travelerPicker.childMinus.isEnabled
     }
 
-    fun getAdultText() : CharSequence {
+    fun getAdultText(): CharSequence {
         return travelerPicker.adultText.text
     }
 
-    fun getChildText() : CharSequence {
+    fun getChildText(): CharSequence {
         return travelerPicker.childText.text
     }
 
-    fun expectedAdultText(count: Int) : String {
+    fun expectedAdultText(count: Int): String {
         return activity.resources.getQuantityString(R.plurals.number_of_adults, count, count)
     }
 
-    fun expectedChildText(count: Int) : String {
+    fun expectedChildText(count: Int): String {
         return activity.resources.getQuantityString(R.plurals.number_of_children, count, count)
     }
 }

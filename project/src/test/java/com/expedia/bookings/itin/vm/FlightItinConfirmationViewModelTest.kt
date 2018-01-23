@@ -13,9 +13,9 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightItinConfirmationViewModelTest {
-    lateinit private var activity: Activity
-    lateinit private var sut: FlightItinConfirmationViewModel
-    lateinit private var context: Context
+    private lateinit var activity: Activity
+    private lateinit var sut: FlightItinConfirmationViewModel
+    private lateinit var context: Context
 
     @Before
     fun setup() {
@@ -31,5 +31,4 @@ class FlightItinConfirmationViewModelTest {
         assertEquals(sut.updateConfirmationStatus(TicketingStatus.COMPLETE), "Confirmation")
         assertEquals(sut.updateConfirmationStatus(TicketingStatus.NONE), "Confirmation")
     }
-
 }

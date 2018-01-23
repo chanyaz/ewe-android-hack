@@ -37,11 +37,11 @@ class FareFamilyItemWidgetTest {
         @Rule get
 
     private val context = RuntimeEnvironment.application
-    lateinit private var sut: FareFamilyItemWidget
-    lateinit private var fareFamilyWidget: FlightFareFamilyWidget
+    private lateinit var sut: FareFamilyItemWidget
+    private lateinit var fareFamilyWidget: FlightFareFamilyWidget
     val params = FlightCreateTripParams.Builder().productKey("happy_fare_family_round_trip").build()
     lateinit var flightCreateTripResponse: FlightCreateTripResponse
-    lateinit private var activity: Activity
+    private lateinit var activity: Activity
 
     @Before
     fun before() {
@@ -134,7 +134,6 @@ class FareFamilyItemWidgetTest {
             val fareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(i) as FareFamilyItemWidget
             assertEquals(View.VISIBLE, fareFamilyItem.visibility)
         }
-
     }
 
     @Test
@@ -248,6 +247,6 @@ class FareFamilyItemWidgetTest {
             checkOut = LocalDate().plusDays(3)
         }
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null, null, null,null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null, null, null, null)
     }
 }

@@ -28,6 +28,4 @@ class LastMinuteDealActivityTest {
                 OmnitureMatchers.withEvars(mapOf(12 to "App.LastMinuteDeals"))), mockAnalyticsProvider)
         activity.finish()
     }
-
-
 }

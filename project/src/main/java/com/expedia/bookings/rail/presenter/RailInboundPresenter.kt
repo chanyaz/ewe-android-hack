@@ -72,5 +72,4 @@ class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         recyclerView.adapter = adapter
         legalBanner.subscribeOnClick(legalBannerClicked)
     }
-
 }

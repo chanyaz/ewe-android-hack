@@ -128,7 +128,7 @@ class HotelSuggestionAdapterTest {
         assertEquals(expectedDisplayName, firstPositionData.displayName)
     }
 
-    private fun buildSuggestionLists(count: Int) : List<SuggestionV4> {
+    private fun buildSuggestionLists(count: Int): List<SuggestionV4> {
         val list = ArrayList<SuggestionV4>()
         for (i in 1..count) {
             val suggestion = SuggestionV4()

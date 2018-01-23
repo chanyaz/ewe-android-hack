@@ -284,67 +284,67 @@ class OmnitureTrackingHotelSuggestionTest {
     private class TestTrackingDataBuilder {
         private val data = SuggestionTrackingData()
 
-        fun shown(show: Boolean) : TestTrackingDataBuilder{
+        fun shown(show: Boolean): TestTrackingDataBuilder {
             data.suggestionsFocused = show
             return this
         }
 
-        fun selected(selected: Boolean) : TestTrackingDataBuilder {
+        fun selected(selected: Boolean): TestTrackingDataBuilder {
             data.suggestionSelected = selected
             return this
         }
 
-        fun selectedPosition(position: Int) : TestTrackingDataBuilder {
+        fun selectedPosition(position: Int): TestTrackingDataBuilder {
             data.selectedSuggestionPosition = position
             return this
         }
 
-        fun gaiaId(id: String) : TestTrackingDataBuilder {
+        fun gaiaId(id: String): TestTrackingDataBuilder {
             data.suggestionGaiaId = id
             return this
         }
 
-        fun essCount(count: Int) : TestTrackingDataBuilder {
+        fun essCount(count: Int): TestTrackingDataBuilder {
             data.suggestionsShownCount = count
             return this
         }
 
-        fun historyShownCount(count: Int) : TestTrackingDataBuilder {
+        fun historyShownCount(count: Int): TestTrackingDataBuilder {
             data.previousSuggestionsShownCount = count
             return this
         }
 
-        fun charTyped(count: Int) : TestTrackingDataBuilder {
+        fun charTyped(count: Int): TestTrackingDataBuilder {
             data.charactersTypedCount = count
             return this
         }
 
-        fun displayName(name: String) : TestTrackingDataBuilder {
+        fun displayName(name: String): TestTrackingDataBuilder {
             data.displayName = name
             return this
         }
 
-        fun suggestionType(type: String) : TestTrackingDataBuilder {
+        fun suggestionType(type: String): TestTrackingDataBuilder {
             data.suggestionType = type
             return this
         }
 
-        fun child(child: Boolean) : TestTrackingDataBuilder {
+        fun child(child: Boolean): TestTrackingDataBuilder {
             data.isChild = child
             return this
         }
 
-        fun history(history: Boolean) : TestTrackingDataBuilder {
+        fun history(history: Boolean): TestTrackingDataBuilder {
             data.isHistory = history
             return this
         }
 
-        fun parent(parent: Boolean) : TestTrackingDataBuilder {
+        fun parent(parent: Boolean): TestTrackingDataBuilder {
             data.isParent = parent
             return this
         }
 
-        fun build() : SuggestionTrackingData {
+        fun build(): SuggestionTrackingData {
             return data
         }
     }

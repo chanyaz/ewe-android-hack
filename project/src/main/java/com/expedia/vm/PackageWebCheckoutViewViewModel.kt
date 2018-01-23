@@ -6,7 +6,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribe
 import com.expedia.vm.packages.PackageCreateTripViewModel
 
-class PackageWebCheckoutViewViewModel(var context: Context): WebCheckoutViewViewModel(context) {
+class PackageWebCheckoutViewViewModel(var context: Context) : WebCheckoutViewViewModel(context) {
 
     var packageCreateTripViewModel by notNullAndObservable<PackageCreateTripViewModel> {
         it.multiItemResponseSubject.safeSubscribe { multiItemResponse ->

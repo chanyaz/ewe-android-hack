@@ -55,7 +55,7 @@ class PhoneLaunchActivityTest {
                 Notification.NotificationType.FLIGHT_DELAYED
         )
 
-        for(notificationType in listOfNotificationTypes) {
+        for (notificationType in listOfNotificationTypes) {
             val notification = Notification()
             notification.itinId = notificationType.name
             notification.notificationType = notificationType
@@ -64,7 +64,6 @@ class PhoneLaunchActivityTest {
             val trackingLink: String = OmnitureTracking.setItinNotificationLink(notification)
             assertLinkTrackedWhenNotificationClicked(trackingLink, trackingLink, "event212", mockAnalyticsProvider)
         }
-
     }
 
     @Test
@@ -113,7 +112,7 @@ class PhoneLaunchActivityTest {
         activity.finish()
     }
 
-    class TestAccountSettingsFragment: AccountSettingsFragment() {
+    class TestAccountSettingsFragment : AccountSettingsFragment() {
         var didCallRefreshUserInfo = false
             private set
 
@@ -122,7 +121,7 @@ class PhoneLaunchActivityTest {
         }
     }
 
-    private class TestRestrictedProfileSource: RestrictedProfileSource(Activity()) {
+    private class TestRestrictedProfileSource : RestrictedProfileSource(Activity()) {
         override fun isRestrictedProfile(): Boolean = true
     }
 

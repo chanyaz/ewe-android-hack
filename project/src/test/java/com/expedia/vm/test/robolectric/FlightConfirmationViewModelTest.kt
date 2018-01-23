@@ -75,7 +75,7 @@ class FlightConfirmationViewModelTest {
         val destination = "Detroit"
         val userPoints = "100"
 
-        val destinationTestSubscriber= TestObserver<String>()
+        val destinationTestSubscriber = TestObserver<String>()
         val itinNumberTestSubscriber = TestObserver<String>()
         val expediaPointsSubscriber = TestObserver<String>()
         val crossSellWidgetView = TestObserver<Boolean>()
@@ -160,7 +160,7 @@ class FlightConfirmationViewModelTest {
         }
     }
 
-    fun getCheckoutResponseWithoutAirAttachOffer(dateOfExpiration: String) : FlightCheckoutResponse {
+    fun getCheckoutResponseWithoutAirAttachOffer(dateOfExpiration: String): FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         val qualifierObject = FlightCheckoutResponse.AirAttachInfo()
@@ -177,7 +177,7 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
-    fun zeroFlightLoyaltyPoints(){
+    fun zeroFlightLoyaltyPoints() {
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         val expediaPointsSubscriber = TestObserver<String>()
         val userPoints = "0"
@@ -190,7 +190,7 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
-    fun nullFlightLoyaltyPoints(){
+    fun nullFlightLoyaltyPoints() {
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         val expediaPointsSubscriber = TestObserver<String>()
         val userPoints = null
@@ -203,7 +203,7 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
-    fun noShowFlightLoyaltyPoints(){
+    fun noShowFlightLoyaltyPoints() {
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         val expediaPointsSubscriber = TestObserver<String>()
         val userPoints = "100"

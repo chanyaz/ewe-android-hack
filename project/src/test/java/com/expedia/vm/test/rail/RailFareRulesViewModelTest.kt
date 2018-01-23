@@ -2,8 +2,6 @@ package com.expedia.vm.test.rail
 
 import android.app.Activity
 import com.expedia.bookings.data.rail.responses.RailProduct
-import com.expedia.bookings.data.rail.responses.RailOffer
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.rail.RailFareRulesViewModel
@@ -12,7 +10,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import com.expedia.bookings.services.TestObserver
-import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

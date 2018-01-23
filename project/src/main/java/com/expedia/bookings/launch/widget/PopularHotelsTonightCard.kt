@@ -11,7 +11,7 @@ import com.expedia.bookings.widget.OptimizedImageView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.launch.PopularHotelsTonightViewModel
 
-class PopularHotelsTonightCard(itemView: View, context: Context): RecyclerView.ViewHolder(itemView) {
+class PopularHotelsTonightCard(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {
     val backgroundImage: OptimizedImageView by bindView(R.id.background_image)
     val firstLineTextView: TextView by bindView(R.id.first_line)
     val secondLineTextView: TextView by bindView(R.id.second_line)

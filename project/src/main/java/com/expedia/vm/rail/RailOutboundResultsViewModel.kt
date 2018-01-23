@@ -12,7 +12,6 @@ import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.withLatestFrom
-import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -71,7 +70,6 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
             }
 
             override fun onComplete() {
-
             }
 
             override fun onError(e: Throwable) {

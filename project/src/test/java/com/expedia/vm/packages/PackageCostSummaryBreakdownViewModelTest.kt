@@ -1,7 +1,6 @@
 package com.expedia.vm.packages
 
 import android.content.Context
-import android.icu.util.CurrencyAmount
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
@@ -23,7 +22,6 @@ import com.expedia.bookings.services.TestObserver
 import java.math.BigDecimal
 import java.util.Arrays
 import java.util.concurrent.TimeUnit
-import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)

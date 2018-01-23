@@ -61,12 +61,12 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
 
     val freeCancellationWidget: FreeCancellationWidget by bindView(R.id.free_cancellation_view)
     var hotelCheckoutViewModel: HotelCheckoutViewModel by notNullAndObservable { vm ->
-        bookedWithCVVSubject.withLatestFrom(vm.paymentModel.paymentSplits,{cvv, paymentSplits->
-            object{
+        bookedWithCVVSubject.withLatestFrom(vm.paymentModel.paymentSplits, { cvv, paymentSplits ->
+            object {
                 val cvv = cvv
                 val paymentSplits = paymentSplits
             }
-        }).subscribe{
+        }).subscribe {
             onBookV2(it.cvv, it.paymentSplits)
         }
 
@@ -123,7 +123,6 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
                 show(freeCancellationWidget)
             })
         }
-
     }
 
     fun showCheckout(offer: HotelOffersResponse.HotelRoomResponse) {
@@ -268,8 +267,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
                 val rewardsSelectedDetails = RewardDetails(paymentInstrumentId = pointsCard.paymentsInstrumentId, programName = hotelCreateTripResponse.getProgramName()!!,
                         amountToChargeInRealCurrency = payingWithPointsSplit.amount.amount.toFloat(), amountToChargeInVirtualCurrency = payingWithPointsSplit.points, rateId = rewardsPointsDetails!!.rateID, currencyCode = payingWithPointsSplit.amount.currencyCode)
                 rewardsSelectedForPayment.add(rewardsSelectedDetails)
-            }
-            else {
+            } else {
                 val rewardsSelectedDetails = RewardDetails(membershipId = user?.rewardsMembershipId, programName = hotelCreateTripResponse.getProgramName()!!,
                         amountToChargeInRealCurrency = payingWithPointsSplit.amount.amount.toFloat(), amountToChargeInVirtualCurrency = payingWithPointsSplit.points, rateId = rewardsPointsDetails!!.rateID, currencyCode = payingWithPointsSplit.amount.currencyCode)
                 rewardsSelectedForPayment.add(rewardsSelectedDetails)

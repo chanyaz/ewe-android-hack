@@ -17,7 +17,6 @@ open class TimeLogger(private val timeSource: TimeSource = TimeSourceInMillis(),
         endTime = null
     }
 
-
     fun isComplete(): Boolean = startTime != null && endTime != null
     fun calculateTotalTime(): Long = (endTime ?: -1L).minus(startTime ?: -1L)
 }

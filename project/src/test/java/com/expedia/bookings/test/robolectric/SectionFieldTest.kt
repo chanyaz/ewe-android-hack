@@ -56,7 +56,7 @@ class SectionFieldTest {
         assertEquals(validEmail2, mFields.getLastFieldWithId(R.id.edit_email_address))
     }
 
-    private fun makeField(id: Int) : ViewGroup{
+    private fun makeField(id: Int): ViewGroup {
         val parent = FrameLayout(context, null)
         val textView = TextView(context, null)
         textView.id = id

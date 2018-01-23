@@ -29,7 +29,6 @@ class BundlePriceViewModelTest {
 
         testViewModelUniversalCKO.savings.onNext(someMoney)
         assertEquals(expectedSavingLabel, testSubscriber.values()[1])
-
     }
 
     @Test
@@ -45,7 +44,5 @@ class BundlePriceViewModelTest {
         val someMoney = Money("-50.0", "USD")
         testViewModelUniversalCKO.savings.onNext(someMoney)
         assertEquals("", testSubscriber.values()[1])
-
     }
-
 }

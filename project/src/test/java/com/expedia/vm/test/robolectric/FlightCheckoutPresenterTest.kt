@@ -4,7 +4,6 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.LinearLayout
-import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.analytics.AnalyticsProvider
@@ -12,21 +11,15 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripDetails
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
 import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.OmnitureMatchers
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.traveler.TravelerSelectItem
 import com.expedia.util.Optional
@@ -50,7 +43,6 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 class FlightCheckoutPresenterTest {
-
 
     private var checkout: FlightCheckoutPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
@@ -191,7 +183,7 @@ class FlightCheckoutPresenterTest {
         return flightCreateTripResponse
     }
 
-    private fun getFrequentFlyerPlans(hasMembership: Boolean = false) : FrequentFlyerPlansTripResponse {
+    private fun getFrequentFlyerPlans(hasMembership: Boolean = false): FrequentFlyerPlansTripResponse {
         val enrolledPlan = FrequentFlyerPlansTripResponse()
         enrolledPlan.airlineCode = "AA"
         enrolledPlan.frequentFlyerPlanName = "American Airlines"
@@ -201,7 +193,7 @@ class FlightCheckoutPresenterTest {
         return enrolledPlan
     }
 
-    private fun getFlightLegs() : List<FlightLeg> {
+    private fun getFlightLegs(): List<FlightLeg> {
         val leg = FlightLeg()
         val segment = FlightLeg.FlightSegment()
         segment.airlineName = "American Airlines"
@@ -210,18 +202,17 @@ class FlightCheckoutPresenterTest {
         return listOf(leg)
     }
 
-    private fun  getTravelerWithFrequentFlyerMemberships(): Traveler? {
+    private fun getTravelerWithFrequentFlyerMemberships(): Traveler? {
         val traveler = Traveler()
         traveler.addFrequentFlyerMembership(getTravelerFrequentFlyerMembership())
         return traveler
     }
 
-    private fun getTravelerFrequentFlyerMembership() : TravelerFrequentFlyerMembership{
+    private fun getTravelerFrequentFlyerMembership(): TravelerFrequentFlyerMembership {
         val membership = TravelerFrequentFlyerMembership()
         membership.airlineCode = "AA"
         membership.membershipNumber = "123"
         membership.planCode = "123"
         return membership
     }
-
 }

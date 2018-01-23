@@ -12,7 +12,7 @@ class TranslateYAnimator(view: View, startY: Float, endY: Float, duration: Long?
 
     init {
         duration?.let { duration -> translateAnimator.duration = duration }
-        translateAnimator.addListener(object: AnimatorListenerAdapter() {
+        translateAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator?) {
                 startAction()
             }

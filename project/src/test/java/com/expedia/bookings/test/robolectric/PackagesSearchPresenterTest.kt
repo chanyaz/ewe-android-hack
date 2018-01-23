@@ -24,8 +24,8 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class PackagesSearchPresenterTest {
-    lateinit private var widget: PackageSearchPresenter
-    lateinit private var activity: Activity
+    private lateinit var widget: PackageSearchPresenter
+    private lateinit var activity: Activity
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
     val context: Context = RuntimeEnvironment.application
 
@@ -40,7 +40,7 @@ class PackagesSearchPresenterTest {
     }
 
     @Test
-    fun testNewTravelerPickerSelectionOperations(){
+    fun testNewTravelerPickerSelectionOperations() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
 
         val travelerCard = widget.travelerWidgetV2
@@ -56,18 +56,17 @@ class PackagesSearchPresenterTest {
         travelerPicker.infantInLap.isChecked = true
 
         assertEquals("[16, 10, 1]", travelerPicker.viewmodel.travelerParamsObservable.value.childrenAges.toString())
-        assertEquals("1",travelerPicker.viewmodel.travelerParamsObservable.value.numberOfAdults.toString())
-        assertEquals("4",travelerPicker.viewmodel.travelerParamsObservable.value.getTravelerCount().toString())
+        assertEquals("1", travelerPicker.viewmodel.travelerParamsObservable.value.numberOfAdults.toString())
+        assertEquals("4", travelerPicker.viewmodel.travelerParamsObservable.value.getTravelerCount().toString())
 
         assertTrue(travelerPicker.viewmodel.isInfantInLapObservable.value)
 
         travelerPicker.infantCountSelector.travelerMinus.performClick()
         assertEquals("[16, 10]", travelerPicker.viewmodel.travelerParamsObservable.value.childrenAges.toString())
-        assertEquals("3",travelerPicker.viewmodel.travelerParamsObservable.value.getTravelerCount().toString())
+        assertEquals("3", travelerPicker.viewmodel.travelerParamsObservable.value.getTravelerCount().toString())
 
         travelerPicker.adultCountSelector.travelerPlus.performClick()
-        assertEquals("2",travelerPicker.viewmodel.travelerParamsObservable.value.numberOfAdults.toString())
-
+        assertEquals("2", travelerPicker.viewmodel.travelerParamsObservable.value.numberOfAdults.toString())
     }
 
     @Test
@@ -128,6 +127,5 @@ class PackagesSearchPresenterTest {
 
         travelerPicker.infantCountSelector.travelerMinus.performClick()
         OmnitureTestUtils.assertLinkTracked("Search Results Update", "App.Package.Traveler.Remove.Infant", mockAnalyticsProvider)
-
     }
 }

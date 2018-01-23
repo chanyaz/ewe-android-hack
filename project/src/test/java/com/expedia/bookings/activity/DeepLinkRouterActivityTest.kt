@@ -184,7 +184,7 @@ class DeepLinkRouterActivityTest {
         assertIntentForActivity(PhoneLaunchActivity::class.java, startedIntent)
     }
 
-    private fun getDeepLinkRouterActivity(deepLinkUrl : String): TestDeepLinkRouterActivity {
+    private fun getDeepLinkRouterActivity(deepLinkUrl: String): TestDeepLinkRouterActivity {
         val deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(deepLinkUrl))
         val mockItineraryManager = createMockItineraryManager()
         val deepLinkRouterActivity = deepLinkRouterActivityController.get()

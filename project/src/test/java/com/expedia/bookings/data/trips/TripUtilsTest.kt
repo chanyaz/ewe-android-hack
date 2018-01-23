@@ -389,8 +389,8 @@ class TripUtilsTest {
 
     @Test
     fun getUsersProp75String() {
-        val usersTrips = getUsersTrips();
-        val prop75String = TripUtils.createUsersProp75String(usersTrips);
+        val usersTrips = getUsersTrips()
+        val prop75String = TripUtils.createUsersProp75String(usersTrips)
         val expectedProp75String = "HOT:-1:3|AIR:-1:3|CAR:-5:0|LX:2:2|RAIL:0:0"
         assertEquals(expectedProp75String, prop75String)
     }
@@ -505,7 +505,7 @@ class TripUtilsTest {
         return trips
     }
 
-    private fun getUserWithOneTrip() : Collection<Trip> {
+    private fun getUserWithOneTrip(): Collection<Trip> {
         val packageTrip = Trip()
         packageTrip.addTripComponent(TripPackage())
         packageTrip.addTripComponents(listOf(TripHotel(), TripFlight(), TripCar()))
@@ -515,5 +515,4 @@ class TripUtilsTest {
         val trip = mutableListOf(packageTrip)
         return trip
     }
-
 }

@@ -18,7 +18,7 @@ class UniqueIdentifierHelperTest {
 
     private val PREF_DEVICE_ID = "PREF_DEVICE_ID"
     val context = RuntimeEnvironment.application
-    private lateinit var sharedPrefs :SharedPreferences
+    private lateinit var sharedPrefs: SharedPreferences
 
     @Before
     fun setup() {

@@ -28,8 +28,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
     fun setUpWidget(itinCardDataHotel: ItinCardDataHotel) {
         if (itinCardDataHotel.isSharedItin) {
             visibility = View.GONE
-        }
-        else {
+        } else {
             manageBookingCard.setIcon(R.drawable.ic_itin_manage_booking_icon)
             manageBookingCard.setHeadingText(context.resources.getText(R.string.itin_hotel_manage_booking_header))
             manageBookingCard.setSubHeadingText(context.resources.getText(R.string.itin_hotel_details_manage_booking_subheading))

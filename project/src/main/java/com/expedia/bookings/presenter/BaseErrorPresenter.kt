@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -34,7 +33,7 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
         setupViewModel(vm)
     }
 
-    open protected fun setupViewModel(vm: AbstractErrorViewModel) {
+    protected open fun setupViewModel(vm: AbstractErrorViewModel) {
         vm.imageObservable.subscribe { errorImage.setImageResource(it) }
         vm.buttonOneTextObservable.subscribeText(errorButton)
         vm.errorMessageObservable.subscribeText(errorText)

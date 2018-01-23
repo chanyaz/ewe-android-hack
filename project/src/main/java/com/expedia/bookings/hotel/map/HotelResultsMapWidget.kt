@@ -156,7 +156,7 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
         }
     }
 
-    fun hasSelectedMarker() : Boolean {
+    fun hasSelectedMarker(): Boolean {
         return hotelMapMarkers.filter { it.isSelected }.isNotEmpty()
     }
 
@@ -305,7 +305,7 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
     }
 
     private fun getToolbarHeight(): Int {
-        val tv = TypedValue();
+        val tv = TypedValue()
         context.theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)
         return TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
     }

@@ -40,7 +40,6 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
         val iconRect = Rect(0, 0, 0, drawableHeight)
         var first = true
 
-
         leg.travelSegmentList.forEach { segment ->
             if (!first) {
                 // put down a separator first as long as we're not the first icon being drawn
@@ -63,4 +62,3 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
         }
     }
 }
-

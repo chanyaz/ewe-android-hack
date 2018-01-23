@@ -72,4 +72,3 @@ open class BaseWebViewClient(val activity: Activity, val loadCookies: Boolean,
     private fun isRulesAndRestrictionUrl(url: String): Boolean = (url.contains("RulesAndRestrictions"))
     private fun isLogOutUrl(url: String): Boolean = url.contains("/user/logout")
 }
-

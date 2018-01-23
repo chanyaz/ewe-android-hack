@@ -21,7 +21,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class PackageSearchParamsTest {
     var vm: PackageSearchViewModel by Delegates.notNull()
-    var activity : Activity by Delegates.notNull()
+    var activity: Activity by Delegates.notNull()
 
     @Before
     fun before() {
@@ -37,7 +37,7 @@ class PackageSearchParamsTest {
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
-                .children(listOf(10,2))
+                .children(listOf(10, 2))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
@@ -52,7 +52,7 @@ class PackageSearchParamsTest {
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
-                .children(listOf(10,2))
+                .children(listOf(10, 2))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
@@ -68,7 +68,7 @@ class PackageSearchParamsTest {
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
-                .children(listOf(10,2))
+                .children(listOf(10, 2))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
@@ -85,7 +85,7 @@ class PackageSearchParamsTest {
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
-                .children(listOf(10,1))
+                .children(listOf(10, 1))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
@@ -102,7 +102,7 @@ class PackageSearchParamsTest {
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
-                .children(listOf(10,2))
+                .children(listOf(10, 2))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
@@ -122,7 +122,7 @@ class PackageSearchParamsTest {
                 .origin(dummyOriginSuggestion)
                 .destination(getDummySuggestion("456"))
                 .adults(1)
-                .children(listOf(10,2))
+                .children(listOf(10, 2))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
@@ -139,7 +139,7 @@ class PackageSearchParamsTest {
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
-                .children(listOf(10,2))
+                .children(listOf(10, 2))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
@@ -158,7 +158,7 @@ class PackageSearchParamsTest {
                 .origin(getDummySuggestion("123"))
                 .destination(destinationDummySuggestion)
                 .adults(1)
-                .children(listOf(10,2))
+                .children(listOf(10, 2))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
@@ -175,7 +175,7 @@ class PackageSearchParamsTest {
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
-                .children(listOf(10,2))
+                .children(listOf(10, 2))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
@@ -221,7 +221,6 @@ class PackageSearchParamsTest {
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1)).build() as PackageSearchParams)
 
-
         // Select days beyond 329
         vm.datesUpdated(LocalDate.now().plusDays(329), LocalDate.now().plusDays(330))
         vm.searchObserver.onNext(Unit)
@@ -255,11 +254,11 @@ class PackageSearchParamsTest {
         suggestion.regionNames.fullName = ""
         suggestion.regionNames.shortName = ""
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
-        val airport =  SuggestionV4.Airport();
-        airport.airportCode = "";
-        airport.multicity = code;
+        val airport = SuggestionV4.Airport()
+        airport.airportCode = ""
+        airport.multicity = code
         hierarchyInfo.airport = airport
-        suggestion.hierarchyInfo = hierarchyInfo;
+        suggestion.hierarchyInfo = hierarchyInfo
         return suggestion
     }
 }

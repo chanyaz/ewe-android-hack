@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.res.Resources
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.enums.TravelerCheckoutStatus
@@ -197,7 +196,7 @@ class TravelerSummaryViewModelTest {
         assertEquals(mockTravelerProvider.testReversedFullName, summaryVM.titleObservable.value)
     }
 
-    private fun getAdditionalTravelersSubTitle(travelerCount: Int) : String {
+    private fun getAdditionalTravelersSubTitle(travelerCount: Int): String {
         return Phrase.from(resources.getQuantityString(R.plurals.checkout_more_travelers_TEMPLATE, travelerCount - 1))
                 .put("travelercount", travelerCount - 1).format().toString()
     }

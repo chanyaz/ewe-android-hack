@@ -33,7 +33,6 @@ class GalleryActivityTest {
         i.putExtra("Rating", 5f )
 
         galleryActivity = Robolectric.buildActivity(GalleryActivity::class.java, i).create().get()
-
     }
 
     @Test
@@ -42,6 +41,4 @@ class GalleryActivityTest {
         assertEquals("Hotel1 Description", galleryActivity.mediaList.elementAt(0).mDescription)
         assertEquals("https://hotelphotob.jpg", galleryActivity.mediaList.elementAt(2).originalUrl)
     }
-
-
 }

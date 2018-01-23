@@ -9,7 +9,7 @@ import com.mobiata.mocke3.mockObject
 
 class MockActivityObjects {
 
-    lateinit private var lxCheckoutParams: LXCheckoutParams
+    private lateinit var lxCheckoutParams: LXCheckoutParams
 
     fun getHappyOffersResponse(): ActivityDetailsResponse {
         return getActivityOffersResponse("happy")
@@ -48,7 +48,6 @@ class MockActivityObjects {
         return checkoutResponse
     }
 
-
     fun setCheckoutParamsWithErrorAsFirstName(errorType: String, isRequiredCVV: Boolean = true) {
         lxCheckoutParams = LXCheckoutParams()
         lxCheckoutParams.firstName = errorType
@@ -61,7 +60,6 @@ class MockActivityObjects {
         lxCheckoutParams.tripId = "happypath_trip_id"
         lxCheckoutParams.expectedFareCurrencyCode = "USD"
         lxCheckoutParams.phoneCountryCode = "1"
-
     }
 
     fun getCheckoutParams(): LXCheckoutParams {

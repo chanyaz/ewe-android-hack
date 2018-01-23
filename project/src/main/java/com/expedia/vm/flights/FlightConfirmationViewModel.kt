@@ -106,8 +106,8 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
             tripTotalPriceSubject.onNext(response.totalChargesPrice?.formattedMoneyFromAmountAndCurrencyCode ?: "")
-            val hasInsurance = response.flightAggregatedResponse?.flightsDetailResponse?.first()?.
-                    offer?.selectedInsuranceProduct != null
+            val hasInsurance = response.flightAggregatedResponse?.flightsDetailResponse?.first()
+                    ?.offer?.selectedInsuranceProduct != null
 
             showTripProtectionMessage.onNext(hasInsurance)
             crossSellWidgetVisibility.onNext(if (isKrazyglueEnabled) false else isQualified)
@@ -123,7 +123,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
         }
 
         if (isKrazyglueEnabled) {
-            ObservableOld.zip(flightCheckoutResponseObservable, flightSearchParamsObservable,  { response, params ->
+            ObservableOld.zip(flightCheckoutResponseObservable, flightSearchParamsObservable, { response, params ->
                 val flightLegs = response.getFirstFlightTripDetails().getLegs()
                 val hotelSearchParams = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(context, flightLegs, params)
                 krazyGlueHotelSearchParamsObservable.onNext(hotelSearchParams)
@@ -204,7 +204,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun getKrazyglueSearchParams(response: FlightCheckoutResponse, searchParams: FlightSearchParams) : KrazyglueSearchParams {
+    fun getKrazyglueSearchParams(response: FlightCheckoutResponse, searchParams: FlightSearchParams): KrazyglueSearchParams {
         val destinationCode = response.getFirstFlightLastSegment().arrivalAirportCode
         val destinationArrivalDateTime = response.getFirstFlightLastSegment().arrivalTimeRaw
         val returnDateTime = if (searchParams.isRoundTrip()) {
@@ -219,7 +219,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun getSignedKrazyglueUrl(krazyglueSearchParams: KrazyglueSearchParams) : String {
+    fun getSignedKrazyglueUrl(krazyglueSearchParams: KrazyglueSearchParams): String {
         val urlWithParams = Phrase.from(context, R.string.krazy_glue_base_url_TEMPLATE)
                 .put("baseurl", krazyglueSearchParams.baseUrl)
                 .put("partnerid", Constants.KRAZY_GLUE_PARTNER_ID)
@@ -244,11 +244,11 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
         val childAgesStringBuilder = StringBuilder()
         val iter = childAge.iterator()
         while (iter.hasNext()) {
-            childAgesStringBuilder.append(iter.next());
-            if (iter.hasNext()){
-                childAgesStringBuilder.append(",");
+            childAgesStringBuilder.append(iter.next())
+            if (iter.hasNext()) {
+                childAgesStringBuilder.append(",")
             }
         }
-        return childAgesStringBuilder.toString();
+        return childAgesStringBuilder.toString()
     }
 }

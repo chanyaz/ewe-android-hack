@@ -41,4 +41,3 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
         enableStoredCouponsSubject.subscribe(holder.viewModel.enableViewHolder)
     }
 }
-

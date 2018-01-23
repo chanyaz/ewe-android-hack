@@ -41,7 +41,6 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
             showCreateTripDialogIfNotBucketed.onNext(true)
             flightServices.createTrip(tripParams.value, makeCreateTripResponseObserver())
         }
-
     }
 
     fun makeCreateTripResponseObserver(): Observer<FlightCreateTripResponse> {
@@ -54,8 +53,7 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
                 if (response.hasErrors() && !response.hasPriceChange()) {
                     val error = response.firstError
                     createTripErrorObservable.onNext(error)
-                }
-                else {
+                } else {
                     Db.getTripBucket().clearFlight()
                     response.isFareFamilyUpgraded = (Strings.isNotEmpty(tripParams.value.fareFamilyCode) && response.createTripStatus != FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE)
                     Db.getTripBucket().add(TripBucketItemFlightV2(response))

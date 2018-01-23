@@ -14,7 +14,6 @@ import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Test
 
-
 class FlightCheckoutToolbarTest : NewFlightTestCase() {
 
     @Test
@@ -155,7 +154,7 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
         assertToolbarMenuButtonNotVisible()
 
         PackageScreen.travelerInfo().perform(ViewActions.scrollTo(), ViewActions.click())
-        
+
         assertToolbarMenuButtonSaysDone()
 
         Espresso.closeSoftKeyboard()
@@ -230,7 +229,6 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
 
     private fun waitForPaymentInfoCardView() {
         Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.payment_info_card_view), ViewMatchers.isCompletelyDisplayed()))
-
     }
 
     private fun assertToolbarMenuButtonSaysDone() {

@@ -92,7 +92,6 @@ class WebCheckoutViewTest {
         givenHotelDetailsScreen(bucketWebCheckoutABTest = true, setPOSWithWebCheckoutABTestEnabled = true)
                 .whenHotelRoomSelected()
                 .thenTheWebViewBecomesVisible()
-
     }
 
     @Test
@@ -211,7 +210,7 @@ class WebCheckoutViewTest {
 
         val shadowActivity = Shadows.shadowOf(activity)
         val intent = shadowActivity.peekNextStartedActivityForResult().intent
-        
+
         Assert.assertEquals(Uri.parse(phoneUrl), intent.data)
         Assert.assertEquals(Intent.ACTION_VIEW, intent.action)
     }
@@ -313,8 +312,5 @@ class WebCheckoutViewTest {
         fun thenTheWebViewBecomesVisible() {
             webCheckoutViewObservable.assertValueCount(1)
         }
-
     }
-
 }
-

@@ -41,6 +41,3 @@ class HotelReviewRowView(context: Context) : LinearLayout(context) {
     }
 }
 
-
-
-

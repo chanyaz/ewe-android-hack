@@ -37,7 +37,7 @@ class FlightItinMapWidget(context: Context, attrs: AttributeSet?) : LinearLayout
                     itinActionsButtons.viewModel.rightButtonTextObservable.onNext(context.resources.getString(R.string.itin_action_directions))
                 }
         vm.itinCardDataObservable
-                .filter { it.flightLeg?.getSegment(0)?.originWaypoint?.airport?.hasAirportMaps() == true || it.flightLeg?.getSegment(0)?.destinationWaypoint?.airport?.hasAirportMaps() == true}
+                .filter { it.flightLeg?.getSegment(0)?.originWaypoint?.airport?.hasAirportMaps() == true || it.flightLeg?.getSegment(0)?.destinationWaypoint?.airport?.hasAirportMaps() == true }
                 .subscribe {
                     cardView.visibility = View.VISIBLE
                     itinActionsButtons.viewModel.leftButtonVisibilityObservable.onNext(true)

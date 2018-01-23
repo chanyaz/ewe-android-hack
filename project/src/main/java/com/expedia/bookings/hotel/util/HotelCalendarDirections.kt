@@ -20,7 +20,7 @@ open class HotelCalendarDirections(private val context: Context) {
         return getCompleteDateText(start!!, end, false)
     }
 
-    open fun getToolTipTitle(start: LocalDate?, end: LocalDate?) : String {
+    open fun getToolTipTitle(start: LocalDate?, end: LocalDate?): String {
         if (start == null && end == null) {
             return context.getString(R.string.select_dates_proper_case)
         } else if (end == null) {
@@ -29,14 +29,14 @@ open class HotelCalendarDirections(private val context: Context) {
         return CalendarDateFormatter.formatStartDashEnd(context, start!!, end)
     }
 
-    open fun getToolTipInstructions(end: LocalDate?) : String {
+    open fun getToolTipInstructions(end: LocalDate?): String {
         if (end == null) {
             return context.getString(R.string.hotel_calendar_tooltip_bottom)
         }
         return context.getString(R.string.calendar_drag_to_modify)
     }
 
-    open fun getToolTipContDesc(startDate: LocalDate?, endDate: LocalDate?) : String {
+    open fun getToolTipContDesc(startDate: LocalDate?, endDate: LocalDate?): String {
         if (startDate == null && endDate == null) {
             return context.getString(R.string.select_dates_proper_case)
         } else if (endDate == null) {

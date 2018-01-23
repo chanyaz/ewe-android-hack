@@ -18,10 +18,9 @@ object PackageResponseUtils {
     val RECENT_PACKAGE_INBOUND_FLIGHT_FILE = "package-inbound_flight.dat"
     val RECENT_PACKAGE_HOTEL_OFFER_FILE = "hotel_offer.dat"
 
-
     fun savePackageResponse(context: Context, response: BundleSearchResponse, file: String, saveSuccess: ((Unit) -> Unit)? = null) {
         Thread(Runnable {
-            val type = if(response is MultiItemApiSearchResponse) object: TypeToken<MultiItemApiSearchResponse>() {}.type else object: TypeToken<PackageSearchResponse>() {}.type
+            val type = if (response is MultiItemApiSearchResponse) object : TypeToken<MultiItemApiSearchResponse>() {}.type else object : TypeToken<PackageSearchResponse>() {}.type
             val responseJson = Gson().toJson(response, type)
             try {
                 IoUtils.writeStringToFile(file, responseJson, context)
@@ -48,7 +47,7 @@ object PackageResponseUtils {
     fun loadPackageResponse(context: Context, file: String, isMidApiEnabled: Boolean): BundleSearchResponse? {
         try {
             val str = IoUtils.readStringFromFile(file, context)
-            if(isMidApiEnabled) {
+            if (isMidApiEnabled) {
                 val type = object : TypeToken<MultiItemApiSearchResponse>() {}.type
                 return Gson().fromJson<MultiItemApiSearchResponse>(str, type)
             } else {

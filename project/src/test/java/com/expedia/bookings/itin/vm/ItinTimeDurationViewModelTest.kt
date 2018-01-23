@@ -10,8 +10,8 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class ItinTimeDurationViewModelTest {
-    lateinit private var activity: Activity
-    lateinit private var sut: ItinTimeDurationViewModel
+    private lateinit var activity: Activity
+    private lateinit var sut: ItinTimeDurationViewModel
 
     @Before
     fun setup() {

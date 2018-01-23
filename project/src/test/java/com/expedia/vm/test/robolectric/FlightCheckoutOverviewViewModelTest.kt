@@ -35,7 +35,6 @@ class FlightCheckoutOverviewViewModelTest {
                 .endDate(LocalDate.now().withYear(2021).withMonthOfYear(9).withDayOfMonth(6))
                 .adults(1).build() as FlightSearchParams
 
-
         val titleTestSubscriber = TestObserver<String>()
         val checkInOutTestSubscriber = TestObserver<Pair<String, String>>()
         val urlTestSubscriber = TestObserver<List<String>>()

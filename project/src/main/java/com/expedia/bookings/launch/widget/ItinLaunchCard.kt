@@ -19,7 +19,6 @@ class ItinLaunchCard(itemView: View, context: Context) : RecyclerView.ViewHolder
         itemView.setOnClickListener {
             NavUtils.goToItin(context)
             OmnitureTracking.trackLaunchActiveItin()
-
         }
     }
 

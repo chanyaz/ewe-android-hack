@@ -191,5 +191,4 @@ class HotelTravelersSummaryViewModelTest {
         assertEquals(expectedSubtitle, summaryVM.getSubtitle())
         assertEquals(expectedStatus, summaryVM.iconStatusObservable.value)
     }
-
 }

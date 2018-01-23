@@ -19,9 +19,9 @@ import kotlin.test.assertEquals
 class HotelItinToolbarTest {
 
     lateinit var hotelItinToolbar: HotelItinToolbar
-    lateinit private var manageBookingActivity: HotelItinManageBookingActivity
-    lateinit private var detailsActivity: HotelItinDetailsActivity
-    lateinit private var expandedMapActivity: HotelItinExpandedMapActivity
+    private lateinit var manageBookingActivity: HotelItinManageBookingActivity
+    private lateinit var detailsActivity: HotelItinDetailsActivity
+    private lateinit var expandedMapActivity: HotelItinExpandedMapActivity
 
     @Test
     fun testItinToolbarOnDetailsView() {
@@ -71,5 +71,4 @@ class HotelItinToolbarTest {
         assertEquals(itinCardDataHotel.propertyName, hotelItinToolbar.toolbarTitleTextView.text)
         assertEquals(hotelCityStateCountry, hotelItinToolbar.toolbarSubtitleTextView.text)
     }
-
 }

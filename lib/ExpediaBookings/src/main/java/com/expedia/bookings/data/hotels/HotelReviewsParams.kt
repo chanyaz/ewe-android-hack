@@ -34,7 +34,6 @@ class HotelReviewsParams(val hotelId: String, val sortBy: String, val pageNumber
             return this
         }
 
-
         fun build(): HotelReviewsParams {
             return HotelReviewsParams(hotelId ?: throw IllegalArgumentException(),
                     sortBy ?: throw IllegalArgumentException(),

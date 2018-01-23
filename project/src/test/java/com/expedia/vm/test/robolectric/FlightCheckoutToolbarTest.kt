@@ -46,14 +46,12 @@ import kotlin.test.assertTrue
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 class FlightCheckoutToolbarTest {
 
-
     private var checkout: FlightCheckoutPresenter by Delegates.notNull()
     private var overview: FlightOverviewPresenter by Delegates.notNull()
     private var toolbar: CheckoutToolbar by Delegates.notNull()
     private val context = RuntimeEnvironment.application
     lateinit var travelerValidator: TravelerValidator
     lateinit var activity: Activity
-
 
     @Before fun before() {
         Ui.getApplication(context).defaultTravelerComponent()
@@ -148,7 +146,6 @@ class FlightCheckoutToolbarTest {
         assertEquals("", toolbar.title)
     }
 
-
     @Test
     fun testBucketedSecureIconTestHidesNativeToolbarTitleInTravelerWidget() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
@@ -225,7 +222,7 @@ class FlightCheckoutToolbarTest {
         val checkIn = LocalDate().plusDays(2)
         val checkOut = LocalDate().plusDays(3)
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null,null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null, null)
     }
 
     private fun getFlightCreateTripResponse(): FlightCreateTripResponse {

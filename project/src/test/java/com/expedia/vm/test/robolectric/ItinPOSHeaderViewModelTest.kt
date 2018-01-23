@@ -20,8 +20,8 @@ class ItinPOSHeaderViewModelTest {
 
     val context = RuntimeEnvironment.application
 
-    lateinit private var sut: ItinPOSHeaderViewModel
-    lateinit private var pointOfSaleModel: PointOfSaleStateModel
+    private lateinit var sut: ItinPOSHeaderViewModel
+    private lateinit var pointOfSaleModel: PointOfSaleStateModel
 
     @Before
     fun setup() {

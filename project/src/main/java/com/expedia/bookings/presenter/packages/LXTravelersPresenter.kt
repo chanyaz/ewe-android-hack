@@ -16,11 +16,9 @@ class LXTravelersPresenter(context: Context, attrs: AttributeSet) : AbstractTrav
     }
 
     override fun setUpTravelersViewModel(vm: TravelersViewModel) {
-
     }
 
     override fun inflateTravelersView() {
         View.inflate(context, R.layout.simple_traveler_presenter, this)
     }
-
 }

@@ -54,7 +54,7 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightOverview(isOutboundFlight, isRoundTrip)
     }
 
-    fun trackResultInBoundFlights(trackingData: FlightSearchTrackingData, outboundSelectedAndTotalLegRank : Pair<Int, Int>) {
+    fun trackResultInBoundFlights(trackingData: FlightSearchTrackingData, outboundSelectedAndTotalLegRank: Pair<Int, Int>) {
         OmnitureTracking.trackResultInBoundFlights(trackingData, outboundSelectedAndTotalLegRank)
         TuneUtils.trackFlightV2InBoundResults(trackingData)
     }
@@ -113,7 +113,7 @@ object FlightsV2Tracking {
                 flightSummary.inboundFlightWidget.viewModel.flight.value, flightSearchParams.isRoundTrip())
     }
 
-    fun trackFareFamilyCardViewClick(isUpgradingFlight: Boolean){
+    fun trackFareFamilyCardViewClick(isUpgradingFlight: Boolean) {
         OmnitureTracking.trackFareFamilyCardViewClick(isUpgradingFlight)
     }
 
@@ -135,8 +135,7 @@ object FlightsV2Tracking {
     fun trackInsuranceUpdated(insuranceAction: InsuranceViewModel.InsuranceAction) {
         val action = if (insuranceAction === InsuranceViewModel.InsuranceAction.ADD)
             InsuranceViewModel.InsuranceAction.ADD.toString()
-        else
-            InsuranceViewModel.InsuranceAction.REMOVE.toString()
+        else InsuranceViewModel.InsuranceAction.REMOVE.toString()
 
         OmnitureTracking.trackFlightInsuranceAdd(action)
     }

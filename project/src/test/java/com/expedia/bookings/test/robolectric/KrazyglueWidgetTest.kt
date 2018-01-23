@@ -115,9 +115,9 @@ class KrazyglueWidgetTest {
 
         krazyglueWidget.viewModel.hotelsObservable.onNext(getKrazyGlueHotels())
         val krazyglueAdapter = krazyglueWidget.hotelsRecyclerView.adapter as KrazyglueHotelsListAdapter
-        
+
         assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER, krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(0)))
-        assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.HOTEL_VIEW_HOLDER,krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(4)))
+        assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.HOTEL_VIEW_HOLDER, krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(4)))
     }
 
     @Test
@@ -130,7 +130,7 @@ class KrazyglueWidgetTest {
         val krazyglueAdapter = krazyglueWidget.hotelsRecyclerView.adapter as KrazyglueHotelsListAdapter
 
         assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.HOTEL_VIEW_HOLDER, krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(0)))
-        assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER,krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(3)))
+        assertEquals(KrazyglueHotelsListAdapter.KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER, krazyglueAdapter.getKrazyGlueViewHolderTypeFromInt(krazyglueWidget.hotelsRecyclerView.adapter.getItemViewType(3)))
     }
 
     @Test
@@ -206,7 +206,7 @@ class KrazyglueWidgetTest {
         (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(1) as KrazyglueHotelViewHolder).itemView.performClick()
         val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
 
-        assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix =  "tile1")
+        assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix = "tile1")
     }
 
     @Test
@@ -245,7 +245,7 @@ class KrazyglueWidgetTest {
         (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(2) as KrazyglueHotelViewHolder).itemView.performClick()
         val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
 
-        assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix =  "tile3")
+        assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix = "tile3")
     }
 
     @Test
@@ -258,7 +258,7 @@ class KrazyglueWidgetTest {
         (krazyglueWidget.hotelsRecyclerView.findViewHolderForAdapterPosition(0) as KrazyglueSeeMoreViewHolder).itemView.performClick()
         val expectedEvars = mapOf(65 to "expedia-hot-mobile-conf")
 
-        assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix =  "see_more")
+        assertKrazyglueClickTracking(expectedEvars = expectedEvars, expectedSuffix = "see_more")
     }
 
     @Test
@@ -315,7 +315,7 @@ class KrazyglueWidgetTest {
         OmnitureTestUtils.assertLinkTracked("Krazyglue Click", "mip.hot.app.kg.flight.conf.HSR.$expectedSuffix", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
         OmnitureTestUtils.assertLinkTracked("Krazyglue Click", "mip.hot.app.kg.flight.conf.HSR.$expectedSuffix", OmnitureMatchers.withEventsString("event83"), mockAnalyticsProvider)
     }
-    
+
     private fun enableKrazyglueTest(context: Context, displaySeeMoreFront: Boolean = true) {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsKrazyglue, if (displaySeeMoreFront) 1 else 2 )
     }

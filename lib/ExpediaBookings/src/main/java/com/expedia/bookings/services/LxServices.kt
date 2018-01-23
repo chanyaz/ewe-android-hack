@@ -164,7 +164,6 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
             if (theme.activities.size > 0 ) {
                 response.lxThemes.add(theme)
             }
-
         }
     }
 
@@ -271,7 +270,6 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 .subscribeObserver(observer)
     }
 
-
     fun lxCheckout(checkoutParams: LXCheckoutParams, observer: Observer<LXCheckoutResponse>): Disposable {
         val originalPrice = Money(checkoutParams.expectedTotalFare, checkoutParams.expectedFareCurrencyCode)
         return lxApi.checkout(checkoutParams.toQueryMap())
@@ -362,8 +360,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
                     return if ((lhs.popularityForClientSort < rhs.popularityForClientSort))
                         -1
-                    else
-                        (if ((lhs.popularityForClientSort == rhs.popularityForClientSort)) 0 else 1)
+                    else (if ((lhs.popularityForClientSort == rhs.popularityForClientSort)) 0 else 1)
                 }
             })
         }
@@ -440,7 +437,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         lxSearchResponse.activities.clear()
 
         // Filtering.
-        lxSearchResponse.activities.addAll(if(filteredSet.size != 0) filteredSet else unfilteredActivities)
+        lxSearchResponse.activities.addAll(if (filteredSet.size != 0) filteredSet else unfilteredActivities)
 
         // Sorting.
         if (lxSortFilterMetadata.sort == LXSortType.PRICE) {
@@ -482,8 +479,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
             }
             return if (filteredSet.size > 0 || lxCategoryMetadata.lxCategoryMetadataMap.size > 0) {
                 filteredSet.toList()
-            }
-            else {
+            } else {
                 activities
             }
         }

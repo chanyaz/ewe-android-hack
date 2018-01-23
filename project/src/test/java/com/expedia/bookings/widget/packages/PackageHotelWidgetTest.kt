@@ -50,7 +50,7 @@ class PackageHotelWidgetTest {
         setupParams()
     }
 
-    private fun buildMockOriginSuggestion() : SuggestionV4 {
+    private fun buildMockOriginSuggestion(): SuggestionV4 {
         val origin = Mockito.mock(SuggestionV4::class.java)
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
         val regionNames = SuggestionV4.RegionNames()
@@ -61,7 +61,7 @@ class PackageHotelWidgetTest {
         return origin
     }
 
-    private fun buildMockAirport() : SuggestionV4.Airport {
+    private fun buildMockAirport(): SuggestionV4.Airport {
         val airport = Mockito.mock(SuggestionV4.Airport::class.java)
         airport.airportCode = testAirportCode
         return airport
@@ -130,7 +130,7 @@ class PackageHotelWidgetTest {
         val shadowActivity = Shadows.shadowOf(activity)
         val actualIntent = shadowActivity.nextStartedActivity
 
-        assertTrue(actualIntent.filterEquals(expectedIntent));
+        assertTrue(actualIntent.filterEquals(expectedIntent))
     }
 
     @Test

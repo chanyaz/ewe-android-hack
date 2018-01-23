@@ -101,7 +101,7 @@ class RailCheckoutParams(val travelers: List<Traveler>,
             val city: String? = null,
             val postalCode: String? = null,
             val currencyCode: String? = null,
-            val country:String? = null) {
+            val country: String? = null) {
         var state: String? = null
             set(value) {
                 field = if (value.isNullOrBlank()) {

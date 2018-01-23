@@ -83,7 +83,7 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
             this.primaryTraveler = primaryTraveler
         }
 
-        fun getPrimaryTraveler() : Boolean {
+        fun getPrimaryTraveler(): Boolean {
             return primaryTraveler
         }
 
@@ -97,7 +97,6 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
             return RailApiSearchModel(request.origin!!, request.destination!!, request.departDate, request.returnDate,
                     request.departDateTimeMillis, request.returnDateTimeMillis, request.isRoundTripSearch(),
                     request.adults, request.children, request.youths, request.seniors, request.selectedRailCards)
-
         }
     }
 }

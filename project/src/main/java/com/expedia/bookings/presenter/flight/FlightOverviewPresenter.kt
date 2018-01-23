@@ -229,7 +229,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             flightFareFamilyDetailsWidget.visibility = View.VISIBLE
-            getCheckoutPresenter().visibility =  View.VISIBLE
+            getCheckoutPresenter().visibility = View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -244,7 +244,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
                 flightFareFamilyDetailsWidget.visibility = View.VISIBLE
                 flightFareFamilyDetailsWidget.translationY = 0f
                 flightFareFamilyDetailsWidget.toolbar.setFocusForView()
-                getCheckoutPresenter().visibility =  View.GONE
+                getCheckoutPresenter().visibility = View.GONE
             } else {
                 flightFareFamilyDetailsWidget.visibility = View.GONE
                 flightFareFamilyDetailsWidget.translationY = (flightFareFamilyDetailsWidget.height).toFloat()

@@ -2,7 +2,6 @@ package com.expedia.bookings.tracking
 
 import android.app.Application
 import android.os.Bundle
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTrip
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.LoyaltyMembershipTier
@@ -140,7 +139,6 @@ class FacebookEvents {
         parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, hotelProductResponse.hotelId)
 
         track(AppEventsConstants.EVENT_NAME_INITIATED_CHECKOUT, parameters)
-
     }
 
     fun trackHotelV2Confirmation(hotelCheckoutResponse: HotelCheckoutResponse) {
@@ -169,7 +167,7 @@ class FacebookEvents {
         val arrivalAirport = searchTrackingData.departureAirport?.gaiaId
         val parameters = Bundle()
         val lastFlightSegment = searchTrackingData.flightLegList.firstOrNull()?.flightSegments?.size?.minus(1)
-        val arrivalAirportAddress = lastFlightSegment?.let {searchTrackingData.flightLegList.firstOrNull()?.flightSegments?.get(lastFlightSegment)?.arrivalAirportAddress}
+        val arrivalAirportAddress = lastFlightSegment?.let { searchTrackingData.flightLegList.firstOrNull()?.flightSegments?.get(lastFlightSegment)?.arrivalAirportAddress }
         val lowestValue = searchTrackingData.flightLegList.firstOrNull()?.packageOfferModel?.price?.packageTotalPrice?.amount?.toString()
 
         addCommonFlightV2Params(parameters, searchTrackingData.arrivalAirport, searchTrackingData.departureAirport, searchTrackingData.departureDate,
@@ -178,7 +176,7 @@ class FacebookEvents {
         parameters.safePutString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
         parameters.safePutString(LOWEST_SEARCH_VALUE, lowestValue)
 
-        addCommonFlightDATParams(parameters,searchTrackingData)
+        addCommonFlightDATParams(parameters, searchTrackingData)
         parameters.safePutString(FB_PURCHASE_VALUE, lowestValue)
         parameters.safePutString(FB_PURCHASE_CURRENCY, searchTrackingData.flightLegList.firstOrNull()?.packageOfferModel?.price?.packageTotalPrice?.currencyCode)
 
@@ -304,8 +302,7 @@ class FacebookEvents {
     private fun getBookingWindow(time: LocalDate?): Int {
         if (time != null) {
             return JodaUtils.daysBetween(LocalDate.now(), time)
-        }
-        else {
+        } else {
             return 0
         }
     }
@@ -389,28 +386,28 @@ class FacebookEvents {
         parameters.safePutString("fb_country", location.countryCode)
     }
 
-    private fun addCommonFlightDATParams(parameters: Bundle, flightParams: FlightSearchTrackingData){
+    private fun addCommonFlightDATParams(parameters: Bundle, flightParams: FlightSearchTrackingData) {
         val dtf = ISODateTimeFormat.date()
 
         parameters.safePutString("fb_content_type", "[\"product\",\"flight\"]")
         parameters.safePutString("LOB", "Flight")
         parameters.safePutString(FB_DEPARTING_DATE, dtf.safePrint(flightParams.departureDate))
         parameters.safePutString(FB_RETURNING_DATE, dtf.safePrint(flightParams.returnDate))
-        parameters.safePutString(FB_ORIGIN_AIRPORT, flightParams.departureAirport?.hierarchyInfo?.airport?.airportCode ?:"")
-        parameters.safePutString(FB_DESTINATION_AIRPORT, flightParams.arrivalAirport?.hierarchyInfo?.airport?.airportCode ?:"")
+        parameters.safePutString(FB_ORIGIN_AIRPORT, flightParams.departureAirport?.hierarchyInfo?.airport?.airportCode ?: "")
+        parameters.safePutString(FB_DESTINATION_AIRPORT, flightParams.arrivalAirport?.hierarchyInfo?.airport?.airportCode ?: "")
         parameters.safePutInt(FB_NUM_ADULTS, flightParams.adults)
         parameters.safePutInt(FB_NUM_CHILDREN, flightParams.children.size)
     }
 
-    private fun addCommonFlightDATParams(parameters: Bundle, flightParams: com.expedia.bookings.data.flights.FlightSearchParams){
+    private fun addCommonFlightDATParams(parameters: Bundle, flightParams: com.expedia.bookings.data.flights.FlightSearchParams) {
         val dtf = ISODateTimeFormat.date()
 
         parameters.safePutString("fb_content_type", "[\"product\",\"flight\"]")
         parameters.safePutString("LOB", "Flight")
         parameters.safePutString(FB_DEPARTING_DATE, dtf.safePrint(flightParams.departureDate))
         parameters.safePutString(FB_RETURNING_DATE, dtf.safePrint(flightParams.returnDate))
-        parameters.safePutString(FB_ORIGIN_AIRPORT, flightParams.departureAirport.hierarchyInfo?.airport?.airportCode ?:"")
-        parameters.safePutString(FB_DESTINATION_AIRPORT, flightParams.arrivalAirport.hierarchyInfo?.airport?.airportCode ?:"")
+        parameters.safePutString(FB_ORIGIN_AIRPORT, flightParams.departureAirport.hierarchyInfo?.airport?.airportCode ?: "")
+        parameters.safePutString(FB_DESTINATION_AIRPORT, flightParams.arrivalAirport.hierarchyInfo?.airport?.airportCode ?: "")
         parameters.safePutInt(FB_NUM_ADULTS, flightParams.adults)
         parameters.safePutInt(FB_NUM_CHILDREN, flightParams.children.size)
     }
@@ -456,10 +453,9 @@ class FacebookEvents {
 
         parameters.safePutString("Reward_Status", getLoyaltyTier(user))
         parameters.safePutString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
-
     }
 
-    private fun getListOfTopHotelIds(hotels: List<Hotel>, top: Int = 5) : String {
+    private fun getListOfTopHotelIds(hotels: List<Hotel>, top: Int = 5): String {
         var idList = "["
         val topHotels = hotels.take(top)
 
@@ -474,7 +470,7 @@ class FacebookEvents {
         idList += "]"
 
         if (idList.count() > 100) {
-            return getListOfTopHotelIds(hotels, top-1)
+            return getListOfTopHotelIds(hotels, top - 1)
         }
 
         return idList
@@ -490,7 +486,6 @@ class FacebookEvents {
         location.stateCode = hotelStateProvince
         location.countryCode = hotelCountry
         return location
-
     }
 
     private val priceComparator = Comparator<FlightLeg> { flightLeg1, flightLeg2 ->
@@ -500,8 +495,7 @@ class FacebookEvents {
     private fun Bundle.safePutString(key: String, value: String?) {
         if (value != null) {
             this.putString(key, value)
-        }
-        else {
+        } else {
             this.putString(key, "")
         }
     }
@@ -509,17 +503,15 @@ class FacebookEvents {
     private fun Bundle.safePutInt(key: String, value: Int?) {
         if (value != null) {
             this.putInt(key, value)
-        }
-        else {
+        } else {
             this.putInt(key, 0)
         }
     }
 
-    private fun DateTimeFormatter.safePrint(inDate: LocalDate?) : String {
+    private fun DateTimeFormatter.safePrint(inDate: LocalDate?): String {
         if (inDate != null) {
             return this.print(inDate)
-        }
-        else {
+        } else {
             return ""
         }
     }

@@ -17,7 +17,7 @@ class HotelPresenterViewModel(createTripViewModel: HotelCreateTripViewModel, che
                 } else {
                     createTripViewModel.errorObservable
                 }
-        
+
         selectedRoomSoldOut
                 .filter { it.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE }
                 .map { Unit }

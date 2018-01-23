@@ -128,5 +128,4 @@ open class MessageProgressView(context: Context, attrs: AttributeSet?) : View(co
 
         isDimensionSet = true
     }
-
 }

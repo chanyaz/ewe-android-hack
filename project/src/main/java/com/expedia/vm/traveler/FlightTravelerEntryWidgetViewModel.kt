@@ -54,7 +54,6 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
         }
     }
 
-
     override fun validate(): Boolean {
         val genderValid = tsaViewModel.genderViewModel.validate()
         val birthDateValid = tsaViewModel.dateOfBirthViewModel.validate()

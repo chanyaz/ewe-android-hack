@@ -6,8 +6,7 @@ import android.view.View
 import android.view.WindowManager
 import com.expedia.account.util.PresenterUtils
 
-
-class SlideUpTransition(val targetView: View): Presenter.Transition() {
+class SlideUpTransition(val targetView: View) : Presenter.Transition() {
 
     private var initialTosTranslationY: Float = 0.toFloat()
 

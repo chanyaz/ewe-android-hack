@@ -42,11 +42,10 @@ class ItinSignInWidget(context: Context, attr: AttributeSet?) : RelativeLayout(c
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-
         signInText.text = viewModel.getSignInText()
         signInContainer.subscribeOnClick(viewModel.signInClickSubject)
         addGuestItinTextButton.subscribeOnClick(viewModel.addGuestItinClickSubject)
-        addGuestItinTextButton.setCompoundDrawablesTint(ContextCompat.getColor(getContext(), R.color.itin_add_guest_text_button_color));
+        addGuestItinTextButton.setCompoundDrawablesTint(ContextCompat.getColor(getContext(), R.color.itin_add_guest_text_button_color))
 
         viewModel.statusTextColorSubject.subscribeTextColor(statusText)
         viewModel.statusImageVisibilitySubject.subscribeVisibility(statusImage)

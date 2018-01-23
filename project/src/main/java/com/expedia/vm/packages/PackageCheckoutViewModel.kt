@@ -25,7 +25,6 @@ import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
-import io.reactivex.subjects.BehaviorSubject
 
 class PackageCheckoutViewModel(context: Context, var packageServices: PackageServices) : AbstractCardFeeEnabledCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
@@ -49,14 +48,12 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                 val messageResId =
                         if (PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
                             R.string.package_resort_fees_and_total_price_disclaimer_TEMPLATE
-                        else
-                            R.string.package_resort_fees_disclaimer_TEMPLATE
+                        else R.string.package_resort_fees_disclaimer_TEMPLATE
 
                 depositText = Phrase.from(context, messageResId)
                         .put("resort_fee", it.packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoneyFromAmountAndCurrencyCode)
                         .putOptional("trip_total", it.bundleTotal.formattedPrice)
                         .format().toString()
-
             }
             depositPolicyText.onNext(HtmlCompat.fromHtml(depositText))
         }
@@ -92,7 +89,6 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                                     field == "mainMobileTraveler.firstName" ||
                                     field == "phone") {
                                 apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS)
-
                             } else {
                                 apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS)
                             }

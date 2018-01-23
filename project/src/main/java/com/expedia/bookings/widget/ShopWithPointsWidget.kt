@@ -33,7 +33,6 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
         try {
             if (ta.getBoolean(R.styleable.ShopWithPointsWidget_show_in_card_layout, false))
                 layoutId = R.layout.widget_shop_with_points_with_card_view
-
         } finally {
             ta.recycle()
         }

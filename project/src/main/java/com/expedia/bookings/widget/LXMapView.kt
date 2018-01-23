@@ -8,28 +8,16 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
-import android.widget.LinearLayout
-import butterknife.ButterKnife
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LXState
-import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.cars.LatLong
-import com.expedia.bookings.extension.shouldShowCircleForRatings
-import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
-import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.LXMapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -39,7 +27,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class LXMapView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {

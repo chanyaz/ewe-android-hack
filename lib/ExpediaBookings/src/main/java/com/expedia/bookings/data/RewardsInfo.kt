@@ -21,11 +21,11 @@ class RewardsInfo {
         return updatedPointsAndCurrencyToEarn?.amountToEarn ?: totalAmountToEarn
     }
 
-    fun hasAmountToEarn() : Boolean {
+    fun hasAmountToEarn(): Boolean {
         return totalAmountToEarn != null && !totalAmountToEarn!!.isZero
     }
 
-    fun hasPointsToEarn() : Boolean {
+    fun hasPointsToEarn(): Boolean {
         return totalPointsToEarn != 0f
     }
 }

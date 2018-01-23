@@ -20,7 +20,7 @@ import com.expedia.util.safeSubscribeOptional
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
     val ANIMATION_DURATION = 400
-    protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById<BaseCheckoutPresenter>(R.id.checkout_presenter) }
+    protected val checkoutPresenter: BaseCheckoutPresenter by lazy { findViewById<BaseCheckoutPresenter>(R.id.checkout_presenter) }
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
 
     var scrollSpaceView: View? = null
@@ -118,10 +118,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             val distance = height - translationDistance - Ui.getStatusBarHeight(context)
             checkoutPresenter.mainContent.translationY = if (forward) translationDistance + ((1 - f) * distance) else translationDistance + (f * distance)
         }
-
     }
 
-    open protected fun resetCheckoutState() {
+    protected open fun resetCheckoutState() {
         slideToPurchase.resetSlider()
     }
 
@@ -162,8 +161,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     abstract fun trackPaymentCIDLoad()
     abstract fun inflate()
 
-
-    inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {
+    inner class OverviewLayoutListener : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout () {
             updateScrollingSpace(scrollSpaceView)
         }

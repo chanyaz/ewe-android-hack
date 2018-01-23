@@ -26,7 +26,7 @@ class BundlePriceViewModelTestJP {
     }
 
     @Test
-    fun testBundleSaveLabel(){
+    fun testBundleSaveLabel() {
         val testSubscriber = TestObserver<String>()
         val testViewModelUniversalCKO = PackageTotalPriceViewModel(context)
         testViewModelUniversalCKO.savingsPriceObservable.subscribe(testSubscriber)
@@ -42,7 +42,7 @@ class BundlePriceViewModelTestJP {
     }
 
     @Test
-     fun testBundleSaveLabelNonInteger(){
+     fun testBundleSaveLabelNonInteger() {
         val testSubscriber = TestObserver<String>()
         val testViewModelUniversalCKO = PackageTotalPriceViewModel(context)
         testViewModelUniversalCKO.savingsPriceObservable.subscribe(testSubscriber)
@@ -55,7 +55,6 @@ class BundlePriceViewModelTestJP {
         testViewModelUniversalCKO.savings.onNext(someMoney)
         assertEquals(expectedSavingLabel, testSubscriber.values()[1])
     }
-
 
     @Test
     fun testBundleTotalInteger() {
@@ -80,5 +79,4 @@ class BundlePriceViewModelTestJP {
         testViewModelUniversalCKO.total.onNext(someMoney)
         assertEquals("JPY1,120.86", testSubscriber.values()[0])
     }
-
 }

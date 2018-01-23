@@ -3,8 +3,6 @@ package com.expedia.bookings.test
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
-import com.expedia.bookings.data.ValidPayment
-import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import org.junit.After
 import org.junit.Assert

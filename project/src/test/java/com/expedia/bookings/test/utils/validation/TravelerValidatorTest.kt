@@ -254,7 +254,6 @@ class TravelerValidatorTest {
         assertTrue(travelerValidator.hasValidBirthDate(mockTraveler))
     }
 
-
     @Test
     fun testValidBirthDateForChildLowRangeMinimumAge() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
@@ -346,7 +345,7 @@ class TravelerValidatorTest {
 
         val mockTraveler = givenTravelerOnlyMissingPassport()
         Mockito.`when`(mockTraveler.primaryPassportCountry).thenReturn("Mexico")
-        
+
         assertTrue(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, true))
     }
 
@@ -395,7 +394,6 @@ class TravelerValidatorTest {
 
         assertFalse(travelerValidator.isTravelerEmpty(mockTraveler))
     }
-
 
     @Test
     fun testIsEmptyWithBirthDate() {
@@ -446,7 +444,7 @@ class TravelerValidatorTest {
         travelerValidator.updateForNewSearch(packageSearchParams)
 
         val adultBirthDate = TOMORROW.minusYears(24)
-        val guestTraveler = getMockTravelerWithBirthDateAndCategory(adultBirthDate,  PassengerCategory.ADULT)
+        val guestTraveler = getMockTravelerWithBirthDateAndCategory(adultBirthDate, PassengerCategory.ADULT)
         Mockito.`when`(guestTraveler.name).thenReturn(getValidName())
 
         val user = UserLoginTestUtil.mockUser()
@@ -468,7 +466,7 @@ class TravelerValidatorTest {
         return validName
     }
 
-    private fun getMockTravelerWithBirthDateAndCategory(birthDate : LocalDate?, category: PassengerCategory) : Traveler {
+    private fun getMockTravelerWithBirthDateAndCategory(birthDate: LocalDate?, category: PassengerCategory): Traveler {
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.birthDate).thenReturn(birthDate)
         Mockito.`when`(mockTraveler.passengerCategory).thenReturn(category)
@@ -477,7 +475,7 @@ class TravelerValidatorTest {
         return mockTraveler
     }
 
-    private fun getInstanceOfPackageSearchParams(checkIn: LocalDate, checkOut: LocalDate) : PackageSearchParams {
+    private fun getInstanceOfPackageSearchParams(checkIn: LocalDate, checkOut: LocalDate): PackageSearchParams {
         // Can't mock PackageSearchParams because it's a 'data' class. So we have to build one.... #KotlinOP
         val packageParams = PackageSearchParams.Builder(26, 329)
                 .startDate(checkIn)
@@ -488,7 +486,7 @@ class TravelerValidatorTest {
         return packageParams
     }
 
-    private fun givenTravelerOnlyMissingPassport() : Traveler {
+    private fun givenTravelerOnlyMissingPassport(): Traveler {
         val adultBirthDate = TOMORROW.minusYears(24)
         val mockTraveler = getMockTravelerWithBirthDateAndCategory(adultBirthDate, PassengerCategory.ADULT)
 

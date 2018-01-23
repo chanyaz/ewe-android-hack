@@ -66,7 +66,6 @@ import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
 import com.squareup.phrase.Phrase
-import org.joda.time.DateTime
 import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
@@ -265,8 +264,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 filterView.viewModel.doneObservable.onNext(Unit)
                 return true
             }
-        }
-        else if (ResultsMap().javaClass.name == currentState) {
+        } else if (ResultsMap().javaClass.name == currentState) {
             trackMapToList()
         }
 
@@ -356,7 +354,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 activity.onBackPressed()
             }
         }
-
 
         val fabDrawable: TransitionDrawable? = (fab.drawable as? TransitionDrawable)
         // Enabling crossfade prevents the icon ending up with a weird mishmash of both icons.
@@ -873,7 +870,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     val touchListener = object : RecyclerView.OnItemTouchListener {
         override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-
         }
 
         override fun onInterceptTouchEvent(rv: RecyclerView?, e: MotionEvent?): Boolean {
@@ -884,7 +880,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         override fun onTouchEvent(rv: RecyclerView?, e: MotionEvent?) {
-
         }
     }
 
@@ -995,7 +990,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    private fun getRequiredMapPadding() : Int {
+    private fun getRequiredMapPadding(): Int {
         val firstVisibleView = recyclerView.getChildAt(1)
         if (firstVisibleView != null) {
             val topOffset = firstVisibleView.top

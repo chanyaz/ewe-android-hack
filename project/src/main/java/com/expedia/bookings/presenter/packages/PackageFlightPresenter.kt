@@ -299,7 +299,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             show(bundleSlidingWidget)
         }
 
-        slidingBundleWidgetListener =  SlidingBundleWidgetListener(bundleSlidingWidget, this)
+        slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this)
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
 
         if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
@@ -356,5 +356,4 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         bundleSlidingWidget.bundlePriceWidget.isClickable = !isDisabled
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(if (isDisabled) null else slidingBundleWidgetListener.onTouchListener)
     }
-
 }

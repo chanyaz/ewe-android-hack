@@ -47,6 +47,5 @@ class RailTicketDeliveryEntryViewModelTest {
         assertEquals(0, testSubscriberTicketDeliveryByPostOptions.values()[1].size)
         testSubscriberDeliveryByMailSupported.assertValueCount(2)
         assertFalse(testSubscriberDeliveryByMailSupported.values()[1])
-
     }
 }

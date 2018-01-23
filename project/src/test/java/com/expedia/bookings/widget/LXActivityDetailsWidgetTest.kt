@@ -37,7 +37,6 @@ class LXActivityDetailsWidgetTest {
         Ui.getApplication(activity).defaultLXComponents()
         activity.setTheme(R.style.V2_Theme_LX)
         details = LayoutInflater.from(activity).inflate(R.layout.widget_activity_details, null) as LXActivityDetailsWidget
-
     }
 
     @Test
@@ -167,15 +166,13 @@ class LXActivityDetailsWidgetTest {
         val offerOne = container.getChildAt(0)
         val offerTwo = container.getChildAt(1)
 
-
-        val offerOneSelectTicket= offerOne.findViewById<View>(R.id.select_tickets) as Button
+        val offerOneSelectTicket = offerOne.findViewById<View>(R.id.select_tickets) as Button
         val offerOneRow = offerOne.findViewById<View>(R.id.offer_row) as LinearLayout
-        val offerOneTicketsPicker= offerOne.findViewById<View>(R.id.offer_tickets_picker) as LinearLayout
+        val offerOneTicketsPicker = offerOne.findViewById<View>(R.id.offer_tickets_picker) as LinearLayout
 
         val offerSelectTicketTwo = offerTwo.findViewById<View>(R.id.select_tickets) as Button
         val offerRowTwo = offerTwo.findViewById<View>(R.id.offer_row) as LinearLayout
-        val offerTwoTicketsPicker= offerTwo.findViewById<View>(R.id.offer_tickets_picker) as LinearLayout
-
+        val offerTwoTicketsPicker = offerTwo.findViewById<View>(R.id.offer_tickets_picker) as LinearLayout
 
         assertEquals(offerOneRow.visibility, View.VISIBLE)
         assertEquals(offerRowTwo.visibility, View.VISIBLE)
@@ -202,7 +199,6 @@ class LXActivityDetailsWidgetTest {
 
         val gson = GsonBuilder().create()
         val activityDetailsResponse = gson.fromJson(InputStreamReader(details.context.assets.open("MockData/lx_details_response.json")), ActivityDetailsResponse::class.java)
-
 
         for (offer in activityDetailsResponse.offersDetail.offers) {
             for (availabilityInfo in offer.availabilityInfo) {

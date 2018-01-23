@@ -24,7 +24,7 @@ class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : Relative
     private val neighborhoodName: TextView by bindView(R.id.neighborhood_name)
     private val neighborhoodCheckBox: CheckBox by bindView(R.id.neighborhood_check_box)
 
-    private val checkObserver : Observer<Unit> = endlessObserver {
+    private val checkObserver: Observer<Unit> = endlessObserver {
         neighborhoodCheckBox.isChecked = !neighborhoodCheckBox.isChecked
         neighborhoodSelectedSubject.onNext(neighborhood)
         if (neighborhoodCheckBox.isChecked) {
@@ -55,11 +55,9 @@ class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : Relative
         contentDesc.append(". ")
         if (neighborhoodCheckBox.isChecked) {
             contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_checked))
-        }
-        else {
+        } else {
             contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_unchecked))
         }
         this.contentDescription = contentDesc
     }
 }
-

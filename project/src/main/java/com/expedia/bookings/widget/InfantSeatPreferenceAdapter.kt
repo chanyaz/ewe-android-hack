@@ -51,4 +51,3 @@ class InfantSeatPreferenceAdapter(val context: Context, val list: List<String>) 
         return position.toLong()
     }
 }
-

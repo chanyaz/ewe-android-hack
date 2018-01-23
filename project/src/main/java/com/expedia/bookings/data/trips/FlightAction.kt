@@ -4,7 +4,6 @@ import com.mobiata.android.json.JSONable
 import org.json.JSONException
 import org.json.JSONObject
 
-
 class FlightAction : JSONable {
     var isChangeable = false
     var isCancellable = false
@@ -19,7 +18,6 @@ class FlightAction : JSONable {
         } catch (e: JSONException) {
             throw RuntimeException(e)
         }
-
     }
 
     override fun fromJson(obj: JSONObject): Boolean {

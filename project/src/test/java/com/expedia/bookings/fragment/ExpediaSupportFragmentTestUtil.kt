@@ -40,5 +40,4 @@ class ExpediaSupportFragmentTestUtil {
             setContentView(view)
         }
     }
-
 }

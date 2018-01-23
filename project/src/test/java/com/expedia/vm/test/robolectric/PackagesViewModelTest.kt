@@ -22,7 +22,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class PackagesViewModelTest {
 
-    lateinit private var sut: PackageFlightViewModel
+    private lateinit var sut: PackageFlightViewModel
     lateinit var flightLeg: FlightLeg
 
     fun createSystemUnderTest() {

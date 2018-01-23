@@ -25,9 +25,9 @@ import kotlin.test.assertEquals
 
 class RewardsUtilTest {
     val context: Context = RuntimeEnvironment.application
-    var util= RewardsUtil
+    var util = RewardsUtil
     private var activity: Activity by Delegates.notNull()
-    lateinit private var mockedConfig: IProductFlavorFeatureConfiguration
+    private lateinit var mockedConfig: IProductFlavorFeatureConfiguration
 
     @Before
     fun before() {
@@ -42,21 +42,21 @@ class RewardsUtilTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testBuildRewardText(){
+    fun testBuildRewardText() {
         val userPoints = "100.55"
         val rewardText = util.buildRewardText(context, userPoints, givenFeatureConfig(false))
         assertEquals(rewardText, "$userPoints Expedia+ Points")
     }
 
     @Test
-    fun emptyBuildRewardText(){
+    fun emptyBuildRewardText() {
         val userPoints = ""
         val rewardText = util.buildRewardText(context, userPoints, givenFeatureConfig(false))
         assertEquals(rewardText, "")
     }
 
     @Test
-    fun zeroBuildRewardText(){
+    fun zeroBuildRewardText() {
         val userPoints = "0"
         val rewardText = util.buildRewardText(context, userPoints, givenFeatureConfig(false))
         assertEquals(rewardText, "")

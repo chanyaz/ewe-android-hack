@@ -24,7 +24,7 @@ class FlightItinTerminalMapBottomSheetTest {
     lateinit var arrivalAirportText: TextView
 
     @Test
-    fun testCodesAvailable(){
+    fun testCodesAvailable() {
         sut = FlightItinTerminalMapBottomSheet.newInstance("SFO", "SEA")
         SupportFragmentTestUtil.startFragment(sut)
         departureAirportText = sut.dialog.findViewById<TextView>(R.id.terminal_map_departure_airport)
@@ -37,7 +37,7 @@ class FlightItinTerminalMapBottomSheetTest {
     }
 
     @Test
-    fun testCodeNull(){
+    fun testCodeNull() {
         sut = FlightItinTerminalMapBottomSheet.newInstance("SFO", null)
         SupportFragmentTestUtil.startFragment(sut)
         assertNotNull(sut)
@@ -50,7 +50,7 @@ class FlightItinTerminalMapBottomSheetTest {
     }
 
     @Test
-    fun testCodeEmpty(){
+    fun testCodeEmpty() {
         sut = FlightItinTerminalMapBottomSheet.newInstance("SFO", "")
         SupportFragmentTestUtil.startFragment(sut)
         departureAirportText = sut.dialog.findViewById<TextView>(R.id.terminal_map_departure_airport)
@@ -62,7 +62,7 @@ class FlightItinTerminalMapBottomSheetTest {
     }
 
     @Test
-    fun testCodeNoMap(){
+    fun testCodeNoMap() {
         sut = FlightItinTerminalMapBottomSheet.newInstance("SFO", "PBI")
         SupportFragmentTestUtil.startFragment(sut)
         departureAirportText = sut.dialog.findViewById<TextView>(R.id.terminal_map_departure_airport)

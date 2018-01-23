@@ -46,14 +46,14 @@ class FlightItinModifyReservationDialog : DialogFragment() {
         contentText.text = arguments.getString(CONTENT_KEY)
         val supportNumber = arguments.getString(SUPPORT_NUMBER)
 
-        customerSupportButton.visibility = if(Strings.isEmpty(supportNumber)) View.GONE else View.VISIBLE
+        customerSupportButton.visibility = if (Strings.isEmpty(supportNumber)) View.GONE else View.VISIBLE
         AccessibilityUtil.appendRoleContDesc(customerSupportButton, customerSupportButton.text.toString(), R.string.accessibility_cont_desc_role_button)
         AccessibilityUtil.appendRoleContDesc(goBackButton, goBackButton.text.toString(), R.string.accessibility_cont_desc_role_button)
-        setListenerForCustomerSupportView(customerSupportButton,supportNumber)
+        setListenerForCustomerSupportView(customerSupportButton, supportNumber)
         setListenerForGoBackButton(goBackButton)
     }
 
-    private fun getViewForDialog(): View{
+    private fun getViewForDialog(): View {
         val layoutInflater = activity.layoutInflater
         return layoutInflater.inflate(R.layout.fragment_dialog_flight_modify_reservation, null)
     }
@@ -71,7 +71,7 @@ class FlightItinModifyReservationDialog : DialogFragment() {
         OmnitureTracking.trackItinFlightCallSupport()
     }
 
-    private fun setListenerForCustomerSupportView(view: TextView, number : String) {
+    private fun setListenerForCustomerSupportView(view: TextView, number: String) {
         view.setOnClickListener {
             onCustomerSupportCallButtonClick(number)
         }

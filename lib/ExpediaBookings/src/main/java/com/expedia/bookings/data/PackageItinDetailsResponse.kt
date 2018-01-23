@@ -1,6 +1,6 @@
 package com.expedia.bookings.data
 
-class PackageItinDetailsResponse: AbstractItinDetailsResponse() {
+class PackageItinDetailsResponse : AbstractItinDetailsResponse() {
 
     lateinit var responseData: PackageResponseData
 

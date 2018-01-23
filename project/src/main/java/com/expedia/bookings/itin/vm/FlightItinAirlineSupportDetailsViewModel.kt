@@ -16,5 +16,4 @@ class FlightItinAirlineSupportDetailsViewModel {
     )
 
     val airlineSupportDetailsWidgetSubject: PublishSubject<FlightItinAirlineSupportDetailsWidgetParams> = PublishSubject.create<FlightItinAirlineSupportDetailsWidgetParams>()
-
 }

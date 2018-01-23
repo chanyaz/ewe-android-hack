@@ -23,7 +23,7 @@ class LXMapViewModelTest {
 
     private val mockActivityServiceTestRule = MockActivityObjects()
 
-    lateinit private var activityOffersResponse: ActivityDetailsResponse
+    private lateinit var activityOffersResponse: ActivityDetailsResponse
     private var lxMapViewModel: LXMapViewModel by notNullAndObservable {
         it.toolbarDetailText.subscribe(activityNameTestSubscriber)
         it.activityPrice.subscribe(activityPriceTestSubscriber)
@@ -56,7 +56,7 @@ class LXMapViewModelTest {
                 .location("New York")
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(14))
-                .build() as LxSearchParams;
+                .build() as LxSearchParams
 
         lxMapViewModel.offersObserver.onNext(activityOffersResponse)
 
@@ -70,7 +70,6 @@ class LXMapViewModelTest {
                 , ActivityDetailsResponse.LXLocation.getLocation(activityOffersResponse.eventLocation.latLng))
         redemptionLocationsLatLngTestSubscriber.assertValue(emptyList())
         assertEquals("From $130", activityPriceTestSubscriber.values()[0].toString())
-
     }
 
     @Test fun testFromPriceStyledString() {

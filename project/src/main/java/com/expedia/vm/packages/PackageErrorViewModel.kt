@@ -17,7 +17,7 @@ import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
+class PackageErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
 
     var error: ApiError by Delegates.notNull()
 
@@ -71,8 +71,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
             error = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
             if (it.errorCode != PackageApiError.Code.pkg_error_code_not_mapped) {
                 PackagesTracking().trackSearchError(it.errorCode.toString())
-            }
-            else {
+            } else {
                 PackagesTracking().trackSearchError("Error Code is null")
             }
             when (it.errorCode) {

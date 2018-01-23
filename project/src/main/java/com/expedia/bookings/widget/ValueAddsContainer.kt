@@ -8,7 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import io.reactivex.subjects.PublishSubject
 
-class ValueAddsContainer(context: Context, val attrs: AttributeSet?): LinearLayout(context, attrs) {
+class ValueAddsContainer(context: Context, val attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val valueAddsSubject = PublishSubject.create<List<HotelOffersResponse.ValueAdds>>()
 

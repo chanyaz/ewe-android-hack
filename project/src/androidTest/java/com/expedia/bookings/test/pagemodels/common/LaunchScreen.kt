@@ -84,6 +84,4 @@ object LaunchScreen {
             return "Bundle Deals"
         }
     }
-
-
 }

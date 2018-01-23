@@ -178,7 +178,6 @@ class HotelFilterViewModelTest {
         assertEquals(1, vm.userFilterChoices.filterCount())
     }
 
-
     @Test
     fun testNoNeighborhoods() {
         assertFalse(vm.neighborhoodsExist)

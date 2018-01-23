@@ -56,7 +56,7 @@ class RailConfirmationViewModel(val context: Context) {
             }
         }
 
-        confirmationObservable.subscribe { pair -> RailTracking().trackRailConfirmation(pair.first)}
+        confirmationObservable.subscribe { pair -> RailTracking().trackRailConfirmation(pair.first) }
     }
 
     private fun getCardSubtitle(legOption: RailLegOption?, numOfTravelers: Int): String {
@@ -76,5 +76,4 @@ class RailConfirmationViewModel(val context: Context) {
                 .put("arrivalstation", legOption?.arrivalStation?.stationDisplayName)
                 .format().toString()
     }
-
 }

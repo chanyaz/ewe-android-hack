@@ -32,7 +32,7 @@ import kotlin.test.assertTrue
 class FareFamilyViewModelTest {
     private enum class FlightType { DOMESTIC, INTERNATIONAL }
 
-    lateinit private var sut: FareFamilyViewModel
+    private lateinit var sut: FareFamilyViewModel
     lateinit var activity: Activity
 
     @Before
@@ -67,7 +67,7 @@ class FareFamilyViewModelTest {
         assertEquals("Selected: Economy", selectedClassSubscriber.values()[0])
         assertEquals("Upgrade your flights", fareFamilyTitleSubscriber.values()[0])
         assertEquals("4 travelers", travellerTextSubscriber.values()[0])
-        assertEquals("Upgrade your flights from $2 for 4 travelers, Current selection is Economy",contentDescriptionTestSubscriber.values()[0])
+        assertEquals("Upgrade your flights from $2 for 4 travelers, Current selection is Economy", contentDescriptionTestSubscriber.values()[0])
         assertEquals(ContextCompat.getColor(activity, R.color.default_text_color), selectedColorTestSubscriber.values()[0])
         assertTrue(fromLabelVisibilitySubscriber.values()[0])
     }
@@ -90,10 +90,10 @@ class FareFamilyViewModelTest {
         sut.selectedFareFamilyObservable.onNext(getFareFamilyDetail(1)[0])
 
         sut.tripObservable.onNext(tripResponseWithFareFamilySelected(2))
-        assertEquals("",deltaPriceSubscriber.values()[0])
+        assertEquals("", deltaPriceSubscriber.values()[0])
         assertEquals("Change fare class", selectedClassSubscriber.values()[0])
         assertEquals("You've selected Economy", fareFamilyTitleSubscriber.values()[0])
-        assertEquals("You have selected Economy, Double tap to change fare class",contentDescriptionTestSubscriber.values()[0])
+        assertEquals("You have selected Economy, Double tap to change fare class", contentDescriptionTestSubscriber.values()[0])
         assertEquals(ContextCompat.getColor(activity, R.color.app_primary), selectedColorTestSubscriber.values()[0])
         assertFalse(fromLabelVisibilitySubscriber.values()[0])
     }

@@ -14,5 +14,4 @@ abstract class ItinWebviewInfoButtonViewModel() {
     val createWebviewButtonWidgetSubject: PublishSubject<ItinWebviewInfoButtonWidgetParams> = PublishSubject.create<ItinWebviewInfoButtonWidgetParams>()
 
     abstract fun updateWidgetWithBaggageInfoUrl(webviewLink: String)
-
 }

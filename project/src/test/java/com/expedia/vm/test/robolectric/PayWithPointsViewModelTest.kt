@@ -128,7 +128,7 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun userEntersZeroAmount() {
-        createTripWithShopWithPointsOpted(true);
+        createTripWithShopWithPointsOpted(true)
         optForPwp(true)
         payWithPointsViewModel.userEnteredBurnAmount.onNext("0")
 
@@ -164,7 +164,7 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun userTogglePwpSwitch() {
-        createTripWithShopWithPointsOpted(true);
+        createTripWithShopWithPointsOpted(true)
         //Toggle switch off
         optForPwp(false)
 
@@ -223,7 +223,6 @@ class PayWithPointsViewModelTest {
         assertFalse(payWithPointsViewModel.pwpOpted.value)
     }
 
-
     @Test
     fun clearButtonClicked() {
         createTripWithShopWithPointsOpted(true)
@@ -238,7 +237,7 @@ class PayWithPointsViewModelTest {
     fun userEntersPointAndAPIErrorThrown() {
         createTripWithShopWithPointsOpted(true)
         optForPwp(true)
-        createTripResponse.tripId = "garbage";
+        createTripResponse.tripId = "garbage"
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
@@ -251,7 +250,7 @@ class PayWithPointsViewModelTest {
     fun pointsNotRedeemable() {
         createTripWithShopWithPointsOpted(true)
         optForPwp(true)
-        createTripResponse.tripId = "garbage";
+        createTripResponse.tripId = "garbage"
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
@@ -264,7 +263,7 @@ class PayWithPointsViewModelTest {
     fun pwpCurrencyToPoints_TripServiceError() {
         createTripWithShopWithPointsOpted(true)
         optForPwp(true)
-        createTripResponse.tripId = "trip_service_error";
+        createTripResponse.tripId = "trip_service_error"
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
@@ -277,7 +276,7 @@ class PayWithPointsViewModelTest {
     fun pwpCurrencyToPoints_PointsConversionUnauthenticated() {
         createTripWithShopWithPointsOpted(true)
         optForPwp(true)
-        createTripResponse.tripId = "points_conversion_unauthenticated";
+        createTripResponse.tripId = "points_conversion_unauthenticated"
 
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
@@ -313,7 +312,7 @@ class PayWithPointsViewModelTest {
         assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
 
         //User entered 30 but gets API Error
-        createTripResponse.tripId = "trip_service_error";
+        createTripResponse.tripId = "trip_service_error"
         val latch2 = CountDownLatch(2)
         payWithPointsViewModelTestSubject.subscribe { latch2.countDown() }
         payWithPointsViewModel.userEnteredBurnAmount.onNext("30")
@@ -324,7 +323,7 @@ class PayWithPointsViewModelTest {
         assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
 
         //User entered value exceeds available balance
-        createTripResponse.tripId = "happy";
+        createTripResponse.tripId = "happy"
 
         payWithPointsViewModel.userEnteredBurnAmount.onNext("110")
 
@@ -350,7 +349,6 @@ class PayWithPointsViewModelTest {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("0")
         expectedMessagesList.add(Pair("0 points applied", true))
         assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
-
     }
 
     private fun <T> assertExpectedValuesOfSubscriber(testSubscriber: TestObserver<T>, expectedValues: List<T>) {
@@ -365,12 +363,12 @@ class PayWithPointsViewModelTest {
         } else {
             createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
         }
-        createTripResponse.tripId = "happy";
+        createTripResponse.tripId = "happy"
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         paymentModel.createTripSubject.onNext(createTripResponse)
     }
 
-    private fun optForPwp(pwpToggledOn : Boolean) {
+    private fun optForPwp(pwpToggledOn: Boolean) {
         payWithPointsViewModel.updatePwPToggle.onNext(pwpToggledOn)
     }
 }

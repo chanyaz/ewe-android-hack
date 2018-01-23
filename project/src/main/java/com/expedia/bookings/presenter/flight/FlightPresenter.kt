@@ -667,7 +667,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-
     private val flightWebViewToError = object : Presenter.Transition(WebCheckoutView::class.java, FlightErrorPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
@@ -915,4 +914,3 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
     }
 }
-

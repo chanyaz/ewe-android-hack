@@ -25,10 +25,10 @@ import kotlin.test.assertNotEquals
 @RunWith(RobolectricRunner::class)
 class FlightItinTravelerViewModelTest {
 
-    lateinit private var activity: Activity
+    private lateinit var activity: Activity
     lateinit var sut: FlightItinTravelerViewModel
     lateinit var sutSpy: FlightItinTravelerViewModel
-    lateinit private var context: Context
+    private lateinit var context: Context
     lateinit var testItinCardData: ItinCardDataFlight
 
     val updateToolbarSubscriber = TestObserver<ItinToolbarViewModel.ToolbarParams>()
@@ -50,13 +50,13 @@ class FlightItinTravelerViewModelTest {
         sut.updateToolbarSubject.subscribe(updateToolbarSubscriber)
         updateToolbarSubscriber.assertNoValues()
         val segments = testItinCardData.flightLeg.segments
-        testItinCardData.flightLeg.segments[segments.size-1].destinationWaypoint = TestWayPoint("Las Vegas")
+        testItinCardData.flightLeg.segments[segments.size - 1].destinationWaypoint = TestWayPoint("Las Vegas")
         sut.itinCardDataFlight = testItinCardData
         sut.updateToolbar()
         updateToolbarSubscriber.assertValue(ItinToolbarViewModel.ToolbarParams(
                 context.getString(R.string.itin_flight_traveler_info),
-                Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE).
-                        put("destination", "Las Vegas").format().toString(),
+                Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)
+                        .put("destination", "Las Vegas").format().toString(),
                 false
         ))
     }
@@ -67,13 +67,13 @@ class FlightItinTravelerViewModelTest {
         sut.updateTravelerListSubject.subscribe(updateTravelerListSubscriber)
         updateTravelerListSubscriber.assertNoValues()
         sut.updateTravelList()
-        val travelers  = (testItinCardData.tripComponent as TripFlight).travelers
+        val travelers = (testItinCardData.tripComponent as TripFlight).travelers
         updateTravelerListSubscriber.assertValue(travelers)
     }
 
     @Test
     fun testUpdateItinCardDataFlight() {
-        val anotherItinCard =  ItinCardDataFlightBuilder().build(multiSegment = true)
+        val anotherItinCard = ItinCardDataFlightBuilder().build(multiSegment = true)
         sut.itinCardDataFlight = anotherItinCard
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
         Mockito.`when`(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
@@ -84,7 +84,7 @@ class FlightItinTravelerViewModelTest {
 
     @Test
     fun testUpdateNullItinCardDataFlight() {
-        val anotherItinCard =  ItinCardDataFlightBuilder().build(multiSegment = true)
+        val anotherItinCard = ItinCardDataFlightBuilder().build(multiSegment = true)
         sut.itinCardDataNotValidSubject.subscribe(itinCardDataNotValidSubscriber)
         itinCardDataNotValidSubscriber.assertNoValues()
         sut.itinCardDataFlight = anotherItinCard

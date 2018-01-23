@@ -246,7 +246,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         shouldTrackFilterPriceSlider = true
     }
 
-    open protected fun handleFiltering() {
+    protected open fun handleFiltering() {
         //nothing by default
     }
 

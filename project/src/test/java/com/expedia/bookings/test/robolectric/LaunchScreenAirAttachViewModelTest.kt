@@ -29,10 +29,10 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class LaunchScreenAirAttachViewModelTest {
 
-    lateinit private var sut: LaunchScreenAirAttachViewModel
-    lateinit private var flightTrip: Trip
-    lateinit private var view: View
-    lateinit private var context: Context
+    private lateinit var sut: LaunchScreenAirAttachViewModel
+    private lateinit var flightTrip: Trip
+    private lateinit var view: View
+    private lateinit var context: Context
 
     val firstLineSubscriber = TestObserver<String>()
     val secondLineSubscriber = TestObserver<String>()
@@ -116,7 +116,7 @@ class LaunchScreenAirAttachViewModelTest {
         val waypoint = Waypoint(2)
         segment.destinationWaypoint = waypoint
         waypoint.mAirportCode = "SFO"
-        val params = HotelSearchParams.fromFlightParams("1234", leg, null, 1, null);
+        val params = HotelSearchParams.fromFlightParams("1234", leg, null, 1, null)
 
         return params
     }

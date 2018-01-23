@@ -196,7 +196,6 @@ class FlightTestUtil {
             response.passengerDetails = listOfTravelers
             response.flightAggregatedResponse = flightAggregatedResponse
 
-
             return response
         }
 

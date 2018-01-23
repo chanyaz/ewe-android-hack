@@ -52,8 +52,7 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
     override fun setupSSLSocketFactoryAndConnectionSpec(client: OkHttpClient.Builder, sslContext: SSLContext) {
         if (isModernHttpsSecurityEnabled()) {
             super.setupSSLSocketFactoryAndConnectionSpec(client, sslContext)
-        }
-        else {
+        } else {
             configureClientToAcceptAnyServer(client)
         }
     }
@@ -61,8 +60,7 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
     override fun makeSslContext(): SSLContext {
         if (isModernHttpsSecurityEnabled()) {
             return super.makeSslContext()
-        }
-        else {
+        } else {
             val easyTrustManager = arrayOf(getInsecureX509TrustManager())
             val socketContext = SSLContext.getInstance("TLS")
             socketContext.init(null, easyTrustManager, java.security.SecureRandom())
@@ -78,7 +76,7 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
     }
 
     private fun getInsecureX509TrustManager(): X509TrustManager {
-        return object: X509TrustManager {
+        return object : X509TrustManager {
 
             override fun getAcceptedIssuers(): Array<out X509Certificate> {
                 return emptyArray()
@@ -122,7 +120,6 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
                                      .allEnabledCipherSuites()
                                      .build()
             client.connectionSpecs(listOf(spec))
-
         } catch (e: Exception) {
             Log.e("", "Something went wrong and I couldn't setup the okhttp client to support any server", e)
         }

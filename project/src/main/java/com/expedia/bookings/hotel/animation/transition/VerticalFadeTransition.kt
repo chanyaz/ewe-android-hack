@@ -1,7 +1,6 @@
 package com.expedia.bookings.hotel.animation.transition
 
 import android.view.View
-import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 
 class VerticalFadeTransition(private val view: View, private val origin: Int, private val target: Int) {
     private val translateTransition: VerticalTranslateTransition
@@ -13,7 +12,6 @@ class VerticalFadeTransition(private val view: View, private val origin: Int, pr
     fun fadeIn(progress: Float) {
         translateTransition.toOrigin(progress)
         view.alpha = progress
-
     }
 
     fun fadeOut(progress: Float) {

@@ -87,8 +87,8 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
         var departureRedEye: String? = null
         if (!summaryWidgetParams.redEyeDays.isNullOrEmpty()) {
             departureRedEye = LocaleBasedDateFormatUtils.dateTimeToEEEMMMd(summaryWidgetParams.departureTime)
-            arrivalRedEye = Phrase.from(context, R.string.itin_flight_summary_arrives_on_TEMPLATE).
-                    put("date", LocaleBasedDateFormatUtils.dateTimeToEEEMMMd(summaryWidgetParams.arrivalTime)).format().toString()
+            arrivalRedEye = Phrase.from(context, R.string.itin_flight_summary_arrives_on_TEMPLATE)
+                    .put("date", LocaleBasedDateFormatUtils.dateTimeToEEEMMMd(summaryWidgetParams.arrivalTime)).format().toString()
         }
         if (operatedBy != null) {
             operatedBy = Phrase.from(context, R.string.itin_flight_summary_operated_by_TEMPLATE).put("operatedby", operatedBy).format().toString()
@@ -115,7 +115,6 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
                 arrivalRedEye,
                 summaryWidgetParams.redEyeDays
         ))
-
 
         val departureTerminalGate = getTerminalGateString(summaryWidgetParams.departureTerminal, summaryWidgetParams.departureGate)
         val arrivalTerminalGate = getTerminalGateString(summaryWidgetParams.arrivalTerminal, summaryWidgetParams.arrivalGate)
@@ -157,10 +156,10 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
                     ))
                 }
                 departureDelay > 0 -> {
-                    val delayText = Phrase.from(context, R.string.itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE).
-                            put("duration", DateTimeUtils.formatDurationDaysHoursMinutes(context, departureDelay)).format().toString()
-                    val delayTextContDesc = Phrase.from(context, R.string.itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE).
-                            put("duration", DateTimeUtils.getDurationContDescDaysHoursMins(context, departureDelay)).format().toString()
+                    val delayText = Phrase.from(context, R.string.itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE)
+                            .put("duration", DateTimeUtils.formatDurationDaysHoursMinutes(context, departureDelay)).format().toString()
+                    val delayTextContDesc = Phrase.from(context, R.string.itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE)
+                            .put("duration", DateTimeUtils.getDurationContDescDaysHoursMins(context, departureDelay)).format().toString()
                     updateFlightStatusSubject.onNext(FlightStatsParams(
                             R.drawable.flight_status_indicator_error_background,
                             delayText,

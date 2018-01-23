@@ -67,7 +67,7 @@ object RailUtils {
             return Phrase.from(context, R.string.date_time_range_TEMPLATE)
                     .put("from_date_time", formattedStart)
                     .put("to_date_time", formattedEnd)
-                    .format().toString();
+                    .format().toString()
         }
     }
 

@@ -20,7 +20,7 @@ class DecimalNumberInputFilter(val decimalDigits: Int) : InputFilter {
         val decimalSeparator = DecimalFormatSymbols(Locale.US).decimalSeparator
         val split = finalInput.split(decimalSeparator)
         if (split.size == 2) {
-            if(split[1].length > decimalDigits) return ""
+            if (split[1].length > decimalDigits) return ""
         }
         return null
     }

@@ -48,11 +48,9 @@ class TravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPi
 
     val childBottomContainer: View by bindView(R.id.children_ages_bottom_container)
 
-
     val DEFAULT_CHILD_AGE = 10
     val enabledColor = ContextCompat.getColor(context, R.color.hotel_guest_selector_enabled_color)
     val disabledColor = ContextCompat.getColor(context, R.color.hotel_guest_selector_disabled_color)
-
 
     var viewmodel: TravelerPickerViewModel by notNullAndObservable { vm ->
         vm.showInfantErrorMessage.subscribeTextAndVisibility(infantError)
@@ -169,7 +167,6 @@ class TravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPi
     fun ImageButton.setImageButtonColorFilter(enabled: Boolean) {
         if (enabled)
             this.setColorFilter(enabledColor, PorterDuff.Mode.SRC_IN)
-        else
-            this.setColorFilter(disabledColor, PorterDuff.Mode.SRC_IN)
+        else this.setColorFilter(disabledColor, PorterDuff.Mode.SRC_IN)
     }
 }

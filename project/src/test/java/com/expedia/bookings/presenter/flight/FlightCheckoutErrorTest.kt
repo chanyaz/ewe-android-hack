@@ -42,9 +42,9 @@ class FlightCheckoutErrorTest {
 
     private val context = RuntimeEnvironment.application
 
-    lateinit private var flightCheckoutVM: FlightCheckoutViewModel
-    lateinit private var flightServices: FlightServices
-    lateinit private var checkoutParams: FlightCheckoutParams
+    private lateinit var flightCheckoutVM: FlightCheckoutViewModel
+    private lateinit var flightServices: FlightServices
+    private lateinit var checkoutParams: FlightCheckoutParams
 
     @Before
     fun before() {
@@ -187,5 +187,4 @@ class FlightCheckoutErrorTest {
             return Schedulers.trampoline()
         }
     }
-
 }

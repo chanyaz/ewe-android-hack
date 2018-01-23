@@ -72,11 +72,11 @@ class BucksViewModelTest {
         Ui.getApplication(activity).defaultHotelComponents()
         val bucksWidget = LayoutInflater.from(activity).inflate(R.layout.bucks_widget_stub, null) as BucksWidget
 
-        enableColor = ContextCompat.getColor(getContext(), R.color.hotels_primary_color);
-        disableColor = ContextCompat.getColor(getContext(), R.color.hotelsv2_checkout_text_color);
+        enableColor = ContextCompat.getColor(getContext(), R.color.hotels_primary_color)
+        disableColor = ContextCompat.getColor(getContext(), R.color.hotelsv2_checkout_text_color)
 
         val createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemableOrbucksCreateTripResponse()
-        createTripResponse.tripId = "happy";
+        createTripResponse.tripId = "happy"
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         bucksViewModel = BucksViewModel(paymentModel, activity.application)

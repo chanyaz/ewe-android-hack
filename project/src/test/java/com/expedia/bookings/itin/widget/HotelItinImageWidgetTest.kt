@@ -22,7 +22,7 @@ import kotlin.test.assertNotEquals
 class HotelItinImageWidgetTest {
 
     lateinit var hotelItinImageWidget: HotelItinImageWidget
-    lateinit private var activity: HotelItinDetailsActivity
+    private lateinit var activity: HotelItinDetailsActivity
     var itinCardDataHotel = ItinCardDataHotelBuilder().build()
 
     @Before
@@ -116,5 +116,4 @@ class HotelItinImageWidgetTest {
 
         assertEquals(View.GONE, messsageButton.visibility)
     }
-
 }

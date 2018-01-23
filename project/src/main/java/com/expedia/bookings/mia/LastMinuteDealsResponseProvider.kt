@@ -9,8 +9,7 @@ class LastMinuteDealsResponseProvider(private val smartOfferService: SmartOfferS
         val dealsReturnedResponse = dealsReturnedResponse
         if (dealsReturnedResponse != null) {
             dealsResponseSubject.onNext(dealsReturnedResponse)
-        }
-        else {
+        } else {
             val request = LastMinuteDealsRequest()
             val pos = PointOfSale.getPointOfSale()
             request.siteId = pos.tpid.toString()

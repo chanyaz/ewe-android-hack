@@ -14,7 +14,7 @@ object RewardsUtil {
             if (configuration.isRewardProgramPointsType) {
                 rewardPointValue = StrUtils.roundOff(rewardPoints.toFloat(), 0)
             }
-            rewardsPointsText = if (isFlights)  {
+            rewardsPointsText = if (isFlights) {
                 Phrase.from(context, R.string.confirmation_flight_reward_points_earned_TEMPLATE)
                         .put("rewardpoints", rewardPointValue)
                         .format().toString()
@@ -28,5 +28,4 @@ object RewardsUtil {
         return rewardsPointsText
     }
 }
-
 

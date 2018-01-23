@@ -7,12 +7,6 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import org.junit.runner.RunWith
-import com.expedia.bookings.data.clientlog.EmptyResponse
-import com.expedia.bookings.data.clientlog.ClientLog
-import com.expedia.bookings.interceptors.MockInterceptor
-import com.expedia.bookings.services.ClientLogServices
-import io.reactivex.schedulers.Schedulers
 import kotlin.test.assertTrue
 
 class AppStartUpTimeClientLogTest {

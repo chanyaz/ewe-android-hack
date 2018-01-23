@@ -65,5 +65,4 @@ class PaymentWidgetTrackingTest {
         OmnitureTracking.trackShowPaymentEnterNewCard(LineOfBusiness.PACKAGES)
         OmnitureTestUtils.assertLinkTracked("Package Checkout", "App.Package.CKO.Payment.EnterManually", OmnitureMatchers.withEvars(HashMap<Int, String>()), mockAnalyticsProvider)
     }
-
 }

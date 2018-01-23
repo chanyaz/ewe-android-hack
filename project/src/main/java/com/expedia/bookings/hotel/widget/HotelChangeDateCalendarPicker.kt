@@ -52,7 +52,6 @@ class HotelChangeDateCalendarPicker(context: Context, attrs: AttributeSet?) : Ca
                         // Do not select an end date beyond the allowed range
                         setSelectedDates(start, null)
                     }
-
                 } else {
                     datesUpdatedSubject.onNext(HotelStayDates(start, end))
                 }

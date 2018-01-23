@@ -1,13 +1,11 @@
 package com.expedia.bookings.test.robolectric
 
-
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import android.app.Activity
 import android.view.View
 import android.widget.LinearLayout
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -16,7 +14,6 @@ import com.expedia.bookings.widget.TextView
 import org.junit.Test
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
-
 
 @RunWith(RobolectricRunner::class)
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -38,6 +35,4 @@ class PayLaterInfoWidgetTest {
         assertEquals("", earnText.text)
         assertEquals("Close", widget.toolbar.navigationContentDescription)
     }
-
-
 }

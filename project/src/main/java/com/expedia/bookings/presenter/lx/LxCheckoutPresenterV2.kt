@@ -32,7 +32,6 @@ class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckou
     }
 
     override fun onCreateTripResponse(response: TripResponse?) {
-
     }
 
     lateinit var lxCheckoutViewModel: LXCheckoutViewModel
@@ -73,7 +72,6 @@ class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckou
         return tripViewModel as LXCreateTripViewModel
     }
 
-
     override fun setupCreateTripViewModel(vm: BaseCreateTripViewModel) {
         //TODO
     }
@@ -81,7 +79,6 @@ class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckou
     override fun showMainTravelerMinimumAgeMessaging(): Boolean {
         return false
     }
-
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
@@ -92,7 +89,7 @@ class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckou
     }
 
     override fun getDefaultToTravelerTransition(): DefaultToTraveler {
-        return object: DefaultToTraveler(LXTravelersPresenter::class.java) {
+        return object : DefaultToTraveler(LXTravelersPresenter::class.java) {
             override fun startTransition(forward: Boolean) {
                 super.startTransition(forward)
                 lxCheckoutViewModel.hideOverviewSummaryObservable.onNext(forward)

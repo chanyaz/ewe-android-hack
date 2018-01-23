@@ -36,8 +36,7 @@ class HotelSearchTrackingData : AbstractSearchTrackingData() {
 
     var hasSoldOutHotel = false
 
-    fun hasResponse() : Boolean {
+    fun hasResponse(): Boolean {
         return resultsReturned
     }
-
 }

@@ -37,7 +37,6 @@ class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, r
             if (hotelSearchParams == null) {
                 HotelNavUtils.goToHotels(context, animOptions)
                 OmnitureTracking.trackPhoneAirAttachLaunchScreenClick()
-
             } else {
                 HotelNavUtils.goToHotels(context, hotelSearchParams)
                 OmnitureTracking.trackPhoneAirAttachLaunchScreenClick()
@@ -53,7 +52,6 @@ class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, r
             firstLineObserver.onNext(context.getString(R.string.air_attach_variant1_string))
             secondLineObserver.onNext(Phrase.from(context, R.string.air_attach_variant1_string1_TEMPLATE).put("location", cityName).format().toString())
         }
-
 
         if (hoursRemaining < 1) {
             offerExpiresObserver.onNext(context.resources.getText(R.string.air_attach_expires_soon).toString())
@@ -76,5 +74,4 @@ class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, r
                         .put("content", secondLineObserver.value)
                         .format()
     }
-
 }

@@ -1,21 +1,15 @@
 package com.expedia.bookings.widget.itin
 
-
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.ABTest
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.server.TripParser
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.TextView
 import okio.Okio
 import org.joda.time.DateTime
@@ -30,9 +24,9 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightItinCardTest {
-    lateinit private var activity: Activity
-    lateinit private var sut: FlightItinCard
-    lateinit private var itinCardData: ItinCardDataFlight
+    private lateinit var activity: Activity
+    private lateinit var sut: FlightItinCard
+    private lateinit var itinCardData: ItinCardDataFlight
 
     @Before
     fun setUp() {
@@ -41,7 +35,7 @@ class FlightItinCardTest {
     }
 
     @Test
-    fun flightCheckInLink(){
+    fun flightCheckInLink() {
         createSystemUnderTest()
         val localTimePlusTwoHours = DateTime.now().plusHours(2)
         itinCardData.tripComponent.startDate = localTimePlusTwoHours
@@ -101,7 +95,6 @@ class FlightItinCardTest {
         assertEquals("Image gallery", imageView.contentDescription)
     }
 
-
     private fun getShareButtonOverflow(): ImageButton {
         val shareButtonOverflow = sut.findViewById<View>(R.id.itin_overflow_image_button) as ImageButton
         return shareButtonOverflow
@@ -146,5 +139,4 @@ class FlightItinCardTest {
         val checkInTextView = sut.findViewById<View>(R.id.checkin_text_view) as TextView
         return checkInTextView
     }
-
 }

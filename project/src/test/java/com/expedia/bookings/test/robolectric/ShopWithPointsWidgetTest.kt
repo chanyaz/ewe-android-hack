@@ -28,7 +28,7 @@ import kotlin.test.assertTrue
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class ShopWithPointsWidgetTest {
     private val context = RuntimeEnvironment.application
-    lateinit private var shopWithPointsWidget: ShopWithPointsWidget
+    private lateinit var shopWithPointsWidget: ShopWithPointsWidget
 
     @Before
     fun before() {

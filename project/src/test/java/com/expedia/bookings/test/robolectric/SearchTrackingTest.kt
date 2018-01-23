@@ -117,6 +117,6 @@ class SearchTrackingTest {
             endDate = LocalDate().plusDays(3)
         }
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, startDate, endDate, 2, childList, false, null, null, null, null, null,null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, startDate, endDate, 2, childList, false, null, null, null, null, null, null)
     }
 }

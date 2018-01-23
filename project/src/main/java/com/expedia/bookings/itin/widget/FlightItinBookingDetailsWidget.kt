@@ -2,18 +2,15 @@ package com.expedia.bookings.itin.widget
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.Animation
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightItinBookingInfoViewModel
 import com.expedia.bookings.itin.vm.ItinLinkOffCardViewViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility

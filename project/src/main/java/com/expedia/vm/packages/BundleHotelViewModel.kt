@@ -44,7 +44,7 @@ class BundleHotelViewModel(val context: Context) {
             } else {
                 hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCityName(Db.sharedInstance.packageParams.destination)))
 
-                if(Db.getPackageResponse() != null) {
+                if (Db.getPackageResponse() != null) {
                     val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
                     hotelDatesGuestObservable.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
                             .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))

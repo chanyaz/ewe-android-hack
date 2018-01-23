@@ -12,5 +12,5 @@ interface UrgencyApi {
             @Query("checkinDate") checkinDate: String? = null,
             @Query("checkoutDate") checkoutDate: String? = null,
             @Query("clientId") clientId: String,
-            @Query("type") type: String = "compression") : Observable<UrgencyResponse>
+            @Query("type") type: String = "compression"): Observable<UrgencyResponse>
 }

@@ -583,7 +583,6 @@ class HotelDetailViewModelTest {
         productKey3.productKey = "productKey2"
         productKey4.productKey = "productKey2"
 
-
         val roomResponse = listOf(productKey2, roomTypeCode2,
                 productKey4, roomTypeCode1,
                 productKey3, productKey1)
@@ -619,7 +618,7 @@ class HotelDetailViewModelTest {
     @Test
     fun testFetchOffersSoldOut() {
         val testSuccessSub = TestObserver.create<HotelOffersResponse>()
-        val testFetchOfferSub= TestObserver.create<Unit>()
+        val testFetchOfferSub = TestObserver.create<Unit>()
         val testFetchInfoSub = TestObserver.create<Unit>()
 
         mockHotelInfoManager.fetchOffersCalled.subscribe(testFetchOfferSub)
@@ -773,7 +772,7 @@ class HotelDetailViewModelTest {
         testFetchInProgressSub.assertValueCount(1)
     }
 
-    private fun createRoomResponseList() : List<HotelOffersResponse.HotelRoomResponse> {
+    private fun createRoomResponseList(): List<HotelOffersResponse.HotelRoomResponse> {
         val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
 
         rooms.add(createRoomResponse("2", 20.toFloat()))
@@ -798,7 +797,7 @@ class HotelDetailViewModelTest {
         vm.showAirAttachSWPImageObservable.onNext(airAttach)
     }
 
-    private fun createRoomResponse(roomTypeCode: String?, priceToShowUser: Float) : HotelOffersResponse.HotelRoomResponse {
+    private fun createRoomResponse(roomTypeCode: String?, priceToShowUser: Float): HotelOffersResponse.HotelRoomResponse {
         val room = HotelOffersResponse.HotelRoomResponse()
         room.roomTypeCode = roomTypeCode
 

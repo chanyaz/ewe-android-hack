@@ -14,8 +14,8 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class AddGuestItinViewModelTest {
-    lateinit private var activity: Activity
-    lateinit private var sut: AddGuestItinViewModel
+    private lateinit var activity: Activity
+    private lateinit var sut: AddGuestItinViewModel
 
     val hasEmailErrorSubscriber = TestObserver<Boolean>()
     val hasItinErrorSubscriber = TestObserver<Boolean>()

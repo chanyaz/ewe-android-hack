@@ -19,7 +19,6 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.itin.ItinContentGenerator
 import com.squareup.phrase.Phrase
 
-
 class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr) {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -54,7 +53,6 @@ class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context,
         Ui.setOnClickListener(this, R.id.itin_share_button, mOnClickListener)
     }
 
-
     private fun buildToolbarSubtitleForDates(itinCardDataHotel: ItinCardDataHotel) {
         val tripStartDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataHotel.startDate)
         val tripEndDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataHotel.endDate)
@@ -69,7 +67,6 @@ class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context,
                 .format().toString()
         toolbarSubtitleTextView.contentDescription = tripDateContDesc
     }
-
 
     private val mOnClickListener = View.OnClickListener { v ->
         when (v.id) {

@@ -117,6 +117,4 @@ class FlightCheckoutErrorTest : FlightErrorTestCase() {
 
         assertConfirmationViewIsDisplayed()
     }
-
-
 }

@@ -222,8 +222,6 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             airlineFeePackagesWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
         } else {
             airlineFeePackagesWarningTextObservable.onNext("")
-
         }
     }
 }
-

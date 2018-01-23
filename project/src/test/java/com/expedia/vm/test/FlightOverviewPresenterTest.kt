@@ -17,7 +17,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class FlightOverviewPresenterTest{
+class FlightOverviewPresenterTest {
     private var activity: PlaygroundActivity by Delegates.notNull()
     private val context = RuntimeEnvironment.application
 
@@ -48,5 +48,4 @@ class FlightOverviewPresenterTest{
         val flightOverviewPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         assertEquals("Next", flightOverviewPresenter.bottomCheckoutContainer.checkoutButton.text)
     }
-
 }

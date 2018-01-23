@@ -13,12 +13,11 @@ open class DeepLinkParser(assets: AssetManager) {
     protected val TAG = "ExpediaDeepLink"
     protected val ASSETS = assets
 
-    fun parseDeepLink(data: Uri) : DeepLink {
+    fun parseDeepLink(data: Uri): DeepLink {
         val scheme = data.scheme
         if (isUniversalLink(scheme)) {
             return UniversalDeepLinkParser(ASSETS).parseUniversalDeepLink(data)
-        }
-        else {
+        } else {
             return CustomDeepLinkParser(ASSETS).parseCustomDeepLink(data)
         }
     }
@@ -41,8 +40,7 @@ open class DeepLinkParser(assets: AssetManager) {
         if (queryParameterNames.contains(parameterName)) {
             try {
                 return LocalDate.parse(URLDecoder.decode(data.getQueryParameter(parameterName), "UTF-8"), dateTimeFormatter)
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
             }
         }
         return null
@@ -52,8 +50,7 @@ open class DeepLinkParser(assets: AssetManager) {
         if (queryParameterNames.contains(parameterName)) {
             try {
                 return DateTime.parse(URLDecoder.decode(data.getQueryParameter(parameterName), "UTF-8"), DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss"))
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
             }
         }
         return null
@@ -63,8 +60,7 @@ open class DeepLinkParser(assets: AssetManager) {
         if (queryParameterNames.contains(parameterName)) {
             try {
                 return Integer.parseInt(data.getQueryParameter(parameterName))
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
             }
         }
         return 0
@@ -74,8 +70,7 @@ open class DeepLinkParser(assets: AssetManager) {
         if (queryParameterNames.contains(parameterName)) {
             try {
                 return Integer.parseInt(data.getQueryParameter(parameterName))
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
             }
         }
         return null

@@ -2,7 +2,6 @@ package com.expedia.bookings.data
 
 import org.joda.time.DateTime
 
-
 class HotelItinDetailsResponse : AbstractItinDetailsResponse() {
 
     lateinit var responseData: HotelResponseData
@@ -58,6 +57,4 @@ class HotelItinDetailsResponse : AbstractItinDetailsResponse() {
     override fun getResponseDataForItin(): ResponseData? {
         return responseData
     }
-
 }
-

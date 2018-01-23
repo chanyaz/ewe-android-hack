@@ -20,7 +20,6 @@ class RailAmenitiesViewModel {
                 { legOption, product ->
                     getAmenitiesForSegments(legOption, product)
                 }).subscribe(segmentAmenitiesSubject)
-
     }
 
     private fun getAmenitiesForSegments(legOption: RailLegOption, railProduct: RailProduct): List<Pair<RailSegment, PassengerSegmentFare>> {

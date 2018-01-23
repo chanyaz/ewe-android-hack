@@ -33,7 +33,7 @@ class KrazyglueServices(endpoint: String, okHttpClient: OkHttpClient, val observ
 
     var krazyglueSubscription: Disposable? = null
 
-    fun getKrazyglueHotels(signedUrl: String, observer: Observer<KrazyglueResponse>) : Disposable {
+    fun getKrazyglueHotels(signedUrl: String, observer: Observer<KrazyglueResponse>): Disposable {
         krazyglueSubscription?.dispose()
 
         val krazyglueSubscription = krazyglueApi.getKrazyglueHotels(signedUrl)

@@ -19,9 +19,9 @@ abstract class BaseSummaryViewModel(val context: Context) {
     val subtitleColorObservable = BehaviorSubject.create<Int>()
     val travelerStatusObserver = BehaviorSubject.createDefault<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
 
-    abstract fun getTitle() : String
-    abstract fun getSubtitle() : String
-    abstract fun isTravelerEmpty(traveler: Traveler?) : Boolean
+    abstract fun getTitle(): String
+    abstract fun getSubtitle(): String
+    abstract fun isTravelerEmpty(traveler: Traveler?): Boolean
     abstract fun inject() // Can't inject components into a base class but need b4 subscribing travelerStatusObserver
 
     init {

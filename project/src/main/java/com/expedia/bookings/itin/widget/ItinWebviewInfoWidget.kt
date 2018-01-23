@@ -16,8 +16,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import kotlinx.android.synthetic.main.widget_itin_webview_button.view.card_view
 
-
-
 class ItinWebviewInfoWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val buttonText: TextView by bindView(R.id.itin_webview_button_text)
@@ -59,5 +57,4 @@ class ItinWebviewInfoWidget(context: Context, attrs: AttributeSet?) : LinearLayo
         builder.setAllowMobileRedirects(false)
         return builder
     }
-
 }

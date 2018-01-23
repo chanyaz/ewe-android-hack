@@ -16,7 +16,6 @@ class ItinTimeDurationWidget(context: Context, attrs: AttributeSet?) : LinearLay
     @VisibleForTesting
     val durationText: TextView by bindView(R.id.itin_duration_text)
 
-
     var viewModel: ItinTimeDurationViewModel by notNullAndObservable { vm ->
         vm.createTimeDurationWidgetSubject.subscribe { (text, contDesc, drawable) ->
             if (!text.isNullOrEmpty() && !contDesc.isNullOrEmpty()) {

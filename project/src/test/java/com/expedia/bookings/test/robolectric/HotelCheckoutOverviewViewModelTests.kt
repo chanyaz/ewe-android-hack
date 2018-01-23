@@ -36,7 +36,7 @@ class HotelCheckoutOverviewViewModelTest {
     lateinit var hotelProductResponse: HotelCreateTripResponse.HotelProductResponse
     lateinit var hotelcreateTripResponse: HotelCreateTripResponse
     lateinit var sut: HotelCheckoutOverviewViewModel
-    lateinit private var paymentModel: PaymentModel<HotelCreateTripResponse>
+    private lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
 
     @Before
     fun setup() {
@@ -94,7 +94,7 @@ class HotelCheckoutOverviewViewModelTest {
 
         paymentSplitsSubscriber.assertValueCount(4)
 
-        totalPriceChargedSubscriber.assertValues("You are using 2,500 ($1,000.00) Expedia+ points", "Your card will be charged $135.81", "You are using 2,500 ($1,000.00) Expedia+ points" ,"You are using 14,005 ($100.00) Expedia+ points\nYour card will be charged $3.70")
+        totalPriceChargedSubscriber.assertValues("You are using 2,500 ($1,000.00) Expedia+ points", "Your card will be charged $135.81", "You are using 2,500 ($1,000.00) Expedia+ points" , "You are using 14,005 ($100.00) Expedia+ points\nYour card will be charged $3.70")
     }
 
     @Test
@@ -128,8 +128,7 @@ class HotelCheckoutOverviewViewModelTest {
         val createTripResponse: HotelCreateTripResponse
         if (hasRedeemablePoints)
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
-        else
-            createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
+        else createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
 
         createTripResponse.tripId = "happy"
         hotelProductResponse = createTripResponse.newHotelProductResponse

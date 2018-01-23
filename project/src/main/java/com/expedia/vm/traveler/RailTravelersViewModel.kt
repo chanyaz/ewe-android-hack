@@ -32,7 +32,7 @@ class RailTravelersViewModel(context: Context) : AbstractTravelersViewModel() {
         return travelerValidator.isTravelerEmpty(traveler)
     }
 
-    override fun getTravelers() : List<Traveler> {
+    override fun getTravelers(): List<Traveler> {
         return Db.sharedInstance.travelers
     }
 

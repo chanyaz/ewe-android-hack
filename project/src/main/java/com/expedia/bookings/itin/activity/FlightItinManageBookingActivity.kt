@@ -54,7 +54,7 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.setUp()
-        if(!trackingFired) {
+        if (!trackingFired) {
             OmnitureTracking.trackItinFlightManageBookingActivity(this, viewModel.createOmnitureTrackingValues())
             trackingFired = true
         }

@@ -110,7 +110,6 @@ class NewFlightSearchParamsTest {
         assertFalse(builder.areRequiredParamsFilled())
     }
 
-
     @Test
     fun testBuilderStatusIdenticalLocations() {
         builder.origin(expectedOrigin)
@@ -193,7 +192,6 @@ class NewFlightSearchParamsTest {
 
         assertEquals(expectedReturnDate, params.getEndOfTripDate())
         assertNotEquals(params.startDate, params.getEndOfTripDate())
-
     }
 
     @Test

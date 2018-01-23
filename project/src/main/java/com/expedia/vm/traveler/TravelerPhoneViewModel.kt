@@ -44,7 +44,7 @@ open class TravelerPhoneViewModel(val context: Context) {
         return validPhone && !hasError
     }
 
-    open fun getCountryName(phone:Phone) : String {
+    open fun getCountryName(phone: Phone): String {
         return if (phone.countryName.isNullOrEmpty()) {
             context.getString(PointOfSale.getPointOfSale().countryNameResId)
         } else {
@@ -52,7 +52,7 @@ open class TravelerPhoneViewModel(val context: Context) {
         }
     }
 
-    private fun getCountryCode(phone: Phone) : String {
+    private fun getCountryCode(phone: Phone): String {
         return if (phone.countryCode.isNullOrEmpty()) {
             val pointOfSaleCountryName = context.getString(PointOfSale.getPointOfSale().countryNameResId)
             val countryAdapter = TelephoneSpinnerAdapter(context)
@@ -63,7 +63,7 @@ open class TravelerPhoneViewModel(val context: Context) {
         }
     }
 
-    fun getTravelerPhone() : Phone {
+    fun getTravelerPhone(): Phone {
         return phone
     }
 }

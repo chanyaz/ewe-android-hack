@@ -17,7 +17,7 @@ class FlightResultsViewModelTest {
 
     val context = RuntimeEnvironment.application
 
-    lateinit private var sut: FlightResultsViewModel
+    private lateinit var sut: FlightResultsViewModel
 
     @Before
     fun setUp() {

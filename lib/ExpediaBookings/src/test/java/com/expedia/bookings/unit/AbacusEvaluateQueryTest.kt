@@ -10,7 +10,7 @@ class AbacusEvaluateQueryTest {
     @Test
     fun testDuplicateTestIdsNotAllowed() {
         val query = AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0)
-        val tests = listOf(1,1,1,2)
+        val tests = listOf(1, 1, 1, 2)
         query.addExperiments(tests)
 
         val evaluatedExperiments = query.evaluatedExperiments

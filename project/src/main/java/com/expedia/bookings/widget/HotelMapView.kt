@@ -50,7 +50,7 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
     val toolBarTitle: TextView by bindView(R.id.hotel_name_text)
     var toolBarRating: StarRatingBar by Delegates.notNull()
 
-    var googleMap : GoogleMap? = null
+    var googleMap: GoogleMap? = null
 
     private var mapReady = false
     private var queuedLatLng: LatLng? = null
@@ -93,7 +93,7 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
         vm.fromPrice.subscribeText(selectRoomPrice)
         vm.fromPriceVisibility.subscribeVisibility(selectRoomPrice)
         vm.selectARoomInvisibility.subscribeInverseVisibility(selectRoomContainer)
-        vm.selectRoomContDescription.subscribe{ it ->
+        vm.selectRoomContDescription.subscribe { it ->
             selectRoomContainer.contentDescription = it
         }
         //Hook inputs from View
@@ -102,8 +102,7 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
             vm.selectARoomObserver.onNext(Unit)
             if (viewmodel.lob == LineOfBusiness.PACKAGES) {
                 PackagesTracking().trackHotelMapViewSelectRoomClick()
-            }
-            else {
+            } else {
                 HotelTracking.trackLinkHotelMapSelectRoom()
             }
         })
@@ -137,7 +136,7 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
         addMarker(googleMap, latLng)
     }
 
-    private fun addMarker(googleMap:GoogleMap?, hotelLatLng: LatLng) {
+    private fun addMarker(googleMap: GoogleMap?, hotelLatLng: LatLng) {
         googleMap ?: return
         val marker = MarkerOptions()
         marker.position(hotelLatLng)

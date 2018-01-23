@@ -41,5 +41,4 @@ class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: ISug
 
     override fun isSearchHistorySupported(): Boolean =
             FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_user_search_history)
-
 }

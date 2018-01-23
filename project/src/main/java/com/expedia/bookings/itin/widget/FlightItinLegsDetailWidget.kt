@@ -52,13 +52,13 @@ class FlightItinLegsDetailWidget(context: Context?, attrs: AttributeSet?) : Line
     }
 
     private fun setUpRecyclerView(list: ArrayList<FlightItinLegsDetailData>) {
-        val mAdapter = FlightItinLegsDetailAdapter(context,list);
-        val mLayoutManager = LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(mAdapter);
+        val mAdapter = FlightItinLegsDetailAdapter(context, list)
+        val mLayoutManager = LinearLayoutManager(getApplicationContext())
+        recyclerView.setLayoutManager(mLayoutManager)
+        recyclerView.setAdapter(mAdapter)
     }
 
-    private fun showRulesAndRestrictionDialog(value : String) {
+    private fun showRulesAndRestrictionDialog(value: String) {
         if (value.isNotEmpty()) {
             val fragmentManager = (context as FragmentActivity).supportFragmentManager
             val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_flight_leg_detail_widget_rules_and_restrictions), value)

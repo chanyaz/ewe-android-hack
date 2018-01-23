@@ -14,7 +14,7 @@ import com.squareup.otto.Subscribe
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
-class LXThemeResultsWidget(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) {
+class LXThemeResultsWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     val recyclerView: RecyclerView by bindView(R.id.lx_theme_list)
     val errorScreen: LXErrorWidget by bindView(R.id.theme_error_widget)
@@ -87,7 +87,7 @@ class LXThemeResultsWidget(context: Context, attrs: AttributeSet): FrameLayout(c
         return themeClickSubject
     }
 
-    fun updateThemeTitleAndDescription(themes: List<LXTheme>):List<LXTheme> {
+    fun updateThemeTitleAndDescription(themes: List<LXTheme>): List<LXTheme> {
 
         for (theme in themes) {
             when (theme.themeType!!) {
@@ -135,7 +135,6 @@ class LXThemeResultsWidget(context: Context, attrs: AttributeSet): FrameLayout(c
                     // No theme
                 }
             }
-
         }
         return themes
     }

@@ -15,7 +15,7 @@ import com.expedia.vm.rail.RailFareRulesViewModel
 class RailFareRulesWidget(context: Context) : LinearLayout(context) {
     val fareInfo: TextView by bindView(R.id.fare_description)
     val fareRulesContainer: LinearLayout by bindView(R.id.fare_rules_container)
-    val noFareRulesAvailable : android.widget.TextView by bindView(R.id.no_fare_rules_available)
+    val noFareRulesAvailable: android.widget.TextView by bindView(R.id.no_fare_rules_available)
 
     var viewModel: RailFareRulesViewModel by notNullAndObservable { vm ->
         vm.fareInfoObservable.subscribeText(fareInfo)

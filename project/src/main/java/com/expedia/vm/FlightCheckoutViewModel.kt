@@ -22,7 +22,6 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.safeSubscribeOptional
 import com.squareup.phrase.Phrase
-import com.expedia.util.safeSubscribe
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject

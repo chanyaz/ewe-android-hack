@@ -53,7 +53,7 @@ class FareFamilyItemWidget(context: Context, attrs: AttributeSet) : LinearLayout
         builder.setView(fareFamilyAmenitiesDialogView)
         builder.setPositiveButton(context.getString(R.string.OK), { dialog, _ ->
             dialog.dismiss()
-            AccessibilityUtil.delayedFocusToView(showMoreContainer,0)
+            AccessibilityUtil.delayedFocusToView(showMoreContainer, 0)
         })
         val dialog: AlertDialog = builder.create()
         dialog.setCancelable(true)

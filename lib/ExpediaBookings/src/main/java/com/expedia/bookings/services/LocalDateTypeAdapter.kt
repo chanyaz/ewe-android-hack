@@ -28,5 +28,4 @@ class LocalDateTypeAdapter(val pattern: String) : JsonSerializer<LocalDate>, Jso
 
         return fmt.parseLocalDate(json.asString)
     }
-
 }

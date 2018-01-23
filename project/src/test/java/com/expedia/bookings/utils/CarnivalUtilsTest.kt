@@ -31,7 +31,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class CarnivalUtilsTest : CarnivalUtils() {
 
-    private lateinit var attributesToSend : AttributeMap
+    private lateinit var attributesToSend: AttributeMap
     private var eventNameToLog: String? = null
     private var userIdToLog: String? = null
     private var userEmailToLog: String? = null
@@ -56,7 +56,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
         this.trackHotelSearch(searchParams)
 
         assertEquals(eventNameToLog, "search_hotel")
-        assertEquals(attributesToSend.get("search_hotel_destination"),"Las Vegas, NV")
+        assertEquals(attributesToSend.get("search_hotel_destination"), "Las Vegas, NV")
         assertEquals(attributesToSend.get("search_hotel_number_of_adults"), 1)
         assertEquals(attributesToSend.get("search_hotel_check-in_date"), LocalDate.now().toDate())
         assertEquals(attributesToSend.get("search_hotel_length_of_stay"), 3)
@@ -133,8 +133,8 @@ class CarnivalUtilsTest : CarnivalUtils() {
 
         assertEquals(eventNameToLog, "checkout_start_flight")
         assertEquals(attributesToSend.get("checkout_start_flight_destination"), "Orlando - MCO")
-        assertEquals(attributesToSend.get("checkout_start_flight_airline"), arrayListOf("Delta","United"))
-        assertEquals(attributesToSend.get("checkout_start_flight_flight_number"), arrayListOf("123","212", "103"))
+        assertEquals(attributesToSend.get("checkout_start_flight_airline"), arrayListOf("Delta", "United"))
+        assertEquals(attributesToSend.get("checkout_start_flight_flight_number"), arrayListOf("123", "212", "103"))
         assertEquals(attributesToSend.get("checkout_start_flight_number_of_adults"), 2)
         assertEquals(attributesToSend.get("checkout_start_flight_departure_date"), LocalDate.now().toDate())
         assertEquals(attributesToSend.get("checkout_start_flight_length_of_flight"), "5:30")
@@ -176,8 +176,8 @@ class CarnivalUtilsTest : CarnivalUtils() {
 
         assertEquals(eventNameToLog, "confirmation_flight")
         assertEquals(attributesToSend.get("confirmation_flight_destination"), "Orlando - MCO")
-        assertEquals(attributesToSend.get("confirmation_flight_airline"), arrayListOf("Delta","United"))
-        assertEquals(attributesToSend.get("confirmation_flight_flight_number"), arrayListOf("123","212", "103"))
+        assertEquals(attributesToSend.get("confirmation_flight_airline"), arrayListOf("Delta", "United"))
+        assertEquals(attributesToSend.get("confirmation_flight_flight_number"), arrayListOf("123", "212", "103"))
         assertEquals(attributesToSend.get("confirmation_flight_number_of_adults"), 2)
         assertEquals(attributesToSend.get("confirmation_flight_departure_date"), LocalDate.now().toDate())
         assertEquals(attributesToSend.get("confirmation_flight_length_of_flight"), "5:30")
@@ -251,7 +251,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
         val v4 = SuggestionV4()
         v4.regionNames = SuggestionV4.RegionNames()
         v4.regionNames.fullName = "New York"
-        val packageParams = PackageSearchParams(SuggestionV4(),v4, LocalDate.now(),LocalDate.now().plusDays(3),1, listOf(),false)
+        val packageParams = PackageSearchParams(SuggestionV4(), v4, LocalDate.now(), LocalDate.now().plusDays(3), 1, listOf(), false)
 
         this.trackPackagesConfirmation(packageParams)
 

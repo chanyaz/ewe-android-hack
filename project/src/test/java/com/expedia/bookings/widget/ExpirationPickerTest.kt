@@ -26,6 +26,5 @@ class ExpirationPickerTest {
         assertEquals("Decrease Month", mMonthDown.contentDescription)
         assertEquals("Increase Year", mYearUp.contentDescription)
         assertEquals("Decrease Year", mYearDown.contentDescription)
-
     }
 }

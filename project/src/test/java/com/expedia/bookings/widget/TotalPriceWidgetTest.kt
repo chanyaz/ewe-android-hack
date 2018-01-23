@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.packages.FlightTotalPriceViewModel
@@ -29,7 +28,7 @@ class TotalPriceWidgetTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         totalPriceWidget = LayoutInflater.from(activity).inflate(R.layout.test_total_price_widget, null) as TotalPriceWidget
     }
-    
+
     @Test
     fun testTotalPriceProgressBarNotShownWhenNotBucketed() {
         val flightTotalPriceViewModel = FlightTotalPriceViewModel(context)

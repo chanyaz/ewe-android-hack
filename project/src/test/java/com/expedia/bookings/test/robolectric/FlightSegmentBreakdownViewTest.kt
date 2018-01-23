@@ -96,8 +96,8 @@ class FlightSegmentBreakdownViewTest {
     }
 
     private fun getFlightSegmentBreakdownList(seatClass: String, showCollapseIcon: Boolean = false): List<FlightSegmentBreakdown> {
-        val flightSegment = createFlightSegment(seatClass);
-        val breakdown = FlightSegmentBreakdown(flightSegment, false, true, showCollapseIcon);
+        val flightSegment = createFlightSegment(seatClass)
+        val breakdown = FlightSegmentBreakdown(flightSegment, false, true, showCollapseIcon)
         val list: ArrayList<FlightSegmentBreakdown> = ArrayList()
         list.add(breakdown)
         return list.toList()
@@ -125,5 +125,4 @@ class FlightSegmentBreakdownViewTest {
         airlineSegment.bookingCode = "O"
         return airlineSegment
     }
-
 }

@@ -6,9 +6,8 @@ import com.expedia.bookings.data.flights.FlightLeg
 
 class FlightOverviewRowViewModel(context: Context, flightLeg: FlightLeg) : FlightViewModel(context, flightLeg) {
 
-    override fun appendAccessibilityContentDescription(): String{
+    override fun appendAccessibilityContentDescription(): String {
         return context.getString(R.string.row_expand_button_description)
-
     }
 
     override fun getFlightDetailCardContDescriptionStringID(): Int {

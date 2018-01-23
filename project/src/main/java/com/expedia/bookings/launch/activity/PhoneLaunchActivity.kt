@@ -181,10 +181,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             // No need to do anything special, waterfall is the default behavior anyway
         } else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
             handleArgJumpToNotification(intent)
-            if(jumpToActivityCross == null)
+            if (jumpToActivityCross == null)
                 gotoItineraries()
-            else
-                gotoActivitiesCrossSell()
+            else gotoActivitiesCrossSell()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
             gotoItineraries()
         } else if (ItineraryManager.haveTimelyItinItem()) {
@@ -264,10 +263,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             gotoWaterfall()
         } else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
             handleArgJumpToNotification(intent)
-            if(jumpToActivityCross == null)
+            if (jumpToActivityCross == null)
                 gotoItineraries()
-            else
-                gotoActivitiesCrossSell()
+            else gotoActivitiesCrossSell()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
             gotoItineraries()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ACCOUNT, false)) {
@@ -351,7 +349,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         }
         if (notification.uniqueId.contains("_activityCross") || notification.uniqueId.contains("_activityInTrip"))
             jumpToActivityCross = notification.itinId
-        else{
+        else {
             jumpToItinId = notification.itinId
         }
         OmnitureTracking.trackNotificationClick(notification)
@@ -363,11 +361,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
     private val pageChangeListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabReselected(tab: TabLayout.Tab?) {
-
         }
 
         override fun onTabUnselected(tab: TabLayout.Tab?) {
-
         }
 
         override fun onTabSelected(tab: TabLayout.Tab) {
@@ -434,7 +430,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
             itinListFragment?.resetTrackingState()
             itinListFragment?.enableLoadItins()
-
 
             pagerPosition = PAGER_POS_ITIN
             viewPager.currentItem = PAGER_POS_ITIN
@@ -516,8 +511,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
                 if (pagerPosition == PAGER_POS_ITIN) {
                     requestLocationPermission(this)
-                }
-                else if (shouldShowSoftPrompt()){
+                } else if (shouldShowSoftPrompt()) {
                     requestLocationPermissionViaSoftPrompt()
                 }
 
@@ -541,7 +535,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         AppStartupTimeClientLog.trackTimeLogger(routerToLaunchTimeLogger, clientLogServices)
     }
 
-    private fun shouldShowSoftPrompt() : Boolean {
+    private fun shouldShowSoftPrompt(): Boolean {
         return !havePermissionToAccessLocation(this)
                 && !isLocationPermissionPending
                 && SettingUtils.get(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0) < Constants.LOCATION_PROMPT_LIMIT
@@ -683,7 +677,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         //Do nothing here
     }
 
-    private fun getLaunchTrackingEventsString() : String {
+    private fun getLaunchTrackingEventsString(): String {
         val events = mutableListOf<String>()
 
         if (ProWizardBucketCache.isBucketed(this)) {
@@ -782,7 +776,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         }
     }
 
-    private fun toolbarSlideInStartAction(): Unit {
+    private fun toolbarSlideInStartAction() {
         toolbar.translationY = (-supportActionBar!!.height).toFloat()
         toolbar.visibility = View.VISIBLE
     }

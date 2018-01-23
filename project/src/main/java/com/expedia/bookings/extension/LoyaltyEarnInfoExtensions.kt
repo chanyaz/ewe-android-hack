@@ -22,7 +22,6 @@ fun LoyaltyEarnInfo.getEarnMessage(context: Context, showCurrency: Boolean): Str
                 return ""
         }
     }
-
 }
 
 fun LoyaltyEarnInfo.getEarnMessage(context: Context): String {

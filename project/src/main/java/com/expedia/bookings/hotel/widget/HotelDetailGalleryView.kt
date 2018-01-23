@@ -38,8 +38,8 @@ class HotelDetailGalleryView(context: Context, attrs: AttributeSet?) : RelativeL
             galleryAdapter.galleryItemClickedSubject.subscribe(galleryClickedSubject)
 
             galleryRecyclerView.galleryScrolledSubject.subscribe { position ->
-                hotelGalleryIndicator.animate().translationX((position * hotelGalleryIndicator.width).toFloat()).
-                        setInterpolator(LinearInterpolator()).start()
+                hotelGalleryIndicator.animate().translationX((position * hotelGalleryIndicator.width).toFloat())
+                        .setInterpolator(LinearInterpolator()).start()
                 updateTextForPosition(position)
             }
         }
@@ -72,7 +72,7 @@ class HotelDetailGalleryView(context: Context, attrs: AttributeSet?) : RelativeL
         galleryItemScrolledSubject.onNext(position)
     }
 
-    fun getCurrentIndex() : Int {
+    fun getCurrentIndex(): Int {
         return galleryRecyclerView.getPosition()
     }
 

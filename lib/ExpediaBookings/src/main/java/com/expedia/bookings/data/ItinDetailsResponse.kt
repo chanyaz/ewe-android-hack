@@ -7,5 +7,4 @@ class ItinDetailsResponse : AbstractItinDetailsResponse() {
     override fun getResponseDataForItin(): ResponseData? {
         return responseData
     }
-
 }

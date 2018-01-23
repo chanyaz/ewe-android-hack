@@ -83,5 +83,4 @@ class SlideToPurchaseOmnitureTrackingTest {
         )
         assertStateTracked("App.Hotels.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
     }
-
 }

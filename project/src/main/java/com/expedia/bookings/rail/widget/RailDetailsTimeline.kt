@@ -39,4 +39,3 @@ class RailDetailsTimeline(context: Context, attrs: AttributeSet) : LinearLayout(
     }
 }
 
-

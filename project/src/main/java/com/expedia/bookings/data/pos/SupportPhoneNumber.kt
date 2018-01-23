@@ -20,11 +20,11 @@ class SupportPhoneNumber(jsonData: JSONObject?) {
         }
     }
 
-    fun getPhoneNumberForTabletDevice() : String {
+    fun getPhoneNumberForTabletDevice(): String {
         return supportNumberTablet
     }
 
-    fun getPhoneNumberForPhoneDevice() : String {
+    fun getPhoneNumberForPhoneDevice(): String {
         return supportNumberPhone
     }
 

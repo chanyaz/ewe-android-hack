@@ -84,11 +84,11 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
                    expectedFareCurrencyCode != null
         }
 
-        open fun hasValidCheckoutParams() : Boolean {
+        open fun hasValidCheckoutParams(): Boolean {
             return hasValidTravelers() && hasValidBilling()
         }
 
-        private fun hasValidTravelers() : Boolean {
+        private fun hasValidTravelers(): Boolean {
             var validTravelers = false
             if (travelers.isNotEmpty()) {
                 travelers.forEachIndexed { i, traveler ->
@@ -106,7 +106,7 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             return validTravelers
         }
 
-        private fun hasValidBilling() : Boolean {
+        private fun hasValidBilling(): Boolean {
             return if (billingInfo?.hasStoredCard() ?: false) {
                 !billingInfo?.storedCard?.id.isNullOrBlank() &&
                 !billingInfo?.storedCard?.nameOnCard.isNullOrBlank() &&
@@ -156,7 +156,6 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
 
             if (!billingInfo.location.city.isNullOrEmpty()) {
                 params.put("city", billingInfo.location.city)
-
             }
             if (!billingInfo.location.stateCode.isNullOrEmpty()) {
                 params.put("state", billingInfo.location.stateCode)
@@ -167,13 +166,12 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             }
 
             params.put("country", billingInfo.location.countryCode)
-
         }
 
         return params
     }
 
-    open fun toValidParamsMap() : Map<String, Any> {
+    open fun toValidParamsMap(): Map<String, Any> {
         val params = HashMap<String, Any>()
 
         params.put("cvv", !cvv.isNullOrBlank())
@@ -190,7 +188,6 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             params.put("storedCreditCardId", !storedCard?.id.isNullOrBlank())
             params.put("nameOnCard", !storedCard?.nameOnCard.isNullOrBlank())
             params.put("creditCardIsExpired", storedCard.isExpired)
-
         } else {
             params.put("nameOnCard", !billingInfo.nameOnCard.isNullOrBlank())
             params.put("creditCardNumber", !billingInfo.number.isNullOrBlank())

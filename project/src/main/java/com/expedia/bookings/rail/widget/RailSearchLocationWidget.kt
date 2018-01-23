@@ -55,6 +55,5 @@ class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardVie
                         swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray700))
                     }
                 }).subscribe()
-
     }
 }

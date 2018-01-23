@@ -14,7 +14,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import com.expedia.bookings.services.TestObserver
-import io.reactivex.schedulers.Schedulers
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

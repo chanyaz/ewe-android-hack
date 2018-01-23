@@ -56,5 +56,4 @@ class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayou
     fun show() {
         visibility = View.VISIBLE
     }
-
 }

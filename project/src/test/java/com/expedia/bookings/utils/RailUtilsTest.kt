@@ -46,7 +46,7 @@ class RailUtilsTest {
         val params = defaultBuilder().build()
         val toolbarTitle = RailUtils.getToolbarTitleFromSearchRequest(params)
 
-        assertEquals("${testOriginString} - ${testDestinationString}", toolbarTitle)
+        assertEquals("$testOriginString - $testDestinationString", toolbarTitle)
     }
 
     @Test
@@ -79,7 +79,7 @@ class RailUtilsTest {
         assertEquals(expectedSubtitle, toolbarSubtitle)
     }
 
-    private fun defaultBuilder() : RailSearchRequest.Builder {
+    private fun defaultBuilder(): RailSearchRequest.Builder {
         return RailSearchRequest.Builder(20, 100)
                 .departDateTimeMillis(RailSearchRequestMock.departTime())
                 .startDate(RailSearchRequestMock.departDate())
@@ -92,14 +92,13 @@ class RailUtilsTest {
             MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testFormatTimeInterval() {
         var start = DateTime().withTime(8, 30, 0, 0)
-        var end   = DateTime().withTime(11, 10, 0, 0)
+        var end = DateTime().withTime(11, 10, 0, 0)
 
-        assertEquals("8:30 AM – 11:10 AM", RailUtils.formatTimeIntervalToDeviceFormat(context, start, end));
+        assertEquals("8:30 AM – 11:10 AM", RailUtils.formatTimeIntervalToDeviceFormat(context, start, end))
 
         start = DateTime().withTime(8, 30, 0, 0)
-        end   = DateTime().plusDays(1).withTime(8, 30, 0, 0)
+        end = DateTime().plusDays(1).withTime(8, 30, 0, 0)
 
-        assertEquals("8:30 AM - 8:30 AM +1d", RailUtils.formatTimeIntervalToDeviceFormat(context, start, end));
-
+        assertEquals("8:30 AM - 8:30 AM +1d", RailUtils.formatTimeIntervalToDeviceFormat(context, start, end))
     }
 }

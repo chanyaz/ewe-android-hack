@@ -316,7 +316,7 @@ class HotelResultsViewModelTest {
         return filterParams
     }
 
-    private fun getHotelSearchResponse(filePath: String) : HotelSearchResponse {
+    private fun getHotelSearchResponse(filePath: String): HotelSearchResponse {
         val resourceReader = JSONResourceReader(filePath)
         val searchResponse = resourceReader.constructUsingGson(HotelSearchResponse::class.java)
         return searchResponse

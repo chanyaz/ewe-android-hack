@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.mobiata.android.util.SettingUtils
 
-abstract class ShareTargetBroadcastReceiver: BroadcastReceiver() {
+abstract class ShareTargetBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val tripType = SettingUtils.get(context, "TripType", null)
@@ -15,6 +15,5 @@ abstract class ShareTargetBroadcastReceiver: BroadcastReceiver() {
         }
     }
 
-    abstract protected fun onShareTargetReceived(tripType: String, shareTarget: String)
-
+    protected abstract fun onShareTargetReceived(tripType: String, shareTarget: String)
 }

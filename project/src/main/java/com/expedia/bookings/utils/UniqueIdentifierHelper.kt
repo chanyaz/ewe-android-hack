@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.annotation.VisibleForTesting
 import java.util.UUID
 
-
 class UniqueIdentifierHelper {
 
     companion object {
@@ -34,7 +33,5 @@ class UniqueIdentifierHelper {
             editor.putString(PREF_DEVICE_ID, uniqueID)
             editor.apply()
         }
-
     }
-
 }

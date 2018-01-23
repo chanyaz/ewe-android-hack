@@ -32,7 +32,6 @@ open class FlightItinTravelerViewModel(private val context: Context, private val
 
     protected lateinit var userStateManager: UserStateManager
 
-
     fun onResume() {
         updateItinCardDataFlight()
         updateToolbar()
@@ -43,8 +42,8 @@ open class FlightItinTravelerViewModel(private val context: Context, private val
         val destinationCity = itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: ""
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(
                 context.getString(R.string.itin_flight_traveler_info),
-                Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE).
-                        put("destination", destinationCity).format().toString(),
+                Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)
+                        .put("destination", destinationCity).format().toString(),
                 false
         ))
     }
@@ -56,7 +55,7 @@ open class FlightItinTravelerViewModel(private val context: Context, private val
 
     fun updateItinCardDataFlight() {
         val freshItinCardDataFlight = itineraryManager.getItinCardDataFromItinId(itinId)
-        if (freshItinCardDataFlight != null &&  freshItinCardDataFlight is ItinCardDataFlight) {
+        if (freshItinCardDataFlight != null && freshItinCardDataFlight is ItinCardDataFlight) {
             itinCardDataFlight = freshItinCardDataFlight
         } else {
             itinCardDataNotValidSubject.onNext(Unit)

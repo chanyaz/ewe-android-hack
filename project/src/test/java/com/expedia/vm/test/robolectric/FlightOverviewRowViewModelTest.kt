@@ -18,7 +18,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class FlightOverviewRowViewModelTest {
 
-    lateinit private var sut: FlightOverviewRowViewModel
+    private lateinit var sut: FlightOverviewRowViewModel
     lateinit var flightLeg: FlightLeg
 
     fun createSystemUnderTest() {
@@ -53,7 +53,6 @@ class FlightOverviewRowViewModelTest {
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.4", "USD")
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = if (roundUp) BigDecimal(201) else BigDecimal(200)
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
-
 
         val airlines = ArrayList<Airline>()
         val airline1 = Airline("United", null)

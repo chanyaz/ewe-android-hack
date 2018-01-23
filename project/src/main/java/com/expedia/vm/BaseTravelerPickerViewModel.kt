@@ -46,7 +46,6 @@ abstract class BaseTravelerPickerViewModel(var context: Context) {
 
             childTextObservable.onNext(context.resources.getQuantityString(R.plurals.number_of_children,
                     travelers.childrenAges.size, travelers.childrenAges.size))
-
         }
     }
 

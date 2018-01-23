@@ -29,11 +29,10 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelItinDetailsActivityTest {
-    lateinit private var activity: HotelItinDetailsActivity
-    lateinit private var itinCardDataHotel: ItinCardDataHotel
-    lateinit private var intentBuilder: WebViewActivity.IntentBuilder
-    lateinit private var mockAnalyticsProvider: AnalyticsProvider
-
+    private lateinit var activity: HotelItinDetailsActivity
+    private lateinit var itinCardDataHotel: ItinCardDataHotel
+    private lateinit var intentBuilder: WebViewActivity.IntentBuilder
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun before() {
@@ -139,5 +138,4 @@ class HotelItinDetailsActivityTest {
 
         OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppTripsMessageHotel.key), mockAnalyticsProvider)
     }
-
 }

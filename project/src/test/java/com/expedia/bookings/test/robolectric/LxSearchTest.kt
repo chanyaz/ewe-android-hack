@@ -18,16 +18,14 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import kotlin.properties.Delegates
 
-
 @RunWith(RobolectricRunner::class)
 class LXSearchTest {
 
     var vm: LXSearchViewModel by Delegates.notNull()
-    var activity : Activity by Delegates.notNull()
+    var activity: Activity by Delegates.notNull()
     var context: Context? = null
     var inflater: LayoutInflater by Delegates.notNull()
     var searchwidget: LXSearchPresenter by Delegates.notNull()
-
 
     @Before
     fun setup() {

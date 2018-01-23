@@ -32,7 +32,7 @@ class ServicesUtilTest {
     }
 
     @Test
-    @Config(qualifiers="sw720dp")
+    @Config(qualifiers = "sw720dp")
     fun deviceTypeIsTabletOnTablets() {
         assertEquals(DeviceType.TABLET, ServicesUtil.getDeviceType(context))
     }

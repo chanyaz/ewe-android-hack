@@ -42,7 +42,7 @@ class ServerNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : Bas
     }
 
     override fun getNeighborhoodContainer(): LinearLayout {
-        return  neighborhoodGroup
+        return neighborhoodGroup
     }
 
     override fun clear() {

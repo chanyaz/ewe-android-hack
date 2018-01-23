@@ -69,7 +69,7 @@ class FlightCheckoutViewTest {
 
     lateinit var activity: Activity
     private lateinit var flightPresenter: FlightPresenter
-    lateinit private var flightServices: FlightServices
+    private lateinit var flightServices: FlightServices
     private val userAccountRefresherMock = Mockito.mock(UserAccountRefresher::class.java)
     var server: MockWebServer = MockWebServer()
         @Rule get

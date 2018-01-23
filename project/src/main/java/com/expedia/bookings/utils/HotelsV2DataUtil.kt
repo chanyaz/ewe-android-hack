@@ -32,7 +32,6 @@ class HotelsV2DataUtil {
                 } catch (jse: JsonSyntaxException) {
                     throw UnsupportedOperationException()
                 }
-
             }
             return null
         }
@@ -64,7 +63,6 @@ class HotelsV2DataUtil {
             val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, shopWithPointsAvailable, params.sortType, params.mctc)
             return v2params
         }
-
 
         fun generateGson(): Gson {
             val PATTERN = "yyyy-MM-dd"
@@ -136,7 +134,6 @@ class HotelsV2DataUtil {
                     5 -> stringID = R.string.star_circle_rating_five_cont_desc
                 }
                 contDesc = context.getString(stringID)
-
             } else {
                 contDesc = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, hotelStarRating.toInt()))
                         .put("rating", if (hotelStarRating.isWholeNumber()) hotelStarRating.toInt().toString() else hotelStarRating.toString())

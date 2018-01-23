@@ -8,8 +8,6 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.widget.BaseHotelListAdapter
-import com.expedia.vm.hotel.HotelViewModel
-import com.expedia.vm.packages.PackageHotelViewModel
 import io.reactivex.subjects.PublishSubject
 
 class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>, pricingHeaderSelectedSubject: PublishSubject<Unit>) :
@@ -30,8 +28,7 @@ class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, heade
             return R.string.package_hotel_results_includes_header_TEMPLATE
         } else if (shouldShowPackageIncludesMessage) {
             return R.string.package_hotel_results_header_TEMPLATE
-        } else
-            return R.string.package_hotel_results_header
+        } else return R.string.package_hotel_results_header
     }
 
     override fun shouldShowResultDescriptionLabel(context: Context): Boolean {

@@ -8,10 +8,8 @@ import com.expedia.util.endlessObserver
 import io.reactivex.Observer
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import io.reactivex.Observable
 
 class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(context) {
-
 
     private val MAX_GUESTS = 6
     private val MIN_ADULTS = 1
@@ -57,7 +55,6 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
             trackTravelerPickerClick("Add.Adult")
         }
         adultTravelerCountChangeObservable.onNext(Unit)
-
     }
 
     val decrementAdultsObserver: Observer<Unit> = endlessObserver {

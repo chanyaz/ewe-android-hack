@@ -41,15 +41,15 @@ class FrequentFlyerDialogAdapter(context: Context, textViewResId: Int, val dropD
         return enrolledFrequentFlyerPlans[allAirlineCodes[position]]?.membershipNumber ?: ""
     }
 
-    fun getFrequentFlyerProgram(position: Int) : String {
+    fun getFrequentFlyerProgram(position: Int): String {
         return allFrequentFlyerPlans[allAirlineCodes[position]]?.frequentFlyerPlanName ?: ""
     }
 
-    fun getFrequentFlyerFlyerProgramId(position: Int) : String {
+    fun getFrequentFlyerFlyerProgramId(position: Int): String {
         return allFrequentFlyerPlans[allAirlineCodes[position]]?.frequentFlyerPlanID ?: ""
     }
 
-    fun getFrequentFlyerProgramCode(position: Int) : String {
+    fun getFrequentFlyerProgramCode(position: Int): String {
         return allAirlineCodes[position]
     }
 

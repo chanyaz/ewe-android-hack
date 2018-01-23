@@ -270,8 +270,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             latestOutboundOfferToken = offer.railOfferToken
 
             if (searchPresenter.searchViewModel.isRoundTripSearchObservable.value) {
-                inboundResultsViewModel.resultsReturnedSubject.onNext(outboundResultsViewModel.
-                        railResultsObservable.value)
+                inboundResultsViewModel.resultsReturnedSubject.onNext(outboundResultsViewModel
+                        .railResultsObservable.value)
                 inboundResultsViewModel.outboundOfferSubject.onNext(offer)
                 transitionToInboundResults()
             } else {
@@ -452,6 +452,5 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             return true
         }
         return super.back()
-
     }
 }

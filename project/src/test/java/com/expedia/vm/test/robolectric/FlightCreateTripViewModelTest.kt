@@ -45,11 +45,11 @@ class FlightCreateTripViewModelTest {
     var server: MockWebServer = MockWebServer()
         @Rule get
 
-    lateinit private var sut: FlightCreateTripViewModel
-    lateinit private var flightServices: FlightServices
-    lateinit private var selectedCardFeeSubject: PublishSubject<ValidFormOfPayment?>
-    lateinit private var params: FlightCreateTripParams
-    lateinit private var builder: FlightCreateTripParams.Builder
+    private lateinit var sut: FlightCreateTripViewModel
+    private lateinit var flightServices: FlightServices
+    private lateinit var selectedCardFeeSubject: PublishSubject<ValidFormOfPayment?>
+    private lateinit var params: FlightCreateTripParams
+    private lateinit var builder: FlightCreateTripParams.Builder
 
     @Before
     fun setup() {
@@ -146,7 +146,7 @@ class FlightCreateTripViewModelTest {
         val testCreateTripResponseObservable = TestObserver<TripResponse>()
         val testShowCreateTripDialogSubscriber = TestObserver<Boolean>()
 
-        sut.createTripResponseObservable.map{ it.value }.subscribe(testCreateTripResponseObservable)
+        sut.createTripResponseObservable.map { it.value }.subscribe(testCreateTripResponseObservable)
         sut.showCreateTripDialogObservable.subscribe(testShowCreateTripDialogSubscriber)
         activity.finish()
         sut.makeCreateTripResponseObserver().onNext(FlightCreateTripResponse())
@@ -175,12 +175,12 @@ class FlightCreateTripViewModelTest {
 
     private fun givenCreateTripResponseError() {
         val productKey = "INVALID_INPUT"
-        params =  builder.productKey(productKey).build()
+        params = builder.productKey(productKey).build()
     }
 
     private fun givenGoodCreateTripParams() {
         val productKey = "happy_round_trip"
-        params =  builder.productKey(productKey).build()
+        params = builder.productKey(productKey).build()
     }
 
     private fun createMockFlightServices() {
@@ -194,5 +194,4 @@ class FlightCreateTripViewModelTest {
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
                 listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline(), false)
     }
-
 }

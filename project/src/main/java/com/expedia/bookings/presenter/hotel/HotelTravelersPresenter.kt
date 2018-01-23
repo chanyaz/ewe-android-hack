@@ -31,7 +31,6 @@ class HotelTravelersPresenter(context: Context, attrs: AttributeSet) : AbstractT
         }
     }
 
-
     init {
         addTransition(selectToHotelEntry)
     }

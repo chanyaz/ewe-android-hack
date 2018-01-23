@@ -2,7 +2,6 @@ package com.expedia.bookings.itin.widget
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -88,7 +87,6 @@ class FlightItinAirlineSupportDetailsWidget(context: Context?, attrs: AttributeS
         onCustomerSupportWebButtonClick(param)
         onCustomerSupportCallButtonClick(param)
     }
-
 
     private fun onCustomerSupportWebButtonClick(param: FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams) = customerSupportSiteButton.setOnClickListener {
         OmnitureTracking.trackFlightItinAirlineSupportWebsiteClick()

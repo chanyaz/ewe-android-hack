@@ -34,7 +34,7 @@ open class AbstractSearchTrackingData {
             resultsUserActiveTime = time
         }
 
-        open fun getPageLoadTime() : String? {
+        open fun getPageLoadTime(): String? {
             return pageUsableData.getLoadTimeInSeconds()
         }
     }

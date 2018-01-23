@@ -23,7 +23,7 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         var viewType = getKrazyGlueViewHolderTypeFromInt(holder.itemViewType)
         when (viewType) {
-            KrazyglueViewHolderType.HOTEL_VIEW_HOLDER ->  {
+            KrazyglueViewHolderType.HOTEL_VIEW_HOLDER -> {
                 val hotelPosition = getHotelPositionBasedOnABTest(position)
                 (holder as KrazyglueHotelViewHolder).viewModel.hotelObservable.onNext(hotels[hotelPosition])
                 holder.trackingPosition = hotelPosition + 1
@@ -84,7 +84,7 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
         }
     }
 
-    fun getUpdatedLayoutParams(parentWidth: Int) : ViewGroup.MarginLayoutParams {
+    fun getUpdatedLayoutParams(parentWidth: Int): ViewGroup.MarginLayoutParams {
         val displayDensity = context.resources.displayMetrics.density
         val newMargins = (9 * displayDensity).toInt()
         val newLayoutParams = ViewGroup.LayoutParams((parentWidth * 0.8).toInt(), (displayDensity * 90).toInt())

@@ -41,8 +41,8 @@ class FlightSearchViewModelTest {
     var server: MockWebServer = MockWebServer()
         @Rule get
 
-    lateinit private var service: FlightServices
-    lateinit private var sut: FlightSearchViewModel
+    private lateinit var service: FlightServices
+    private lateinit var sut: FlightSearchViewModel
 
     @Test
     fun testFlightSearchDayWithDate() {
@@ -78,7 +78,6 @@ class FlightSearchViewModelTest {
 
         sut.isRoundTripSearchObservable.onNext(false)
         assertEquals("Select departure date", sut.dateTextObservable.value)
-
 
         // For KR and JP, show date first.
         Locale.setDefault(Locale.KOREAN)
@@ -295,7 +294,6 @@ class FlightSearchViewModelTest {
 
         sut.flightCabinClassObserver.onNext(FlightServiceClassType.CabinCode.COACH)
         assertEquals(FlightServiceClassType.CabinCode.COACH.name, sut.getParamsBuilder().build().flightCabinClass)
-
     }
 
     @Test
@@ -343,7 +341,6 @@ class FlightSearchViewModelTest {
             fail("This has to throw exception")
         } catch (e: IllegalArgumentException) {
         }
-
     }
 
     @Test
@@ -432,7 +429,6 @@ class FlightSearchViewModelTest {
         givenParamsHaveDestination()
         givenParamsHaveOrigin()
         givenParamsHaveDates(LocalDate(), null)
-
 
         sut.greedySearchParamsObservable.subscribe(greedySearchTestSubscriber)
         greedySearchTestSubscriber.assertValueCount(0)

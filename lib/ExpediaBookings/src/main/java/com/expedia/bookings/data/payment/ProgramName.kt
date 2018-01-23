@@ -7,7 +7,7 @@ enum class ProgramName {
         fun valueOf(name: String): ProgramName? {
             try {
                 return ProgramName.valueOf(name)
-            } catch(e: IllegalArgumentException) {
+            } catch (e: IllegalArgumentException) {
                 return null
             }
         }

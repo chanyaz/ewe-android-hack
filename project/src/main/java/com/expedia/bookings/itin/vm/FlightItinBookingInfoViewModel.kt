@@ -6,7 +6,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.FlightItinManageBookingActivity
 import com.expedia.bookings.itin.activity.FlightItinTravelerInfoActivity
-import com.expedia.bookings.utils.FeatureToggleUtil
 import io.reactivex.subjects.PublishSubject
 
 open class FlightItinBookingInfoViewModel(private val context: Context, private val itinId: String) {
@@ -20,7 +19,6 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
     fun updateBookingInfoWidget(widgetParams: WidgetParams) {
         widgetSharedSubject.onNext(widgetParams.isShared)
         updateCardViewVMs(widgetParams.travelerNames, widgetParams.url, widgetParams.cardId)
-
     }
 
     private fun updateCardViewVMs(travelerNames: CharSequence, url: String?, cardId: String) {
@@ -62,7 +60,6 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
     val manageBookingCardViewWidgetVM = FlightItinLinkOffCardViewViewModel()
     val priceSummaryCardViewWidgetVM = FlightItinLinkOffCardViewViewModel()
 
-
     val widgetSharedSubject: PublishSubject<Boolean> = PublishSubject.create<Boolean>()
 
     @VisibleForTesting
@@ -77,5 +74,4 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
         }
         return null
     }
-
 }

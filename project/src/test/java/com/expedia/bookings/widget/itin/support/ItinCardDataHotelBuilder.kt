@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget.itin.support
 
-import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.server.TripParser

@@ -29,7 +29,7 @@ class HotelMapViewTest {
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    lateinit private var hotelOffersResponse: HotelOffersResponse
+    private lateinit var hotelOffersResponse: HotelOffersResponse
 
     private var hotelMapView: HotelMapView by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
@@ -95,7 +95,6 @@ class HotelMapViewTest {
         assertEquals("From $241", hotelMapView.selectRoomPrice.text.toString())
         assertEquals("$284", hotelMapView.selectRoomStrikethroughPrice.text.toString())
         assertEquals("Select a Room From $241 button", hotelMapView.selectRoomContainer.contentDescription)
-
     }
 
     @Test

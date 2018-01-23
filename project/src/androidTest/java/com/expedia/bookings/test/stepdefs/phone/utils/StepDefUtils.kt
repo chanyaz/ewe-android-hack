@@ -46,7 +46,7 @@ class StepDefUtils private constructor() {
         @JvmStatic
         fun interceptApiCalls(apiCallsAliases: List<String>, onRequest: ((ApiRequestData) -> Unit)?, onResponse: ((Response) -> Unit)?) {
             val okHttpClient = Ui.getApplication(TestBootstrap.mActivity).appComponent().okHttpClient()
-            val requestInterceptor = okHttpClient.networkInterceptors().mapNotNull { it as? UITestRequestInterceptor}.firstOrNull()
+            val requestInterceptor = okHttpClient.networkInterceptors().mapNotNull { it as? UITestRequestInterceptor }.firstOrNull()
             val apiCalls: List<String> = apiCallsAliases.mapNotNull {
                 apiCallAliases[it]
             }

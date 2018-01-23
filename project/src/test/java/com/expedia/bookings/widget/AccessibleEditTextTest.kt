@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.app.Activity
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
@@ -32,16 +31,14 @@ class AccessibleEditTextTest {
     }
 
     @Test
-    fun testContentDescriptionEmptyText()
-    {
+    fun testContentDescriptionEmptyText() {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.onInitializeAccessibilityNodeInfo(testNode)
         assertEquals("Last Name", testNode.text.toString())
     }
 
     @Test
-    fun testContentDescriptionWithText()
-    {
+    fun testContentDescriptionWithText() {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.setText("Test text")
         editText.onInitializeAccessibilityNodeInfo(testNode)
@@ -49,8 +46,7 @@ class AccessibleEditTextTest {
     }
 
     @Test
-    fun testContentDescriptionWithTextAndError()
-    {
+    fun testContentDescriptionWithTextAndError() {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.setText("Test text")
         editText.valid = false
@@ -59,8 +55,7 @@ class AccessibleEditTextTest {
     }
 
     @Test
-    fun testContentDescriptionWithTextAndErrorMessage()
-    {
+    fun testContentDescriptionWithTextAndErrorMessage() {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.setText("Test text")
         editText.errorMessage = "Enter valid text"

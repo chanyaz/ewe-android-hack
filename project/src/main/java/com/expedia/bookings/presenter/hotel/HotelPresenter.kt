@@ -78,7 +78,6 @@ import com.mobiata.android.Log
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
-import io.reactivex.subjects.PublishSubject
 import java.util.Date
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -326,7 +325,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(context, true)
         return object : DisposableObserver<AbstractItinDetailsResponse>() {
             override fun onComplete() {
-
             }
 
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
@@ -338,7 +336,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 Log.d("Error fetching itin:" + e.stackTrace)
                 bookingSuccessDialog.show()
             }
-
         }
     }
 
@@ -503,7 +500,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         errorPresenter.viewmodel.soldOutObservable.subscribe {
             show(detailPresenter, FLAG_CLEAR_TOP)
         }
-
 
         errorPresenter.viewmodel.sessionTimeOutObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_BACKSTACK)
@@ -778,7 +774,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 trackHotelDetail()
             }
         }
-
     }
 
     private val checkoutToSearch = object : Presenter.Transition(HotelSearchPresenter::class.java, HotelCheckoutPresenter::class.java, AccelerateDecelerateInterpolator(), 500) {

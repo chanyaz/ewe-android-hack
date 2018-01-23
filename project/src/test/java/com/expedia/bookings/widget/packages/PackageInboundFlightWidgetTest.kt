@@ -10,7 +10,6 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.packages.BundleFlightViewModel
@@ -115,7 +114,7 @@ class PackageInboundFlightWidgetTest {
         testWidget.viewModel.travelInfoTextObservable.onNext("")
     }
 
-    private fun buildMockOriginSuggestion() : SuggestionV4 {
+    private fun buildMockOriginSuggestion(): SuggestionV4 {
         val origin = Mockito.mock(SuggestionV4::class.java)
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
         val regionNames = SuggestionV4.RegionNames()
@@ -126,7 +125,7 @@ class PackageInboundFlightWidgetTest {
         return origin
     }
 
-    private fun buildMockAirport() : SuggestionV4.Airport {
+    private fun buildMockAirport(): SuggestionV4.Airport {
         val airport = Mockito.mock(SuggestionV4.Airport::class.java)
         airport.airportCode = testAirportCode
         return airport
@@ -139,11 +138,11 @@ class PackageInboundFlightWidgetTest {
         testWidget.flightDetailsContainer.visibility = View.VISIBLE
 
         val expandedState = "Button to collapse"
-        val expectedText = Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE).
-                put("flight", testFlightText).
-                put("datetraveler", testTravelerInfoText).
-                put("expandstate", expandedState).
-                format().toString()
+        val expectedText = Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE)
+                .put("flight", testFlightText)
+                .put("datetraveler", testTravelerInfoText)
+                .put("expandstate", expandedState)
+                .format().toString()
 
         assertEquals(expectedText, testWidget.selectedCardContentDescription())
     }
@@ -155,11 +154,11 @@ class PackageInboundFlightWidgetTest {
         testWidget.flightDetailsContainer.visibility = View.GONE
 
         val collapsedState = "Button to expand"
-        val expectedText = Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE).
-                put("flight", testFlightText).
-                put("datetraveler", testTravelerInfoText).
-                put("expandstate", collapsedState).
-                format().toString()
+        val expectedText = Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE)
+                .put("flight", testFlightText)
+                .put("datetraveler", testTravelerInfoText)
+                .put("expandstate", collapsedState)
+                .format().toString()
 
         assertEquals(expectedText, testWidget.selectedCardContentDescription())
     }
@@ -177,11 +176,11 @@ class PackageInboundFlightWidgetTest {
     fun testLoadingContentDescription() {
         testWidget.loadingStateObservable.onNext(true)
 
-        val expectedText = Phrase.from(activity, R.string.select_flight_searching_cont_desc_TEMPLATE).
-                put("flight", testFlightText).
-                put("date", LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(2))).
-                put("travelers", "1 traveler").
-                format().toString()
+        val expectedText = Phrase.from(activity, R.string.select_flight_searching_cont_desc_TEMPLATE)
+                .put("flight", testFlightText)
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(2)))
+                .put("travelers", "1 traveler")
+                .format().toString()
 
         assertEquals(expectedText, testWidget.getRowInfoContainer().contentDescription)
     }
@@ -213,20 +212,20 @@ class PackageInboundFlightWidgetTest {
     }
 
     @Test
-    fun testBackPressExpanded(){
+    fun testBackPressExpanded() {
         testWidget.expandFlightDetails()
         testWidget.backButtonPressed()
         assertEquals(testWidget.flightDetailsContainer.visibility, Presenter.GONE)
     }
 
     @Test
-    fun testBackPressCollapsed(){
+    fun testBackPressCollapsed() {
         testWidget.collapseFlightDetails()
         testWidget.backButtonPressed()
         assertEquals(testWidget.flightDetailsContainer.visibility, Presenter.GONE)
     }
 
-    fun buildMockFlight() : FlightLeg {
+    fun buildMockFlight(): FlightLeg {
         val flight = Mockito.mock(FlightLeg::class.java)
         flight.destinationAirportCode = testAirportCode
         flight.destinationCity = testRegionName

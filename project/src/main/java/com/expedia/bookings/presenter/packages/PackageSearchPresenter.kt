@@ -73,8 +73,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
                 if (this.visibility == VISIBLE && vm.startDate() == null && !AccessibilityUtil.isTalkBackEnabled(context)) {
                     calendarWidgetV2.showCalendarDialog()
                 }
-            }
-            else {
+            } else {
                 destinationCardView.setText(getDestinationSearchBoxPlaceholderText())
                 destinationCardView.contentDescription = getDestinationSearchBoxPlaceholderText()
             }
@@ -85,8 +84,8 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
         }
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.getTravelerCount()
-            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
-                    put("travelers", noOfTravelers).format().toString()
+            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers))
+                    .put("travelers", noOfTravelers).format().toString()
         }
 
         vm.previousSearchParamsObservable.subscribe { params ->

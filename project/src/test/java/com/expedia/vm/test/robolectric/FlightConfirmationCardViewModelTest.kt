@@ -21,7 +21,7 @@ class FlightConfirmationCardViewModelTest {
     val secondaryHeaderText = TestObserver.create<String>()
 
     val outboundDepartureDateTimeISO = DateTime.now().toString()
-    val arrivalDateTimeIso  = DateTime.now().plusDays(2).toString()
+    val arrivalDateTimeIso = DateTime.now().plusDays(2).toString()
     val flightTime = FlightV2Utils.formatTimeShort(getContext(), outboundDepartureDateTimeISO)
     val formattedDate = formatDate(outboundDepartureDateTimeISO)
     val numberOfTravelers = 3
@@ -43,13 +43,13 @@ class FlightConfirmationCardViewModelTest {
         urlSubscriber.assertValue("")
     }
 
-    fun formatDate(ISODate: String) : String {
+    fun formatDate(ISODate: String): String {
         val outboundLocal = DateTime.parse(ISODate).toLocalDate()
         val formattedDate = LocaleBasedDateFormatUtils.localDateToMMMd(outboundLocal).toString()
         return formattedDate
     }
 
-    private fun makeFlightLeg(departureTime: String, arrivalTime: String = "") : FlightLeg {
+    private fun makeFlightLeg(departureTime: String, arrivalTime: String = ""): FlightLeg {
         val arrivalAirportCode = "OAX"
         val arrivalCity = "Oakland"
         val departureAirportCode = "SEA"
@@ -70,7 +70,7 @@ class FlightConfirmationCardViewModelTest {
         return flight
     }
 
-    private fun makeFlightSegment(arrivalAirportCode: String, arrivalCity: String, departureAirportCode: String, departureCity: String) :  FlightLeg.FlightSegment{
+    private fun makeFlightSegment(arrivalAirportCode: String, arrivalCity: String, departureAirportCode: String, departureCity: String): FlightLeg.FlightSegment {
         val arrivalSegment = FlightLeg.FlightSegment()
         arrivalSegment.arrivalAirportAddress = FlightLeg.FlightSegment.AirportAddress()
         arrivalSegment.departureAirportAddress = FlightLeg.FlightSegment.AirportAddress()

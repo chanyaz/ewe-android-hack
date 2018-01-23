@@ -66,7 +66,6 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
             }
         }
 
-
         notificationManager.scheduleAll()
         notificationManager.cancelAllExpired()
     }
@@ -86,12 +85,10 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
         if (!regId.isNullOrEmpty()) {
             Log.d(LOGGING_TAG, "registerForPushNotifications regId:$regId is not empty!")
 
-
             val langId = pos.dualLanguageId
             val siteId = pos.siteId
             val userTuid: Long = 0
             val tnsUser = getTNSUser(siteId)
-
 
             val courier = Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(context))
             //use old Flight Alert system
@@ -109,7 +106,6 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
                         "registerForPushNotifications response:" + resp.success)
 
                 tnsServices.deregisterForFlights(tnsUser, courier)
-
             } else {
                 //use new TNS system
                 val payload = PushNotificationUtils
@@ -140,7 +136,6 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
             TNSUser(siteIdString, null, null, guid)
         }
     }
-
 
     fun getItinFlights(itinCardDatas: List<ItinCardData>): List<Flight> {
         val retFlights = ArrayList<Flight>()
@@ -197,5 +192,4 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
     private fun makeNewFailedObserver() = endlessObserver<List<ItinCardData>> {
         scheduleLocalNotifications(it)
     }
-
 }

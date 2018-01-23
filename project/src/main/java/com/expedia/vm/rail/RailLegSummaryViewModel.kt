@@ -29,8 +29,7 @@ class RailLegSummaryViewModel(context: Context) {
         getAppliedRailcardNames(railProduct)
     }
 
-    val railSummaryContentDescription = ObservableOld.combineLatest(railLegOptionObserver, formattedStopsAndDurationObservable)
-    { legOption, stopsAndDuration ->
+    val railSummaryContentDescription = ObservableOld.combineLatest(railLegOptionObserver, formattedStopsAndDurationObservable) { legOption, stopsAndDuration ->
         Phrase.from(context, R.string.rail_result_card_cont_desc_TEMPLATE)
                 .put("departuretime", RailUtils.formatTimeToDeviceFormat(context, legOption.getDepartureDateTime()))
                 .put("arrivaltime", RailUtils.formatTimeToDeviceFormat(context, legOption.getArrivalDateTime()))
@@ -60,5 +59,4 @@ class RailLegSummaryViewModel(context: Context) {
         }
         return ""
     }
-
 }

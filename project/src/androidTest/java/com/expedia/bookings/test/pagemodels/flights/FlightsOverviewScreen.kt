@@ -37,7 +37,7 @@ object FlightsOverviewScreen {
 
     @JvmStatic fun clickOnCheckoutButton(): ViewInteraction {
         EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.checkout_button), 30, TimeUnit.SECONDS)
-        return onView(withId(R.id.checkout_button)).perform(click());
+        return onView(withId(R.id.checkout_button)).perform(click())
     }
     @JvmStatic fun fareFamilyWidget(): ViewInteraction {
         return onView(withId(R.id.fare_family_widget))
@@ -64,45 +64,45 @@ object FlightsOverviewScreen {
         return onView(withId(R.id.traveller))
     }
     @JvmStatic fun fareFamilyDetailsWidgetDoneBtn(): ViewInteraction {
-        return onView(AllOf.allOf(withId(R.id.search_btn), isDescendantOfA(withId(R.id.fare_family_details))));
+        return onView(AllOf.allOf(withId(R.id.search_btn), isDescendantOfA(withId(R.id.fare_family_details))))
     }
     @JvmStatic fun fareFamilyDetailsWidgetLocationLabel(): ViewInteraction {
-        return onView(AllOf.allOf(withId(R.id.fare_family_location), isDescendantOfA(withId(R.id.fare_family_details))));
+        return onView(AllOf.allOf(withId(R.id.fare_family_location), isDescendantOfA(withId(R.id.fare_family_details))))
     }
     @JvmStatic fun fareFamilyDetailsWidgetAirlinesLabel(): ViewInteraction {
-        return onView(AllOf.allOf(withId(R.id.fare_family_airlines), isDescendantOfA(withId(R.id.fare_family_details))));
+        return onView(AllOf.allOf(withId(R.id.fare_family_airlines), isDescendantOfA(withId(R.id.fare_family_details))))
     }
     @JvmStatic fun fareFamilyDetailsWidgetFarelist(): ViewInteraction {
-        return onView(AllOf.allOf(withId(R.id.flight_fare_family_radio_group), isDescendantOfA(withId(R.id.fare_family_details))));
+        return onView(AllOf.allOf(withId(R.id.flight_fare_family_radio_group), isDescendantOfA(withId(R.id.fare_family_details))))
     }
 
     @JvmStatic fun fareFamilyDetailsBundleTotalPrice(): ViewInteraction {
-        return onView(AllOf.allOf(withId(R.id.bundle_total_price), isDescendantOfA(withId(R.id.upsell_total_price_widget))));
+        return onView(AllOf.allOf(withId(R.id.bundle_total_price), isDescendantOfA(withId(R.id.upsell_total_price_widget))))
     }
 
     @JvmStatic fun fareFamilyDetailsAmenitiesDialog(): ViewInteraction {
-        return onView(withId(R.id.fare_family_name));
+        return onView(withId(R.id.fare_family_name))
     }
 
     @JvmStatic fun flightOverviewBundleTotalPrice(): ViewInteraction {
-        return onView(AllOf.allOf(withId(R.id.bundle_total_price), isDescendantOfA(withId(R.id.total_price_widget))));
+        return onView(AllOf.allOf(withId(R.id.bundle_total_price), isDescendantOfA(withId(R.id.total_price_widget))))
     }
 
-    @JvmStatic fun fareFamilyItemRadioButton(position:Int): ViewInteraction {
+    @JvmStatic fun fareFamilyItemRadioButton(position: Int): ViewInteraction {
         return onView(withIndex(withId(R.id.fare_family_radio_button), position - 1))
     }
 
-    @JvmStatic fun fareFamilyItemFamilyTitle(position:Int): ViewInteraction {
+    @JvmStatic fun fareFamilyItemFamilyTitle(position: Int): ViewInteraction {
         return onView(withIndex(withId(R.id.fare_family_class_title), position - 1))
     }
 
-    @JvmStatic fun fareFamilyItemDeltaPrice(position:Int): ViewInteraction {
+    @JvmStatic fun fareFamilyItemDeltaPrice(position: Int): ViewInteraction {
         return onView(withIndex(withId(R.id.fare_family_class_price_delta), position - 1))
     }
 
     @JvmStatic
     fun fareFamilyPrimaryAmenityContainer(position: Int): ViewInteraction {
-        return onView(withIndex(withId(R.id.fare_family_primary_amenities_container), position -1 ))
+        return onView(withIndex(withId(R.id.fare_family_primary_amenities_container), position - 1 ))
     }
 
     @JvmStatic
@@ -114,7 +114,7 @@ object FlightsOverviewScreen {
     fun fareFamilyPrimaryAmenityTextDrawable(amenityLabel: String, position: Int): ViewInteraction {
        return onView(allOf(withId(R.id.fare_family_amenity_text_icon),
                 withParent(hasSibling(allOf(withId(R.id.fare_family_amenity_text), withText(amenityLabel)))),
-                isDescendantOfA(withIndex(withId(R.id.fare_family_primary_amenities_container), position -1 ))))
+                isDescendantOfA(withIndex(withId(R.id.fare_family_primary_amenities_container), position - 1 ))))
     }
 
     @JvmStatic fun fareFamilyPrimaryAmenityIconDrawable(amenityLabel: String, position: Int): ViewInteraction {
@@ -123,23 +123,23 @@ object FlightsOverviewScreen {
                 isDescendantOfA(withIndex(withId(R.id.fare_family_primary_amenities_container), position - 1))))
     }
 
-    @JvmStatic fun fareFamilyItemClass(position:Int): ViewInteraction {
+    @JvmStatic fun fareFamilyItemClass(position: Int): ViewInteraction {
         return onView(withIndex(withId(R.id.fare_family_class_subtitle), position - 1))
     }
 
-    @JvmStatic fun fareFamilyItemRoundTrip(position:Int): ViewInteraction {
+    @JvmStatic fun fareFamilyItemRoundTrip(position: Int): ViewInteraction {
         return onView(withIndex(withId(R.id.fare_family_class_roundtrip_text), position - 1))
     }
 
-    @JvmStatic fun fareFamilyItemTravelerLabel(position:Int): ViewInteraction {
+    @JvmStatic fun fareFamilyItemTravelerLabel(position: Int): ViewInteraction {
         return onView(withIndex(withId(R.id.fare_family_traveler_text), position - 1))
     }
 
     @JvmStatic fun flightOverviewBaggagePopUpHeading(): ViewInteraction {
-        return onView(AllOf.allOf(withText("Baggage fee information"), isDescendantOfA(withId(R.id.baggage_info_parent))));
+        return onView(AllOf.allOf(withText("Baggage fee information"), isDescendantOfA(withId(R.id.baggage_info_parent))))
     }
 
     @JvmStatic fun flightOverviewBaggagePopUpMessage(): ViewInteraction {
-        return onView(AllOf.allOf(withText("Baggage fees when purchased at the airport:"), isDescendantOfA(withId(R.id.baggage_info_parent))));
+        return onView(AllOf.allOf(withText("Baggage fees when purchased at the airport:"), isDescendantOfA(withId(R.id.baggage_info_parent))))
     }
 }

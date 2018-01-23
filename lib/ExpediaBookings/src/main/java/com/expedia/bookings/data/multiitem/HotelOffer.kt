@@ -1,6 +1,5 @@
 package com.expedia.bookings.data.multiitem
 
-
 data class HotelOffer(
         val id: String,
         val name: String,

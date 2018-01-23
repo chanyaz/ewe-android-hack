@@ -85,7 +85,7 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
     }
 
     fun updateWithSearchOptions(filterOptions: UserFilterChoices) {
-        if (!filterOptions.name.isNullOrEmpty())  hotelNameFilterView.updateName(filterOptions.name)
+        if (!filterOptions.name.isNullOrEmpty()) hotelNameFilterView.updateName(filterOptions.name)
         filterVipView.update(filterOptions.isVipOnlyAccess)
         starRatingView.update(filterOptions.hotelStarRating)
     }

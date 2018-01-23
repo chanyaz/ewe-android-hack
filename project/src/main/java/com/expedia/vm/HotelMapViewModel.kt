@@ -25,21 +25,20 @@ import java.math.BigDecimal
 
 val ROOMS_LEFT_CUTOFF = 5
 
-class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<Unit>, val hotelSoldOut: Observable<Boolean>, val lob:LineOfBusiness) {
+class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<Unit>, val hotelSoldOut: Observable<Boolean>, val lob: LineOfBusiness) {
     //Outputs for View
     val hotelName = BehaviorSubject.create<String>()
     val hotelStarRating = BehaviorSubject.create<Float>()
     val hotelStarRatingVisibility = BehaviorSubject.create<Boolean>()
-    val hotelStarRatingContentDescription= BehaviorSubject.create<String>()
+    val hotelStarRatingContentDescription = BehaviorSubject.create<String>()
     val strikethroughPrice = BehaviorSubject.create<CharSequence>()
     private val price = BehaviorSubject.create<CharSequence>()
     val fromPrice = BehaviorSubject.createDefault<CharSequence>("")
     val fromPriceVisibility = fromPrice.map { it != null && !it.equals("") }
     var isShopWithPoints = PublishSubject.create<Boolean>()
     var isAirAttached = PublishSubject.create<Boolean>()
-    val strikethroughPriceVisibility = ObservableOld.combineLatest(fromPriceVisibility, strikethroughPrice, isShopWithPoints, isAirAttached)
-                                        {fromPriceVisible, strikethroughPrice, isShopWithPoints, isAirAttached ->
-                                            ((fromPriceVisible && strikethroughPrice.isNotEmpty()) && (isShopWithPoints || !isAirAttached))}
+    val strikethroughPriceVisibility = ObservableOld.combineLatest(fromPriceVisibility, strikethroughPrice, isShopWithPoints, isAirAttached) { fromPriceVisible, strikethroughPrice, isShopWithPoints, isAirAttached ->
+                                            ((fromPriceVisible && strikethroughPrice.isNotEmpty()) && (isShopWithPoints || !isAirAttached)) }
     val hotelLatLng = BehaviorSubject.create<DoubleArray>()
     val selectARoomInvisibility = BehaviorSubject.createDefault<Boolean>(false)
     var selectRoomContDescription = PublishSubject.create<String>()

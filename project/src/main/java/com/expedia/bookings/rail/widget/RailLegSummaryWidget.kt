@@ -49,13 +49,13 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayou
         vm.formattedStopsAndDurationObservable.subscribeText(duration)
         vm.formattedTimesObservable.subscribeText(travelTimes)
         vm.fareDescriptionObservable.subscribe { text ->
-            if(!text?.toString().isNullOrBlank()) {
+            if (!text?.toString().isNullOrBlank()) {
                 fareDescription.text = text
                 fareDescription.contentDescription = Phrase.from(context, R.string.a11y_button_TEMPLATE)
                         .put("description", text)
                         .format().toString()
             }
-            fareDescription.visibility = if(text?.toString().isNullOrBlank()) View.INVISIBLE else View.VISIBLE
+            fareDescription.visibility = if (text?.toString().isNullOrBlank()) View.INVISIBLE else View.VISIBLE
         }
         vm.legOptionObservable.subscribe { railLegOption ->
             timeline.updateLeg(railLegOption)
@@ -74,13 +74,13 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayou
         }).subscribe()
 
         vm.railCardNameObservable.subscribe { text ->
-            if(!text?.toString().isNullOrBlank()) {
+            if (!text?.toString().isNullOrBlank()) {
                 railCardName.text = text
                 railCardName.contentDescription = Phrase.from(context, R.string.rail_railcard_applied_cont_desc_TEMPLATE)
                         .put("railcards", text)
                         .format().toString()
             }
-            railCardName.visibility = if(text?.toString().isNullOrBlank()) View.GONE else View.VISIBLE
+            railCardName.visibility = if (text?.toString().isNullOrBlank()) View.GONE else View.VISIBLE
         }
 
         vm.railSummaryContentDescription.subscribeContentDescription(legInfoContainer)

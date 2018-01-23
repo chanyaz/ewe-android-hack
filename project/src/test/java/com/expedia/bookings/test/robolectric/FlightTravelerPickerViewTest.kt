@@ -43,7 +43,6 @@ class FlightTravelerPickerViewTest {
         assertEquals(expectedYouthText(0), getYouthText())
         assertEquals(expectedChildText(0), getChildText())
         assertEquals(expectedInfantText(0), getInfantText())
-
     }
 
     @Test
@@ -57,7 +56,6 @@ class FlightTravelerPickerViewTest {
         assertTrue(isAdultIncrementButtonEnabled())
         assertFalse(isChildIncrementButtonEnabled())
         assertFalse(isInfantIncrementButtonEnabled())
-
     }
 
     @Test
@@ -71,7 +69,6 @@ class FlightTravelerPickerViewTest {
         assertTrue(isAdultIncrementButtonEnabled())
         assertFalse(isYouthIncrementButtonEnabled())
         assertFalse(isInfantIncrementButtonEnabled())
-
     }
 
     @Test
@@ -85,11 +82,10 @@ class FlightTravelerPickerViewTest {
         assertTrue(isAdultIncrementButtonEnabled())
         assertFalse(isYouthIncrementButtonEnabled())
         assertFalse(isChildIncrementButtonEnabled())
-        vm.showSeatingPreference=true
+        vm.showSeatingPreference = true
         setInfantPreferenceInLap()
         assertTrue(isInfantInLapPreferenceSelected())
-        assertEquals(View.VISIBLE,travelerPicker.infantPreferenceSeatingView.visibility)
-
+        assertEquals(View.VISIBLE, travelerPicker.infantPreferenceSeatingView.visibility)
     }
 
     @Test
@@ -102,7 +98,6 @@ class FlightTravelerPickerViewTest {
         vm.showSeatingPreference = false
         setInfantPreferenceInLap()
         assertEquals(View.GONE, travelerPicker.infantError.visibility)
-
     }
 
     @Test
@@ -110,7 +105,7 @@ class FlightTravelerPickerViewTest {
         incrementInfant(2)
         vm.showSeatingPreference = true
         setInfantPreferenceInLap()
-        assertEquals(View.VISIBLE,travelerPicker.infantPreferenceSeatingView.visibility)
+        assertEquals(View.VISIBLE, travelerPicker.infantPreferenceSeatingView.visibility)
         assertEquals(View.VISIBLE, travelerPicker.infantError.visibility)
         setInfantPreferenceInSeat()
         assertEquals(View.GONE, travelerPicker.infantError.visibility)
@@ -123,11 +118,10 @@ class FlightTravelerPickerViewTest {
         decrementInfant(1)
         assertEquals(View.GONE, travelerPicker.infantError.visibility)
         decrementInfant(1)
-        assertEquals(View.GONE,travelerPicker.infantPreferenceSeatingView.visibility)
-
+        assertEquals(View.GONE, travelerPicker.infantPreferenceSeatingView.visibility)
     }
     @Test
-    fun testInLapAndInSeat(){
+    fun testInLapAndInSeat() {
         incrementInfant(1)
         setInfantPreferenceInLap()
         assertTrue(isInfantInLapPreferenceSelected())
@@ -140,7 +134,6 @@ class FlightTravelerPickerViewTest {
         incrementInfant(1)
         assertTrue(isInfantInSeatPreferenceSelected())
         assertFalse(isInfantInLapPreferenceSelected())
-
     }
 
     @Test
@@ -161,7 +154,6 @@ class FlightTravelerPickerViewTest {
         assertEquals("1", vm.travelerParamsObservable.value.childrenAges.joinToString())
         decrementInfant(1)
         assertEquals("", vm.travelerParamsObservable.value.childrenAges.joinToString())
-
     }
 
     @Test
@@ -175,7 +167,6 @@ class FlightTravelerPickerViewTest {
         assertTrue(isChildIncrementButtonEnabled())
         assertTrue(isYouthIncrementButtonEnabled())
         assertTrue(isInfantIncrementButtonEnabled())
-
     }
 
     @Test
@@ -244,7 +235,6 @@ class FlightTravelerPickerViewTest {
 
         decrementInfant(4)
         assertFalse(isInfantDecrementButtonEnabled())
-
     }
 
     fun incrementAdult(count: Int) {
@@ -259,11 +249,11 @@ class FlightTravelerPickerViewTest {
         }
     }
 
-    fun isAdultIncrementButtonEnabled() : Boolean {
+    fun isAdultIncrementButtonEnabled(): Boolean {
         return travelerPicker.adultCountSelector.travelerPlus.isEnabled
     }
 
-    fun isAdultDecrementButtonEnabled() : Boolean {
+    fun isAdultDecrementButtonEnabled(): Boolean {
         return travelerPicker.adultCountSelector.travelerMinus.isEnabled
     }
 
@@ -302,72 +292,71 @@ class FlightTravelerPickerViewTest {
         }
     }
 
-    fun isChildIncrementButtonEnabled() : Boolean {
+    fun isChildIncrementButtonEnabled(): Boolean {
         return travelerPicker.childCountSelector.travelerPlus.isEnabled
     }
 
-    fun isChildDecrementButtonEnabled() : Boolean {
+    fun isChildDecrementButtonEnabled(): Boolean {
         return travelerPicker.childCountSelector.travelerMinus.isEnabled
     }
 
-    fun isYouthDecrementButtonEnabled() : Boolean {
+    fun isYouthDecrementButtonEnabled(): Boolean {
         return travelerPicker.youthCountSelector.travelerMinus.isEnabled
     }
 
-    fun isYouthIncrementButtonEnabled() : Boolean {
+    fun isYouthIncrementButtonEnabled(): Boolean {
         return travelerPicker.youthCountSelector.travelerPlus.isEnabled
     }
 
-    fun isInfantDecrementButtonEnabled() : Boolean {
+    fun isInfantDecrementButtonEnabled(): Boolean {
         return travelerPicker.infantCountSelector.travelerMinus.isEnabled
     }
 
-    fun isInfantIncrementButtonEnabled() : Boolean {
+    fun isInfantIncrementButtonEnabled(): Boolean {
         return travelerPicker.infantCountSelector.travelerPlus.isEnabled
     }
 
-    fun setInfantPreferenceInLap() : Unit {
+    fun setInfantPreferenceInLap() {
         travelerPicker.infantInLap.setChecked(true)
     }
 
-    fun setInfantPreferenceInSeat() : Unit {
+    fun setInfantPreferenceInSeat() {
         travelerPicker.infantInSeat.setChecked(true)
     }
 
-    fun getAdultText() : CharSequence {
+    fun getAdultText(): CharSequence {
         return travelerPicker.adultCountSelector.travelerText.text
     }
 
-    fun getYouthText() : CharSequence {
+    fun getYouthText(): CharSequence {
         return travelerPicker.youthCountSelector.travelerText.text
     }
 
-    fun getChildText() : CharSequence {
+    fun getChildText(): CharSequence {
         return travelerPicker.childCountSelector.travelerText.text
     }
 
-    fun getInfantText() : CharSequence {
+    fun getInfantText(): CharSequence {
         return travelerPicker.infantCountSelector.travelerText.text
     }
-    fun expectedAdultText(count: Int) : String {
+    fun expectedAdultText(count: Int): String {
         return activity.resources.getQuantityString(R.plurals.number_of_adults, count, count)
     }
 
-    fun expectedYouthText(count: Int) : String {
+    fun expectedYouthText(count: Int): String {
         return activity.resources.getQuantityString(R.plurals.number_of_youth, count, count)
     }
-    fun expectedInfantText(count: Int) : String {
+    fun expectedInfantText(count: Int): String {
         return activity.resources.getQuantityString(R.plurals.number_of_infant, count, count)
     }
 
-    fun expectedChildText(count: Int) : String {
+    fun expectedChildText(count: Int): String {
         return activity.resources.getQuantityString(R.plurals.number_of_children, count, count)
     }
-    fun isInfantInLapPreferenceSelected() : Boolean {
+    fun isInfantInLapPreferenceSelected(): Boolean {
         return (travelerPicker.infantInLap.isChecked)
     }
-    fun isInfantInSeatPreferenceSelected() : Boolean {
+    fun isInfantInSeatPreferenceSelected(): Boolean {
         return (travelerPicker.infantInSeat.isChecked)
     }
-
 }

@@ -138,7 +138,6 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-
     private fun makeList(): ArrayAdapter<String> {
         val list = ArrayList<String>()
         list.add("Complete")
@@ -257,8 +256,8 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
             if (!phone_cb.isChecked) {
                 traveler.getJSONArray("phoneNumbers").remove(0)
             }
-            if (!traveler_known_cb.isChecked) traveler.put("TSAKnownTravelerNumber","")
-            if (!redress_cb.isChecked) traveler.put("TSARedressNumber","")
+            if (!traveler_known_cb.isChecked) traveler.put("TSAKnownTravelerNumber", "")
+            if (!redress_cb.isChecked) traveler.put("TSARedressNumber", "")
             if (!assistance_cb.isChecked) traveler.remove("specialAssistanceOptions")
             if (baby_in_lap_cb.isChecked) traveler.put("typeCode", "INFANT_IN_LAP")
             if (!frequent_flyer_cb.isChecked) traveler.getJSONArray("frequentFlyerPlans").remove(0)

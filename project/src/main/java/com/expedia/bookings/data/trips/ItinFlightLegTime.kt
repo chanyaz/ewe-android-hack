@@ -4,16 +4,16 @@ import com.mobiata.android.json.JSONable
 import org.json.JSONException
 import org.json.JSONObject
 
-class ItinFlightLegTime  : JSONable {
-     var raw : String = ""
-     var localized : String = ""
-     var epochSeconds : String = ""
-     var timeZoneOffsetSeconds : String  = ""
-     var localizedShortDate : String  = ""
-     var localizedMediumDate : String  = ""
-     var localizedFullDate : String  = ""
-     var localizedLongDate : String = ""
-     var localizedShortTime : String  = ""
+class ItinFlightLegTime : JSONable {
+     var raw: String = ""
+     var localized: String = ""
+     var epochSeconds: String = ""
+     var timeZoneOffsetSeconds: String = ""
+     var localizedShortDate: String = ""
+     var localizedMediumDate: String = ""
+     var localizedFullDate: String = ""
+     var localizedLongDate: String = ""
+     var localizedShortTime: String = ""
 
     override fun toJson(): JSONObject? {
         val obj = JSONObject()
@@ -29,10 +29,9 @@ class ItinFlightLegTime  : JSONable {
             obj.putOpt("localizedLongDate", localizedLongDate)
             obj.putOpt("localizedShortTime", localizedShortTime)
             return obj
-        } catch (e : JSONException) {
+        } catch (e: JSONException) {
             throw RuntimeException(e)
         }
-
     }
 
     override fun fromJson(obj: JSONObject): Boolean {
@@ -47,5 +46,4 @@ class ItinFlightLegTime  : JSONable {
         localizedShortTime = obj.optString("localizedShortTime", localizedShortTime)
         return true
     }
-
 }

@@ -89,4 +89,3 @@ open class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentM
         }
     }
 }
-

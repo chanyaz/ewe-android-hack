@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils
 
-import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test

@@ -62,7 +62,6 @@ open class AddGuestItinViewModel(val context: Context) {
         return CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == ValidationError.NO_ERROR
     }
 
-
     inner class createSyncAdapter : ItineraryManager.ItinerarySyncAdapter() {
         override fun onTripFailedFetchingGuestItinerary() {
             showErrorObservable.onNext(true)

@@ -88,7 +88,6 @@ class LaunchLobAdapter(private val launchLobViewModel: LaunchLobViewModel) : Rec
             }
             lobText.setCompoundDrawablesWithIntrinsicBounds(lobDrawable, null, null, null)
 
-
             val lp = lobText.layoutParams as FrameLayout.LayoutParams?
             if (spansMultipleColumns) {
                 lp?.gravity = Gravity.CENTER

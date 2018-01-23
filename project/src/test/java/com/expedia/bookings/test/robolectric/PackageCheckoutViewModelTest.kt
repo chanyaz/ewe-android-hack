@@ -42,7 +42,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class PackageCheckoutViewModelTest {
     var testViewModel: PackageCheckoutViewModel by Delegates.notNull()
-    var activity : Activity by Delegates.notNull()
+    var activity: Activity by Delegates.notNull()
 
     var serviceRule = ServicesRule(PackageServices::class.java)
         @Rule get

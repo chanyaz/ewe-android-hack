@@ -50,7 +50,6 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
         }
 
         override fun onComplete() {
-
         }
     }
 

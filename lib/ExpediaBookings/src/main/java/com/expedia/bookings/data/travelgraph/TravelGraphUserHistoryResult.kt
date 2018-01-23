@@ -8,7 +8,7 @@ class TravelGraphUserHistoryResult {
     var action: TravelGraphUserHistoryResponse.TravelGraphItemType? = null
     var items: List<TravelGraphItem> = emptyList()
 
-    fun convertToSuggestionV4List() : List<SuggestionV4> {
+    fun convertToSuggestionV4List(): List<SuggestionV4> {
         val suggestionList = ArrayList<SuggestionV4>()
         items.forEach { tgItem ->
             if (tgItem.isValid()) {

@@ -75,7 +75,6 @@ class PackageActivity : AbstractAppCompatActivity() {
 
                         val rate = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo
                         packagePresenter.bundlePresenter.totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
-
                     } else if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT) && isBackFlowFromOverviewEnabled(this)) {
                         Db.sharedInstance.packageParams.currentFlights.set(1, Db.sharedInstance.packageParams.defaultFlights.get(1))
 
@@ -85,7 +84,6 @@ class PackageActivity : AbstractAppCompatActivity() {
                         packagePresenter.bundlePresenter.totalPriceWidget.resetPriceWidget()
                         val packagePrice = Db.sharedInstance.packageSelectedOutboundFlight.packageOfferModel.price
                         packagePresenter.bundlePresenter.totalPriceWidget.viewModel.setPriceValues(packagePrice.packageTotalPrice, packagePrice.tripSavings)
-
                     } else if (packagePresenter.backStack.size == 2) {
                         Db.sharedInstance.packageParams.currentFlights = Db.sharedInstance.packageParams.defaultFlights
 
@@ -218,8 +216,7 @@ class PackageActivity : AbstractAppCompatActivity() {
         if (isFinishing) {
             clearCCNumber()
             clearStoredCard()
-        }
-        else {
+        } else {
             Ui.hideKeyboard(this)
         }
     }

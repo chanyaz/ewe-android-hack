@@ -22,7 +22,6 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelBreakDownViewModel
@@ -133,7 +132,6 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
                     .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width / 2))
         }
         breakdown.viewmodel = HotelBreakDownViewModel(context, viewModel)
-
     }
 
     private fun setUpFreeCancellationSubscription() {

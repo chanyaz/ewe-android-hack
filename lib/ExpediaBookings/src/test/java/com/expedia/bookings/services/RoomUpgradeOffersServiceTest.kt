@@ -16,7 +16,6 @@ import kotlin.test.assertEquals
 
 class RoomUpgradeOffersServiceTest {
 
-
     val server = MockWebServer()
         @Rule get
 

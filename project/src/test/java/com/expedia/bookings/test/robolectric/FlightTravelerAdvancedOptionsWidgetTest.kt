@@ -62,7 +62,7 @@ class FlightTravelerAdvancedOptionsWidgetTest {
                 expectedPosition = widget.assistanceAdapter.currentPosition,
                 actualPosition = widget.assistanceAdapter.getAssistanceTypePosition(assistancePreference))
 
-        testAlert.clickOnItem(0);
+        testAlert.clickOnItem(0)
         assertWidgetHasCorrectData(editBoxForDialog = editBoxForDialog,
                 expectedType = Traveler.AssistanceType.NONE,
                 viewModelValue = widget.viewModel.assistancePreferenceSubject.value,
@@ -97,8 +97,7 @@ class FlightTravelerAdvancedOptionsWidgetTest {
                 expectedPosition = widget.seatPreferenceAdapter.currentPosition,
                 actualPosition = widget.seatPreferenceAdapter.getSeatPreferencePosition(seatPreference))
 
-
-        testAlert.clickOnItem(1);
+        testAlert.clickOnItem(1)
         assertWidgetHasCorrectData(editBoxForDialog,
                 expectedType = Traveler.SeatPreference.WINDOW,
                 viewModelValue = widget.viewModel.seatPreferenceSubject.value,
@@ -206,7 +205,7 @@ class FlightTravelerAdvancedOptionsWidgetTest {
         assertEquals(expectedPosition, actualPosition)
     }
 
-    private fun setupViewModel() : TravelerAdvancedOptionsViewModel {
+    private fun setupViewModel(): TravelerAdvancedOptionsViewModel {
 
         val vm = TravelerAdvancedOptionsViewModel(context)
         val traveler = Traveler()

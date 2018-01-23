@@ -8,5 +8,4 @@ class RailInboundDetailsPresenter(context: Context, attrs: AttributeSet) : RailD
     override fun showDeltaPricing(): Boolean {
         return true
     }
-
 }

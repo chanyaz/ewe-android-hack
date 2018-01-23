@@ -15,8 +15,8 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboun
     override fun price(): String {
         val priceToShow = StringBuilder()
         var price = flightLeg.packageOfferModel.price.averageTotalPricePerTicket
-        if(!isOutboundSearch && showDeltaPricing) {
-            if(flightLeg.packageOfferModel.price.deltaPositive) {
+        if (!isOutboundSearch && showDeltaPricing) {
+            if (flightLeg.packageOfferModel.price.deltaPositive) {
                 priceToShow.append("+ ")
             }
             price = flightLeg.packageOfferModel.price.deltaPrice
@@ -24,7 +24,7 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboun
         return priceToShow.append(Money.getFormattedMoneyFromAmountAndCurrencyCode(price.roundedAmount, price.currencyCode, Money.F_NO_DECIMAL)).toString()
     }
 
-    override fun getUrgencyMessageVisibility(seatsLeft : String): Boolean {
+    override fun getUrgencyMessageVisibility(seatsLeft: String): Boolean {
         return Strings.isNotEmpty(seatsLeft)
     }
 
@@ -40,4 +40,3 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboun
         return R.string.flight_detail_card_cont_desc_without_price_diff_TEMPLATE
     }
 }
-

@@ -17,11 +17,11 @@ object FlightCheckInDialogBuilder {
     @JvmStatic
     fun onCreateDialog(context: Context, airlineName: String, airlineCode: String, confirmationCode: String, isSplitTicket: Boolean, flightLegs: Int): AlertDialog {
         val dialogLayout = (context as Activity).layoutInflater.inflate(R.layout.itin_check_in_dialog, null)
-        val noText = dialogLayout.findViewById<TextView>(R.id.itin_checkin_no) 
-        val dialogMsg = dialogLayout.findViewById<TextView>(R.id.itin_checkin_msg) 
-        val dialogTitle = dialogLayout.findViewById<TextView>(R.id.dialog_title) 
-        val dialogBody = dialogLayout.findViewById<ViewGroup>(R.id.dialog_body) 
-        val yesText = dialogLayout.findViewById<TextView>(R.id.itin_checkin_yes) 
+        val noText = dialogLayout.findViewById<TextView>(R.id.itin_checkin_no)
+        val dialogMsg = dialogLayout.findViewById<TextView>(R.id.itin_checkin_msg)
+        val dialogTitle = dialogLayout.findViewById<TextView>(R.id.dialog_title)
+        val dialogBody = dialogLayout.findViewById<ViewGroup>(R.id.dialog_body)
+        val yesText = dialogLayout.findViewById<TextView>(R.id.itin_checkin_yes)
         dialogMsg.text = context.getString(R.string.itin_checkin_dialog_message, airlineName)
         val builder = AlertDialog.Builder(context)
         builder.setCancelable(false)
@@ -43,7 +43,6 @@ object FlightCheckInDialogBuilder {
 
             fadeOutAnim.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator) {
-
                 }
 
                 override fun onAnimationEnd(animation: Animator) {
@@ -56,16 +55,13 @@ object FlightCheckInDialogBuilder {
                 }
 
                 override fun onAnimationCancel(animation: Animator) {
-
                 }
 
                 override fun onAnimationRepeat(animation: Animator) {
-
                 }
             })
             fadeOutAnim.setDuration(300).start()
         }
         return alertDialog
     }
-
 }

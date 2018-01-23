@@ -1,5 +1,5 @@
 package com.expedia.bookings.deeplink
 
-class TripDeepLink: DeepLink() {
+class TripDeepLink : DeepLink() {
     var itinNum: String? = null
 }

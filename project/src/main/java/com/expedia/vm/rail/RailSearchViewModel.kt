@@ -46,7 +46,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
             returnTimeSliderTooltipColor.onNext(if (isValid) defaultTimeTooltipColor else errorTimeTooltipColor)
         }
 
-        setUpTimeSliderSubject.onNext(Pair(null,null))
+        setUpTimeSliderSubject.onNext(Pair(null, null))
         isRoundTripSearchObservable.subscribe { isRoundTrip ->
             getParamsBuilder().searchType(isRoundTrip)
         }
@@ -137,7 +137,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         super.onDatesChanged(dates)
     }
 
-    override fun onTimesChanged(times: Pair<Int, Int>){
+    override fun onTimesChanged(times: Pair<Int, Int>) {
         val (startMillis, endMillis) = times
         getParamsBuilder().departDateTimeMillis(startMillis)
         getParamsBuilder().returnDateTimeMillis(endMillis)
@@ -157,7 +157,6 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         if (isEndTimeBeforeStartTime() && isRoundTripSearchObservable.value) {
             returnTimeSubject.onNext(Optional(getStartDateTimeAsMillis() + DateTime().withHourOfDay(2).withMinuteOfHour(0).millisOfDay))
         }
-
     }
 
     override fun getAllowedMinProgress(now: DateTime): Int {
@@ -173,11 +172,11 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         return DateFormatUtils.formatRailDateRange(context, start, end)
     }
 
-    override fun getCalendarSliderTooltipStartTimeLabel(): String{
+    override fun getCalendarSliderTooltipStartTimeLabel(): String {
         return context.resources.getString(R.string.rail_departing_at)
     }
 
-    override fun getCalendarSliderTooltipEndTimeLabel(): String{
+    override fun getCalendarSliderTooltipEndTimeLabel(): String {
         return context.resources.getString(R.string.rail_returning_at)
     }
 
@@ -190,7 +189,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
 
     override fun getEmptyDateText(forContentDescription: Boolean): String {
         val label = getCalendarDateLabel()
-        if (forContentDescription)  {
+        if (forContentDescription) {
             return getDateAccessibilityText(label, "")
         }
         return label
@@ -215,10 +214,9 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
             return getDateAccessibilityText(getCalendarDateLabel(), dateTimeRange)
         }
         return dateTimeRange
-
     }
 
-    private fun getCalendarDateLabel() : String {
+    private fun getCalendarDateLabel(): String {
         val resId = if (isRoundTripSearchObservable.value) R.string.select_dates else R.string.select_departure_date
         return context.getString(resId)
     }

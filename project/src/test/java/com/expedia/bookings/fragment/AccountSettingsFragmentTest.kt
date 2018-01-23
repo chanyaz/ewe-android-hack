@@ -382,7 +382,7 @@ class AccountSettingsFragmentTest {
     }
 
     private fun clickChildViewWithText(expectedText: String, viewGroup: ViewGroup) {
-        for (i in 0..viewGroup.childCount-1) {
+        for (i in 0..viewGroup.childCount - 1) {
             val childView = viewGroup.getChildAt(i)
             if (childView is ViewGroup) {
                 clickChildViewWithText(expectedText, childView)
@@ -476,7 +476,7 @@ class AccountSettingsFragmentTest {
 
     class FragmentUtilActivity() : FragmentActivity(), AboutSectionFragment.AboutSectionFragmentListener, CopyrightFragment.CopyrightFragmentListener {
 
-        lateinit private var fragment: AccountSettingsFragment
+        private lateinit var fragment: AccountSettingsFragment
 
         fun setFragment(fragment: AccountSettingsFragment) {
             this.fragment = fragment
@@ -506,5 +506,4 @@ class AccountSettingsFragmentTest {
             setContentView(view)
         }
     }
-
 }

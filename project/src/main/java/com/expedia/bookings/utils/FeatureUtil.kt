@@ -41,7 +41,7 @@ fun isShowFlightsCheckoutWebview(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
 }
 
-fun isKrazyglueOnFlightsConfirmationEnabled(context: Context) : Boolean {
+fun isKrazyglueOnFlightsConfirmationEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsKrazyglue)
 }
 
@@ -54,7 +54,7 @@ fun isCreditCardMessagingForPayLaterEnabled(context: Context): Boolean {
             FeatureToggleUtil.isFeatureEnabled(context, R.string.pay_later_credit_card_messaging)
 }
 
-fun isBrandColorEnabled(context: Context) : Boolean {
+fun isBrandColorEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)
 }
 
@@ -89,7 +89,6 @@ fun isBackFlowFromOverviewEnabled(context: Context): Boolean {
 private fun isPackageForceUpdateEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog)
 }
-
 
 fun isDisplayFlightSeatingClassForShoppingEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass) &&

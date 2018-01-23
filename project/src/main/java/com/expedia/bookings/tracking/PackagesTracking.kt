@@ -14,7 +14,7 @@ import com.expedia.vm.BaseFlightFilterViewModel
 
 class PackagesTracking {
 
-    fun trackCheckoutStart(packageDetails:PackageCreateTripResponse.PackageDetails, hotelSupplierType: String) {
+    fun trackCheckoutStart(packageDetails: PackageCreateTripResponse.PackageDetails, hotelSupplierType: String) {
         OmnitureTracking.trackPackagesCheckoutStart(packageDetails, hotelSupplierType)
     }
 
@@ -98,8 +98,7 @@ class PackagesTracking {
         if (isOutBound) {
             OmnitureTracking.trackPackagesFlightRoundTripOutLoad(pageUsableData)
             TuneUtils.trackPackageOutBoundResults(packageParams)
-        }
-        else {
+        } else {
             OmnitureTracking.trackPackagesFlightRoundTripInLoad(pageUsableData)
             TuneUtils.trackPackageInBoundResults(packageParams)
         }
@@ -108,8 +107,7 @@ class PackagesTracking {
     fun trackFlightRoundTripDetailsLoad(isOutBound: Boolean) {
         if (isOutBound)
             OmnitureTracking.trackPackagesFlightRoundTripOutDetailsLoad()
-        else
-            OmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad()
+        else OmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad()
     }
 
     fun trackHotelDetailLoad(hotelId: String, pageUsableData: PageUsableData) {

@@ -50,7 +50,6 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-
 @RunWith(RobolectricRunner::class)
 class NotificationSchedulerTest {
 
@@ -123,7 +122,6 @@ class NotificationSchedulerTest {
         assertNotEquals("", expediaServicesMock.mRegID)
         Mockito.verify(expediaServicesMock, Mockito.times(1)).registerForPushNotifications(expediaServicesMock.handler!!,
                 expediaServicesMock.mPayload!!, expediaServicesMock.mRegID)
-
     }
 
     @After
@@ -155,7 +153,6 @@ class NotificationSchedulerTest {
         assertEquals(expectedFlightList, actualFlightList)
         assertEquals(expectedDateFormatWithTZ, actualFlightList[0].departure_date)
     }
-
 
     @Test
     fun testIsFlightDataAvailable() {
@@ -221,9 +218,7 @@ class NotificationSchedulerTest {
         override fun getAddToCalendarIntents(): MutableList<Intent> = listOf<Intent>().toMutableList()
 
         override fun generateNotifications(): MutableList<Notification> = listOf(Notification()).toMutableList()
-
     }
-
 
     private fun itinCardDataMultiSegmentFlight(): List<ItinCardDataFlight> = listOf(ItinCardDataFlightBuilder().build(multiSegment = true))
 
@@ -253,7 +248,6 @@ class NotificationSchedulerTest {
         override fun deregisterForFlights(user: TNSUser, courier: Courier) {
             tnsFlights = null
         }
-
     }
 
     open class TestExpediaServices : ExpediaServicesPushInterface {
@@ -280,7 +274,5 @@ class NotificationSchedulerTest {
         override fun searchForExistingAndUpdate(notification: Notification) {
             mNotification = notification
         }
-
     }
-
 }

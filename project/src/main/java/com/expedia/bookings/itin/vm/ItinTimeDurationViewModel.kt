@@ -2,11 +2,9 @@ package com.expedia.bookings.itin.vm
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
-import com.expedia.bookings.R
 import com.expedia.bookings.utils.DateUtils
 import com.mobiata.android.Log
 import com.mobiata.flightlib.utils.DateTimeUtils
-import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 
 abstract class ItinTimeDurationViewModel(private val context: Context) {

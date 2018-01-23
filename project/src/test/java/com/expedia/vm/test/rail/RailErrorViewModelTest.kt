@@ -21,7 +21,7 @@ class RailErrorViewModelTest {
 
     val context = RuntimeEnvironment.application
 
-    lateinit private var subjectUnderTest: RailErrorViewModel
+    private lateinit var subjectUnderTest: RailErrorViewModel
 
     @Before
     fun before() {

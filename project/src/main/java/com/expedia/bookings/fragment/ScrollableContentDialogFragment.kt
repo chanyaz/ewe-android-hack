@@ -73,5 +73,4 @@ class ScrollableContentDialogFragment : DialogFragment() {
         }
         return null
     }
-
 }

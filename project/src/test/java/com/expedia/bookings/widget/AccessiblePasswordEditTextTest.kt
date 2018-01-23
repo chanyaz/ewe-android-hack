@@ -31,16 +31,14 @@ class AccessiblePasswordEditTextTest {
     }
 
     @Test
-    fun testContentDescriptionEmptyText()
-    {
+    fun testContentDescriptionEmptyText() {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.onInitializeAccessibilityNodeInfo(testNode)
         assertEquals("CVV", testNode.text.toString())
     }
 
     @Test
-    fun testContentDescriptionWithText()
-    {
+    fun testContentDescriptionWithText() {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.setText("123")
         editText.onInitializeAccessibilityNodeInfo(testNode)
@@ -48,8 +46,7 @@ class AccessiblePasswordEditTextTest {
     }
 
     @Test
-    fun testContentDescriptionWithTextAndError()
-    {
+    fun testContentDescriptionWithTextAndError() {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.setText("321")
         editText.valid = false
@@ -58,8 +55,7 @@ class AccessiblePasswordEditTextTest {
     }
 
     @Test
-    fun testContentDescriptionWithTextAndErrorMessage()
-    {
+    fun testContentDescriptionWithTextAndErrorMessage() {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.setText("321")
         editText.valid = false

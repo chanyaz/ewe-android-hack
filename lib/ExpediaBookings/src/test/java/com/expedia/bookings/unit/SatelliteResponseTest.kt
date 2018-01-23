@@ -36,9 +36,9 @@ class SatelliteResponseTest {
     fun testSatelliteResponse() {
         val searchResponseObserver: TestObserver<List<String>> = TestObserver()
         sat.fetchFeatureConfig(searchResponseObserver)
-        searchResponseObserver.awaitValueCount(1,10, TimeUnit.SECONDS)
+        searchResponseObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
         searchResponseObserver.assertValueCount(1)
-        val response  = listOf("downloadConfigsOnPOSChange","14731","14732","14484","mocked")
+        val response = listOf("downloadConfigsOnPOSChange", "14731", "14732", "14484", "mocked")
         searchResponseObserver.assertValues(response)
     }
 }

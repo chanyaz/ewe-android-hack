@@ -53,9 +53,9 @@ class FlightOffersViewModelTest {
     var server: MockWebServer = MockWebServer()
         @Rule get
 
-    lateinit private var flightServices: FlightServices
-    lateinit private var sut: FlightOffersViewModel
-    lateinit private var flightSearchParams: FlightSearchParams
+    private lateinit var flightServices: FlightServices
+    private lateinit var sut: FlightOffersViewModel
+    private lateinit var flightSearchParams: FlightSearchParams
 
     private val context = RuntimeEnvironment.application
     private val isRoundTripSearchSubject = BehaviorSubject.create<Boolean>()
@@ -379,7 +379,7 @@ class FlightOffersViewModelTest {
     }
 
     @Test
-    fun testOutboundFlightMap(){
+    fun testOutboundFlightMap() {
         val testSubscriber = TestObserver<List<FlightLeg>>()
         sut.outboundResultsObservable.subscribe(testSubscriber)
 
@@ -539,5 +539,4 @@ class FlightOffersViewModelTest {
             return Mockito.mock(Disposable::class.java)
         }
     }
-
 }

@@ -48,7 +48,6 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
     val removeCoupon: ImageButton by bindView(R.id.remove_coupon_button)
     var progress: View by Delegates.notNull()
 
-
     var viewmodel: HotelCouponViewModel by notNullAndObservable {
         viewmodel.applyObservable.subscribe {
             showProgress(true)
@@ -114,7 +113,6 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
 
         View.inflate(getContext(), getViewToInflate(), this)
         background = null
-
 
         //Tests hates progress bars
         val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -188,7 +186,6 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
         }
     }
 
-
     abstract fun onExpand()
 
     override fun getActionBarTitle(): String? {
@@ -218,11 +215,9 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
     }
 
     override fun onLogin() {
-
     }
 
     override fun onLogout() {
-
     }
 
     override fun isComplete(): Boolean {

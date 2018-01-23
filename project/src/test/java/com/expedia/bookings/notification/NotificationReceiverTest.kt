@@ -24,12 +24,11 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import kotlin.test.assertEquals
 
-
 @RunWith(RobolectricRunner::class)
 class NotificationReceiverTest {
 
-    lateinit private var mockItineraryManager: ItineraryManager
-    lateinit private var notificationReceiver: TestNotificationReceiver
+    private lateinit var mockItineraryManager: ItineraryManager
+    private lateinit var notificationReceiver: TestNotificationReceiver
 
     @Before
     fun setUp() {

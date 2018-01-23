@@ -23,12 +23,10 @@ class SignInPlaceholderCard(itemView: View, context: Context) : AbstractGenericP
         button_two.setOnClickListener {
             if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
                 NavUtils.goToAccount(activity, Config.InitialState.SinglePageCreateAccount)
-            }
-            else {
+            } else {
                 NavUtils.goToAccount(activity, Config.InitialState.CreateAccount)
             }
             OmnitureTracking.trackLaunchSignIn()
         }
     }
-
 }

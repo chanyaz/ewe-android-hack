@@ -2,7 +2,7 @@ package com.expedia.bookings.data
 
 import org.joda.time.DateTime
 
-class FlightItinDetailsResponse: AbstractItinDetailsResponse() {
+class FlightItinDetailsResponse : AbstractItinDetailsResponse() {
 
     lateinit var responseData: FlightResponseData
 
@@ -30,7 +30,6 @@ class FlightItinDetailsResponse: AbstractItinDetailsResponse() {
             class Price {
                 lateinit var total: String
             }
-
         }
     }
 

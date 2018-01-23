@@ -26,7 +26,6 @@ class StarRatingBarTest {
         ratingBar = android.view.LayoutInflater.from(activity).inflate(R.layout.star_rating_bar_test, null) as StarRatingBar
         spacing = ratingBar.getStarSpacing()
         drawable = ratingBar.getStarDrawable()
-
     }
 
     @Test
@@ -56,5 +55,4 @@ class StarRatingBarTest {
         assertEquals(expectedWidth.toInt(), ratingBar.measuredWidth)
         assertEquals(expectedHeight.toInt(), ratingBar.measuredHeight)
     }
-
 }

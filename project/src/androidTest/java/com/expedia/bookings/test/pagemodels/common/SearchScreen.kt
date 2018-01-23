@@ -193,8 +193,7 @@ object SearchScreen {
     @JvmStatic fun search(adults: Int, children: Int, clickSwP: Boolean = false, hotelSearch: Boolean = false) {
         if (hotelSearch) {
             selectDestination()
-        }
-        else {
+        } else {
             selectPackageOriginAndDestination()
         }
         val startDate = LocalDate.now().plusDays(3)
@@ -290,7 +289,7 @@ object SearchScreen {
 
     @Throws(Throwable::class)
     @JvmStatic fun errorDialog(text: String): ViewInteraction {
-        return onView(withText(text)).inRoot(withDecorView(not(`is`(SpoonScreenshotUtils.getCurrentActivity().window.decorView))));
+        return onView(withText(text)).inRoot(withDecorView(not(`is`(SpoonScreenshotUtils.getCurrentActivity().window.decorView))))
     }
 
     @Throws(Throwable::class)

@@ -2,7 +2,7 @@ package com.expedia.bookings.deeplink
 
 import org.joda.time.LocalDate
 
-class FlightDeepLink: DeepLink() {
+class FlightDeepLink : DeepLink() {
     var origin: String? = null
     var destination: String? = null
     var departureDate: LocalDate? = null

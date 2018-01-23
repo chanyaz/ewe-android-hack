@@ -38,5 +38,4 @@ class AirportSuggestionViewModel(context: Context, suggestionsService: Suggestio
 
     override fun isSuggestionOnOneCharEnabled(): Boolean =
             AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter)
-
 }

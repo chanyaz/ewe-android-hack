@@ -35,7 +35,7 @@ class FlightsV2DataUtilTest {
         assertEquals(deeplinkLocation, suggestionFromDeeplinkLocation?.regionNames?.shortName)
         assertEquals(deeplinkLocation, suggestionFromDeeplinkLocation?.hierarchyInfo?.airport?.airportCode)
     }
-    
+
     private fun getDummyFlightSearchParams(): FlightSearchParams {
         val flightSearchParams = FlightSearchParams()
         val location = Location()

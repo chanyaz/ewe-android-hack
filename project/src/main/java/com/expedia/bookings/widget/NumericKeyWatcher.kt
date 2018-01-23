@@ -3,8 +3,6 @@ package com.expedia.bookings.widget
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.BaseInputConnection
-import android.view.inputmethod.InputConnection
-import android.view.inputmethod.InputConnectionWrapper
 import io.reactivex.subjects.PublishSubject
 
 class NumericKeyWatcher(view: View, mutable: Boolean, val outPutTextSubject: PublishSubject<String>) : BaseInputConnection(view, mutable) {
@@ -32,7 +30,7 @@ class NumericKeyWatcher(view: View, mutable: Boolean, val outPutTextSubject: Pub
         return super.deleteSurroundingText(beforeLength, afterLength)
     }
 
-    private fun isNumericKeycode(event: KeyEvent): Boolean{
+    private fun isNumericKeycode(event: KeyEvent): Boolean {
         return (event.keyCode === KeyEvent.KEYCODE_0 ||
                 event.keyCode === KeyEvent.KEYCODE_1 ||
                 event.keyCode === KeyEvent.KEYCODE_2 ||

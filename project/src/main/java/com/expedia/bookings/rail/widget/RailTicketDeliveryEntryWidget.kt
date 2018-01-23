@@ -133,12 +133,12 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Lin
     private fun isValid(): Boolean {
         var valid = true
         if (viewModel.ticketDeliveryObservable.value == TicketDeliveryMethod.DELIVER_BY_MAIL) {
-            valid =  deliveryAddressEntry.isValid()
+            valid = deliveryAddressEntry.isValid()
         }
         return valid
     }
 
-    private fun areEntryFormsFilled() : Boolean {
+    private fun areEntryFormsFilled(): Boolean {
         if (viewModel.ticketDeliveryObservable.value == TicketDeliveryMethod.DELIVER_BY_MAIL) {
             return deliveryAddressEntry.areFormsFilledIn()
         }

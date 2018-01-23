@@ -37,5 +37,4 @@ open class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
             }
         }).subscribe()
     }
-
 }

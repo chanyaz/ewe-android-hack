@@ -12,7 +12,7 @@ abstract class FlightTripResponse : TripResponse() {
     val createTripStatus = CreateTripError.NULL
     var isFareFamilyUpgraded = false
 
-    fun getSelectedInsuranceProduct() : InsuranceProduct? = getOffer().selectedInsuranceProduct
+    fun getSelectedInsuranceProduct(): InsuranceProduct? = getOffer().selectedInsuranceProduct
 
     fun getAvailableInsuranceProducts(): List<InsuranceProduct> = getOffer().availableInsuranceProducts
 

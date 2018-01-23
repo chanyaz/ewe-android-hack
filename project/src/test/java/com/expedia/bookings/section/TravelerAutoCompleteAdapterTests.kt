@@ -20,9 +20,9 @@ class TravelerAutoCompleteAdapterTests {
 
     val context = RuntimeEnvironment.application
 
-    lateinit private var sut: TravelerAutoCompleteAdapter
-    lateinit private var user: User
-    lateinit private var userStateManager: UserStateManager
+    private lateinit var sut: TravelerAutoCompleteAdapter
+    private lateinit var user: User
+    private lateinit var userStateManager: UserStateManager
 
     @Before
     fun setup() {
@@ -108,7 +108,7 @@ class TravelerAutoCompleteAdapterTests {
         userStateManager.userSource.user = user
     }
 
-    class TestTravelerAutoCompleteAdapter(context: Context): TravelerAutoCompleteAdapter(context) {
+    class TestTravelerAutoCompleteAdapter(context: Context) : TravelerAutoCompleteAdapter(context) {
         override fun isUserLoggedIn(): Boolean {
             return true
         }

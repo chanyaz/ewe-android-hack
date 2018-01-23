@@ -29,15 +29,15 @@ class LXSuggestionViewModel(val context: Context) {
                 cityNameVisibility.onNext(true)
                 iconObservable.onNext(R.drawable.recents)
                 contentDescriptionObservable.onNext(R.string.recent_searched_location)
-            } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON){
+            } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {
                 //TODO
                 iconObservable.onNext(R.drawable.ic_suggest_current_location)
                 cityNameVisibility.onNext(false)
-                contentDescriptionObservable.onNext(R.string.current_location);
+                contentDescriptionObservable.onNext(R.string.current_location)
             } else {
                 cityNameVisibility.onNext(true)
                 iconObservable.onNext(R.drawable.search_type_icon)
-                contentDescriptionObservable.onNext(R.string.suggested_location);
+                contentDescriptionObservable.onNext(R.string.suggested_location)
             }
         }
     }

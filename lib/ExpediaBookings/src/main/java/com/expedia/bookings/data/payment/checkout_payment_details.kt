@@ -25,7 +25,7 @@ data class CardDetails(
         val amountOnCard: String?,
         val storeCreditCardInUserProfile: Boolean = false,
         val currencyCode: String? = null,
-        val country:String? = null)
+        val country: String? = null)
 
 data class RewardDetails(
         val membershipId: String? = null,
@@ -37,7 +37,7 @@ data class RewardDetails(
         val currencyCode: String)
 
 data class PaymentInfo(
-        val cards : List<CardDetails> ?,
+        val cards: List<CardDetails> ?,
         val rewards: List<RewardDetails> ?)
 
 data class MiscellaneousParams(

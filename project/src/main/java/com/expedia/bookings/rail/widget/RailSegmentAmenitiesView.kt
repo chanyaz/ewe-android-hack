@@ -17,7 +17,7 @@ class RailSegmentAmenitiesView(context: Context) : FrameLayout(context) {
     val stationInfo: TextView by bindView(R.id.rail_station_info)
     val fareInfo: TextView by bindView(R.id.fare_info)
     val noAmenities: TextView by bindView(R.id.no_amenities)
-    val amenitiesText : TextView by bindView(R.id.amenities_text)
+    val amenitiesText: TextView by bindView(R.id.amenities_text)
 
     var viewModel: RailSegmentAmenitiesViewModel by notNullAndObservable { vm ->
         vm.stationDescriptionObservable.subscribeText(stationInfo)

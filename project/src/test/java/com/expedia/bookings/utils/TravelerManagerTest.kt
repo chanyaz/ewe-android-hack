@@ -126,7 +126,7 @@ class TravelerManagerTest {
         assertEquals(mockTravelerProvider.testFirstName, Db.sharedInstance.travelers[0].firstName)
     }
 
-    private fun getPackageParams() : PackageSearchParams {
+    private fun getPackageParams(): PackageSearchParams {
         // Can't mock PackageSearchParams because it's a 'data' class. So we have to build one.... #KotlinOP
         val packageParams = PackageSearchParams.Builder(26, 329)
                 .startDate(LocalDate.now().plusDays(1))

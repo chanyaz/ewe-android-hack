@@ -58,7 +58,6 @@ abstract class BaseSearchViewModel(val context: Context) {
     protected abstract fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String
     protected abstract fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String
 
-
     open val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         setOriginText(suggestion)
     }
@@ -83,12 +82,12 @@ abstract class BaseSearchViewModel(val context: Context) {
         return AccessibilityUtil.isTalkBackEnabled(context)
     }
 
-    open protected var requiredSearchParamsObserver = endlessObserver<Unit> {
+    protected open var requiredSearchParamsObserver = endlessObserver<Unit> {
         // open so HotelSearchViewModel can override it
         searchButtonObservable.onNext(getParamsBuilder().areRequiredParamsFilled())
     }
 
-    open protected fun updateTraveler() {
+    protected open fun updateTraveler() {
         travelersObservable.subscribe { update ->
             getParamsBuilder().adults(update.numberOfAdults)
             getParamsBuilder().children(update.childrenAges)
@@ -111,7 +110,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     }
 
     @CallSuper
-    open protected fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
+    protected open fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         val (start, end) = dates
         selectedDates = dates
 
@@ -132,7 +131,7 @@ abstract class BaseSearchViewModel(val context: Context) {
         }
     }
 
-    open protected fun getToolTipContentDescription(startDate: LocalDate?, endDate: LocalDate?, isRoundTripSearch: Boolean = true): String {
+    protected open fun getToolTipContentDescription(startDate: LocalDate?, endDate: LocalDate?, isRoundTripSearch: Boolean = true): String {
         if (startDate == null && endDate == null) {
             return context.resources.getString(R.string.select_dates_proper_case)
         } else if (endDate == null && isRoundTripSearch) {

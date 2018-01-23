@@ -9,7 +9,7 @@ import com.expedia.util.endlessObserver
 import io.reactivex.Observer
 import io.reactivex.subjects.BehaviorSubject
 
-class RailTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(context){
+class RailTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(context) {
 
     val MAX_RAIL_TRAVELER = 8
     val MIN_RAIL_TRAVELER = 0

@@ -32,7 +32,7 @@ class LXOverviewPresenter(context: Context, attrs: AttributeSet) : BaseSingleScr
         View.inflate(context, R.layout.lx_overview, this)
         slideToPurchase.visibility = View.VISIBLE
         slideToPurchaseLayout.visibility = View.VISIBLE
-        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.subscribe{ response ->
+        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.subscribe { response ->
             val createTripResponse = response.value as LXCreateTripResponseV2
             val tripTotalPrice = if (createTripResponse.hasPriceChange()) createTripResponse.newTotalPrice else (checkoutPresenter.getCreateTripViewModel() as LXCreateTripViewModel).lxState.latestTotalPrice()
             checkoutPresenter.travelersPresenter.viewModel.refresh()
@@ -40,12 +40,12 @@ class LXOverviewPresenter(context: Context, attrs: AttributeSet) : BaseSingleScr
         }
     }
 
-    fun makeNewCreateTripCall(){
+    fun makeNewCreateTripCall() {
         checkoutPresenter.getCreateTripViewModel().performCreateTrip.onNext(Unit)
     }
 
-    fun getCheckoutPresenter() : LxCheckoutPresenterV2 {
-        return checkoutPresenter  as LxCheckoutPresenterV2
+    fun getCheckoutPresenter(): LxCheckoutPresenterV2 {
+        return checkoutPresenter as LxCheckoutPresenterV2
     }
 
     override fun onFinishInflate() {

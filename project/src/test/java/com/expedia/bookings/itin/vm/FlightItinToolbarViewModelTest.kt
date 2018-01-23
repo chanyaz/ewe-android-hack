@@ -12,8 +12,8 @@ import com.expedia.bookings.services.TestObserver
 
 @RunWith (RobolectricRunner::class)
 class FlightItinToolbarViewModelTest {
-    lateinit private var activity: Activity
-    lateinit private var sut: ItinToolbarViewModel
+    private lateinit var activity: Activity
+    private lateinit var sut: ItinToolbarViewModel
 
     val toolbarTitleSubscriber = TestObserver<String>()
     val toolbarSubTitleSubscriber = TestObserver<String>()
@@ -34,8 +34,8 @@ class FlightItinToolbarViewModelTest {
         toolbarTitleSubscriber.assertNoValues()
         toolbarSubTitleSubscriber.assertNoValues()
         shareIconSubscriber.assertNoValues()
-        val destination = Phrase.from(activity, R.string.itin_flight_toolbar_title_TEMPLATE).
-                put("destination", "Vancouver").format().toString()
+        val destination = Phrase.from(activity, R.string.itin_flight_toolbar_title_TEMPLATE)
+                .put("destination", "Vancouver").format().toString()
         sut.updateWidget(ItinToolbarViewModel.ToolbarParams(destination, "Aug 21", true))
         toolbarTitleSubscriber.assertValue("Flight to Vancouver")
         toolbarSubTitleSubscriber.assertValue("Aug 21")

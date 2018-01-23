@@ -45,7 +45,7 @@ class SOSServiceTest {
         val observer = TestMemberDealObsrver()
         val params = MemberDealsRequest()
 
-        service!!.fetchMemberDeals(params,observer)
+        service!!.fetchMemberDeals(params, observer)
         observer.awaitTerminalEvent(3, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
@@ -73,6 +73,5 @@ class SOSServiceTest {
         server.setDispatcher(ExpediaDispatcher(opener))
     }
 
-    class TestMemberDealObsrver : TestObserver<DealsResponse>() {
-    }
+    class TestMemberDealObsrver : TestObserver<DealsResponse>()
 }

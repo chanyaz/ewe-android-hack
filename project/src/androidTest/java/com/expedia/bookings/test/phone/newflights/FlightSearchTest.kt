@@ -10,13 +10,11 @@ import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
-import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Test
 
-class FlightSearchTest: NewFlightTestCase() {
+class FlightSearchTest : NewFlightTestCase() {
 
     @Test
     fun testAirportDoesNotAutoAdvanceSecondTime() {
@@ -66,7 +64,7 @@ class FlightSearchTest: NewFlightTestCase() {
         SearchScreen.selectDateButton().check(matches(withText("$expectedStartDate  -  $expectedEndDate")))
 
         SearchScreen.searchButton().perform(click())
-        SearchScreen.errorDialog("Please make sure your departure and arrival cities are in different places.").check(matches(isDisplayed()));
+        SearchScreen.errorDialog("Please make sure your departure and arrival cities are in different places.").check(matches(isDisplayed()))
     }
 
     @Test

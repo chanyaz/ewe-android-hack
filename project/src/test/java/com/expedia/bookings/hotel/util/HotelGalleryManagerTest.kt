@@ -44,7 +44,7 @@ class HotelGalleryManagerTest {
         assertEquals(0, testManager.fetchMediaList(DEFAULT_HOTEL_GALLERY_CODE).size)
     }
 
-    private fun loadOfferInfo(resourcePath: String) : HotelOffersResponse {
+    private fun loadOfferInfo(resourcePath: String): HotelOffersResponse {
         val resourceReader = JSONResourceReader(resourcePath)
         return resourceReader.constructUsingGson(HotelOffersResponse::class.java)
     }

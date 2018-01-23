@@ -20,7 +20,7 @@ class AlphaCalculator {
         fun fadeOutAlpha(startPoint: Float, endPoint: Float, currentPoint: Float): Float {
             val currentPosition = endPoint - currentPoint
             val totalDistance = endPoint - startPoint
-            val percentComplete = currentPosition /totalDistance
+            val percentComplete = currentPosition / totalDistance
 
             return getBoundedAlpha(percentComplete)
         }

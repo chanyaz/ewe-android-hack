@@ -28,5 +28,4 @@ class FlightClickAbleSpan(private val mContext: Context) : ClickableSpan() {
 	override fun updateDrawState(ds: TextPaint) {
 		ds.color = ContextCompat.getColor(mContext, R.color.app_primary)
 	}
-
 }

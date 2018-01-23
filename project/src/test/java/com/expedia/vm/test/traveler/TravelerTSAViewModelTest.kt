@@ -223,7 +223,7 @@ class TravelerTSAViewModelTest {
         travelerValidator.updateForNewSearch(searchParams)
     }
 
-    private fun getTestParams() : PackageSearchParams {
+    private fun getTestParams(): PackageSearchParams {
         return PackageSearchParams(SuggestionV4(), SuggestionV4(), TEST_START_DATE, TEST_END_DATE, 1, emptyList<Int>(), false)
     }
 }

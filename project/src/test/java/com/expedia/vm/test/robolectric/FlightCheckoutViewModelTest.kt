@@ -66,12 +66,12 @@ class FlightCheckoutViewModelTest {
 
     private val context = RuntimeEnvironment.application
 
-    lateinit private var sut: FlightCheckoutViewModel
-    lateinit private var flightServices: FlightServices
-    lateinit private var cardFeeService: CardFeeService
-    lateinit private var params: FlightCheckoutParams
-    lateinit private var newTripResponse: FlightCreateTripResponse
-    lateinit private var paymentWidget: PaymentWidget
+    private lateinit var sut: FlightCheckoutViewModel
+    private lateinit var flightServices: FlightServices
+    private lateinit var cardFeeService: CardFeeService
+    private lateinit var params: FlightCheckoutParams
+    private lateinit var newTripResponse: FlightCreateTripResponse
+    private lateinit var paymentWidget: PaymentWidget
 
     @Test
     fun debitCardNotAccepted() {
@@ -653,7 +653,6 @@ class FlightCheckoutViewModelTest {
     private fun getNewCard(): StoredCreditCard {
         val card = StoredCreditCard()
 
-
         card.cardNumber = "4111111111111111"
         card.id = "stored-card-id"
         card.type = PaymentType.CARD_AMERICAN_EXPRESS
@@ -662,7 +661,7 @@ class FlightCheckoutViewModelTest {
         return card
     }
 
-    class TestFlightCheckoutViewModelClass(context: Context): FlightCheckoutViewModel(context) {
+    class TestFlightCheckoutViewModelClass(context: Context) : FlightCheckoutViewModel(context) {
         override fun getScheduler(): Scheduler {
             return Schedulers.trampoline()
         }

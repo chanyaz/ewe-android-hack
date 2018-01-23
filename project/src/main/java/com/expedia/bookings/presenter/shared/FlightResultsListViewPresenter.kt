@@ -8,7 +8,6 @@ import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
 import com.expedia.bookings.widget.FlightListRecyclerView
@@ -29,7 +28,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
     private val airlineChargesFeesTextView: TextView by bindView(R.id.airline_charges_fees_header)
     val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
-    lateinit private var flightListAdapter: AbstractFlightListAdapter
+    private lateinit var flightListAdapter: AbstractFlightListAdapter
     var trackScrollDepthSubscription: Disposable? = null
 
     // input
@@ -50,7 +49,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun bind(shouldShowDeltaPricing: Boolean, doNotOverrideFilterButton: Boolean) {
         val dockedOutboundFlightSelectionStub = findViewById<ViewStub>(R.id.widget_docked_outbound_flight_stub)
-        val selectedOutboundFlightViewModel =  SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context, shouldShowDeltaPricing)
+        val selectedOutboundFlightViewModel = SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context, shouldShowDeltaPricing)
         if (shouldShowDeltaPricing) {
             dockedOutboundFlightSelectionStub.layoutResource = R.layout.docked_outbound_flight_selection_v2
             val dockedOutboundFlightWidgetV2 = dockedOutboundFlightSelectionStub.inflate() as DockedOutboundFlightWidgetV2

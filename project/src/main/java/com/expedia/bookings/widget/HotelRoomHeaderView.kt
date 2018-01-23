@@ -18,7 +18,7 @@ import com.expedia.util.setInverseVisibility
 import com.expedia.util.updateVisibility
 import io.reactivex.subjects.PublishSubject
 
-class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewModel): RelativeLayout(context) {
+class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewModel) : RelativeLayout(context) {
     val roomImageClickedSubject = PublishSubject.create<Unit>()
     val roomInfoClickedSubject = PublishSubject.create<Unit>()
 

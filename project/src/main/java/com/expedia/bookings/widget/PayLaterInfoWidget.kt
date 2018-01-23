@@ -35,7 +35,6 @@ class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val toolBarHeight by lazy { Ui.getToolbarSize(context) }
 
-
     init {
         View.inflate(getContext(), R.layout.widget_pay_later_info, this)
         if (statusBarHeight > 0) {
@@ -85,4 +84,3 @@ class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
         noChargeText.text = Phrase.from(context, R.string.no_charge_text_TEMPLATE).put("brand", BuildConfig.brand).format()
     }
 }
-

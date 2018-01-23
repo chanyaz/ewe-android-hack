@@ -46,7 +46,6 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
             toolBarRating.visibility = View.VISIBLE
         }
 
-
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
@@ -59,7 +58,6 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
         }
-
     }
 
     fun hideGradient() {

@@ -354,8 +354,8 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         }
     }
 
-    abstract protected fun selectOutboundFlight(legId: String)
-    abstract protected fun createFlightMap(response: FlightSearchResponse)
-    abstract protected fun makeFlightOffer(response: FlightSearchResponse)
-    abstract protected fun setSubPubAvailability(boolean: Boolean)
+    protected abstract fun selectOutboundFlight(legId: String)
+    protected abstract fun createFlightMap(response: FlightSearchResponse)
+    protected abstract fun makeFlightOffer(response: FlightSearchResponse)
+    protected abstract fun setSubPubAvailability(boolean: Boolean)
 }

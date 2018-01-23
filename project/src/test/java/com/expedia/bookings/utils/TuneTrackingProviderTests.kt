@@ -119,7 +119,6 @@ class TuneTrackingProviderTests {
         val testTune = MockTune()
         givenTuneTrackingProvider(false, testApplication, testTune, true)
 
-
         assertTrue(testTune.existingUser)
     }
 
@@ -135,7 +134,7 @@ class TuneTrackingProviderTests {
         return TuneTrackingProviderImpl(tuneInstance, application, userStateManager, shouldSetExistingUser)
     }
 
-    private class TestContextWrapper: ContextWrapper(RuntimeEnvironment.application) {
+    private class TestContextWrapper : ContextWrapper(RuntimeEnvironment.application) {
         var didStartActivity = false
             private set
 
@@ -144,7 +143,7 @@ class TuneTrackingProviderTests {
         }
     }
 
-    private class TestApplication: Application() {
+    private class TestApplication : Application() {
         var contextWrapper = TestContextWrapper()
 
         override fun getApplicationContext(): Context = contextWrapper

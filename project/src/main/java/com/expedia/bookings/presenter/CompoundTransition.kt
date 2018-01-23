@@ -7,9 +7,8 @@ import java.util.ArrayList
 import java.util.Comparator
 import java.util.LinkedList
 
-
-val startComparator = Comparator { value1: TransitionPortion, value2: TransitionPortion ->  value1.startPercent.compareTo(value2.startPercent)}
-val endComparator = Comparator { value1: TransitionPortion, value2: TransitionPortion ->  value1.endPercent.compareTo(value2.endPercent)}
+val startComparator = Comparator { value1: TransitionPortion, value2: TransitionPortion -> value1.startPercent.compareTo(value2.startPercent) }
+val endComparator = Comparator { value1: TransitionPortion, value2: TransitionPortion -> value1.endPercent.compareTo(value2.endPercent) }
 
 /**
  * Assertions: startPercent < endPercent, startPercent >= 0.0f, endPercent <= 1.0f
@@ -30,7 +29,6 @@ class TransitionPortion(val transition: Presenter.Transition, val startPercent: 
         }
     }
 }
-
 
 /**
  * Compound transitions are stateful - there is one state per instance, and it is modified as it progresses through the animation.

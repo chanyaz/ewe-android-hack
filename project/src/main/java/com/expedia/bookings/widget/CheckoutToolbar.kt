@@ -81,7 +81,6 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
                 .subscribe {
                     AccessibilityUtil.setMenuItemContentDescription(this, if (it.second) context.getString(R.string.done_cont_desc) else context.getString(R.string.next_cont_desc))
                 }
-
     }
 
     init {
@@ -156,5 +155,4 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
     override fun onMenuItemSelected(menu: MenuBuilder?, item: MenuItem?): Boolean {
         return false
     }
-
 }

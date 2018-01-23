@@ -3,8 +3,6 @@ package com.expedia.bookings.data.flights
 import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FlightV2Utils
 import org.joda.time.format.ISODateTimeFormat
 import java.util.ArrayList
@@ -118,7 +116,6 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
 
         return params
     }
-
 
     override fun toValidParamsMap(): Map<String, Any> {
         val params = HashMap(super.toValidParamsMap())

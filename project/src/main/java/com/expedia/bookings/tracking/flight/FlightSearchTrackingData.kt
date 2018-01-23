@@ -5,7 +5,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.tracking.AbstractSearchTrackingData
 import org.joda.time.LocalDate
 
-class FlightSearchTrackingData: AbstractSearchTrackingData() {
+class FlightSearchTrackingData : AbstractSearchTrackingData() {
     var departureAirport: SuggestionV4? = null
     var arrivalAirport: SuggestionV4? = null
     var departureDate: LocalDate? = null

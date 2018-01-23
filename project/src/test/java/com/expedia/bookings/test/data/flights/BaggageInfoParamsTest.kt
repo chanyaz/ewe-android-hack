@@ -2,8 +2,6 @@ package com.expedia.bookings.test.data.flights
 
 import com.expedia.bookings.data.flights.BaggageInfoParams
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test
 import org.junit.runner.RunWith

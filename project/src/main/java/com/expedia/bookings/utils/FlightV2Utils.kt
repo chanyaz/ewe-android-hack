@@ -259,10 +259,8 @@ object FlightV2Utils {
                 return Phrase.from(context.resources.getQuantityString(R.plurals.flight_seats_left_urgency_message_TEMPLATE, seatsLeft))
                         .put("seats", seatsLeft)
                         .format().toString()
-            else
-                return ""
-        } else
-            return ""
+            else return ""
+        } else return ""
     }
 
     @JvmStatic fun getFlightCabinPreferences(context: Context, flightLeg: FlightLeg): String {
@@ -373,7 +371,7 @@ object FlightV2Utils {
         return selectedClassText
     }
 
-    @JvmStatic fun getDepartureToArrivalTitleFromCheckoutResponseLeg(context: Context, flightLeg: FlightLeg) : String {
+    @JvmStatic fun getDepartureToArrivalTitleFromCheckoutResponseLeg(context: Context, flightLeg: FlightLeg): String {
         val departureAirportCode = flightLeg.segments.first().departureAirportCode
         val arrivalAirportCode = flightLeg.segments.last().arrivalAirportCode
         return context.getString(R.string.SharedItin_Title_Flight_TEMPLATE, departureAirportCode, arrivalAirportCode)
@@ -393,7 +391,7 @@ object FlightV2Utils {
     }
 
     @JvmStatic
-    fun getDepartureToArrivalTitleFromItinResponseLeg(context: Context, flightLeg: FlightItinDetailsResponse.Flight.Leg?) : String {
+    fun getDepartureToArrivalTitleFromItinResponseLeg(context: Context, flightLeg: FlightItinDetailsResponse.Flight.Leg?): String {
         val departureAirportCode = flightLeg?.segments?.first()?.departureLocation?.airportCode ?: ""
         val arrivalAirportCode = flightLeg?.segments?.last()?.arrivalLocation?.airportCode ?: ""
         return context.getString(R.string.SharedItin_Title_Flight_TEMPLATE, departureAirportCode, arrivalAirportCode)
@@ -439,7 +437,6 @@ object FlightV2Utils {
         }
         deltaPrice.append(Money.getFormattedMoneyFromAmountAndCurrencyCode(money.amount, money.currencyCode))
         return deltaPrice.toString()
-
     }
 
     @JvmStatic fun hasMoreAmenities(fareFamilyComponents: HashMap<String, HashMap<String, String>>): Boolean {
@@ -456,7 +453,7 @@ object FlightV2Utils {
     @JvmStatic fun getBagsAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
         var resourceId = R.drawable.flight_upsell_cross_icon
         var dispVal = ""
-        var amenityCategory : FlightAmenityCategory? = null
+        var amenityCategory: FlightAmenityCategory? = null
         var amenityValue = context.resources.getString(R.string.amenity_checked_bags)
         val bagAmenities = FlightBagAmenity.values()
         for (bagAmenity in bagAmenities) {
@@ -485,7 +482,7 @@ object FlightV2Utils {
         var resourceId = 0
         var dispVal = ""
         val amenities = FlightCarryOnBagAmenity.values()
-        var amenityCategory : FlightAmenityCategory? = null
+        var amenityCategory: FlightAmenityCategory? = null
         for (amenity in amenities) {
             amenityCategory = getAmenityCategory(context.resources.getString(amenity.key), fareFamilyComponents)
             if (amenityCategory != null) {
@@ -502,7 +499,7 @@ object FlightV2Utils {
         var resourceId = R.drawable.flight_upsell_cross_icon
         var dispVal = ""
         val seatSelectionAmenities = FlightSeatReservationAmenity.values()
-        var amenityCategory : FlightAmenityCategory? = null
+        var amenityCategory: FlightAmenityCategory? = null
         for (seatSelectionAmenity in seatSelectionAmenities) {
             amenityCategory = getAmenityCategory(context.resources.getString(seatSelectionAmenity.key), fareFamilyComponents)
             if (amenityCategory != null) {
@@ -538,7 +535,7 @@ object FlightV2Utils {
         return AmenityResourceType(resourceId, dispVal, getAmenityContentDesc(context, amenityValue, amenityCategory))
     }
 
-    private fun getAmenityContentDesc(context: Context, amenityValue: String, amenityCategory: FlightAmenityCategory?): String{
+    private fun getAmenityContentDesc(context: Context, amenityValue: String, amenityCategory: FlightAmenityCategory?): String {
         val stringResId: Int
         when (amenityCategory) {
             FlightAmenityCategory.CHARGEABLE ->

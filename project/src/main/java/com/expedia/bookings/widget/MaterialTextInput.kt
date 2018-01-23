@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 
-
 open class MaterialTextInput(context: Context, attrs: AttributeSet?) : TextInputLayout(context, attrs) {
 
     init {

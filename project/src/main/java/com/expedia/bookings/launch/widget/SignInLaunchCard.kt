@@ -32,7 +32,7 @@ class BrandSignInLaunchCard(itemView: View, val context: Context) : RecyclerView
         button_one.text = vm.buttonOneLabel
         button_one.contentDescription = (vm.buttonOneLabel + " " + context.getString(R.string.accessibility_cont_desc_role_button))
 
-        if (Build.VERSION.SDK_INT >= 21){
+        if (Build.VERSION.SDK_INT >= 21) {
             button_one.letterSpacing = .05f
         }
     }

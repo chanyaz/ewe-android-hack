@@ -98,7 +98,6 @@ class PackageOverviewPresenterTest {
         assertEquals(overviewPresenter.bundleOverviewHeader.toolbar.menu.size(), 4)
     }
 
-
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageCheckoutViewOpenedWithMIDCheckoutEnabled() {
@@ -253,14 +252,13 @@ class PackageOverviewPresenterTest {
 
         Db.setPackageResponse(null)
 
-        val newIntent= Shadows.shadowOf(activity).peekNextStartedActivity()
+        val newIntent = Shadows.shadowOf(activity).peekNextStartedActivity()
         val packageHotelActivity = Robolectric.buildActivity(PackageHotelActivity::class.java, newIntent).create().get()
 
         packageHotelActivity.onBackPressed()
 
         assertNotNull(Db.getPackageResponse())
         assertNull(Db.getCachedPackageResponse())
-
     }
 
     @Test

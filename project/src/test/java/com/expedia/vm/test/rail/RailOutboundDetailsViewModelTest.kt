@@ -75,7 +75,7 @@ class RailOutboundDetailsViewModelTest {
         return leg
     }
 
-    private fun mockSearchResponse():RailSearchResponse {
+    private fun mockSearchResponse(): RailSearchResponse {
         val response = RailSearchResponse()
         response.legList = getLegs()
         response.offerList = generateOffersForLeg()

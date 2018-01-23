@@ -1,6 +1,5 @@
 package com.expedia.bookings.test
 
-
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
@@ -167,5 +166,4 @@ class CarWebViewTest {
         setPOSWithCarWebViewEnabled(PointOfSaleId.ARGENTINA.id.toString())
         verifyCarsWebViewIsLaunched()
     }
-
 }

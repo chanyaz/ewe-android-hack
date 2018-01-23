@@ -11,7 +11,7 @@ import java.lang.reflect.Type
 class PackageHotelDeserializer : JsonDeserializer<PackageSearchResponse.HotelPackage> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): PackageSearchResponse.HotelPackage {
         val hotelPackage = PackageSearchResponse.HotelPackage()
-        val packageResult = json.asJsonObject;
+        val packageResult = json.asJsonObject
 
         for (entry in packageResult.entrySet()) {
             val pHotel = Gson().fromJson<PackageHotel>(packageResult.getAsJsonObject(entry.key), PackageHotel::class.java)

@@ -67,7 +67,7 @@ class PackageHotelDetailViewModelTest {
         response.packageInfo.hotelCheckoutDate.isoDate = "2016-09-08"
         Db.setPackageResponse(response)
         testViewModel.paramsSubject.onNext(searchParams)
-        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
 
         val dates = LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())) + " - " +
                 LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate()))
@@ -122,7 +122,7 @@ class PackageHotelDetailViewModelTest {
     }
 
     private fun makeHotel(): ArrayList<HotelOffersResponse.HotelRoomResponse> {
-        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
 
         val hotel = HotelOffersResponse.HotelRoomResponse()
         val valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()

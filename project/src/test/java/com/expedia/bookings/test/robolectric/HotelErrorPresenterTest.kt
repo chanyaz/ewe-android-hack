@@ -21,8 +21,8 @@ import org.robolectric.Shadows.shadowOf
 @RunWith(RobolectricRunner::class)
 class HotelErrorPresenterTest {
 
-    lateinit private var activity: Activity
-    lateinit private var hotelPresenter: HotelPresenter
+    private lateinit var activity: Activity
+    private lateinit var hotelPresenter: HotelPresenter
 
     @Before
     fun setup() {

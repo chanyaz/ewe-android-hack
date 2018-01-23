@@ -27,8 +27,8 @@ class HotelCheckoutInfoTrackingTest {
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    lateinit private var createTripResponse: HotelCreateTripResponse
-    lateinit private var context: Application
+    private lateinit var createTripResponse: HotelCreateTripResponse
+    private lateinit var context: Application
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before

@@ -16,13 +16,13 @@ class ItinCardDataFlightBuilder {
     val startTime = now.plusDays(30)
     val endTime = startTime.plusDays(7)
 
-    fun build(airAttachEnabled:Boolean = false, multiSegment:Boolean = false, confirmationNumber:String? = null, isShared: Boolean = false): ItinCardDataFlight {
+    fun build(airAttachEnabled: Boolean = false, multiSegment: Boolean = false, confirmationNumber: String? = null, isShared: Boolean = false): ItinCardDataFlight {
         val itinCardDataFlight = makeFlight(multiSegment)
         itinCardDataFlight.setShowAirAttach(airAttachEnabled)
         if (isShared) {
             itinCardDataFlight.isSharedItin
         }
-        if(!TextUtils.isEmpty(confirmationNumber)) {
+        if (!TextUtils.isEmpty(confirmationNumber)) {
             val trip = itinCardDataFlight.tripComponent as TripFlight
             val confirmation = FlightConfirmation()
             confirmation.confirmationCode = confirmationNumber
@@ -35,8 +35,7 @@ class ItinCardDataFlightBuilder {
         var filename: String? = null
         if (multiSegment) {
             filename = "flight_trip_details_multi_segment"
-        }
-        else{
+        } else {
             filename = "flight_trip_details"
         }
         val tripFlight = fetchTripFlight(filename)
@@ -81,5 +80,4 @@ class ItinCardDataFlightBuilder {
             return null
         }
     }
-
 }

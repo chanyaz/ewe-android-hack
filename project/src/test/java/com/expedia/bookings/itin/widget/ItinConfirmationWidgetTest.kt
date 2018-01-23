@@ -59,5 +59,4 @@ class ItinConfirmationWidgetTest {
         sut.viewModel.widgetSharedSubject.onNext(false)
         assertEquals(View.VISIBLE, sut.itin_flight_confirmation_container.visibility)
     }
-
 }

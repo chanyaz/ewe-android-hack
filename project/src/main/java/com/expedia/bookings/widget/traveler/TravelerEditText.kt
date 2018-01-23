@@ -52,12 +52,11 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         errorIcon = ContextCompat.getDrawable(context,
                 Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
         addTextChangedListener(TravelerTextWatcher())
-        if(attrs != null){
+        if (attrs != null) {
             val attrSet = context.theme.obtainStyledAttributes(attrs, R.styleable.TravelerEditText, 0, 0)
             try {
                 errorContDesc = attrSet.getString(R.styleable.TravelerEditText_error_cont_desc) ?: ""
-            }
-            finally {
+            } finally {
                 attrSet.recycle()
             }
         }
@@ -109,7 +108,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         nodeInfo.text = getAccessibilityNodeInfo()
     }
 
-    fun getAccessibilityNodeInfo() : String {
+    fun getAccessibilityNodeInfo(): String {
         val text = this.text?.toString()
         var hint = this.hint?.toString()
         if (Strings.isEmpty(hint)) {

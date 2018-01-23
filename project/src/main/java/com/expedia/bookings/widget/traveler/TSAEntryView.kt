@@ -112,5 +112,4 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     fun isValidGender(): Boolean {
         return genderEditText?.text?.isNotEmpty() ?: false
     }
-
 }

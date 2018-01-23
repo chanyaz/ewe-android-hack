@@ -18,7 +18,7 @@ import com.expedia.vm.traveler.TravelerPhoneViewModel
 class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     var phoneEditBox: AccessibleEditTextForSpinner? = null
     val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
-    val phoneAdapter : TelephoneSpinnerAdapter by lazy {
+    val phoneAdapter: TelephoneSpinnerAdapter by lazy {
         val adapter = TelephoneSpinnerAdapter(context, R.layout.material_item)
         adapter.currentPosition = adapter.getPositionFromName(viewModel.phoneCountryNameSubject.value)
         adapter

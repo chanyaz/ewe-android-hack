@@ -1,4 +1,4 @@
-package com.expedia.vm.test.robolectric;
+package com.expedia.vm.test.robolectric
 
 import android.app.Activity
 import com.expedia.bookings.R
@@ -52,9 +52,9 @@ class RailSearchViewModelTest {
     fun setupOneWay() {
         val origin = buildRailSuggestion("GBCHX")
         val destination = buildRailSuggestion("GBGLQ")
-        val departDateTime = DateTime.now().plusDays(1);
-        val departDate = departDateTime.toLocalDate();
-        val departTime = departDateTime.toLocalTime().millisOfDay;
+        val departDateTime = DateTime.now().plusDays(1)
+        val departDate = departDateTime.toLocalDate()
+        val departTime = departDateTime.toLocalTime().millisOfDay
 
         searchVM.railOriginObservable.onNext(origin)
         searchVM.railDestinationObservable.onNext(destination)
@@ -67,12 +67,12 @@ class RailSearchViewModelTest {
     fun setupRoundTrip() {
         val origin = buildRailSuggestion("GBCHX")
         val destination = buildRailSuggestion("GBGLQ")
-        val departDateTime = DateTime.now().plusDays(1);
-        val departDate = departDateTime.toLocalDate();
-        val departTime = departDateTime.toLocalTime().millisOfDay;
-        val returnDateTime = departDateTime.plusDays(1);
-        val returnDate = returnDateTime.toLocalDate();
-        val returnTime = returnDateTime.toLocalTime().millisOfDay;
+        val departDateTime = DateTime.now().plusDays(1)
+        val departDate = departDateTime.toLocalDate()
+        val departTime = departDateTime.toLocalTime().millisOfDay
+        val returnDateTime = departDateTime.plusDays(1)
+        val returnDate = returnDateTime.toLocalDate()
+        val returnTime = returnDateTime.toLocalTime().millisOfDay
 
         searchVM.railOriginObservable.onNext(origin)
         searchVM.railDestinationObservable.onNext(destination)
@@ -311,7 +311,7 @@ class RailSearchViewModelTest {
         searchVM.isRoundTripSearchObservable.onNext(true)
         searchVM.dateAccessibilityObservable.subscribe(testSub)
         searchVM.datesUpdated(startDate, returnDate)
-        searchVM.onTimesChanged(Pair(0,0))
+        searchVM.onTimesChanged(Pair(0, 0))
 
         val expectedText = getExpectedAccessibilityText(expectedRoundTripDateLabel,
                 getExpectedStringFormatForDateTime(startDate, returnDate, true))
@@ -319,17 +319,17 @@ class RailSearchViewModelTest {
         assertEquals(expectedText, testSub.values()[0])
     }
 
-    private fun getExpectedAccessibilityText(expectedLabel: String, expectedDuration: String) : String{
+    private fun getExpectedAccessibilityText(expectedLabel: String, expectedDuration: String): String {
         return Phrase.from(context, R.string.search_dates_cont_desc_TEMPLATE)
                 .put("dates_label", expectedLabel)
                 .put("duration_description", expectedDuration).format().toString()
     }
 
-    private fun getExpectedStringFormatForDate(date: LocalDate) : String {
+    private fun getExpectedStringFormatForDate(date: LocalDate): String {
         return LocaleBasedDateFormatUtils.localDateToMMMd(date)
     }
 
-    private fun getExpectedStringFormatForDateTime(startDate: LocalDate?, endDate: LocalDate?, forRoundTrip: Boolean) : String {
+    private fun getExpectedStringFormatForDateTime(startDate: LocalDate?, endDate: LocalDate?, forRoundTrip: Boolean): String {
         return DateFormatUtils.formatRailDateTimeRange(context, startDate, 0, endDate, 0, forRoundTrip)
     }
 }

@@ -46,7 +46,7 @@ class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 	}
 
 	//This endpoint doesn't return json so it will always onError
-	private fun makeEmptyObserver() : Observer<EmptyResponse>  {
+	private fun makeEmptyObserver(): Observer<EmptyResponse> {
 		return object : DisposableObserver<EmptyResponse>() {
 			override fun onError(e: Throwable) {
 				//ignore

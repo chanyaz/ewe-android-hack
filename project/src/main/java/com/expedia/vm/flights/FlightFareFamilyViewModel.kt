@@ -38,14 +38,13 @@ class FlightFareFamilyViewModel(val context: Context) {
         }
     }
 
-    fun getFareFamilyTripLocation() : String {
+    fun getFareFamilyTripLocation(): String {
         val flightSearchParams = Db.getFlightSearchParams()
         var phrase: Phrase? = null
 
-        if(flightSearchParams.isRoundTrip()) {
+        if (flightSearchParams.isRoundTrip()) {
             phrase = Phrase.from(context, R.string.flight_departure_arrival_code_round_trip_TEMPLATE)
-        }
-        else {
+        } else {
             phrase = Phrase.from(context, R.string.flight_departure_arrival_code_one_way_TEMPLATE)
         }
         return phrase.put("departure_code", flightSearchParams.departureAirport.hierarchyInfo?.airport?.airportCode)
@@ -53,11 +52,11 @@ class FlightFareFamilyViewModel(val context: Context) {
                 .format().toString()
     }
 
-    fun isRoundTrip() : Boolean {
+    fun isRoundTrip(): Boolean {
         return Db.getFlightSearchParams().isRoundTrip()
     }
 
-    fun getAirlinesString(trip: FlightTripResponse) : String {
+    fun getAirlinesString(trip: FlightTripResponse): String {
         val airlines = trip.details.getLegs().flatMap { it -> it.segments.map { segment -> segment.airlineName } }.distinct()
         if (airlines.size > 3) {
             return Phrase.from(context, R.string.multiple_carriers_text).format().toString()

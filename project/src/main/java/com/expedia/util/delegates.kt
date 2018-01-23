@@ -12,7 +12,7 @@ inline fun <T : Any> notNullAndObservable(crossinline onChange: (newValue: T) ->
 abstract class NotNullObservableProperty<T : Any> : ReadWriteProperty<Any?, T> {
     private var value: T? = null
 
-    protected open fun afterChange(newValue: T): Unit {
+    protected open fun afterChange(newValue: T) {
     }
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {

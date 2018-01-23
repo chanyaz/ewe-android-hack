@@ -50,7 +50,6 @@ import kotlin.test.assertTrue
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 class PackagePriceChangeTest {
 
-
     private var checkout: PackageCheckoutPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
     private var overview: PackageOverviewPresenter by Delegates.notNull()
@@ -67,7 +66,6 @@ class PackagePriceChangeTest {
     val server = MockWebServer()
     val packageServiceRule = ServicesRule(PackageServices::class.java)
         @Rule get
-
 
     @Before fun before() {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
@@ -103,7 +101,7 @@ class PackagePriceChangeTest {
     fun testCreateTripPriceChangeIncreasedWithoutCardFee() {
         val newBundleTotal = Money(1000, "USD")
         val newPackageTotal = Money(900, "USD")
-        val oldBundleTotal = Money(950,"USD")
+        val oldBundleTotal = Money(950, "USD")
         val oldPackageTotal = Money(850, "USD")
 
         checkout.getCreateTripViewModel().createTripResponseObservable
@@ -119,7 +117,7 @@ class PackagePriceChangeTest {
     fun testCreateTripPriceChangeDecreasedWithoutCardFee() {
         val newBundleTotal = Money(1000, "USD")
         val newPackageTotal = Money(900, "USD")
-        val oldBundleTotal = Money(1050,"USD")
+        val oldBundleTotal = Money(1050, "USD")
         val oldPackageTotal = Money(1000, "USD")
 
         checkout.getCreateTripViewModel().createTripResponseObservable
@@ -143,7 +141,7 @@ class PackagePriceChangeTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
-    fun testCheckoutPriceChangeWithBundleTotalsPriceIncreased(){
+    fun testCheckoutPriceChangeWithBundleTotalsPriceIncreased() {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal, highBundleTotal, lowBundleTotal))
 
@@ -153,7 +151,7 @@ class PackagePriceChangeTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
-    fun testCheckoutPriceChangeWithBundleTotalsPriceDecreased(){
+    fun testCheckoutPriceChangeWithBundleTotalsPriceDecreased() {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal, lowBundleTotal, highBundleTotal))
 
@@ -163,7 +161,7 @@ class PackagePriceChangeTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
-    fun testCheckoutPriceChangeWithoutBundleTotalsPriceDecreased(){
+    fun testCheckoutPriceChangeWithoutBundleTotalsPriceDecreased() {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal))
 
@@ -173,7 +171,7 @@ class PackagePriceChangeTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
-    fun testCheckoutPriceChangeWithoutBundleTotalsPriceIncreased(){
+    fun testCheckoutPriceChangeWithoutBundleTotalsPriceIncreased() {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal))
 
@@ -191,7 +189,7 @@ class PackagePriceChangeTest {
         assertEquals("OK", okButton.text )
     }
 
-    private fun getDummyPackageCreateTripPriceChangeResponse(newTotal: Money, oldTotal: Money, newBundleTotal: Money ?= null, oldBundleTotal: Money ?= null, withCardFee: Boolean = true): PackageCreateTripResponse {
+    private fun getDummyPackageCreateTripPriceChangeResponse(newTotal: Money, oldTotal: Money, newBundleTotal: Money ? = null, oldBundleTotal: Money ? = null, withCardFee: Boolean = true): PackageCreateTripResponse {
         val trip = PackageCreateTripResponse()
         val packageDetails = PackageCreateTripResponse.PackageDetails()
         val oldPackageDetails = PackageCreateTripResponse.PackageDetails()
@@ -264,7 +262,7 @@ class PackagePriceChangeTest {
                 .children(children).build() as PackageSearchParams
     }
 
-    private fun setupFlightProduct() : PackageCreateTripResponse.FlightProduct {
+    private fun setupFlightProduct(): PackageCreateTripResponse.FlightProduct {
         val flightProduct = PackageCreateTripResponse.FlightProduct()
         val flightTripDetails = FlightTripDetails()
         val flightOffer = FlightTripDetails.FlightOffer()
@@ -281,7 +279,7 @@ class PackagePriceChangeTest {
         return flightProduct
     }
 
-    private fun setupHotelProductResponse() : HotelCreateTripResponse.HotelProductResponse {
+    private fun setupHotelProductResponse(): HotelCreateTripResponse.HotelProductResponse {
         val hotel = HotelCreateTripResponse.HotelProductResponse()
         hotel.largeThumbnailUrl = "/testurl"
         hotel.hotelCity = "New York"

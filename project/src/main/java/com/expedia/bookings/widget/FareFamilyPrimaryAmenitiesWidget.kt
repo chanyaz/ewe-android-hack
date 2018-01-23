@@ -12,7 +12,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.flights.FareFamilyAmenityItemViewModel
 import com.expedia.vm.flights.FareFamilyPrimaryAmenitiesWidgetViewModel
 
-class FareFamilyPrimaryAmenitiesWidget(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {
+class FareFamilyPrimaryAmenitiesWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     val primaryAmenitiesContainer: LinearLayout by bindView(R.id.fare_family_primary_amenities_container)
 

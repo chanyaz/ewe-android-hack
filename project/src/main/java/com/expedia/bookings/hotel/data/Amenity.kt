@@ -44,20 +44,20 @@ enum class Amenity(@DrawableRes val drawableRes: Int,
     ROLL_IN_SHOWER(R.drawable.ic_amenity_accessible, null, R.string.amenity_accessible_bathroom, priority = 17, jsonId = "rollInShower"),
     IN_ROOM_ACCESSIBILITY(R.drawable.ic_amenity_accessible, null, R.string.amenity_in_room_accessibility, priority = 17, jsonId = "inRoomAccessibility"),
     ACCESSIBLE_PATHS(R.drawable.ic_amenity_accessible, null, R.string.amenity_accessible_paths, priority = 18, jsonId = "accessiblePaths"),
-    HANDICAPPED_PARKING(R.drawable.ic_amenity_accessible, null, R.string.amenity_handicapped_parking,  priority = 18, jsonId = "handicappedParking"),
-    DEAF_ACCESSIBILITY_EQUIPMENT(R.drawable.ic_amenity_accessible, null, R.string.amenity_deaf_accessibility_equipment,  priority = 18, jsonId = "deafAccessibilityEquipment"),
-    BRAILLE_SIGNAGE(R.drawable.ic_amenity_accessible, null, R.string.amenity_braille_signage,  priority = 18, jsonId = "brailleSignage");
+    HANDICAPPED_PARKING(R.drawable.ic_amenity_accessible, null, R.string.amenity_handicapped_parking, priority = 18, jsonId = "handicappedParking"),
+    DEAF_ACCESSIBILITY_EQUIPMENT(R.drawable.ic_amenity_accessible, null, R.string.amenity_deaf_accessibility_equipment, priority = 18, jsonId = "deafAccessibilityEquipment"),
+    BRAILLE_SIGNAGE(R.drawable.ic_amenity_accessible, null, R.string.amenity_braille_signage, priority = 18, jsonId = "brailleSignage");
 
     companion object {
         private val AMENITY_MAP_PATH = "ExpediaSharedData/ExpediaHotelAmenityMapping.json"
 
-        fun getFilterAmenities() : List<Amenity> {
+        fun getFilterAmenities(): List<Amenity> {
             return listOf(Amenity.BREAKFAST, Amenity.POOL, Amenity.PARKING,
                     Amenity.PETS, Amenity.INTERNET, Amenity.AIRPORT_SHUTTLE,
                     Amenity.AC_UNIT, Amenity.ALL_INCLUSIVE)
         }
 
-        fun getSearchKey(amenity: Amenity) : Int {
+        fun getSearchKey(amenity: Amenity): Int {
             return when (amenity) {
                 Amenity.BREAKFAST -> 16
                 Amenity.POOL -> 7

@@ -30,7 +30,7 @@ class RobolectricPlaygroundRule(val layoutId: Int, val style: Int? = null) : Tes
             }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T: View> findRoot(): T? {
+    fun <T : View> findRoot(): T? {
         val contentView: FrameLayout? = activity.findViewById(android.R.id.content)
         return contentView?.getChildAt(0) as? T
     }

@@ -20,8 +20,7 @@ class RailCardSelected(val id: Int, val cardType: RailCard, val quantity: Int) {
         return quantity == 0 || Strings.isEmpty(cardType.name)
     }
 
-    fun isResetState():Boolean {
+    fun isResetState(): Boolean {
         return quantity != 0 || Strings.isNotEmpty(cardType.name)
     }
-
 }

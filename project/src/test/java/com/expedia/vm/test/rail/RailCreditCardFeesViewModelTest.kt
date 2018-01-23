@@ -80,8 +80,7 @@ class RailCreditCardFeesViewModelTest {
         assertEquals(expectedVisaOvernight.fee, output[1].fee)
     }
 
-
-    private fun generateVFOPList() : List<RailCreateTripResponse.RailValidFormOfPayment> {
+    private fun generateVFOPList(): List<RailCreateTripResponse.RailValidFormOfPayment> {
         val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_vfop.json")
         val createTripShell = resourceReader.constructUsingGson(RailCreateTripResponse::class.java)
 

@@ -23,7 +23,7 @@ class TripParserTest {
     val roomUpgradeOfferApiUrl = "https://localhost/api/trips/c65fb5fb-489a-4fa8-a007-715b946d3b04/8066893350319/74f89606-241f-4d08-9294-8c17942333dd/1/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/upgradeOffers"
     val roomUpgradeWebViewLink = "https://localhost/hotelUpgrades/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/c65fb5fb-489a-4fa8-a007-715b946d3b04/1/upgradeDeals?mcicid=App.Itinerary.Hotel.Upgrade&mobileWebView=true"
 
-    lateinit private var tripFlight: TripFlight
+    private lateinit var tripFlight: TripFlight
 
     @Test
     fun roomUpgradePropertiesParsed() {
@@ -196,7 +196,6 @@ class TripParserTest {
         assertEquals("", secondTraveler.knownTravelerNumber)
         assertEquals(1, firstTraveler.frequentFlyerMemberships.size)
         assertEquals(0, secondTraveler.frequentFlyerMemberships.size)
-
     }
 
     private fun getHotelTripJsonWithISO8061dateString(checkInDate: String, checkOutDate: String): JSONObject {
@@ -234,7 +233,7 @@ class TripParserTest {
         val legs = flight.getJSONArray("legs").getJSONObject(0)
         val segments = legs.getJSONArray("segments")
         val firstSegment = segments.getJSONObject(0)
-        if(!withSeatMap) {
+        if (!withSeatMap) {
             firstSegment.put("isSeatMapAvailable", false)
             firstSegment.remove("seatList")
         }
@@ -436,27 +435,27 @@ class TripParserTest {
         val airlineLiabilityLimitationsTextAndUrlAssert = "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/p/info-main/warsaw?\" class=\"tooltip\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span></a>."
         val airlineLiabilityLimitationsTextAssert = "Please read important information regarding airline liability limitations."
         val airlineLiabilityLimitationsUrlAssert = "https://www.expedia.com/p/info-main/warsaw?"
-        assertEquals(cancellationFeeLegalRule.text,cancellationFeeLegalTextAssert)
-        assertEquals(cancelChangeIntroductionRule.text,cancelChangeIntroductionTextAssert)
-        assertEquals(feeChangeRefundIntroductionRule.text,feeChangeRefundIntroductionTextAssert)
-        assertEquals(refundabilityRule.text,refundabilityTextAssert)
-        assertEquals(completePenaltyRules.textAndURL,completePenaltyRulesTextAndUrlAssert)
-        assertEquals(additionalAirlineFeesRule.textAndURL,additionalAirlineFeesTextAndUrlAssert)
-        assertEquals(airlineLiabilityLimitationsRule.text,airlineLiabilityLimitationsTextAssert)
-        assertEquals(airlineLiabilityLimitationsRule.textAndURL,airlineLiabilityLimitationsTextAndUrlAssert)
-        assertEquals(airlineLiabilityLimitationsRule.url,airlineLiabilityLimitationsUrlAssert)
+        assertEquals(cancellationFeeLegalRule.text, cancellationFeeLegalTextAssert)
+        assertEquals(cancelChangeIntroductionRule.text, cancelChangeIntroductionTextAssert)
+        assertEquals(feeChangeRefundIntroductionRule.text, feeChangeRefundIntroductionTextAssert)
+        assertEquals(refundabilityRule.text, refundabilityTextAssert)
+        assertEquals(completePenaltyRules.textAndURL, completePenaltyRulesTextAndUrlAssert)
+        assertEquals(additionalAirlineFeesRule.textAndURL, additionalAirlineFeesTextAndUrlAssert)
+        assertEquals(airlineLiabilityLimitationsRule.text, airlineLiabilityLimitationsTextAssert)
+        assertEquals(airlineLiabilityLimitationsRule.textAndURL, airlineLiabilityLimitationsTextAndUrlAssert)
+        assertEquals(airlineLiabilityLimitationsRule.url, airlineLiabilityLimitationsUrlAssert)
     }
 
     @Test
-    fun testParseItinFlightAction(){
+    fun testParseItinFlightAction() {
         val tripParser = TripParser()
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trip_details_multi_segment.json"))).readUtf8()
         val jsonObject = JSONObject(data)
         val responseData = jsonObject.optJSONObject("responseData")
         val flight = responseData.getJSONArray("flights").getJSONObject(0)
         val trip = tripParser.parseTripFlight(flight).flightTrip
-        assertEquals(trip.action.isCancellable,false)
-        assertEquals(trip.action.isChangeable,false)
+        assertEquals(trip.action.isCancellable, false)
+        assertEquals(trip.action.isChangeable, false)
     }
 
     private fun getHotelNoRoomsJSON(): JSONObject {

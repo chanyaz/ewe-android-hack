@@ -3,8 +3,8 @@ package com.expedia.bookings.unit.rail
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 
 object RailCheckoutParamsMock {
-    @JvmStatic fun travelers()
-            = listOf(RailCheckoutParams.Traveler("Mock", "Travler", "+1", "111111", "mock@mobiata.com"))
+    @JvmStatic fun travelers() =
+            listOf(RailCheckoutParams.Traveler("Mock", "Travler", "+1", "111111", "mock@mobiata.com"))
 
     @JvmStatic fun tripDetails() = RailCheckoutParams.TripDetails("Happy_Man", "12123.33", "USD", true)
 

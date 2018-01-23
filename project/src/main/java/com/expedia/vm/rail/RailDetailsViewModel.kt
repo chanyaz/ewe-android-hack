@@ -58,4 +58,3 @@ open class RailDetailsViewModel(val context: Context) {
         } else return null
     }
 }
-

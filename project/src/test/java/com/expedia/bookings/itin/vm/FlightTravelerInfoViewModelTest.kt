@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 
 @RunWith(RobolectricRunner::class)
 class FlightTravelerInfoViewModelTest {
-    lateinit private var sut: FlightTravelerInfoViewModel
+    private lateinit var sut: FlightTravelerInfoViewModel
     private val testString = "123456"
     private val createTravelerSubscriber = TestObserver<Traveler>()
     private val createTravelerNameSubscriber = TestObserver<CharSequence>()

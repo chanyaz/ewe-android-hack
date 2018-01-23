@@ -42,7 +42,6 @@ class NotificationManager(private val context: Context) : INotificationManager {
         notification.delete()
     }
 
-
     fun dismissNotification(notification: Notification) {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         nm.cancel(notification.uniqueId, 0)

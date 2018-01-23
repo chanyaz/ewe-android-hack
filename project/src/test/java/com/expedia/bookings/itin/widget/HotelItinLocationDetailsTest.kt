@@ -19,7 +19,7 @@ import kotlin.test.assertEquals
 class HotelItinLocationDetailsTest {
 
     lateinit var locationDetailsWidget: HotelItinLocationDetails
-    lateinit private var activity: HotelItinDetailsActivity
+    private lateinit var activity: HotelItinDetailsActivity
     var itinCardDataHotel = ItinCardDataHotelBuilder().build()
 
     @Before

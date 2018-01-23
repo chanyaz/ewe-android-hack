@@ -38,7 +38,6 @@ class SuggestionAndLabelAdapter(viewmodel: AirportSuggestionViewModel) : Suggest
                 return super.onCreateViewHolder(parent, viewType)
             }
         }
-
     }
 
     init {

@@ -1,6 +1,5 @@
 package com.expedia.bookings.itin.services
 
-
 import android.content.Context
 import android.text.TextUtils
 import com.expedia.bookings.BuildConfig
@@ -19,7 +18,6 @@ class FlightRegistrationHandler(val context: Context,
                                 val userDetail: UserSource) {
 
     val userLoginStateChanged = PublishSubject.create<Boolean>()
-
 
     fun setup() {
         getCourier()?.let {

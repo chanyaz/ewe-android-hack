@@ -284,7 +284,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 override fun onAnimationRepeat(animator: Animator?) {
                     //Do nothing
                 }
-
             })
             anim.duration = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION
             anim.start()

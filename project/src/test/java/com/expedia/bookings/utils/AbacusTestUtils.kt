@@ -27,7 +27,7 @@ object AbacusTestUtils {
         Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
-    @JvmStatic fun bucketTestAndEnableRemoteFeature(context: Context,  test: ABTest, bucketVariant: Int = AbacusUtils.DefaultVariant.BUCKETED.ordinal) {
+    @JvmStatic fun bucketTestAndEnableRemoteFeature(context: Context, test: ABTest, bucketVariant: Int = AbacusUtils.DefaultVariant.BUCKETED.ordinal) {
         SettingUtils.save(context, test.key.toString(), bucketVariant)
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(test.key, bucketVariant)

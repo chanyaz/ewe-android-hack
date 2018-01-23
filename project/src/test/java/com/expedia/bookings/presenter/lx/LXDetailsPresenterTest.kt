@@ -34,7 +34,7 @@ class LXDetailsPresenterTest {
         val searchParams = LxSearchParams.Builder().location("San Fransisco").startDate(startDate).endDate(endDate).build() as LxSearchParams
 
         lxDetailsPresenter.lxState = LXState()
-        lxDetailsPresenter.lxState.searchParams = searchParams;
+        lxDetailsPresenter.lxState.searchParams = searchParams
         lxDetailsPresenter.setToolbarTitles("San Fransisco")
 
         assertEquals(lxDetailsPresenter.toolBarDetailText.text, "San Fransisco")

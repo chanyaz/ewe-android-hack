@@ -39,4 +39,3 @@ open class SatelliteServices(endpoint: String, okHttpClient: OkHttpClient, inter
         return satelliteSubscription
     }
 }
-

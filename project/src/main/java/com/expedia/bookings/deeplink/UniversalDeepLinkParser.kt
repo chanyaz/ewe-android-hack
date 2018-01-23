@@ -21,7 +21,7 @@ import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
 
-class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
+class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
 
     private val LEG_PATTERN = Pattern.compile("from:(.+),to:(.+),departure:(.+)")
     private val AIRPORT_CODE = Pattern.compile("[^A-Z]?([A-Z]{3})[^A-Z]?")
@@ -36,7 +36,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
          val routingDestination = getRoutingDestination(data)
          val dateFormat = getDateFormatForPOS(data)
 
-        when(routingDestination) {
+        when (routingDestination) {
             "/hotel-search" -> return parseHotelUniversalDeepLink(data, dateFormat)
             "/hotels" -> return parseHotelUniversalDeepLink(data, dateFormat)
             "hotel-infosite" -> return parseHotelInfoSiteUniversalDeepLink(data, dateFormat)
@@ -58,11 +58,9 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
 
         if (data.path.contains("m/trips/shared")) {
             routingDestination = "shareditin"
-        }
-        else if (data.host.equals(ProductFlavorFeatureConfiguration.getInstance().hostnameForShortUrl)) {
+        } else if (data.host.equals(ProductFlavorFeatureConfiguration.getInstance().hostnameForShortUrl)) {
             routingDestination = "shorturl"
-        }
-        else if (data.path.contains("mobile/deeplink")) {
+        } else if (data.path.contains("mobile/deeplink")) {
             routingDestination = data.path.substring(data.path.indexOf("mobile/deeplink") + "mobile/deeplink".length)
                     .toLowerCase(Locale.US)
             if (HOTEL_INFO_SITE.matcher(routingDestination).find()) {
@@ -152,8 +150,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
                     try {
                         val departureDateStr = departureMatcher.group(1)
                         flightDeepLink.departureDate = LocalDate.parse(URLDecoder.decode(departureDateStr, "UTF-8"), DateTimeFormat.forPattern(dateFormat))
-                    }
-                    catch (e: Exception) {
+                    } catch (e: Exception) {
                     }
                 }
             }
@@ -171,8 +168,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
                     try {
                         val returnDateStr = returnDateMatcher.group(1)
                         flightDeepLink.returnDate = LocalDate.parse(URLDecoder.decode(returnDateStr, "UTF-8"), DateTimeFormat.forPattern(dateFormat))
-                    }
-                    catch (e: Exception) {
+                    } catch (e: Exception) {
                     }
                 }
             }
@@ -223,8 +219,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
                     }
                     return DateTime(date.year, date.monthOfYear, date.dayOfMonth, hour, min)
                 }
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
             }
         }
         return null
@@ -285,7 +280,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
         return null
     }
 
-    private fun getDateFormatForPOS(uri: Uri) : String {
+    private fun getDateFormatForPOS(uri: Uri): String {
         val defaultDateFormat = "MM/dd/yyyy"
 
         if (ASSETS != null) {
@@ -304,15 +299,12 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
                     }
                 }
                 return defaultDateFormat
-            }
-            catch (e: JSONException) {
+            } catch (e: JSONException) {
                 return defaultDateFormat
-            }
-            finally {
+            } finally {
                 stream.close()
             }
-        }
-        else {
+        } else {
             return defaultDateFormat
         }
     }

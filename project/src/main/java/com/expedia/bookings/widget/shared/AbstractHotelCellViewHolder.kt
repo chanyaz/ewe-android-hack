@@ -154,7 +154,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
 
     private fun updateDiscountPercentage() {
         discountPercentage.text = viewModel.hotelDiscountPercentage
-        if(viewModel.hasMemberDeal()) {
+        if (viewModel.hasMemberDeal()) {
             discountPercentage.setBackgroundResource(R.drawable.member_only_discount_percentage_background)
             discountPercentage.setTextColor(ContextCompat.getColor(itemView.context, R.color.member_pricing_text_color))
         } else {
@@ -184,7 +184,6 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
                 mixColor(palette)
             }
             Palette.Builder(bitmap).generate(listener)
-
         }
 
         private fun mixColor(palette: Palette) {

@@ -17,5 +17,4 @@ class FareFamilyTotalPriceViewModel(context: Context) : AbstractUniversalCKOTota
                 .put("totalprice", totalPriceObservable.value)
                 .format().toString()
     }
-
 }

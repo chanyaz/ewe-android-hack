@@ -116,7 +116,7 @@ class FlightPriceChangeTest {
         flightTripDetails.offer = flightOffer
 
         flightCreateTripResponse.details = flightTripDetails
-        flightCreateTripResponse.newTrip = TripDetails("","","")
+        flightCreateTripResponse.newTrip = TripDetails("", "", "")
         flightCreateTripResponse.tealeafTransactionId = ""
         return flightCreateTripResponse
     }
@@ -133,7 +133,7 @@ class FlightPriceChangeTest {
         Db.setFlightSearchParams(params)
     }
 
-    private fun getFakeSuggestion(airportCode: String) : SuggestionV4 {
+    private fun getFakeSuggestion(airportCode: String): SuggestionV4 {
         val suggestion = SuggestionV4()
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
         val airport = SuggestionV4.Airport()
@@ -152,7 +152,7 @@ class FlightPriceChangeTest {
         return suggestion
     }
 
-    private fun setupFlightLeg() : ArrayList<FlightLeg> {
+    private fun setupFlightLeg(): ArrayList<FlightLeg> {
         val firstLeg = FlightLeg()
         val mockFlightSegment = FlightLeg.FlightSegment()
         firstLeg.segments = arrayListOf<FlightLeg.FlightSegment>()
@@ -161,5 +161,4 @@ class FlightPriceChangeTest {
         legs.add(firstLeg)
         return legs
     }
-
 }

@@ -3,7 +3,7 @@ package com.expedia.bookings.deeplink
 import com.expedia.bookings.data.ChildTraveler
 import org.joda.time.LocalDate
 
-class HotelDeepLink: DeepLink() {
+class HotelDeepLink : DeepLink() {
     var location: String? = null
     var hotelId: String? = null
     var regionId: String? = null
@@ -15,6 +15,4 @@ class HotelDeepLink: DeepLink() {
     var sortType: String? = null
     var memberOnlyDealSearch: Boolean = false
     var selectedHotelId: String? = null
-
 }
-

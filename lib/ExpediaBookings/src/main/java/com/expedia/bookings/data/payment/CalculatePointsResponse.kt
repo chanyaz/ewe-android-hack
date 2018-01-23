@@ -9,4 +9,3 @@ class CalculatePointsResponse : BaseApiResponse() {
     val remainingPayableByCard: PointsAndCurrency? = null
     val tripTotalPayable: Money? = null
 }
-

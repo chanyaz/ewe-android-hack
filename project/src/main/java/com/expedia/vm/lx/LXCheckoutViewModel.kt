@@ -18,5 +18,4 @@ class LXCheckoutViewModel(context: Context) : AbstractCheckoutViewModel(context)
         //TODO
         return ""
     }
-
 }

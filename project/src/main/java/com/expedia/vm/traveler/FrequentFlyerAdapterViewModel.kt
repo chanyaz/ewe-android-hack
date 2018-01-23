@@ -9,7 +9,6 @@ import com.expedia.bookings.utils.FlightV2Utils
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
-
 class FrequentFlyerAdapterViewModel(var traveler: Traveler) {
 
     val flightLegsObservable = PublishSubject.create<List<FlightLeg>>()

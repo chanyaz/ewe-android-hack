@@ -62,7 +62,7 @@ class SuggestionAdapterViewModelTest {
         languageMap["English"] = listOf("Lo", "Lon", "London")
         languageMap["French"] = listOf("N", "Nî", "Nîmes")
         languageMap["German"] = listOf("K", "Kö" , "Köln") // Cologne
-        languageMap["Greek"] = listOf("Α", "Αθ","Αθήνα") // Athens
+        languageMap["Greek"] = listOf("Α", "Αθ", "Αθήνα") // Athens
         languageMap["Hindi"] = listOf("", "न", "नई दिल्ली") // New Delhi
         languageMap["Hebrew"] = listOf("י", "יר", "ירושלים") // Jerusalem
         languageMap["JapaneseHiragana"] = listOf("", "と", "とうきょう") // Tokyo

@@ -25,9 +25,9 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
 
         override fun build(): FlightSearchParams {
             val departureAirport = originLocation ?: throw IllegalArgumentException()
-            val arrivalAirport = destinationLocation?:throw IllegalArgumentException()
+            val arrivalAirport = destinationLocation ?: throw IllegalArgumentException()
             val departureDate = startDate ?: throw IllegalArgumentException()
-            var searchLegNo: Int? = null;
+            var searchLegNo: Int? = null
             //As Byot is eligible only for round trips
             if (endDate != null && legNo != null) {
                 if ((legNo == 0 && Strings.isEmpty(selectedOutboundLegId)) || (legNo == 1 && Strings.isNotEmpty(selectedOutboundLegId))) {
@@ -56,7 +56,7 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
             return departureAirportCode.equals(arrivalAirportCode)
         }
 
-        fun hasValidDates():Boolean {
+        fun hasValidDates(): Boolean {
             return if (isRoundTrip) hasStartAndEndDates() else hasStart()
         }
 

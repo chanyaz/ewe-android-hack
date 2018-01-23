@@ -36,7 +36,7 @@ class HotelCheckoutViewModelTest {
                 .checkoutInfo(HotelCheckoutParamsMock.checkoutInfo())
                 .paymentInfo(HotelCheckoutParamsMock.paymentInfo())
                 .traveler(HotelCheckoutParamsMock.traveler())
-                .misc(miscParameters).build();
+                .misc(miscParameters).build()
 
         val subjectUnderTest = HotelCheckoutViewModel(mockHotelServiceTestRule.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
 

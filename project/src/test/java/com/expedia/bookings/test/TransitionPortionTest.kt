@@ -10,7 +10,7 @@ class TransitionPortionTest {
         var errored = false
         try {
             TransitionPortion(startPercent = -1f, transition = TestTransition("a", LinkedList()))
-        } catch (err: TransitionPortion.ImpossibleTransitionTimeFrameException){
+        } catch (err: TransitionPortion.ImpossibleTransitionTimeFrameException) {
             errored = true
         } finally {
             assert(errored, { "PortionalTransition should disallow startPercent < 0.0" })
@@ -18,7 +18,7 @@ class TransitionPortionTest {
         errored = false
         try {
             TransitionPortion(endPercent = 1.05f, transition = TestTransition("a", LinkedList()))
-        } catch (err: TransitionPortion.ImpossibleTransitionTimeFrameException){
+        } catch (err: TransitionPortion.ImpossibleTransitionTimeFrameException) {
             errored = true
         } finally {
             assert(errored, { "PortionalTransition should disallow endPercent > 1.0" })
@@ -29,11 +29,10 @@ class TransitionPortionTest {
         var errored = false
         try {
             TransitionPortion(startPercent = .45f, endPercent = .45f, transition = TestTransition("a", LinkedList()))
-        } catch (err: TransitionPortion.ImpossibleTransitionTimeFrameException){
+        } catch (err: TransitionPortion.ImpossibleTransitionTimeFrameException) {
             errored = true
         } finally {
             assert(errored, { "PortionalTransition should disallow endPercent <= startPercent" })
         }
     }
 }
-

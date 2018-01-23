@@ -20,7 +20,6 @@ class FreeCancellationWidget(context: Context?, attrs: AttributeSet?) : LinearLa
 
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
 
-
     init {
         View.inflate(context, R.layout.free_cancellation_view, this)
         this.orientation = VERTICAL

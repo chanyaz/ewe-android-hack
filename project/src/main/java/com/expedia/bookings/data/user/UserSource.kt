@@ -76,8 +76,7 @@ open class UserSource(val context: Context,
 
         try {
             user = User(JSONObject(results))
-        }
-        catch (e: JSONException) {
+        } catch (e: JSONException) {
             file.delete()
             Log.e("Could not restore saved user info.", e)
             throw e
@@ -92,8 +91,7 @@ open class UserSource(val context: Context,
 
         if (data == null) {
             userFileHandle.delete()
-        }
-        else {
+        } else {
             if (ExpediaBookingApp.isRobolectric()) {
                 try {
                     IoUtils.writeStringToFile(SAVED_INFO_FILENAME, data, context)

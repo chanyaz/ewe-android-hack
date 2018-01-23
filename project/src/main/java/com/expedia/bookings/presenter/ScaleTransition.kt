@@ -3,19 +3,18 @@ package com.expedia.bookings.presenter
 import android.support.annotation.CallSuper
 import android.view.View
 
-open class ScaleTransition(open val presenter: Presenter, val left: Class<*>, val right: Class<*>): Presenter.Transition(left, right) {
+open class ScaleTransition(open val presenter: Presenter, val left: Class<*>, val right: Class<*>) : Presenter.Transition(left, right) {
 
-
-    constructor(presenter: Presenter,left: Class<*>, right: Class<*>, leftClassName: Class<*>) : this(presenter, left, right) {
+    constructor(presenter: Presenter, left: Class<*>, right: Class<*>, leftClassName: Class<*>) : this(presenter, left, right) {
         this.leftClassName = leftClassName
     }
 
-    constructor(presenter: Presenter,left: View, right: View) : this(presenter, left.javaClass, right.javaClass) {
+    constructor(presenter: Presenter, left: View, right: View) : this(presenter, left.javaClass, right.javaClass) {
         this.leftView = left
         this.rightView = right
     }
 
-    constructor(presenter: Presenter,left: View, right: View, leftClass: Class<*>, rightClass: Class<*>) : this(presenter, leftClass, rightClass) {
+    constructor(presenter: Presenter, left: View, right: View, leftClass: Class<*>, rightClass: Class<*>) : this(presenter, leftClass, rightClass) {
         this.leftView = left
         this.rightView = right
     }
@@ -44,9 +43,9 @@ open class ScaleTransition(open val presenter: Presenter, val left: Class<*>, va
     }
 
     @CallSuper override fun updateTransition(f: Float, forward: Boolean) {
-        rightView?.alpha = (if (forward) f else (1-f))
-        rightView?.scaleX = (if (forward) (1 - (1-xScale) * -(f-1)) else (xScale + (1-xScale) * -(f-1)))
-        rightView?.scaleY = (if (forward) (1 - (1-yScale) * -(f-1)) else (yScale + (1-yScale) * -(f-1)))
+        rightView?.alpha = (if (forward) f else (1 - f))
+        rightView?.scaleX = (if (forward) (1 - (1 - xScale) * -(f-1)) else (xScale + (1 - xScale) * -(f-1)))
+        rightView?.scaleY = (if (forward) (1 - (1 - yScale) * -(f-1)) else (yScale + (1 - yScale) * -(f-1)))
     }
 
     @CallSuper override fun endTransition(forward: Boolean) {

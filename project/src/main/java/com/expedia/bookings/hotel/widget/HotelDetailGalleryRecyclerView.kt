@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.accessibility.AccessibilityEvent
-import com.expedia.bookings.R
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.mobiata.android.util.AndroidUtils
 import io.reactivex.subjects.PublishSubject
@@ -15,7 +14,7 @@ import io.reactivex.subjects.PublishSubject
 class HotelDetailGalleryRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
     val galleryScrolledSubject = PublishSubject.create<Int>()
 
-    private val layoutManager = object: LinearLayoutManager(context, HORIZONTAL, false) {
+    private val layoutManager = object : LinearLayoutManager(context, HORIZONTAL, false) {
         var canA11yScroll = false
 
         override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
@@ -49,7 +48,7 @@ class HotelDetailGalleryRecyclerView(context: Context, attrs: AttributeSet?) : R
         return true
     }
 
-    fun getPosition() : Int {
+    fun getPosition(): Int {
         return layoutManager.findFirstVisibleItemPosition()
     }
 

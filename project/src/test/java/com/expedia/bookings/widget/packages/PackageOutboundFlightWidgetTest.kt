@@ -9,7 +9,6 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.packages.BundleFlightViewModel
@@ -96,11 +95,11 @@ class PackageOutboundFlightWidgetTest {
     @Test
     fun testLoadingContentDescription() {
         testWidget.loadingStateObservable.onNext(true)
-        val expectedText = Phrase.from(activity, R.string.select_flight_searching_cont_desc_TEMPLATE).
-                put("flight", testFlightText).
-                put("date", LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(1))).
-                put("travelers", "1 traveler").
-                format().toString()
+        val expectedText = Phrase.from(activity, R.string.select_flight_searching_cont_desc_TEMPLATE)
+                .put("flight", testFlightText)
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(1)))
+                .put("travelers", "1 traveler")
+                .format().toString()
 
         assertEquals(expectedText, testWidget.getRowInfoContainer().contentDescription)
     }
@@ -130,7 +129,7 @@ class PackageOutboundFlightWidgetTest {
         testWidget.viewModel.searchParams.onNext(packageParams)
     }
 
-    private fun buildMockDestination() : SuggestionV4 {
+    private fun buildMockDestination(): SuggestionV4 {
         val origin = Mockito.mock(SuggestionV4::class.java)
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
         val regionNames = SuggestionV4.RegionNames()
@@ -141,14 +140,14 @@ class PackageOutboundFlightWidgetTest {
         return origin
     }
 
-    private fun buildMockFlight() : FlightLeg {
+    private fun buildMockFlight(): FlightLeg {
         val flight = Mockito.mock(FlightLeg::class.java)
         flight.destinationAirportCode = testAirportCode
         flight.destinationCity = testRegionName
         return flight
     }
 
-    private fun buildMockAirport() : SuggestionV4.Airport {
+    private fun buildMockAirport(): SuggestionV4.Airport {
         val airport = Mockito.mock(SuggestionV4.Airport::class.java)
         airport.airportCode = testAirportCode
         return airport

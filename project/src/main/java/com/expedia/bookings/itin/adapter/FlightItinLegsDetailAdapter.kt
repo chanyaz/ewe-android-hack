@@ -13,7 +13,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.squareup.phrase.Phrase
 
-
 class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: ArrayList<FlightItinLegsDetailData>) : RecyclerView.Adapter<FlightItinLegsDetailAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -43,7 +42,6 @@ class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: Arra
                 .inflate(R.layout.flight_itin_leg_view, parent, false)
         return ViewHolder(itemView)
     }
-
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView by bindView<ImageView>(R.id.flight_itin_leg_view_icon)
@@ -75,7 +73,6 @@ class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: Arra
             return subtitle
         }
         return subtitle
-
     }
 
     private fun isZero(value: String?): Boolean {
@@ -92,5 +89,4 @@ class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: Arra
     private fun getContentDescriptionForSubTitle(subtitleText: String): String {
         return subtitleText.replace(context.getString(R.string.itin_flight_leg_detail_widget_hyphen_text), context.getString(R.string.itin_flight_leg_detail_widget_to_text))
     }
-
 }

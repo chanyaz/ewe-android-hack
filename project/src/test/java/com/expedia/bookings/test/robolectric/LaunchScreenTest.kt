@@ -23,7 +23,6 @@ import java.util.ArrayList
 import kotlin.properties.Delegates
 import org.junit.Assert.assertEquals
 
-
 @RunWith(RobolectricRunner::class)
 class LaunchScreenTest {
     var activity: Activity by Delegates.notNull()
@@ -118,7 +117,6 @@ class LaunchScreenTest {
         launchListWidget.onNearbyHotelsSearchResults(event)
         launchListWidget.measure(0, 0)
         launchListWidget.layout(0, 0, 100, 10000)
-
 
         val h1 = launchListWidget.findViewHolderForAdapterPosition(3) as HotelViewHolder
         val h2 = launchListWidget.findViewHolderForAdapterPosition(4) as HotelViewHolder

@@ -27,8 +27,7 @@ open class MesoAdResponseProvider {
                             mesoHotelAdResponseSubject.onNext(mesoAdResponse)
                         }
                         mesoHotelAdResponseSubject.onComplete()
-                    })
-            { hotelAdResponse, s -> }.build()
+                    }) { hotelAdResponse, s -> }.build()
 
             hotelAdLoader.loadAd(PublisherAdRequest.Builder().build())
         }
@@ -44,8 +43,7 @@ open class MesoAdResponseProvider {
                             mesoDestinationAdResponseSubject.onNext(mesoAdResponse)
                         }
                         mesoDestinationAdResponseSubject.onComplete()
-                    })
-            { destinationAdResponse, s -> }.build()
+                    }) { destinationAdResponse, s -> }.build()
 
             destinationAdLoader.loadAd(PublisherAdRequest.Builder().build())
         }

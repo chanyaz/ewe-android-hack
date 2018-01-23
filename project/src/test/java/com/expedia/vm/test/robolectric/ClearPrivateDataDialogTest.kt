@@ -32,8 +32,8 @@ import kotlin.test.assertTrue
 class ClearPrivateDataDialogTest {
 
     lateinit var fragment: AccountSettingsFragment
-    lateinit private var activity: AccountSettingsFragmentTest.FragmentUtilActivity
-    lateinit private var pointOfSaleStateModel: PointOfSaleStateModel
+    private lateinit var activity: AccountSettingsFragmentTest.FragmentUtilActivity
+    private lateinit var pointOfSaleStateModel: PointOfSaleStateModel
 
     @Before
     fun before() {

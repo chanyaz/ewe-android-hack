@@ -33,7 +33,7 @@ import kotlin.test.assertEquals
 class FlightResultsListViewPresenterTest {
     val context = RuntimeEnvironment.application
     lateinit var sut: FlightResultsListViewPresenter
-    lateinit private var activity: Activity
+    private lateinit var activity: Activity
 
     @Before
     fun setup() {
@@ -65,7 +65,6 @@ class FlightResultsListViewPresenterTest {
         assertEquals(View.VISIBLE, arrivalDepartureTimeTextView.visibility)
         assertEquals(View.VISIBLE, pricePerPersonTextView.visibility)
         assertEquals(View.VISIBLE, outboundLabelTextView.visibility)
-
 
         assertEquals("United Airlines", airlineNameTextView.text )
         assertEquals("1:10 am - 12:20 pm +1d (13h 59m)", arrivalDepartureTimeTextView.text )

@@ -14,7 +14,7 @@ import java.text.DecimalFormat
 
 class HotelResortFeeFormatter {
     fun getResortFee(context: Context, roomResponse: HotelOffersResponse.HotelRoomResponse?,
-                     isPackage: Boolean, hotelCountry: String) : String {
+                     isPackage: Boolean, hotelCountry: String): String {
         var resortText = ""
         if (roomResponse?.rateInfo?.chargeableRateInfo?.showResortFeeMessage == true) {
             val rate = roomResponse.rateInfo.chargeableRateInfo
@@ -42,7 +42,7 @@ class HotelResortFeeFormatter {
     }
 
     fun getResortFeeInclusionText(context: Context,
-                                 roomResponse: HotelOffersResponse.HotelRoomResponse?) : String {
+                                 roomResponse: HotelOffersResponse.HotelRoomResponse?): String {
         var feeInclusionText = ""
         if (roomResponse?.rateInfo?.chargeableRateInfo?.showResortFeeMessage == true) {
             val rate = roomResponse.rateInfo.chargeableRateInfo

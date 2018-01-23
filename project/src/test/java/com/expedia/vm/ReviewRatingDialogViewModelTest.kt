@@ -52,7 +52,6 @@ class ReviewRatingDialogViewModelTest {
         intent = shadowActivity.nextStartedActivity
         assertEquals("android.intent.action.VIEW", intent.action)
         assertEquals("expda://reviewFeedbackEmail", intent.dataString)
-
     }
 
     @Test

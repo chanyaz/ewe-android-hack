@@ -59,15 +59,15 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     }
 
     private fun updateToolbar() {
-        val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE).
-                put("destination", itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: "").format().toString()
+        val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)
+                .put("destination", itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: "").format().toString()
         val startDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataFlight.startDate).capitalize()
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(destinationCity, startDate, !itinCardDataFlight.isSharedItin))
     }
 
     fun updateBaggageInfoUrl() {
         val url = itinCardDataFlight.baggageInfoUrl
-        createBaggageInfoWebviewWidgetSubject.onNext(url);
+        createBaggageInfoWebviewWidgetSubject.onNext(url)
     }
 
     fun createOmnitureTrackingValues(): HashMap<String, String?> {
@@ -120,7 +120,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                 }
                 if (BuildConfig.DEBUG && itinCardDataFlight.id == "flightMock") {
                     var depart = segment.originWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED)
-                    var arrival =  segment.destinationWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED)
+                    var arrival = segment.destinationWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED)
                     when (segment.mFlightHistoryId) {
                         -91 -> segment.mStatusCode = Flight.STATUS_CANCELLED
                         -93 -> depart = depart.plusMinutes(20)
@@ -153,8 +153,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                             depart,
                             arrival
                     ))
-                }
-                else {
+                } else {
                     createSegmentSummaryWidgetsSubject.onNext(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
                             leg.airlineLogoURL,
                             FormatUtils.formatFlightNumber(segment, context),
@@ -244,7 +243,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
 
     @VisibleForTesting
     fun updateBookingInfoWidget() {
-        val travelerNames  = itinCardDataFlight.travelersFullName
+        val travelerNames = itinCardDataFlight.travelersFullName
         val isShared = itinCardDataFlight.isSharedItin
         createBookingInfoWidgetSubject.onNext(FlightItinBookingInfoViewModel.WidgetParams(
                 travelerNames,
@@ -262,5 +261,4 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
             else -> context.getString(R.string.seat_selection_not_available)
         }
     }
-
 }

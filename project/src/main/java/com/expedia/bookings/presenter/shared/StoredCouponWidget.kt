@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 
-class StoredCouponWidget(context: Context, attr: AttributeSet?): LinearLayout(context, attr) {
+class StoredCouponWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
     val storedCouponRecyclerView: StoredCouponRecyclerView by bindView(R.id.stored_coupon_recycler_view)
 

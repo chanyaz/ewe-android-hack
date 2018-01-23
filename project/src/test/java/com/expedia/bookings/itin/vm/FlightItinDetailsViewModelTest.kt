@@ -31,10 +31,10 @@ import org.mockito.Mockito.`when` as whenever
 
 @RunWith(RobolectricRunner::class)
 class FlightItinDetailsViewModelTest {
-    lateinit private var activity: Activity
-    lateinit private var sut: FlightItinDetailsViewModel
-    lateinit private var context: Context
-    lateinit private var dateTime: DateTime
+    private lateinit var activity: Activity
+    private lateinit var sut: FlightItinDetailsViewModel
+    private lateinit var context: Context
+    private lateinit var dateTime: DateTime
 
     val itinCardDataValidSubscriber = TestObserver<Unit>()
     val itinCardDataSubscriber = TestObserver<ItinCardDataFlight>()
@@ -93,12 +93,12 @@ class FlightItinDetailsViewModelTest {
         val startTime = now.plusDays(30)
         val startDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(startTime).capitalize()
         val segments = testItinCardData.flightLeg.segments
-        testItinCardData.flightLeg.segments[segments.size-1].destinationWaypoint = TestWayPoint("LAS", "Las Vegas", dateTime)
+        testItinCardData.flightLeg.segments[segments.size - 1].destinationWaypoint = TestWayPoint("LAS", "Las Vegas", dateTime)
         whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
         sut.itineraryManager = mockItinManager
         sut.onResume()
-        val destination = Phrase.from(activity, R.string.itin_flight_toolbar_title_TEMPLATE).
-                put("destination", "Las Vegas").format().toString()
+        val destination = Phrase.from(activity, R.string.itin_flight_toolbar_title_TEMPLATE)
+                .put("destination", "Las Vegas").format().toString()
         updateToolbarSubscriber.assertValue(ItinToolbarViewModel.ToolbarParams(destination, startDate, true))
     }
 
@@ -522,7 +522,6 @@ class FlightItinDetailsViewModelTest {
 
         assertEquals(expectedValues, values)
     }
-
 
     class TestWayPoint(val code: String, val city: String, val dateTime: DateTime) : Waypoint(ACTION_UNKNOWN) {
         override fun getAirport(): Airport {

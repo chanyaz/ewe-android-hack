@@ -7,7 +7,6 @@ import com.expedia.bookings.presenter.shared.StoredCouponAppliedStatus
 class CouponTestUtil {
     companion object {
 
-
         fun createStoredCouponAdapterData(couponName: List<String> = listOf("A", "B", "C"), visibility: List<StoredCouponAppliedStatus> = listOf(StoredCouponAppliedStatus.DEFAULT, StoredCouponAppliedStatus.DEFAULT, StoredCouponAppliedStatus.DEFAULT) ): List<StoredCouponAdapter> {
             val savedCoupon1 = createSavedCoupon(couponName[0], "1")
             val storedCouponAdapter1 = StoredCouponAdapter(savedCoupon1, visibility[0])

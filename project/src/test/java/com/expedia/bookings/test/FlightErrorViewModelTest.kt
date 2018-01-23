@@ -24,7 +24,7 @@ class FlightErrorViewModelTest {
     private fun getContext(): Context {
         return RuntimeEnvironment.application
     }
-    lateinit private var subjectUnderTest: FlightErrorViewModel
+    private lateinit var subjectUnderTest: FlightErrorViewModel
 
     @Before
     fun setup() {
@@ -135,5 +135,4 @@ class FlightErrorViewModelTest {
         suggestion.hierarchyInfo!!.airport!!.airportCode = ""
         return suggestion
     }
-
 }

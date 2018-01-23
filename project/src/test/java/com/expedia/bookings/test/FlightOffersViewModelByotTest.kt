@@ -23,7 +23,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -34,8 +33,8 @@ class FlightOffersViewModelByotTest {
 
     var server: MockWebServer = MockWebServer()
         @Rule get
-    lateinit private var flightServices: FlightServices
-    lateinit private var sut: FlightOffersViewModelByot
+    private lateinit var flightServices: FlightServices
+    private lateinit var sut: FlightOffersViewModelByot
     private val context = RuntimeEnvironment.application
 
     @Before

@@ -1,6 +1,5 @@
 package com.expedia.vm.traveler
 
-import android.content.Context
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.section.InvalidCharacterHelper
 import kotlin.properties.Delegates

@@ -212,7 +212,7 @@ class PackageOverviewTest {
             packageSearchParams.destination?.hierarchyInfo?.airport?.multicity = "Seattle"
     }
 
-    private fun givenPackageSearchParamsWithPiid() : PackageSearchParams {
+    private fun givenPackageSearchParamsWithPiid(): PackageSearchParams {
         val searchParams = Db.sharedInstance.packageParams
         searchParams.packagePIID = "123"
         return searchParams

@@ -3,7 +3,6 @@ package com.mobiata.flightlib.data
 import org.json.JSONException
 import org.json.JSONObject
 
-
 import com.mobiata.android.json.JSONable
 
 class Seat(var assigned: String? = null, var passenger: String? = null) : JSONable {
@@ -17,7 +16,6 @@ class Seat(var assigned: String? = null, var passenger: String? = null) : JSONab
         } catch (e: JSONException) {
             return null
         }
-
     }
 
     override fun fromJson(obj: JSONObject): Boolean {

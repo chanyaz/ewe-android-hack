@@ -22,7 +22,6 @@ class JsonConverterFactory : Converter.Factory() {
             } catch (e: JSONException) {
                 throw IOException("Failed to parse JSON", e)
             }
-
         }
 
         companion object {

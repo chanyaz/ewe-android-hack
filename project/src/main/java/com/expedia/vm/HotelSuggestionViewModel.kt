@@ -29,19 +29,19 @@ open class HotelSuggestionViewModel {
     }
 
     @IdRes
-    fun getIcon() : Int {
+    fun getIcon(): Int {
         return iconDrawableRes
     }
 
-    open fun getTitle() : String {
+    open fun getTitle(): String {
         return HtmlCompat.stripHtml(suggestion.regionNames.displayName)
     }
 
-    open fun isChild() : Boolean {
+    open fun isChild(): Boolean {
         return suggestion.hierarchyInfo?.isChild ?: false
     }
 
-    open fun isHistoryItem() : Boolean {
+    open fun isHistoryItem(): Boolean {
         return suggestion.isHistoryItem
     }
 }

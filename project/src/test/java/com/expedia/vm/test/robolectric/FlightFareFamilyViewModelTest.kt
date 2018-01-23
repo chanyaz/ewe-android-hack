@@ -34,7 +34,7 @@ class FlightFareFamilyViewModelTest {
         @Rule get
 
     private val context = RuntimeEnvironment.application
-    lateinit private var sut: FlightFareFamilyViewModel
+    private lateinit var sut: FlightFareFamilyViewModel
     val params = FlightCreateTripParams.Builder().productKey("happy_fare_family_round_trip").build()
     lateinit var flightCreateTripResponse: FlightCreateTripResponse
 
@@ -138,7 +138,6 @@ class FlightFareFamilyViewModelTest {
         sut.tripObservable.onNext(flightCreateTripResponse)
         sut.showFareFamilyObservable.onNext(Unit)
         assertEquals("SFO - LAX", testSubscriber.values()[1])
-
     }
 
     @Test
@@ -165,7 +164,6 @@ class FlightFareFamilyViewModelTest {
         assertEquals(0, fareFamilyTripLocationSubscriber.valueCount())
         assertEquals(0, roundTripSubscriber.valueCount())
         assertEquals(0, airlinesSubscriber.valueCount())
-
     }
 
     @Test
@@ -193,7 +191,6 @@ class FlightFareFamilyViewModelTest {
         assertEquals(1, fareFamilyTripLocationSubscriber.valueCount())
         assertEquals(1, roundTripSubscriber.valueCount())
         assertEquals(1, airlinesSubscriber.valueCount())
-
     }
 
     private fun setupFlightSearchParams(adultCount: Int, childCount: Int, isroundTrip: Boolean): FlightSearchParams {
@@ -244,10 +241,10 @@ class FlightFareFamilyViewModelTest {
             checkOut = LocalDate().plusDays(3)
         }
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null, null, null,null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null, null, null, null)
     }
 
-    private fun createFlightLegWithSegments(segmentAirlineNames: ArrayList<String>) : FlightLeg {
+    private fun createFlightLegWithSegments(segmentAirlineNames: ArrayList<String>): FlightLeg {
         var flightLeg = FlightLeg()
         flightLeg.stopCount = 1
         val segments = ArrayList<FlightLeg.FlightSegment>()
@@ -262,5 +259,4 @@ class FlightFareFamilyViewModelTest {
         flightLeg.segments = segments
         return flightLeg
     }
-
 }

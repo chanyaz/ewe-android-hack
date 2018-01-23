@@ -66,4 +66,3 @@ class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         legalBanner.subscribeOnClick(legalBannerClicked)
     }
 }
-

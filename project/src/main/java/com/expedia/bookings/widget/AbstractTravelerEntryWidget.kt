@@ -37,7 +37,6 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
     val focusedView = PublishSubject.create<View>()
     val filledIn = PublishSubject.create<Boolean>()
 
-
     var viewModel: AbstractUniversalCKOTravelerEntryWidgetViewModel by notNullAndObservable { vm ->
         nameEntryView.viewModel = vm.nameViewModel
         emailEntryView.viewModel = vm.emailViewModel
@@ -127,7 +126,6 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         resetErrorState()
     }
 
-
     fun getNumberOfInvalidFields(): Int {
         viewModel.validate()
         return viewModel.numberOfInvalidFields.value
@@ -174,5 +172,4 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         emailEntryView.viewModel.errorSubject.onNext(false)
         phoneEntryView.phoneNumber.viewModel.errorSubject.onNext(false)
     }
-
 }

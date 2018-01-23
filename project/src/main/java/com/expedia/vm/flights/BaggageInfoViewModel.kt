@@ -11,7 +11,6 @@ import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-
 class BaggageInfoViewModel(val context: Context) {
     lateinit var baggageInfoService: BaggageInfoService
         @Inject set

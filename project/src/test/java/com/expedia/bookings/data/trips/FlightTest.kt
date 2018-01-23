@@ -14,9 +14,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-
 @RunWith(RobolectricRunner::class)
-class FlightTest{
+class FlightTest {
 
     lateinit var flight: Flight
     lateinit var todayAtNoon: DateTime

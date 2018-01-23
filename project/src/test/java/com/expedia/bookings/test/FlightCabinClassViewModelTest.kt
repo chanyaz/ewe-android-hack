@@ -60,5 +60,4 @@ class FlightCabinClassViewModelTest {
         flightSelectedCabinClassIdTestSubscriber.assertValueCount(1)
         flightSelectedCabinClassIdTestSubscriber.assertValue(flightCabinClassPickerView.getIdByClass(FlightServiceClassType.CabinCode.BUSINESS))
     }
-
 }

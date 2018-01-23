@@ -274,7 +274,7 @@ class TuneUtilsTests {
         flightCreateTripResponse.details = FlightTripDetails()
         flightCreateTripResponse.details.legs = listOf(generateFlightLeg("DL", 560))
         flightCreateTripResponse.details.offer = FlightTripDetails.FlightOffer()
-        flightCreateTripResponse.details.offer.totalPrice = Money(560,"USD")
+        flightCreateTripResponse.details.offer.totalPrice = Money(560, "USD")
 
         val tripBucketFlight = TripBucketItemFlightV2(flightCreateTripResponse)
         Db.getTripBucket().add(tripBucketFlight)
@@ -398,7 +398,7 @@ class TuneUtilsTests {
         setupTuneProvider()
 
         val checkoutResponse = PackageCheckoutResponse()
-        val packageSearchParams = PackageSearchParams(null, null, baseStartDate, baseStartDate.plusDays(1),1, listOf(),false)
+        val packageSearchParams = PackageSearchParams(null, null, baseStartDate, baseStartDate.plusDays(1), 1, listOf(), false)
 
         val packageDetails = PackageCreateTripResponse.PackageDetails()
         packageDetails.hotel = HotelCreateTripResponse.HotelProductResponse()
@@ -510,7 +510,7 @@ class TuneUtilsTests {
         TuneUtils.init(provider)
     }
 
-    private fun generateHotelSearchObject(hotelId: String, hotelName: String, hotelCity: String, hotelPrice: Float, proximity: Double) : Hotel {
+    private fun generateHotelSearchObject(hotelId: String, hotelName: String, hotelCity: String, hotelPrice: Float, proximity: Double): Hotel {
         val hotel = Hotel()
         hotel.hotelId = hotelId
         hotel.localizedName = hotelName
@@ -523,7 +523,7 @@ class TuneUtilsTests {
         return hotel
     }
 
-    private fun generateHotelRateInfoObject(total: Float, average: Float) : HotelOffersResponse.RateInfo {
+    private fun generateHotelRateInfoObject(total: Float, average: Float): HotelOffersResponse.RateInfo {
         val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = HotelRate()
         rateInfo.chargeableRateInfo.total = total
@@ -533,7 +533,7 @@ class TuneUtilsTests {
         return rateInfo
     }
 
-    private fun generateFlightSuggestionV4(airportCode: String, gaiaId: String) : SuggestionV4 {
+    private fun generateFlightSuggestionV4(airportCode: String, gaiaId: String): SuggestionV4 {
         val flightSuggestionV4 = SuggestionV4()
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
         hierarchyInfo.airport = SuggestionV4.Airport()
@@ -544,7 +544,7 @@ class TuneUtilsTests {
         return flightSuggestionV4
     }
 
-    private fun generateFlightLeg(airlineCode: String, amount: Int, isReturn: Boolean = false) : FlightLeg {
+    private fun generateFlightLeg(airlineCode: String, amount: Int, isReturn: Boolean = false): FlightLeg {
         val flightLeg = FlightLeg()
         flightLeg.carrierCode = airlineCode
         flightLeg.packageOfferModel = PackageOfferModel()
@@ -555,8 +555,7 @@ class TuneUtilsTests {
         segment.airlineCode = airlineCode
         if (isReturn) {
             segment.departureTimeRaw = baseStartDate.plusDays(1).toString()
-        }
-        else {
+        } else {
             segment.departureTimeRaw = baseStartDate.toString()
         }
         segment.arrivalTimeRaw = baseStartDate.plusDays(1).toString()
@@ -565,7 +564,7 @@ class TuneUtilsTests {
         return flightLeg
     }
 
-    private fun generateLXActivity(title: String, amount: Int) : LXActivity {
+    private fun generateLXActivity(title: String, amount: Int): LXActivity {
         val activity = LXActivity()
         activity.title = title
         activity.price = Money(amount, "USD")
@@ -574,7 +573,7 @@ class TuneUtilsTests {
     }
 
     private class TestTuneTrackingProviderImpl(private val user: User? = UserLoginTestUtil.mockUser(),
-                                               private val isLoggedIn: Boolean = false): TuneTrackingProvider {
+                                               private val isLoggedIn: Boolean = false) : TuneTrackingProvider {
         var trackedEvent: TuneEvent? = null
             private set
         override val authenticatedUser: User?

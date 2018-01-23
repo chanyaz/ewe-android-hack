@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.widget.TextView
 
-open class SearchInputTextView(context: Context, attrs: AttributeSet?): TextView(context, attrs) {
+open class SearchInputTextView(context: Context, attrs: AttributeSet?) : TextView(context, attrs) {
     init {
         if (attrs != null) {
             val ta = context.obtainStyledAttributes(attrs, R.styleable.SearchInput, 0, 0)

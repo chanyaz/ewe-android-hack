@@ -11,7 +11,7 @@ import com.expedia.account.R
 import com.expedia.account.view.TOSLayout
 import io.reactivex.subjects.BehaviorSubject
 
-class SinglePageTOSLayout(context: Context, attrs: AttributeSet): TOSLayout(context, attrs) {
+class SinglePageTOSLayout(context: Context, attrs: AttributeSet) : TOSLayout(context, attrs) {
 
     val termOfUseCheckedSubject = BehaviorSubject.createDefault<Boolean>(vTermsOfUseCheckBox.isChecked)
 
@@ -32,7 +32,7 @@ class SinglePageTOSLayout(context: Context, attrs: AttributeSet): TOSLayout(cont
         fixupSpacing()
         vCreateAccountButton.visibility = View.GONE
     }
-    
+
     override fun styleizeFromAccountView(a: TypedArray) {
         super.styleizeFromAccountView(a)
 
@@ -78,6 +78,4 @@ class SinglePageTOSLayout(context: Context, attrs: AttributeSet): TOSLayout(cont
         vSpamOptInCheckBox.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
     }
 }
-
-
 

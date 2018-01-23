@@ -56,7 +56,6 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
             setupShowConfirmationObservable()
         }
 
-
         setRewardsPoints.subscribe { points ->
             if (points != null)
                 if (userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().shouldShowRewards()) {
@@ -106,7 +105,6 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
             destinationTitleObservable.onNext(hotel.hotelPropertyInfo.name)
             destinationSubTitleObservable.onNext(getHotelSubtitle(hotel.checkInDateTime.toLocalDate().toString(),
                     hotel.checkOutDateTime.toLocalDate().toString(), guests))
-
 
             val outboundFlightSegments = details.flights.first().legs.first().segments
             outboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to,

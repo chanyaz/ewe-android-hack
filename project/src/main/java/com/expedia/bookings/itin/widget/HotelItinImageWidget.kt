@@ -77,8 +77,7 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
                         }
                     })
             return callButton
-        }
-        else {
+        } else {
             return null
         }
     }
@@ -99,8 +98,7 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
                                         .toBundle())
                     })
             return messagingButton
-        }
-        else {
+        } else {
             return null
         }
     }
@@ -117,5 +115,4 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
     private fun isHotelMessagingEnabled(): Boolean {
         return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppTripsMessageHotel)
     }
-
 }

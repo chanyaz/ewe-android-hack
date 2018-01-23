@@ -45,7 +45,7 @@ class MockTravelerProvider {
         val mockTraveler = Traveler()
         mockTraveler.fullName = testFullName
         mockTraveler.email = testEmail
-        mockTraveler.phoneNumber= testNumber
+        mockTraveler.phoneNumber = testNumber
         mockTraveler.phoneCountryCode = "1"
         mockTraveler.tuid = 12345
         mockTraveler.passengerCategory = PassengerCategory.ADULT
@@ -126,7 +126,7 @@ class MockTravelerProvider {
         travelerList.add(mockTraveler)
     }
 
-    private fun getValidTravelerName() : TravelerName {
+    private fun getValidTravelerName(): TravelerName {
         val name = TravelerName()
         name.firstName = testFirstName
         name.middleName = testMiddleName
@@ -134,7 +134,7 @@ class MockTravelerProvider {
         return name
     }
 
-    private fun getInvalidTravelerName() : TravelerName {
+    private fun getInvalidTravelerName(): TravelerName {
         val name = TravelerName()
         name.firstName = testFirstName
         return name

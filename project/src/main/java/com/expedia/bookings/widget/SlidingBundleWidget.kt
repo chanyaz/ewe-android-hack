@@ -106,7 +106,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         }
     }
 
-    inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {
+    inner class OverviewLayoutListener : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout () {
             updateScrollingSpace(bundleOverViewWidget.scrollSpaceView)
         }
@@ -142,8 +142,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         bundlePriceWidget.contentDescription = bundlePriceWidget.viewModel.getAccessibleContentDescription(false, true, forward)
         if (forward && trackLoad) {
             PackagesTracking().trackViewBundlePageLoad()
-        }
-        else {
+        } else {
             bundlePriceWidget.enable()
         }
     }
@@ -176,11 +175,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         animator.duration = animDuration.toLong()
         animator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationCancel(animator: Animator?) {
-
             }
 
             override fun onAnimationRepeat(animator: Animator?) {
-
             }
 
             override fun onAnimationStart(animator: Animator?) {

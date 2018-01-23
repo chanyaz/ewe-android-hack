@@ -2,7 +2,6 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailTripOffer
 import com.expedia.bookings.utils.DateFormatUtils

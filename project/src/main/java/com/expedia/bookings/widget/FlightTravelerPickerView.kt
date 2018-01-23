@@ -20,7 +20,6 @@ import com.expedia.vm.BaseTravelerPickerViewModel
 import com.expedia.vm.FlightTravelerPickerViewModel
 import io.reactivex.Observer
 
-
 class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPickerView(context, attrs) {
 
     override fun getViewModel(): BaseTravelerPickerViewModel {
@@ -52,7 +51,6 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
         youthCountSelector.plusClickedSubject.subscribe(vm.incrementYouthObserver)
         infantCountSelector.minusClickedSubject.subscribe(vm.decrementInfantObserver)
         infantCountSelector.plusClickedSubject.subscribe(vm.incrementInfantObserver)
-
 
         vm.infantPreferenceSeatingObservable.subscribe { hasInfants ->
             if (vm.showSeatingPreference && hasInfants) {
@@ -139,7 +137,6 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
                 infantInLap.isChecked = true
             }
         }
-
     }
 
     init {
@@ -154,6 +151,4 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
                 }
         )
     }
-
-
 }

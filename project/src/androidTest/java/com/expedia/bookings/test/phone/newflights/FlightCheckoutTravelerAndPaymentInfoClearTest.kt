@@ -9,8 +9,6 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.CustomMatchers.hasTextInputLayoutErrorText
 import com.expedia.bookings.test.espresso.EspressoUtils
@@ -68,7 +66,7 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         PackageScreen.travelerInfo().perform(ViewActions.click())
         onView(withId(R.id.last_name_layout_input)).check(matches(hasTextInputLayoutErrorText("")))
     }
-    
+
     @Test
     fun testPaymentInfoCCVClear() {
         flightSearchAndGoToCheckout()

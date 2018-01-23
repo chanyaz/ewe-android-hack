@@ -14,8 +14,8 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class BaseWebViewClientTest {
 
-    lateinit private var activity: Activity
-    lateinit private var sut: BaseWebViewClient
+    private lateinit var activity: Activity
+    private lateinit var sut: BaseWebViewClient
 
     @Test
     fun webViewIsClosedOnExpdaSuccessLink() {

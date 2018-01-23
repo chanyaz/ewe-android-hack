@@ -90,8 +90,8 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             airlinesContainer.clearChecks()
         }
 
-        vm.clearObservable.subscribe{
-            sortByButtonGroup.setSelection(0,false)
+        vm.clearObservable.subscribe {
+            sortByButtonGroup.setSelection(0, false)
         }
 
         vm.newDurationRangeObservable.subscribe { durationRange ->
@@ -262,7 +262,6 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                 val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
                 resizeAnimator.addViewSpec(airlinesContainer, rowHeight * airlinesContainer.childCount)
                 resizeAnimator.start()
-
             } else {
                 setupAirlinesView()
             }
@@ -318,7 +317,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
         toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
         toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.actionbar_text_color_inverse))
         toolbar.menu.findItem(R.id.menu_done).setActionView(doneButton).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-        toolbar.setBackgroundColor(ContextCompat.getColor(this.context,R.color.packages_flight_filter_background_color))
+        toolbar.setBackgroundColor(ContextCompat.getColor(this.context, R.color.packages_flight_filter_background_color))
         val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, resources.getStringArray(R.array.sort_options_flights).toMutableList())
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
@@ -353,5 +352,4 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             FlightsV2Tracking.trackFlightSortBy(sort)
         }
     }
-
 }

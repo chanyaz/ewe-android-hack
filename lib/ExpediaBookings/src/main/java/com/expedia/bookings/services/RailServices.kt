@@ -146,14 +146,14 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
         subscription?.dispose()
     }
 
-    private fun buildRailGsonConverter() : GsonConverterFactory {
-        val gsonBuilder = GsonBuilder();
-        gsonBuilder.registerTypeAdapter(RailCheckoutResponseWrapper::class.java, RailCheckoutResponseDeserializer());
-        val myGson = gsonBuilder.create();
-        return GsonConverterFactory.create(myGson);
+    private fun buildRailGsonConverter(): GsonConverterFactory {
+        val gsonBuilder = GsonBuilder()
+        gsonBuilder.registerTypeAdapter(RailCheckoutResponseWrapper::class.java, RailCheckoutResponseDeserializer())
+        val myGson = gsonBuilder.create()
+        return GsonConverterFactory.create(myGson)
     }
 
-    private fun generateMessageInfo() : MessageInfo {
+    private fun generateMessageInfo(): MessageInfo {
         val messageInfo = MessageInfo(userSession)
         return messageInfo
     }

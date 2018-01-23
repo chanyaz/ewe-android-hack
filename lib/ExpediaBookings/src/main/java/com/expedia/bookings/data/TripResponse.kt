@@ -103,8 +103,7 @@ abstract class TripResponse : BaseApiResponse() {
             return paymentSplitsWhenMaxPayableWithPoints()
         } else if (userPreferencePoints != null)
             return PaymentSplits(userPreferencePoints!!.getUserPreference(getProgramName()!!)!!, userPreferencePoints!!.remainingPayableByCard)
-        else
-            return paymentSplitsWhenMaxPayableWithPoints()
+        else return paymentSplitsWhenMaxPayableWithPoints()
     }
 
     fun getTripTotalIncludingFeeForPriceChange(pwpOpted: Boolean): Money {

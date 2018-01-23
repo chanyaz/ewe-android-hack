@@ -86,8 +86,7 @@ class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         }).subscribe {
             if (!it.wasLastUpdateProgrammatic) {
                 pwpViewModel.userToggledPwPSwitchWithUserEnteredBurnedAmountSubject.onNext(Pair(it.pwpOpted, editAmountView.text.toString()))
-            }
-            else wasLastUpdateProgrammatic.onNext(false)
+            } else wasLastUpdateProgrammatic.onNext(false)
         }
 
         pwpViewModel.pwpWidgetVisibility.subscribeVisibility(this)

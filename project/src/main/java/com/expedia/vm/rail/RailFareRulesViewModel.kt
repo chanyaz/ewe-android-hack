@@ -2,7 +2,6 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
@@ -42,6 +41,4 @@ class RailFareRulesViewModel(val context: Context) {
                 .format().toString()
         return formattedFareInfo
     }
-
-
 }

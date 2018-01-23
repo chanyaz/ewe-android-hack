@@ -5,7 +5,6 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightLeg.FlightSegment
@@ -17,7 +16,6 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.FrequentFlyerDialogAdapter
@@ -297,8 +295,8 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     private fun openFrequentFlyerWidget() {
         widget.frequentFlyerButton?.performClick()
-        widget.frequentFlyerRecycler?.measure(0, 0);
-        widget.frequentFlyerRecycler?.layout(0, 0, 100, 10000);
+        widget.frequentFlyerRecycler?.measure(0, 0)
+        widget.frequentFlyerRecycler?.layout(0, 0, 100, 10000)
     }
 
     private fun getViewHolderAndOpen(): FrequentFlyerViewHolder {
@@ -307,7 +305,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
         return frequentFlyerViewHolder
     }
 
-    private fun buildMockFlight(airlineListSize: Int?) : FlightLeg {
+    private fun buildMockFlight(airlineListSize: Int?): FlightLeg {
         val flight = Mockito.mock(FlightLeg::class.java)
         flight.destinationAirportCode = testAirportCode
         flight.destinationCity = testRegionName
@@ -329,7 +327,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
         }
     }
 
-    private fun getNewFrequentFlyerMembership(airlineCode: String, number: String, planCode: String, planID: String) : TravelerFrequentFlyerMembership {
+    private fun getNewFrequentFlyerMembership(airlineCode: String, number: String, planCode: String, planID: String): TravelerFrequentFlyerMembership {
         val newMembership = TravelerFrequentFlyerMembership()
         newMembership.airlineCode = airlineCode
         newMembership.membershipNumber = number
@@ -338,20 +336,20 @@ class FlightTravelerFrequentFlyerWidgetTest {
         return newMembership
     }
 
-    private fun getFrequentFlyerPlans(hasEnrolledPlans: Boolean) : FlightCreateTripResponse.FrequentFlyerPlans {
+    private fun getFrequentFlyerPlans(hasEnrolledPlans: Boolean): FlightCreateTripResponse.FrequentFlyerPlans {
         val enrolledPlan = FlightCreateTripResponse.FrequentFlyerPlans ()
         enrolledPlan.allFrequentFlyerPlans = getAllFrequentFlyerPlans()
         enrolledPlan.enrolledFrequentFlyerPlans = if (hasEnrolledPlans) listOf(getFrequentFlyerTripResponse("AA", "Alaska Airlines", "123", "AA-A1", "A1")) else null
         return enrolledPlan
     }
 
-    private fun getAllFrequentFlyerPlans() : List<FrequentFlyerPlansTripResponse> {
+    private fun getAllFrequentFlyerPlans(): List<FrequentFlyerPlansTripResponse> {
         return listOf(getFrequentFlyerTripResponse("AA", "Alaska Airlines", "", "AA-A1", "A1"),
                 getFrequentFlyerTripResponse("DA", "Delta Airlines", "", "DA-D1", "D1"),
                 getFrequentFlyerTripResponse("UA", "United Airlines", "", "UA-U1", "U1"))
     }
 
-    private fun getFrequentFlyerTripResponse(airlineCode: String, planName: String, membershipNumber: String, planID: String, planCode: String) : FrequentFlyerPlansTripResponse {
+    private fun getFrequentFlyerTripResponse(airlineCode: String, planName: String, membershipNumber: String, planID: String, planCode: String): FrequentFlyerPlansTripResponse {
         val enrolledPlan = FrequentFlyerPlansTripResponse()
         enrolledPlan.airlineCode = airlineCode
         enrolledPlan.frequentFlyerPlanName = planName
@@ -390,7 +388,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
         assertEquals(airlineCode, oldEnrolledPlans.values.firstOrNull()?.airlineCode)
     }
 
-    private fun assertProgramNumberViewModel(planID: String, planKey: String, planCode: String,  viewModel: FrequentFlyerProgramNumberViewModel) {
+    private fun assertProgramNumberViewModel(planID: String, planKey: String, planCode: String, viewModel: FrequentFlyerProgramNumberViewModel) {
         assertEquals(planID, viewModel.airlineId)
         assertEquals(planKey, viewModel.airlineKey)
         assertEquals(planCode, viewModel.planCode)

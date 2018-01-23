@@ -1,3 +1,3 @@
 package com.expedia.bookings.deeplink
 
-class MemberPricingDeepLink: DeepLink()
+class MemberPricingDeepLink : DeepLink()

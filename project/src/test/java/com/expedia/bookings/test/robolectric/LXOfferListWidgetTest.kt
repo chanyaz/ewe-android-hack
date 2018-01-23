@@ -131,5 +131,4 @@ class LXOfferListWidgetTest {
         assertEquals("3-Day New York Pass", expectedOffers[1].title)
         assertEquals("1-Day New York Pass", expectedOffers[2].title)
     }
-
 }

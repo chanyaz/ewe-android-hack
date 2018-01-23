@@ -27,7 +27,6 @@ class LobToolbarWidget(context: Context, attrs: AttributeSet) : FrameLayout(cont
         recyclerView.layoutManager = layoutManager
     }
 
-
     private fun setupRecyclerView() {
         val adapter = LobToolbarAdapter(viewModel.defaultLob)
         recyclerView.adapter = adapter

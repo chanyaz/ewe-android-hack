@@ -17,7 +17,7 @@ import kotlin.test.assertEquals
 class HotelItinManageBookingHelpTest {
 
     lateinit var manageBookingHelpWidget: HotelItinManageBookingHelp
-    lateinit private var activity: HotelItinManageBookingActivity
+    private lateinit var activity: HotelItinManageBookingActivity
 
     @Before
     fun before() {
@@ -37,5 +37,4 @@ class HotelItinManageBookingHelpTest {
         assertEquals(View.GONE, manageBookingHelpWidget.hotelConfirmationNumber.visibility)
         assertEquals(itinCardDataHotel.localPhone, manageBookingHelpWidget.callHotelButton.text)
     }
-
 }

@@ -48,14 +48,14 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         isRoundTripSearchSubject.subscribe({ isRoundTripSearch = it })
     }
 
-    abstract protected fun showAllFlightsHeader(): Boolean
+    protected abstract fun showAllFlightsHeader(): Boolean
     abstract fun adjustPosition(): Int
-    abstract protected fun showAdvanceSearchFilterHeader(): Boolean
-    abstract protected fun isShowOnlyNonStopSearch(): Boolean
-    abstract protected fun isShowOnlyRefundableSearch(): Boolean
-    abstract protected fun getPriceDescriptorMessageIdForFSR(): Int?
+    protected abstract fun showAdvanceSearchFilterHeader(): Boolean
+    protected abstract fun isShowOnlyNonStopSearch(): Boolean
+    protected abstract fun isShowOnlyRefundableSearch(): Boolean
+    protected abstract fun getPriceDescriptorMessageIdForFSR(): Int?
     abstract fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): AbstractFlightViewModel
-    abstract protected fun getRoundTripStringResourceId(): Int
+    protected abstract fun getRoundTripStringResourceId(): Int
 
     @UiThread
     open fun setNewFlights(flights: List<FlightLeg>) {
@@ -216,12 +216,11 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
             title.text =
                     if (isPointOfSaleWithHundredsOfAirlines)
                         context.resources.getString(R.string.loading_flights_from_400_airlines)
-                    else
-                        context.resources.getString(R.string.loading_flights)
+                    else context.resources.getString(R.string.loading_flights)
         }
     }
 
-    inner open class FlightViewHolder(root: FlightCellWidget) : RecyclerView.ViewHolder(root), View.OnClickListener {
+    open inner class FlightViewHolder(root: FlightCellWidget) : RecyclerView.ViewHolder(root), View.OnClickListener {
         var flightCell: FlightCellWidget
 
         init {

@@ -56,6 +56,5 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
         }
         address.contentDescription = Phrase.from(context, R.string.itin_hotel_details_address_copy_content_description_TEMPLATE)
                 .put("address", textToCopy).format().toString()
-
     }
 }

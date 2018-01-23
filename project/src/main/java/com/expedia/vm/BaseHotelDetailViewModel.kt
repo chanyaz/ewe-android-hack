@@ -32,7 +32,6 @@ import com.expedia.util.getGuestRatingText
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
-import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -46,7 +45,7 @@ import kotlin.properties.Delegates
 
 abstract class BaseHotelDetailViewModel(val context: Context) {
 
-    abstract fun isChangeDatesEnabled() : Boolean
+    abstract fun isChangeDatesEnabled(): Boolean
     abstract fun getLobPriceObservable(rate: HotelRate)
     abstract fun pricePerDescriptor(): String
     abstract fun getFeeTypeText(): Int
@@ -212,8 +211,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
     val payByPhoneContainerVisibility = ObservableOld.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
 
-    val hotelMessagingContainerVisibility = ObservableOld.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable)
-    {
+    val hotelMessagingContainerVisibility = ObservableOld.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable) {
         hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied, shouldShowAirAttachSWPImage ->
         (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || hasRegularLoyaltyPointsApplied || shouldShowAirAttachSWPImage) && !hotelSoldOut
     }

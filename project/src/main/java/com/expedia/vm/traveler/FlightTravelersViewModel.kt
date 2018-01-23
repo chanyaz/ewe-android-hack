@@ -19,14 +19,14 @@ class FlightTravelersViewModel(context: Context, lob: LineOfBusiness, showMainTr
     override fun requiresMultipleTravelers() = getTravelers().size > 1
 
     val flightOfferObservable = PublishSubject.create<FlightTripDetails.FlightOffer>()
-    var flightLegs: List<FlightLeg> ?= null
-    var frequentFlyerPlans : FlightCreateTripResponse.FrequentFlyerPlans ?= null
+    var flightLegs: List<FlightLeg> ? = null
+    var frequentFlyerPlans: FlightCreateTripResponse.FrequentFlyerPlans ? = null
 
-    init{
+    init {
         flightOfferObservable.map { it.isPassportNeeded || it.isInternational }.subscribe(passportRequired)
     }
 
-    override fun getTravelers() : List<Traveler> {
+    override fun getTravelers(): List<Traveler> {
         return Db.sharedInstance.travelers
     }
 }

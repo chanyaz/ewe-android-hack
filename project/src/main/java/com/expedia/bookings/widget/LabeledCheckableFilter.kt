@@ -53,8 +53,7 @@ class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : Relativ
                 .format().toString())
         if (checkBox.isChecked) {
             contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_checked))
-        }
-        else {
+        } else {
             contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_unchecked))
         }
         this.contentDescription = contentDesc
@@ -67,8 +66,7 @@ class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : Relativ
                 .format().toString())
         if (checkBox.isChecked) {
             contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_checked))
-        }
-        else {
+        } else {
             contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_unchecked))
         }
         this.contentDescription = contentDesc

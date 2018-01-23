@@ -30,7 +30,6 @@ class CompoundTransitionTest {
 
     val eventOrder = LinkedList<String>()
 
-
     fun runTransition(trans: Presenter.Transition, forward: Boolean, animationStep: Int) {
         trans.startTransition(forward)
         for (stepVal in (0..100 step animationStep)) {
@@ -130,7 +129,6 @@ class CompoundTransitionTest {
         assert(eventOrder.contains("b end"), { "Transition b did not end" })
         assert(eventOrder.contains("c end"), { "Transition c did not end" })
         assert(eventOrder.contains("d end"), { "Transition d did not end" })
-
     }
 
     @Test fun backwardsStartsAndEndsAreTimedCorrect() {

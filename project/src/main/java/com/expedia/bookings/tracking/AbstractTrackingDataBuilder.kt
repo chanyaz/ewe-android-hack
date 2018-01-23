@@ -1,7 +1,7 @@
 package com.expedia.bookings.tracking
 
 abstract class AbstractTrackingDataBuilder<T : AbstractSearchTrackingData> {
-    abstract protected var trackingData: T
+    protected abstract var trackingData: T
 
     protected var paramsPopulated = false
     protected var responsePopulated = false

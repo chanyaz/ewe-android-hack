@@ -90,9 +90,8 @@ class HotelTest {
         assertEquals(room.roomLongDescription, hotelOffer.roomLongDescription)
         assertEquals(room.roomThumbnailUrl, hotelOffer.thumbnailUrl)
         assertEquals(room.roomTypeDescription, hotelOffer.roomRatePlanDescription)
-        assertEquals(room.supplierType, hotelOffer.inventoryType);
+        assertEquals(room.supplierType, hotelOffer.inventoryType)
         assertEquals(room.packageLoyaltyInformation, multiItemOffer.loyaltyInfo)
-
     }
 
     @Test

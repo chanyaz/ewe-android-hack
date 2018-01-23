@@ -94,7 +94,6 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
         return StringBuilder("-").append(percentSavings.toInt()).append("%").toString()
     }
 
-
     fun getDiscountPercentForContentDesc(percentSavings: Double?): String {
         if (percentSavings == null || percentSavings == 0.00) {
             return ""
@@ -102,7 +101,6 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
 
         return Phrase.from(context, R.string.hotel_discount_percent_Template).put("discount", percentSavings.toInt().toString()).format().toString()
     }
-
 
     fun getFormattedPriceText(resources: Resources, price: Double?, strikeOut: Boolean): CharSequence {
         if (price == null || price == 0.00) {

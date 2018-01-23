@@ -75,7 +75,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
     private var launchDataTimeStamp: DateTime? = null
     private var isPOSChanged = false
 
-    val fab: FloatingActionButton  by bindView(R.id.fab)
+    val fab: FloatingActionButton by bindView(R.id.fab)
 
     private val fabAnimIn: ObjectAnimator by lazy {
         val fabAnimIn = ObjectAnimator.ofFloat(fab, "translationY", 0f)
@@ -181,7 +181,6 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
             } else {
                 launchError.visibility = View.GONE
             }
-
         }
 
         currentLocationSubject.subscribe { currentLocation ->
@@ -457,7 +456,6 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
 
     private fun isNearByHotelDataExpired(): Boolean {
         return launchDataTimeStamp == null || JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO) || isPOSChanged
-
     }
 
     fun onBackPressed(): Boolean {

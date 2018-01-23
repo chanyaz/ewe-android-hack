@@ -3,7 +3,6 @@ package com.expedia.bookings.presenter.hotel
 import android.app.AlertDialog
 import android.content.Context
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.R
@@ -74,8 +73,8 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         if (hotelMaterialFormEnabled) {
             createTripViewmodel.tripResponseObservable.map {
                 it.userCoupons?.filter { it -> it.redemptionStatus == HotelCreateTripResponse.RedemptionStatus.VALID }
-            }.
-                    map { createTripViewmodel.convertUserCouponToStoredCouponAdapter(it) }
+            }
+                    .map { createTripViewmodel.convertUserCouponToStoredCouponAdapter(it) }
                     .subscribe((couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.storedCouponsSubject)
         }
         couponCardView.viewmodel.couponObservable.subscribe(createTripViewmodel.tripResponseObservable)
@@ -224,8 +223,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
 
         if (isRemoveCoupon) {
             couponCardView.viewmodel.couponRemoveObservable.onNext(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
-        }
-        else {
+        } else {
             val shouldTryToApplyCouponAfterLogin = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value
             if (userStateManager.isUserAuthenticated() && tripHasCoupon && shouldTryToApplyCouponAfterLogin) {
                 // This is to apply a coupon in case user signs in after applying a coupon. So there is no user preference.
@@ -277,7 +275,6 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     override fun accountLogoutClicked() {
         hotelCheckoutMainViewModel.onLogoutButtonClicked.onNext(Unit)
         super.accountLogoutClicked()
-
     }
 
     override fun back(): Boolean {
@@ -328,7 +325,6 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     fun markRoomSelected() {
         pageUsableData.markPageLoadStarted(System.currentTimeMillis())
     }
-
 
     private fun shouldLogToCrashlytics(): Boolean {
         return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout)

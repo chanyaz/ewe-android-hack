@@ -12,5 +12,4 @@ class BigImageLaunchViewModel(@DrawableRes val icon: Int, @ColorRes val bgGradie
     var backgroundUrl: String? = null
     var backgroundFallback: Int = R.color.gray600
     val backgroundUrlChangeSubject = BehaviorSubject.create<String>()
-
 }

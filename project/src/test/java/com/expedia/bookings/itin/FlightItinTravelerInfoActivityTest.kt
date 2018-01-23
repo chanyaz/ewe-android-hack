@@ -34,7 +34,6 @@ class FlightItinTravelerInfoActivityTest {
     private val travelerPhoneSubscriber = TestObserver<CharSequence>()
     lateinit var testItinCardData: ItinCardDataFlight
 
-
     @Before
     fun setup() {
         sut = Robolectric.buildActivity(FlightItinTravelerInfoActivity::class.java).get()

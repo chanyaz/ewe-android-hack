@@ -21,10 +21,8 @@ import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.Optional
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
-import com.squareup.phrase.Phrase
 import io.reactivex.disposables.Disposable
 import kotlin.properties.Delegates
-import org.joda.time.DateTime
 
 class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSliderCalendar,
                                     rules: CalendarRules) : CalendarDialogFragment(viewModel, rules) {
@@ -121,8 +119,7 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
         val title = seekBar.calculateProgress(seekBar.progress)
         val subtitle = if (seekBar.id == R.id.depart_time_slider)
             viewModel.getCalendarSliderTooltipStartTimeLabel()
-        else
-            viewModel.getCalendarSliderTooltipEndTimeLabel()
+        else viewModel.getCalendarSliderTooltipEndTimeLabel()
 
         pickupTimePopup.text = title
         popupLabel.text = subtitle
@@ -167,7 +164,7 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
                 // if not from the user, then the VM already has this info, don't need to notify of update
                 if (seekBar.id == R.id.depart_time_slider) {
                     viewModel.departTimeSubject.onNext(TimeSlider.convertProgressToMillis(progress))
-                    departTimeSlider.contentDescription =  setContentDescriptionForTimeSlider(seekBar as TimeSlider, true, progress)
+                    departTimeSlider.contentDescription = setContentDescriptionForTimeSlider(seekBar as TimeSlider, true, progress)
                 } else if (seekBar.id == R.id.return_time_slider) {
                     viewModel.returnTimeSubject.onNext(Optional(TimeSlider.convertProgressToMillis(progress)))
                     returnTimeSlider.contentDescription = setContentDescriptionForTimeSlider(seekBar as TimeSlider, false, progress)
@@ -181,7 +178,6 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
         val time = seekBar.calculateProgress(progress)
         if (isDepart)
             return viewModel.getStartTimeContDesc(time)
-        else
-            return viewModel.getEndTimeContDesc(time)
+        else return viewModel.getEndTimeContDesc(time)
     }
 }

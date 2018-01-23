@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.SpinnerAdapterWithHint
 import com.expedia.bookings.widget.accessibility.AccessibleSpinner
 
-class RailDeliverySpinnerWithValidationIndicator(context: Context, attrs: AttributeSet?): LinearLayout(context, attrs) {
+class RailDeliverySpinnerWithValidationIndicator(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val spinner: AccessibleSpinner by bindView(R.id.rail_delivery_spinner)
     val validationIndicator: ImageView by bindView(R.id.validation_indicator)
@@ -29,7 +29,7 @@ class RailDeliverySpinnerWithValidationIndicator(context: Context, attrs: Attrib
         spinner.onFocusChangeListener = if (visibility == VISIBLE) spinnerFocusListener else null
     }
 
-    fun hasItemSelected() : Boolean {
+    fun hasItemSelected(): Boolean {
         val selection = spinner.selectedItem as SpinnerAdapterWithHint.SpinnerItem
         return !hint.equals(selection.value)
     }

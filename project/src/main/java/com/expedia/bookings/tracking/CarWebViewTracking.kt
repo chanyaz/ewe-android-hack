@@ -1,6 +1,5 @@
 package com.expedia.bookings.tracking
 
-
 class CarWebViewTracking {
     fun trackAppCarWebViewRetry() {
         OmnitureTracking.trackAppCarWebViewRetry()
@@ -29,5 +28,4 @@ class CarWebViewTracking {
     fun trackAppCarAAtest() {
         OmnitureTracking.trackAppCarAATest()
     }
-
 }

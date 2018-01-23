@@ -31,7 +31,7 @@ class FormatUtilsTest {
     @Test
     fun formatFlightNumberTest() {
         var flight: Flight? = null
-        val unknown = getContext().getString(R.string.unknown);
+        val unknown = getContext().getString(R.string.unknown)
         val noFlight = FormatUtils.formatFlightNumber(flight, getContext())
         assertEquals(noFlight, unknown)
 
@@ -70,7 +70,7 @@ class FormatUtilsTest {
 
     @Test
     fun getCityNameTest() {
-        val unknown = getContext().getString(R.string.unknown);
+        val unknown = getContext().getString(R.string.unknown)
         val noWaypoint = FormatUtils.getCityName(null, getContext())
         assertEquals(unknown, noWaypoint)
 
@@ -91,12 +91,11 @@ class FormatUtilsTest {
         airport.mCity = null
         val nocityAndCode = FormatUtils.getCityName(waypoint, getContext())
         assertEquals(unknown, nocityAndCode)
-
     }
 
     @Test
     fun formatAirlineTest() {
-        val unknown = getContext().getString(R.string.unknown);
+        val unknown = getContext().getString(R.string.unknown)
         val noAirline = FormatUtils.formatAirline(null, getContext())
         assertEquals(unknown, noAirline)
 
@@ -128,7 +127,6 @@ class FormatUtilsTest {
 
         value = FormatUtils.formatDistance(getContext(), miles, FormatUtils.F_LONG)
         assertEquals("20 miles", value)
-
     }
 
     @Test
@@ -171,6 +169,5 @@ class FormatUtilsTest {
         airport.mTimeZone = DateTimeZone.forTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
         value = FormatUtils.formatTimeZone(airport, DateTime(), 2)
         assertEquals("GMT+3", value)
-
     }
 }

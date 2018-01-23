@@ -51,7 +51,7 @@ class LXSuggestionAdapter(val viewmodel: LXSuggestionAdapterViewModel) : Recycle
     }
 }
 
-class LXSuggestionViewHolder(val root: ViewGroup, val vm : LXSuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
+class LXSuggestionViewHolder(val root: ViewGroup, val vm: LXSuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
     val displayName: TextView by bindView(R.id.title_textview)
     val dropdownImage: ImageView by bindView(R.id.lx_dropdown_imageView)
     val cityName: TextView by bindView(R.id.city_name_textView)
@@ -65,14 +65,13 @@ class LXSuggestionViewHolder(val root: ViewGroup, val vm : LXSuggestionViewModel
             dropdownImage.setImageResource(imageSource)
         }
         vm.contentDescriptionObservable.subscribe { contentDescription ->
-            dropdownImage.contentDescription = root.context.getString(contentDescription);
+            dropdownImage.contentDescription = root.context.getString(contentDescription)
         }
 
         vm.cityNameObservable.subscribeText(cityName)
         vm.cityNameVisibility.subscribeVisibility(cityName)
         dropdownImage.setColorFilter(ContextCompat.getColor(dropdownImage.context,
                 Ui.obtainThemeResID(dropdownImage.context, R.attr.skin_lxPrimaryColor)))
-
     }
 
     override fun onClick(view: View) {
@@ -81,4 +80,3 @@ class LXSuggestionViewHolder(val root: ViewGroup, val vm : LXSuggestionViewModel
         vm.suggestionSelected.onNext(SearchSuggestion(suggestion))
     }
 }
-

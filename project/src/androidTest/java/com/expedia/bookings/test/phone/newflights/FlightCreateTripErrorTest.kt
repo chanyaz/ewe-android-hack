@@ -4,7 +4,7 @@ import com.expedia.bookings.data.ApiError
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.junit.Test
 
-class FlightCreateTripErrorTest: FlightErrorTestCase() {
+class FlightCreateTripErrorTest : FlightErrorTestCase() {
 
     @Test
     fun testCreateTripUnknownError() {
@@ -22,7 +22,6 @@ class FlightCreateTripErrorTest: FlightErrorTestCase() {
         clickActionButton()
         assertSearchFormDisplayed()
     }
-
 
     @Test
     fun testCreateTripFlightSoldOut() {
@@ -76,6 +75,4 @@ class FlightCreateTripErrorTest: FlightErrorTestCase() {
         clickActionButton()
         assertSearchFormDisplayed()
     }
-
-
 }

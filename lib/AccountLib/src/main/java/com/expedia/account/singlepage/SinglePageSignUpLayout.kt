@@ -14,8 +14,7 @@ import android.widget.ScrollView
 import com.expedia.account.R
 import com.expedia.account.util.Events
 
-
-class SinglePageSignUpLayout(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) {
+class SinglePageSignUpLayout(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     private val vEmailNamePasswordLayout: SinglePageEmailNamePasswordLayout by lazy {
         findViewById<SinglePageEmailNamePasswordLayout>(R.id.single_page_email_name_password)
@@ -39,7 +38,7 @@ class SinglePageSignUpLayout(context: Context, attrs: AttributeSet): FrameLayout
 
     init {
         View.inflate(context, R.layout.acct__widget_single_page_sign_up, this)
-        fullWideCreateAccountButton.setOnClickListener{
+        fullWideCreateAccountButton.setOnClickListener {
             if (vEmailNamePasswordLayout.allTextValidSubject.value && vTOSLayout.termOfUseCheckedSubject.value) {
                 Events.post(Events.TOSContinueButtonClicked())
             } else {
@@ -82,13 +81,11 @@ class SinglePageSignUpLayout(context: Context, attrs: AttributeSet): FrameLayout
             if (isKeyboardVisible) {
                 fullWideCreateAccountButton.visibility = View.GONE
                 vTOSLayout.visibility = View.GONE
-            }
-            else {
+            } else {
                 fullWideCreateAccountButton.visibility = View.VISIBLE
                 vTOSLayout.visibility = View.VISIBLE
                 scrollView.smoothScrollTo(0, 0)
             }
-
         }
         currentKeyboardHeight = keyboardHeight
     }

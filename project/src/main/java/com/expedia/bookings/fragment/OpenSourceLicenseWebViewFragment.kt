@@ -26,8 +26,7 @@ class OpenSourceLicenseWebViewFragment : WebViewFragment() {
 
         mHtmlData = try {
             IoUtils.convertStreamToString(activity.assets.open("open_source_licenses.html"))
-        }
-        catch (e: IOException) {
+        } catch (e: IOException) {
             HtmlUtils.wrapInHeadAndBody(this.getString(R.string.open_source_software_licenses_error))
         }
     }

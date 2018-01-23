@@ -14,7 +14,6 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 
-
 @RunWith(RobolectricRunner::class)
 @Config(
         constants = BuildConfig::class,

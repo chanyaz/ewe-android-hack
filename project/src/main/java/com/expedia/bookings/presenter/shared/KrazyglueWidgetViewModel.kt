@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.shared;
+package com.expedia.bookings.presenter.shared
 
 import android.content.Context
 import com.expedia.bookings.R

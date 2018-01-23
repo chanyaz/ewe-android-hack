@@ -188,4 +188,3 @@ class FlightFilterViewModelTest {
         return list
     }
 }
-

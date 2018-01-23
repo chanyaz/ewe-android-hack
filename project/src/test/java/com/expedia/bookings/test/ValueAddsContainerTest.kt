@@ -1,7 +1,6 @@
 package com.expedia.bookings.test
 
 import android.app.Application
-import android.view.View
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TextView
@@ -16,7 +15,7 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class ValueAddsContainerTest {
-    lateinit private var context: Application
+    private lateinit var context: Application
     private var container: ValueAddsContainer by Delegates.notNull()
 
     @Before

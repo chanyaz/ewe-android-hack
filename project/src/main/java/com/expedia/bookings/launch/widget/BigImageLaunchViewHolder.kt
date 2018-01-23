@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.squareup.picasso.Picasso
 
-class BigImageLaunchViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
+class BigImageLaunchViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
     val titleView: TextView by bindView(R.id.big_image_title)
     val subTitleView: TextView by bindView(R.id.big_image_subtitle)

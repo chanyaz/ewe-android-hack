@@ -25,5 +25,4 @@ class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubjec
     override fun shouldShowResultDescriptionLabel(context: Context): Boolean {
         return false
     }
-
 }

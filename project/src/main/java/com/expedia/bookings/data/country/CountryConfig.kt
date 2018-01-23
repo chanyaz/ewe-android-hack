@@ -54,5 +54,4 @@ class CountryConfig {
             return (countryConfig.countries[countryCode]?.values as AbstractCollection).toArray()[0].toString()
         }
     }
-
 }

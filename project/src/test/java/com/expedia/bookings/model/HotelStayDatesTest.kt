@@ -147,7 +147,7 @@ class HotelStayDatesTest {
         assertFalse(hotelStayDates1.sameHotelStayDates(hotelStayDates2))
     }
 
-    private fun createHotelStayDates(startPlusDay: Int?, endPlusDay: Int?) : HotelStayDates {
+    private fun createHotelStayDates(startPlusDay: Int?, endPlusDay: Int?): HotelStayDates {
         var startDate: LocalDate? = null
         var endDate: LocalDate? = null
 

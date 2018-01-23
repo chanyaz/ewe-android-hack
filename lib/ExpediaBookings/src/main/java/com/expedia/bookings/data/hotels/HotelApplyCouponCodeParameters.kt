@@ -17,7 +17,6 @@ class HotelApplyCouponCodeParameters(tripId: String,
             return this
         }
 
-
         override fun build(): HotelApplyCouponCodeParameters {
             return HotelApplyCouponCodeParameters(tripId ?: throw IllegalArgumentException(),
                     isFromNotSignedInToSignedIn,

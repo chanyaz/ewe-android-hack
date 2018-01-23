@@ -152,7 +152,6 @@ class PackagesCreateTripTest {
         return params
     }
 
-
     fun getOriginDestSuggestions(): Pair<SuggestionV4, SuggestionV4> {
         val suggestionDest = SuggestionV4()
         val suggestionOrigin = SuggestionV4()

@@ -25,7 +25,6 @@ class LXOfferDatesButtonTest {
         Ui.getApplication(activity).defaultLXComponents()
         activity.setTheme(R.style.V2_Theme_LX)
         datesButton = LayoutInflater.from(activity).inflate(R.layout.lx_offer_date_button, null) as LXOfferDatesButton
-
     }
 
     @Test
@@ -38,7 +37,7 @@ class LXOfferDatesButtonTest {
 
         datesButton.bind(LocalDate(1989, 1, 14), true)
         datesButton.isChecked = true
-        
+
         assertEquals("Saturday\n14\nJanuary", datesButton.contentDescription.toString())
         assertEquals("Sat\n14\nJan", datesButton.text.toString())
     }

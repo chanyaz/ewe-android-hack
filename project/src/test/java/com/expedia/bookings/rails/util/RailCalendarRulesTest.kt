@@ -35,7 +35,6 @@ class RailCalendarRulesTest {
     fun testMaxDateRange() {
         assertEquals(84, testOneWay.getMaxDateRange(), "FAILURE: Max search range for rail should be 84")
         assertEquals(84, testRoundTrip.getMaxDateRange(), "FAILURE: Max search range for rail should be 84")
-
     }
 
     @Test
