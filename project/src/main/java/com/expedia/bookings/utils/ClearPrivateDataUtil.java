@@ -3,6 +3,7 @@ package com.expedia.bookings.utils;
 import android.content.Context;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.WebStorage;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -47,5 +48,8 @@ public class ClearPrivateDataUtil {
 
 		// Clear search params history
 		SearchParamsHistoryUtil.deleteCachedSearchParams(context);
+
+		//Clear Webpage JS Dom Storage
+		WebStorage.getInstance().deleteAllData();
 	}
 }

@@ -68,6 +68,7 @@ public class WebViewFragment extends DialogFragment {
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
 	private static final String ARG_HANDLE_BACK = "ARG_HANDLE_BACK";
 	private static final String ARG_HANDLE_RETRY_ON_ERROR = "ARG_HANDLE_RETRY_ON_ERROR";
+	private static final String ARG_ENABLE_DOM_STORAGE = "ARG_ENABLE_DOM_STORAGE";
 
 	private static final String INSTANCE_LOADED = "com.expedia.bookings.fragment.WebViewFragment.INSTANCE_LOADED";
 
@@ -88,7 +89,7 @@ public class WebViewFragment extends DialogFragment {
 	private boolean retryOnError;
 
 	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
-		boolean allowUseableNetRedirects, String name, boolean handleBack, boolean retryOnError) {
+		boolean allowUseableNetRedirects, String name, boolean handleBack, boolean retryOnError, boolean enableDomStorage) {
 		WebViewFragment frag = new WebViewFragment();
 
 		Bundle args = new Bundle();
@@ -99,6 +100,7 @@ public class WebViewFragment extends DialogFragment {
 		args.putString(ARG_TRACKING_NAME, name);
 		args.putBoolean(ARG_HANDLE_BACK, handleBack);
 		args.putBoolean(ARG_HANDLE_RETRY_ON_ERROR, retryOnError);
+		args.putBoolean(ARG_ENABLE_DOM_STORAGE, enableDomStorage);
 		frag.setArguments(args);
 		frag.setRetainInstance(true);
 
@@ -301,6 +303,7 @@ public class WebViewFragment extends DialogFragment {
 		mWebView.getSettings().setLoadWithOverviewMode(true);
 		mWebView.getSettings().setUseWideViewPort(!getArguments().getBoolean(ARG_DIALOG_MODE));
 		mWebView.getSettings().setBuiltInZoomControls(true);
+		mWebView.getSettings().setDomStorageEnabled(getArguments().getBoolean(ARG_ENABLE_DOM_STORAGE));
 
 		// To allow Usablenet redirects to view mobile version of site, we leave the user agent string as be. The
 		// default user-agent string contains "Android" which tips off the redirect to mobile.

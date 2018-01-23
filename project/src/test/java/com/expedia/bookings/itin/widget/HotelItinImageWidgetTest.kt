@@ -76,7 +76,7 @@ class HotelItinImageWidgetTest {
     fun testHotelHasPhone() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         hotelItinImageWidget.setUpWidget(itinCardDataHotel)
-        val callButton = hotelItinImageWidget.actionButtons.getLeftButton()
+        val callButton = hotelItinImageWidget.actionButtons.leftButton
 
         assertEquals(View.VISIBLE, callButton.visibility)
 
@@ -90,7 +90,7 @@ class HotelItinImageWidgetTest {
         itinCardDataHotel.property.epcConversationUrl = "google.com"
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         hotelItinImageWidget.setUpWidget(itinCardDataHotel)
-        val messageButton = hotelItinImageWidget.actionButtons.getRightButton()
+        val messageButton = hotelItinImageWidget.actionButtons.rightButton
 
         assertEquals(View.VISIBLE, messageButton.visibility)
 
@@ -103,7 +103,7 @@ class HotelItinImageWidgetTest {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
         itinCardDataHotel.property.epcConversationUrl = ""
         hotelItinImageWidget.setUpWidget(itinCardDataHotel)
-        val messsageButton = hotelItinImageWidget.actionButtons.getRightLayout()
+        val messsageButton = hotelItinImageWidget.actionButtons.rightLayout
 
         assertEquals(View.GONE, messsageButton.visibility)
     }
@@ -112,7 +112,7 @@ class HotelItinImageWidgetTest {
     fun testHotelMessagingTestOff() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel, 0)
         hotelItinImageWidget.setUpWidget(itinCardDataHotel)
-        val messsageButton = hotelItinImageWidget.actionButtons.getRightLayout()
+        val messsageButton = hotelItinImageWidget.actionButtons.rightLayout
 
         assertEquals(View.GONE, messsageButton.visibility)
     }

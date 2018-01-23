@@ -37,6 +37,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 	private static final String ARG_HANDLE_RETRY_ON_ERROR = "ARG_HANDLE_RETRY_ON_ERROR";
 	protected static final String ARG_USE_WEB_VIEW_TITLE = "ARG_USE_WEB_VIEW_TITLE";
 	private static final String APP_VISITOR_ID_PARAM = "appvi=";
+	private static final String ARG_ALLOW_DOM_STORAGE = "ARG_ALLOW_DOM_STORAGE";
 
 
 	private boolean handleBack;
@@ -115,6 +116,11 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 
 		public IntentBuilder setRoomUpgradeType() {
 			mIntent.putExtra(ARG_RETURN_FROM_ROOM_UPGRADE, true);
+			return this;
+		}
+
+		public IntentBuilder setDomStorage(boolean setDomStorage) {
+			mIntent.putExtra(ARG_ALLOW_DOM_STORAGE, setDomStorage);
 			return this;
 		}
 
@@ -228,10 +234,11 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 			String name = extras.getString(ARG_TRACKING_NAME);
 			handleBack = extras.getBoolean(ARG_HANDLE_BACK, false);
 			boolean retryOnError = extras.getBoolean(ARG_HANDLE_RETRY_ON_ERROR, false);
+			boolean enableDomStorage = extras.getBoolean(ARG_ALLOW_DOM_STORAGE, false);
 
 			webViewFragment =
 				createWebViewFragment(extras, enableLogin, injectExpediaCookies, allowMobileRedirects,
-					name, handleBack, retryOnError);
+					name, handleBack, retryOnError, enableDomStorage);
 			if (webViewFragment == null) {
 				finish();
 				return;
@@ -244,7 +251,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 	}
 
 	protected WebViewFragment createWebViewFragment(Bundle extras, boolean enableLogin, boolean injectExpediaCookies,
-		boolean allowMobileRedirects, String name, boolean handleBack, boolean retryOnError) {
+		boolean allowMobileRedirects, String name, boolean handleBack, boolean retryOnError, boolean enableDomStorage) {
 		WebViewFragment fragment;
 
 		if (extras.containsKey(ARG_HTML_DATA)) {
@@ -263,7 +270,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 				return null;
 			}
 			fragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, allowMobileRedirects,
-				name, handleBack, retryOnError);
+				name, handleBack, retryOnError, enableDomStorage);
 		}
 		return fragment;
 	}

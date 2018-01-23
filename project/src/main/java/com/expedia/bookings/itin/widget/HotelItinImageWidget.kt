@@ -109,6 +109,7 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
         builder.setTitle(title)
         builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(false)
+        builder.setDomStorage(true)
         return builder
     }
 
