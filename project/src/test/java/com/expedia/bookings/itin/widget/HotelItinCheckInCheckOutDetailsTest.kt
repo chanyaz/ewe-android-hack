@@ -1,10 +1,13 @@
 package com.expedia.bookings.itin.widget
 
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
@@ -57,5 +60,19 @@ class HotelItinCheckInCheckOutDetailsTest {
         val checkInPolicesText = alertDialog.findViewById<View>(R.id.fragment_dialog_scrollable_text_content) as TextView
         assertEquals(true, alertDialog.isShowing)
         assertEquals("Minimum check-in age is 18\nCheck-in time starts at 3 PM", checkInPolicesText.text.toString())
+    }
+    
+    @Test
+    fun testCheckInCheckOutViewText() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
+        assertEquals(hotelItinCheckinCheckOutWidget.checkInTimeView.text.toString(), itinCardDataHotel.checkInTime.toLowerCase())
+        assertEquals(hotelItinCheckinCheckOutWidget.checkOutTimeView.text.toString(), itinCardDataHotel.checkOutTime.toLowerCase())
+
+        (itinCardDataHotel.tripComponent as TripHotel).checkInTime = null
+        (itinCardDataHotel.tripComponent as TripHotel).checkOutTime = null
+        hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
+        assertEquals(hotelItinCheckinCheckOutWidget.checkInTimeView.text.toString(), JodaUtils.formatDateTime(activity, itinCardDataHotel.startDate, DateUtils.FORMAT_SHOW_TIME).toLowerCase())
+        assertEquals(hotelItinCheckinCheckOutWidget.checkOutTimeView.text.toString(), JodaUtils.formatDateTime(activity, itinCardDataHotel.endDate, DateUtils.FORMAT_SHOW_TIME).toLowerCase())
     }
 }

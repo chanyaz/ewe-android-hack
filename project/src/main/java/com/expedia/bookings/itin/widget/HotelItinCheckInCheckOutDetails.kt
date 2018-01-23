@@ -35,8 +35,8 @@ class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : L
         checkInDateView.contentDescription = LocaleBasedDateFormatUtils.dateTimeToEEEEMMMd(itinCardDataHotel.startDate)
         checkOutDateView.text = LocaleBasedDateFormatUtils.dateTimeToEEEMMMd(itinCardDataHotel.endDate)
         checkOutDateView.contentDescription = LocaleBasedDateFormatUtils.dateTimeToEEEEMMMd(itinCardDataHotel.endDate)
-        checkInTimeView.text = itinCardDataHotel.checkInTime?.toLowerCase()
-        checkOutTimeView.text = itinCardDataHotel.checkOutTime?.toLowerCase()
+        checkInTimeView.text = itinCardDataHotel.getFallbackCheckInTime(context).toLowerCase()
+        checkOutTimeView.text = itinCardDataHotel.getFallbackCheckOutTime(context).toLowerCase()
         if (!itinCardDataHotel.property.checkInPolicies.isEmpty()) {
             checkInPoliciesDivider.visibility = View.VISIBLE
             checkInOutPoliciesContainer.visibility = View.VISIBLE
