@@ -6,10 +6,13 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
 import android.support.v4.app.DialogFragment
+import android.support.v4.content.ContextCompat
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.WindowManager
 import com.expedia.bookings.R
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
@@ -26,7 +29,8 @@ class ChangeDatesDialogFragment : DialogFragment() {
 
     @VisibleForTesting
     internal lateinit var pickerView: HotelChangeDateCalendarPicker
-    private lateinit var doneButton: TextView
+    @VisibleForTesting
+    internal lateinit var doneButton: TextView
 
     private var initialDates: HotelStayDates? = null
     private var newDates: HotelStayDates? = null
@@ -53,6 +57,7 @@ class ChangeDatesDialogFragment : DialogFragment() {
         pickerView.bind(rules, HotelCalendarDirections(context))
 
         dateSubscription = pickerView.datesUpdatedSubject.subscribe { dates ->
+            setButtonEnabled(true)
             newDates = dates
         }
         pickerView.setDates(initialDates)
@@ -60,11 +65,16 @@ class ChangeDatesDialogFragment : DialogFragment() {
             userTappedDone = true
             dismiss()
         }
+        setButtonEnabled(initialDates != null)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setOnShowListener {
+            // Force the window to match parent's width. This must be done after it's shown.
+            dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        }
         return dialog
     }
 
@@ -88,5 +98,16 @@ class ChangeDatesDialogFragment : DialogFragment() {
 
     fun presetDates(hotelStayDates: HotelStayDates?) {
         initialDates = hotelStayDates
+    }
+
+    private fun setButtonEnabled(enabled: Boolean) {
+        doneButton.isEnabled = enabled
+        if (enabled) {
+            val typedValue = TypedValue()
+            context.theme.resolveAttribute(R.attr.primary_color, typedValue, true)
+            doneButton.setTextColor(typedValue.data)
+        } else {
+            doneButton.setTextColor(ContextCompat.getColor(context, R.color.disabled_text_color))
+        }
     }
 }

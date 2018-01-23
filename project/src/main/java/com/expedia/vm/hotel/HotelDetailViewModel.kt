@@ -63,6 +63,8 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
         apiSubscriptions.add(hotelInfoManager.offerSuccessSubject.subscribeObserver(hotelOffersSubject))
         apiSubscriptions.add(hotelInfoManager.infoSuccessSubject.subscribeObserver(hotelOffersSubject))
 
+        apiSubscriptions.add(hotelInfoManager.offerSuccessSubject.subscribe({ isDatelessObservable.onNext(false) }))
+
         registerErrorSubscriptions()
     }
 

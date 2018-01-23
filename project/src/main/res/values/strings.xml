@@ -43,6 +43,8 @@
     <string name="hotelsv2_slide_purchase">Slide to purchase</string>
     <!-- Change Dates in case of Sold Out -->
     <string name="change_dates">Change Dates</string>
+    <!-- Select Dates in case of dateless infosite -->
+    <string name="hotel_info_site_select_dates">Select Dates</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">Secure Checkout</string>
     <!-- Accessibility content description for google map view on hotel results -->

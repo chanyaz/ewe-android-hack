@@ -88,7 +88,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val vipLoyaltyMessage: TextView by bindView(R.id.vip_loyalty_message_details)
     private val regularLoyaltyMessage: TextView by bindView(R.id.regular_loyalty_applied)
 
-    private val priceContainer: ViewGroup by bindView(R.id.price_widget)
+    @VisibleForTesting val priceContainer: ViewGroup by bindView(R.id.price_widget)
     @VisibleForTesting val detailsSoldOut: TextView by bindView(R.id.details_sold_out)
 
     private val hotelPriceContainer: View by bindView(R.id.hotel_price_container)
@@ -310,6 +310,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             infoList.forEach { propertyTextContainer.addView(HotelInfoView(context).setText(it.name, it.content)) }
         }
 
+        vm.isDatelessObservable.subscribeInverseVisibility(priceContainer)
+
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
 
@@ -417,16 +419,22 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     fun showChangeDatesDialog() {
         val dialogFragment = ChangeDatesDialogFragment()
+        val isDateless = viewModel.isDatelessObservable.value == true
         dialogFragment.datesChangedSubject.subscribe { stayDates ->
             val startDate = stayDates.getStartDate()
             val endDate = stayDates.getEndDate()
             if (startDate != null && endDate != null) {
                 (viewModel as? HotelDetailViewModel)?.changeDates(startDate, endDate)
+                if (isDateless) {
+                    viewModel.newDatesSelected.onNext(Pair(startDate, endDate))
+                }
             }
         }
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
 
-        dialogFragment.presetDates(HotelStayDates(viewModel.checkInDate, viewModel.checkOutDate))
+        if (!isDateless) {
+            dialogFragment.presetDates(HotelStayDates(viewModel.checkInDate, viewModel.checkOutDate))
+        }
         dialogFragment.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
     }
 

@@ -28,6 +28,8 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
 import kotlin.properties.Delegates
 
 val DESCRIPTION_ANIMATION = 150L
@@ -74,14 +76,16 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
         }
 
-        vm.hotelSoldOut.subscribe { soldOut ->
-            galleryView.updateSoldOut(soldOut)
-            if (soldOut) {
-                bottomButtonWidget.showChangeDates()
-            } else {
-                bottomButtonWidget.showSelectRoom()
+        Observable.combineLatest(vm.hotelSoldOut, vm.isDatelessObservable, BiFunction { soldOut: Boolean, dateless: Boolean ->
+            Pair(soldOut, dateless)
+        }).subscribe { pair ->
+            when {
+                pair.second -> bottomButtonWidget.showSelectDates()
+                pair.first -> bottomButtonWidget.showChangeDates()
+                else -> bottomButtonWidget.showSelectRoom()
             }
         }
+
         bottomButtonWidget.changeDatesClickedSubject.subscribe {
             if (vm.isChangeDatesEnabled()) {
                 contentView.showChangeDatesDialog()
@@ -142,6 +146,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             scrollToRoom(true)
             trackSelectRoomClick(isStickyButton = true)
         }
+
+        bottomButtonWidget.selectDatesClickedSubject.subscribe {
+            contentView.showChangeDatesDialog()
+        }
+
         contentView.requestFocusOnRoomsSubject.subscribe { scrollToRoom(true) }
 
         resortFeeWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -233,10 +242,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
 
         if (!bottomButtonInAnimator.isRunning && bottomButtonWidget.translationY != 0f && !areRoomsVisible()
-                && !viewmodel.hotelSoldOut.value && !galleryExpanded) {
+                && !viewmodel.hotelSoldOut.value && viewmodel.isDatelessObservable.value != true && !galleryExpanded) {
             bottomButtonInAnimator.start()
         } else if (!bottomButtonOutAnimator.isRunning && bottomButtonWidget.translationY != bottomButtonContainerHeight.toFloat()
-                && (areRoomsVisible() && !viewmodel.hotelSoldOut.value || galleryExpanded)) {
+                && (areRoomsVisible() && !viewmodel.hotelSoldOut.value && viewmodel.isDatelessObservable.value != true || galleryExpanded)) {
             bottomButtonOutAnimator.start()
         }
     }

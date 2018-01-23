@@ -616,6 +616,14 @@ class HotelDetailViewModelTest {
     }
 
     @Test
+    fun testFetchOffersDateless() {
+        val testDatelessSubscription = TestObserver.create<Boolean>()
+        vm.isDatelessObservable.subscribe(testDatelessSubscription)
+        mockHotelInfoManager.offerSuccessSubject.onNext(HotelOffersResponse())
+        testDatelessSubscription.assertValue(false)
+    }
+
+    @Test
     fun testFetchOffersSoldOut() {
         val testSuccessSub = TestObserver.create<HotelOffersResponse>()
         val testFetchOfferSub = TestObserver.create<Unit>()

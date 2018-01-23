@@ -43,5 +43,6 @@
         android:background="@drawable/hotel_secondary_ripple_button"
         android:text="@string/done"
         android:textColor="?primary_color"
-        android:textAllCaps="true"/>
+        android:textAllCaps="true"
+        android:fontFamily="sans-serif-medium"/>
 </android.support.constraint.ConstraintLayout>

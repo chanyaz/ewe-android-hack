@@ -223,6 +223,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, hotelDetailViewModel.scrollToRoom, hotelDetailViewModel.hotelSoldOut, hotelDetailViewModel.getLOB())
         hotelDetailViewModel.returnToSearchSubject.subscribe(goToSearchScreen)
 
+        presenter.hotelDetailView.viewmodel.newDatesSelected.subscribe { dates ->
+            searchPresenter.searchViewModel.datesUpdated(dates.first, dates.second)
+        }
+
         //ResultsPresenter doesn't inflate with roboelectric due to missing shadows for google map
         if (!ExpediaBookingApp.isRobolectric()) {
             hotelDetailViewModel.allRoomsSoldOut.subscribe { soldOut ->
@@ -965,6 +969,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun showDetails(hotelId: String) {
+        val showDateless = hotelSearchParams.isDatelessSearch
+                && AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelDatelessInfosite)
+        hotelDetailViewModel.isDatelessObservable.onNext(showDateless)
         hotelDetailViewModel.fetchOffers(hotelSearchParams, hotelId)
     }
 
@@ -1008,8 +1015,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
         searchPresenter.selectTravelers(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
 
-        searchPresenter.searchViewModel.datesUpdated(params.checkIn, params.checkOut)
-        searchPresenter.selectDates(params.checkIn, params.checkOut)
+        if (!params.isDatelessSearch) {
+            searchPresenter.searchViewModel.datesUpdated(params.checkIn, params.checkOut)
+            searchPresenter.selectDates(params.checkIn, params.checkOut)
+        }
     }
 
     override fun back(): Boolean {

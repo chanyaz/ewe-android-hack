@@ -260,6 +260,15 @@ class HotelDetailContentViewTest {
         assertGone(contentView.singleMessageContainer)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testDateless() {
+        testVM.isDatelessObservable.onNext(true)
+        assertGone(contentView.priceContainer)
+        testVM.isDatelessObservable.onNext(false)
+        assertVisible(contentView.priceContainer)
+    }
+
     private fun triggerMessageContainer(visible: Boolean) {
         // Yea need to trigger each individual observable to trigger hotelMessageContainerVisibility.
         // View doesn't care about any of this so hardcoding all the values

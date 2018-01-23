@@ -140,6 +140,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val promoMessageObservable = BehaviorSubject.createDefault<String>("")
     val earnMessageObservable = BehaviorSubject.create<String>()
     val earnMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val isDatelessObservable: BehaviorSubject<Boolean> = BehaviorSubject.create<Boolean>()
+    val newDatesSelected: BehaviorSubject<Pair<LocalDate, LocalDate>> = BehaviorSubject.create<Pair<LocalDate, LocalDate>>()
 
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
     val strikeThroughPriceGreaterThanPriceToShowUsersObservable = PublishSubject.create<Boolean>()
