@@ -171,6 +171,26 @@ public final class ViewActions {
 		};
 	}
 
+	public static ViewAction scrollViewToBottom() {
+		return new ViewAction() {
+
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(View.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				view.scrollBy(0, view.getHeight());
+			}
+
+			@Override
+			public String getDescription() {
+				return "scroll a view to bottom";
+			}
+		};
+	}
+
 	//View Action to get the rating for RatingBar
 
 	public static ViewAction getRating(final AtomicReference<Float> value) {
@@ -250,9 +270,12 @@ public final class ViewActions {
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				View cell = ((RecyclerView) view).getChildAt(position);
-				TextView priceView = (TextView) cell.findViewById(R.id.price_text_view);
+				RecyclerView recyclerView = (RecyclerView) view;
+				RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(position);
+				View cell = viewHolder.itemView;
+				TextView priceView = cell.findViewById(R.id.price_text_view);
 				price.set((String) priceView.getText());
+
 			}
 
 			@Override
@@ -349,7 +372,9 @@ public final class ViewActions {
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				View cell = ((RecyclerView) view).getChildAt(pos);
+				RecyclerView recyclerView = (RecyclerView) view;
+				RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(pos);
+				View cell = viewHolder.itemView;
 				TextView durationView = (TextView) cell.findViewById(R.id.flight_duration_text_view);
 				duration.set((String) durationView.getText());
 			}

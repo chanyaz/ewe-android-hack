@@ -43,8 +43,8 @@ Feature: Flights Search
     Given I launch the App
     And I set the POS to "Indonesia"
     And I launch "Flights" LOB
-    When I select source location from the dropdown as "BKK"
-    And I select destination from the dropdown as "HKG"
+    When I select source location from the dropdown as "ADL"
+    And I select destination from the dropdown as "DPS"
     And I pick dates for flights
       | start_date | 5  |
       | end_date   | 10 |
@@ -60,7 +60,7 @@ Feature: Flights Search
     And I set the POS to "Indonesia"
     And I launch "Flights" LOB
     When I select one way trip
-    And I select source location from the dropdown as "DPS"
+    And I select source location from the dropdown as "BNE"
     And I select destination from the dropdown as "SIN"
     And I pick departure date for flights
       | start_date | 5  |

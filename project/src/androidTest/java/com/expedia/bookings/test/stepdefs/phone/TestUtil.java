@@ -83,7 +83,7 @@ public class TestUtil {
 
 	private static String formatTime(String time) throws ParseException {
 		SimpleDateFormat targetFormat = new SimpleDateFormat("HH:mm", Locale.US);
-		SimpleDateFormat currentFormat = new SimpleDateFormat("hh:mm", Locale.US);
+		SimpleDateFormat currentFormat = new SimpleDateFormat("hh:mm a", Locale.US);
 
 		String formattedTime;
 		int index = time.indexOf(":");

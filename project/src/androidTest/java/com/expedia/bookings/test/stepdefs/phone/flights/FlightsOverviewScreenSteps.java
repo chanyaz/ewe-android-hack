@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.hamcrest.Matchers;
 
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.BuildConfig;
@@ -35,6 +36,7 @@ import static com.expedia.bookings.test.espresso.CustomMatchers.withChildCount;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withIndex;
 import static com.expedia.bookings.test.espresso.ViewActions.getString;
+import static com.expedia.bookings.test.espresso.ViewActions.scrollViewToBottom;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsAmenitiesDialog;
 import static com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen.fareFamilyDetailsBundleTotalPrice;
@@ -105,9 +107,13 @@ public class FlightsOverviewScreenSteps {
 
 	@And("^Click on baggage fees button on isOutBound : (true|false)$")
 	public void clickBaggageFeesButton(Boolean outBound) throws Throwable {
-		onView(allOf(outBound ? isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))
-			: isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withId(R.id.show_baggage_fees_button)))
-			.perform(click());
+		if (!outBound) {
+			onView(withId(R.id.nested_scrollview)).perform(scrollViewToBottom());
+		}
+		ViewInteraction viewInteraction = onView(allOf(withId(R.id.show_baggage_fees_button), outBound ? isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))
+			: isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))));
+
+		viewInteraction.perform(click());
 	}
 
 	@And("^Click on \"(.*?)\" button$")

@@ -5,11 +5,11 @@ Feature: Sorting of Flight results
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 15                                        |
+      | source              | LHR                                      |
+      | destination         | Malaga                                   |
+      | source_suggest      | London, England, UK (LHR - Heathrow)     |
+      | destination_suggest | AGP, Malaga, Spain                       |
+      | start_date          | 15                                       |
       | end_date            | 20                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
@@ -24,11 +24,11 @@ Feature: Sorting of Flight results
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 15                                        |
+      | source              | LHR                                      |
+      | destination         | Malaga                                   |
+      | source_suggest      | London, England, UK (LHR - Heathrow)     |
+      | destination_suggest | AGP, Malaga, Spain                       |
+      | start_date          | 15                                       |
       | end_date            | 20                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
@@ -45,10 +45,10 @@ Feature: Sorting of Flight results
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | source              | LHR                                      |
+      | destination         | Malaga                                   |
+      | source_suggest      | London, England, UK (LHR - Heathrow)     |
+      | destination_suggest | AGP, Malaga, Spain                       |
       | start_date          | 5                                        |
       | end_date            | 10                                       |
       | adults              | 3                                        |
@@ -66,14 +66,14 @@ Feature: Sorting of Flight results
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | source              | LHR                                      |
+      | destination         | Malaga                                   |
+      | source_suggest      | London, England, UK (LHR - Heathrow)     |
+      | destination_suggest | AGP, Malaga, Spain                       |
       | start_date          | 5                                        |
       | end_date            | 10                                       |
-      | adults              | 3                                        |
-      | child               | 2                                        |
+      | adults              | 1                                        |
+      | child               | 1                                        |
     And I wait for results to load
     And I click on sort and filter icon and isOutBound : true
     And I sort results by "Duration"

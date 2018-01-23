@@ -180,14 +180,14 @@ Feature: Flights Overview
     And I want to intercept these calls
      | FlightSearch |
     When I make a flight search with following parameters
-     | source              | SFO                                      |
-     | destination         | DEL                                      |
-     | source_suggest      | San Francisco, CA                        |
-     | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-     | start_date          | 15                                        |
-     | end_date            | 20                                       |
-     | adults              | 2                                        |
-     | child               | 2                                        |
+      | source              | LHR                                      |
+      | destination         | Malaga                                   |
+      | source_suggest      | London, England, UK (LHR - Heathrow)     |
+      | destination_suggest | AGP, Malaga, Spain                       |
+      | start_date          | 15                                       |
+      | end_date            | 20                                       |
+      | adults              | 2                                        |
+      | child               | 2                                        |
     And I wait for results to load
     Then Validate the "flight Search" API request query data for following parameters
      | featureOverride                       | SubPub                          |
