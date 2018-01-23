@@ -65,7 +65,7 @@ class OSServiceTest {
 
         observer.assertNoErrors()
         val response = observer.values()[0]
-        Assert.assertTrue(response!!.offers!!.Hotel!![0].offerMarkers!!.isNotEmpty())
+        Assert.assertTrue(response!!.offers!!.hotels!![0].offerMarkers!!.isNotEmpty())
     }
 
     @Throws(IOException::class)

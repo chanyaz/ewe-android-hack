@@ -44,7 +44,7 @@
                 android:paddingRight="25dp">
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/deals_city"
+                    android:id="@+id/deals_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
@@ -91,14 +91,14 @@
             android:background="@color/white">
 
             <TextView
-                android:id="@+id/deals_condition"
+                android:id="@+id/deals_subtitle"
+                style="@style/Core.Text.200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/deals_hotel_only"
-                style="@style/Core.Text.200"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical|left"
-                android:textColor="@color/member_deals_destination_card_text"/>
+                android:layout_weight="1"
+                android:text="@string/deals_hotel_only"
+                android:textColor="@color/member_deals_destination_card_text" />
 
             <LinearLayout
                 android:id="@+id/deals_price_layout"

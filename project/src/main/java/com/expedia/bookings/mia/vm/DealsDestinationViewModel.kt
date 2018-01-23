@@ -15,13 +15,20 @@ import org.joda.time.LocalDate
 
 class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDestination.Hotel, val currency: String?) {
 
-    val backgroundUrl: String? by lazy {
-        getBackgroundImageUrl(leadingHotel.destination?.regionID)
+    val memberDealBackgroundUrl: String? by lazy {
+        getDestinationBackgroundImageUrl(leadingHotel.destination?.regionID)
     }
+
+    val lastMinuteDealsBackgroundUrl: String? by lazy {
+        getLastMinuteDealBackgroundUrl()
+    }
+
     var backgroundFallback: Int = R.color.gray600
     var backgroundPlaceHolder: Int = R.drawable.results_list_placeholder
 
     val cityName: String? = leadingHotel.destination?.shortName ?: leadingHotel.destination?.city
+
+    val hotelName: String? = leadingHotel.hotelInfo?.hotelName
 
     val regionId: String? = leadingHotel.destination?.regionID
 
@@ -58,12 +65,20 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
         getFormattedPriceText(context.resources, leadingHotel.hotelPricingInfo?.crossOutPriceValue, true)
     }
 
-    fun getBackgroundImageUrl(regionId: String?): String? {
+    fun getDestinationBackgroundImageUrl(regionId: String?): String? {
         if (regionId == null) {
             return null
         }
-
         return Constants.SOS_DESTINATION_IMAGE_BASE_URL.replace("{regionId}", leadingHotel.destination?.regionID!!)
+    }
+
+    fun getLastMinuteDealBackgroundUrl(): String? {
+        val hotelImageUrl = leadingHotel.hotelInfo?.hotelImageUrl
+        if (hotelImageUrl != null) {
+            if (hotelImageUrl.contains("_l.jpg")) {
+                return leadingHotel.hotelInfo?.hotelImageUrl?.replace("_l.jpg", "_z.jpg", true)
+            } else return leadingHotel.hotelInfo?.hotelImageUrl?.replace(".jpg", "_z.jpg")
+        } else return ""
     }
 
     fun getDateRangeText(startDate: LocalDate?, endDate: LocalDate?): String {
@@ -90,7 +105,6 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
         if (percentSavings == null || percentSavings == 0.00) {
             return ""
         }
-
         return StringBuilder("-").append(percentSavings.toInt()).append("%").toString()
     }
 
@@ -98,7 +112,6 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
         if (percentSavings == null || percentSavings == 0.00) {
             return ""
         }
-
         return Phrase.from(context, R.string.hotel_discount_percent_Template).put("discount", percentSavings.toInt().toString()).format().toString()
     }
 

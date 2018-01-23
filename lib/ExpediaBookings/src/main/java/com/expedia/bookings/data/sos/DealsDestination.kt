@@ -1,11 +1,9 @@
 package com.expedia.bookings.data.sos
 
 import com.expedia.bookings.enums.OfferMarker
-import java.math.BigDecimal
 
 class DealsDestination {
     var destinationInfo: DestinationInfo? = null
-    internal var hotelPricingSummary: HotelPricingSummary? = null
     var hotels: List<Hotel>? = null
 
     val displayName: String?
@@ -13,10 +11,6 @@ class DealsDestination {
 
     inner class DestinationInfo {
         internal var longName: String? = null
-    }
-
-    inner class HotelPricingSummary {
-        internal var averagePrice: BigDecimal? = null
     }
 
     inner class Hotel {
@@ -43,6 +37,8 @@ class DealsDestination {
             var totalPriceValue: Double? = null
             var crossOutPriceValue: Double? = null
             var percentSavings: Double? = null
+
+            fun hasDiscount(): Boolean? = crossOutPriceValue?.let { it > 0.0 }
         }
 
         inner class HotelUrls {

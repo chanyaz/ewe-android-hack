@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.os
 
 import com.expedia.bookings.data.sos.DealsDestination
+import com.google.gson.annotations.SerializedName
 
 open class LastMinuteDealsResponse {
     var offerInfo: OfferInfo? = null
@@ -36,12 +37,17 @@ open class LastMinuteDealsResponse {
     }
 
     inner class Offers {
-        var Hotel: List<DealsDestination.Hotel>? = null
+        @SerializedName("Hotel")
+        var hotels: List<DealsDestination.Hotel>? = null
     }
 
-    fun getLeadingHotels(): List<DealsDestination.Hotel> {
-        if (offers?.Hotel != null) {
-            return offers?.Hotel!!.filter { it.hasLeadingPrice() }
+    fun getSortedDiscountedHotels(): List<DealsDestination.Hotel> {
+        val hotels = offers?.hotels
+        if (hotels != null) {
+            val discountedHotels = hotels.filter { it ->
+                it.hotelPricingInfo?.hasDiscount() ?: false
+            }
+            return discountedHotels.sortedByDescending { it.hotelPricingInfo?.percentSavings }
         }
         return emptyList()
     }

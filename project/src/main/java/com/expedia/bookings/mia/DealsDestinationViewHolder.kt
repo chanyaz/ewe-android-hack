@@ -16,9 +16,11 @@ import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.enums.DiscountColors
+import com.expedia.bookings.mia.activity.LastMinuteDealActivity
 import com.expedia.bookings.mia.activity.MemberDealsActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.ColorBuilder
@@ -31,7 +33,7 @@ import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
 class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-    private val cityView: TextView by bindView(R.id.deals_city)
+    val titleView: TextView by bindView(R.id.deals_title)
     private val dateView: TextView by bindView(R.id.deals_date)
     private val discountView: TextView by bindView(R.id.deals_discount_percentage)
     private val strikePriceView: TextView by bindView(R.id.deals_strike_through_price)
@@ -39,24 +41,59 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
     private val bgImageView: ImageView by bindView(R.id.deals_background)
     private val gradient: View by bindView(R.id.deals_foreground)
     private val cardView: CardView by bindView(R.id.deals_cardview)
+    val dealsSubtitle: TextView by bindView(R.id.deals_subtitle)
     lateinit var searchParams: HotelSearchParams
     private lateinit var discountPercent: String
 
     val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
 
     fun bind(vm: DealsDestinationViewModel) {
-        cityView.text = vm.cityName
+        discountView.visibility = View.VISIBLE
+        titleView.text = getTitle(vm)
         dateView.text = vm.dateRangeText
         discountView.text = vm.percentSavingsText
         strikePriceView.text = vm.strikeOutPriceText
         priceView.text = vm.priceText
-        Picasso.with(view.context).load(vm.backgroundUrl).error(vm.backgroundFallback).placeholder(vm.backgroundPlaceHolder).into(target)
-        searchParams = setSearchParams(vm)
+        dealsSubtitle.text = getSubtitle(vm)
         discountPercent = vm.getDiscountPercentForContentDesc(vm.leadingHotel.hotelPricingInfo?.percentSavings)
+
+        val backgroundUrl = getBackgroundUrl(vm)
+
+        PicassoHelper.Builder(view.context)
+                .setPlaceholder(vm.backgroundPlaceHolder)
+                .setError(vm.backgroundFallback)
+                .setTarget(target)
+                .build()
+                .load(listOf(backgroundUrl, vm.memberDealBackgroundUrl))
+
+        searchParams = setSearchParams(vm)
         cardView.contentDescription = getDealsContentDesc()
 
         setDiscountColors(vm)
         hideDiscountViewWithNoDiscount()
+    }
+
+    private fun getSubtitle(vm: DealsDestinationViewModel): String? {
+        if (view.context is LastMinuteDealActivity) {
+            return vm.cityName
+        }
+        return view.context.getString(R.string.deals_hotel_only)
+    }
+
+    private fun getBackgroundUrl(vm: DealsDestinationViewModel): String? {
+        return if (view.context is MemberDealsActivity) {
+            vm.memberDealBackgroundUrl
+        } else {
+            vm.lastMinuteDealsBackgroundUrl
+        }
+    }
+
+    private fun getTitle(vm: DealsDestinationViewModel): String? {
+        return if (view.context is MemberDealsActivity) {
+            vm.cityName
+        } else {
+            vm.hotelName
+        }
     }
 
     fun setSearchParams(vm: DealsDestinationViewModel): HotelSearchParams {
@@ -74,7 +111,7 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
     fun getDealsContentDesc(): CharSequence {
         val result = SpannableBuilder()
 
-        result.append(cityView.text.toString() + ".")
+        result.append(titleView.text.toString() + ".")
         result.append(DateFormatUtils.formatPackageDateRangeContDesc(view.context, searchParams.checkInDate.toString(), searchParams.checkOutDate.toString()))
 
         if (discountView.text != null) {
