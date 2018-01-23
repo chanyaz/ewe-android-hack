@@ -5,6 +5,7 @@ buildscript {
     ext.retrofit_version = '2.3.0'
     ext.rxjava_version = '2.1.5'
     ext.dagger_version = '2.14.1'
+    ext.robolectric_version = '3.5'
 
     repositories {
         jcenter()
