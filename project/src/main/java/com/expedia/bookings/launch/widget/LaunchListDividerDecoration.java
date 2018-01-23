@@ -50,6 +50,7 @@ class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 
 		boolean isLobView = itemViewType == LaunchDataItem.LOB_VIEW;
 		boolean isHeaderView = itemViewType == LaunchDataItem.HEADER_VIEW;
+		boolean isSectionHeaderView = itemViewType == LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW;
 		boolean isStatic = LaunchListAdapter.isStaticCard(itemViewType);
 
 		if (isLobView) {
@@ -60,6 +61,12 @@ class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 		else if (isHeaderView) {
 			outRect.left = mLeft;
 			outRect.right = mRight;
+		}
+		else if (isSectionHeaderView) {
+			outRect.left = mLeft;
+			outRect.right = mRight;
+			outRect.top = 0;
+			outRect.bottom = 0;
 		}
 		// Big guys (0, 5, 10, etc)
 		else if (actualPosition % 5 == 0 || isStatic) {
