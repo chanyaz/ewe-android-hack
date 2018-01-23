@@ -636,6 +636,11 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
+    <string name="lx_recommendation_no_superlative">av 5</string>
+    <string name="lx_recommendation_superlativeGood">av 5 – bra!</string>
+    <string name="lx_recommendation_superlativeGreat">av 5 – meget bra!</string>
+    <string name="lx_recommendation_superlativeAmazing">av 5 – enestående!</string>
+
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">Nøkkelord eller begrep</string>
 
@@ -863,6 +868,17 @@
     <!-- New launch screen -->
     <!-- Search screen title -->
     <string name="search_title">Søk</string>
+
+    <!-- Meso hotel ad card -->
+
+    <!-- The {percent} is the discounted percentage of the price per night at the hotel. Example - "33% off" -->
+    <string name="meso_percent_off_TEMPLATE">{percent} rabatt</string>
+
+    <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
+     character or a new line character. This changes because the text might break multiple lines. The {strike_price} is the
+     price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
+     Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
+    <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line}fra &lt;strike&gt;{strike_price}&lt;/strike&gt; {price} per natt</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Anbefalte hoteller i kveld</string>
@@ -1479,8 +1495,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">Billettnr. {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(Spedbarn på fanget)</string>
-    <!--Flight itin manage booking title-->
-    <string name="itin_flight_details_manage_booking_heading">Administrer bestillingen</string>
     <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
     <string name="itin_flight_customer_support_header_text_TEMPLATE">Ta kontakt med {brand} hvis du trenger hjelp til å administrere reiseruten din.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
@@ -2732,14 +2746,23 @@
     <string name="amenity_extended_parking">Forlenget parkering</string>
     <!-- Free parking amenity -->
     <string name="amenity_free_parking">Gratis parkering</string>
+    <!-- Air conditioning amenity -->
+    <string name="amenity_air_conditioning">Air conditioning</string>
+    <!-- All inclusive options amenity -->
+    <string name="amenity_all_inclusive">All inclusive tilgjengelig</string>
 
     <!-- Hotel Filter Amenities -->
-    <!-- Free internet -->
-    <string name="filter_high_speed_internet">Gratis Internett</string>
+    <!-- High Speed internet -->
+    <string name="filter_high_speed_internet">Høyhastighets-\ninternett</string>
     <!-- Free breakfast -->
     <string name="filter_free_breakfast">Gratis frokost</string>
-    <!-- Free airport shuttle amenity -->
-    <string name="filter_free_airport_transportation">Gratis flyplasstransport</string>
+    <!-- Free airport transportation -->
+    <string name="filter_free_airport_transportation">Gratis flyplass-\ntransport</string>
+    <!-- Pets Allowed -->
+    <string name="filter_pets_allowed">Kjæledyr tillatt</string>
+    <!-- All inclusive Options -->
+    <string name="filter_all_inclusive">All inclusive-\nalternativer</string>
+
 
 
     <!-- User Reviews list strings -->
@@ -3882,6 +3905,10 @@
     <string name="row_expand_button_description">Knapp for sammendrag. Trykk to ganger for å utvide.</string>
     <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} Knapp for utvidelse. Trykk to ganger for å stenge.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
+    <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Knapp for sammendrag. Trykk to ganger for å utvide.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
+    <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}. {rowdescription} Knapp for utvidelse. Trykk to ganger for å stenge.</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">Flytiden er på {time}. Flyreisen er med {airline}. Flytiden er på {hours} {minutes}, med {stops} mellomlandinger\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
@@ -4872,5 +4899,8 @@
     <string name="book_room_button_content_description_TEMPLATE">Bestill rommet {room}</string>
     <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
     <string name="select_room_button_content_description_TEMPLATE">Velg {room}</string>
+
+    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">{flightsearchtype}-fane</string>
 
 </resources>
