@@ -56,6 +56,7 @@ import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelCreateTripViewModel
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.HotelTravelersViewModel
+import io.reactivex.subscribers.TestSubscriber
 import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
 import org.joda.time.LocalDate
@@ -68,6 +69,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -390,6 +392,18 @@ class HotelCheckoutPresenterTest {
 
         assertEquals(View.GONE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
     }
+
+    @Test
+    fun testUserDoesntCrashOnCheckoutDueToLackOfCoupons() {
+        val testSubscriber = TestObserver<HotelCreateTripResponse>()
+        val createTripResponse = mockHotelServices.getGuestHappyCreateTripResponse()
+        setupHotelMaterialForms()
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
+        checkout.createTripViewmodel.tripResponseObservable.subscribe(testSubscriber)
+
+        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+    }
+
 
     @Test
     fun testHotelMaterialCouponExpandWithValidCoupon() {

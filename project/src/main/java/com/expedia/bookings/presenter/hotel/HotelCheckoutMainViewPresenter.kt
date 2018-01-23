@@ -71,9 +71,8 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         createTripViewmodel.tripResponseObservable.subscribe(createTripResponseListener)
         createTripViewmodel.tripResponseObservable.subscribe(hotelCheckoutSummaryWidget.viewModel.createTripResponseObservable)
         if (hotelMaterialFormEnabled) {
-            createTripViewmodel.tripResponseObservable.map {
-                it.userCoupons?.filter { it -> it.redemptionStatus == HotelCreateTripResponse.RedemptionStatus.VALID }
-            }
+            createTripViewmodel.tripResponseObservable.filter { it.userCoupons != null }
+                    .map { it.userCoupons.filter { it -> it.redemptionStatus == HotelCreateTripResponse.RedemptionStatus.VALID } }
                     .map { createTripViewmodel.convertUserCouponToStoredCouponAdapter(it) }
                     .subscribe((couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.storedCouponsSubject)
         }
