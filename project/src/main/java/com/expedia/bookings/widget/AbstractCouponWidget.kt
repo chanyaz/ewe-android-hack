@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.Gravity
@@ -25,13 +24,11 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isShowSavedCoupons
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.withLatestFrom
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelCouponViewModel
 import com.mobiata.android.util.Ui
-import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -50,9 +47,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
     val appliedCouponMessage: TextView by bindView(R.id.applied_coupon_text)
     val removeCoupon: ImageButton by bindView(R.id.remove_coupon_button)
     var progress: View by Delegates.notNull()
-    val storedCouponApplyObservable = PublishSubject.create<String>()
 
-    val onCouponSubmitClicked = PublishSubject.create<Unit>()
 
     var viewmodel: HotelCouponViewModel by notNullAndObservable {
         viewmodel.applyObservable.subscribe {
@@ -82,7 +77,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
 
         viewmodel.networkErrorAlertDialogObservable.subscribe {
             val retryFun = fun() {
-                onCouponSubmitClicked.onNext(Unit)
+                viewmodel.onCouponSubmitClicked.onNext(Unit)
             }
             val cancelFun = fun() {
                 showProgress(false)
@@ -94,6 +89,14 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
         viewmodel.enableSubmitButtonObservable.subscribe { showButton ->
             mToolbarListener.enableRightActionButton(showButton)
         }
+
+        viewmodel.onCouponSubmitClicked
+                .withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, {
+                    _, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse
+                })
+                .subscribe {
+                    submitCoupon(it.paymentSplits, it.tripResponse)
+                }
 
         setUpViewModelSubscriptions()
     }
@@ -108,10 +111,6 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
 
     init {
         injectViewInHotelComponent()
-
-        onCouponSubmitClicked
-                .withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, { unit, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse })
-                .subscribe { submitCoupon(it.paymentSplits, it.tripResponse) }
 
         View.inflate(getContext(), getViewToInflate(), this)
         background = null
@@ -142,14 +141,6 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
             resetFields()
             viewmodel.removeObservable.onNext(true)
             HotelTracking.trackHotelCouponRemove(couponCode.text.toString())
-        }
-
-        storedCouponApplyObservable
-                .withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, { couponInstanceId, paymentSplitsAndTripResponse -> Pair(couponInstanceId, paymentSplitsAndTripResponse) })
-                .subscribe { viewmodel.submitStoredCoupon(it.second.paymentSplits, it.second.tripResponse, userStateManager, it.first) }
-
-        if (isShowSavedCoupons(context)) {
-            expanded.setBackgroundColor(ContextCompat.getColor(context, R.color.material_checkout_background_color))
         }
     }
 
@@ -206,7 +197,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
 
     override fun onMenuButtonPressed() {
         viewmodel.enableSubmitButtonObservable.onNext(false)
-        onCouponSubmitClicked.onNext(Unit)
+        viewmodel.onCouponSubmitClicked.onNext(Unit)
     }
 
     private fun submitCoupon(paymentSplits: PaymentSplits, tripResponse: TripResponse) {

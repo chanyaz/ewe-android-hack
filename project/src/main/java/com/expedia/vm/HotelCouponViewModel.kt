@@ -50,7 +50,8 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val expandedObservable = PublishSubject.create<Boolean>()
     val hasStoredCoupons = PublishSubject.create<Boolean>()
     val onCouponWidgetExpandSubject = PublishSubject.create<Boolean>()
-
+    val storedCouponApplyObservable = PublishSubject.create<String>()
+    val onCouponSubmitClicked = PublishSubject.create<Unit>()
 
     val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
     private val createTripObservable = Observable.concat(createTripDownloadsObservable)
@@ -186,7 +187,6 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                 .userPreferencePointsDetails(userPointsPreference)
                 .build()
         couponParamsObservable.onNext(couponParams)
-        enableSubmitButtonObservable.onNext(false)
     }
 
     private fun setCouponAppliedSubtitle(trip: HotelCreateTripResponse, couponRate: Money) {

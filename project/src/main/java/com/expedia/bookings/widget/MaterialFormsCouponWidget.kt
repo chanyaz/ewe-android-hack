@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -10,6 +11,7 @@ import com.expedia.bookings.presenter.shared.StoredCouponWidget
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isShowSavedCoupons
+import com.expedia.bookings.withLatestFrom
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 
@@ -18,6 +20,11 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
     val storedCouponWidget: StoredCouponWidget by bindView(R.id.stored_coupon_widget)
     val appliedCouponSubtitle: TextView by bindView(R.id.applied_coupon_subtitle_text)
 
+    init {
+        if (isShowSavedCoupons(context)) {
+            expanded.setBackgroundColor(ContextCompat.getColor(context, R.color.material_checkout_background_color))
+        }
+    }
 
     override val textWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {
@@ -52,7 +59,13 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
 
         viewmodel.storedCouponWidgetVisibilityObservable.subscribeVisibility(storedCouponWidget)
         getStoredCouponListAdapter().applyStoredCouponSubject.subscribe { instanceId ->
-            storedCouponApplyObservable.onNext(instanceId)
+            enableCouponUi(false)
+            viewmodel.storedCouponApplyObservable.onNext(instanceId)
+        }
+        viewmodel.storedCouponApplyObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, {
+            couponInstanceId, paymentSplitsAndTripResponse -> Pair(couponInstanceId, paymentSplitsAndTripResponse)
+        }).subscribe {
+            viewmodel.submitStoredCoupon(it.second.paymentSplits, it.second.tripResponse, userStateManager, it.first)
         }
         viewmodel.couponSubtitleObservable.subscribeText(appliedCouponSubtitle)
     }

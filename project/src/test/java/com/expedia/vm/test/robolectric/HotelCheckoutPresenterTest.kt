@@ -157,7 +157,7 @@ class HotelCheckoutPresenterTest {
 
         setupHotelMaterialForms()
         checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(testEnableSubmitButtonObservable)
-        checkout.couponCardView.onCouponSubmitClicked.subscribe(testOnCouponSubmitClicked)
+        checkout.couponCardView.viewmodel.onCouponSubmitClicked.subscribe(testOnCouponSubmitClicked)
         testEnableSubmitButtonObservable.assertValueCount(0)
         testOnCouponSubmitClicked.assertNoValues()
 
@@ -424,6 +424,28 @@ class HotelCheckoutPresenterTest {
         goToCheckout()
 
         testEmailOptInSubscriber.assertNoValues()
+    }
+
+    @Test
+    fun testUiDisabledOnSavedCouponSelected() {
+        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
+        checkout.couponCardView.isExpanded = true
+        val enableMenuButtonSubscriber = TestObserver<Boolean>()
+        checkout.couponCardView.viewmodel.enableSubmitButtonObservable.subscribe(enableMenuButtonSubscriber)
+        val testEnableStoredCouponsSubscriber = TestObserver<Boolean>()
+        (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.enableStoredCouponsSubject
+                .subscribe(testEnableStoredCouponsSubscriber)
+
+
+        val storedCouponRecycler = getStoredCouponRecycler()
+        (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).itemView.performClick()
+
+        testEnableStoredCouponsSubscriber.assertValue(false)
+        enableMenuButtonSubscriber.assertValue(false)
+        assertStoredCouponsEnabled(storedCouponRecycler, isEnabled = false)
+        assertFalse(checkout.menuDone.isEnabled)
+        assertFalse(checkout.couponCardView.couponCode.isEnabled)
     }
 
     @Test
