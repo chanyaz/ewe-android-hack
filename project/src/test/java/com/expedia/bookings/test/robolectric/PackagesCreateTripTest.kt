@@ -81,7 +81,7 @@ class PackagesCreateTripTest {
         Db.setPackageSelectedHotel(dbHotel, HotelOffersResponse.HotelRoomResponse())
         activity.packageCreateTrip()
 
-        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
     }
 
@@ -103,7 +103,7 @@ class PackagesCreateTripTest {
         Db.setPackageResponse(baseMidResponse)
         PackageTestUtil.setDbPackageSelectedHotel()
         activity.packageCreateTrip()
-        createTripSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        createTripSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         createTripSubscriber.assertValueCount(1)
     }
