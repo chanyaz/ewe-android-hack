@@ -242,7 +242,7 @@ class FlightOverviewPresenterTest {
         val checkoutBtn = widget.bottomCheckoutContainer.checkoutButton
         assertEquals(true, checkoutBtn.isEnabled)
         assertEquals(View.VISIBLE, checkoutBtn.visibility)
-        assertEquals(checkoutBtn.text.toString(), context.resources.getString(R.string.Checkout))
+        assertEquals(checkoutBtn.text.toString(), context.resources.getString(R.string.next))
     }
 
     @Test

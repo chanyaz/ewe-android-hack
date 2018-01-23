@@ -114,8 +114,6 @@
     <string name="preference_abacus_setting_server">Abacus Server</string>
     <string name="preference_abacus_setting_control">Control Group</string>
     <string name="preference_abacus_setting_bucketed">Bucketed</string>
-    <string name="preference_abacus_setting_variant1">Variant1</string>
-    <string name="preference_abacus_setting_variant2">Variant2</string>
     <string name="preference_abacus_setting_upto_xx_off">Upto_XX_Percent_off</string>
     <string name="preference_abacus_setting_because_you_booked_a_flight">Because_you_booked_a_flight</string>
     <string name="preference_abacus_setting_share_button_icon">Share button icon</string>

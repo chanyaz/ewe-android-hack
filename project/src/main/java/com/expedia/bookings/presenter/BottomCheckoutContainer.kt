@@ -50,12 +50,7 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val variateForTest = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppCheckoutButtonText)
-        if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
-            checkoutButton.text = context.getString(R.string.continue_booking)
-        } else if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
-            checkoutButton.text = context.getString(R.string.next)
-        }
+        checkoutButton.text = context.getString(R.string.next)
     }
 
     val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
