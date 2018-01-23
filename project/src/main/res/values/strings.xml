@@ -926,8 +926,6 @@
     <string name="error_launch_connection">Unfortunately, we can\'t connect.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Trips</string>
-    <!-- Menu option for going to see your trips/itineraries -->
-    <string name="Your_Trips">Your Trips</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">This app requires Google Play Services. Please install the latest version of Google Play Services.</string>
 
@@ -2669,9 +2667,6 @@
     <string name="filter_vip_access">Only +VIP Access Hotels</string>
     <!-- Title for VIP Access message for Hotel Results -->
     <string name="vip">+VIP</string>
-    <!-- ON and OFF text for toggle switches -->
-    <string name="switch_on">ON</string>
-    <string name="switch_off">OFF</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->

@@ -28,7 +28,7 @@ class SoftPromptDialogFragmentTest {
     @Before
     fun before() {
         activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().resume().get()
-        activity.setTheme(R.style.NewLaunchTheme)
+        activity.setTheme(R.style.LaunchTheme)
         prompt = SoftPromptDialogFragment()
         prompt.show(activity.supportFragmentManager, "fragment_dialog_soft_prompt")
         enableButton = prompt.dialog.findViewById<Button>(R.id.soft_prompt_enable_button)

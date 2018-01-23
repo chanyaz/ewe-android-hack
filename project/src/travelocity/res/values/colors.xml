@@ -61,7 +61,6 @@
     <color name="account_create_button_text_color">@color/hotels_primary_color</color>
 
     <color name="error_widget_edit_button_selected_color">#033057</color>
-    <color name="error_button_color">#003E74</color>
     <color name="launch_tab_indicator">#7BAED4</color>
     <color name="error_widget_text">#656565</color>
 

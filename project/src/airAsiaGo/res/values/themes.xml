@@ -76,43 +76,8 @@
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_aag</item>
     </style>
 
-    <style name="HotelWebViewActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_aag</item>
-        <item name="android:logo">?attr/skin_hotelWebViewActionBarLogo</item>
-        <item name="android:background" tools:targetApi="11">?attr/skin_actionBarBackgroundDrawable</item>
-        <item name="android:titleTextStyle" tools:targetApi="11">@style/FlightActionBarTextAppearance</item>
-    </style>
-
     <style name="OverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_menu_overflow_image</item>
-    </style>
-
-    <style name="LaunchTheme" parent="Theme.AppCompat">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_airasiago_logo</item>
-        <item name="android:actionBarStyle">@style/LaunchActionBarAirAsiaGo</item>
-        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabAirAsiaGoStyle</item>
-        <item name="skin_flightLineColor">@color/flight_trip_color_aag</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-
-        <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_aag</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
-        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
-        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
-        <item name="skin_itinFlightsTripLineColor">@color/flight_trip_color_aag</item>
-        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
-        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
-        <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 
     <style name="LaunchActionBarTabAirAsiaGoStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
@@ -134,27 +99,6 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_aag_logo</item>
     </style>
 
-    <style name="ItineraryTheme" parent="Theme.AirAsiaGo">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_airasiago_logo</item>
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.AirAsiaGo</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_aag</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
-        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
-        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
-        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-
-        <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
-        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <!--<item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector</item>-->
-    </style>
-
     <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
         <item name="skin_acctLogoSmallDrawable">@android:color/transparent</item>
         <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text</item>
@@ -165,22 +109,4 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
         <item name="skin_acctInputTextHintColor">?android:textColorHint</item>
     </style>
-
-    <style name="TerminalMapActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:displayOptions">showHome|useLogo</item>
-        <item name="android:background">@drawable/bg_action_bar</item>
-    </style>
-
-    <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
-        <item name="android:logo">@drawable/ic_action_bar_aag_logo</item>
-        <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
-        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
-        <item name="android:windowBackground">@android:color/white</item>
-
-        <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="skin_terminalChooserTextColor">@color/itin_white_text</item>
-
-    </style>
-
 </resources>

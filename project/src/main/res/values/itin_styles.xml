@@ -21,23 +21,11 @@
         <item name="textStyle">medium</item>
     </style>
 
-    <style name="TextView.Itin.SectionHeader.Padded">
-        <item name="android:layout_margin">8dp</item>
-    </style>
-
     <style name="TextView.Itin.SectionText">
         <item name="android:minHeight">48dp</item>
         <item name="android:textSize">?attr/itin_card_detail_section_text_size</item>
         <item name="android:textColor">?attr/itin_card_detail_section_text_color</item>
         <item name="textStyle">light</item>
-    </style>
-
-    <style name="TextView.Itin.SectionText.Capitalize">
-        <item name="android:textAllCaps">true</item>
-    </style>
-
-    <style name="TextView.Itin.SectionText.Capitalize.Blue">
-        <item name="android:textColor">@color/exp_launch_blue</item>
     </style>
 
     <style name="ItineraryCardActionItemTextView">

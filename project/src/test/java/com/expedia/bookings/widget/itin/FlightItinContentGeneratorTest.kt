@@ -42,7 +42,7 @@ class FlightItinContentGeneratorTest {
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().get()
-        activity.setTheme(R.style.NewLaunchTheme)
+        activity.setTheme(R.style.LaunchTheme)
     }
 
     @Test

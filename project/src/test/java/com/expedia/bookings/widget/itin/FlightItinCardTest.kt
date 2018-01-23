@@ -31,7 +31,7 @@ class FlightItinCardTest {
     @Before
     fun setUp() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.NewLaunchTheme)
+        activity.setTheme(R.style.LaunchTheme)
     }
 
     @Test

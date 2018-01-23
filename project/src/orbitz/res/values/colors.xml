@@ -100,7 +100,6 @@
     <color name="search_screen_swp_icon_color_v2">@color/loyalty_earn_color</color>
 
     <color name="error_widget_edit_button_selected_color">#00B1FF</color>
-    <color name="error_button_color">@color/app_primary</color>
 
     <!-- Packages colors -->
     <color name="packages_primary_color">@color/lob_btn_color</color>

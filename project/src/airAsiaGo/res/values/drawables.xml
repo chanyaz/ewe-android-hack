@@ -2,7 +2,6 @@
 <resources>
     <item name="border_horizontal_striped_drawable" type="drawable">@drawable/bg_breakdown_candycane</item>
     <item name="app_copyright_logo" type="drawable">@drawable/brand_logo_large</item>
-    <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_brand_logo</item>
     <item name="old_checkout_account_logo" type="drawable">@drawable/ic_aag_logo</item>
     <item name="checkout_logout_logo" type="drawable">@drawable/ic_aag_logo</item>
     <item name="itin_sign_in_logo" type="drawable">@drawable/brand_logo</item>

@@ -30,7 +30,7 @@ class InsuranceViewModelTest {
     @Before
     fun setup() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.NewLaunchTheme)
+        activity.setTheme(R.style.LaunchTheme)
 
         sut = InsuranceViewModel(activity, Mockito.mock(InsuranceServices::class.java))
     }

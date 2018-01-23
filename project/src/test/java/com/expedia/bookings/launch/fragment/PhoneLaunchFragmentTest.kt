@@ -24,7 +24,7 @@ class PhoneLaunchFragmentTest {
 
     @Before
     fun setup() {
-        RuntimeEnvironment.application.setTheme(R.style.NewLaunchTheme)
+        RuntimeEnvironment.application.setTheme(R.style.LaunchTheme)
         activity = Robolectric.setupActivity(AppCompatActivity::class.java)
         fragmentManager = activity.supportFragmentManager
     }

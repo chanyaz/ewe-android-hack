@@ -52,7 +52,7 @@ class ItinLaunchCardTest {
     }
 
     private fun createSystemUnderTest() {
-        activity.setTheme(R.style.NewLaunchTheme)
+        activity.setTheme(R.style.LaunchTheme)
         val itemView = LayoutInflater.from(activity).inflate(R.layout.launch_active_itin, null)
         val itinLaunchCard = ItinLaunchCard(itemView, activity)
         sut = itinLaunchCard

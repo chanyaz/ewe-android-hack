@@ -110,7 +110,6 @@
     <color name="sign_in_user_top_tier">#787878</color>
 
     <color name="error_widget_edit_button_selected_color">#007095</color>
-    <color name="error_button_color">@color/app_primary</color>
 
     <!--Packages-->
     <color name="packages_primary_color">@color/lob_btn_color</color>

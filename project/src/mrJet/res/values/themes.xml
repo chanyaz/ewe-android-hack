@@ -62,68 +62,14 @@
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabMrJetStyle</item>
     </style>
 
-    <style name="LaunchTheme" parent="Theme.AppCompat">
-        <item name="android:logo">@drawable/ic_ab_logo</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="skin_flightLineColor">@color/flight_trip</item>
-
-        <!-- PopupMenu -->
-        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
-        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
-        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
-        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
-        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
-        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_tripsTabText">@string/Your_Trips</item>
-    </style>
-
     <style name="LaunchActionBarTabMrJetStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
         <item name="android:background" tools:targetApi="11">@drawable/tab_indicator_ab_launch</item>
-    </style>
-
-    <style name="ItineraryTheme" parent="Theme.MrJet">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_logo</item>
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar</item>
-
-        <!-- PopupMenu -->
-        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
-        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
-        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
-        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
-        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
-        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="android:actionOverflowButtonStyle">@style/ItineraryThemeOverflowMenuButton</item>
-        <item name="actionOverflowButtonStyle">@style/ItineraryThemeOverflowMenuButton</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_logo</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
-    </style>
-
-	<style name="HotelWebViewActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background" tools:targetApi="11">?attr/skin_actionBarBackgroundDrawable</item>
-        <item name="android:logo" tools:targetApi="11">?attr/skin_hotelWebViewActionBarLogo</item>
-        <item name="android:titleTextStyle" tools:targetApi="11">@style/FlightActionBarTextAppearance</item>
-        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
     </style>
 
     <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">

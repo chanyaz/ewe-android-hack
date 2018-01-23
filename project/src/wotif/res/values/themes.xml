@@ -9,33 +9,7 @@
         <item name="android:src">@drawable/ic_menu_overflow_image</item>
     </style>
 
-
-    <style name="LaunchTheme" parent="Theme.AppCompat">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-        <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
-        <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
-        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-        <item name="android:actionBarTabBarStyle">@style/ActionBarTabBar</item>
-        <item name="android:actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
-        <item name="android:actionBarStyle">@style/LaunchActionBar</item>
-        <item name="actionBarStyle">@style/LaunchActionBar</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="android:textColor">@color/actionbar_text</item>
-
-        <!-- PopupMenu -->
-        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark</item>
-        <item name="skin_itinCardTitleTextColor">@color/actionbar_text</item>
-        <item name="skin_tripsTabText">@string/Your_Trips</item>
-    </style>
-
-    <style name="NewLaunchTheme" parent="AppTheme.Base">
+    <style name="LaunchTheme" parent="AppTheme.Base">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:colorPrimaryDark">#04445e</item>
         <item name="android:colorButtonNormal">@color/new_launch_primary_color</item>
@@ -152,31 +126,6 @@
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
-    <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
-        <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
-        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
-        <item name="android:windowBackground">@android:color/white</item>
-
-        <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@style/TerminalMapThemeDropDownListView</item>
-        <item name="spinnerDropDownItemStyle">@style/TerminalMapThemeSpinnerDropDownItemStyle</item>
-        <item name="skin_terminalChooserTextColor">@color/actionbar_text</item>
-    </style>
-
-    <style name="TerminalMapActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
-        <item name="android:displayOptions">showHome|useLogo</item>
-        <item name="android:background">@color/action_bar_bg_color</item>
-    </style>
-
-    <style name="TerminalMapThemeSpinnerDropDownItemStyle" parent="@style/Widget.AppCompat.DropDownItem.Spinner">
-        <item name="android:background">@color/action_bar_bg_color</item>
-        <item name="background">@color/action_bar_bg_color</item>
-    </style>
-
-    <style name="TerminalMapThemeDropDownListView" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
-        <item name="android:background">@color/action_bar_bg_color</item>
-    </style>
-    
     <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
         <item name="skin_acctLogoSmallDrawable">@android:color/transparent</item>
         <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text_wotif</item>

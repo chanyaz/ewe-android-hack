@@ -4,7 +4,6 @@
     <item name="brand_phone_checkout_logo_drawable" type="drawable">@drawable/tvly</item>
     <item name="ic_action_bar_logo_dark" type="drawable">@drawable/ic_action_bar_logo_dark_icon</item>
     <item name="app_copyright_logo" type="drawable">@drawable/brand_logo_large</item>
-    <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_brand_logo</item>
     <item name="old_checkout_account_logo" type="drawable">@drawable/ic_tvly_logo_white</item>
     <item name="checkout_logout_logo" type="drawable">@drawable/tvly</item>
     <item name="itin_sign_in_logo" type="drawable">@drawable/itin_brand_logo</item>

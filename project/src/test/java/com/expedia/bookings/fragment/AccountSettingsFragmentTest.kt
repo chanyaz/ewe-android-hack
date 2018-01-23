@@ -65,7 +65,7 @@ class AccountSettingsFragmentTest {
     @Before
     fun before() {
         activity = Robolectric.setupActivity(FragmentUtilActivity::class.java)
-        activity.setTheme(R.style.NewLaunchTheme)
+        activity.setTheme(R.style.LaunchTheme)
     }
 
     @Test

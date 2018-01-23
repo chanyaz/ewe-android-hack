@@ -38,7 +38,7 @@ class ClearPrivateDataDialogTest {
     @Before
     fun before() {
         activity = Robolectric.setupActivity(AccountSettingsFragmentTest.FragmentUtilActivity::class.java)
-        activity.setTheme(R.style.NewLaunchTheme)
+        activity.setTheme(R.style.LaunchTheme)
         pointOfSaleStateModel = PointOfSaleStateModel()
         setPointOfSale(PointOfSaleId.UNITED_STATES)
     }

@@ -38,7 +38,7 @@ class FareFamilyViewModelTest {
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.NewLaunchTheme)
+        activity.setTheme(R.style.LaunchTheme)
 
         Db.setFlightSearchParams(setupFlightSearchParams())
         sut = FareFamilyViewModel(activity)

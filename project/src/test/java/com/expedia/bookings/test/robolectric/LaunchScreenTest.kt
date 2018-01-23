@@ -34,7 +34,7 @@ class LaunchScreenTest {
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.NewLaunchTheme)
+        activity.setTheme(R.style.LaunchTheme)
         phoneLaunchWidget = LayoutInflater.from(activity).inflate(R.layout.widget_phone_launch, null) as PhoneLaunchWidget
     }
 

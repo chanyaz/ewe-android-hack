@@ -116,27 +116,6 @@
         <item name="android:dividerHeight">0dp</item>
     </style>
 
-    <style name="LXAutocomplete" parent="Widget.AppCompat.AutoCompleteTextView">
-        <item name="android:layout_height">50dp</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:textColorHint">@color/white</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:background">@drawable/autocomplete_background</item>
-        <item name="android:theme">@style/LXAutocompleteTheme</item>
-    </style>
-
-    <style name="LXAutocompleteTheme">
-        <item name="colorControlNormal">@color/white</item>
-        <item name="colorControlActivated">@color/white</item>
-        <item name="colorControlHighlight">@color/white</item>
-    </style>
-
-    <style name="LXActionBarTitle" parent="V2.Theme.LX">
-        <item name="android:textStyle">normal</item>
-    </style>
-
     <style name="LXToolbarTitleTextAppearance" parent="V2.Theme.LX">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -158,16 +137,6 @@
         <item name="cardElevation">1dp</item>
     </style>
 
-    <style name="LXConfirmationButton" parent="V2.Theme.LX">   
-        <item name="android:gravity">left|center_vertical</item>
-        <item name="android:background">@drawable/itin_button</item>
-        <item name="android:height">60dp</item>
-        <item name="android:textColor">@android:color/white</item>     
-        <item name="android:textSize">18sp</item>     
-        <item name="android:paddingLeft">25dp</item>
-        <item name="android:drawablePadding">15dp</item>
-    </style>
-
     <style name="LXButton" parent="android:Widget.Button" >
         <item name="android:background">?attr/skin_lxBookNowButtonSelectorDrawable</item>
         <item name="android:textColor">@android:color/white</item>
@@ -177,25 +146,6 @@
         <item name="android:paddingBottom">2dp</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:height">38dp</item>
-    </style>
-
-    <style name="LXBookingButton" parent="V2.Theme.LX">   
-        <item name="android:gravity">left|center_vertical</item>
-        <item name="android:background">@drawable/itin_button</item>
-        <item name="android:textColor">@color/confirmation_action_text_color</item>     
-        <item name="android:textSize">15sp</item>     
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dp</item>
-        <item name="android:paddingTop">12dp</item>
-        <item name="android:paddingBottom">12dp</item>     
-        <item name="android:drawablePadding">12dp</item>
-    </style>
-
-    <style name="LXFilterTitleTextAppearance" parent="V2.Theme.LX">
-        <item name="android:textSize">18sp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/lx_sort_filter_top_bar_text_color</item>
     </style>
 
     <style name="LXNavigationButtonStyle" parent="Widget.AppCompat.Toolbar.Button.Navigation">

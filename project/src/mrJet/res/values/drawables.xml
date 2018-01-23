@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="border_horizontal_striped_drawable" type="drawable">@drawable/bg_breakdown_candycane</item>
-    <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_logo_dark</item>
     <item name="app_copyright_logo" type="drawable">@drawable/brand_logo_large</item>
     <item name="old_checkout_account_button_background" type="drawable">@android:color/white</item>
     <item name="earn_message_icon" type="drawable">@drawable/earn_icon</item>

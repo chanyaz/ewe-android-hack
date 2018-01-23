@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Animation durations -->
-    <integer name="sort_filter_animation_duration">250</integer>
-
     <!-- Account sync time in seconds (60s * 30s = 1800s, 1800s * 1000 = 1800000ms = 30 minutes) -->
     <integer name="account_sync_interval_ms">1800000</integer>
 

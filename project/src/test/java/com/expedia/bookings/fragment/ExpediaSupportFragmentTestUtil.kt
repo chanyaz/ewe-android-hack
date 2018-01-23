@@ -10,7 +10,7 @@ import org.robolectric.Robolectric
 
 /**
  * Inspired by @see SupportFragmentTestUtil this utils class allows us to create a FragmentActivity
- * using the Expedia NewLaunchTheme and start fragments using this said manager
+ * using the Expedia LaunchTheme and start fragments using this said manager
  */
 class ExpediaSupportFragmentTestUtil {
 
@@ -35,7 +35,7 @@ class ExpediaSupportFragmentTestUtil {
             super.onCreate(savedInstanceState)
             val view = LinearLayout(this)
             view.id = 1
-            setTheme(R.style.NewLaunchTheme)
+            setTheme(R.style.LaunchTheme)
 
             setContentView(view)
         }

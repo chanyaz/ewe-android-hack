@@ -79,10 +79,6 @@
         <item name="itin_hotel_gallery_bg">@android:color/white</item>
     </style>
 
-    <style name="V2.Theme.Floating" parent="AppTheme.Base">
-        <!-- this is being deleted with https://eiwork.mingle.thoughtworks.com/projects/eb_ad_app/cards/9709 -->
-    </style>
-
     <!-- New Hotels Checkout Styling -->
     <style name="HotelPaymentOption">
         <item name="android:layout_width">fill_parent</item>

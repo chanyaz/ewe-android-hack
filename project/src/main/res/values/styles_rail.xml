@@ -27,10 +27,6 @@
         <item name="android:background">@drawable/rail_button_selector</item>
     </style>
 
-    <style name="Rail.Button.Footer" parent="Core.Button.Footer">
-        <item name="android:background">@drawable/rail_button_selector</item>
-    </style>
-
     <style name="RailWarningBar" parent="WarningBar">
         <item name="android:background">@color/rail_warning_bar_color</item>
     </style>

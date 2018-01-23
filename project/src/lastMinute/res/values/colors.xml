@@ -83,7 +83,6 @@
     <color name="account_create_button_text_color">@color/last_minute_primary_color</color>
 
     <color name="error_widget_edit_button_selected_color">#A1266C</color>
-    <color name="error_button_color">@color/last_minute_primary_color</color>
 
     <!-- New Launch Screen colors -->
     <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>

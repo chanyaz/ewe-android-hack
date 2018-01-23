@@ -79,36 +79,6 @@
         <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
     </style>
 
-    <style name="LaunchTheme" parent="Theme.AppCompat">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:logo">@drawable/launch_actionbar_space_between_icon_and_tabs</item>
-        <item name="android:actionBarStyle">@style/LaunchActionBar</item>
-        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-        <item name="skin_flightLineColor">@color/flight_trip</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
-        <item name="android:actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
-
-        <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
-        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
-        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
-        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
-        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
-        <item name="skin_tripsTabText">@string/Your_Trips</item>
-    </style>
-
     <style name="LaunchActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:displayOptions">showHome|useLogo</item>
         <item name="android:background">@drawable/bg_launch_ab_vsc</item>
@@ -132,43 +102,10 @@
         <item name="android:logo">@drawable/ic_action_bar_brand_logo</item>
     </style>
 
-    <style name="ItineraryTheme" parent="Theme.VSC">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_brand_logo</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
-        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
-        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
-        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
-        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
-        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-    </style>
-
     <style name="LoginTheme" parent="Theme.Phone.Dark">
         <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_brand_logo</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
-    </style>
-
-    <style name="TerminalMapActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:displayOptions">showHome|useLogo</item>
-        <item name="android:background">@drawable/bg_action_bar</item>
-    </style>
-
-    <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
-        <item name="android:logo">@drawable/ic_action_bar_brand_logo</item>
-        <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
-        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
-        <item name="android:windowBackground">@android:color/white</item>
-
-        <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="skin_terminalChooserTextColor">@color/itin_white_text</item>
     </style>
 
     <!-- Account creation theme -->

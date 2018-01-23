@@ -44,7 +44,7 @@ class FlightFareFamilyViewModelTest {
         flightServiceRule.services!!.createTrip( params , createTripResponseObserver)
         flightCreateTripResponse = createTripResponseObserver.values()[0]
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.NewLaunchTheme)
+        activity.setTheme(R.style.LaunchTheme)
         sut = FlightFareFamilyViewModel(activity)
     }
 

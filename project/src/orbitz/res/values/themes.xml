@@ -49,26 +49,6 @@
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabOrbitzStyle</item>
     </style>
 
-    <style name="LaunchTheme" parent="Theme.AppCompat">
-        <item name="android:logo">@drawable/ic_ab_orb_logo</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        
-        <!-- PopupMenu -->
-        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_orb_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_orb</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_orbitz_fallback_activity</item>
-        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_orbitz</item>
-        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
-        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_tripsTabText">@string/Your_Trips</item>
-    </style>
-
     <style name="LaunchActionBarTabOrbitzStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
         <item name="android:background" tools:targetApi="11">@drawable/tab_indicator_ab_orbitz_launch</item>
     </style>
@@ -78,36 +58,10 @@
         <item name="android:backgroundSplit" tools:targetApi="11">@drawable/bg_action_bar_flight_bottom_orb</item>
     </style>
 
-    <style name="ItineraryTheme" parent="Theme.Orbitz">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_logo</item>
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Orbitz</item>
-
-        <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.Orbitz</item>
-        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_orb_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_orb</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_orbitz_fallback_activity</item>
-        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_orbitz</item>
-        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
-        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="android:actionOverflowButtonStyle">@style/ItineraryThemeOverflowMenuButton</item>
-        <item name="actionOverflowButtonStyle">@style/ItineraryThemeOverflowMenuButton</item>
-    </style>
-
     <style name="LoginTheme" parent="Theme.Phone.Dark">
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_logo</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
-    </style>
-
-	<style name="HotelWebViewActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background" tools:targetApi="11">@drawable/bg_action_bar</item>
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>
-        <item name="android:titleTextStyle" tools:targetApi="11">@style/FlightActionBarTextAppearance</item>
-        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
     </style>
 
     <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
@@ -119,15 +73,4 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
         <item name="skin_acctInputTextHintColor">?android:textColorHint</item>
     </style>
-
-    <style name="TerminalMapThemeSpinnerDropDownItemStyle" parent="@style/Widget.AppCompat.DropDownItem.Spinner">
-        <item name="android:background">@color/action_bar_bg_color</item>
-        <item name="background">@color/action_bar_bg_color</item>
-    </style>
-
-    <style name="TerminalMapThemeDropDownListView" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
-        <item name="android:background">@color/action_bar_bg_color</item>
-        <item name="background">@color/action_bar_bg_color</item>
-    </style>
-
 </resources>

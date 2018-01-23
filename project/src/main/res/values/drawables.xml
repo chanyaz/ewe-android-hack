@@ -4,7 +4,6 @@
     <item name="app_copyright_logo" type="drawable">@drawable/brand_logo_large</item>
     <item name="ic_action_bar_logo_dark" type="drawable">@drawable/action_bar_logo_dark</item>
     <item name="border_horizontal_striped_drawable" type="drawable">@drawable/divider_blue_yellow_stripe</item>
-    <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_expedia_logo_small</item>
 
     <item name="old_checkout_account_logo" type="drawable">@drawable/brand_phone_checkout_login_logo_drawable</item>
     <item name="checkout_logout_logo" type="drawable">@drawable/brand_phone_checkout_login_logo_drawable</item>
