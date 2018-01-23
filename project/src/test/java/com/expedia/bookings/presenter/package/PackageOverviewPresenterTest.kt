@@ -171,7 +171,6 @@ class PackageOverviewPresenterTest {
         overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
 
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
-        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         val currentURLIndex = testSubscriber.valueCount() - 1
         assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=fd713193-3ec1-4773-9f0d-4ff51cc8c19f", testSubscriber.values()[currentURLIndex])
@@ -264,14 +263,11 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMidCheckoutViewShowsAfterGoingBackFromOverviewScreenToCheckout() {
-        val testSubscriber = TestObserver.create<String>()
         AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
         setupOverviewPresenter()
-        overviewPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testSubscriber)
         overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
 
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
-        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
         overviewPresenter.show(overviewPresenter.webCheckoutView)
