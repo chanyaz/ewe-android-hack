@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.util.safeSubscribe
 import io.reactivex.subjects.PublishSubject
 
@@ -11,7 +12,7 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
                               val enableStoredCouponsSubject: PublishSubject<Boolean>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var coupons = arrayListOf<StoredCouponAdapter>()
-    val applyStoredCouponSubject = PublishSubject.create<String>()
+    val applyStoredCouponSubject = PublishSubject.create<HotelCreateTripResponse.SavedCoupon>()
 
     init {
         storedCouponsSubject.safeSubscribe { newCoupons ->
@@ -35,7 +36,7 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
         storedCouponHolder.viewModel.couponName.onNext(coupons[position].savedCoupon.name)
         storedCouponHolder.viewModel.couponStatus.onNext(coupons[position].savedCouponStatus)
         storedCouponHolder.viewModel.couponClickActionSubject.subscribe { viewHolderTag ->
-            applyStoredCouponSubject.onNext(coupons[viewHolderTag].savedCoupon.instanceId)
+            applyStoredCouponSubject.onNext(coupons[viewHolderTag].savedCoupon)
         }
         holder.itemView.tag = position
         enableStoredCouponsSubject.subscribe(holder.viewModel.enableViewHolder)

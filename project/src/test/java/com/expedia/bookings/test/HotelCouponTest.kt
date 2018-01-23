@@ -2,7 +2,9 @@ package com.expedia.bookings.test
 
 import android.app.Activity
 import android.view.LayoutInflater
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters
@@ -50,6 +52,7 @@ class HotelCouponTest {
         @Rule get
 
     private var vm: HotelCouponViewModel by Delegates.notNull()
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun before() {
@@ -200,6 +203,21 @@ class HotelCouponTest {
         val tripResponseWithoutCoupon = testSubscriberCouponObservable.values()[0]
         assertNull(tripResponseWithoutCoupon.coupon)
         assertFalse(vm.hasDiscountObservable.value)
+    }
+
+    @Test
+    fun testCouponRemovalErrorTracking() {
+        val savedCoupon = HotelCreateTripResponse.SavedCoupon()
+        savedCoupon.name = "test saved coupon"
+        savedCoupon.instanceId = "12345"
+
+        vm.storedCouponApplyObservable.onNext(savedCoupon)
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove.Error", mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(36 to "Removal Error")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "test saved coupon")), mockAnalyticsProvider)
     }
 
     @Test

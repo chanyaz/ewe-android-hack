@@ -50,7 +50,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val expandedObservable = PublishSubject.create<Boolean>()
     val hasStoredCoupons = PublishSubject.create<Boolean>()
     val onCouponWidgetExpandSubject = PublishSubject.create<Boolean>()
-    val storedCouponApplyObservable = PublishSubject.create<String>()
+    val storedCouponApplyObservable = BehaviorSubject.create<HotelCreateTripResponse.SavedCoupon>()
     val onCouponSubmitClicked = PublishSubject.create<Unit>()
 
     val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
@@ -72,6 +72,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             observable.subscribe { trip ->
                 if (trip.hasErrors()) {
                     errorRemoveCouponShowDialogObservable.onNext(trip.firstError)
+                    HotelTracking.trackHotelCouponRemoveFailure(storedCouponApplyObservable.value.name, trip.firstError.errorInfo.couponErrorType)
                 } else {
                     couponChangeSuccess(trip)
                     // TODO Add omniture tracking for coupon removal

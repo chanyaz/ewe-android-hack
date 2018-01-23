@@ -3,7 +3,11 @@
     "errors": [
         {
             "diagnosticId": 2007,
-            "errorCode": "REMOVE_COUPON_ERROR"
+            "errorCode": "REMOVE_COUPON_ERROR",
+            "errorInfo": {
+                "couponErrorType": "Removal Error",
+                "summary": "failure to remove coupon"
+            }
         }
     ]
 }

@@ -261,6 +261,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CONFIRMATION_COUPON_SUCCESS = "App.CKO.Coupon.Success";
 	private static final String HOTELSV2_CONFIRMATION_COUPON_FAIL = "App.CKO.Coupon.Fail";
 	private static final String HOTELSV2_CONFIRMATION_COUPON_REMOVE = "App.CKO.Coupon.Remove";
+	private static final String HOTELSV2_CHECKOUT_COUPON_REMOVE_FAILURE = "App.CKO.Coupon.Remove.Error";
 
 	private static final String REWARDS_POINTS_UPDATE = "App.Hotels.CKO.Points.Update";
 	private static final String PAY_WITH_POINTS_DISABLED = "App.Hotels.CKO.Points.None";
@@ -1424,6 +1425,13 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_COUPON_REMOVE);
 		s.setEvar(24, couponCode);
+		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+	}
+
+	public static void trackHotelV2CouponRemoveFail(String couponeName, String error) {
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_COUPON_REMOVE_FAILURE);
+		s.setProp(36, error);
+		s.setEvar(24, couponeName);
 		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
 	}
 

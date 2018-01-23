@@ -55,14 +55,14 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
         storedCouponWidget.viewModel.hasStoredCoupons.subscribe(viewmodel.hasStoredCoupons)
 
         viewmodel.storedCouponWidgetVisibilityObservable.subscribeVisibility(storedCouponWidget)
-        getStoredCouponListAdapter().applyStoredCouponSubject.subscribe { instanceId ->
+        getStoredCouponListAdapter().applyStoredCouponSubject.subscribe { coupon ->
             enableCouponUi(false)
-            viewmodel.storedCouponApplyObservable.onNext(instanceId)
+            viewmodel.storedCouponApplyObservable.onNext(coupon)
         }
         viewmodel.storedCouponApplyObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, {
-            couponInstanceId, paymentSplitsAndTripResponse -> Pair(couponInstanceId, paymentSplitsAndTripResponse)
+            coupon, paymentSplitsAndTripResponse -> Pair(coupon, paymentSplitsAndTripResponse)
         }).subscribe {
-            viewmodel.submitStoredCoupon(it.second.paymentSplits, it.second.tripResponse, userStateManager, it.first)
+            viewmodel.submitStoredCoupon(it.second.paymentSplits, it.second.tripResponse, userStateManager, it.first.instanceId)
         }
         viewmodel.couponSubtitleObservable.subscribeText(appliedCouponSubtitle)
     }

@@ -354,6 +354,10 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2CouponRemove(couponCode)
         }
 
+        fun trackHotelCouponRemoveFailure(couponName: String, error: String) {
+            OmnitureTracking.trackHotelV2CouponRemoveFail(couponName, error)
+        }
+
         fun createCheckoutError(error: ApiError): String {
             val errorType = "CKO:"
             val eSource = if (!error.errorInfo?.source.isNullOrEmpty()) "${error.errorInfo?.source}:" else ":"

@@ -4,11 +4,13 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.presenter.shared.StoredCouponAppliedStatus
 import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponViewHolder
 import com.expedia.bookings.presenter.shared.StoredCouponWidget
 import com.expedia.bookings.services.TestObserver
+import kotlinx.android.synthetic.main.widget_hotel_results.narrow_result_prompt
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -57,7 +59,7 @@ class StoredCouponWidgetTest {
 
     @Test
     fun testFunctionalityOfClickOnStoredCouponViewHolder() {
-        val applyStoredCouponTestSubject = TestObserver.create<String>()
+        val applyStoredCouponTestSubject = TestObserver.create<HotelCreateTripResponse.SavedCoupon>()
         setupStoredCouponWidget()
         val adapter = (storedCouponWidget.storedCouponRecyclerView.adapter as StoredCouponListAdapter)
         adapter.applyStoredCouponSubject.subscribe(applyStoredCouponTestSubject)
@@ -65,7 +67,8 @@ class StoredCouponWidgetTest {
         val storedCouponViewHolderAt0 = findStoredCouponViewHolderAtPosition(0)
         storedCouponViewHolderAt0.itemView.performClick()
 
-        assertEquals("1", applyStoredCouponTestSubject.values()[0])
+        assertEquals("1", applyStoredCouponTestSubject.values()[0].instanceId)
+        assertEquals("A", applyStoredCouponTestSubject.values()[0].name)
         testViewsInStoredCouponViewHolder(View.GONE, "A", View.GONE, storedCouponViewHolderAt0, View.VISIBLE)
     }
 
