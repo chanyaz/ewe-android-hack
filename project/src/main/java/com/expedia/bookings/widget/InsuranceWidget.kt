@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.notNullAndObservable
@@ -73,5 +74,11 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : CardView(context,
             }
             suppressNextToggleEvent = false
         }
+        setupAccessibilityContentDescription()
+    }
+
+    fun setupAccessibilityContentDescription() {
+        AccessibilityUtil.appendRoleContDesc(descriptionTextView, descriptionTextView.text.toString(), R.string.accessibility_cont_desc_role_button)
+        AccessibilityUtil.appendRoleContDesc(termsTextView, termsTextView.text.toString(), R.string.accessibility_cont_desc_role_button)
     }
 }
