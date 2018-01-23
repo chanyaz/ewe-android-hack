@@ -385,14 +385,6 @@
             android:defaultValue="-1"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="12622"
-            android:summary="%s"
-            android:title="Hide Apac Billing Address Fields - 12622" />
-
-        <ListPreference
-            android:defaultValue="-1"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="15457"
             android:summary="%s"
             android:title="Allow Unknown Card Types - 15457" />

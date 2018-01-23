@@ -39,7 +39,6 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isHideApacBillingFieldsEnabled
 import com.expedia.bookings.utils.isPopulateCardholderNameEnabled
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
@@ -91,7 +90,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
     val toolbarNavIconFocusObservable = PublishSubject.create<Boolean>()
     val populateCardholderNameTestEnabled = isPopulateCardholderNameEnabled(context)
-    val hideApacBillingFieldsEnabled = isHideApacBillingFieldsEnabled()
     var hotelMaterialFormEnabled = false
 
     private val userStateManager: UserStateManager = Ui.getApplication(context).appComponent().userStateManager()
@@ -580,10 +578,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
             updateToolbarMenu(forward, !forward, forward)
             viewmodel.showingPaymentForm.onNext(forward)
-            if (hideApacBillingFieldsEnabled) {
-                if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
-                else viewmodel.clearHiddenBillingAddress.onNext(Unit)
-            }
+            if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
+            else viewmodel.clearHiddenBillingAddress.onNext(Unit)
         }
     }
 
@@ -619,10 +615,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             viewmodel.showingPaymentForm.onNext(forward)
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
             updateToolbarMenu(forward, !forward, forward)
-            if (hideApacBillingFieldsEnabled) {
-                if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
-                else viewmodel.clearHiddenBillingAddress.onNext(Unit)
-            }
+            if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
+            else viewmodel.clearHiddenBillingAddress.onNext(Unit)
             if (forward) {
                 toolbarNavIconFocusObservable.onNext(true)
             }

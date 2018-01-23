@@ -1602,7 +1602,6 @@ public class OmnitureTracking {
 		s.setAppState(pageName);
 		s.setEvar(18, pageName);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHideApacBillingAddressFields);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
 
 		s.track();

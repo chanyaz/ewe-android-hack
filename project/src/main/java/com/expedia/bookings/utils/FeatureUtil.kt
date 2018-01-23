@@ -25,10 +25,6 @@ fun shouldPackageForceUpdateBeVisible(context: Context): Boolean {
     return !isMidAPIEnabled(context) && isPackageForceUpdateEnabled(context)
 }
 
-fun isHideApacBillingFieldsEnabled(): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHideApacBillingAddressFields)
-}
-
 fun isAllowUnknownCardTypesEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
 }

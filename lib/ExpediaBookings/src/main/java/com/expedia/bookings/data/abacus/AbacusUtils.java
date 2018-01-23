@@ -35,7 +35,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidPopulateCardholderName = new ABTest(14525);
 	public static final ABTest EBAndroidAppSecureCheckoutIcon = new ABTest(16112);
 	public static final ABTest EBAndroidAppFlightFlexEnabled = new ABTest(15247);
-	public static final ABTest EBAndroidAppHideApacBillingAddressFields = new ABTest(12622);
 	public static final ABTest EBAndroidAppLXOfferLevelCancellationPolicySupport = new ABTest(15246);
 	public static final ABTest EBAndroidAppAllowUnknownCardTypes = new ABTest(15457);
 	public static final ABTest EBAndroidAppShowFlightsCheckoutWebview = new ABTest(15371, true);
@@ -197,7 +196,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightSearchSuggestionLabel.getKey());
 		testIDs.add(EBAndroidAppPackagesEnablePOS.getKey());
 		testIDs.add(EBAndroidAppCarsAATest.getKey());
-		testIDs.add(EBAndroidAppHideApacBillingAddressFields.getKey());
 		testIDs.add(EBAndroidAppFlightSuggestionOnOneCharacter.getKey());
 		testIDs.add(EBAndroidAppFlightRateDetailsFromCache.getKey());
 		testIDs.add(EBAndroidAppSoftPromptLocation.getKey());
