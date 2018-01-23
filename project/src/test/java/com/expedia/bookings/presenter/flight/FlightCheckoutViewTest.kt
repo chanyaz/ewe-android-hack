@@ -415,11 +415,9 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
-        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
 
         serviceRule.services!!.getTripDetails("flight_trip_details", makeItinResponseObserver)
-        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         assertTrue(flightPresenter.confirmationPresenter.tripProtectionLabel.visibility == View.VISIBLE)
         assertTrue(flightPresenter.confirmationPresenter.tripProtectionDivider.visibility == View.VISIBLE)
@@ -434,11 +432,9 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
-        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
 
         serviceRule.services!!.getTripDetails("flight_trip_details_multi_segment", makeItinResponseObserver)
-        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         assertTrue(flightPresenter.confirmationPresenter.tripProtectionLabel.visibility == View.GONE)
         assertTrue(flightPresenter.confirmationPresenter.tripProtectionDivider.visibility == View.GONE)
@@ -475,7 +471,7 @@ class FlightCheckoutViewTest {
         flightPresenter.bookingSuccessDialog.show()
         flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
         serviceRule.services!!.getTripDetails("should_error", makeItinResponseObserver)
-        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+        testObserver.assertValueCount(0)
 
         val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
         assertTrue(alertDialog.title.contains("Booking Successful!"))
