@@ -7,7 +7,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.SuggestionStrUtils
@@ -131,7 +131,7 @@ class FlightToolbarViewModel(private val context: Context) {
     private fun getSubtitle(date: LocalDate, numTravelers: Int): String {
         val travelers = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers)
         val subtitle = Phrase.from(context, R.string.flight_calendar_instructions_date_with_guests_TEMPLATE)
-                .put("startdate", DateFormatUtils.formatLocalDateToShortDayAndDate(date))
+                .put("startdate", LocaleBasedDateFormatUtils.dateTimeToEEEMMMddyyyy(date))
                 .put("guests", travelers)
                 .format()
                 .toString()

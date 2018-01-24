@@ -131,8 +131,8 @@ public class DateFormatUtils {
 	private static String formatPackageDateRangeTemplate(Context context, String checkinDate, String checkoutDate,
 		int stringResID) {
 		DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd");
-		String checkinDateTime = formatDateToShortDayAndDate(parser.parseDateTime(checkinDate));
-		String checkoutDateTime = formatDateToShortDayAndDate(parser.parseDateTime(checkoutDate));
+		String checkinDateTime = LocaleBasedDateFormatUtils.dateTimeToEEEMMMddyyyy(parser.parseDateTime(checkinDate));
+		String checkoutDateTime = LocaleBasedDateFormatUtils.dateTimeToEEEMMMddyyyy(parser.parseDateTime(checkoutDate));
 
 		return Phrase.from(context, stringResID)
 			.put("startdate", checkinDateTime).put("enddate", checkoutDateTime).format().toString();

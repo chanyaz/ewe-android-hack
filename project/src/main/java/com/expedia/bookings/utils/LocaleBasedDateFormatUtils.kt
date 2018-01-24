@@ -51,6 +51,14 @@ object LocaleBasedDateFormatUtils {
         return formatDateTimeBasedOnLocale(date, "yyyy-MM-d")
     }
 
+    @JvmStatic fun dateTimeToEEEMMMddyyyy(date: LocalDate): String {
+        return formatLocalDateBasedOnLocale(date, "EEE MMM dd, yyyy")
+    }
+
+    @JvmStatic fun dateTimeToEEEMMMddyyyy(date: DateTime): String {
+        return formatDateTimeBasedOnLocale(date, "EEE MMM dd, yyyy")
+    }
+
     private fun formatLocalDateBasedOnLocale(date: LocalDate, pattern: String): String {
         var formattedDate: String
         try {
