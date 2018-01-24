@@ -352,6 +352,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 bundlePresenter.bundleWidget.collapseBundleWidgets()
                 bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
                 bundlePresenter.bundleWidget.packageAirlineFeeWarningTextView.visibility = View.GONE
+                bundlePresenter.bundleWidget.splitTicketInfoContainer.visibility = View.GONE
                 bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
                 bundlePresenter.resetAndShowTotalPriceWidget()
                 bundlePresenter.setToolbarNavIcon(true)

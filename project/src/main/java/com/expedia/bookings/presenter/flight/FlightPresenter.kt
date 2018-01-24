@@ -276,12 +276,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         ObservableOld.combineLatest(flightOfferViewModel.confirmedOutboundFlightSelection,
                 flightOfferViewModel.confirmedInboundFlightSelection,
                 { outbound, inbound ->
-                    val baggageFeesTextFormatted = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
-                            .put("departurelink", outbound.baggageFeesUrl)
-                            .put("returnlink", inbound.baggageFeesUrl).format().toString()
-                    val baggageFeesTextWithColoredClickableLinks =
-                            StrUtils.getSpannableTextByColor(baggageFeesTextFormatted,
-                                    ContextCompat.getColor(context, R.color.flight_primary_color), true)
+                    val baggageFeesTextWithColoredClickableLinks = StrUtils.generateBaggageFeesTextWithClickableLinks(context, outbound.baggageFeesUrl, inbound.baggageFeesUrl)
                     presenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(baggageFeesTextWithColoredClickableLinks)
                 }).subscribe()
 

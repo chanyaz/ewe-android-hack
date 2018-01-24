@@ -1,6 +1,7 @@
 package com.expedia.vm.packages
 
 import android.content.Context
+import android.text.SpannableStringBuilder
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
@@ -19,6 +20,7 @@ import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.utils.Ui
 import com.google.gson.Gson
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
@@ -53,6 +55,8 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val stepThreeTextObservale = PublishSubject.create<String>()
     val cancelSearchSubject = BehaviorSubject.create<Unit>()
     val airlineFeePackagesWarningTextObservable = PublishSubject.create<String>()
+    val splitTicketBaggageFeesLinksObservable = PublishSubject.create<SpannableStringBuilder>()
+    val showSplitTicketMessagingObservable = PublishSubject.create<Boolean>()
 
     var searchPackageSubscriber: Disposable? = null
 
@@ -68,6 +72,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .format().toString())
 
             searchPackageSubscriber = packageServices?.packageSearch(params, if (isMidAPIEnabled(context)) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch)?.subscribeObserver(makeResultsObserver(PackageSearchType.HOTEL))
+            showSplitTicketMessagingObservable.onNext(false)
         }
 
         flightParamsObservable.subscribe { params ->
@@ -123,6 +128,9 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         stepTwoTextObservable.onNext(stepTwo)
         stepThreeTextObservale.onNext("")
         setAirlineFeeTextOnBundleOverview()
+        if (isMidAPIEnabled(context)) {
+            setSplitTicketMessagingOnBundleOverview()
+        }
     }
 
     fun getHotelNameAndDaysToSetUpTitle() {
@@ -223,5 +231,30 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         } else {
             airlineFeePackagesWarningTextObservable.onNext("")
         }
+    }
+
+    fun setSplitTicketMessagingOnBundleOverview() {
+        val packageResponse = Db.getPackageResponse() as MultiItemApiSearchResponse
+        if (packageResponse.flights.isNotEmpty()) {
+            val flightOfferMap = packageResponse.flights
+            val flightLegs = packageResponse.getFlightLegs()
+            val selectedFlightPIID = Db.sharedInstance.packageParams.latestSelectedFlightPIID
+            val selectedFlightOfferKey = flightOfferMap.keys.filter { flightOfferMap.get(it)?.piid.equals(selectedFlightPIID) }.first()
+            val legIdList = flightOfferMap.get(selectedFlightOfferKey)?.legIds!!
+            val isSplitTicket = flightOfferMap.get(selectedFlightOfferKey)?.splitTicket!!
+            if (isSplitTicket) {
+                val outboundLeg = flightLegs.filter { it.legId.equals(legIdList.first()) }.first()
+                val inboundLeg = flightLegs.filter { it.legId.equals(legIdList.last()) }.first()
+                splitTicketBaggageFeesLinksObservable.onNext(getSplitTicketBaggageFeesLink(outboundLeg.baggageFeesUrl, inboundLeg.baggageFeesUrl))
+            }
+            showSplitTicketMessagingObservable.onNext(isSplitTicket)
+        }
+    }
+
+    private fun getSplitTicketBaggageFeesLink(outboundBaggageFeesUrl: String, inboundBaggageFeesUrl: String): SpannableStringBuilder {
+        val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
+        val outboundBaggageLink = e3EndpointUrl + outboundBaggageFeesUrl
+        val inboundBaggageLink = e3EndpointUrl + inboundBaggageFeesUrl
+        return StrUtils.generateBaggageFeesTextWithClickableLinks(context, outboundBaggageLink, inboundBaggageLink)
     }
 }

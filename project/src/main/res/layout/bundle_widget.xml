@@ -82,6 +82,11 @@
         android:textSize="10sp"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/split_ticket_info_container"
+        layout="@layout/split_ticket_info_phone_dialog_content"
+        android:visibility="gone" />
+
     <Space
         android:id="@+id/scroll_space_bundle"
         android:layout_width="wrap_content"

@@ -21,6 +21,7 @@ import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -483,12 +484,15 @@ public class StrUtils {
 			.format().toString();
 	}
 
-	public static SpannableStringBuilder generateBaggageFeesTextWithClickableLinks(Context context, String outboundBaggageFeeUrl, String inboundBaggageFeeUrl) {
+	public static SpannableStringBuilder generateBaggageFeesTextWithClickableLinks(Context context,
+		String outboundBaggageFeeUrl, String inboundBaggageFeeUrl) {
 		String baggageFeesTextFormatted = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
-				.put("departurelink", outboundBaggageFeeUrl)
-				.put("returnlink", inboundBaggageFeeUrl)
-				.format().toString();
-		return getSpannableTextByColor(baggageFeesTextFormatted, Color.BLACK, true);
+			.put("departurelink", outboundBaggageFeeUrl)
+			.put("returnlink", inboundBaggageFeeUrl)
+			.format().toString();
+		return getSpannableTextByColor(baggageFeesTextFormatted,
+			ContextCompat.getColor(context, R.color.flight_primary_color),
+			true);
 	}
 
 	public static SpannableStringBuilder generateStatementWithClickableLink(String statementWithAnchorLink) {

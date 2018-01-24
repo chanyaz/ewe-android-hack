@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.packages
 
 import android.content.Context
+import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -17,6 +18,7 @@ import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.BundleHotelViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
@@ -32,6 +34,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     val outboundFlightWidget: OutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
     val inboundFlightWidget: InboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
     val packageAirlineFeeWarningTextView: TextView by bindView(R.id.package_airline_fee_warning_text)
+    val splitTicketInfoContainer: View by bindView(R.id.split_ticket_info_container)
+    val splitTicketBaggageFeesTextView: TextView by bindView(R.id.split_ticket_baggage_fee_links)
     val opacity: Float = 0.25f
     val scrollSpaceView: View by bindView(R.id.scroll_space_bundle)
 
@@ -95,6 +99,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         vm.stepTwoTextObservable.subscribeText(stepTwoText)
         vm.stepThreeTextObservale.subscribeTextAndVisibility(stepThreeText)
         vm.airlineFeePackagesWarningTextObservable.subscribeTextAndVisibility(packageAirlineFeeWarningTextView)
+        vm.splitTicketBaggageFeesLinksObservable.subscribeText(splitTicketBaggageFeesTextView)
+        vm.showSplitTicketMessagingObservable.subscribeVisibility(splitTicketInfoContainer)
 
         vm.cancelSearchSubject.subscribe {
             bundleHotelWidget.cancel()
@@ -154,6 +160,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        splitTicketBaggageFeesTextView.movementMethod = LinkMovementMethod.getInstance()
     }
 
     fun collapseBundleWidgets() {
