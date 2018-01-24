@@ -31,18 +31,7 @@ class HotelItinManageBookingHelp(context: Context, attr: AttributeSet?) : Linear
             this.visibility = View.GONE
             return
         }
-        if (!itinCardDataHotel.hasConfirmationNumber()) {
-            hotelConfirmationNumber.visibility = View.GONE
-        } else {
-            hotelConfirmationNumber.text = Phrase.from(this, R.string.itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE)
-                    .put("number", itinCardDataHotel.lastConfirmationNumber).format().toString()
-            hotelConfirmationNumber.contentDescription = Phrase.from(this, R.string.itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE)
-                    .put("number", itinCardDataHotel.lastConfirmationNumber.replace(".".toRegex(), "$0 ")).format().toString()
-            hotelConfirmationNumber.setOnClickListener {
-                ClipboardUtils.setText(context, itinCardDataHotel.lastConfirmationNumber)
-                Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
-            }
-        }
+
         helpText.text = Phrase.from(this, R.string.itin_hotel_manage_booking_hotel_help_text_TEMPLATE)
                 .put("hotelname", itinCardDataHotel.propertyName).format().toString()
         callHotelButton.text = phoneNumber
@@ -58,6 +47,21 @@ class HotelItinManageBookingHelp(context: Context, attr: AttributeSet?) : Linear
                 }
                 OmnitureTracking.trackItinHotelCallHotel()
             }
+        }
+    }
+
+    fun showConfirmationNumberIfAvailable(confirmationNumber: String) {
+        if (confirmationNumber.isNotEmpty()) {
+            hotelConfirmationNumber.text = Phrase.from(this, R.string.itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE)
+                    .put("number", confirmationNumber).format().toString()
+            hotelConfirmationNumber.contentDescription = Phrase.from(this, R.string.itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE)
+                    .put("number", confirmationNumber.replace(".".toRegex(), "$0 ")).format().toString()
+            hotelConfirmationNumber.setOnClickListener {
+                ClipboardUtils.setText(context, confirmationNumber)
+                Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            hotelConfirmationNumber.visibility = View.GONE
         }
     }
 }

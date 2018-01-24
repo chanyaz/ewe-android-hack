@@ -44,10 +44,13 @@ class ItinCardDataHotelBuilder {
             itinCardDataHotel.property.bookingChangeWebUrl = bookingChangeUrl
         }
 
-        itinCardDataHotel.lastHotelRoom.primaryOccupant?.fullName = primaryOccupantFullName
-        itinCardDataHotel.lastHotelRoom.otherOccupantInfo?.adultCount = adultCount
-        itinCardDataHotel.lastHotelRoom.otherOccupantInfo?.childCount = childCount
-        itinCardDataHotel.lastHotelRoom.otherOccupantInfo?.infantCount = infantCount
+        val room = itinCardDataHotel.getHotelRoom(0)
+        if (room != null) {
+            room.primaryOccupant?.fullName = primaryOccupantFullName
+            room.otherOccupantInfo?.adultCount = adultCount
+            room.otherOccupantInfo?.childCount = childCount
+            room.otherOccupantInfo?.infantCount = infantCount
+        }
 
         return itinCardDataHotel
     }

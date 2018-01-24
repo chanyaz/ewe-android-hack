@@ -4,26 +4,20 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.widget.Button
+import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.itin.widget.HotelItinManageBookingHelp
-import com.expedia.bookings.itin.widget.HotelItinCustomerSupportDetails
-import com.expedia.bookings.itin.widget.HotelItinRoomDetails
+import com.expedia.bookings.itin.vm.HotelItinManageRoomViewModel
 import com.expedia.bookings.itin.widget.HotelItinToolbar
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 
 class HotelItinManageBookingActivity : HotelItinBaseActivity() {
 
-    val roomDetailsView by bindView<HotelItinRoomDetails>(R.id.widget_hotel_itin_room_details)
     val toolbar by bindView<HotelItinToolbar>(R.id.widget_hotel_itin_toolbar)
-    val manageBookingButton by bindView<Button>(R.id.itin_hotel_manage_booking_button)
     lateinit var itinCardDataHotel: ItinCardDataHotel
-    val hotelManageBookingHelpView by bindView<HotelItinManageBookingHelp>(R.id.widget_hotel_itin_manage_booking_help)
-    val hotelCustomerSupportDetailsView by bindView<HotelItinCustomerSupportDetails>(R.id.widget_hotel_itin_customer_support)
+    val manageRoomContainer by bindView<LinearLayout>(R.id.widget_hotel_manage_room_container)
+    val manageRoomViewModel = HotelItinManageRoomViewModel(this)
 
     companion object {
         private const val ID_EXTRA = "ITINID"
@@ -40,6 +34,8 @@ class HotelItinManageBookingActivity : HotelItinBaseActivity() {
         Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.hotel_itin_manage_booking)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+        manageRoomContainer.addView(manageRoomViewModel.manageRoomWidget)
     }
 
     override fun onResume() {
@@ -47,32 +43,12 @@ class HotelItinManageBookingActivity : HotelItinBaseActivity() {
         updateItinCardDataHotel()
     }
 
-    private fun buildWebViewIntent(title: Int, url: String, anchor: String?, tripId: String): WebViewActivity.IntentBuilder {
-        val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(this)
-        if (anchor != null) builder.setUrlWithAnchor(url, anchor) else builder.setUrl(url)
-        builder.setTitle(title)
-        builder.setInjectExpediaCookies(true)
-        builder.setAllowMobileRedirects(false)
-        builder.setHotelItinTripId(tripId)
-        return builder
-    }
-
     fun setUpWidgets() {
-        roomDetailsView.setUpWidget(itinCardDataHotel)
-        if (itinCardDataHotel.lastHotelRoom != null) {
-            roomDetailsView.expandRoomDetailsView()
-            roomDetailsView.showChangeCancelRules(itinCardDataHotel)
-        }
         toolbar.setUpWidget(itinCardDataHotel, this.getString(R.string.itin_hotel_manage_booking_header))
         toolbar.setNavigationOnClickListener {
             super.finish()
             overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
         }
-        manageBookingButton.setOnClickListener {
-            this.startActivityForResult(buildWebViewIntent(R.string.itin_hotel_manage_booking_webview_title, itinCardDataHotel.detailsUrl, "overview-header", itinCardDataHotel.tripNumber).intent, Constants.ITIN_HOTEL_WEBPAGE_CODE)
-        }
-        hotelManageBookingHelpView.setUpWidget(itinCardDataHotel)
-        hotelCustomerSupportDetailsView.setUpWidget(itinCardDataHotel)
     }
 
     override fun updateItinCardDataHotel() {
@@ -82,6 +58,7 @@ class HotelItinManageBookingActivity : HotelItinBaseActivity() {
         } else {
             itinCardDataHotel = freshItinCardDataHotel
             setUpWidgets()
+            manageRoomViewModel.refreshItinCardDataSubject.onNext(itinCardDataHotel)
         }
     }
 }

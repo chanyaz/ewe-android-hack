@@ -2,7 +2,6 @@ package com.expedia.bookings.itin.widget
 
 import android.animation.LayoutTransition
 import android.content.Context
-import android.support.annotation.VisibleForTesting
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
@@ -14,7 +13,6 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.TripHotelRoom
 import com.expedia.bookings.fragment.ScrollableContentDialogFragment
-import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
@@ -23,7 +21,6 @@ import com.squareup.phrase.Phrase
 
 class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
-    @VisibleForTesting
     val roomDetailsText: TextView by bindView(R.id.itin_hotel_details_room_details_text)
     val roomDetailsChevron: ImageView by bindView(R.id.itin_hotel_room_details_chevron)
     val expandedRoomDetails: LinearLayout by bindView(R.id.expanded_room_details_container)
@@ -55,22 +52,23 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
         }
     }
 
-    fun setUpWidget(itinCardDataHotel: ItinCardDataHotel) {
-        if (itinCardDataHotel.isSharedItin) {
-            visibility = View.GONE
-        } else {
-            roomDetailsText.text = Phrase.from(context, R.string.itin_hotel_details_room_details_text_TEMPLATE)
-                    .put("roomtype", itinCardDataHotel.property.itinRoomType)
-                    .put("bedtype", itinCardDataHotel.property.itinBedType).format().toString()
-            if (itinCardDataHotel.lastHotelRoom != null) {
-                roomRequestsText.text = buildRoomRequests(itinCardDataHotel.lastHotelRoom)
-                reservedForDetails(itinCardDataHotel.lastHotelRoom)
-                setUpAmenities(itinCardDataHotel.lastHotelRoom)
-            }
+    fun hideWidget() {
+        visibility = View.GONE
+    }
 
-            container.layoutTransition.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0)
-            container.layoutTransition.setStartDelay(LayoutTransition.APPEARING, 0)
+    fun setUpWidget(room: TripHotelRoom) {
+        val occupantSelectedRoomOptions = room.occupantSelectedRoomOptions
+        if (occupantSelectedRoomOptions != null) {
+            roomDetailsText.text = Phrase.from(context, R.string.itin_hotel_details_room_details_text_TEMPLATE)
+                    .put("roomtype", room.roomType)
+                    .put("bedtype", occupantSelectedRoomOptions.bedTypeName).format().toString()
         }
+        roomRequestsText.text = buildRoomRequests(room)
+        reservedForDetails(room)
+        setUpAmenities(room)
+
+        container.layoutTransition.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0)
+        container.layoutTransition.setStartDelay(LayoutTransition.APPEARING, 0)
     }
 
     private fun reservedForDetails(tripHotelRoom: TripHotelRoom) {
@@ -217,17 +215,15 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
         }
     }
 
-    fun showChangeCancelRules(itinCardDataHotel: ItinCardDataHotel) {
-        if (itinCardDataHotel.changeAndCancelRules != null && itinCardDataHotel.changeAndCancelRules.isNotEmpty()) {
-            changeCancelRulesContainer.visibility = View.VISIBLE
-            changeCancelRulesContainer.setOnClickListener {
-                val fragmentManager = (context as FragmentActivity).supportFragmentManager
-                val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_cancel_rules_label),
-                        TextUtils.join("<br>", itinCardDataHotel.changeAndCancelRules).toString())
-                dialog.show(fragmentManager, DIALOG_TAG)
-                OmnitureTracking.trackHotelItinChangeAndCancelRulesDialogClick()
-            }
-            changeCancelRulesButtonText.setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
+    fun showChangeCancelRules(changeAndCancelRules: List<String>?) {
+        changeCancelRulesContainer.visibility = View.VISIBLE
+        changeCancelRulesContainer.setOnClickListener {
+            val fragmentManager = (context as FragmentActivity).supportFragmentManager
+            val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_cancel_rules_label),
+                    TextUtils.join("<br>", changeAndCancelRules).toString())
+            dialog.show(fragmentManager, DIALOG_TAG)
+            OmnitureTracking.trackHotelItinChangeAndCancelRulesDialogClick()
         }
+        changeCancelRulesButtonText.setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
     }
 }

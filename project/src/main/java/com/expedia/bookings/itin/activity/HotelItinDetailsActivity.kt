@@ -76,12 +76,19 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
         locationDetailsView.setupWidget(itinCardDataHotel)
         hotelImageView.setUpWidget(itinCardDataHotel)
         checkinCheckoutView.setUpWidget(itinCardDataHotel)
-        roomDetailsView.setUpWidget(itinCardDataHotel)
-        if (itinCardDataHotel.lastHotelRoom != null) {
+
+        //room details - display first hotel room for now
+        val isSharedItin = itinCardDataHotel.isSharedItin
+        val room = itinCardDataHotel.getHotelRoom(0)
+        if (!isSharedItin && room != null) {
+            roomDetailsView.setUpWidget(room)
             roomDetailsView.collapseRoomDetailsView()
             roomDetailsChevron.visibility = View.VISIBLE
             roomDetailsView.isRowClickable = true
+        } else {
+            roomDetailsView.hideWidget()
         }
+
         hotelBookingDetailsView.setUpWidget(itinCardDataHotel)
         toolbar.setUpWidget(itinCardDataHotel, itinCardDataHotel.propertyName)
         toolbar.setNavigationOnClickListener {

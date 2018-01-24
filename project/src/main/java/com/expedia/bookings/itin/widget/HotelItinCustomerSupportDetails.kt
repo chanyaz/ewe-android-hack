@@ -10,7 +10,6 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.Ui
@@ -29,13 +28,13 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
         View.inflate(context, R.layout.widget_hotel_itin_customer_support, this)
     }
 
-    fun setUpWidget(itinCardDataHotel: ItinCardDataHotel) {
+    fun setUpWidget(tripNumber: String) {
         customerSupportTextView.text = Phrase.from(context, R.string.itin_hotel_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
-        itineraryNumberTextView.text = Phrase.from(context, R.string.itin_hotel_itinerary_number_TEMPLATE).put("itinnumber", itinCardDataHotel.tripNumber).format().toString()
+        itineraryNumberTextView.text = Phrase.from(context, R.string.itin_hotel_itinerary_number_TEMPLATE).put("itinnumber", tripNumber).format().toString()
         itineraryNumberTextView.contentDescription = Phrase.from(this, R.string.itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE)
-                .put("number", itinCardDataHotel.tripNumber.replace(".".toRegex(), "$0 ")).format().toString()
+                .put("number", tripNumber.replace(".".toRegex(), "$0 ")).format().toString()
         itineraryNumberTextView.setOnClickListener {
-            ClipboardUtils.setText(context, itinCardDataHotel.tripNumber)
+            ClipboardUtils.setText(context, tripNumber)
             Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
         }
 

@@ -73,16 +73,31 @@ class HotelItinDetailsActivityTest {
     }
 
     @Test
-    fun testRoomDetailsExpansion() {
+    fun testRoomDetailsExpansionNullCase() {
         val itinCardDataHotelMock = Mockito.spy(itinCardDataHotel)
         activity.itinCardDataHotel = itinCardDataHotelMock
-        Mockito.`when`(activity.itinCardDataHotel.lastHotelRoom).thenReturn(null)
+        Mockito.`when`(activity.itinCardDataHotel.getHotelRoom(0)).thenReturn(null)
         activity.setUpWidgets()
         assertEquals(View.GONE, activity.roomDetailsView.expandedRoomDetails.visibility)
         assertEquals(View.GONE, activity.roomDetailsChevron.visibility)
         assertEquals(false, activity.roomDetailsView.isRowClickable)
         assertEquals(View.GONE, activity.roomDetailsView.changeCancelRulesContainer.visibility)
+    }
 
+    @Test
+    fun testRoomDetailsExpansionSharedItin() {
+        val itinCardDataHotelMock = Mockito.spy(itinCardDataHotel)
+        activity.itinCardDataHotel = itinCardDataHotelMock
+        Mockito.`when`(activity.itinCardDataHotel.isSharedItin).thenReturn(true)
+        activity.setUpWidgets()
+        assertEquals(View.GONE, activity.roomDetailsView.expandedRoomDetails.visibility)
+        assertEquals(View.GONE, activity.roomDetailsChevron.visibility)
+        assertEquals(false, activity.roomDetailsView.isRowClickable)
+        assertEquals(View.GONE, activity.roomDetailsView.changeCancelRulesContainer.visibility)
+    }
+
+    @Test
+    fun testRoomDetailsExpansionNonNullCase() {
         activity.itinCardDataHotel = itinCardDataHotel
         activity.setUpWidgets()
         assertEquals(View.GONE, activity.roomDetailsView.expandedRoomDetails.visibility)

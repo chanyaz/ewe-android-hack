@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -52,11 +53,11 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-
-	public TripHotelRoom getLastHotelRoom() {
-		int numberOfRooms = getRooms().size();
-		if (numberOfRooms > 0) {
-			return mRooms.get(numberOfRooms - 1);
+	@Nullable
+	public TripHotelRoom getHotelRoom(int roomIndex) {
+		int numberOfRooms = mRooms.size();
+		if (roomIndex >= 0 && roomIndex < numberOfRooms) {
+			return mRooms.get(roomIndex);
 		}
 		return null;
 	}
@@ -247,18 +248,6 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 			&& ((TripHotel) getTripComponent()).getConfirmationNumbers().size() > 0;
 	}
 
-	public String getLastConfirmationNumber() {
-		if (hasConfirmationNumber()) {
-			Set<String> setOfConfirmationNumbers = ((TripHotel) getTripComponent()).getConfirmationNumbers();
-			String[] confirmationNumbers = setOfConfirmationNumbers
-				.toArray(new String[setOfConfirmationNumbers.size()]);
-			if (confirmationNumbers.length > 0) {
-				return confirmationNumbers[confirmationNumbers.length - 1];
-			}
-		}
-		return null;
-	}
-
 	@Override
 	public int getConfirmationNumberLabelResId() {
 		return R.string.hotel_confirmation_code_label;
@@ -279,6 +268,7 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return super.getLocation();
 	}
 
+	@Nullable
 	public List<String> getChangeAndCancelRules() {
 		if (getTripComponent() != null) {
 			return ((TripHotel) getTripComponent()).getChangeAndCancelRules();
