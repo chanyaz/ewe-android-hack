@@ -244,4 +244,33 @@ public class LXDataUtilsTest {
 		LXDataUtils.bindDiscountPercentage(activity2, discountPercentage);
 		assertEquals(View.GONE, discountPercentage.getVisibility());
 	}
+
+	@Test
+	public void incrementTicketCountForVolumePricingTest() {
+		Ticket.LxTicketPrices priceObject1 = new Ticket.LxTicketPrices();
+		priceObject1.originalPrice = "￥0";
+		priceObject1.travellerNum = 1;
+		priceObject1.amount = "4305.0";
+		priceObject1.price = "￥4,305";
+
+		Ticket.LxTicketPrices priceObject2 = new Ticket.LxTicketPrices();
+		priceObject2.originalPrice = "￥0";
+		priceObject2.travellerNum = 3;
+		priceObject2.amount = "4305.0";
+		priceObject2.price = "￥4,305";
+
+		List<Ticket.LxTicketPrices> prices = new ArrayList<>();
+		prices.add(priceObject1);
+		prices.add(priceObject2);
+
+		assertEquals(3, LXDataUtils.incrementTicketCountForVolumePricing(1, prices));
+		assertEquals(1, LXDataUtils.incrementTicketCountForVolumePricing(0, prices));
+		assertEquals(3, LXDataUtils.incrementTicketCountForVolumePricing(3, prices));
+		assertEquals(4, LXDataUtils.incrementTicketCountForVolumePricing(4, prices));
+
+		assertEquals(1, LXDataUtils.decrementTicketCountForVolumePricing(3, prices));
+		assertEquals(0, LXDataUtils.decrementTicketCountForVolumePricing(1, prices));
+		assertEquals(0, LXDataUtils.decrementTicketCountForVolumePricing(0, prices));
+		assertEquals(4, LXDataUtils.decrementTicketCountForVolumePricing(4, prices));
+	}
 }

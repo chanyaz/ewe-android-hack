@@ -48,7 +48,12 @@ public class LXTicketPicker extends LinearLayout {
 	@OnClick(R.id.ticket_add)
 	public void onAddTicket() {
 		trackAddOrRemove("Add.");
-		ticket.count++;
+		if (ticket.prices != null) {
+			ticket.count = LXDataUtils.incrementTicketCountForVolumePricing(ticket.count, ticket.prices);
+		}
+		else {
+			ticket.count++;
+		}
 		announceForAccessibility(Phrase.from(getContext(), R.string.lx_ticket_added_announce_accessibility_TEMPLATE)
 				.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
 				.format());
@@ -59,7 +64,12 @@ public class LXTicketPicker extends LinearLayout {
 	@OnClick(R.id.ticket_remove)
 	public void onRemoveTicket() {
 		trackAddOrRemove("Remove.");
-		ticket.count--;
+		if (ticket.prices != null) {
+			ticket.count = LXDataUtils.decrementTicketCountForVolumePricing(ticket.count, ticket.prices);
+		}
+		else {
+			ticket.count--;
+		}
 		announceForAccessibility(Phrase.from(getContext(), R.string.lx_ticket_removed_announce_accessibility_TEMPLATE)
 				.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
 				.format());
@@ -107,6 +117,10 @@ public class LXTicketPicker extends LinearLayout {
 				}
 			}
 		}
+		if (perTicketPrice == null) {
+			perTicketPrice = ticket.prices.get(0).money;
+			defaultCount = ticket.prices.get(0).travellerNum;
+		}
 		if (Strings.isNotEmpty(ticket.restrictionText)) {
 			ticketDetailsText = String
 					.format(getResources().getString(R.string.ticket_details_template), perTicketPrice.getFormattedMoney(
@@ -142,7 +156,7 @@ public class LXTicketPicker extends LinearLayout {
 			ticketRemove.setColorFilter(disabledTicketSelectorColor,
 				PorterDuff.Mode.SRC_IN);
 		}
-		else if (ticket.prices != null && ticket.count == ticket.prices.size()) {
+		else if (ticket.prices != null && ticket.count == ticket.prices.get(ticket.prices.size() - 1).travellerNum) {
 			ticketAdd.setEnabled(false);
 			ticketAdd.setColorFilter(disabledTicketSelectorColor, PorterDuff.Mode.SRC_IN);
 		}

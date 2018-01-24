@@ -459,5 +459,44 @@ public class LXDataUtils {
 			.format().toString();
 	}
 
+	public static int incrementTicketCountForVolumePricing(int ticketCount, List<Ticket.LxTicketPrices> prices) {
+		int pricesListLength = prices.size();
+		if (ticketCount >= prices.get(pricesListLength - 1).travellerNum || ticketCount < 0) {
+			return ticketCount;
+		}
+		int currentIndex = 0;
+		if (ticketCount == 0) {
+			ticketCount = prices.get(0).travellerNum;
+		}
+		else {
+			for (Ticket.LxTicketPrices price : prices) {
+				if (ticketCount == price.travellerNum) {
+					currentIndex = prices.indexOf(price);
+				}
+			}
+			ticketCount = prices.get(currentIndex + 1).travellerNum;
+		}
+		return ticketCount;
+	}
+
+	public static int decrementTicketCountForVolumePricing(int ticketCount, List<Ticket.LxTicketPrices> prices) {
+		int pricesListLength = prices.size();
+		if (ticketCount > prices.get(pricesListLength - 1).travellerNum || ticketCount <= 0) {
+			return ticketCount;
+		}
+		int currentIndex = 0;
+		for (Ticket.LxTicketPrices price : prices) {
+			if (ticketCount == price.travellerNum) {
+				currentIndex = prices.indexOf(price);
+			}
+		}
+		if (currentIndex == 0) {
+			ticketCount = 0;
+		}
+		else {
+			ticketCount = prices.get(currentIndex - 1).travellerNum;
+		}
+		return ticketCount;
+	}
 
 }
