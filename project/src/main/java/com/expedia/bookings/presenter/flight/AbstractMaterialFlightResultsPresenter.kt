@@ -53,12 +53,12 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         }
     }
 
-    fun handlePaymentFee(mayChargePaymentFees: Boolean) {
+    fun displayPaymentFeeHeaderInfo(mayChargePaymentFees: Boolean) {
         var paymentFeeText = ""
         if (mayChargePaymentFees) {
             paymentFeeText = context.resources.getString(R.string.airline_additional_fee_notice)
         }
-        overviewPresenter.vm.airlinePaymentFeesTextSubject.onNext(paymentFeeText)
+        overviewPresenter.vm.airlinePaymentFeesHeaderSubject.onNext(paymentFeeText)
         resultsPresenter.resultsViewModel.airlineChargesFeesSubject.onNext(mayChargePaymentFees)
     }
 

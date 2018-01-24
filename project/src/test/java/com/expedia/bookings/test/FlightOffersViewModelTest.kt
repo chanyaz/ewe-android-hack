@@ -295,8 +295,7 @@ class FlightOffersViewModelTest {
         sut.offerSelectedChargesObFeesSubject.subscribe(testSubscriber)
         performFlightSearch(roundTrip = false)
 
-        val outboundFlightId = FlightLeg()
-        outboundFlightId.legId = "leg0"
+        val outboundFlightId = makeFlightLeg("leg0")
         sut.confirmedOutboundFlightSelection.onNext(outboundFlightId)
 
         showObChargesTestSubscriber.assertValues(false)

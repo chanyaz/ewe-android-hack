@@ -439,9 +439,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         ObservableOld.combineLatest(viewModel.isRoundTripSearchSubject, viewModel.mayChargePaymentFeesSubject, {
             isRoundTripSearch, mayChargePaymentFees ->
-            outBoundPresenter.handlePaymentFee(mayChargePaymentFees)
+            outBoundPresenter.displayPaymentFeeHeaderInfo(mayChargePaymentFees)
             if (isRoundTripSearch) {
-                inboundPresenter.handlePaymentFee(mayChargePaymentFees)
+                inboundPresenter.displayPaymentFeeHeaderInfo(mayChargePaymentFees)
             }
         }).subscribe()
 
