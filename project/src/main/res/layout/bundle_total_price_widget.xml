@@ -13,6 +13,18 @@
         android:focusable="false"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/bundle_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="13dp"
+        android:src="@drawable/ic_close_white_24dp"
+        android:tint="@color/white"
+        android:visibility="gone"
+        android:focusable="false"
+        android:contentDescription="@null" />
+
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"

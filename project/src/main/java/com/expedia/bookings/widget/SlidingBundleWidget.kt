@@ -233,7 +233,13 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         bundleOverViewWidget.viewModel.toolbarSubtitleObservable.subscribeText(bundlePriceWidget.bundleSubtitle)
         bundlePriceFooter.viewModel = PackageTotalPriceViewModel(context)
         bundlePriceWidget.viewModel = PackageTotalPriceViewModel(context, true)
-        bundlePriceWidget.bundleChevron.visibility = View.VISIBLE
+        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+            bundlePriceWidget.bundleChevron.visibility = View.GONE
+            bundlePriceWidget.closeIcon.visibility = View.VISIBLE
+        } else {
+            bundlePriceWidget.bundleChevron.visibility = View.VISIBLE
+            bundlePriceWidget.closeIcon.visibility = View.GONE
+        }
         val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
 

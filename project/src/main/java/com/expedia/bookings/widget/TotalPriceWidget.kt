@@ -40,6 +40,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
     val bundleTitle: TextView by bindView(R.id.bundle_title)
     val bundleSubtitle: TextView by bindView(R.id.bundle_subtitle)
     val priceProgressBar: ProgressBar by bindView(R.id.total_price_progress)
+    val closeIcon: ImageView by bindView(R.id.bundle_close)
 
     val eval: ArgbEvaluator = ArgbEvaluator()
     val titleTextFade = TransitionElement(ContextCompat.getColor(context, R.color.packages_bundle_overview_footer_primary_text), Color.WHITE)
