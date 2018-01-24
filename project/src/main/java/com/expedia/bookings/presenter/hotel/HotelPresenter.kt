@@ -484,7 +484,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe {
             show(checkoutPresenter, FLAG_CLEAR_TOP)
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, FLAG_CLEAR_TOP)
-            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
+            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.showPaymentForm(fromPaymentError = true)
+            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.viewmodel.clearTemporaryCardObservable.onNext(Unit)
         }
 
         errorPresenter.viewmodel.checkoutAlreadyBookedObservable.subscribe {

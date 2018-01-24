@@ -41,6 +41,7 @@ import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.presenter.hotel.HotelPresenter;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
@@ -56,6 +57,8 @@ import kotlin.Unit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricRunner.class)
@@ -66,6 +69,8 @@ public class PaymentWidgetFlowTest {
 	private BillingInfo tempSavedCardBillingInfo;
 	private BillingInfo tempNotSavedCardBillingInfo;
 	private UserStateManager userStateManager;
+	private PaymentWidget paymentWidget;
+	private HotelPresenter hotelPresenter;
 
 	@Before
 	public void before() {
@@ -305,19 +310,42 @@ public class PaymentWidgetFlowTest {
 
 	@Test
 	public void testClearTempCard() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		activity.setTheme(R.style.Theme_Hotels_Default);
-		Ui.getApplication(activity).defaultHotelComponents();
-		PaymentWidgetV2 paymentWidget = (PaymentWidgetV2) LayoutInflater.from(activity)
-			.inflate(R.layout.payment_widget_v2, null);
-		paymentWidget.setViewmodel(new PaymentViewModel(activity));
-		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELS);
-		paymentWidget.getSectionBillingInfo().bind(tempSavedCardBillingInfo);
+		setupPaymentWidget();
 		paymentWidget.userChoosesToSaveCard();
 
 		assertTrue(paymentWidget.hasTempCard());
 		paymentWidget.getViewmodel().getClearTemporaryCardObservable().onNext(Unit.INSTANCE);
 		assertFalse(paymentWidget.hasTempCard());
+	}
+
+	@Test
+	public void testTempCardNumberClearedAfterPaymentFailed() {
+		setupPaymentWidget();
+		paymentWidget.userChoosesToSaveCard();
+
+		assertEquals("4111111111111111", Db.getBillingInfo().getNumber());
+		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
+		assertEquals(null, Db.getBillingInfo().getNumber());
+	}
+
+	@Test
+	public void testTempCardClearedAfterPaymentFailed() {
+		setupPaymentWidget();
+		paymentWidget.userChoosesToSaveCard();
+
+		assertTrue(paymentWidget.hasTempCard());
+		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
+		assertFalse(paymentWidget.hasTempCard());
+	}
+
+	@Test
+	public void testRemoveStoredTempCardAfterPaymentFailed() {
+		setupPaymentWidget();
+		paymentWidget.userChoosesToSaveCard();
+
+		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
+		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
+		assertNull(Db.sharedInstance.getTemporarilySavedCard());
 	}
 
 	private void setUserWithStoredCard(PaymentWidget paymentWidget) {
@@ -367,6 +395,19 @@ public class PaymentWidgetFlowTest {
 		TextView tv = (TextView) storedList.getAdapter().getView(0, null, paymentWidget).findViewById(R.id.text1) ;
 		assertEquals(message, tv.getText());
 		assertEquals(message + ", disabled Button" , tv.getContentDescription().toString());
+	}
+
+	private void setupPaymentWidget() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.Theme_Hotels_Default);
+		Ui.getApplication(activity).defaultHotelComponents();
+		hotelPresenter = (HotelPresenter) LayoutInflater.from(activity).inflate(R.layout.activity_hotel, null);
+		hotelPresenter.setHotelSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity));
+
+		paymentWidget = hotelPresenter.getCheckoutPresenter().getHotelCheckoutWidget().paymentInfoCardView;
+		paymentWidget.setViewmodel(new PaymentViewModel(activity));
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELS);
+		paymentWidget.getSectionBillingInfo().bind(tempSavedCardBillingInfo);
 	}
 
 }
