@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
@@ -58,6 +59,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
     val performMIDCreateTripSubject = PublishSubject.create<Unit>()
+    val showErrorPresenter = PublishSubject.create<ApiError.Code>()
 
     val webCheckoutView: WebCheckoutView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.package_web_checkout_stub)
@@ -97,6 +99,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) {
             totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
         }
+
+        getCheckoutPresenter().getCreateTripViewModel().showErrorPresenter.subscribe(showErrorPresenter)
     }
 
     override fun onFinishInflate() {

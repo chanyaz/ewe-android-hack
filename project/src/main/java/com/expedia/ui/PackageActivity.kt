@@ -167,10 +167,13 @@ class PackageActivity : AbstractAppCompatActivity() {
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
 
                     packageCreateTrip()
-                    packagePresenter.showBundleOverView()
-                    packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(false)
-                    packagePresenter.bundlePresenter.setToolbarNavIcon(false)
-                    packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageFlightBundle().second)
+
+                    if (packagePresenter.errorPresenter.visibility == View.GONE || !isMidAPIEnabled(this)) {
+                        packagePresenter.showBundleOverView()
+                        packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(false)
+                        packagePresenter.bundlePresenter.setToolbarNavIcon(false)
+                        packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageFlightBundle().second)
+                    }
                 }
             }
         }

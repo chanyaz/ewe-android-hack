@@ -157,6 +157,11 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
             }
         }
+
+        presenter.showErrorPresenter.subscribe { errorCode ->
+            errorPresenter.getViewModel().hotelOffersApiErrorObserver.onNext(errorCode)
+            show(errorPresenter)
+        }
         presenter
     }
 
