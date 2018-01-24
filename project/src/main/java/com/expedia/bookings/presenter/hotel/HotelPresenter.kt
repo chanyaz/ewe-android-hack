@@ -238,7 +238,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val checkoutPresenter: HotelCheckoutPresenter by lazy {
         val presenter = checkoutStub.inflate() as HotelCheckoutPresenter
         presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices, paymentModel)
-        presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices, paymentModel)
+        presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(context, hotelServices, paymentModel)
         confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(context)
         presenter.hotelCheckoutViewModel.checkoutRequestStartTimeObservable.subscribe { startTime ->
             pageUsableData.markPageLoadStarted(startTime)

@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import android.content.Context
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
@@ -15,6 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import com.expedia.bookings.services.TestObserver
+import org.mockito.Mockito
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
@@ -38,7 +40,7 @@ class HotelCheckoutViewModelTest {
                 .traveler(HotelCheckoutParamsMock.traveler())
                 .misc(miscParameters).build()
 
-        val subjectUnderTest = HotelCheckoutViewModel(mockHotelServiceTestRule.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
+        val subjectUnderTest = HotelCheckoutViewModel(Mockito.mock(Context::class.java), mockHotelServiceTestRule.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
 
         val errorObservableTestSubscriber = TestObserver.create<ApiError>()
         subjectUnderTest.errorObservable.subscribe(errorObservableTestSubscriber)

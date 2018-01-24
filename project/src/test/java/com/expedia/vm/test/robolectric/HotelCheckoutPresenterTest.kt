@@ -364,8 +364,9 @@ class HotelCheckoutPresenterTest {
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
         val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
+        val hotelBookingData = checkoutView.getHotelBookingData(null, paymentSplits)
 
-        checkoutView.onBookV2(null, paymentSplits)
+        checkoutView.hotelCheckoutViewModel.hotelBookingDataObservable.onNext(hotelBookingData)
 
         assertNotNull(testCheckoutParams.values()[0])
         testTravelerDetails(testCheckoutParams.values()[0].traveler)
@@ -378,8 +379,9 @@ class HotelCheckoutPresenterTest {
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
         val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
+        val hotelBookingData = checkoutView.getHotelBookingData(null, paymentSplits)
 
-        checkoutView.onBookV2(null, paymentSplits)
+        checkoutView.hotelCheckoutViewModel.hotelBookingDataObservable.onNext(hotelBookingData)
 
         assertNotNull(testCheckoutParams.values()[0])
         testTravelerDetails(testCheckoutParams.values()[0].traveler)
@@ -671,7 +673,9 @@ class HotelCheckoutPresenterTest {
         (checkoutView.hotelCheckoutWidget.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget).merchandiseOptCheckBox.isChecked = true
         val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
-        checkoutView.onBookV2(null, paymentSplits)
+        val hotelBookingData = checkoutView.getHotelBookingData(null, paymentSplits)
+
+        checkoutView.hotelCheckoutViewModel.hotelBookingDataObservable.onNext(hotelBookingData)
 
         assertEquals(true, testCheckoutParams.values().last().traveler.expediaEmailOptIn)
     }
@@ -686,7 +690,9 @@ class HotelCheckoutPresenterTest {
         checkoutView.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
         val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
-        checkoutView.onBookV2(null, paymentSplits)
+        val hotelBookingData = checkoutView.getHotelBookingData(null, paymentSplits)
+
+        checkoutView.hotelCheckoutViewModel.hotelBookingDataObservable.onNext(hotelBookingData)
 
         assertEquals(true, testCheckoutParams.values().last().traveler.expediaEmailOptIn)
     }
@@ -730,7 +736,9 @@ class HotelCheckoutPresenterTest {
         (checkoutView.hotelCheckoutWidget.travelersPresenter.travelerEntryWidget as HotelTravelerEntryWidget).merchandiseOptCheckBox.isChecked = true
         val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
-        checkoutView.onBookV2(null, paymentSplits)
+        val hotelBookingData = checkoutView.getHotelBookingData(null, paymentSplits)
+
+        checkoutView.hotelCheckoutViewModel.hotelBookingDataObservable.onNext(hotelBookingData)
 
         assertEquals(false, testCheckoutParams.values().last().traveler.expediaEmailOptIn)
     }
@@ -797,7 +805,7 @@ class HotelCheckoutPresenterTest {
 
     private fun setupHotelCheckoutPresenter(): HotelCheckoutPresenter {
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
-        checkoutView.hotelCheckoutViewModel = HotelCheckoutViewModel(mockHotelServices.services!!, PaymentModel(loyaltyServiceRule.services!!))
+        checkoutView.hotelCheckoutViewModel = HotelCheckoutViewModel(activity, mockHotelServices.services!!, PaymentModel(loyaltyServiceRule.services!!))
         Db.sharedInstance.travelers = listOf(makeTraveler())
         checkoutView.hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.bind(makeTraveler())
         checkoutView.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(mockHotelServices.services!!,
