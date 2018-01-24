@@ -62,6 +62,21 @@ class FlightItinTravelerViewModelTest {
     }
 
     @Test
+    fun testToolBarWithoutWaypoint() {
+        sut.updateToolbarSubject.subscribe(updateToolbarSubscriber)
+        updateToolbarSubscriber.assertNoValues()
+        testItinCardData.flightLeg.segments.clear()
+        sut.itinCardDataFlight = testItinCardData
+        sut.updateToolbar()
+        updateToolbarSubscriber.assertValue(ItinToolbarViewModel.ToolbarParams(
+                context.getString(R.string.itin_flight_traveler_info),
+                Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)
+                        .put("destination", "").format().toString(),
+                false
+        ))
+    }
+
+    @Test
     fun testUpdateTravelList() {
         sut.itinCardDataFlight = testItinCardData
         sut.updateTravelerListSubject.subscribe(updateTravelerListSubscriber)

@@ -288,7 +288,7 @@ class TripUtilsTest {
         segment.destinationWaypoint = destinationWaypoint
         flightLeg.addSegment(segment)
 
-        Mockito.`when`(flightLeg.lastWaypoint.bestSearchDateTime).thenReturn(flightStartDate)
+        Mockito.`when`(flightLeg.lastWaypoint?.bestSearchDateTime).thenReturn(flightStartDate)
         flightTrip.addLeg(flightLeg)
 
         tripFlight.addTraveler(traveler)
@@ -322,10 +322,10 @@ class TripUtilsTest {
         firstFlightLeg.addSegment(segment)
         secondFlightLeg.addSegment(segment)
 
-        Mockito.`when`(firstFlightLeg.lastWaypoint.bestSearchDateTime).thenReturn(flightStartDate)
+        Mockito.`when`(firstFlightLeg.lastWaypoint?.bestSearchDateTime).thenReturn(flightStartDate)
         flightTrip.addLeg(firstFlightLeg)
 
-        Mockito.`when`(secondFlightLeg.firstWaypoint.mostRelevantDateTime).thenReturn(flightEndDate)
+        Mockito.`when`(secondFlightLeg.firstWaypoint?.mostRelevantDateTime).thenReturn(flightEndDate)
         flightTrip.addLeg(secondFlightLeg)
 
         tripFlight.addTraveler(traveler)

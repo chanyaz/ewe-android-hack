@@ -103,6 +103,24 @@ class FlightItinDetailsViewModelTest {
     }
 
     @Test
+    fun testToolBarWithoutWaypoint() {
+        sut.updateToolbarSubject.subscribe(updateToolbarSubscriber)
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        testItinCardData.flightLeg.segments.clear()
+        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
+        sut.itineraryManager = mockItinManager
+        sut.onResume()
+        val now = DateTime.now()
+        val startTime = now.plusDays(30)
+        val startDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(startTime).capitalize()
+        val destination = Phrase.from(activity, R.string.itin_flight_toolbar_title_TEMPLATE)
+                .put("destination", "").format().toString()
+
+        updateToolbarSubscriber.assertValue(ItinToolbarViewModel.ToolbarParams(destination, startDate, true))
+    }
+
+    @Test
     fun testUpdateConfirmation() {
         sut.updateConfirmationSubject.subscribe(updateConfirmationSubscriber)
         val testItinCardData = ItinCardDataFlightBuilder().build()

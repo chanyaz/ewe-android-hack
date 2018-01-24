@@ -97,6 +97,23 @@ class FlightItinManageBookingViewModelTest {
     }
 
     @Test
+    fun testToolBarWithoutWaypoint() {
+        sut.updateToolbarSubject.subscribe(updateToolbarSubscriber)
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        testItinCardData.flightLeg.segments.clear()
+        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
+        sut.itineraryManager = mockItinManager
+        sut.setUp()
+
+        val title = context.getString(R.string.itin_flight_manage_booking_header)
+        val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)
+                .put("destination", "").format().toString()
+
+        updateToolbarSubscriber.assertValue(ItinToolbarViewModel.ToolbarParams(title, destinationCity, false))
+    }
+
+    @Test
     fun testCustomerSupportDetails() {
         sut.customerSupportDetailsSubject.subscribe(customerSupportDetailSubscriber)
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
@@ -146,12 +163,12 @@ class FlightItinManageBookingViewModelTest {
 
         val imgPath = "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif"
         leg.airlineLogoURL = imgPath
-        leg.firstWaypoint.mAirportCode = "SFO"
-        leg.lastWaypoint.mAirportCode = "SEA"
-        leg.legDepartureTime.localizedMediumDate = "Dec 13"
-        leg.legDepartureTime.localizedShortTime = "11:39pm"
-        leg.legArrivalTime.localizedMediumDate = "Dec 13"
-        leg.legArrivalTime.localizedShortTime = "12:19pm"
+        leg.firstWaypoint?.mAirportCode = "SFO"
+        leg.lastWaypoint?.mAirportCode = "SEA"
+        leg.legDepartureTime?.localizedMediumDate = "Dec 13"
+        leg.legDepartureTime?.localizedShortTime = "11:39pm"
+        leg.legArrivalTime?.localizedMediumDate = "Dec 13"
+        leg.legArrivalTime?.localizedShortTime = "12:19pm"
         leg.numberOfStops = "1"
 
         whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
@@ -160,6 +177,32 @@ class FlightItinManageBookingViewModelTest {
 
         val list = ArrayList<FlightItinLegsDetailData>()
         val flightItinLegsDetailData = FlightItinLegsDetailData(imgPath, "SFO", "SEA", "Dec 13", "11:39pm", "Dec 13", "12:19pm", "1")
+        list.add(flightItinLegsDetailData)
+        flightLegDetailWidgetSubject.assertValue(list)
+    }
+
+    @Test
+    fun testCreateFlightLegDetailWidgetWithoutData() {
+        val flightLegDetailWidgetSubject = TestObserver<ArrayList<FlightItinLegsDetailData>>()
+        sut.flightLegDetailWidgetLegDataSubject.subscribe(flightLegDetailWidgetSubject)
+        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val legs = (testItinCardData.tripComponent as TripFlight).flightTrip.legs
+        val leg = legs[legs.size - 1]
+
+        val imgPath = "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif"
+        leg.airlineLogoURL = imgPath
+        leg.getSegments().clear()
+        leg.legDepartureTime = null
+        leg.legArrivalTime = null
+        leg.numberOfStops = "1"
+
+        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
+        sut.itineraryManager = mockItinManager
+        sut.setUp()
+
+        val list = ArrayList<FlightItinLegsDetailData>()
+        val flightItinLegsDetailData = FlightItinLegsDetailData(imgPath, "", "", "", "", "", "", "1")
         list.add(flightItinLegsDetailData)
         flightLegDetailWidgetSubject.assertValue(list)
     }

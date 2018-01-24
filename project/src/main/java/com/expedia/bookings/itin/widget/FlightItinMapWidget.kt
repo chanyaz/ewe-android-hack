@@ -51,7 +51,11 @@ class FlightItinMapWidget(context: Context, attrs: AttributeSet?) : LinearLayout
             val segments = flightLeg.segments
             val markerPositions = mutableListOf<LatLng>()
             //adding origin airport
-            markerPositions.add(LatLng(flightLeg.firstWaypoint.airport.latitude, flightLeg.firstWaypoint.airport.longitude))
+            val latitude = flightLeg.firstWaypoint?.airport?.latitude
+            val longitude = flightLeg.firstWaypoint?.airport?.longitude
+            if (latitude != null && longitude != null) {
+                markerPositions.add(LatLng(latitude, longitude))
+            }
             //adding remaining airports by taking the destination of each segment
             segments?.mapTo(markerPositions) { LatLng(it.destinationWaypoint.airport.latitude, it.destinationWaypoint.airport.longitude) }
             val viewModel = GoogleMapsLiteViewModel(

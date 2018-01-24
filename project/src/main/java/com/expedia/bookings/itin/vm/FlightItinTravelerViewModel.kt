@@ -39,7 +39,7 @@ open class FlightItinTravelerViewModel(private val context: Context, private val
     }
 
     fun updateToolbar() {
-        val destinationCity = itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: ""
+        val destinationCity = itinCardDataFlight.flightLeg.lastWaypoint?.airport?.mCity ?: ""
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(
                 context.getString(R.string.itin_flight_traveler_info),
                 Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)

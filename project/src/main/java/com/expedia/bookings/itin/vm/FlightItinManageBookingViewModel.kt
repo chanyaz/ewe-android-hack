@@ -69,7 +69,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
     private fun updateToolbar() {
         val title = context.getString(R.string.itin_flight_manage_booking_header)
         val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)
-                .put("destination", itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: "").format().toString()
+                .put("destination", itinCardDataFlight.flightLeg.lastWaypoint?.airport?.mCity ?: "").format().toString()
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(title, destinationCity, false))
     }
 
@@ -78,20 +78,14 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
         val flightLegsList = (itinCardDataFlight.tripComponent as TripFlight).flightTrip.legs
 
         for (leg: FlightLeg in flightLegsList) {
-            var departureAirportCode = ""
-            var arrivalAirportCode = ""
-            if (!leg.firstWaypoint.mAirportCode.isNullOrEmpty()) {
-                departureAirportCode = leg.firstWaypoint.mAirportCode
-            }
-            if (!leg.lastWaypoint.mAirportCode.isNullOrEmpty()) {
-                arrivalAirportCode = leg.lastWaypoint.mAirportCode
-            }
+            val departureAirportCode = leg.firstWaypoint?.mAirportCode ?: ""
+            val arrivalAirportCode = leg.lastWaypoint?.mAirportCode ?: ""
             val imgPath = leg.airlineLogoURL
             val numbOfStops = leg.numberOfStops
-            val departureMonthDay = leg.legDepartureTime.localizedMediumDate
-            val departureTime = leg.legDepartureTime.localizedShortTime
-            val arrivalMonthDay = leg.legArrivalTime.localizedMediumDate
-            val arrivalTime = leg.legArrivalTime.localizedShortTime
+            val departureMonthDay = leg.legDepartureTime?.localizedMediumDate ?: ""
+            val departureTime = leg.legDepartureTime?.localizedShortTime ?: ""
+            val arrivalMonthDay = leg.legArrivalTime?.localizedMediumDate ?: ""
+            val arrivalTime = leg.legArrivalTime?.localizedShortTime ?: ""
             val flightItinLegsDetailData = FlightItinLegsDetailData(imgPath, departureAirportCode, arrivalAirportCode, departureMonthDay, departureTime, arrivalMonthDay, arrivalTime, numbOfStops)
             list.add(flightItinLegsDetailData)
         }

@@ -60,7 +60,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
 
     private fun updateToolbar() {
         val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)
-                .put("destination", itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: "").format().toString()
+                .put("destination", itinCardDataFlight.flightLeg.lastWaypoint?.airport?.mCity ?: "").format().toString()
         val startDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataFlight.startDate).capitalize()
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(destinationCity, startDate, !itinCardDataFlight.isSharedItin))
     }

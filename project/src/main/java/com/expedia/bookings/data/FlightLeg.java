@@ -27,6 +27,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import android.support.annotation.Nullable;
+
 public class FlightLeg implements JSONable, ItinSharable {
 
 	private String mLegId;
@@ -61,6 +63,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 	@SerializedName("legArrivaltime")
 	private ItinFlightLegTime legArrivalTime;
 
+	@Nullable
 	public ItinFlightLegTime getLegDepartureTime() {
 		return legDepartureTime;
 	}
@@ -69,6 +72,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		this.legDepartureTime = legDepartureTime;
 	}
 
+	@Nullable
 	public ItinFlightLegTime getLegArrivalTime() {
 		return legArrivalTime;
 	}
@@ -85,6 +89,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		this.numberOfStops = numberOfStops;
 	}
 
+	@Nullable
 	public Money getTotalFare() {
 		return mTotalFare;
 	}
@@ -190,6 +195,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		}
 	}
 
+	@Nullable
 	public Waypoint getFirstWaypoint() {
 		if (mSegments != null && mSegments.size() > 0) {
 			return mSegments.get(0).getOriginWaypoint();
@@ -197,6 +203,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		return null;
 	}
 
+	@Nullable
 	public Waypoint getLastWaypoint() {
 		if (mSegments != null && mSegments.size() > 0) {
 			return mSegments.get(mSegments.size() - 1).getDestinationWaypoint();
