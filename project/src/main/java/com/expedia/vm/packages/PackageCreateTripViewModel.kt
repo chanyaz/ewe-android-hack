@@ -31,7 +31,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
     val tripParams = BehaviorSubject.create<PackageCreateTripParams>()
     val performMultiItemCreateTripSubject = PublishSubject.create<Unit>()
     val multiItemResponseSubject = PublishSubject.create<MultiItemApiCreateTripResponse>()
-    val showErrorPresenter = PublishSubject.create<ApiError.Code>()
+    val showErrorPresenterSubject = PublishSubject.create<ApiError.Code>()
 
     init {
         tripParams.subscribe { params ->
@@ -51,7 +51,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                 val params = MultiItemCreateTripParams.fromPackageSearchParams(Db.sharedInstance.packageParams)
                 packageServices.multiItemCreateTrip(params).subscribe(makeMultiItemCreateTripResponseObserver())
             } catch (e: IllegalArgumentException) {
-                showErrorPresenter.onNext(ApiError.Code.UNKNOWN_ERROR)
+                showErrorPresenterSubject.onNext(ApiError.Code.UNKNOWN_ERROR)
             }
         }
     }

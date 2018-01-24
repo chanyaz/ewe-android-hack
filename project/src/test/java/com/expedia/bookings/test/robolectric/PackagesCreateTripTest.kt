@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
+import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
@@ -12,6 +14,8 @@ import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
+import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
@@ -64,6 +68,21 @@ class PackagesCreateTripTest {
         assertEquals(BigDecimal(300.50), fromPackageSearchParams.totalPrice.packageTotalPrice.amount)
         assertEquals("1,14", fromPackageSearchParams.childAges)
         assertEquals(true, fromPackageSearchParams.infantsInSeats)
+    }
+
+    @Test
+    fun testErrorHandlingInMultiItemCreateTripParams() {
+        val testSubscriber = TestObserver<ApiError.Code>()
+        val packagePresenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null) as PackagePresenter
+        packagePresenter.bundlePresenter.showErrorPresenter.subscribe(testSubscriber)
+        packagePresenter.show(packagePresenter.bundlePresenter)
+        val searchParams = getDummySearchParams()
+        searchParams.roomTypeCode = null
+        Db.setPackageParams(searchParams)
+        packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().performMultiItemCreateTripSubject.onNext(Unit)
+
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.values()[0])
+        assertEquals(View.VISIBLE, packagePresenter.errorPresenter.visibility)
     }
 
     @Test

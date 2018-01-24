@@ -168,7 +168,7 @@ class PackageActivity : AbstractAppCompatActivity() {
 
                     packageCreateTrip()
 
-                    if (packagePresenter.errorPresenter.visibility == View.GONE || !isMidAPIEnabled(this)) {
+                    if (packagePresenter.errorPresenter.visibility == View.GONE) {
                         packagePresenter.showBundleOverView()
                         packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(false)
                         packagePresenter.bundlePresenter.setToolbarNavIcon(false)

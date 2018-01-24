@@ -100,7 +100,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
         }
 
-        getCheckoutPresenter().getCreateTripViewModel().showErrorPresenter.subscribe(showErrorPresenter)
+        getCheckoutPresenter().getCreateTripViewModel().showErrorPresenterSubject.subscribe(showErrorPresenter)
     }
 
     override fun onFinishInflate() {
