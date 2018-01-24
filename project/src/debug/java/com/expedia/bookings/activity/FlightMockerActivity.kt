@@ -5,10 +5,6 @@ import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.Spinner
-import android.widget.SpinnerAdapter
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -16,8 +12,6 @@ import com.expedia.bookings.data.trips.TicketingStatus
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity
 import com.expedia.bookings.server.TripParser
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.TextView
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.mobiata.android.json.JSONUtils
@@ -27,20 +21,6 @@ import org.json.JSONObject
 import java.io.InputStreamReader
 
 class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
-
-    private val statusSpinner: Spinner by bindView(R.id.confirmation_status_spinner)
-    private val multiConfCB: CheckBox by bindView(R.id.multi_confirmation_cb)
-    private val redEyeCB: CheckBox by bindView(R.id.red_eye_cb)
-    private val multiSegCB: CheckBox by bindView(R.id.multi_segment_cb)
-    private val layoverCB: CheckBox by bindView(R.id.layover_24_hours_cb)
-    private val seatingAvailableCB: CheckBox by bindView(R.id.seating_available_cb)
-    private val seatingSelectedCB: CheckBox by bindView(R.id.seats_selected_cb)
-    private val multiSeatingCB: CheckBox by bindView(R.id.multi_seats_cb)
-    private val arrivalTerminalCB: CheckBox by bindView(R.id.arrival_terminal_cb)
-    private val departureTerminalCB: CheckBox by bindView(R.id.depart_terminal_cb)
-    private val buildBtn: TextView by bindView(R.id.flight_mock_build_btn)
-    private val operatedBy: CheckBox by bindView(R.id.operated_by_cb)
-    private val flightStatusSpinner: Spinner by bindView(R.id.flight_status_spinner)
 
     private lateinit var card: ItinCardDataFlight
 
@@ -67,51 +47,74 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun bonusSelected() {
-        if (bonus_traveler_cb.isChecked) {
-            email_cb.isEnabled = true
-            phone_cb.isEnabled = true
-            redress_cb.isEnabled = true
-            traveler_known_cb.isEnabled = true
-            baby_in_lap_cb.isEnabled = true
-            assistance_cb.isEnabled = true
-            frequent_flyer_cb.isEnabled = true
+        if (bonus_traveler_cb.getIsChecked()) {
+            email_cb.setIsEnabled(true)
+            phone_cb.setIsEnabled(true)
+            redress_cb.setIsEnabled(true)
+            traveler_known_cb.setIsEnabled(true)
+            baby_in_lap_cb.setIsEnabled(true)
+            assistance_cb.setIsEnabled(true)
+            frequent_flyer_cb.setIsEnabled(true)
         } else {
-            frequent_flyer_cb.isEnabled = false
-            email_cb.isEnabled = false
-            phone_cb.isEnabled = false
-            redress_cb.isEnabled = false
-            traveler_known_cb.isEnabled = false
-            baby_in_lap_cb.isEnabled = false
-            assistance_cb.isEnabled = false
+            frequent_flyer_cb.setIsEnabled(false)
+            email_cb.setIsEnabled(false)
+            phone_cb.setIsEnabled(false)
+            redress_cb.setIsEnabled(false)
+            traveler_known_cb.setIsEnabled(false)
+            baby_in_lap_cb.setIsEnabled(false)
+            assistance_cb.setIsEnabled(false)
         }
     }
 
     private fun setupViews() {
-        statusSpinner.adapter = makeList()
-        multiSegCB.setOnClickListener(this)
-        seatingAvailableCB.setOnClickListener(this)
+        nameWidgets()
+        confirmation_status_spinner.setSpinnerList(makeList())
+        multi_segment_cb.setOnClickListener(this)
+        seating_available_cb.setOnClickListener(this)
         bonus_traveler_cb.setOnClickListener(this)
-        seatingSelectedCB.setOnClickListener(this)
-        buildBtn.setOnClickListener(this)
-        flightStatusSpinner.adapter = makeFlightStatusList()
+        seats_selected_cb.setOnClickListener(this)
+        flight_mock_build_btn.setOnClickListener(this)
+        flight_status_spinner.setSpinnerList(makeFlightStatusList())
         bonusSelected()
     }
 
-    private fun makeFlightStatusList(): SpinnerAdapter {
-        val list = ArrayList<String>()
-        list.add("Pre 24 hours")
-        list.add("On time")
-        list.add("Late")
-        list.add("Cancelled")
-        list.add("Early")
-        return ArrayAdapter(this, android.R.layout.simple_spinner_item, list)
+    private fun nameWidgets() {
+        confirmation_status_spinner.setText("Status")
+        multi_confirmation_cb.setText("Multi Confirmation")
+        red_eye_cb.setText("Red eye")
+        layover_24_hours_cb.setText("Layover over 24 hours")
+        layover_24_hours_cb.setIsEnabled(false)
+        multi_segment_cb.setText("Multi segment")
+        seating_available_cb.setText("Seating Available")
+        seating_available_cb.setIsChecked(true)
+        seats_selected_cb.setText("Seats selected")
+        multi_seats_cb.setText("Multi seats")
+        multi_seats_cb.setIsEnabled(false)
+        arrival_terminal_cb.setText("arrival terminal")
+        arrival_terminal_cb.setIsChecked(true)
+        depart_terminal_cb.setText("departure terminal")
+        depart_terminal_cb.setIsChecked(true)
+        operated_by_cb.setText("Has Opperated by Carrier")
+        flight_status_spinner.setText("Flight's Status")
+        bonus_traveler_cb.setText("Add bonus traveler?")
+        email_cb.setText("Has email?")
+        phone_cb.setText("Has phone?")
+        traveler_known_cb.setText("Has known traveler number?")
+        redress_cb.setText("Has redress number?")
+        assistance_cb.setText("Has assistance request?")
+        frequent_flyer_cb.setText("Has frequent flyer?")
+        baby_in_lap_cb.setText("Baby in lap?")
     }
 
-    private fun seatsSelected() = if (seatingSelectedCB.isChecked) {
-        multiSeatingCB.isEnabled = true
+    private fun makeFlightStatusList(): List<String> {
+        return arrayListOf("Pre 24 hours", "On time", "Late", "Cancelled", "Early")
+    }
+
+    private fun seatsSelected() = if (seats_selected_cb.getIsChecked()) {
+        multi_seats_cb.setIsEnabled(true)
     } else {
-        multiSeatingCB.isEnabled = false
-        multiSeatingCB.isChecked = false
+        multi_seats_cb.setIsEnabled(false)
+        multi_seats_cb.setIsChecked(false)
     }
 
     private fun buildAndLaunch() {
@@ -129,7 +132,7 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun flightStatsMagic() {
         val flight = card.flightLeg.getSegment(0)
-        when (flightStatusSpinner.selectedItem.toString()) {
+        when (flight_status_spinner.getSelectedItem()) {
             "Pre 24 hours" -> flight.mFlightHistoryId = -1
             "Cancelled" -> flight.mFlightHistoryId = -91
             "On time" -> flight.mFlightHistoryId = -92
@@ -138,30 +141,25 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun makeList(): ArrayAdapter<String> {
-        val list = ArrayList<String>()
-        list.add("Complete")
-        list.add("Inprogress")
-        list.add("Cancelled")
-        list.add("Voided")
-        list.add("None")
-        return ArrayAdapter(this, android.R.layout.simple_spinner_item, list)
+    private fun makeList(): List<String> {
+        return arrayListOf("Complete", "Inprogress", "Cancelled", "Voided", "None")
     }
 
-    private fun multiSegOnClick() = if (multiSegCB.isChecked) {
-        layoverCB.isEnabled = true
+    private fun multiSegOnClick() = if (multi_segment_cb.getIsChecked()) {
+        layover_24_hours_cb.setIsEnabled(true)
     } else {
-        layoverCB.isEnabled = false
-        layoverCB.isChecked = false
+        layover_24_hours_cb.setIsEnabled(false)
+        layover_24_hours_cb.setIsChecked(false)
     }
 
-    private fun seatingOnClick() = if (seatingAvailableCB.isChecked) {
-        seatingSelectedCB.isEnabled = true
+    private fun seatingOnClick() = if (seating_available_cb.getIsChecked()) {
+        seats_selected_cb.setIsEnabled(true)
+        multi_seats_cb.setIsEnabled(true)
     } else {
-        seatingSelectedCB.isEnabled = false
-        seatingSelectedCB.isChecked = false
-        multiSeatingCB.isEnabled = false
-        multiSeatingCB.isChecked = false
+        seats_selected_cb.setIsEnabled(false)
+        seats_selected_cb.setIsChecked(false)
+        multi_seats_cb.setIsEnabled(false)
+        multi_seats_cb.setIsChecked(false)
     }
 
     private fun fetchTripFlight(): TripFlight {
@@ -175,13 +173,13 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
     private fun getFlightTrip(obj: JSONObject): TripFlight? {
         val tripParser = TripParser()
         val flight = obj.getJSONArray("flights").getJSONObject(0)
-        if (!multiConfCB.isChecked) {
+        if (!multi_confirmation_cb.getIsChecked()) {
             val confirmationArr = flight.getJSONArray("confirmationNumbers")
             confirmationArr.remove(1)
             confirmationArr.remove(1)
         }
         var mTicketingStatus = TicketingStatus.COMPLETE
-        when (statusSpinner.selectedItem.toString()) {
+        when (confirmation_status_spinner.getSelectedItem()) {
             "Complete" -> mTicketingStatus = TicketingStatus.COMPLETE
             "Inprogress" -> mTicketingStatus = TicketingStatus.INPROGRESS
             "Voided" -> mTicketingStatus = TicketingStatus.VOIDED
@@ -192,11 +190,11 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
         val segments = leg.getJSONArray("segments")
         val firstSeg = segments.getJSONObject(0)
         val secondSeg = segments.getJSONObject(1)
-        if (!redEyeCB.isChecked) {
+        if (!red_eye_cb.getIsChecked()) {
             firstSeg.getJSONObject("departureTime").put("epochSeconds", 1513247940)
         }
-        if (multiSegCB.isChecked) {
-            if (layoverCB.isChecked) {
+        if (multi_segment_cb.getIsChecked()) {
+            if (layover_24_hours_cb.getIsChecked()) {
                 secondSeg.getJSONObject("departureTime").put("epochSeconds", 1513347600)
                 secondSeg.getJSONObject("arrivalTime").put("epochSeconds", 1513358340)
                 firstSeg.put("layoverDuration", "PT25H21M")
@@ -207,21 +205,21 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
             firstSeg.remove("layoverDuration")
         }
 
-        if (!arrivalTerminalCB.isChecked) {
+        if (!arrival_terminal_cb.getIsChecked()) {
             firstSeg.remove("arrivalTerminal")
         }
 
-        if (!departureTerminalCB.isChecked) {
+        if (!depart_terminal_cb.getIsChecked()) {
             firstSeg.remove("departureTerminal")
         }
 
-        firstSeg.put("isSeatMapAvailable", seatingAvailableCB.isChecked)
+        firstSeg.put("isSeatMapAvailable", seating_available_cb.getIsChecked())
 
-        if (seatingSelectedCB.isChecked) {
+        if (seats_selected_cb.getIsChecked()) {
             val seatList = ArrayList<Seat>()
             val seatA = Seat(assigned = "22A", passenger = "Bob Burger")
             seatList.add(seatA)
-            if (multiSeatingCB.isChecked) {
+            if (multi_seats_cb.getIsChecked()) {
                 val seatB = Seat(assigned = "22B", passenger = "Bob Burger")
                 seatList.add(seatB)
                 val seatC = Seat(assigned = "22C")
@@ -246,21 +244,21 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
 
         JSONUtils.putEnum(flight, "ticketingStatus", mTicketingStatus)
 
-        if (operatedBy.isChecked) {
+        if (operated_by_cb.getIsChecked()) {
             firstSeg.put("operatedByAirCarrierName", "AirNeo Enterprise Express")
         }
         val travelers = flight.getJSONArray("passengers")
         val traveler = travelers.getJSONObject(1)
-        if (bonus_traveler_cb.isChecked) {
-            if (!email_cb.isChecked) traveler.remove("emailAddress")
-            if (!phone_cb.isChecked) {
+        if (bonus_traveler_cb.getIsChecked()) {
+            if (!email_cb.getIsChecked()) traveler.remove("emailAddress")
+            if (!phone_cb.getIsChecked()) {
                 traveler.getJSONArray("phoneNumbers").remove(0)
             }
-            if (!traveler_known_cb.isChecked) traveler.put("TSAKnownTravelerNumber", "")
-            if (!redress_cb.isChecked) traveler.put("TSARedressNumber", "")
-            if (!assistance_cb.isChecked) traveler.remove("specialAssistanceOptions")
-            if (baby_in_lap_cb.isChecked) traveler.put("typeCode", "INFANT_IN_LAP")
-            if (!frequent_flyer_cb.isChecked) traveler.getJSONArray("frequentFlyerPlans").remove(0)
+            if (!traveler_known_cb.getIsChecked()) traveler.put("TSAKnownTravelerNumber", "")
+            if (!redress_cb.getIsChecked()) traveler.put("TSARedressNumber", "")
+            if (!assistance_cb.getIsChecked()) traveler.remove("specialAssistanceOptions")
+            if (baby_in_lap_cb.getIsChecked()) traveler.put("typeCode", "INFANT_IN_LAP")
+            if (!frequent_flyer_cb.getIsChecked()) traveler.getJSONArray("frequentFlyerPlans").remove(0)
         } else travelers.remove(1)
 
         val tripObj = tripParser.parseTrip(obj)

@@ -6,368 +6,174 @@
     android:background="@color/gray100"
     android:padding="15dp"
     tools:context="com.expedia.bookings.activity.FlightMockerActivity">
-<com.expedia.bookings.widget.ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <RelativeLayout
+
+    <com.expedia.bookings.widget.ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/confirmation_flight_mock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Confirmations"
-        android:textColor="@color/gray900"
-        android:textSize="18sp" />
+        android:layout_height="wrap_content">
 
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/confirmation_code_text_view"
-        style="@style/FlightItinMock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/confirmation_status_spinner"
-        android:layout_below="@+id/confirmation_flight_mock"
-        android:gravity="center"
-        android:text="Status" />
-
-    <Spinner
-        android:id="@+id/confirmation_status_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/confirmation_flight_mock" />
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/FlightItinMock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/multi_confirmation_cb"
-        android:layout_below="@+id/confirmation_code_text_view"
-        android:gravity="center"
-        android:text="Multi Confirmation" />
-
-    <CheckBox
-        android:id="@+id/multi_confirmation_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/confirmation_status_spinner" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/summary_widget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/multi_confirmation_cb"
-        android:layout_centerHorizontal="true"
-        android:text="Summary"
-        android:textColor="@color/gray900"
-        android:textSize="18sp" />
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/FlightItinMock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/red_eye_cb"
-        android:layout_below="@+id/summary_widget"
-        android:gravity="center"
-        android:text="Red eye" />
-
-    <CheckBox
-        android:id="@+id/red_eye_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/summary_widget" />
-
-    <CheckBox
-        android:id="@+id/layover_24_hours_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/multi_segment_cb"
-        android:enabled="false" />
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/FlightItinMock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/layover_24_hours_cb"
-        android:layout_below="@+id/multi_segment_cb"
-        android:gravity="center"
-        android:text="Layover over 24 hours" />
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/FlightItinMock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/multi_segment_cb"
-        android:layout_below="@+id/red_eye_cb"
-        android:gravity="center"
-        android:text="Multi segment" />
-
-    <CheckBox
-        android:id="@+id/multi_segment_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/red_eye_cb" />
-
-    <CheckBox
-        android:id="@+id/seating_available_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/layover_24_hours_cb"
-        android:checked="true" />
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/FlightItinMock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/seating_available_cb"
-        android:layout_below="@+id/layover_24_hours_cb"
-        android:gravity="center"
-        android:text="Seating Available" />
-
-    <CheckBox
-        android:id="@+id/seats_selected_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/seating_available_cb" />
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/FlightItinMock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/seats_selected_cb"
-        android:layout_below="@+id/seating_available_cb"
-        android:gravity="center"
-        android:text="Seats selected" />
-
-    <CheckBox
-        android:id="@+id/multi_seats_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/seats_selected_cb"
-        android:enabled="false" />
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/FlightItinMock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/multi_seats_cb"
-        android:layout_below="@+id/seats_selected_cb"
-        android:gravity="center"
-        android:text="Multi seats" />
-
-    <CheckBox
-        android:id="@+id/arrival_terminal_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/multi_seats_cb"
-        android:checked="true" />
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/FlightItinMock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/arrival_terminal_cb"
-        android:layout_below="@+id/multi_seats_cb"
-        android:gravity="center"
-        android:text="arrival terminal" />
-
-    <CheckBox
-        android:id="@+id/depart_terminal_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/arrival_terminal_cb"
-        android:checked="true" />
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/FlightItinMock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/depart_terminal_cb"
-        android:layout_below="@+id/arrival_terminal_cb"
-        android:gravity="center"
-        android:text="departure terminal" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/operated_by_cb"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/depart_terminal_cb"/>
-
-    <com.expedia.bookings.widget.TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/depart_terminal_cb"
-        android:text="Has Opperated by Carrier"
-        style="@style/FlightItinMock"
-        android:layout_alignBottom="@id/operated_by_cb"
-        android:gravity="center"/>
-
-    <Spinner
-        android:id="@+id/flight_status_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/operated_by_cb" />
-
-    <com.expedia.bookings.widget.TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/operated_by_cb"
-        android:text="Flight's Status"
-        style="@style/FlightItinMock"
-        android:layout_alignBottom="@id/flight_status_spinner"
-        android:gravity="center"/>
-
-    <com.expedia.bookings.widget.TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add bonus traveler?"
-        android:gravity="center"
-        style="@style/FlightItinMock"
-        android:layout_below="@id/flight_status_spinner"
-        android:layout_alignBottom="@+id/bonus_traveler_cb" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/bonus_traveler_cb"
-        android:layout_below="@id/flight_status_spinner"
-        android:layout_alignParentRight="true"/>
-
-    <com.expedia.bookings.widget.TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Has email?"
-        android:gravity="center"
-        style="@style/FlightItinMock"
-        android:layout_below="@id/bonus_traveler_cb"
-        android:layout_alignBottom="@+id/email_cb" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/email_cb"
-        android:layout_below="@id/bonus_traveler_cb"
-        android:layout_alignParentRight="true"/>
-
-        <com.expedia.bookings.widget.TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Has phone?"
-            android:gravity="center"
-            style="@style/FlightItinMock"
-            android:layout_below="@id/email_cb"
-            android:layout_alignBottom="@+id/phone_cb" />
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/phone_cb"
-            android:layout_below="@id/email_cb"
-            android:layout_alignParentRight="true"/>
-        <com.expedia.bookings.widget.TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Has know traveler number?"
-            android:gravity="center"
-            style="@style/FlightItinMock"
-            android:layout_below="@id/phone_cb"
-            android:layout_alignBottom="@+id/traveler_known_cb" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/confirmation_flight_mock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Confirmations"
+                android:textColor="@color/gray900"
+                android:textSize="18sp" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/traveler_known_cb"
-            android:layout_below="@id/phone_cb"
-            android:layout_alignParentRight="true"/>
-        <com.expedia.bookings.widget.TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Has redress?"
-            android:gravity="center"
-            style="@style/FlightItinMock"
-            android:layout_below="@id/traveler_known_cb"
-            android:layout_alignBottom="@+id/redress_cb" />
+            <com.expedia.bookings.widget.shared.FormSpinnerWidget
+                android:id="@+id/confirmation_status_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/confirmation_flight_mock" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/redress_cb"
-            android:layout_below="@id/traveler_known_cb"
-            android:layout_alignParentRight="true"/>
-        <com.expedia.bookings.widget.TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Has assistance request?"
-            android:gravity="center"
-            style="@style/FlightItinMock"
-            android:layout_below="@id/redress_cb"
-            android:layout_alignBottom="@+id/assistance_cb" />
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/multi_confirmation_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/confirmation_status_spinner" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/assistance_cb"
-            android:layout_below="@id/redress_cb"
-            android:layout_alignParentRight="true"/>
-        <com.expedia.bookings.widget.TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Has frequent flyer?"
-            android:gravity="center"
-            style="@style/FlightItinMock"
-            android:layout_below="@id/assistance_cb"
-            android:layout_alignBottom="@+id/frequent_flyer_cb" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/summary_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/multi_confirmation_cb"
+                android:layout_centerHorizontal="true"
+                android:text="Summary"
+                android:textColor="@color/gray900"
+                android:textSize="18sp" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/frequent_flyer_cb"
-            android:layout_below="@id/assistance_cb"
-            android:layout_alignParentRight="true"/>
-        <com.expedia.bookings.widget.TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Baby in lap?"
-            android:gravity="center"
-            style="@style/FlightItinMock"
-            android:layout_below="@id/frequent_flyer_cb"
-            android:layout_alignBottom="@+id/baby_in_lap_cb" />
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/red_eye_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/summary_widget" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/baby_in_lap_cb"
-            android:layout_below="@id/frequent_flyer_cb"
-            android:layout_alignParentRight="true"/>
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/layover_24_hours_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/multi_segment_cb" />
 
-        <com.expedia.bookings.widget.TextView
-            android:layout_marginTop="20dp"
-            android:id="@+id/flight_mock_build_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:text="Do Magic"
-            android:layout_below="@id/baby_in_lap_cb"
-            android:textColor="@color/error_red"
-            android:textSize="26sp"/>
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/multi_segment_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/red_eye_cb" />
 
-    </RelativeLayout>
-</com.expedia.bookings.widget.ScrollView>
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/seating_available_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/layover_24_hours_cb"
+                android:checked="true" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/seats_selected_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/seating_available_cb" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/multi_seats_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/seats_selected_cb" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/arrival_terminal_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/multi_seats_cb" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/depart_terminal_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/arrival_terminal_cb"
+                android:checked="true" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/operated_by_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/depart_terminal_cb" />
+
+            <com.expedia.bookings.widget.shared.FormSpinnerWidget
+                android:id="@+id/flight_status_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/operated_by_cb" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/bonus_traveler_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/flight_status_spinner" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/email_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bonus_traveler_cb" />
+
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/phone_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/email_cb" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/traveler_known_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/phone_cb" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/redress_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/traveler_known_cb" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/assistance_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/redress_cb" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/frequent_flyer_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/assistance_cb" />
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/baby_in_lap_cb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/frequent_flyer_cb" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/flight_mock_build_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/baby_in_lap_cb"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:text="Do Magic"
+                android:textColor="@color/error_red"
+                android:textSize="26sp" />
+
+        </RelativeLayout>
+    </com.expedia.bookings.widget.ScrollView>
 
 </RelativeLayout>
