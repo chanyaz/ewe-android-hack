@@ -3055,7 +3055,7 @@
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Apply for the {brand_reward_name} Visa® Card</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">Find app support</string>
+    <string name="app_support">Contact app support</string>
     <!-- Section label for app settings functionality -->
     <string name="about_section_app_settings">Settings</string>
     <!-- Section label for user support functionality -->
