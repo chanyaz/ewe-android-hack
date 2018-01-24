@@ -73,6 +73,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsDeltaPricing = new ABTest(15602);
 	public static final ABTest EBAndroidAppFlightsBaggageWebViewHideAd = new ABTest(16334);
 	public static final ABTest EBAndroidAppFlightsGreedySearchCall = new ABTest(15962, true);
+	//public static final ABTest EBAndroidAppFlightsPriceA = new ABTest(16382, true);
 	public static final ABTest EBAndroidAppFlightsAPIKongEndPoint = new ABTest(16382, true);
 
 	// Hotel Tests

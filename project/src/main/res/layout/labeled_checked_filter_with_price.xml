@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.LabeledCheckableFilterWithPrice android:id="@+id/filter_categories_widget"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/airlines_filter_height"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingBottom="@dimen/sort_filter_padding_small"
+    android:paddingLeft="@dimen/sort_filter_padding_checkmarks"
+    android:paddingRight="@dimen/sort_filter_padding_normal"
+    android:paddingTop="@dimen/sort_filter_padding_small">
+
+    <CheckBox
+        android:id="@+id/check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/sort_filter_padding_checkmarks"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center_vertical" />
+
+    <ImageView
+        android:id="@+id/airline_logo_image_view"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignTop="@+id/check_box"
+        android:layout_toRightOf="@id/check_box"
+        android:gravity="center_vertical"
+        android:src="@drawable/ic_airline_backup" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/check_box"
+        android:layout_toRightOf="@id/airline_logo_image_view"
+        android:ellipsize="end"
+        android:focusable="false"
+        android:maxLines="1"
+        android:text="Alaska"
+        android:textColor="@color/hotel_filter_neighborhood_text"
+        android:textSize="@dimen/package_sort_filter_label_text_size" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/results_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/check_box"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/sort_filter_padding_small"
+        android:background="@drawable/filter_number_bg_packages"
+        android:ellipsize="end"
+        android:focusable="false"
+        android:maxLines="1"
+        android:paddingBottom="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:text="$2000"
+        android:textColor="@color/packages_filter_color"
+        android:textSize="14sp" />
+
+</com.expedia.bookings.widget.LabeledCheckableFilterWithPrice>

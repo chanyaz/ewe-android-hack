@@ -5,6 +5,7 @@ import android.text.format.DateFormat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -38,7 +39,8 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
 
     val userFilterChoices = UserFilterChoices()
     val stopsObservable = BehaviorSubject.create<TreeMap<Stops, Int>>()
-    val airlinesObservable = PublishSubject.create<TreeMap<String, Int>>()
+    val airlinesCountObservable = PublishSubject.create<TreeMap<String, Int>>()
+    val airlinesPriceAndCountObservable = PublishSubject.create<TreeMap<String, Pair<Money,Int>>>()
     val airlinesExpandObservable = BehaviorSubject.create<Boolean>()
     val newDurationRangeObservable = PublishSubject.create<DurationRange>()
 
@@ -166,7 +168,8 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
             originalList = list
             filteredList = ArrayList(list)
             resetRangeBars()
-            resetCheckboxes()
+            //resetCheckboxes()
+            resetCheckboxesWithPrice()
             previousSort = FlightFilter.Sort.PRICE
         }
 
@@ -313,7 +316,30 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
             stops.put(key, stopCount!! + 1)
         }
         stopsObservable.onNext(stops)
-        airlinesObservable.onNext(airlines)
+        airlinesCountObservable.onNext(airlines)
+    }
+
+    private fun resetCheckboxesWithPrice() {
+        val stops = TreeMap<Stops, Int>()
+        val airlines = TreeMap<String, Pair<Money, Int>>()
+
+        originalList?.forEach { leg ->
+            val airlineCount = if (airlines.containsKey(leg.carrierName)) airlines[leg.carrierName]!!.second else 0
+            val minAirlinePrice = if (airlines.containsKey(leg.carrierName)) getMinPrice(airlines[leg.carrierName]!!.first, leg.packageOfferModel.price.averageTotalPricePerTicket)
+                                 else leg.packageOfferModel.price.averageTotalPricePerTicket
+
+            airlines.put(leg.carrierName, Pair(minAirlinePrice,(airlineCount + 1)))
+
+            val key = getStops(leg.stopCount)
+            val stopCount = if (stops.containsKey(key)) stops[key] else 0
+            stops.put(key, stopCount!! + 1)
+        }
+        stopsObservable.onNext(stops)
+        airlinesPriceAndCountObservable.onNext(airlines)
+    }
+
+    private fun getMinPrice(minPrice: Money, legPrice: Money): Money {
+        return if (minPrice.roundedAmount < legPrice.roundedAmount) minPrice else legPrice
     }
 
     private fun resetRangeBars() {

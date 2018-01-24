@@ -224,7 +224,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
 
-        vm.airlinesObservable.subscribe { sortedMap ->
+        vm.airlinesCountObservable.subscribe { sortedMap ->
             airlinesContainer.removeAllViews()
             if (sortedMap != null && !sortedMap.isEmpty()) {
                 airlinesLabel.visibility = VISIBLE
@@ -233,7 +233,27 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                 }
                 for (key in sortedMap.keys) {
                     val view = Ui.inflate<LabeledCheckableFilter<String>>(LayoutInflater.from(context), R.layout.labeled_checked_filter, this, false)
-                    view.bind(key, key, sortedMap[key], vm.selectAirline)
+                    view.bind(key, key, 200000, vm.selectAirline)
+                    view.subscribeOnClick(view.checkObserver)
+                    airlinesContainer.addView(view)
+                }
+                setupAirlinesView()
+            } else {
+                airlinesLabel.visibility = GONE
+                airlinesMoreLessView.visibility = GONE
+            }
+        }
+
+        vm.airlinesPriceAndCountObservable.subscribe { sortedMap ->
+            airlinesContainer.removeAllViews()
+            if (sortedMap != null && !sortedMap.isEmpty()) {
+                airlinesLabel.visibility = VISIBLE
+                if (sortedMap.size > 4) {
+                    airlinesMoreLessView.visibility = VISIBLE
+                }
+                for (key in sortedMap.keys) {
+                    val view = Ui.inflate<LabeledCheckableFilterWithPrice<String>>(LayoutInflater.from(context), R.layout.labeled_checked_filter_with_price, this, false)
+                    view.bind(key, key, 200000, vm.selectAirline)
                     view.subscribeOnClick(view.checkObserver)
                     airlinesContainer.addView(view)
                 }
