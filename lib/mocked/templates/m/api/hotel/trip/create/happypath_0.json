@@ -321,6 +321,123 @@
         "supplierType": "MERCHANT",
         "thumbnailUrl": "/hotels/1000000/560000/553900/553859/553859_8_n.jpg"
     },
+    "userCoupons": [
+      {
+        "name": "ESCAPE20PERCENT - US",
+        "instanceId": 369905139,
+        "redemptionStatus": "REDEEMED"
+      },
+      {
+        "name": "ESCAPE20PERCENT - US",
+        "instanceId": 369950082,
+        "redemptionStatus": "EXPIRED"
+      },
+      {
+        "name": "Successful Saved Coupon",
+        "instanceId": "happypath_createtrip_saved_coupons_select",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Duplicate",
+        "instanceId": "hotel_coupon_errors_duplicate",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Exceeded Earn Limit",
+        "instanceId": "hotel_coupon_errors_exceeded_earn_limit",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "VALID",
+        "instanceId": "hotel_coupon_errors_VALID",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Fallback",
+        "instanceId": "hotel_coupon_errors_fallback",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Excluded",
+        "instanceId": "hotel_coupon_errors_hotel_excluded",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Invalid average price",
+        "instanceId": "hotel_coupon_errors_invalid_average_price",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Invalid Hotel",
+        "instanceId": "hotel_coupon_errors_invalid_hotel",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Invalid Product",
+        "instanceId": "hotel_coupon_errors_invalid_product",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Invalid region",
+        "instanceId": "hotel_coupon_errors_invalid_region",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Invalid stay dates",
+        "instanceId": "hotel_coupon_errors_invalid_stay_dates",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Invalid travel dates",
+        "instanceId": "hotel_coupon_errors_invalid_travel_dates",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Minimum purchase amount not met",
+        "instanceId": "hotel_coupon_errors_min_purchase_amount_not_met",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Not active",
+        "instanceId": "hotel_coupon_errors_not_active",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Not configured",
+        "instanceId": "hotel_coupon_errors_not_configured",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Not exists",
+        "instanceId": "hotel_coupon_errors_not_exists.json",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Not redeemed",
+        "instanceId": "hotel_coupon_errors_not_redeemed",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Price change",
+        "instanceId": "hotel_coupon_errors_price_change",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Product missing",
+        "instanceId": "hotel_coupon_errors_product_missing",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Service down",
+        "instanceId": "hotel_coupon_errors_service_down",
+        "redemptionStatus": "VALID"
+      },
+      {
+        "name": "Unrecognized",
+        "instanceId": "hotel_coupon_errors_unrecognized",
+        "redemptionStatus": "VALID"
+      }
+    ],
     "rewards":
     {
         "totalPointsToEarn": 2111,
