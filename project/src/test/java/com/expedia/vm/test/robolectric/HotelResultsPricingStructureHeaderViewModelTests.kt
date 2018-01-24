@@ -18,7 +18,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -30,7 +29,6 @@ class HotelResultsPricingStructureHeaderViewModelTests {
 
     var hotelResultsCount: Int by Delegates.notNull<Int>()
     var priceType: HotelRate.UserPriceType by Delegates.notNull<HotelRate.UserPriceType>()
-    val testObserverForResultsDescriptionLabel = TestSubscriber.create<String>()
 
     @Before
     fun before() {
@@ -88,9 +86,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.JAPAN)
         sut = HotelResultsPricingStructureHeaderViewModel(getContext(), R.string.package_hotel_results_includes_header_TEMPLATE)
-        sut.resultsDescriptionLabelObservable.subscribe(testObserverForResultsDescriptionLabel)
-        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "50 Results", false)
-        testObserverForResultsDescriptionLabel.assertValue("Total price roundtrip, per person • includes hotel and flights")
+        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price roundtrip (including taxes and fees), per person - for hotels and flights • 50 Results", false)
         setPointOfSale(initialPOSID)
     }
 
@@ -100,9 +96,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.UNITED_KINGDOM)
         sut = HotelResultsPricingStructureHeaderViewModel(getContext(), R.string.package_hotel_results_header_TEMPLATE)
-        sut.resultsDescriptionLabelObservable.subscribe(testObserverForResultsDescriptionLabel)
-        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "50 Results", false)
-        testObserverForResultsDescriptionLabel.assertValue("Total price roundtrip, per person • includes hotel and flights")
+        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price roundtrip, per person. includes hotel and flights • 50 Results", false)
         setPointOfSale(initialPOSID)
     }
 
@@ -113,9 +107,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
         setPointOfSale(PointOfSaleId.UNITED_KINGDOM)
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
         sut = HotelResultsPricingStructureHeaderViewModel(getContext(), R.string.package_hotel_results_header)
-        sut.resultsDescriptionLabelObservable.subscribe(testObserverForResultsDescriptionLabel)
-        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "50 Results", false)
-        testObserverForResultsDescriptionLabel.assertValue("Total price roundtrip, per person • includes hotel and flights")
+        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price roundtrip, per person • includes hotel and flights", false)
         setPointOfSale(initialPOSID)
     }
 
