@@ -67,6 +67,17 @@ class PackagesCreateTripTest {
     }
 
     @Test
+    fun testExceptionThrownInMultiItemCreateTripParams() {
+        val searchParams = getDummySearchParams()
+        searchParams.roomTypeCode = null
+        try {
+            MultiItemCreateTripParams.fromPackageSearchParams(searchParams)
+        } catch (e: Exception) {
+            assertEquals(IllegalArgumentException().javaClass, e.javaClass)
+        }
+    }
+
+    @Test
     fun testMultiItemCreateTripFiredWhenMIDAPIOFF() {
         val testSubscriber = TestObserver<Unit>()
         activity.getCreateTripViewModel().performCreateTrip.subscribe(testSubscriber)
