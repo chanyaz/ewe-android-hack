@@ -554,6 +554,19 @@ class FlightOverviewPresenterTest {
                 widget.flightSummary.freeCancellationInfoContainer.contentDescription)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCardFeesAndPriceChangeUpdatesTotalPrice() {
+        createExpectedFlightLeg()
+        val createTripResponse = getFlightCreateTripResponse()
+        widget.getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.onNext(Optional(createTripResponse))
+
+        addCardFeesToCreateTrip(createTripResponse)
+        widget.getCheckoutPresenter().getCheckoutViewModel().cardFeeTripResponse.onNext(createTripResponse)
+
+        assertEquals("$233", widget.totalPriceWidget.bundleTotalPrice.text)
+    }
+
     private fun setupFlightSearchParams(isRoundTrip: Boolean = true): FlightSearchParams {
         val departureSuggestion = SuggestionV4()
         departureSuggestion.gaiaId = "1234"
@@ -735,6 +748,14 @@ class FlightOverviewPresenterTest {
     private fun getFareFamilyDetail(className: String): FlightTripResponse.FareFamilyDetails {
         return FlightTripResponse.FareFamilyDetails(className, className, className,
                 Money("210.00", "USD"), Money(1, "USD"), true, HashMap())
+    }
+
+
+    private fun addCardFeesToCreateTrip(createTripResponse: FlightCreateTripResponse) {
+        createTripResponse.selectedCardFees = Money(10, "USD")
+        createTripResponse.totalPriceIncludingFees = Money(233, "USD")
+        createTripResponse.details.oldOffer = FlightTripDetails.FlightOffer()
+        createTripResponse.details.oldOffer.totalPrice = Money(223, "USD")
     }
 
     private fun setShowMoreInfoTest() {
