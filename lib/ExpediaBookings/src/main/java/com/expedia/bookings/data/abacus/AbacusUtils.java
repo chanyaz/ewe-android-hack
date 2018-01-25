@@ -91,6 +91,7 @@ public class AbacusUtils {
 	public static final ABTest HotelAmenityFilter = new ABTest(24541, true);
 	public static final ABTest HotelNewFilterCtaText = new ABTest(24583, true);
 	public static final ABTest HotelDatelessInfosite = new ABTest(24648, true);
+	public static final ABTest HotelHideMiniMapOnResult = new ABTest(16255, true);
 
 	// Cars Web View Tests
 	public static final ABTest EBAndroidAppCarsFlexView = new ABTest(14632);
@@ -232,6 +233,7 @@ public class AbacusUtils {
 		testIDs.add(HotelNewFilterCtaText.getKey());
 		testIDs.add(HotelDatelessInfosite.getKey());
 		testIDs.add(EBAndroidAppFLightLoadingStateV1.getKey());
+		testIDs.add(HotelHideMiniMapOnResult.getKey());
 		return testIDs;
 	}
 
