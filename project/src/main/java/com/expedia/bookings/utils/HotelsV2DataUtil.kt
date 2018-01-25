@@ -36,7 +36,7 @@ class HotelsV2DataUtil {
             return null
         }
 
-        fun getHotelV2SearchParams(context: Context, params: com.expedia.bookings.data.HotelSearchParams): HotelSearchParams {
+        fun getHotelV2SearchParams(context: Context, params: com.expedia.bookings.data.HotelSearchParams, isDatelessSearch: Boolean = false): HotelSearchParams {
             val suggestionV4 = SuggestionV4()
             suggestionV4.hotelId = params.hotelId
             suggestionV4.gaiaId = params.regionId
@@ -60,7 +60,11 @@ class HotelsV2DataUtil {
             val checkInDate = if (hasValidDates) params.checkInDate else LocalDate.now()
             val checkOutDate = if (hasValidDates) params.checkOutDate else LocalDate.now().plusDays(1)
             val shopWithPointsAvailable = LoyaltyUtil.isShopWithPointsAvailable(Ui.getApplication(context).appComponent().userStateManager())
-            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, shopWithPointsAvailable, params.sortType, params.mctc)
+            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate,
+                    params.numAdults, childList,
+                    shopWithPointsAvailable,
+                    params.sortType, params.mctc)
+            v2params.isDatelessSearch = isDatelessSearch
             return v2params
         }
 

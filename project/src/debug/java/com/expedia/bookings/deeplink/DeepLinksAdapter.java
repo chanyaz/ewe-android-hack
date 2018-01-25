@@ -58,6 +58,13 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 		new DeepLink("Hotel ID 11562190", "expda://hotelSearch?hotelId=11562190&seocid=Google"),
 		new DeepLink("Hotel ID 9046290", "expda://hotelSearch?hotelId=9046290"),
+		new DeepLink("Hotel ID 9046290 future", "expda://hotelSearch?hotelId=9046290", "checkInDate", 14, "checkOutDate", 18, "yyyy-MM-dd"),
+		new DeepLink("Hotel ID 9046290 past", "expda://hotelSearch?hotelId=9046290", "checkInDate", -18, "checkOutDate", -14, "yyyy-MM-dd"),
+		new DeepLink("Hotel ID 9046290 too far out", "expda://hotelSearch?hotelId=9046290", "checkInDate", 510, "checkOutDate", 512, "yyyy-MM-dd"),
+		new DeepLink("Hotel invalid ID", "expda://hotelSearch?hotelId=TestInvalid", "checkInDate", 14, "checkOutDate", 18, "yyyy-MM-dd"),
+		new DeepLink("Hotel invalid date", "expda://hotelSearch?hotelId=9046290&checkInDate=2020-Feb-20&checkoutDate=RANDOMSTRING"),
+		new DeepLink("Hotel date wrong format", "expda://hotelSearch?hotelId=9046290", "checkInDate", 14, "checkOutDate", 18, "dd.mm.yyyy"),
+		new DeepLink("Hotel missing end date", "expda://hotelSearch?hotelId=9046290", "checkInDate", 2, "yyyy-MM-dd"),
 		new DeepLink("Hotel ID 1819759", "expda://hotelSearch?hotelId=1819759&cid=SEO.Google"),
 		new DeepLink("Future Dates", "expda://hotelSearch?hotelId=12539", "checkInDate", 14, "checkOutDate", 18, "yyyy-MM-dd"),
 		new DeepLink("Out-dated Search", "expda://hotelSearch?location=San%20Diego,%20CA", "checkInDate", -365, "checkOutDate", -360, "yyyy-MM-dd"),

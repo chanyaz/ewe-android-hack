@@ -7,11 +7,12 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchParams.SearchType
 import com.expedia.bookings.deeplink.HotelDeepLink
+import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.ui.HotelActivity
 import com.mobiata.android.Log
 
-class HotelIntentBuilder() {
+class HotelIntentBuilder {
     private val TAG = "HotelIntentBuilder"
 
     private var params: HotelSearchParams? = null
@@ -21,6 +22,8 @@ class HotelIntentBuilder() {
     private var memberDealSearch = false
 
     fun from(context: Context, deepLink: HotelDeepLink): HotelIntentBuilder {
+        var isDatelessSearch = false
+
         val hotelSearchParams = com.expedia.bookings.data.HotelSearchParams()
         fromDeepLink = true
 
@@ -48,6 +51,12 @@ class HotelIntentBuilder() {
             hotelSearchParams.hotelId = hotelId
             hotelSearchParams.regionId = hotelId
 
+            val calendarRules = HotelCalendarRules(context)
+            val firstAvailableDate = calendarRules.getFirstAvailableDate()
+            isDatelessSearch = deepLink.checkInDate == null || deepLink.checkOutDate == null ||
+                    deepLink.checkInDate!!.isBefore(firstAvailableDate) ||
+                    deepLink.checkOutDate!!.isBefore(firstAvailableDate)
+
             Log.d(TAG, "Setting hotel search id: " + hotelSearchParams.regionId)
         } else if (deepLink.regionId != null) {
             hotelSearchParams.searchType = SearchType.CITY
@@ -74,7 +83,7 @@ class HotelIntentBuilder() {
         }
         memberDealSearch = deepLink.memberOnlyDealSearch
 
-        params = HotelsV2DataUtil.getHotelV2SearchParams(context, hotelSearchParams)
+        params = HotelsV2DataUtil.getHotelV2SearchParams(context, hotelSearchParams, isDatelessSearch)
 
         return this
     }

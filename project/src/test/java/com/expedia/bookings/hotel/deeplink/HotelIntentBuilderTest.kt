@@ -7,6 +7,7 @@ import com.expedia.bookings.deeplink.HotelDeepLink
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.ui.HotelActivity
+import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -94,6 +95,86 @@ class HotelIntentBuilderTest {
         assertEquals(com.expedia.bookings.data.HotelSearchParams.SearchType.CITY.name,
                 params!!.suggestion.type)
         assertEquals(expectedLocation, params!!.suggestion.regionNames.displayName)
+    }
+
+    @Test
+    fun testNotDatelessSearch() {
+        val deepLink = HotelDeepLink()
+        deepLink.hotelId = "12345"
+        deepLink.checkInDate = LocalDate.now().plusDays(1)
+        deepLink.checkOutDate = LocalDate.now().plusDays(2)
+
+        val intent = testBuilder.from(context, deepLink).build(context)
+        val params = getParamsFromIntent(intent)
+
+        assertNotNull(params)
+        assertFalse(params!!.isDatelessSearch)
+        assertEquals(deepLink.checkInDate, params!!.checkIn)
+        assertEquals(deepLink.checkOutDate, params!!.checkOut)
+    }
+
+    @Test
+    fun testDatelessSearchNullCheckIn() {
+        val deepLink = HotelDeepLink()
+        deepLink.hotelId = "12345"
+        deepLink.checkInDate = null
+        deepLink.checkOutDate = LocalDate.now().plusDays(2)
+
+        val intent = testBuilder.from(context, deepLink).build(context)
+        val params = getParamsFromIntent(intent)
+
+        assertNotNull(params)
+        assertTrue(params!!.isDatelessSearch)
+        assertEquals(LocalDate.now(), params!!.checkIn)
+        assertEquals(deepLink.checkOutDate, params!!.checkOut)
+    }
+
+    @Test
+    fun testDatelessSearchullCheckOut() {
+        val deepLink = HotelDeepLink()
+        deepLink.hotelId = "12345"
+        deepLink.checkInDate = LocalDate.now().plusDays(1)
+        deepLink.checkOutDate = null
+
+        val intent = testBuilder.from(context, deepLink).build(context)
+        val params = getParamsFromIntent(intent)
+
+        assertNotNull(params)
+        assertTrue(params!!.isDatelessSearch)
+        assertEquals(deepLink.checkInDate, params!!.checkIn)
+        assertEquals(LocalDate.now().plusDays(2), params!!.checkOut)
+    }
+
+    @Test
+    fun testDatelessSearchPastCheckIn() {
+        val deepLink = HotelDeepLink()
+        deepLink.hotelId = "12345"
+        deepLink.checkInDate = LocalDate.now().plusDays(-1)
+        deepLink.checkOutDate = LocalDate.now().plusDays(2)
+
+        val intent = testBuilder.from(context, deepLink).build(context)
+        val params = getParamsFromIntent(intent)
+
+        assertNotNull(params)
+        assertTrue(params!!.isDatelessSearch)
+        assertEquals(LocalDate.now(), params!!.checkIn)
+        assertEquals(LocalDate.now().plusDays(1), params!!.checkOut)
+    }
+
+    @Test
+    fun testDatelessSearchPastCheckOut() {
+        val deepLink = HotelDeepLink()
+        deepLink.hotelId = "12345"
+        deepLink.checkInDate = LocalDate.now().plusDays(1)
+        deepLink.checkOutDate = LocalDate.now().plusDays(-1)
+
+        val intent = testBuilder.from(context, deepLink).build(context)
+        val params = getParamsFromIntent(intent)
+
+        assertNotNull(params)
+        assertTrue(params!!.isDatelessSearch)
+        assertEquals(LocalDate.now(), params!!.checkIn)
+        assertEquals(LocalDate.now().plusDays(1), params!!.checkOut)
     }
 
     private fun getParamsFromIntent(intent: Intent): HotelSearchParams? {

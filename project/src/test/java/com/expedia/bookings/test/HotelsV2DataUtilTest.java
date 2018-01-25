@@ -84,7 +84,7 @@ public class HotelsV2DataUtilTest {
 		v1Params.setChildren(childList);
 		v1Params.setNumAdults(2);
 
-		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params);
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params, false);
 
 		Assert.assertEquals(v1Params.getCheckInDate(), v2params.getCheckIn());
 		Assert.assertEquals(v1Params.getCheckOutDate(), v2params.getCheckOut());
@@ -98,6 +98,7 @@ public class HotelsV2DataUtilTest {
 		}
 
 		Assert.assertEquals(child, v2params.getChildren());
+		Assert.assertFalse(v2params.isDatelessSearch());
 	}
 
 	@Test
@@ -116,7 +117,7 @@ public class HotelsV2DataUtilTest {
 		v1Params.setChildren(childList);
 		v1Params.setNumAdults(2);
 
-		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params);
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params, true);
 
 		Assert.assertEquals(LocalDate.now(), v2params.getCheckIn());
 		Assert.assertEquals(LocalDate.now().plusDays(1), v2params.getCheckOut());
@@ -130,6 +131,7 @@ public class HotelsV2DataUtilTest {
 		}
 
 		Assert.assertEquals(child, v2params.getChildren());
+		Assert.assertTrue(v2params.isDatelessSearch());
 	}
 
 	@Test
@@ -214,7 +216,7 @@ public class HotelsV2DataUtilTest {
 
 		com.expedia.bookings.data.HotelSearchParams v1Params = getBasicV1Params();
 
-		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params);
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params, false);
 		Assert.assertFalse("SWP expected to be disabled", v2params.getShopWithPoints());
 	}
 
@@ -226,7 +228,7 @@ public class HotelsV2DataUtilTest {
 
 		com.expedia.bookings.data.HotelSearchParams v1Params = getBasicV1Params();
 
-		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params);
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params, false);
 
 		Assert.assertTrue("SWP expected to be enabled", v2params.getShopWithPoints());
 	}

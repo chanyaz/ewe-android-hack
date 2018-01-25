@@ -15,6 +15,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
     var filterOptions: HotelFilterOptions? = null
     var enableSponsoredListings = true
     var updateSearchDestination = false
+    var isDatelessSearch = false
 
     fun isCurrentLocationSearch(): Boolean {
         return suggestion.isCurrentLocationSearch
@@ -85,6 +86,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         private var vipOnly: Boolean = false
         private var userSort: SortType? = null
         private var amenities: HashSet<Int> = HashSet()
+        private var isDatelessSearch: Boolean = false
 
         override fun destination(city: SuggestionV4?): Builder {
             this.destinationLocation = city?.copy()
@@ -135,8 +137,14 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             this.userSort = null
         }
 
-        fun amenities(amenities: HashSet<Int>) {
+        fun amenities(amenities: HashSet<Int>): Builder {
             this.amenities = amenities
+            return this
+        }
+
+        fun isDatelessSearch(isDatelessSearch: Boolean): Builder {
+            this.isDatelessSearch = isDatelessSearch
+            return this
         }
 
         fun from(params: HotelSearchParams): Builder {
@@ -167,6 +175,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             val params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children, shopWithPoints)
             params.forPackage = isPackage
             params.filterOptions = buildFilterOptions()
+            params.isDatelessSearch = isDatelessSearch
             return params
         }
 

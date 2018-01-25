@@ -32,9 +32,9 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
     private val TRIPS_ITIN_NUM = Pattern.compile("/trips/([0-9]+)")
     private val SIGN_IN = Pattern.compile(".+(?=\\/signin/?$).+")
 
-     fun parseUniversalDeepLink(data: Uri): DeepLink {
-         val routingDestination = getRoutingDestination(data)
-         val dateFormat = getDateFormatForPOS(data)
+    fun parseUniversalDeepLink(data: Uri): DeepLink {
+        val routingDestination = getRoutingDestination(data)
+        val dateFormat = getDateFormatForPOS(data)
 
         when (routingDestination) {
             "/hotel-search" -> return parseHotelUniversalDeepLink(data, dateFormat)

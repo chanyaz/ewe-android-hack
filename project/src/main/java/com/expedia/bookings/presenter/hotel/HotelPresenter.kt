@@ -860,7 +860,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         resultsViewModel.paramsSubject.onNext(params)
     }
 
-    private fun handleHotelIdSearch(params: HotelSearchParams, goToResults: Boolean = false) {
+    private fun handleHotelIdSearch(params: HotelSearchParams, goToResults: Boolean) {
         updateSearchParams(params)
 
         if (goToResults) {
@@ -900,6 +900,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             loadingOverlay.animate(false)
             loadingOverlay.visibility = View.GONE
             errorPresenter.getViewModel().infositeApiErrorObserver.onNext(error)
+            errorPresenter.visibility = View.VISIBLE
             show(errorPresenter)
         }
 
@@ -966,7 +967,11 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun showDetails(hotelId: String) {
-        hotelDetailViewModel.fetchOffers(hotelSearchParams, hotelId)
+        if (hotelSearchParams.isDatelessSearch) {
+            hotelDetailViewModel.fetchInfo(hotelSearchParams, hotelId)
+        } else {
+            hotelDetailViewModel.fetchOffers(hotelSearchParams, hotelId)
+        }
     }
 
     private val deepLinkHandler: HotelDeepLinkHandler by lazy {
@@ -1008,6 +1013,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchPresenter.searchViewModel.destinationLocationObserver.onNext(params.suggestion)
         }
         searchPresenter.selectTravelers(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
+
         searchPresenter.searchViewModel.datesUpdated(params.checkIn, params.checkOut)
         searchPresenter.selectDates(params.checkIn, params.checkOut)
     }
