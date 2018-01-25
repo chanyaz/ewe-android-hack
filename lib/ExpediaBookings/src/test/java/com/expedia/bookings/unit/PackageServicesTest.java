@@ -127,12 +127,12 @@ public class PackageServicesTest {
 		observer.assertComplete();
 		observer.assertValueCount(1);
 		BundleSearchResponse response = observer.values().get(0);
-		Assert.assertEquals(50, response.getHotels().size());
+		Assert.assertEquals(49, response.getHotels().size());
 		Assert.assertEquals(100, response.getFlightLegs().size());
 
 		List<Hotel> hotels = response.getHotels();
 		Set<Hotel> uniqueHotels = new HashSet<>(hotels);
-		Assert.assertEquals(50, uniqueHotels.size());
+		Assert.assertEquals(49, uniqueHotels.size());
 
 		List<FlightLeg> flightLegs = response.getFlightLegs();
 		Set<FlightLeg> uniqueOutboundFlightLegs = new HashSet<>();

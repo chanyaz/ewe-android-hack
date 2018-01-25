@@ -12,7 +12,7 @@ interface BundleSearchResponse {
     fun getHotels(): List<Hotel>
     fun getFlightLegs(): List<FlightLeg>
     fun hasSponsoredHotelListing(): Boolean
-    fun getCurrencyCode(): String
+    fun getCurrencyCode(): String?
     fun getFlightPIIDFromSelectedHotel(hotelKey: String?): String?
     fun getSelectedFlightPIID(outboundLegId: String?, inboundLegId: String?): String?
     fun getCurrentOfferPrice(): PackageOfferModel.PackagePrice?

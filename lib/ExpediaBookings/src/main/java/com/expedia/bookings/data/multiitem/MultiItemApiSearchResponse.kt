@@ -54,9 +54,11 @@ data class MultiItemApiSearchResponse(
                         sortedFlights += inboundFlight
                     }
                     ProductType.Hotel -> {
-                        val hotel = convertedHotels[productKey] ?: Hotel.convertMultiItemHotel(hotels[productKey], offer)
-                        convertedHotels[productKey] = hotel
-                        sortedHotels += hotel
+                        offer.price?.let {
+                            val hotel = convertedHotels[productKey] ?: Hotel.convertMultiItemHotel(hotels[productKey], offer)
+                            convertedHotels[productKey] = hotel
+                            sortedHotels += hotel
+                        }
                     }
                     else -> {
                     }
@@ -90,8 +92,8 @@ data class MultiItemApiSearchResponse(
         return false
     }
 
-    override fun getCurrencyCode(): String {
-        return offers[0].price.totalPrice.currency
+    override fun getCurrencyCode(): String? {
+        return offers[0].price?.totalPrice?.currency
     }
 
     override fun getCurrentOfferPrice(): PackageOfferModel.PackagePrice? {

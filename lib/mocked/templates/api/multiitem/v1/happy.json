@@ -3955,45 +3955,6 @@
       }
     },
     {
-      "price": {
-        "basePrice": {
-          "amount": 1632.33,
-          "currency": "USD"
-        },
-        "taxesAndFees": {
-          "amount": 223.10,
-          "currency": "USD"
-        },
-        "totalPrice": {
-          "amount": 1855.43,
-          "currency": "USD"
-        },
-        "referenceBasePrice": {
-          "amount": 1745.21,
-          "currency": "USD"
-        },
-        "referenceTaxesAndFees": {
-          "amount": 224.71,
-          "currency": "USD"
-        },
-        "referenceTotalPrice": {
-          "amount": 1969.92,
-          "currency": "USD"
-        },
-        "savings": {
-          "amount": 114.49,
-          "currency": "USD"
-        },
-        "avgPricePerPerson": {
-          "amount": 1855.43,
-          "currency": "USD"
-        },
-        "avgReferencePricePerPerson": {
-          "amount": 1969.92,
-          "currency": "USD"
-        },
-        "showSavings": false
-      },
       "searchedOffer": {
         "productType": "Hotel",
         "productKey": "hotel-49"
@@ -4004,33 +3965,6 @@
           "productKey": "flight-0"
         }
       ],
-      "packageDeal": {
-        "markers": [
-          {
-            "sticker": "FlightDeal",
-            "magnitude": 0.0,
-            "content": {
-              "description": "Book this and save $114 (5%)",
-              "title": "Unreal Deal",
-              "legal": ""
-            },
-            "contentVariants": {
-            }
-          }
-        ],
-        "savingsPercentage": 5.81,
-        "savingsAmount": 114.49,
-        "rank": -1
-      },
-      "loyaltyInfo": {
-        "earn": {
-          "points": {
-            "base": 3711,
-            "bonus": 3711,
-            "total": 7422
-          }
-        }
-      },
       "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:SEA%7CL2:SFO&acty=L1:SFO%7CL2:SEA&ddte=L1:2017-11-08%7CL2:2017-11-15&destinationId=178305&hotelId=287665&ratePlanCode=201183660&roomTypeCode=200207573&inventoryType=1&checkInDate=2017-11-08&checkOutDate=2017-11-15&tokens=AQogCh4IwaYBEgQxNTA0GJIBILJxKOTbezDh3Hs4UkAAWAEKIAoeCMGmARIEMTUyMxiycSCSASjasHww1rF8OFJAAFgBEgoIARABGAEqAkFTGAEiBAgBEAEoBCgDKAEoAjAC&price=1855.43&ccyc=USD",
       "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=287665,201183660,200207573&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
       "changeRoomUrl": "/hotel.h287665.Hotel-Information?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&action=changeRoom&hotelId=287665&currentRatePlan=200207573201183660&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=287665,201183660,200207573&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",

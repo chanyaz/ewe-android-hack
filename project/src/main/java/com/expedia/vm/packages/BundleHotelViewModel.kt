@@ -81,7 +81,7 @@ class BundleHotelViewModel(val context: Context) {
                 hotelNonRefundableObservable.onNext(context.resources.getString(R.string.non_refundable))
             }
 
-            hotelPromoTextObservable.onNext(selectHotelRoom.promoDescription)
+            hotelPromoTextObservable.onNext(selectHotelRoom.promoDescription ?: "")
             val cityCountry = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
                     .put("city", selectedHotel.city)
                     .put("country",
