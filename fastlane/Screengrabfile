@@ -5,8 +5,8 @@ tests_package_name 'com.expedia.bookings.test'
 use_tests_in_packages ['com.expedia.bookings.screengrab']
 test_instrumentation_runner 'com.expedia.bookings.test.espresso.InstrumentationTestRunner'
 
-app_apk_path 'project/build/outputs/apk/project-expedia-debug.apk'
-tests_apk_path 'project/build/outputs/apk/project-expedia-debug-androidTest.apk'
+app_apk_path 'project/build/outputs/apk/expedia/debug/project-expedia-debug.apk'
+tests_apk_path 'project/build/outputs/apk/expedia/debug/project-expedia-debug-androidTest.apk'
 
 locales ['en-US', 'fr-CA','en-CA’,'en-AU’, 'de-DE', 'fr-FR', 'it-IT', 'sv-SE', 'en-GB', 'ja-JP', 'zh-CN', 'fi-FI', 'pt-BR', 'da-DK', 'es-ES', 'id-ID', 'ko-KR', 'es-MX', 'nl-NL', 'nb-NO', 'th-TH', 'zh-TW', 'es-AR', 'vi-VN’, 'zh-HK']
 

@@ -64,7 +64,10 @@
     <issue id="AndroidGradlePluginVersion" severity="error" />
     <issue id="GradleCompatible" severity="error" />
     <issue id="IllegalResourceRef" severity="error" />
-    <issue id="MissingRegistered" severity="error" />
+
+    <!--removed check MissingRegistered until we 're ready to 3.1-->
+    <!--https://issuetracker.google.com/issues/69711848-->
+    <!--<issue id="MissingRegistered" severity="error" />-->
     <issue id="MockLocation" severity="error" />
     <issue id="NamespaceTypo" severity="error" />
     <issue id="Proguard" severity="error" />

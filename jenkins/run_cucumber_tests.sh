@@ -87,7 +87,7 @@ function installBuild() {
     flavorLowerCase=$(tr "[A-Z]" "[a-z]" <<< "$flavor")
 
     echo "installing..... project-${flavorLowerCase}-debug.apk"
-    adb -s $device install project/build/outputs/apk/project-${flavorLowerCase}-debug.apk
+    adb -s $device install project/build/outputs/apk/${flavorLowerCase}/debug/project-${flavorLowerCase}-debug.apk
     installDebug=$?
 
     if [[ ($installDebug -ne 0) ]]; then

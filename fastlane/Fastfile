@@ -26,7 +26,7 @@ platform :android do
     gradle(task: "assembleExpediaDebug assembleExpediaDebugAndroidTest", flags: "-PSCREENSHOT_BUILD")
 
     # Prepare device
-    adb(command: "install -r project/build/outputs/apk/project-expedia-debug.apk")
+    adb(command: "install -r project/build/outputs/apk/expedia/debug/project-expedia-debug.apk")
     adb(command: "shell settings put secure location_providers_allowed -network")
     adb(command: "shell settings put secure location_providers_allowed -gps")
     adb(command: "shell pm grant com.expedia.bookings.debug android.permission.ACCESS_COARSE_LOCATION")

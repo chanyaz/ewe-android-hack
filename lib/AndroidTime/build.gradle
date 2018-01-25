@@ -12,13 +12,21 @@ repositories {
 }
 
 dependencies {
-    compile 'joda-time:joda-time:2.9.9'
-    compile 'net.danlew:android.joda:2.9.9@aar'
-    compile 'com.squareup.phrase:phrase:1.1.0'
-    compile project(':lib:AndroidUtils')
+    api 'joda-time:joda-time:2.9.9'
+    api 'net.danlew:android.joda:2.9.9@aar'
+    api 'com.squareup.phrase:phrase:1.1.0'
+    api project(':lib:AndroidUtils')
 }
 
 android {
+    flavorDimensions "default"
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.expedia.account.view;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.ContentUris;
 import android.content.Context;
@@ -61,6 +62,7 @@ public class AvatarView extends View {
 		init(context, attrs);
 	}
 
+	@SuppressLint("CustomViewStyleable")
 	private void init(Context context, AttributeSet attrs) {
 		float density = getResources().getDisplayMetrics().density;
 		float strokeWidth = 1f * density;

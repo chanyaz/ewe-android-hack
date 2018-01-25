@@ -1,5 +1,6 @@
 package com.expedia.account;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -270,6 +271,7 @@ public class AccountView extends BufferedPresenter {
 		brandIt();
 	}
 
+	@SuppressLint("CustomViewStyleable")
 	private void styleize(Context context, AttributeSet attrs) {
 		if (attrs != null) {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.acct__AccountView);

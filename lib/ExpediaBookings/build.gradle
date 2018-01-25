@@ -11,23 +11,23 @@ repositories {
 }
 
 dependencies {
-    compile 'joda-time:joda-time:2.8.1'
-    compile "com.squareup.okhttp3:okhttp:${okhttp_version}"
-    compile "com.squareup.okhttp3:logging-interceptor:${okhttp_version}"
-    compile "com.squareup.okhttp3:okhttp-urlconnection:${okhttp_version}"
-    compile 'com.squareup.okio:okio:1.13.0'
-    compile "com.squareup.retrofit2:retrofit:${retrofit_version}"
-    compile "com.squareup.retrofit2:converter-gson:${retrofit_version}"
-    compile "com.squareup.retrofit2:adapter-rxjava2:${retrofit_version}"
-    compile "io.reactivex.rxjava2:rxjava:${rxjava_version}"
-    compile 'org.json:json:20140107'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
-    testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
+    implementation 'joda-time:joda-time:2.8.1'
+    implementation "com.squareup.okhttp3:okhttp:${okhttp_version}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okhttp_version}"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:${okhttp_version}"
+    implementation 'com.squareup.okio:okio:1.13.0'
+    implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofit_version}"
+    implementation "io.reactivex.rxjava2:rxjava:${rxjava_version}"
+    implementation 'org.json:json:20140107'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
 
-    testCompile "com.squareup.okhttp3:mockwebserver:${okhttp_version}"
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.assertj:assertj-core:2.0.0'
-    testCompile (project(':lib:mocked:mocke3')) {
+    testImplementation "com.squareup.okhttp3:mockwebserver:${okhttp_version}"
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.assertj:assertj-core:2.0.0'
+    testImplementation (project(':lib:mocked:mocke3')) {
         transitive = false
     }
 }
@@ -44,7 +44,7 @@ jacocoTestReport {
     reports {
         xml.enabled true
         csv.enabled true
-        html.destination "${buildDir}/jacocoHtml"
+        html.destination file("${buildDir}/jacocoHtml")
     }
 }
 

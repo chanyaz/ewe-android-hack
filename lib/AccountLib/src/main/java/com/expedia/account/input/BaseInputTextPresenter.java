@@ -1,5 +1,6 @@
 package com.expedia.account.input;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
@@ -61,6 +62,7 @@ public class BaseInputTextPresenter extends BufferedPresenter {
 		return mValidator.onNewText(editText.getText().toString()) == GOOD;
 	}
 
+	@SuppressLint("CustomViewStyleable")
 	public BaseInputTextPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 

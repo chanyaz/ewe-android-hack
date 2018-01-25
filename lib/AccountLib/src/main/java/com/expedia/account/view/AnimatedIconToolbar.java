@@ -1,6 +1,7 @@
 package com.expedia.account.view;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -32,6 +33,7 @@ public class AnimatedIconToolbar extends Toolbar {
 		init(context, attrs);
 	}
 
+	@SuppressLint("CustomViewStyleable")
 	private void init(Context context, AttributeSet attrs) {
 		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.acct__AnimatedIconToolbar, 0, 0);
 		int color = ta.getColor(R.styleable.acct__AnimatedIconToolbar_acct__ait_strokeColor, DEFAULT_STROKE_COLOR);

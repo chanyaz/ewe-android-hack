@@ -1,5 +1,6 @@
 package com.expedia.account.input;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.ColorRes;
@@ -42,6 +43,7 @@ public class ErrorableInputTextPresenter extends BaseInputTextPresenter {
 	private CheckmarkPresenter vCheckmark;
 	private TextView vDescriptionErrorView;
 
+	@SuppressLint("CustomViewStyleable")
 	public ErrorableInputTextPresenter(final Context context, AttributeSet attrs) {
 		super(context, attrs);
 		inflate(context, R.layout.acct__widget_errorable_text_input, this);

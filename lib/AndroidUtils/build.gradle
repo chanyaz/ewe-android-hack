@@ -5,9 +5,16 @@ repositories {
 }
 
 android {
+    flavorDimensions "default"
     useLibrary 'org.apache.http.legacy'
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 task sourceJar(type: Jar) {
@@ -16,8 +23,8 @@ task sourceJar(type: Jar) {
 }
 
 dependencies {
-    compile "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
+    api "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    testApi 'junit:junit:4.12'
+    testApi 'org.mockito:mockito-core:1.10.19'
 }

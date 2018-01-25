@@ -192,39 +192,6 @@
         <attr name="headerSpaceSize" format="dimension|reference" />
     </declare-styleable>
 
-    <!-- Switch style. The Android switch is not styleable as of 4.4. So we have to make our own "backport" -->
-    <declare-styleable name="Switch">
-    <!-- Drawable "thumb" that switches back and forth. -->
-        <attr name="thumb" format="reference" />
-        <!-- Drawable "track" that the switch thumb slides within. -->
-        <attr name="thumbTrack" format="reference" />
-        <!-- Text to use when the switch is in the checked/"on" state. -->
-        <attr name="textOn" format="reference" />
-        <!-- Text to use when the switch is in the unchecked/"off" state. -->
-        <attr name="textOff" format="reference" />
-        <!-- Amount of padding on either side of text within the switch thumb. -->
-        <attr name="textPadding" format="dimension" />
-        <!-- TextAppearance style for text displayed on the switch thumb. -->
-        <attr name="thumbTextAppearance" format="reference" />
-        <!-- Minimum width for the switch component -->
-        <attr name="thumbMinWidth" format="dimension" />
-        <!-- Minimum space between the switch and caption text -->
-        <attr name="thumbPadding" format="dimension" />
-    </declare-styleable>
-    <declare-styleable name="Theme">
-        <attr name="switchPreferenceStyle" format="reference" />
-    </declare-styleable>
-    <!-- This is part of the Switch backport too -->
-    <declare-styleable name="Android">
-        <attr name="android:textColor" />
-        <attr name="android:textSize" />
-        <attr name="android:textStyle" />
-        <attr name="android:typeface" />
-        <attr name="android:textColorHighlight" />
-        <attr name="android:textColorHint" />
-        <attr name="android:textColorLink" />
-    </declare-styleable>
-
     <declare-styleable name="ContactDetailsCompleteness">
         <attr name="state">
             <enum name="begin" value="0" />

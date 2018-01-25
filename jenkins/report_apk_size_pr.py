@@ -12,7 +12,7 @@ github_access_token = os.environ['GITHUB_ACCESS_TOKEN']
 pull_request_id = os.environ['ghprbPullId']
 
 new_apk_size = round(
-    os.stat('project/build/outputs/apk/project-{brand}-debug.apk'.format(brand=brand)).st_size / float(1024 * 1024), 2)
+    os.stat('project/build/outputs/apk/{brand}/debug/project-{brand}-debug.apk'.format(brand=brand)).st_size / float(1024 * 1024), 2)
 
 old_apk_size = 0
 try:
