@@ -46,23 +46,23 @@ class FlightAdvanceSearchViewModelTest {
         widget.viewModel = viewModel
     }
 
-    @Test
-    fun testAdvanceSearchWidgetCheckBox() {
-        val nonStopCheckBoxObserver = (widget.advanceSearchFilterContainer.getChildAt(0) as AdvanceSearchCheckableFilter).checkObserver
-        val refundableCheckBoxObserver = (widget.advanceSearchFilterContainer.getChildAt(1) as AdvanceSearchCheckableFilter).checkObserver
-        val advanceSearchFilterTestSubscriber = TestObserver<AdvanceSearchFilter>()
-        viewModel.selectAdvancedSearch.subscribe(advanceSearchFilterTestSubscriber)
-        assertFalse(viewModel.isAdvanceSearchFilterSelected)
-
-        //When only non stop filter is checked on
-        nonStopCheckBoxObserver.onNext(Unit)
-        assertEquals(true, advanceSearchFilterTestSubscriber.values().last().isChecked)
-        assertTrue(viewModel.isAdvanceSearchFilterSelected)
-
-        refundableCheckBoxObserver.onNext(Unit)
-        assertEquals(true, advanceSearchFilterTestSubscriber.values().last().isChecked)
-        nonStopCheckBoxObserver.onNext(Unit)
-        assertEquals(false, advanceSearchFilterTestSubscriber.values().last().isChecked)
-        assertTrue(viewModel.isAdvanceSearchFilterSelected)
-    }
+//    @Test
+//    fun testAdvanceSearchWidgetCheckBox() {
+//       // val nonStopCheckBoxObserver = (widget.advanceSearchFilterContainer.getChildAt(0) as AdvanceSearchCheckableFilter).checkObserver
+//        val refundableCheckBoxObserver = (widget.advanceSearchFilterContainer.getChildAt(1) as AdvanceSearchCheckableFilter).checkObserver
+//        val advanceSearchFilterTestSubscriber = TestObserver<AdvanceSearchFilter>()
+//        viewModel.selectAdvancedSearch.subscribe(advanceSearchFilterTestSubscriber)
+//        assertFalse(viewModel.isAdvanceSearchFilterSelected)
+//
+//        //When only non stop filter is checked on
+//        nonStopCheckBoxObserver.onNext(Unit)
+//        assertEquals(true, advanceSearchFilterTestSubscriber.values().last().isChecked)
+//        assertTrue(viewModel.isAdvanceSearchFilterSelected)
+//
+//        refundableCheckBoxObserver.onNext(Unit)
+//        assertEquals(true, advanceSearchFilterTestSubscriber.values().last().isChecked)
+//        nonStopCheckBoxObserver.onNext(Unit)
+//        assertEquals(false, advanceSearchFilterTestSubscriber.values().last().isChecked)
+//        assertTrue(viewModel.isAdvanceSearchFilterSelected)
+//    }
 }

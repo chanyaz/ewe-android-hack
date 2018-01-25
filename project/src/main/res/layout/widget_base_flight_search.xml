@@ -206,13 +206,13 @@
                         android:layout_height="wrap_content" />
 
                     <android.support.v7.widget.CardView
+                        android:layout_marginTop="8dp"
                         android:id="@+id/flight_advanced_search_card_view"
                         style="@style/MaterialCardView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         app:cardUseCompatPadding="true"
-                        android:importantForAccessibility="yes"
-                        android:visibility="gone">
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="yes">
 
                         <ViewStub
                             android:id="@+id/flight_advanced_search_stub"

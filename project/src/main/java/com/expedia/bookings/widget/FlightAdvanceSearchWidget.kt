@@ -18,18 +18,18 @@ import com.squareup.phrase.Phrase
 class FlightAdvanceSearchWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val collapsedAdvanceSearchView: LinearLayout by bindView(R.id.advance_search_view_header)
     val advancedSearchChevron: ImageView by bindView(R.id.advanced_search_chevron)
-    val expandedAdvanceSearchView: LinearLayout by bindView(R.id.expanded_advance_search_view)
-    val advanceSearchFilterContainer: LinearLayout by bindView(R.id.advance_search_filter_container)
+    val expandedAdvanceSearchView: android.widget.HorizontalScrollView by bindView(R.id.expanded_advance_search_view)
+    //val advanceSearchFilterContainer: LinearLayout by bindView(R.id.advance_search_filter_container)
 
     var viewModel: FlightAdvanceSearchViewModel by notNullAndObservable { vm ->
-        advanceSearchFilterContainer.removeAllViews()
+        //advanceSearchFilterContainer.removeAllViews()
         for (filter in AdvanceSearchFilter.values()) {
             val view = Ui.inflate<AdvanceSearchCheckableFilter>(LayoutInflater.from(context), R.layout.flight_advance_search_row, this, false)
             view.bind(filter, vm.selectAdvancedSearch)
-            advanceSearchFilterContainer.addView(view)
+          //  advanceSearchFilterContainer.addView(view)
         }
         vm.applySelectedFilter.subscribe {
-            (advanceSearchFilterContainer.getChildAt(it) as AdvanceSearchCheckableFilter).checkObserver.onNext(Unit)
+           // (advanceSearchFilterContainer.getChildAt(it) as AdvanceSearchCheckableFilter).checkObserver.onNext(Unit)
         }
     }
 

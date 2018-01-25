@@ -5,7 +5,7 @@
     android:id="@+id/flight_advanced_search_widget"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardUseCompatPadding="true"
+    android:background="@color/egg_white"
+    style="@style/MaterialCardView"
     android:paddingLeft="14dp"
-    android:paddingRight="14dp"
     android:orientation="vertical"/>
