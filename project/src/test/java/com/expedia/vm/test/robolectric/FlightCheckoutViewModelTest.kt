@@ -41,6 +41,9 @@ import com.expedia.vm.FlightCheckoutViewModel
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
@@ -50,9 +53,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.Scheduler
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit

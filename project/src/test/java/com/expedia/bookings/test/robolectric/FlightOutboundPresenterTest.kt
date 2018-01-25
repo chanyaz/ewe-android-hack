@@ -12,24 +12,21 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.flight.FlightOutboundPresenter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.Ui
-<<<<<<< HEAD
-import com.expedia.util.Optional
-=======
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import io.reactivex.schedulers.Schedulers
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
->>>>>>> Flight Details page Legal Message update
-import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.schedulers.Schedulers
 import java.io.File
+import com.expedia.util.Optional
 import kotlin.test.assertEquals
+import org.joda.time.LocalDate
 
 @RunWith(RobolectricRunner::class)
 class FlightOutboundPresenterTest {
@@ -54,7 +51,7 @@ class FlightOutboundPresenterTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         service = FlightServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                listOf(interceptor), Schedulers.immediate(), Schedulers.immediate(), false)
+                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline(), false)
 
         flightOutboundPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_outbound_stub, null) as FlightOutboundPresenter
     }
@@ -79,8 +76,6 @@ class FlightOutboundPresenterTest {
         flightOutboundPresenter.toolbarViewModel.airport.onNext(Optional("BLR"))
         assertEquals("Select flight to Bengaluru, India", flightOutboundPresenter.toolbar.title.toString())
     }
-<<<<<<< HEAD
-=======
 
     @Test
     fun testPaymentFeeMayApplyVisibility() {
@@ -124,5 +119,4 @@ class FlightOutboundPresenterTest {
         suggestion.hierarchyInfo!!.airport!!.airportCode = ""
         return suggestion
     }
->>>>>>> Flight Details page Legal Message update
 }

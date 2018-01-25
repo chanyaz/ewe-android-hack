@@ -2,10 +2,10 @@ package com.expedia.vm
 
 import android.content.Context
 import android.text.SpannedString
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.services.CardFeeService
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.FlightV2Utils

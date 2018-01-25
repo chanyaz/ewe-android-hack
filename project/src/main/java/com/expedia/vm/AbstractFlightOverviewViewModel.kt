@@ -8,9 +8,9 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val selectedFlightLegSubject = BehaviorSubject.create<FlightLeg>()

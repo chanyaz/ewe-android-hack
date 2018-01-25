@@ -20,7 +20,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
-import rx.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
