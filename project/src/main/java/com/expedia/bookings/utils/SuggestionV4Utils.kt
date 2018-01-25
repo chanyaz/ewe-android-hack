@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.GaiaSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.google.gson.Gson
@@ -15,7 +14,8 @@ import java.util.ArrayList
 object SuggestionV4Utils {
 
     val RECENT_HOTEL_SUGGESTIONS_FILE = "recent-hotel-suggest-list.dat"
-    val RECENT_PACKAGE_SUGGESTIONS_FILE = "recent-package-suggest-list.dat"
+    val RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE = "recent-package-departure-suggest-list.dat"
+    val RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE = "recent-package-arrival-suggest-list.dat"
     val RECENT_AIRPORT_SUGGESTIONS_FILE = "recent-airport-suggest-list.dat"
     val RECENT_CAR_SUGGESTIONS_FILE = "recent-cars-airport-routes-list-v4.dat"
     val RECENT_RAIL_SUGGESTIONS_FILE = "recent-rail-suggest-list.dat"
@@ -109,7 +109,7 @@ object SuggestionV4Utils {
     }
 
     @JvmStatic fun deleteCachedSuggestions(context: Context) {
-        val locationFiles = arrayOf(RECENT_HOTEL_SUGGESTIONS_FILE, RECENT_PACKAGE_SUGGESTIONS_FILE, RECENT_AIRPORT_SUGGESTIONS_FILE, RECENT_LX_SUGGESTIONS_FILE, RECENT_CAR_SUGGESTIONS_FILE)
+        val locationFiles = arrayOf(RECENT_HOTEL_SUGGESTIONS_FILE, RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE, RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE, RECENT_AIRPORT_SUGGESTIONS_FILE, RECENT_LX_SUGGESTIONS_FILE, RECENT_CAR_SUGGESTIONS_FILE)
         for (locationFile in locationFiles) {
             val file = context.getFileStreamPath(locationFile)
             val fileExists = file.exists()

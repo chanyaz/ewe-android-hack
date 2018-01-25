@@ -15,7 +15,7 @@ class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: IS
         suggestionsService.suggestPackagesV4(query, isDest, isPackagesMISRealWorldGeoEnabled(context), generateSuggestionServiceCallback(), guid)
     }
 
-    override fun getSuggestionHistoryFile(): String = SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE
+    override fun getSuggestionHistoryFile(): String = if (isDest) SuggestionV4Utils.RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE else SuggestionV4Utils.RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE
 
     override fun shouldShowOnlyAirportNearbySuggestions(): Boolean = true
 

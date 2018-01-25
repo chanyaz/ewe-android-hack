@@ -141,7 +141,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
     }
 
     override fun getSuggestionHistoryFileName(): String {
-        return SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE
+        return if (isCustomerSelectingOrigin) SuggestionV4Utils.RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE else SuggestionV4Utils.RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE
     }
 
     override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
