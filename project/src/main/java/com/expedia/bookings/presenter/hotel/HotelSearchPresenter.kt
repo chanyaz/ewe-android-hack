@@ -138,7 +138,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         }
     }
 
-    private lateinit var travelGraphViewModel: TravelGraphViewModel
+    private var travelGraphViewModel: TravelGraphViewModel
 
     override fun inflate() {
         View.inflate(context, R.layout.widget_hotel_search, this)
@@ -165,6 +165,9 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         travelGraphViewModel.searchHistoryResultSubject.subscribe { searchHistory ->
             val suggestions = searchHistory.convertToSuggestionV4List()
             suggestionViewModel.setUserSearchHistory(suggestions)
+        }
+        travelGraphViewModel.errorSubject.subscribe {
+            suggestionViewModel.setUserSearchHistory(emptyList())
         }
 
         advancedOptionsDetails.viewModel = advancedOptionsViewModel

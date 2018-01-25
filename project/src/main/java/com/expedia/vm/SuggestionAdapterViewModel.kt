@@ -73,6 +73,9 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
 
     fun setUserSearchHistory(userSearchHistory: List<SuggestionV4>) {
         userRecentSearches = userSearchHistory
+        if (lastQuery.isEmpty()) {
+            suggestionItemsSubject.onNext(getSuggestionAdapterItems())
+        }
     }
 
 

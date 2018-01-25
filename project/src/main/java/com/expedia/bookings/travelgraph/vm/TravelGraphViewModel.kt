@@ -12,6 +12,7 @@ import io.reactivex.subjects.PublishSubject
 
 class TravelGraphViewModel(val context: Context, private val travelGraphServices: TravelGraphServices) {
     val searchHistoryResultSubject = PublishSubject.create<TravelGraphUserHistoryResult>()
+    val errorSubject = PublishSubject.create<Unit>()
 
     fun fetchUserHistory() {
         //fetch history only if a user is logged in
@@ -29,7 +30,9 @@ class TravelGraphViewModel(val context: Context, private val travelGraphServices
         return object : DisposableObserver<TravelGraphUserHistoryResponse>() {
             override fun onNext(response: TravelGraphUserHistoryResponse) {
                 val searchResult = getHotelSearchHistoryItems(response)
-                if (searchResult != null) {
+                if (searchResult == null || searchResult.items.isEmpty()) {
+                    errorSubject.onNext(Unit)
+                } else {
                     searchHistoryResultSubject.onNext(searchResult)
                 }
             }
@@ -41,7 +44,7 @@ class TravelGraphViewModel(val context: Context, private val travelGraphServices
             override fun onComplete() {}
 
             override fun onError(e: Throwable) {
-                //TODO handle errors
+                errorSubject.onNext(Unit)
             }
         }
     }
