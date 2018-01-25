@@ -58,7 +58,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
 
     fun updateCustomerSupportDetails() {
         val header = Phrase.from(context, R.string.itin_flight_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
-        val itineraryNumb = Phrase.from(context, R.string.itin_flight_itinerary_number_TEMPLATE).put("itin_number", itinCardDataFlight.tripNumber).format().toString()
+        val itineraryNumb = itinCardDataFlight.tripNumber ?: ""
         val customerSupportNumber = itinCardDataFlight.tripComponent.parentTrip.customerSupport.supportPhoneNumberDomestic
         val customerSupportButton = Phrase.from(context, R.string.itin_flight_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         val customerSupportURL = itinCardDataFlight.tripComponent.parentTrip.customerSupport.supportUrl
@@ -152,9 +152,9 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
     fun airlineSupportDetailsData() {
         val tripFlight = itinCardDataFlight.tripComponent as TripFlight
         val ticketValue = itinCardDataFlight.getTicketNumbers()
-        val confirmationValue = itinCardDataFlight.getSpannedConfirmationNumbers(context)
+        val confirmationValue = itinCardDataFlight.getSpannedConfirmationNumbers(context).toString()
         val airlineSupportUrlValue = tripFlight.flightTrip.airlineManageBookingURL ?: ""
-        val itineraryNumber = itinCardDataFlight.tripNumber
+        val itineraryNumber = itinCardDataFlight.tripNumber ?: ""
         val airlineName = itinCardDataFlight.getAirlineName()
 
         var title: String
@@ -170,10 +170,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
             airlineSupport = Phrase.from(context, R.string.itin_flight_airline_support_widget_airlines_support_TEMPLATE).put("airline_name", airlineName).format().toString()
             customerSupportSiteText = Phrase.from(context, R.string.itin_flight_airline_support_widget_customer_support_TEMPLATE).put("airline_name", airlineName).format().toString()
         }
-        val ticket = if (Strings.isNotEmpty(ticketValue)) Phrase.from(context, R.string.itin_flight_airline_support_widget_ticket_TEMPLATE).put("ticket_number", ticketValue).format().toString() else ""
-        val confirmation = if (Strings.isNotEmpty(confirmationValue)) Phrase.from(context, R.string.itin_flight_airline_support_widget_confirmation_TEMPLATE).put("confirmation_number", confirmationValue).format().toString() else ""
-        val itinerary = if (Strings.isNotEmpty(itineraryNumber)) Phrase.from(context, R.string.itin_flight_airline_support_widget_itinerary_TEMPLATE).put("itinerary_number", itineraryNumber).format().toString() else ""
         val callSupportNumber = ""
-        flightItinAirlineSupportDetailsSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title, airlineSupport, ticket, confirmation, itinerary, callSupportNumber, customerSupportSiteText, airlineSupportUrlValue))
+        flightItinAirlineSupportDetailsSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title, airlineSupport, ticketValue, confirmationValue, itineraryNumber, callSupportNumber, customerSupportSiteText, airlineSupportUrlValue))
     }
 }

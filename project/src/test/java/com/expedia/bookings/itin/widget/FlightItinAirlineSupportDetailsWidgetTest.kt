@@ -8,6 +8,7 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightItinAirlineSupportDetailsViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.ClipboardUtils
 import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test
@@ -30,15 +31,6 @@ class FlightItinAirlineSupportDetailsWidgetTest {
 
     @Test
     fun testViewVisibility() {
-        supportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(createAirlineSupportDetailsParam())
-
-        assertEquals(supportDetailsWidget.title.visibility, View.VISIBLE)
-        assertEquals(supportDetailsWidget.airlineSupport.visibility, View.VISIBLE)
-        assertEquals(supportDetailsWidget.ticket.visibility, View.VISIBLE)
-        assertEquals(supportDetailsWidget.confirmation.visibility, View.VISIBLE)
-        assertEquals(supportDetailsWidget.itinerary.visibility, View.VISIBLE)
-        assertEquals(supportDetailsWidget.customerSupportCallButton.visibility, View.VISIBLE)
-        assertEquals(supportDetailsWidget.customerSupportSiteButton.visibility, View.VISIBLE)
 
         val title = Phrase.from(activity, R.string.itin_flight_airline_support_widget_airlines_for_help_TEMPLATE).put("airline_name", "UNITED").format().toString()
         val airlineSupport = Phrase.from(activity, R.string.itin_flight_airline_support_widget_airlines_support_TEMPLATE).put("airline_name", "UNITED").format().toString()
@@ -53,6 +45,16 @@ class FlightItinAirlineSupportDetailsWidgetTest {
         assertEquals(supportDetailsWidget.itinerary.visibility, View.GONE)
         assertEquals(supportDetailsWidget.customerSupportCallButton.visibility, View.GONE)
         assertEquals(supportDetailsWidget.customerSupportSiteButton.visibility, View.GONE)
+
+        supportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(createAirlineSupportDetailsParam())
+
+        assertEquals(supportDetailsWidget.title.visibility, View.VISIBLE)
+        assertEquals(supportDetailsWidget.airlineSupport.visibility, View.VISIBLE)
+        assertEquals(supportDetailsWidget.ticket.visibility, View.VISIBLE)
+        assertEquals(supportDetailsWidget.confirmation.visibility, View.VISIBLE)
+        assertEquals(supportDetailsWidget.itinerary.visibility, View.VISIBLE)
+        assertEquals(supportDetailsWidget.customerSupportCallButton.visibility, View.VISIBLE)
+        assertEquals(supportDetailsWidget.customerSupportSiteButton.visibility, View.VISIBLE)
     }
 
     @Test
@@ -77,10 +79,7 @@ class FlightItinAirlineSupportDetailsWidgetTest {
         var confirmationValue = "IKQVCR"
         var itineraryNumber = "7238007847306"
 
-        var ticket = Phrase.from(activity, R.string.itin_flight_airline_support_widget_ticket_TEMPLATE).put("ticket_number", ticketValue).format().toString()
-        var confirmation = Phrase.from(activity, R.string.itin_flight_airline_support_widget_confirmation_TEMPLATE).put("confirmation_number", confirmationValue).format().toString()
-        var itinerary = Phrase.from(activity, R.string.itin_flight_airline_support_widget_itinerary_TEMPLATE).put("itinerary_number", itineraryNumber).format().toString()
-        supportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams("", "", ticket, confirmation, itinerary, "", "", ""))
+        supportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams("", "", ticketValue, confirmationValue, itineraryNumber, "", "", ""))
 
         assertEquals(supportDetailsWidget.ticket.contentDescription, "Ticket number 0 1 6 7 9 3 9 2 5 2 1 9 1")
         assertEquals(supportDetailsWidget.confirmation.contentDescription, "Confirmation number I K Q V C R")
@@ -90,14 +89,25 @@ class FlightItinAirlineSupportDetailsWidgetTest {
         confirmationValue = "IKQVCR , KH67JH"
         itineraryNumber = "7238007847306"
 
-        ticket = Phrase.from(activity, R.string.itin_flight_airline_support_widget_ticket_TEMPLATE).put("ticket_number", ticketValue).format().toString()
-        confirmation = Phrase.from(activity, R.string.itin_flight_airline_support_widget_confirmation_TEMPLATE).put("confirmation_number", confirmationValue).format().toString()
-        itinerary = Phrase.from(activity, R.string.itin_flight_airline_support_widget_itinerary_TEMPLATE).put("itinerary_number", itineraryNumber).format().toString()
-        supportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams("", "", ticket, confirmation, itinerary, "", "", ""))
+        supportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams("", "", ticketValue, confirmationValue, itineraryNumber, "", "", ""))
 
         assertEquals(supportDetailsWidget.ticket.contentDescription, "Ticket number 0 1 6 7 9 3 9 2 5 2 1 9 1 , 0 9 4 5 7 2 3 7 5 8 4 5")
         assertEquals(supportDetailsWidget.confirmation.contentDescription, "Confirmation number I K Q V C R , K H 6 7 J H")
         assertEquals(supportDetailsWidget.itinerary.contentDescription, "Itinerary number 7 2 3 8 0 0 7 8 4 7 3 0 6")
+    }
+
+    @Test
+    fun testItineraryAndConfirmationClick() {
+        var ticketValue = "0167939252191"
+        var confirmationValue = "IKQVCR"
+        var itineraryNumber = "7238007847306"
+
+        var ticket = Phrase.from(activity, R.string.itin_flight_airline_support_widget_ticket_TEMPLATE).put("ticket_number", ticketValue).format().toString()
+        supportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams("", "", ticket, confirmationValue, itineraryNumber, "", "", ""))
+        supportDetailsWidget.confirmation.performClick()
+        assertEquals(ClipboardUtils.getText(activity), confirmationValue)
+        supportDetailsWidget.itinerary.performClick()
+        assertEquals(ClipboardUtils.getText(activity), itineraryNumber)
     }
 
     private fun createAirlineSupportDetailsParam(): FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams {

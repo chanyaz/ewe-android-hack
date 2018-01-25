@@ -129,6 +129,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:textColor="@color/gray900"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
@@ -141,6 +142,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:textColor="@color/gray900"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
@@ -153,6 +155,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:textColor="@color/gray900"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
@@ -169,6 +172,7 @@
                 android:textAllCaps="true"
                 android:textColor="?attr/itin_card_summary_action_button_text_color"
                 android:textSize="?attr/itin_card_summary_action_button_text_size"
+                android:visibility="gone"
                 android:textStyle="normal" />
 
             <com.expedia.bookings.widget.TextView
@@ -183,6 +187,7 @@
                 android:drawablePadding="8dp"
                 android:textColor="?attr/itin_card_summary_action_button_text_color"
                 android:textSize="?attr/itin_card_summary_action_button_text_size"
+                android:visibility="gone"
                 android:textStyle="normal" />
 
 

@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.mobiata.android.SocialUtils
+import com.squareup.phrase.Phrase
 
 class FlightItinAirlineSupportDetailsWidget(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -36,61 +37,70 @@ class FlightItinAirlineSupportDetailsWidget(context: Context?, attrs: AttributeS
     var viewModel: FlightItinAirlineSupportDetailsViewModel by notNullAndObservable { vm ->
         vm.airlineSupportDetailsWidgetSubject.subscribe { params ->
             setUpWidget(params)
-            setUpListeners(params)
         }
     }
 
     private fun setUpWidget(param: FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams) {
         title.text = param.title
         airlineSupport.text = param.airlineSupport
-        ticket.text = param.ticket
-        ticket.contentDescription = getContentDescriptionForView(ticket)
-        if (Strings.isEmpty(param.ticket)) {
-            ticket.visibility = View.GONE
+        if (Strings.isNotEmpty(param.ticket)) {
+            ticket.visibility = View.VISIBLE
+            ticket.text = Phrase.from(context, R.string.itin_flight_airline_support_widget_ticket_TEMPLATE).put("ticket_number", param.ticket).format().toString()
+            ticket.contentDescription = Phrase.from(context, R.string.itin_flight_airline_support_widget_ticket_content_description_TEMPLATE).put("ticket_number", getNumbersForContentDescription(param.ticket)).format().toString()
         }
-        confirmation.text = param.confirmation
-        confirmation.contentDescription = getContentDescriptionForView(confirmation)
-        if (Strings.isEmpty(param.confirmation)) {
-            confirmation.visibility = View.GONE
+        if (Strings.isNotEmpty(param.confirmation)) {
+            confirmation.visibility = View.VISIBLE
+            confirmation.text = Phrase.from(context, R.string.itin_flight_airline_support_widget_confirmation_TEMPLATE).put("confirmation_number", param.confirmation).format().toString()
+            confirmation.contentDescription = Phrase.from(context, R.string.itin_flight_airline_support_widget_confirmation_content_description_TEMPLATE).put("confirmation_number", getNumbersForContentDescription(param.confirmation)).format().toString()
+            onConfirmationClick(param.confirmation)
         }
-        itinerary.text = param.itinerary
-        itinerary.contentDescription = getContentDescriptionForView(itinerary)
-        if (Strings.isEmpty(param.itinerary)) {
-            itinerary.visibility = View.GONE
+        if (Strings.isNotEmpty(param.itinerary)) {
+            itinerary.visibility = View.VISIBLE
+            itinerary.text = Phrase.from(context, R.string.itin_flight_airline_support_widget_itinerary_TEMPLATE).put("itinerary_number", param.itinerary).format().toString()
+            itinerary.contentDescription = Phrase.from(context, R.string.itin_flight_airline_support_widget_itinerary_content_description_TEMPLATE).put("itinerary_number", getNumbersForContentDescription(param.itinerary)).format().toString()
+            onItineraryClick(param.itinerary)
         }
-        customerSupportCallButton.text = param.callSupport
-        if (Strings.isEmpty(param.callSupport)) {
-            customerSupportCallButton.visibility = View.GONE
+        if (Strings.isNotEmpty(param.callSupport)) {
+            customerSupportCallButton.visibility = View.VISIBLE
+            customerSupportCallButton.text = param.callSupport
+            onCustomerSupportCallButtonClick(param.callSupport)
         }
-        customerSupportSiteButton.text = param.siteSupportText
-        AccessibilityUtil.appendRoleContDesc(customerSupportSiteButton, customerSupportSiteButton.text.toString(), R.string.accessibility_cont_desc_role_button)
-        if (Strings.isEmpty(param.siteSupportURL)) {
-            customerSupportSiteButton.visibility = View.GONE
+        if (Strings.isNotEmpty(param.siteSupportURL)) {
+            customerSupportSiteButton.visibility = View.VISIBLE
+            customerSupportSiteButton.text = param.siteSupportText
+            onCustomerSupportWebButtonClick(param.siteSupportURL)
+            AccessibilityUtil.appendRoleContDesc(customerSupportSiteButton, customerSupportSiteButton.text.toString(), R.string.accessibility_cont_desc_role_button)
         }
     }
 
-    private fun onCustomerSupportCallButtonClick(param: FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams) = customerSupportCallButton.setOnClickListener {
+    private fun onCustomerSupportCallButtonClick(supportNumber: String) = customerSupportCallButton.setOnClickListener {
         OmnitureTracking.trackFlightItinAirlineSupportCallClick()
-        val supportNumber = param.callSupport
         if (Strings.isNotEmpty(supportNumber)) {
             val pm = context.packageManager
             if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
                 SocialUtils.call(context, supportNumber)
             } else {
-                ClipboardUtils.setText(context, supportNumber)
-                Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
+                copyToClipBoard(supportNumber)
             }
         }
     }
 
-    private fun setUpListeners(param: FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams) {
-        onCustomerSupportWebButtonClick(param)
-        onCustomerSupportCallButtonClick(param)
+    private fun onCustomerSupportWebButtonClick(url: String) = customerSupportSiteButton.setOnClickListener {
+        OmnitureTracking.trackFlightItinAirlineSupportWebsiteClick()
+        context.startActivity(buildWebViewIntent(R.string.itin_flight_airline_support_widget_support_webview_title, url).intent)
     }
 
-    private fun onCustomerSupportWebButtonClick(param: FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams) = customerSupportSiteButton.setOnClickListener {
-        OmnitureTracking.trackFlightItinAirlineSupportWebsiteClick()
-        context.startActivity(buildWebViewIntent(R.string.itin_flight_airline_support_widget_support_webview_title, param.siteSupportURL).intent)
+    private fun onItineraryClick(text: String) = itinerary.setOnClickListener {
+        copyToClipBoard(text)
+    }
+
+    private fun onConfirmationClick(text: String) = confirmation.setOnClickListener {
+        copyToClipBoard(text)
+    }
+
+    private fun copyToClipBoard(text: String) {
+        ClipboardUtils.setText(context, text)
+        Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
     }
 
     private fun buildWebViewIntent(title: Int, url: String): WebViewActivity.IntentBuilder {
@@ -99,19 +109,7 @@ class FlightItinAirlineSupportDetailsWidget(context: Context?, attrs: AttributeS
         builder.setUrl(url)
         builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(false)
-
         return builder
-    }
-
-    private fun getContentDescriptionForView(view: TextView): String {
-        val viewText = view.text.toString()
-        if (viewText.contains("#")) {
-            val numberText = context.getString(R.string.itin_flight_airline_support_widget_number_text)
-            val numberSeparatedWithComma = viewText.substring(viewText.lastIndexOf("#") + 1).trim()
-            val contentDescriptionText = viewText.replace("#", numberText)
-            return contentDescriptionText.replace(numberSeparatedWithComma, getNumbersForContentDescription(numberSeparatedWithComma))
-        }
-        return viewText
     }
 
     private fun getNumbersForContentDescription(numberSeparatedWithComma: String): String {
