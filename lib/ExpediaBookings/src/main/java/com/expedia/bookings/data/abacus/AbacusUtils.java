@@ -104,6 +104,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesShowForceUpdateDialog = new ABTest(16283);
 	public static final ABTest PackagesBackFlowFromOverview = new ABTest(16163);
 	public static final ABTest EBAndroidAppPackagesDisplayFlightSeatingClass = new ABTest(16300);
+	public static final ABTest EBAndroidAppPackagesDisplayBasicEconomyTooltip = new ABTest(24678);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountSinglePageSignUp = new ABTest(13923);
@@ -212,6 +213,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFLightLoadingStateV1.getKey());
 		testIDs.add(HotelHideMiniMapOnResult.getKey());
 		testIDs.add(EBAndroidAppFlightsRecentSearch.getKey());
+		testIDs.add(EBAndroidAppPackagesDisplayBasicEconomyTooltip.getKey());
 		return testIDs;
 	}
 
