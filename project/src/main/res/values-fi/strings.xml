@@ -636,6 +636,11 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend} %</string>
 
+    <string name="lx_recommendation_no_superlative">/ 5</string>
+    <string name="lx_recommendation_superlativeGood">/ 5 – Hyvä!</string>
+    <string name="lx_recommendation_superlativeGreat">/ 5 – Upea!</string>
+    <string name="lx_recommendation_superlativeAmazing">/ 5 – Loistava!</string>
+
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">Hakusana tai lause</string>
 
@@ -863,6 +868,17 @@
     <!-- New launch screen -->
     <!-- Search screen title -->
     <string name="search_title">Haku</string>
+
+    <!-- Meso hotel ad card -->
+
+    <!-- The {percent} is the discounted percentage of the price per night at the hotel. Example - "33% off" -->
+    <string name="meso_percent_off_TEMPLATE">{percent} alennusta</string>
+
+    <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
+     character or a new line character. This changes because the text might break multiple lines. The {strike_price} is the
+     price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
+     Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
+    <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line}alkaen &lt;strike&gt;{strike_price}&lt;/strike&gt; {price}/yö</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Suositeltuja hotelleja täksi yöksi</string>
@@ -1479,8 +1495,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">Lipun numero: {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(Sylissä matkustava vauva)</string>
-    <!--Flight itin manage booking title-->
-    <string name="itin_flight_details_manage_booking_heading">Hallitse varausta</string>
     <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
     <string name="itin_flight_customer_support_header_text_TEMPLATE">Ota yhteyttä {brand}an, jos tarvitset apua matkasuunnitelman hallinnassa.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
@@ -1504,7 +1518,7 @@
     <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
     <string name="itin_flight_leg_detail_widget_sub_title_TEMPLATE">{departure_date_time} – {arrival_date_time} · {stops}</string>
     <!--Flight itin, flight leg detail widget sub title date time template. {date} {time} (eg., Aug 20 8:00am)-->
-    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} kello {time}</string>
+    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
     <!--Flight itin, flight leg detail widget Nonstop text-->
     <string name="itin_flight_leg_detail_widget_nonstop">Suora lento</string>
     <!--Flight itin, flight leg detail widget "to" text-->
@@ -2675,7 +2689,7 @@
 
     <!-- Amenity strings -->
     <!-- Business center amenity -->
-    <string name="amenity_business_center">Liikekeskus</string>
+    <string name="amenity_business_center">Business center</string>
     <!-- Fitness center amenity -->
     <string name="amenity_fitness_center">Kuntosali</string>
     <!-- Hot tub on-site amenity -->
@@ -2713,15 +2727,15 @@
     <!-- Accessible bathroom amenity -->
     <string name="amenity_accessible_bathroom">Esteetön kylpyhuone</string>
     <!-- Roll-in shower amenity -->
-    <string name="amenity_roll_in_shower">Invasuihku</string>
+    <string name="amenity_roll_in_shower">Esteetön suihku</string>
     <!-- Handicapped parking amenity -->
-    <string name="amenity_handicapped_parking">Pysäköinti liikuntakyvyttömille</string>
+    <string name="amenity_handicapped_parking">Pysäköinti liikuntaesteisille</string>
     <!-- In-room accessibility amenity -->
     <string name="amenity_in_room_accessibility">Esteetön huone</string>
     <!-- Accessibility equipment for the deaf amenity -->
     <string name="amenity_deaf_accessibility_equipment">Esteetön kuuroille</string>
     <!-- Braille or raised signage amenity -->
-    <string name="amenity_braille_signage">Kyltit sokeainkirjoituksella</string>
+    <string name="amenity_braille_signage">Kyltit pistekirjoituksella</string>
     <!-- Free airport shuttle amenity -->
     <string name="amenity_free_airport_shuttle">Lentokenttäkuljetukset</string>
     <!-- Indoor pool amenity -->
@@ -2732,14 +2746,23 @@
     <string name="amenity_extended_parking">Pitkitetty pysäköinti</string>
     <!-- Free parking amenity -->
     <string name="amenity_free_parking">Ilmainen pysäköinti</string>
+    <!-- Air conditioning amenity -->
+    <string name="amenity_air_conditioning">Ilmastointi</string>
+    <!-- All inclusive options amenity -->
+    <string name="amenity_all_inclusive">All inclusive saatavilla</string>
 
     <!-- Hotel Filter Amenities -->
-    <!-- Free internet -->
-    <string name="filter_high_speed_internet">Ilmainen internet</string>
+    <!-- High Speed internet -->
+    <string name="filter_high_speed_internet">Nopea internetyhteys</string>
     <!-- Free breakfast -->
     <string name="filter_free_breakfast">Ilmainen aamupala</string>
-    <!-- Free airport shuttle amenity -->
-    <string name="filter_free_airport_transportation">Ilmaiset lentokenttäkuljetukset</string>
+    <!-- Free airport transportation -->
+    <string name="filter_free_airport_transportation">Ilmainen lentokenttäkuljetus</string>
+    <!-- Pets Allowed -->
+    <string name="filter_pets_allowed">Lemmikkieläimet sallittu</string>
+    <!-- All inclusive Options -->
+    <string name="filter_all_inclusive">All inclusive -vaihtoehdot</string>
+
 
 
     <!-- User Reviews list strings -->
@@ -3881,7 +3904,11 @@
     <!-- Bundle Overview collapsed flight card with more info accessibility content description-->
     <string name="row_expand_button_description">Pienennetty-painike. Napauta kahdesti avataksesi.</string>
     <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
-    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} suurennettu-painike. Napauta kahdesti pienentääksesi.</string>
+    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} Suurennettu-painike. Napauta kahdesti pienentääksesi.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
+    <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Pienennetty-painike. Napauta kahdesti avataksesi.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
+    <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}. {rowdescription} Suurennettu-painike. Napauta kahdesti pienentääksesi.</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">Lentoaika on {time}. Lentävä yhtiö {airline}. Lennon kesto on {hours} {minutes}, {stops} välilaskua\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
@@ -4872,5 +4899,8 @@
     <string name="book_room_button_content_description_TEMPLATE">Varaa {room}</string>
     <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
     <string name="select_room_button_content_description_TEMPLATE">Valitse {room}</string>
+
+    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">{flightsearchtype} välilehti</string>
 
 </resources>

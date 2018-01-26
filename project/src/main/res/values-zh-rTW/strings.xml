@@ -636,6 +636,11 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
+    <string name="lx_recommendation_no_superlative">/5</string>
+    <string name="lx_recommendation_superlativeGood">/ 5 - 不錯哦！</string>
+    <string name="lx_recommendation_superlativeGreat">/ 5 - 非常好！</string>
+    <string name="lx_recommendation_superlativeAmazing">/ 5 - 超讚的！</string>
+
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">請輸入關鍵詞</string>
 
@@ -863,6 +868,17 @@
     <!-- New launch screen -->
     <!-- Search screen title -->
     <string name="search_title">搜尋</string>
+
+    <!-- Meso hotel ad card -->
+
+    <!-- The {percent} is the discounted percentage of the price per night at the hotel. Example - "33% off" -->
+    <string name="meso_percent_off_TEMPLATE">{percent} 折扣</string>
+
+    <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
+     character or a new line character. This changes because the text might break multiple lines. The {strike_price} is the
+     price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
+     Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
+    <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line}每晚 &lt;strike&gt;{strike_price}&lt;/strike&gt; {price} 起</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">今晚推薦飯店</string>
@@ -1479,8 +1495,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">機票號碼 {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(嬰兒不佔位)</string>
-    <!--Flight itin manage booking title-->
-    <string name="itin_flight_details_manage_booking_heading">管理預訂</string>
     <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
     <string name="itin_flight_customer_support_header_text_TEMPLATE">如需協助管理此行程，請聯絡 {brand}。</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
@@ -2677,7 +2691,7 @@
     <!-- Business center amenity -->
     <string name="amenity_business_center">商務中心</string>
     <!-- Fitness center amenity -->
-    <string name="amenity_fitness_center">健身館</string>
+    <string name="amenity_fitness_center">健身房</string>
     <!-- Hot tub on-site amenity -->
     <string name="amenity_hot_tub">熱水浴缸</string>
     <!-- Internet access amenity -->
@@ -2697,7 +2711,7 @@
     <!-- Spa on-site amenity -->
     <string name="amenity_spa">Spa</string>
     <!-- Whirlpool bath amenity -->
-    <string name="amenity_whirlpool_bath">漩渦浴缸</string>
+    <string name="amenity_whirlpool_bath">渦流浴池</string>
     <!-- Breakfast amenity -->
     <string name="amenity_breakfast">早餐</string>
     <!-- Babysitting amenity -->
@@ -2723,23 +2737,32 @@
     <!-- Braille or raised signage amenity -->
     <string name="amenity_braille_signage">盲人點字標示</string>
     <!-- Free airport shuttle amenity -->
-    <string name="amenity_free_airport_shuttle">機場接送服務</string>
+    <string name="amenity_free_airport_shuttle">機場接駁車</string>
     <!-- Indoor pool amenity -->
     <string name="amenity_pool_indoor">室內游泳池</string>
     <!-- Outdoor pool amenity -->
     <string name="amenity_pool_outdoor">室外游泳池</string>
     <!-- Extended parking amenity -->
-    <string name="amenity_extended_parking">延時停車</string>
+    <string name="amenity_extended_parking">長期停車場</string>
     <!-- Free parking amenity -->
     <string name="amenity_free_parking">免費停車</string>
+    <!-- Air conditioning amenity -->
+    <string name="amenity_air_conditioning">空調</string>
+    <!-- All inclusive options amenity -->
+    <string name="amenity_all_inclusive">提供全包方案</string>
 
     <!-- Hotel Filter Amenities -->
-    <!-- Free internet -->
-    <string name="filter_high_speed_internet">免費上網</string>
+    <!-- High Speed internet -->
+    <string name="filter_high_speed_internet">高速上網</string>
     <!-- Free breakfast -->
     <string name="filter_free_breakfast">免費早餐</string>
-    <!-- Free airport shuttle amenity -->
-    <string name="filter_free_airport_transportation">免費機場接駁車</string>
+    <!-- Free airport transportation -->
+    <string name="filter_free_airport_transportation">免費機場接送</string>
+    <!-- Pets Allowed -->
+    <string name="filter_pets_allowed">可攜帶寵物</string>
+    <!-- All inclusive Options -->
+    <string name="filter_all_inclusive">全包選項</string>
+
 
 
     <!-- User Reviews list strings -->
@@ -3882,6 +3905,10 @@
     <string name="row_expand_button_description">收合按鈕。輕觸兩下以展開。</string>
     <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription}展開按鈕。輕觸兩下以收合。</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
+    <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}。已收合的按鈕。輕觸兩下以展開。</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
+    <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}。{rowdescription}已展開的按鈕。輕觸兩下以收合。</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">班機時間為：{time}。乘搭{airline}。航程總時間 {hours} {minutes}，停留 {stops} 次\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
@@ -4872,5 +4899,8 @@
     <string name="book_room_button_content_description_TEMPLATE">預訂，{room}</string>
     <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
     <string name="select_room_button_content_description_TEMPLATE">選擇{room}</string>
+
+    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">{flightsearchtype}鍵</string>
 
 </resources>

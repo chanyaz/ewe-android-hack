@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.pos.PointOfSale
+import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -17,12 +18,10 @@ class HotelResultsPricingStructureHeaderViewModel(val context: Context, val pric
     val resultsDescriptionHeaderObservable = BehaviorSubject.create<String>()
     val loyaltyAvailableObservable = BehaviorSubject.create<Boolean>()
     val sortFaqLinkAvailableObservable = BehaviorSubject.create<Boolean>()
-    val resultsDescriptionLabelObservable = PublishSubject.create<String>()
 
     init {
         loadingStartedObserver.subscribe {
             resultsDescriptionHeaderObservable.onNext(context.resources.getString(R.string.progress_searching_hotels_hundreds))
-            resultsDescriptionLabelObservable.onNext("")
             loyaltyAvailableObservable.onNext(false)
             sortFaqLinkAvailableObservable.onNext(false)
         }
@@ -35,8 +34,11 @@ class HotelResultsPricingStructureHeaderViewModel(val context: Context, val pric
             val priceDescriptorAndResultsCountHeader: String
 
             if (priceDescriptorMessageIdForHSR != null) {
-                priceDescriptorAndResultsCountHeader = context.resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
-                resultsDescriptionLabelObservable.onNext(context.getString(R.string.package_hotel_results_header))
+                val hotelResultsCount = context.resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                priceDescriptorAndResultsCountHeader = Phrase.from(context, priceDescriptorMessageIdForHSR)
+                        .putOptional("total_price_result_count_header", hotelResultsCount)
+                        .format()
+                        .toString()
             } else {
                 priceDescriptorAndResultsCountHeader = when (priceType) {
                     HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.resources.getQuantityString(R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE, hotelResultsCount, hotelResultsCount)

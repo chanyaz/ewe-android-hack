@@ -636,6 +636,11 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">Un {recommend} %</string>
 
+    <string name="lx_recommendation_no_superlative">sobre 5</string>
+    <string name="lx_recommendation_superlativeGood">sobre 5: ¡Bueno!</string>
+    <string name="lx_recommendation_superlativeGreat">sobre 5: ¡Fabuloso!</string>
+    <string name="lx_recommendation_superlativeAmazing">sobre 5: ¡Excelente!</string>
+
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">Palabra clave o frase</string>
 
@@ -863,6 +868,17 @@
     <!-- New launch screen -->
     <!-- Search screen title -->
     <string name="search_title">Buscar</string>
+
+    <!-- Meso hotel ad card -->
+
+    <!-- The {percent} is the discounted percentage of the price per night at the hotel. Example - "33% off" -->
+    <string name="meso_percent_off_TEMPLATE">{percent} de descuento</string>
+
+    <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
+     character or a new line character. This changes because the text might break multiple lines. The {strike_price} is the
+     price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
+     Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
+    <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line}desde &lt;strike&gt;{strike_price}&lt;/strike&gt; {price}/noche</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Hoteles recomendados para hoy</string>
@@ -1479,8 +1495,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">Número de billete: {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(Bebé en brazos)</string>
-    <!--Flight itin manage booking title-->
-    <string name="itin_flight_details_manage_booking_heading">Gestionar la reserva</string>
     <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
     <string name="itin_flight_customer_support_header_text_TEMPLATE">Ponte en contacto con {brand} si necesitas ayuda para gestionar este itinerario.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
@@ -2701,7 +2715,7 @@
     <!-- Breakfast amenity -->
     <string name="amenity_breakfast">Desayuno</string>
     <!-- Babysitting amenity -->
-    <string name="amenity_babysitting">Servicio de niñera</string>
+    <string name="amenity_babysitting">Cuidado de niños</string>
     <!-- Jacuzzi amenity -->
     <string name="amenity_jacuzzi">Jacuzzi</string>
     <!-- Parking amenity -->
@@ -2731,15 +2745,24 @@
     <!-- Extended parking amenity -->
     <string name="amenity_extended_parking">Aparcamiento ampliado</string>
     <!-- Free parking amenity -->
-    <string name="amenity_free_parking">Aparcamiento gratuito</string>
+    <string name="amenity_free_parking">Aparcamiento gratis</string>
+    <!-- Air conditioning amenity -->
+    <string name="amenity_air_conditioning">Aire acondicionado</string>
+    <!-- All inclusive options amenity -->
+    <string name="amenity_all_inclusive">Todo incluido disponible</string>
 
     <!-- Hotel Filter Amenities -->
-    <!-- Free internet -->
-    <string name="filter_high_speed_internet">Internet gratuito</string>
+    <!-- High Speed internet -->
+    <string name="filter_high_speed_internet">Internet de alta velocidad</string>
     <!-- Free breakfast -->
     <string name="filter_free_breakfast">Desayuno incluido</string>
-    <!-- Free airport shuttle amenity -->
-    <string name="filter_free_airport_transportation">Traslado al aeropuerto gratuito</string>
+    <!-- Free airport transportation -->
+    <string name="filter_free_airport_transportation">Transporte gratuito al aeropuerto</string>
+    <!-- Pets Allowed -->
+    <string name="filter_pets_allowed">Se admiten mascotas</string>
+    <!-- All inclusive Options -->
+    <string name="filter_all_inclusive">Opciones de todo incluido</string>
+
 
 
     <!-- User Reviews list strings -->
@@ -3882,6 +3905,10 @@
     <string name="row_expand_button_description">Botón con información oculta. Da dos toques para expandir.</string>
     <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription}. Botón con información expandida. Da dos toques para contraer.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
+    <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Botón con información oculta. Da dos toques para expandir.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
+    <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}. {rowdescription}. Botón con información expandida. Da dos toques para contraer.</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">Hora de salida del vuelo: {time}. Vuelo operado por {airline}. La duración del vuelo es de {hours} y {minutes}, con {stops} escalas\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
@@ -4872,5 +4899,8 @@
     <string name="book_room_button_content_description_TEMPLATE">Reservar, {room}</string>
     <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
     <string name="select_room_button_content_description_TEMPLATE">Seleccionar, {room}</string>
+
+    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">Pestaña {flightsearchtype}</string>
 
 </resources>

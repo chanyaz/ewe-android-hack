@@ -636,6 +636,11 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
+    <string name="lx_recommendation_no_superlative">/ 5</string>
+    <string name="lx_recommendation_superlativeGood">/ 5 - 좋음!</string>
+    <string name="lx_recommendation_superlativeGreat">/ 5 - 훌륭함!</string>
+    <string name="lx_recommendation_superlativeAmazing">/ 5 - 최고!</string>
+
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">키워드 또는 구문</string>
 
@@ -750,7 +755,7 @@
     </plurals>
 
     <!-- Rooms and rates pay later -->
-    <string name="room_rate_pay_later">나중에 결제</string>
+    <string name="room_rate_pay_later">호텔에서 결제</string>
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">지금 결제</string>
     <!-- Rooms and rates pay later deposit due now -->
@@ -863,6 +868,17 @@
     <!-- New launch screen -->
     <!-- Search screen title -->
     <string name="search_title">검색</string>
+
+    <!-- Meso hotel ad card -->
+
+    <!-- The {percent} is the discounted percentage of the price per night at the hotel. Example - "33% off" -->
+    <string name="meso_percent_off_TEMPLATE">{percent} 할인</string>
+
+    <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
+     character or a new line character. This changes because the text might break multiple lines. The {strike_price} is the
+     price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
+     Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
+    <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line}1박당 &lt;strike&gt;{strike_price}&lt;/strike&gt; {price}~</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">오늘 밤 추천 호텔</string>
@@ -1479,8 +1495,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">티켓 번호: {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(무릎에 유아)</string>
-    <!--Flight itin manage booking title-->
-    <string name="itin_flight_details_manage_booking_heading">예약 관리</string>
     <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
     <string name="itin_flight_customer_support_header_text_TEMPLATE">이 일정 관리에 대해 도움이 필요하시면 {brand}에 연락해 주세요.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
@@ -2531,7 +2545,7 @@
     <!-- Expedia sponsored listing -->
     <string name="sponsored">스폰서 링크</string>
     <!-- Expedia ETP book now/pay later search results -->
-    <string name="book_now_pay_later">지금 예약하고 나중에 결제</string>
+    <string name="book_now_pay_later">지금 예약하고 호텔에서 결제</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">죄송합니다. %1$s일을 초과하는 숙박을 위한 호텔은 검색할 수 없습니다.</string>
     <!-- Search Error title text "Search Error" -->
@@ -2709,17 +2723,17 @@
     <!-- Room service amenity -->
     <string name="amenity_room_service">룸서비스</string>
     <!-- Accessible path of travel amenity -->
-    <string name="amenity_accessible_paths">장애인 지원 복도</string>
+    <string name="amenity_accessible_paths">장애인 지원 \n복도</string>
     <!-- Accessible bathroom amenity -->
-    <string name="amenity_accessible_bathroom">장애인 지원 욕실</string>
+    <string name="amenity_accessible_bathroom">장애인 지원 \n욕실</string>
     <!-- Roll-in shower amenity -->
     <string name="amenity_roll_in_shower">롤인 샤워</string>
     <!-- Handicapped parking amenity -->
-    <string name="amenity_handicapped_parking">장애인용 주차장</string>
+    <string name="amenity_handicapped_parking">장애인용 \n주차장</string>
     <!-- In-room accessibility amenity -->
-    <string name="amenity_in_room_accessibility">장애인 지원 객실</string>
+    <string name="amenity_in_room_accessibility">장애인 지원 \n객실</string>
     <!-- Accessibility equipment for the deaf amenity -->
-    <string name="amenity_deaf_accessibility_equipment">청각장애인 지원 시설</string>
+    <string name="amenity_deaf_accessibility_equipment">청각장애인 \n지원 시설</string>
     <!-- Braille or raised signage amenity -->
     <string name="amenity_braille_signage">점자 표지판</string>
     <!-- Free airport shuttle amenity -->
@@ -2732,14 +2746,23 @@
     <string name="amenity_extended_parking">장기 주차</string>
     <!-- Free parking amenity -->
     <string name="amenity_free_parking">무료 주차</string>
+    <!-- Air conditioning amenity -->
+    <string name="amenity_air_conditioning">에어컨</string>
+    <!-- All inclusive options amenity -->
+    <string name="amenity_all_inclusive">올 인클루시브 \n제공</string>
 
     <!-- Hotel Filter Amenities -->
-    <!-- Free internet -->
-    <string name="filter_high_speed_internet">무료 인터넷</string>
+    <!-- High Speed internet -->
+    <string name="filter_high_speed_internet">초고속 인터넷</string>
     <!-- Free breakfast -->
-    <string name="filter_free_breakfast">무료 아침 식사</string>
-    <!-- Free airport shuttle amenity -->
-    <string name="filter_free_airport_transportation">무료 공항 셔틀</string>
+    <string name="filter_free_breakfast">무료 \n아침 식사</string>
+    <!-- Free airport transportation -->
+    <string name="filter_free_airport_transportation">무료 공항 \n교통편</string>
+    <!-- Pets Allowed -->
+    <string name="filter_pets_allowed">애완동물 허용</string>
+    <!-- All inclusive Options -->
+    <string name="filter_all_inclusive">올 인클루시브 \n옵션</string>
+
 
 
     <!-- User Reviews list strings -->
@@ -2777,9 +2800,9 @@
     <string name="user_review_no_recent_reviews">이 호텔에 대한 최근 이용 후기가 없습니다.</string>
 
     <!-- ETP pay later info message -->
-    <string name="pay_later_info_text">지금 예약하고 나중에 결제</string>
+    <string name="pay_later_info_text">지금 예약하고 호텔에서 결제</string>
     <string name="etp_payment_options_text">고객님의 호텔 결제 옵션</string>
-    <string name="etp_pay_later_option_text">나중에 결제</string>
+    <string name="etp_pay_later_option_text">호텔에서 결제</string>
     <string name="etp_pay_later_currency_text_TEMPLATE">호텔에서 직접 호텔의 현지 통화(%s)로 결제하시면 됩니다.</string>
     <string name="etp_pay_later_payment_info_text">결제 정보는 예약을 유지하는 데만 필요합니다.</string>
     <string name="etp_pay_later_cancellation_text">호텔의 취소 마감까지 무료 취소가 가능합니다.</string>
@@ -3652,7 +3675,7 @@
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
     <string name="pay_now_cont_desc">버튼을 눌러 지금 결제합니다.</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="pay_later_cont_desc">버튼을 눌러 나중에 결제합니다.</string>
+    <string name="pay_later_cont_desc">버튼을 눌러 호텔에서 결제합니다.</string>
 
     <!-- Content description for hotel star rating e.g. 3 stars -->
     <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
@@ -3882,6 +3905,10 @@
     <string name="row_expand_button_description">접힘 버튼입니다. 펼치려면 두 번 탭하세요.</string>
     <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} 펼침 버튼입니다. 접으려면 두 번 탭하세요.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
+    <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. 접힘 버튼입니다. 펼치려면 두 번 탭하세요.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
+    <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}. {rowdescription} 펼침 버튼입니다. 접으려면 두 번 탭하세요.</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">항공편 시간은 {time}입니다. 운항사는 {airline}입니다. 소요 시간은 {hours} {minutes}이며, {stops}번 경유합니다.\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
@@ -4872,5 +4899,8 @@
     <string name="book_room_button_content_description_TEMPLATE">{room} 예약하기</string>
     <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
     <string name="select_room_button_content_description_TEMPLATE">{room} 선택하기</string>
+
+    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">{flightsearchtype} 탭</string>
 
 </resources>
