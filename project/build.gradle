@@ -591,15 +591,18 @@ android.applicationVariants.all { variant ->
     variant.mergeAssets.doLast {
         delete(fileTree(dir: variant.mergeAssets.outputDir, includes: sharedDataFilesToRemove(variant)))
     }
-
-    if (variant.name == 'expediaDebug') {
-        def lintTask = tasks["lintExpediaDebug"]
-        def generateSourcesTask = tasks["generateExpediaDebugSources"]
-        lintTask.dependsOn generateDummyFileToHandleKotlinLintError
-        generateDummyFileToHandleKotlinLintError.dependsOn generateSourcesTask
-    }
 }
 
+afterEvaluate {
+    android.applicationVariants.all { variant ->
+        if (variant.name == 'expediaDebug') {
+            def lintTask = tasks["lintExpediaDebug"]
+            def generateSourcesTask = tasks["kaptExpediaDebugKotlin"]
+            lintTask.dependsOn generateDummyFileToHandleKotlinLintError
+            generateDummyFileToHandleKotlinLintError.dependsOn generateSourcesTask
+        }
+    }
+}
 def sharedDataFilesToRemove(variant) {
     List<String> filesToRemove = new ArrayList<String>()
     android.productFlavors.all { flavor ->
