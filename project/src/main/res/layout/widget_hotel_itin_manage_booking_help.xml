@@ -23,7 +23,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/itin_hotel_manage_booking_hotel_help_text"
@@ -58,8 +59,8 @@
                 android:id="@+id/itin_hotel_manage_booking_hotel_help_call_hotel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginBottom="12dp"
                 android:layout_marginRight="16dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:drawableLeft="@drawable/itin_call_hotel"
@@ -67,6 +68,21 @@
                 android:textColor="@color/itin_call_to_action_text"
                 android:textSize="14sp"
                 tools:text="(124)-135-3463" />
+            
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/itin_hotel_manage_booking_message_hotel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/itin_hotel_details_message_hotel_button"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:drawableLeft="@drawable/ic_hotel_message_icon"
+                android:drawablePadding="8dp"
+                android:textColor="@color/itin_call_to_action_text"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

@@ -8,6 +8,8 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.itin.utils.MessageHotelUtil.getClickListener
+import com.expedia.bookings.itin.utils.MessageHotelUtil.isHotelMessagingEnabled
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.bindView
@@ -19,6 +21,7 @@ class HotelItinManageBookingHelp(context: Context, attr: AttributeSet?) : Linear
     val helpText: TextView by bindView(R.id.itin_hotel_manage_booking_hotel_help_text)
     val hotelConfirmationNumber: TextView by bindView(R.id.itin_hotel_manage_booking_hotel_help_confirmation_number)
     val callHotelButton: TextView by bindView(R.id.itin_hotel_manage_booking_hotel_help_call_hotel)
+    private val messageHotel: TextView by bindView(R.id.itin_hotel_manage_booking_message_hotel)
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_manage_booking_help, this)
@@ -30,6 +33,13 @@ class HotelItinManageBookingHelp(context: Context, attr: AttributeSet?) : Linear
         if (phoneNumber.isEmpty()) {
             this.visibility = View.GONE
             return
+        }
+
+        val hotelMessagingUrl = itinCardDataHotel.property.epcConversationUrl
+
+        if (isHotelMessagingEnabled(context) && hotelMessagingUrl.isNotEmpty()) {
+            messageHotel.visibility = View.VISIBLE
+            messageHotel.setOnClickListener(getClickListener(context = context, url = hotelMessagingUrl, fromManageBooking = true))
         }
 
         helpText.text = Phrase.from(this, R.string.itin_hotel_manage_booking_hotel_help_text_TEMPLATE)
