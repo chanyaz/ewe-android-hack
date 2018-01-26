@@ -1,5 +1,8 @@
 package com.expedia.bookings.launch.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
@@ -14,9 +17,6 @@ import com.expedia.bookings.animation.SlideInItemAnimator;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.otto.Events;
 import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 

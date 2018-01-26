@@ -1,13 +1,16 @@
 package com.expedia.bookings.meso
 
+import android.accounts.NetworkErrorException
 import android.content.Context
 import com.expedia.bookings.meso.model.MesoAdResponse
 import com.expedia.bookings.meso.model.MesoDestinationAdResponse
 import com.expedia.bookings.meso.model.MesoHotelAdResponse
 import com.expedia.bookings.utils.Constants
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest
 import com.google.android.gms.ads.formats.NativeCustomTemplateAd
+import com.mobiata.android.Log
 import io.reactivex.subjects.PublishSubject
 
 open class MesoAdResponseProvider {
@@ -27,7 +30,15 @@ open class MesoAdResponseProvider {
                             mesoHotelAdResponseSubject.onNext(mesoAdResponse)
                         }
                         mesoHotelAdResponseSubject.onComplete()
-                    }) { hotelAdResponse, s -> }.build()
+                    })
+            { hotelAdResponse, s -> }
+                    .withAdListener(object : AdListener() {
+                        override fun onAdFailedToLoad(errorCode: Int) {
+                            val errorMessage = "Ad failed to load: " + errorCode
+                            Log.d(errorMessage)
+                            mesoHotelAdResponseSubject.onError(NetworkErrorException(errorMessage))
+                        }
+                    }).build()
 
             hotelAdLoader.loadAd(PublisherAdRequest.Builder().build())
         }

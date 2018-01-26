@@ -34,6 +34,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
+import com.expedia.bookings.meso.model.MesoHotelAdResponse;
 import com.expedia.bookings.meso.vm.MesoHotelAdViewModel;
 import com.expedia.bookings.mia.activity.LastMinuteDealActivity;
 import com.expedia.bookings.mia.activity.MemberDealsActivity;
@@ -50,17 +51,21 @@ import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.widget.LaunchScreenAirAttachCard;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.util.Optional;
 import com.expedia.util.PermissionsUtils;
 import com.expedia.vm.launch.ActiveItinViewModel;
 import com.expedia.vm.launch.BrandSignInLaunchHolderViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
+import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import kotlin.Unit;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
+import kotlin.Unit;
 
 public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
@@ -84,6 +89,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private List<LaunchDataItem> staticCards = new ArrayList<>();
 	private List<LaunchDataItem> dynamicCards = new ArrayList<>();
 	private ArrayList<LaunchDataItem> listData = new ArrayList<>();
+
+	private MesoHotelAdViewModel mesoHotelAdViewModel;
 
 	private Context context;
 	private ViewGroup parentView;
@@ -144,11 +151,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		if (viewType == LaunchDataItem.MESO_HOTEL_AD_VIEW) {
-			View view = LayoutInflater.from(context)
-				.inflate(R.layout.launch_meso_ad_card_view, parent, false);
-			MesoHotelAdViewHolder mesoHotelAdViewHolder = new MesoHotelAdViewHolder(view, new MesoHotelAdViewModel(context));
-			mesoHotelAdViewHolder.fetchHotelMesoAd();
-			return mesoHotelAdViewHolder;
+			final View view = LayoutInflater.from(context)
+				.inflate(R.layout.launch_meso_hotel_ad_card_view, parent, false);
+			return new MesoHotelAdViewHolder(view, mesoHotelAdViewModel);
 		}
 
 		if (viewType == LaunchDataItem.HOTEL_VIEW) {
@@ -345,7 +350,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
 			}
 			if (showMesoHotelAd()) {
-				items.add(new LaunchDataItem(LaunchDataItem.MESO_HOTEL_AD_VIEW));
+				if (mesoHotelAdViewModel != null && mesoHotelAdViewModel.dataIsValid()) {
+					items.add(new LaunchDataItem(LaunchDataItem.MESO_HOTEL_AD_VIEW));
+				}
 			}
 			if (showMemberDeal()) {
 				items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
@@ -442,15 +449,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private SignInPlaceHolderViewModel makeSignInPlaceholderViewModel() {
 		return new SignInPlaceHolderViewModel(getBrandForSignInView(),
-				context.getString(R.string.earn_rewards_and_unlock_deals),
-				context.getString(R.string.sign_in),
-				context.getString(R.string.Create_Account));
+			context.getString(R.string.earn_rewards_and_unlock_deals),
+			context.getString(R.string.sign_in),
+			context.getString(R.string.Create_Account));
 	}
 
 	private BrandSignInLaunchHolderViewModel makeSignInLaunchHolderViewModel() {
 		return new BrandSignInLaunchHolderViewModel(getBrandForSignInView(),
-				context.getString(R.string.member_prices_signin),
-				context.getString(R.string.sign_in_create_account));
+			context.getString(R.string.member_prices_signin),
+			context.getString(R.string.sign_in_create_account));
 	}
 
 	private BigImageLaunchViewModel getDealViewModel(int lastMinuteDealsIcon, int backgroundGradient,
@@ -530,6 +537,34 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return false;
 	}
 
+	public void initMesoHotelAd() {
+		if (showMesoHotelAd()) {
+			mesoHotelAdViewModel = new MesoHotelAdViewModel(context);
+			mesoHotelAdViewModel.fetchHotelMesoAd(new Observer<Optional<MesoHotelAdResponse>>() {
+				@Override
+				public void onSubscribe(Disposable d) {
+					// Not used. Calling fetching completes the Observer.
+				}
+
+				@Override
+				public void onNext(Optional<MesoHotelAdResponse> mesoHotelAdResponseOptional) {
+					updateState();
+				}
+
+				@Override
+				public void onComplete() {
+					Log.d("Meso hotel ad request has been completed");
+				}
+
+				@Override
+				public void onError(Throwable e) {
+					Log.d(e.getMessage());
+				}
+
+			});
+		}
+	}
+
 	private boolean showProWizard() {
 		return ProWizardBucketCache.isBucketed(context);
 	}
@@ -595,6 +630,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	protected ItineraryManager getItinManager() {
 		return ItineraryManager.getInstance();
+	}
+
+	public MesoHotelAdViewModel getMesoHotelAdViewModel() {
+		return mesoHotelAdViewModel;
+	}
+
+	public void setMesoHotelAdViewModel(MesoHotelAdViewModel mesoHotelAdViewModel) {
+		this.mesoHotelAdViewModel = mesoHotelAdViewModel;
 	}
 }
 

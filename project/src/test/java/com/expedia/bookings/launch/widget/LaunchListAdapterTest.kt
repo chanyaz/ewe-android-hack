@@ -2,6 +2,8 @@ package com.expedia.bookings.launch.widget
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
@@ -18,6 +20,9 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
+import com.expedia.bookings.meso.model.MesoAdResponse
+import com.expedia.bookings.meso.model.MesoHotelAdResponse
+import com.expedia.bookings.meso.vm.MesoHotelAdViewModel
 import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RoboTestHelper
@@ -32,6 +37,7 @@ import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
+import com.google.android.gms.ads.formats.NativeAd
 import com.squareup.phrase.Phrase
 import org.junit.After
 import org.junit.Before
@@ -43,6 +49,7 @@ import org.robolectric.annotation.Config
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -72,10 +79,13 @@ class LaunchListAdapterTest {
     }
 
     @Test
-    fun itemViewPosition_showingMesoHotelAd() {
+    fun itemViewPosition_showingMesoHotelAdWithData() {
         givenMesoHotelAdIsEnabled()
         createSystemUnderTest(isMesoCardEnabled = true)
         givenWeHaveCurrentLocationAndHotels()
+
+        adapterUnderTest.initMesoHotelAd()
+        adapterUnderTest.updateState()
 
         val firstPosition = adapterUnderTest.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
@@ -88,6 +98,19 @@ class LaunchListAdapterTest {
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
         assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+    }
+
+    @Test
+    fun itemViewPosition_notShowingMesoHotelAdWithoutData() {
+        givenMesoHotelAdIsEnabled()
+        createSystemUnderTest(isMesoCardEnabled = true)
+        givenWeHaveCurrentLocationAndHotels()
+
+        val adapterSize = adapterUnderTest.itemCount - 1
+
+        for (i in 0..adapterSize) {
+            assertNotEquals(adapterUnderTest.getItemViewType(i), LaunchDataItem.MESO_HOTEL_AD_VIEW)
+        }
     }
 
     @Test
@@ -704,10 +727,15 @@ class LaunchListAdapterTest {
         RoboTestHelper.updateABTest(AbacusUtils.MesoDestination, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
     }
 
-    class TestLaunchListAdapter(context: Context?, header: View?, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var isCustomerAirAttachedQualified: Boolean = true, var recentAirAttachFlightTrip: Trip? = Trip(), var isMesoCardEnabled: Boolean = false) : LaunchListAdapter(context, header) {
+    inner class TestLaunchListAdapter(context: Context?, header: View?, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var isCustomerAirAttachedQualified: Boolean = true, var recentAirAttachFlightTrip: Trip? = Trip(), var isMesoCardEnabled: Boolean = false) : LaunchListAdapter(context, header) {
 
         override fun showMesoHotelAd(): Boolean {
             return isMesoCardEnabled
+        }
+
+        override fun initMesoHotelAd() {
+            mesoHotelAdViewModel = MesoHotelAdViewModel(context = context)
+            mesoHotelAdViewModel.mesoHotelAdResponse = getMesoAdResponseMockData().HotelAdResponse
         }
 
         override fun showActiveItinLaunchScreenCard(): Boolean {
@@ -730,4 +758,31 @@ class LaunchListAdapterTest {
             return trips
         }
     }
+
+    private fun getMesoAdResponseMockData(): MesoAdResponse {
+        val mesoHotelAdResponse = MesoHotelAdResponse(object : NativeAd.Image() {
+            override fun getDrawable(): Drawable? {
+                return null
+            }
+
+            override fun getUri(): Uri? {
+                return Uri.parse("https://images.trvl-media.com/hotels/22000000/21120000/21118500/21118500/985a38ba_z.jpg")
+            }
+
+            override fun getScale(): Double {
+                return 0.0
+            }
+        },
+                "Check out this hotel",
+                "123456",
+                "Really Great Fake Hotel",
+                "$200",
+                "33%",
+                "Ann Arbor, Michigan",
+                "0",
+                "$300")
+
+        return MesoAdResponse(mesoHotelAdResponse)
+    }
+
 }
