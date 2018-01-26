@@ -207,7 +207,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getShowDone());
 		mainContactInfoCardView.onDoneClickedMethod.subscribe(toolbar.getViewModel().getDoneClickedMethod());
-		paymentInfoCardView.getToolbarNavIconFocusObservable().subscribe(new DisposableObserver<Boolean>() {
+		paymentInfoCardView.getViewmodel().getToolbarNavIconFocusObservable().subscribe(new DisposableObserver<Unit>() {
 			@Override
 			public void onComplete() {
 
@@ -217,10 +217,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 			}
 			@Override
-			public void onNext(Boolean isFocused) {
-				if (isFocused) {
-					AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
-				}
+			public void onNext(Unit unit) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 			}
 		});
 		slideWidget.addSlideToListener(this);

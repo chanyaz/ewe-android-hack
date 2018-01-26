@@ -88,7 +88,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val focusedView = PublishSubject.create<View>()
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
-    val toolbarNavIconFocusObservable = PublishSubject.create<Boolean>()
     val populateCardholderNameTestEnabled = isPopulateCardholderNameEnabled(context)
     var hotelMaterialFormEnabled = false
 
@@ -527,6 +526,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             updateToolbarMenu(forward, forward, !forward)
             if (forward) {
                 viewmodel.doneClickedMethod.onNext { close() }
+                viewmodel.toolbarNavIconFocusObservable.onNext(Unit)
             }
         }
     }
@@ -569,6 +569,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (!forward) validateAndBind()
             if (forward) {
                 viewmodel.doneClickedMethod.onNext { onDoneClicked() }
+                viewmodel.toolbarNavIconFocusObservable.onNext(Unit)
                 if (populateCardholderNameTestEnabled) {
                     populateCardholderName()
                 }
@@ -591,9 +592,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             cardInfoContainer.visibility = View.GONE
             paymentOptionsContainer.visibility = if (forward) View.GONE else View.VISIBLE
             billingInfoContainer.visibility = if (forward) View.VISIBLE else View.GONE
-            if (!hotelMaterialFormEnabled) {
-                creditCardNumber.requestFocus()
-            }
             onFocusChange(creditCardNumber, true)
             if (forward) {
                 viewmodel.doneClickedMethod.onNext { onDoneClicked() }
@@ -617,9 +615,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             updateToolbarMenu(forward, !forward, forward)
             if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
             else viewmodel.clearHiddenBillingAddress.onNext(Unit)
-            if (forward) {
-                toolbarNavIconFocusObservable.onNext(true)
-            }
+            viewmodel.toolbarNavIconFocusObservable.onNext(Unit)
         }
     }
 

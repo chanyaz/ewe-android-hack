@@ -160,6 +160,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         presenter.viewModel.travelersCompletenessStatus.subscribe(travelerSummaryCard.viewModel.travelerStatusObserver)
         presenter.viewModel.allTravelersCompleteSubject.subscribe(getCheckoutViewModel().travelerCompleted)
         presenter.viewModel.invalidTravelersSubject.subscribe(getCheckoutViewModel().clearTravelers)
+        presenter.viewModel.focusToolbarBackSubject.subscribe(getCheckoutViewModel().toolbarNavIconFocusObservable)
         presenter
     }
 
@@ -282,6 +283,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         getCheckoutViewModel().clearCvvObservable.subscribe {
             paymentWidget.clearCVV()
         }
+        paymentWidget.viewmodel.toolbarNavIconFocusObservable.subscribe(getCheckoutViewModel().toolbarNavIconFocusObservable)
     }
 
     private fun initLoggedInState(isUserLoggedIn: Boolean) {
@@ -400,8 +402,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             paymentWidget.setFocusForView()
             decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
             paymentWidget.viewmodel.updateBackgroundColor.onNext(forward)
-        } else {
-            getCheckoutViewModel().toolbarNavIconFocusObservable.onNext(Unit)
         }
         ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
     }

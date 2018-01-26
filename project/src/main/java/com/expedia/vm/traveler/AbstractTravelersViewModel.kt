@@ -4,6 +4,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class AbstractTravelersViewModel {
 
@@ -12,6 +13,7 @@ abstract class AbstractTravelersViewModel {
     val travelersCompletenessStatus = BehaviorSubject.createDefault<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
     val refreshSelectedTravelerStatus = BehaviorSubject.create<Unit>()
     val isDirtyObservable = BehaviorSubject.createDefault<Boolean>(false)
+    val focusToolbarBackSubject = PublishSubject.create<Unit>()
 
     abstract fun isValidForBooking(traveler: Traveler, index: Int): Boolean
     abstract fun isTravelerEmpty(traveler: Traveler): Boolean

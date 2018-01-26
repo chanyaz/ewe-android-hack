@@ -184,6 +184,31 @@ class FlightCheckoutToolbarTest {
         assertTrue(backButton.isFocused)
     }
 
+    @Test
+    fun testBackButtonFocusedWhenShowingTravelerPicker() {
+        Db.sharedInstance.travelers = listOf(Traveler(), Traveler())
+        overview.showCheckout()
+        checkout.travelerSummaryCard.performClick()
+
+        val backButton = toolbar.getChildAt(0)
+
+        assertEquals("Back", backButton.contentDescription)
+        assertTrue(backButton.isFocused)
+    }
+
+    @Test
+    fun testBackButtonFocusedWhenShowingPaymentOptions() {
+        setupTempCardToShowPaymentOptions()
+        overview.showCheckout()
+        checkout.paymentWidget.cardInfoContainer.performClick()
+        checkout.paymentWidget.showPaymentForm(false)
+
+        val backButton = toolbar.getChildAt(0)
+
+        assertEquals("Back", backButton.contentDescription)
+        assertTrue(backButton.isFocused)
+    }
+
     private fun setupDb() {
         Db.setFlightSearchParams(setupFlightSearchParams())
         val flightTripItem = TripBucketItemFlightV2(getFlightCreateTripResponse())

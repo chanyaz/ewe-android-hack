@@ -116,6 +116,7 @@ abstract class AbstractTravelersPresenter(context: Context, attrs: AttributeSet)
             dropShadow.visibility = View.VISIBLE
             if (currentState != null) {
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
+                viewModel.focusToolbarBackSubject.onNext(Unit)
             }
         }
     }
@@ -135,6 +136,7 @@ abstract class AbstractTravelersPresenter(context: Context, attrs: AttributeSet)
                 toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
                 viewModel.doneClickedMethod.onNext { onDoneClicked() }
             }
+            viewModel.focusToolbarBackSubject.onNext(Unit)
         }
 
         override fun endTransition(forward: Boolean) {

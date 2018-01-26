@@ -501,15 +501,6 @@ class PaymentWidgetV2Test {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testCreditCardFocusedOnPaymentForm() {
-        sut.show(PaymentWidget.PaymentOption())
-        sut.show(PaymentWidget.PaymentDetails())
-        sut.paymentOptionCreditDebitCard.performClick()
-        assertTrue(sut.creditCardNumber.isFocused)
-    }
-
-    @Test
     fun testSavedCouponABTestEnabled() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppSavedCoupons)
         assertTrue(isShowSavedCoupons(getContext()))
