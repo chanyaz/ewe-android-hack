@@ -8,14 +8,16 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.StoredCouponViewHolderViewModel
 
 class StoredCouponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val couponNameTextView: TextView by bindView(R.id.hotel_coupon_name)
-    val defaultStateImage: ImageView by bindView(R.id.stored_coupon_default)
-    val progressBar: ProgressBar by bindView(R.id.stored_coupon_progress_bar)
-    val couponApplied: ImageView by bindView(R.id.coupon_applied_successful)
+    val couponNameTextView by bindView<TextView>(R.id.hotel_coupon_name)
+    val defaultStateImage by bindView<ImageView>(R.id.stored_coupon_default)
+    val progressBar by bindView<ProgressBar>(R.id.stored_coupon_progress_bar)
+    val couponApplied by bindView<ImageView>(R.id.coupon_applied_successful)
+    val couponErrorTextView by bindView<TextView>(R.id.coupon_error)
 
     val viewModel: StoredCouponViewHolderViewModel by lazy {
         val vm = StoredCouponViewHolderViewModel()
@@ -23,6 +25,7 @@ class StoredCouponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         vm.progressBarVisibility.subscribeVisibility(progressBar)
         vm.couponAppliedVisibility.subscribeVisibility(couponApplied)
         vm.defaultStateImageVisibility.subscribeVisibility(defaultStateImage)
+        vm.errorObservable.subscribeTextAndVisibility(couponErrorTextView)
         vm.enableViewHolder.subscribe {
             view.isEnabled = it
         }

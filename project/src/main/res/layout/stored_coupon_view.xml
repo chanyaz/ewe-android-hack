@@ -5,34 +5,49 @@
     android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal">
 
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/hotel_coupon_name"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_weight="1"
-        android:textColor="@color/saved_coupon_text_color"
-        android:textSize="14sp" />
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/hotel_coupon_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/saved_coupon_text_color"
+            android:textSize="14sp" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/coupon_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/saved_coupon_error_color"
+            android:textSize="13sp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/stored_coupon_default"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_gravity="center"
-            android:src="@drawable/stored_coupon_circle"/>
+            android:src="@drawable/stored_coupon_circle" />
 
         <ProgressBar
             android:id="@+id/stored_coupon_progress_bar"
             style="@style/MaterialProgressBar.Medium"
             android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:layout_height="22dp"
             android:visibility="gone" />
 
         <ImageView
