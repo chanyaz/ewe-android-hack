@@ -77,6 +77,17 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
         (vm as HotelFilterViewModel).searchOptionsUpdatedObservable.subscribe { newFilterOptions ->
             updateWithSearchOptions(newFilterOptions)
         }
+
+        vm.availableAmenityOptionsObservable.subscribe { filterOptions ->
+            amenityViews.forEach { view ->
+                val key = Amenity.getSearchKey(view.amenity).toString()
+                if (filterOptions.contains(key)) {
+                    view.enable()
+                } else {
+                    view.disable()
+                }
+            }
+        }
     }
 
     override fun inflateNeighborhoodView(stub: ViewStub): BaseNeighborhoodFilterView {

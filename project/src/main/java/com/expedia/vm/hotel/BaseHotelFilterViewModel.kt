@@ -36,6 +36,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val newPriceRangeObservable = PublishSubject.create<PriceRange>()
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
     val newSearchOptionsObservable = PublishSubject.create<HotelSearchParams.HotelFilterOptions>()
+    val availableAmenityOptionsObservable = PublishSubject.create<Set<String>>()
 
     private var trackingDone = false
     private val filterTracker: FilterTracker = createFilterTracker()

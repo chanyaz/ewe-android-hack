@@ -12,7 +12,7 @@ import android.util.TypedValue
 import com.expedia.bookings.hotel.data.Amenity
 import io.reactivex.subjects.PublishSubject
 
-class HotelAmenityGridItem(context: Context, private val amenity: Amenity) : LinearLayout(context, null) {
+class HotelAmenityGridItem(context: Context, val amenity: Amenity) : LinearLayout(context, null) {
     val amenitySelected = PublishSubject.create<Amenity>()
     val amenityDeselected = PublishSubject.create<Amenity>()
 
@@ -48,10 +48,13 @@ class HotelAmenityGridItem(context: Context, private val amenity: Amenity) : Lin
         icon.isSelected = false
     }
 
-    // todo use this method
     fun disable() {
-        icon.setOnClickListener(null)
         icon.isEnabled = false
         textView.isEnabled = false
+    }
+
+    fun enable() {
+        icon.isEnabled = true
+        textView.isEnabled = true
     }
 }

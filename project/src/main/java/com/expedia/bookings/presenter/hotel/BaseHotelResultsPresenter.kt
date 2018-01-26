@@ -228,6 +228,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (!response.isFilteredResponse) {
             filterView.viewModel.setHotelList(response)
         }
+        filterView.viewModel.availableAmenityOptionsObservable.onNext(response.amenityFilterOptions.keys)
         mapWidget.newResults(response, updateBounds = true)
     }
 
