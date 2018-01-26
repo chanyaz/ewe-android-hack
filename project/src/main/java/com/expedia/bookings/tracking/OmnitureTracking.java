@@ -2099,6 +2099,7 @@ public class OmnitureTracking {
 		AbacusTest test = Db.sharedInstance.getAbacusResponse().testForKey(abTest);
 
 		if (test == null) {
+			appendAbacusTestNotBucketed(s, abTest);
 			return;
 		}
 
@@ -2109,6 +2110,16 @@ public class OmnitureTracking {
 	private static void appendAbacusTest(ADMS_Measurement s, AbacusTest test) {
 		// Adds piping for multivariate AB Tests.
 		String analyticsString = AbacusUtils.appendString(s.getProp(34)) + AbacusUtils.getAnalyticsString(test);
+		if (!TextUtils.isEmpty(analyticsString)) {
+			s.setEvar(34, analyticsString);
+			s.setProp(34, analyticsString);
+		}
+	}
+
+	private static void appendAbacusTestNotBucketed(ADMS_Measurement s, ABTest abTest) {
+		// User is not bucketed due to no AB response and the test is live, log ex: 7143.0.-1
+		String testData = String.format("%s.%s.%s", abTest.getKey(), 0, AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG);
+		String analyticsString = AbacusUtils.appendString(s.getProp(34)) + testData;
 		if (!TextUtils.isEmpty(analyticsString)) {
 			s.setEvar(34, analyticsString);
 			s.setProp(34, analyticsString);

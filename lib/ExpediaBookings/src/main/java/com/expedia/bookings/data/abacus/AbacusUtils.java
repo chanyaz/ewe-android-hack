@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AbacusUtils {
-	public static final int ABTEST_IGNORE_DEBUG = -1;
+	public static final int ABTEST_UNBUCKETED_OR_DEBUG = -1;
 
 	/**
 	 * ACTIVE KEYS

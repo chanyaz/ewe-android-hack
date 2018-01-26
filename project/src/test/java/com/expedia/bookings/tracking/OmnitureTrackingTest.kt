@@ -32,6 +32,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -147,6 +148,18 @@ class OmnitureTrackingTest {
         val evar = s.getEvar(34)
         assertNotNull(evar)
         assertTrue(evar!!.contains("12345"))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackedWithNoABResponse() {
+        val abTest = ABTest(12345)
+
+        val s = ADMS_Measurement.sharedInstance(context)
+        OmnitureTracking.trackAbacusTest(s, abTest)
+        val evar = s.getEvar(34)
+        assertNotNull(evar)
+        assertEquals("12345.0.-1", evar)
     }
 
     @Test

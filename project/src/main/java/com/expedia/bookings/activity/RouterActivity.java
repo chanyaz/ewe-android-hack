@@ -254,7 +254,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	private void cacheProWizardBucket(int testValue) {
 		if (BuildConfig.DEBUG) {
 			int debugValue = SettingUtils.get(getApplicationContext(),
-					String.valueOf(AbacusUtils.ProWizardTest.getKey()), AbacusUtils.ABTEST_IGNORE_DEBUG);
+					String.valueOf(AbacusUtils.ProWizardTest.getKey()), AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG);
 			ProWizardBucketCache.cacheBucket(RouterActivity.this, debugValue);
 		}
 		else {

@@ -58,13 +58,13 @@ class AbacusFeatureConfigManager {
         }
 
         private fun isDebugOverride(context: Context, abacusTest: ABTest): Boolean {
-            return BuildConfig.DEBUG && SettingUtils.get(context, abacusTest.key.toString(), AbacusUtils.ABTEST_IGNORE_DEBUG) != AbacusUtils.ABTEST_IGNORE_DEBUG
+            return BuildConfig.DEBUG && SettingUtils.get(context, abacusTest.key.toString(), AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG) != AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG
         }
 
         private fun isForceBucketed(context: Context, abacusTest: ABTest): Boolean {
             return ForceBucketPref.isForceBucketed(context)
                     && ForceBucketPref.getForceBucketedTestValue(context, abacusTest.key,
-                    AbacusUtils.ABTEST_IGNORE_DEBUG) != AbacusUtils.ABTEST_IGNORE_DEBUG
+                    AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG) != AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG
         }
     }
 }

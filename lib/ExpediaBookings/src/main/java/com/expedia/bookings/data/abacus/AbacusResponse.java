@@ -59,7 +59,7 @@ public class AbacusResponse {
 
 	public AbacusTest testForKey(ABTest abTest) {
 		if (abacusTestDebugMap.get(abTest.getKey()) != null
-			&& abacusTestDebugMap.get(abTest.getKey()).getBucketVariate() != AbacusUtils.ABTEST_IGNORE_DEBUG) {
+			&& abacusTestDebugMap.get(abTest.getKey()).getBucketVariate() != AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG) {
 			return abacusTestDebugMap.get(abTest.getKey());
 		}
 		else {

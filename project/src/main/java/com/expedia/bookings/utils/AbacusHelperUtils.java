@@ -76,7 +76,7 @@ public class AbacusHelperUtils {
 		if (BuildConfig.DEBUG) {
 			for (Integer key : AbacusUtils.getActiveTests()) {
 				Db.sharedInstance.getAbacusResponse().updateABTestForDebug(key, SettingUtils
-					.get(context, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
+					.get(context, String.valueOf(key), AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG));
 			}
 		}
 
@@ -89,8 +89,8 @@ public class AbacusHelperUtils {
 		// Modify the bucket values based on forced bucket settings;
 		if (ForceBucketPref.isForceBucketed(context)) {
 			for (Integer key : AbacusUtils.getActiveTests()) {
-				int testVal = ForceBucketPref.getForceBucketedTestValue(context, key, AbacusUtils.ABTEST_IGNORE_DEBUG);
-				if (testVal != AbacusUtils.ABTEST_IGNORE_DEBUG) {
+				int testVal = ForceBucketPref.getForceBucketedTestValue(context, key, AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG);
+				if (testVal != AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG) {
 					Db.sharedInstance.getAbacusResponse().forceUpdateABTest(key, testVal);
 				}
 			}

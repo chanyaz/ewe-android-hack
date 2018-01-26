@@ -49,8 +49,7 @@ class HotelCheckoutInfoTrackingTest {
 
         trackPageLoadHotelCheckoutInfo()
 
-        val expectedEvars = mapOf(34 to "15923.0.1")
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key), mockAnalyticsProvider)
     }
 
     @Test
@@ -64,8 +63,7 @@ class HotelCheckoutInfoTrackingTest {
 
         trackPageLoadHotelCheckoutInfo()
 
-        val expectedEvars = mapOf(34 to "15923.0.0")
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key), mockAnalyticsProvider)
     }
 
     @Test
@@ -101,8 +99,7 @@ class HotelCheckoutInfoTrackingTest {
 
         trackPageLoadHotelCheckoutInfo()
 
-        val expectedEvars = mapOf(34 to "16138.0.1")
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelMaterialForms.key), mockAnalyticsProvider)
     }
 
     @Test
@@ -114,8 +111,7 @@ class HotelCheckoutInfoTrackingTest {
 
         trackPageLoadHotelCheckoutInfo()
 
-        val expectedEvars = mapOf(34 to "16138.0.0")
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppHotelMaterialForms.key), mockAnalyticsProvider)
     }
 
     @Test
@@ -124,8 +120,7 @@ class HotelCheckoutInfoTrackingTest {
         enableABTestWithRemoteFeatureFlag(true, AbacusUtils.EBAndroidAppSavedCoupons)
         trackPageLoadHotelCheckoutInfo()
 
-        val expectedEvars = mapOf(34 to "16365.0.1")
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppSavedCoupons.key), mockAnalyticsProvider)
     }
 
     @Test
@@ -134,8 +129,7 @@ class HotelCheckoutInfoTrackingTest {
         enableABTestWithRemoteFeatureFlag(false, AbacusUtils.EBAndroidAppSavedCoupons)
         trackPageLoadHotelCheckoutInfo()
 
-        val expectedEvars = mapOf(34 to "16365.0.0")
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppSavedCoupons.key), mockAnalyticsProvider)
     }
 
     private fun enableABTest(enable: Boolean, ABTestKey: Int) {
