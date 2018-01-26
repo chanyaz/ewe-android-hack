@@ -636,6 +636,11 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
+    <string name="lx_recommendation_no_superlative">จาก 5</string>
+    <string name="lx_recommendation_superlativeGood">จาก 5 - ดี!</string>
+    <string name="lx_recommendation_superlativeGreat">จาก 5 - ดีมาก!</string>
+    <string name="lx_recommendation_superlativeAmazing">จาก 5 - ยอดเยี่ยม!</string>
+
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">คีย์เวิร์ดหรือชื่อกิจกรรม</string>
 
@@ -863,6 +868,17 @@
     <!-- New launch screen -->
     <!-- Search screen title -->
     <string name="search_title">ค้นหา</string>
+
+    <!-- Meso hotel ad card -->
+
+    <!-- The {percent} is the discounted percentage of the price per night at the hotel. Example - "33% off" -->
+    <string name="meso_percent_off_TEMPLATE">ลด {percent}</string>
+
+    <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
+     character or a new line character. This changes because the text might break multiple lines. The {strike_price} is the
+     price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
+     Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
+    <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line}เริ่มที่ &lt;strike&gt;{strike_price}&lt;/strike&gt; {price}/คืน</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">โรงแรมแนะนำประจำคืนนี้</string>
@@ -1479,8 +1495,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">หมายเลขตั๋ว # {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(ทารกนั่งตัก)</string>
-    <!--Flight itin manage booking title-->
-    <string name="itin_flight_details_manage_booking_heading">จัดการการจอง</string>
     <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
     <string name="itin_flight_customer_support_header_text_TEMPLATE">โปรดติดต่อ {brand} หากต้องการความช่วยเหลือในการจัดการแผนการเดินทางนี้</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
@@ -2689,7 +2703,7 @@
     <!-- Kitchen/kitchenette amenity -->
     <string name="amenity_kitchen">ห้องครัว</string>
     <!-- Pets allowed amenity -->
-    <string name="amenity_pets_allowed">นำสัตว์เลี้ยงเข้าพักได้</string>
+    <string name="amenity_pets_allowed">สัตว์เลี้ยงเข้าพักได้</string>
     <!-- Pool amenity -->
     <string name="amenity_pool">สระว่ายน้ำ</string>
     <!-- Restaurant on-site amenity -->
@@ -2703,13 +2717,13 @@
     <!-- Babysitting amenity -->
     <string name="amenity_babysitting">บริการดูแลเด็ก</string>
     <!-- Jacuzzi amenity -->
-    <string name="amenity_jacuzzi">อ่างจากุชซี่</string>
+    <string name="amenity_jacuzzi">อ่างจากุซซี่</string>
     <!-- Parking amenity -->
     <string name="amenity_parking">ที่จอดรถ</string>
     <!-- Room service amenity -->
     <string name="amenity_room_service">รูมเซอร์วิส</string>
     <!-- Accessible path of travel amenity -->
-    <string name="amenity_accessible_paths">ทางสำหรับผู้พิการ</string>
+    <string name="amenity_accessible_paths">ทางเดินสำหรับผู้พิการ</string>
     <!-- Accessible bathroom amenity -->
     <string name="amenity_accessible_bathroom">ห้องน้ำสำหรับผู้พิการ</string>
     <!-- Roll-in shower amenity -->
@@ -2719,7 +2733,7 @@
     <!-- In-room accessibility amenity -->
     <string name="amenity_in_room_accessibility">ห้องพักสำหรับผู้ใช้รถเข็น</string>
     <!-- Accessibility equipment for the deaf amenity -->
-    <string name="amenity_deaf_accessibility_equipment">สิ่งอำนวยความสะดวกคนหูหนวก</string>
+    <string name="amenity_deaf_accessibility_equipment">สิ่งอำนวยความสะดวก\nผู้พิการทางการได้ยิน</string>
     <!-- Braille or raised signage amenity -->
     <string name="amenity_braille_signage">ป้ายอักษรเบรลล์</string>
     <!-- Free airport shuttle amenity -->
@@ -2732,14 +2746,23 @@
     <string name="amenity_extended_parking">ที่จอดรถเพิ่มเติม</string>
     <!-- Free parking amenity -->
     <string name="amenity_free_parking">ที่จอดรถฟรี</string>
+    <!-- Air conditioning amenity -->
+    <string name="amenity_air_conditioning">เครื่องปรับอากาศ</string>
+    <!-- All inclusive options amenity -->
+    <string name="amenity_all_inclusive">มีห้องพักราคา\nรวมทุกอย่าง</string>
 
     <!-- Hotel Filter Amenities -->
-    <!-- Free internet -->
-    <string name="filter_high_speed_internet">อินเทอร์เน็ตฟรี</string>
+    <!-- High Speed internet -->
+    <string name="filter_high_speed_internet">อินเทอร์เน็ต\nความเร็วสูง</string>
     <!-- Free breakfast -->
     <string name="filter_free_breakfast">อาหารเช้าฟรี</string>
-    <!-- Free airport shuttle amenity -->
+    <!-- Free airport transportation -->
     <string name="filter_free_airport_transportation">รถรับส่งสนามบินฟรี</string>
+    <!-- Pets Allowed -->
+    <string name="filter_pets_allowed">สัตว์เลี้ยงเข้าพักได้</string>
+    <!-- All inclusive Options -->
+    <string name="filter_all_inclusive">ตัวเลือกห้องพัก\nราคารวมทุกอย่าง</string>
+
 
 
     <!-- User Reviews list strings -->
@@ -3883,6 +3906,10 @@
     <string name="row_expand_button_description">ปุ่มยุบ แตะสองครั้งเพื่อขยาย</string>
     <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} ปุ่มขยาย แตะสองครั้งเพื่อยุบ</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
+    <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription} ปุ่มย่อ แตะสองครั้งเพื่อขยาย</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
+    <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle} {rowdescription} ปุ่มขยาย แตะสองครั้งเพื่อย่อข้อมูล</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">เวลาของเที่ยวบินคือ {time} บินกับ {airline} ระยะเวลาบินคือ {hours} {minutes} แวะพัก {stops} ครั้ง\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
@@ -4873,5 +4900,8 @@
     <string name="book_room_button_content_description_TEMPLATE">จอง {room}</string>
     <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
     <string name="select_room_button_content_description_TEMPLATE">คุณเลือก {room}</string>
+
+    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">แท็บ{flightsearchtype}</string>
 
 </resources>

@@ -18,7 +18,6 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import com.mobiata.android.util.AndroidUtils
@@ -32,7 +31,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
 
     abstract fun getHotelCellHolder(parent: ViewGroup): AbstractHotelCellViewHolder
     abstract fun getPriceDescriptorMessageIdForHSR(context: Context): Int?
-    abstract fun shouldShowResultDescriptionLabel(context: Context): Boolean
 
     val MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW = 0
     val PRICING_STRUCTURE_HEADER_VIEW = 1
@@ -199,7 +197,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         val loyaltyPointsAppliedHeader: TextView by bindView(R.id.loyalty_points_applied_message)
         val infoIcon: ImageView by bindView(R.id.results_header_info_icon)
         val shadow: View by bindView(R.id.drop_shadow)
-        val resultsDescriptionLabel: TextView by bindView(R.id.results_description_label)
 
         init {
             if (ExpediaBookingApp.isDeviceShitty()) {
@@ -209,8 +206,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             vm.resultsDescriptionHeaderObservable.subscribe { resultsDescription ->
                 resultsDescriptionHeader.text = HtmlCompat.fromHtml(resultsDescription)
             }
-            vm.resultsDescriptionLabelObservable.filter { shouldShowResultDescriptionLabel(root.context) }
-                    .map { resultsDescription -> HtmlCompat.fromHtml(resultsDescription) }.subscribeTextAndVisibility(resultsDescriptionLabel)
             vm.loyaltyAvailableObservable.subscribeVisibility(loyaltyPointsAppliedHeader)
 
             vm.sortFaqLinkAvailableObservable.subscribe { faqLinkAvailable ->

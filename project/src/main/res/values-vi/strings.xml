@@ -636,6 +636,11 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
+    <string name="lx_recommendation_no_superlative">/ 5</string>
+    <string name="lx_recommendation_superlativeGood">/ 5 - Tốt!</string>
+    <string name="lx_recommendation_superlativeGreat">/ 5 - Tuyệt!</string>
+    <string name="lx_recommendation_superlativeAmazing">/ 5 - Xuất sắc!</string>
+
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">Từ khóa hoặc cụm từ</string>
 
@@ -863,6 +868,17 @@
     <!-- New launch screen -->
     <!-- Search screen title -->
     <string name="search_title">Tìm kiếm</string>
+
+    <!-- Meso hotel ad card -->
+
+    <!-- The {percent} is the discounted percentage of the price per night at the hotel. Example - "33% off" -->
+    <string name="meso_percent_off_TEMPLATE">Giảm {percent}</string>
+
+    <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
+     character or a new line character. This changes because the text might break multiple lines. The {strike_price} is the
+     price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
+     Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
+    <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line} từ &lt;strike&gt;{strike_price}&lt;/strike&gt; {price}/đêm</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Khách sạn được đề xuất cho đêm nay</string>
@@ -1479,8 +1495,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">Số vé {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(Trẻ ngồi trong lòng người lớn)</string>
-    <!--Flight itin manage booking title-->
-    <string name="itin_flight_details_manage_booking_heading">Quản lý đặt phòng</string>
     <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
     <string name="itin_flight_customer_support_header_text_TEMPLATE">Liên hệ với {brand} nếu cần trợ giúp quản lý hành trình bay này.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
@@ -2675,11 +2689,11 @@
 
     <!-- Amenity strings -->
     <!-- Business center amenity -->
-    <string name="amenity_business_center">Trung tâm Dịch vụ Văn phòng</string>
+    <string name="amenity_business_center">Trung tâm\nDịch vụ Văn phòng</string>
     <!-- Fitness center amenity -->
     <string name="amenity_fitness_center">Gym</string>
     <!-- Hot tub on-site amenity -->
-    <string name="amenity_hot_tub">Bồn tắm nước nóng</string>
+    <string name="amenity_hot_tub">Bồn tắm\nnước nóng</string>
     <!-- Internet access amenity -->
     <string name="amenity_internet">Internet</string>
     <!-- Free Internet access amenity -->
@@ -2693,17 +2707,17 @@
     <!-- Pool amenity -->
     <string name="amenity_pool">Hồ bơi</string>
     <!-- Restaurant on-site amenity -->
-    <string name="amenity_restaurant">Dịch vụ ăn uống</string>
+    <string name="amenity_restaurant">Dịch vụ\năn uống</string>
     <!-- Spa on-site amenity -->
     <string name="amenity_spa">Spa</string>
     <!-- Whirlpool bath amenity -->
-    <string name="amenity_whirlpool_bath">Bồn tắm thủy lực</string>
+    <string name="amenity_whirlpool_bath">Bồn tắm\nthủy lực</string>
     <!-- Breakfast amenity -->
     <string name="amenity_breakfast">Bữa sáng</string>
     <!-- Babysitting amenity -->
     <string name="amenity_babysitting">Giữ trẻ</string>
     <!-- Jacuzzi amenity -->
-    <string name="amenity_jacuzzi">Bồn tắm Jacuzzi</string>
+    <string name="amenity_jacuzzi">Bồn tắm\nJacuzzi</string>
     <!-- Parking amenity -->
     <string name="amenity_parking">Bãi đậu xe</string>
     <!-- Room service amenity -->
@@ -2723,7 +2737,7 @@
     <!-- Braille or raised signage amenity -->
     <string name="amenity_braille_signage">Biển báo bằng chữ Braille</string>
     <!-- Free airport shuttle amenity -->
-    <string name="amenity_free_airport_shuttle">Dịch vụ đưa đón sân bay</string>
+    <string name="amenity_free_airport_shuttle">Dịch vụ\nđưa đón sân bay</string>
     <!-- Indoor pool amenity -->
     <string name="amenity_pool_indoor">Hồ bơi trong nhà</string>
     <!-- Outdoor pool amenity -->
@@ -2731,15 +2745,24 @@
     <!-- Extended parking amenity -->
     <string name="amenity_extended_parking">Chỗ đậu xe dài hạn</string>
     <!-- Free parking amenity -->
-    <string name="amenity_free_parking">Đậu xe miễn phí</string>
+    <string name="amenity_free_parking">Đậu xe\nmiễn phí</string>
+    <!-- Air conditioning amenity -->
+    <string name="amenity_air_conditioning">Máy lạnh</string>
+    <!-- All inclusive options amenity -->
+    <string name="amenity_all_inclusive">Trọn gói</string>
 
     <!-- Hotel Filter Amenities -->
-    <!-- Free internet -->
-    <string name="filter_high_speed_internet">Internet miễn phí</string>
+    <!-- High Speed internet -->
+    <string name="filter_high_speed_internet">Internet\ntốc độ cao</string>
     <!-- Free breakfast -->
-    <string name="filter_free_breakfast">Bữa sáng miễn phí</string>
-    <!-- Free airport shuttle amenity -->
-    <string name="filter_free_airport_transportation">Đưa đón sân bay miễn phí</string>
+    <string name="filter_free_breakfast">Bữa sáng\nmiễn phí</string>
+    <!-- Free airport transportation -->
+    <string name="filter_free_airport_transportation">Đưa đón sân bay\nmiễn phí</string>
+    <!-- Pets Allowed -->
+    <string name="filter_pets_allowed">Được phép\nmang theo vật nuôi</string>
+    <!-- All inclusive Options -->
+    <string name="filter_all_inclusive">Có giá\ntrọn gói</string>
+
 
 
     <!-- User Reviews list strings -->
@@ -3882,6 +3905,10 @@
     <string name="row_expand_button_description">Nút đóng. Chạm hai lần để mở rộng.</string>
     <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_detailed_button_description_TEMPLATE">Nút mở rộng {rowdescription}. Chạm hai lần để đóng.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
+    <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Nút đóng. Chạm hai lần để mở rộng.</string>
+    <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
+    <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}. Nút mở rộng {rowdescription}. Chạm hai lần để đóng.</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">Thời gian bay là {time}. Bay với {airline}. Thời gian chuyến bay là {hours} {minutes} với {stops} điểm dừng\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
@@ -4872,5 +4899,8 @@
     <string name="book_room_button_content_description_TEMPLATE">Đặt, {room}</string>
     <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
     <string name="select_room_button_content_description_TEMPLATE">Chọn {room}</string>
+
+    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">Tab {flightsearchtype}</string>
 
 </resources>
