@@ -138,8 +138,9 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
     }
 
     override fun trackHotelDetailLoad(isRoomSoldOut: Boolean) {
+        val isDateless = paramsSubject.value?.isDatelessSearch == true && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelDatelessInfosite)
         HotelTracking.trackPageLoadHotelInfosite(hotelOffersResponse, paramsSubject.value, hasEtpOffer(hotelOffersResponse),
-                isCurrentLocationSearch, hotelSoldOut.value, isRoomSoldOut, loadTimeData, swpEnabled)
+                isCurrentLocationSearch, hotelSoldOut.value, isRoomSoldOut, loadTimeData, swpEnabled, isDateless)
     }
 
     override fun getLOB(): LineOfBusiness {

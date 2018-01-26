@@ -37,6 +37,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.RetrofitError
+import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
@@ -778,6 +779,42 @@ class HotelDetailViewModelTest {
         assertEquals(newStartDate, vm.changeDateParams!!.startDate)
         assertEquals(newEndDate, vm.changeDateParams!!.endDate)
         testFetchInProgressSub.assertValueCount(1)
+    }
+
+    @Test
+    fun testViewDetailsTracking() {
+        val response = loadOfferInfo("src/test/resources/raw/hotel/hotel_happy_offer.json")
+        vm.hotelOffersSubject.onNext(response)
+        vm.isDatelessObservable.onNext(false)
+        vm.paramsSubject.onNext(createSearchParams())
+        vm.trackHotelDetailLoad(false)
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Infosite",
+                Matchers.allOf(OmnitureMatchers.withEventsString("event3")),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testViewDetailsDatelessTracking() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelDatelessInfosite)
+        val response = loadOfferInfo("src/test/resources/raw/hotel/hotel_happy_offer.json")
+        vm.hotelOffersSubject.onNext(response)
+        vm.isDatelessObservable.onNext(true)
+        val params = createSearchParams().apply { isDatelessSearch = true }
+        vm.paramsSubject.onNext(params)
+        vm.trackHotelDetailLoad(false)
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Infosite",
+                Matchers.allOf(OmnitureMatchers.withEventsString("event3,event11"),
+                        OmnitureMatchers.withProductsString("Hotel; Hotel:795934"),
+                        OmnitureMatchers.withProps(mapOf(2 to "hotels", 4 to "6056742")),
+                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 4 to "D=c4"))
+                ),
+                mockAnalyticsProvider)
+    }
+
+    private fun loadOfferInfo(resourcePath: String): HotelOffersResponse {
+        return JSONResourceReader(resourcePath).constructUsingGson(HotelOffersResponse::class.java)
     }
 
     private fun createRoomResponseList(): List<HotelOffersResponse.HotelRoomResponse> {

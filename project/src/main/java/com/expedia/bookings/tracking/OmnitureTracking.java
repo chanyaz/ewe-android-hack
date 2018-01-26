@@ -764,23 +764,14 @@ public class OmnitureTracking {
 	public static void trackPageLoadHotelV2Infosite(HotelOffersResponse hotelOffersResponse, boolean isETPEligible,
 		boolean isCurrentLocationSearch, boolean isHotelSoldOut, boolean isRoomSoldOut,
 		PageUsableData pageLoadTimeData, boolean swpEnabled) {
-
-		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAILS_PAGE + "\" pageload");
-
-		ADMS_Measurement s = getFreshTrackingObject();
+		ADMS_Measurement s = createBasePageLoadInfosite(hotelOffersResponse, isCurrentLocationSearch, pageLoadTimeData, swpEnabled);
 
 		final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 
 		LocalDate checkInDate = dtf.parseLocalDateTime(hotelOffersResponse.checkInDate).toLocalDate();
 		LocalDate checkOutDate = dtf.parseLocalDateTime(hotelOffersResponse.checkOutDate).toLocalDate();
+		setDateValues(s, checkInDate, checkOutDate);
 
-		s.setAppState(HOTELSV2_DETAILS_PAGE);
-		s.setEvar(18, HOTELSV2_DETAILS_PAGE);
-
-		String drrString = internalGenerateHotelV2DRRString(hotelOffersResponse);
-		s.setEvar(9, drrString);
-
-		s.appendEvents("event3");
 		if (isHotelSoldOut) {
 			s.appendEvents("event14");
 		}
@@ -793,25 +784,6 @@ public class OmnitureTracking {
 			}
 		}
 
-		if (swpEnabled) {
-			s.appendEvents("event118");
-		}
-
-		s.setEvar(2, "D=c2");
-		s.setProp(2, HOTELV2_LOB);
-
-		setDateValues(s, checkInDate, checkOutDate);
-
-		String region;
-		if (isCurrentLocationSearch) {
-			region = "Current Location";
-		}
-		else {
-			region = hotelOffersResponse.locationId;
-		}
-		s.setProp(4, region);
-		s.setEvar(4, "D=c4");
-
 		if (hotelOffersResponse.hotelRoomResponse != null) {
 			addHotelV2Products(s, hotelOffersResponse.hotelRoomResponse.get(0), hotelOffersResponse.hotelId);
 			if (hotelOffersResponse.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo.airAttached) {
@@ -823,10 +795,15 @@ public class OmnitureTracking {
 			}
 		}
 
-		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
+		// Send the tracking data
+		s.track();
+	}
 
-		trackAbacusTest(s, AbacusUtils.HotelEnableInfositeChangeDate);
-		trackAbacusTest(s, AbacusUtils.HotelRoomImageGallery);
+	public static void trackPageLoadDatelessInfosite(HotelOffersResponse hotelOffersResponse,
+		boolean isCurrentLocationSearch, PageUsableData pageLoadTimeData, boolean swpEnabled) {
+		ADMS_Measurement s = createBasePageLoadInfosite(hotelOffersResponse, isCurrentLocationSearch, pageLoadTimeData, swpEnabled);
+		s.appendEvents("event11");
+		s.setProducts("Hotel; Hotel:" + hotelOffersResponse.hotelId);
 
 		// Send the tracking data
 		s.track();
@@ -1464,6 +1441,45 @@ public class OmnitureTracking {
 		s.setProp(36, error);
 		s.setEvar(24, couponName);
 		s.trackLink("CKO:Coupon Action");
+	}
+
+	private static ADMS_Measurement createBasePageLoadInfosite(HotelOffersResponse hotelOffersResponse,
+		boolean isCurrentLocationSearch, PageUsableData pageLoadTimeData, boolean swpEnabled) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAILS_PAGE + "\" pageload");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_DETAILS_PAGE);
+		s.setEvar(18, HOTELSV2_DETAILS_PAGE);
+
+		String drrString = internalGenerateHotelV2DRRString(hotelOffersResponse);
+		s.setEvar(9, drrString);
+
+		s.appendEvents("event3");
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		String region;
+		if (isCurrentLocationSearch) {
+			region = "Current Location";
+		}
+		else {
+			region = hotelOffersResponse.locationId;
+		}
+
+		s.setProp(4, region);
+		s.setEvar(4, "D=c4");
+
+		if (swpEnabled) {
+			s.appendEvents("event118");
+		}
+
+		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
+
+		trackAbacusTest(s, AbacusUtils.HotelEnableInfositeChangeDate);
+		trackAbacusTest(s, AbacusUtils.HotelRoomImageGallery);
+
+		return s;
 	}
 
 	private static void addPageLoadTimeTrackingEvents(ADMS_Measurement s, PageUsableData pageLoadTimeData) {

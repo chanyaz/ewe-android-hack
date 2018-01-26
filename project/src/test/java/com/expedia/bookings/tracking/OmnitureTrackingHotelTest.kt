@@ -105,7 +105,7 @@ class OmnitureTrackingHotelTest {
                 isETPEligible = false, isCurrentLocationSearch = false, isHotelSoldOut = true,
                 isRoomSoldOut = true, pageLoadTimeData = pageLoadTimeData, swpEnabled = false)
 
-        assertStateTracked(withEventsString("event3,event14,event220,event221=0.00"), mockAnalyticsProvider)
+        assertStateTracked(withEventsString("event3,event220,event221=0.00,event14"), mockAnalyticsProvider)
     }
 
     @Test
@@ -115,7 +115,7 @@ class OmnitureTrackingHotelTest {
                 isETPEligible = true, isCurrentLocationSearch = false, isHotelSoldOut = true,
                 isRoomSoldOut = false, pageLoadTimeData = pageLoadTimeData, swpEnabled = false)
 
-        assertStateTracked(withEventsString("event3,event14,event220,event221=0.00"), mockAnalyticsProvider)
+        assertStateTracked(withEventsString("event3,event220,event221=0.00,event14"), mockAnalyticsProvider)
     }
 
     @Test
@@ -126,7 +126,7 @@ class OmnitureTrackingHotelTest {
                 isRoomSoldOut = false, pageLoadTimeData = pageLoadTimeData, swpEnabled = false)
 
         // events=event3,event5,event220,event221=0.00
-        assertStateTracked(withEventsString("event3,event5,event220,event221=0.00"), mockAnalyticsProvider)
+        assertStateTracked(withEventsString("event3,event220,event221=0.00,event5"), mockAnalyticsProvider)
     }
 
     @Test
@@ -135,7 +135,7 @@ class OmnitureTrackingHotelTest {
         trackPageLoadHotelV2Infosite(hotelOffersResponse = hotelOffersResponse,
                 isETPEligible = false, isCurrentLocationSearch = false, isHotelSoldOut = false,
                 isRoomSoldOut = true, pageLoadTimeData = pageLoadTimeData, swpEnabled = false)
-        assertStateTracked(withEventsString("event3,event18,event220,event221=0.00"), mockAnalyticsProvider)
+        assertStateTracked(withEventsString("event3,event220,event221=0.00,event18"), mockAnalyticsProvider)
     }
 
     @Test
@@ -144,7 +144,7 @@ class OmnitureTrackingHotelTest {
         trackPageLoadHotelV2Infosite(hotelOffersResponse = hotelOffersResponse,
                 isETPEligible = true, isCurrentLocationSearch = false, isHotelSoldOut = false,
                 isRoomSoldOut = true, pageLoadTimeData = pageLoadTimeData, swpEnabled = false)
-        assertStateTracked(withEventsString("event3,event5,event18,event220,event221=0.00"), mockAnalyticsProvider)
+        assertStateTracked(withEventsString("event3,event220,event221=0.00,event5,event18"), mockAnalyticsProvider)
     }
 
     @Test
@@ -164,7 +164,7 @@ class OmnitureTrackingHotelTest {
         trackPageLoadHotelV2Infosite(hotelOffersResponse = hotelOffersResponse,
                 isETPEligible = false, isCurrentLocationSearch = false, isHotelSoldOut = false,
                 isRoomSoldOut = false, pageLoadTimeData = pageLoadTimeData, swpEnabled = false)
-        assertStateTracked(withEventsString("event3,event57,event220,event221=0.00"), mockAnalyticsProvider)
+        assertStateTracked(withEventsString("event3,event220,event221=0.00,event57"), mockAnalyticsProvider)
     }
 
     @Test

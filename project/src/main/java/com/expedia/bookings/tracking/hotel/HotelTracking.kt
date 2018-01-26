@@ -163,8 +163,12 @@ open class HotelTracking {
                                        isETPEligible: Boolean, isCurrentLocationSearch: Boolean,
                                        isHotelSoldOut: Boolean, isRoomSoldOut: Boolean,
                                        pageLoadTime: PageUsableData,
-                                       swpEnabled: Boolean) {
-            OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch, isHotelSoldOut, isRoomSoldOut, pageLoadTime, swpEnabled)
+                                       swpEnabled: Boolean, isDateless: Boolean) {
+            if (isDateless) {
+                OmnitureTracking.trackPageLoadDatelessInfosite(hotelOffersResponse, isCurrentLocationSearch, pageLoadTime, swpEnabled)
+            } else {
+                OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch, isHotelSoldOut, isRoomSoldOut, pageLoadTime, swpEnabled)
+            }
             TuneUtils.trackHotelV2InfoSite(hotelOffersResponse)
             FacebookEvents().trackHotelV2InfoSite(searchParams, hotelOffersResponse)
             CarnivalUtils.getInstance().trackHotelInfoSite(hotelOffersResponse, searchParams)
