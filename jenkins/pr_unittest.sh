@@ -61,7 +61,7 @@ function runUnitTests() {
         ./tools/validate-strings.sh ./project/src/main/res main || return 1
         ./gradlew --no-daemon \
             ":lib:ExpediaBookings:checkstyleMain" ":lib:ExpediaBookings:checkstyleTest" \
-            "checkstyle" "lintExpediaDebug" \
+            "checkstyle" "ktlint" "lintExpediaDebug" \
             ":lib:mocked:mocke3:test" \
             ":lib:AccountLib:testDebug" \
             ":lib:ExpediaBookings:test" ":lib:ExpediaBookings:jacocoTestReport" \
