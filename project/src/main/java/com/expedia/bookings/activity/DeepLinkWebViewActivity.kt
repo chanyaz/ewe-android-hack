@@ -2,7 +2,7 @@ package com.expedia.bookings.activity
 
 import android.content.Context
 
-class DeepLinkWebViewActivity: WebViewActivity() {
+class DeepLinkWebViewActivity : WebViewActivity() {
 
     class IntentBuilder(context: Context) : WebViewActivity.IntentBuilder(context) {
         init {

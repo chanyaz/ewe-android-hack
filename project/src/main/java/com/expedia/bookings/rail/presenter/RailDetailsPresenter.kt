@@ -55,4 +55,3 @@ open class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Present
         return false
     }
 }
-

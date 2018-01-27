@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import kotlinx.android.synthetic.main.form_check_box_widget.view.*
 
-class FormCheckBoxWidget(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {
+class FormCheckBoxWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     init {
         View.inflate(context, R.layout.form_check_box_widget, this)

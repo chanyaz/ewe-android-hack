@@ -40,4 +40,3 @@ class HotelReviewRowView(context: Context) : LinearLayout(context) {
                 .format().toString()
     }
 }
-

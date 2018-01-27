@@ -30,8 +30,7 @@ open class MesoAdResponseProvider {
                             mesoHotelAdResponseSubject.onNext(mesoAdResponse)
                         }
                         mesoHotelAdResponseSubject.onComplete()
-                    })
-            { hotelAdResponse, s -> }
+                    }) { hotelAdResponse, s -> }
                     .withAdListener(object : AdListener() {
                         override fun onAdFailedToLoad(errorCode: Int) {
                             val errorMessage = "Ad failed to load: " + errorCode

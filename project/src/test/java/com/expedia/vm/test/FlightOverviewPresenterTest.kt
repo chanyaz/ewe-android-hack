@@ -3,9 +3,7 @@ package com.expedia.vm.test
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
-import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import org.junit.Before

@@ -784,5 +784,4 @@ class LaunchListAdapterTest {
 
         return MesoAdResponse(mesoHotelAdResponse)
     }
-
 }

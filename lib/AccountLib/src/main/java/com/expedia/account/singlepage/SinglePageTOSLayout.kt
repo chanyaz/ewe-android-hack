@@ -78,4 +78,3 @@ class SinglePageTOSLayout(context: Context, attrs: AttributeSet) : TOSLayout(con
         vSpamOptInCheckBox.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
     }
 }
-

@@ -229,7 +229,6 @@ class MesoHotelAdViewModelTest {
 
             override fun onComplete() {
             }
-
         })
 
         providerPublishSubject.onNext(mockHotelAdData)

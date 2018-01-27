@@ -58,4 +58,3 @@ class RailSegmentAmenitiesViewModel(val context: Context) {
         return sb.toString()
     }
 }
-

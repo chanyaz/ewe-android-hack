@@ -242,7 +242,7 @@ class NotificationManagerTest {
         notification.body = body
         return notification
     }
-    
+
     private fun getNotifications(): List<Notification> {
         return Select().from(Notification::class.java).execute()
     }

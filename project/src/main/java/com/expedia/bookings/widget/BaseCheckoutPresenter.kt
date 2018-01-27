@@ -228,7 +228,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
         vm.createTripResponseObservable.safeSubscribeOptional { response ->
-            response.getOldPrice()?.let  { oldPrice ->
+            response.getOldPrice()?.let { oldPrice ->
                 trackCreateTripPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
                 if (shouldShowPriceChangeOnCreateTrip(response.newPrice().amount, oldPrice.amount)) {
                     vm.priceChangeAlertPriceObservable.onNext(Optional(response))

@@ -499,7 +499,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         }
     }
 
-    fun shouldTrackPartialSoldOut() : Boolean {
+    fun shouldTrackPartialSoldOut(): Boolean {
         return hasSoldOutRoom && !allRoomsSoldOut.value
     }
 

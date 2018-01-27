@@ -337,7 +337,7 @@ class HotelSearchTrackingDataBuilderTests {
         return HotelSearchParams(suggestion, checkIn, checkOut, adults, children, shopWithPoints)
     }
 
-    private fun getHotelSearchResponse(filePath: String) : HotelSearchResponse {
+    private fun getHotelSearchResponse(filePath: String): HotelSearchResponse {
         return JSONResourceReader(filePath).constructUsingGson(HotelSearchResponse::class.java)
     }
 }

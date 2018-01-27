@@ -9,8 +9,6 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Space
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.AccessibilityUtil

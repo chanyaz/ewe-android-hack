@@ -56,7 +56,6 @@ import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelCreateTripViewModel
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.HotelTravelersViewModel
-import io.reactivex.subscribers.TestSubscriber
 import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
 import org.joda.time.LocalDate
@@ -102,7 +101,6 @@ class HotelCheckoutPresenterTest {
         checkout.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
         goToCheckout()
     }
-
 
     @After
     fun tearDown() {
@@ -406,7 +404,6 @@ class HotelCheckoutPresenterTest {
 
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
     }
-
 
     @Test
     fun testHotelMaterialCouponExpandWithValidCoupon() {

@@ -21,5 +21,4 @@ class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubjec
     override fun getPriceDescriptorMessageIdForHSR(context: Context): Int? {
         return null
     }
-
 }

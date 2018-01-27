@@ -52,4 +52,3 @@ class SoftPromptDialogFragmentTest {
         assertLinkTracked("App Message", "App.DeviceLocation.Opt-Out", OmnitureMatchers.withEventsString("event40"), mockAnalyticsProvider)
     }
 }
-

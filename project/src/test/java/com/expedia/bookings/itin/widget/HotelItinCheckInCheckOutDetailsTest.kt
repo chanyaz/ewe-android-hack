@@ -61,7 +61,7 @@ class HotelItinCheckInCheckOutDetailsTest {
         assertEquals(true, alertDialog.isShowing)
         assertEquals("Minimum check-in age is 18\nCheck-in time starts at 3 PM", checkInPolicesText.text.toString())
     }
-    
+
     @Test
     fun testCheckInCheckOutViewText() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()

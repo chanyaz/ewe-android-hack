@@ -10,7 +10,6 @@ import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponViewHolder
 import com.expedia.bookings.presenter.shared.StoredCouponWidget
 import com.expedia.bookings.services.TestObserver
-import kotlinx.android.synthetic.main.widget_hotel_results.narrow_result_prompt
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

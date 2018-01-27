@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import kotlinx.android.synthetic.main.form_spinner_widget.view.*
 
-class FormSpinnerWidget(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {
+class FormSpinnerWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     init {
         View.inflate(context, R.layout.form_spinner_widget, this)

@@ -750,7 +750,6 @@ class FlightOverviewPresenterTest {
                 Money("210.00", "USD"), Money(1, "USD"), true, HashMap())
     }
 
-
     private fun addCardFeesToCreateTrip(createTripResponse: FlightCreateTripResponse) {
         createTripResponse.selectedCardFees = Money(10, "USD")
         createTripResponse.totalPriceIncludingFees = Money(233, "USD")

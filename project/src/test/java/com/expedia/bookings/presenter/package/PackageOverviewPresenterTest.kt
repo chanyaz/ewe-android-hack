@@ -37,7 +37,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
-import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull

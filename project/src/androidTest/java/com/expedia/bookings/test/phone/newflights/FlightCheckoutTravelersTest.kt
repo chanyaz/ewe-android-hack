@@ -211,4 +211,3 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         PackageScreen.checkout().perform(click())
     }
 }
-
