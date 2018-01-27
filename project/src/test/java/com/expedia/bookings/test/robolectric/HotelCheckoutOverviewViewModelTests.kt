@@ -134,6 +134,6 @@ class HotelCheckoutOverviewViewModelTest {
         hotelProductResponse = createTripResponse.newHotelProductResponse
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
 
-       return createTripResponse
+        return createTripResponse
     }
 }

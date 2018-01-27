@@ -102,7 +102,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         }
     }
 
-     private fun setUpTitle(hotelCity: String, numberOfNights: String) {
+    private fun setUpTitle(hotelCity: String, numberOfNights: String) {
         val stepOne = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE, numberOfNights.toInt()))
                 .put("number", numberOfNights)
                 .put("city", hotelCity)

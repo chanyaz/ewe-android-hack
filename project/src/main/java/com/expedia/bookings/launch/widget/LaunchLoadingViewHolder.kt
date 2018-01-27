@@ -32,8 +32,8 @@ open class LaunchLoadingViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
     }
 
-	fun cancelAnimation() {
-		animation?.removeAllUpdateListeners()
-		animation?.cancel()
-	}
+    fun cancelAnimation() {
+        animation?.removeAllUpdateListeners()
+        animation?.cancel()
+    }
 }

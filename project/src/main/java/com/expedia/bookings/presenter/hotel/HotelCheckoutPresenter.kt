@@ -277,8 +277,8 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         val paymentInfo = PaymentInfo(cardsSelectedForPayment, rewardsSelectedForPayment)
 
         val hotelCheckoutParams = HotelCheckoutV2Params.Builder()
-                                    .checkoutInfo(hotelCheckoutInfo).traveler(traveler).tripDetails(tripDetails)
-                                    .misc(miscParams).paymentInfo(paymentInfo).build()
+                .checkoutInfo(hotelCheckoutInfo).traveler(traveler).tripDetails(tripDetails)
+                .misc(miscParams).paymentInfo(paymentInfo).build()
 
         hotelCheckoutViewModel.checkoutParams.onNext(hotelCheckoutParams)
     }

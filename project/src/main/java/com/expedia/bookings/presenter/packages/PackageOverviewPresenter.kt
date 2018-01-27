@@ -419,7 +419,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         } else if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.DAILY) {
             mandatoryFee = rateInfo.totalMandatoryFees * getNumberOfDaysInHotel()
         }
-         val packageTotalWithMandatoryFee = packagetotal?.amount?.plus(BigDecimal(mandatoryFee.toString()))
+        val packageTotalWithMandatoryFee = packagetotal?.amount?.plus(BigDecimal(mandatoryFee.toString()))
         totalPriceWidget.viewModel.addMandatoryFeeWithTotalPrice(packageTotalWithMandatoryFee, packagetotal?.currencyCode)
     }
 

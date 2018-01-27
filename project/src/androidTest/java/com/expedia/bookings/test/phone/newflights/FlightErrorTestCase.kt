@@ -72,8 +72,8 @@ open class FlightErrorTestCase : NewFlightTestCase() {
 
     protected fun assertToolbarTitle(title: String) {
         onView(Matchers.allOf(isDescendantOfA(withId(R.id.error_toolbar)),
-                            withClassName(Matchers.`is`(TextView::class.java.name)),
-                            withText(title)))
+                withClassName(Matchers.`is`(TextView::class.java.name)),
+                withText(title)))
     }
 
     protected fun assertErrorTextDisplayed(errorText: String) {

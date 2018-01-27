@@ -11,7 +11,7 @@ import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 abstract class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
-                              showMainTravelerMinAgeMessaging: Boolean) : AbstractTravelersViewModel() {
+                                  showMainTravelerMinAgeMessaging: Boolean) : AbstractTravelersViewModel() {
 
     lateinit var travelerValidator: TravelerValidator
         @Inject set

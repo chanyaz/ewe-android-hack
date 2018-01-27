@@ -71,7 +71,7 @@ class LxCheckoutErrorTests {
     }
 
     @Test
-     fun testPaymentFailed() {
+    fun testPaymentFailed() {
         performLxCheckoutError("PaymentFailed")
 
         assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.errorCode)

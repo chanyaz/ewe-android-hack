@@ -215,7 +215,7 @@ class TravelerTSAViewModelTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
         setSearchParams()
         tsaVM = TravelerTSAViewModel(traveler, activity.applicationContext)
-     }
+    }
 
     private fun setSearchParams() {
         val searchParams = getTestParams()

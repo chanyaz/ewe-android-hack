@@ -15,11 +15,11 @@ class PayNowPayLaterTabs(context: Context, attrs: AttributeSet?) : TwoTabCardVie
     private val checkMarkIcon = ContextCompat.getDrawable(context, R.drawable.sliding_radio_selector_left)
 
     fun selectPayNowTab() {
-         selectLeft()
-         setLeftTabDrawableLeft(checkMarkIcon)
-         setRightTabDrawableLeft(null)
-         rightTabContainer.subscribeOnClick(payLaterClickedSubject)
-         leftTabContainer.unsubscribeOnClick()
+        selectLeft()
+        setLeftTabDrawableLeft(checkMarkIcon)
+        setRightTabDrawableLeft(null)
+        rightTabContainer.subscribeOnClick(payLaterClickedSubject)
+        leftTabContainer.unsubscribeOnClick()
     }
 
     fun selectPayLaterTab() {

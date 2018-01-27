@@ -22,7 +22,10 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import org.joda.time.LocalDate
 import org.junit.Before

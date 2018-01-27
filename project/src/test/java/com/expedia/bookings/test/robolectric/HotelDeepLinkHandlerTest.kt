@@ -32,7 +32,8 @@ class HotelDeepLinkHandlerTest {
 
     private val expectedCurrentLocationText = RuntimeEnvironment.application.getString(R.string.current_location)
 
-    @Before fun setup() {
+    @Before
+    fun setup() {
         handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testSuggestionManager)
         handlerUnderTest.hotelSearchDeepLinkSubject.subscribe(testGenericSearchSubscriber)
         handlerUnderTest.hotelIdToDetailsSubject.subscribe(testHotelIdToDetailsSubscriber)
@@ -40,7 +41,8 @@ class HotelDeepLinkHandlerTest {
         handlerUnderTest.deepLinkInvalidSubject.subscribe(testErrorSearchSubscriber)
     }
 
-    @Test fun handleCurrentLocationDeepLink() {
+    @Test
+    fun handleCurrentLocationDeepLink() {
         val suggestion = TestSuggestionV4Builder().type(SearchType.MY_LOCATION.name)
                 .coordinates(42.0, -81.0).build()
 
@@ -57,7 +59,8 @@ class HotelDeepLinkHandlerTest {
         testErrorSearchSubscriber.assertNoValues()
     }
 
-	@Test fun handleSpecificHotelDeepLink_NoLandingPage() {
+    @Test
+    fun handleSpecificHotelDeepLink_NoLandingPage() {
         val suggestion = TestSuggestionV4Builder().type(SearchType.HOTEL.name)
                 .hotelId("1234").gaiaId("1234")
                 .regionDisplayName("Hotel 1234").regionShortName("Hotel 1234").build()
@@ -69,9 +72,10 @@ class HotelDeepLinkHandlerTest {
         testErrorSearchSubscriber.assertNoValues()
         testHotelIdToResultsSubscriber.assertNoValues()
         testHotelIdToDetailsSubscriber.assertValueSequence(listOf(hotelSearchParams))
-	}
+    }
 
-    @Test fun handleSpecificHotelDeepLink_ResultsLandingPage() {
+    @Test
+    fun handleSpecificHotelDeepLink_ResultsLandingPage() {
         val suggestion = TestSuggestionV4Builder().type(SearchType.HOTEL.name)
                 .hotelId("1234").gaiaId("1234")
                 .regionDisplayName("Hotel 1234").regionShortName("Hotel 1234").build()
@@ -86,7 +90,8 @@ class HotelDeepLinkHandlerTest {
         testHotelIdToResultsSubscriber.assertValueSequence(listOf(hotelSearchParams))
     }
 
-	@Test fun handleLocationDeepLink() {
+    @Test
+    fun handleLocationDeepLink() {
         val suggestion = TestSuggestionV4Builder().type(SearchType.CITY.name)
                 .regionDisplayName("Portland, ME").regionShortName("Portland, ME")
                 .coordinates(0.0, 0.0).build()
@@ -98,9 +103,10 @@ class HotelDeepLinkHandlerTest {
 
         testGenericSearchSubscriber.assertValueCount(1)
         testHotelIdToDetailsSubscriber.assertNoValues()
-	}
+    }
 
-	@Test fun handleLatLonDeepLink() {
+    @Test
+    fun handleLatLonDeepLink() {
         val suggestion = TestSuggestionV4Builder().type(SearchType.ADDRESS.name)
                 .regionDisplayName("(44.761827,-85.600372)")
                 .regionShortName("(44.761827,-85.600372)")
@@ -112,9 +118,10 @@ class HotelDeepLinkHandlerTest {
 
         testHotelIdToDetailsSubscriber.assertNoValues()
         testGenericSearchSubscriber.assertValueSequence(listOf(hotelSearchParams))
-	}
+    }
 
-	@Test fun handleAirAttachDeepLink() {
+    @Test
+    fun handleAirAttachDeepLink() {
         val suggestion = TestSuggestionV4Builder().type(SearchType.FREEFORM.name)
                 .regionShortName("La Paz").regionDisplayName("La Paz")
                 .gaiaId("5678").build()
@@ -125,7 +132,7 @@ class HotelDeepLinkHandlerTest {
 
         testHotelIdToDetailsSubscriber.assertNoValues()
         testGenericSearchSubscriber.assertValueSequence(listOf(hotelSearchParams))
-	}
+    }
 
     private fun createHotelSearchParamsForSuggestion(suggestion: SuggestionV4): HotelSearchParams {
         val checkInDate = LocalDate()

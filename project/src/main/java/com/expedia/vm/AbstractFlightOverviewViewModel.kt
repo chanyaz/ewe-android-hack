@@ -78,8 +78,8 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
             pricePerPerson
         } else {
             Phrase.from(context.resources.getString(R.string.flight_details_price_per_person_TEMPLATE))
-                .put("price", pricePerPerson)
-                .format().toString()
+                    .put("price", pricePerPerson)
+                    .format().toString()
         }
         if (selectedFlight.packageOfferModel.price.deltaPositive && shouldShowDeltaPositive()) {
             urgencyMessage.append("+" + pricePerPersonMessage)

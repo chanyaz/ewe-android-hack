@@ -32,12 +32,12 @@ class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
         }
         val packagesHotelDescription = if (hotel.hotelGuestRating <= 0f) R.string.packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE else R.string.packages_hotel_details_cont_desc_TEMPLATE
         result.append(Phrase.from(context, packagesHotelDescription)
-                    .put("hotel", hotelName)
-                    .put("starrating", hotelStarRating.toString())
-                    .putOptional("guestrating", hotelGuestRating.toString())
-                    .put("price", pricePerNight)
-                    .format()
-                    .toString())
+                .put("hotel", hotelName)
+                .put("starrating", hotelStarRating.toString())
+                .putOptional("guestrating", hotelGuestRating.toString())
+                .put("price", pricePerNight)
+                .format()
+                .toString())
 
         if (hotelStrikeThroughPriceFormatted != null) {
             result.append(Phrase.from(context, R.string.hotel_price_cont_desc_TEMPLATE)

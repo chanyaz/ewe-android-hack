@@ -81,7 +81,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
             var departureAirportCode = ""
             var arrivalAirportCode = ""
             if (!leg.firstWaypoint.mAirportCode.isNullOrEmpty()) {
-                  departureAirportCode = leg.firstWaypoint.mAirportCode
+                departureAirportCode = leg.firstWaypoint.mAirportCode
             }
             if (!leg.lastWaypoint.mAirportCode.isNullOrEmpty()) {
                 arrivalAirportCode = leg.lastWaypoint.mAirportCode

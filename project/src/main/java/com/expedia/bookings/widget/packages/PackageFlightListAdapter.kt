@@ -35,9 +35,9 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (holder is PackageFlightListAdapter.BestFlightViewHolder) {
-         holder.bind(PackageFlightViewModel(holder.itemView.context, flights[0]))
+            holder.bind(PackageFlightViewModel(holder.itemView.context, flights[0]))
         } else {
-           super.onBindViewHolder(holder, position)
+            super.onBindViewHolder(holder, position)
         }
     }
 

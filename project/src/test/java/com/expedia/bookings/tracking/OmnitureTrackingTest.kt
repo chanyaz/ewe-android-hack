@@ -103,11 +103,11 @@ class OmnitureTrackingTest {
         OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, false, false, false, false, PageUsableData(), false)
 
         assertStateTracked(
-            "App.Hotels.Infosite",
-            allOf(
-                withProps(mapOf(5 to "2017-10-15", 6 to "2017-10-16")),
-                withEvars(mapOf(6 to "1"))),
-            mockAnalyticsProvider)
+                "App.Hotels.Infosite",
+                allOf(
+                        withProps(mapOf(5 to "2017-10-15", 6 to "2017-10-16")),
+                        withEvars(mapOf(6 to "1"))),
+                mockAnalyticsProvider)
 
         DateTimeZone.setDefault(originalDefaultTimeZone)
     }

@@ -140,7 +140,7 @@ class PlayStoreScreenshotSweep {
                 takeItinScreens()
             }
         } catch (e: Throwable) {
-             //shoot, something failed, but ignore so that the rest of the screens finish
+            //shoot, something failed, but ignore so that the rest of the screens finish
         }
     }
 

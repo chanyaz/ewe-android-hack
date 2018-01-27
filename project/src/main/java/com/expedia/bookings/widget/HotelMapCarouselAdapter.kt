@@ -105,7 +105,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         val loyaltyAppliedMessage: TextView by bindView(R.id.map_loyalty_applied_message)
         val shadowOnLoyaltyMessageContainer: View by bindView(R.id.shadow_on_loyalty_message_container)
         val shadowOnHotelCell: View by bindView(R.id.shadow_on_hotel_preview_cell)
-		val loyaltyEarnMessage: TextView by bindView(R.id.hotel_loyalty_earn_message)
+        val loyaltyEarnMessage: TextView by bindView(R.id.hotel_loyalty_earn_message)
 
         var hotelPreviewRating: StarRatingBar by Delegates.notNull()
 

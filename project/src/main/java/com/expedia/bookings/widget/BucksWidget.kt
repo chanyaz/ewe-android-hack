@@ -8,7 +8,12 @@ import android.widget.Switch
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.*
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeChecked
+import com.expedia.util.subscribeOnCheckChanged
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextColor
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.interfaces.IBucksViewModel
 import javax.inject.Inject
 

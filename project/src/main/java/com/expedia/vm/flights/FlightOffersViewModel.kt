@@ -80,6 +80,6 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
     }
 
     override fun setSubPubAvailability(hasSubPub: Boolean) {
-         isSubPub = hasSubPub
+        isSubPub = hasSubPub
     }
 }

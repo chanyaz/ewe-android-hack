@@ -11,19 +11,13 @@ import retrofit2.http.POST
 
 internal interface TNSApi {
 
-	@Headers("Content-Type: application/json")
-	@POST("/m/api/register/user")
-	fun registerUserDevice(
-		@Body body: TNSRegisterUserDeviceRequestBody
-	): Observable<TNSRegisterDeviceResponse>
+    @Headers("Content-Type: application/json")
+    @POST("/m/api/register/user")
+    fun registerUserDevice(@Body body: TNSRegisterUserDeviceRequestBody): Observable<TNSRegisterDeviceResponse>
 
-	@POST("/m/api/register/user/flights")
-	fun registerUserDeviceFlights(
-		@Body body: TNSRegisterUserDeviceFlightsRequestBody
-	): Observable<TNSRegisterDeviceResponse>
+    @POST("/m/api/register/user/flights")
+    fun registerUserDeviceFlights(@Body body: TNSRegisterUserDeviceFlightsRequestBody): Observable<TNSRegisterDeviceResponse>
 
-	@POST("/m/api/deregister")
-	fun deregisterUserDevice(
-		@Body body: TNSDeregister
-	): Observable<TNSRegisterDeviceResponse>
+    @POST("/m/api/deregister")
+    fun deregisterUserDevice(@Body body: TNSDeregister): Observable<TNSRegisterDeviceResponse>
 }

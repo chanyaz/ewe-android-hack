@@ -45,7 +45,7 @@ class TravelerCountSelector(context: Context, attrs: AttributeSet?) : LinearLayo
 
     private fun getColorFilter(enabled: Boolean): Int {
         if (enabled)
-           return enabledColor
+            return enabledColor
         else return disabledColor
     }
 

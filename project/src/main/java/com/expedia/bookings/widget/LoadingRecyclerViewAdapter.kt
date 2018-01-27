@@ -40,7 +40,7 @@ abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView
     }
 
     fun getItems(): List<T> {
-       return items
+        return items
     }
 
     override fun getItemCount(): Int {

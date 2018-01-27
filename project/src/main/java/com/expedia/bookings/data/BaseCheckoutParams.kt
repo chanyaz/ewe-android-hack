@@ -78,10 +78,10 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
 
         fun hasValidParams(): Boolean {
             return travelers.isNotEmpty() &&
-                   billingInfo != null &&
-                   !cvv.isNullOrEmpty() &&
-                   expectedTotalFare != null &&
-                   expectedFareCurrencyCode != null
+                    billingInfo != null &&
+                    !cvv.isNullOrEmpty() &&
+                    expectedTotalFare != null &&
+                    expectedFareCurrencyCode != null
         }
 
         open fun hasValidCheckoutParams(): Boolean {
@@ -93,12 +93,12 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             if (travelers.isNotEmpty()) {
                 travelers.forEachIndexed { i, traveler ->
                     validTravelers = traveler.hasName() &&
-                        traveler.birthDate?.monthOfYear != null &&
-                        traveler.birthDate?.year != null &&
-                        traveler.gender == Traveler.Gender.FEMALE || traveler.gender == Traveler.Gender.MALE &&
-                        (i != 0 || (!traveler.email.isNullOrBlank() &&
-                                !traveler.primaryPhoneNumber.countryCode.isNullOrBlank() &&
-                                !traveler.primaryPhoneNumber.number.isNullOrBlank()))
+                            traveler.birthDate?.monthOfYear != null &&
+                            traveler.birthDate?.year != null &&
+                            traveler.gender == Traveler.Gender.FEMALE || traveler.gender == Traveler.Gender.MALE &&
+                            (i != 0 || (!traveler.email.isNullOrBlank() &&
+                                    !traveler.primaryPhoneNumber.countryCode.isNullOrBlank() &&
+                                    !traveler.primaryPhoneNumber.number.isNullOrBlank()))
 
                     if (!validTravelers) return false
                 }

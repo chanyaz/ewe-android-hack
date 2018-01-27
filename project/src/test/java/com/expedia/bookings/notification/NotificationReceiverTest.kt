@@ -209,7 +209,7 @@ class NotificationReceiverTest {
         Mockito.verify(mockAnalyticsProvider).trackAction(Mockito.eq(linkName), NullSafeMockitoHamcrest.mapThat(CustomMatchers.hasEntries(expectedData)))
     }
 
-     fun makeNotification(uniqueId: String, type: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED, notificationTemp: String = ""): Notification {
+    fun makeNotification(uniqueId: String, type: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED, notificationTemp: String = ""): Notification {
         val ourNotification = Mockito.mock(Notification::class.java)
 
         Mockito.`when`(ourNotification.uniqueId).thenReturn(uniqueId)

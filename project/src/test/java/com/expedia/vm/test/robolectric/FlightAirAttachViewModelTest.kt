@@ -84,7 +84,7 @@ class FlightAirAttachViewModelTest {
         crossSellExpiresTodayView.assertValue(true)
     }
 
-   private fun getCheckoutResponse(dateOfExpiration: String): FlightCheckoutResponse {
+    private fun getCheckoutResponse(dateOfExpiration: String): FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         val qualifierObject = FlightCheckoutResponse.AirAttachInfo()
@@ -102,9 +102,9 @@ class FlightAirAttachViewModelTest {
         val timeField = offerTimeField.javaClass.getDeclaredField("fullExpirationDate")
         timeField.isAccessible = true
 
-        timeField.set(offerTimeField , dateOfExpiration)
+        timeField.set(offerTimeField, dateOfExpiration)
         boolField.set(qualifierObject, true)
-        timeRemainingField.set(qualifierObject, offerTimeField )
+        timeRemainingField.set(qualifierObject, offerTimeField)
         field.set(response, qualifierObject)
 
         return response

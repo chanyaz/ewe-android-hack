@@ -72,9 +72,9 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
         val layoverIn = row.findViewById<TextView>(R.id.flight_segment_layover_in)
         val layoverDuration = row.findViewById<TextView>(R.id.flight_segment_layover_duration)
         layoverIn.text = Phrase.from(context.resources.getString(R.string.package_flight_overview_layover_in_TEMPLATE))
-                    .put("city", breakdown.segment.arrivalCity)
-                    .put("airportcode", breakdown.segment.arrivalAirportCode)
-                    .format().toString()
+                .put("city", breakdown.segment.arrivalCity)
+                .put("airportcode", breakdown.segment.arrivalAirportCode)
+                .format().toString()
         layoverDuration.text = FlightV2Utils.getFlightSegmentLayoverDurationString(context, breakdown.segment)
         layoverDuration.contentDescription = FlightV2Utils.getFlightSegmentLayoverDurationContentDescription(context, breakdown.segment)
         return row

@@ -38,6 +38,6 @@ class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHol
     }
 
     override fun getItemCount(): Int {
-       return mediaList.size
+        return mediaList.size
     }
 }

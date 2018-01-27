@@ -82,6 +82,6 @@ open class AddGuestItinViewModel(val context: Context) {
     }
 
     open fun getItinManager(): ItineraryManager {
-       return ItineraryManager.getInstance()
+        return ItineraryManager.getInstance()
     }
 }

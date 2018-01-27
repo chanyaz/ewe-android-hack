@@ -10,11 +10,11 @@ import com.mobiata.flightlib.data.FlightCode
 import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils
 import com.mobiata.flightlib.utils.FormatUtils
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import java.util.TimeZone
 import kotlin.test.assertEquals
 

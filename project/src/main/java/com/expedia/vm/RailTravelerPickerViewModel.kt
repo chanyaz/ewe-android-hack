@@ -193,7 +193,7 @@ class RailTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewMode
     override fun makeTravelerText(travelers: TravelerParams) {
         val total = travelers.numberOfAdults + travelers.childrenAges.size + travelers.youthAges.size + travelers.seniorAges.size
         guestsTextObservable.onNext(
-            StrUtils.formatTravelerString(context, total)
+                StrUtils.formatTravelerString(context, total)
         )
     }
 }

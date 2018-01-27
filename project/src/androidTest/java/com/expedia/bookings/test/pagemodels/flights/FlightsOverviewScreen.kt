@@ -112,9 +112,9 @@ object FlightsOverviewScreen {
 
     @JvmStatic
     fun fareFamilyPrimaryAmenityTextDrawable(amenityLabel: String, position: Int): ViewInteraction {
-       return onView(allOf(withId(R.id.fare_family_amenity_text_icon),
+        return onView(allOf(withId(R.id.fare_family_amenity_text_icon),
                 withParent(hasSibling(allOf(withId(R.id.fare_family_amenity_text), withText(amenityLabel)))),
-                isDescendantOfA(withIndex(withId(R.id.fare_family_primary_amenities_container), position - 1 ))))
+                isDescendantOfA(withIndex(withId(R.id.fare_family_primary_amenities_container), position - 1))))
     }
 
     @JvmStatic fun fareFamilyPrimaryAmenityIconDrawable(amenityLabel: String, position: Int): ViewInteraction {

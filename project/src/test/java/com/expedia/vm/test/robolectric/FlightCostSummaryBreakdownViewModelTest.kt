@@ -292,7 +292,7 @@ class FlightCostSummaryBreakdownViewModelTest {
     }
 
     private fun setupInsuranceFees() {
-       val insurance = Money("10.00", "USD")
+        val insurance = Money("10.00", "USD")
 
         newTripResponse.details.offer.selectedInsuranceProduct = InsuranceProduct()
         newTripResponse.details.offer.selectedInsuranceProduct.totalPrice = insurance

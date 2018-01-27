@@ -28,8 +28,9 @@ class HotelNavUtils : NavUtils() {
             goToHotelsV2Params(context, null, animOptions, expediaFlags)
         }
 
-        @JvmStatic fun goToHotels(context: Context, oldParams: HotelSearchParams?,
-                                          animOptions: Bundle?, expediaFlags: Int) {
+        @JvmStatic
+        fun goToHotels(context: Context, oldParams: HotelSearchParams?,
+                       animOptions: Bundle?, expediaFlags: Int) {
             var v2params: com.expedia.bookings.data.hotels.HotelSearchParams? = null
             if (oldParams != null) {
                 v2params = HotelsV2DataUtil.getHotelV2SearchParams(context, oldParams)

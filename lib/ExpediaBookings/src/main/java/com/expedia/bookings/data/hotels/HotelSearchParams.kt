@@ -249,7 +249,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
 
         fun isNotEmpty(): Boolean {
             return !isEmpty()
-      }
+        }
     }
 
     enum class SortType(val sortName: String) {

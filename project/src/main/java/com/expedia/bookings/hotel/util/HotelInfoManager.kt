@@ -38,7 +38,7 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
                 } else if (!response.hasErrors()) {
                     offerSuccessSubject.onNext(response)
                 } else {
-                   apiErrorSubject.onNext(response.firstError)
+                    apiErrorSubject.onNext(response.firstError)
                 }
             }
         }

@@ -41,11 +41,11 @@ class HotelMarkerIconGenerator (context: Context) {
 
     fun createHotelMarkerIcon(context: Context, hotel: Hotel, isSelected: Boolean): BitmapDescriptor {
         val hotelPriceText =
-            if (hotel.isSoldOut) {
-                context.getString(R.string.sold_out)
-            } else {
-                priceFormatter(context.resources, hotel.lowRateInfo, false, !hotel.isPackage)
-            }
+                if (hotel.isSoldOut) {
+                    context.getString(R.string.sold_out)
+                } else {
+                    priceFormatter(context.resources, hotel.lowRateInfo, false, !hotel.isPackage)
+                }
         val isAirAttached = if (hotel.isSoldOut) false else hotel.lowRateInfo.isShowAirAttached()
         val outputBitmap = getBitmap(context, isSelected, isAirAttached, hotel.isSoldOut)
         iconFactory.setBackground(outputBitmap)

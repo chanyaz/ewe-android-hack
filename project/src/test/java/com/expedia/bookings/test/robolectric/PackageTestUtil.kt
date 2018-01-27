@@ -198,9 +198,9 @@ class PackageTestUtil {
 
         @JvmStatic
         fun getCreateTripResponse(tripId: String = "00000", currency: String = "USD", bundleTotal: Int = 0, packageTotal: Int = 0,
-                                   hotelLargeThumbnailUrl: String = "", hotelCity: String = "", hotelStateProvince: String = "",
-                                   hotelCountry: String = "", hotelCheckinDate: String = "", hotelCheckoutOutDate: String = "",
-                                   hotelNumberOfNights: String = ""): PackageCreateTripResponse {
+                                  hotelLargeThumbnailUrl: String = "", hotelCity: String = "", hotelStateProvince: String = "",
+                                  hotelCountry: String = "", hotelCheckinDate: String = "", hotelCheckoutOutDate: String = "",
+                                  hotelNumberOfNights: String = ""): PackageCreateTripResponse {
             val trip = PackageCreateTripResponse()
             val packageDetails = PackageCreateTripResponse.PackageDetails()
             packageDetails.tripId = tripId

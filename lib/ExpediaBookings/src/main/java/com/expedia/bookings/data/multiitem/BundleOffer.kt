@@ -4,6 +4,6 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 
 data class BundleOffer(var hotel: Hotel?,
-                  var outboundFlight: FlightLeg?,
-                  var inboundFlight: FlightLeg?
+                       var outboundFlight: FlightLeg?,
+                       var inboundFlight: FlightLeg?
 )

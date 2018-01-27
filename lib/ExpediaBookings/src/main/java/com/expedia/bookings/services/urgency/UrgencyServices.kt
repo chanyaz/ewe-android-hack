@@ -13,7 +13,7 @@ import io.reactivex.Observable
 import io.reactivex.Scheduler
 
 open class UrgencyServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
-                      private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
+                           private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
     val clientId = "lodgingmobileapp"
 
     private val api: UrgencyApi by lazy {

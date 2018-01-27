@@ -64,7 +64,7 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
     }
 
     open fun cachedFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
-                          resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Disposable {
+                                resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Disposable {
         cachedSearchRequestSubscription?.dispose()
         cachedSearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable, FlightSearchType.CACHED)
         return cachedSearchRequestSubscription as Disposable

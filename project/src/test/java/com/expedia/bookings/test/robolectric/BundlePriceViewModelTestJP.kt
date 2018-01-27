@@ -42,7 +42,7 @@ class BundlePriceViewModelTestJP {
     }
 
     @Test
-     fun testBundleSaveLabelNonInteger() {
+    fun testBundleSaveLabelNonInteger() {
         val testSubscriber = TestObserver<String>()
         val testViewModelUniversalCKO = PackageTotalPriceViewModel(context)
         testViewModelUniversalCKO.savingsPriceObservable.subscribe(testSubscriber)

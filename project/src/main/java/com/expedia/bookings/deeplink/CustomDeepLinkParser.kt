@@ -16,7 +16,7 @@ class CustomDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
 
     private val locationId = Pattern.compile("^(ID)?([0-9]+)")
 
-     fun parseCustomDeepLink(data: Uri): DeepLink {
+    fun parseCustomDeepLink(data: Uri): DeepLink {
         val routingDestination = data.host.toLowerCase(Locale.US)
         when (routingDestination) {
             "hotelsearch" -> return parseHotelCustomDeepLink(data)

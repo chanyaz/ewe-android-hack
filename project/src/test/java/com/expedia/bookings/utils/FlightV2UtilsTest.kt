@@ -42,7 +42,7 @@ class FlightV2UtilsTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-        MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testDepartArrivalNegativeElapsedDays() {
         testFlightLeg.elapsedDays = -1
         val expectedWithElapsedDaysAccesibleString = "12:30 pm - 4:40 pm -1d"

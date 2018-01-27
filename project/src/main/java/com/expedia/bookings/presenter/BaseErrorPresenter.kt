@@ -56,7 +56,7 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
         setupStatusBar()
 
         standardToolbar.setNavigationOnClickListener {
-           back()
+            back()
         }
     }
 

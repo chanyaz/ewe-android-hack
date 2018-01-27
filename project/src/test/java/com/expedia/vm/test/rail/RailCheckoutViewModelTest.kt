@@ -1,17 +1,24 @@
 package com.expedia.vm.test.rail
 
 import android.app.Activity
-import com.expedia.bookings.data.*
-import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
-import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.TicketDeliveryOption
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.Ui
 import com.expedia.testutils.JSONResourceReader
+import com.expedia.util.Optional
 import com.expedia.vm.rail.RailCheckoutViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -20,8 +27,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
-import com.expedia.util.Optional
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull

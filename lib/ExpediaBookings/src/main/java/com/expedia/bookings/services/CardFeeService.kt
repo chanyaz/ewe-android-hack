@@ -41,9 +41,9 @@ open class CardFeeService(endpoint: String, okHttpClient: OkHttpClient, intercep
     open fun getCardFees(tripId: String, creditCardId: String, isFlexEnabled: Boolean, observer: Observer<CardFeeResponse>): Disposable {
         subscription?.dispose() // cancels any existing calls we're waiting on
         val subscription = cardFeeApi.cardFee(tripId, creditCardId, if (isFlexEnabled) Constants.FEATURE_FLEX else null)
-                                     .observeOn(observeOn)
-                                     .subscribeOn(subscribeOn)
-                                     .subscribeObserver(observer)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribeObserver(observer)
         this.subscription = subscription
         return subscription
     }

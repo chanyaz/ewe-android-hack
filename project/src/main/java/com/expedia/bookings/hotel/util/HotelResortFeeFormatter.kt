@@ -42,7 +42,7 @@ class HotelResortFeeFormatter {
     }
 
     fun getResortFeeInclusionText(context: Context,
-                                 roomResponse: HotelOffersResponse.HotelRoomResponse?): String {
+                                  roomResponse: HotelOffersResponse.HotelRoomResponse?): String {
         var feeInclusionText = ""
         if (roomResponse?.rateInfo?.chargeableRateInfo?.showResortFeeMessage == true) {
             val rate = roomResponse.rateInfo.chargeableRateInfo

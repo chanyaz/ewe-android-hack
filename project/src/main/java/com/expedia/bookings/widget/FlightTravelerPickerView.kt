@@ -15,7 +15,11 @@ import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.shared.TravelerCountSelector
-import com.expedia.util.*
+import com.expedia.util.endlessObserver
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeOnCheckChanged
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseTravelerPickerViewModel
 import com.expedia.vm.FlightTravelerPickerViewModel
 import io.reactivex.Observer

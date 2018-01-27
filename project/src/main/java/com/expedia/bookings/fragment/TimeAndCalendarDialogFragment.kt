@@ -174,7 +174,7 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
         }
     }
 
-     fun setContentDescriptionForTimeSlider(seekBar: TimeSlider, isDepart: Boolean, progress: Int): String {
+    fun setContentDescriptionForTimeSlider(seekBar: TimeSlider, isDepart: Boolean, progress: Int): String {
         val time = seekBar.calculateProgress(progress)
         if (isDepart)
             return viewModel.getStartTimeContDesc(time)

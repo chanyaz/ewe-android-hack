@@ -38,7 +38,7 @@ object FlightsResultsScreen {
     fun assertAirlineChargesFeesHeadingShown(resultsView: Matcher<View>, id: Int) {
         val airlineFeesHeaderView = onView(allOf(withId(R.id.airline_charges_fees_header), ViewMatchers.isDescendantOfA(resultsView)))
         airlineFeesHeaderView.perform(ViewActions.waitForViewToDisplay())
-                             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-                             .check(ViewAssertions.matches(withText(id)))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+                .check(ViewAssertions.matches(withText(id)))
     }
 }

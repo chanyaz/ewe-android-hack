@@ -104,16 +104,17 @@ class SinglePageSignUpLayout(context: Context, attrs: AttributeSet) : FrameLayou
         vTOSLayout.styleizeFromAccountView(a)
     }
 
-    fun configurePOS(showSpamOptIn: Boolean, enableSpamByDefault: Boolean, hasUserRewardsEnrollmentCheck: Boolean, shouldAutoEnrollUserInRewards: Boolean,
-                  tosText: CharSequence, marketingText: CharSequence, rewardsText: CharSequence) {
+    fun configurePOS(showSpamOptIn: Boolean, enableSpamByDefault: Boolean, hasUserRewardsEnrollmentCheck: Boolean,
+                     shouldAutoEnrollUserInRewards: Boolean, tosText: CharSequence, marketingText: CharSequence,
+                     rewardsText: CharSequence) {
         vTOSLayout.configurePOS(
-            showSpamOptIn,
-            enableSpamByDefault,
-            hasUserRewardsEnrollmentCheck,
-            shouldAutoEnrollUserInRewards,
-            tosText,
-            marketingText,
-            rewardsText
+                showSpamOptIn,
+                enableSpamByDefault,
+                hasUserRewardsEnrollmentCheck,
+                shouldAutoEnrollUserInRewards,
+                tosText,
+                marketingText,
+                rewardsText
         )
     }
 

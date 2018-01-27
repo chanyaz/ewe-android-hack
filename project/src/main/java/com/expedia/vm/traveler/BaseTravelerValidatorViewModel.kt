@@ -32,7 +32,7 @@ abstract class BaseTravelerValidatorViewModel : InvalidCharacterHelper.InvalidCh
     }
 
     fun getText(): String {
-       return textSubject.value ?: ""
+        return textSubject.value ?: ""
     }
 
     protected fun isRequiredNameValid(name: String?): Boolean {

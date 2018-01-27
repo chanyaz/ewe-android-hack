@@ -5,15 +5,15 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class ItinFlightLegTime : JSONable {
-     var raw: String = ""
-     var localized: String = ""
-     var epochSeconds: String = ""
-     var timeZoneOffsetSeconds: String = ""
-     var localizedShortDate: String = ""
-     var localizedMediumDate: String = ""
-     var localizedFullDate: String = ""
-     var localizedLongDate: String = ""
-     var localizedShortTime: String = ""
+    var raw: String = ""
+    var localized: String = ""
+    var epochSeconds: String = ""
+    var timeZoneOffsetSeconds: String = ""
+    var localizedShortDate: String = ""
+    var localizedMediumDate: String = ""
+    var localizedFullDate: String = ""
+    var localizedLongDate: String = ""
+    var localizedShortTime: String = ""
 
     override fun toJson(): JSONObject? {
         val obj = JSONObject()

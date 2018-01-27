@@ -174,7 +174,7 @@ class FlightConfirmationPresenterTest {
 
         var shareMessage = presenter.toolbar.viewModel.getShareMessage(flightItinDetailsResponse)
         var expectedShareMessage = "I'm flying roundtrip from Seattle to Oakland on 5/20/17 - 5/24/17!" + "\n" +
-            "Outbound: www.expedia_test_outbound.com" + "\n" + "Inbound: www.expedia_test_inbound.com"
+                "Outbound: www.expedia_test_outbound.com" + "\n" + "Inbound: www.expedia_test_inbound.com"
         assertEquals(expectedShareMessage, shareMessage)
 
         Locale.setDefault(Locale.CHINA)

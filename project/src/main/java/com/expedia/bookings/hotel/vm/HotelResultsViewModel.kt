@@ -186,7 +186,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         searchBuilder.userSort(filterParams.userSort.toServerSort())
     }
 
-     private fun onSearchResponseSuccess(hotelSearchResponse: HotelSearchResponse) {
+    private fun onSearchResponseSuccess(hotelSearchResponse: HotelSearchResponse) {
         if (titleSubject.value == null || (titleSubject.value != null && titleSubject.value.isEmpty())) {
             titleSubject.onNext(hotelSearchResponse.searchRegionCity)
         }

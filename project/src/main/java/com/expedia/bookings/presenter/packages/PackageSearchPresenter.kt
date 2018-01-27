@@ -67,9 +67,9 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
             if (text.isNotEmpty()) {
                 destinationCardView.setText(text)
                 destinationCardView.contentDescription =
-                            Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
-                                    .put("to_destination", text)
-                                    .format().toString()
+                        Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
+                                .put("to_destination", text)
+                                .format().toString()
                 if (this.visibility == VISIBLE && vm.startDate() == null && !AccessibilityUtil.isTalkBackEnabled(context)) {
                     calendarWidgetV2.showCalendarDialog()
                 }

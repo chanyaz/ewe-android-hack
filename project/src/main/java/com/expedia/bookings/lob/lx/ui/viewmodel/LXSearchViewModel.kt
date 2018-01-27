@@ -78,7 +78,7 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun getEmptyDateText(forContentDescription: Boolean): String {
         if (forContentDescription) {
-           return getDateAccessibilityText(context.getString(R.string.select_start_date), "")
+            return getDateAccessibilityText(context.getString(R.string.select_start_date), "")
         } else {
             return context.getString(R.string.select_start_date)
         }
