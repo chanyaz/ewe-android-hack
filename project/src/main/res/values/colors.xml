@@ -243,6 +243,7 @@
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#676767</color>
     <color name="saved_coupon_text_color">#676767</color>
+    <color name="saved_coupon_error_color">@color/error_red</color>
 
     <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>

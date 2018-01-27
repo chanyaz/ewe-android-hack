@@ -464,6 +464,31 @@ class HotelCheckoutPresenterTest {
     }
 
     @Test
+    fun testSavedCouponErrorDisplayedOnGettingError() {
+        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
+        checkout.couponCardView.isExpanded = true
+
+        val storedCouponRecycler = getStoredCouponRecycler()
+        (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).viewModel.errorObservable.onNext("dummy_error")
+        assertEquals(View.VISIBLE, (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).couponErrorTextView.visibility)
+        assertEquals("dummy_error", (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).couponErrorTextView.text)
+    }
+
+    @Test
+    fun testSavedCouponErrorNotDisplayedOnNotGettingError() {
+        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
+        checkout.couponCardView.isExpanded = true
+
+        val storedCouponRecycler = getStoredCouponRecycler()
+        assertEquals(View.GONE, (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).couponErrorTextView.visibility)
+        (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).viewModel.errorObservable.onNext("")
+        assertEquals(View.GONE, (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).couponErrorTextView.visibility)
+        assertEquals("", (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).couponErrorTextView.text)
+    }
+
+    @Test
     fun testUiDisabledOnApplyBucketed() {
         setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
         checkout.couponCardView.isExpanded = true
