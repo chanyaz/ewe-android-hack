@@ -6,9 +6,53 @@ use_tests_in_packages ['com.expedia.bookings.screengrab']
 test_instrumentation_runner 'com.expedia.bookings.test.espresso.InstrumentationTestRunner'
 
 app_apk_path 'project/build/outputs/apk/expedia/debug/project-expedia-debug.apk'
-tests_apk_path 'project/build/outputs/apk/expedia/debug/project-expedia-debug-androidTest.apk'
+tests_apk_path 'project/build/outputs/apk/androidTest/expedia/debug/project-expedia-debug-androidTest.apk'
 
-locales ['en-US', 'fr-CA','en-CA’,'en-AU’, 'de-DE', 'fr-FR', 'it-IT', 'sv-SE', 'en-GB', 'ja-JP', 'zh-CN', 'fi-FI', 'pt-BR', 'da-DK', 'es-ES', 'id-ID', 'ko-KR', 'es-MX', 'nl-NL', 'nb-NO', 'th-TH', 'zh-TW', 'es-AR', 'vi-VN’, 'zh-HK']
+locales [
+        'da_DK',
+        'de_AT',
+        'de_CH',
+        'de_DE',
+        'en_AU',
+        'en_CA',
+        'en_GB',
+        'en_HK',
+        'en_KR',
+        'en_IE',
+        'en_IN',
+        'en_JP',
+        'en_MY',
+        'en_NZ',
+        'en_PH',
+        'en_SG',
+        'en_TH',
+        'en_TW',
+        'en_US',
+        'es_AR',
+        'es_ES',
+        'es_MX',
+        'es_US',
+        'fi_FI',
+        'fr_BE',
+        'fr_CA',
+        'fr_CH',
+        'fr_FR',
+        'id_ID',
+        'it_IT',
+        'ja_JP',
+        'ko_KR',
+        'nb_NO',
+        'nl_BE',
+        'nl_NL',
+        'pt_BR',
+        'sv_SE',
+        'th_TH',
+        'vi_VN',
+        'zh_CN',
+        'zh_HK',
+        'zh_TW',
+        'zh_US'
+]
 
 # clear all previously generated screenshots in your local output directory before creating new ones
 clear_previous_screenshots true
