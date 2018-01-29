@@ -2022,7 +2022,8 @@ public class OmnitureTracking {
 	private static final String LAUNCH_LAST_MINUTE_DEAL = "App.LS.LastMinuteDeals";
 	private static final String LAUNCH_MEMBER_PRICING = "App.LS.MemberDeals";
 	private static final String MEMBER_PRICING_SHOP = "App.MemberDeals.Shop";
-
+	private static final String MESO_BASE = "App.LS.MeSo";
+	private static final String MESO_HOTEL_AD = MESO_BASE + ".B2P.Ad";
 
 	public static void trackLaunchSignIn() {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_SIGN_IN);
@@ -2052,6 +2053,12 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(MEMBER_PRICING_SHOP);
 		addStandardFields(s);
 		s.trackLink(null, "o", "Member Deals", null, null);
+	}
+
+	public static void trackMesoHotel(String hotelName) {
+		ADMS_Measurement s = createTrackLinkEvent(MESO_BASE);
+		s.setEvar(12, MESO_HOTEL_AD + "." + hotelName);
+		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
 	public static void trackLastMinuteDealsPageLoad() {

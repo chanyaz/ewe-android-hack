@@ -364,16 +364,18 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			if (showAirAttachMessage()) {
 				items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
 			}
+			if (showMemberDeal()) {
+				items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
+			}
 			if (showMesoHotelAd()) {
 				if (mesoHotelAdViewModel != null && mesoHotelAdViewModel.dataIsValid()) {
 					items.add(new LaunchDataItem(LaunchDataItem.MESO_HOTEL_AD_VIEW));
 				}
 			}
 			if (showMesoDestinationAd()) {
-				items.add(new LaunchDataItem(LaunchDataItem.MESO_DESTINATION_AD_VIEW));
-			}
-			if (showMemberDeal()) {
-				items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
+				if (mesoDestinationViewModel != null && mesoDestinationViewModel.getMesoDestinationAdResponse() != null) {
+					items.add(new LaunchDataItem(LaunchDataItem.MESO_DESTINATION_AD_VIEW));
+				}
 			}
 			if (showLastMinuteDeal()) {
 				items.add(new LaunchDataItem(LaunchDataItem.LAST_MINUTE_DEALS));
