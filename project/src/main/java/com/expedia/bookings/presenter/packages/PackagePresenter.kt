@@ -509,7 +509,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     }
 
     override fun back(): Boolean {
-        if (bundlePresenter.webCheckoutView.visibility == View.VISIBLE) {
+        if (midAPIEnabled && Db.sharedInstance.packageParams != null && bundlePresenter.webCheckoutView.visibility == View.VISIBLE) {
             bundlePresenter.webCheckoutView.back()
             return true
         }
