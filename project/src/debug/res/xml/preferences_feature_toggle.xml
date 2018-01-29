@@ -102,11 +102,6 @@
             android:summary="Packages MID API"
             android:title="Packages MID API" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_packages_show_flight_seating_class"
-            android:summary="Packages Show Seating Class on Flights"
-            android:title="Show Seating Class" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

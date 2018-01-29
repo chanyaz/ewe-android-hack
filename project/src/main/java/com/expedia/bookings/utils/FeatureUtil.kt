@@ -87,6 +87,5 @@ private fun isPackageForceUpdateEnabled(context: Context): Boolean {
 }
 
 fun isDisplayFlightSeatingClassForShoppingEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass) &&
-            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_show_flight_seating_class)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
 }

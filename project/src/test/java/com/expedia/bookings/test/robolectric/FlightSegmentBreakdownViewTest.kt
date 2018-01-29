@@ -50,7 +50,7 @@ class FlightSegmentBreakdownViewTest {
 
     @Test
     fun testSeatClassAndBookingCodeViewForPackagesSeatClassAbacusTest() {
-        AbacusTestUtils.bucketTestAndEnableFeature(getContext(), AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass, R.string.preference_packages_show_flight_seating_class)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
         seatClassAndBookingCodeTestCases()
     }
 
@@ -87,7 +87,7 @@ class FlightSegmentBreakdownViewTest {
 
     @Test
     fun testSeatClassAndBookingCodeViewVisibilityForPackagesSeatClassAbacusTest() {
-        AbacusTestUtils.bucketTestAndEnableFeature(getContext(), AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass, R.string.preference_packages_show_flight_seating_class)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
         //Cabin Code is coach
         seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach", true)
         assertEquals(View.VISIBLE, seatClassAndBookingCodeTextView.visibility)
