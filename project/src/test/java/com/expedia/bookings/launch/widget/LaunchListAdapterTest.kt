@@ -21,6 +21,7 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.meso.model.MesoAdResponse
+import com.expedia.bookings.meso.model.MesoDestinationAdResponse
 import com.expedia.bookings.meso.model.MesoHotelAdResponse
 import com.expedia.bookings.meso.vm.MesoDestinationViewModel
 import com.expedia.bookings.meso.vm.MesoHotelAdViewModel
@@ -133,6 +134,21 @@ class LaunchListAdapterTest {
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
         assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+    }
+
+    @Test
+    fun mesoHotelAdCardIsTracked() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val hotelName = "Really Great Fake Hotel"
+        OmnitureTracking.trackMesoHotel(hotelName)
+
+        val expectedEvar = mapOf(28 to "App.LS.MeSo")
+        val expectedProp = mapOf(16 to "App.LS.MeSo")
+        OmnitureTestUtils.assertLinkTracked("App Landing", "App.LS.MeSo", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("App Landing", "App.LS.MeSo", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+
+        val expectedHotelEvar = mapOf(12 to "App.LS.MeSo.B2P.Ad." + hotelName)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(expectedHotelEvar), mockAnalyticsProvider)
     }
 
     @Test
@@ -760,6 +776,7 @@ class LaunchListAdapterTest {
                 mesoHotelAdViewModel.mesoHotelAdResponse = getMesoAdResponseMockData().HotelAdResponse
             } else if (showMesoDestinationAd()) {
                 mesoDestinationViewModel = MesoDestinationViewModel(context = context)
+                mesoDestinationViewModel.mesoDestinationAdResponse = getMesoAdResponseMockData().DestinationAdResponse
             }
         }
 
@@ -807,6 +824,7 @@ class LaunchListAdapterTest {
                 "0",
                 "$300")
 
-        return MesoAdResponse(mesoHotelAdResponse)
+        val mesoDestinationAdResponse = MesoDestinationAdResponse("", "", "", "", "")
+        return MesoAdResponse(mesoHotelAdResponse, mesoDestinationAdResponse)
     }
 }

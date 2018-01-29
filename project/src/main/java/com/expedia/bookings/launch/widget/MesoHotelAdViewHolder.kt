@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.meso.vm.MesoHotelAdViewModel
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
@@ -80,6 +81,7 @@ class MesoHotelAdViewHolder(private var mesoAdView: View, private val mesoHotelA
     override fun onClick(v: View?) {
         if (mesoHotelAdViewModel.dataIsValid()) {
             val flags = NavUtils.FLAG_PINNED_SEARCH_RESULTS
+            OmnitureTracking.trackMesoHotel(mesoHotelAdViewModel.hotelName)
             HotelNavUtils.goToHotelsV2Params(mesoAdView.context, mesoHotelAdViewModel.hotelParamsForSearch, null, flags)
         }
     }
