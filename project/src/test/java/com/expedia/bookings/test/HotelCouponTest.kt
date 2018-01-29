@@ -20,6 +20,7 @@ import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CouponWidget
 import com.expedia.vm.HotelCouponViewModel
@@ -218,6 +219,46 @@ class HotelCouponTest {
         OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove.Error", mockAnalyticsProvider)
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(36 to "Removal Error")), mockAnalyticsProvider)
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "test saved coupon")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testEnteredCouponSuccess() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        HotelTracking.trackHotelCouponSuccess("entered coupon")
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Success.Entered", mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "entered coupon")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEventsString("event21"), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testEnteredCouponFailure() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        HotelTracking.trackHotelCouponFail("hotel_coupon_errors_expired", "Expired")
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Fail.Entered", mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "hotel_coupon_errors_expired")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEventsString("event22"), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testSavedCouponSuccess() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        HotelTracking.trackHotelSavedCouponSuccess("test saved coupon")
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Success.Saved", mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "test saved coupon")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEventsString("event21"), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testSavedCouponFailure() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        HotelTracking.trackHotelSavedCouponFail("hotel_coupon_errors_expired", "Expired")
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Fail.Saved", mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "hotel_coupon_errors_expired")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEventsString("event22"), mockAnalyticsProvider)
     }
 
     @Test

@@ -258,8 +258,10 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CONFIRMATION_DIRECTIONS = "App.Hotels.CKO.Confirm.Directions";
 	private static final String HOTELSV2_CONFIRMATION_CROSS_SELL = "App.Hotels.CKO.Confirm.Xsell";
 	private static final String HOTELSV2_CONFIRMATION_EXPAND_COUPON = "App.CKO.Coupon.Expand";
-	private static final String HOTELSV2_CONFIRMATION_COUPON_SUCCESS = "App.CKO.Coupon.Success";
-	private static final String HOTELSV2_CONFIRMATION_COUPON_FAIL = "App.CKO.Coupon.Fail";
+	private static final String HOTELSV2_CHECKOUT_ENTERED_COUPON_SUCCESS = "App.CKO.Coupon.Success.Entered";
+	private static final String HOTELSV2_CHECKOUT_SAVED_COUPON_SUCCESS = "App.CKO.Coupon.Success.Saved";
+	private static final String HOTELSV2_CHECKOUT_ENTERED_COUPON_FAIL = "App.CKO.Coupon.Fail.Entered";
+	private static final String HOTELSV2_CHECKOUT_SAVED_COUPON_FAIL = "App.CKO.Coupon.Fail.Saved";
 	private static final String HOTELSV2_CONFIRMATION_COUPON_REMOVE = "App.CKO.Coupon.Remove";
 	private static final String HOTELSV2_CHECKOUT_COUPON_REMOVE_FAILURE = "App.CKO.Coupon.Remove.Error";
 
@@ -1401,19 +1403,38 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
 	}
 
-	public static void trackHotelV2CouponSuccess(String couponCode) {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_COUPON_SUCCESS + "\" click...");
+	public static void trackHotelV2EnteredCouponSuccess(String couponCode) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_ENTERED_COUPON_SUCCESS + "\" click...");
 
-		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_COUPON_SUCCESS);
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_ENTERED_COUPON_SUCCESS);
 		s.setEvents("event21");
 		s.setEvar(24, couponCode);
 		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
 	}
 
-	public static void trackHotelV2CouponFail(String couponCode, String errorMessage) {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_COUPON_FAIL + "\" click...");
+	public static void trackHotelV2SavedCouponSuccess(String couponCode) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_SAVED_COUPON_SUCCESS + "\" click...");
 
-		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_COUPON_FAIL);
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_SAVED_COUPON_SUCCESS);
+		s.setEvents("event21");
+		s.setEvar(24, couponCode);
+		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+	}
+
+	public static void trackHotelV2EnteredCouponFail(String couponCode, String errorMessage) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_ENTERED_COUPON_FAIL + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_ENTERED_COUPON_FAIL);
+		s.setEvents("event22");
+		s.setEvar(24, couponCode);
+		s.setProp(36, errorMessage);
+		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+	}
+
+	public static void trackHotelV2SavedCouponFail(String couponCode, String errorMessage) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_SAVED_COUPON_FAIL + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_SAVED_COUPON_FAIL);
 		s.setEvents("event22");
 		s.setEvar(24, couponCode);
 		s.setProp(36, errorMessage);
