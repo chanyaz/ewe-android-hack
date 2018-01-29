@@ -96,7 +96,7 @@ function installBuild() {
     fi
 
     echo "installing..... project-${flavorLowerCase}-debug-androidTest.apk"
-    adb -s $device install project/build/outputs/apk/project-${flavorLowerCase}-debug-androidTest.apk
+    adb -s $device install project/build/outputs/apk/androidTest/${flavorLowerCase}/debug/project-${flavorLowerCase}-debug-androidTest.apk
     installAndroidTest=$?
 
     if [[ ($installAndroidTest -ne 0) ]]; then
