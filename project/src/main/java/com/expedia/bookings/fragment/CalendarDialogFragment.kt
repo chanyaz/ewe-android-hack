@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.DialogFragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.CardView
 import android.view.LayoutInflater
@@ -29,6 +30,7 @@ open class CalendarDialogFragment() : DialogFragment() {
 
     var baseSearchViewModel: BaseSearchViewModel? = null
     var rules: CalendarRules? = null
+    var isShowInitiated = false
 
     constructor(vm: BaseSearchViewModel, rules: CalendarRules) : this() {
         baseSearchViewModel = vm
@@ -125,6 +127,7 @@ open class CalendarDialogFragment() : DialogFragment() {
         userTappedDone = false
         calendar.hideToolTip()
         baseSearchViewModel?.a11yFocusSelectDatesObservable?.onNext(Unit)
+        isShowInitiated = false
     }
 
     override fun onDestroyView() {
@@ -132,6 +135,11 @@ open class CalendarDialogFragment() : DialogFragment() {
             dialog.setDismissMessage(null)
         }
         super.onDestroyView()
+    }
+
+    override fun show(manager: FragmentManager?, tag: String?) {
+        isShowInitiated = true
+        super.show(manager, tag)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
