@@ -71,7 +71,7 @@ public class SearchResultsScreenSteps {
 
 	@And("^I wait for inbound flights results to load$")
 	public void waitForInboundFlightsToLoad() throws Throwable {
-		onView(allOf(withId(R.id.list_view), hasSibling(allOf(
+		onView(allOf(withId(R.id.fsr_container), hasDescendant(withId(R.id.list_view)), hasSibling(allOf(
 			withId(R.id.docked_outbound_flight_selection),
 			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))))
 			.perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
@@ -90,7 +90,7 @@ public class SearchResultsScreenSteps {
 
 	@And("^Validate that flight search results are displayed for inbound flights$")
 	public void validateThatFlightSearchResultsDisplayedOnInboundFSR() throws Throwable {
-		onView(allOf(withId(R.id.list_view), hasSibling(allOf(
+		onView(allOf(withId(R.id.fsr_container), hasDescendant(withId(R.id.list_view)), hasSibling(allOf(
 			withId(R.id.docked_outbound_flight_selection),
 			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))))
 			.check(matches(isDisplayed()));

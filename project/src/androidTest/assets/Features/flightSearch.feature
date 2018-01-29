@@ -293,7 +293,7 @@ Feature: Flights Search
       | source              | LON                                      |
       | destination         | MAD                                      |
       | source_suggest      | London, England, UK (LON - All Airports) |
-      | destination_suggest | Madrid, Spain (MAD - All Airports)       |
+      | destination_suggest | MAD - Adolfo Suarez Madrid-Barajas       |
       | start_date          | 7                                        |
       | end_date            | 11                                       |
       | adults              | 3                                        |

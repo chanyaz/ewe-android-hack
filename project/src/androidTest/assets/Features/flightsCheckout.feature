@@ -203,7 +203,7 @@ Feature: Flights Checkout
     When I make a flight search with following parameters
       | source              | KUL                                      |
       | destination         | PEN                                      |
-      | source_suggest      | Kuala Lumpur, Malaysia (KUL - All Airports) |
+      | source_suggest      | KUL - Kuala Lumpur Intl. |
       | destination_suggest | Penang, Malaysia (PEN - Penang Intl.) |
       | start_date          | 20                                        |
       | end_date            | 30                                       |
