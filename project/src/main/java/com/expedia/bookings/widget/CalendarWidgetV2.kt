@@ -26,6 +26,9 @@ open class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
     var calendarDialog: CalendarDialogFragment? = null
 
     fun showCalendarDialog() {
+        if (calendarDialog != null && calendarDialog!!.isShowInitiated) {
+            return
+        }
         calendarDialog = CalendarDialogFragment.createFragment(viewModel, viewModel.getCalendarRules())
         showCustomCalendarDialog()
     }
