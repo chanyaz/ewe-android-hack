@@ -2,6 +2,7 @@ package com.expedia.bookings.meso
 
 import android.accounts.NetworkErrorException
 import android.content.Context
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.enums.MesoDestinationAdState
 import com.expedia.bookings.meso.model.MesoAdResponse
@@ -23,7 +24,9 @@ open class MesoAdResponseProvider {
 
         @JvmStatic
         fun fetchHotelMesoAd(context: Context, mesoHotelAdResponseSubject: PublishSubject<MesoAdResponse>) {
-            hotelAdLoader = AdLoader.Builder(context, Constants.MESO_DEV_URL_PATH).forCustomTemplateAd(Constants.MESO_DEV_HOTEL_TEMPLATEID,
+            val hotelTemplateID = if (BuildConfig.RELEASE) Constants.MESO_PROD_HOTEL_TEMPLATEID else Constants.MESO_DEV_HOTEL_TEMPLATEID
+
+            hotelAdLoader = AdLoader.Builder(context, getUrlPath()).forCustomTemplateAd(hotelTemplateID,
                     { hotelAdResponse ->
                         if (hotelAdResponse == null) {
                             mesoHotelAdResponseSubject.onError(Throwable("Hotel Ad Response was null."))
@@ -46,7 +49,9 @@ open class MesoAdResponseProvider {
 
         @JvmStatic
         fun fetchDestinationMesoAd(context: Context, mesoDestinationAdResponseSubject: PublishSubject<MesoAdResponse>) {
-            destinationAdLoader = AdLoader.Builder(context, Constants.MESO_DEV_URL_PATH).forCustomTemplateAd(Constants.MESO_DEV_DESTINATION_TEPLATEID,
+            val destinationTemplateID = if (BuildConfig.RELEASE) Constants.MESO_PROD_DESTINATION_TEMPLATEID else Constants.MESO_DEV_DESTINATION_TEMPLATEID
+
+            destinationAdLoader = AdLoader.Builder(context, getUrlPath()).forCustomTemplateAd(destinationTemplateID,
                     { destinationAdResponse ->
                         if (destinationAdResponse == null) {
                             mesoDestinationAdResponseSubject.onError(Throwable("Destination Ad Response was null."))
@@ -65,6 +70,10 @@ open class MesoAdResponseProvider {
                     }).build()
 
             destinationAdLoader.loadAd(PublisherAdRequest.Builder().build())
+        }
+
+        private fun getUrlPath(): String {
+            return if (BuildConfig.RELEASE) Constants.MESO_PROD_URL_PATH else Constants.MESO_DEV_URL_PATH
         }
 
         private fun generateHotelAdResponse(adResponse: NativeCustomTemplateAd): MesoHotelAdResponse =

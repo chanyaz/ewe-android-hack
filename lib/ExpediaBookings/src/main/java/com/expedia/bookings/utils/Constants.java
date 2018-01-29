@@ -108,11 +108,11 @@ public class Constants {
 
 	//Meso
 	public static final String MESO_DEV_URL_PATH = "/11850712/expedia.us_en/home/all/ANDROID1";
-//	public static final String MESO_PROD_URL_PATH = "/23171577/expedia.us_en/home/all/ANDROID1";
+	public static final String MESO_PROD_URL_PATH = "/23171577/expedia.us_en/home/all/ANDROID1";
 	public static final String MESO_DEV_HOTEL_TEMPLATEID = "11751981";
-	public static final String MESO_DEV_DESTINATION_TEPLATEID = "11749411";
-//	public static final String MESO_PROD_HOTEL_TEMPLATEID = "11754433";
-//	public static final String MESO_PROD_DESTINATION_TEPLATEID = "";
+	public static final String MESO_DEV_DESTINATION_TEMPLATEID = "11749411";
+	public static final String MESO_PROD_HOTEL_TEMPLATEID = "11754433";
+	public static final String MESO_PROD_DESTINATION_TEMPLATEID = "11754755";
 
 	public static final String MESO_LAS_VEGAS_BG_URL = "https://a.travel-assets.com/dynamic_images/178276.jpg";
 	public static final String MESO_LOS_ANGELES_BG_URL = "https://a.travel-assets.com/dynamic_images/178280.jpg";
