@@ -17,6 +17,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
@@ -513,7 +514,7 @@ class PaymentWidgetV2Test {
 
     @Test
     fun testSavedCouponABTestDisabled() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppSavedCoupons, AbacusUtils.DefaultVariant.CONTROL.ordinal)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppSavedCoupons, AbacusVariant.CONTROL.value)
         assertFalse(isShowSavedCoupons(getContext()))
     }
 

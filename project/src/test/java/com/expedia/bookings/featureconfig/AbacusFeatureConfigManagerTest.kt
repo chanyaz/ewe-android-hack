@@ -4,7 +4,7 @@ import android.app.Application
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusResponse
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.mobiata.android.util.SettingUtils
@@ -25,21 +25,21 @@ class AbacusFeatureConfigManagerTest {
     @Test
     fun testSatelliteManagedEnabledABTest() {
         val abTest = ABTest(12345, true)
-        AbacusTestUtils.updateABTest(abTest, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
     }
 
     @Test
     fun testSatelliteManagedDisabledABTest() {
         val abTest = ABTest(99999, true)
-        AbacusTestUtils.updateABTest(abTest, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
         assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
     }
 
     @Test
     fun testSatelliteManagedDisabledWithOverrideABTest() {
         val abTest = ABTest(99999, true)
-        AbacusTestUtils.updateABTest(abTest, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
         updateTestOverride(abTest.key)
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
     }
@@ -47,14 +47,14 @@ class AbacusFeatureConfigManagerTest {
     @Test
     fun testNonSatelliteABTestIsBucketed() {
         val abTest = ABTest(12345)
-        AbacusTestUtils.updateABTest(abTest, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
     }
 
     @Test
     fun testNonSatelliteABTestInControl() {
         val abTest = ABTest(12345)
-        AbacusTestUtils.updateABTest(abTest, AbacusUtils.DefaultVariant.CONTROL.ordinal)
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.CONTROL.value)
         assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
     }
 
@@ -91,6 +91,6 @@ class AbacusFeatureConfigManagerTest {
     }
 
     private fun updateTestOverride(testKey: Int) {
-        SettingUtils.save(context, testKey.toString(), AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+        SettingUtils.save(context, testKey.toString(), AbacusVariant.BUCKETED.value)
     }
 }

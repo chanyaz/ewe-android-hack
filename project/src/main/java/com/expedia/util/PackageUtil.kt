@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -30,7 +31,7 @@ object PackageUtil {
         if (isPackagesLobTitleABTestEnabled) {
             if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.PackagesTitleChange)) {
                 val variateForTest = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.PackagesTitleChange)
-                if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
+                if (variateForTest == AbacusVariant.ONE.value) {
                     return R.string.nav_hotel_plus_flight
                 }
                 return R.string.nav_hotel_plus_flight_deals

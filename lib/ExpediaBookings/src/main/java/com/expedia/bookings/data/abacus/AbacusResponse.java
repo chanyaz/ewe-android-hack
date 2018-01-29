@@ -15,7 +15,7 @@ public class AbacusResponse {
 		if (test != null) {
 			return test.getBucketVariate();
 		}
-		return AbacusUtils.DefaultVariant.CONTROL.ordinal();
+		return AbacusVariant.CONTROL.getValue();
 	}
 
 	public String getAnalyticsString(ABTest abTest) {
@@ -59,7 +59,7 @@ public class AbacusResponse {
 
 	public AbacusTest testForKey(ABTest abTest) {
 		if (abacusTestDebugMap.get(abTest.getKey()) != null
-			&& abacusTestDebugMap.get(abTest.getKey()).getBucketVariate() != AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG) {
+			&& abacusTestDebugMap.get(abTest.getKey()).getBucketVariate() != AbacusVariant.DEBUG.getValue()) {
 			return abacusTestDebugMap.get(abTest.getKey());
 		}
 		else {

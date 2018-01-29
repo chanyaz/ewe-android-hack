@@ -15,6 +15,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -365,7 +366,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	private void assertInsuranceVisibilityTests() {
 		// insurance visibility in flight summary screen (Abacus 12268)
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary,
-			AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+			AbacusVariant.BUCKETED.getValue());
 		FlightsScreen.selectInboundFlight().perform(click());
 		assertInsuranceIsVisible();
 		PackageScreen.checkout().perform(click());
@@ -375,7 +376,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		// insurance visibility in checkout screen (control)
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary,
-			AbacusUtils.DefaultVariant.CONTROL.ordinal());
+				AbacusVariant.CONTROL.getValue());
 		FlightsScreen.selectInboundFlight().perform(click());
 		assertInsuranceIsNotVisible();
 		PackageScreen.checkout().perform(click());

@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusResponse
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.mobiata.android.util.SettingUtils
@@ -23,7 +23,7 @@ object RoboTestHelper {
     fun bucketTests(vararg tests: ABTest) {
         val abacusResponse = AbacusResponse()
         for (test in tests) {
-            abacusResponse.updateABTestForDebug(test.key, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+            abacusResponse.updateABTestForDebug(test.key, AbacusVariant.BUCKETED.value)
         }
         Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
@@ -31,7 +31,7 @@ object RoboTestHelper {
     fun controlTests(vararg tests: ABTest) {
         val abacusResponse = AbacusResponse()
         for (test in tests) {
-            abacusResponse.updateABTestForDebug(test.key, AbacusUtils.DefaultVariant.CONTROL.ordinal)
+            abacusResponse.updateABTestForDebug(test.key, AbacusVariant.CONTROL.value)
         }
         Db.sharedInstance.setAbacusResponse(abacusResponse)
     }

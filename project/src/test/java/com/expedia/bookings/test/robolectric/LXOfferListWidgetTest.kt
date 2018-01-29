@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.lx.LXTicketType
 import com.expedia.bookings.data.lx.Offer
 import com.expedia.bookings.test.MultiBrand
@@ -41,7 +42,7 @@ class LXOfferListWidgetTest {
 
     @Test
     fun testSetOffersBucketedForFirstOfferExpandedABTest() {
-        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariant.BUCKETED)
+        bucketFirstOfferInListExpandedABTest(AbacusVariant.BUCKETED)
         val offersList = setActivityOfferList()
         widget.sortTicketByPriorityAndOfferByPrice(offersList)
         assertTrue(offersList[0].isToggled)
@@ -49,14 +50,14 @@ class LXOfferListWidgetTest {
 
     @Test
     fun testSetOffersControlledForFirstOfferExpandedABTest() {
-        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariant.CONTROL)
+        bucketFirstOfferInListExpandedABTest(AbacusVariant.CONTROL)
         val offersList = setActivityOfferList()
         assertFalse(offersList[0].isToggled)
     }
 
     @Test
     fun testFirstOfferExpandedBucketed() {
-        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariant.BUCKETED)
+        bucketFirstOfferInListExpandedABTest(AbacusVariant.BUCKETED)
         setActivityOfferList()
 
         val offerContainer = widget.offerContainer
@@ -72,7 +73,7 @@ class LXOfferListWidgetTest {
 
     @Test
     fun testFirstOfferCollapsed() {
-        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariant.CONTROL)
+        bucketFirstOfferInListExpandedABTest(AbacusVariant.CONTROL)
         setActivityOfferList()
 
         val offerContainer = widget.offerContainer
@@ -86,10 +87,10 @@ class LXOfferListWidgetTest {
         assertEquals(offerRow.visibility, View.VISIBLE)
     }
 
-    private fun bucketFirstOfferInListExpandedABTest(defaultVariate: AbacusUtils.DefaultVariant) {
+    private fun bucketFirstOfferInListExpandedABTest(defaultVariate: AbacusVariant) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppLXFirstActivityListingExpanded.key,
-                defaultVariate.ordinal)
+                defaultVariate.value)
         Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 

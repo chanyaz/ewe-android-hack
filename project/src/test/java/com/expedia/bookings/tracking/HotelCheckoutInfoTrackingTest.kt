@@ -8,6 +8,7 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -134,12 +135,12 @@ class HotelCheckoutInfoTrackingTest {
 
     private fun enableABTest(enable: Boolean, ABTestKey: Int) {
         Db.sharedInstance.abacusResponse.updateABTestForDebug(ABTestKey,
-                if (enable) AbacusUtils.DefaultVariant.BUCKETED.ordinal else AbacusUtils.DefaultVariant.CONTROL.ordinal)
+                if (enable) AbacusVariant.BUCKETED.value else AbacusVariant.CONTROL.value)
     }
 
     private fun enableABTestWithRemoteFeatureFlag(enable: Boolean, abTest: ABTest) {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest,
-                if (enable) AbacusUtils.DefaultVariant.BUCKETED.ordinal else AbacusUtils.DefaultVariant.CONTROL.ordinal)
+                if (enable) AbacusVariant.BUCKETED.value else AbacusVariant.CONTROL.value)
     }
 
     private fun trackPageLoadHotelCheckoutInfo() {

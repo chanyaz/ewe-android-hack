@@ -11,7 +11,7 @@ import com.expedia.bookings.data.abacus.ABTest;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
-import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.TestObserver;
@@ -102,7 +102,7 @@ public class AbacusServicesTest {
 		test = new ABTest(9999);
 		assertEquals("", responseV2.getAnalyticsString(test));
 		assertNull(responseV2.testForKey(test));
-		assertEquals(AbacusUtils.DefaultVariant.CONTROL.ordinal(), responseV2.variateForTest(test));
+		assertEquals(AbacusVariant.CONTROL.getValue(), responseV2.variateForTest(test));
 	}
 
 	@Test

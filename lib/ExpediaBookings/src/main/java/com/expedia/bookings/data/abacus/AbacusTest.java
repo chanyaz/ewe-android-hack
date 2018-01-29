@@ -7,7 +7,7 @@ public class AbacusTest {
 	public int instanceId;
 
 	public boolean isUserInBucket() {
-		return value != 0 && value != AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG;
+		return value != 0 && value != AbacusVariant.DEBUG.getValue();
 	}
 
 	int getBucketVariate() {
@@ -21,7 +21,7 @@ public class AbacusTest {
 	AbacusTest copyForDebug() {
 		AbacusTest test = new AbacusTest();
 		test.id = id;
-		test.value = AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG;
+		test.value = AbacusVariant.DEBUG.getValue();
 		test.instanceId = instanceId;
 		return test;
 	}

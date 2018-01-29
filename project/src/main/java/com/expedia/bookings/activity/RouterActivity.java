@@ -18,6 +18,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
@@ -254,7 +255,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	private void cacheProWizardBucket(int testValue) {
 		if (BuildConfig.DEBUG) {
 			int debugValue = SettingUtils.get(getApplicationContext(),
-					String.valueOf(AbacusUtils.ProWizardTest.getKey()), AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG);
+					String.valueOf(AbacusUtils.ProWizardTest.getKey()), AbacusVariant.NO_BUCKET.getValue());
 			ProWizardBucketCache.cacheBucket(RouterActivity.this, debugValue);
 		}
 		else {

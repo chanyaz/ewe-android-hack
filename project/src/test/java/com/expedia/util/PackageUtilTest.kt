@@ -3,6 +3,7 @@ package com.expedia.util
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -25,7 +26,7 @@ class PackageUtilTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageLOBTitleStringUSVariant1() {
         assertPackageTitle(posId = PointOfSaleId.UNITED_STATES,
-                abTestValue = AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal,
+                abTestValue = AbacusVariant.ONE.value,
                 expectedPackagesLobTitleABTestEnabled = true,
                 expectedPackageTitle = "Hotel + Flight")
     }
@@ -34,7 +35,7 @@ class PackageUtilTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageLOBTitleStringUSVariant2() {
         assertPackageTitle(posId = PointOfSaleId.UNITED_STATES,
-                abTestValue = AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal,
+                abTestValue = AbacusVariant.TWO.value,
                 expectedPackagesLobTitleABTestEnabled = true,
                 expectedPackageTitle = "Hotel + Flight Deals")
     }
@@ -43,7 +44,7 @@ class PackageUtilTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageLOBTitleStringUSControl() {
         assertPackageTitle(posId = PointOfSaleId.UNITED_STATES,
-                abTestValue = AbacusUtils.DefaultTwoVariant.CONTROL.ordinal,
+                abTestValue = AbacusVariant.CONTROL.value,
                 expectedPackagesLobTitleABTestEnabled = true,
                 expectedPackageTitle = "Bundle Deals")
     }
@@ -52,7 +53,7 @@ class PackageUtilTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageLOBTitleStringUKVariant1() {
         assertPackageTitle(posId = PointOfSaleId.UNITED_KINGDOM,
-                abTestValue = AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal,
+                abTestValue = AbacusVariant.ONE.value,
                 expectedPackagesLobTitleABTestEnabled = true,
                 expectedPackageTitle = "Hotel + Flight")
     }
@@ -61,7 +62,7 @@ class PackageUtilTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageLOBTitleStringUKVariant2() {
         assertPackageTitle(posId = PointOfSaleId.UNITED_KINGDOM,
-                abTestValue = AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal,
+                abTestValue = AbacusVariant.TWO.value,
                 expectedPackagesLobTitleABTestEnabled = true,
                 expectedPackageTitle = "Hotel + Flight Deals")
     }
@@ -70,7 +71,7 @@ class PackageUtilTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageLOBTitleStringUKControl() {
         assertPackageTitle(posId = PointOfSaleId.UNITED_KINGDOM,
-                abTestValue = AbacusUtils.DefaultTwoVariant.CONTROL.ordinal,
+                abTestValue = AbacusVariant.CONTROL.value,
                 expectedPackagesLobTitleABTestEnabled = true,
                 expectedPackageTitle = "Bundle Deals")
     }

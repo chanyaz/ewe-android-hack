@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AbacusUtils {
-	public static final int ABTEST_UNBUCKETED_OR_DEBUG = -1;
-
 	/**
 	 * ACTIVE KEYS
 	 * <p/>
@@ -118,24 +116,6 @@ public class AbacusUtils {
 
 	// Soft Prompt
 	public static final ABTest EBAndroidAppSoftPromptLocation = new ABTest(15119);
-
-	public enum DefaultVariant {
-		CONTROL,
-		BUCKETED
-	}
-
-	public enum DefaultTwoVariant {
-		CONTROL,
-		VARIANT1,
-		VARIANT2
-	}
-
-	public enum DefaultThreeVariant {
-		CONTROL,
-		VARIANT1,
-		VARIANT2,
-		VARIANT3
-	}
 
 	public enum LaunchScreenAirAttachVariant {
 		CONTROL,

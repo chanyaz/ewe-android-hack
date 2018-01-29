@@ -54,6 +54,7 @@ import com.expedia.bookings.data.abacus.ABTest;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightItineraryType;
@@ -2146,7 +2147,7 @@ public class OmnitureTracking {
 
 	private static void appendAbacusTestNotBucketed(ADMS_Measurement s, ABTest abTest) {
 		// User is not bucketed due to no AB response and the test is live, log ex: 7143.0.-1
-		String testData = String.format("%s.%s.%s", abTest.getKey(), 0, AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG);
+		String testData = String.format("%s.%s.%s", abTest.getKey(), 0, AbacusVariant.NO_BUCKET.getValue());
 		String analyticsString = AbacusUtils.appendString(s.getProp(34)) + testData;
 		if (!TextUtils.isEmpty(analyticsString)) {
 			s.setEvar(34, analyticsString);

@@ -20,6 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -550,7 +551,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	protected boolean showMesoHotelAd() {
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.MesoAd)) {
 			int variateForTest = Db.sharedInstance.getAbacusResponse().variateForTest(AbacusUtils.MesoAd);
-			return variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal();
+			return variateForTest == AbacusVariant.ONE.getValue();
 		}
 		return false;
 	}
@@ -559,7 +560,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	protected boolean showMesoDestinationAd() {
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.MesoAd)) {
 			int variateForTest = Db.sharedInstance.getAbacusResponse().variateForTest(AbacusUtils.MesoAd);
-			return variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal();
+			return variateForTest == AbacusVariant.TWO.getValue();
 		}
 		return false;
 	}

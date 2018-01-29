@@ -2,6 +2,7 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 
 /*
 * There is no guarantee Abacus will successfully return before the app is launched.
@@ -10,8 +11,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
  */
 class ProWizardBucketCache {
     companion object {
-        val NO_BUCKET_VALUE = -1
-
         private val ABACUS_FILE_NAME = "abacus_prefs"
         private val PREFS_PRO_WIZARD_BUCKET = AbacusUtils.ProWizardTest.key.toString()
 
@@ -23,14 +22,14 @@ class ProWizardBucketCache {
 
         @JvmStatic fun isBucketed(context: Context): Boolean {
             val prefs = context.getSharedPreferences(ABACUS_FILE_NAME, Context.MODE_PRIVATE)
-            val testValue = prefs.getInt(PREFS_PRO_WIZARD_BUCKET, NO_BUCKET_VALUE)
+            val testValue = prefs.getInt(PREFS_PRO_WIZARD_BUCKET, AbacusVariant.NO_BUCKET.value)
 
-            return testValue == AbacusUtils.DefaultVariant.BUCKETED.ordinal
+            return testValue == AbacusVariant.BUCKETED.value
         }
 
         @JvmStatic fun getTrackingValue(context: Context): Int {
             val prefs = context.getSharedPreferences(ABACUS_FILE_NAME, Context.MODE_PRIVATE)
-            val testValue = prefs.getInt(PREFS_PRO_WIZARD_BUCKET, NO_BUCKET_VALUE)
+            val testValue = prefs.getInt(PREFS_PRO_WIZARD_BUCKET, AbacusVariant.NO_BUCKET.value)
 
             return testValue
         }

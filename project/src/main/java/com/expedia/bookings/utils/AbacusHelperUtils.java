@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.AbacusServices;
@@ -76,7 +77,7 @@ public class AbacusHelperUtils {
 		if (BuildConfig.DEBUG) {
 			for (Integer key : AbacusUtils.getActiveTests()) {
 				Db.sharedInstance.getAbacusResponse().updateABTestForDebug(key, SettingUtils
-					.get(context, String.valueOf(key), AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG));
+					.get(context, String.valueOf(key), AbacusVariant.DEBUG.getValue()));
 			}
 		}
 
@@ -89,8 +90,8 @@ public class AbacusHelperUtils {
 		// Modify the bucket values based on forced bucket settings;
 		if (ForceBucketPref.isForceBucketed(context)) {
 			for (Integer key : AbacusUtils.getActiveTests()) {
-				int testVal = ForceBucketPref.getForceBucketedTestValue(context, key, AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG);
-				if (testVal != AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG) {
+				int testVal = ForceBucketPref.getForceBucketedTestValue(context, key, AbacusVariant.DEBUG.getValue());
+				if (testVal != AbacusVariant.DEBUG.getValue()) {
 					Db.sharedInstance.getAbacusResponse().forceUpdateABTest(key, testVal);
 				}
 			}

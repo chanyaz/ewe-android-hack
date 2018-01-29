@@ -13,6 +13,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.collections.CollectionLocation
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
@@ -625,7 +626,7 @@ class LaunchListAdapterTest {
 
         adapterUnderTest.addDelayedStaticCards(list)
         assertEquals(1, adapterUnderTest.itemCount)
-        ProWizardBucketCache.cacheBucket(context, ProWizardBucketCache.NO_BUCKET_VALUE)
+        ProWizardBucketCache.cacheBucket(context, AbacusVariant.NO_BUCKET.value)
     }
 
     @Test
@@ -761,11 +762,11 @@ class LaunchListAdapterTest {
     }
 
     private fun givenMesoHotelAdIsEnabled() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.MesoAd, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.MesoAd, AbacusVariant.ONE.value)
     }
 
     private fun givenMesoDestinationAdEnabled() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.MesoAd, AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.MesoAd, AbacusVariant.TWO.value)
     }
 
     inner class TestLaunchListAdapter(context: Context?, header: View?, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var isCustomerAirAttachedQualified: Boolean = true, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListAdapter(context, header) {

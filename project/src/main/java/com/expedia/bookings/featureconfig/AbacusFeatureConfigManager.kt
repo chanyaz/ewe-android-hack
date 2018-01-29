@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.ABTest
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.util.ForceBucketPref
 import com.mobiata.android.util.SettingUtils
 
@@ -58,13 +58,13 @@ class AbacusFeatureConfigManager {
         }
 
         private fun isDebugOverride(context: Context, abacusTest: ABTest): Boolean {
-            return BuildConfig.DEBUG && SettingUtils.get(context, abacusTest.key.toString(), AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG) != AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG
+            return BuildConfig.DEBUG && SettingUtils.get(context, abacusTest.key.toString(), AbacusVariant.DEBUG.value) != AbacusVariant.DEBUG.value
         }
 
         private fun isForceBucketed(context: Context, abacusTest: ABTest): Boolean {
             return ForceBucketPref.isForceBucketed(context)
                     && ForceBucketPref.getForceBucketedTestValue(context, abacusTest.key,
-                    AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG) != AbacusUtils.ABTEST_UNBUCKETED_OR_DEBUG
+                    AbacusVariant.DEBUG.value) != AbacusVariant.DEBUG.value
         }
     }
 }

@@ -14,6 +14,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -34,7 +35,7 @@ class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolba
     val menuItem: MenuItem by lazy {
         val item = menu.findItem(R.id.menu_share)
         val variateForTest = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)
-        if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
+        if (variateForTest == AbacusVariant.TWO.value) {
             item.icon = null
         }
         AccessibilityUtil.setMenuItemContentDescription(this, context.getString(R.string.share_action_content_description))

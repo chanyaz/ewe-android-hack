@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.launch.vm.LaunchLobViewModel
@@ -83,7 +84,7 @@ class LaunchLobWidgetTest {
     fun testPackageLOBTitleStringUSVariant1() {
         setPOS(PointOfSaleId.UNITED_STATES)
         AbacusTestUtils.bucketTests(AbacusUtils.PackagesTitleChange)
-        RoboTestHelper.updateABTest(AbacusUtils.PackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
+        RoboTestHelper.updateABTest(AbacusUtils.PackagesTitleChange, AbacusVariant.ONE.value)
         setUp()
         packagesTitleChange("Hotel + Flight")
     }

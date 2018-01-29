@@ -9,6 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibilit
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
@@ -116,7 +117,7 @@ class HotelCheckoutTest : HotelTestCase() {
     fun testFreeCancellationTooltipAvailableAndShownInSummary() {
         SearchScreen.doGenericHotelSearch()
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip,
-                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+                AbacusVariant.BUCKETED.value)
 
         // Check to make sure non merchant shows up in result list
         HotelScreen.selectHotel("Non Merchant Hotel")

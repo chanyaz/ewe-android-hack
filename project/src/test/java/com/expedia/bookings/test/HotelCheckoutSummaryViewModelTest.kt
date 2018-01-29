@@ -7,6 +7,7 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
@@ -64,7 +65,7 @@ class HotelCheckoutSummaryViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun happy() {
         Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
-                AbacusUtils.DefaultVariant.CONTROL.ordinal)
+                AbacusVariant.CONTROL.value)
         givenHappyHotelProductResponse()
         setup()
         val testTextSubscriber = TestObserver<String>()
@@ -329,7 +330,7 @@ class HotelCheckoutSummaryViewModelTest {
         createTripResponse = mockHotelServiceTestRule.getPriceChangeDownCreateTripResponse()
         val params = HotelPresenterTestUtil.getDummyHotelSearchParams(context)
         Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
-                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+                AbacusVariant.BUCKETED.value)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
@@ -445,9 +446,9 @@ class HotelCheckoutSummaryViewModelTest {
 
     private fun setABTestAndFeaturetoggleForPayLaterMessaging(payLaterAbTest: Boolean, featureToggle: Boolean) {
         Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key,
-                if (payLaterAbTest) AbacusUtils.DefaultVariant.BUCKETED.ordinal else AbacusUtils.DefaultVariant.CONTROL.ordinal)
+                if (payLaterAbTest) AbacusVariant.BUCKETED.value else AbacusVariant.CONTROL.value)
         Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
-                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+                AbacusVariant.BUCKETED.value)
 
         SettingUtils.save(context, context.getString(R.string.pay_later_credit_card_messaging), featureToggle)
     }

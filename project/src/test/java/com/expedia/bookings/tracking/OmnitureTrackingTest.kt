@@ -7,7 +7,7 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.ABTest
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
@@ -141,7 +141,7 @@ class OmnitureTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun remoteDisabledAbacusTestIsTrackedWithOverride() {
         val abTest = ABTest(12345, true)
-        SettingUtils.save(context, abTest.key.toString(), AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+        SettingUtils.save(context, abTest.key.toString(), AbacusVariant.BUCKETED.value)
 
         val s = ADMS_Measurement.sharedInstance(context)
         OmnitureTracking.trackAbacusTest(s, abTest)

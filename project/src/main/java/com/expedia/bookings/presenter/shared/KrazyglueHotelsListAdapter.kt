@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import io.reactivex.subjects.BehaviorSubject
@@ -56,9 +57,9 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
         if (loading) {
             return KrazyglueViewHolderType.LOADING_VIEW.ordinal
         } else {
-            if (abacusVariant == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
+            if (abacusVariant == AbacusVariant.ONE.value) {
                 if (position == 0) return KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER.ordinal else return KrazyglueViewHolderType.HOTEL_VIEW_HOLDER.ordinal
-            } else if (abacusVariant == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
+            } else if (abacusVariant == AbacusVariant.TWO.value) {
                 if (position == hotels.size) return KrazyglueViewHolderType.SEE_MORE_VIEW_HOLDER.ordinal else return KrazyglueViewHolderType.HOTEL_VIEW_HOLDER.ordinal
             }
             return KrazyglueViewHolderType.HOTEL_VIEW_HOLDER.ordinal
@@ -95,7 +96,7 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
 
     private fun getHotelPositionBasedOnABTest(position: Int): Int {
         var hotelRetrievePosition = position
-        if (abacusVariant == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
+        if (abacusVariant == AbacusVariant.ONE.value) {
             hotelRetrievePosition --
         }
         return hotelRetrievePosition

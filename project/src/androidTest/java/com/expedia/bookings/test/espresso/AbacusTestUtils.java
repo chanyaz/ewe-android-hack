@@ -3,7 +3,7 @@ package com.expedia.bookings.test.espresso;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.ABTest;
 import com.expedia.bookings.data.abacus.AbacusResponse;
-import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.abacus.AbacusVariant;
 
 public class AbacusTestUtils {
 
@@ -16,7 +16,7 @@ public class AbacusTestUtils {
 	public static void bucketTests(ABTest... tests) {
 		AbacusResponse abacusResponse = new AbacusResponse();
 		for (ABTest test : tests) {
-			abacusResponse.updateABTestForDebug(test.getKey(), AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+			abacusResponse.updateABTestForDebug(test.getKey(), AbacusVariant.BUCKETED.getValue());
 		}
 		Db.sharedInstance.setAbacusResponse(abacusResponse);
 	}

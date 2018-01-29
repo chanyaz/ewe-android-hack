@@ -20,6 +20,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.test.MultiBrand;
@@ -37,7 +38,6 @@ import kotlin.Unit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 
 @RunWith(RobolectricRunner.class)
 public class HotelConfirmationViewModelTest {
@@ -156,7 +156,7 @@ public class HotelConfirmationViewModelTest {
 
 		TestObserver testSubscriber = new TestObserver<>();
 		Db.sharedInstance.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest.getKey(),
-			AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+				AbacusVariant.BUCKETED.getValue());
 		vm.getAddLXBtn().subscribe(testSubscriber);
 		vm.getAddLXBtn().onNext(getContext().getResources().getString(R.string.add_lx_TEMPLATE, hotelCity));
 

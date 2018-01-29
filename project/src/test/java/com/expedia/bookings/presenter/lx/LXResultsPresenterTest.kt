@@ -14,6 +14,7 @@ import com.expedia.bookings.data.LXState
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.data.lx.LXCategoryMetadata
 import com.expedia.bookings.data.lx.LXCategoryType
@@ -115,7 +116,7 @@ class LXResultsPresenterTest {
         val sortText = toolbarSortFilter.getChildAt(0) as TextView
         val filterText = lxResultsPresenter.findViewById<TextView>(R.id.filter_text)
 
-        lxCategoriesABTest(AbacusUtils.DefaultVariant.BUCKETED)
+        lxCategoriesABTest(AbacusVariant.BUCKETED)
         buildSearchParams()
         assertEquals(View.VISIBLE, themeResultsWidget.visibility)
         assertEquals(View.GONE, searchResultsWidget.visibility)
@@ -129,7 +130,7 @@ class LXResultsPresenterTest {
         assertNotNull(lxResultsPresenter.searchSubscription)
         assertEquals(false, lxResultsPresenter.searchSubscription.isDisposed)
 
-        lxCategoriesABTest(AbacusUtils.DefaultVariant.CONTROL)
+        lxCategoriesABTest(AbacusVariant.CONTROL)
     }
 
     @Test
@@ -208,20 +209,20 @@ class LXResultsPresenterTest {
         assertEquals(View.GONE, themeResultsWidget.visibility)
         assertEquals(View.VISIBLE, searchResultsWidget.visibility)
 
-        lxCategoriesABTest(AbacusUtils.DefaultVariant.BUCKETED)
+        lxCategoriesABTest(AbacusVariant.BUCKETED)
         lxResultsPresenter.setUserBucketedForCategoriesTest(true)
 
         Events.post(Events.LXShowLoadingAnimation())
         assertEquals(View.VISIBLE, themeResultsWidget.visibility)
         assertEquals(View.GONE, searchResultsWidget.visibility)
 
-        lxCategoriesABTest(AbacusUtils.DefaultVariant.CONTROL)
+        lxCategoriesABTest(AbacusVariant.CONTROL)
     }
 
-    private fun lxCategoriesABTest(defaultVariate: AbacusUtils.DefaultVariant) {
+    private fun lxCategoriesABTest(defaultVariate: AbacusVariant) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppLXCategoryABTest.key,
-                defaultVariate.ordinal)
+                defaultVariate.value)
         Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
