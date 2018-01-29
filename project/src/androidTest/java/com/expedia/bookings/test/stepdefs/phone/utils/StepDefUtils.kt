@@ -20,6 +20,7 @@ class StepDefUtils private constructor() {
             apiCallAliases["GetPackagesV1"] = "/getpackages/v1"
             apiCallAliases["TypeAheadSFO"] = "/api/v4/typeahead/sfo"
             apiCallAliases["TypeAheadLAS"] = "/api/v4/typeahead/LAS"
+            apiCallAliases["TypeAheadKTM"] = "/api/v4/typeahead/KTM"
             apiCallAliases
         }()
 

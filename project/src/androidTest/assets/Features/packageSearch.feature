@@ -187,14 +187,14 @@ Feature: Package Search
     Given I launch the App
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
-      | source              | SFO                            |
-      | destination         | LAS                            |
-      | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, NV            |
-      | start_date          | 5                              |
-      | end_date            | 10                             |
-      | adults              | 2                              |
-      | child               | 2                              |
+      | source              | KTM                   |
+      | destination         | LAS                   |
+      | source_suggest      | KTM - Tribhuvan Intl. |
+      | destination_suggest | Las Vegas Strip, NV   |
+      | start_date          | 5                     |
+      | end_date            | 10                    |
+      | adults              | 2                     |
+      | child               | 2                     |
     Then validate hotels loading on package overview screen
     And I select hotel at position 1 on HSR screen
     And I select first room
@@ -211,14 +211,14 @@ Feature: Package Search
     Given I launch the App
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
-      | source              | SFO                            |
-      | destination         | LAS                            |
-      | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, NV            |
-      | start_date          | 5                              |
-      | end_date            | 10                             |
-      | adults              | 2                              |
-      | child               | 2                              |
+      | source              | KTM                   |
+      | destination         | LAS                   |
+      | source_suggest      | KTM - Tribhuvan Intl. |
+      | destination_suggest | Las Vegas Strip, NV   |
+      | start_date          | 5                     |
+      | end_date            | 10                    |
+      | adults              | 2                     |
+      | child               | 2                     |
     And validate HSR screen is displayed with following travel dates and travelers
       | start_date      |  5 |
       | end_date        | 10 |
@@ -242,14 +242,14 @@ Feature: Package Search
     Given I launch the App
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
-      | source              | SFO                            |
-      | destination         | LAS                            |
-      | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, NV            |
-      | start_date          | 5                              |
-      | end_date            | 10                             |
-      | adults              | 2                              |
-      | child               | 2                              |
+      | source              | KTM                   |
+      | destination         | LAS                   |
+      | source_suggest      | KTM - Tribhuvan Intl. |
+      | destination_suggest | Las Vegas Strip, NV   |
+      | start_date          | 5                     |
+      | end_date            | 10                    |
+      | adults              | 2                     |
+      | child               | 2                     |
     And I select hotel at position 1 on HSR screen
     And I store the hotel name in "varHotelName"
     And I select first room
@@ -259,17 +259,17 @@ Feature: Package Search
     And Wait for checkout button to display
     And validate "varHotelName" is same as user selected on package overview screen
     And validate hotel widget of overview screen with following details
-      | start_date      |  5 |
+      | start_date      | 6  |
       | end_date        | 10 |
-      | Total_Travelers |  4 |
+      | Total_Travelers | 4  |
     And validate flight outbound widget of overview screen with following details
       | destination     | LAS |
       | travel_date     |   5 |
       | Total_Travelers |   4 |
     And validate flight inbound widget of overview screen with following details
-      | source          | SFO |
-      | travel_date     |  10 |
-      | Total_Travelers |   4 |
+      | source          | KTM |
+      | travel_date     | 10  |
+      | Total_Travelers | 4   |
 
   @Packages @PackageSearch @Prod
   Scenario: Intercept getPackages API call after hitting search button and validate request paramaters
@@ -278,30 +278,30 @@ Feature: Package Search
     And I want to intercept these calls for packages
       | GetPackagesV1 |
     When I make a packages search with following parameters
-      | source              | SFO                            |
-      | destination         | LAS                            |
-      | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, NV            |
-      | start_date          | 20                             |
-      | end_date            | 30                             |
-      | adults              | 2                              |
-      | child               | 2                              |
+      | source              | KTM                   |
+      | destination         | LAS                   |
+      | source_suggest      | KTM - Tribhuvan Intl. |
+      | destination_suggest | Las Vegas Strip, NV   |
+      | start_date          | 20                    |
+      | end_date            | 30                    |
+      | adults              | 2                     |
+      | child               | 2                     |
     Then Validate the getPackages API request query data for following parameters for packages
       | forceNoRedir                | 1                          |
       | packageType                 | fh                         |
     Then Validate the getPackages API request form data for following parameters
-      | fromDate                | 20                          |
-      | destinationId           | 800045                      |
-      | ttla                    | LAS                         |
-      | ftla                    | SFO                         |
-      | packageTripType         | 2                           |
-      | adultsPerRoom[1]        | 2                           |
-      | numberOfRooms           | 1                           |
-      | toDate                  | 30                          |
-      | originId                | 5195347                      |
-      | childrenPerRoom[1]      | 2                           |
-      | childAges[1][1]         | 10                          |
-      | childAges[1][2]         | 10                          |
+      | fromDate           | 20      |
+      | destinationId      | 800045  |
+      | ttla               | LAS     |
+      | ftla               | KTM     |
+      | packageTripType    | 2       |
+      | adultsPerRoom[1]   | 2       |
+      | numberOfRooms      | 1       |
+      | toDate             | 30      |
+      | originId           | 5067851 |
+      | childrenPerRoom[1] | 2       |
+      | childAges[1][1]    | 10      |
+      | childAges[1][2]    | 10      |
 
 
   @Packages @PackageSearch @Prod
@@ -309,14 +309,14 @@ Feature: Package Search
     Given I launch the App
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
-      | source              | SFO                            |
-      | destination         | LAS                            |
-      | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, NV            |
-      | start_date          | 15                             |
-      | end_date            | 20                             |
-      | adults              | 2                              |
-      | child               | 2                              |
+      | source              | KTM                   |
+      | destination         | LAS                   |
+      | source_suggest      | KTM - Tribhuvan Intl. |
+      | destination_suggest | Las Vegas Strip, NV   |
+      | start_date          | 15                    |
+      | end_date            | 20                    |
+      | adults              | 2                     |
+      | child               | 2                     |
     And validate HSR screen is displayed with following travel dates and travelers
       | start_date      | 15 |
       | end_date        | 20 |
@@ -325,12 +325,12 @@ Feature: Package Search
     Then Validate that Package Overview screen is displayed
     And I press back
     Then Validate search form retains details of search for packages
-      | source              | SFO - San Francisco Intl.      |
-      | destination         | Las Vegas Strip, NV            |
-      | start_date          | 15                             |
-      | end_date            | 20                             |
-      | numberOfNights      | (5 nights)                     |
-      | totalTravelers      | 4 travelers                    |
+      | source         | KTM - Tribhuvan Intl. |
+      | destination    | Las Vegas Strip, NV   |
+      | start_date     | 15                    |
+      | end_date       | 20                    |
+      | numberOfNights | (5 nights)            |
+      | totalTravelers | 4 travelers           |
 
   @Packages @PackageSearch @Prod
   Scenario: Validate Search form Default state for packages
@@ -348,14 +348,14 @@ Feature: Package Search
     Given I launch the App
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
-      | source              | SFO                            |
-      | destination         | LAS                            |
-      | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, NV            |
-      | start_date          | 5                              |
-      | end_date            | 10                             |
-      | adults              | 2                              |
-      | child               | 2                              |
+      | source              | KTM                   |
+      | destination         | LAS                   |
+      | source_suggest      | KTM - Tribhuvan Intl. |
+      | destination_suggest | Las Vegas Strip, NV   |
+      | start_date          | 5                     |
+      | end_date            | 10                    |
+      | adults              | 2                     |
+      | child               | 2                     |
     And validate HSR screen is displayed with following travel dates and travelers
       | start_date      |  5 |
       | end_date        | 10 |
@@ -381,26 +381,26 @@ Feature: Package Search
     Given I launch the App
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
-      | source              | SFO                                    |
-      | destination         | KTM                                    |
-      | source_suggest      | SFO - San Francisco Intl.              |
-      | destination_suggest | Kathmandu Valley, Nepal                |
-      | start_date          | 5                                      |
-      | end_date            | 10                                     |
-      | adults              | 2                                      |
-      | child               | 2                                      |
+      | source              | KTM                   |
+      | destination         | LAS                   |
+      | source_suggest      | KTM - Tribhuvan Intl. |
+      | destination_suggest | Las Vegas Strip, NV   |
+      | start_date          | 5                     |
+      | end_date            | 10                    |
+      | adults              | 2                     |
+      | child               | 2                     |
     Then Validate that hotel SRP screen is displayed
     And I press back following number of times: 3
     And I launch "Flights" LOB
     And I press back
     And I launch "Bundle Deals" LOB
     Then Validate search form retains details of search for packages
-      | source              | SFO - San Francisco Intl.              |
-      | destination         | Kathmandu Valley, Nepal                |
-      | start_date          | 5                                      |
-      | end_date            | 10                                     |
-      | numberOfNights      | (5 nights)                             |
-      | totalTravelers      | 4 travelers                            |
+      | source         | KTM - Tribhuvan Intl. |
+      | destination    | Las Vegas Strip, NV   |
+      | start_date     | 5                     |
+      | end_date       | 10                    |
+      | numberOfNights | (5 nights)            |
+      | totalTravelers | 4 travelers           |
 
   @Packages @PackageSearch
   Scenario: UI fields validation for travellers on new revamp Traveler form

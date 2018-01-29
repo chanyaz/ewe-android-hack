@@ -223,7 +223,7 @@ class PackageOverviewScreen {
                 .check(matches(withText(expParameters["info_text_inbound"])))
     }
 
-    @Then("^validate package outbound flight details")
+    @Then("^validate package outbound flight details$")
     fun validateOutboundFlightData(parameters: Map<String, String>) {
         onView(allOf<View>(withId(R.id.departure_arrival_time),
                 isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
@@ -242,7 +242,7 @@ class PackageOverviewScreen {
                 .check(matches(withText(parameters["flight_duration"])))
     }
 
-    @Then("^validate package outbound flight details seating class")
+    @Then("^validate package outbound flight details seating class$")
     fun validateOutboundFlightDataSeatingClass(parameters: Map<String, String>) {
         onView(allOf<View>(withId(R.id.flight_seat_class_booking_code),
                 isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
