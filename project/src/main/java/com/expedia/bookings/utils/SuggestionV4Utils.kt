@@ -51,7 +51,7 @@ object SuggestionV4Utils {
         }).start()
     }
 
-    fun loadSuggestionHistory(context: Context, file: String): List<SuggestionV4> {
+    fun loadSuggestionHistory(context: Context, file: String, suggestionToFilter: SuggestionV4? = null): List<SuggestionV4> {
         var recentSuggestions = emptyList<SuggestionV4>()
         try {
             val str = IoUtils.readStringFromFile(file, context)
@@ -63,6 +63,9 @@ object SuggestionV4Utils {
 
         recentSuggestions.forEach { it.iconType = SuggestionV4.IconType.HISTORY_ICON }
 
+        if (suggestionToFilter != null) {
+            recentSuggestions = recentSuggestions.filter { it.hierarchyInfo!!.airport!!.airportCode != suggestionToFilter.hierarchyInfo!!.airport!!.airportCode  }
+        }
         return recentSuggestions.toMutableList()
     }
 

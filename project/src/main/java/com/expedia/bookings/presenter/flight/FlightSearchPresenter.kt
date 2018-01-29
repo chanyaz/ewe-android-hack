@@ -165,6 +165,13 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             }
         }
 
+        vm.flightsSourceObservable.subscribe {
+            destinationSuggestionViewModel.suggestionToFilterFromHistory = it
+        }
+
+        vm.flightsDestinationObservable.subscribe {
+            originSuggestionViewModel.suggestionToFilterFromHistory = it
+        }
         vm.errorOriginSameAsDestinationObservable.subscribe { message ->
             showErrorDialog(message)
         }

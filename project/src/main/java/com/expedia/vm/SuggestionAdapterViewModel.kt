@@ -34,6 +34,12 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     var suggestionsAndLabel: List<SuggestionType> = emptyList()
     val suggestionSelectedSubject = PublishSubject.create<SearchSuggestion>()
 
+    var suggestionToFilterFromHistory: SuggestionV4? = null
+        set(value) {
+            field = value
+            showNearbyAndHistorySuggestions()
+        }
+
     private var nearby: ArrayList<SuggestionV4> = ArrayList()
     private var lastQuery: String = ""
     private var isCustomerSelectingOrigin: Boolean = false
@@ -50,11 +56,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
                 (isSuggestionOnOneCharEnabled() || query.toByteArray().size >= minSuggestionQueryByteLength)) {
             getSuggestionService(query)
         } else {
-            if (showSuggestionsAndLabel()) {
-                suggestionsAndLabelObservable.onNext(suggestionsListWithNearbyAndLabels())
-            } else {
-                suggestionsObservable.onNext(suggestionsListWithNearby())
-            }
+            showNearbyAndHistorySuggestions()
         }
     }
 
@@ -90,8 +92,16 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
         return suggestions
     }
 
+    private fun showNearbyAndHistorySuggestions() {
+        if (showSuggestionsAndLabel()) {
+            suggestionsAndLabelObservable.onNext(suggestionsListWithNearbyAndLabels())
+        } else {
+            suggestionsObservable.onNext(suggestionsListWithNearby())
+        }
+    }
+
     private fun loadPastSuggestions(): List<SuggestionV4> {
-        return SuggestionV4Utils.loadSuggestionHistory(context, getSuggestionHistoryFile())
+        return SuggestionV4Utils.loadSuggestionHistory(context, getSuggestionHistoryFile(), suggestionToFilterFromHistory)
     }
 
     open fun shouldShowOnlyAirportNearbySuggestions(): Boolean = false
@@ -176,11 +186,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
             }
 
             override fun onError(e: Throwable) {
-                if (showSuggestionsAndLabel()) {
-                    suggestionsAndLabelObservable.onNext(suggestionsListWithNearbyAndLabels())
-                } else {
-                    suggestionsObservable.onNext(suggestionsListWithNearby())
-                }
+                showNearbyAndHistorySuggestions()
             }
         }
     }
@@ -255,4 +261,6 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     open fun isSuggestionOnOneCharEnabled(): Boolean = false
 
     open fun isSearchHistorySupported(): Boolean = false
+
+    open fun shouldFilterHistoryBasedOnSelection(): Boolean = false
 }
