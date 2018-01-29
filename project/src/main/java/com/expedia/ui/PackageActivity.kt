@@ -178,7 +178,7 @@ class PackageActivity : AbstractAppCompatActivity() {
 
     override fun onBackPressed() {
         //for change package path
-        if (packagePresenter.backStack.peek() is PackageOverviewPresenter && Db.sharedInstance.packageParams?.isChangePackageSearch() ?: false) {
+        if (Db.sharedInstance.packageParams?.isChangePackageSearch() ?: false && packagePresenter.backStack.isNotEmpty() && packagePresenter.backStack.peek() is PackageOverviewPresenter) {
             if (changedOutboundFlight) {
                 changedOutboundFlight = false
                 val outbound = Db.getPackageFlightBundle().first
