@@ -15,7 +15,6 @@ import okhttp3.OkHttpClient;
  * .setBackgroundImageView(vBackground)
  * .setPOSEnableSpamByDefault(true)
  * .setPOSShowSpamOptIn(true)
- * .setAutoEnrollUserInRewards(false)
  * .setUserRewardsEnrollmentCheck(true)
  * .setEnableFacebookButton(true)
  * .setMarketingString(getString(R.string.marketing_string))
@@ -48,7 +47,6 @@ public class Config {
 	boolean enableFacebookButton = true;
 	boolean enableSignInMessaging = false;
 	boolean enableSinglePageSignUp = false;
-	boolean shouldAutoEnrollUserInRewards = false;
 	boolean hasUserRewardsEnrollmentCheck = false;
 	boolean enableRecaptcha = false;
 	CharSequence tosText;
@@ -115,11 +113,6 @@ public class Config {
 
 	public Config setUserRewardsEnrollmentCheck(boolean hasUserRewardsEnrollmentCheck) {
 		this.hasUserRewardsEnrollmentCheck = hasUserRewardsEnrollmentCheck;
-		return this;
-	}
-
-	public Config setAutoEnrollUserInRewards(boolean shouldAutoEnrollUserInRewards) {
-		this.shouldAutoEnrollUserInRewards = shouldAutoEnrollUserInRewards;
 		return this;
 	}
 

@@ -119,8 +119,6 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 			.put("dueamount", Money.getFormattedMoneyFromAmountAndCurrencyCode(
 				newPrice.getAmount(), newPrice.getCurrency())).format().toString());
 
-		acceptTermsWidget.getVm().resetAcceptedTerms();
-
 		mainContactInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
 		paymentInfoCardView.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);

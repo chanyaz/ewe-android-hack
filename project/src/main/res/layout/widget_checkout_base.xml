@@ -158,17 +158,6 @@
         android:background="@color/material_checkout_background_color"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.AcceptTermsWidget
-        android:id="@+id/layout_confirm_tos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="invisible">
-
-    </com.expedia.bookings.widget.AcceptTermsWidget>
-
     <LinearLayout
         android:id="@+id/slide_to_purchase_layout"
         android:layout_width="match_parent"

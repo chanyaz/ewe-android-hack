@@ -2028,10 +2028,6 @@
     <string name="price_dropped_from_TEMPLATE">Price dropped from %1$s</string>
 
     <!-- Checkout Activity -->
-    <!-- Explicit acceptance of TOS -->
-    <string name="Do_you_accept">Do you accept all of the conditions outlined above?</string>
-    <!-- I Accept button label -->
-    <string name="I_Accept">I Accept</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Your card will be charged {dueamount}</string>
     <!-- Your are using pwp points -->

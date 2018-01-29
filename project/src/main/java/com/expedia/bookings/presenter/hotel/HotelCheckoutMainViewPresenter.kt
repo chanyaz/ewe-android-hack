@@ -256,7 +256,6 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         } else {
             toolbar.enableRightActionButton(enable = false)
         }
-        acceptTermsWidget.vm.resetAcceptedTerms()
         pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
         trip.guestUserPromoEmailOptInStatus?.let { status ->
             hotelCheckoutMainViewModel.emailOptInStatus.onNext(MerchandiseSpam.valueOf(status))
@@ -283,7 +282,6 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
                 && hotelCheckoutMainViewModel.userWithEffectiveSwPAvailableSignedOut.value ) {
             hotelCheckoutMainViewModel.userWithEffectiveSwPAvailableSignedOut.onNext(false)
             backPressedAfterUserWithEffectiveSwPAvailableSignedOut.onNext(Unit)
-            acceptTermsWidget.visibility = View.INVISIBLE
             return true
         }
         return super.back()

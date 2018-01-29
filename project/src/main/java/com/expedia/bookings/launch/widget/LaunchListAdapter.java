@@ -510,7 +510,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private boolean showAirAttachMessage() {
 		return userBucketedForAirAttach() && userStateManager.isUserAuthenticated()
-			&& isPOSAndBrandAirAttachEnabled() && getUpcomingAirAttachQualifiedFlightTrip() != null;
+			&& isBrandAirAttachEnabled() && getUpcomingAirAttachQualifiedFlightTrip() != null;
 	}
 
 	@VisibleForTesting
@@ -519,8 +519,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	@VisibleForTesting
-	public boolean isPOSAndBrandAirAttachEnabled() {
-		return PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance()
+	public boolean isBrandAirAttachEnabled() {
+		return ProductFlavorFeatureConfiguration.getInstance()
 			.shouldShowAirAttach();
 	}
 

@@ -127,7 +127,6 @@ public class AccountView extends BufferedPresenter {
 			mConfig.showSpamOptIn,
 			mConfig.enableSpamByDefault,
 			mConfig.hasUserRewardsEnrollmentCheck,
-			mConfig.shouldAutoEnrollUserInRewards,
 			mConfig.tosText,
 			mConfig.marketingText,
 			mConfig.rewardsText);
@@ -145,7 +144,6 @@ public class AccountView extends BufferedPresenter {
 			mConfig.showSpamOptIn,
 			mConfig.enableSpamByDefault,
 			mConfig.hasUserRewardsEnrollmentCheck,
-			mConfig.shouldAutoEnrollUserInRewards,
 			mConfig.tosText,
 			mConfig.marketingText,
 			mConfig.rewardsText);

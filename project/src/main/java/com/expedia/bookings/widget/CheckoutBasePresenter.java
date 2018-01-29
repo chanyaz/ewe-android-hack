@@ -35,7 +35,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.TravelerCheckoutStatus;
@@ -128,9 +127,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@InjectView(R.id.deposit_policy_text)
 	public TextView depositPolicyText;
-
-	@InjectView(R.id.layout_confirm_tos)
-	public AcceptTermsWidget acceptTermsWidget;
 
 	@InjectView(R.id.slide_to_purchase_widget)
 	public SlideToWidgetLL slideWidget;
@@ -493,12 +489,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	};
 
 	public void animateInSlideToPurchase(boolean visible) {
-		boolean acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox();
-		boolean acceptedTerms = acceptTermsWidget.getVm().getAcceptedTermsObservable().getValue();
-		if (acceptTermsRequired && !acceptedTerms) {
-			return; // don't show if terms have not ben accepted yet
-		}
-
 		// If its already in position, don't do it again
 		if (slideToContainer.getVisibility() == (visible ? VISIBLE : INVISIBLE)) {
 			return;
@@ -533,35 +523,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	public void checkoutFormWasUpdated() {
 		if (isCheckoutFormComplete()) {
-			if (PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox() && !acceptTermsWidget
-				.getVm().getAcceptedTermsObservable().getValue()) {
-				acceptTermsWidget.getVm().getAcceptedTermsObservable().subscribe(new Observer<Boolean>() {
-					@Override
-					public void onComplete() {
-					}
-
-					@Override
-					public void onError(Throwable e) {
-					}
-
-					@Override
-					public void onSubscribe(@NonNull Disposable d) {
-
-					}
-
-					@Override
-					public void onNext(Boolean b) {
-						animateInSlideToPurchase(true);
-					}
-				});
-				acceptTermsWidget.setVisibility(VISIBLE);
-			}
-			else {
-				animateInSlideToPurchase(true);
-			}
+			animateInSlideToPurchase(true);
 		}
 		else {
-			acceptTermsWidget.setVisibility(INVISIBLE);
 			animateInSlideToPurchase(false);
 		}
 	}
@@ -705,9 +669,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				ViewGroup.LayoutParams params = space.getLayoutParams();
 				params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
 
-				if (slideToContainer.getVisibility() == VISIBLE
-					|| acceptTermsWidget.getVisibility() == VISIBLE) {
-					params.height = Math.max(slideToContainer.getHeight(), acceptTermsWidget.getHeight());
+				if (slideToContainer.getVisibility() == VISIBLE) {
+					params.height = slideToContainer.getHeight();
 				}
 				else {
 					params.height = 0;
@@ -913,7 +876,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		if (CheckoutDefault.class.getName().equals(getCurrentState())) {
 			return true;
 		}
-		acceptTermsWidget.setVisibility(INVISIBLE);
 		return super.back();
 	}
 
@@ -962,7 +924,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		mainContactInfoCardView.onLogout();
 		paymentInfoCardView.getViewmodel().getUserLogin().onNext(false);
 		hintContainer.setVisibility(VISIBLE);
-		acceptTermsWidget.setVisibility(INVISIBLE);
 		showCheckout();
 	}
 
@@ -979,12 +940,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@Override
 	public void collapsed(ExpandableCardView view) {
-		acceptTermsWidget.setAlpha(1f);
 	}
 
 	@Override
 	public void expanded(ExpandableCardView view) {
-		acceptTermsWidget.setAlpha(0f);
 	}
 
 	public boolean isCheckoutFormComplete() {
@@ -1052,7 +1011,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	private void updateCheckoutOverviewUiTransition(boolean forward) {
 		if (forward) {
 			slideToContainer.setVisibility(INVISIBLE);
-			acceptTermsWidget.setVisibility(INVISIBLE);
 			// Space to avoid keyboard hiding the view behind.
 			int spacerHeight = (int) getResources().getDimension(R.dimen.checkout_expanded_space_height);
 			ViewGroup.LayoutParams params = space.getLayoutParams();

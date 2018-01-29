@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType.BedTypeId;
 import com.expedia.bookings.data.hotels.HotelRate;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.GsonUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
@@ -369,7 +368,7 @@ public class Rate implements JSONable {
 	}
 
 	public boolean isAirAttached() {
-		return mAirAttached && PointOfSale.getPointOfSale().showHotelCrossSell();
+		return mAirAttached;
 	}
 
 	public void setAirAttached(boolean isAirAttached) {

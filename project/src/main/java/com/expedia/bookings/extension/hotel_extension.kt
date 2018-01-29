@@ -5,7 +5,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 
 fun HotelRate.isShowAirAttached(): Boolean {
-    return airAttached && PointOfSale.getPointOfSale().showHotelCrossSell() && isDiscountPercentNotZero && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach()
+    return airAttached && isDiscountPercentNotZero && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach()
 }
 
 fun shouldShowCircleForRatings(): Boolean {

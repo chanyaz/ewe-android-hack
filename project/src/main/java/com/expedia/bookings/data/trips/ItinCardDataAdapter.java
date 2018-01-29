@@ -523,10 +523,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	 */
 
 	private void addAttachData(List<ItinCardData> itinCardDatas) {
-		// Don't add attach cards if POS does not support hotel x-sell
-		if (!PointOfSale.getPointOfSale().showHotelCrossSell()) {
-			return;
-		}
 		// Nothing to do if there are no itineraries
 		int len = itinCardDatas.size();
 		if (len == 0) {

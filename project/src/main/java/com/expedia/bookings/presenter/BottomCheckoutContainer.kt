@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewStub
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Space
@@ -12,10 +11,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
-import com.expedia.bookings.widget.AcceptTermsWidget
 import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
@@ -25,7 +22,6 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeEnabled
-import com.expedia.util.unsubscribeOnClick
 import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
@@ -60,7 +56,6 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
     val checkoutButtonContainer: View by bindView(R.id.button_container)
     val checkoutButton: Button by bindView(R.id.checkout_button)
     val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
-    val acceptTermsViewStub: ViewStub by bindView(R.id.accept_terms_view_stub)
 
     var viewModel: BottomCheckoutContainerViewModel by notNullAndObservable { vm ->
         vm.sliderPurchaseTotalText.subscribeText(slideTotalText)
@@ -102,18 +97,6 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
             }
         }
         vm.checkoutButtonEnableObservable.subscribeEnabled(checkoutButton)
-    }
-
-    val acceptTermsWidget: AcceptTermsWidget by lazy {
-        val viewStub = acceptTermsViewStub
-        val presenter = viewStub.inflate() as AcceptTermsWidget
-        presenter.acceptButton.setOnClickListener {
-            presenter.vm.acceptedTermsObservable.onNext(true)
-            AnimUtils.slideDown(acceptTermsViewStub)
-            acceptTermsViewStub.visibility = View.GONE
-            presenter.acceptButton.unsubscribeOnClick()
-        }
-        presenter
     }
 
     var totalPriceViewModel: AbstractUniversalCKOTotalPriceViewModel by notNullAndObservable { vm ->
@@ -187,13 +170,6 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
                 }
                 slideToPurchase.visibility = View.GONE
             }
-        }
-    }
-
-    fun toggleAcceptTermsWidget(showSlider: Boolean) {
-        val termsAccepted = acceptTermsWidget.vm.acceptedTermsObservable.value
-        if (!termsAccepted && showSlider) {
-            acceptTermsViewStub.visibility = View.VISIBLE
         }
     }
 }

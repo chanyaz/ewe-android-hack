@@ -359,7 +359,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         val showSlider = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
                 && state == TwoScreenOverviewState.CHECKOUT
         bottomCheckoutContainer.toggleBottomContainerViews(state, showSlider)
-        toggleAcceptTermsWidget(showSlider, checkoutPresenter)
         if (showSlider) {
             checkoutPresenter.trackShowSlideToPurchase()
         }
@@ -467,12 +466,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     private fun setupCreateTripViewModelSubscriptions() {
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
             resetCheckoutState()
-        }
-    }
-
-    private fun toggleAcceptTermsWidget(showSlider: Boolean, checkoutPresenter: BaseCheckoutPresenter) {
-        if (checkoutPresenter.acceptTermsRequired) {
-            bottomCheckoutContainer.toggleAcceptTermsWidget(showSlider)
         }
     }
 }

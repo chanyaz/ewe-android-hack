@@ -100,7 +100,6 @@ public class SignInActivity extends FragmentActivity {
 			.setBackgroundImageView(vBackground)
 			.setPOSEnableSpamByDefault(true)
 			.setPOSShowSpamOptIn(true)
-			.setAutoEnrollUserInRewards(false)
 			.setUserRewardsEnrollmentCheck(true)
 			.setEnableFacebookButton(true)
 			.setEnableSignInMessaging(true)

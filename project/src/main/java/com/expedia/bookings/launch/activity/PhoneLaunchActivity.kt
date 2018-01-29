@@ -692,7 +692,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
         if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen)
                 && userStateManager.isUserAuthenticated()
-                && PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach()
+                && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach()
                 && TripUtils.getUpcomingAirAttachQualifiedFlightTrip(ItineraryManager.getInstance().trips) != null) {
             events.add("event323")
         }

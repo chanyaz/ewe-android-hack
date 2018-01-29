@@ -110,9 +110,6 @@ public class PointOfSale {
 	// The distance unit used by this POS.  Not always used.
 	private DistanceUnit mDistanceUnit;
 
-	// Whether or not to require a rules & restrictions checkbox for this POS
-	private boolean mRequiresRulesRestrictionsCheckbox;
-
 	//Whether we should show last name first
 	private boolean mShowLastNameFirst;
 
@@ -167,9 +164,6 @@ public class PointOfSale {
 	// Used to determine which fields are required for Flights checkout
 	private RequiredPaymentFields mRequiredPaymentFieldsFlights;
 
-	// Whether or not to show cross-sells
-	private boolean mShowHotelCrossSell;
-
 	// Does this pos not allow debit cards for flights?
 	private boolean mDoesNotAcceptDebitCardsFlights;
 
@@ -196,9 +190,6 @@ public class PointOfSale {
 
 	// Should we show the marketing opt in checkbox
 	private MarketingOptIn mMarketingOptIn;
-
-	// Should we auto enroll the user for Loyalty Rewards program
-	private boolean mShouldAutoEnrollUserInRewards;
 
 	// Should we show cirlces for rating
 	private boolean shouldShowCircleForRatings;
@@ -661,10 +652,6 @@ public class PointOfSale {
 		return mDistanceUnit;
 	}
 
-	public boolean requiresRulesRestrictionsCheckbox() {
-		return mRequiresRulesRestrictionsCheckbox;
-	}
-
 	public boolean showLastNameFirst() {
 		return mShowLastNameFirst;
 	}
@@ -842,10 +829,6 @@ public class PointOfSale {
 		return mRequiredPaymentFieldsFlights == RequiredPaymentFields.ALL;
 	}
 
-	public boolean showHotelCrossSell() {
-		return mShowHotelCrossSell;
-	}
-
 	public boolean doesNotAcceptDebitCardsForFlights() {
 		return mDoesNotAcceptDebitCardsFlights;
 	}
@@ -904,10 +887,6 @@ public class PointOfSale {
 
 	public boolean shouldEnableMarketingOptIn() {
 		return mMarketingOptIn == MarketingOptIn.SHOW_CHECKED || mMarketingOptIn == MarketingOptIn.DO_NOT_SHOW_AUTO_ENROLL;
-	}
-
-	public boolean shouldAutoEnrollUserInRewards() {
-		return mShouldAutoEnrollUserInRewards;
 	}
 
 	public String getMarketingText() {
@@ -1330,7 +1309,6 @@ public class PointOfSale {
 		// POS config
 		pos.mDistanceUnit = data.optString("distanceUnit", "").equals("miles") ? DistanceUnit.MILES
 			: DistanceUnit.KILOMETERS;
-		pos.mRequiresRulesRestrictionsCheckbox = data.optBoolean("explicitConsentRequired");
 		pos.mShowLastNameFirst = data.optBoolean("shouldShowLastNameFirst");
 		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
@@ -1348,7 +1326,6 @@ public class PointOfSale {
 		pos.mRailsWebViewABTestID = new ABTest(data.optInt("android.webViewABTestIDForRails"));
 		pos.mSupportPropertyFee = data.optBoolean("propertyFeeEnabledInHotelCostSummary", false);
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
-		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
 		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
@@ -1358,7 +1335,6 @@ public class PointOfSale {
 		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
 		pos.mMarketingOptIn = MarketingOptIn
 				.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
-		pos.mShouldAutoEnrollUserInRewards = data.optBoolean("autoEnrollUserInRewards", false);
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 		pos.shouldAdjustPricingMessagingForAirlinePaymentMethodFee = data.optBoolean("adjustPricingMessagingForAirlinePaymentMethodFee", false);
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");

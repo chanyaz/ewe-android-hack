@@ -83,14 +83,6 @@
 
         </LinearLayout>
 
-        <ViewStub
-            android:id="@+id/accept_terms_view_stub"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/slide_to_purchase_layout"
-            android:layout_alignTop="@+id/slide_to_purchase_layout"
-            android:layout="@layout/accept_terms_stub" />
-
     </RelativeLayout>
 
     <FrameLayout

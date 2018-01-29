@@ -172,7 +172,6 @@ public class AccountLibActivity extends AppCompatActivity
 			.setAnalyticsListener(analyticsListener)
 			.setFacebookAppId(getString(R.string.facebook_app_id))
 			.setInitialState(startState)
-			.setAutoEnrollUserInRewards(PointOfSale.getPointOfSale().shouldAutoEnrollUserInRewards())
 			.setUserRewardsEnrollmentCheck(ProductFlavorFeatureConfiguration.getInstance().showUserRewardsEnrollmentCheck())
 			.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this))
 			.setSignupString(Phrase.from(this, R.string.account_signup_TEMPLATE).put("brand", BuildConfig.brand).format().toString());

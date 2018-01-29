@@ -620,17 +620,6 @@
         <item name="textStyle">normal</item>
     </style>
 
-    <style name="AcceptTermsWidgetStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">?attr/accept_terms_text_color</item>
-        <item name="android:background">?attr/accept_terms_background_color</item>
-        <item name="textStyle">normal</item>
-    </style>
-
     <style name="FlightWarningBarRed" parent="WarningBar">
         <item name="android:background">@color/flight_red_warning_bar_color</item>
     </style>

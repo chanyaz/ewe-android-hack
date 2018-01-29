@@ -785,7 +785,7 @@ class LaunchListAdapterTest {
             return isItinLaunchCardEnabled
         }
 
-        override fun isPOSAndBrandAirAttachEnabled(): Boolean {
+        override fun isBrandAirAttachEnabled(): Boolean {
             return isCustomerAirAttachedQualified
         }
 

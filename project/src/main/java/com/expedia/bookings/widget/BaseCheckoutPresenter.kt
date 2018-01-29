@@ -24,7 +24,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TwoScreenOverviewState
@@ -163,8 +162,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         presenter.viewModel.focusToolbarBackSubject.subscribe(getCheckoutViewModel().toolbarNavIconFocusObservable)
         presenter
     }
-
-    val acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox()
 
     var travelerManager: TravelerManager by Delegates.notNull()
 

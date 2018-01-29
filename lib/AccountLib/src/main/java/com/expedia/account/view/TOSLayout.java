@@ -37,7 +37,6 @@ public class TOSLayout extends FrameLayout {
 	private boolean mConfigShowSpamOptIn;
 	private boolean mConfigEnableSpamByDefault;
 	private boolean mConfigUserRewardsEnrollmentCheck;
-	private boolean mConfigAutoEnrollUserInRewards;
 	private CharSequence mTOSText;
 	private CharSequence mMarketingText;
 	private CharSequence mRewardsText;
@@ -187,7 +186,7 @@ public class TOSLayout extends FrameLayout {
 		}
 	}
 
-	public void configurePOS(boolean showSpamOptIn, boolean enableSpamByDefault, boolean hasUserRewardsEnrollmentCheck, boolean shouldAutoEnrollUserInRewards,
+	public void configurePOS(boolean showSpamOptIn, boolean enableSpamByDefault, boolean hasUserRewardsEnrollmentCheck,
 		CharSequence tosText, CharSequence marketingText, CharSequence rewardsText) {
 
 		mConfigShowSpamOptIn = showSpamOptIn;
@@ -196,7 +195,6 @@ public class TOSLayout extends FrameLayout {
 		mMarketingText = marketingText;
 		mConfigUserRewardsEnrollmentCheck = hasUserRewardsEnrollmentCheck;
 		mRewardsText = rewardsText;
-		mConfigAutoEnrollUserInRewards = shouldAutoEnrollUserInRewards;
 
 		vTermsOfUseText.setText(mTOSText);
 		vTermsOfUseText.setMovementMethod(containsLinks(mTOSText) ? LinkMovementMethod.getInstance() : null);
@@ -224,10 +222,6 @@ public class TOSLayout extends FrameLayout {
 			refreshCheckboxContentDesc(vEnrollInLoyaltyLayout);
 
 			fixupColors(vEnrollInLoyaltyCheckBox);
-		}
-		else {
-			// Set the auto enroll flag assigned for the particular POS
-			setUserEnrollInLoyalty(mConfigAutoEnrollUserInRewards);
 		}
 	}
 

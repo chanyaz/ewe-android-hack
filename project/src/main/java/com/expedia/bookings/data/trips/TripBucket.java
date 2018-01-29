@@ -22,7 +22,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.JodaUtils;
@@ -431,7 +430,7 @@ public class TripBucket implements JSONable {
 
 	public boolean isUserAirAttachQualified() {
 		return mAirAttach != null && mAirAttach.isAirAttachQualified()
-			&& PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach();
+			&& ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
