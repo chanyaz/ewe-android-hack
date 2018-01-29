@@ -199,7 +199,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
     }
 
     private fun updateTitles(params: HotelSearchParams) {
-        val title = params.suggestion.regionNames?.shortName ?: params.suggestion.regionNames.fullName
+        val title = params.suggestion.regionNames?.shortName ?: params.suggestion.regionNames.fullName ?: ""
         titleSubject.onNext(title)
         subtitleSubject.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
                 .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.checkIn))
