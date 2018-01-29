@@ -46,6 +46,19 @@ class SuggestionV4UtilsTest {
         checkDistinctSavedSuggestions(getDummyGaiaSuggestion())
     }
 
+    @Test
+    fun testFilteringSuggestionFromHistory() {
+        val dummySuggestion = getDummyGaiaSuggestion()
+        dummySuggestion.airportCode = "CLT"
+
+        val suggestionToFilter = SuggestionV4Utils.convertToSuggestionV4(listOf(dummySuggestion)).first()
+        val file = SuggestionV4Utils.RECENT_AIRPORT_SUGGESTIONS_FILE
+        IoUtils.writeStringToFile(file, "[{\"coordinates\": {\"lat\": 28.635308,\"long\": -80.84296},\"gaiaId\": \"178247\",\"hierarchyInfo\": {\"airport\": {\"airportCode\": \"CLT\",\"multicity\": \"178247\"},\"country\": {\"name\": \"United States of America\"},\"rails\": {},\"isChild\": false},\"iconType\": \"HISTORY_ICON\",\"regionNames\": {\"displayName\": \"\u003cB\u003eCharl\u003c/B\u003eotte, NC (CLT - \u003cB\u003eCharl\u003c/B\u003eotte-Douglas Intl.)\",\"fullName\": \"Charlotte (and vicinity), North Carolina, United States of America\",\"shortName\": \"Charlotte (and vicinity)\"},\"type\": \"MULTICITY\",\"isMinorAirport\": false,\"isSearchThisArea\": false}]", RuntimeEnvironment.application)
+
+        assertEquals(1, SuggestionV4Utils.loadSuggestionHistory(RuntimeEnvironment.application, file).size)
+        assertEquals(0, SuggestionV4Utils.loadSuggestionHistory(RuntimeEnvironment.application, file, suggestionToFilter).size)
+    }
+
     private fun checkDistinctSavedSuggestions(gaiaSuggestion: GaiaSuggestion) {
         val testSubscriber = TestObserver<Unit>()
         SuggestionV4Utils.testSuggestionSavedSubject.subscribe(testSubscriber)

@@ -47,6 +47,11 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
 
     private val minSuggestionQueryByteLength = 3
     private val currentLocationText = context.getString(R.string.current_location)
+    var suggestionToFilterFromHistory: SuggestionV4? = null
+        set(value) {
+            field = value
+            suggestionItemsSubject.onNext(getSuggestionAdapterItems())
+        }
 
     init {
         locationObservable?.subscribe(generateLocationServiceCallback())
@@ -158,7 +163,7 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
     }
 
     private fun loadPastSuggestions(): List<SuggestionV4> {
-        return SuggestionV4Utils.loadSuggestionHistory(context, getSuggestionHistoryFile())
+        return SuggestionV4Utils.loadSuggestionHistory(context, getSuggestionHistoryFile(), suggestionToFilterFromHistory)
     }
 
     private fun updateNearBy(location: Location, gaiaResults: List<SuggestionV4>) {
