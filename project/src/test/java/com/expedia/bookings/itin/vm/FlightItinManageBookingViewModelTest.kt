@@ -302,8 +302,6 @@ class FlightItinManageBookingViewModelTest {
         sut.itineraryManager = mockItinManager
         sut.updateItinCardDataFlight()
 
-        sut.airlineSupportDetailsData()
-
         val title = Phrase.from(context, R.string.itin_flight_airline_support_widget_airlines_for_help_TEMPLATE).put("airline_name", airlineName).format().toString()
         val airlineSupport = Phrase.from(context, R.string.itin_flight_airline_support_widget_airlines_support_TEMPLATE).put("airline_name", airlineName).format().toString()
         val ticket = Phrase.from(context, R.string.itin_flight_airline_support_widget_ticket_TEMPLATE).put("ticket_number", ticketValue).format().toString()

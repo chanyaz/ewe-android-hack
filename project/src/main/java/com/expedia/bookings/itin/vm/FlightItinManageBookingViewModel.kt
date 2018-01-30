@@ -32,15 +32,20 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
     val flightItinAirlineSupportDetailsSubject = PublishSubject.create<FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams>()
     val flightItinModifyReservationSubject = PublishSubject.create<FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams>()
 
+    init {
+        itinCardDataFlightObservable.subscribe {
+            updateToolbar()
+            updateCustomerSupportDetails()
+            createFlightLegDetailWidgetData()
+            rulesAndRestrictionText()
+            flightSplitTicketText()
+            airlineSupportDetailsData()
+            modifyReservationWidget()
+        }
+    }
+
     fun setUp() {
         updateItinCardDataFlight()
-        updateToolbar()
-        updateCustomerSupportDetails()
-        createFlightLegDetailWidgetData()
-        rulesAndRestrictionText()
-        flightSplitTicketText()
-        airlineSupportDetailsData()
-        modifyReservationWidget()
     }
 
     fun updateItinCardDataFlight() {
@@ -48,8 +53,8 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
         if (freshItinCardDataFlight == null) {
             itinCardDataNotValidSubject.onNext(Unit)
         } else {
-            itinCardDataFlightObservable.onNext(freshItinCardDataFlight)
             itinCardDataFlight = freshItinCardDataFlight
+            itinCardDataFlightObservable.onNext(freshItinCardDataFlight)
         }
     }
 

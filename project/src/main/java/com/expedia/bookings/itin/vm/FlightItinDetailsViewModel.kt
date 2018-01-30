@@ -31,13 +31,18 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     val createBaggageInfoWebviewWidgetSubject: PublishSubject<String> = PublishSubject.create<String>()
     val createBookingInfoWidgetSubject: PublishSubject<FlightItinBookingInfoViewModel.WidgetParams> = PublishSubject.create<FlightItinBookingInfoViewModel.WidgetParams>()
 
+    init {
+        itinCardDataFlightObservable.subscribe {
+            updateToolbar()
+            updateLegSummaryWidget()
+            updateConfirmationWidget()
+            updateBaggageInfoUrl()
+            updateBookingInfoWidget()
+        }
+    }
+
     fun onResume() {
         updateItinCardDataFlight()
-        updateToolbar()
-        updateLegSummaryWidget()
-        updateConfirmationWidget()
-        updateBaggageInfoUrl()
-        updateBookingInfoWidget()
     }
 
     @VisibleForTesting
@@ -46,8 +51,8 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
         if (freshItinCardDataFlight == null) {
             itinCardDataNotValidSubject.onNext(Unit)
         } else {
-            itinCardDataFlightObservable.onNext(freshItinCardDataFlight)
             itinCardDataFlight = freshItinCardDataFlight
+            itinCardDataFlightObservable.onNext(freshItinCardDataFlight)
         }
     }
 

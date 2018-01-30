@@ -29,13 +29,19 @@ open class FlightItinTravelerViewModel(private val context: Context, private val
     val updateTravelerListSubject: PublishSubject<List<Traveler>> = PublishSubject.create()
     val updateCurrentTravelerSubject: PublishSubject<Traveler> = PublishSubject.create()
     val itinCardDataNotValidSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
+    val itinCardUpdatedSubject: PublishSubject<Unit> = PublishSubject.create()
 
     protected lateinit var userStateManager: UserStateManager
 
+    init {
+        itinCardUpdatedSubject.subscribe {
+            updateToolbar()
+            updateTravelList()
+        }
+    }
+
     fun onResume() {
         updateItinCardDataFlight()
-        updateToolbar()
-        updateTravelList()
     }
 
     fun updateToolbar() {
@@ -57,6 +63,7 @@ open class FlightItinTravelerViewModel(private val context: Context, private val
         val freshItinCardDataFlight = itineraryManager.getItinCardDataFromItinId(itinId)
         if (freshItinCardDataFlight != null && freshItinCardDataFlight is ItinCardDataFlight) {
             itinCardDataFlight = freshItinCardDataFlight
+            itinCardUpdatedSubject.onNext(Unit)
         } else {
             itinCardDataNotValidSubject.onNext(Unit)
         }
