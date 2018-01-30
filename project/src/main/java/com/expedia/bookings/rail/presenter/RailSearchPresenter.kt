@@ -16,13 +16,13 @@ import com.expedia.bookings.rail.widget.RailSearchPagerAdapter
 import com.expedia.bookings.rail.widget.RailSearchWidget
 import com.expedia.bookings.rail.widget.RailTravelerWidgetV2
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.shared.widget.SuggestionAdapter
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.shared.SearchInputTextView
-import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText

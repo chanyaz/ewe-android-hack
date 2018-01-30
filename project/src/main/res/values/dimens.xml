@@ -314,9 +314,6 @@
     <dimen name="airport_dropdown_row_margin_top">5dp</dimen>
     <dimen name="airport_dropdown_row_margin_bottom">5dp</dimen>
 
-    <!-- Package_suggestion -->
-    <dimen name="package_suggestion_margin_top">8dp</dimen>
-    <dimen name="package_suggestion_margin_bottom">8dp</dimen>
     <!-- Air Attach banner -->
     <dimen name="air_attach_banner_divider_margin_right">8dp</dimen>
     <dimen name="air_attach_banner_divider_margin_left">8dp</dimen>

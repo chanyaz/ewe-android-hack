@@ -33,7 +33,7 @@ class AirportSuggestionViewModel(context: Context, suggestionsService: Suggestio
 
     override fun getLineOfBusiness(): LineOfBusiness = LineOfBusiness.FLIGHTS_V2
 
-    override fun showSuggestionsAndLabel(): Boolean =
+    override fun areLabelsEnabled(): Boolean =
             (getLineOfBusiness() == LineOfBusiness.FLIGHTS_V2 && showSuggestionLabel)
 
     override fun isSuggestionOnOneCharEnabled(): Boolean =

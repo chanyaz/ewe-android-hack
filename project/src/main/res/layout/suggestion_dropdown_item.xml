@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:background="@drawable/spinner_ripple"
     android:orientation="horizontal"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp">
+    android:paddingBottom="12dp"
+    android:paddingTop="12dp">
 
     <ImageView
         android:id="@+id/icon_imageview"
@@ -36,10 +36,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:paddingLeft="4dp"
             android:textColor="@color/search_autocomplete_text" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/suggestion_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:paddingLeft="4dp"
+            android:textColor="@color/search_autocomplete_text"
+            android:textSize="11dp"/>
     </LinearLayout>
 
 </LinearLayout>

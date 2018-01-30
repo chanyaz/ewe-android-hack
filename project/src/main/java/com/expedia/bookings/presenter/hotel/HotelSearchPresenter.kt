@@ -118,14 +118,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     private var suggestionTrackingData = SuggestionTrackingData()
 
-    private val hotelSuggestionAdapter by lazy {
-        val adapter = HotelSuggestionAdapter()
-        adapter.suggestionClicked.subscribe(suggestionViewModel.suggestionSelectedSubject)
-        suggestionViewModel.suggestionsObservable.subscribe { list ->
-            adapter.setSuggestions(list)
-        }
-        adapter
-    }
+    private val hotelSuggestionAdapter by lazy { HotelSuggestionAdapter(suggestionViewModel) }
 
     var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { searchSuggestion ->
