@@ -20,6 +20,7 @@ public interface SuggestApi {
 		@Query("lob") String lineOfBusiness,
 		@Query("max_results") Integer maxResults,
 		@Query("guid") String guid,
+		@Query("pt") String packageType,
 		@Query("ab") String abTest);
 
 	@GET("/api/v4/ping")

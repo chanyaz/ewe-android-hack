@@ -113,7 +113,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                     SuggestionResultType.POINT_OF_INTEREST or
                     SuggestionResultType.AIRPORT_METRO_CODE
         }
-        return suggestV4(query, suggestType, isDest, "ta_hierarchy", "PACKAGES", abTest = if (isMISForRealWorldEnabled) "11996.1" else null, guid = guid)
+        return suggestV4(query, suggestType, isDest, "ta_hierarchy", "PACKAGES", abTest = if (isMISForRealWorldEnabled) "11996.1" else null, guid = guid, packageType = "FH")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
@@ -149,8 +149,8 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
     }
 
     private fun suggestV4(query: String, suggestType: Int, isDest: Boolean, features: String, lineOfBusiness: String,
-                          maxResults: Int? = null, guid: String? = null, abTest: String? = null): Observable<SuggestionV4Response> {
-        return suggestApi.suggestV4(query, suggestType, isDest, features, lineOfBusiness, maxResults, guid, abTest)
+                          maxResults: Int? = null, guid: String? = null, packageType: String? = null, abTest: String? = null): Observable<SuggestionV4Response> {
+        return suggestApi.suggestV4(query, suggestType, isDest, features, lineOfBusiness, maxResults, guid, packageType, abTest)
     }
 
     fun essDomainResolution(): Observable<ResponseBody> {
