@@ -320,7 +320,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun getHotelListAdapter(): BaseHotelListAdapter {
-        return HotelListAdapter(hotelSelectedSubject, headerClickedSubject, pricingHeaderSelectedSubject)
+        val canShow2xMessaging = AbacusFeatureConfigManager.Companion.isBucketedForTest(context, AbacusUtils.HotelEarn2xMessaging)
+                && Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated()
+        return HotelListAdapter(hotelSelectedSubject, headerClickedSubject, pricingHeaderSelectedSubject, canShow2xMessaging)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {

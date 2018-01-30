@@ -2075,8 +2075,18 @@
     <string name="you_are_a_valued_member">You are a valued member!</string>
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">Shop as an {brand} member!</string>
+    <!-- Launch screen 2x messaging signed-out title-->
+    <string name="launch_screen_sign_in_2x_title">Sign in for better shopping!</string>
+    <!-- Launch screen 2x messaging for signed-out subtitle-->
+    <string name="launch_screen_sign_in_2x_subtitle">With member prices, you could save an average of 17% more right now on thousands of hotels. Plus you\'ll earn double points for all booking in app!</string>
+    <!-- Launch screen 2x banner messaging for signed-in users -->
+    <string name="launch_screen_2x_banner">You\'ll earn double points for all bookings in app!</string>
+    <!-- Checkout sign in button for 2x messaging -->
+    <string name="checkout_sign_in_2x_messaging">Sign in to earn double points!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">You\'ll earn {reward_currency} points for this trip!</string>
+    <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
+    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">You\'ll earn {reward_currency} points. That\'s double for booking in app!</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Sorry, but it looks like the hotel just raised the total cost of this stay from %1$s to %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -4977,4 +4987,7 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">{ticket_summary} Selected</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Regular Price {ticket_type} {activity_original_price}. Discounted price {ticket_type} {activity_price}</string>
+    <string name="hotel_2x_points_search_title">Double Expedia+ Points!</string>
+    <string name="hotel_2x_points_search_content">You\'ll earn double points just for booking in the app!</string>
+
 </resources>

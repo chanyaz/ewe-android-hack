@@ -121,6 +121,23 @@ class HotelListAdapterTest {
                 "FAILURE: Expected urgency message")
     }
 
+    @Test
+    fun test2xMessaging() {
+        testAdapter.loading = true
+        assertNotEquals(testAdapter.getItemViewType(2), HotelAdapterItem.EARN_2X)
+
+        val response = getMockSearchResponse(2, false)
+        testAdapter.canShow2xMessaging = true
+        testAdapter.loading = false
+        testAdapter.resultsSubject.onNext(response)
+        assertEquals(testAdapter.getItemViewType(2), HotelAdapterItem.EARN_2X)
+
+        testAdapter.loading = false
+        testAdapter.canShow2xMessaging = false
+        testAdapter.resultsSubject.onNext(response)
+        assertNotEquals(testAdapter.getItemViewType(2), HotelAdapterItem.EARN_2X)
+    }
+
     fun getMockSearchResponse(hotelCount: Int, pinned: Boolean?): HotelSearchResponse {
         val response: HotelSearchResponse
         if (pinned == null) {

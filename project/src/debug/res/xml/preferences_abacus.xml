@@ -116,6 +116,14 @@
             android:key="24783"
             android:summary="%s"
             android:title="Hotel Result change date - 24783" />
+            
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="24742"
+            android:summary="%s"
+            android:title="Earn 2x Messaging - 24742" />
 
     </PreferenceCategory>
 

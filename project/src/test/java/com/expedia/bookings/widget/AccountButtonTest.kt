@@ -11,6 +11,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.RewardsInfo
 import com.expedia.bookings.data.TripBucketItemFlightV2
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.lx.LXCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -25,6 +26,7 @@ import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Rule
@@ -129,6 +131,15 @@ class AccountButtonTest {
         val rewardsToEarn = formatter.format(Math.round(rewardsInfo.totalPointsToEarn).toLong())
         val rewardsText = accountButton.getSignInWithRewardsAmountText(rewardsToEarn).toString()
         val expectedText = Phrase.from(context, R.string.Sign_in_to_earn_TEMPLATE).put("reward", "12" ).format().toString()
+        assertEquals(expectedText, rewardsText)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testSignInTextWithRewardsExpedia2xMessaging() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelEarn2xMessaging)
+        val rewardsText = accountButton.getSignInWithRewardsAmountText("1").toString()
+        val expectedText = context.getString(R.string.checkout_sign_in_2x_messaging)
         assertEquals(expectedText, rewardsText)
     }
 
@@ -297,6 +308,21 @@ class AccountButtonTest {
         val loginContainer = accountButton.findViewById<View>(R.id.account_login_container)
         val shadowDrawable = Shadows.shadowOf(loginContainer.background)
         assertEquals(R.drawable.material_cko_acct_btn_bg, shadowDrawable.createdFromResId)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testRewardsTextView2xMessaging() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelEarn2xMessaging)
+        val user = User()
+        user.fromJson(UserJSONHelper.versionOneUserJSONObject)
+        val createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
+        val rewardsInfo = RewardsInfo()
+        rewardsInfo.totalPointsToEarn = 1234f
+        createTripResponse.rewards = rewardsInfo
+        Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
+        accountButton.bind(false, true, user, LineOfBusiness.HOTELS)
+        assertEquals(accountButton.mRewardsTextView.text, "You\'ll earn 1,234 points. That\'s double for booking in app!")
     }
 
     @Test

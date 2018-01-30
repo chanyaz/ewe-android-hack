@@ -14,7 +14,6 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.data.HotelAdapterItem
-import com.expedia.bookings.hotel.widget.HotelUrgencyViewHolder
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
@@ -32,10 +31,13 @@ import android.text.SpannableStringBuilder
 import android.text.Spannable
 import android.text.style.ImageSpan
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.hotel.widget.Earn2xCardViewHolder
+import com.expedia.bookings.hotel.widget.HotelUrgencyViewHolder
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
                                     val headerSubject: PublishSubject<Unit>,
-                                    val pricingHeaderSelectedSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                                    val pricingHeaderSelectedSubject: PublishSubject<Unit>,
+                                    var canShow2xMessaging: Boolean = false) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     abstract fun getHotelCellHolder(parent: ViewGroup): AbstractHotelCellViewHolder
     abstract fun getPriceDescriptorMessageIdForHSR(context: Context): Int?
@@ -203,6 +205,8 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             return EndOfListViewHolder(header)
         } else if (viewType == HotelAdapterItem.URGENCY) {
             return HotelUrgencyViewHolder.create(parent)
+        } else if (viewType == HotelAdapterItem.EARN_2X) {
+            return Earn2xCardViewHolder.create(parent)
         } else {
             val holder: AbstractHotelCellViewHolder = getHotelCellHolder(parent)
             holder.hotelClickedSubject.subscribe { position ->
@@ -235,6 +239,9 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         data.clear()
         data.add(HotelAdapterItem.TransparentMapView())
         data.add(HotelAdapterItem.Header())
+        if (canShow2xMessaging) {
+            data.add(HotelAdapterItem.Earn2x())
+        }
     }
 
     inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup, val vm: HotelResultsPricingStructureHeaderViewModel) : RecyclerView.ViewHolder(root) {

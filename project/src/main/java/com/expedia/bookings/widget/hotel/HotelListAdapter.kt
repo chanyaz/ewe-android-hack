@@ -10,8 +10,8 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import io.reactivex.subjects.PublishSubject
 
-class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>, pricingHeaderSelectedSubject: PublishSubject<Unit>) :
-        BaseHotelListAdapter(hotelSelectedSubject, headerSubject, pricingHeaderSelectedSubject) {
+class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>, pricingHeaderSelectedSubject: PublishSubject<Unit>, canShow2xMessaging: Boolean = false) :
+        BaseHotelListAdapter(hotelSelectedSubject, headerSubject, pricingHeaderSelectedSubject, canShow2xMessaging) {
 
     override fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell, parent, false)

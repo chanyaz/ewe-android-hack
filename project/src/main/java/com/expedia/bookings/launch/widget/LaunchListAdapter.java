@@ -82,7 +82,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			|| itemViewKey == LaunchDataItem.MESO_HOTEL_AD_VIEW
 			|| itemViewKey == LaunchDataItem.MESO_DESTINATION_AD_VIEW
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS
-			|| itemViewKey == LaunchDataItem.LAST_MINUTE_DEALS;
+			|| itemViewKey == LaunchDataItem.LAST_MINUTE_DEALS
+			|| itemViewKey == LaunchDataItem.EARN_2X_MESSAGING_BANNER;
 	}
 
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
@@ -242,6 +243,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			return new BigImageLaunchViewHolder(view);
 		}
 
+		if (viewType == LaunchDataItem.EARN_2X_MESSAGING_BANNER) {
+			View view = LayoutInflater.from(context).inflate(R.layout.launch_2x_banner_card_layout, parent, false);
+			return new Earn2xBannerViewHolder(view);
+		}
+
 		throw new RuntimeException("Could not find view type");
 	}
 
@@ -369,6 +375,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			items.add(new LaunchDataItem(LaunchDataItem.LOB_VIEW));
 		}
 		if (!showOnlyLOBView) {
+			if (!showSignInCard() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelEarn2xMessaging)) {
+				items.add(new LaunchDataItem(LaunchDataItem.EARN_2X_MESSAGING_BANNER));
+			}
 			if (showSignInCard()) {
 				items.add(new LaunchDataItem(LaunchDataItem.SIGN_IN_VIEW));
 			}
@@ -485,6 +494,13 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private SignInPlaceHolderViewModel makeSignInPlaceholderViewModel() {
+		if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelEarn2xMessaging)) {
+			return new SignInPlaceHolderViewModel(
+				context.getString(R.string.launch_screen_sign_in_2x_title),
+				context.getString(R.string.launch_screen_sign_in_2x_subtitle),
+				context.getString(R.string.sign_in),
+				context.getString(R.string.Create_Account));
+		}
 		return new SignInPlaceHolderViewModel(getBrandForSignInView(),
 			context.getString(R.string.earn_rewards_and_unlock_deals),
 			context.getString(R.string.sign_in),

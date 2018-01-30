@@ -9,6 +9,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
+import android.text.Spanned;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
@@ -39,6 +41,7 @@ import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -56,7 +59,8 @@ public class AccountButton extends LinearLayout {
 	@VisibleForTesting
 	protected TextView mLoginTextView;
 	private View mLogoutContainer;
-	private TextView mRewardsTextView;
+	@VisibleForTesting
+	protected TextView mRewardsTextView;
 	private View mLogoutButton;
 	private View mLoadingLogoutButton;
 	private ImageView mExpediaLogo;
@@ -78,6 +82,9 @@ public class AccountButton extends LinearLayout {
 		mLogoutContainer = findViewById(R.id.account_logout_container);
 		mRewardsTextView = (TextView) findViewById(R.id.account_rewards_textview);
 		mExpediaLogo = Ui.findView(this, R.id.card_icon);
+		if (AbacusFeatureConfigManager.isBucketedForTest(this.mContext, AbacusUtils.HotelEarn2xMessaging)) {
+			mExpediaLogo.setImageResource(R.drawable.expedia_logo_blue_on_yellow);
+		}
 		mLoadingTextView = Ui.findView(this, R.id.loading_textview);
 		mExpediaLogo.setContentDescription(Phrase.from(getContext(), R.string.brand_account_cont_desc_TEMPLATE)
 			.put("brand", BuildConfig.brand)
@@ -391,15 +398,23 @@ public class AccountButton extends LinearLayout {
 			case HOTELS:
 			case PACKAGES:
 			case LX:
-				youllEarnRewardsPointsText = HtmlCompat.fromHtml(
-					Phrase.from(this, R.string.youll_earn_points_TEMPLATE).put("reward_currency", rewardPoints).format()
-						.toString());
+				youllEarnRewardsPointsText = getDefaultRewardsTextWithPoints(getContext(), rewardPoints);
 				break;
 			}
 		}
 
 		return youllEarnRewardsPointsText.toString();
 	}
+
+	private static Spanned getDefaultRewardsTextWithPoints(Context context, String pointsString) {
+		@StringRes int templateResId = R.string.youll_earn_points_TEMPLATE;
+		if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelEarn2xMessaging)) {
+			templateResId = R.string.earn_2x_rewards_currency_for_this_trip_TEMPLATE;
+		}
+		return HtmlCompat.fromHtml(
+			Phrase.from(context, templateResId).put("reward_currency", pointsString).format().toString());
+	}
+
 
 	private String getRewardsString(RewardsInfo rewards) {
 		if (rewards != null) {
@@ -415,6 +430,9 @@ public class AccountButton extends LinearLayout {
 	}
 
 	public CharSequence getSignInWithRewardsAmountText(String rewardsToEarn) {
+		if (AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.HotelEarn2xMessaging)) {
+			return getContext().getString(R.string.checkout_sign_in_2x_messaging);
+		}
 		//noinspection ConstantConditions This can never be null from api.
 		return Phrase.from(this, R.string.Sign_in_to_earn_TEMPLATE)
 			.put("reward", rewardsToEarn)

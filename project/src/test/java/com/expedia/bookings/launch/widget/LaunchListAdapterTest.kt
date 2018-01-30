@@ -672,6 +672,58 @@ class LaunchListAdapterTest {
         OmnitureTestUtils.assertLinkTracked("App Landing", "App.LS.LastMinuteDeals", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
     }
 
+    @Test
+    fun earn2xMessagingCardShown() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelEarn2xMessaging)
+        createSystemUnderTest()
+        givenCustomerSignedIn()
+        givenWeHaveCurrentLocationAndHotels()
+
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertEquals(LaunchDataItem.EARN_2X_MESSAGING_BANNER, secondPosition)
+    }
+
+    @Test
+    fun earn2xMessagingSignInShown() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelEarn2xMessaging)
+        createSystemUnderTest()
+        givenCustomerSignedOut()
+        givenWeHaveCurrentLocationAndHotels()
+
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val recyclerView = RecyclerView(context)
+        recyclerView.layoutManager = layoutManager
+        val viewHolder = adapterUnderTest.onCreateViewHolder(recyclerView, LaunchDataItem.SIGN_IN_VIEW) as SignInPlaceholderCard
+        adapterUnderTest.onBindViewHolder(viewHolder, 1)
+        assertEquals(viewHolder.firstLineTextView.text, context.getString(R.string.launch_screen_sign_in_2x_title))
+        assertEquals(viewHolder.secondLineTextView.text, context.getString(R.string.launch_screen_sign_in_2x_subtitle))
+        assertEquals(viewHolder.button_one.text, context.getString(R.string.sign_in))
+        assertEquals(viewHolder.button_two.text, context.getString(R.string.Create_Account))
+
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
+    }
+
+    @Test
+    fun earn2xMessagingCardNotShownSignedInNotBucketed() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.HotelEarn2xMessaging)
+        createSystemUnderTest()
+        givenCustomerSignedIn()
+        givenWeHaveCurrentLocationAndHotels()
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertNotEquals(LaunchDataItem.EARN_2X_MESSAGING_BANNER, secondPosition)
+    }
+
+    @Test
+    fun earn2xMessagingCardNotShownSignedOut() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelEarn2xMessaging)
+        createSystemUnderTest()
+        givenCustomerSignedOut()
+        givenWeHaveCurrentLocationAndHotels()
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertNotEquals(LaunchDataItem.EARN_2X_MESSAGING_BANNER, secondPosition)
+    }
+
     private fun makeSignInPlaceholderViewModel(): SignInPlaceHolderViewModel {
         return SignInPlaceHolderViewModel(getBrandForSignInView(),
                 context.getString(R.string.earn_rewards_and_unlock_deals), "", "")

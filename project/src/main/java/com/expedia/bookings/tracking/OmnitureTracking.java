@@ -3466,6 +3466,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountSinglePageSignUp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
+		trackAbacusTest(s, AbacusUtils.HotelEarn2xMessaging);
 
 		if (AbacusFeatureConfigManager.isBucketedInAnyVariant(sContext, AbacusUtils.MesoAd)) {
 			trackAbacusTest(s, AbacusUtils.MesoAd);

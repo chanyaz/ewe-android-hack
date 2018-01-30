@@ -25,7 +25,7 @@
             android:paddingRight="8dp">
 
             <ImageView
-                android:id="@+id/urgency_icon"
+                android:id="@+id/icon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginRight="4dp"
@@ -33,7 +33,7 @@
                 android:tint="@color/hotel_urgency_message_color" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/urgency_title"
+                android:id="@+id/title"
                 style="@style/Core.Text.300.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         </LinearLayout>
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/urgency_subtitle"
+            android:id="@+id/subtitle"
             style="@style/Core.Text.200.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

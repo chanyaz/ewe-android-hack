@@ -7,6 +7,7 @@ sealed class HotelAdapterItem(val key: Int) {
     class Urgency(val compressionMessage: String) : HotelAdapterItem(ItemKey.URGENCY)
     class Spacer() : HotelAdapterItem(ItemKey.SPACER)
     class Loading() : HotelAdapterItem(ItemKey.LOADING)
+    class Earn2x() : HotelAdapterItem(ItemKey.EARN_2X)
 
     companion object ItemKey {
         val TRANSPARENT_MAPVIEW = 0
@@ -15,5 +16,6 @@ sealed class HotelAdapterItem(val key: Int) {
         val URGENCY = 3
         val SPACER = 4
         val LOADING = 5
+        val EARN_2X = 6
     }
 }
