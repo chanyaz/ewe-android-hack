@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">Se connecter</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Se connecter avec Facebook</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">S\&apos;inscrire avec Facebook</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">Créer un nouveau compte {brand}</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Retour</string>
     <!-- "X" button content description -->
@@ -49,7 +45,7 @@
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
     <string name="acct__Create_Account">Créer un compte</string>
-    <string name="acct__Passwords_must_match">Les mots de passe saisis doivent être identiques.</string>
+    <string name="acct__Passwords_must_match">Oups, ces mots de passe ne correspondent pas</string>
     <string name="acct__Password_length_error_message">Le mot de passe doit être composé de {minlen} à {maxlen} caractères.</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">Connexion non réussie</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">Veuillez confirmer que votre nom d\&apos;utilisateur et votre mot de passe sont corrects.</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">Veuillez vérifier votre adresse e-mail et votre mot de passe, puis réessayez.</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">Compte bloqué</string>
+    <string name="acct__Sign_in_locked_TITLE">Alerte de sécurité</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">Votre compte a été temporairement bloqué en raison de plusieurs échecs de connexion consécutifs. Veuillez vérifier votre mot de passe et réessayez dans une heure.</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">Désolés ! En raison de plusieurs tentatives de connexion avec des données incorrectes, l\&apos;accès à votre compte a été bloqué. Veuillez réessayer dans une heure.</string>
+    <string name="acct__Sign_in_failed_generic">Oups ! Un problème est survenu lors de votre tentative pour vous connecter.</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">Création du compte non réussie</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">Impossible de vérifier l\&apos;adresse e-mail</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">Oups ! Nous avons besoin d\&apos;une adresse e-mail : veuillez vérifier que vous avez bien une adresse e-mail associée à votre compte Facebook et que vous avez accordé l\&apos;accès. \n\nVous pouvez ajouter une adresse e-mail à votre compte Facebook (et accorder l\&apos;accès) et réessayer ou bien simplement créer un compte</string>
+    <string name="acct__fb_user_missing_email_message">Pour vous connecter avec Facebook, vous devez utiliser l\&apos;adresse e-mail associée à votre compte. Vous pouvez en ajouter une sur Facebook ou créer un nouveau compte.</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Connexion au compte Facebook annulée</string>
     <!-- We've found your user account -->

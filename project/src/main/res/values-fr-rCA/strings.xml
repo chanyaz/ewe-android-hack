@@ -871,9 +871,6 @@
 
     <!-- Meso hotel ad card -->
 
-    <!-- The {percent} is the discounted percentage of the price per night at the hotel. Example - "33% off" -->
-    <string name="meso_percent_off_TEMPLATE">{percent} de rabais</string>
-
     <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
      character or a new line character. This changes because the text might break multiple lines. The {strike_price} is the
      price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
@@ -926,8 +923,6 @@
     <string name="error_launch_connection">Il nous est impossible d\&apos;établir la connexion.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Voyages</string>
-    <!-- Menu option for going to see your trips/itineraries -->
-    <string name="Your_Trips">Vos voyages</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Cette application exige les services Google Play. Veuillez installer la plus récente version de Google Play Services.</string>
 
@@ -1346,6 +1341,8 @@
     <string name="itin_hotel_details_map_view_content_description">Emplacement de l\&apos;hôtel sur Google Map</string>
     <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Appeler l\&apos;hôtel au {phonenumber}</string>
+    <!--Hotel itin message hotel button-->
+    <string name="itin_hotel_details_message_hotel_button">Envoyer un message à l\&apos;hôtel</string>
     <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Adresse de l\&apos;hôtel. {address}. Cliquer pour copier dans le presse-papiers. Bouton</string>
     <!--Hotel itin card manage booking subheading-->
@@ -2667,9 +2664,6 @@
     <string name="filter_vip_access">Seulement les hôtels +Accès VIP</string>
     <!-- Title for VIP Access message for Hotel Results -->
     <string name="vip">+VIP</string>
-    <!-- ON and OFF text for toggle switches -->
-    <string name="switch_on">Activé</string>
-    <string name="switch_off">Désactivé</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
@@ -3804,6 +3798,10 @@
     <string name="hotels_filter_show_less_cont_desc">Afficher moins de quartiers. Bouton</string>
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Bon utilisé : vous avez économisé %1$s!</string>
+    <!-- Hotel material coupon applied text -->
+    <string name="material_applied_coupon_message">Bon de réduction appliqué!</string>
+    <!-- Hotel material coupon applied coupon code text on cko screen template e.g. 1234567 (-$25.00) -->
+    <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (-{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">Échec du bon</string>
     <string name="coupon_error_remove_dialog_title">La suppression du bon a échoué</string>
@@ -3878,8 +3876,6 @@
     <string name="hotel_deal_TEMPLATE">Réservez ceci et économisez {price} ({savings} %)</string>
     <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
     <string name="packages_invalid_user_title_label">Mise à jour requise!</string>
-    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
-    <string name="packages_invalid_user_text_label">Désolés, la réservation de forfaits Hôtel + Vol n\&apos;est pas disponible sur cette version de l\&apos;application.\nFaites une mise à jour pour obtenir les forfaits Hôtel + Vol.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">{night} nuit gratuite en réservant ceci avec un vol.</item>
@@ -4762,7 +4758,6 @@
     <string name="member_deal_subtitle">Rabais sur certains hôtels</string>
     <string name="search_for_hotel_deals_page_header">Rechercher des offres d\&apos;hôtels</string>
     <string name="member_deals_toolbar_title">Prix réservé aux membres</string>
-    <string name="continue_booking">Continuez la réservation</string>
     <string name="deals_hotel_only">Hôtel seulement</string>
     <string name="member_deals_toolbar_close_cont_desc">Fermer l\&apos;écran affichant les prix réservés aux membres</string>
 
@@ -4895,10 +4890,10 @@
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">Bons sauvegardés</string>
 
-    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
-    <string name="book_room_button_content_description_TEMPLATE">Réserver : {room}</string>
-    <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
-    <string name="select_room_button_content_description_TEMPLATE">Sélectionner : {room}</string>
+    <!-- Book Room button content description with room type and option number; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed Option 1 -->
+    <string name="book_room_button_with_options_content_description_TEMPLATE">Réserver : {room}{option}</string>
+    <!-- Select Room button content description with room type and option number; verb; as in select a hotel room, ex. Select, Studio, 1 Queen Bed Option 1-->
+    <string name="select_room_button_with_options_content_description_TEMPLATE">Sélectionner : {room}{option}</string>
 
     <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
     <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">Onglet {flightsearchtype}</string>

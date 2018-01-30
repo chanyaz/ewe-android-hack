@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">Kirjaudu sisään</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Kirjaudu sisään Facebookin kautta</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Rekisteröidy Facebookin kautta</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">Luo uusi {brand}-tili</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Takaisin</string>
     <!-- "X" button content description -->
@@ -49,7 +45,7 @@
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
     <string name="acct__Create_Account">Luo tili</string>
-    <string name="acct__Passwords_must_match">Salasanojen tulee täsmätä</string>
+    <string name="acct__Passwords_must_match">Hupsista, salasanat eivät täsmää</string>
     <string name="acct__Password_length_error_message">Salasanan on oltava {minlen}–{maxlen} merkkiä pitkä</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">Sisäänkirjautuminen epäonnistui</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">Vahvista, että käyttäjätunnuksesi ja salasanasi ovat oikein.</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">Tarkista sähköpostiosoite ja salasana ja yritä sitten uudelleen.</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">Tili lukittu</string>
+    <string name="acct__Sign_in_locked_TITLE">Turvallisuusvaroitus</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">Useiden peräkkäisten sisäänkirjautumisyritysten vuoksi tilisi on tilapäisesti lukittu. Tarkista salasanasi ja yritä uudelleen tunnin kuluttua.</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">Pahoittelemme! Tilisi on lukittu useista epäonnistuneista sisäänkirjautumisyrityksistä johtuen. Ole hyvä ja yritä uudelleen tunnin kuluttua.</string>
+    <string name="acct__Sign_in_failed_generic">Hupsista! Sisäänkirjautumisessa tapahtui virhe.</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">Tilin luominen ei onnistunut</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">Sähköpostiosoitetta ei voida varmistaa</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">Hupsista! Tarvitsemme sähköpostiosoitteen – tarkista, että olet liittänyt sähköpostiosoitteen Facebook-tiliisi ja myönnä käyttöoikeudet. \n\nVoit joko lisätä sähköpostiosoitteen Facebook-tiliisi (ja myöntää käyttöoikeudet) ja yrittää uudelleen tai yksinkertaisesti luoda tilin</string>
+    <string name="acct__fb_user_missing_email_message">Jos haluat kirjautua sisään Facebookin kautta, sinulla tulee olla Facebook-tiliisi liitetty sähköpostiosoite. Voit joko lisätä sähköpostiosoitteen tilillesi Facebookissa tai luoda itsellesi tilin</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Facebook-kirjautuminen peruttu</string>
     <!-- We've found your user account -->

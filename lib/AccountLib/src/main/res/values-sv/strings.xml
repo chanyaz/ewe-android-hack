@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">Logga in</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Logga in med Facebook</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Registrera dig med Facebook</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">Skapa ett nytt {brand}konto</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Tillbaka</string>
     <!-- "X" button content description -->
@@ -48,8 +44,8 @@
 
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
-    <string name="acct__Create_Account">Skapa konto</string>
-    <string name="acct__Passwords_must_match">Lösenorden måste matcha varann</string>
+    <string name="acct__Create_Account">Skapa ett konto</string>
+    <string name="acct__Passwords_must_match">Hoppsan, dina lösenord stämmer inte överens.</string>
     <string name="acct__Password_length_error_message">Lösenordet måste vara mellan {minlen} och {maxlen} tecken långt</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">Inloggning misslyckades</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">Bekräfta att ditt användarnamn och ditt lösenord stämmer.</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">Kontrollera din e-postadress och ditt lösenord och försök igen.</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">Konto låst</string>
+    <string name="acct__Sign_in_locked_TITLE">Säkerhetsmeddelande</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">På grund av flera misslyckade inloggningsförsök på rad har vi tillfälligt låst ditt konto. Kontrollera ditt lösenord och försök igen om en timme.</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">Vi beklagar! Eftersom du flera gånger försökt att logga in med felaktiga uppgifter har ditt konto nu låsts. Försök igen om en timme.</string>
+    <string name="acct__Sign_in_failed_generic">Hoppsan! Något gick snett när du försökte logga in.</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">Kontot kunde inte skapas</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">Kunde inte verifiera e-postadress</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">Hoppsan! Vi behöver en e-postadress – kontrollera att du har en e-postadress länkad till ditt Facebook-konto och att tillgång till den är öppen. \n\nDu kan antingen lägga till en e-postadress i ditt Facebookkonto (med öppen tillgång) och försöka igen, eller helt enkelt skapa ett konto</string>
+    <string name="acct__fb_user_missing_email_message">För att logga in med Facebook behöver du koppla en e-postadress till ditt konto. Du kan antingen lägga till en på Facebook eller skapa ett konto istället</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Inloggning på Facebook misslyckades</string>
     <!-- We've found your user account -->

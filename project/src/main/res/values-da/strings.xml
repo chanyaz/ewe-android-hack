@@ -871,9 +871,6 @@
 
     <!-- Meso hotel ad card -->
 
-    <!-- The {percent} is the discounted percentage of the price per night at the hotel. Example - "33% off" -->
-    <string name="meso_percent_off_TEMPLATE">{percent} rabat</string>
-
     <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
      character or a new line character. This changes because the text might break multiple lines. The {strike_price} is the
      price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
@@ -926,8 +923,6 @@
     <string name="error_launch_connection">Vi beklager, men vi kan ikke oprette forbindelse.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Rejser</string>
-    <!-- Menu option for going to see your trips/itineraries -->
-    <string name="Your_Trips">Dine rejser</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Denne app kræver Google Play-tjenester. Installer den seneste version af Google Play-tjenester.</string>
 
@@ -1346,6 +1341,8 @@
     <string name="itin_hotel_details_map_view_content_description">Hotellets beliggenhed på Google Maps</string>
     <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Ring til hotellet på {phonenumber}</string>
+    <!--Hotel itin message hotel button-->
+    <string name="itin_hotel_details_message_hotel_button">Skriv til hotellet</string>
     <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Hotellets adresse. {address}. Klik for at kopiere til udklipsholder. Knap</string>
     <!--Hotel itin card manage booking subheading-->
@@ -2667,9 +2664,6 @@
     <string name="filter_vip_access">Kun +VIP Access-hoteller</string>
     <!-- Title for VIP Access message for Hotel Results -->
     <string name="vip">+VIP</string>
-    <!-- ON and OFF text for toggle switches -->
-    <string name="switch_on">TIL</string>
-    <string name="switch_off">FRA</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
@@ -3058,7 +3052,7 @@
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Ansøg om {brand_reward_name} Visa®-kortet</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">Find appsupport</string>
+    <string name="app_support">Kontakt appsupport</string>
     <!-- Section label for app settings functionality -->
     <string name="about_section_app_settings">Indstillinger</string>
     <!-- Section label for user support functionality -->
@@ -3804,6 +3798,10 @@
     <string name="hotels_filter_show_less_cont_desc">Vis færre kvarterer. Knap</string>
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Kupon indløst: Du har sparet %1$s!</string>
+    <!-- Hotel material coupon applied text -->
+    <string name="material_applied_coupon_message">Kupon anvendt!</string>
+    <!-- Hotel material coupon applied coupon code text on cko screen template e.g. 1234567 (-$25.00) -->
+    <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (-{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">Anvendelse af kupon mislykkedes</string>
     <string name="coupon_error_remove_dialog_title">Det lykkedes ikke at fjerne din kupon</string>
@@ -3878,8 +3876,6 @@
     <string name="hotel_deal_TEMPLATE">Book, og spar {price} ({savings}%)</string>
     <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
     <string name="packages_invalid_user_title_label">Det er tid til at opdatere!</string>
-    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
-    <string name="packages_invalid_user_text_label">Beklager, reservation af pakkerejser med Fly + Hotel er ikke tilgængelig i denne version af appen.\nOpdater nu, og få adgang til tilbud på pakkerejser med Fly + Hotel.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">{night} gratis nat, når du booker sammen med en flyrejse.</item>
@@ -4762,7 +4758,6 @@
     <string name="member_deal_subtitle">Rabat på udvalgte hoteller</string>
     <string name="search_for_hotel_deals_page_header">Søg efter hoteltilbud</string>
     <string name="member_deals_toolbar_title">Medlemspriser</string>
-    <string name="continue_booking">Fortsæt med reservationen</string>
     <string name="deals_hotel_only">Kun hotel</string>
     <string name="member_deals_toolbar_close_cont_desc">Luk vindue med medlemspriser</string>
 
@@ -4895,10 +4890,10 @@
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">Gemte kuponer</string>
 
-    <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
-    <string name="book_room_button_content_description_TEMPLATE">Book {room}</string>
-    <!-- Select Room button content description with room type; verb; as in book a hotel room, ex. Select, Studio, 1 Queen Bed -->
-    <string name="select_room_button_content_description_TEMPLATE">Vælg {room}</string>
+    <!-- Book Room button content description with room type and option number; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed Option 1 -->
+    <string name="book_room_button_with_options_content_description_TEMPLATE">Book {room} {option}</string>
+    <!-- Select Room button content description with room type and option number; verb; as in select a hotel room, ex. Select, Studio, 1 Queen Bed Option 1-->
+    <string name="select_room_button_with_options_content_description_TEMPLATE">Vælg {room} {option}</string>
 
     <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
     <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">Faneblad for {flightsearchtype}</string>
