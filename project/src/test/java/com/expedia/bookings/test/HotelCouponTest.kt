@@ -7,8 +7,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters
-import com.expedia.bookings.data.hotels.HotelApplySavedCodeParameters
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
+import com.expedia.bookings.data.hotels.HotelSavedCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PointsAndCurrency
@@ -21,7 +21,6 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.CouponTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CouponWidget
 import com.expedia.vm.HotelCouponViewModel
@@ -53,6 +52,10 @@ class HotelCouponTest {
         @Rule get
 
     private var vm: HotelCouponViewModel by Delegates.notNull()
+
+    val mockHotelServices: MockHotelServiceTestRule = MockHotelServiceTestRule()
+        @Rule get
+
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
@@ -68,7 +71,7 @@ class HotelCouponTest {
 
         vm.applyCouponViewModel.errorMessageObservable.subscribe(testSubscriber)
 
-        val couponParamsBuilder = HotelApplyCouponCodeParameters.Builder()
+        val couponParamsBuilder = HotelApplyCouponParameters.Builder()
                 .tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
                 .isFromNotSignedInToSignedIn(false)
                 .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(0f, PointsType.BURN, Money()))))
@@ -83,10 +86,10 @@ class HotelCouponTest {
         testSubscriber.assertValueSequence(expected)
     }
 
-    private fun applyCouponWithError(couponCodeParameters: HotelApplyCouponCodeParameters, expectedError: String): String {
+    private fun applyCouponWithError(couponParameters: HotelApplyCouponParameters, expectedError: String): String {
         val latch = CountDownLatch(1)
         val subscription = vm.enableSubmitButtonObservable.subscribe { latch.countDown() }
-        vm.applyCouponViewModel.applyActionCouponParam.onNext(couponCodeParameters)
+        vm.applyCouponViewModel.applyActionCouponParam.onNext(couponParameters)
         latch.await(10, TimeUnit.SECONDS)
         subscription.dispose()
         return expectedError
@@ -95,7 +98,7 @@ class HotelCouponTest {
     @Test
     fun applyCouponCodeWithUserPreference() {
         val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
-        val couponParams = HotelApplyCouponCodeParameters.Builder()
+        val couponParams = HotelApplyCouponParameters.Builder()
                 .tripId("b33f3017-6f65-4b02-8f73-87c9bf39ea76")
                 .isFromNotSignedInToSignedIn(false)
                 .couponCode("hotel_coupon_with_user_points_preference")
@@ -138,7 +141,7 @@ class HotelCouponTest {
     @Test
     fun applySavedCouponAndCouponCodeInParamsWithUserPreference() {
         val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
-        val couponParams = HotelApplySavedCodeParameters.Builder()
+        val couponParams = HotelSavedCouponParameters.Builder()
                 .tripId("tripId")
                 .instanceId("instanceId")
                 .userPreferencePointsDetails(listOf(pointsDetails))
@@ -153,7 +156,7 @@ class HotelCouponTest {
         val tripId = "hotel_coupon_remove_success"
 
         val testSubscriber = TestObserver<HotelCreateTripResponse>()
-        vm.removeCouponSuccessObservable.subscribe(testSubscriber)
+        vm.removeCouponSuccessTrackingInfoObservable.subscribe(testSubscriber)
 
         vm.couponRemoveObservable.onNext(tripId)
 
@@ -179,7 +182,7 @@ class HotelCouponTest {
     @Test
     fun removeCouponFailureWithRetry() {
         val testSubscriberCouponObservable = TestObserver<HotelCreateTripResponse>()
-        vm.removeCouponSuccessObservable.subscribe(testSubscriberCouponObservable)
+        vm.removeCouponSuccessTrackingInfoObservable.subscribe(testSubscriberCouponObservable)
 
         val testSubscriberCouponRemoveErrorDialog = TestObserver<ApiError>()
         vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
@@ -197,36 +200,116 @@ class HotelCouponTest {
         assertFalse(vm.hasDiscountObservable.value)
     }
 
-    //TODO: Commenting out this test as the coupon remove tracking is not added as of now -> Will be added in the subsequent PR's
-//    @Test
-//    fun testCouponRemovalErrorTracking() {
-//        val savedCoupon = HotelCreateTripResponse.SavedCoupon()
-//        savedCoupon.name = "test saved coupon"
-//        savedCoupon.instanceId = "12345"
-//
-//        vm.applyStoredCouponObservable.onNext(savedCoupon)
-//        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-//        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
-//
-//        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove.Error", mockAnalyticsProvider)
-//        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(36 to "Removal Error")), mockAnalyticsProvider)
-//        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "test saved coupon")), mockAnalyticsProvider)
-//    }
+    @Test
+    fun testStoredCouponRemovalErrorTracking() {
+        vm.storedCouponViewModel.storedCouponTrackingObservable.onNext("test saved coupon")
+        vm.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam(true))
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove.Error", mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(36 to "Removal Error")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "test saved coupon")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testAppliedCouponRemoveErrorTracking() {
+        vm.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(true))
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove.Error", mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(36 to "Removal Error")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "happypath_createtrip_saved_coupons_select")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testSavedCouponRemoveSuccessTracking() {
+        vm.storedCouponViewModel.storedCouponTrackingObservable.onNext("test saved coupon")
+        vm.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam(true))
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        vm.couponRemoveObservable.onNext("hotel_coupon_remove_success")
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove", mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "test saved coupon")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testApplyCouponRemoveSuccessTracking() {
+        vm.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(true))
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        vm.couponRemoveObservable.onNext("hotel_coupon_remove_success")
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove", mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "happypath_createtrip_saved_coupons_select")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testApplyCouponSuccessObserverDisposedOnceTrackingDone() {
+        vm.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(true))
+
+        assertFalse(vm.applyCouponViewModel.couponRemoveSuccessTrackingObserver.isDisposed)
+
+        vm.couponRemoveObservable.onNext("hotel_coupon_remove_success")
+
+        assertTrue(vm.applyCouponViewModel.couponRemoveSuccessTrackingObserver.isDisposed)
+    }
+
+    @Test
+    fun testApplyCouponRemoveObserverDisposedOnceTrackingDone() {
+        vm.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(true))
+
+        assertFalse(vm.applyCouponViewModel.couponRemoveErrorTrackingObserver.isDisposed)
+
+        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
+
+        assertTrue(vm.applyCouponViewModel.couponRemoveErrorTrackingObserver.isDisposed)
+    }
+
+    @Test
+    fun testSavedCouponSuccessTrackingNotCalledMultipleTimes() {
+        val testCouponErrorTrackingSubscriber = TestObserver.create<Unit>()
+        vm.storedCouponViewModel.storedCouponTrackingObservable.onNext("test saved coupon")
+        vm.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam(true))
+        vm.storedCouponViewModel.performCouponSuccessTrackingObservable.subscribe(testCouponErrorTrackingSubscriber)
+        vm.couponRemoveObservable.onNext("hotel_coupon_remove_success")
+
+        assertEquals(1, testCouponErrorTrackingSubscriber.valueCount())
+
+        vm.couponRemoveObservable.onNext("hotel_coupon_remove_success")
+
+        assertEquals(1, testCouponErrorTrackingSubscriber.valueCount())
+    }
+
+    @Test
+    fun testSavedCouponFailureTrackingNotCalledMultipleTimes() {
+        val testCouponFailureTrackingSubscriber = TestObserver.create<String>()
+        vm.storedCouponViewModel.storedCouponTrackingObservable.onNext("test saved coupon")
+        vm.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam(true))
+        vm.storedCouponViewModel.performCouponErrorTrackingObservable.subscribe(testCouponFailureTrackingSubscriber)
+        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
+
+        assertEquals(1, testCouponFailureTrackingSubscriber.valueCount())
+
+        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
+
+        assertEquals(1, testCouponFailureTrackingSubscriber.valueCount())
+    }
 
     @Test
     fun testEnteredCouponSuccess() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        HotelTracking.trackHotelCouponSuccess("entered coupon")
+        vm.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam())
 
         OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Success.Entered", mockAnalyticsProvider)
-        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "entered coupon")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "happypath_createtrip_saved_coupons_select")), mockAnalyticsProvider)
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEventsString("event21"), mockAnalyticsProvider)
     }
 
     @Test
     fun testEnteredCouponFailure() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        HotelTracking.trackHotelCouponFail("hotel_coupon_errors_expired", "Expired")
+        vm.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(false, "hotel_coupon_errors_expired"))
 
         OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Fail.Entered", mockAnalyticsProvider)
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "hotel_coupon_errors_expired")), mockAnalyticsProvider)
@@ -236,7 +319,8 @@ class HotelCouponTest {
     @Test
     fun testSavedCouponSuccess() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        HotelTracking.trackHotelSavedCouponSuccess("test saved coupon")
+        vm.storedCouponViewModel.storedCouponTrackingObservable.onNext("test saved coupon")
+        vm.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam(true, "test saved coupon"))
 
         OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Success.Saved", mockAnalyticsProvider)
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "test saved coupon")), mockAnalyticsProvider)
@@ -246,7 +330,8 @@ class HotelCouponTest {
     @Test
     fun testSavedCouponFailure() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        HotelTracking.trackHotelSavedCouponFail("hotel_coupon_errors_expired", "Expired")
+        vm.storedCouponViewModel.storedCouponTrackingObservable.onNext("hotel_coupon_errors_expired")
+        vm.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam(false, "hotel_coupon_errors_expired"))
 
         OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Fail.Saved", mockAnalyticsProvider)
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "hotel_coupon_errors_expired")), mockAnalyticsProvider)
@@ -280,7 +365,7 @@ class HotelCouponTest {
         val testSubscriberCouponRemoveErrorDialog = TestObserver<ApiError>()
         vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
         val testSubscriberCouponObservable = TestObserver<HotelCreateTripResponse>()
-        vm.removeCouponSuccessObservable.subscribe(testSubscriberCouponObservable)
+        vm.removeCouponSuccessTrackingInfoObservable.subscribe(testSubscriberCouponObservable)
 
         vm.couponRemoveObservable.onNext(tripId)
 

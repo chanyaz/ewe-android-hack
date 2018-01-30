@@ -17,7 +17,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.hotels.Hotel;
-import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters;
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters;
 import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock;
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params;
 import com.expedia.bookings.data.hotels.HotelCreateTripParams;
@@ -58,7 +58,7 @@ public class HotelServicesTest {
 	public MockWebServer server = new MockWebServer();
 
 	private HotelServices service;
-	private HotelApplyCouponCodeParameters couponParams;
+	private HotelApplyCouponParameters couponParams;
 
 	@Before
 	public void before() {
@@ -534,7 +534,7 @@ public class HotelServicesTest {
 		List<UserPreferencePointsDetails> userPreferencePointsDetails = new ArrayList<>();
 		userPreferencePointsDetails.add(new UserPreferencePointsDetails(ProgramName.ExpediaRewards,
 			new PointsAndCurrency(0, PointsType.BURN, new Money(), null)));
-		couponParams = new HotelApplyCouponCodeParameters.Builder().tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
+		couponParams = new HotelApplyCouponParameters.Builder().tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
 			.couponCode(mockFileName)
 			.userPreferencePointsDetails(userPreferencePointsDetails)
 			.isFromNotSignedInToSignedIn(false).build();

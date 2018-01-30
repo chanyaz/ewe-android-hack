@@ -3,9 +3,9 @@ package com.expedia.bookings.data.hotels
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import java.util.HashMap
 
-abstract class AbstractApplyCouponParameters(val tripId: String,
-                                             val isFromNotSignedInToSignedIn: Boolean,
-                                             private val userPreferencePointsDetails: List<UserPreferencePointsDetails>) {
+abstract class AbstractCouponParameters(val tripId: String,
+                                        val isFromNotSignedInToSignedIn: Boolean,
+                                        private val userPreferencePointsDetails: List<UserPreferencePointsDetails>) {
 
     abstract class Builder<B : Builder<B>> {
         protected var tripId: String? = null
@@ -30,7 +30,7 @@ abstract class AbstractApplyCouponParameters(val tripId: String,
             return this as B
         }
 
-        abstract fun build(): AbstractApplyCouponParameters
+        abstract fun build(): AbstractCouponParameters
     }
 
     open fun toQueryMap(): HashMap<String, Any> {
@@ -44,6 +44,4 @@ abstract class AbstractApplyCouponParameters(val tripId: String,
         }
         return params
     }
-
-    abstract fun getTrackingString(): String
 }

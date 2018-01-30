@@ -7,7 +7,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.hotels.HotelApplySavedCodeParameters
+import com.expedia.bookings.data.hotels.HotelSavedCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
@@ -29,7 +29,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val errorRemoveCouponShowDialogObservable = PublishSubject.create<ApiError>()
     val discountObservable = PublishSubject.create<String>()
     val couponSubtitleObservable = PublishSubject.create<String>()
-    val removeCouponSuccessObservable = PublishSubject.create<HotelCreateTripResponse>()
+    val removeCouponSuccessTrackingInfoObservable = PublishSubject.create<HotelCreateTripResponse>()
 
     val couponRemoveObservable = PublishSubject.create<String>()
     val hasDiscountObservable = BehaviorSubject.create<Boolean>()
@@ -40,6 +40,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val hasStoredCoupons = PublishSubject.create<Boolean>()
     val onCouponWidgetExpandSubject = PublishSubject.create<Boolean>()
     val networkErrorAlertDialogObservable = PublishSubject.create<Unit>()
+    val removeCouponErrorTrackingInfoObservable = PublishSubject.create<String>()
 
     val applyCouponViewModel by lazy {
         val viewModel = ApplyCouponViewModel(context, hotelServices, paymentModel, couponErrorMap)
@@ -48,8 +49,8 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
         viewModel.networkErrorAlertDialogObservable.subscribe(networkErrorAlertDialogObservable)
         viewModel.applyCouponSuccessObservable.subscribe { tripResponse ->
             couponChangeSuccess(tripResponse)
-            //TODO: Handle Coupon Tracking for failure
-//            HotelTracking.trackHotelCouponSuccess(couponParams.getTrackingString())
+            removeCouponErrorTrackingInfoObservable.subscribe(viewModel.couponRemoveErrorTrackingObserver)
+            removeCouponSuccessTrackingInfoObservable.subscribe(viewModel.couponRemoveSuccessTrackingObserver)
         }
         viewModel
     }
@@ -61,8 +62,8 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
         viewModel.networkErrorAlertDialogObservable.subscribe(networkErrorAlertDialogObservable)
         viewModel.storedCouponSuccessObservable.subscribe { tripResponse ->
             couponChangeSuccess(tripResponse)
-            //TODO: Handle Coupon Tracking for success
-//            HotelTracking.trackHotelCouponSuccess(couponParams.getTrackingString())
+            removeCouponErrorTrackingInfoObservable.subscribe(viewModel.couponRemoveErrorTrackingObserver)
+            removeCouponSuccessTrackingInfoObservable.subscribe(viewModel.couponRemoveSuccessTrackingObserver)
         }
         viewModel
     }
@@ -74,12 +75,10 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             observable.subscribe { trip ->
                 if (trip.hasErrors()) {
                     errorRemoveCouponShowDialogObservable.onNext(trip.firstError)
-                    // TODO Add omniture tracking for coupon removal failure
-//                    HotelTracking.trackHotelCouponRemoveFailure(applyStoredCouponObservable.value.name, trip.firstError.errorInfo.couponErrorType)
+                    removeCouponErrorTrackingInfoObservable.onNext(trip.firstError.errorInfo.couponErrorType)
                 } else {
                     couponChangeSuccess(trip)
-                    removeCouponSuccessObservable.onNext(trip)
-                    // TODO Add omniture tracking for coupon removal success
+                    removeCouponSuccessTrackingInfoObservable.onNext(trip)
                 }
             }
         }
@@ -125,7 +124,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             "PackageProductMissing" to R.string.coupon_error_invalid_booking
     )
 
-    fun submitStoredCoupon(paymentSplits: PaymentSplits, tripResponse: TripResponse, userStateManager: UserStateManager, couponInstanceId: String) {
+    fun submitStoredCoupon(paymentSplits: PaymentSplits, tripResponse: TripResponse, userStateManager: UserStateManager, savedCoupon: HotelCreateTripResponse.SavedCoupon) {
         var userPointsPreference: List<UserPreferencePointsDetails> = emptyList()
         if (userStateManager.isUserAuthenticated() && tripResponse.isRewardsRedeemable()) {
             val payingWithPointsSplit = paymentSplits.payingWithPoints
@@ -133,12 +132,13 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
         }
 
         //TODO: Think about not signed in to signed in
-        val couponParams = HotelApplySavedCodeParameters.Builder()
+        val couponParams = HotelSavedCouponParameters.Builder()
                 .tripId(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
-                .instanceId(couponInstanceId)
+                .instanceId(savedCoupon.instanceId)
                 .isFromNotSignedInToSignedIn(false)
                 .userPreferencePointsDetails(userPointsPreference)
                 .build()
+        storedCouponViewModel.storedCouponTrackingObservable.onNext(savedCoupon.name)
         storedCouponViewModel.storedCouponActionParam.onNext(couponParams)
     }
 

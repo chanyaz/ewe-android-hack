@@ -1,8 +1,8 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters
-import com.expedia.bookings.data.hotels.HotelApplySavedCodeParameters
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
+import com.expedia.bookings.data.hotels.HotelSavedCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.payment.PointsType
@@ -33,22 +33,22 @@ class CouponTestUtil {
             return savedCoupon
         }
 
-        fun storedCouponParam(success: Boolean = true): HotelApplySavedCodeParameters {
+        fun storedCouponParam(success: Boolean = true, instanceId: String = "not_valid"): HotelSavedCouponParameters {
             val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
-            return HotelApplySavedCodeParameters.Builder()
+            return HotelSavedCouponParameters.Builder()
                     .tripId("bc9fec5d-7539-41e9-ab60-3e593f0912fe")
                     .isFromNotSignedInToSignedIn(false)
-                    .instanceId(if (success) "happypath_createtrip_saved_coupons_select" else "not_valid")
+                    .instanceId(if (success) "happypath_createtrip_saved_coupons_select" else instanceId)
                     .userPreferencePointsDetails(listOf(pointsDetails))
                     .build()
         }
 
-        fun applyCouponParam(success: Boolean = true): HotelApplyCouponCodeParameters {
+        fun applyCouponParam(success: Boolean = true, couponCode: String = "not_valid"): HotelApplyCouponParameters {
             val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
-            return HotelApplyCouponCodeParameters.Builder()
+            return HotelApplyCouponParameters.Builder()
                     .tripId("bc9fec5d-7539-41e9-ab60-3e593f0912fe")
                     .isFromNotSignedInToSignedIn(false)
-                    .couponCode(if (success) "happypath_createtrip_saved_coupons_select" else "not_valid")
+                    .couponCode(if (success) "happypath_createtrip_saved_coupons_select" else couponCode)
                     .userPreferencePointsDetails(listOf(pointsDetails))
                     .build()
         }

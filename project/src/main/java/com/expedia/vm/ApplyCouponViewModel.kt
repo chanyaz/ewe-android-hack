@@ -3,12 +3,13 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.RetrofitUtils
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
@@ -16,7 +17,7 @@ import io.reactivex.subjects.PublishSubject
 
 class ApplyCouponViewModel(val context: Context, hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>, val couponErrorMap: Map<String, Int>) {
 
-    val applyActionCouponParam = BehaviorSubject.create<HotelApplyCouponCodeParameters>()
+    val applyActionCouponParam = BehaviorSubject.create<HotelApplyCouponParameters>()
     val applyCouponProgressObservable = PublishSubject.create<Unit>()
     val applyCouponSuccessObservable = PublishSubject.create<HotelCreateTripResponse>()
     val errorMessageObservable = BehaviorSubject.create<String>()
@@ -38,6 +39,7 @@ class ApplyCouponViewModel(val context: Context, hotelServices: HotelServices, v
                 setupErrorObservables(tripResponse)
             } else {
                 applyCouponSuccessObservable.onNext(tripResponse)
+                HotelTracking.trackHotelEnteredCouponSuccess(applyActionCouponParam.value.couponCode)
             }
         }
 
@@ -59,13 +61,50 @@ class ApplyCouponViewModel(val context: Context, hotelServices: HotelServices, v
         if (applyActionCouponParam.value.isFromNotSignedInToSignedIn) {
             errorShowDialogObservable.onNext(trip.firstError)
         }
-        //TODO: Handle Coupon Tracking
-//            HotelTracking.trackHotelCouponFail(couponParams.getTrackingString(), errorType)
+        HotelTracking.trackHotelEnteredCouponFail(applyActionCouponParam.value.couponCode, errorType)
     }
 
     fun raiseAlertDialog(e: Throwable) {
         if (RetrofitUtils.isNetworkError(e)) {
             networkErrorAlertDialogObservable.onNext(Unit)
         }
+    }
+
+    val couponRemoveErrorTrackingObserver = object : DisposableObserver<String>() {
+        override fun onNext(errorMessage: String) {
+            performCouponRemoveFailureTracking(errorMessage)
+            dispose()
+        }
+
+        override fun onComplete() {
+            // ignore
+        }
+
+        override fun onError(e: Throwable) {
+            //ignore
+        }
+    }
+
+    val couponRemoveSuccessTrackingObserver = object : DisposableObserver<HotelCreateTripResponse>() {
+        override fun onNext(tripResponse: HotelCreateTripResponse) {
+            performCouponRemoveSuccessTracking()
+            dispose()
+        }
+
+        override fun onComplete() {
+            // ignore
+        }
+
+        override fun onError(e: Throwable) {
+            //ignore
+        }
+    }
+
+    fun performCouponRemoveFailureTracking(errorMessage: String) {
+        HotelTracking.trackHotelCouponRemoveFailure(applyActionCouponParam.value.couponCode, errorMessage)
+    }
+
+    fun performCouponRemoveSuccessTracking() {
+        HotelTracking.trackHotelCouponRemoveSuccess(applyActionCouponParam.value.couponCode)
     }
 }

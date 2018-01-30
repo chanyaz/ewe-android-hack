@@ -14,7 +14,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
@@ -141,7 +141,6 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
         removeCoupon.setOnClickListener {
             resetFields()
             viewmodel.removeObservable.onNext(true)
-            HotelTracking.trackHotelCouponRemove(couponCode.text.toString())
         }
     }
 
@@ -207,7 +206,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
             userPointsPreference = listOf(UserPreferencePointsDetails(tripResponse.getProgramName()!!, payingWithPointsSplit))
         }
 
-        val couponParams = HotelApplyCouponCodeParameters.Builder()
+        val couponParams = HotelApplyCouponParameters.Builder()
                 .tripId(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
                 .couponCode(couponCode.text.toString())
                 .isFromNotSignedInToSignedIn(false)
