@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">Anmelden</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Über Facebook anmelden</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Über Facebook anmelden</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">Neues {brand}-Konto erstellen</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Zurück</string>
     <!-- "X" button content description -->
@@ -49,7 +45,7 @@
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
     <string name="acct__Create_Account">Konto erstellen</string>
-    <string name="acct__Passwords_must_match">Die Passwörter müssen übereinstimmen</string>
+    <string name="acct__Passwords_must_match">Ups, diese Passwörter stimmen nicht überein.</string>
     <string name="acct__Password_length_error_message">Das Passwort muss zwischen {minlen} und {maxlen} Zeichen haben</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">Anmeldung fehlgeschlagen</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">Bitte stellen Sie sicher, dass Benutzername und Passwort korrekt sind.</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">Bitte prüfen Sie Ihre E-Mail-Adresse und das Passwort und versuchen Sie es noch einmal.</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">Konto gesperrt</string>
+    <string name="acct__Sign_in_locked_TITLE">Sicherheitswarnung</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">Aufgrund mehrerer fehlgeschlagener Anmeldeversuche hintereinander wurde Ihr Konto vorübergehend gesperrt. Bitte überprüfen Sie Ihr Passwort und versuchen Sie es in einer Stunde noch einmal.</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">Tut uns leid! Aufgrund mehrerer Anmeldeversuche mit falschen Benutzerdaten wurde Ihr Konto vorübergehend gesperrt. Bitte versuchen Sie es in einer Stunde noch einmal.</string>
+    <string name="acct__Sign_in_failed_generic">Ups! Bei der Anmeldung ist leider etwas ist schiefgegangen.</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">Ihr Konto konnte leider nicht erstellt werden</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">E-Mail-Adresse kann nicht verifiziert werden</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">Ups! Wir benötigen eine E-Mail-Adresse von Ihnen – bitte stellen Sie sicher, dass eine E-Mail-Adresse mit Ihrem Facebook-Konto verknüpft ist, und erlauben Sie den Zugriff. \n\nSie können entweder eine E-Mail-Adresse zu Ihrem Facebook-Konto hinzufügen (und den Zugriff erlauben) und es erneut versuchen oder einfach ein Konto erstellen</string>
+    <string name="acct__fb_user_missing_email_message">Um sich über Facebook anzumelden, müssen Sie mit Ihrem Konto eine E-Mail-Adresse verknüpfen. Sie können entweder über Facebook eine E-Mail-Adresse hinzufügen oder ein Konto erstellen.</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Anmelden mit Facebook abgebrochen</string>
     <!-- We've found your user account -->

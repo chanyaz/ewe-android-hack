@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">로그인</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Facebook 계정으로 로그인</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Facebook 계정으로 회원가입</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">새 {brand} 계정 만들기</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">뒤로</string>
     <!-- "X" button content description -->
@@ -49,7 +45,7 @@
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
     <string name="acct__Create_Account">회원가입</string>
-    <string name="acct__Passwords_must_match">비밀번호가 일치해야 합니다.</string>
+    <string name="acct__Passwords_must_match">비밀번호가 일치하지 않습니다.</string>
     <string name="acct__Password_length_error_message">비밀번호 길이는 {minlen}~{maxlen}자여야 합니다.</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">로그인에 실패했습니다.</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">사용자 이름과 비밀번호가 올바른지 확인해 주세요.</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">이메일 주소와 비밀번호를 확인하고 다시 시도해 주세요.</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">계정 잠김</string>
+    <string name="acct__Sign_in_locked_TITLE">보안 알림</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">몇 번의 로그인 시도가 연속 실패하여 고객님의 계정이 임시 잠금 상태가 되었습니다. 비밀번호를 확인하고 한 시간 후 다시 시도해 주세요.</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">죄송합니다. 잘못된 정보로 여러 차례 로그인을 시도하셨기 때문에 고객님의 계정이 잠겼습니다. 1시간 후에 다시 시도해 주세요.</string>
+    <string name="acct__Sign_in_failed_generic">죄송합니다. 로그인을 시도하실 때 문제가 발생했습니다.</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">회원가입에 실패했습니다.</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">이메일 주소 확인할 수 없음</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">죄송합니다. 이메일 주소가 필요합니다. 고객님의 Facebook 계정에 연결된 이메일 주소가 있는지 확인하고 액세스를 허용해 주세요. \n\nFacebook 계정에 이메일을 추가(및 액세스 허용)하고 다시 시도하시거나 익스피디아에 회원가입해 주세요.</string>
+    <string name="acct__fb_user_missing_email_message">Facebook 계정으로 로그인하시려면 계정과 연결된 이메일 주소가 필요합니다. Facebook 계정을 추가하거나, 회원가입을 하실 수 있습니다.</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Facebook 로그인이 취소되었습니다.</string>
     <!-- We've found your user account -->

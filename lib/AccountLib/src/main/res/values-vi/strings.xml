@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">Đăng nhập</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Đăng nhập bằng Facebook</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Đăng ký bằng Facebook</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">Tạo tài khoản {brand} mới</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Quay lại</string>
     <!-- "X" button content description -->
@@ -49,7 +45,7 @@
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
     <string name="acct__Create_Account">Tạo tài khoản</string>
-    <string name="acct__Passwords_must_match">Mật khẩu phải khớp</string>
+    <string name="acct__Passwords_must_match">Mật khẩu không khớp</string>
     <string name="acct__Password_length_error_message">Mật khẩu phải gồm từ {minlen} đến {maxlen} ký tự</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">Không đăng nhập được</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">Vui lòng kiểm tra đã nhập chính xác tên người dùng và mật khẩu.</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">Vui lòng kiểm tra email và mật khẩu rồi thử lại.</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">Tài khoản bị khóa</string>
+    <string name="acct__Sign_in_locked_TITLE">Cảnh báo bảo mật</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">Đã có nhiều lần đăng nhập không thành công liên tiếp, vì thế chúng tôi tạm thời khóa tài khoản. Vui lòng kiểm tra mật khẩu và thử lại trong vòng một tiếng nữa.</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">Rất tiếc! Do nhiều lần đăng nhập không thành công, chúng tôi đã khóa tài khoản của quý vị. Vui lòng thử lại sau một giờ nữa.</string>
+    <string name="acct__Sign_in_failed_generic">Ôi không! Có lỗi phát sinh khi đăng nhập.</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">Không tạo được tài khoản</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">Không xác thực được địa chỉ email</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">Ồ! Cần có địa chỉ email. Vui lòng kiểm tra tài khoản Facebook có địa chỉ email và cho phép truy cập. \n\nQuý vị có thể thêm địa chỉ email vào tài khoản Facebook (và cho phép truy cập) và thử lại hoặc tạo tài khoản mới</string>
+    <string name="acct__fb_user_missing_email_message">Để đăng nhập bằng Facebook, địa chỉ email phải liên kết với tài khoản của quý vị. Quý vị có thể thêm tài khoản trên Facebook hoặc tạo mới</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Hủy đăng nhập bằng Facebook</string>
     <!-- We've found your user account -->

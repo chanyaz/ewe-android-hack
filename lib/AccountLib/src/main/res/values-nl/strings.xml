@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">Aanmelden</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Aanmelden via Facebook</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Account aanmaken via Facebook</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">Maak een nieuw {brand}-account aan</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Terug</string>
     <!-- "X" button content description -->
@@ -49,7 +45,7 @@
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
     <string name="acct__Create_Account">Account aanmaken</string>
-    <string name="acct__Passwords_must_match">Wachtwoorden meoeten overeenstemmen</string>
+    <string name="acct__Passwords_must_match">Helaas komen de wachtwoorden niet overeen</string>
     <string name="acct__Password_length_error_message">Wachtwoord moet tussen {minlen} en {maxlen} tekens lang zijn</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">Aanmelden mislukt</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">Controleer of je gebruikersnaam en wachtwoord correct zijn.</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">Controleer je e-mailadres en wachtwoord en probeer opnieuw.</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">Account geblokkeerd</string>
+    <string name="acct__Sign_in_locked_TITLE">Beveiligingsbericht</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">Er zijn achtereenvolgens meerdere mislukte aanmeldpogingen geweest. Daarom hebben we je account tijdelijk geblokkeerd. Controleer je wachtwoord en probeer het over een uur opnieuw.</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">Het spijt ons! Je account is geblokkeerd vanwege verschillende aanmeldingspogingen met incorrecte info. Probeer het over een uur opnieuw.</string>
+    <string name="acct__Sign_in_failed_generic">Sorry! Er is iets misgegaan tijdens het aanmelden.</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">Account aanmaken mislukt</string>
     <!-- Generic sign in failure dialog box message -->
@@ -90,7 +88,7 @@
     <!-- Error telling the user that the entered last name is not accepted -->
     <string name="acct__invalid_last_name">Ongeldige achternaam. Probeer het opnieuw.</string>
     <!-- Error telling the user that they are not connected to the internet -->
-    <string name="acct__no_network_connection">Maak verbinding met WiFi- of mobiel\ndatanetwerk om verder te gaan</string>
+    <string name="acct__no_network_connection">Maak verbinding met wifi- of mobiel\ndatanetwerk om verder te gaan</string>
     <!-- Error telling the user that the entered email and password cannot be identical-->
     <string name="acct__email_password_identical">Je wachtwoord mag niet overeenkomen met je e-mailadres</string>
     <!-- Error telling the user that the entered password is in a common password list-->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">Verificatie van e-mailadres mislukt</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">Sorry! We hebben een e-mailadres van je nodig. Controleer of je een e-mailadres aan je Facebook-account hebt gekoppeld en verleen toegang. \n\nJe kunt ofwel een e-mailadres aan je Facebook-account toevoegen (+ toegang verlenen) en het opnieuw proberen, of simpelweg een Expedia-account aanmaken.</string>
+    <string name="acct__fb_user_missing_email_message">Om in te loggen met Facebook heb je een e-mailadres nodig dat aan je account gekoppeld is. Je kunt er een toevoegen op Facebook of een account aanmaken</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Aanmelden bij Facebook geannuleerd</string>
     <!-- We've found your user account -->

@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">Log på</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Log på med Facebook</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Tilmeld dig med Facebook</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">Opret en ny {brand}-konto</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Tilbage</string>
     <!-- "X" button content description -->
@@ -49,7 +45,7 @@
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
     <string name="acct__Create_Account">Opret en konto</string>
-    <string name="acct__Passwords_must_match">Adgangskoderne skal stemme overens</string>
+    <string name="acct__Passwords_must_match">Ups! Adgangskoderne stemmer ikke overens</string>
     <string name="acct__Password_length_error_message">Adgangskoden skal være på mellem {minlen} og {maxlen} tegn</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">Loginforsøg mislykkedes</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">Bekræft, at dit brugernavn og adgangskode er korrekt.</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">Dobbelttjek venligst din e-mailadresse og din adgangskode, og prøv igen.</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">Konto spærret</string>
+    <string name="acct__Sign_in_locked_TITLE">Sikkerhedsvarsel</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">Der har været flere mislykkede loginforsøg i træk, så vi har spærret din konto midlertidigt. Kontroller venligst din adgangskode, og prøv igen om en time.</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">Vi beklager! Grundet flere loginforsøg med forkerte oplysninger er din konto blevet spærret. Prøv igen om en time.</string>
+    <string name="acct__Sign_in_failed_generic">Ups! Noget gik galt, da du forsøgte at logge på.</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">Oprettelse af konto mislykkedes</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">Vi kunne ikke verificere e-mailadressen</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">Ups! Vi har brug for en e-mailadresse – sørg for, at du har knyttet en e-mailadresse til din Facebook-konto, og giv os adgang. \n\nDu kan enten føje en e-mailadresse til din Facebook-konto, give os adgang og prøve igen eller oprette en Expedia-konto.</string>
+    <string name="acct__fb_user_missing_email_message">For at logge på via Facebook skal du have en e-mailadresse tilknyttet din konto. Du kan enten tilføje en e-mailadresse på Facebook eller oprette en konto.</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Login på Facebook annulleret</string>
     <!-- We've found your user account -->

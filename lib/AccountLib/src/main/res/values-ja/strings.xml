@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">サインイン</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Facebook アカウントでサインイン</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Facebook アカウントで登録</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">新しい {brand} アカウントを作成する</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">戻る</string>
     <!-- "X" button content description -->
@@ -49,7 +45,7 @@
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
     <string name="acct__Create_Account">アカウントを作成</string>
-    <string name="acct__Passwords_must_match">パスワードに誤りがあります</string>
+    <string name="acct__Passwords_must_match">パスワードが一致しません</string>
     <string name="acct__Password_length_error_message">{minlen} ～ {maxlen} 文字のパスワードを指定してください</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">サインインに失敗しました</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">ユーザー名とパスワードが正しいことを確認してください。</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">Eメールとパスワードを両方確認して、もう一度お試しください。</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">アカウントがロックされています</string>
+    <string name="acct__Sign_in_locked_TITLE">セキュリティ アラート</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">連続して数回サインインに失敗したため、ご利用のアカウントが一時的にロックされました。パスワードを確認して 1 時間後に再度お試しください。</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">申し訳ありません。間違ったアクセス情報で数回サインインを試みたため、ご利用のアカウントがロックされました｡1 時間後に再びお試しください。</string>
+    <string name="acct__Sign_in_failed_generic">サインイン中にエラーが発生しました。</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">アカウントの作成に失敗しました</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">Eメールアドレスを確認できません</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">ログインにはEメールアドレスが必要です - Facebook アカウントに関連付けられたEメール アドレスをご確認のうえ、アクセスを許可してください。\n\nFacebook アカウントにEメール アドレスを追加 (アクセスを許可) し、もう 1 度お試しいただくか、アカウントを作成してください。</string>
+    <string name="acct__fb_user_missing_email_message">Facebook 経由でログインするには、ご利用のアカウントに関連付けられたEメールをご入力いただく必要があります。Facebook にEメール アドレスを追加するか、アカウントを作成してください</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Facebook のサインインをキャンセルしました</string>
     <!-- We've found your user account -->

@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">เข้าสู่ระบบ</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">เข้าสู่ระบบด้วย Facebook</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">สมัครด้วย Facebook</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">สร้างบัญชี {brand} ใหม่</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">กลับ</string>
     <!-- "X" button content description -->
@@ -49,7 +45,7 @@
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
     <string name="acct__Create_Account">สร้างบัญชี</string>
-    <string name="acct__Passwords_must_match">รหัสผ่านต้องตรงกัน</string>
+    <string name="acct__Passwords_must_match">รหัสผ่านที่คุณป้อนไม่ตรงกัน</string>
     <string name="acct__Password_length_error_message">รหัสผ่านต้องมีความยาว {minlen}-{maxlen} ตัวอักษร</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">การเข้าสู่ระบบล้มเหลว</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">โปรดตรวจสอบว่าชื่อผู้ใช้และรหัสผ่านของคุณถูกต้อง</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">โปรดตรวจสอบว่าอีเมลและรหัสผ่านของคุณถูกต้องแล้วลองอีกครั้ง</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">บัญชีถูกล็อค</string>
+    <string name="acct__Sign_in_locked_TITLE">การแจ้งเตือนความปลอดภัย</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">บัญชีของคุณถูกล็อคชั่วคราว เนื่องจากมีการพยายามเข้าสู่ระบบหลายครั้งโดยใช้ข้อมูลที่ไม่ถูกต้อง โปรดตรวจสอบรหัสผ่านของคุณและลองใหม่ในอีก 1 ชั่วโมง</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">ขออภัย บัญชีของคุณถูกล็อค เนื่องจากมีการพยายามเข้าสู่ระบบหลายครั้งโดยใช้ข้อมูลที่ไม่ถูกต้อง โปรดลองใหม่ในอีกหนึ่งชั่วโมง</string>
+    <string name="acct__Sign_in_failed_generic">ขออภัย! เกิดข้อผิดพลาดในการเข้าสู่ระบบ</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">การสร้างบัญชีล้มเหลว</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">ไม่สามารถตรวจสอบที่อยู่อีเมลได้</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">ขออภัย! เราจำเป็นต้องทราบที่อยู่อีเมล โปรดตรวจสอบว่าบัญชี Facebook ของคุณมีที่อยู่อีเมลผูกเข้ากับบัญชี และอนุญาตให้เข้าถึงได้ \n\nคุณสามารถเพิ่มที่อยู่อีเมลเข้ากับบัญชี Facebook ของคุณ (และอนุญาตให้เข้าถึงได้) แล้วลองอีกครั้ง หรือสร้างบัญชีใหม่</string>
+    <string name="acct__fb_user_missing_email_message">ในการเข้าสู่ระบบด้วย Facebook คุณต้องมีอีเมลที่เชื่อมโยงกับบัญชี Facebook ของคุณ คุณสามารถเพิ่มอีเมลเข้าในบัญชี Facebook หรือสร้างบัญชีใหม่</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">การเข้าสู่ระบบ Facebook ถูกยกเลิก</string>
     <!-- We've found your user account -->

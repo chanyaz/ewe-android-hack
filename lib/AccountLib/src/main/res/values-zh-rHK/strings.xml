@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">登入</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">透過 Facebook 登入</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">透過 Facebook 登記</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">建立新的 {brand} 帳戶</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">上一頁</string>
     <!-- "X" button content description -->
@@ -49,7 +45,7 @@
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
     <string name="acct__Create_Account">建立帳戶</string>
-    <string name="acct__Passwords_must_match">密碼必須相符</string>
+    <string name="acct__Passwords_must_match">密碼不符</string>
     <string name="acct__Password_length_error_message">密碼長度必須介乎 {minlen} 至 {maxlen} 個字元</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">無法登入</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">請確認您的使用者名稱和密碼均正確無誤。</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">請檢查您的電郵地址和密碼，然後再試一次。</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">帳戶已被封鎖</string>
+    <string name="acct__Sign_in_locked_TITLE">安全警告</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">由於連續登入錯誤，我們已暫時封鎖您的帳戶。請檢查您的密碼，於一小時後重新登入。</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">很抱歉！由於多次使用錯誤登入資料嘗試登入，您的帳戶已被封鎖。請於 1 小時後再試。</string>
+    <string name="acct__Sign_in_failed_generic">噢！登入時出現問題。</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">無法建立帳戶</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">無法驗證電郵地址</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">噢！我們需驗證您的電郵地址 - 請確保您的 Facebook 帳戶附有電郵地址並已允許我們取用。\n\n您可選擇於您的 Facebook 帳戶加入電郵地址 (並允許我們取用)，然後再試一次，又或直接建立帳戶</string>
+    <string name="acct__fb_user_missing_email_message">如需透過 Facebook 登入，您需要有一個與帳戶連結的電郵地址。您可選擇於 Facebook 新增電郵地址，或者建立帳戶</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Facebook 登入已取消</string>
     <!-- We've found your user account -->

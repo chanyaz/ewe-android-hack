@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">Sign In</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Sign in with Facebook</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Sign up with Facebook</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">Create a new {brand} account</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Back</string>
     <!-- "X" button content description -->
@@ -48,8 +44,8 @@
 
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
-    <string name="acct__Create_Account">Create Account</string>
-    <string name="acct__Passwords_must_match">Passwords must match</string>
+    <string name="acct__Create_Account">Create an account</string>
+    <string name="acct__Passwords_must_match">Whoops, those passwords don\'t match</string>
     <string name="acct__Password_length_error_message">Password must be from {minlen} to {maxlen} characters long</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">Sign in failed</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">Please confirm that your username and password are correct.</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">Please double-check your email and password and try again.</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">Account locked</string>
+    <string name="acct__Sign_in_locked_TITLE">Security alert</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">There have been several failed sign-in attempts in a row, so we\'ve temporarily locked your account. Please check your password and try again in an hour.</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">We\'re sorry! Due to several sign-in attempts using incorrect credentials, access to your account has been locked. Please try again in one hour.</string>
+    <string name="acct__Sign_in_failed_generic">Oops! Something went wrong when trying to sign in.</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">Account creation failed</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">Unable to Verify Email Address</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">Oops! We require an email address – please check that you have an email address attached to your Facebook account and grant access. \n\nYou can either add an email to your Facebook account (and grant access) and try again or simply create an account</string>
+    <string name="acct__fb_user_missing_email_message">To log in with Facebook, you need to have an email address associated with your account. You can either add one on Facebook, or create an account instead</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Facebook sign in cancelled</string>
     <!-- We've found your user account -->

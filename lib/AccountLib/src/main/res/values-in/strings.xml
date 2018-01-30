@@ -16,10 +16,6 @@
     <string name="acct__Sign_In">Login</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Login dengan Facebook</string>
-    <!-- Button text for Sign up With Facebook -->
-    <string name="acct__Sign_Up_with_Facebook">Daftar dengan Facebook</string>
-    <!-- Button text for account creation button -->
-    <string name="acct__Create_a_new_brand_account">Buat akun {brand} baru</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Kembali</string>
     <!-- "X" button content description -->
@@ -48,8 +44,8 @@
 
     <!-- Terms of Service page -->
     <!-- Button text for final Create Account button -->
-    <string name="acct__Create_Account">Buat Akun</string>
-    <string name="acct__Passwords_must_match">Kata sandi harus sama</string>
+    <string name="acct__Create_Account">Buat akun</string>
+    <string name="acct__Passwords_must_match">Ups, kata sandi tidak cocok</string>
     <string name="acct__Password_length_error_message">Panjang kata sandi harus {minlen} hingga {maxlen} karakter</string>
 
     <!-- Welcome Screen -->
@@ -65,12 +61,14 @@
     <!-- Server Error Messages -->
     <!-- Title of error dialog box -->
     <string name="acct__Sign_in_failed_TITLE">Login tidak berhasil</string>
-    <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed">Harap pastikan nama pengguna dan kata sandi Anda sudah benar.</string>
+    <!-- Sign in failure for wrong email/password dialog box message -->
+    <string name="acct__Sign_in_failed">Harap periksa lagi email dan kata sandi Anda kemudian coba lagi.</string>
     <!-- Title of account locked error dialog box -->
-    <string name="acct__Sign_in_locked_TITLE">Akun terkunci</string>
+    <string name="acct__Sign_in_locked_TITLE">Peringatan keamanan</string>
+    <!-- Account locked dialog box message -->
+    <string name="acct__Sign_in_locked">Terjadi beberapa kali percobaan login berturut-turut yang gagal, jadi kami untuk sementara harus memblokir akun Anda. Harap periksa kata sandi Anda dan coba lagi dalam waktu satu jam.</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_locked">Maaf. Disebabkan sejumlah percobaan login yang gagal, kami telah mengunci akses ke akun Anda. Harap coba kembali dalam 1 jam.</string>
+    <string name="acct__Sign_in_failed_generic">Ups! Ada yang salah saat mencoba login.</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">Tidak berhasil membuat akun</string>
     <!-- Generic sign in failure dialog box message -->
@@ -104,7 +102,7 @@
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">Tidak Dapat Memverifikasi Alamat Email</string>
     <!-- User's facebook account missing email address message -->
-    <string name="acct__fb_user_missing_email_message">Oops! Kami memerlukan alamat email – periksa apakah ada alamat email yang terhubung dengan akun Facebook Anda dan berikan akses. \n\nAnda dapat menambahkan email di akun Facebook (dan memberikan akses), lalu coba lagi atau cukup buat akun</string>
+    <string name="acct__fb_user_missing_email_message">Untuk login dengan Facebook, Anda harus memiliki alamat email yang terkait dengan akun Anda. Anda dapat menambahkannya di Facebook, atau buat buat akun</string>
     <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
     <string name="acct__fb_sign_in_cancelled">Login Facebook dibatalkan</string>
     <!-- We've found your user account -->
