@@ -14,12 +14,16 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.BaseFlightFilterWidget
 import com.expedia.bookings.widget.LabeledCheckableFilter
 import com.expedia.vm.BaseFlightFilterViewModel
+import com.expedia.vm.BaseFlightFilterViewModel.Stops
+import com.expedia.vm.BaseFlightFilterViewModel.CheckedFilterProperties
+import io.reactivex.observers.TestObserver
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
+import java.util.TreeMap
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -141,6 +145,28 @@ class FlightFilterViewModelTest {
         vm.durationRangeChangedObserver.onNext(1)
         vm.durationRangeChangedObserver.onNext(1)
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testStopsObservableOutput() {
+        val testStopsSubscriber = TestObserver<TreeMap<Stops, CheckedFilterProperties>>()
+        vm.stopsObservable.subscribe(testStopsSubscriber)
+        vm.flightResultsObservable.onNext(getFlightList())
+
+        val stopsOutput = testStopsSubscriber.values().get(0)
+        assertTrue(stopsOutput.containsKey(Stops.ONE_STOP))
+        assertEquals(3, stopsOutput[Stops.ONE_STOP]?.count)
+    }
+
+    @Test
+    fun testAirlineObservableOutput() {
+        val testAirlineSubscriber = TestObserver<TreeMap<String, CheckedFilterProperties>>()
+        vm.airlinesObservable.subscribe(testAirlineSubscriber)
+        vm.flightResultsObservable.onNext(getFlightList())
+
+        val airlineOutput = testAirlineSubscriber.values()[0]
+        assertTrue(airlineOutput.containsKey("American Airlines"))
+        assertEquals(3, airlineOutput.get("American Airlines")?.count)
     }
 
     private fun getFlightList(): List<FlightLeg> {

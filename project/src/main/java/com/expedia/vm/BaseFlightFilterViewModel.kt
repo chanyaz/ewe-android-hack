@@ -5,6 +5,7 @@ import android.text.format.DateFormat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -37,8 +38,8 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     val sortContainerObservable = BehaviorSubject.create<Boolean>()
 
     val userFilterChoices = UserFilterChoices()
-    val stopsObservable = BehaviorSubject.create<TreeMap<Stops, Int>>()
-    val airlinesObservable = PublishSubject.create<TreeMap<String, Int>>()
+    val stopsObservable = PublishSubject.create<TreeMap<Stops, CheckedFilterProperties>>()
+    val airlinesObservable = PublishSubject.create<TreeMap<String, CheckedFilterProperties>>()
     val airlinesExpandObservable = BehaviorSubject.create<Boolean>()
     val newDurationRangeObservable = PublishSubject.create<DurationRange>()
 
@@ -61,6 +62,10 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         ONE_STOP(1),
         TWO_PLUS_STOPS(2)
     }
+
+    data class CheckedFilterProperties(val count: Int = 0,
+                                       val minPrice: Money? = null,
+                                       val logo: String? = null)
 
     data class UserFilterChoices(var userSort: FlightFilter.Sort = FlightFilter.Sort.PRICE,
                                  var maxDuration: Int = 0,
@@ -301,16 +306,16 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     }
 
     private fun resetCheckboxes() {
-        val stops = TreeMap<Stops, Int>()
-        val airlines = TreeMap<String, Int>()
+        val stops = TreeMap<Stops, CheckedFilterProperties>()
+        val airlines = TreeMap<String, CheckedFilterProperties>()
 
         originalList?.forEach { leg ->
-            val airlineCount = if (airlines.containsKey(leg.carrierName)) airlines[leg.carrierName] else 0
-            airlines.put(leg.carrierName, airlineCount!! + 1)
+            val airlineCount = airlines[leg.carrierName]?.count ?: 0
+            airlines.put(leg.carrierName, CheckedFilterProperties(airlineCount + 1))
 
             val key = getStops(leg.stopCount)
-            val stopCount = if (stops.containsKey(key)) stops[key] else 0
-            stops.put(key, stopCount!! + 1)
+            val stopCount = stops[key]?.count ?: 0
+            stops.put(key, CheckedFilterProperties(stopCount + 1))
         }
         stopsObservable.onNext(stops)
         airlinesObservable.onNext(airlines)
