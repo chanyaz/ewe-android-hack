@@ -42,7 +42,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidge
     }
 
     override fun setUpViewModelSubscriptions() {
-        viewmodel.errorMessageObservable.subscribeText(error)
+        viewmodel.applyCouponViewModel.errorMessageObservable.subscribeText(error)
     }
 
     override fun showError(show: Boolean) {

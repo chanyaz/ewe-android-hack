@@ -12,7 +12,7 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
                               val enableStoredCouponsSubject: PublishSubject<Boolean>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var coupons = arrayListOf<StoredCouponAdapter>()
-    val applyStoredCouponSubject = PublishSubject.create<HotelCreateTripResponse.SavedCoupon>()
+    val applyStoredCouponObservable = PublishSubject.create<HotelCreateTripResponse.SavedCoupon>()
 
     init {
         storedCouponsSubject.safeSubscribe { newCoupons ->
@@ -36,7 +36,7 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
         storedCouponHolder.viewModel.couponName.onNext(coupons[position].savedCoupon.name)
         storedCouponHolder.viewModel.couponStatus.onNext(coupons[position].savedCouponStatus)
         storedCouponHolder.viewModel.couponClickActionSubject.subscribe { viewHolderTag ->
-            applyStoredCouponSubject.onNext(coupons[viewHolderTag].savedCoupon)
+            applyStoredCouponObservable.onNext(coupons[viewHolderTag].savedCoupon)
         }
         holder.itemView.tag = position
         enableStoredCouponsSubject.subscribe(holder.viewModel.enableViewHolder)

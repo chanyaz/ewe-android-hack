@@ -6,19 +6,13 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
 import com.expedia.bookings.presenter.shared.StoredCouponAdapter
-import com.expedia.bookings.data.payment.PointsAndCurrency
-import com.expedia.bookings.data.payment.PointsType
-import com.expedia.bookings.data.payment.ProgramName
-import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.services.TestObserver
@@ -80,7 +74,7 @@ class MaterialFormsHotelCouponTest {
 
     @Test
     fun testCouponError() {
-        couponWidget.viewmodel.errorMessageObservable.onNext("Hello")
+        couponWidget.viewmodel.applyCouponViewModel.errorMessageObservable.onNext("Hello")
         couponWidget.showError(true)
         assertTrue(couponWidget.couponCode.getParentTextInputLayout()!!.isErrorEnabled)
         assertEquals("Hello", couponWidget.couponCode.getParentTextInputLayout()!!.error)
@@ -132,14 +126,15 @@ class MaterialFormsHotelCouponTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCouponAppliedOnCKOIsNotVisible() {
-        val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
-        val couponParams = HotelApplyCouponCodeParameters.Builder()
-                .tripId("bc9fec5d-7539-41e9-ab60-3e593f0912fe")
-                .isFromNotSignedInToSignedIn(false)
-                .couponCode("not_valid")
-                .userPreferencePointsDetails(listOf(pointsDetails))
-                .build()
-        couponWidget.viewmodel.couponParamsObservable.onNext(couponParams)
+        couponWidget.viewmodel.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(false))
+
+        assertTrue(couponWidget.applied.visibility == View.GONE)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStoredCouponAppliedOnCKOIsNotVisible() {
+        couponWidget.viewmodel.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam(false))
 
         assertTrue(couponWidget.applied.visibility == View.GONE)
     }
@@ -147,14 +142,16 @@ class MaterialFormsHotelCouponTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCouponAppliedOnCKOIsVisible() {
-        val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
-        val couponParams = HotelApplyCouponCodeParameters.Builder()
-                .tripId("bc9fec5d-7539-41e9-ab60-3e593f0912fe")
-                .isFromNotSignedInToSignedIn(false)
-                .couponCode("happypath_createtrip_saved_coupons_select")
-                .userPreferencePointsDetails(listOf(pointsDetails))
-                .build()
-        couponWidget.viewmodel.couponParamsObservable.onNext(couponParams)
+        couponWidget.viewmodel.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam())
+
+        assertTrue(couponWidget.applied.visibility == View.VISIBLE)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStoredCouponAppliedOnCKOIsVisible() {
+        goToCheckout(mockHotelServices.getHappyCreateTripResponse())
+        couponWidget.viewmodel.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam())
 
         assertTrue(couponWidget.applied.visibility == View.VISIBLE)
     }
@@ -162,14 +159,16 @@ class MaterialFormsHotelCouponTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCouponAppliedDetailsOnCheckoutScreen() {
-        val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
-        val couponParams = HotelApplyCouponCodeParameters.Builder()
-                .tripId("bc9fec5d-7539-41e9-ab60-3e593f0912fe")
-                .isFromNotSignedInToSignedIn(false)
-                .couponCode("happypath_createtrip_saved_coupons_select")
-                .userPreferencePointsDetails(listOf(pointsDetails))
-                .build()
-        couponWidget.viewmodel.couponParamsObservable.onNext(couponParams)
+        couponWidget.viewmodel.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam())
+
+        assertEquals("Coupon applied!", couponWidget.appliedCouponMessage.text)
+        assertEquals("Escape Friends and Family Coupon - Dec 2017 (-$11.03)", couponWidget.appliedCouponSubtitle.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStoredCouponAppliedDetailsOnCheckoutScreen() {
+        couponWidget.viewmodel.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam())
 
         assertEquals("Coupon applied!", couponWidget.appliedCouponMessage.text)
         assertEquals("Escape Friends and Family Coupon - Dec 2017 (-$11.03)", couponWidget.appliedCouponSubtitle.text)

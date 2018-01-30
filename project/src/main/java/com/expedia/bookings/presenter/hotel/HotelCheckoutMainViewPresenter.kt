@@ -76,8 +76,10 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
                     .map { createTripViewmodel.convertUserCouponToStoredCouponAdapter(it) }
                     .subscribe((couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.storedCouponsSubject)
         }
-        couponCardView.viewmodel.couponObservable.subscribe(createTripViewmodel.tripResponseObservable)
-        couponCardView.viewmodel.storedCouponSuccessObservable.subscribe(createTripViewmodel.tripResponseObservable)
+        couponCardView.viewmodel.applyCouponViewModel.applyCouponSuccessObservable.subscribe(createTripViewmodel.tripResponseObservable)
+        couponCardView.viewmodel.storedCouponViewModel.storedCouponSuccessObservable.subscribe(createTripViewmodel.tripResponseObservable)
+        couponCardView.viewmodel.removeCouponSuccessObservable.subscribe(createTripViewmodel.tripResponseObservable)
+
         couponCardView.viewmodel.errorShowDialogObservable.subscribe {
 
             val builder = AlertDialog.Builder(context)
@@ -88,7 +90,6 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             alertDialog.show()
             doCreateTrip()
         }
-
         couponCardView.viewmodel.errorRemoveCouponShowDialogObservable.subscribe {
             val builder = AlertDialog.Builder(context)
             builder.setTitle(R.string.coupon_error_remove_dialog_title)
@@ -102,9 +103,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             alertDialog.show()
         }
 
-        couponCardView.viewmodel.storedCouponSuccessObservable.delay(2000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        couponCardView.viewmodel.storedCouponViewModel.storedCouponSuccessObservable.delay(2000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             couponCardView.isExpanded = false
-            toolbar.enableRightActionButton(true)
+            couponCardView.enableCouponUi(true)
         }
     }
 
@@ -184,7 +185,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         }
     }
 
-    fun bind() {
+    fun bind(trip: HotelCreateTripResponse) {
         if (!hotelMaterialFormEnabled) {
             mainContactInfoCardView.isExpanded = false
         }
@@ -194,7 +195,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             clearCCNumber()
         }
 
-        if (!checkExpandedCardIsMaterialCouponCard()) {
+        if (couponCardView.showHotelCheckoutView(trip.coupon?.instanceId)) {
             couponCardView.isExpanded = false
         }
 
@@ -232,7 +233,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
                         .isFromNotSignedInToSignedIn(true)
                         .userPreferencePointsDetails(emptyList())
                         .build()
-                couponCardView.viewmodel.couponParamsObservable.onNext(couponParams)
+                couponCardView.viewmodel.applyCouponViewModel.applyActionCouponParam.onNext(couponParams)
             } else {
                 createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
             }
@@ -248,7 +249,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         couponCardView.viewmodel.hasDiscountObservable.onNext(hasDiscount)
         checkoutOverviewViewModel = HotelCheckoutOverviewViewModel(getContext(), paymentModel)
         checkoutOverviewViewModel.newRateObserver.onNext(trip.newHotelProductResponse)
-        bind()
+        bind(trip)
         if (couponCardView.showHotelCheckoutView(trip.coupon?.instanceId)) {
             checkoutOverviewViewModel.resetMenuButton.onNext(Unit)
             show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)

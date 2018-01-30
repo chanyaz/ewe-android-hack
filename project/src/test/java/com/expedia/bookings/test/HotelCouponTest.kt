@@ -18,13 +18,13 @@ import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.robolectric.CouponTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CouponWidget
 import com.expedia.vm.HotelCouponViewModel
-import io.reactivex.Observable
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -63,35 +63,33 @@ class HotelCouponTest {
 
     @Test
     fun couponErrors() {
-        val testSubscriber = TestObserver<ApiError>()
-        val s = TestObserver<Observable<HotelCreateTripResponse>>()
-        val expected = arrayListOf<ApiError>()
+        val testSubscriber = TestObserver<String>()
+        val expected = arrayListOf<String>()
 
-        vm.errorObservable.subscribe(testSubscriber)
-        vm.createTripDownloadsObservable.subscribe(s)
+        vm.applyCouponViewModel.errorMessageObservable.subscribe(testSubscriber)
 
         val couponParamsBuilder = HotelApplyCouponCodeParameters.Builder()
                 .tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
                 .isFromNotSignedInToSignedIn(false)
                 .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(0f, PointsType.BURN, Money()))))
 
-        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_expired").build(), "Expired"))
-        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_duplicate").build(), "Duplicate"))
-        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_not_active").build(), "NotActive"))
-        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_not_exists").build(), "DoesNotExist"))
-        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_not_configured").build(), "CampaignIsNotConfigured"))
-        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_product_missing").build(), "PackageProductMissing"))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_expired").build(), vm.context.resources.getString(R.string.coupon_error_expired)))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_duplicate").build(), vm.context.resources.getString(R.string.coupon_error_duplicate)))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_not_active").build(), vm.context.resources.getString(R.string.coupon_error_not_active)))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_not_exists").build(), vm.context.resources.getString(R.string.coupon_error_unknown)))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_not_configured").build(), vm.context.resources.getString(R.string.coupon_error_unknown)))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_product_missing").build(), vm.context.resources.getString(R.string.coupon_error_invalid_booking)))
 
         testSubscriber.assertValueSequence(expected)
     }
 
-    private fun applyCouponWithError(couponCodeParameters: HotelApplyCouponCodeParameters, expectedError: String): ApiError {
+    private fun applyCouponWithError(couponCodeParameters: HotelApplyCouponCodeParameters, expectedError: String): String {
         val latch = CountDownLatch(1)
         val subscription = vm.enableSubmitButtonObservable.subscribe { latch.countDown() }
-        vm.couponParamsObservable.onNext(couponCodeParameters)
+        vm.applyCouponViewModel.applyActionCouponParam.onNext(couponCodeParameters)
         latch.await(10, TimeUnit.SECONDS)
         subscription.dispose()
-        return makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, expectedError)
+        return expectedError
     }
 
     @Test
@@ -105,9 +103,9 @@ class HotelCouponTest {
                 .build()
 
         val testSubscriber = TestObserver<HotelCreateTripResponse>()
-        vm.couponObservable.subscribe(testSubscriber)
+        vm.applyCouponViewModel.applyCouponSuccessObservable.subscribe(testSubscriber)
 
-        vm.couponParamsObservable.onNext(couponParams)
+        vm.applyCouponViewModel.applyActionCouponParam.onNext(couponParams)
 
         testSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
@@ -124,17 +122,10 @@ class HotelCouponTest {
 
     @Test
     fun applySavedCouponWithUserPreference() {
-        val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
-        val couponParams = HotelApplySavedCodeParameters.Builder()
-                .tripId("tripId")
-                .instanceId("happypath_createtrip_saved_coupons_select")
-                .userPreferencePointsDetails(listOf(pointsDetails))
-                .build()
-
         val testSubscriber = TestObserver<HotelCreateTripResponse>()
-        vm.storedCouponSuccessObservable.subscribe(testSubscriber)
+        vm.storedCouponViewModel.storedCouponSuccessObservable.subscribe(testSubscriber)
 
-        vm.couponParamsObservable.onNext(couponParams)
+        vm.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam())
 
         testSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
@@ -162,7 +153,7 @@ class HotelCouponTest {
         val tripId = "hotel_coupon_remove_success"
 
         val testSubscriber = TestObserver<HotelCreateTripResponse>()
-        vm.couponObservable.subscribe(testSubscriber)
+        vm.removeCouponSuccessObservable.subscribe(testSubscriber)
 
         vm.couponRemoveObservable.onNext(tripId)
 
@@ -188,7 +179,7 @@ class HotelCouponTest {
     @Test
     fun removeCouponFailureWithRetry() {
         val testSubscriberCouponObservable = TestObserver<HotelCreateTripResponse>()
-        vm.couponObservable.subscribe(testSubscriberCouponObservable)
+        vm.removeCouponSuccessObservable.subscribe(testSubscriberCouponObservable)
 
         val testSubscriberCouponRemoveErrorDialog = TestObserver<ApiError>()
         vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
@@ -206,20 +197,21 @@ class HotelCouponTest {
         assertFalse(vm.hasDiscountObservable.value)
     }
 
-    @Test
-    fun testCouponRemovalErrorTracking() {
-        val savedCoupon = HotelCreateTripResponse.SavedCoupon()
-        savedCoupon.name = "test saved coupon"
-        savedCoupon.instanceId = "12345"
-
-        vm.storedCouponApplyObservable.onNext(savedCoupon)
-        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
-
-        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove.Error", mockAnalyticsProvider)
-        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(36 to "Removal Error")), mockAnalyticsProvider)
-        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "test saved coupon")), mockAnalyticsProvider)
-    }
+    //TODO: Commenting out this test as the coupon remove tracking is not added as of now -> Will be added in the subsequent PR's
+//    @Test
+//    fun testCouponRemovalErrorTracking() {
+//        val savedCoupon = HotelCreateTripResponse.SavedCoupon()
+//        savedCoupon.name = "test saved coupon"
+//        savedCoupon.instanceId = "12345"
+//
+//        vm.applyStoredCouponObservable.onNext(savedCoupon)
+//        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+//        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
+//
+//        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove.Error", mockAnalyticsProvider)
+//        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(36 to "Removal Error")), mockAnalyticsProvider)
+//        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(24 to "test saved coupon")), mockAnalyticsProvider)
+//    }
 
     @Test
     fun testEnteredCouponSuccess() {
@@ -264,8 +256,8 @@ class HotelCouponTest {
     @Test
     fun testNetworkErrorIsHandled() {
         val testSubscriber = TestObserver<Unit>()
-        vm.networkErrorAlertDialogObservable.subscribe(testSubscriber)
-        vm.raiseAlertDialog(IOException())
+        vm.applyCouponViewModel.networkErrorAlertDialogObservable.subscribe(testSubscriber)
+        vm.applyCouponViewModel.raiseAlertDialog(IOException())
 
         assertTrue(testSubscriber.valueCount() == 1)
     }
@@ -277,7 +269,7 @@ class HotelCouponTest {
         Ui.getApplication(activity).defaultHotelComponents()
         val couponWidget = LayoutInflater.from(activity).inflate(R.layout.coupon_widget_stub, null) as CouponWidget
         couponWidget.viewmodel = vm
-        vm.raiseAlertDialog(IOException())
+        vm.applyCouponViewModel.raiseAlertDialog(IOException())
         val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
 
         assertNotNull(alertDialog)
@@ -288,7 +280,7 @@ class HotelCouponTest {
         val testSubscriberCouponRemoveErrorDialog = TestObserver<ApiError>()
         vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
         val testSubscriberCouponObservable = TestObserver<HotelCreateTripResponse>()
-        vm.couponObservable.subscribe(testSubscriberCouponObservable)
+        vm.removeCouponSuccessObservable.subscribe(testSubscriberCouponObservable)
 
         vm.couponRemoveObservable.onNext(tripId)
 
@@ -297,13 +289,5 @@ class HotelCouponTest {
         testSubscriberCouponObservable.assertValueCount(0)
 
         assertEquals(expectedErrorCode, testSubscriberCouponRemoveErrorDialog.values()[0].errorCode)
-    }
-
-    fun makeErrorInfo(code: ApiError.Code, message: String): ApiError {
-        val error = ApiError()
-        error.errorCode = code
-        error.errorInfo = ApiError.ErrorInfo()
-        error.errorInfo.couponErrorType = message
-        return error
     }
 }

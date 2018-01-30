@@ -48,22 +48,26 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     override fun showError(show: Boolean) {
-        couponCode.setMaterialFormsError(!show, viewmodel.errorMessageObservable.value ?: "")
+        couponCode.setMaterialFormsError(!show, viewmodel.applyCouponViewModel.errorMessageObservable.value ?: "")
     }
 
     override fun setUpViewModelSubscriptions() {
+
+        getStoredCouponListAdapter().applyStoredCouponObservable.subscribe(viewmodel.storedCouponViewModel.applyStoredCouponObservable)
+
+        viewmodel.storedCouponViewModel.applyStoredCouponObservable.subscribe {
+            enableCouponUi(false)
+        }
         storedCouponWidget.viewModel.hasStoredCoupons.subscribe(viewmodel.hasStoredCoupons)
 
         viewmodel.storedCouponWidgetVisibilityObservable.subscribeVisibility(storedCouponWidget)
-        getStoredCouponListAdapter().applyStoredCouponSubject.subscribe { coupon ->
-            enableCouponUi(false)
-            viewmodel.storedCouponApplyObservable.onNext(coupon)
-        }
-        viewmodel.storedCouponApplyObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, {
+
+        viewmodel.storedCouponViewModel.applyStoredCouponObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, {
             coupon, paymentSplitsAndTripResponse -> Pair(coupon, paymentSplitsAndTripResponse)
         }).subscribe {
             viewmodel.submitStoredCoupon(it.second.paymentSplits, it.second.tripResponse, userStateManager, it.first.instanceId)
         }
+
         viewmodel.couponSubtitleObservable.subscribeText(appliedCouponSubtitle)
     }
 

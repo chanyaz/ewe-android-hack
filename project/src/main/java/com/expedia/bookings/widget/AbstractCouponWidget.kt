@@ -49,12 +49,14 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
     var progress: View by Delegates.notNull()
 
     var viewmodel: HotelCouponViewModel by notNullAndObservable {
-        viewmodel.applyObservable.subscribe {
+
+        viewmodel.applyCouponViewModel.applyCouponProgressObservable.subscribe {
             showProgress(true)
             showError(false)
             enableCouponUi(false)
         }
-        viewmodel.errorObservable.subscribe {
+
+        viewmodel.applyCouponViewModel.errorMessageObservable.subscribe {
             showProgress(false)
             enableCouponUi(true)
             if (viewmodel.hasDiscountObservable.value != null && viewmodel.hasDiscountObservable.value) {
@@ -63,7 +65,8 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
                 showError(true)
             }
         }
-        viewmodel.couponObservable.subscribe {
+
+        viewmodel.applyCouponViewModel.applyCouponSuccessObservable.subscribe {
             showProgress(false)
             showError(false)
             enableCouponUi(true)
@@ -76,7 +79,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
 
         viewmodel.networkErrorAlertDialogObservable.subscribe {
             val retryFun = fun() {
-                viewmodel.onCouponSubmitClicked.onNext(Unit)
+                viewmodel.applyCouponViewModel.onCouponSubmitClicked.onNext(Unit)
             }
             val cancelFun = fun() {
                 showProgress(false)
@@ -89,7 +92,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
             mToolbarListener.enableRightActionButton(showButton)
         }
 
-        viewmodel.onCouponSubmitClicked
+        viewmodel.applyCouponViewModel.onCouponSubmitClicked
                 .withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, {
                     _, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse
                 })
@@ -193,8 +196,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
     }
 
     override fun onMenuButtonPressed() {
-        viewmodel.enableSubmitButtonObservable.onNext(false)
-        viewmodel.onCouponSubmitClicked.onNext(Unit)
+        viewmodel.applyCouponViewModel.onCouponSubmitClicked.onNext(Unit)
     }
 
     private fun submitCoupon(paymentSplits: PaymentSplits, tripResponse: TripResponse) {
@@ -211,7 +213,8 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
                 .isFromNotSignedInToSignedIn(false)
                 .userPreferencePointsDetails(userPointsPreference)
                 .build()
-        viewmodel.couponParamsObservable.onNext(couponParams)
+
+        viewmodel.applyCouponViewModel.applyActionCouponParam.onNext(couponParams)
     }
 
     override fun onLogin() {

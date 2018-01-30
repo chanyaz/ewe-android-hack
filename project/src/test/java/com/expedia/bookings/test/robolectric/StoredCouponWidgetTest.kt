@@ -61,7 +61,7 @@ class StoredCouponWidgetTest {
         val applyStoredCouponTestSubject = TestObserver.create<HotelCreateTripResponse.SavedCoupon>()
         setupStoredCouponWidget()
         val adapter = (storedCouponWidget.storedCouponRecyclerView.adapter as StoredCouponListAdapter)
-        adapter.applyStoredCouponSubject.subscribe(applyStoredCouponTestSubject)
+        adapter.applyStoredCouponObservable.subscribe(applyStoredCouponTestSubject)
 
         val storedCouponViewHolderAt0 = findStoredCouponViewHolderAtPosition(0)
         storedCouponViewHolderAt0.itemView.performClick()

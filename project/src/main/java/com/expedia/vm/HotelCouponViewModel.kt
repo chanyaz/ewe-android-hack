@@ -7,7 +7,6 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.hotels.AbstractApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelApplySavedCodeParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
@@ -17,31 +16,21 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.isHotelMaterialForms
 import com.expedia.bookings.utils.isShowSavedCoupons
 import com.squareup.phrase.Phrase
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.exceptions.OnErrorNotImplementedException
-import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 class HotelCouponViewModel(val context: Context, val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
-    val applyObservable = PublishSubject.create<String>()
-    val removeObservable = BehaviorSubject.createDefault<Boolean>(false)
-    val couponObservable = PublishSubject.create<HotelCreateTripResponse>()
-    val storedCouponSuccessObservable = PublishSubject.create<HotelCreateTripResponse>()
-    val errorObservable = PublishSubject.create<ApiError>()
     val errorShowDialogObservable = PublishSubject.create<ApiError>()
+    val removeObservable = BehaviorSubject.createDefault<Boolean>(false)
     val errorRemoveCouponShowDialogObservable = PublishSubject.create<ApiError>()
-    val errorMessageObservable = BehaviorSubject.create<String>()
     val discountObservable = PublishSubject.create<String>()
     val couponSubtitleObservable = PublishSubject.create<String>()
-    val couponParamsObservable = BehaviorSubject.create<AbstractApplyCouponParameters>()
+    val removeCouponSuccessObservable = PublishSubject.create<HotelCreateTripResponse>()
+
     val couponRemoveObservable = PublishSubject.create<String>()
     val hasDiscountObservable = BehaviorSubject.create<Boolean>()
     val enableSubmitButtonObservable = PublishSubject.create<Boolean>()
@@ -50,66 +39,57 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val expandedObservable = PublishSubject.create<Boolean>()
     val hasStoredCoupons = PublishSubject.create<Boolean>()
     val onCouponWidgetExpandSubject = PublishSubject.create<Boolean>()
-    val storedCouponApplyObservable = BehaviorSubject.create<HotelCreateTripResponse.SavedCoupon>()
-    val onCouponSubmitClicked = PublishSubject.create<Unit>()
-
-    val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
-    private val createTripObservable = Observable.concat(createTripDownloadsObservable)
     val networkErrorAlertDialogObservable = PublishSubject.create<Unit>()
 
-    init {
-        couponParamsObservable.subscribe { params ->
-            if (params !is HotelApplySavedCodeParameters) {
-                applyObservable.onNext(params.tripId)
-            }
-            val observable = hotelServices.applyCoupon(params, PointOfSale.getPointOfSale().isPwPEnabledForHotels)
-            createTripDownloadsObservable.onNext(observable)
+    val applyCouponViewModel by lazy {
+        val viewModel = ApplyCouponViewModel(context, hotelServices, paymentModel, couponErrorMap)
+        viewModel.hasDiscountObservable.subscribe(hasDiscountObservable)
+        viewModel.errorShowDialogObservable.subscribe(errorShowDialogObservable)
+        viewModel.networkErrorAlertDialogObservable.subscribe(networkErrorAlertDialogObservable)
+        viewModel.applyCouponSuccessObservable.subscribe { tripResponse ->
+            couponChangeSuccess(tripResponse)
+            //TODO: Handle Coupon Tracking for failure
+//            HotelTracking.trackHotelCouponSuccess(couponParams.getTrackingString())
         }
+        viewModel
+    }
 
+    val storedCouponViewModel by lazy {
+        val viewModel = StoredCouponViewModel(context, hotelServices, paymentModel, couponErrorMap)
+        viewModel.hasDiscountObservable.subscribe(hasDiscountObservable)
+        viewModel.errorShowDialogObservable.subscribe(errorShowDialogObservable)
+        viewModel.networkErrorAlertDialogObservable.subscribe(networkErrorAlertDialogObservable)
+        viewModel.storedCouponSuccessObservable.subscribe { tripResponse ->
+            couponChangeSuccess(tripResponse)
+            //TODO: Handle Coupon Tracking for success
+//            HotelTracking.trackHotelCouponSuccess(couponParams.getTrackingString())
+        }
+        viewModel
+    }
+
+    init {
         couponRemoveObservable.subscribe { tripId ->
             removeObservable.onNext(false)
             val observable = hotelServices.removeCoupon(tripId, PointOfSale.getPointOfSale().isPwPEnabledForHotels)
             observable.subscribe { trip ->
                 if (trip.hasErrors()) {
                     errorRemoveCouponShowDialogObservable.onNext(trip.firstError)
-                    HotelTracking.trackHotelCouponRemoveFailure(storedCouponApplyObservable.value.name, trip.firstError.errorInfo.couponErrorType)
+                    // TODO Add omniture tracking for coupon removal failure
+//                    HotelTracking.trackHotelCouponRemoveFailure(applyStoredCouponObservable.value.name, trip.firstError.errorInfo.couponErrorType)
                 } else {
                     couponChangeSuccess(trip)
-                    // TODO Add omniture tracking for coupon removal
+                    removeCouponSuccessObservable.onNext(trip)
+                    // TODO Add omniture tracking for coupon removal success
                 }
             }
         }
-
-        createTripObservable.subscribe(couponEndlessObserver { trip ->
-            enableSubmitButtonObservable.onNext(true)
-            val couponParams = couponParamsObservable.value
-            if (trip.hasErrors()) {
-                val errorType = trip.firstError.errorInfo.couponErrorType
-                val stringId = couponErrorMap[errorType] ?: R.string.coupon_error_fallback
-                val text = context.resources.getString(stringId)
-                hasDiscountObservable.onNext(false)
-                errorMessageObservable.onNext(text)
-                errorObservable.onNext(trip.firstError)
-                if (couponParams.isFromNotSignedInToSignedIn) {
-                    errorShowDialogObservable.onNext(trip.firstError)
-                }
-                HotelTracking.trackHotelCouponFail(couponParams.getTrackingString(), errorType)
-            } else {
-                if (couponParams is HotelApplySavedCodeParameters) {
-                    couponChangeSuccess(trip, true)
-                } else {
-                    couponChangeSuccess(trip)
-                }
-                HotelTracking.trackHotelCouponSuccess(couponParams.getTrackingString())
-            }
-        })
 
         ObservableOld.combineLatest(hasStoredCoupons, expandedObservable, { hasStoredCoupon, expanded ->
             storedCouponWidgetVisibilityObservable.onNext(hasStoredCoupon && expanded && isShowSavedCoupons(context))
         }).subscribe()
     }
 
-    private fun couponChangeSuccess(trip: HotelCreateTripResponse, responseFromStoredCouponApply: Boolean = false) {
+    private fun couponChangeSuccess(trip: HotelCreateTripResponse) {
         val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()
         val hasDiscount = couponRate != null && !couponRate.isZero
         if (hasDiscount) {
@@ -118,12 +98,6 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
         hasDiscountObservable.onNext(hasDiscount)
         Db.getTripBucket().clearHotelV2()
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
-
-        if (!responseFromStoredCouponApply) {
-            couponObservable.onNext(trip)
-        } else {
-            storedCouponSuccessObservable.onNext(trip)
-        }
         paymentModel.couponChangeSubject.onNext(trip)
     }
 
@@ -151,28 +125,6 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             "PackageProductMissing" to R.string.coupon_error_invalid_booking
     )
 
-    fun <T> couponEndlessObserver(body: (T) -> Unit): Observer<T> {
-        return object : DisposableObserver<T>() {
-            override fun onNext(t: T) {
-                body(t)
-            }
-
-            override fun onComplete() {
-                throw OnErrorNotImplementedException(RuntimeException("Cannot call completed on endless observer " + body.javaClass))
-            }
-
-            override fun onError(e: Throwable) {
-                raiseAlertDialog(e)
-            }
-        }
-    }
-
-    fun raiseAlertDialog(e: Throwable) {
-        if (RetrofitUtils.isNetworkError(e)) {
-            networkErrorAlertDialogObservable.onNext(Unit)
-        }
-    }
-
     fun submitStoredCoupon(paymentSplits: PaymentSplits, tripResponse: TripResponse, userStateManager: UserStateManager, couponInstanceId: String) {
         var userPointsPreference: List<UserPreferencePointsDetails> = emptyList()
         if (userStateManager.isUserAuthenticated() && tripResponse.isRewardsRedeemable()) {
@@ -187,7 +139,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                 .isFromNotSignedInToSignedIn(false)
                 .userPreferencePointsDetails(userPointsPreference)
                 .build()
-        couponParamsObservable.onNext(couponParams)
+        storedCouponViewModel.storedCouponActionParam.onNext(couponParams)
     }
 
     private fun setCouponAppliedSubtitle(trip: HotelCreateTripResponse, couponRate: Money) {
