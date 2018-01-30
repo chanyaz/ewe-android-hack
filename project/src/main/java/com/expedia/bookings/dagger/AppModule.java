@@ -32,6 +32,7 @@ import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.SatelliteServices;
 import com.expedia.bookings.services.TNSServices;
+import com.expedia.bookings.services.os.OfferService;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppCreateTimeLogger;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
@@ -347,6 +348,14 @@ public class AppModule {
 											   Interceptor interceptor) {
 		final String endpoint = endpointProvider.getSmartOfferServiceEndpoint();
 		return new SmartOfferService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@Singleton
+	OfferService provideOfferService(EndpointProvider endpointProvider, OkHttpClient client,
+											   Interceptor interceptor) {
+		final String endpoint = endpointProvider.getOfferServiceEndpoint();
+		return new OfferService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

@@ -24,6 +24,7 @@ import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.services.SatelliteServices;
 import com.expedia.bookings.services.TNSServices;
+import com.expedia.bookings.services.os.OfferService;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppCreateTimeLogger;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
@@ -92,6 +93,8 @@ public interface AppComponent {
 	AppCreateTimeLogger appCreateTimeLogger();
 
 	SmartOfferService smartOfferService();
+
+	OfferService offerService();
 
 	UserStateManager userStateManager();
 

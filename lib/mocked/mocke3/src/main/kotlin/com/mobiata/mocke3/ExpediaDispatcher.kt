@@ -22,6 +22,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private val satelliteServiceRequestDispatcher = SatelliteApiRequestDispatcher(fileOpener)
     private val cardFeeServiceRequestDispatcher = CardFeeServiceRequestDispatcher(fileOpener)
     private val sosApiRequestDispatcher = SOSApiRequestDispatcher(fileOpener)
+    private val osApiRequestDispatcher = OSApiRequestDispatcher(fileOpener)
     private val travelGraphRequestDispatcher = TravelGraphApiRequestDispatcher(fileOpener)
 
     @Throws(InterruptedException::class)
@@ -83,6 +84,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         //SOS Member Only Deals
         if (request.path.contains("sos/offers/member-only-deals")) {
             return sosApiRequestDispatcher.dispatch(request)
+        }
+
+        //OS Last Minute Deals
+        if (request.path.contains("/offers/v2/getOffers")) {
+            return osApiRequestDispatcher.dispatch(request)
         }
 
         // AbacusV2 API

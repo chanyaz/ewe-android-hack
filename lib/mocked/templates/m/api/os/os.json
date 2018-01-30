@@ -1,0 +1,292 @@
+{
+  "offerInfo": {
+    "siteID": "1",
+    "language": "en_US",
+    "currency": "USD",
+    "userSelectedCurrency": "USD"
+  },
+  "userInfo": {
+    "persona": {
+      "personaType": "OTHERS"
+    },
+    "userId": "1111738c-26e8-4445-8ec4-1a0f876a05c6"
+  },
+  "activeCampaign": {
+    "campaignId": "1747",
+    "lastUpdated": "2018-01-25T08:52:35.114Z"
+  },
+  "offers": {
+    "Hotel": [
+      {
+        "offerDateRange": {
+          "stayDateRange": "THISWEEK",
+          "travelStartDate": [
+            2018,
+            1,
+            27
+          ],
+          "travelEndDate": [
+            2018,
+            1,
+            29
+          ]
+        },
+        "destination": {
+          "regionID": "178276",
+          "associatedMultiCityRegionId": "178276",
+          "longName": "Las Vegas (and vicinity), Nevada, United States Of America",
+          "shortName": "Las Vegas",
+          "country": "United States of America",
+          "province": "Nevada",
+          "city": "Las Vegas",
+          "tla": "LAS",
+          "nonLocalizedCity": "Las Vegas"
+        },
+        "offerMarkers": [
+          "HIGHEST_STAR_RATING"
+        ],
+        "hotelInfo": {
+          "hotelId": "12298470",
+          "hotelName": "AAA Deluxe Suite at The Signature Condo Hotel",
+          "localizedHotelName": "AAA Deluxe Suite at The Signature Condo Hotel",
+          "hotelDestination": "Las Vegas",
+          "hotelDestinationRegionID": "178276",
+          "hotelLongDestination": "Las Vegas,NV,USA",
+          "hotelStreetAddress": "145 E Harmon Ave",
+          "hotelCity": "Las Vegas",
+          "hotelProvince": "NV",
+          "hotelCountryCode": "USA",
+          "hotelLatitude": 36.10289,
+          "hotelLongitude": -115.167519,
+          "hotelStarRating": "4.5",
+          "hotelGuestReviewRating": 3.42,
+          "hotelReviewTotal": 24,
+          "hotelImageUrl": "https://images.trvl-media.com/hotels/13000000/12300000/12298500/12298470/57c4cf6d_l.jpg",
+          "description": "This family-friendly Las Vegas hotel is located on the Strip, within 1 mi (2 km) of Crystals at City Center and Miracle Mile Shops. Thomas and Mack Center and Fashion Show Mall are also within 3 mi (5 km). ",
+          "hotelPostalCode": "89109",
+          "vipAccess": false,
+          "isOfficialRating": false
+        },
+        "hotelPricingInfo": {
+          "averagePriceValue": 150.5,
+          "totalPriceValue": 0.0,
+          "crossOutPriceValue": 215.0,
+          "percentSavings": 30.0,
+          "drr": false
+        },
+        "hotelUrls": {
+          "hotelInfositeUrl": "https%3A%2F%2Fwww.expedia.com%2Fgo%2Fhotel%2Finfo%2F12298470%2F2018-01-27%2F2018-01-29",
+          "hotelSearchResultUrl": "https%3A%2F%2Fwww.expedia.com%2Fgo%2Fhotel%2Fsearch%2FDestination%2F2018-01-27%2F2018-01-29%3FSearchType%3DDestination%26CityName%3DLas+Vegas%26RegionId%3D178276%26Selected%3D12298470"
+        },
+        "promotionalInfo": {
+          "promoDescription": "06/10 - 1. (Supplier Created)",
+          "minLengthOfStay": 1,
+          "rateRuleId": 230096712,
+          "promoId": 230096712,
+          "promoType": "PERCENTAGE_OFF",
+          "promoValue": "30.00",
+          "bookingStartDate": [
+            2017,
+            6,
+            10
+          ],
+          "bookingEndDate": [
+            2018,
+            1,
+            31
+          ],
+          "travelStartDate": [
+            2018,
+            1,
+            25
+          ],
+          "travelEndDate": [
+            2018,
+            2,
+            8
+          ]
+        },
+        "promotionInfo": [
+          {
+            "promoDescription": "06/10 - 1. (Supplier Created)",
+            "minLengthOfStay": 1,
+            "promoId": 230096712,
+            "promoType": "PERCENTAGE_OFF",
+            "promoValue": "30.00",
+            "bookingStartDate": [
+              2017,
+              6,
+              10
+            ],
+            "bookingEndDate": [
+              2018,
+              1,
+              31
+            ],
+            "travelStartDate": [
+              2018,
+              1,
+              25
+            ],
+            "travelEndDate": [
+              2018,
+              2,
+              8
+            ]
+          }
+        ]
+      },
+      {
+        "offerDateRange": {
+          "stayDateRange": "THISWEEK",
+          "travelStartDate": [
+            2018,
+            1,
+            27
+          ],
+          "travelEndDate": [
+            2018,
+            1,
+            29
+          ]
+        },
+        "destination": {
+          "regionID": "178276",
+          "associatedMultiCityRegionId": "178276",
+          "longName": "Las Vegas (and vicinity), Nevada, United States Of America",
+          "shortName": "Las Vegas",
+          "country": "United States of America",
+          "province": "Nevada",
+          "city": "Las Vegas",
+          "tla": "LAS",
+          "nonLocalizedCity": "Las Vegas"
+        },
+        "offerMarkers": [
+          "HIGHEST_DISCOUNT"
+        ],
+        "hotelInfo": {
+          "hotelId": "16248336",
+          "hotelName": "A1 Suites at Signature Condo Hotel",
+          "localizedHotelName": "A1 Suites at Signature Condo Hotel",
+          "hotelDestination": "Las Vegas",
+          "hotelDestinationRegionID": "178276",
+          "hotelLongDestination": "Las Vegas,NV,USA",
+          "hotelStreetAddress": "145 East Harmon Avenue",
+          "hotelCity": "Las Vegas",
+          "hotelProvince": "NV",
+          "hotelCountryCode": "USA",
+          "hotelLatitude": 36.105756,
+          "hotelLongitude": -115.166685,
+          "hotelStarRating": "4.5",
+          "hotelGuestReviewRating": 3.33,
+          "hotelReviewTotal": 9,
+          "hotelImageUrl": "https://images.trvl-media.com/hotels/17000000/16250000/16248400/16248336/03b3195a_l.jpg",
+          "description": "Located in Paradise, this aparthotel is within 2 mi (3 km) of Park Theater, University of Nevada-Las Vegas, and Thomas and Mack Center. Las Vegas Convention Center and Fashion Show Mall are also within 3 mi (5 km). ",
+          "hotelPostalCode": "89109",
+          "vipAccess": false,
+          "isOfficialRating": false
+        },
+        "hotelPricingInfo": {
+          "averagePriceValue": 159.0,
+          "totalPriceValue": 0.0,
+          "crossOutPriceValue": 265.0,
+          "percentSavings": 40.0,
+          "drr": false
+        },
+        "hotelUrls": {
+          "hotelInfositeUrl": "https%3A%2F%2Fwww.expedia.com%2Fgo%2Fhotel%2Finfo%2F16248336%2F2018-01-27%2F2018-01-29",
+          "hotelSearchResultUrl": "https%3A%2F%2Fwww.expedia.com%2Fgo%2Fhotel%2Fsearch%2FDestination%2F2018-01-27%2F2018-01-29%3FSearchType%3DDestination%26CityName%3DLas+Vegas%26RegionId%3D178276%26Selected%3D16248336"
+        },
+        "promotionalInfo": {
+          "promoDescription": "EBB. (Supplier Created)",
+          "blackoutDates": {
+            "blackoutDate": [
+              {
+                "startDate": [
+                  2017,
+                  6,
+                  1
+                ],
+                "endDate": [
+                  2017,
+                  6,
+                  28
+                ]
+              }
+            ]
+          },
+          "minLengthOfStay": 1,
+          "rateRuleId": 227957577,
+          "promoId": 227957577,
+          "promoType": "PERCENTAGE_OFF",
+          "promoValue": "40.00",
+          "bookingStartDate": [
+            2017,
+            4,
+            1
+          ],
+          "bookingEndDate": [
+            2018,
+            1,
+            30
+          ],
+          "travelStartDate": [
+            2018,
+            1,
+            25
+          ],
+          "travelEndDate": [
+            2018,
+            2,
+            8
+          ]
+        },
+        "promotionInfo": [
+          {
+            "promoDescription": "EBB. (Supplier Created)",
+            "blackoutDates": {
+              "blackoutDate": [
+                {
+                  "startDate": [
+                    2017,
+                    6,
+                    1
+                  ],
+                  "endDate": [
+                    2017,
+                    6,
+                    28
+                  ]
+                }
+              ]
+            },
+            "minLengthOfStay": 1,
+            "promoId": 227957577,
+            "promoType": "PERCENTAGE_OFF",
+            "promoValue": "40.00",
+            "bookingStartDate": [
+              2017,
+              4,
+              1
+            ],
+            "bookingEndDate": [
+              2018,
+              1,
+              30
+            ],
+            "travelStartDate": [
+              2018,
+              1,
+              25
+            ],
+            "travelEndDate": [
+              2018,
+              2,
+              8
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

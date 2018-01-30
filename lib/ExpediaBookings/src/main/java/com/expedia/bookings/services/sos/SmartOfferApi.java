@@ -16,13 +16,4 @@ public interface SmartOfferApi {
 			@Query("destinationLimit") int destinationLimit,
 			@Query("clientId") String clientId);
 
-	@GET("/sos/offers/last-minute-deals/v1?")
-	Observable<DealsResponse> lastMinuteDeals(
-			@Query("siteId") String siteId,
-			@Query("locale") String locale,
-			@Query("groupBy") String groupBy,
-			@Query("productType") String productType,
-			@Query("destinationLimit") int destinationLimit,
-			@Query("clientId") String clientId,
-			@Query("stayDateRanges") String stayDateRanges);
 }
