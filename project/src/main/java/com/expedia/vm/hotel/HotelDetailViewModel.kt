@@ -66,14 +66,6 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
         registerErrorSubscriptions()
     }
 
-    fun fetchInfo(params: HotelSearchParams, hotelId: String) {
-        this.hotelId = hotelId
-        paramsSubject.onNext(params)
-
-        fetchInProgressSubject.onNext(Unit)
-        hotelInfoManager.fetchInfo(params, hotelId)
-    }
-
     fun fetchOffers(params: HotelSearchParams, hotelId: String) {
         this.hotelId = hotelId
         paramsSubject.onNext(params)
