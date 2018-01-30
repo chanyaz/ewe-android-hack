@@ -256,6 +256,14 @@
             android:key="16382"
             android:summary="%s"
             android:title="Moving flights endpoint to Kong - 16382" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_air_attach_choice_values"
+            android:key="24766"
+            android:summary="%s"
+            android:title="Flights Loading State v1 - 24766"/>
     </PreferenceCategory>
 
     <PreferenceCategory
