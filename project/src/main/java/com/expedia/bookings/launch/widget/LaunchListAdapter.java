@@ -58,6 +58,7 @@ import com.expedia.util.PermissionsUtils;
 import com.expedia.vm.launch.ActiveItinViewModel;
 import com.expedia.vm.launch.BrandSignInLaunchHolderViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
+import com.expedia.vm.launch.RecommendedHotelViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
@@ -303,7 +304,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 					PICASSO_TAG, R.drawable.results_list_placeholder);
 			((HotelViewHolder) holder).getBackgroundImage().setImageDrawable(drawable);
 
-			((HotelViewHolder) holder).bindListData(hotelDataItem.getHotel(), fullWidthTile, hotelSelectedSubject);
+			RecommendedHotelViewModel recommendedHotelViewModel = new RecommendedHotelViewModel(context, hotelDataItem.getHotel());
+			((HotelViewHolder) holder).bindListData(hotelDataItem.getHotel(), fullWidthTile, hotelSelectedSubject, recommendedHotelViewModel);
 		}
 		else if (holder instanceof CollectionViewHolder) {
 			LaunchCollectionDataItem locationDataItem = (LaunchCollectionDataItem) listData.get(position);
