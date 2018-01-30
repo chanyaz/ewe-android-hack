@@ -965,11 +965,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun showDetails(hotelId: String) {
-        if (hotelSearchParams.isDatelessSearch) {
-            hotelDetailViewModel.fetchInfo(hotelSearchParams, hotelId)
-        } else {
-            hotelDetailViewModel.fetchOffers(hotelSearchParams, hotelId)
-        }
+        hotelDetailViewModel.fetchOffers(hotelSearchParams, hotelId)
     }
 
     private val deepLinkHandler: HotelDeepLinkHandler by lazy {
