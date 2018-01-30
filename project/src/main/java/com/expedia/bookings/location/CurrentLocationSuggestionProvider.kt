@@ -3,6 +3,7 @@ package com.expedia.bookings.location
 import android.content.Context
 import android.location.Location
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.GaiaSuggestionRequest
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
@@ -21,9 +22,11 @@ class CurrentLocationSuggestionProvider(val suggestionServices: SuggestionV4Serv
     }
 
     fun getNearBysuggestions(location: Location): Observable<MutableList<SuggestionV4>> {
+        val request = GaiaSuggestionRequest(location.latitude, location.longitude, "distance", "lx",
+                PointOfSale.getSuggestLocaleIdentifier(), PointOfSale.getPointOfSale().siteId,
+                misForRealWorldEnabled = false)
         return this@CurrentLocationSuggestionProvider.suggestionServices
-                .suggestNearbyGaia(location.latitude, location.longitude, "distance",
-                        "lx", PointOfSale.getSuggestLocaleIdentifier(), PointOfSale.getPointOfSale().siteId)
+                .suggestNearbyGaia(request)
                 .map { it ->
                     SuggestionV4Utils.convertToSuggestionV4(it)
                 }

@@ -1,6 +1,7 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.GaiaSuggestion
+import com.expedia.bookings.data.GaiaSuggestionRequest
 import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.SuggestionV4Response
@@ -86,9 +87,11 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .subscribeObserver(observer)
     }
 
-    override fun suggestNearbyGaia(lat: Double, lng: Double, sortType: String, lob: String, locale: String, siteId: Int, isMISForRealWorldEnabled: Boolean): Observable<MutableList<GaiaSuggestion>> {
+    override fun suggestNearbyGaia(request: GaiaSuggestionRequest): Observable<MutableList<GaiaSuggestion>> {
         val limit = 2
-        val response = gaiaSuggestApi.gaiaNearBy(lat, lng, limit, lob, sortType, locale, siteId, if (isMISForRealWorldEnabled) "rwg" else null)
+        val response = gaiaSuggestApi.gaiaNearBy(request.lat, request.lng, limit, request.lob,
+                request.sortType, request.locale, request.siteId,
+                if (request.misForRealWorldEnabled) "rwg" else null)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
         return response.map { it.toMutableList() }

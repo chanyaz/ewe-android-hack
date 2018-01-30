@@ -1,6 +1,7 @@
 package com.expedia.bookings.unit
 
 import com.expedia.bookings.data.GaiaSuggestion
+import com.expedia.bookings.data.GaiaSuggestionRequest
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.SuggestionV4Services
@@ -230,7 +231,7 @@ class SuggestionV4ServicesTest {
 
     private fun getGaiaNearbySuggestion(location: Double): List<GaiaSuggestion> {
         val test = TestObserver<List<GaiaSuggestion>>()
-        val observer = service?.suggestNearbyGaia(location, location, "distance", "hotels", "en_US", 1)
+        val observer = service?.suggestNearbyGaia(getDummyGaiaRequest(location, "hotels", "en_US"))
         observer?.subscribe(test)
 
         return test.values()[0]
@@ -238,7 +239,7 @@ class SuggestionV4ServicesTest {
 
     private fun getGaiaNearbySuggestionLXEnglish(location: Double): List<GaiaSuggestion> {
         val test = TestObserver<List<GaiaSuggestion>>()
-        val observer = service?.suggestNearbyGaia(location, location, "distance", "lx", "en_US", 1)
+        val observer = service?.suggestNearbyGaia(getDummyGaiaRequest(location, "lx", "en_US"))
         observer?.subscribe(test)
 
         return test.values()[0]
@@ -246,10 +247,14 @@ class SuggestionV4ServicesTest {
 
     private fun getGaiaNearbySuggestionLXFrench(location: Double): List<GaiaSuggestion> {
         val test = TestObserver<List<GaiaSuggestion>>()
-        val observer = service?.suggestNearbyGaia(location, location, "distance", "lx", "fr_FR", 1)
+        val observer = service?.suggestNearbyGaia(getDummyGaiaRequest(location, "lx", "fr_FR"))
         observer?.subscribe(test)
 
         return test.values()[0]
+    }
+
+    private fun getDummyGaiaRequest(location: Double, lob: String, pos: String): GaiaSuggestionRequest {
+        return GaiaSuggestionRequest(location, location, "distance", lob, pos, 1, false)
     }
 
     private fun givenExpediaDispatcherPrepared() {

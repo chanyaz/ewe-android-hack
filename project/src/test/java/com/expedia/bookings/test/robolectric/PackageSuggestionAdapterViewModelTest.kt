@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
 import com.expedia.bookings.data.GaiaSuggestion
+import com.expedia.bookings.data.GaiaSuggestionRequest
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.services.ISuggestionV4Services
@@ -56,7 +57,7 @@ class PackageSuggestionAdapterViewModelTest {
             TODO("not implemented: getHotelSuggestionsV4")
         }
 
-        override fun suggestNearbyGaia(lat: Double, lng: Double, sortType: String, lob: String, locale: String, siteId: Int, isMISForRealWorldEnabled: Boolean): Observable<MutableList<GaiaSuggestion>> {
+        override fun suggestNearbyGaia(request: GaiaSuggestionRequest): Observable<MutableList<GaiaSuggestion>> {
             TODO("not implemented: suggestNearbyGaia")
         }
 
