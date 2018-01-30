@@ -82,7 +82,8 @@
     <color name="itin_add_guest_text_button_color">@color/exp_launch_secondary</color>
     <color name="itin_status_indicator_success">@color/exp_itin_status_indication_success</color>
     <color name="itin_status_indicator_error">@color/exp_itin_status_indication_error</color>
-    <color name="itin_flight_manage_booking_header_color">#4a4a4a</color>
+    <color name="itin_flight_manage_booking_header_color">@color/exp_itin_manage_booking_title</color>
+    <color name="itin_hotel_manage_booking_number_rooms">@color/exp_itin_manage_booking_title</color>
     <color name="itin_flight_leg_detail_widget_rules_restriction_color">#0947b2</color>
 
     <!-- Old Flights colors -->

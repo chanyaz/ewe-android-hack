@@ -16,6 +16,13 @@ data class TripHotelRoom(
     companion object {
         val gsonTypeToken: Type? = object : TypeToken<List<TripHotelRoom>>() {}.type
     }
+
+    object BookingStatus {
+        @JvmField
+        val BOOKED = "BOOKED"
+        @JvmField
+        val CANCELLED = "CANCELLED"
+    }
 }
 
 data class PrimaryOccupant(

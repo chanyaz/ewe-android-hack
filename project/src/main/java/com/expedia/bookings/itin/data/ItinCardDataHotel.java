@@ -47,6 +47,7 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		super(tripComponent);
 		mProperty = tripComponent.getProperty();
 		mRooms = tripComponent.getRooms();
+		filterOutCancelledRooms();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -93,6 +94,14 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 	public List<TripHotelRoom> getRooms() {
 		return mRooms;
+	}
+
+	private void filterOutCancelledRooms() {
+		for (TripHotelRoom room : mRooms) {
+			if (room.getBookingStatus().equals(TripHotelRoom.BookingStatus.CANCELLED)) {
+				mRooms.remove(room);
+			}
+		}
 	}
 
 	public String getPropertyName() {

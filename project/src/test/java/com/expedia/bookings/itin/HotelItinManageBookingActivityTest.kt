@@ -1,8 +1,10 @@
 package com.expedia.bookings.itin
 
+import android.support.design.widget.TabLayout
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.trips.TripHotelRoom
 import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinRoomDetails
@@ -13,8 +15,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
+import org.robolectric.Shadows
 import org.robolectric.android.controller.ActivityController
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelItinManageBookingActivityTest {
@@ -41,8 +45,10 @@ class HotelItinManageBookingActivityTest {
 
         activity.manageRoomViewModel.refreshItinCardDataSubject.onNext(activity.itinCardDataHotel)
 
-        assertEquals(1, activity.manageRoomContainer.childCount)
-        assertEquals(activity.manageRoomViewModel.manageRoomWidget, activity.manageRoomContainer.getChildAt(0))
+        assertEquals(2, activity.manageRoomContainer.childCount)
+        assertEquals(activity.numberOfRoomsText, activity.manageRoomContainer.getChildAt(0))
+        assertEquals(View.GONE, activity.numberOfRoomsText.visibility)
+        assertEquals(activity.manageRoomViewModel.manageRoomWidget, activity.manageRoomContainer.getChildAt(1))
         val roomDetailsView = activity.manageRoomViewModel.manageRoomWidget.roomDetailsView
         assertEquals(View.GONE, roomDetailsView.expandedRoomDetails.visibility)
         assertEquals(View.GONE, roomDetailsView.roomDetailsChevron.visibility)
@@ -65,15 +71,112 @@ class HotelItinManageBookingActivityTest {
 
     @Test
     fun testManageRoomContainerSubject() {
-        assertEquals(1, activity.manageRoomContainer.childCount)
-        assertEquals(activity.manageRoomViewModel.manageRoomWidget, activity.manageRoomContainer.getChildAt(0))
+        assertEquals(2, activity.manageRoomContainer.childCount)
+        assertEquals(activity.numberOfRoomsText, activity.manageRoomContainer.getChildAt(0))
+        assertEquals(View.GONE, activity.numberOfRoomsText.visibility)
+        assertEquals(activity.manageRoomViewModel.manageRoomWidget, activity.manageRoomContainer.getChildAt(1))
 
         activityController.pause()
-        assertEquals(1, activity.manageRoomContainer.childCount)
-        assertEquals(activity.manageRoomViewModel.manageRoomWidget, activity.manageRoomContainer.getChildAt(0))
+        assertEquals(2, activity.manageRoomContainer.childCount)
+        assertEquals(activity.numberOfRoomsText, activity.manageRoomContainer.getChildAt(0))
+        assertEquals(View.GONE, activity.numberOfRoomsText.visibility)
+        assertEquals(activity.manageRoomViewModel.manageRoomWidget, activity.manageRoomContainer.getChildAt(1))
 
         activityController.resume()
-        assertEquals(1, activity.manageRoomContainer.childCount)
-        assertEquals(activity.manageRoomViewModel.manageRoomWidget, activity.manageRoomContainer.getChildAt(0))
+        assertEquals(2, activity.manageRoomContainer.childCount)
+        assertEquals(activity.numberOfRoomsText, activity.manageRoomContainer.getChildAt(0))
+        assertEquals(View.GONE, activity.numberOfRoomsText.visibility)
+        assertEquals(activity.manageRoomViewModel.manageRoomWidget, activity.manageRoomContainer.getChildAt(1))
+    }
+
+    @Test
+    fun testTabNotVisibleForOneRoom() {
+        activity.manageRoomViewModel.refreshItinCardDataSubject.onNext(itinCardDataHotel)
+
+        assertEquals(View.GONE, activity.numberOfRoomsText.visibility)
+        assertEquals(View.GONE, activity.roomTabs.visibility)
+    }
+
+    @Test
+    fun testTabVisibleForMoreThanOneRoom() {
+        val room = TripHotelRoom("xyz", "2 beds", "BOOKED", null, null, null, emptyList(), emptyList())
+        itinCardDataHotel.rooms.add(room)
+        activity.manageRoomViewModel.refreshItinCardDataSubject.onNext(itinCardDataHotel)
+
+        assertEquals(View.VISIBLE, activity.numberOfRoomsText.visibility)
+        assertEquals("2 total rooms", activity.numberOfRoomsText.text)
+        assertEquals(View.VISIBLE, activity.roomTabs.visibility)
+        assertEquals(2, activity.roomTabs.tabCount)
+    }
+
+    @Test
+    fun testTabMode() {
+        activity.manageRoomViewModel.refreshItinCardDataSubject.onNext(itinCardDataHotel)
+        assertEquals(View.GONE, activity.roomTabs.visibility)
+
+        val room = TripHotelRoom("xyz", "2 beds", "BOOKED", null, null, null, emptyList(), emptyList())
+        itinCardDataHotel.rooms.add(room)
+        activity.manageRoomViewModel.refreshItinCardDataSubject.onNext(itinCardDataHotel)
+        assertEquals(View.VISIBLE, activity.roomTabs.visibility)
+        assertEquals(2, activity.roomTabs.tabCount)
+        assertEquals(TabLayout.MODE_FIXED, activity.roomTabs.tabMode)
+
+        val room2 = TripHotelRoom("mls", "2 beds", "BOOKED", null, null, null, emptyList(), emptyList())
+        val room3 = TripHotelRoom("asd", "2 beds", "BOOKED", null, null, null, emptyList(), emptyList())
+        itinCardDataHotel.rooms.add(room2)
+        itinCardDataHotel.rooms.add(room3)
+        activity.manageRoomViewModel.refreshItinCardDataSubject.onNext(itinCardDataHotel)
+
+        assertEquals(View.VISIBLE, activity.roomTabs.visibility)
+        assertEquals(4, activity.roomTabs.tabCount)
+        assertEquals(TabLayout.MODE_SCROLLABLE, activity.roomTabs.tabMode)
+    }
+
+    @Test
+    fun testTabClicked() {
+        itinCardDataHotel.rooms[0].hotelConfirmationNumber = "abc"
+        val room = TripHotelRoom("xyz", "2 beds", "BOOKED", null, null, null, emptyList(), emptyList())
+        itinCardDataHotel.rooms.add(room)
+        activity.manageRoomViewModel.refreshItinCardDataSubject.onNext(itinCardDataHotel)
+
+        assertEquals(View.VISIBLE, activity.roomTabs.visibility)
+        assertEquals(2, activity.manageRoomContainer.childCount)
+        assertEquals(View.VISIBLE, activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.hotelConfirmationNumber.visibility)
+        assertEquals("Confirmation # abc", activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.hotelConfirmationNumber.text)
+
+        activity.roomTabs.getTabAt(1)?.select()
+
+        assertEquals(2, activity.manageRoomContainer.childCount)
+        assertEquals(View.VISIBLE, activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.hotelConfirmationNumber.visibility)
+        assertEquals("Confirmation # xyz", activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.hotelConfirmationNumber.text)
+    }
+
+    @Test
+    fun testExitActivityWhenNoRooms() {
+        itinCardDataHotel.rooms.clear()
+        activity.manageRoomViewModel.refreshItinCardDataSubject.onNext(itinCardDataHotel)
+
+        val shadowActivity = Shadows.shadowOf(activity)
+        assertTrue(shadowActivity.isFinishing)
+    }
+
+    @Test
+    fun tesTabDisappears() {
+        itinCardDataHotel.rooms[0].hotelConfirmationNumber = "abc"
+        val room = TripHotelRoom("xyz", "2 beds", "BOOKED", null, null, null, emptyList(), emptyList())
+        itinCardDataHotel.rooms.add(room)
+        activity.manageRoomViewModel.refreshItinCardDataSubject.onNext(itinCardDataHotel)
+
+        assertEquals(View.VISIBLE, activity.roomTabs.visibility)
+        assertEquals(2, activity.manageRoomContainer.childCount)
+        assertEquals(activity.manageRoomViewModel.manageRoomWidget, activity.manageRoomContainer.getChildAt(1))
+        assertEquals(View.VISIBLE, activity.numberOfRoomsText.visibility)
+        assertEquals("2 total rooms", activity.numberOfRoomsText.text)
+
+        itinCardDataHotel.rooms.removeAt(1)
+        activity.manageRoomViewModel.refreshItinCardDataSubject.onNext(itinCardDataHotel)
+
+        assertEquals(View.GONE, activity.roomTabs.visibility)
+        assertEquals(View.GONE, activity.numberOfRoomsText.visibility)
     }
 }

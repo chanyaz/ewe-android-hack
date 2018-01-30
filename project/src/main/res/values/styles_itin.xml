@@ -29,23 +29,28 @@
         <item name="android:textColor">@color/gray700</item>
         <item name="android:textSize">12sp</item>
     </style>
+
     <style name="FlightItinMock">
         <item name="android:textColor">@color/gray900</item>
         <item name="android:textSize">13sp</item>
     </style>
+
     <style name="FlightItinSeating">
         <item name="android:textColor">@color/gray900</item>
         <item name="android:textSize">12sp</item>
-        </style>
+    </style>
+
     <style name="FlightItinTravelerInfoSubtext">
         <item name="android:textColor">@color/gray600</item>
         <item name="android:textSize">12sp</item>
     </style>
+
     <style name="FlightItinTravelerInfoMainText">
         <item name="android:textColor">@color/gray900</item>
         <item name="android:textSize">14sp</item>
         <item name="textStyle">medium</item>
     </style>
+
     <style name="FlightItinTravelerHeadings">
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginLeft">12dp</item>
@@ -54,5 +59,11 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/gray900</item>
         <item name="textStyle">medium</item>
+    </style>
+
+    <style name="HotelItinManageRoomsTabWidget">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/room_tab_indicator_color</item>
     </style>
 </resources>

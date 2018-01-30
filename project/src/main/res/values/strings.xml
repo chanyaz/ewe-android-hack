@@ -1442,6 +1442,10 @@
     <string name="itin_hotel_check_in_policies_dialog_title">Check-in policies</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Change and cancellation rules</string>
+    <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
+    <string name="itin_hotel_manage_booking_room_tab_title_TEMPLATE">Room {number}</string>
+    <!--Hotel itin manage booking total rooms text TEMPLATE. {number} total rooms (e.g., 2 total rooms)-->
+    <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">{number} total rooms</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Share Itinerary</string>
