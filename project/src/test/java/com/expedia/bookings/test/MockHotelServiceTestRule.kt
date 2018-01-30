@@ -2,7 +2,7 @@ package com.expedia.bookings.test
 
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
@@ -173,7 +173,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
 
     private fun getApplyCouponResponse(responseFileName: String): HotelCreateTripResponse {
         val observer = TestObserver<HotelCreateTripResponse>()
-        val applyCouponParams = HotelApplyCouponCodeParameters.Builder()
+        val applyCouponParams = HotelApplyCouponParameters.Builder()
                 .couponCode(responseFileName).isFromNotSignedInToSignedIn(false).tripId("tripId")
                 .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))))
                 .build()

@@ -65,7 +65,7 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
         viewmodel.storedCouponViewModel.applyStoredCouponObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, {
             coupon, paymentSplitsAndTripResponse -> Pair(coupon, paymentSplitsAndTripResponse)
         }).subscribe {
-            viewmodel.submitStoredCoupon(it.second.paymentSplits, it.second.tripResponse, userStateManager, it.first.instanceId)
+            viewmodel.submitStoredCoupon(it.second.paymentSplits, it.second.tripResponse, userStateManager, it.first)
         }
 
         viewmodel.couponSubtitleObservable.subscribeText(appliedCouponSubtitle)

@@ -45,7 +45,7 @@ open class HotelTracking {
             OmnitureTracking.trackPriceChange(priceChange)
         }
 
-        fun trackHotelCouponSuccess(couponCode: String) {
+        fun trackHotelEnteredCouponSuccess(couponCode: String) {
             OmnitureTracking.trackHotelV2EnteredCouponSuccess(couponCode)
         }
 
@@ -53,7 +53,7 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2SavedCouponSuccess(couponCode)
         }
 
-        fun trackHotelCouponFail(couponCode: String, errorMessage: String) {
+        fun trackHotelEnteredCouponFail(couponCode: String, errorMessage: String) {
             OmnitureTracking.trackHotelV2EnteredCouponFail(couponCode, errorMessage)
         }
 
@@ -358,7 +358,7 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2ExpandCoupon()
         }
 
-        fun trackHotelCouponRemove(couponCode: String) {
+        fun trackHotelCouponRemoveSuccess(couponCode: String) {
             OmnitureTracking.trackHotelV2CouponRemove(couponCode)
         }
 

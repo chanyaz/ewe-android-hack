@@ -1,7 +1,7 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.hotels.AbstractApplyCouponParameters
+import com.expedia.bookings.data.hotels.AbstractCouponParameters
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
@@ -115,7 +115,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 .subscribeObserver(observer)
     }
 
-    fun applyCoupon(body: AbstractApplyCouponParameters, isRewardsEnabledForCurrentPOS: Boolean): Observable<HotelCreateTripResponse> {
+    fun applyCoupon(body: AbstractCouponParameters, isRewardsEnabledForCurrentPOS: Boolean): Observable<HotelCreateTripResponse> {
         return hotelApi.applyCoupon(body.toQueryMap())
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

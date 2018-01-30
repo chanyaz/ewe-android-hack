@@ -10,7 +10,7 @@ import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.hotels.HotelApplyCouponCodeParameters
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -78,7 +78,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         }
         couponCardView.viewmodel.applyCouponViewModel.applyCouponSuccessObservable.subscribe(createTripViewmodel.tripResponseObservable)
         couponCardView.viewmodel.storedCouponViewModel.storedCouponSuccessObservable.subscribe(createTripViewmodel.tripResponseObservable)
-        couponCardView.viewmodel.removeCouponSuccessObservable.subscribe(createTripViewmodel.tripResponseObservable)
+        couponCardView.viewmodel.removeCouponSuccessTrackingInfoObservable.subscribe(createTripViewmodel.tripResponseObservable)
 
         couponCardView.viewmodel.errorShowDialogObservable.subscribe {
 
@@ -227,7 +227,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             val shouldTryToApplyCouponAfterLogin = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value
             if (userStateManager.isUserAuthenticated() && tripHasCoupon && shouldTryToApplyCouponAfterLogin) {
                 // This is to apply a coupon in case user signs in after applying a coupon. So there is no user preference.
-                val couponParams = HotelApplyCouponCodeParameters.Builder()
+                val couponParams = HotelApplyCouponParameters.Builder()
                         .tripId(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
                         .couponCode(createTrip.coupon.code)
                         .isFromNotSignedInToSignedIn(true)

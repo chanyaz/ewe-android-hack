@@ -1452,10 +1452,10 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
 	}
 
-	public static void trackHotelV2CouponRemoveFail(String couponeName, String error) {
+	public static void trackHotelV2CouponRemoveFail(String couponName, String error) {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_COUPON_REMOVE_FAILURE);
 		s.setProp(36, error);
-		s.setEvar(24, couponeName);
+		s.setEvar(24, couponName);
 		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
 	}
 
