@@ -1,12 +1,10 @@
 package com.expedia.bookings.itin.vm
 
-import android.app.Activity
 import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Rule
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.trips.FlightAction
 import com.expedia.bookings.data.trips.FlightConfirmation
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -24,16 +22,13 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
-import org.mockito.Mockito.`when` as whenever
-import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-
 import kotlin.test.assertEquals
+import org.mockito.Mockito.`when` as whenever
 
 @RunWith(RobolectricRunner::class)
 class FlightItinManageBookingViewModelTest {
     private lateinit var context: Context
-    private lateinit var activity: Activity
     private lateinit var sut: FlightItinManageBookingViewModel
 
     private val itinCardDataValidSubscriber = TestObserver<Unit>()
@@ -43,9 +38,8 @@ class FlightItinManageBookingViewModelTest {
 
     @Before
     fun setup() {
-        activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        sut = FlightItinManageBookingViewModel(activity, "TEST_ITIN_ID")
         context = RuntimeEnvironment.application
+        sut = FlightItinManageBookingViewModel(context, "TEST_ITIN_ID")
     }
 
     @Test
@@ -341,50 +335,6 @@ class FlightItinManageBookingViewModelTest {
         val airlineSupportUrlValue = ""
         val customerSupportSitetext = Phrase.from(context, R.string.itin_flight_airline_support_widget_customer_support_TEMPLATE).put("airline_name", context.getString(R.string.itin_flight_airline_support_widget_airline_text)).format().toString()
         flightItinAirlineSupportDetailsSubject.assertValue(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title, airlineSupport, ticket, confirmation, itinerary, callSupportNumber, customerSupportSitetext, airlineSupportUrlValue))
-    }
-
-    @Test
-    fun testModifyReservationWithData() {
-        val flightItinModifyReservationSubject = TestObserver<FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams>()
-        sut.flightItinModifyReservationSubject.subscribe(flightItinModifyReservationSubject)
-
-        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
-        val testItinCardData = ItinCardDataFlightBuilder().build()
-        val flightTrip = (testItinCardData.tripComponent as TripFlight).flightTrip
-        testItinCardData.tripComponent.parentTrip.customerSupport.supportPhoneNumberDomestic = "+1-866-230-3837"
-        val action = FlightAction()
-        action.isCancellable = true
-        action.isChangeable = true
-        flightTrip.action = action
-        flightTrip.webCancelPathURL = "https://www.expedia.com/flight-cancel-exchange?itinnumber=1157495899343&arl=304697418&bookingid=ZBZTFR"
-        flightTrip.webChangePathURL = "https://www.expedia.com/flight-change-gds?itinnumber=1157495899343&arl=304697418&cname=United"
-
-        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
-        sut.itineraryManager = mockItinManager
-        sut.setUp()
-
-        flightItinModifyReservationSubject.assertValue(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(flightTrip.webChangePathURL, true, flightTrip.webCancelPathURL, true, "+1-866-230-3837"))
-    }
-
-    @Test
-    fun testModifyReservationWithoutData() {
-        val flightItinModifyReservationSubject = TestObserver<FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams>()
-        sut.flightItinModifyReservationSubject.subscribe(flightItinModifyReservationSubject)
-
-        val mockItinManager = Mockito.mock(ItineraryManager::class.java)
-        val testItinCardData = ItinCardDataFlightBuilder().build()
-        val flightTrip = (testItinCardData.tripComponent as TripFlight).flightTrip
-        testItinCardData.tripComponent.parentTrip.customerSupport.supportPhoneNumberDomestic = ""
-        flightTrip.action = null
-
-        flightTrip.webCancelPathURL = null
-        flightTrip.webChangePathURL = null
-
-        whenever(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(testItinCardData)
-        sut.itineraryManager = mockItinManager
-        sut.setUp()
-
-        flightItinModifyReservationSubject.assertValue(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams("", false, "", false, ""))
     }
 
     class TestWayPoint(val city: String) : Waypoint(ACTION_UNKNOWN) {

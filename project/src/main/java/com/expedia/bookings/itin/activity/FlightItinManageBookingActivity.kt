@@ -84,9 +84,9 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
             airlineSupportDetailsWidget.viewModel = FlightItinAirlineSupportDetailsViewModel()
             airlineSupportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(param)
         }
-        vm.flightItinModifyReservationSubject.subscribe { param ->
-            modifyReservationWidget.viewModel = FlightItinModifyReservationViewModel()
-            modifyReservationWidget.viewModel.modifyReservationSubject.onNext(param)
+        vm.itinCardDataFlightObservable.subscribe {
+            modifyReservationWidget.viewModel = FlightItinModifyReservationViewModel(this)
+            modifyReservationWidget.viewModel.itinCardSubject.onNext(it)
         }
     }
 

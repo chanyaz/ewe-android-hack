@@ -10,6 +10,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import android.widget.ImageButton
+import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 
@@ -65,6 +66,11 @@ object AccessibilityUtil {
 
     @JvmStatic fun appendRoleContDesc(view: View, contentDescription: String, @StringRes roleResId: Int) {
         view.contentDescription = contentDescription + " " + view.context.getString(roleResId)
+    }
+
+    @JvmStatic
+    fun appendRoleContDesc(view: TextView, @StringRes roleResId: Int) {
+        appendRoleContDesc(view, view.text.toString(), roleResId)
     }
 
     @JvmStatic fun getNumberOfInvalidFields(vararg isValid: Boolean): Int {

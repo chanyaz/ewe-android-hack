@@ -1,114 +1,80 @@
 package com.expedia.bookings.itin.widget
 
 import android.content.Context
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.fragment.FlightItinModifyReservationDialog
-import com.expedia.bookings.itin.vm.FlightItinModifyReservationViewModel
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.itin.vm.ItinModifyReservationViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 
-class FlightItinModifyReservationWidget(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    val changeReservationButton by bindView<Button>(R.id.change_reservation_button)
-    val cancelReservationButton by bindView<Button>(R.id.cancel_reservation_button)
+class FlightItinModifyReservationWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+    val changeReservationButton by bindView<TextView>(R.id.change_reservation_button)
+    val cancelReservationButton by bindView<TextView>(R.id.cancel_reservation_button)
     val changeLearnMoreText by bindView<TextView>(R.id.change_reservation_learn_more)
     val cancelLearnMoreText by bindView<TextView>(R.id.cancel_reservation_learn_more)
     private val DIALOG_TAG = "MODIFY_RESERVATION"
 
     init {
         View.inflate(context, R.layout.widget_flight_itin_modify_reservation, this)
+        setUpViews()
     }
 
-    var viewModel: FlightItinModifyReservationViewModel by notNullAndObservable { vm ->
-        vm.modifyReservationSubject.subscribe { params ->
-            setUpWidget(params)
-            setUpListeners(params)
+    var viewModel: ItinModifyReservationViewModel by notNullAndObservable { vm ->
+        vm.changeReservationSubject.subscribe {
+            setUpChangeWidget()
+        }
+        vm.cancelReservationSubject.subscribe {
+            setUpCancelWidget()
+        }
+        vm.webViewIntentSubject.subscribe {
+            context.startActivity(it, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
         }
     }
 
-    private fun setUpWidget(param: FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams) {
-        val isChangeable = param.isChangeable && Strings.isNotEmpty(param.changeReservationURL)
-        val isCancellable = param.isCancellable && Strings.isNotEmpty(param.cancelReservationURL)
-        if (!isChangeable && !isCancellable) {
-            setUpDisabledView(changeReservationButton, changeLearnMoreText)
-            setUpDisabledView(cancelReservationButton, cancelLearnMoreText)
-            setUpChangeOrCancelLearnMoreClick(param.customerSupportNumber)
-        } else {
-            if (!isChangeable) {
-                setUpDisabledView(changeReservationButton, changeLearnMoreText)
-                setUpChangeLearnMoreClick(param.customerSupportNumber)
-            } else if (!isCancellable) {
-                setUpDisabledView(cancelReservationButton, cancelLearnMoreText)
-                setUpCancelLearnMoreClick(param.customerSupportNumber)
-            }
+    private fun setUpCancelWidget() {
+        cancelLearnMoreText.visibility = View.GONE
+        cancelReservationButton.isEnabled = true
+        cancelReservationButton.alpha = 1f
+        cancelReservationButton.setOnClickListener {
+            viewModel.cancelTextViewClickSubject.onNext(Unit)
         }
     }
 
-    private fun setUpDisabledView(button: Button, learnMoreView: TextView) {
-        button.alpha = 0.4f
-        button.isEnabled = false
-        learnMoreView.visibility = View.VISIBLE
-        AccessibilityUtil.appendRoleContDesc(learnMoreView, learnMoreView.text.toString(), R.string.accessibility_cont_desc_role_button)
+    private fun setUpChangeWidget() {
+        changeLearnMoreText.visibility = View.GONE
+        changeReservationButton.alpha = 1f
+        changeReservationButton.isEnabled = true
+        changeReservationButton.setOnClickListener {
+            viewModel.changeTextViewClickSubject.onNext(Unit)
+        }
     }
 
-    private fun setUpListeners(param: FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams) {
-        onChangeReservationClick(param)
-        onCancelReservationClick(param)
+    private fun setUpViews() {
+        AccessibilityUtil.appendRoleContDesc(cancelLearnMoreText, R.string.accessibility_cont_desc_role_button)
+        AccessibilityUtil.appendRoleContDesc(changeLearnMoreText, R.string.accessibility_cont_desc_role_button)
+        setUpMoreHelpListeners()
     }
 
-    private fun onChangeReservationClick(param: FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams) = changeReservationButton.setOnClickListener {
-        OmnitureTracking.trackFlightItinChangeFlight()
-        context.startActivity(buildWebViewIntent(R.string.itin_flight_modify_widget_change_reservation_text, param.changeReservationURL).intent)
-    }
-
-    private fun onCancelReservationClick(param: FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams) = cancelReservationButton.setOnClickListener {
-        OmnitureTracking.trackFlightItinCancelFlight()
-        context.startActivity(buildWebViewIntent(R.string.itin_flight_modify_widget_cancel_reservation_text, param.cancelReservationURL).intent)
-    }
-
-    private fun buildWebViewIntent(title: Int, url: String): WebViewActivity.IntentBuilder {
-        val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(context)
-        builder.setTitle(title)
-        builder.setUrl(url)
-        builder.setInjectExpediaCookies(true)
-        builder.setAllowMobileRedirects(false)
-        return builder
-    }
-
-    private fun setUpCancelLearnMoreClick(customerSupportNumber: String) {
-        val cancelContent = context.getString(R.string.itin_flight_modify_widget_cancel_reservation_dialog_text)
-        showReservationDialog(cancelLearnMoreText, cancelContent, customerSupportNumber)
-    }
-
-    private fun setUpChangeLearnMoreClick(customerSupportNumber: String) {
-        val changeContent = context.getString(R.string.itin_flight_modify_widget_change_reservation_dialog_text)
-        showReservationDialog(changeLearnMoreText, changeContent, customerSupportNumber)
-    }
-
-    private fun setUpChangeOrCancelLearnMoreClick(customerSupportNumber: String) {
-        val changeContent = context.getString(R.string.itin_flight_modify_widget_neither_changeable_nor_cancellable_reservation_dialog_text)
-        showReservationDialog(cancelLearnMoreText, changeContent, customerSupportNumber)
-        showReservationDialog(changeLearnMoreText, changeContent, customerSupportNumber)
-    }
-
-    private fun showReservationDialog(view: TextView, content: String, supportNumber: String) {
+    private fun setUpMoreHelpListeners() {
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
-        val dialog = FlightItinModifyReservationDialog.newInstance(content, supportNumber)
-        view.setOnClickListener {
+        cancelLearnMoreText.setOnClickListener {
+            val dialog = FlightItinModifyReservationDialog.newInstance(context.getString(viewModel.helpDialogRes)
+                    , viewModel.customerSupportNumberSubject)
             dialog.show(fragmentManager, DIALOG_TAG)
-            when (view) {
-                cancelLearnMoreText -> OmnitureTracking.trackItinFlightCancelLearnMore()
-                changeLearnMoreText -> OmnitureTracking.trackItinFlightChangeLearnMore()
-            }
+            viewModel.cancelLearnMoreClickSubject.onNext(Unit)
+        }
+        changeLearnMoreText.setOnClickListener {
+            val dialog = FlightItinModifyReservationDialog.newInstance(context.getString(viewModel.helpDialogRes)
+                    , viewModel.customerSupportNumberSubject)
+            dialog.show(fragmentManager, DIALOG_TAG)
+            viewModel.changeLearnMoreClickSubject.onNext(Unit)
         }
     }
 }

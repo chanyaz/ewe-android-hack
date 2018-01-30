@@ -30,7 +30,6 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
     val flightLegDetailRulesAndRegulationSubject = PublishSubject.create<String>()
     val flightSplitTicketVisibilitySubject = PublishSubject.create<Boolean>()
     val flightItinAirlineSupportDetailsSubject = PublishSubject.create<FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams>()
-    val flightItinModifyReservationSubject = PublishSubject.create<FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams>()
 
     init {
         itinCardDataFlightObservable.subscribe {
@@ -40,7 +39,6 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
             rulesAndRestrictionText()
             flightSplitTicketText()
             airlineSupportDetailsData()
-            modifyReservationWidget()
         }
     }
 
@@ -177,15 +175,5 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
         val itinerary = if (Strings.isNotEmpty(itineraryNumber)) Phrase.from(context, R.string.itin_flight_airline_support_widget_itinerary_TEMPLATE).put("itinerary_number", itineraryNumber).format().toString() else ""
         val callSupportNumber = ""
         flightItinAirlineSupportDetailsSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title, airlineSupport, ticket, confirmation, itinerary, callSupportNumber, customerSupportSiteText, airlineSupportUrlValue))
-    }
-
-    private fun modifyReservationWidget() {
-        val flightTrip = (itinCardDataFlight.tripComponent as TripFlight).flightTrip
-        val webChangePathURL = flightTrip.webChangePathURL ?: ""
-        val webCancelPathURL = flightTrip.webCancelPathURL ?: ""
-        val isChangeable = flightTrip.action?.isChangeable ?: false
-        val isCancellable = flightTrip.action?.isCancellable ?: false
-        val customerSupportNumber = itinCardDataFlight.tripComponent.parentTrip.customerSupport.supportPhoneNumberDomestic ?: ""
-        flightItinModifyReservationSubject.onNext(FlightItinModifyReservationViewModel.FlightItinModifyReservationWidgetParams(webChangePathURL, isChangeable, webCancelPathURL, isCancellable, customerSupportNumber))
     }
 }
