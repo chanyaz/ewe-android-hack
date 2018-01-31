@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -73,7 +72,7 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
         val paddingSide = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt()
         lp.setMargins(paddingSide, paddingTop, paddingSide, paddingTop)
         view.layoutParams = lp
-        view.setBackgroundColor(Color.parseColor("#979797"))
+        view.setBackgroundColor(ContextCompat.getColor(context, R.color.gray500))
         return view
     }
 }

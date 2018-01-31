@@ -62,7 +62,7 @@
     <color name="btn_sign_in_focused">#ED164E</color>
     <color name="btn_sign_in_disabled">#791F37</color>
     <color name="acct__btn_sign_in_text_orbitz">#FFFFFF</color>
-    <color name="acct__bg_input_text_good">#EEEEEE</color>
+    <color name="acct__bg_input_text_good">@color/gray600</color>
 
     <!--Account Screen-->
     <color name="account_sign_out_button_background_color">#C4204B</color>

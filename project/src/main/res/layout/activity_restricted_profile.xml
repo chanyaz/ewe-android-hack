@@ -30,7 +30,7 @@
             android:layout_marginBottom="8dp"
             android:bufferType="spannable"
             android:gravity="center_horizontal"
-            android:textColor="#f3f3f3"
+            android:textColor="@color/gray100"
             android:textSize="@dimen/login_header_text_size" />
     </LinearLayout>
 

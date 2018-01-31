@@ -90,8 +90,8 @@
     <color name="btn_sign_in_pressed">#007095</color>
     <color name="btn_sign_in_focused">#007095</color>
     <color name="btn_sign_in_disabled">#80000000</color>
-    <color name="acct__btn_sign_in_text">#C8C8C8</color>
-    <color name="acct__bg_input_text_good">#EEEEEE</color>
+    <color name="acct__btn_sign_in_text">@color/gray400</color>
+    <color name="acct__bg_input_text_good">@color/gray600</color>
 
     <color name="account_sign_out_button_background_color">#003366</color>
     <color name="account_sign_in_button_background_color">@color/action_bar_bg_color</color>

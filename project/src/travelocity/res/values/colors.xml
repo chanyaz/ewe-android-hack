@@ -19,7 +19,7 @@
     <color name="member_pricing_text_color">#FFFFFF</color>
     <color name="member_pricing_bg_color">#00335f</color>
     <color name="member_only_tag_bg_color">#00335f</color>
-    <color name="launch_list_header_title_color">#565656</color>
+    <color name="launch_list_header_title_color">@color/gray700</color>
     <color name="placeholder_card_background_color">@color/app_primary</color>
     <color name="placeholder_card_button_text_color">@color/app_primary</color>
     <color name="packages_bundle_price_background_color">#2B7CA8</color>
@@ -47,7 +47,7 @@
     <color name="acct__btn_sign_in_text_tvly">@color/white</color>
     <color name="acct__bg_input_text_error">#e99087</color>
     <color name="acct__bg_input_text_hint">#97a7ca</color>
-    <color name="acct__bg_input_text_good">#EEEEEE</color>
+    <color name="acct__bg_input_text_good">@color/gray600</color>
 
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
@@ -62,7 +62,7 @@
 
     <color name="error_widget_edit_button_selected_color">#033057</color>
     <color name="launch_tab_indicator">#7BAED4</color>
-    <color name="error_widget_text">#656565</color>
+    <color name="error_widget_text">@color/gray700</color>
 
     <!-- Packages colors -->
     <color name="packages_primary_color">@color/lob_primary_color</color>

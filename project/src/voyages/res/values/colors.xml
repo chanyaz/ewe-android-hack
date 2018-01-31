@@ -42,11 +42,11 @@
     <color name="btn_sign_in_focused">#BBDF84</color>
     <color name="btn_sign_in_disabled">#807abb00</color>
     <color name="acct__btn_sign_in_text">#FFFFFF</color>
-    <color name="acct__bg_input_text_good">#EEEEEE</color>
-    <color name="launch_actionbar_bg_color">#EDEDED</color>
+    <color name="acct__bg_input_text_good">@color/gray600</color>
+    <color name="launch_actionbar_bg_color">@color/gray200</color>
     <color name="hotel_lob_btn">#70BB00</color>
     <color name="flights_lob_btn">#0088CE</color>
-    <color name="action_bar_selected_tab_underline_color">#585858</color>
+    <color name="action_bar_selected_tab_underline_color">@color/gray800</color>
     <color name="account_sign_in_button_background_color">@color/vsc_primary_color</color>
     <color name="account_create_button_text_color">@color/vsc_primary_color</color>
     <color name="account_sign_out_button_background_color">@color/vsc_secondary_color</color>

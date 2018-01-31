@@ -33,7 +33,7 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_centerVertical="true"
-        android:background="#C7C7C7"
+        android:background="@color/gray400"
         android:visibility="invisible" />
 
     <com.mobiata.android.widget.AutoResizeTextView
@@ -43,7 +43,7 @@
         android:layout_centerVertical="true"
         android:gravity="center_vertical|left"
         android:layout_toRightOf="@+id/slider_image_holder"
-        android:textColor="#FCFCFC"
+        android:textColor="@color/gray100"
         android:textSize="26sp" />
 
     <RelativeLayout

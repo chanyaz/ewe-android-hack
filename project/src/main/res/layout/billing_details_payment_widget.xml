@@ -103,7 +103,7 @@
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="1px"
-                        android:background="#E0E0E0" />
+                        android:background="@color/gray300" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/payment_option_credit_debit"
@@ -113,7 +113,7 @@
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="1px"
-                        android:background="#E0E0E0" />
+                        android:background="@color/gray300" />
 
                 </com.expedia.bookings.widget.DisableableLinearLayout>
             </LinearLayout>
@@ -299,7 +299,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1px"
-                        android:background="#D5D5D5" />
+                        android:background="@color/gray300" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/invalid_payment_text"

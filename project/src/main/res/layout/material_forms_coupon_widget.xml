@@ -55,7 +55,7 @@
                 android:lineSpacingExtra="3sp"
                 android:paddingRight="84dp"
                 android:paddingTop="2dp"
-                android:textColor="#4a4a4a"
+                android:textColor="@color/gray900"
                 android:textSize="12sp"
                 android:textStyle="normal" />
 

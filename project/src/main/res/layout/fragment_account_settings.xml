@@ -84,7 +84,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
-                    android:background="#4CEEEEEE"/>
+                    android:background="@color/gray100_30"/>
 
                 <RelativeLayout
                     android:id="@+id/first_row_container"
@@ -171,7 +171,7 @@
                     android:layout_height="1dp"
                     android:layout_marginBottom="12dp"
                     android:layout_marginTop="12dp"
-                    android:background="#4CEEEEEE" />
+                    android:background="@color/gray100_30" />
 
                 <RelativeLayout
                     android:id="@+id/second_row_container"

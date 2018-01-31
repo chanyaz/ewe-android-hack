@@ -26,7 +26,7 @@
             android:id="@+id/map_loyalty_applied_message"
             android:layout_width="match_parent"
             android:layout_height="@dimen/hotel_map_loyalty_header_height"
-            android:background="#F8F8F8"
+            android:background="@color/gray100"
             android:gravity="center"
             android:textColor="@color/hotels_primary_color"
             android:textSize="12sp" />
@@ -139,7 +139,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:textColor="#696969">
+                android:textColor="@color/gray700">
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/no_guest_rating"

@@ -2,7 +2,7 @@
 <resources>
     <color name="app_primary">#7ac231</color>
     <color name="app_primary_dark">#67B425</color>
-    <color name="action_bar_bg_color">#F1F1F1</color>
+    <color name="action_bar_bg_color">@color/gray100</color>
     <color name="action_bar_text_color">#1F8EDE</color>
     <color name="hotels_primary_color">#7AC231</color>
     <color name="action_bar_selected_tab_underline_color">#599027</color>
@@ -20,7 +20,7 @@
 
     <color name="hotel_price_text_color">#1972B2</color>
     <color name="hotel_price_sale_text_color">#599027</color>
-    <color name="actionbar_text">#4F4F4F</color>
+    <color name="actionbar_text">@color/gray800</color>
     <color name="actionbar_suggestion_text_color">#DDDFE1</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
@@ -69,7 +69,7 @@
     <color name="btn_sign_in_focused">#456F1E</color>
     <color name="btn_sign_in_disabled">#52970C</color>
     <color name="acct__btn_sign_in_text_wotif">@color/white</color>
-    <color name="acct__bg_input_text_good">#EEEEEE</color>
+    <color name="acct__bg_input_text_good">@color/gray600</color>
 
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>

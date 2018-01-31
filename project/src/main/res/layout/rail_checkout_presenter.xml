@@ -136,7 +136,7 @@
                 android:id="@+id/rail_slide_to_purchase_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FDFDFD"
+                android:background="@color/gray100"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:paddingBottom="8dp"

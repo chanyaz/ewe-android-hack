@@ -37,11 +37,11 @@
     </style>
 
     <style name="DarkPopupMenuTextAppearanceSmall" parent="@android:style/TextAppearance.Holo.Widget.PopupMenu.Small">
-        <item name="android:textColor">#F3F3F3</item>
+        <item name="android:textColor">@color/gray100</item>
     </style>
 
     <style name="DarkPopupMenuTextAppearanceLarge" parent="@android:style/TextAppearance.Holo.Widget.PopupMenu.Large">
-        <item name="android:textColor">#F3F3F3</item>
+        <item name="android:textColor">@color/gray100</item>
     </style>
 
     <style name="Theme.Expedia" parent="@android:style/Theme.Holo.Light.DarkActionBar">
@@ -190,7 +190,7 @@
 
         <item name="itin_card_detail_title_bg">@drawable/bg_itin_card_title</item>
         <item name="itin_card_detail_triplet_value_text_size">24sp</item>
-        <item name="itin_card_detail_triplet_value_text_color">#f4f4f4</item>
+        <item name="itin_card_detail_triplet_value_text_color">@color/gray100</item>
         <item name="itin_card_detail_triplet_label_text_size">14sp</item>
         <item name="itin_card_detail_triplet_label_text_color">@color/gray200</item>
         <item name="itin_card_detail_section_header_underline_drawable">@drawable/itin_section_divider</item>

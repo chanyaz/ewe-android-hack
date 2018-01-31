@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:paddingBottom="1dp"
-                        android:textColor="#222222"
+                        android:textColor="@color/gray900"
                         style="@style/Core.Text.200"
                         app:textStyle="bold" />
                 </FrameLayout>

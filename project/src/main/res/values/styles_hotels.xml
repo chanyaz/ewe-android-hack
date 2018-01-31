@@ -59,7 +59,7 @@
         <item name="accept_terms_text_color">@color/app_primary</item>
         <item name="accept_terms_background_color">@color/white</item>
         <item name="hotel_book_button_background_selector_drawable">@drawable/new_hotel_book_background_selector</item>
-        <item name="itin_hotel_gallery_bg">#262626</item>
+        <item name="itin_hotel_gallery_bg">@color/gray900</item>
     </style>
 
     <style name="Theme.Hotels.Default" parent="Base.Hotels.Default">
@@ -122,7 +122,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">#474747</item>
+        <item name="android:textColor">@color/gray800</item>
     </style>
 
     <style name="HotelCheckoutImageSummary.Name" parent="HotelCheckoutImageSummary">

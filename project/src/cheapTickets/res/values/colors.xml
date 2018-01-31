@@ -75,7 +75,7 @@
     <color name="btn_sign_in_focused">#FC4545</color>
     <color name="btn_sign_in_disabled">#7F002A</color>
     <color name="acct__btn_sign_in_text">#FFFFFF</color>
-    <color name="acct__bg_input_text_good">#EEEEEE</color>
+    <color name="acct__bg_input_text_good">@color/gray600</color>
 
     <!--Account Screen-->
     <color name="account_toolbar_text_color">@color/white</color>

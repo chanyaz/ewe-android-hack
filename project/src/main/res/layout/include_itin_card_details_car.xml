@@ -28,7 +28,7 @@
             android:id="@+id/mini_map"
             android:layout_width="match_parent"
             android:layout_height="@dimen/itin_map_total_size"
-            android:background="#aaaaaa"
+            android:background="@color/gray500"
             android:focusable="false"
             android:scaleType="centerCrop" />
     </com.expedia.bookings.widget.ParallaxContainer>

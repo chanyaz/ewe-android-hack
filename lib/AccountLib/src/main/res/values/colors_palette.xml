@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Copied from main project's color_palette.xml. Will eventually move to better shared solution. -->
+    <color name="acct__gray700">#616161</color>
+    <color name="acct__gray900">#1F1F1F</color>
+    <color name="acct__gray900_50">#801F1F1F</color>
+
     <color name="acct__white">#FFFFFF</color>
     <color name="acct__exp_launch_blue">#0063BB</color>
-    <color name="acct__grey_1">#676767</color>
+    <color name="acct__grey_1">@color/acct__gray700</color>
     <color name="acct__blue_1">#1369B3</color>
 </resources>

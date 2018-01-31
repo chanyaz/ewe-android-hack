@@ -37,14 +37,14 @@
     <color name="member_only_tag_bg_color">#a1266c</color>
     <color name="member_deals_background_gradient">#BFe40088</color>
 
-    <color name="hotel_price_text_color">#4F4F4F</color>
+    <color name="hotel_price_text_color">@color/gray800</color>
     <color name="hotel_price_sale_text_color">#0079a1</color>
     <color name="actionbar_text_lm">@color/white</color>
     <color name="actionbar_text">@color/white</color>
     <color name="actionbar_suggestion_text_color">@color/white</color>
 
     <color name="flight_trip">#0079A1</color>
-    <color name="flight_trip_price">#4F4F4F</color>
+    <color name="flight_trip_price">@color/gray800</color>
     <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
     <color name="action_bar_flight_text_color">@color/actionbar_text_lm</color>
@@ -64,7 +64,7 @@
     <color name="btn_sign_in_pressed">#A1266C</color>
     <color name="btn_sign_in_focused">#F8159C</color>
     <color name="btn_sign_in_disabled">#80004C</color>
-    <color name="acct__bg_input_text_good">#EEEEEE</color>
+    <color name="acct__bg_input_text_good">@color/gray600</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
 
     <color name="hotels_primary_color">@color/last_minute_primary_color</color>

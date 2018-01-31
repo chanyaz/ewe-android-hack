@@ -14,7 +14,7 @@
         android:id="@+id/hotel_details_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/egg_white" />
+        android:background="@color/gray100" />
 
     <com.expedia.bookings.widget.LoadingOverlayWidget
         android:id="@+id/details_loading_overlay"

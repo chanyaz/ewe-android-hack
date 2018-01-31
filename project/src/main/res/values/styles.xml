@@ -21,7 +21,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="colorControlNormal">#C3C3C3</item>
+        <item name="colorControlNormal">@color/gray400</item>
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
         <item name="android:dropDownListViewStyle">@style/TerminalMapSpinnerStyle</item>
@@ -41,7 +41,7 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
 
-        <item name="colorControlNormal">#C3C3C3</item>
+        <item name="colorControlNormal">@color/gray400</item>
         <item name="android:actionMenuTextColor">@color/white</item>
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
@@ -369,7 +369,7 @@
     </style>
 
     <style name="LegalInformationDivider.Grey">
-        <item name="android:background">#D1D1D1</item>
+        <item name="android:background">@color/gray400</item>
     </style>
 
     <style name="Widget.Spinner.Phone" parent="@android:style/Widget.Holo.Light.Spinner">
@@ -431,7 +431,7 @@
     </style>
 
     <style name="DropDownListView" parent="@android:style/Widget.ListView.DropDown">
-        <item name="android:divider">#4F4F4F</item>
+        <item name="android:divider">@color/gray800</item>
         <item name="android:dividerHeight">1dp</item>
     </style>
 

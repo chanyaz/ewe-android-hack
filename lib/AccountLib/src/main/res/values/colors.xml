@@ -33,6 +33,6 @@
     <color name="acct__single_page_text_hint_color">@color/acct__grey_1</color>
     <color name="acct__single_page_error_color">#e42000</color>
     <color name="acct__single_page_selected_color">@color/acct__blue_1</color>
-    <color name="acct__single_page_text_color">#4a4a4a</color>
-    <color name="acct__single_page_disabled_color">#804a4a4a</color>
+    <color name="acct__single_page_text_color">@color/acct__gray900</color>
+    <color name="acct__single_page_disabled_color">@color/acct__gray900_50</color>
 </resources>

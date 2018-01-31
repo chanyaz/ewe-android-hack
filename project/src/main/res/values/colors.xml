@@ -22,7 +22,7 @@
     <color name="actionbar_text_color_disabled">#90FFFFFF</color>
 
     <!-- Launch screen colors -->
-    <color name="launch_primary">#f3f3f3</color>
+    <color name="launch_primary">@color/gray100</color>
 
     <!-- New launch screen colors -->
     <color name="launch_mobile_exclusive">#980351</color>
@@ -47,12 +47,12 @@
     <color name="splash_screen_bg">@color/exp_yellow</color>
 
     <!-- Itinerary colors -->
-    <color name="itin_toolbar_text">#F3F3F3</color>
-    <color name="itin_white_text">#F3F3F3</color>
-    <color name="itin_gray_text">#90F3F3F3</color>
+    <color name="itin_toolbar_text">@color/gray100</color>
+    <color name="itin_white_text">@color/gray100</color>
+    <color name="itin_gray_text">@color/gray100_60</color>
     <color name="itin_call_to_action_text">#0063BB</color>
     <color name="itin_offwhite_text">#A9ABAE</color>
-    <color name="itin_section_text">#F4F4F4</color>
+    <color name="itin_section_text">@color/gray100</color>
     <color name="itin_bg_enter_itin_number_tv">#2E3437</color>
     <color name="itin_divider_color">#454E56</color>
     <color name="itin_flight_line_color">#5195BB</color>
@@ -87,14 +87,14 @@
     <color name="flight_trip">#0D6599</color>
     <color name="flight_trip_price">#22599C</color>
     <color name="airport_text">#607480</color>
-    <color name="divider_gray">#DCDCDC</color>
+    <color name="divider_gray">@color/gray300</color>
     <color name="data_entry_heading">#1D5380</color>
     <color name="data_entry_heading_divider">#37658D</color>
     <color name="data_review_gray">@color/gray700</color>
-    <color name="dialog_background_light">#F5F5F5</color>
-    <color name="roboto_light">#fff3f3f3</color>
+    <color name="dialog_background_light">@color/gray100</color>
+    <color name="roboto_light">@color/gray100</color>
     <color name="spinner_airport">@color/white</color>
-    <color name="spinner_airport_details">#777777</color>
+    <color name="spinner_airport_details">@color/gray600</color>
     <color name="flight_free_cancellation_text_color">#FFE980</color>
 
     <!-- Flights V2 colors -->
@@ -135,7 +135,7 @@
     <color name="hotel_detail_earn_message_text_color">@color/gray600</color>
     <color name="hotel_search_info_selectable_color">@color/hotels_primary_color</color>
     <color name="hotel_search_info_color">@color/gray900</color>
-    <color name="saved_coupon_header_text_color">#4A4A4A</color>
+    <color name="saved_coupon_header_text_color">@color/gray900</color>
     <color name="hotel_sold_out_overlay_color">@color/gray900_75</color>
 
     <!-- Hotel reviews colors -->
@@ -161,35 +161,35 @@
     <color name="cvv_book_button_text_color">@android:color/black</color>
 
     <!-- These colors are ripped from the iOS version, and are not finalized -->
-    <color name="window_background">#FF666666</color>
+    <color name="window_background">@color/gray700</color>
     <color name="window_background_dark">#2D3742</color>
-    <color name="calendar_instruction_text_color">#717171</color>
+    <color name="calendar_instruction_text_color">@color/gray600</color>
 
     <color name="hotel_cell_primary_color">#3D4552</color>
     <color name="hotel_price_text_color">#064192</color>
     <color name="hotel_price_sale_text_color">@color/success_green</color>
-    <color name="bg_row_state_pressed">#f0f0f0</color>
-    <color name="text_dark">#ff545454</color>
-    <color name="text_black">#ff232323</color>
+    <color name="bg_row_state_pressed">@color/gray100</color>
+    <color name="text_dark">@color/gray700</color>
+    <color name="text_black">@color/gray900</color>
     <color name="tab_text">#d7d9dc</color>
     <color name="actionbar_bg">#232b33</color>
     <color name="bg_signin_dialog_button">@android:color/transparent</color>
     <color name="bg_signin_dialog_button_focused">#18000000</color>
     <color name="bg_signin_dialog_button_pressed">#30000000</color>
     <color name="bg_signin_dialog_button_disabled">@android:color/transparent</color>
-    <color name="hotel_details_separator">#d1d1d1</color>
+    <color name="hotel_details_separator">@color/gray400</color>
     <color name="legal_info_blue">#235285</color>
     <color name="nav_dropdown_dividers">#26ffffff</color>
-    <color name="action_bar_flight_text_color">#F5F5F5</color>
+    <color name="action_bar_flight_text_color">@color/gray100</color>
     <color name="confirmation_header_divider_flight">#7D7ab6f5</color>
-    <color name="confirmation_header_divider_hotel">#cccccc</color>
+    <color name="confirmation_header_divider_hotel">@color/gray400</color>
 
     <!-- A light Holo shade of blue -->
     <color name="holo_blue_light">#ff33b5e5</color>
     <color name="background_holo_dark">@color/black</color>
     <color name="bright_foreground_holo_light">@color/background_holo_dark</color>
-    <color name="dim_foreground_holo_light">#323232</color>
-    <color name="dim_foreground_disabled_holo_light">#80323232</color>
+    <color name="dim_foreground_holo_light">@color/gray800</color>
+    <color name="dim_foreground_disabled_holo_light">@color/gray800_50</color>
 
     <!-- From ABS, Sherlock Light DialogWindowTitle -->
     <color name="dialog_window_holo_blue_light">#ff33b5e5</color>
@@ -197,11 +197,11 @@
     <color name="coupon_success_message_color">#FFE115</color>
     <!-- Ripped out of ABS -->
     <color name="abs__background_holo_dark">@color/black</color>
-    <color name="abs__background_holo_light">#fff3f3f3</color>
+    <color name="abs__background_holo_light">@color/gray100</color>
     <color name="abs__bright_foreground_holo_dark">@color/abs__background_holo_light</color>
     <color name="abs__bright_foreground_holo_light">@color/abs__background_holo_dark</color>
-    <color name="abs__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
-    <color name="abs__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="abs__bright_foreground_disabled_holo_dark">@color/gray800</color>
+    <color name="abs__bright_foreground_disabled_holo_light">@color/gray400</color>
 
     <!-- About Activity -->
     <color name="AboutRowTextColor">@color/gray600</color>
@@ -209,8 +209,8 @@
     <!-- AboutSectionFragment -->
     <color name="about_row_bg_normal">#0000</color>
     <color name="about_row_bg_pressed">#7caae5</color>
-    <color name="AboutSectionTextColor">#232323</color>
-    <color name="AboutSectionAppsTextColor">#454545</color>
+    <color name="AboutSectionTextColor">@color/gray900</color>
+    <color name="AboutSectionAppsTextColor">@color/gray800</color>
 
     <!-- Price change colors -->
     <color name="price_change_air_attach">#fd8126</color>
@@ -241,13 +241,13 @@
     <color name="material_checkout_account_button_text_color">@color/gray900</color>
     <color name="material_checkout_account_button_background_color">@color/exp_yellow</color>
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
-    <color name="old_checkout_account_button_text_color">#676767</color>
-    <color name="saved_coupon_text_color">#676767</color>
+    <color name="old_checkout_account_button_text_color">@color/gray700</color>
+    <color name="saved_coupon_text_color">@color/gray700</color>
     <color name="saved_coupon_error_color">@color/error_red</color>
 
-    <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
-    <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
-    <color name="checkout_traveler_birth_color">#919191</color>
+    <color name="bg_checkout_saved_traveler_cc_row">@color/gray100</color>
+    <color name="bg_checkout_saved_traveler_cc_row_pressed">@color/gray300</color>
+    <color name="checkout_traveler_birth_color">@color/gray500</color>
     <color name="checkout_main_traveler_message">@color/gray700</color>
     <color name="checkout_screen_error_message_color">@color/error_red</color>
     <color name="material_checkout_background_color">@color/white</color>
@@ -329,9 +329,9 @@
     <!-- Hotels V2 Checkout Colors -->
     <color name="hotelsv2_checkout_text_color">@color/gray700</color>
     <color name="hotelsv2_amenity_icon_color">@color/gray700</color>
-    <color name="hotelsv2_checkout_divider_color">#DFDFDF</color>
-    <color name="hotel_guest_selector_enabled_color">#5C5C5C</color>
-    <color name="hotel_guest_selector_disabled_color">#405C5C5C</color>
+    <color name="hotelsv2_checkout_divider_color">@color/gray300</color>
+    <color name="hotel_guest_selector_enabled_color">@color/gray700</color>
+    <color name="hotel_guest_selector_disabled_color">@color/gray700_25</color>
     <color name="pay_with_reward_text_color">@color/hotels_primary_color</color>
     <color name="points_available_text_color">@color/gray700</color>
 
@@ -355,9 +355,9 @@
     <color name="sign_in_user_top_tier">#e7b40d</color>
 
     <!-- Error widget button colors -->
-    <color name="error_widget_edit_button_selected_color">#7C7C7C</color>
+    <color name="error_widget_edit_button_selected_color">@color/gray600</color>
 
-    <color name="rating_yellow_disabled">#DBDBDB</color>
+    <color name="rating_yellow_disabled">@color/gray300</color>
     <color name="rating_yellow">#F6AE24</color>
 
     <!-- Packages colors -->
@@ -385,8 +385,8 @@
     <color name="traveler_incomplete_text_color">@color/error_red</color>
     <color name="packages_total_duration_text">@color/white_70</color>
     <color name="flights_error_message_infants">@color/error_red</color>
-    <color name="flights_cabin_class_radio_button_color">#6A6A6A</color>
-    <color name="packages_dialog_gray_color">#4A4A4A</color>
+    <color name="flights_cabin_class_radio_button_color">@color/gray700</color>
+    <color name="packages_dialog_gray_color">@color/gray900</color>
 
     <!--Rail colors-->
     <color name="rail_primary_color">@color/blue2</color>
@@ -419,7 +419,7 @@
     <color name="search_dialog_icon_color">@color/gray700</color>
     <color name="search_dialog_background_v2">@color/white</color>
     <color name="search_origin_dest_divider">@color/gray300</color>
-    <color name="search_suggestion_background_v2">#FAFAFA</color>
+    <color name="search_suggestion_background_v2">@color/gray100</color>
     <color name="search_suggestion_v2">@color/gray600</color>
     <color name="search_suggestion_hint_v2">@color/gray600</color>
     <color name="traveler_picker_main_text">@color/gray800</color>
@@ -456,7 +456,7 @@
     <color name="flight_docked_text">@color/gray700</color>
     <color name="flight_docked_text_outbound">@color/gray600</color>
     <color name="flight_cabin_class_text">@color/gray800</color>
-    <color name="flight_baggage_info_horizontal_line">#c0c0c0</color>
+    <color name="flight_baggage_info_horizontal_line">@color/gray400</color>
     <color name="error_widget_text">@color/gray600</color>
 
     <!-- New Hotels Launch Screen LOB button colors -->

@@ -15,7 +15,7 @@
     <color name="exp_itin_bg_crystal_theme">@color/gray100</color>
     <color name="exp_itin_status_indication_success">#409100</color>
     <color name="exp_itin_status_indication_error">#e42000</color>
-    <color name="exp_itin_manage_booking_title">#4a4a4a</color>
+    <color name="exp_itin_manage_booking_title">@color/gray900</color>
 
     <color name="blue1">#0C7CDF</color>
     <color name="blue2">#1369B3</color>
@@ -30,7 +30,6 @@
 
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="egg_white">#FAFAFA</color>
 
     <color name="gray100">#F5F5F5</color>
     <color name="gray200">#e6e6e6</color>
@@ -43,8 +42,8 @@
     <color name="gray900">#1F1F1F</color>
     <color name="black">#FF000000</color>
 
-    <color name="bundleTextGray">#656565</color>
-    <color name="docketOutboundWidgetGray">#f7f7f7</color>
+    <color name="bundleTextGray">@color/gray700</color>
+    <color name="docketOutboundWidgetGray">@color/gray100</color>
     <!-- alpha colors http://stackoverflow.com/questions/15852122/hex-transparency-in-colors-->
     <color name="white_19">#30FFFFFF</color> <!-- Disabled white text -->
     <color name="white_25">#40FFFFFF</color>
@@ -53,6 +52,10 @@
     <color name="black_20">#33000000</color>
     <color name="black_50">#80000000</color>
     <color name="black_70">#BF000000</color>
+    <color name="gray100_30">#4DF5F5F5</color>
+    <color name="gray100_60">#99F5F5F5</color>
+    <color name="gray700_25">#40616161</color>
+    <color name="gray800_50">#80404040</color>
     <color name="gray900_30">#4D1F1F1F</color>
     <color name="gray900_75">#BF1F1F1F</color>
     <color name="exp_brand_blue_65">#A600355F</color>

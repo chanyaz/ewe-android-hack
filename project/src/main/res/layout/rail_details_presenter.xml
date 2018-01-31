@@ -83,7 +83,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:paddingTop="12dp"
-                            tools:background="#777777"
+                            tools:background="@color/gray600"
                             tools:layout_height="100dp" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>

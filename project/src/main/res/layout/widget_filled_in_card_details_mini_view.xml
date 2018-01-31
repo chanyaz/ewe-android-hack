@@ -8,7 +8,7 @@
         android:id="@+id/spacer_above_filled_in_card_details_mini_view"
         android:layout_width="fill_parent"
         android:layout_height="1px"
-        android:background="#E0E0E0" />
+        android:background="@color/gray300" />
 
     <LinearLayout
         android:id="@+id/filled_in_card_details_mini_container"

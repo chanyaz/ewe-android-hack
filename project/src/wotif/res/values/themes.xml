@@ -83,7 +83,7 @@
         <item name="itin_card_summary_right_action_button_car_drawable">@drawable/ic_phone</item>
         <item name="itin_air_attach_background">@drawable/btn_hotel_attach_normal</item>
         <item name="itin_card_detail_triplet_value_text_size">24sp</item>
-        <item name="itin_card_detail_triplet_value_text_color">#f4f4f4</item>
+        <item name="itin_card_detail_triplet_value_text_color">@color/gray100</item>
         <item name="itin_card_detail_triplet_label_text_size">14sp</item>
         <item name="itin_card_detail_triplet_label_text_color">@color/gray200</item>
         <item name="itin_card_detail_section_header_underline_drawable">@drawable/itin_section_divider</item>

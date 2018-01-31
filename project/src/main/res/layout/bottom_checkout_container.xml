@@ -30,7 +30,7 @@
         android:id="@+id/slide_to_purchase_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FDFDFD"
+        android:background="@color/gray100"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -38,7 +38,7 @@
             android:id="@+id/slide_to_purchase_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FDFDFD"
+            android:background="@color/gray100"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:visibility="gone">
