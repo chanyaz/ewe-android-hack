@@ -26,8 +26,14 @@ public class LXOfferSelected {
 			if (ticket.count > 0) {
 				LXTicketSelected ticketSelected = new LXTicketSelected();
 				ticketSelected.ticketId = ticket.ticketId;
-				ticketSelected.count = ticket.count;
 				ticketSelected.code = ticket.code;
+				if (ticket.prices != null && ticket.prices.get(0).groupPrice != null) { // to check if the offer is VBP per group config
+					ticketSelected.count = 1;
+					ticketSelected.travelerCount = ticket.count;
+				}
+				else {
+					ticketSelected.count = ticket.count;
+				}
 				this.tickets.add(ticketSelected);
 			}
 		}

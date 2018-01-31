@@ -24,7 +24,12 @@ public class LXUtils {
 			else {
 				for (Ticket.LxTicketPrices price : ticket.prices) {
 					if (ticket.count == price.travellerNum) {
-						amountDueForTickets = price.money.getAmount().multiply(BigDecimal.valueOf(price.travellerNum));
+						if (price.groupPrice != null) {
+							amountDueForTickets = new BigDecimal(price.groupPrice);
+						}
+						else  {
+							amountDueForTickets = price.money.getAmount().multiply(BigDecimal.valueOf(price.travellerNum));
+						}
 					}
 				}
 			}

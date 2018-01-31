@@ -27,7 +27,7 @@ public class Ticket implements Comparable<Ticket> {
 
 	public static class LxTicketPrices {
 		public String originalPrice;
-		public String cost;
+		public String groupPrice;
 		public int travellerNum;
 		public String amount;
 		public String price;
