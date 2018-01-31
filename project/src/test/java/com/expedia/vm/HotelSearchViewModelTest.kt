@@ -2,7 +2,6 @@ package com.expedia.vm
 
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.services.HotelServices
@@ -10,7 +9,6 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.testutils.builder.TestSuggestionV4Builder
@@ -327,8 +325,6 @@ class HotelSearchViewModelTest {
 
     @Test
     fun testPrefetchDisabled_invalidParams() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
-
         val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
 
@@ -338,8 +334,6 @@ class HotelSearchViewModelTest {
 
     @Test
     fun testPrefetchDisabled_hotelIdSearch() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
-
         val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
 
@@ -350,8 +344,6 @@ class HotelSearchViewModelTest {
 
     @Test
     fun testPrefetchDisabled_rawTextSearch() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
-
         val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
 
@@ -362,8 +354,6 @@ class HotelSearchViewModelTest {
 
     @Test
     fun testPrefetchDisabled_advancedSearchOptions() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
-
         val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
         testViewModel.getParamsBuilder().hotelName("ADVANCED_OPTION")
@@ -374,8 +364,6 @@ class HotelSearchViewModelTest {
 
     @Test
     fun testPrefetchDisabled_deeplink() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
-
         val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
         testViewModel.ignoreGreedyForDeepLink = true
@@ -386,8 +374,6 @@ class HotelSearchViewModelTest {
 
     @Test
     fun testPrefetchEnabled() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
-
         val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
         triggerParams(suggestion = suggestionBuilder.build(),
