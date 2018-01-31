@@ -30,6 +30,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -39,6 +40,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConstants;
@@ -1634,6 +1636,7 @@ public class ItineraryManager implements JSONable {
 						for (ServerError serverError : response.getErrors()) {
 							ServerError.ErrorCode errorCode = serverError.getErrorCode();
 							if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
+								logForcedLogoutToCrashlytics();
 								userStateManager.signOut();
 								break;
 							}
@@ -1903,6 +1906,17 @@ public class ItineraryManager implements JSONable {
 			}
 		}
 		return false;
+	}
+
+	private void logForcedLogoutToCrashlytics() {
+		User user = userStateManager.getUserSource().getUser();
+
+		if (user != null) {
+			String tuidString = user.getTuidString();
+			String expediaId = user.getExpediaUserId();
+			Throwable exception = new Throwable("Forced logout on itinerary refresh - " + "UserTUID: " + tuidString + " - ExpediaUserId: " + expediaId);
+			Crashlytics.logException(exception);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
