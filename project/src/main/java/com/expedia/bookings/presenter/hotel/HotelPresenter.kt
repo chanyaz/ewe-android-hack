@@ -476,16 +476,11 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
 
         errorPresenter.viewmodel.checkoutCardErrorObservable.subscribe {
-            show(checkoutPresenter, FLAG_CLEAR_TOP)
-            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, FLAG_CLEAR_TOP)
-            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
+            showPaymentFormAndClearTempCard()
         }
 
         errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe {
-            show(checkoutPresenter, FLAG_CLEAR_TOP)
-            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, FLAG_CLEAR_TOP)
-            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.showPaymentForm(fromPaymentError = true)
-            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.viewmodel.clearTemporaryCardObservable.onNext(Unit)
+            showPaymentFormAndClearTempCard()
         }
 
         errorPresenter.viewmodel.checkoutAlreadyBookedObservable.subscribe {
@@ -521,6 +516,13 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         geoCodeSearchModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         geoCodeSearchModel.errorObservable.subscribe { show(errorPresenter) }
+    }
+
+    private fun showPaymentFormAndClearTempCard() {
+        show(checkoutPresenter, FLAG_CLEAR_TOP)
+        checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, FLAG_CLEAR_TOP)
+        checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.showPaymentForm(fromPaymentError = true)
+        checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.viewmodel.clearTemporaryCardObservable.onNext(Unit)
     }
 
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {

@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -345,6 +346,60 @@ public class PaymentWidgetFlowTest {
 
 		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
 		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
+		assertNull(Db.sharedInstance.getTemporarilySavedCard());
+	}
+
+	@Test
+	public void testRemoveStoredTempCardAfterCardError() {
+		setupPaymentWidget();
+		paymentWidget.userChoosesToSaveCard();
+
+		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
+		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutCardErrorObservable().onNext(Unit.INSTANCE);
+		assertNull(Db.sharedInstance.getTemporarilySavedCard());
+	}
+
+	@Test
+	public void testRemoveStoredTempCardWhenInvalidCardDetails() {
+		setupPaymentWidget();
+		paymentWidget.userChoosesToSaveCard();
+
+		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
+		hotelPresenter.getErrorPresenter().getViewModel().setError(new ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS));
+		hotelPresenter.getErrorPresenter().getViewModel().handleCheckoutErrors();
+		assertNull(Db.sharedInstance.getTemporarilySavedCard());
+	}
+
+	@Test
+	public void testRemoveStoredTempCardWhenInvalidCardNumber() {
+		setupPaymentWidget();
+		paymentWidget.userChoosesToSaveCard();
+
+		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
+		hotelPresenter.getErrorPresenter().getViewModel().setError(new ApiError(ApiError.Code.INVALID_CARD_NUMBER));
+		hotelPresenter.getErrorPresenter().getViewModel().handleCheckoutErrors();
+		assertNull(Db.sharedInstance.getTemporarilySavedCard());
+	}
+
+	@Test
+	public void testRemoveStoredTempCardWhenInvalidExpiration() {
+		setupPaymentWidget();
+		paymentWidget.userChoosesToSaveCard();
+
+		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
+		hotelPresenter.getErrorPresenter().getViewModel().setError(new ApiError(ApiError.Code.INVALID_CARD_EXPIRATION_DATE));
+		hotelPresenter.getErrorPresenter().getViewModel().handleCheckoutErrors();
+		assertNull(Db.sharedInstance.getTemporarilySavedCard());
+	}
+
+	@Test
+	public void testRemoveStoredTempCardWhenLimitExceeded() {
+		setupPaymentWidget();
+		paymentWidget.userChoosesToSaveCard();
+
+		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
+		hotelPresenter.getErrorPresenter().getViewModel().setError(new ApiError(ApiError.Code.CARD_LIMIT_EXCEEDED));
+		hotelPresenter.getErrorPresenter().getViewModel().handleCheckoutErrors();
 		assertNull(Db.sharedInstance.getTemporarilySavedCard());
 	}
 

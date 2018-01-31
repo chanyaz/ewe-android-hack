@@ -249,23 +249,17 @@ class HotelErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
         val checkoutError = error
 
         when (checkoutError.errorCode) {
-            ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
+            ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS,
+            ApiError.Code.INVALID_CARD_NUMBER,
+            ApiError.Code.CARD_LIMIT_EXCEEDED,
+            ApiError.Code.INVALID_CARD_EXPIRATION_DATE -> {
                 checkoutCardErrorObservable.onNext(Unit)
             }
             ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS -> {
                 checkoutTravelerErrorObservable.onNext(Unit)
             }
             ApiError.Code.PAYMENT_FAILED -> {
-                checkoutCardErrorObservable.onNext(Unit)
-            }
-            ApiError.Code.INVALID_CARD_NUMBER -> {
-                checkoutCardErrorObservable.onNext(Unit)
-            }
-            ApiError.Code.CARD_LIMIT_EXCEEDED -> {
-                checkoutCardErrorObservable.onNext(Unit)
-            }
-            ApiError.Code.INVALID_CARD_EXPIRATION_DATE -> {
-                checkoutCardErrorObservable.onNext(Unit)
+                checkoutPaymentFailedObservable.onNext(Unit)
             }
             else -> {
                 defaultErrorObservable.onNext(Unit)
