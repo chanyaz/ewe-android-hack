@@ -87,7 +87,7 @@ public class CurrentLocationObservable implements
 		ApiError.ErrorInfo errorInfo = new ApiError.ErrorInfo();
 		errorInfo.cause = "Could not determine users current location.";
 		error.errorInfo = errorInfo;
-		emitter.onError(error);
+		emitter.tryOnError(error);
 		unsubscribe();
 	}
 }
