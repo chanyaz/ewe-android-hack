@@ -82,6 +82,7 @@ class HotelItinDetailsActivityTest {
         assertEquals(View.GONE, activity.roomDetailsChevron.visibility)
         assertEquals(false, activity.roomDetailsView.isRowClickable)
         assertEquals(View.GONE, activity.roomDetailsView.changeCancelRulesContainer.visibility)
+        assertEquals(View.GONE, activity.roomDetailsView.amenitiesContainer.visibility)
     }
 
     @Test
@@ -94,6 +95,7 @@ class HotelItinDetailsActivityTest {
         assertEquals(View.GONE, activity.roomDetailsChevron.visibility)
         assertEquals(false, activity.roomDetailsView.isRowClickable)
         assertEquals(View.GONE, activity.roomDetailsView.changeCancelRulesContainer.visibility)
+        assertEquals(View.GONE, activity.roomDetailsView.amenitiesContainer.visibility)
     }
 
     @Test
@@ -104,6 +106,16 @@ class HotelItinDetailsActivityTest {
         assertEquals(View.VISIBLE, activity.roomDetailsChevron.visibility)
         assertEquals(true, activity.roomDetailsView.isRowClickable)
         assertEquals(View.GONE, activity.roomDetailsView.changeCancelRulesContainer.visibility)
+    }
+
+    @Test
+    fun testRoomAmenitiesVisible() {
+        activity.itinCardDataHotel = itinCardDataHotel
+        activity.setUpWidgets()
+        activity.roomDetailsView.expandRoomDetailsView()
+
+        assertEquals(View.VISIBLE, activity.roomDetailsView.expandedRoomDetails.visibility)
+        assertEquals(View.VISIBLE, activity.roomDetailsView.amenitiesContainer.visibility)
     }
 
     @Test

@@ -54,6 +54,7 @@ class HotelItinManageBookingActivityTest {
         assertEquals(View.GONE, roomDetailsView.roomDetailsChevron.visibility)
         assertEquals(false, roomDetailsView.isRowClickable)
         assertEquals(View.GONE, roomDetailsView.changeCancelRulesContainer.visibility)
+        assertEquals(View.GONE, roomDetailsView.amenitiesContainer.visibility)
     }
 
     @Test
@@ -67,6 +68,7 @@ class HotelItinManageBookingActivityTest {
         assertEquals(View.GONE, roomDetailsView.roomDetailsChevron.visibility)
         assertEquals(false, roomDetailsView.isRowClickable)
         assertEquals(View.VISIBLE, roomDetailsView.changeCancelRulesContainer.visibility)
+        assertEquals(View.GONE, roomDetailsView.amenitiesContainer.visibility)
     }
 
     @Test

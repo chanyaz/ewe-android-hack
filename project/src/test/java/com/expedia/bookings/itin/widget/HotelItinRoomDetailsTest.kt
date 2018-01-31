@@ -33,7 +33,7 @@ class HotelItinRoomDetailsTest {
     @Test
     fun roomDetailsAreCorrect() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpRoomAndOccupantInfo(itinCardDataHotel.getHotelRoom(0)!!)
 
         val expected = itinCardDataHotel.property.itinRoomType + ", " + itinCardDataHotel.property.itinBedType
         assertEquals(expected, roomDetailsWidget.roomDetailsText.text)
@@ -42,7 +42,7 @@ class HotelItinRoomDetailsTest {
     @Test
     fun reservedForWhenGuestNameOccupantInfoNotEmpty() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpRoomAndOccupantInfo(itinCardDataHotel.getHotelRoom(0)!!)
 
         val expectedString = "Kevin Carpenter, 1 adult"
         assertEquals(expectedString, roomDetailsWidget.guestName.text)
@@ -52,7 +52,7 @@ class HotelItinRoomDetailsTest {
     fun reservedForAdultsChildrenAndInfant() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().withAdultChildInfantCount(3, 2, 1).build()
 
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpRoomAndOccupantInfo(itinCardDataHotel.getHotelRoom(0)!!)
 
         val expectedString = "Kevin Carpenter, 3 adults, 2 children, 1 infant"
         assertEquals(expectedString, roomDetailsWidget.guestName.text)
@@ -62,7 +62,7 @@ class HotelItinRoomDetailsTest {
     fun reservedForAdults1ChildAndInfants() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().withAdultChildInfantCount(4, 1, 2).build()
 
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpRoomAndOccupantInfo(itinCardDataHotel.getHotelRoom(0)!!)
 
         val expectedString = "Kevin Carpenter, 4 adults, 1 child, 2 infants"
         assertEquals(expectedString, roomDetailsWidget.guestName.text)
@@ -72,7 +72,7 @@ class HotelItinRoomDetailsTest {
     fun reservedForAdultsChildNullInfantNotNull() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().withAdultChildInfantCount(2, 0, 1).build()
 
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpRoomAndOccupantInfo(itinCardDataHotel.getHotelRoom(0)!!)
 
         val expectedString = "Kevin Carpenter, 2 adults, 1 infant"
         assertEquals(expectedString, roomDetailsWidget.guestName.text)
@@ -82,7 +82,7 @@ class HotelItinRoomDetailsTest {
     fun reservedForAdultsChildNotNullInfantNull() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().withAdultChildInfantCount(2, 3, 0).build()
 
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpRoomAndOccupantInfo(itinCardDataHotel.getHotelRoom(0)!!)
 
         val expectedString = "Kevin Carpenter, 2 adults, 3 children"
         assertEquals(expectedString, roomDetailsWidget.guestName.text)
@@ -91,7 +91,7 @@ class HotelItinRoomDetailsTest {
     @Test
     fun reservedForWhenGuestNameNullOccupantInfoNotNull() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().withPrimaryOccupantFullName("").build()
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpRoomAndOccupantInfo(itinCardDataHotel.getHotelRoom(0)!!)
 
         val expectedString = "1 adult"
         assertEquals(expectedString, roomDetailsWidget.guestName.text)
@@ -100,7 +100,7 @@ class HotelItinRoomDetailsTest {
     @Test
     fun reservedForWhenGuestNameNotNullOccupantInfoNull() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().withAdultCount(0).build()
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpRoomAndOccupantInfo(itinCardDataHotel.getHotelRoom(0)!!)
 
         val expectedString = "Kevin Carpenter"
         assertEquals(expectedString, roomDetailsWidget.guestName.text)
@@ -109,7 +109,7 @@ class HotelItinRoomDetailsTest {
     @Test
     fun reservedForWhenGuestNameAndOccupantInfoAreNull() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().withEmptyGuestNameAndOccupants("", 0).build()
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpRoomAndOccupantInfo(itinCardDataHotel.getHotelRoom(0)!!)
 
         assertEquals(View.GONE, roomDetailsWidget.reservedFor.visibility)
         assertEquals(View.GONE, roomDetailsWidget.guestName.visibility)
@@ -118,7 +118,7 @@ class HotelItinRoomDetailsTest {
     @Test
     fun roomDetailsCollapseExpand() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpRoomAndOccupantInfo(itinCardDataHotel.getHotelRoom(0)!!)
         roomDetailsWidget.collapseRoomDetailsView()
         assertEquals(View.GONE, roomDetailsWidget.expandedRoomDetails.visibility)
 
@@ -129,7 +129,7 @@ class HotelItinRoomDetailsTest {
     @Test
     fun roomRequestsAreCorrect() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpRoomAndOccupantInfo(itinCardDataHotel.getHotelRoom(0)!!)
         val expectedString = "Non-smoking\n" +
                 "1 king bed\n" +
                 "Accessible bathroom, Roll-in shower, In-room accessibility\n" +
@@ -141,7 +141,7 @@ class HotelItinRoomDetailsTest {
     @Test
     fun roomAmenitiesAreDisplayedAndCorrect() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
-        roomDetailsWidget.setUpWidget(itinCardDataHotel.getHotelRoom(0)!!)
+        roomDetailsWidget.setUpAndShowAmenities(itinCardDataHotel.getHotelRoom(0)!!)
 
         assertEquals(View.VISIBLE, roomDetailsWidget.amenitiesContainer.visibility)
         if (roomDetailsWidget.amenitiesContainer.childCount > 0) {
@@ -160,7 +160,7 @@ class HotelItinRoomDetailsTest {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
-        roomWidget.showChangeCancelRules(itinCardDataHotel.changeAndCancelRules)
+        roomWidget.setupAndShowChangeAndCancelRules(itinCardDataHotel.changeAndCancelRules)
         assertEquals(View.VISIBLE, roomWidget.changeCancelRulesContainer.visibility)
 
         roomWidget.changeCancelRulesContainer.performClick()

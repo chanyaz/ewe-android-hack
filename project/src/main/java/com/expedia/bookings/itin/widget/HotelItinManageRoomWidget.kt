@@ -21,13 +21,13 @@ class HotelItinManageRoomWidget(context: Context, attributeSet: AttributeSet?) :
 
     var viewModel: HotelItinManageRoomViewModel by notNullAndObservable { vm ->
         vm.roomDetailsSubject.subscribe { room ->
-            roomDetailsView.setUpWidget(room)
+            roomDetailsView.setUpRoomAndOccupantInfo(room)
             roomDetailsView.expandRoomDetailsView()
             hotelManageBookingHelpView.showConfirmationNumberIfAvailable(room.hotelConfirmationNumber)
         }
 
         vm.roomChangeAndCancelRulesSubject.subscribe {
-            roomDetailsView.showChangeCancelRules(it)
+            roomDetailsView.setupAndShowChangeAndCancelRules(it)
         }
 
         vm.itinCardDataHotelSubject.subscribe { itinCardDataHotel ->

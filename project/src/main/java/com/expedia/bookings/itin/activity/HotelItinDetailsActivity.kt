@@ -81,7 +81,8 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
         val isSharedItin = itinCardDataHotel.isSharedItin
         val room = itinCardDataHotel.getHotelRoom(0)
         if (!isSharedItin && room != null) {
-            roomDetailsView.setUpWidget(room)
+            roomDetailsView.setUpRoomAndOccupantInfo(room)
+            roomDetailsView.setUpAndShowAmenities(room)
             roomDetailsView.collapseRoomDetailsView()
             roomDetailsChevron.visibility = View.VISIBLE
             roomDetailsView.isRowClickable = true

@@ -56,7 +56,17 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
         visibility = View.GONE
     }
 
-    fun setUpWidget(room: TripHotelRoom) {
+    fun expandRoomDetailsView() {
+        expandedRoomDetails.visibility = View.VISIBLE
+        AnimUtils.rotate(roomDetailsChevron)
+    }
+
+    fun collapseRoomDetailsView() {
+        expandedRoomDetails.visibility = View.GONE
+        AnimUtils.reverseRotate(roomDetailsChevron)
+    }
+
+    fun setUpRoomAndOccupantInfo(room: TripHotelRoom) {
         val occupantSelectedRoomOptions = room.occupantSelectedRoomOptions
         if (occupantSelectedRoomOptions != null) {
             roomDetailsText.text = Phrase.from(context, R.string.itin_hotel_details_room_details_text_TEMPLATE)
@@ -65,7 +75,6 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
         }
         roomRequestsText.text = buildRoomRequests(room)
         reservedForDetails(room)
-        setUpAmenities(room)
 
         container.layoutTransition.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0)
         container.layoutTransition.setStartDelay(LayoutTransition.APPEARING, 0)
@@ -89,16 +98,6 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
                     .put("guestname", tripHotelRoom.primaryOccupant?.fullName)
                     .put("numofguests", numberOfGuests(tripHotelRoom)).format().toString()
         }
-    }
-
-    fun expandRoomDetailsView() {
-        expandedRoomDetails.visibility = View.VISIBLE
-        AnimUtils.rotate(roomDetailsChevron)
-    }
-
-    fun collapseRoomDetailsView() {
-        expandedRoomDetails.visibility = View.GONE
-        AnimUtils.reverseRotate(roomDetailsChevron)
     }
 
     private fun buildRoomRequests(tripHotelRoom: TripHotelRoom): String {
@@ -176,10 +175,10 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
         return formattedList
     }
 
-    fun setUpAmenities(tripHotelRoom: TripHotelRoom) {
+    fun setUpAndShowAmenities(tripHotelRoom: TripHotelRoom) {
         val breakfastAmenityIds = listOf(2, 4, 8, 4096, 8192, 16777216)
         val amenities = tripHotelRoom.amenityIds
-        var showAmenities: Boolean = false
+        var showAmenities = false
         amenitiesContainer.removeAllViews()
         amenities.map {
             if (it in breakfastAmenityIds) breakfastAmenityIds[0] else it
@@ -209,13 +208,13 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
                 }
             }
         }
-        if (!showAmenities) {
-            amenitiesContainer.visibility = View.GONE
-            amenitiesDivider.visibility = View.GONE
+        if (showAmenities) {
+            amenitiesContainer.visibility = View.VISIBLE
+            amenitiesDivider.visibility = View.VISIBLE
         }
     }
 
-    fun showChangeCancelRules(changeAndCancelRules: List<String>?) {
+    fun setupAndShowChangeAndCancelRules(changeAndCancelRules: List<String>?) {
         changeCancelRulesContainer.visibility = View.VISIBLE
         changeCancelRulesContainer.setOnClickListener {
             val fragmentManager = (context as FragmentActivity).supportFragmentManager
