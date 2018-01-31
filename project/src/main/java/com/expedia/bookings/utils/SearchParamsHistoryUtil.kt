@@ -29,7 +29,7 @@ object SearchParamsHistoryUtil {
         Thread {
             try {
                 val paramsToSave = PackageSearchParamsForSaving(params.origin, params.destination, params.startDate,
-                        params.endDate!!, params.adults, params.children, params.infantSeatingInLap)
+                        params.endDate!!, params.adults, params.children, params.infantSeatingInLap, params.flightCabinClass)
                 val paramsJson = PackagesDataUtil.generateGson().toJson(paramsToSave)
                 IoUtils.writeStringToFile(PACKAGE_SERCH_PARAMS_HISTORY_FILE, paramsJson, context)
                 saveSuccess?.invoke(Unit)
@@ -64,7 +64,8 @@ object SearchParamsHistoryUtil {
                         endDate = paramsSaved.endDate,
                         adults = paramsSaved.adults,
                         children = paramsSaved.children,
-                        infantSeatingInLap = paramsSaved.infantSeatingInLap)
+                        infantSeatingInLap = paramsSaved.infantSeatingInLap,
+                        flightCabinClass = paramsSaved.flightCabinClass)
                 loadSuccess?.invoke(params)
             } catch (e: IOException) {
                 Log.e("Error reading package search params history", e)

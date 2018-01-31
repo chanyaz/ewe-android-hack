@@ -10,4 +10,5 @@ data class PackageSearchParamsForSaving(
         val endDate: LocalDate?,
         val adults: Int,
         val children: List<Int>,
-        val infantSeatingInLap: Boolean = false)
+        val infantSeatingInLap: Boolean = false,
+        val flightCabinClass: String?)

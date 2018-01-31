@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
@@ -37,6 +38,9 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val packageParamsBuilder = PackageSearchParams.Builder(rules.getMaxSearchDurationDays(), rules.getMaxDateRange())
     val previousSearchParamsObservable = PublishSubject.create<PackageSearchParams>()
+    val flightCabinClassObserver = endlessObserver<FlightServiceClassType.CabinCode> { cabinCode ->
+        getParamsBuilder().flightCabinClass(FlightServiceClassType.getMIDCabinClassRequestName(cabinCode))
+    }
 
     val performSearchObserver = endlessObserver<PackageSearchParams> { params ->
         travelerValidator.updateForNewSearch(params)

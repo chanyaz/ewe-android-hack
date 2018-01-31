@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.shared.SearchInputTextView
@@ -18,6 +19,7 @@ class FlightCabinClassWidget(context: Context, attrs: AttributeSet?) : SearchInp
             showFlightCabinClassDialog()
         }
     }
+    lateinit var lob: LineOfBusiness
 
     val flightCabinClassDialogView: View by lazy {
         val view = LayoutInflater.from(context).inflate(R.layout.widget_flight_cabin_class_search, null)
@@ -49,7 +51,7 @@ class FlightCabinClassWidget(context: Context, attrs: AttributeSet?) : SearchInp
         builder.setView(flightCabinClassDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
             flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(flightCabinClassView.getSelectedClass())
-            FlightsV2Tracking.trackFlightCabinClassSelect(flightCabinClassView.getSelectedClass().name)
+            FlightsV2Tracking.trackFlightCabinClassSelect(lob, flightCabinClassView.getSelectedClass().name)
             dialog.dismiss()
         })
         val dialog: AlertDialog = builder.create()

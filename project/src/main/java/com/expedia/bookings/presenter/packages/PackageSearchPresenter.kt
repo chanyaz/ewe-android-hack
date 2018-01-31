@@ -11,6 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
@@ -20,7 +21,9 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.packages.PackageSuggestionAdapter
 import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
@@ -50,12 +53,23 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
 
     private var originSuggestionAdapter: BaseSuggestionAdapter by Delegates.notNull()
     private var destinationSuggestionAdapter: BaseSuggestionAdapter by Delegates.notNull()
+
+    val flightCabinClassStub: ViewStub by bindView(R.id.flight_cabin_class_stub)
+    val flightCabinClassWidget by lazy {
+        val cabinClassWidget = flightCabinClassStub.inflate().findViewById<FlightCabinClassWidget>(R.id.flight_cabin_class_widget)
+        cabinClassWidget.lob = LineOfBusiness.PACKAGES
+        cabinClassWidget
+    }
+
     val widgetTravelerAndCabinClassStub: ViewStub by bindView(R.id.widget_traveler_and_cabin_clas_stub)
 
     var searchViewModel: PackageSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
+        if (isMidAPIEnabled(context) && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFlightCabinClass)) {
+            flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
+        }
         vm.formattedOriginObservable.subscribe {
             text ->
             originCardView.setText(text)
@@ -94,6 +108,10 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
             val infantCount = params.children.count { age -> age < 2 }
             if (infantCount > 0) {
                 travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(!params.infantSeatingInLap)
+            }
+            val cabinClass = params.flightCabinClass
+            if (cabinClass != null && isMidAPIEnabled(context) && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFlightCabinClass)) {
+                flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(FlightServiceClassType.getCabinCodeFromMIDParam(cabinClass))
             }
         }
 

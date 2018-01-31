@@ -46,4 +46,24 @@ object FlightServiceClassType {
             else -> throw RuntimeException("Ran into unknown cabin code: " + mCabinClassPreference)
         }
     }
+
+    @JvmStatic fun getMIDCabinClassRequestName(cabinCode: CabinCode): String {
+        return when (cabinCode) {
+            CabinCode.COACH -> "coach"
+            CabinCode.PREMIUM_COACH -> "premium coach"
+            CabinCode.BUSINESS -> "business"
+            CabinCode.FIRST -> "first"
+            else -> ""
+        }
+    }
+
+    @JvmStatic fun getCabinCodeFromMIDParam(cabinCodeParam: String): CabinCode {
+        return when (cabinCodeParam) {
+            "coach" -> CabinCode.COACH
+            "premium coach" -> CabinCode.PREMIUM_COACH
+            "business" -> CabinCode.BUSINESS
+            "first" -> CabinCode.FIRST
+            else -> CabinCode.COACH
+        }
+    }
 }

@@ -9,7 +9,7 @@ import org.joda.time.LocalDate
 import java.util.HashMap
 import kotlin.properties.Delegates
 
-open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?, startDate: LocalDate, endDate: LocalDate?, adults: Int, children: List<Int>, infantSeatingInLap: Boolean) : AbstractFlightSearchParams(origin, destination, adults, children, startDate, endDate, infantSeatingInLap) {
+open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?, startDate: LocalDate, endDate: LocalDate?, adults: Int, children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String? = null) : AbstractFlightSearchParams(origin, destination, adults, children, startDate, endDate, infantSeatingInLap) {
 
     var pageType: String? = null
     var searchProduct: String? = null
@@ -66,12 +66,13 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
 
+        private var flightCabinClass: String? = null
         override fun build(): PackageSearchParams {
             val flightOrigin = originLocation ?: throw IllegalArgumentException()
             val flightDestination = destinationLocation ?: throw IllegalArgumentException()
             val checkInDate = startDate ?: throw IllegalArgumentException()
             val checkOutDate = endDate ?: throw IllegalArgumentException()
-            return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap)
+            return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap, flightCabinClass)
         }
 
         override fun areRequiredParamsFilled(): Boolean {
@@ -93,6 +94,11 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
                 arrivalCity = destinationLocation?.hierarchyInfo?.airport?.regionId ?: ""
             }
             return departureCity == arrivalCity
+        }
+
+        fun flightCabinClass(cabinClass: String?): PackageSearchParams.Builder {
+            this.flightCabinClass = cabinClass
+            return this
         }
     }
 

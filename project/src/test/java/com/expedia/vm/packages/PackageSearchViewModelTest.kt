@@ -1,6 +1,7 @@
 package com.expedia.vm.packages
 
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -37,6 +38,22 @@ class PackageSearchViewModelTest {
             assertNotNull(loadedParams)
         })
         testSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
+    }
+
+    @Test
+    fun testCabinClassPopulated() {
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        sut.flightCabinClassObserver.onNext(FlightServiceClassType.CabinCode.BUSINESS)
+        val params = sut.getParamsBuilder()
+                .origin(getDummySuggestion())
+                .destination(getDummySuggestion())
+                .startDate(LocalDate.now())
+                .adults(1)
+                .children(listOf(1, 2, 3))
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+        assertEquals("business", params.flightCabinClass)
     }
 
     @Test

@@ -74,6 +74,7 @@ import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.packages.PackageCheckoutResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.rail.requests.RailSearchRequest;
@@ -4391,6 +4392,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_CHECKOUT_INFO = "App.Package.Checkout.Info";
 	private static final String PACKAGES_DESTINATION_SEARCH = "App.Package.Dest-Search";
 	private static final String PACKAGES_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE = "App.Package.Traveler.";
+	private static final String PACKAGES_SEATING_CLASS_SELECT = "App.Packages.DS.SeatingClass.";
 	private static final String PACKAGES_HOTEL_SEARCH_RESULT_LOAD = "App.Package.Hotels.Search";
 	private static final String PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD = "App.Package.Hotels-Search.NoResults";
 	private static final String PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT = "App.Package.Hotels.Search.Sponsored.YES";
@@ -4601,6 +4603,9 @@ public class OmnitureTracking {
 		if (!isMidAPIEnabled(sContext)) {
 			abTests.add(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo);
 		}
+		else {
+			abTests.add(AbacusUtils.EBAndroidAppPackagesFlightCabinClass);
+		}
 		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData, abTests);
 	}
 
@@ -4632,14 +4637,15 @@ public class OmnitureTracking {
 				1R = num of rooms booked, since we don't support multi-room booking on the app yet hard coding it.
 				RT = Round Trip package
 		 	*/
-			int children = getChildCount(Db.sharedInstance.getPackageParams().getChildren());
-			int infantInLap = getInfantInLap(Db.sharedInstance.getPackageParams().getChildren(),
-				Db.sharedInstance.getPackageParams().getInfantSeatingInLap());
-			int youth = getYouthCount(Db.sharedInstance.getPackageParams().getChildren());
-			int infantInseat = (Db.sharedInstance.getPackageParams().getChildren().size() - (infantInLap + youth + children));
+			PackageSearchParams packageSearchParams = Db.sharedInstance.getPackageParams();
+			int children = getChildCount(packageSearchParams.getChildren());
+			int infantInLap = getInfantInLap(packageSearchParams.getChildren(),
+				packageSearchParams.getInfantSeatingInLap());
+			int youth = getYouthCount(packageSearchParams.getChildren());
+			int infantInseat = (packageSearchParams.getChildren().size() - (infantInLap + youth + children));
 
 			StringBuilder evar47String = new StringBuilder("PKG|1R|RT|");
-			evar47String.append("A" + Db.sharedInstance.getPackageParams().getAdults() + "|");
+			evar47String.append("A" + packageSearchParams.getAdults() + "|");
 			if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
 				evar47String.append("C" + children + "|");
 				evar47String.append("YTH" + youth + "|");
@@ -4647,9 +4653,13 @@ public class OmnitureTracking {
 				evar47String.append("IS" + infantInseat);
 			}
 			else {
-				evar47String.append("C" + Db.sharedInstance.getPackageParams().getChildren().size() + "|");
-				evar47String.append("L" + (Db.sharedInstance.getPackageParams().getChildren().size() - Db.sharedInstance.getPackageParams()
+				evar47String.append("C" + packageSearchParams.getChildren().size() + "|");
+				evar47String.append("L" + (packageSearchParams.getChildren().size() - Db.sharedInstance.getPackageParams()
 					.getNumberOfSeatedChildren()));
+			}
+			if (isMidAPIEnabled(sContext) && packageSearchParams.getFlightCabinClass() != null) {
+				String cabinCodeName = FlightServiceClassType.getCabinCodeFromMIDParam(packageSearchParams.getFlightCabinClass()).name();
+				evar47String.append("|" + FlightServiceClassType.getCabinClassTrackCode(cabinCodeName));
 			}
 
 			s.setEvar(47, evar47String.toString());
@@ -5910,9 +5920,11 @@ public class OmnitureTracking {
 		trackPriceChange(s, priceChangePercentage, FLIGHTS_V2_CHECKOUT_PRICE_CHANGE, "FLT|", "Flight Checkout");
 	}
 
-	public static void trackFlightCabinClassSelect(String cabinClass) {
-		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_SEATING_CLASS_SELECT + cabinClass);
-		s.trackLink("Search Results Update");
+	public static void trackFlightCabinClassSelect(LineOfBusiness lineOfBusiness, String cabinClass) {
+		String pageName = lineOfBusiness == LineOfBusiness.FLIGHTS_V2 ? FLIGHT_SEATING_CLASS_SELECT : PACKAGES_SEATING_CLASS_SELECT + cabinClass;
+		String linkName = lineOfBusiness == LineOfBusiness.FLIGHTS_V2 ? "Search Results Update" : "Fare Family";
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.trackLink(linkName);
 	}
 
 	private static void trackPriceChange(ADMS_Measurement s, int priceChangePercentage, String trackingId,

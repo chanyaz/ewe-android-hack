@@ -184,6 +184,22 @@ class PackageSearchParamsTest {
     }
 
     @Test
+    fun testFlightCabinClass() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .flightCabinClass("coach")
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10, 2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        assertEquals("coach", params.flightCabinClass)
+    }
+
+    @Test
     fun testDateAndOriginValidation() {
         val searchParamsSubscriber = TestObserver<PackageSearchParams>()
         val noOriginSubscriber = TestObserver<Unit>()

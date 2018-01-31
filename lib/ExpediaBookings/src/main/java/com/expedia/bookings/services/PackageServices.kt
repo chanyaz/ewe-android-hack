@@ -78,7 +78,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 adults = params.adults,
                 childAges = params.childAges,
                 infantsInSeats = params.infantsInSeats,
-                flightPIID = if (params.isChangePackageSearch()) params.latestSelectedOfferInfo.flightPIID else null)
+                flightPIID = if (params.isChangePackageSearch()) params.latestSelectedOfferInfo.flightPIID else null,
+                cabinClass = params.flightCabinClass)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { it.setup() }
@@ -101,7 +102,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 hotelId = params.latestSelectedOfferInfo.hotelId,
                 flightPIID = params.latestSelectedOfferInfo.flightPIID,
                 anchorTotalPrice = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.amount,
-                currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode)
+                currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode,
+                cabinClass = params.flightCabinClass)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
@@ -124,7 +126,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 roomTypeCode = params.latestSelectedOfferInfo.roomTypeCode,
                 legIndex = 0,
                 anchorTotalPrice = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.amount,
-                currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode)
+                currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode,
+                cabinClass = params.flightCabinClass)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {
@@ -157,7 +160,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 legIndex = 1,
                 outboundLegId = params.selectedLegId,
                 anchorTotalPrice = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.amount,
-                currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode)
+                currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode,
+                cabinClass = params.flightCabinClass)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {

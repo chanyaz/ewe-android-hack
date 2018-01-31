@@ -57,7 +57,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     }
     val flightCabinClassStub: ViewStub by bindView(R.id.flight_cabin_class_stub)
     val flightCabinClassWidget by lazy {
-        flightCabinClassStub.inflate().findViewById<FlightCabinClassWidget>(R.id.flight_cabin_class_widget)
+        val cabinClassWidget = flightCabinClassStub.inflate().findViewById<FlightCabinClassWidget>(R.id.flight_cabin_class_widget)
+        cabinClassWidget.lob = LineOfBusiness.FLIGHTS_V2
+        cabinClassWidget
     }
     val widgetTravelerAndCabinClassStub: ViewStub by bindView(R.id.widget_traveler_and_cabin_clas_stub)
 

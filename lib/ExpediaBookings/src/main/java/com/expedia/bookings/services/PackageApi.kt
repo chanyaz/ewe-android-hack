@@ -77,7 +77,8 @@ interface PackageApi {
             @Query("legId[1]") inboundLegId: String? = null,
             @Query("flightPIID") flightPIID: String? = null,
             @Query("anchorTotalPrice") anchorTotalPrice: BigDecimal? = null,
-            @Query("currencyCode") currencyCode: String? = null): Observable<MultiItemApiSearchResponse>
+            @Query("currencyCode") currencyCode: String? = null,
+            @Query("cabinClass") cabinClass: String? = null): Observable<MultiItemApiSearchResponse>
 
     @GET("/api/multiitem/v1/createTrip")
     fun multiItemCreateTrip(@Query("flightPIID") flightPIID: String,

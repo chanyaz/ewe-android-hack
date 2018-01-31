@@ -10,10 +10,12 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
@@ -21,6 +23,7 @@ import com.expedia.bookings.test.robolectric.PackageTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.LocalDate
@@ -44,12 +47,23 @@ class PackagesTrackingTest {
 
     var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.trampoline(), "../lib/mocked/templates")
         @Rule get
+    val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
+        @Rule get
 
     @Before
     fun before() {
         context = RuntimeEnvironment.application
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         sut = PackagesTracking()
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackHotelSearchResultLoadWithFlightCabinClass() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi)
+        sut.trackHotelSearchResultLoad(mockPackageServiceRule.getPSSHotelSearchResponse(), PageUsableData())
+        val controlEvar = mapOf(47 to "PKG|1R|RT|A1|C3|L1|E")
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
     @Test

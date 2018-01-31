@@ -31,6 +31,7 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
     fun getPSSHotelSearchResponse(): BundleSearchResponse {
         val observer = TestObserver<BundleSearchResponse>()
         val params = PackageSearchParams.Builder(26, 329)
+                .flightCabinClass("coach")
                 .infantSeatingInLap(true)
                 .origin(getOriginDestSuggestions().second)
                 .destination(getOriginDestSuggestions().first)

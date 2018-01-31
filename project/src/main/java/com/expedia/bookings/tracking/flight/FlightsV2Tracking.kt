@@ -3,6 +3,7 @@ package com.expedia.bookings.tracking.flight
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
@@ -254,8 +255,8 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightCheckoutPriceChange(diffPercentage)
     }
 
-    fun trackFlightCabinClassSelect(cabinClass: String) {
-        OmnitureTracking.trackFlightCabinClassSelect(cabinClass)
+    fun trackFlightCabinClassSelect(lineOfBusiness: LineOfBusiness, cabinClass: String) {
+        OmnitureTracking.trackFlightCabinClassSelect(lineOfBusiness, cabinClass)
     }
 
     fun trackAirAttachShown() {
