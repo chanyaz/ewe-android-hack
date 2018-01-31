@@ -39,7 +39,6 @@ object HotelSearchResults {
     //Search Results Header
     private val resultsDescriptionContainer = withId(R.id.results_description_container)
     private val resultsDescriptionHeader = allOf(withParent(resultsDescriptionContainer), withId(R.id.results_description_header))
-    private val resultsHeaderInfoIcon = allOf(withParent(resultsDescriptionContainer), withId(R.id.results_header_info_icon))
     private val resultsHeaderLoyaltyPoints = allOf(withParent(resultsDescriptionContainer), withId(R.id.loyalty_points_applied_message))
     private val searchIsInProgress = allOf(resultsDescriptionHeader, withText("Searching hotels…"))
     private val searchIsDone = allOf(resultsDescriptionHeader, withText(allOf(startsWith("Prices average per night"), endsWith("Results"))))

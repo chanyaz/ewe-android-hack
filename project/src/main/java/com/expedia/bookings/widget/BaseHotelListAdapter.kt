@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -26,6 +25,10 @@ import com.mobiata.android.util.AndroidUtils
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
+import android.text.SpannableStringBuilder
+import android.text.Spannable
+import android.text.style.ImageSpan
+import com.expedia.bookings.data.pos.PointOfSale
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
                                     val headerSubject: PublishSubject<Unit>,
@@ -204,7 +207,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup, val vm: HotelResultsPricingStructureHeaderViewModel) : RecyclerView.ViewHolder(root) {
         val resultsDescriptionHeader: TextView by bindView(R.id.results_description_header)
         val loyaltyPointsAppliedHeader: TextView by bindView(R.id.loyalty_points_applied_message)
-        val infoIcon: ImageView by bindView(R.id.results_header_info_icon)
         val shadow: View by bindView(R.id.drop_shadow)
 
         init {
@@ -212,24 +214,24 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                 shadow.visibility = View.GONE
             }
 
+            val faqUrl = PointOfSale.getPointOfSale().hotelsResultsSortFaqUrl
             vm.resultsDescriptionHeaderObservable.subscribe { resultsDescription ->
-                resultsDescriptionHeader.text = HtmlCompat.fromHtml(resultsDescription)
+                val resultDescriptionSpannable = SpannableStringBuilder(HtmlCompat.fromHtml(resultsDescription))
+                if (faqUrl.isNotEmpty() && !resultDescriptionSpannable.toString().equals(root.context.resources.getString(R.string.progress_searching_hotels_hundreds))) {
+                    resultDescriptionSpannable.append("  ")
+                    resultDescriptionSpannable.setSpan(ImageSpan(root.context, R.drawable.details_info), resultDescriptionSpannable.length - 1, resultDescriptionSpannable.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                }
+                resultsDescriptionHeader.setText(resultDescriptionSpannable, android.widget.TextView.BufferType.SPANNABLE)
             }
             vm.loyaltyAvailableObservable.subscribeVisibility(loyaltyPointsAppliedHeader)
 
             vm.sortFaqLinkAvailableObservable.subscribe { faqLinkAvailable ->
                 if (faqLinkAvailable) {
-                    infoIcon.visibility = View.VISIBLE
                     resultsDescriptionHeader.setOnClickListener {
                         pricingHeaderSelectedSubject.onNext(Unit)
                     }
-                    infoIcon.setOnClickListener {
-                        pricingHeaderSelectedSubject.onNext(Unit)
-                    }
                 } else {
-                    infoIcon.visibility = View.GONE
                     resultsDescriptionHeader.setOnClickListener(null)
-                    infoIcon.setOnClickListener(null)
                 }
             }
         }
