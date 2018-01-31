@@ -337,15 +337,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
         costSummaryViewModel.packageCostSummaryObservable.onNext(response)
 
-        val messageString =
-                if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
-                    R.string.cost_summary_breakdown_total_due_today
-                else if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN)
-                    R.string.packages_trip_total
-                else R.string.bundle_total_text
-        totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
-        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
-            totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+        val hasMandatoryFees = response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()
+        setBundleTotalText(hasMandatoryFees)
     }
 
     override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
@@ -406,21 +399,24 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         (bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel
                 as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)
         setCheckoutHeaderOverviewDates()
-        setMandatoryFee()
+        setMandatoryFeeAndBundleTotalText()
     }
 
-    private fun setMandatoryFee() {
+    private fun setMandatoryFeeAndBundleTotalText() {
         val packagetotal = Db.getPackageResponse().getCurrentOfferPrice()?.packageTotalPrice
         val rateInfo = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo
         var mandatoryFee: Float = 0F
 
-        if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.TOTAL) {
+        if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.TOTAL && rateInfo.localCurrency == rateInfo.currencyCode) {
             mandatoryFee = rateInfo.totalMandatoryFees
         } else if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.DAILY) {
             mandatoryFee = rateInfo.totalMandatoryFees * getNumberOfDaysInHotel()
         }
         val packageTotalWithMandatoryFee = packagetotal?.amount?.plus(BigDecimal(mandatoryFee.toString()))
         totalPriceWidget.viewModel.addMandatoryFeeWithTotalPrice(packageTotalWithMandatoryFee, packagetotal?.currencyCode)
+
+        val hasMandatoryFees = mandatoryFee != 0F
+        setBundleTotalText(hasMandatoryFees)
     }
 
     private fun getNumberOfDaysInHotel(): Int {
@@ -429,5 +425,17 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         val checkInDate = dtf.parseLocalDate(packageResponse.getHotelCheckInDate())
         val checkoutDate = dtf.parseLocalDate(packageResponse.getHotelCheckOutDate())
         return Days.daysBetween(checkInDate, checkoutDate).days
+    }
+
+    private fun setBundleTotalText(hasMandatoryFees: Boolean) {
+        val messageString =
+                if (hasMandatoryFees)
+                    R.string.cost_summary_breakdown_total_due_today
+                else if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN)
+                    R.string.packages_trip_total
+                else R.string.bundle_total_text
+        totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
+        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
+            totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
     }
 }

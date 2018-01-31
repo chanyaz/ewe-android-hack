@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -202,7 +203,7 @@ class PackageOverviewPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBundleTotalPriceDisplayedForMIDWithMandatoryDisplayTypeDaily() {
         AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
-        setupOverviewPresenter(false)
+        setupOverviewPresenter(mandatoryTotalDisplayType = MandatoryFees.DisplayType.DAILY)
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
 
         assertEquals("$350", overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleTotalPrice.text)
@@ -293,6 +294,97 @@ class PackageOverviewPresenterTest {
         assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDShouldAddManditoryFee() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
+        overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
+        setUpPackageDb()
+        PackageTestUtil.setDbPackageSelectedHotel(localCurrencyShouldDiffer = false)
+        val totalPriceObservableTestSubscriber = TestObserver.create<String>()
+        overviewPresenter.totalPriceWidget.viewModel.totalPriceObservable.subscribe(totalPriceObservableTestSubscriber)
+        totalPriceObservableTestSubscriber.assertEmpty()
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+
+        totalPriceObservableTestSubscriber.assertValue("$250")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDShouldNotAddManditoryFee() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
+        overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
+        setUpPackageDb()
+        PackageTestUtil.setDbPackageSelectedHotel(localCurrencyShouldDiffer = true)
+        val totalPriceObservableTestSubscriber = TestObserver.create<String>()
+        overviewPresenter.totalPriceWidget.viewModel.totalPriceObservable.subscribe(totalPriceObservableTestSubscriber)
+        totalPriceObservableTestSubscriber.assertEmpty()
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+
+        totalPriceObservableTestSubscriber.assertValue("$200")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDSBundleTotalTextShouldReadBundleTotal() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
+        overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
+        setUpPackageDb()
+        PackageTestUtil.setDbPackageSelectedHotel(mandatoryTotalDisplayType = MandatoryFees.DisplayType.NONE)
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+
+        assertEquals("Bundle total", overviewPresenter.totalPriceWidget.bundleTotalText.text.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDBundleTotalTextShouldReadTripTotal() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        setPointOfSale(PointOfSaleId.JAPAN)
+        overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
+        overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
+        setUpPackageDb()
+        PackageTestUtil.setDbPackageSelectedHotel(mandatoryTotalDisplayType = MandatoryFees.DisplayType.NONE)
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+
+        assertEquals("Trip total", overviewPresenter.totalPriceWidget.bundleTotalText.text.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDBundleTotalTextShouldReadTotalDueToday() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
+        overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
+        setUpPackageDb()
+        PackageTestUtil.setDbPackageSelectedHotel()
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+
+        assertEquals("Total Due Today", overviewPresenter.totalPriceWidget.bundleTotalText.text.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDSBundleTotalIncludesText() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
+        overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
+        setUpPackageDb()
+        PackageTestUtil.setDbPackageSelectedHotel()
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+
+        assertEquals("includes hotel and flights", overviewPresenter.totalPriceWidget.bundleTotalIncludes.text.toString())
+    }
+
     private fun setPointOfSale(posId: PointOfSaleId) {
         PointOfSaleTestConfiguration.configurePOS(activity, "ExpediaSharedData/ExpediaPointOfSaleConfig.json", Integer.toString(posId.id), false)
     }
@@ -313,7 +405,7 @@ class PackageOverviewPresenterTest {
         Db.setPackageResponse(baseMidResponse)
     }
 
-    private fun setupOverviewPresenter(mandatoryTotalDisplayType: Boolean = true) {
+    private fun setupOverviewPresenter(mandatoryTotalDisplayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.TOTAL) {
         overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
         overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
         setUpPackageDb()
