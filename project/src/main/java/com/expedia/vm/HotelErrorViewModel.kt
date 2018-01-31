@@ -176,7 +176,7 @@ class HotelErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
         }
 
         paramsSubject.subscribe(endlessObserver { params ->
-            titleObservable.onNext(params.suggestion.regionNames.shortName ?: params.suggestion.regionNames.fullName)
+            titleObservable.onNext(params.suggestion.regionNames.shortName ?: params.suggestion.regionNames.fullName ?: "")
 
             subTitleObservable.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
                     .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.checkIn))
