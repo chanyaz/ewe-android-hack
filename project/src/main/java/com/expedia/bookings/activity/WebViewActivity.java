@@ -38,7 +38,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 	protected static final String ARG_USE_WEB_VIEW_TITLE = "ARG_USE_WEB_VIEW_TITLE";
 	private static final String APP_VISITOR_ID_PARAM = "appvi=";
 	private static final String ARG_ALLOW_DOM_STORAGE = "ARG_ALLOW_DOM_STORAGE";
-
+	private static final String ARG_MESO_DESTINATION_PAGE = "ARG_MESO_DESTINATION_PAGE";
 
 	private boolean handleBack;
 
@@ -158,6 +158,11 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 			mIntent.putExtra(ARG_HANDLE_RETRY_ON_ERROR, retry);
 			return this;
 		}
+
+		public IntentBuilder setMesoDestinationPage(boolean isMesoPage) {
+			mIntent.putExtra(ARG_MESO_DESTINATION_PAGE, isMesoPage);
+			return this;
+		}
 	}
 
 	@Override
@@ -239,6 +244,12 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 			webViewFragment =
 				createWebViewFragment(extras, enableLogin, injectExpediaCookies, allowMobileRedirects,
 					name, handleBack, retryOnError, enableDomStorage);
+
+
+			if (extras.getBoolean(ARG_MESO_DESTINATION_PAGE)) {
+				webViewFragment.setMesoDestinationPage(true);
+			}
+
 			if (webViewFragment == null) {
 				finish();
 				return;

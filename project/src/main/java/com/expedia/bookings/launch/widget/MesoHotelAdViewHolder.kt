@@ -24,6 +24,10 @@ class MesoHotelAdViewHolder(private var mesoAdView: View, private val mesoHotelA
     private val hotelName: TextView by bindView(R.id.hotel_name)
     private val hotelSubText: TextView by bindView(R.id.hotel_sub_text)
 
+    init {
+        itemView.setOnClickListener(this)
+    }
+
     override fun onPreDraw(): Boolean {
         adjustDealPositionToBeOnImageBorder()
         adjustDealCornerRadiusToMaintainPillShape()
@@ -33,25 +37,20 @@ class MesoHotelAdViewHolder(private var mesoAdView: View, private val mesoHotelA
     }
 
     fun bindListData() {
-        if (mesoHotelAdViewModel.mesoHotelAdResponse != null) {
-            if (mesoHotelAdViewModel.dataIsValid()) {
-                // Let's not even add a click listener unless the data is valid
-                itemView.setOnClickListener(this)
+        if (mesoHotelAdViewModel.dataIsValid()) {
+            // A pre draw listener is added so that we can correct the pill shape of the price off cardView,
+            // readjust the position of the pill cardView, and adjust the text format if the subText breaks multiple
+            // lines.
+            itemView.viewTreeObserver.addOnPreDrawListener(this)
+            hotelBackgroundImage.setImageDrawable(mesoHotelAdViewModel.backgroundImage)
 
-                // A pre draw listener is added so that we can correct the pill shape of the price off cardView,
-                // readjust the position of the pill cardView, and adjust the text format if the subText breaks multiple
-                // lines.
-                itemView.viewTreeObserver.addOnPreDrawListener(this)
-                hotelBackgroundImage.setImageDrawable(mesoHotelAdViewModel.backgroundImage)
+            dealCardView.visibility = View.VISIBLE
+            percentageOff.text = mesoHotelAdViewModel.percentageOff
+            hotelName.text = mesoHotelAdViewModel.hotelName
 
-                dealCardView.visibility = View.VISIBLE
-                percentageOff.text = mesoHotelAdViewModel.percentageOff
-                hotelName.text = mesoHotelAdViewModel.hotelName
-
-                setSubText(mesoHotelAdViewModel.oneLineSubText)
-            } else {
-                Log.d("Some of the meso data is missing")
-            }
+            setSubText(mesoHotelAdViewModel.oneLineSubText)
+        } else {
+            Log.d("Some of the meso data is missing")
         }
     }
 

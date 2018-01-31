@@ -87,6 +87,7 @@ public class WebViewFragment extends DialogFragment {
 	private TrackingName mTrackingName;
 	private boolean handleBack;
 	private boolean retryOnError;
+	private boolean isMesoDestinationPage = false;
 
 	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
 		boolean allowUseableNetRedirects, String name, boolean handleBack, boolean retryOnError, boolean enableDomStorage) {
@@ -392,6 +393,16 @@ public class WebViewFragment extends DialogFragment {
 					"document.getElementById('SmartBanner').style.display='none'; " +
 					"})()");
 
+				if (isMesoDestinationPage) {
+					// Insert javascript to remove the social media icons and top banners
+					webview.loadUrl("javascript: (function() {"
+						+ "var social = document.querySelector('.ultimate-social-icons'); social.outerHTML = ''; delete social;"
+						+ "})()");
+					webview.loadUrl("javascript: (function() {"
+						+ "var banner = document.getElementById('masthead'); banner.outerHTML = ''; delete banner;"
+						+ "})()");
+				}
+
 				if (mListener != null) {
 					mListener.setScrapedTitle(webview.getTitle());
 				}
@@ -525,6 +536,10 @@ public class WebViewFragment extends DialogFragment {
         	if (mTrackingName == TrackingName.RailWebView) {
             		RailWebViewTracking.trackAppRailWebViewRetry();
         	}
+	}
+
+	public void setMesoDestinationPage(boolean isMesoDestinationPage) {
+		this.isMesoDestinationPage = isMesoDestinationPage;
 	}
 
 }

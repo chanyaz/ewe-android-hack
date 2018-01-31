@@ -1,5 +1,6 @@
 package com.expedia.bookings.meso
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -14,14 +15,16 @@ import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.meso.vm.MesoDestinationViewModel
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.navigation.NavUtils.startActivity
 import com.squareup.picasso.Picasso
 
-class MesoDestinationViewHolder(private val adView: View, private val vm: MesoDestinationViewModel) : RecyclerView.ViewHolder(adView) {
+class MesoDestinationViewHolder(private val adView: View, private val vm: MesoDestinationViewModel) : RecyclerView.ViewHolder(adView), View.OnClickListener {
     private val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
 
     private val cityView: TextView by bindView(R.id.meso_destination_city)
@@ -29,6 +32,10 @@ class MesoDestinationViewHolder(private val adView: View, private val vm: MesoDe
     private val sponsored: TextView by bindView(R.id.meso_destination_sponsored)
     private val gradient: View by bindView(R.id.meso_destination_foreground)
     private val bgImageView: ImageView by bindView(R.id.meso_destination_card_background)
+
+    init {
+        itemView.setOnClickListener(this)
+    }
 
     fun bindData() {
         if (vm.mesoDestinationAdResponse != null) {
@@ -38,6 +45,22 @@ class MesoDestinationViewHolder(private val adView: View, private val vm: MesoDe
             bgImageView.background = null
             Picasso.with(adView.context).load(vm.backgroundUrl).error(vm.backgroundFallback).placeholder(vm.backgroundPlaceHolder).into(target)
         }
+    }
+
+    override fun onClick(view: View) {
+        if (vm.mesoDestinationAdResponse?.webviewUrl != null) {
+            goToMesoDestination(view.context)
+        }
+    }
+
+    private fun goToMesoDestination(context: Context) {
+        val builder = WebViewActivity.IntentBuilder(context)
+        builder.setUrl(vm.webviewUrl)
+        builder.setTitle(vm.title)
+        builder.setMesoDestinationPage(true)
+        builder.setHandleBack(true)
+        builder.setRetryOnFailure(true)
+        startActivity(context, builder.intent, null)
     }
 
     private val target = object : PicassoTarget() {
@@ -87,8 +110,8 @@ class MesoDestinationViewHolder(private val adView: View, private val vm: MesoDe
         private fun mixColor(palette: Palette) {
             val color = palette.getDarkVibrantColor(adView.context.resources.getColor(R.color.transparent_dark))
             val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(if (!mIsFallbackImage) .8f else 0f)
-            val startColor = fullColorBuilder.setAlpha(154).build()
-            val endColor = fullColorBuilder.setAlpha(0).build()
+            val startColor = fullColorBuilder.setAlpha(254).build()
+            val endColor = fullColorBuilder.setAlpha(100).build()
             val colorArrayBottom = intArrayOf(0, 0, endColor, startColor)
             val drawable = PaintDrawable()
             drawable.shape = RectShape()
