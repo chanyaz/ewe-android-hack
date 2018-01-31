@@ -223,6 +223,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SEARCH_MAP_TO_LIST = "App.Hotels.Search.Expand.List";
 	private static final String HOTELSV2_SEARCH_MAP_TAP_PIN = "App.Hotels.Search.TapPin";
 	private static final String HOTELSV2_SEARCH_THIS_AREA = "App.Hotels.Search.AreaSearch";
+	private static final String HOTELSV2_SEARCH_HIDE_MINI_MAP = "App.Hotels.Search.HideMiniMap";
 	private static final String HOTELSV2_DETAILS_PAGE = "App.Hotels.Infosite";
 	private static final String HOTELSV2_SOLD_OUT_PAGE = "App.Hotels.Infosite.SoldOut";
 	private static final String HOTELSV2_DETAILS_ERROR = "App.Hotels.Infosite.Error";
@@ -545,6 +546,7 @@ public class OmnitureTracking {
 		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), s.getEvents());
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);
+		trackAbacusTest(s, AbacusUtils.HotelHideMiniMapOnResult);
 		// Send the tracking data
 		s.track();
 	}

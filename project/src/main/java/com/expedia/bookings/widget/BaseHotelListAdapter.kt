@@ -9,8 +9,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
@@ -149,7 +151,11 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         if (viewType == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
             val header = View(parent.context)
             val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.height = if (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty()) 0 else AndroidUtils.getScreenSize(parent.context).y
+            if (isHideMiniMapOnResultBucketed(parent.context) || ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty()) {
+                lp.height = 0
+            } else {
+                lp.height = AndroidUtils.getScreenSize(parent.context).y
+            }
             header.layoutParams = lp
             return MapSwitchClickInterceptorTransparentHeaderViewHolder(header)
         } else if (viewType == LOADING_VIEW) {
@@ -178,6 +184,9 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         }
     }
 
+    private fun isHideMiniMapOnResultBucketed(context: Context): Boolean =
+            AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelHideMiniMapOnResult)
+
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         if (holder.itemViewType == LOADING_VIEW) {
             (holder as LoadingViewHolder).cancelAnimation()
@@ -199,7 +208,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         val shadow: View by bindView(R.id.drop_shadow)
 
         init {
-            if (ExpediaBookingApp.isDeviceShitty()) {
+            if (isHideMiniMapOnResultBucketed(root.context) || ExpediaBookingApp.isDeviceShitty()) {
                 shadow.visibility = View.GONE
             }
 

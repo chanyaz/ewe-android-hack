@@ -106,6 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="4dp"
+        android:layout_marginBottom="50dp"
         android:src="@drawable/ic_transition_map_list_fab"
         app:useCompatPadding="true" />
 
