@@ -53,7 +53,7 @@ import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseSearchViewModel
-import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.launch.LobToolbarViewModel
 import org.joda.time.LocalDate
 import io.reactivex.Observer
@@ -117,7 +117,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         dialog.show()
     }
 
-    protected var destinationSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
+    protected var destinationSuggestionViewModel: BaseSuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().destinationLocationObserver)
         vm.suggestionSelectedSubject.subscribe(suggestionSelectedObserver)
         getSearchViewModel().formattedDestinationObservable
@@ -539,7 +539,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
     abstract fun inflate()
     abstract fun getSuggestionHistoryFileName(): String
-    abstract fun getSuggestionViewModel(): SuggestionAdapterViewModel
+    abstract fun getSuggestionViewModel(): BaseSuggestionAdapterViewModel
     abstract fun getSearchViewModel(): BaseSearchViewModel
     abstract fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>
     abstract fun getOriginSearchBoxPlaceholderText(): String

@@ -18,6 +18,7 @@ class SuggestionViewHolder(val root: ViewGroup, val vm: BaseSuggestionViewModel)
 
     private val title: TextView by bindView(R.id.title_textview)
     private val subtitle: TextView by bindView(R.id.suggestion_subtitle)
+    private val divider: View by bindView(R.id.suggestion_dropdown_divider)
 
     init {
         vm.titleObservable.subscribeText(title)
@@ -35,6 +36,14 @@ class SuggestionViewHolder(val root: ViewGroup, val vm: BaseSuggestionViewModel)
 
         vm.iconObservable.subscribe { imageSource ->
             icon.setImageResource(imageSource)
+        }
+    }
+
+    fun displayDivider(display: Boolean) {
+        if (display) {
+            divider.visibility = View.VISIBLE
+        } else {
+            divider.visibility = View.INVISIBLE
         }
     }
 }

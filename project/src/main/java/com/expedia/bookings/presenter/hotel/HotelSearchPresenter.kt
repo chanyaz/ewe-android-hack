@@ -40,7 +40,7 @@ import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
-import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.hotel.AdvancedSearchOptionsViewModel
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
@@ -158,11 +158,11 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     override fun onFinishInflate() {
         super.onFinishInflate()
         val service = Ui.getApplication(context).hotelComponent().suggestionsService()
-        suggestionViewModel = HotelSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, true)
+        suggestionViewModel = HotelSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context))
         searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
 
         travelGraphViewModel.searchHistoryResultSubject.subscribe { searchHistory ->
-            suggestionViewModel.setUserSearchHistory(searchHistory )
+            suggestionViewModel.setUserSearchHistory(searchHistory.convertToSuggestionV4List())
         }
 
         advancedOptionsDetails.viewModel = advancedOptionsViewModel
@@ -204,7 +204,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         return searchViewModel
     }
 
-    override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
+    override fun getSuggestionViewModel(): BaseSuggestionAdapterViewModel {
         return suggestionViewModel
     }
 

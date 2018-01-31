@@ -27,7 +27,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.vm.BaseSearchViewModel
-import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.rail.RailSearchViewModel
 import com.expedia.vm.rail.RailSuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
@@ -60,7 +60,7 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         return SuggestionV4Utils.RECENT_RAIL_SUGGESTIONS_FILE
     }
 
-    override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
+    override fun getSuggestionViewModel(): BaseSuggestionAdapterViewModel {
         return if (isCustomerSelectingOrigin) originSuggestionViewModel else destinationSuggestionViewModel
     }
 

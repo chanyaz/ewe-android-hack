@@ -21,7 +21,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.LXSuggestionAdapterViewModel
-import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
 
 class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
@@ -102,7 +102,7 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         return searchViewModel
     }
 
-    override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
+    override fun getSuggestionViewModel(): BaseSuggestionAdapterViewModel {
         return suggestionViewModel
     }
 

@@ -2617,7 +2617,7 @@
     <string name="flight_search_suggestion_label_airport_near">สนามบินใกล้คุณ</string>
 
     <!-- Showing search suggestion label for recent search history -->
-    <string name="flight_search_suggestion_label_recent_search">การค้นหาล่าสุด</string>
+    <string name="suggestion_label_recent_search">การค้นหาล่าสุด</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->

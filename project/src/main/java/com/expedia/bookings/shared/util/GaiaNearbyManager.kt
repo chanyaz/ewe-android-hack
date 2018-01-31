@@ -10,12 +10,12 @@ import com.expedia.bookings.utils.SuggestionV4Utils
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 
-class GaiaNearbyManager(private val suggestionsService: ISuggestionV4Services) {
+open class GaiaNearbyManager(private val suggestionsService: ISuggestionV4Services) {
     val suggestionsSubject = PublishSubject.create<List<SuggestionV4>>()
     val errorSubject = PublishSubject.create<Unit>()
 
-    fun nearBySuggestions(location: Location, nearbySortType: String,
-                          lobString: String, misForRealWorldEnabled: Boolean) {
+    open fun nearBySuggestions(location: Location, nearbySortType: String,
+                               lobString: String, misForRealWorldEnabled: Boolean) {
         val request = GaiaSuggestionRequest(location.latitude, location.longitude, nearbySortType,
                 lobString, PointOfSale.getSuggestLocaleIdentifier(),
                 PointOfSale.getPointOfSale().siteId, misForRealWorldEnabled)

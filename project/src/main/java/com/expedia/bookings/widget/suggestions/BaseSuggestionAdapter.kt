@@ -12,15 +12,16 @@ import com.expedia.bookings.shared.data.SuggestionDataItem
 import com.expedia.bookings.shared.vm.BaseSuggestionViewModel
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
-import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.BaseSuggestionAdapterViewModel
 
-abstract class BaseSuggestionAdapter(val viewModel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseSuggestionAdapter(val viewModel: BaseSuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     protected var suggestionItems: List<SuggestionDataItem> = emptyList()
     protected var pastSuggestionsShownCount = 0
 
     private val TYPE_SUGGESTION_V4 = 1
-    private val TYPE_SUGGESTION_LABEL = 2
+    private val TYPE_LABEL = 2
+    private val TYPE_CURRENT_LOCATION = 3
 
     init {
         viewModel.suggestionItemsSubject.subscribe { newSuggestions ->
@@ -44,15 +45,20 @@ abstract class BaseSuggestionAdapter(val viewModel: SuggestionAdapterViewModel) 
     override fun getItemViewType(position: Int): Int {
         when (suggestionItems[position]) {
             is SuggestionDataItem.SuggestionDropDown -> return TYPE_SUGGESTION_V4
-            is SuggestionDataItem.Label -> return TYPE_SUGGESTION_LABEL
+            is SuggestionDataItem.Label -> return TYPE_LABEL
+            is SuggestionDataItem.CurrentLocation -> return TYPE_CURRENT_LOCATION
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         val vm = getSuggestionViewModel()
         when (viewType) {
-            TYPE_SUGGESTION_LABEL -> {
+            TYPE_LABEL -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.suggestion_dropdown_label, parent, false)
                 return SuggestionLabelViewHolder(view as TextView, vm)
+            }
+            TYPE_CURRENT_LOCATION -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.suggestion_dropdown_current_location, parent, false)
+                return CurrentLocationViewHolder(view)
             }
             else -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.suggestion_dropdown_item, parent, false)
@@ -66,6 +72,11 @@ abstract class BaseSuggestionAdapter(val viewModel: SuggestionAdapterViewModel) 
             is SuggestionViewHolder -> {
                 val item = suggestionItems[position] as SuggestionDataItem.SuggestionDropDown
                 holder.vm.bind(item.suggestion)
+                holder.displayDivider(shouldDisplayDivider(position))
+                holder.itemView.setOnClickListener(SuggestionClickListener(item.suggestion, position))
+            }
+            is CurrentLocationViewHolder -> {
+                val item = suggestionItems[position] as SuggestionDataItem.CurrentLocation
                 holder.itemView.setOnClickListener(SuggestionClickListener(item.suggestion, position))
             }
             is SuggestionLabelViewHolder -> {
@@ -83,6 +94,10 @@ abstract class BaseSuggestionAdapter(val viewModel: SuggestionAdapterViewModel) 
         return null
     }
 
+    private fun shouldDisplayDivider(position: Int): Boolean {
+        return position + 1 < suggestionItems.size && getItemViewType(position + 1) != TYPE_LABEL
+    }
+
     private class SuggestionLabelViewHolder(val suggestionLabel: TextView, val vm: BaseSuggestionViewModel)
         : RecyclerView.ViewHolder(suggestionLabel) {
 
@@ -90,6 +105,8 @@ abstract class BaseSuggestionAdapter(val viewModel: SuggestionAdapterViewModel) 
             vm.suggestionLabelTitleObservable.subscribeText(suggestionLabel)
         }
     }
+
+    private class CurrentLocationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private inner class SuggestionClickListener(private val suggestion: SuggestionV4,
                                                 private val position: Int) : View.OnClickListener {

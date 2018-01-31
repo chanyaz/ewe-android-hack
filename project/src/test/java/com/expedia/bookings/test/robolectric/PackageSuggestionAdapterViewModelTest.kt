@@ -21,13 +21,6 @@ import kotlin.test.assertTrue
 class PackageSuggestionAdapterViewModelTest {
 
     @Test
-    fun packagesShouldShowOnlyAirportInNearbySuggestions() {
-        val mockSuggestionV4Services = MockSuggestionV4Services()
-        val viewModel = PackageSuggestionAdapterViewModel(RuntimeEnvironment.application, mockSuggestionV4Services, true, null)
-        assertTrue(viewModel.shouldShowOnlyAirportNearbySuggestions())
-    }
-
-    @Test
     fun isMISForRealWorldEnabledTrue() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
 

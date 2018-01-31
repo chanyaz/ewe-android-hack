@@ -6,9 +6,9 @@ import com.expedia.bookings.hotel.vm.HotelSuggestionViewModel
 import com.expedia.bookings.shared.data.SuggestionDataItem
 import com.expedia.bookings.shared.vm.BaseSuggestionViewModel
 import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
-import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.BaseSuggestionAdapterViewModel
 
-class HotelSuggestionAdapter(viewModel: SuggestionAdapterViewModel) : BaseSuggestionAdapter(viewModel) {
+class HotelSuggestionAdapter(viewModel: BaseSuggestionAdapterViewModel) : BaseSuggestionAdapter(viewModel) {
     override fun getSuggestionViewModel(): BaseSuggestionViewModel {
         return HotelSuggestionViewModel()
     }

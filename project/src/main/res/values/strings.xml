@@ -2629,6 +2629,8 @@
     <string name="current_location">Current Location</string>
     <string name="recent_searched_location">Recent Searched Location</string>
     <string name="suggested_location">Suggested Location</string>
+    <!-- Label to describe ESS results close to device lat/lng-->
+    <string name="nearby_locations">Nearby locations</string>
     <!-- To notify the section suggested locations while navigating using talkback -->
     <string name="suggested_location_list">Suggested Locations</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
@@ -2638,7 +2640,9 @@
     <string name="flight_search_suggestion_label_airport_near">Airports near you</string>
 
     <!-- Showing search suggestion label for recent search history -->
-    <string name="flight_search_suggestion_label_recent_search">Recent searches</string>
+    <string name="suggestion_label_recent_search">Recent searches</string>
+    <!-- Showing search suggestion label for past Searches -->
+    <string name="suggestion_label_past_searches">Past searches</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->

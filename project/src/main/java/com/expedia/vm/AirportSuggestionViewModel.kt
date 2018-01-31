@@ -11,7 +11,7 @@ import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
 import io.reactivex.Observable
 
-class AirportSuggestionViewModel(context: Context, suggestionsService: SuggestionV4Services, private val isDest: Boolean, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
+class AirportSuggestionViewModel(context: Context, suggestionsService: SuggestionV4Services, private val isDest: Boolean, locationObservable: Observable<Location>?) : BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
 
     private val showSuggestionLabel: Boolean = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
 
@@ -29,7 +29,7 @@ class AirportSuggestionViewModel(context: Context, suggestionsService: Suggestio
             context.getString(R.string.flight_search_suggestion_label_airport_near)
 
     override fun getPastSuggestionsLabel(): String =
-            context.getString(R.string.flight_search_suggestion_label_recent_search)
+            context.getString(R.string.suggestion_label_recent_search)
 
     override fun getLineOfBusiness(): LineOfBusiness = LineOfBusiness.FLIGHTS_V2
 

@@ -22,7 +22,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class HotelSuggestionAdapterTest {
     private val testVM = HotelSuggestionAdapterViewModel(RuntimeEnvironment.application,
-            Mockito.mock(SuggestionV4Services::class.java), null, true, false)
+            Mockito.mock(SuggestionV4Services::class.java), null)
     val testAdapter = HotelSuggestionAdapter(testVM)
 
     lateinit var testClickObserver: TestObserver<SearchSuggestion>

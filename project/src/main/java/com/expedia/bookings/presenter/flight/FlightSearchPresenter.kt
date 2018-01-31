@@ -43,7 +43,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.FlightSearchViewModel
-import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.flights.AdvanceSearchFilter
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel
 import com.squareup.phrase.Phrase
@@ -302,7 +302,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         return true
     }
 
-    override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
+    override fun getSuggestionViewModel(): BaseSuggestionAdapterViewModel {
         return if (isCustomerSelectingOrigin) originSuggestionViewModel else destinationSuggestionViewModel
     }
 

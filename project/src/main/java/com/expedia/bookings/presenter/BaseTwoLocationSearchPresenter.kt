@@ -9,7 +9,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.BaseSuggestionAdapterViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
@@ -19,7 +19,7 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
     open val delayBeforeShowingDestinationSuggestions = 325L
     open val waitForOtherSuggestionListeners = 350L
 
-    protected open var originSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
+    protected open var originSuggestionViewModel: BaseSuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver)
 
         vm.suggestionSelectedSubject

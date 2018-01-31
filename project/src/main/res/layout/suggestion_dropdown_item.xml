@@ -1,56 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/spinner_ripple"
     android:orientation="horizontal"
-    android:paddingBottom="12dp"
-    android:paddingTop="12dp">
+    android:gravity="center_vertical">
 
     <ImageView
         android:id="@+id/icon_imageview"
         android:layout_width="55dp"
         android:layout_height="20dp"
-        android:layout_gravity="center_vertical"
         android:layout_marginRight="1dp"
-        android:tint="?attr/primary_color"/>
+        android:tint="@color/gray700"
+        tools:src="@drawable/recents" />
 
     <ImageView
         android:id="@+id/hierarchy_imageview"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="11dp"
         android:layout_marginLeft="40dp"
-        android:visibility="gone"
+        android:layout_marginRight="11dp"
         android:paddingLeft="9dp"
         android:src="@drawable/neighborhood_arrow"
-        android:tint="?attr/primary_color"/>
+        android:tint="@color/gray700"
+        android:visibility="gone" />
 
-    <LinearLayout android:id="@+id/suggestion_text_container"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/suggestion_text_container"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingTop="12dp"
+        android:paddingLeft="4dp">
+
         <com.expedia.bookings.widget.TextView
             android:id="@+id/title_textview"
+            style="@style/Core.Text.200.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:maxLines="1"
             android:ellipsize="end"
-            android:paddingLeft="4dp"
-            android:textColor="@color/search_autocomplete_text" />
+            android:maxLines="1"
+            android:textColor="@color/light_text_color"
+            tools:text="Chicago, IL (ORD - O'Hare Intl.)" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/suggestion_subtitle"
+            style="@style/Core.Text.200"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:maxLines="1"
             android:ellipsize="end"
-            android:paddingLeft="4dp"
-            android:textColor="@color/search_autocomplete_text"
-            android:textSize="11dp"/>
-    </LinearLayout>
+            android:maxLines="1"
+            android:textColor="@color/light_text_color"
+            tools:text="Chicago and Vicinity" />
 
+        <View
+            android:id="@+id/suggestion_dropdown_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/grey_divider"
+            android:layout_marginTop="12dp"/>
+    </LinearLayout>
 </LinearLayout>

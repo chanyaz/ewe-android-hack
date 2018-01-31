@@ -28,7 +28,7 @@ import com.expedia.util.PackageUtil
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
-import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.packages.PackageSearchViewModel
 import com.expedia.vm.packages.PackageSuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
@@ -122,8 +122,6 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
 
         originSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
-        originSuggestionViewModel.setCustomerSelectingOrigin(true)
-        destinationSuggestionViewModel.setCustomerSelectingOrigin(false)
         originSuggestionAdapter = PackageSuggestionAdapter(originSuggestionViewModel, isOrigin = true)
         destinationSuggestionAdapter = PackageSuggestionAdapter(destinationSuggestionViewModel, isOrigin = false)
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
@@ -145,7 +143,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
         return if (isCustomerSelectingOrigin) SuggestionV4Utils.RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE else SuggestionV4Utils.RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE
     }
 
-    override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
+    override fun getSuggestionViewModel(): BaseSuggestionAdapterViewModel {
         return if (isCustomerSelectingOrigin) originSuggestionViewModel else destinationSuggestionViewModel
     }
 

@@ -12,8 +12,9 @@ import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import io.reactivex.Observable
 
-class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, locationObservable: Observable<Location>?, shouldShowCurrentLocation: Boolean, rawQueryEnabled: Boolean) :
-        SuggestionAdapterViewModel(context, suggestionsService, locationObservable, shouldShowCurrentLocation, rawQueryEnabled) {
+class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, locationObservable: Observable<Location>?) :
+        BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable,
+                shouldShowCurrentLocation = true, rawQueryEnabled = true) {
     private var selectedSuggestion: SuggestionV4? = null
 
     init {
@@ -24,6 +25,11 @@ class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: ISug
 
     fun getLastSelectedSuggestion(): SuggestionV4? {
         return selectedSuggestion
+    }
+
+    override fun getCategoryOrder(): List<Category> {
+        return listOf(Category.ESS, Category.CURRENT_LOCATION, Category.SEARCH_HISTORY_REMOTE,
+                Category.NEARBY, Category.SEARCH_HISTORY_DEVICE)
     }
 
     override fun getSuggestionService(query: String) {
@@ -41,4 +47,7 @@ class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: ISug
 
     override fun isSearchHistorySupported(): Boolean =
             FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_user_search_history)
+
+    override fun getCurrentLocationLabel(): String = context.getString(R.string.nearby_locations)
+    override fun getPastSuggestionsLabel(): String = context.getString(R.string.suggestion_label_past_searches)
 }
