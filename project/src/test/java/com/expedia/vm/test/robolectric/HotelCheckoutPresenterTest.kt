@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.inputmethod.EditorInfo
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
@@ -486,6 +487,60 @@ class HotelCheckoutPresenterTest {
         (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).viewModel.errorObservable.onNext("")
         assertEquals(View.GONE, (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).couponErrorTextView.visibility)
         assertEquals("", (storedCouponRecycler.findViewHolderForAdapterPosition(0) as StoredCouponViewHolder).couponErrorTextView.text)
+    }
+
+    @Test
+    fun testCouponCodeSubmitsOnIMEActionDoneWithValidCoupon() {
+        Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
+        checkout.couponCardView.isExpanded = true
+        val testCouponSubmitSubscriber = TestObserver<Unit>()
+        checkout.couponCardView.viewmodel.applyCouponViewModel.onCouponSubmitClicked.subscribe(testCouponSubmitSubscriber)
+
+        checkout.couponCardView.couponCode.setText("coupon")
+        checkout.couponCardView.couponCode.onEditorAction(EditorInfo.IME_ACTION_DONE)
+
+        testCouponSubmitSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testMaterialCouponCodeSubmitsOnIMEActionDoneWithValidCoupon() {
+        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
+        checkout.couponCardView.isExpanded = true
+        val testCouponSubmitSubscriber = TestObserver<Unit>()
+        checkout.couponCardView.viewmodel.applyCouponViewModel.onCouponSubmitClicked.subscribe(testCouponSubmitSubscriber)
+
+        checkout.couponCardView.couponCode.setText("coupon")
+        checkout.couponCardView.couponCode.onEditorAction(EditorInfo.IME_ACTION_DONE)
+
+        testCouponSubmitSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testCouponCodeDoesNotSubmitOnIMEActionDoneWithInvalidCoupon() {
+        Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
+        checkout.couponCardView.isExpanded = true
+        val testCouponSubmitSubscriber = TestObserver<Unit>()
+        checkout.couponCardView.viewmodel.applyCouponViewModel.onCouponSubmitClicked.subscribe(testCouponSubmitSubscriber)
+
+        checkout.couponCardView.couponCode.setText("1")
+        checkout.couponCardView.couponCode.onEditorAction(EditorInfo.IME_ACTION_DONE)
+
+        testCouponSubmitSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun testMaterialCouponCodeDoesNotSubmitOnIMEActionWithDoneInvalidCoupon() {
+        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
+        checkout.couponCardView.isExpanded = true
+        val testCouponSubmitSubscriber = TestObserver<Unit>()
+        checkout.couponCardView.viewmodel.applyCouponViewModel.onCouponSubmitClicked.subscribe(testCouponSubmitSubscriber)
+
+        checkout.couponCardView.couponCode.setText("1")
+        checkout.couponCardView.couponCode.onEditorAction(EditorInfo.IME_ACTION_DONE)
+
+        testCouponSubmitSubscriber.assertValueCount(0)
     }
 
     @Test
