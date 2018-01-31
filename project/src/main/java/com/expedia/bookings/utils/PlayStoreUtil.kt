@@ -8,7 +8,6 @@ import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.R
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.util.PackageUtil
 
 class PlayStoreUtil {
 
@@ -39,7 +38,7 @@ class PlayStoreUtil {
             PackagesTracking().trackForceUpgradeBanner()
             val builder = AlertDialog.Builder(context)
             builder.setTitle(R.string.packages_invalid_user_title_label)
-            builder.setMessage(PackageUtil.getForceUpgradeDialogMessage(context))
+            builder.setMessage(R.string.packages_invalid_user_text_label)
             builder.setPositiveButton(R.string.update, { dialog, which -> PlayStoreUtil.openPlayStore(context as Activity); PackagesTracking().trackAppUpgradeClick() })
             builder.setNegativeButton(R.string.location_soft_prompt_disable, { dialog, which -> dialog.dismiss() })
             builder.show()

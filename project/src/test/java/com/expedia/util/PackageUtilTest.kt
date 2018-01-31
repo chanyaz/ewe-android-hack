@@ -1,7 +1,6 @@
 package com.expedia.util
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -160,26 +159,6 @@ class PackageUtilTest {
         assertPackageTitle(posId = PointOfSaleId.EBOOKERS_GERMANY,
                 expectedPackagesLobTitleABTestEnabled = false,
                 expectedPackageTitle = "Hotel + Flight")
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testGetForceUpgradeDialogMessageWhenUS() {
-        RoboTestHelper.setPOS(PointOfSaleId.UNITED_STATES)
-        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog)
-        assertEquals("Sorry, Bundle Deals booking is not available on this version of the app.\n" +
-                "Update now to get Bundle Deals.", PackageUtil.getForceUpgradeDialogMessage(context))
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testGetForceUpgradeDialogMessageWhenJapan() {
-        RoboTestHelper.setPOS(PointOfSaleId.JAPAN)
-        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog)
-        assertEquals("Sorry, Hotel + Flight booking is not available on this version of the app.\n" +
-                "Update now to get Hotel + Flight deals.", PackageUtil.getForceUpgradeDialogMessage(context))
     }
 
     private fun updateABTestVariant(value: Int) {

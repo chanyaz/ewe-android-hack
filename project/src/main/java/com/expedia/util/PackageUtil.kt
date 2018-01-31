@@ -8,7 +8,6 @@ import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.squareup.phrase.Phrase
 
 object PackageUtil {
 
@@ -71,18 +70,5 @@ object PackageUtil {
         }
 
         return R.string.nav_packages
-    }
-
-    fun getForceUpgradeDialogMessage(context: Context): String {
-        val template: Int
-        val lobTitleId = packageTitle(context)
-        if (lobTitleId == R.string.nav_packages || lobTitleId == R.string.nav_hotel_plus_flight_deals) {
-            template = R.string.packages_invalid_user_text_label_TEMPLATE1
-        } else {
-            template = R.string.packages_invalid_user_text_label_TEMPLATE2
-        }
-        return Phrase.from(context, template)
-                .put("lob", context.getString(lobTitleId))
-                .format().toString()
     }
 }
