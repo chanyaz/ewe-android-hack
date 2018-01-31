@@ -11,7 +11,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.UserManager;
 import android.util.DisplayMetrics;
@@ -86,7 +85,10 @@ public class AndroidUtils {
 	 *
 	 * @param context the app context
 	 * @return true if signed using our release keystore, false for debug.
+	 *
+	 * @deprecated Use BuildConfig.RELEASE
 	 */
+	@Deprecated
 	public static boolean isRelease(Context context) {
 		if (sIsRelease == null) {
 			try {
