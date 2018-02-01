@@ -73,6 +73,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsGreedySearchCall = new ABTest(15962, true);
 	public static final ABTest EBAndroidAppFlightsAPIKongEndPoint = new ABTest(16382, true);
 	public static final ABTest EBAndroidAppFLightLoadingStateV1 = new ABTest(24766);
+	public static final ABTest EBAndroidAppFlightsRecentSearch = new ABTest(24765, true);
 
 	// Hotel Tests
 	public static final ABTest HotelNewCurrencyPOSFees = new ABTest(16455, true);
@@ -214,6 +215,7 @@ public class AbacusUtils {
 		testIDs.add(HotelDatelessInfosite.getKey());
 		testIDs.add(EBAndroidAppFLightLoadingStateV1.getKey());
 		testIDs.add(HotelHideMiniMapOnResult.getKey());
+		testIDs.add(EBAndroidAppFlightsRecentSearch.getKey());
 		return testIDs;
 	}
 

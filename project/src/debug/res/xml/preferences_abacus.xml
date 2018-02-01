@@ -272,6 +272,14 @@
             android:key="24766"
             android:summary="%s"
             android:title="Flights Loading State v1 - 24766"/>
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="24765"
+            android:summary="%s"
+            android:title="Flights Recent Search - 24765" />
     </PreferenceCategory>
 
     <PreferenceCategory
