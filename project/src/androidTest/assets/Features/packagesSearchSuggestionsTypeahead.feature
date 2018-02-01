@@ -46,10 +46,10 @@ Feature: Search Suggestions for packages
   Scenario: Flying From field - Typeahead call is made when 3 letters are entered for
     Given I launch the App
     And I want to intercept these calls for packages
-      | TypeAheadKTM |
+      | TypeAheadSFO |
     And I launch "Bundle Deals" LOB
     And I click on source search button
-    And I type "KTM" and select the location "KTM - Tribhuvan Intl."
+    And I type "sfo" and select the location "SFO - San Francisco Intl."
     Then Validate the "TypeAhead" API request query params for following parameters for packages
       | locale                      | en_US                          |
       | regiontype                  | 95                             |
@@ -95,7 +95,7 @@ Feature: Search Suggestions for packages
       | TypeAheadLAS |
     And I launch "Bundle Deals" LOB
     And I click on source search button
-    When I type "KTM" in the packages source search box
-    And I select "KTM - Tribhuvan Intl." from suggestions
+    When I type "sfo" in the packages source search box
+    And I select "San Francisco, CA" from suggestions
     And I type "la" in the packages destination search box
     Then Validate that no typeahead call is trigerred for packages

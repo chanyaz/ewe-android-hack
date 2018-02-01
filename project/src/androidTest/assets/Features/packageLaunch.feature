@@ -6,14 +6,14 @@ Feature: Package Launch
     And I launch the App
     And I launch Package LOB with "<point_of_sale>" POS
     When I make a packages search with following parameters
-      | source              | KTM                   |
-      | destination         | Las Vegas Strip       |
-      | source_suggest      | KTM - Tribhuvan Intl. |
-      | destination_suggest | Las Vegas Strip, NV   |
-      | start_date          | 20                    |
-      | end_date            | 30                    |
-      | adults              | 2                     |
-      | child               | 2                     |
+      | source              | SFO                       |
+      | destination         | Las Vegas Strip           |
+      | source_suggest      | SFO - San Francisco Intl. |
+      | destination_suggest | Las Vegas Strip, NV       |
+      | start_date          | 20                        |
+      | end_date            | 30                        |
+      | adults              | 2                         |
+      | child               | 2                         |
     Then Validate that hotel SRP screen is displayed
     And I press back following number of times: 3
     Then Validate that Launch screen is displayed
@@ -37,14 +37,14 @@ Feature: Package Launch
     And I launch the App
     And I launch Package LOB with "<point_of_sale>" POS
     When I make a packages search with following parameters
-      | source              | KTM                   |
-      | destination         | Las Vegas Strip       |
-      | source_suggest      | KTM - Tribhuvan Intl. |
-      | destination_suggest | Las Vegas Strip, NV   |
-      | start_date          | 20                    |
-      | end_date            | 30                    |
-      | adults              | 2                     |
-      | child               | 2                     |
+      | source              | SFO                       |
+      | destination         | Las Vegas Strip           |
+      | source_suggest      | SFO - San Francisco Intl. |
+      | destination_suggest | Las Vegas Strip, NV       |
+      | start_date          | 20                        |
+      | end_date            | 30                        |
+      | adults              | 2                         |
+      | child               | 2                         |
     Then Validate that hotel SRP screen is displayed
     And I press back following number of times: 3
     Then Validate that Launch screen is displayed

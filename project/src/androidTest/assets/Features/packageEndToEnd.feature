@@ -5,14 +5,14 @@ Feature: Package End To End
     Given I launch the App
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
-      | source              | KTM                   |
-      | destination         | SFO                   |
-      | source_suggest      | KTM - Tribhuvan Intl. |
-      | destination_suggest | San Francisco, CA     |
-      | start_date          | 15                    |
-      | end_date            | 20                    |
-      | adults              | 2                     |
-      | child               | 2                     |
+      | source              | SEA                            |
+      | destination         | SFO                            |
+      | source_suggest      | SEA - Seattle  -  Tacoma Intl. |
+      | destination_suggest | San Francisco, CA              |
+      | start_date          | 15                             |
+      | end_date            | 20                             |
+      | adults              | 2                              |
+      | child               | 2                              |
     Then on Package Overview Screen validate the toolbar
       | destination       | San Francisco, CA |
       | start_date        | 15                |
@@ -87,14 +87,14 @@ Feature: Package End To End
     Given I launch the App
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
-      | source              | KTM                   |
-      | destination         | SFO                   |
-      | source_suggest      | KTM - Tribhuvan Intl. |
-      | destination_suggest | San Francisco, CA     |
-      | start_date          | 15                    |
-      | end_date            | 20                    |
-      | adults              | 1                     |
-      | child               | 1                     |
+      | source              | SEA                            |
+      | destination         | SFO                            |
+      | source_suggest      | SEA - Seattle  -  Tacoma Intl. |
+      | destination_suggest | San Francisco, CA              |
+      | start_date          | 15                             |
+      | end_date            | 20                             |
+      | adults              | 1                              |
+      | child               | 1                              |
     And I wait for hotels results for packages to load
     And I select hotel at position 1 on HSR screen
     And I select first room
@@ -124,9 +124,9 @@ Feature: Package End To End
       | Total_Travelers |  5 |
     And I select hotel at position 1 on HSR screen
     Then validate HIS screen is displayed with following travel dates and travelers
-      | start_date   | 6        |
-      | end_date     | 10       |
-      | total_guests | 5 guests |
+      | start_date      |   5       |
+      | end_date        |  10       |
+      | total_guests    |  5 guests |
     And I select first room
     And I wait for flight results for packages to load
     And validate outbound FSR screen is displayed with following travel date and travelers
