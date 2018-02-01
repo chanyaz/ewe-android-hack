@@ -60,7 +60,9 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
 
     private val clusterChangeObserver = PublishSubject.create<Unit>()
 
-    private val DEFAULT_ZOOM = resources.displayMetrics.density.toInt() * 50
+    private val MAP_PADDING = resources.displayMetrics.density.toInt() * 50
+
+    private var bottomTranslation = 0
 
     init {
         viewModel = HotelResultsMapViewModel(context, lastBestLocationSafe())
@@ -116,6 +118,7 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
     }
 
     fun adjustPadding(bottomTranslation: Int) {
+        this.bottomTranslation = bottomTranslation
         googleMap?.setPadding(0, getToolbarHeight(), 0, bottomTranslation)
     }
 
@@ -219,13 +222,17 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
     private fun animateBounds() {
         currentBounds?.let { bounds ->
             if (ViewCompat.isLaidOut(mapView)) {
-                googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(currentBounds, DEFAULT_ZOOM))
-            }
+                googleMap?.setPadding(0, getToolbarHeight(), 0, 0)
 
-            val center = bounds.center
-            val location = Location("currentRegion")
-            location.latitude = center.latitude
-            location.longitude = center.longitude
+                googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(currentBounds, MAP_PADDING), object : GoogleMap.CancelableCallback {
+                    override fun onFinish() {
+                        googleMap?.setPadding(0, getToolbarHeight(), 0, bottomTranslation)
+                    }
+                    override fun onCancel() {
+                        googleMap?.setPadding(0, getToolbarHeight(), 0, bottomTranslation)
+                    }
+                })
+            }
         }
     }
 

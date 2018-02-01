@@ -8,9 +8,17 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.map.HotelMapMarker
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.maps.android.SphericalUtil
+import com.mobiata.android.maps.MapUtils
 
 open class HotelResultsMapViewModel(val context: Context, val currentLocation: Location) {
     var selectedMapMarker: HotelMapMarker? = null
+
+    val minHotelBoundSize = 300.0
+    val NORTH_DIRECTION = 0.0
+    val EAST_DIRECTION = 90.0
+    val SOUTH_DIRECTION = 180.0
+    val WEST_DIRECTION = 270.0
 
     fun getMapBounds(res: BaseApiResponse): LatLngBounds {
         val response = res as HotelSearchResponse
@@ -44,11 +52,11 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
             return allHotelsBox
             //If current location is near a neighborhood, zoom to closest neighborhood
         } else if (closestHotelWithNeighborhood != null) {
-            val closestNieghborhood = response.neighborhoodsMap[closestHotelWithNeighborhood.locationId]
-            if (closestNieghborhood == null) {
+            val closestNeighborhood = response.neighborhoodsMap[closestHotelWithNeighborhood.locationId]
+            if (closestNeighborhood == null) {
                 return allHotelsBox
             } else {
-                return boxHotels(closestNieghborhood.hotels)
+                return boxHotels(closestNeighborhood.hotels)
             }
             //Default, zoom out and show all hotels
         } else {
@@ -72,6 +80,30 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
             box.include(LatLng(hotel.latitude, hotel.longitude))
         }
 
+        var bounds = box.build()
+
+        val northEast = bounds.northeast
+        val southWest = bounds.southwest
+        val center = bounds.center
+
+        if (milesToMeters(MapUtils.getDistance(center.latitude, northEast.longitude, center.latitude, southWest.longitude)) < minHotelBoundSize) {
+            val east = SphericalUtil.computeOffset(center, minHotelBoundSize / 2, EAST_DIRECTION)
+            val west = SphericalUtil.computeOffset(center, minHotelBoundSize / 2, WEST_DIRECTION)
+            box.include(east)
+            box.include(west)
+        }
+
+        if (milesToMeters(MapUtils.getDistance(northEast.latitude, center.longitude, southWest.latitude, center.longitude)) < minHotelBoundSize) {
+            val north = SphericalUtil.computeOffset(center, minHotelBoundSize / 2, NORTH_DIRECTION)
+            val south = SphericalUtil.computeOffset(center, minHotelBoundSize / 2, SOUTH_DIRECTION)
+            box.include(north)
+            box.include(south)
+        }
+
         return box.build()
+    }
+
+    private fun milesToMeters(miles: Double): Double {
+        return MapUtils.milesToKilometers(miles) * 1000
     }
 }
