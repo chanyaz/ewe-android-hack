@@ -14,15 +14,26 @@ class AbacusFeatureConfigManager {
         @Deprecated("Use isUserBucketedForTest(context, ABTest) instead")
         @JvmStatic
         fun isUserBucketedForTest(abacusTest: ABTest): Boolean {
-            return isBucketed(abacusTest)
+            return isInVariant(abacusTest, AbacusVariant.BUCKETED)
         }
 
         @JvmStatic
         fun isUserBucketedForTest(context: Context, abacusTest: ABTest): Boolean {
-            if (abacusTest.remote && !(useOverride(context, abacusTest))) {
-                return isUserBucketedForRemoteTest(context, abacusTest)
-            }
-            return isBucketed(abacusTest)
+            return isBucketedForVariant(context, abacusTest, AbacusVariant.BUCKETED)
+        }
+
+        /**
+         * Determines if a test is in bucketed into any test variant via abacus and remotely
+         * via satellite (if applicable).  This function is helpful when you have functionality
+         * that is available to all variants of a multi-variant test. Common for variant tests that
+         * are just simple text changes.
+         */
+        @JvmStatic
+        fun isBucketedInAnyVariant(context: Context, abacusTest: ABTest): Boolean {
+            return isBucketedForVariant(context, abacusTest, AbacusVariant.BUCKETED)
+                    || isBucketedForVariant(context, abacusTest, AbacusVariant.ONE)
+                    || isBucketedForVariant(context, abacusTest, AbacusVariant.TWO)
+                    || isBucketedForVariant(context, abacusTest, AbacusVariant.THREE)
         }
 
         @JvmStatic
@@ -33,16 +44,24 @@ class AbacusFeatureConfigManager {
             return true
         }
 
-        private fun isUserBucketedForRemoteTest(context: Context, abacusTest: ABTest): Boolean {
+        fun isBucketedForVariant(context: Context, abacusTest: ABTest,
+                                 variant: AbacusVariant): Boolean {
+            if (abacusTest.remote && !(useOverride(context, abacusTest))) {
+                return isUserInVariantForRemoteTest(context, abacusTest, variant)
+            }
+            return isInVariant(abacusTest, variant)
+        }
+
+        private fun isUserInVariantForRemoteTest(context: Context, abacusTest: ABTest,
+                                                 variant: AbacusVariant): Boolean {
             if (SatelliteFeatureConfigManager.isABTestEnabled(context, abacusTest.key)) {
-                return isBucketed(abacusTest)
+                return isInVariant(abacusTest, variant)
             }
             return false
         }
 
-        private fun isBucketed(abacusTest: ABTest): Boolean {
-            val test = Db.sharedInstance.abacusResponse.testForKey(abacusTest)
-            return test != null && test.isUserInBucket
+        private fun isInVariant(abacusTest: ABTest, variant: AbacusVariant): Boolean {
+            return variant.value == Db.sharedInstance.abacusResponse.variateForTest(abacusTest)
         }
 
         private fun useOverride(context: Context, abacusTest: ABTest): Boolean {

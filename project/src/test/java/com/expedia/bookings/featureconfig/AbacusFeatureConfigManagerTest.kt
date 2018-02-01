@@ -71,6 +71,30 @@ class AbacusFeatureConfigManagerTest {
     }
 
     @Test
+    fun testInVariantTrue() {
+        val abTest = ABTest(99999)
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
+        assertTrue(AbacusFeatureConfigManager.isBucketedInAnyVariant(context, abTest))
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.ONE.value)
+        assertTrue(AbacusFeatureConfigManager.isBucketedInAnyVariant(context, abTest))
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.TWO.value)
+        assertTrue(AbacusFeatureConfigManager.isBucketedInAnyVariant(context, abTest))
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.THREE.value)
+        assertTrue(AbacusFeatureConfigManager.isBucketedInAnyVariant(context, abTest))
+    }
+
+    @Test
+    fun testInVariantFalse() {
+        val abTest = ABTest(99999)
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.CONTROL.value)
+        assertFalse(AbacusFeatureConfigManager.isBucketedInAnyVariant(context, abTest))
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.NO_BUCKET.value)
+        assertFalse(AbacusFeatureConfigManager.isBucketedInAnyVariant(context, abTest))
+        AbacusTestUtils.updateABTest(abTest, AbacusVariant.DEBUG.value)
+        assertFalse(AbacusFeatureConfigManager.isBucketedInAnyVariant(context, abTest))
+    }
+
+    @Test
     fun testShouldTrackIfRemoteAndEnabled() {
         val abTest = ABTest(12345, true)
         assertTrue(AbacusFeatureConfigManager.shouldTrackTest(context, abTest))

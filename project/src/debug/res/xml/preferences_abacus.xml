@@ -3,13 +3,6 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
         android:title="Hotel Tests">
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="13277"
-            android:title="HSR Urgency Message - 13277" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -74,6 +67,15 @@
             android:key="24648"
             android:summary="%s"
             android:title="Dateless infosite - 24648" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_urgency_variant_choices"
+            android:entryValues="@array/abacus_two_variant_choice_values"
+            android:summary="%s"
+            android:key="24741"
+            android:title="HSR Urgency Message V2 - 24741" />
+
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"

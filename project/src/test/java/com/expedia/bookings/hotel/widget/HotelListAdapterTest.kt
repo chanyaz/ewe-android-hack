@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.hotel.data.HotelAdapterItem
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
@@ -28,7 +29,7 @@ class HotelListAdapterTest {
     @Test
     fun testCreateLoadingViewHolder() {
         val parent = LinearLayout(context)
-        val viewHolder = testAdapter.createViewHolder(parent, testAdapter.LOADING_VIEW)
+        val viewHolder = testAdapter.createViewHolder(parent, HotelAdapterItem.LOADING)
 
         assertTrue(viewHolder is LoadingViewHolder)
     }
@@ -36,7 +37,7 @@ class HotelListAdapterTest {
     @Test
     fun testCreateHotelCellViewHolder() {
         val parent = LinearLayout(context)
-        val viewHolder = testAdapter.createViewHolder(parent, testAdapter.HOTEL_VIEW)
+        val viewHolder = testAdapter.createViewHolder(parent, HotelAdapterItem.HOTEL)
         assertTrue(viewHolder is HotelCellViewHolder)
     }
 
@@ -44,9 +45,9 @@ class HotelListAdapterTest {
     fun testBindHotelViewHolder_NullPin_FirstItem() {
         testAdapter.resultsSubject.onNext(getMockSearchResponse(1, null))
         val parent = LinearLayout(context)
-        val viewHolder = testAdapter.createViewHolder(parent, testAdapter.HOTEL_VIEW) as AbstractHotelCellViewHolder
+        val viewHolder = testAdapter.createViewHolder(parent, HotelAdapterItem.HOTEL) as AbstractHotelCellViewHolder
 
-        testAdapter.bindViewHolder(viewHolder, 0 + testAdapter.numHeaderItemsInHotelsList())
+        testAdapter.bindViewHolder(viewHolder, 0 + testAdapter.firstHotelIndex)
         assertEquals(View.GONE, viewHolder.pinnedHotelTextView.visibility)
     }
 
@@ -55,9 +56,9 @@ class HotelListAdapterTest {
         val response = getMockSearchResponse(1, false)
         testAdapter.resultsSubject.onNext(response)
         val parent = LinearLayout(context)
-        val viewHolder = testAdapter.createViewHolder(parent, testAdapter.HOTEL_VIEW) as AbstractHotelCellViewHolder
+        val viewHolder = testAdapter.createViewHolder(parent, HotelAdapterItem.HOTEL) as AbstractHotelCellViewHolder
 
-        testAdapter.bindViewHolder(viewHolder, 0 + testAdapter.numHeaderItemsInHotelsList())
+        testAdapter.bindViewHolder(viewHolder, 0 + testAdapter.firstHotelIndex)
         assertEquals(View.GONE, viewHolder.pinnedHotelTextView.visibility)
     }
 
@@ -67,9 +68,9 @@ class HotelListAdapterTest {
         testAdapter.resultsSubject.onNext(response)
 
         val parent = LinearLayout(context)
-        val viewHolder = testAdapter.createViewHolder(parent, testAdapter.HOTEL_VIEW) as AbstractHotelCellViewHolder
+        val viewHolder = testAdapter.createViewHolder(parent, HotelAdapterItem.HOTEL) as AbstractHotelCellViewHolder
 
-        testAdapter.bindViewHolder(viewHolder, 0 + testAdapter.numHeaderItemsInHotelsList())
+        testAdapter.bindViewHolder(viewHolder, 0 + testAdapter.firstHotelIndex)
         assertEquals(View.VISIBLE, viewHolder.pinnedHotelTextView.visibility)
     }
 
@@ -79,9 +80,9 @@ class HotelListAdapterTest {
         testAdapter.resultsSubject.onNext(response)
 
         val parent = LinearLayout(context)
-        val viewHolder = testAdapter.createViewHolder(parent, testAdapter.HOTEL_VIEW) as AbstractHotelCellViewHolder
+        val viewHolder = testAdapter.createViewHolder(parent, HotelAdapterItem.HOTEL) as AbstractHotelCellViewHolder
 
-        testAdapter.bindViewHolder(viewHolder, 1 + testAdapter.numHeaderItemsInHotelsList())
+        testAdapter.bindViewHolder(viewHolder, 1 + testAdapter.firstHotelIndex)
         assertEquals(View.GONE, viewHolder.pinnedHotelTextView.visibility, "FAIL: Only first item in pinned search should be pinned.")
     }
 

@@ -72,39 +72,6 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <LinearLayout
-            android:id="@+id/hotel_urgency_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/hotel_urgency_background_color"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="8dp"
-            android:paddingTop="4dp"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/urgency_percentage_view"
-                style="@style/Core.Text.300"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_trending_up_white_18px"
-                android:drawablePadding="8dp"
-                android:gravity="center_vertical"
-                android:textColor="@color/white"
-                tools:text="30% Booked" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/urgency_destination_description_view"
-                style="@style/Core.Text.100"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/white"
-                tools:text="San Fransisco is a popular location on your dates" />
-        </LinearLayout>
-
         <View
             android:id="@+id/toolbar_dropshadow"
             android:layout_width="match_parent"

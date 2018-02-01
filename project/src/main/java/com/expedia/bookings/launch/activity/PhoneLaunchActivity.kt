@@ -690,7 +690,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             events.add("event322")
         }
 
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen)
+        if (AbacusFeatureConfigManager.isBucketedInAnyVariant(this, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen)
                 && userStateManager.isUserAuthenticated()
                 && TripUtils.getUpcomingAirAttachQualifiedFlightTrip(ItineraryManager.getInstance().trips) != null) {
             events.add("event323")

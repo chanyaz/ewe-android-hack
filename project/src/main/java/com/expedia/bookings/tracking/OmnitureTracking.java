@@ -543,7 +543,7 @@ public class OmnitureTracking {
 
 		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), s.getEvents());
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);
+		trackAbacusTest(s, AbacusUtils.HotelUrgencyV2);
 		trackAbacusTest(s, AbacusUtils.HotelHideMiniMapOnResult);
 		trackAbacusTest(s, AbacusUtils.HotelSoldOutOnHSRTreatment);
 		// Send the tracking data
@@ -3422,7 +3422,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountSinglePageSignUp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
 
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(sContext, AbacusUtils.MesoAd)) {
+		if (AbacusFeatureConfigManager.isBucketedInAnyVariant(sContext, AbacusUtils.MesoAd)) {
 			trackAbacusTest(s, AbacusUtils.MesoAd);
 		}
 

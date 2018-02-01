@@ -1,6 +1,8 @@
 package com.expedia.vm.hotel
 
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.urgency.UrgencyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -16,6 +18,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.AbacusTestUtils
 import io.reactivex.schedulers.Schedulers
 import kotlin.test.assertEquals
 
@@ -27,6 +30,8 @@ class UrgencyViewModelTest {
     lateinit var urgencyService: UrgencyServices
     lateinit var testViewModel: UrgencyViewModel
     lateinit var today: LocalDate
+
+    private val context = RuntimeEnvironment.application
 
     @Before
     fun setUp() {
@@ -41,67 +46,91 @@ class UrgencyViewModelTest {
 
     @Test
     fun testHappyUrgency() {
-        val expectedScore = 80
-        val expectedScoreText = getExpectedScoreText(expectedScore)
-        val expectedDescription = getExpectedDescription("Vail - Beaver Creek, CO")
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelUrgencyV2,
+                bucketVariant = AbacusVariant.ONE.value)
+        val expectedAvailability = 20
+        val expectedText = getExpectedScoreText(expectedAvailability)
 
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_happy.json"))
 
-        val testSoldOutTextSub = TestObserver<String>()
-        val testDescriptionTextSub = TestObserver<String>()
-        testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
-        testViewModel.urgencyDescriptionSubject.subscribe(testDescriptionTextSub)
+        val testObserver = TestObserver<String>()
+        testViewModel.urgencyTextSubject.subscribe(testObserver)
 
         testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
-
-        assertEquals(expectedScoreText, testSoldOutTextSub.values()[0], "Error Both score and description musht")
-        assertEquals(expectedDescription, testDescriptionTextSub.values()[0])
+        assertEquals(expectedText, testObserver.values()[0])
     }
 
     @Test
-    fun testUrgencyBelowThreshold() {
-        server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_below_threshold.json"))
+    fun testUrgencyBelowThresholdVariantOne() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelUrgencyV2,
+                bucketVariant = AbacusVariant.ONE.value)
+        server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_below_threshold_variant_one.json"))
 
-        val testSoldOutTextSub = TestObserver<String>()
-        val testDescriptionTextSub = TestObserver<String>()
-        testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
-        testViewModel.urgencyDescriptionSubject.subscribe(testDescriptionTextSub)
+        val testObserver = TestObserver<String>()
+        testViewModel.urgencyTextSubject.subscribe(testObserver)
 
         testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
+        testObserver.assertNoValues()
+    }
 
-        testSoldOutTextSub.assertNoValues()
-        testDescriptionTextSub.assertNoValues()
+    @Test
+    fun testUrgencyBelowThresholdVariantTwo() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelUrgencyV2,
+                bucketVariant = AbacusVariant.TWO.value)
+        server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_below_threshold_variant_two.json"))
+
+        val testObserver = TestObserver<String>()
+        testViewModel.urgencyTextSubject.subscribe(testObserver)
+
+        testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
+        testObserver.assertNoValues()
+    }
+
+    @Test
+    fun testUrgencyNotBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelUrgencyV2,
+                bucketVariant = AbacusVariant.CONTROL.value)
+
+        server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_happy.json"))
+
+        val testObserver = TestObserver<String>()
+        testViewModel.urgencyTextSubject.subscribe(testObserver)
+
+        testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
+        testObserver.assertNoValues()
     }
 
     @Test
     fun testUrgencyAboveMaximum() {
-        val expectedRoundedScore = 95
-        val expectedScoreText = getExpectedScoreText(expectedRoundedScore)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelUrgencyV2,
+                bucketVariant = AbacusVariant.ONE.value)
+        val expectedAvailability = 5
+        val expectedText = getExpectedScoreText(expectedAvailability)
 
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_max_threshold.json"))
 
-        val testSoldOutTextSub = TestObserver<String>()
-        testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
+        val testObserver = TestObserver<String>()
+        testViewModel.urgencyTextSubject.subscribe(testObserver)
 
         testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
-
-        assertEquals(expectedScoreText, testSoldOutTextSub.values()[0], "Error: Expected Score to be capped at 95,"
-                + "the api sends 100 for some regions even though we have results")
+        assertEquals(expectedText, testObserver.values()[0], "Error: Expected score to be capped at 95,"
+                + "the api sends 100% sold out for some regions even though we have results")
     }
 
     @Test
     fun testUrgencyRounding() {
-        val expectedRoundedScore = 75
-        val expectedScoreText = getExpectedScoreText(expectedRoundedScore)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelUrgencyV2,
+                bucketVariant = AbacusVariant.ONE.value)
+        val expectedAvailability = 25
+        val expectedText = getExpectedScoreText(expectedAvailability)
 
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_requires_rounding.json"))
 
         val testSoldOutTextSub = TestObserver<String>()
-        testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
+        testViewModel.urgencyTextSubject.subscribe(testSoldOutTextSub)
 
         testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
-
-        assertEquals(expectedScoreText, testSoldOutTextSub.values()[0], "Error: Rounding might be wrong.")
+        assertEquals(expectedText, testSoldOutTextSub.values()[0], "Error: Rounding might be wrong.")
     }
 
     @Test
@@ -110,7 +139,6 @@ class UrgencyViewModelTest {
         val testMonth = 11
         val testDay = 20
         val testDate = LocalDate(testYear, testMonth, testDay)
-
         assertEquals("$testMonth/$testDay/$testYear", testViewModel.getUrgencyDateFormat(testDate))
     }
 
@@ -118,26 +146,16 @@ class UrgencyViewModelTest {
     fun testInvalidRegionId() {
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_happy.json"))
 
-        val testSoldOutTextSub = TestObserver<String>()
-        val testDescriptionTextSub = TestObserver<String>()
-        testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
-        testViewModel.urgencyDescriptionSubject.subscribe(testDescriptionTextSub)
+        val testObserver = TestObserver<String>()
+        testViewModel.urgencyTextSubject.subscribe(testObserver)
 
         testViewModel.fetchCompressionScore("0", today.plusYears(1), today.plusYears(1).plusDays(1))
-
-        testSoldOutTextSub.assertNoValues()
-        testDescriptionTextSub.assertNoValues()
+        testObserver.assertNoValues()
     }
 
     private fun getExpectedScoreText(score: Int): String {
-        return Phrase.from(RuntimeEnvironment.application, R.string.urgency_percent_booked_TEMPLATE)
-                .put("percentage", score)
-                .format().toString()
-    }
-
-    private fun getExpectedDescription(displayName: String): String {
-        return Phrase.from(RuntimeEnvironment.application, R.string.urgency_destination_description_TEMPLATE)
-                .put("destination", displayName)
+        return Phrase.from(RuntimeEnvironment.application, R.string.urgency_only_x_hotels_left_TEMPLATE)
+                .put("percent", score)
                 .format().toString()
     }
 }

@@ -49,7 +49,7 @@ class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolba
     val progressDialog = ProgressDialog(context)
 
     init {
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)) {
+        if (AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)) {
             inflateMenu(R.menu.confirmation_menu)
             menuItem.setOnMenuItemClickListener {
                 progressDialog.setCancelable(true)

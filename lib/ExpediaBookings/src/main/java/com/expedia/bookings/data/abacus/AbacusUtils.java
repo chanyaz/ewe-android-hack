@@ -76,8 +76,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFLightLoadingStateV1 = new ABTest(24766);
 	public static final ABTest EBAndroidAppFlightsRecentSearch = new ABTest(24765, true);
 
-	// Hotel Tests
-	public static final ABTest EBAndroidAppHotelUrgencyMessage = new ABTest(13277);
 	public static final ABTest EBAndroidAppHotelPinnedSearch = new ABTest(15082);
 	public static final ABTest HotelAutoSuggestSameAsWeb = new ABTest(15637, true);
 	public static final ABTest EBAndroidAppHotelSuperSearch = new ABTest(14911);
@@ -89,6 +87,7 @@ public class AbacusUtils {
 	public static final ABTest HotelAmenityFilter = new ABTest(24541, true);
 	public static final ABTest HotelNewFilterCtaText = new ABTest(24583, true);
 	public static final ABTest HotelDatelessInfosite = new ABTest(24648, true);
+	public static final ABTest HotelUrgencyV2 = new ABTest(24741, true);
 	public static final ABTest HotelHideMiniMapOnResult = new ABTest(16255, true);
 	public static final ABTest HotelSoldOutOnHSRTreatment = new ABTest(24727, true);
 	public static final ABTest HotelImageGrid = new ABTest(24841, true);
@@ -147,7 +146,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsConfirmationItinSharing.getKey());
 		testIDs.add(EBAndroidAppFlightByotSearch.getKey());
 		testIDs.add(EBAndroidAppShowAirAttachMessageOnLaunchScreen.getKey());
-		testIDs.add(EBAndroidAppHotelUrgencyMessage.getKey());
 		testIDs.add(EBAndroidAppLXNavigateToSRP.getKey());
 		testIDs.add(EBAndroidAppLastMinuteDeals.getKey());
 		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview.getKey());
@@ -214,6 +212,7 @@ public class AbacusUtils {
 		testIDs.add(TripsHotelsM2.getKey());
 		testIDs.add(HotelNewFilterCtaText.getKey());
 		testIDs.add(HotelDatelessInfosite.getKey());
+		testIDs.add(HotelUrgencyV2.getKey());
 		testIDs.add(EBAndroidAppFLightLoadingStateV1.getKey());
 		testIDs.add(HotelHideMiniMapOnResult.getKey());
 		testIDs.add(EBAndroidAppFlightsRecentSearch.getKey());

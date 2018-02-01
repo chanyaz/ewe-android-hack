@@ -6,8 +6,6 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Rect
-import android.os.Handler
-import android.os.Looper
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
@@ -15,7 +13,6 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
@@ -24,8 +21,6 @@ import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.AnimationRunner
-import com.expedia.bookings.hotel.animation.ScaleInRunnable
-import com.expedia.bookings.hotel.animation.ScaleOutRunnable
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
 import com.expedia.bookings.presenter.Presenter
@@ -42,7 +37,6 @@ import com.expedia.bookings.widget.HotelServerFilterView
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelListAdapter
-import com.expedia.bookings.zipWith
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
@@ -53,13 +47,9 @@ import com.expedia.vm.hotel.HotelFilterViewModel
 import com.expedia.vm.hotel.UrgencyViewModel
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
-    val urgencyDropDownContainer: LinearLayout by bindView(R.id.hotel_urgency_container)
-    val urgencyPercentBookedView: TextView by bindView(R.id.urgency_percentage_view)
-    val urgencyDescriptionView: TextView by bindView(R.id.urgency_destination_description_view)
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     private val narrowResultsPromptView: TextView by bindView(R.id.narrow_result_prompt)
@@ -92,7 +82,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         baseViewModel = vm
         vm.hotelResultsObservable.subscribe(listResultsObserver)
 
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
+        if (shouldFetchUrgency()) {
             vm.hotelResultsObservable.subscribe { response ->
                 vm.getSearchParams()?.let { params ->
                     urgencyViewModel.fetchCompressionScore(response.searchRegionId, params.checkIn, params.checkOut)
@@ -194,14 +184,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         super.onFinishInflate()
         Ui.getApplication(context).hotelComponent().inject(this)
         urgencyViewModel = UrgencyViewModel(context, urgencyServices)
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
-            urgencyViewModel.percentSoldOutTextSubject.zipWith(urgencyViewModel.urgencyDescriptionSubject,
-                    { soldOutPercentText, urgencyDescription ->
-                        urgencyPercentBookedView.text = soldOutPercentText
-                        urgencyDescriptionView.text = urgencyDescription
-                    }).subscribe {
-                UrgencyAnimation(urgencyDropDownContainer, toolbarShadow).animate()
-            }
+        if (shouldFetchUrgency()) {
+            urgencyViewModel.urgencyTextSubject.subscribe { text -> adapter.addUrgency(text) }
         }
         ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
@@ -260,7 +244,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         super.showLoading()
         resetListOffset()
         sortFilterButtonTransition?.jumpToTarget()
-        urgencyDropDownContainer.visibility = View.GONE
         narrowResultsPromptView.visibility = View.GONE
         narrowResultsPromptView.clearAnimation()
     }
@@ -370,36 +353,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         mapWidget.clearMarkers()
     }
 
-    private class UrgencyAnimation(urgencyContainer: LinearLayout, toolbarShadow: View) {
-        private val duration = 500L
-        private val shadowViewRef: WeakReference<View>
-        private val scaleInRunnable: ScaleInRunnable
-        private val scaleOutRunnable: ScaleOutRunnable
-
-        init {
-            shadowViewRef = WeakReference(toolbarShadow)
-            scaleInRunnable = ScaleInRunnable(urgencyContainer, duration, 0L)
-            scaleOutRunnable = ScaleOutRunnable(urgencyContainer, duration, 5000L)
-
-            scaleInRunnable.endSubject.subscribe {
-                shadowViewRef.get()?.visibility = VISIBLE
-                scaleOutRunnable.run()
-            }
-
-            scaleOutRunnable.startSubject.subscribe {
-                shadowViewRef.get()?.visibility = GONE
-            }
-            scaleOutRunnable.endSubject.subscribe {
-                shadowViewRef.get()?.visibility = VISIBLE
-            }
-        }
-
-        fun animate() {
-            shadowViewRef.get()?.visibility = GONE
-            Handler(Looper.getMainLooper()).post(scaleInRunnable)
-        }
-    }
-
     private fun showMapLoadingOverlay() {
         if (loadingOverlay != null) {
             loadingOverlay.animate(true)
@@ -421,5 +374,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             location.coordinates = coordinate
             viewModel.locationParamsSubject.onNext(location)
         }
+    }
+
+    private fun shouldFetchUrgency(): Boolean {
+        return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.HotelUrgencyV2)
     }
 }

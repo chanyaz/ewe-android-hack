@@ -129,7 +129,8 @@
     <string name="preference_date_last_review_prompt_shown">preference_date_last_review_prompt_shown</string>
     <string name="preference_abacus_setting_meso_hotel">Meso Hotel</string>
     <string name="preference_abacus_setting_meso_destination">Meso Destination</string>
-
+    <string name="preference_abacus_setting_urgency_50">50% hotels left or less</string>
+    <string name="preference_abacus_setting_urgency_70">30% hotels left or less</string>
 
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>

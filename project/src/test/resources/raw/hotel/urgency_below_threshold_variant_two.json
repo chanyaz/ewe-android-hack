@@ -5,40 +5,40 @@
     "hotelTicker": [],
     "regionLevelData": {
       "compressionSummary": {
-        "score": 29,
+        "score": 66,
         "status": "LIGHT",
-        "lisScore": 29
+        "lisScore": 66
       },
       "previous": {
         "startDate": "03/01/2017",
         "endDate": "03/07/2017",
         "data": [{
           "stayDate": "03/01/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/02/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/03/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/04/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/05/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/06/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/07/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }]
       },
@@ -47,15 +47,15 @@
         "endDate": "03/10/2017",
         "data": [{
           "stayDate": "03/08/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/09/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/10/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }]
       },
@@ -64,31 +64,31 @@
         "endDate": "03/17/2017",
         "data": [{
           "stayDate": "03/11/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/12/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/13/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/14/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/15/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/16/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }, {
           "stayDate": "03/17/2017",
-          "score": 29,
+          "score": 66,
           "status": "LIGHT"
         }]
       }

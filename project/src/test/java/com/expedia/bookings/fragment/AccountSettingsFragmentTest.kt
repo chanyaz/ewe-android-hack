@@ -30,7 +30,6 @@ import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -243,8 +242,7 @@ class AccountSettingsFragmentTest {
 
     @Test
     fun testBundlePackageTitleChangeVariate1() {
-        AbacusTestUtils.bucketTests(AbacusUtils.PackagesTitleChange)
-        RoboTestHelper.updateABTest(AbacusUtils.PackagesTitleChange, AbacusVariant.ONE.value)
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.PackagesTitleChange, AbacusVariant.ONE.value)
         givenFragmentSetup()
         givenSignedInAsUser(getMiddleTierRewardsMember())
         val pendingPoints = fragment.view?.findViewById<TextView>(R.id.pending_points)
@@ -256,8 +254,7 @@ class AccountSettingsFragmentTest {
 
     @Test
     fun testBundlePackageTitleChangeVariate2() {
-        AbacusTestUtils.bucketTests(AbacusUtils.PackagesTitleChange)
-        RoboTestHelper.updateABTest(AbacusUtils.PackagesTitleChange, AbacusVariant.TWO.value)
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.PackagesTitleChange, AbacusVariant.TWO.value)
         givenFragmentSetup()
         givenSignedInAsUser(getMiddleTierRewardsMember())
         val pendingPoints = fragment.view?.findViewById<TextView>(R.id.pending_points)

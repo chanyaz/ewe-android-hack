@@ -541,7 +541,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private boolean userBucketedForAirAttach() {
 		return AbacusFeatureConfigManager
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
+			.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 	}
 
 	private boolean showMemberDeal() {
@@ -563,7 +563,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@VisibleForTesting
 	protected boolean showMesoHotelAd() {
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.MesoAd)) {
+		if (AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.MesoAd)) {
 			int variateForTest = Db.sharedInstance.getAbacusResponse().variateForTest(AbacusUtils.MesoAd);
 			return variateForTest == AbacusVariant.ONE.getValue();
 		}
@@ -572,7 +572,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@VisibleForTesting
 	protected boolean showMesoDestinationAd() {
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.MesoAd)) {
+		if (AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.MesoAd)) {
 			int variateForTest = Db.sharedInstance.getAbacusResponse().variateForTest(AbacusUtils.MesoAd);
 			return variateForTest == AbacusVariant.TWO.getValue();
 		}
