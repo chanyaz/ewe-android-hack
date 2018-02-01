@@ -3,10 +3,8 @@ package com.expedia.bookings.hotel.util
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.squareup.phrase.Phrase
@@ -29,7 +27,7 @@ class HotelResortFeeFormatter {
                         .put("currency", resortFees.currencyCode)
                         .format().toString()
             } else {
-                if (!rate.currencyCodePOSu.isNullOrEmpty() && AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelNewCurrencyPOSFees)) {
+                if (!rate.currencyCodePOSu.isNullOrEmpty()) {
                     val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), rate.currencyCodePOSu)
                     resortText = resortFees.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)
                 } else {

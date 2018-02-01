@@ -1,13 +1,11 @@
 package com.expedia.bookings.hotel.util
 
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -87,7 +85,6 @@ class HotelResortFeeFormatterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testResortFeeShowFeesNewCurrencyPOS() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelNewCurrencyPOSFees)
         val response = happyResponse()
         response.rateInfo.chargeableRateInfo.showResortFeeMessage = true
         response.rateInfo.chargeableRateInfo.totalMandatoryFees = expectedFee
