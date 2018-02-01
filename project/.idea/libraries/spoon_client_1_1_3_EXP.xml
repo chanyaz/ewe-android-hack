@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="spoon-client-1.1.3-EXP">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/spoon-client-1.1.3-EXP.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

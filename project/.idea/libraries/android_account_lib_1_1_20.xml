@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="android-account-lib-1.1.20">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/android-account-lib-1.1.20.aar/780e6b82fcfef44f5905812c768a98b8/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/android-account-lib-1.1.20.aar/780e6b82fcfef44f5905812c768a98b8/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.expedia/android-account-lib/1.1.20/4be6485565e3681f630989d337dee087d4deefd1/android-account-lib-1.1.20-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

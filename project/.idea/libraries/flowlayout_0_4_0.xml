@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="flowlayout-0.4.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/flowlayout-0.4.0.aar/99e83cdd968fb93cea60b9cfd00aa221/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/flowlayout-0.4.0.aar/99e83cdd968fb93cea60b9cfd00aa221/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.wefika/flowlayout/0.4.0/d60d1f066b52e2a4ab02aad39dbd2d47e6fe4e38/flowlayout-0.4.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

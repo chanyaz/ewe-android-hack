@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="share-everywhere-1.0.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/share-everywhere-1.0.1.aar/a352f47a09dcbd70f9c57e9e00251299/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/share-everywhere-1.0.1.aar/a352f47a09dcbd70f9c57e9e00251299/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.dgmltn/share-everywhere/1.0.1/8bb88bb7f060de9735586c71675a2384c2dba2f9/share-everywhere-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

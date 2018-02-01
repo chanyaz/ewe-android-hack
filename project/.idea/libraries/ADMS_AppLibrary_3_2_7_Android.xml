@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ADMS_AppLibrary-3.2.7-Android">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/ADMS_AppLibrary-3.2.7-Android.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

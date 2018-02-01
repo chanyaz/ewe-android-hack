@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../lib/AndroidTime/AndroidTime.iml" filepath="$PROJECT_DIR$/../lib/AndroidTime/AndroidTime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../lib/ExpediaBookings/ExpediaBookings.iml" filepath="$PROJECT_DIR$/../lib/ExpediaBookings/ExpediaBookings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../lib/bug-reporter/bug-reporter.iml" filepath="$PROJECT_DIR$/../lib/bug-reporter/bug-reporter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../lib/bug-reporter/bugshaker/bugshaker.iml" filepath="$PROJECT_DIR$/../lib/bug-reporter/bugshaker/bugshaker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../complete/complete.iml" filepath="$PROJECT_DIR$/../complete/complete.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ewe-android-eb.iml" filepath="$PROJECT_DIR$/../ewe-android-eb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../instantapp/instantapp.iml" filepath="$PROJECT_DIR$/../instantapp/instantapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../lib/lib.iml" filepath="$PROJECT_DIR$/../lib/lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../lib/mocked/mocke3/mocke3.iml" filepath="$PROJECT_DIR$/../lib/mocked/mocke3/mocke3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../lib/mocked/mocked.iml" filepath="$PROJECT_DIR$/../lib/mocked/mocked.iml" />
+      <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="android-utils-1.2.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/android-utils-1.2.1.aar/f36c3a0c5b459e0fc89be4f16ac7b0e3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/android-utils-1.2.1.aar/f36c3a0c5b459e0fc89be4f16ac7b0e3/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mobiata/android-utils/1.2.1/bd5e799e6efc16a69bd61b8cbbd66a1b7cf5d337/android-utils-1.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

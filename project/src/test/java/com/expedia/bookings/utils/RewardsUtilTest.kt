@@ -3,7 +3,7 @@ package com.expedia.bookings.utils
 import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
-import com.expedia.bookings.featureconfig.IProductFlavorFeatureConfiguration
+import com.expedia.bookings.featureconfig.BaseFeatureConfiguration
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -27,15 +27,15 @@ class RewardsUtilTest {
     val context: Context = RuntimeEnvironment.application
     var util = RewardsUtil
     private var activity: Activity by Delegates.notNull()
-    private lateinit var mockedConfig: IProductFlavorFeatureConfiguration
+    private lateinit var mockedConfig: BaseFeatureConfiguration
 
     @Before
     fun before() {
         activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
     }
 
-    private fun givenFeatureConfig(isExpediaBrand: Boolean): IProductFlavorFeatureConfiguration {
-        mockedConfig = Mockito.mock(IProductFlavorFeatureConfiguration::class.java)
+    private fun givenFeatureConfig(isExpediaBrand: Boolean): BaseFeatureConfiguration {
+        mockedConfig = Mockito.mock(BaseFeatureConfiguration::class.java)
         Mockito.`when`(mockedConfig.isRewardProgramPointsType).thenReturn(isExpediaBrand)
         return mockedConfig
     }

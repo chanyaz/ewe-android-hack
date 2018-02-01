@@ -1,15 +1,15 @@
 package com.expedia.bookings.featureconfig;
 
 public class ProductFlavorFeatureConfiguration {
-	public static IProductFlavorFeatureConfiguration getInstance() {
+	public static BaseFeatureConfiguration getInstance() {
 		return ProductFlavorFeatureConfigurationHolder.INSTANCE;
 	}
 
 	private static class ProductFlavorFeatureConfigurationHolder {
-		private static final IProductFlavorFeatureConfiguration INSTANCE = getProductFlavorFeatureConfiguration();
+		private static final BaseFeatureConfiguration INSTANCE = getProductFlavorFeatureConfiguration();
 	}
 
-	private static IProductFlavorFeatureConfiguration getProductFlavorFeatureConfiguration() {
+	private static BaseFeatureConfiguration getProductFlavorFeatureConfiguration() {
 		return new FeatureConfiguration();
 	}
 }
