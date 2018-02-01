@@ -14,7 +14,7 @@ import com.expedia.bookings.itin.vm.FlightItinLegsDetailWidgetViewModel
 import com.expedia.bookings.itin.vm.FlightItinModifyReservationViewModel
 import com.expedia.bookings.itin.widget.FlightItinAirlineSupportDetailsWidget
 import com.expedia.bookings.itin.widget.FlightItinLegsDetailWidget
-import com.expedia.bookings.itin.widget.FlightItinModifyReservationWidget
+import com.expedia.bookings.itin.widget.ItinModifyReservationWidget
 import com.expedia.bookings.itin.widget.ItinToolbar
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
@@ -39,7 +39,7 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
     private var trackingFired = false
     private val legsDetailWidget by bindView<FlightItinLegsDetailWidget>(R.id.manage_booking_itin_flight_leg_detail)
     private val airlineSupportDetailsWidget by bindView<FlightItinAirlineSupportDetailsWidget>(R.id.flight_itin_airline_support_widget)
-    private val modifyReservationWidget by bindView<FlightItinModifyReservationWidget>(R.id.flight_itin_modify_reservation_widget)
+    private val modifyReservationWidget by bindView<ItinModifyReservationWidget>(R.id.flight_itin_modify_reservation_widget)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

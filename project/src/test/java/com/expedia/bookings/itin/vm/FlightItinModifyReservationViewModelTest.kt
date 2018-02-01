@@ -2,7 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.trips.FlightAction
+import com.expedia.bookings.data.trips.TripAction
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -38,7 +38,7 @@ class FlightItinModifyReservationViewModelTest {
         val flightTrip = (data.tripComponent as TripFlight).flightTrip
         flightTrip.webChangePathURL = changeUrl
         flightTrip.webCancelPathURL = cancelUrl
-        flightTrip.action = FlightAction()
+        flightTrip.action = TripAction()
         flightTrip.action.isCancellable = true
         flightTrip.action.isChangeable = true
         cancelReservationSubscriber.assertNoValues()
@@ -54,7 +54,7 @@ class FlightItinModifyReservationViewModelTest {
         val flightTrip = (data.tripComponent as TripFlight).flightTrip
         flightTrip.webChangePathURL = changeUrl
         flightTrip.webCancelPathURL = cancelUrl
-        flightTrip.action = FlightAction()
+        flightTrip.action = TripAction()
         flightTrip.action.isCancellable = true
         flightTrip.action.isChangeable = false
         changeReservationSubscriber.assertNoValues()
@@ -75,7 +75,7 @@ class FlightItinModifyReservationViewModelTest {
         val flightTrip = (data.tripComponent as TripFlight).flightTrip
         flightTrip.webChangePathURL = changeUrl
         flightTrip.webCancelPathURL = cancelUrl
-        flightTrip.action = FlightAction()
+        flightTrip.action = TripAction()
         flightTrip.action.isCancellable = false
         flightTrip.action.isChangeable = true
         cancelReservationSubscriber.assertNoValues()
@@ -97,7 +97,7 @@ class FlightItinModifyReservationViewModelTest {
         val flightTrip = (data.tripComponent as TripFlight).flightTrip
         flightTrip.webChangePathURL = changeUrl
         flightTrip.webCancelPathURL = cancelUrl
-        flightTrip.action = FlightAction()
+        flightTrip.action = TripAction()
         flightTrip.action.isCancellable = false
         flightTrip.action.isChangeable = false
         cancelReservationSubscriber.assertNoValues()

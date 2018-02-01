@@ -2303,9 +2303,13 @@ public class OmnitureTracking {
 	private static final String ITIN_FLIGHT_AIRLINE_CALL_SUPPORT = "App.Itinerary.Flight.Manage.Call.Airline";
 	private static final String ITIN_FLIGHT_CANCEL_FLIGHT = "App.Itinerary.Flight.Manage.Cancel";
 	private static final String ITIN_FLIGHT_CHANGE_FLIGHT = "App.Itinerary.Flight.Manage.Change";
+	private static final String ITIN_HOTEL_CHANGE_HOTEL = "App.Itinerary.Hotel.Manage.Change";
+	private static final String ITIN_HOTEL_CANCEL_HOTEL = "App.Itinerary.Hotel.Manage.Cancel";
 	private static final String ITIN_FLIGHT_AIRLINE_WEB_SUPPORT = "App.Itinerary.Flight.Manage.Support.Airline";
 	private static final String ITIN_FLIGHT_CHANGE_FLIGHT_LEARN_MORE = "App.Itinerary.Flight.Manage.Change.LearnMore";
 	private static final String ITIN_FLIGHT_CANCEL_FLIGHT_LEARN_MORE = "App.Itinerary.Flight.Manage.Cancel.LearnMore";
+	private static final String ITIN_HOTEL_CHANGE_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Change.LearnMore";
+	private static final String ITIN_HOTEL_CANCEL_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Cancel.LearnMore";
 
 	private static final String ITIN_HOTEL_CALL_HOTEL = "App.Itinerary.Hotel.Manage.Call.Hotel";
 	private static final String ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia";
@@ -2565,6 +2569,16 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
+	public static void trackHotelItinChangeHotel() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CHANGE_HOTEL);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackHotelItinCancelHotel() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CANCEL_HOTEL);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
 	private static HashMap<String, String> deepLinkArgs = new HashMap<>();
 
 	/* This is a separate method because other classes also use it */
@@ -2702,6 +2716,16 @@ public class OmnitureTracking {
 
 	public static void trackItinFlightCancelLearnMore() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CANCEL_FLIGHT_LEARN_MORE);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinHotelCancelLearnMore() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CANCEL_HOTEL_LEARN_MORE);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinHotelChangeLearnMore() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CHANGE_HOTEL_LEARN_MORE);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 

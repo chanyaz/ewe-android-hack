@@ -24,6 +24,7 @@ public class TripHotel extends TripComponent {
 	private Traveler mPrimaryTraveler; // Used in sharedItin.
 	private List<TripHotelRoom> mRooms = new ArrayList<>();
 	private List<String> changeAndCancelRules = new ArrayList<>();
+	private TripAction action;
 
 	public TripHotel() {
 		super(Type.HOTEL);
@@ -121,6 +122,7 @@ public class TripHotel extends TripComponent {
 			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
 			GsonUtil.putListForJsonable(obj, "rooms", mRooms);
 			JSONUtils.putStringList(obj, "changeAndCancelRules", changeAndCancelRules);
+			JSONUtils.putJSONable(obj, "action", action);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -150,7 +152,16 @@ public class TripHotel extends TripComponent {
 		if (rules != null && rules.size() > 0) {
 			changeAndCancelRules = rules;
 		}
+		action = GsonUtil.getForJsonable(obj, "action", TripAction.class);
 
 		return true;
+	}
+
+	public TripAction getAction() {
+		return action;
+	}
+
+	public void setAction(TripAction action) {
+		this.action = action;
 	}
 }

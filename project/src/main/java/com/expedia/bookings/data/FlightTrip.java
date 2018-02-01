@@ -21,7 +21,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.data.payment.PriceEarnInfo;
-import com.expedia.bookings.data.trips.FlightAction;
+import com.expedia.bookings.data.trips.TripAction;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.utils.GsonUtil;
@@ -99,7 +99,7 @@ public class FlightTrip implements JSONable {
 
 	private String mWebCancelPathURL;
 
-	private FlightAction mAction;
+	private TripAction mAction;
 
 	public String getWebChangePathURL() {
 		return mWebChangePathURL;
@@ -117,11 +117,11 @@ public class FlightTrip implements JSONable {
 		this.mWebCancelPathURL = webCancelPathURL;
 	}
 
-	public FlightAction getAction() {
+	public TripAction getAction() {
 		return mAction;
 	}
 
-	public void setAction(FlightAction action) {
+	public void setAction(TripAction action) {
 		this.mAction = action;
 	}
 
@@ -989,7 +989,7 @@ public class FlightTrip implements JSONable {
 		mMayChargeObFees = obj.optBoolean("mayChargeObFees");
 		mWebCancelPathURL = obj.optString("webCancelPathURL");
 		mWebChangePathURL = obj.optString("webChangePathURL");
-		mAction = GsonUtil.getForJsonable(obj, "action", FlightAction.class);
+		mAction = GsonUtil.getForJsonable(obj, "action", TripAction.class);
 		mFareName = obj.optString("fareName");
 		mAirlineManageBookingURL = obj.optString("airlineManageBookingURL");
 		rewards = GsonUtil.getForJsonable(obj, "rewards", RewardsInfo.class);

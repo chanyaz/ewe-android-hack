@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:paddingTop="12dp">
 
@@ -39,7 +40,19 @@
         android:text="@string/itin_hotel_manage_booking_cancel_change_header"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <com.expedia.bookings.itin.widget.ItinModifyReservationWidget
+        android:id="@+id/hotel_itin_modify_reservation_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <com.expedia.bookings.itin.widget.HotelItinManageBookingHelp
         android:id="@+id/widget_hotel_itin_manage_booking_help"

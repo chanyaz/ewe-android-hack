@@ -11,7 +11,10 @@ data class TripHotelRoom(
         var occupantSelectedRoomOptions: OccupantSelectedRoomOptions?,
         var otherOccupantInfo: OtherOccupantInfo?,
         var amenities: List<String> = emptyList(),
-        var amenityIds: List<Int> = emptyList()
+        var amenityIds: List<Int> = emptyList(),
+        var roomChangeLinkForMobileWebView: String = "",
+        var roomChangeLink: String = "",
+        var roomCancelLink: String = ""
 ) {
     companion object {
         val gsonTypeToken: Type? = object : TypeToken<List<TripHotelRoom>>() {}.type

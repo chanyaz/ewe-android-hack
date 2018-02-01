@@ -4,7 +4,7 @@ import com.mobiata.android.json.JSONable
 import org.json.JSONException
 import org.json.JSONObject
 
-class FlightAction : JSONable {
+class TripAction : JSONable {
     var isChangeable = false
     var isCancellable = false
 

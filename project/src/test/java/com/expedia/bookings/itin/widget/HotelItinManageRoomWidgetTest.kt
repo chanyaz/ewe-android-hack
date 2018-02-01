@@ -1,14 +1,15 @@
 package com.expedia.bookings.itin.widget
 
-import android.app.Activity
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.itin.vm.HotelItinManageRoomViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.squareup.phrase.Phrase
@@ -24,11 +25,11 @@ class HotelItinManageRoomWidgetTest {
 
     lateinit var manageRoomWidget: HotelItinManageRoomWidget
     lateinit var manageRoomViewModel: HotelItinManageRoomViewModel
-    lateinit var activity: Activity
+    lateinit var activity: AppCompatActivity
 
     @Before
     fun setup() {
-        activity = buildActivity(Activity::class.java).create().get()
+        activity = buildActivity(AppCompatActivity::class.java).create().get()
         activity.setTheme(R.style.ItinTheme)
         manageRoomWidget = LayoutInflater.from(activity).inflate(R.layout.test_hotel_itin_manage_room_widget, null) as HotelItinManageRoomWidget
         manageRoomViewModel = HotelItinManageRoomViewModel(activity)
@@ -51,7 +52,6 @@ class HotelItinManageRoomWidgetTest {
     @Test
     fun testRoomChangeAndCancelRulesSubject() {
         val rules = listOf("abc", "123")
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         manageRoomViewModel.roomChangeAndCancelRulesSubject.onNext(rules)
 
         assertEquals(View.VISIBLE, manageRoomWidget.roomDetailsView.changeCancelRulesContainer.visibility)
@@ -77,5 +77,25 @@ class HotelItinManageRoomWidgetTest {
         assertEquals(phoneNumber, manageRoomWidget.hotelCustomerSupportDetailsView.callSupportActionButton.text)
         val supportSite = Phrase.from(activity, R.string.itin_hotel_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         assertEquals(supportSite, manageRoomWidget.hotelCustomerSupportDetailsView.customerSupportSiteButton.text)
+    }
+
+    @Test
+    fun bucketedShouldSeeWidgetTest() {
+        val context = RuntimeEnvironment.application
+        manageRoomWidget.manageBookingButton.visibility = View.GONE
+        manageRoomWidget.modifyReservationWidget.visibility = View.GONE
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.TripsHotelsM2)
+        manageRoomWidget.setupReservationModifications()
+        assertEquals(View.GONE, manageRoomWidget.manageBookingButton.visibility)
+        assertEquals(View.VISIBLE, manageRoomWidget.modifyReservationWidget.visibility)
+    }
+
+    @Test
+    fun unbucketedShouldSeeButtonTest() {
+        manageRoomWidget.manageBookingButton.visibility = View.GONE
+        manageRoomWidget.modifyReservationWidget.visibility = View.GONE
+        manageRoomWidget.setupReservationModifications()
+        assertEquals(View.VISIBLE, manageRoomWidget.manageBookingButton.visibility)
+        assertEquals(View.GONE, manageRoomWidget.modifyReservationWidget.visibility)
     }
 }

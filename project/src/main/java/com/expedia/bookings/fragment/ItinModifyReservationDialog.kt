@@ -5,27 +5,31 @@ import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import com.expedia.bookings.R
-import com.expedia.bookings.widget.TextView
 import android.view.View
 import android.widget.Toast
+import com.expedia.bookings.R
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.widget.TextView
 import com.mobiata.android.SocialUtils
 
-class FlightItinModifyReservationDialog : DialogFragment() {
+class ItinModifyReservationDialog : DialogFragment() {
     companion object {
         val SUPPORT_NUMBER = "support_number"
         val CONTENT_KEY = "content"
+        val ITIN_TYPE = "ITIN_TYPE"
+        val FLIGHT_ITIN = "FLIGHT_ITIN"
+        val HOTEL_ITIN = "HOTEL_ITIN"
 
         @JvmStatic
-        fun newInstance(content: String, supportNumber: String): FlightItinModifyReservationDialog {
-            val fragment = FlightItinModifyReservationDialog()
+        fun newInstance(content: String, supportNumber: String, itinType: String): ItinModifyReservationDialog {
+            val fragment = ItinModifyReservationDialog()
             val arguments = Bundle()
             arguments.putString(SUPPORT_NUMBER, supportNumber)
             arguments.putString(CONTENT_KEY, content)
+            arguments.putString(ITIN_TYPE, itinType)
             fragment.arguments = arguments
             return fragment
         }
@@ -68,7 +72,12 @@ class FlightItinModifyReservationDialog : DialogFragment() {
                 Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
             }
         }
-        OmnitureTracking.trackItinFlightCallSupport()
+        val itinType = arguments.getString(ITIN_TYPE)
+
+        when (itinType) {
+            FLIGHT_ITIN -> OmnitureTracking.trackItinFlightCallSupport()
+            HOTEL_ITIN -> OmnitureTracking.trackItinHotelCallSupport()
+        }
     }
 
     private fun setListenerForCustomerSupportView(view: TextView, number: String) {

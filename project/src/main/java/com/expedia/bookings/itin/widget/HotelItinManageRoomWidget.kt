@@ -8,22 +8,27 @@ import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.itin.vm.HotelItinManageRoomViewModel
-import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.itin.vm.HotelItinModifyReservationViewModel
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+import com.expedia.bookings.utils.Constants
 
 class HotelItinManageRoomWidget(context: Context, attributeSet: AttributeSet?) : LinearLayout(context, attributeSet) {
     val roomDetailsView by bindView<HotelItinRoomDetails>(R.id.widget_hotel_itin_room_details)
     val hotelManageBookingHelpView by bindView<HotelItinManageBookingHelp>(R.id.widget_hotel_itin_manage_booking_help)
     val hotelCustomerSupportDetailsView by bindView<HotelItinCustomerSupportDetails>(R.id.widget_hotel_itin_customer_support)
     val manageBookingButton by bindView<Button>(R.id.itin_hotel_manage_booking_button)
+    val modifyReservationWidget by bindView<ItinModifyReservationWidget>(R.id.hotel_itin_modify_reservation_widget)
 
     var viewModel: HotelItinManageRoomViewModel by notNullAndObservable { vm ->
         vm.roomDetailsSubject.subscribe { room ->
             roomDetailsView.setUpRoomAndOccupantInfo(room)
             roomDetailsView.expandRoomDetailsView()
             hotelManageBookingHelpView.showConfirmationNumberIfAvailable(room.hotelConfirmationNumber)
+            modifyReservationWidget.viewModel.roomChangeSubject.onNext(room)
         }
 
         vm.roomChangeAndCancelRulesSubject.subscribe {
@@ -36,11 +41,22 @@ class HotelItinManageRoomWidget(context: Context, attributeSet: AttributeSet?) :
             }
             hotelManageBookingHelpView.setUpWidget(itinCardDataHotel)
             hotelCustomerSupportDetailsView.setUpWidget(itinCardDataHotel.tripNumber)
+            modifyReservationWidget.viewModel.itinCardSubject.onNext(itinCardDataHotel)
         }
     }
 
     init {
         View.inflate(context, R.layout.hotel_itin_manage_room_widget, this)
+        modifyReservationWidget.viewModel = HotelItinModifyReservationViewModel(context)
+        setupReservationModifications()
+    }
+
+    fun setupReservationModifications() {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.TripsHotelsM2)) {
+            modifyReservationWidget.visibility = View.VISIBLE
+        } else {
+            manageBookingButton.visibility = View.VISIBLE
+        }
     }
 
     private fun buildWebViewIntent(title: Int, url: String, anchor: String?, tripId: String): WebViewActivity.IntentBuilder {

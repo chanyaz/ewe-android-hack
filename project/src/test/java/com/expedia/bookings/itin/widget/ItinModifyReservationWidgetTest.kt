@@ -18,16 +18,16 @@ import org.robolectric.shadows.ShadowAlertDialog
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class FlightItinModifyReservationWidgetTest {
+class ItinModifyReservationWidgetTest {
     lateinit var activity: Activity
-    lateinit var modifyReservationWidget: FlightItinModifyReservationWidget
+    lateinit var modifyReservationWidget: ItinModifyReservationWidget
     lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun before() {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().start().get()
         activity.setTheme(R.style.ItinTheme)
-        modifyReservationWidget = LayoutInflater.from(activity).inflate(R.layout.test_flight_itin_modify_reservation_widget, null) as FlightItinModifyReservationWidget
+        modifyReservationWidget = LayoutInflater.from(activity).inflate(R.layout.test_flight_itin_modify_reservation_widget, null) as ItinModifyReservationWidget
         modifyReservationWidget.viewModel = FlightItinModifyReservationViewModel(activity)
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }

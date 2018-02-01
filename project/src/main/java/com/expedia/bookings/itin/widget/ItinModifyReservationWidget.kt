@@ -7,14 +7,14 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.fragment.FlightItinModifyReservationDialog
+import com.expedia.bookings.fragment.ItinModifyReservationDialog
 import com.expedia.bookings.itin.vm.ItinModifyReservationViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 
-class FlightItinModifyReservationWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class ItinModifyReservationWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     val changeReservationButton by bindView<TextView>(R.id.change_reservation_button)
     val cancelReservationButton by bindView<TextView>(R.id.cancel_reservation_button)
     val changeLearnMoreText by bindView<TextView>(R.id.change_reservation_learn_more)
@@ -65,14 +65,14 @@ class FlightItinModifyReservationWidget(context: Context, attrs: AttributeSet) :
     private fun setUpMoreHelpListeners() {
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
         cancelLearnMoreText.setOnClickListener {
-            val dialog = FlightItinModifyReservationDialog.newInstance(context.getString(viewModel.helpDialogRes)
-                    , viewModel.customerSupportNumberSubject)
+            val dialog = ItinModifyReservationDialog.newInstance(context.getString(viewModel.helpDialogRes)
+                    , viewModel.customerSupportNumber, viewModel.itinType)
             dialog.show(fragmentManager, DIALOG_TAG)
             viewModel.cancelLearnMoreClickSubject.onNext(Unit)
         }
         changeLearnMoreText.setOnClickListener {
-            val dialog = FlightItinModifyReservationDialog.newInstance(context.getString(viewModel.helpDialogRes)
-                    , viewModel.customerSupportNumberSubject)
+            val dialog = ItinModifyReservationDialog.newInstance(context.getString(viewModel.helpDialogRes)
+                    , viewModel.customerSupportNumber, viewModel.itinType)
             dialog.show(fragmentManager, DIALOG_TAG)
             viewModel.changeLearnMoreClickSubject.onNext(Unit)
         }

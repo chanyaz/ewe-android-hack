@@ -31,7 +31,7 @@ import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership;
 import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.CustomerSupport;
-import com.expedia.bookings.data.trips.FlightAction;
+import com.expedia.bookings.data.trips.TripAction;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.ItinFlightLegTime;
@@ -287,6 +287,8 @@ public class TripParser {
 			hotel.setProperty(property);
 		}
 
+		hotel.setAction(parseItinAction(obj.optJSONObject("action")));
+
 		JSONObject rulesJson = obj.optJSONObject("rules");
 		if (rulesJson != null) {
 			List<String> rules = new ArrayList<>();
@@ -375,7 +377,12 @@ public class TripParser {
 						primaryTraveler.setFullName(fullName);
 						primaryOccupant = new PrimaryOccupant(firstName, fullName, primaryOccupantInfo.optString("email"), primaryOccupantInfo.optString("phone"));
 					}
+
 				}
+
+				String cancelLink = room.optString("roomCancelLink");
+				String changeLink = room.optString("roomChangeLink");
+				String mobileChangeLink = room.optString("roomChangeLinkForMobileWebView");
 
 				TripHotelRoom tripHotelRoom = new TripHotelRoom(
 					conf,
@@ -385,7 +392,10 @@ public class TripParser {
 					occupantSelectedRoomOptions,
 					otherOccupantInfo,
 					parseListOfStrings(room, "amenities"),
-					parseListOfIntegers(room, "amenityIds")
+					parseListOfIntegers(room, "amenityIds"),
+					mobileChangeLink,
+					changeLink,
+					cancelLink
 				);
 
 				hotel.addRoom(tripHotelRoom);
@@ -486,7 +496,7 @@ public class TripParser {
 
 		flightTrip.setAirlineManageBookingURL(obj.optString("airlineManageBookingURL"));
 
-		flightTrip.setAction(parseItinFlightAction(obj.optJSONObject("action")));
+		flightTrip.setAction(parseItinAction(obj.optJSONObject("action")));
 
 		// Parse fares
 		JSONObject fareTotalJson = obj.optJSONObject("fareTotal");
@@ -1027,11 +1037,11 @@ public class TripParser {
 		return null;
 	}
 
-	private FlightAction parseItinFlightAction(JSONObject obj) {
+	private TripAction parseItinAction(JSONObject obj) {
 		if (obj != null) {
-			FlightAction flightAction = new FlightAction();
-			flightAction.fromJson(obj);
-			return flightAction;
+			TripAction tripAction = new TripAction();
+			tripAction.fromJson(obj);
+			return tripAction;
 		}
 		return null;
 	}
