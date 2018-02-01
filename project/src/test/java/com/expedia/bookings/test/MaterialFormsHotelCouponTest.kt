@@ -109,11 +109,7 @@ class MaterialFormsHotelCouponTest {
         couponWidget.storedCouponWidget.viewModel.storedCouponsSubject.subscribe(applyStoredCouponTestSubject)
         checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHotelCouponCreateTripResponse())
 
-        assertEquals(3, applyStoredCouponTestSubject.values()[0].count())
-
-        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripResponse())
-
-        assertEquals(0, applyStoredCouponTestSubject.values()[1].count())
+        assertEquals(3, applyStoredCouponTestSubject.values()[0].size)
     }
 
     private fun goToCheckout(withTripResponse: HotelCreateTripResponse = mockHotelServices.getHappyCreateTripResponse()) {

@@ -392,16 +392,19 @@ class HotelCheckoutPresenterTest {
     @Test
     fun testHotelMaterialCouponExpandWithNoValidCoupon() {
         setupHotelMaterialForms()
+        val testVisibilityObserver = TestObserver<Boolean>()
+        (checkout.couponCardView as MaterialFormsCouponWidget).viewmodel.storedCouponWidgetVisibilityObservable
+                .subscribe(testVisibilityObserver)
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
         checkout.couponCardView.isExpanded = true
 
+        testVisibilityObserver.assertValueCount(0)
         assertEquals(View.GONE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
     }
 
     @Test
     fun testUserDoesntCrashOnCheckoutDueToLackOfCoupons() {
         val testSubscriber = TestObserver<HotelCreateTripResponse>()
-        val createTripResponse = mockHotelServices.getGuestHappyCreateTripResponse()
         setupHotelMaterialForms()
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
         checkout.createTripViewmodel.tripResponseObservable.subscribe(testSubscriber)
