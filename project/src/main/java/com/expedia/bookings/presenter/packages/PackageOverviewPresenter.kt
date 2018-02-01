@@ -415,8 +415,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         val packageTotalWithMandatoryFee = packagetotal?.amount?.plus(BigDecimal(mandatoryFee.toString()))
         totalPriceWidget.viewModel.addMandatoryFeeWithTotalPrice(packageTotalWithMandatoryFee, packagetotal?.currencyCode)
 
-        val hasMandatoryFees = mandatoryFee != 0F
-        setBundleTotalText(hasMandatoryFees)
+        val showTotalDueToday = rateInfo.totalMandatoryFees != 0F && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()
+        setBundleTotalText(showTotalDueToday)
     }
 
     private fun getNumberOfDaysInHotel(): Int {
@@ -427,9 +427,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         return Days.daysBetween(checkInDate, checkoutDate).days
     }
 
-    private fun setBundleTotalText(hasMandatoryFees: Boolean) {
+    private fun setBundleTotalText(showTotalDueToday: Boolean) {
         val messageString =
-                if (hasMandatoryFees)
+                if (showTotalDueToday)
                     R.string.cost_summary_breakdown_total_due_today
                 else if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN)
                     R.string.packages_trip_total
