@@ -1,0 +1,11 @@
+{"errors":
+  [{
+  "errorCode":"SESSION_TIMEOUT",
+  "errorInfo":{
+    "summary":"The session information was empty, mostly likely because of a session id getting lost."
+  },
+  "diagnosticId":417584835,
+  "diagnosticFullText":"com.expedia.www.mobile.ui.common.MobileAuthorizationException"
+  }],
+  "activityId":"2b10c0c4-e859-49b2-a56a-87a00208c141"
+}

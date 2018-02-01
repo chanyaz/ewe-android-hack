@@ -70,7 +70,7 @@ class StoredCouponViewModel(val context: Context, hotelServices: HotelServices, 
     }
 
     fun setupErrorObservables(trip: HotelCreateTripResponse) {
-        val errorType = trip.firstError.errorInfo.couponErrorType
+        val errorType = trip.firstError.errorInfo.couponErrorType ?: "FallBack"
         val stringId = couponErrorMap[errorType] ?: R.string.coupon_error_fallback
         val text = context.resources.getString(stringId)
         //TODO: Use the following observable to display the error in stored coupon

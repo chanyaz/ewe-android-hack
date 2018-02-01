@@ -361,6 +361,25 @@ class HotelCouponTest {
         assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", alertDialog.message)
     }
 
+    @Test
+    fun testSessionTimeoutStoredCouponError() {
+        val testErrorMessageObservable = TestObserver.create<String>()
+        vm.storedCouponViewModel.errorMessageObservable.subscribe(testErrorMessageObservable)
+        vm.storedCouponViewModel.storedCouponTrackingObservable.onNext("test saved coupon")
+        vm.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam(false, "hotel_coupon_session_timeout_error"))
+
+        assertEquals("Sorry, but we're having a problem. Please try again.", testErrorMessageObservable.values()[0])
+    }
+
+    @Test
+    fun testSessionTimeoutApplyCouponError() {
+        val testErrorMessageObservable = TestObserver.create<String>()
+        vm.applyCouponViewModel.errorMessageObservable.subscribe(testErrorMessageObservable)
+        vm.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(false, "hotel_coupon_session_timeout_error"))
+
+        assertEquals("Sorry, but we're having a problem. Please try again.", testErrorMessageObservable.values()[0])
+    }
+
     private fun checkCouponFailure(tripId: String, expectedErrorCode: ApiError.Code) {
         val testSubscriberCouponRemoveErrorDialog = TestObserver<ApiError>()
         vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
