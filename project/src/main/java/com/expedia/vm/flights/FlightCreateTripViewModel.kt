@@ -46,9 +46,6 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
     fun makeCreateTripResponseObserver(): Observer<FlightCreateTripResponse> {
         return object : DisposableObserver<FlightCreateTripResponse>() {
             override fun onNext(response: FlightCreateTripResponse) {
-                if (!isValidContext(context)) {
-                    return
-                }
                 showCreateTripDialogIfNotBucketed.onNext(false)
                 if (response.hasErrors() && !response.hasPriceChange()) {
                     val error = response.firstError
@@ -62,9 +59,6 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
             }
 
             override fun onError(e: Throwable) {
-                if (!isValidContext(context)) {
-                    return
-                }
                 showCreateTripDialogIfNotBucketed.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
                     FlightsV2Tracking.trackFlightCreateTripNoResponseError()

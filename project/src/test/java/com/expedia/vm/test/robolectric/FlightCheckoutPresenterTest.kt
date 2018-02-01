@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
-import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
@@ -38,6 +37,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -46,7 +46,6 @@ class FlightCheckoutPresenterTest {
 
     private var checkout: FlightCheckoutPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
-    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before fun before() {
         Db.sharedInstance.clear()
@@ -119,6 +118,25 @@ class FlightCheckoutPresenterTest {
     fun testCreateTripDialogShows() {
         setupCheckout()
         checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(true)
+        val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
+        assertEquals(true, shadowCreateTripDialog.isShowing)
+    }
+
+    @Test
+    fun testCreateTripDialogShouldNotShowAfterActivityFinished() {
+        setupCheckout()
+        activity.finish()
+        checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(true)
+        val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
+        assertNull(shadowCreateTripDialog)
+    }
+
+    @Test
+    fun testCreateTripDialogShouldNotBeDismissedAfterActivityFinished() {
+        setupCheckout()
+        checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(true)
+        activity.finish()
+        checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(false)
         val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
         assertEquals(true, shadowCreateTripDialog.isShowing)
     }

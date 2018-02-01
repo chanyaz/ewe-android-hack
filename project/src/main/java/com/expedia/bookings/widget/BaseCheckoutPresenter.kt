@@ -218,10 +218,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
         vm.showCreateTripDialogObservable.subscribe { show ->
-            if (show && !createTripDialog.isShowing) {
-                showCreateTripDialog()
-            } else if (!show && createTripDialog.isShowing) {
-                createTripDialog.dismiss()
+            if (tripViewModel.isValidContext(context)) {
+                if (show && !createTripDialog.isShowing) {
+                    showCreateTripDialog()
+                } else if (!show && createTripDialog.isShowing) {
+                    createTripDialog.dismiss()
+                }
             }
         }
         vm.createTripResponseObservable.safeSubscribeOptional { response ->

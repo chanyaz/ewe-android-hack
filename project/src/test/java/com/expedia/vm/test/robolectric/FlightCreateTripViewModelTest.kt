@@ -8,7 +8,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
-import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
@@ -139,34 +138,6 @@ class FlightCreateTripViewModelTest {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)
         sut.performCreateTrip.onNext(Unit)
         testSubscriber.assertValueCount(2)
-    }
-
-    @Test
-    fun testCreateTripOnNextDoesNothingWhenActivityDestroyed() {
-        val testCreateTripResponseObservable = TestObserver<TripResponse>()
-        val testShowCreateTripDialogSubscriber = TestObserver<Boolean>()
-
-        sut.createTripResponseObservable.map { it.value }.subscribe(testCreateTripResponseObservable)
-        sut.showCreateTripDialogObservable.subscribe(testShowCreateTripDialogSubscriber)
-        activity.finish()
-        sut.makeCreateTripResponseObserver().onNext(FlightCreateTripResponse())
-
-        testCreateTripResponseObservable.assertNoValues()
-        testShowCreateTripDialogSubscriber.assertNoValues()
-    }
-
-    @Test
-    fun testOnErrorDoesNothingWhenActivityDestroyed() {
-        val testShowNoInternetSubscriber = TestObserver<Unit>()
-        val testShowCreateTripDialogSubscriber = TestObserver<Boolean>()
-
-        sut.showNoInternetRetryDialog.subscribe(testShowNoInternetSubscriber)
-        sut.showCreateTripDialogObservable.subscribe(testShowCreateTripDialogSubscriber)
-        activity.finish()
-        givenCreateTripCallWithIOException()
-
-        testShowNoInternetSubscriber.assertNoValues()
-        testShowCreateTripDialogSubscriber.assertNoValues()
     }
 
     private fun givenCreateTripCallWithIOException() {

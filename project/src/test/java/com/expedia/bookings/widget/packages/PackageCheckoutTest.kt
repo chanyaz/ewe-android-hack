@@ -19,7 +19,6 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.user.User
@@ -398,36 +397,6 @@ class PackageCheckoutTest {
 
         assertFalse(shadowCreateTripDialog.isShowing)
         showDialogTestObservable.assertValue(false)
-    }
-
-    @Test
-    fun testCreateTripResponseDoesNothingIfActivityFinished() {
-        createTrip()
-        checkout.getCreateTripViewModel().showCreateTripDialogObservable.onNext(true)
-        val showDialogTestObservable = TestObserver<Boolean>()
-        val testCreateTripResponseObservable = TestObserver<TripResponse>()
-        checkout.getCreateTripViewModel().showCreateTripDialogObservable.subscribe(showDialogTestObservable)
-        checkout.getCreateTripViewModel().createTripResponseObservable.map { it.value }.subscribe(testCreateTripResponseObservable)
-
-        activity.finish()
-        checkout.getCreateTripViewModel().makeCreateTripResponseObserver().onNext(PackageCreateTripResponse())
-        val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
-
-        assertTrue(shadowCreateTripDialog.isShowing)
-        showDialogTestObservable.assertNoValues()
-        testCreateTripResponseObservable.assertValueCount(1)
-    }
-
-    @Test
-    fun testCreateTripErrorDoesNothingIfActivityFinished() {
-        createTrip()
-        val showDialogTestObservable = TestObserver<Boolean>()
-        checkout.getCreateTripViewModel().showCreateTripDialogObservable.subscribe(showDialogTestObservable)
-
-        activity.finish()
-        checkout.getCreateTripViewModel().makeCreateTripResponseObserver().onError(Throwable())
-
-        showDialogTestObservable.assertNoValues()
     }
 
     private fun createTrip() {
