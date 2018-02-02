@@ -23,7 +23,6 @@ build
 
 # Intellij project files
 .idea/**
-!.idea/inspectionProfiles/
 !.idea/inspectionProfiles/Project_Default.xml
 *.iml
 *.ipr
