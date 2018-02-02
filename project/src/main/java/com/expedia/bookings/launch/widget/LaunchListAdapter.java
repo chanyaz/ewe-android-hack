@@ -30,7 +30,6 @@ import com.expedia.bookings.data.trips.TripUtils;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
@@ -523,18 +522,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private boolean showAirAttachMessage() {
 		return userBucketedForAirAttach() && userStateManager.isUserAuthenticated()
-			&& isBrandAirAttachEnabled() && getUpcomingAirAttachQualifiedFlightTrip() != null;
+			&& getUpcomingAirAttachQualifiedFlightTrip() != null;
 	}
 
 	@VisibleForTesting
 	public Trip getUpcomingAirAttachQualifiedFlightTrip() {
 		return TripUtils.getUpcomingAirAttachQualifiedFlightTrip(getCustomerTrips());
-	}
-
-	@VisibleForTesting
-	public boolean isBrandAirAttachEnabled() {
-		return ProductFlavorFeatureConfiguration.getInstance()
-			.shouldShowAirAttach();
 	}
 
 	@VisibleForTesting

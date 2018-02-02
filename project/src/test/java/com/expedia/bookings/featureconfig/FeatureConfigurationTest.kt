@@ -92,22 +92,6 @@ class FeatureConfigurationTest {
     }
 
     @Test
-    fun testShouldShowBrandLogoOnAccountButton() {
-        when (brand) {
-            "airAsiaGo" -> assertTrue(featureConfig.shouldShowBrandLogoOnAccountButton())
-            "cheapTickets" -> assertTrue(featureConfig.shouldShowBrandLogoOnAccountButton())
-            "ebookers" -> assertTrue(featureConfig.shouldShowBrandLogoOnAccountButton())
-            "expedia" -> assertTrue(featureConfig.shouldShowBrandLogoOnAccountButton())
-            "lastMinute" -> assertTrue(featureConfig.shouldShowBrandLogoOnAccountButton())
-            "mrJet" -> assertTrue(featureConfig.shouldShowBrandLogoOnAccountButton())
-            "orbitz" -> assertTrue(featureConfig.shouldShowBrandLogoOnAccountButton())
-            "travelocity" -> assertTrue(featureConfig.shouldShowBrandLogoOnAccountButton())
-            "voyages" -> assertTrue(featureConfig.shouldShowBrandLogoOnAccountButton())
-            "wotif" -> assertTrue(featureConfig.shouldShowBrandLogoOnAccountButton())
-        }
-    }
-
-    @Test
     fun testShouldUseDotlessDomain() {
         val endpoint = EndPoint.PRODUCTION
         val integrationEndpoint = EndPoint.INTEGRATION
@@ -221,38 +205,6 @@ class FeatureConfigurationTest {
             "travelocity" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled())
             "voyages" -> assertFalse(featureConfig.isFacebookShareIntegrationEnabled())
             "wotif" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled())
-        }
-    }
-
-    @Test
-    fun testIsClearPrivateDataInAboutEnabled() {
-        when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isClearPrivateDataInAboutEnabled())
-            "cheapTickets" -> assertFalse(featureConfig.isClearPrivateDataInAboutEnabled())
-            "ebookers" -> assertFalse(featureConfig.isClearPrivateDataInAboutEnabled())
-            "expedia" -> assertFalse(featureConfig.isClearPrivateDataInAboutEnabled())
-            "lastMinute" -> assertFalse(featureConfig.isClearPrivateDataInAboutEnabled())
-            "mrJet" -> assertFalse(featureConfig.isClearPrivateDataInAboutEnabled())
-            "orbitz" -> assertFalse(featureConfig.isClearPrivateDataInAboutEnabled())
-            "travelocity" -> assertFalse(featureConfig.isClearPrivateDataInAboutEnabled())
-            "voyages" -> assertTrue(featureConfig.isClearPrivateDataInAboutEnabled())
-            "wotif" -> assertFalse(featureConfig.isClearPrivateDataInAboutEnabled())
-        }
-    }
-
-    @Test
-    fun testIsSigninEnabled() {
-        when (brand) {
-            "airAsiaGo" -> assertTrue(featureConfig.isSigninEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isSigninEnabled())
-            "ebookers" -> assertTrue(featureConfig.isSigninEnabled())
-            "expedia" -> assertTrue(featureConfig.isSigninEnabled())
-            "lastMinute" -> assertTrue(featureConfig.isSigninEnabled())
-            "mrJet" -> assertTrue(featureConfig.isSigninEnabled())
-            "orbitz" -> assertTrue(featureConfig.isSigninEnabled())
-            "travelocity" -> assertTrue(featureConfig.isSigninEnabled())
-            "voyages" -> assertTrue(featureConfig.isSigninEnabled())
-            "wotif" -> assertTrue(featureConfig.isSigninEnabled())
         }
     }
 
@@ -500,22 +452,6 @@ class FeatureConfigurationTest {
             "travelocity" -> assertTrue(featureConfig.shouldShowMemberTier())
             "voyages" -> assertTrue(featureConfig.shouldShowMemberTier())
             "wotif" -> assertTrue(featureConfig.shouldShowMemberTier())
-        }
-    }
-
-    @Test
-    fun testShouldShowAirAttach() {
-        when (brand) {
-            "airAsiaGo" -> assertTrue(featureConfig.shouldShowAirAttach())
-            "cheapTickets" -> assertTrue(featureConfig.shouldShowAirAttach())
-            "ebookers" -> assertTrue(featureConfig.shouldShowAirAttach())
-            "expedia" -> assertTrue(featureConfig.shouldShowAirAttach())
-            "lastMinute" -> assertTrue(featureConfig.shouldShowAirAttach())
-            "mrJet" -> assertTrue(featureConfig.shouldShowAirAttach())
-            "orbitz" -> assertTrue(featureConfig.shouldShowAirAttach())
-            "travelocity" -> assertTrue(featureConfig.shouldShowAirAttach())
-            "voyages" -> assertTrue(featureConfig.shouldShowAirAttach())
-            "wotif" -> assertTrue(featureConfig.shouldShowAirAttach())
         }
     }
 

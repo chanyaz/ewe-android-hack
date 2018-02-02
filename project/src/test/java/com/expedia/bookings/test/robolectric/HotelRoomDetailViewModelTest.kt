@@ -11,7 +11,6 @@ import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
@@ -444,11 +443,7 @@ class HotelRoomDetailViewModelTest {
         roomResponse.rateInfo.chargeableRateInfo.discountPercent = 10.0.toFloat()
         val viewModel = createViewModel(roomResponse, 3)
 
-        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach()) {
-            assertEquals("-10%", viewModel.discountPercentageString)
-        } else {
-            assertNull(viewModel.discountPercentageString)
-        }
+        assertEquals("-10%", viewModel.discountPercentageString)
     }
 
     @Test

@@ -236,8 +236,6 @@ public class AccountButton extends LinearLayout {
 	}
 
 	private void bindLogoutContainer(User user, LineOfBusiness lob) {
-		updateBrandLogoVisibility();
-
 		if (user == null || user.getPrimaryTraveler() == null) {
 			return;
 		}
@@ -332,13 +330,6 @@ public class AccountButton extends LinearLayout {
 		else {
 			mRewardsTextView.setVisibility(View.GONE);
 			return false;
-		}
-	}
-
-	private void updateBrandLogoVisibility() {
-		boolean showBrandLogo = ProductFlavorFeatureConfiguration.getInstance().shouldShowBrandLogoOnAccountButton();
-		if (!showBrandLogo) {
-			mExpediaLogo.setVisibility(View.INVISIBLE);
 		}
 	}
 

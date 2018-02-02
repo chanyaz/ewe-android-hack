@@ -44,7 +44,6 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
@@ -238,9 +237,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			mJumpToItinId = getArguments().getString(ARG_JUMP_TO_UNIQUE_ID);
 		}
 
-		boolean isSignInEnabled = ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled();
-		mOrEnterNumberTv.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
-		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
+		mOrEnterNumberTv.setVisibility(View.VISIBLE);
+		mFindItineraryButton.setVisibility(View.GONE);
 
 		return view;
 	}

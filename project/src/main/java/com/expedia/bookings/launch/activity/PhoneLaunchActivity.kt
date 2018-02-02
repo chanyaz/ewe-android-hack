@@ -35,7 +35,6 @@ import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
 import com.expedia.bookings.dialog.GooglePlayServicesDialog
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
@@ -693,7 +692,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
         if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen)
                 && userStateManager.isUserAuthenticated()
-                && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach()
                 && TripUtils.getUpcomingAirAttachQualifiedFlightTrip(ItineraryManager.getInstance().trips) != null) {
             events.add("event323")
         }

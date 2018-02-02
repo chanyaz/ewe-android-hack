@@ -613,7 +613,7 @@ class LaunchListAdapterTest {
     @Test
     fun getItemViewType_ShowingLobView_ShowingPopularHotels_NoFlightTrip() {
         givenAirAttachCardEnabled()
-        createSystemUnderTest(isCustomerAirAttachedQualified = true, recentAirAttachFlightTrip = null)
+        createSystemUnderTest(recentAirAttachFlightTrip = null)
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
 
@@ -767,8 +767,8 @@ class LaunchListAdapterTest {
         return hotel
     }
 
-    private fun createSystemUnderTest(isItinLaunchCardEnabled: Boolean = false, isCustomerAirAttachedQualified: Boolean = true, recentAirAttachFlightTrip: Trip? = Trip()) {
-        adapterUnderTest = TestLaunchListAdapter(context, headerView, isItinLaunchCardEnabled, null, isCustomerAirAttachedQualified, recentAirAttachFlightTrip)
+    private fun createSystemUnderTest(isItinLaunchCardEnabled: Boolean = false, recentAirAttachFlightTrip: Trip? = Trip()) {
+        adapterUnderTest = TestLaunchListAdapter(context, headerView, isItinLaunchCardEnabled, null, recentAirAttachFlightTrip)
         adapterUnderTest.onCreateViewHolder(parentView, 0)
     }
 
@@ -802,7 +802,7 @@ class LaunchListAdapterTest {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.MesoAd, AbacusVariant.TWO.value)
     }
 
-    inner class TestLaunchListAdapter(context: Context?, header: View?, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var isCustomerAirAttachedQualified: Boolean = true, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListAdapter(context, header) {
+    inner class TestLaunchListAdapter(context: Context?, header: View?, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListAdapter(context, header) {
 
         override fun initMesoAd() {
             if (showMesoHotelAd()) {
@@ -818,10 +818,6 @@ class LaunchListAdapterTest {
             return isItinLaunchCardEnabled
         }
 
-        override fun isBrandAirAttachEnabled(): Boolean {
-            return isCustomerAirAttachedQualified
-        }
-
         override fun getUpcomingAirAttachQualifiedFlightTrip(): Trip? {
             return recentAirAttachFlightTrip
         }
@@ -830,7 +826,6 @@ class LaunchListAdapterTest {
             if (trips == null) {
                 return emptyList()
             }
-
             return trips
         }
     }
