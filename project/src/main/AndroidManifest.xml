@@ -322,19 +322,23 @@
         <activity
             android:name="com.expedia.bookings.activity.WebViewActivity"
             android:resizeableActivity="false"
+            android:screenOrientation="portrait"
             tools:ignore="UnusedAttribute" />
         <activity
             android:name="com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity"
+            android:screenOrientation="portrait"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" />
         <activity
             android:name="com.expedia.bookings.activity.AboutWebViewActivity"
             android:resizeableActivity="false"
+            android:screenOrientation="portrait"
             tools:ignore="UnusedAttribute" />
 
         <activity
             android:name="com.expedia.bookings.activity.DeepLinkWebViewActivity"
             android:parentActivityName=".launch.activity.PhoneLaunchActivity"
+            android:screenOrientation="portrait"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute">
             <meta-data

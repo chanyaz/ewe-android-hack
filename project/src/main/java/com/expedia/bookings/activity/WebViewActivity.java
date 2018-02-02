@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -173,8 +172,6 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 		setTheme(R.style.Material_WebView_Theme);
 		setContentView(R.layout.web_view_toolbar);
 		mProgressBar = (ProgressBar) findViewById(R.id.webview_progress_view);
-
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		if (shouldBail()) {
 			return;
