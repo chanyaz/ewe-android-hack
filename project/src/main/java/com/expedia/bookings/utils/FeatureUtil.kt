@@ -18,7 +18,7 @@ fun isSecureIconEnabled(context: Context): Boolean {
 }
 
 fun isMidAPIEnabled(context: Context): Boolean {
-    return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMidApi)
 }
 
 fun shouldPackageForceUpdateBeVisible(context: Context): Boolean {

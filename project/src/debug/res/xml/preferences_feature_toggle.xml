@@ -86,11 +86,6 @@
         android:layout="@layout/preference_category_title"
         android:title="Packages Features">
 
-        <CheckBoxPreference
-            android:key="@string/preference_packages_mid_api"
-            android:summary="Packages MID API"
-            android:title="Packages MID API" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

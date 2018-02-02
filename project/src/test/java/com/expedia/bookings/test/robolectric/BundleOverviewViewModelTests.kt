@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.robolectric
 
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
@@ -11,6 +10,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.packages.BundleOverviewViewModel
@@ -55,7 +55,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testHotelsError() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
         val errorSubscriber = TestObserver<PackageApiError.Code>()
         sut.errorObservable.subscribe(errorSubscriber)
 
@@ -85,7 +85,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsInboundError() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
 
         val errorSubscriber = TestObserver<PackageApiError.Code>()
         sut.errorObservable.subscribe(errorSubscriber)
@@ -120,7 +120,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsOutboundError() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
 
         val errorSubscriber = TestObserver<PackageApiError.Code>()
         sut.errorObservable.subscribe(errorSubscriber)

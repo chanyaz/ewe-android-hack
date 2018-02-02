@@ -96,7 +96,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppCarsAATest = new ABTest(15311);
 
 	// Packages Tests
-	public static final ABTest EBAndroidAppPackagesMidApi = new ABTest(14856);
+	public static final ABTest EBAndroidAppPackagesMidApi = new ABTest(14856, true);
 	public static final ABTest PackagesTitleChange = new ABTest(15787);
 	public static final ABTest EBAndroidAppPackagesEnablePOS = new ABTest(24551);
 	public static final ABTest EBAndroidAppPackagesBreadcrumbsForNav = new ABTest(15835);

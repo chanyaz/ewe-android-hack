@@ -3,7 +3,6 @@ package com.expedia.bookings.activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.HotelSearchParams
@@ -200,7 +199,7 @@ class DeepLinkRouterActivityTest {
     @Test
     fun packageSearchDeeplinkWhenItShouldNotWork() {
         // When MID is disabled for user and force upgarde is enabled then when he tries to reach Packages through deeplink, he should be redirected to launch page instead.
-        AbacusTestUtils.unbucketTestAndDisableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesMidApi)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog)
         val packageSearchUrl = "expda://packageSearch"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(packageSearchUrl)

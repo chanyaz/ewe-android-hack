@@ -34,6 +34,18 @@ object AbacusTestUtils {
         Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
+    @JvmStatic
+    fun bucketTestsAndEnableRemoteFeature(context: Context, vararg tests: ABTest) {
+        tests.forEach {
+            SettingUtils.save(context, it.key.toString(), AbacusVariant.BUCKETED.value)
+        }
+        val abacusResponse = AbacusResponse()
+        for (test in tests) {
+            abacusResponse.updateABTestForDebug(test.key, AbacusVariant.BUCKETED.value)
+        }
+        Db.sharedInstance.setAbacusResponse(abacusResponse)
+    }
+
     @JvmStatic fun bucketTestAndEnableFeature(context: Context, abacusTest: ABTest, @StringRes featureKey: Int) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(abacusTest.key, AbacusVariant.BUCKETED.value)

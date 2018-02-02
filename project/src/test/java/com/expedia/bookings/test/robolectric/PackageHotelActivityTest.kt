@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
 import android.content.Intent
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -9,6 +8,7 @@ import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemError
 import com.expedia.bookings.data.multiitem.ProductType
+import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
@@ -55,7 +55,7 @@ class PackageHotelActivityTest {
 
     private fun givenPackageHotelActivity(enableMidTest: Boolean) {
         if (enableMidTest) {
-            AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+            AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
         }
         Ui.getApplication(context).defaultPackageComponents()
         val intent = Intent(context, PackageHotelActivity::class.java)

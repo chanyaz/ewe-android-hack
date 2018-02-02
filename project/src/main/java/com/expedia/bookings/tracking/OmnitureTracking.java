@@ -4531,10 +4531,8 @@ public class OmnitureTracking {
 
 	public static void trackPackagesDestinationSearchInit(PageUsableData pageUsableData) {
 		List<ABTest> abTests = new ArrayList<>();
-		if (isMidAPIEnabled(sContext)) {
-			abTests.add(AbacusUtils.EBAndroidAppPackagesMidApi);
-		}
-		else {
+		abTests.add(AbacusUtils.EBAndroidAppPackagesMidApi);
+		if (!isMidAPIEnabled(sContext)) {
 			abTests.add(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo);
 		}
 		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData, abTests);

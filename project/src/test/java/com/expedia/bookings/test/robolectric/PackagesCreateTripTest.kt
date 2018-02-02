@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.robolectric
 
-import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
@@ -17,6 +16,7 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
@@ -99,7 +99,7 @@ class PackagesCreateTripTest {
     @Test
     fun testMultiItemCreateTripFiredWhenMIDAPION() {
         val createTripSubscriber = TestObserver<MultiItemApiCreateTripResponse>()
-        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
         activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().multiItemResponseSubject.subscribe(createTripSubscriber)
         setUpPackageDb()
         val hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
@@ -122,7 +122,7 @@ class PackagesCreateTripTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDCreateTripShowErrorPresenter() {
-        AbacusTestUtils.bucketTestAndEnableFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
         val showErrorPresenterTestSubscriber = TestObserver<ApiError>()
         val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.createTripErrorObservable.subscribe(showErrorPresenterTestSubscriber)
