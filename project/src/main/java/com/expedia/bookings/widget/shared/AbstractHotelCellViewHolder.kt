@@ -56,6 +56,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
 
     val pinnedHotelTextView: TextView by bindView(R.id.pinned_hotel_view)
     val imageView: ImageView by bindView(R.id.background)
+    val soldOutOverlay: View by bindView(R.id.hotel_sold_out_overlay_container)
     val gradient: View by bindView(R.id.foreground)
     val hotelNameStarAmenityDistance: HotelCellNameStarAmenityDistance by bindView(R.id.hotel_name_star_amenity_distance)
     val hotelPriceTopAmenity: HotelCellPriceTopAmenity by bindView(R.id.hotel_price_top_amenity)
@@ -103,6 +104,8 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         ratingPointsContainer.updateVisibility(viewModel.showRatingPointsContainer())
 
         loadHotelImage()
+
+        soldOutOverlay.updateVisibility(viewModel.showSoldOutOverlay)
 
         cardView.contentDescription = viewModel.getHotelContentDesc()
     }

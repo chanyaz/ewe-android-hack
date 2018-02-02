@@ -7,9 +7,11 @@ import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.text.Spanned
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.HotelUtils
@@ -60,6 +62,7 @@ open class HotelViewModel(private val context: Context) {
     val showAirAttachWithDiscountLabel: Boolean get() = (hotel.lowRateInfo?.isShowAirAttached() ?: false) && !loyaltyAvailable
     val showAirAttachIconWithoutDiscountLabel: Boolean get() = (hotel.lowRateInfo?.isShowAirAttached() ?: false) && loyaltyAvailable
     val neighborhoodName: String get() = hotel.neighborhoodName ?: ""
+    val showSoldOutOverlay: Boolean get() = isHotelSoldOut && AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelSoldOutOnHSRTreatment)
 
     init {
         soldOut.subscribe { soldOut ->

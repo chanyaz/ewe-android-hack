@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.setInverseVisibility
@@ -31,7 +33,8 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
     }
 
     fun update(viewModel: HotelViewModel) {
-        soldOutTextView.updateVisibility(viewModel.isHotelSoldOut)
+        val newSoldOutTreatment = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelSoldOutOnHSRTreatment)
+        soldOutTextView.updateVisibility(viewModel.isHotelSoldOut && !newSoldOutTreatment)
         priceContainer.setInverseVisibility(viewModel.isHotelSoldOut)
         if (viewModel.isHotelSoldOut) {
             topAmenityTextView.visibility = View.GONE

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/sold_out_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/hotel_sold_out_overlay_color" />
+
+    <TextView
+        android:id="@+id/overlay_loading_text"
+        style="@style/Core.Text.500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/hotel_sold_out_label"
+        android:textColor="@color/white" />
+</FrameLayout>

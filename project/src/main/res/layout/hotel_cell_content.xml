@@ -92,6 +92,10 @@
 
         </RelativeLayout>
 
+        <include
+            android:id="@+id/hotel_sold_out_overlay_container"
+            layout="@layout/hotel_cell_sold_out_overlay"
+            android:visibility="gone"/>
     </FrameLayout>
 
     <LinearLayout

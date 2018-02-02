@@ -127,7 +127,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/trip_bucket_sold_out"
-                        android:textAllCaps="true"
                         android:textColor="@color/hotelsv2_sold_out_hotel_gray"
                         android:textSize="17dp"
                         android:visibility="gone" />

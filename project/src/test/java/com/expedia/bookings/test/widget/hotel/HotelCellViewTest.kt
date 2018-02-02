@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
@@ -22,6 +23,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
 import org.junit.Assert
 import org.junit.Before
@@ -67,6 +69,21 @@ class HotelCellViewTest {
         Assert.assertNotNull(hotelViewHolder.imageView.colorFilter)
     }
 
+    @Test fun testNewSoldOutTreatment() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.HotelSoldOutOnHSRTreatment)
+        val hotel = makeHotel()
+        givenSoldOutHotel(hotel)
+
+        hotelViewHolder.bindHotelData(hotel)
+
+        Assert.assertEquals(View.GONE, hotelViewHolder.hotelPriceTopAmenity.soldOutTextView.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelViewHolder.soldOutOverlay.visibility)
+
+        Assert.assertEquals(View.GONE, hotelViewHolder.hotelPriceTopAmenity.priceContainer.visibility)
+        Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_sold_out_hotel_gray), hotelViewHolder.hotelNameStarAmenityDistance.ratingBar.getStarColor())
+        Assert.assertNotNull(hotelViewHolder.imageView.colorFilter)
+    }
+
     @Test fun testReverseSoldOut() {
         val hotel = makeHotel()
         givenSoldOutHotel(hotel)
@@ -82,6 +99,21 @@ class HotelCellViewTest {
         Assert.assertEquals(View.GONE, hotelViewHolder.hotelPriceTopAmenity.soldOutTextView.visibility)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
 
+        Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_detail_star_color), hotelViewHolder.hotelNameStarAmenityDistance.ratingBar.getStarColor())
+        Assert.assertNull(hotelViewHolder.imageView.colorFilter)
+    }
+
+    @Test fun testReverseNewSoldOutTreatment() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.HotelSoldOutOnHSRTreatment)
+        val hotel = makeHotel()
+        givenSoldOutHotel(hotel)
+
+        hotel.isSoldOut = false
+
+        hotelViewHolder.bindHotelData(hotel)
+
+        Assert.assertEquals(View.GONE, hotelViewHolder.hotelPriceTopAmenity.soldOutTextView.visibility)
+        Assert.assertEquals(View.GONE, hotelViewHolder.soldOutOverlay.visibility)
         Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_detail_star_color), hotelViewHolder.hotelNameStarAmenityDistance.ratingBar.getStarColor())
         Assert.assertNull(hotelViewHolder.imageView.colorFilter)
     }
