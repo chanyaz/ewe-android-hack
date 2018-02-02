@@ -251,9 +251,10 @@ public class HotelOffersResponse extends BaseApiResponse {
 
 		hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = room.getPrice().getTotalPrice().getCurrency();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = true;
-		hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayType = roomOffer.getMandatoryFees().getDisplayType();
 
 		if (roomOffer.getMandatoryFees() != null) {
+			hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayType = roomOffer.getMandatoryFees()
+				.getDisplayType();
 			switch (roomOffer.getMandatoryFees().getDisplayType()) {
 			case TOTAL:
 				hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
