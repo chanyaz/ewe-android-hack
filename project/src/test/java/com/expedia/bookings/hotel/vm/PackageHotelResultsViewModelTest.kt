@@ -30,8 +30,8 @@ class PackageHotelResultsViewModelTest {
         val subtitleSubscriber = TestObserver<CharSequence>()
 
         val viewModel = PackageHotelResultsViewModel(activity)
-        viewModel.titleSubject.subscribe(titleSubscriber)
-        viewModel.subtitleSubject.subscribe(subtitleSubscriber)
+        viewModel.titleObservable.subscribe(titleSubscriber)
+        viewModel.subtitleObservable.subscribe(subtitleSubscriber)
 
         viewModel.paramsSubject.onNext(makeHappyParams())
         assertEquals("DisplayName", titleSubscriber.values()[0])

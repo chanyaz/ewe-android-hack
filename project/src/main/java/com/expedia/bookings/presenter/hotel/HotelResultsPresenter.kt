@@ -119,17 +119,17 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             }
         }
 
-        vm.titleSubject.subscribe {
+        vm.titleObservable.subscribe {
             toolbarTitle.text = it
         }
 
-        vm.subtitleSubject.subscribe {
+        vm.subtitleObservable.subscribe {
             toolbarSubtitle.text = it
         }
-        vm.subtitleContDescSubject.subscribeContentDescription(toolbarSubtitle)
+        vm.subtitleContDescObservable.subscribeContentDescription(toolbarSubtitle)
 
         vm.paramsSubject.subscribe { newParams(it) }
-        vm.searchInProgressSubject.subscribe { resetForNewSearch() }
+        vm.searchInProgressObservable.subscribe { resetForNewSearch() }
         vm.hotelResultsObservable.subscribe {
             if (previousWasList) {
                 show(ResultsList())
@@ -155,7 +155,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewModel.isCurrentLocationSearch)
 
-        vm.errorObservable.subscribe { hideMapLoadingOverlay() }
+//        vm.errorObservable.subscribe { hideMapLoadingOverlay() }
     }
 
     private fun showSortAndFilter() {

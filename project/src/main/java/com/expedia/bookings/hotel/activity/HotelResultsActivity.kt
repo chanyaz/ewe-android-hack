@@ -104,7 +104,7 @@ class HotelResultsActivity : AppCompatActivity() {
     }
 
     private fun setUpViewModelSubscriptions() {
-        viewModel.searchingForHotelsDateTime.subscribe {
+        viewModel.searchRequestedObservable.subscribe {
             searchTrackingBuilder.markSearchApiCallMade()
         }
         viewModel.hotelResultsObservable.subscribe { hotelSearchResponse ->
@@ -112,7 +112,7 @@ class HotelResultsActivity : AppCompatActivity() {
             hotelSearchParamProvider.params?.let { params -> searchTrackingBuilder.searchParams(params) }
             searchTrackingBuilder.searchResponse(hotelSearchResponse)
         }
-        viewModel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
+        viewModel.resultsReceivedObservable.subscribe {
             searchTrackingBuilder.markApiResponseReceived()
         }
 

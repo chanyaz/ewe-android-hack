@@ -193,7 +193,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.showDefault()
 
-        presenter.viewModel.paramChangedSubject.subscribe { newParams ->
+        presenter.viewModel.paramChangedObservable.subscribe { newParams ->
             updateSearchParams(newParams)
         }
         presenter
@@ -936,7 +936,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private fun initResultsViewModel() {
         resultsViewModel = HotelResultsViewModel(getContext(), hotelSearchManager)
 
-        resultsViewModel.searchingForHotelsDateTime.subscribe {
+        resultsViewModel.searchRequestedObservable.subscribe {
             searchTrackingBuilder.markSearchApiCallMade()
         }
         resultsViewModel.hotelResultsObservable.subscribe { hotelSearchResponse ->
@@ -944,7 +944,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchTrackingBuilder.searchParams(hotelSearchParams)
             searchTrackingBuilder.searchResponse(hotelSearchResponse)
         }
-        resultsViewModel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
+        resultsViewModel.resultsReceivedObservable.subscribe {
             searchTrackingBuilder.markApiResponseReceived()
         }
 

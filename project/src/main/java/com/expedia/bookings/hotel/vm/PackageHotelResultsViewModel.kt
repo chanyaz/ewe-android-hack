@@ -15,12 +15,12 @@ class PackageHotelResultsViewModel(context: Context) :
 
     init {
         paramsSubject.subscribe(endlessObserver { params ->
-            doSearch(params)
+            cachedParams = params
+            updateTitles(params)
         })
     }
 
-    private fun doSearch(params: HotelSearchParams) {
-        cachedParams = params
+    private fun updateTitles(params: HotelSearchParams) {
         titleSubject.onNext(StrUtils.formatCity(params.suggestion))
         subtitleSubject.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
                 .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.checkIn))

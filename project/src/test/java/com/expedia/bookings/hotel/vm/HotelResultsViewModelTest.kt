@@ -146,7 +146,7 @@ class HotelResultsViewModelTest {
     fun titleSubjectSetToRegionShortName() {
         val regionShortName = "New York"
         val testSubscriber = TestObserver<String>()
-        sut.titleSubject.subscribe(testSubscriber)
+        sut.titleObservable.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(makeParams("", regionShortName))
 
@@ -159,7 +159,7 @@ class HotelResultsViewModelTest {
     fun subtitleSubjectSet() {
         val expectedSubtitle = LocaleBasedDateFormatUtils.localDateToMMMd(checkInDate) + " - " + LocaleBasedDateFormatUtils.localDateToMMMd(checkOutDate) + ", 1 guest"
         val testSubscriber = TestObserver<CharSequence>()
-        sut.subtitleSubject.subscribe(testSubscriber)
+        sut.subtitleObservable.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
 
@@ -257,7 +257,7 @@ class HotelResultsViewModelTest {
                 .put("guests", StrUtils.formatGuestString(context, happyParams.guests))
                 .format().toString()
 
-        sut.subtitleContDescSubject.subscribe(testContDescSub)
+        sut.subtitleContDescObservable.subscribe(testContDescSub)
 
         sut.paramsSubject.onNext(happyParams)
         assertEquals(expectedText, testContDescSub.values()[0],

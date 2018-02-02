@@ -47,7 +47,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget, 0, filterHeight.toInt())
         }
 
-        vm.titleSubject.subscribe {
+        vm.titleObservable.subscribe {
             if (shouldShowBreadcrumbsInToolbarTitle()) {
                 toolbarTitle.text = Phrase.from(context, R.string.package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE)
                         .put("destination", it)
@@ -58,10 +58,10 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             }
         }
 
-        vm.subtitleSubject.subscribe {
+        vm.subtitleObservable.subscribe {
             toolbarSubtitle.text = it
         }
-        vm.subtitleContDescSubject.subscribeContentDescription(toolbarSubtitle)
+        vm.subtitleContDescObservable.subscribeContentDescription(toolbarSubtitle)
 
         vm.paramsSubject.subscribe { params ->
             (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
