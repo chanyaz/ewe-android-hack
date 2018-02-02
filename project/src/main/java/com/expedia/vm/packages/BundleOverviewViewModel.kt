@@ -72,7 +72,6 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .format().toString())
 
             searchPackageSubscriber = packageServices?.packageSearch(params, if (isMidAPIEnabled(context)) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch)?.subscribeObserver(makeResultsObserver(PackageSearchType.HOTEL))
-            showSplitTicketMessagingObservable.onNext(false)
         }
 
         flightParamsObservable.subscribe { params ->

@@ -220,6 +220,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
         resetBundleTotalTax()
         bundleWidget.collapseBundleWidgets()
+        bundleWidget.viewModel.showSplitTicketMessagingObservable.onNext(false)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -270,6 +271,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
                 bundleOverviewHeader.toggleOverviewHeader(false)
                 bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
+                bundleWidget.viewModel.showSplitTicketMessagingObservable.onNext(false)
             } else {
                 showBackToSearchDialog()
                 return true
