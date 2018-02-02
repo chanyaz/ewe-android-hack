@@ -144,7 +144,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
 
     private fun setCouponAppliedSubtitle(trip: HotelCreateTripResponse, couponRate: Money) {
         if (isHotelMaterialForms(context)) {
-            val couponName = trip.userCoupons.find { it.instanceId == trip.coupon.instanceId }?.name ?: ""
+            val couponName = trip.userCoupons.find { it.instanceId == trip.coupon.instanceId }?.name ?: trip.coupon.code
             val subtitle = Phrase.from(context, R.string.material_applied_coupon_subtitle_TEMPLATE)
                     .put("name", couponName)
                     .put("discount", couponRate.formattedMoney).format().toString()

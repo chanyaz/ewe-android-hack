@@ -169,4 +169,13 @@ class MaterialFormsHotelCouponTest {
         assertEquals("Coupon applied!", couponWidget.appliedCouponMessage.text)
         assertEquals("Escape Friends and Family Coupon - Dec 2017 (-$11.03)", couponWidget.appliedCouponSubtitle.text)
     }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCouponAppliedDetailsNoIdOnCheckoutScreen() {
+        couponWidget.viewmodel.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(success = false, couponCode = "hotel_coupon_success", tripId = "526abf74-430e-4449-b793-e072e0beecbf"))
+
+        assertEquals("Coupon applied!", couponWidget.appliedCouponMessage.text)
+        assertEquals("CL9XR34LHP6V3H2B (-$23.80)", couponWidget.appliedCouponSubtitle.text)
+    }
 }

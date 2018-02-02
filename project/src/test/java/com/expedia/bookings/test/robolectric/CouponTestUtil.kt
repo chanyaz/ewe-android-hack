@@ -43,10 +43,10 @@ class CouponTestUtil {
                     .build()
         }
 
-        fun applyCouponParam(success: Boolean = true, couponCode: String = "not_valid"): HotelApplyCouponParameters {
+        fun applyCouponParam(success: Boolean = true, couponCode: String = "not_valid", tripId: String = "bc9fec5d-7539-41e9-ab60-3e593f0912fe"): HotelApplyCouponParameters {
             val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
             return HotelApplyCouponParameters.Builder()
-                    .tripId("bc9fec5d-7539-41e9-ab60-3e593f0912fe")
+                    .tripId(tripId)
                     .isFromNotSignedInToSignedIn(false)
                     .couponCode(if (success) "happypath_createtrip_saved_coupons_select" else couponCode)
                     .userPreferencePointsDetails(listOf(pointsDetails))
