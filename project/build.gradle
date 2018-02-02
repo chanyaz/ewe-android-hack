@@ -98,6 +98,11 @@ dependencies {
         exclude group: 'com.intellij'
     }
 
+    // Library for playing animations created with After Effects and the Bodymovin plugin
+    implementation ('com.airbnb.android:lottie:2.5.0-rc1') {
+        exclude group: 'com.android.support'
+    }
+
     // Dagger 2.6.1
     implementation "com.google.dagger:dagger:${dagger_version}"
     kapt "com.google.dagger:dagger-compiler:${dagger_version}"
