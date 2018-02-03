@@ -31,18 +31,12 @@ class ItinCardDataHotelBuilder {
         itinCardDataHotel.property.setIsVipAccess(vipEnabled)
         parentTrip.setIsTripUpgradable(upgradeableRoom)
         parentTrip.setIsShared(isSharedItin)
-        itinCardDataHotel.property.roomUpgradeOffersApiUrl = roomUpgradeApiUrl
-        itinCardDataHotel.property.roomUpgradeWebViewUrl = roomUpgradeWebUrl
         parentTrip.setIsShared(isSharedItin)
 
         val tripHotel = itinCardDataHotel.tripComponent as TripHotel
         tripHotel.startDate = checkInDate
         tripHotel.endDate = checkOutDate
         tripHotel.guests = adultCount
-
-        if (bookingChangeUrl.isNotEmpty()) {
-            itinCardDataHotel.property.bookingChangeWebUrl = bookingChangeUrl
-        }
 
         val room = itinCardDataHotel.getHotelRoom(0)
         if (room != null) {

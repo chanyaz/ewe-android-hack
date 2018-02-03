@@ -25,19 +25,31 @@ class TripParserTest {
     private lateinit var tripFlight: TripFlight
 
     @Test
-    fun roomUpgradePropertiesParsed() {
-        val tripParser = TripParser()
-        val hotelTripJson = getHotelTripJson(withUpgradeOffer = true)
-        val parsedHotelTrip = tripParser.parseTrip(hotelTripJson).tripComponents[0] as TripHotel
-
-        assertEquals(roomUpgradeOfferApiUrl, parsedHotelTrip.property.roomUpgradeOffersApiUrl)
-        assertEquals(roomUpgradeWebViewLink, parsedHotelTrip.property.roomUpgradeWebViewUrl)
-    }
-
-    @Test
     fun roomsParsed() {
         val tripParser = TripParser()
         val hotelTripJson = getHotelTripJson(withUpgradeOffer = true)
+        val parsedHotelTrip = tripParser.parseTrip(hotelTripJson).tripComponents[0] as TripHotel
+        val rooms = parsedHotelTrip.rooms
+        val room = rooms[0]
+
+        assertEquals(1, rooms.size)
+        assertEquals("Deluxe Room, 1 King Bed", room.roomType)
+        assertEquals("BOOKED", room.bookingStatus)
+        assertEquals("Kevin", room.primaryOccupant?.firstName)
+        assertEquals(1, room.otherOccupantInfo?.adultCount)
+        assertEquals("1 king bed", room.occupantSelectedRoomOptions?.bedTypeName)
+        assertEquals("Free Wireless Internet", room.amenities[0])
+    }
+
+    @Test
+    fun roomCancelled() {
+        val tripParser = TripParser()
+        val hotelTripJson = getHotelTripJson(withUpgradeOffer = true)
+        val hotelJson = hotelTripJson.getJSONArray("hotels").getJSONObject(0)
+        val roomsJson = hotelJson.getJSONArray("rooms")
+
+        assertEquals(2, roomsJson.length())
+
         val parsedHotelTrip = tripParser.parseTrip(hotelTripJson).tripComponents[0] as TripHotel
         val rooms = parsedHotelTrip.rooms
         val room = rooms[0]

@@ -384,31 +384,23 @@ public class TripParser {
 				String changeLink = room.optString("roomChangeLink");
 				String mobileChangeLink = room.optString("roomChangeLinkForMobileWebView");
 
-				TripHotelRoom tripHotelRoom = new TripHotelRoom(
-					conf,
-					roomType,
-					room.optString("bookingStatus"),
-					primaryOccupant,
-					occupantSelectedRoomOptions,
-					otherOccupantInfo,
-					parseListOfStrings(room, "amenities"),
-					parseListOfIntegers(room, "amenityIds"),
-					mobileChangeLink,
-					changeLink,
-					cancelLink
-				);
+				String roomBookingStatus = room.optString("bookingStatus");
+				if (!roomBookingStatus.equals(TripHotelRoom.BookingStatus.CANCELLED)) {
+					TripHotelRoom tripHotelRoom = new TripHotelRoom(
+						conf,
+						roomType,
+						roomBookingStatus,
+						primaryOccupant,
+						occupantSelectedRoomOptions,
+						otherOccupantInfo,
+						parseListOfStrings(room, "amenities"),
+						parseListOfIntegers(room, "amenityIds"),
+						mobileChangeLink,
+						changeLink,
+						cancelLink
+					);
 
-				hotel.addRoom(tripHotelRoom);
-			}
-
-			if (!roomsJson.isNull(0)) {
-				JSONObject firstRoom = roomsJson.optJSONObject(0);
-				property.setRoomCancelLink(firstRoom.optString("roomCancelLink"));
-				boolean isNotMultiRoomBooking = roomsJson.length() == 1;
-				if (isNotMultiRoomBooking) {
-					property.setBookingChangeWebUrl(firstRoom.optString("roomChangeLinkForMobileWebView"));
-					property.setRoomUpgradeWebViewUrl(firstRoom.optString("roomUpgradeLink"));
-					property.setRoomUpgradeOffersApiUrl(firstRoom.optString("roomUpgradeOfferApiUrl"));
+					hotel.addRoom(tripHotelRoom);
 				}
 			}
 		}

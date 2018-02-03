@@ -216,6 +216,124 @@
                 "text": "The minibar is free"
               },
               "roomCancelLink": "https://localhost/hotel-cancel-details?tripid=5196d5cf-6274-4695-9e2d-0f5ff8c69ec1&ordernumber=8024355663759&orderlineguid=155cfc84-8fe1-4d44-ab59-d04ee4482c1d&roomNumber=0"
+            },
+            {
+              "uniqueID": "5D5D96B6-0BB4-4A08-B82F-C9FBADF85532_0_520075000",
+              "roomRatePlanDescription": "Deluxe Room, 1 King Bed",
+              "roomTypeCode": "22746",
+              "ratePlanCode": "1964586",
+              "bookingStatus": "CANCELLED",
+              "drrRateDiscountDescription": "Book now and save",
+              "orderLineNumber": "da0459bd-bd1a-4b84-b054-b1bcdcd75aa1",
+              "refundabilityStatus": "REFUNDABLE",
+              "availableOnAllDates": true,
+              "roomUpgradeOfferApiUrl": "",
+              "roomUpgradeLink": "",
+              "totalPriceDetails": {
+                "primaryCurrencyCode": "USD",
+                "base": "504.46",
+                "baseFormatted": "$504.46",
+                "baseWithAdjustmentForDRRRateDiscount": "450.66",
+                "baseWithAdjustmentForDRRRateDiscountFormatted": "$450.66",
+                "taxesAndFees": "70.28",
+                "taxesAndFeesFormatted": "$70.28",
+                "adjustmentForDRRRateDiscount": "-53.80",
+                "adjustmentForDRRRateDiscountFormatted": "-$53.80",
+                "adjustmentForCoupon": "-90.14",
+                "adjustmentForCouponFormatted": "-$90.14",
+                "subTotalBeforeCoupon": "520.94",
+                "subTotalBeforeCouponFormatted": "$520.94",
+                "total": "430.80",
+                "totalFormatted": "$430.80",
+                "averagePricePerDay": "225.33",
+                "averagePricePerDayFormatted": "$225.33",
+                "averageTaxPerDay": "35.14",
+                "averageTaxPerDayFormatted": "$35.14",
+                "isSameRateForAllNights": true,
+                "expediaChangeFee": "0",
+                "expediaChangeFeeFormatted": "$0.00"
+              },
+              "roomPreferences": {
+                "primaryOccupant": {
+                  "firstName": "Kevin",
+                  "fullName": "Kevin Carpenter",
+                  "email": "kevinjcarpenter@gmail.com",
+                  "phone": "1-173-47400492"
+                },
+                "otherOccupantInfo": {
+                  "adultCount": 1,
+                  "childCount": 0,
+                  "infantCount": 0,
+                  "childAndInfantCount": 0,
+                  "childAndInfantAges": []
+                },
+                "occupantSelectedRoomOptions": {
+                  "bedTypeName": "1 king bed",
+                  "smokingPreference": "NONSMOKING_ROOM",
+                  "accessibilityOptions": ["Accessible bathroom", "Roll-in shower", "In-room accessibility"],
+                  "hasExtraBedAdult": true,
+                  "hasExtraBedChild": false,
+                  "hasExtraBedInfant": false,
+                  "specialRequest": "Please bring New York Times to the room",
+                  "isSmokingPreferenceSelected": true,
+                  "isRoomOptionsAvailable": true
+                },
+                "availableRoomOptions": {
+                  "bedTypes": [
+                    {
+                      "id": "14",
+                      "description": "1 king bed",
+                      "selected": true
+                    }
+                  ],
+                  "accessibilityOptions": [
+                    {
+                      "id": "2424",
+                      "description": "Accessibility equipment for the deaf",
+                      "selected": false
+                    },
+                    {
+                      "id": "2420",
+                      "description": "Accessible bathroom",
+                      "selected": false
+                    },
+                    {
+                      "id": "2419",
+                      "description": "Accessible path of travel",
+                      "selected": false
+                    },
+                    {
+                      "id": "2421",
+                      "description": "Roll-in shower",
+                      "selected": false
+                    },
+                    {
+                      "id": "2423",
+                      "description": "In-room accessibility",
+                      "selected": false
+                    },
+                    {
+                      "id": "2425",
+                      "description": "Braille or raised signage",
+                      "selected": false
+                    }
+                  ],
+                  "isSmokingRoomAvailable": false,
+                  "isNonSmokingRoomAvailable": true
+                }
+              },
+              "amenities": [
+                "Free Wireless Internet"
+              ],
+              "amenityIds": [
+                2048
+              ],
+              "nonPricePromotionData": {
+                "id": "1",
+                "version": "1",
+                "text": "The minibar is free"
+              },
+              "roomCancelLink": "https://localhost/hotel-cancel-details?tripid=5196d5cf-6274-4695-9e2d-0f5ff8c69ec1&ordernumber=8024355663759&orderlineguid=155cfc84-8fe1-4d44-ab59-d04ee4482c1d&roomNumber=0"
             }
           ],
           "isFreeCancellationAvailable": true,
