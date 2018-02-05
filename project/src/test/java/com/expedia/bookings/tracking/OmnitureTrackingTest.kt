@@ -6,14 +6,19 @@ import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.ABTest
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withProps
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.PackageTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -169,6 +174,53 @@ class OmnitureTrackingTest {
         OmnitureTracking.trackPageLoadLaunchScreen(0, "event322,event326,event327")
 
         assertStateTracked("App.LaunchScreen", withEventsString("event322,event326,event327"), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testLoggingForSeatingClassABTest() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        OmnitureTracking.trackPackagesFlightRoundTripOutLoad(null)
+        assertStateTracked(withProps(mapOf(34 to "16300.0.1")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testLoggingForSeatingClassABTestControlled() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        OmnitureTracking.trackPackagesFlightRoundTripOutLoad(null)
+        assertStateTracked(withProps(mapOf(34 to "16300.0.0")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testLoggingForPackagesBackFlowABTest() {
+        AbacusTestUtils.bucketTests(AbacusUtils.PackagesBackFlowFromOverview)
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails(), null)
+        assertStateTracked(withProps(mapOf(34 to "16163.0.1")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testLoggingForPackagesBackFlowABTestControlled() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.PackagesBackFlowFromOverview)
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails(), null)
+        assertStateTracked(withProps(mapOf(34 to "16163.0.0")), mockAnalyticsProvider)
+    }
+
+    private fun getPackageDetails(): PackageCreateTripResponse.PackageDetails {
+        Db.setPackageParams(PackageTestUtil.getPackageSearchParams(destinationCityName = "<B>New</B> <B>York</B>, NY, United States <ap>(JFK-John F. Kennedy Intl.)</ap>",
+                childCount = emptyList()))
+        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
+        PackageTestUtil.setDbPackageSelectedHotel()
+        val packageDetails = PackageCreateTripResponse.PackageDetails()
+        packageDetails.pricing = PackageCreateTripResponse.Pricing()
+        packageDetails.pricing.packageTotal = Money(950, "USD")
+        return packageDetails
     }
 
     private fun givenUserIsSignedIn() {

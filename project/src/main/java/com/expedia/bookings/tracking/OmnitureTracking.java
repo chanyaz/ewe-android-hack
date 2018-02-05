@@ -4712,7 +4712,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesFlightRoundTripOutLoad(PageUsableData pageUsableData) {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_RESULTS, pageUsableData);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_RESULTS, pageUsableData,
+			AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass);
 	}
 
 	public static void trackPackagesFlightRoundTripOutDetailsLoad() {
@@ -4806,7 +4807,8 @@ public class OmnitureTracking {
 		createAndTrackLinkEvent(PACKAGES_BUNDLE_VIEW_TAP, "Bundle Widget Tap");
 	}
 
-	public static void trackPackagesBundlePageLoad(PackageCreateTripResponse.PackageDetails packageDetails, PageUsableData pageUsableData) {
+	public static void trackPackagesBundlePageLoad(PackageCreateTripResponse.PackageDetails packageDetails,
+		PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_BUNDLE_OVERVIEW_LOAD + "\"");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_BUNDLE_OVERVIEW_LOAD);
@@ -4814,6 +4816,7 @@ public class OmnitureTracking {
 		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue());
 		s.setEvents("event4");
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
+		trackAbacusTest(s, AbacusUtils.PackagesBackFlowFromOverview);
 		s.track();
 	}
 
