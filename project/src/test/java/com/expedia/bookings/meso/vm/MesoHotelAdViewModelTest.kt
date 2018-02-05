@@ -30,6 +30,7 @@ import kotlin.test.assertTrue
  */
 
 @RunWith(RobolectricRunner::class)
+@RunForBrands(brands = [MultiBrand.EXPEDIA])
 class MesoHotelAdViewModelTest {
     lateinit var vm: MesoHotelAdViewModel
     lateinit var context: Context
@@ -37,103 +38,87 @@ class MesoHotelAdViewModelTest {
 
     @Before
     fun before() {
-        mockHotelAdData = getMesoAdResponseMockData()
         context = Robolectric.buildActivity(Activity::class.java).create().get()
         vm = MesoHotelAdViewModel(context)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testDataIsValid() {
         pushMockData()
         assertTrue { vm.dataIsValid() }
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testDataIsNotValid() {
         assertFalse { vm.dataIsValid() }
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldFormatSubTextIfGreaterThanOne() {
         assertTrue { vm.shouldFormatSubText(2) }
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldFormatSubTextIfEqualToOne() {
         assertFalse { vm.shouldFormatSubText(1) }
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldFormatSubTextIfLessThanOne() {
         assertFalse { vm.shouldFormatSubText(0) }
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldReturnBackgroundImageNotNull() {
         assertNotNull(vm.backgroundImage)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldReturnBackgroundImageNotNullWithData() {
         pushMockData()
         assertNotNull(vm.backgroundImage)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testGetPercentageOffStringNotNull() {
         assertNotNull(vm.percentageOff)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testGetPercentageOffStringNotNullWithData() {
         pushMockData()
         assertNotNull(vm.percentageOff)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testGetPercentageOffHasCorrectFormat() {
         pushMockData()
         assertTrue { vm.percentageOff == mockHotelAdData.HotelAdResponse?.percentageOff }
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testGetPercentageOffNotNull() {
         assertNotNull(vm.percentageOff)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testGetPercentageOffNotNullWithData() {
         pushMockData()
         assertNotNull(vm.percentageOff)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testGetHotelNameNotNull() {
         assertNotNull(vm.hotelName)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testGetHotelNameNotNullWithData() {
         pushMockData()
         assertNotNull(vm.hotelName)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testOneLineSubTextHasCorrectFormat() {
         pushMockData()
         assertTrue {
@@ -143,20 +128,17 @@ class MesoHotelAdViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testOneLineSubTextNotNull() {
         assertNotNull(vm.oneLineSubText)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testOneLineSubTextNotNullWithData() {
         pushMockData()
         assertNotNull(vm.oneLineSubText)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testTwoLineSubTextHasCorrectFormat() {
         pushMockData()
         assertTrue {
@@ -166,33 +148,64 @@ class MesoHotelAdViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testTwoLineSubTextNotNull() {
         assertNotNull(vm.twoLineSubText)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testTwoLineSubTextNotNullWithData() {
         pushMockData()
         assertNotNull(vm.twoLineSubText)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun subTextOnlyShowsPropertyLocationWithNullOfferPrice() {
+        pushMockData(getMesoAdResponseMockData(offerPrice = null))
+        assertTrue {
+            HtmlCompat.fromHtml(vm.twoLineSubText).toString() ==
+                    "${mockHotelAdData.HotelAdResponse?.propertyLocation}"
+        }
+    }
+
+    @Test
+    fun subTextOnlyShowsPropertyLocationWithBlankOfferPrice() {
+        pushMockData(getMesoAdResponseMockData(offerPrice = ""))
+        assertTrue {
+            HtmlCompat.fromHtml(vm.twoLineSubText).toString() ==
+                    "${mockHotelAdData.HotelAdResponse?.propertyLocation}"
+        }
+    }
+
+    @Test
+    fun subTextOnlyShowsPropertyLocationWithNullStrikeThroughPrice() {
+        pushMockData(getMesoAdResponseMockData(strikeThroughPrice = null))
+        assertTrue {
+            HtmlCompat.fromHtml(vm.twoLineSubText).toString() ==
+                    "${mockHotelAdData.HotelAdResponse?.propertyLocation}"
+        }
+    }
+
+    @Test
+    fun subTextOnlyShowsPropertyLocationWithBlankStrikeThroughPrice() {
+        pushMockData(getMesoAdResponseMockData(strikeThroughPrice = ""))
+        assertTrue {
+            HtmlCompat.fromHtml(vm.twoLineSubText).toString() ==
+                    "${mockHotelAdData.HotelAdResponse?.propertyLocation}"
+        }
+    }
+
+    @Test
     fun testHotelSearchParamsNotNull() {
         assertNotNull(vm.hotelParamsForSearch)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testHotelSearchParamsWithData() {
         pushMockData()
         assertNotNull(vm.hotelParamsForSearch)
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testHotelSearchParamsHasFutureDateWhenTheDayIsFriday() {
         // The time in milliseconds on Friday 1/12/18
         val timeInMillisecondsOfAFriday = 1515797866000
@@ -203,7 +216,6 @@ class MesoHotelAdViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testHotelSearchParamsHasFutureDateWhenTheDayIsBeforeFriday() {
         // The time in milliseconds on Thursday 1/11/18
         val timeInMillisecondsOfAThursday = 1515711466000
@@ -214,7 +226,6 @@ class MesoHotelAdViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testDataFromProvider() {
         val providerPublishSubject = vm.getMesoHotelSubject(object : Observer<Optional<MesoHotelAdResponse>> {
             override fun onNext(mesoHotelAdResponse: Optional<MesoHotelAdResponse>) {
@@ -231,10 +242,11 @@ class MesoHotelAdViewModelTest {
             }
         })
 
+        mockHotelAdData = getMesoAdResponseMockData()
         providerPublishSubject.onNext(mockHotelAdData)
     }
 
-    private fun pushMockData() {
+    private fun pushMockData(mockData: MesoAdResponse = getMesoAdResponseMockData()) {
         val providerPublishSubject = vm.getMesoHotelSubject(object : Observer<com.expedia.util.Optional<MesoHotelAdResponse>> {
             override fun onSubscribe(d: Disposable) {
             }
@@ -249,10 +261,19 @@ class MesoHotelAdViewModelTest {
             }
         })
 
+        mockHotelAdData = mockData
         providerPublishSubject.onNext(mockHotelAdData)
     }
 
-    private fun getMesoAdResponseMockData(): MesoAdResponse {
+    private fun getMesoAdResponseMockData(headline: String? = "Check out this hotel",
+                                          hotelId: String? = "123456",
+                                          hotelName: String? = "Really Great Fake Hotel",
+                                          offerPrice: String? = "$200",
+                                          percentageOff: String? = "33%",
+                                          propertyLocation: String? = "Ann Arbor, Michigan",
+                                          regionId: String? = "0",
+                                          strikeThroughPrice: String? = "$300"): MesoAdResponse {
+
         val mesoHotelAdResponse = MesoHotelAdResponse(object : NativeAd.Image() {
             override fun getDrawable(): Drawable? {
                 return null
@@ -266,14 +287,14 @@ class MesoHotelAdViewModelTest {
                 return 0.0
             }
         },
-                "Check out this hotel",
-                "123456",
-                "Really Great Fake Hotel",
-                "$200",
-                "33%",
-                "Ann Arbor, Michigan",
-                "0",
-                "$300")
+                headline,
+                hotelId,
+                hotelName,
+                offerPrice,
+                percentageOff,
+                propertyLocation,
+                regionId,
+                strikeThroughPrice)
 
         return MesoAdResponse(mesoHotelAdResponse)
     }
