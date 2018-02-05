@@ -4,63 +4,38 @@
     tools:ignore="UnusedResources">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:layout_width="290dp" >
+        android:orientation="vertical">
+
         <RadioGroup
             android:id="@+id/flight_cabin_class_radioGroup"
-            android:contentDescription="@string/choose_preferred_class_cont_desc"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            android:contentDescription="@string/choose_preferred_class_cont_desc">
 
             <RadioButton
                 android:id="@+id/first_class"
-                android:text="@string/cabin_code_first"
-                android:layout_marginLeft="23dp"
+                style="@style/FlightClassTextAppearance"
                 android:layout_marginTop="30dp"
-                android:paddingLeft="10dp"
-                android:textColor="@color/flights_cabin_class_radio_button_color"
-                android:textSize="16sp"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"/>
+                android:text="@string/cabin_code_first" />
 
             <RadioButton
                 android:id="@+id/business_class"
-                android:textSize="16sp"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="23dp"
-                android:paddingLeft="10dp"
-                android:text="@string/cabin_code_business"
-                android:textColor="@color/flights_cabin_class_radio_button_color"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"/>
+                style="@style/FlightClassTextAppearance"
+                android:text="@string/cabin_code_business" />
 
             <RadioButton
                 android:id="@+id/premium_economy"
-                android:textSize="16dp"
-                android:layout_marginLeft="23dp"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="10dp"
-                android:text="@string/cabin_code_premium_coach"
-                android:textColor="@color/flights_cabin_class_radio_button_color"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"/>
+                style="@style/FlightClassTextAppearance"
+                android:text="@string/cabin_code_premium_coach" />
 
             <RadioButton
                 android:id="@+id/economy_class"
-                android:layout_marginLeft="23dp"
-                android:layout_marginTop="15dp"
+                style="@style/FlightClassTextAppearance"
                 android:layout_marginBottom="5dp"
-                android:textSize="16sp"
-                android:paddingLeft="10dp"
-                android:text="@string/cabin_code_coach"
                 android:checked="true"
-                android:textColor="@color/flights_cabin_class_radio_button_color"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"/>
-
+                android:text="@string/cabin_code_coach" />
         </RadioGroup>
     </LinearLayout>
-
-
 </merge>
