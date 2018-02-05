@@ -47,6 +47,7 @@ class FlightItinAirlineSupportDetailsWidget(context: Context?, attrs: AttributeS
             ticket.visibility = View.VISIBLE
             ticket.text = Phrase.from(context, R.string.itin_flight_airline_support_widget_ticket_TEMPLATE).put("ticket_number", param.ticket).format().toString()
             ticket.contentDescription = Phrase.from(context, R.string.itin_flight_airline_support_widget_ticket_content_description_TEMPLATE).put("ticket_number", getNumbersForContentDescription(param.ticket)).format().toString()
+            onTicketClick(param.ticket)
         }
         if (Strings.isNotEmpty(param.confirmation)) {
             confirmation.visibility = View.VISIBLE
@@ -88,6 +89,10 @@ class FlightItinAirlineSupportDetailsWidget(context: Context?, attrs: AttributeS
     private fun onCustomerSupportWebButtonClick(url: String) = customerSupportSiteButton.setOnClickListener {
         OmnitureTracking.trackFlightItinAirlineSupportWebsiteClick()
         context.startActivity(buildWebViewIntent(R.string.itin_flight_airline_support_widget_support_webview_title, url).intent)
+    }
+
+    private fun onTicketClick(text: String) = ticket.setOnClickListener {
+        copyToClipBoard(text)
     }
 
     private fun onItineraryClick(text: String) = itinerary.setOnClickListener {

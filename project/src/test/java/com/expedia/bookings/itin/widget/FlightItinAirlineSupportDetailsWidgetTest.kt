@@ -102,12 +102,22 @@ class FlightItinAirlineSupportDetailsWidgetTest {
         var confirmationValue = "IKQVCR"
         var itineraryNumber = "7238007847306"
 
-        var ticket = Phrase.from(activity, R.string.itin_flight_airline_support_widget_ticket_TEMPLATE).put("ticket_number", ticketValue).format().toString()
-        supportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams("", "", ticket, confirmationValue, itineraryNumber, "", "", ""))
+        supportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams("", "", ticketValue, confirmationValue, itineraryNumber, "", "", ""))
         supportDetailsWidget.confirmation.performClick()
         assertEquals(ClipboardUtils.getText(activity), confirmationValue)
         supportDetailsWidget.itinerary.performClick()
         assertEquals(ClipboardUtils.getText(activity), itineraryNumber)
+    }
+
+    @Test
+    fun testTicketClick() {
+        var ticketValue = "0167939252191"
+        var confirmationValue = "IKQVCR"
+        var itineraryNumber = "7238007847306"
+
+        supportDetailsWidget.viewModel.airlineSupportDetailsWidgetSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams("", "", ticketValue, confirmationValue, itineraryNumber, "", "", ""))
+        supportDetailsWidget.ticket.performClick()
+        assertEquals(ClipboardUtils.getText(activity), ticketValue)
     }
 
     private fun createAirlineSupportDetailsParam(): FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams {
