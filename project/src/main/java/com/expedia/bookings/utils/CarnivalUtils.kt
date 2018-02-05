@@ -1,6 +1,12 @@
 package com.expedia.bookings.utils
 
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.support.v4.app.NotificationCompat
+import android.support.v4.app.TaskStackBuilder
 import android.util.Log
 import com.carnival.sdk.AttributeMap
 import com.carnival.sdk.Carnival
@@ -17,6 +23,8 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import org.joda.time.Days
 import org.joda.time.LocalDate
 import com.carnival.sdk.Carnival.CarnivalHandler
+import com.carnival.sdk.CarnivalMessageListener
+import com.carnival.sdk.Message
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.trips.Trip
 
@@ -41,6 +49,7 @@ open class CarnivalUtils {
         appContext = context
         if (isFeatureToggledOn()) {
             initialized = true
+            Carnival.setMessageReceivedListener(CustomCarnivalListener::class.java)
             Carnival.startEngine(appContext, appContext.getString(R.string.carnival_sdk_key))
         }
     }
@@ -271,5 +280,41 @@ open class CarnivalUtils {
         val hours = totalDuration / 60
         val minutes = totalDuration % 60
         return String.format("%d:%02d", hours, minutes)
+    }
+
+    open class CustomCarnivalListener : CarnivalMessageListener() {
+
+        companion object {
+            val KEY_PAYLOAD_DEEPLINK: String = "deeplink"
+            val KEY_PAYLOAD_ALERT: String = "alert"
+            val KEY_PAYLOAD_TITLE: String = "title"
+        }
+
+        fun createPendingIntent(context: Context, bundle: Bundle, deepLink: String?): PendingIntent {
+            val pendingIntent: PendingIntent
+
+            val intent = Intent()
+                    .putExtras(bundle)
+                    .setAction(Intent.ACTION_VIEW)
+                    .setData(android.net.Uri.parse(if (deepLink.isNullOrEmpty()) { context.getString(R.string.deeplink_home) } else { deepLink }))
+                    .addFlags(Intent.FLAG_FROM_BACKGROUND)
+
+            val stackBuilder = TaskStackBuilder.create(context).addNextIntent(intent)
+            pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+            return pendingIntent
+    }
+
+        override fun onMessageReceived(context: Context, bundle: Bundle, message: Message?): Boolean {
+            val builder = NotificationCompat.Builder(context)
+                    .setContentTitle(bundle.getString(KEY_PAYLOAD_TITLE))
+                    .setContentText(bundle.getString(KEY_PAYLOAD_ALERT))
+                    .setContentIntent(createPendingIntent(context, bundle, bundle.getString(KEY_PAYLOAD_DEEPLINK)))
+                    .setSmallIcon(R.drawable.ic_stat_expedia)
+                    .setAutoCancel(true)
+
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+            return true
+        }
     }
 }

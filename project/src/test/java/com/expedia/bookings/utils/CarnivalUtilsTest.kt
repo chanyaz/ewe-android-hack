@@ -1,6 +1,11 @@
 package com.expedia.bookings.utils
 
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import com.carnival.sdk.AttributeMap
+import com.carnival.sdk.Message
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FlightLeg
@@ -26,6 +31,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.shadow.api.Shadow
+import org.robolectric.shadows.ShadowPendingIntent
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -331,6 +338,46 @@ class CarnivalUtilsTest : CarnivalUtils() {
         assertEquals(userEmailToLog, null)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun customMessageListenerListens() {
+        val listener = TestableCarnivalMessageListener()
+        val bundle = Bundle()
+        bundle.putString("title", "Custom Message Title")
+        bundle.putString("alert", "Custom Body Message")
+        bundle.putString("deeplink", "expda://flightSearch")
+
+        listener.onMessageReceived(context, bundle, null)
+
+        val intent = getIntent(listener.pendingIntent as PendingIntent)
+
+        assertEquals("Custom Message Title", intent.extras.getString(CustomCarnivalListener.KEY_PAYLOAD_TITLE))
+        assertEquals("expda://flightSearch", intent.extras.getString(CustomCarnivalListener.KEY_PAYLOAD_DEEPLINK))
+        assertEquals("Custom Body Message", intent.extras.getString(CustomCarnivalListener.KEY_PAYLOAD_ALERT))
+        assertEquals("expda://flightSearch", intent.data.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun customMessageListenerListensWithNoDeeplinkProvided() {
+        val listener = TestableCarnivalMessageListener()
+        val bundle = Bundle()
+        bundle.putString("title", "Custom Message Title")
+        bundle.putString("alert", "Custom Body Message")
+
+        listener.onMessageReceived(context, bundle, null)
+
+        val intent = getIntent(listener.pendingIntent as PendingIntent)
+
+        assertEquals("Custom Message Title", intent.extras.getString(CustomCarnivalListener.KEY_PAYLOAD_TITLE))
+        assertEquals("Custom Body Message", intent.extras.getString(CustomCarnivalListener.KEY_PAYLOAD_ALERT))
+        assertEquals("expda://home", intent.data.toString())
+    }
+
+    private fun getIntent(pendingIntent: PendingIntent): Intent {
+        return (Shadow.extract(pendingIntent) as ShadowPendingIntent)
+                .savedIntent
+    }
     private fun reset() {
         eventNameToLog = ""
         attributesToSend.clear()
@@ -346,5 +393,14 @@ class CarnivalUtilsTest : CarnivalUtils() {
         //Don't actually set these user values on carnival
         userIdToLog = userId
         userEmailToLog = userEmail
+    }
+}
+
+class TestableCarnivalMessageListener : CarnivalUtils.CustomCarnivalListener() {
+    var pendingIntent: PendingIntent? = null
+
+    override fun onMessageReceived(context: Context, bundle: Bundle, message: Message?): Boolean {
+        pendingIntent = this.createPendingIntent(context, bundle, bundle.getString(KEY_PAYLOAD_DEEPLINK))
+        return true
     }
 }
