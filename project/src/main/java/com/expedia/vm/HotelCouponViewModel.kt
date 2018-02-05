@@ -1,7 +1,6 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
@@ -18,7 +17,6 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.isHotelMaterialForms
-import com.expedia.bookings.utils.isShowSavedCoupons
 import com.squareup.phrase.Phrase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -38,8 +36,6 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val enableSubmitButtonObservable = PublishSubject.create<Boolean>()
     val onMenuClickedMethod = PublishSubject.create<() -> Unit>()
     val storedCouponWidgetVisibilityObservable = PublishSubject.create<Boolean>()
-    val expandedObservable = PublishSubject.create<Boolean>()
-    val hasStoredCoupons = PublishSubject.create<Boolean>()
     val onCouponWidgetExpandSubject = PublishSubject.create<Boolean>()
     val networkErrorAlertDialogObservable = PublishSubject.create<Unit>()
     val removeCouponErrorTrackingInfoObservable = PublishSubject.create<String>()
@@ -87,10 +83,6 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                 }
             }
         }
-
-        ObservableOld.combineLatest(hasStoredCoupons, expandedObservable, { hasStoredCoupon, expanded ->
-            storedCouponWidgetVisibilityObservable.onNext(hasStoredCoupon && expanded && isShowSavedCoupons(context))
-        }).subscribe()
     }
 
     private fun couponChangeSuccess(trip: HotelCreateTripResponse) {

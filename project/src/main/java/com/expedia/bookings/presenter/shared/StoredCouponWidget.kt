@@ -10,14 +10,7 @@ import com.expedia.bookings.utils.bindView
 class StoredCouponWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
     val storedCouponRecyclerView: StoredCouponRecyclerView by bindView(R.id.stored_coupon_recycler_view)
-
-    val viewModel by lazy {
-        val storedCouponViewModel = StoredCouponWidgetViewModel()
-        storedCouponViewModel.storedCouponsSubject.subscribe {
-            storedCouponViewModel.hasStoredCoupons.onNext(!it.isEmpty())
-        }
-        storedCouponViewModel
-    }
+    val viewModel = StoredCouponWidgetViewModel()
 
     override fun onFinishInflate() {
         super.onFinishInflate()

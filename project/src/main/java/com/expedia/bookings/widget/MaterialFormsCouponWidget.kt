@@ -58,9 +58,11 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
         viewmodel.storedCouponViewModel.applyStoredCouponObservable.subscribe {
             enableCouponUi(false)
         }
-        storedCouponWidget.viewModel.hasStoredCoupons.subscribe(viewmodel.hasStoredCoupons)
 
         viewmodel.storedCouponWidgetVisibilityObservable.subscribeVisibility(storedCouponWidget)
+        storedCouponWidget.viewModel.storedCouponsSubject
+                .map { it.isNotEmpty() && isShowSavedCoupons(context) }
+                .subscribe(viewmodel.storedCouponWidgetVisibilityObservable)
 
         viewmodel.storedCouponViewModel.applyStoredCouponObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, {
             coupon, paymentSplitsAndTripResponse -> Pair(coupon, paymentSplitsAndTripResponse)
@@ -89,7 +91,6 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     override fun setExpanded(expand: Boolean, animate: Boolean) {
         super.setExpanded(expand, animate)
-        viewmodel.expandedObservable.onNext(expand)
         viewmodel.onCouponWidgetExpandSubject.onNext(expand && isShowSavedCoupons(context))
     }
 

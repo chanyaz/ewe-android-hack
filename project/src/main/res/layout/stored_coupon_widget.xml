@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.presenter.shared.StoredCouponWidget android:id="@+id/stored_coupon_widget"
+<com.expedia.bookings.presenter.shared.StoredCouponWidget
+    android:id="@+id/stored_coupon_widget"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

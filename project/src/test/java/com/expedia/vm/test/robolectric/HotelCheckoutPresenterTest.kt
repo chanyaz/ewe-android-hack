@@ -30,6 +30,7 @@ import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
+import com.expedia.bookings.presenter.shared.StoredCouponAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponRecyclerView
 import com.expedia.bookings.presenter.shared.StoredCouponViewHolder
 import com.expedia.bookings.services.LoyaltyServices
@@ -168,11 +169,9 @@ class HotelCheckoutPresenterTest {
         checkout.couponCardView.performClick()
         checkout.toolbar.viewModel.onMenuItemClicked("Apply")
         testEnableSubmitButtonObservable.awaitTerminalEvent(10, TimeUnit.SECONDS)
-//        testEnableSubmitButtonObservable.assertValue(false)
         testOnCouponSubmitClicked.assertValueCount(1)
 
         checkout.toolbar.viewModel.onMenuItemClicked("Apply Button")
-//        testEnableSubmitButtonObservable.assertValues(false, false)
         testOnCouponSubmitClicked.assertValueCount(2)
     }
 
@@ -391,14 +390,19 @@ class HotelCheckoutPresenterTest {
 
     @Test
     fun testHotelMaterialCouponExpandWithNoValidCoupon() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
         setupHotelMaterialForms()
         val testVisibilityObserver = TestObserver<Boolean>()
         (checkout.couponCardView as MaterialFormsCouponWidget).viewmodel.storedCouponWidgetVisibilityObservable
                 .subscribe(testVisibilityObserver)
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
+        val testListObserver = TestObserver<List<StoredCouponAdapter>>()
+        (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.storedCouponsSubject.subscribe(testListObserver)
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getGuestHappyCreateTripResponse())
         checkout.couponCardView.isExpanded = true
 
-        testVisibilityObserver.assertValueCount(0)
+        testVisibilityObserver.assertValueCount(1)
+        testVisibilityObserver.assertValues(false)
+        testListObserver.assertValues(emptyList())
         assertEquals(View.GONE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
     }
 
@@ -414,10 +418,19 @@ class HotelCheckoutPresenterTest {
 
     @Test
     fun testHotelMaterialCouponExpandWithValidCoupon() {
-        setupHotelMaterialForms(mockHotelServices.getHotelCouponCreateTripResponse())
+        setupHotelMaterialForms()
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppSavedCoupons)
+        val testVisibilityObserver = TestObserver<Boolean>()
+        (checkout.couponCardView as MaterialFormsCouponWidget).viewmodel.storedCouponWidgetVisibilityObservable
+                .subscribe(testVisibilityObserver)
+        val testListObserver = TestObserver<List<StoredCouponAdapter>>()
+        (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.viewModel.storedCouponsSubject.subscribe(testListObserver)
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHotelCouponCreateTripResponse())
         checkout.couponCardView.isExpanded = true
 
+        testVisibilityObserver.assertValueCount(1)
+        testVisibilityObserver.assertValues(true)
+        assertEquals(3, testListObserver.values()[0].size)
         assertEquals(View.VISIBLE, (checkout.couponCardView as MaterialFormsCouponWidget).storedCouponWidget.visibility)
     }
 
