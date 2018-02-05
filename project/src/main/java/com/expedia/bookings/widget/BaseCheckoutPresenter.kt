@@ -281,6 +281,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         getCheckoutViewModel().cardFeeTripResponse.filter { it != null }.map { Optional(it) }.subscribe(getCreateTripViewModel().createTripResponseObservable)
         getCheckoutViewModel().clearCvvObservable.subscribe {
             paymentWidget.clearCVV()
+            getCheckoutViewModel().builder.cvv(null)
         }
         paymentWidget.viewmodel.toolbarNavIconFocusObservable.subscribe(getCheckoutViewModel().toolbarNavIconFocusObservable)
     }

@@ -443,7 +443,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun setupViewModels() {
-        val bottomCheckoutContainerViewModel = BottomCheckoutContainerViewModel(context)
+        val bottomCheckoutContainerViewModel = BottomCheckoutContainerViewModel()
         bottomCheckoutContainerViewModel.slideAllTheWayObservable.subscribe {
             OmnitureTracking.trackSlideToBookAction()
             val checkoutViewModel = checkoutPresenter.getCheckoutViewModel()

@@ -164,11 +164,12 @@ class PackageErrorViewModelTest {
         errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.retry))
     }
 
-    @Test fun observableEmissionsOnCreateTripUnknownError() {
+    @Test
+    fun testObservableEmissionsUnknownError() {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
-        val createTripUnknownErrorObservableTestSubscriber = TestObserver.create<Unit>()
-        subjectUnderTest.createTripUnknownErrorObservable.subscribe(createTripUnknownErrorObservableTestSubscriber)
+        val unknownErrorObservableTestSubscriber = TestObserver.create<Unit>()
+        subjectUnderTest.checkoutUnknownErrorObservable.subscribe(unknownErrorObservableTestSubscriber)
 
         val errorImageObservableTestSubscriber = TestObserver.create<Int>()
         subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
@@ -190,7 +191,7 @@ class PackageErrorViewModelTest {
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
-        createTripUnknownErrorObservableTestSubscriber.assertValues(Unit)
+        unknownErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
         val message = getContext().getString(R.string.package_error_server)
         errorMessageObservableTestSubscriber.assertValues(message)
