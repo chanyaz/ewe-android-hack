@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -30,17 +29,13 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.accessibility.AccessibleEditText;
-import com.expedia.util.RxKt;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
-import io.reactivex.Observer;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subjects.PublishSubject;
-import io.reactivex.disposables.CompositeDisposable;
 
 public class TravelerContactDetailsWidget extends ExpandableCardView implements TravelerButton.ITravelerButtonListener {
 
@@ -93,7 +88,6 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	MerchandiseSpam emailOptInStatus;
 
 	public PublishSubject<Boolean> filledIn = PublishSubject.create();
-	public CompositeDisposable compositeDisposable = new CompositeDisposable();
 	public PublishSubject<Function0<Unit>> onDoneClickedMethod = PublishSubject.create();
 	private UserStateManager userStateManager;
 
@@ -137,35 +131,6 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		});
 		bind();
 	}
-
-	@Override
-	protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
-		super.onVisibilityChanged(changedView, visibility);
-		if (visibility == View.VISIBLE) {
-			compositeDisposable = new CompositeDisposable();
-			compositeDisposable.add(RxKt.subscribeTextChange(firstName, formFilledSubscriber));
-			compositeDisposable.add(RxKt.subscribeTextChange(lastName, formFilledSubscriber));
-			compositeDisposable.add(RxKt.subscribeTextChange(phoneNumber, formFilledSubscriber));
-		}
-		else {
-			compositeDisposable.dispose();
-		}
-	}
-
-	private Observer formFilledSubscriber = new DisposableObserver<String>() {
-		@Override
-		public void onComplete() {
-		}
-
-		@Override
-		public void onError(Throwable e) {
-		}
-
-		@Override
-		public void onNext(String o) {
-			filledIn.onNext(isCompletelyFilled());
-		}
-	};
 
 	public void setUPEMailOptCheckBox(MerchandiseSpam value) {
 		emailOptInStatus = value;
