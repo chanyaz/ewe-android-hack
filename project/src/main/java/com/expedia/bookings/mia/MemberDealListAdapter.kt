@@ -56,7 +56,6 @@ class MemberDealListAdapter(private val context: Context, private val searchHote
         } else if (viewType == itemType.DESTINATION_CARD.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.deals_card, parent, false)
             val holder = DealsDestinationViewHolder(view)
-
             view.setOnClickListener {
                 val memberDealActivity = context as MemberDealsActivity
                 val animOptions = AnimUtils.createActivityScaleBundle(memberDealActivity.currentFocus)

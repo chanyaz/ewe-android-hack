@@ -31,6 +31,7 @@ class DealsDestinationViewModelTest {
         hotel.offerDateRange?.travelStartDate = arrayListOf(2017, 5, 8)
         hotel.offerDateRange?.travelEndDate = arrayListOf(2017, 5, 9)
         hotel.hotelPricingInfo = DealsDestination().Hotel().HotelPricingInfo()
+        hotel.hotelInfo = DealsDestination().Hotel().HotelInfo()
         hotel.hotelPricingInfo?.percentSavings = 50.0
         hotel.hotelPricingInfo?.averagePriceValue = 130.06
         hotel.hotelPricingInfo?.crossOutPriceValue = 260.12
@@ -40,7 +41,7 @@ class DealsDestinationViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMemberDealDestinationViewModel() {
         setupSystemUnderTest()
-        assertEquals("https://a.travel-assets.com/dynamic_images/800103.jpg", vm.backgroundUrl)
+        assertEquals("https://a.travel-assets.com/dynamic_images/800103.jpg", vm.memberDealBackgroundUrl)
         assertEquals("Paris", vm.cityName)
         assertEquals("Mon, May 8 - Tue, May 9", vm.dateRangeText)
         assertEquals("-50%", vm.percentSavingsText)
@@ -78,6 +79,20 @@ class DealsDestinationViewModelTest {
         setupSystemUnderTest()
         hotel.hotelPricingInfo?.crossOutPriceValue = 0.00
         assertEquals("", vm.strikeOutPriceText.toString())
+    }
+
+    @Test
+    fun hotelBackgroundImageURL_isFormattedWithHighResImage() {
+        setupSystemUnderTest()
+        hotel.hotelInfo?.hotelImageUrl = "https://images.trvl-media.com/hotels/2000000/1450000/1445800/1445791/3c7df4c6_l.jpg"
+        assertEquals("https://images.trvl-media.com/hotels/2000000/1450000/1445800/1445791/3c7df4c6_z.jpg", vm.lastMinuteDealsBackgroundUrl.toString())
+    }
+
+    @Test
+    fun hotelBackgroundImageURL_appendsHighResString_givenUrlWithoutUnderscorePattern() {
+        setupSystemUnderTest()
+        hotel.hotelInfo?.hotelImageUrl = "https://images.trvl-media.com/hotels/2000000/1450000/1445800/1445791/3c7df4c6.jpg"
+        assertEquals("https://images.trvl-media.com/hotels/2000000/1450000/1445800/1445791/3c7df4c6_z.jpg", vm.lastMinuteDealsBackgroundUrl.toString())
     }
 
     private fun setupSystemUnderTest() {

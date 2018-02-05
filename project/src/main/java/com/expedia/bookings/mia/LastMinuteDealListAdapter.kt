@@ -27,10 +27,10 @@ class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<Rec
     init {
         listData = generateLoadingCells(3)
         resultSubject.subscribe { response ->
-            if (response != null && response.offers?.Hotel != null) {
+            if (response != null && response.offers?.hotels != null) {
                 loading = false
                 currency = response.offerInfo?.currency
-                listData = response.getLeadingHotels()
+                listData = response.getSortedDiscountedHotels()
                 notifyDataSetChanged()
             }
         }
