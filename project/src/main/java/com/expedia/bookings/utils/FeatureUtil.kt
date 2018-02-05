@@ -91,6 +91,5 @@ fun isDisplayFlightSeatingClassForShoppingEnabled(context: Context): Boolean {
 }
 
 fun isDisplayBasicEconomyTooltipForPackagesEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesDisplayBasicEconomyTooltip) &&
-            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_show_basic_economy_tooltip)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesDisplayBasicEconomyTooltip)
 }

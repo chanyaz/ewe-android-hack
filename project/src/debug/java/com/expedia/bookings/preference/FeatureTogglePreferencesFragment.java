@@ -32,7 +32,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		//Flight Features
 
 		//Packages Features
-		initializeFeatureCheck(R.string.preference_packages_show_basic_economy_tooltip);
 
 		//Universal Checkout Features
 		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
