@@ -4,7 +4,10 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.featureconfig.SatelliteFeatureConstants
+import com.expedia.bookings.interceptors.MockInterceptor
+import com.expedia.bookings.services.TripsServices
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.NullSafeMockitoHamcrest.mapThat
@@ -16,16 +19,24 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.SatelliteFeatureConfigTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.android.util.SettingUtils
+import com.mobiata.mocke3.ExpediaDispatcher
+import com.mobiata.mocke3.FileSystemOpener
+import io.reactivex.schedulers.Schedulers
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
 import org.joda.time.LocalDateTime
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
+import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
@@ -37,6 +48,20 @@ class ItineraryManagerTest {
 
     val context = RuntimeEnvironment.application
     lateinit var itinManager: ItineraryManager
+    var server: MockWebServer = MockWebServer()
+        @Rule get
+    val mockDispatcherTripsServices by lazy {
+        val logger = HttpLoggingInterceptor()
+        val file = File("../lib/mocked/templates")
+        val root = file.canonicalPath
+        val opener = FileSystemOpener(root)
+        val interceptor = MockInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        server.setDispatcher(ExpediaDispatcher(opener))
+        val service = TripsServices("http://localhost:" + server.port,
+                OkHttpClient.Builder().addInterceptor(logger).build(), interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+        service
+    }
 
     @Before
     fun setup() {
@@ -249,6 +274,44 @@ class ItineraryManagerTest {
         response = itinManager.SyncTask(MockTripServices(true), null).getTripDetailsResponse(trip, false)
         assertFalse(response.isSuccess)
         assertTrue(response.hasErrors())
+    }
+
+    @Test
+    fun testExceptionTripDetailsSynchronous() {
+        SatelliteFeatureConfigTestUtils.enableFeatureForTest(context, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS)
+
+        val itinManager = ItineraryManager.getInstance()
+        val trip = Trip()
+        trip.tripId = "ItineraryManagerTest_TestExceptionTripDetails"
+        val response = itinManager.SyncTask(mockDispatcherTripsServices, null).getTripDetailsResponse(trip, false)
+        assertNull(response)
+    }
+
+    @Test
+    fun testExceptionSharedTripSynchronous() {
+        SatelliteFeatureConfigTestUtils.enableFeatureForTest(context, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS)
+
+        val itinManager = ItineraryManager.getInstance()
+        val trip = Trip()
+        trip.tripId = "53a6459c-822c-4425-9e14-3eea43f38a97"
+        val mockEndpoint = "http://localhost:" + server.port
+        val shareUrl = "https://www.expedia.com/m/trips/shared/ItineraryManagerTest_TestExceptionSharedTrip"
+        trip.shareInfo.sharableDetailsUrl = shareUrl.replace("https://www.expedia.com", mockEndpoint)
+        trip.setIsShared(true)
+        if (ProductFlavorFeatureConfiguration.getInstance().shouldDisplayItinTrackAppLink()) {
+            val response = itinManager.SyncTask(mockDispatcherTripsServices, null).getTripDetailsResponse(trip, false)
+            assertNull(response)
+        }
+    }
+
+    @Test
+    fun testExceptionGuestTripSynchronous() {
+        SatelliteFeatureConfigTestUtils.enableFeatureForTest(context, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS)
+
+        val itinManager = ItineraryManager.getInstance()
+        val trip = Trip("test123@123.com", "ItineraryManagerTest_TestExceptionGuestTrip")
+        val response = itinManager.SyncTask(mockDispatcherTripsServices, null).getTripDetailsResponse(trip, false)
+        assertNull(response)
     }
 
     private fun assertLinkTracked(linkName: String, rfrrId: String, event: String, mockAnalyticsProvider: AnalyticsProvider) {

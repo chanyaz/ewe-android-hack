@@ -7,9 +7,11 @@ import okhttp3.OkHttpClient
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import java.io.IOException
 
 class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) : TripsServicesInterface {
 
+    val LOGTAG = "TRIPS_SERVICES"
     val tripsApi: TripsApi by lazy {
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
@@ -23,46 +25,61 @@ class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 
     override fun getTripDetails(tripId: String, useCache: Boolean): JSONObject? {
         val call = tripsApi.tripDetails(tripId, if (useCache) "1" else "0")
-        val response = call.execute()
-        return if (response.isSuccessful) {
-            response.body()
-        } else {
-            val errorResponse = response.errorBody()
-            if (errorResponse != null) {
-                JSONObject(errorResponse.string())
+        try {
+            val response = call.execute()
+            return if (response.isSuccessful) {
+                response.body()
             } else {
-                null
+                val errorResponse = response.errorBody()
+                if (errorResponse != null) {
+                    JSONObject(errorResponse.string())
+                } else {
+                    null
+                }
             }
+        } catch (e: IOException) {
+            print(LOGTAG + " Exception occurred when making getTripDetails call: " + e.printStackTrace())
+            return null
         }
     }
 
     override fun getSharedTripDetails(sharedTripUrl: String): JSONObject? {
         val call = tripsApi.sharedTripDetails(sharedTripUrl)
-        val response = call.execute()
-        return if (response.isSuccessful) {
-            response.body()
-        } else {
-            val errorResponse = response.errorBody()
-            if (errorResponse != null) {
-                JSONObject(errorResponse.string())
+        try {
+            val response = call.execute()
+            return if (response.isSuccessful) {
+                response.body()
             } else {
-                null
+                val errorResponse = response.errorBody()
+                if (errorResponse != null) {
+                    JSONObject(errorResponse.string())
+                } else {
+                    null
+                }
             }
+        } catch (e: IOException) {
+            print(LOGTAG + " Exception occurred when making getSharedTripDetails call: " + e.printStackTrace())
+            return null
         }
     }
 
     override fun getGuestTrip(tripId: String, guestEmail: String, useCache: Boolean): JSONObject? {
         val call = tripsApi.guestTrip(tripId, guestEmail, if (useCache) "1" else "0")
-        val response = call.execute()
-        return if (response.isSuccessful) {
-            response.body()
-        } else {
-            val errorResponse = response.errorBody()
-            if (errorResponse != null) {
-                JSONObject(errorResponse.string())
+        try {
+            val response = call.execute()
+            return if (response.isSuccessful) {
+                response.body()
             } else {
-                null
+                val errorResponse = response.errorBody()
+                if (errorResponse != null) {
+                    JSONObject(errorResponse.string())
+                } else {
+                    null
+                }
             }
+        } catch (e: IOException) {
+            print(LOGTAG + " Exception occurred when making getGuestTrip call: " + e.printStackTrace())
+            return null
         }
     }
 

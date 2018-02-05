@@ -6,6 +6,7 @@ import okhttp3.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Days
+import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
 // Mocks out various mobile Expedia APIs
@@ -105,6 +106,13 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         }
 
         // TODO - move Trips into own dispatcher
+
+        // Sketchy trip details call throwing exception
+        if (request.path.contains("/api/trips/ItineraryManagerTest_TestExceptionTripDetails") ||
+                request.path.contains("/api/trips/shared/ItineraryManagerTest_TestExceptionSharedTrip") ||
+                request.path.contains("/api/trips/ItineraryManagerTest_TestExceptionGuestTrip?idtype=itineraryNumber")) {
+            throw SocketTimeoutException()
+        }
 
         // Trips API - room upgrade
         if (request.path.matches(Regex("^/api/trips.*/upgradeOffers\\?.*$"))) {
