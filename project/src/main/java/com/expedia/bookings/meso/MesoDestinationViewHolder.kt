@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.PaintDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
+import android.net.Uri
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -18,6 +19,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.meso.vm.MesoDestinationViewModel
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
@@ -48,19 +50,28 @@ class MesoDestinationViewHolder(private val adView: View, private val vm: MesoDe
     }
 
     override fun onClick(view: View) {
-        if (vm.mesoDestinationAdResponse?.webviewUrl != null) {
-            goToMesoDestination(view.context)
+        val url = vm.mesoDestinationAdResponse?.webviewUrl
+        if (url != null) {
+            goToMesoDestination(view.context, url)
+            OmnitureTracking.trackMesoDestination(vm.title)
         }
     }
 
-    private fun goToMesoDestination(context: Context) {
+    private fun goToMesoDestination(context: Context, url: String) {
         val builder = WebViewActivity.IntentBuilder(context)
-        builder.setUrl(vm.webviewUrl)
+        builder.setUrl(appendParameters(url))
         builder.setTitle(vm.title)
         builder.setMesoDestinationPage(true)
         builder.setHandleBack(true)
         builder.setRetryOnFailure(true)
         startActivity(context, builder.intent, null)
+    }
+
+    private fun appendParameters(baseUrl: String): String {
+        val linkBuilder = Uri.parse(baseUrl).buildUpon()
+        linkBuilder.appendQueryParameter("rfrr", "App.LS.MeSo")
+        linkBuilder.appendQueryParameter("mcicid", "App.LS.MeSo.Dest." + vm.title)
+        return linkBuilder.build().toString()
     }
 
     private val target = object : PicassoTarget() {
