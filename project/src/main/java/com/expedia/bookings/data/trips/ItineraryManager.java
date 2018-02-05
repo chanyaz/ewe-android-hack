@@ -143,7 +143,6 @@ public class ItineraryManager implements JSONable {
 	private List<DateTime> mEndTimes = new ArrayList<>();
 
 	private final PublishSubject<List<ItinCardData>> syncFinishObserverable = PublishSubject.create();
-	private final PublishSubject<List<ItinCardData>> syncFailedObserverable = PublishSubject.create();
 
 	/**
 	 * Adds a guest trip to the itinerary list.
@@ -188,6 +187,14 @@ public class ItineraryManager implements JSONable {
 
 	public List<ItinCardData> getItinCardData() {
 		return mItinCardDatas;
+	}
+
+	public void addItinCard(ItinCardData itinCardData) {
+		mItinCardDatas.add(itinCardData);
+	}
+
+	public List<ItinCardData> getImmutableItinCardDatas() {
+		return Collections.unmodifiableList(new ArrayList(mItinCardDatas));
 	}
 
 	public String getItinIdByTripNumber(String tripNumber) {
@@ -358,7 +365,7 @@ public class ItineraryManager implements JSONable {
 		notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 		NotificationScheduler notificationScheduler = Ui.getApplication(context).appComponent().notificationScheduler();
 		if (!ExpediaBookingApp.isAutomation()) {
-			notificationScheduler.subscribeToListeners(syncFinishObserverable, syncFailedObserverable);
+			notificationScheduler.subscribeToListener(syncFinishObserverable);
 		}
 		loadStartAndEndTimes();
 
@@ -746,7 +753,6 @@ public class ItineraryManager implements JSONable {
 
 	private void onSyncFailed(SyncError error) {
 		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
-		syncFailedObserverable.onNext(mItinCardDatas);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFailure(error);
 		}
@@ -755,7 +761,7 @@ public class ItineraryManager implements JSONable {
 	@VisibleForTesting
 	public void onSyncFinished(Collection<Trip> trips) {
 		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
-		syncFinishObserverable.onNext(mItinCardDatas);
+		syncFinishObserverable.onNext(getImmutableItinCardDatas());
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFinished(trips);
 		}

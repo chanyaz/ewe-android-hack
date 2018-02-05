@@ -18,6 +18,7 @@ import com.expedia.bookings.tracking.TimeSource
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.SatelliteFeatureConfigTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
+import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
@@ -312,6 +313,26 @@ class ItineraryManagerTest {
         val trip = Trip("test123@123.com", "ItineraryManagerTest_TestExceptionGuestTrip")
         val response = itinManager.SyncTask(mockDispatcherTripsServices, null).getTripDetailsResponse(trip, false)
         assertNull(response)
+    }
+
+    @Test
+    fun getMutedItinCardDataTest() {
+        val itinFlight = ItinCardDataFlightBuilder().build()
+        val itinHotel = ItinCardDataHotelBuilder().build()
+        itinManager.addItinCard(itinFlight)
+        itinManager.addItinCard(itinHotel)
+
+        val list = itinManager.itinCardData
+        val testSubjectList = itinManager.immutableItinCardDatas
+        assertEquals(list, testSubjectList)
+        assertEquals(list[0], testSubjectList[0])
+        assertEquals(list[1], testSubjectList[1])
+        assertEquals(2, testSubjectList.size)
+
+        list.removeAt(1)
+
+        assertEquals(2, testSubjectList.size)
+        assertEquals(1, list.size)
     }
 
     private fun assertLinkTracked(linkName: String, rfrrId: String, event: String, mockAnalyticsProvider: AnalyticsProvider) {
