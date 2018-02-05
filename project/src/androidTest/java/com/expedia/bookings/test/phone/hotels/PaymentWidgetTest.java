@@ -61,7 +61,7 @@ public class PaymentWidgetTest extends PhoneTestCase {
 	private void goToCheckout(String hotel) throws Throwable {
 		LaunchScreen.tripsButton().perform(click());
 		TripsScreen.clickOnLogInButton();
-		LogInScreen.signIn("singlecard@mobiata.com");
+		LogInScreen.signIn("singlecard@mobiata.com", "password");
 		LaunchScreen.shopButton().perform(click());
 		LaunchScreen.hotelsLaunchButton().perform(click());
 		SearchScreen.doGenericHotelSearch();

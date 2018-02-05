@@ -63,7 +63,7 @@ public class HotelCheckout2Test extends HotelTestCase {
 		HotelInfoSiteScreen.bookFirstRoom();
 		Assert.assertEquals(Db.getTripBucket().getHotelV2().mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id");
 		HotelCheckoutScreen.clickSignIn();
-		LogInScreen.signIn("qa-ehcc@mobiata.com");
+		LogInScreen.signIn("qa-ehcc@mobiata.com", "password");
 		EspressoUtils.waitForViewNotYetInLayoutToDisplay(CheckoutScreen.toolBarMatcher(), 10, TimeUnit.SECONDS);
 		Assert.assertEquals(Db.getTripBucket().getHotelV2().mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id_signed_in");
 	}

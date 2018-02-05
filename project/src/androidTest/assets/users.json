@@ -1,18 +1,28 @@
 {
-  "users":[{
-    "tier" : "Blue",
-    "email" : "qa-ehcc@mobiata.com",
-    "password" : "3xp3d1acc"
+  "users":[
+    {
+      "tier" : "Blue",
+      "type" : "Expedia",
+      "email" : "qa-ehcc@mobiata.com",
+      "password" : "3xp3d1acc"
     },
     {
-    "tier" : "Silver",
-    "email" : "",
-    "password" : ""
+      "tier" : "Blue",
+      "type" : "Facebook",
+      "email" : "nwdakprfdx_1518130820@tfbnw.net",
+      "password" : "expedia123"
     },
     {
-    "tier" : "Gold",
-    "email" : "",
-    "password" : ""
+      "tier" : "Silver",
+      "type" : "",
+      "email" : "",
+      "password" : ""
+    },
+    {
+      "tier" : "Gold",
+      "type" : "",
+      "email" : "",
+      "password" : ""
     }
   ]
 }

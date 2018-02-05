@@ -147,6 +147,12 @@ dependencies {
     testImplementation 'org.khronos:opengl-api:gl1.1-android-2.1_r1' // required to fill robolectric gap: https://github.com/robolectric/robolectric/issues/1932
 
     def espressoVersion = '2.2.2'
+    androidTestImplementation ('com.android.support.test:runner:0.5') {
+        exclude group: 'com.android.support'
+    }
+    androidTestImplementation ('com.android.support.test:rules:0.5') {
+        exclude group: 'com.android.support'
+    }
     androidTestImplementation ("com.android.support.test.espresso:espresso-core:${espressoVersion}"){
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
@@ -155,11 +161,10 @@ dependencies {
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
     }
-
-    androidTestImplementation ('com.android.support.test:rules:0.5') {
+    androidTestImplementation ("com.android.support.test.espresso:espresso-intents:${espressoVersion}") {
         exclude group: 'com.android.support'
     }
-    androidTestImplementation ("com.android.support.test.espresso:espresso-intents:${espressoVersion}") {
+    androidTestImplementation ("com.android.support.test.espresso:espresso-web:${espressoVersion}") {
         exclude group: 'com.android.support'
     }
 

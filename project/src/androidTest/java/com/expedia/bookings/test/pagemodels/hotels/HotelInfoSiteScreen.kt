@@ -153,7 +153,7 @@ object HotelInfoSiteScreen {
 
     @JvmStatic
     fun waitForPageToLoad() {
-        infositeDetailContainer().perform(ViewActions.waitForViewToDisplay())
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(detailContainer, 10, TimeUnit.SECONDS)
     }
 
     @JvmStatic

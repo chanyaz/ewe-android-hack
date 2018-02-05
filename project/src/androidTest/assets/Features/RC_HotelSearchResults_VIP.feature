@@ -1,10 +1,12 @@
 Feature: +VIP labels and functionality on HSR and HIS pages
 
-  @ReleaseCandidate @Prod @HotelSearchResults
+  @Prod @RC_HotelSearchResults
   Scenario Outline: Validate VIP label presence, based on the user tier type
     Given I launch the App
     And I tap on "Account" tab
-    And I login with "<tier>" tier user
+    And I login with user, which has
+      | tier | <tier> |
+      | type | <type> |
     And I tap on "Shop" tab
     When I launch "Hotels" LOB
     When I search for hotels and choose a specific location
@@ -23,5 +25,5 @@ Feature: +VIP labels and functionality on HSR and HIS pages
       | bodyText | At +VIP Access hotels, +silver and +gold members receive free room upgrades and other perks on availability at check-in. |
 
     Examples:
-      | tier   | location      | searchSuggestion  |
-      | Blue   | San Francisco | San Francisco, CA |
+      | tier   | type     | location      | searchSuggestion  |
+      | Blue   | Facebook | San Francisco | San Francisco, CA |

@@ -16,6 +16,10 @@ import org.hamcrest.Matchers.allOf
 import java.util.concurrent.TimeUnit
 
 object LaunchScreen {
+    @JvmStatic val tripsButton = allOf(withText(R.string.trips), isDescendantOfA(withId(R.id.tab_layout)))
+    @JvmStatic val shopButton = allOf(withText(R.string.shop), isDescendantOfA(withId(R.id.tab_layout)))
+    @JvmStatic val accountButton = allOf(withText(R.string.account_settings_menu_label), isDescendantOfA(withId(R.id.tab_layout)))
+
     @JvmStatic fun waitForLOBHeaderToBeDisplayed() {
         EspressoUtils.waitForViewNotYetInLayoutToDisplay(allOf(withId(R.id.launch_lob_widget), withParent(withId(R.id.launch_list_widget))), 10, TimeUnit.SECONDS)
     }
@@ -54,15 +58,15 @@ object LaunchScreen {
 
     @JvmStatic fun tripsButton(): ViewInteraction {
         waitForLOBHeaderToBeDisplayed()
-        return onView(allOf(withText(R.string.trips), isDescendantOfA(withId(R.id.tab_layout))))
+        return onView(tripsButton)
     }
 
     @JvmStatic fun shopButton(): ViewInteraction {
-        return onView(allOf(withText(R.string.shop), isDescendantOfA(withId(R.id.tab_layout))))
+        return onView(shopButton)
     }
 
     @JvmStatic fun accountButton(): ViewInteraction {
-        return onView(allOf(withText(R.string.account_settings_menu_label), isDescendantOfA(withId(R.id.tab_layout))))
+        return onView(accountButton)
     }
 
     @JvmStatic fun getPackagesLaunchButtonText(brand: String): String {

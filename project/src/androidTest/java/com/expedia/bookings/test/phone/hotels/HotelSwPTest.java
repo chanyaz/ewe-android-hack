@@ -43,7 +43,7 @@ public class HotelSwPTest extends PhoneTestCase {
 		LaunchScreen.waitForLOBHeaderToBeDisplayed();
 		LaunchScreen.tripsButton().perform(click());
 		TripsScreen.clickOnLogInButton();
-		LogInScreen.signIn("goldstatus@mobiata.com");
+		LogInScreen.signIn("goldstatus@mobiata.com", "password");
 		LaunchScreen.shopButton().perform(click());
 		LaunchScreen.hotelsLaunchButton().perform(click());
 		if (clickSwP) {
