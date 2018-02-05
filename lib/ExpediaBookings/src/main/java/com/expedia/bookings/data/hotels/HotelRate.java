@@ -29,6 +29,7 @@ public class HotelRate {
 	public float dailyMandatoryFee;
 	public float totalMandatoryFees;
 	public MandatoryFees.DisplayType mandatoryDisplayType;
+	public MandatoryFees.DisplayCurrency mandatoryDisplayCurrency;
 	public float totalPriceWithMandatoryFees;
 	public String userPriceType;
 	public String checkoutPriceType;

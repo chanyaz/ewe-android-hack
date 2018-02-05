@@ -9,6 +9,7 @@ import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.multiitem.Amenity;
 import com.expedia.bookings.data.multiitem.HotelOffer;
+import com.expedia.bookings.data.multiitem.MandatoryFees;
 import com.expedia.bookings.data.multiitem.MultiItemOffer;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
@@ -255,16 +256,33 @@ public class HotelOffersResponse extends BaseApiResponse {
 		if (roomOffer.getMandatoryFees() != null) {
 			hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayType = roomOffer.getMandatoryFees()
 				.getDisplayType();
+			hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayCurrency = roomOffer.getMandatoryFees()
+				.getDisplayCurrency();
+
 			switch (roomOffer.getMandatoryFees().getDisplayType()) {
 			case TOTAL:
-				hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
-					.getTotalMandatoryFeesSupplyCurrency().getAmount().floatValue();
+				if (hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayCurrency
+					== MandatoryFees.DisplayCurrency.POINT_OF_SALE) {
+					hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
+						.getTotalMandatoryFeesPOSCurrency().getAmount().floatValue();
+				}
+				else if (hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayCurrency
+					== MandatoryFees.DisplayCurrency.POINT_OF_SUPPLY) {
+					hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
+						.getTotalMandatoryFeesSupplyCurrency().getAmount().floatValue();
+				}
 				break;
 			case DAILY:
 				hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
 					.getDailyResortFeePOSCurrency().getAmount().floatValue();
 				break;
 			case NONE:
+				if (hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayCurrency
+					== MandatoryFees.DisplayCurrency.POINT_OF_SALE && roomOffer.getMandatoryFees()
+					.getTotalMandatoryFeesPOSCurrency().getAmount() != null) {
+					hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
+						.getTotalMandatoryFeesPOSCurrency().getAmount().floatValue();
+				}
 				hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = false;
 				break;
 			}

@@ -6,7 +6,6 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.squareup.phrase.Phrase
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -18,7 +17,9 @@ class HotelResortFeeFormatter {
         if (roomResponse?.rateInfo?.chargeableRateInfo?.showResortFeeMessage == true) {
             val rate = roomResponse.rateInfo.chargeableRateInfo
 
-            if (isPackage && PointOfSale.getPointOfSale().showResortFeesInHotelLocalCurrency() && !isMidAPIEnabled(context)) {
+            /* showResortFeesInHotelLocalCurrency() is true only for UK and ebookers POS.
+             We would get resort fees in point of supply currency */
+            if (isPackage && PointOfSale.getPointOfSale().showResortFeesInHotelLocalCurrency()) {
                 val df = DecimalFormat("#.00")
                 val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()),
                         CurrencyUtils.currencyForLocale(hotelCountry))

@@ -416,10 +416,13 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         val rateInfo = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo
         var mandatoryFee: Float = 0F
 
-        if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.TOTAL) {
-            mandatoryFee = rateInfo.totalMandatoryFees
-        } else if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.DAILY) {
-            mandatoryFee = rateInfo.totalMandatoryFees * getNumberOfDaysInHotel()
+        //rateInfo.totalMandatoryFees has either daily or total mandatory fees based upon the display type (See convertMidHotelRoomResponse() in HotelOfferResponse for reference)
+        if (rateInfo.mandatoryDisplayCurrency == MandatoryFees.DisplayCurrency.POINT_OF_SALE && rateInfo.totalMandatoryFees != null) {
+            if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.DAILY) {
+                mandatoryFee = rateInfo.totalMandatoryFees * getNumberOfDaysInHotel()
+            } else {
+                mandatoryFee = rateInfo.totalMandatoryFees
+            }
         }
         val packageTotalWithMandatoryFee = packagetotal?.amount?.plus(BigDecimal(mandatoryFee.toString()))
         totalPriceWidget.viewModel.addMandatoryFeeWithTotalPrice(packageTotalWithMandatoryFee, packagetotal?.currencyCode)
