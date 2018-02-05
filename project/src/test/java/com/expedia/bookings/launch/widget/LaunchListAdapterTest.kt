@@ -96,10 +96,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.MESO_HOTEL_AD_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, thirdPosition)
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.MESO_HOTEL_AD_VIEW, fourthPosition)
+
+        val fifthPosition = adapterUnderTest.getItemViewType(4)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
     }
 
     @Test
@@ -131,10 +134,10 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.MESO_DESTINATION_AD_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, thirdPosition)
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.MESO_DESTINATION_AD_VIEW, fourthPosition)
     }
 
     @Test
@@ -150,6 +153,32 @@ class LaunchListAdapterTest {
 
         val expectedHotelEvar = mapOf(12 to "App.LS.MeSo.B2P.Ad." + hotelName)
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(expectedHotelEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun itemViewPosition_notShowingMesoLMDSectionWithoutMesoOrLMDEnabled() {
+        createSystemUnderTest()
+        givenWeHaveCurrentLocationAndHotels()
+
+        val results = (0 until adapterUnderTest.itemCount).asSequence()
+                .filter { adapterUnderTest.getItemViewType(it) == LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW }
+
+        assertTrue { results.count() == 0 }
+    }
+
+    @Test
+    fun itemViewPosition_showingMesoLMDSectionWithMesoEnabledWithData() {
+        givenMesoHotelAdIsEnabled()
+        createSystemUnderTest()
+        givenWeHaveCurrentLocationAndHotels()
+
+        adapterUnderTest.initMesoAd()
+        adapterUnderTest.updateState()
+
+        val results = (0 until adapterUnderTest.itemCount).asSequence()
+                .filter { adapterUnderTest.getItemViewType(it) == LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW }
+
+        assertTrue { results.count() == 1 }
     }
 
     @Test
@@ -169,13 +198,16 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
-        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, fourthPosition)
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, fourthPosition)
 
         val fifthPosition = adapterUnderTest.getItemViewType(4)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, fifthPosition)
 
         val sixthPosition = adapterUnderTest.getItemViewType(5)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, sixthPosition)
+
+        val seventhPosition = adapterUnderTest.getItemViewType(6)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, seventhPosition)
     }
 
     @Test
@@ -533,14 +565,15 @@ class LaunchListAdapterTest {
         assertViewHolderIsFullSpan(1) // sign in view
         assertViewHolderIsFullSpan(2)
         assertViewHolderIsFullSpan(3) // header view
+        assertViewHolderIsFullSpan(4) // get inspired header
 
         // hotel cells
-        assertViewHolderIsFullSpan(4)
-        assertViewHolderIsHalfSpan(5)
+        assertViewHolderIsFullSpan(5)
         assertViewHolderIsHalfSpan(6)
         assertViewHolderIsHalfSpan(7)
         assertViewHolderIsHalfSpan(8)
-        assertViewHolderIsFullSpan(9)
+        assertViewHolderIsHalfSpan(9)
+        assertViewHolderIsFullSpan(10)
     }
 
     @Test

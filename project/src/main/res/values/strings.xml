@@ -893,6 +893,7 @@
      price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
      Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
     <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line}from &lt;strike&gt;{strike_price}&lt;/strike&gt; {price}/night</string>
+    <string name="launch_section_get_inspired">Get inspired</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Recommended hotels tonight</string>
