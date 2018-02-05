@@ -70,41 +70,39 @@ class ApplyCouponViewModel(val context: Context, hotelServices: HotelServices, v
         }
     }
 
-    val couponRemoveErrorTrackingObserver = object : DisposableObserver<String>() {
-        override fun onNext(errorMessage: String) {
-            performCouponRemoveFailureTracking(errorMessage)
-            dispose()
-        }
-
-        override fun onComplete() {
-            // ignore
-        }
-
-        override fun onError(e: Throwable) {
-            //ignore
-        }
-    }
-
-    val couponRemoveSuccessTrackingObserver = object : DisposableObserver<HotelCreateTripResponse>() {
-        override fun onNext(tripResponse: HotelCreateTripResponse) {
-            performCouponRemoveSuccessTracking()
-            dispose()
-        }
-
-        override fun onComplete() {
-            // ignore
-        }
-
-        override fun onError(e: Throwable) {
-            //ignore
-        }
-    }
-
     fun performCouponRemoveFailureTracking(errorMessage: String) {
         HotelTracking.trackHotelCouponRemoveFailure(applyActionCouponParam.value.couponCode, errorMessage)
     }
 
     fun performCouponRemoveSuccessTracking() {
         HotelTracking.trackHotelCouponRemoveSuccess(applyActionCouponParam.value.couponCode)
+    }
+
+    fun couponRemoveErrorTrackingObserver() = object : DisposableObserver<String>() {
+        override fun onNext(errorMessage: String) {
+            performCouponRemoveFailureTracking(errorMessage)
+        }
+
+        override fun onComplete() {
+            // ignore
+        }
+
+        override fun onError(e: Throwable) {
+            //ignore
+        }
+    }
+
+    fun couponRemoveSuccessTrackingObserver() = object : DisposableObserver<HotelCreateTripResponse>() {
+        override fun onNext(tripResponse: HotelCreateTripResponse) {
+            performCouponRemoveSuccessTracking()
+        }
+
+        override fun onComplete() {
+            // ignore
+        }
+
+        override fun onError(e: Throwable) {
+            //ignore
+        }
     }
 }

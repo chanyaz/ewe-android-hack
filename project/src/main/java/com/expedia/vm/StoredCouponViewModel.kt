@@ -87,10 +87,9 @@ class StoredCouponViewModel(val context: Context, hotelServices: HotelServices, 
         }
     }
 
-    val couponRemoveErrorTrackingObserver = object : DisposableObserver<String>() {
+    fun couponRemoveErrorTrackingObserver() = object : DisposableObserver<String>() {
         override fun onNext(errorMessage: String) {
             performCouponErrorTrackingObservable.onNext(errorMessage)
-            dispose()
         }
 
         override fun onComplete() {
@@ -102,10 +101,9 @@ class StoredCouponViewModel(val context: Context, hotelServices: HotelServices, 
         }
     }
 
-    val couponRemoveSuccessTrackingObserver = object : DisposableObserver<HotelCreateTripResponse>() {
+    fun couponRemoveSuccessTrackingObserver() = object : DisposableObserver<HotelCreateTripResponse>() {
         override fun onNext(tripResponse: HotelCreateTripResponse) {
             performCouponSuccessTrackingObservable.onNext(Unit)
-            dispose()
         }
 
         override fun onComplete() {

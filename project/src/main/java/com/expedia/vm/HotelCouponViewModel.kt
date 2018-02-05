@@ -16,9 +16,11 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.isHotelMaterialForms
 import com.expedia.bookings.utils.isShowSavedCoupons
 import com.squareup.phrase.Phrase
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -41,6 +43,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val onCouponWidgetExpandSubject = PublishSubject.create<Boolean>()
     val networkErrorAlertDialogObservable = PublishSubject.create<Unit>()
     val removeCouponErrorTrackingInfoObservable = PublishSubject.create<String>()
+    var compositeDisposable = CompositeDisposable()
 
     val applyCouponViewModel by lazy {
         val viewModel = ApplyCouponViewModel(context, hotelServices, paymentModel, couponErrorMap)
@@ -49,8 +52,9 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
         viewModel.networkErrorAlertDialogObservable.subscribe(networkErrorAlertDialogObservable)
         viewModel.applyCouponSuccessObservable.subscribe { tripResponse ->
             couponChangeSuccess(tripResponse)
-            removeCouponErrorTrackingInfoObservable.subscribe(viewModel.couponRemoveErrorTrackingObserver)
-            removeCouponSuccessTrackingInfoObservable.subscribe(viewModel.couponRemoveSuccessTrackingObserver)
+            compositeDisposable.clear()
+            compositeDisposable.add(removeCouponErrorTrackingInfoObservable.subscribeObserver(viewModel.couponRemoveErrorTrackingObserver()))
+            compositeDisposable.add(removeCouponSuccessTrackingInfoObservable.subscribeObserver(viewModel.couponRemoveSuccessTrackingObserver()))
         }
         viewModel
     }
@@ -62,8 +66,9 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
         viewModel.networkErrorAlertDialogObservable.subscribe(networkErrorAlertDialogObservable)
         viewModel.storedCouponSuccessObservable.subscribe { tripResponse ->
             couponChangeSuccess(tripResponse)
-            removeCouponErrorTrackingInfoObservable.subscribe(viewModel.couponRemoveErrorTrackingObserver)
-            removeCouponSuccessTrackingInfoObservable.subscribe(viewModel.couponRemoveSuccessTrackingObserver)
+            compositeDisposable.clear()
+            compositeDisposable.add(removeCouponErrorTrackingInfoObservable.subscribeObserver(viewModel.couponRemoveErrorTrackingObserver()))
+            compositeDisposable.add(removeCouponSuccessTrackingInfoObservable.subscribeObserver(viewModel.couponRemoveSuccessTrackingObserver()))
         }
         viewModel
     }

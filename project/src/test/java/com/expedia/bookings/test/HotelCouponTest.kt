@@ -53,9 +53,6 @@ class HotelCouponTest {
 
     private var vm: HotelCouponViewModel by Delegates.notNull()
 
-    val mockHotelServices: MockHotelServiceTestRule = MockHotelServiceTestRule()
-        @Rule get
-
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
@@ -246,24 +243,30 @@ class HotelCouponTest {
 
     @Test
     fun testApplyCouponSuccessObserverDisposedOnceTrackingDone() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         vm.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(true))
-
-        assertFalse(vm.applyCouponViewModel.couponRemoveSuccessTrackingObserver.isDisposed)
-
         vm.couponRemoveObservable.onNext("hotel_coupon_remove_success")
 
-        assertTrue(vm.applyCouponViewModel.couponRemoveSuccessTrackingObserver.isDisposed)
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove", mockAnalyticsProvider)
+
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        vm.couponRemoveObservable.onNext("hotel_coupon_remove_success")
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove", mockAnalyticsProvider)
     }
 
     @Test
-    fun testApplyCouponRemoveObserverDisposedOnceTrackingDone() {
+    fun testApplyCouponRemoveObserverWhenRemoveCouponDoneMultipleTimes() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         vm.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(true))
-
-        assertFalse(vm.applyCouponViewModel.couponRemoveErrorTrackingObserver.isDisposed)
-
         vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
 
-        assertTrue(vm.applyCouponViewModel.couponRemoveErrorTrackingObserver.isDisposed)
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove.Error", mockAnalyticsProvider)
+
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Remove.Error", mockAnalyticsProvider)
     }
 
     @Test
@@ -278,7 +281,7 @@ class HotelCouponTest {
 
         vm.couponRemoveObservable.onNext("hotel_coupon_remove_success")
 
-        assertEquals(1, testCouponErrorTrackingSubscriber.valueCount())
+        assertEquals(2, testCouponErrorTrackingSubscriber.valueCount())
     }
 
     @Test
@@ -293,7 +296,7 @@ class HotelCouponTest {
 
         vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
 
-        assertEquals(1, testCouponFailureTrackingSubscriber.valueCount())
+        assertEquals(2, testCouponFailureTrackingSubscriber.valueCount())
     }
 
     @Test
@@ -349,10 +352,7 @@ class HotelCouponTest {
 
     @Test
     fun testAlertDialogWhenErrorInApplyingCoupon() {
-        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.Theme_Hotels_Default)
-        Ui.getApplication(activity).defaultHotelComponents()
-        val couponWidget = LayoutInflater.from(activity).inflate(R.layout.coupon_widget_stub, null) as CouponWidget
+        val couponWidget = setupCouponWidget()
         couponWidget.viewmodel = vm
         vm.applyCouponViewModel.raiseAlertDialog(IOException())
         val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
@@ -378,6 +378,13 @@ class HotelCouponTest {
         vm.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(false, "hotel_coupon_session_timeout_error"))
 
         assertEquals("Sorry, but we're having a problem. Please try again.", testErrorMessageObservable.values()[0])
+    }
+
+    private fun setupCouponWidget(): CouponWidget {
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.Theme_Hotels_Default)
+        Ui.getApplication(activity).defaultHotelComponents()
+        return LayoutInflater.from(activity).inflate(R.layout.coupon_widget_stub, null) as CouponWidget
     }
 
     private fun checkCouponFailure(tripId: String, expectedErrorCode: ApiError.Code) {
