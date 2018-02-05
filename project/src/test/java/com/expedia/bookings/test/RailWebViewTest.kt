@@ -68,7 +68,7 @@ class RailWebViewTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EBOOKERS))
     fun railsLaunchButtonOpensWebViewInUKForEbookers() {
         setPOSWithRailWebViewEnabled(PointOfSaleId.EBOOKERS_UNITED_KINGDOM.id.toString())
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidRailHybridAppForUKEnabled)
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidRailHybridAppForEbookersUKEnabled)
         val intentUrl = verifyRailsWebViewIsLaunched()
         assertTrue(intentUrl.startsWith("https://www.ebookers.com/trains?mcicid=App.Rails.WebView"))
     }

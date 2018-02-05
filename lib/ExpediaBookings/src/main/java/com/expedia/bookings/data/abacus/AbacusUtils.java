@@ -43,6 +43,7 @@ public class AbacusUtils {
 	// Rail tests
 	public static final ABTest EBAndroidRailHybridAppForDEEnabled = new ABTest(15102);
 	public static final ABTest EBAndroidRailHybridAppForUKEnabled = new ABTest(15413);
+	public static final ABTest EBAndroidRailHybridAppForEbookersUKEnabled = new ABTest(24804);
 
 	// Trips tests
 	public static final ABTest TripsNewFlightAlerts = new ABTest(16205, true);
@@ -173,6 +174,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightTravelerFormRevamp.getKey());
 		testIDs.add(EBAndroidRailHybridAppForDEEnabled.getKey());
 		testIDs.add(EBAndroidRailHybridAppForUKEnabled.getKey());
+		testIDs.add(EBAndroidRailHybridAppForEbookersUKEnabled.getKey());
 		testIDs.add(EBAndroidAppFlightSearchSuggestionLabel.getKey());
 		testIDs.add(EBAndroidAppPackagesEnablePOS.getKey());
 		testIDs.add(EBAndroidAppCarsAATest.getKey());
