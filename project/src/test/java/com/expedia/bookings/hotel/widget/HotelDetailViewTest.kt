@@ -68,4 +68,14 @@ class HotelDetailViewTest {
         assertEquals((contentView.bottomButtonWidget.buttonBottom.background as ColorDrawable).color,
                 ContextCompat.getColor(activity, R.color.app_primary))
     }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testSelectRoomJustSoldOutFalse() {
+        // a successful hotel response will return only trigger the hotelSoldOut=false observable
+        testVM.hotelSoldOut.onNext(false)
+        assertEquals("Select a Room", contentView.bottomButtonWidget.buttonBottom.text)
+        assertEquals((contentView.bottomButtonWidget.buttonBottom.background as ColorDrawable).color,
+                ContextCompat.getColor(activity, R.color.app_primary))
+    }
 }

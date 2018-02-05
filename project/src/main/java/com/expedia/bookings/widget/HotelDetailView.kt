@@ -29,7 +29,6 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
 import kotlin.properties.Delegates
 
 val DESCRIPTION_ANIMATION = 150L
@@ -76,12 +75,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
         }
 
-        Observable.combineLatest(vm.hotelSoldOut, vm.isDatelessObservable, BiFunction { soldOut: Boolean, dateless: Boolean ->
-            Pair(soldOut, dateless)
-        }).subscribe { pair ->
+        Observable.merge(vm.hotelSoldOut, vm.isDatelessObservable).subscribe {
             when {
-                pair.second -> bottomButtonWidget.showSelectDates()
-                pair.first -> bottomButtonWidget.showChangeDates()
+                vm.isDatelessObservable.value == true -> bottomButtonWidget.showSelectDates()
+                vm.hotelSoldOut.value == true -> bottomButtonWidget.showChangeDates()
                 else -> bottomButtonWidget.showSelectRoom()
             }
         }

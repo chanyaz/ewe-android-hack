@@ -972,7 +972,11 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         val showDateless = hotelSearchParams.isDatelessSearch
                 && AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelDatelessInfosite)
         hotelDetailViewModel.isDatelessObservable.onNext(showDateless)
-        hotelDetailViewModel.fetchOffers(hotelSearchParams, hotelId)
+        if (showDateless) {
+            hotelDetailViewModel.fetchInfo(hotelSearchParams, hotelId)
+        } else {
+            hotelDetailViewModel.fetchOffers(hotelSearchParams, hotelId)
+        }
     }
 
     private val deepLinkHandler: HotelDeepLinkHandler by lazy {

@@ -76,6 +76,14 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
         hotelInfoManager.fetchOffers(params, hotelId)
     }
 
+    fun fetchInfo(params: HotelSearchParams, hotelId: String) {
+        this.hotelId = hotelId
+        paramsSubject.onNext(params)
+
+        fetchInProgressSubject.onNext(Unit)
+        hotelInfoManager.fetchInfo(params, hotelId)
+    }
+
     fun changeDates(newStartDate: LocalDate, newEndDate: LocalDate) {
         cachedParams?.let {
             val rules = HotelCalendarRules(context)
@@ -212,6 +220,7 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
         })
 
         apiSubscriptions.add(hotelInfoManager.soldOutSubject.subscribe {
+            isDatelessObservable.onNext(false)
             if (cachedParams == null) {
                 fetchCancelledSubject.onNext(Unit)
             } else {
