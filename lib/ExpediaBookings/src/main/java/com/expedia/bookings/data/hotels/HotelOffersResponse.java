@@ -259,8 +259,6 @@ public class HotelOffersResponse extends BaseApiResponse {
 			case TOTAL:
 				hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
 					.getTotalMandatoryFeesSupplyCurrency().getAmount().floatValue();
-				hotelRoomResponse.rateInfo.chargeableRateInfo.localCurrency = roomOffer.getMandatoryFees().
-					getTotalMandatoryFeesSupplyCurrency().getCurrency();
 				break;
 			case DAILY:
 				hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()

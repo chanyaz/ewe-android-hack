@@ -28,7 +28,6 @@ public class HotelRate {
 	public float strikethroughPriceToShowUsers;
 	public float dailyMandatoryFee;
 	public float totalMandatoryFees;
-	public String localCurrency;
 	public MandatoryFees.DisplayType mandatoryDisplayType;
 	public float totalPriceWithMandatoryFees;
 	public String userPriceType;

@@ -161,7 +161,7 @@ class PackageTestUtil {
         }
 
         @JvmStatic
-        fun setDbPackageSelectedHotel(mandatoryTotalDisplayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.TOTAL, localCurrencyShouldDiffer: Boolean = false) {
+        fun setDbPackageSelectedHotel(mandatoryTotalDisplayType: Boolean = true) {
             val hotel = Hotel()
             hotel.packageOfferModel = PackageOfferModel()
             hotel.city = "Detroit"
@@ -179,7 +179,7 @@ class PackageTestUtil {
             roomResponse.supplierType = "MERCHANT"
             roomResponse.ratePlanCode = "test"
             roomResponse.roomTypeCode = "penthouse"
-            roomResponse.rateInfo = setRateInfo(mandatoryTotalDisplayType, localCurrencyShouldDiffer)
+            roomResponse.rateInfo = setRateInfo(mandatoryTotalDisplayType)
             Db.setPackageSelectedHotel(hotel, roomResponse)
         }
 
@@ -224,13 +224,16 @@ class PackageTestUtil {
             return trip
         }
 
-        private fun setRateInfo(mandatoryTotalDisplayType: MandatoryFees.DisplayType, localCurrencyShouldDiffer: Boolean): HotelOffersResponse.RateInfo {
+        private fun setRateInfo(mandatoryDisplayType: Boolean): HotelOffersResponse.RateInfo {
             var rateInfo = HotelOffersResponse.RateInfo()
             rateInfo.chargeableRateInfo = HotelRate()
-            rateInfo.chargeableRateInfo.mandatoryDisplayType = mandatoryTotalDisplayType
-            rateInfo.chargeableRateInfo.totalMandatoryFees = if (mandatoryTotalDisplayType != MandatoryFees.DisplayType.NONE) 50F else 0F
-            rateInfo.chargeableRateInfo.currencyCode = "USA"
-            rateInfo.chargeableRateInfo.localCurrency = if (localCurrencyShouldDiffer) "GBP" else "USA"
+            if (mandatoryDisplayType) {
+                rateInfo.chargeableRateInfo.mandatoryDisplayType = MandatoryFees.DisplayType.TOTAL
+                rateInfo.chargeableRateInfo.totalMandatoryFees = 50F
+            } else {
+                rateInfo.chargeableRateInfo.mandatoryDisplayType = MandatoryFees.DisplayType.DAILY
+                rateInfo.chargeableRateInfo.totalMandatoryFees = 50F
+            }
             return rateInfo
         }
     }
