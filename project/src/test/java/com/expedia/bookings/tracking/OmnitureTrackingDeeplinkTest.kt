@@ -37,7 +37,7 @@ class OmnitureTrackingDeeplinkTest {
     fun setup() {
         context = RuntimeEnvironment.application
         OmnitureTracking.getDeepLinkArgs().clear()
-        adms = ADMS_Measurement.sharedInstance(context)
+        adms = ADMS_Measurement()
         adms.setEvar(22, null)
         adms.setEvar(26, null)
     }

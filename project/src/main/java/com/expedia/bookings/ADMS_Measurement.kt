@@ -1,10 +1,8 @@
 package com.expedia.bookings
 
 import android.app.Activity
-import android.content.Context
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureAnalyticsProvider
-import java.util.Hashtable
 
 open class ADMS_Measurement {
 
@@ -21,7 +19,7 @@ open class ADMS_Measurement {
     }
 
     fun setEvar(i: Int, s: String?) {
-        cData.put(EVAR + i, s ?: "")
+        cData[EVAR + i] = s ?: ""
     }
 
     fun getEvar(i: Int): String? {
@@ -29,7 +27,7 @@ open class ADMS_Measurement {
     }
 
     fun setProp(i: Int, s: String?) {
-        cData.put(PROP + i, s ?: "")
+        cData[PROP + i] = s ?: ""
     }
 
     fun getProp(i: Int): String? {
@@ -38,7 +36,7 @@ open class ADMS_Measurement {
 
     @Deprecated("Please use the method appendEvents", replaceWith = ReplaceWith("appendEvents(s)"))
     fun setEvents(s: String?) {
-        cData.put(EVENTS, s ?: "")
+        cData[EVENTS] = s ?: ""
     }
 
     fun appendEvents(eventString: String) {
@@ -62,7 +60,7 @@ open class ADMS_Measurement {
     }
 
     fun setProducts(s: String?) {
-        cData.put(PRODUCTS, s ?: "")
+        cData[PRODUCTS] = s ?: ""
     }
 
     fun getProducts(): String? {
@@ -70,16 +68,16 @@ open class ADMS_Measurement {
     }
 
     fun setPurchaseID(s: String?) {
-        cData.put(PURCHASE_ID, s ?: "")
+        cData[PURCHASE_ID] = s ?: ""
     }
 
     fun setCurrencyCode(s: String?) {
-        cData.put(CURRENCY_CODE, s ?: "")
+        cData[CURRENCY_CODE] = s ?: ""
     }
 
-    fun trackLink(linkURL: String?, linkType: String?, linkName: String?, contextData: Hashtable<String, Any>?, variables: Hashtable<String, Any>?) {
-        cData.put(LINK_NAME, linkName ?: "")
-        cData.put(LINK_TYPE, linkType ?: "")
+    fun trackLink(linkName: String?) {
+        cData[LINK_NAME] = linkName ?: ""
+        cData[LINK_TYPE] = "o"
         analyticsProvider.trackAction(linkName, cData)
     }
 
@@ -115,10 +113,6 @@ open class ADMS_Measurement {
 
         private val analyticsProvider: AnalyticsProvider
                 get() = testAnalyticsProvider ?: defaultAnalyticsProvider
-
-        @JvmStatic fun sharedInstance(sContext: Context): ADMS_Measurement = ADMS_Measurement()
-
-        @JvmStatic fun sharedInstance(): ADMS_Measurement = ADMS_Measurement()
 
         @JvmStatic fun getUrlWithVisitorData(url: String?): String = analyticsProvider.getUrlWithVisitorData(url)
 

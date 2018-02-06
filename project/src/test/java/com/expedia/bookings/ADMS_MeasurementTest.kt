@@ -1,10 +1,13 @@
 package com.expedia.bookings
 
+import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
 import com.expedia.bookings.test.CustomMatchers.Companion.matchesPattern
+import com.expedia.bookings.test.NullSafeMockitoHamcrest.mapThat
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -14,7 +17,7 @@ class ADMS_MeasurementTest {
 
     @Test
     fun testPurchaseId() {
-        val sharedInstance = ADMS_Measurement.sharedInstance()
+        val sharedInstance = ADMS_Measurement()
         val samplePurchaseID = "sample purchase id"
         sharedInstance.setPurchaseID(samplePurchaseID)
         assertEquals(samplePurchaseID, sharedInstance.getOmnitureDataValue("&&purchaseID"))
@@ -22,7 +25,7 @@ class ADMS_MeasurementTest {
 
     @Test
     fun testCurrencyCode() {
-        val sharedInstance = ADMS_Measurement.sharedInstance()
+        val sharedInstance = ADMS_Measurement()
         val sampleCurrencyCode = "sample currency"
         sharedInstance.setCurrencyCode(sampleCurrencyCode)
         assertEquals(sampleCurrencyCode, sharedInstance.getOmnitureDataValue("&&cc"))
@@ -30,7 +33,7 @@ class ADMS_MeasurementTest {
 
     @Test
     fun testProducts() {
-        val sharedInstance = ADMS_Measurement.sharedInstance()
+        val sharedInstance = ADMS_Measurement()
         val sampleProducts = "sample products string"
         sharedInstance.setProducts(sampleProducts)
         assertEquals(sampleProducts, sharedInstance.getProducts())
@@ -39,7 +42,7 @@ class ADMS_MeasurementTest {
 
     @Test
     fun testEvents() {
-        val sharedInstance = ADMS_Measurement.sharedInstance()
+        val sharedInstance = ADMS_Measurement()
         val sampleEvents = "sample events"
         sharedInstance.setEvents(sampleEvents)
         assertEquals(sampleEvents, sharedInstance.getEvents())
@@ -93,7 +96,7 @@ class ADMS_MeasurementTest {
 
     @Test
     fun testProp() {
-        val sharedInstance = ADMS_Measurement.sharedInstance()
+        val sharedInstance = ADMS_Measurement()
         val sampleProp = "sample prop"
         sharedInstance.setProp(10, sampleProp)
         assertEquals(sampleProp, sharedInstance.getProp(10))
@@ -102,14 +105,14 @@ class ADMS_MeasurementTest {
 
     @Test
     fun testPropNull() {
-        val sharedInstance = ADMS_Measurement.sharedInstance()
+        val sharedInstance = ADMS_Measurement()
         sharedInstance.setProp(10, null)
         assertEquals("", sharedInstance.getOmnitureDataValue("&&c10"))
     }
 
     @Test
     fun testEvar() {
-        val sharedInstance = ADMS_Measurement.sharedInstance()
+        val sharedInstance = ADMS_Measurement()
         val sampleEvar10Value = "sample evar set"
         sharedInstance.setEvar(10, sampleEvar10Value)
         assertEquals(sampleEvar10Value, sharedInstance.getEvar(10))
@@ -118,15 +121,29 @@ class ADMS_MeasurementTest {
 
     @Test
     fun testEvarValueNull() {
-        val sharedInstance = ADMS_Measurement.sharedInstance()
+        val sharedInstance = ADMS_Measurement()
         sharedInstance.setEvar(10, null)
         assertEquals("", sharedInstance.getOmnitureDataValue("&&v10"))
     }
 
     @Test
     fun visitorIdIsNonNullAndOnlyNumeric() {
-        val visitorId = ADMS_Measurement.sharedInstance().visitorID
+        val visitorId = ADMS_Measurement().visitorID
         assertNotNull(visitorId)
         assertThat(visitorId, matchesPattern("^[0-9]+$"))
+    }
+
+    @Test
+    fun trackLinkIncludesCustomLinkType() {
+        val sharedInstance = ADMS_Measurement()
+        val mockProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+
+        sharedInstance.trackLink("Link.Name")
+
+        val expectedData = mapOf(
+                "&&linkType" to "o",
+                "&&linkName" to "Link.Name"
+        )
+        Mockito.verify(mockProvider).trackAction(Mockito.eq("Link.Name"), mapThat(hasEntries(expectedData)))
     }
 }

@@ -50,7 +50,7 @@ class TuneTrackingProviderImpl(private val tune: Tune, app: Application, private
             tune.existingUser = true
         }
 
-        tune.userId = ADMS_Measurement.sharedInstance(context).visitorID
+        tune.userId = ADMS_Measurement().visitorID
         tune.googleUserId = userStateManager.userSource.user?.expediaUserId ?: ""
         tune.setDebugMode(BuildConfig.DEBUG && SettingUtils.get(context, context.getString(R.string.preference_enable_tune), false))
         tune.registerDeeplinkListener(this)

@@ -124,7 +124,7 @@ class OmnitureTrackingTest {
         val abTest = ABTest(12345, true)
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest)
 
-        val s = ADMS_Measurement.sharedInstance(context)
+        val s = ADMS_Measurement()
         OmnitureTracking.trackAbacusTest(s, abTest)
 
         val evar = s.getEvar(34)
@@ -137,7 +137,7 @@ class OmnitureTrackingTest {
     fun remoteDisabledAbacusTestIsNotTracked() {
         val abTest = ABTest(12345, true)
 
-        val s = ADMS_Measurement.sharedInstance(context)
+        val s = ADMS_Measurement()
         OmnitureTracking.trackAbacusTest(s, abTest)
         assertNull(s.getEvar(34))
     }
@@ -148,7 +148,7 @@ class OmnitureTrackingTest {
         val abTest = ABTest(12345, true)
         SettingUtils.save(context, abTest.key.toString(), AbacusVariant.BUCKETED.value)
 
-        val s = ADMS_Measurement.sharedInstance(context)
+        val s = ADMS_Measurement()
         OmnitureTracking.trackAbacusTest(s, abTest)
         val evar = s.getEvar(34)
         assertNotNull(evar)
@@ -160,7 +160,7 @@ class OmnitureTrackingTest {
     fun testTrackedWithNoABResponse() {
         val abTest = ABTest(12345)
 
-        val s = ADMS_Measurement.sharedInstance(context)
+        val s = ADMS_Measurement()
         OmnitureTracking.trackAbacusTest(s, abTest)
         val evar = s.getEvar(34)
         assertNotNull(evar)

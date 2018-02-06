@@ -149,7 +149,6 @@ public class OmnitureTracking {
 		//TODO clean up the following code
 		sContext = app.getApplicationContext();
 		userStateManager = app.appComponent().userStateManager();
-		ADMS_Measurement.sharedInstance(sContext);
 		app.registerActivityLifecycleCallbacks(sOmnitureActivityCallbacks);
 		sMarketingDate = SettingUtils
 			.get(sContext, sContext.getString(R.string.preference_marketing_date), sMarketingDate);
@@ -169,13 +168,13 @@ public class OmnitureTracking {
 		@Override
 		public void onActivityResumed(Activity activity) {
 			Log.v(TAG, "onResume - " + activity.getClass().getSimpleName());
-			ADMS_Measurement.sharedInstance().resumeActivity(activity);
+			new ADMS_Measurement().resumeActivity(activity);
 		}
 
 		@Override
 		public void onActivityPaused(Activity activity) {
 			Log.v(TAG, "onPause - " + activity.getClass().getSimpleName());
-			ADMS_Measurement.sharedInstance().pauseActivity();
+			new ADMS_Measurement().pauseActivity();
 		}
 
 		@Override
@@ -287,7 +286,7 @@ public class OmnitureTracking {
 		s.setEvar(28, APP_CKO_SLIDE_TO_BOOK);
 		s.setProp(16, APP_CKO_SLIDE_TO_BOOK);
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
-		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
+		s.trackLink(UNIVERSAL_CHECKOUT);
 	}
 
 	public static void trackKrazyglueError(@NotNull String errorCause) {
@@ -391,7 +390,7 @@ public class OmnitureTracking {
 		s.setEvar(48, infoBuilder.toString());
 		s.setProp(73, infoBuilder.toString());
 
-		s.trackLink(null, "o", "Hotel Search", null, null);
+		s.trackLink("Hotel Search");
 	}
 
 	private static String getTypeAheadTriggerEventString(SuggestionTrackingData trackingData) {
@@ -424,7 +423,7 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(SHOP_WITH_POINTS_TOGGLE_STATE + (swpToggleState ? "On" : "Off"));
 
-		s.trackLink(null, "o", "Search Results Update", null, null);
+		s.trackLink("Search Results Update");
 	}
 
 	public static void trackHotelTravelerPickerClick(String text) {
@@ -433,39 +432,39 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, HOTELSV2_TRAVELER + text);
 		s.setProp(16, HOTELSV2_TRAVELER + text);
-		s.trackLink(null, "o", HOTELSV2_TRAVELER_LINK_NAME, null, null);
+		s.trackLink(HOTELSV2_TRAVELER_LINK_NAME);
 	}
 
 	public static void trackGeoSuggestionClick() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_GEO_SUGGESTION_CLICK + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_GEO_SUGGESTION_CLICK);
-		s.trackLink(null, "o", "Search Results Update", null, null);
+		s.trackLink("Search Results Update");
 	}
 
 	public static void trackUserChoosesNotToSaveCard() {
 		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_PAYMENT_DECLINE_SAVE);
-		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
+		s.trackLink(UNIVERSAL_CHECKOUT);
 	}
 
 	public static void trackUserChoosesToSaveCard() {
 		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_PAYMENT_SAVE);
-		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
+		s.trackLink(UNIVERSAL_CHECKOUT);
 	}
 
 	public static void trackUserChoosesToSaveTraveler() {
 		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_TRAVELER_SAVE);
-		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
+		s.trackLink(UNIVERSAL_CHECKOUT);
 	}
 
 	public static void trackUserEnterCouponWidget() {
 		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_ENTER_COUPON);
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
-		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
+		s.trackLink(UNIVERSAL_CHECKOUT);
 	}
 
 	public static void trackUserChoosesNotToSaveTraveler() {
 		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_TRAVELER_DECLINE_SAVE);
-		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
+		s.trackLink(UNIVERSAL_CHECKOUT);
 	}
 
 	public static void trackHotelsV2Search(HotelSearchTrackingData searchTrackingData) {
@@ -580,7 +579,7 @@ public class OmnitureTracking {
 	public static void trackHotelV2SponsoredListingClick() {
 		Log.d(TAG, "Tracking \"" + HOTELS_SPONSORED_LISTING_CLICK + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_SPONSORED_LISTING_CLICK);
-		s.trackLink(null, "o", "Sponsored Click", null, null);
+		s.trackLink("Sponsored Click");
 	}
 
 	public static void trackHotelV2SuperSearchFilter() {
@@ -621,7 +620,7 @@ public class OmnitureTracking {
 	public static void trackHotelNarrowSearchPrompt() {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_FILTER_PROMPT_TRIGGER);
 		trackAbacusTest(s, AbacusUtils.HotelNewFilterCtaText);
-		s.trackLink(null, "o", "Filter Prompt Triggered", null, null);
+		s.trackLink("Filter Prompt Triggered");
 	}
 
 	public static void trackHotelV2Filter() {
@@ -649,7 +648,7 @@ public class OmnitureTracking {
 	public static void trackHotelV2PriceSlider() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SORT_PRICE_SLIDER + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SORT_PRICE_SLIDER);
-		s.trackLink(null, "o", "Search Results Sort", null, null);
+		s.trackLink("Search Results Sort");
 	}
 
 	public static void trackLinkHotelV2FilterRating(String rating) {
@@ -657,7 +656,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
-		s.trackLink(null, "o", "Search Results Sort", null, null);
+		s.trackLink("Search Results Sort");
 
 	}
 
@@ -666,35 +665,35 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
-		s.trackLink(null, "o", "Search Results Sort", null, null);
+		s.trackLink("Search Results Sort");
 	}
 
 	public static void trackLinkHotelV2FilterNeighbourhood() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_FILTER_NEIGHBOURHOOD + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_FILTER_NEIGHBOURHOOD);
-		s.trackLink(null, "o", "Search Results Sort", null, null);
+		s.trackLink("Search Results Sort");
 	}
 
 	public static void trackLinkHotelV2FilterByName() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_FILTER_BY_NAME + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_FILTER_BY_NAME);
-		s.trackLink(null, "o", "Search Results Sort", null, null);
+		s.trackLink("Search Results Sort");
 	}
 
 	public static void trackLinkHotelV2FilterAmenity(String amenity) {
 		String pageName = HOTELS_SEARCH_REFINE + "." + amenity;
 		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
-		s.trackLink(null, "o", "Search Results Sort", null, null);
+		s.trackLink("Search Results Sort");
 	}
 
 	public static void trackLinkHotelV2ClearFilter() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CLEAR_FILTER + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CLEAR_FILTER);
-		s.trackLink(null, "o", "Search Results Sort", null, null);
+		s.trackLink("Search Results Sort");
 	}
 
 	public static void trackHotelV2SearchMap(boolean swpEnabled) {
@@ -724,21 +723,21 @@ public class OmnitureTracking {
 		if (swpEnabled) {
 			s.setEvents("event118");
 		}
-		s.trackLink(null, "o", "Search Results Map View", null, null);
+		s.trackLink("Search Results Map View");
 	}
 
 	public static void trackHotelV2MapTapPin() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_MAP_TAP_PIN + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_MAP_TAP_PIN);
-		s.trackLink(null, "o", "Search Results Map View", null, null);
+		s.trackLink("Search Results Map View");
 	}
 
 	public static void trackHotelV2AreaSearchClick() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_THIS_AREA + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_THIS_AREA);
-		s.trackLink(null, "o", "Search Results Map View", null, null);
+		s.trackLink("Search Results Map View");
 	}
 
 	public static void trackPageLoadHotelV2SoldOut() {
@@ -847,7 +846,7 @@ public class OmnitureTracking {
 		s.setEvar(28, pageName);
 		s.setProp(16, pageName);
 		s.setEvar(52, payType);
-		s.trackLink(null, "o", "ETP Selection", null, null);
+		s.trackLink("ETP Selection");
 	}
 
 	public static void trackLinkHotelV2AirAttachEligible(HotelOffersResponse.HotelRoomResponse hotelRoomResponse,
@@ -861,7 +860,7 @@ public class OmnitureTracking {
 		addHotelV2Products(s, hotelRoomResponse, hotelId);
 		s.setEvar(28, AIR_ATTACH_HOTEL_ADD);
 		s.setProp(16, AIR_ATTACH_HOTEL_ADD);
-		s.trackLink(null, "o", "Hotel Infosite", null, null);
+		s.trackLink("Hotel Infosite");
 
 	}
 
@@ -869,14 +868,14 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_VIEW_ROOM + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_VIEW_ROOM);
-		s.trackLink(null, "o", "Room Info", null, null);
+		s.trackLink("Room Info");
 	}
 
 	public static void trackLinkHotelV2RoomInfoClick() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_ROOM_INFO + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_ROOM_INFO);
-		s.trackLink(null, "o", "Room Info", null, null);
+		s.trackLink("Room Info");
 	}
 
 	public static void trackHotelV2RoomBookClick(HotelOffersResponse.HotelRoomResponse hotelRoomResponse,
@@ -904,7 +903,7 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsWebCheckout);
 		}
 
-		s.trackLink(null, "o", "Hotel Infosite", null, null);
+		s.trackLink("Hotel Infosite");
 	}
 
 	public static void trackHotelV2DetailMapView() {
@@ -928,14 +927,14 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_BOOK_PHONE);
 		s.setEvents("event34");
-		s.trackLink(null, "o", "Hotel Infosite", null, null);
+		s.trackLink("Hotel Infosite");
 	}
 
 	public static void trackLinkHotelV2DetailSelectRoom() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_SELECT_ROOM + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_SELECT_ROOM);
-		s.trackLink(null, "o", "Hotel Infosite", null, null);
+		s.trackLink("Hotel Infosite");
 	}
 
 	public static void trackHotelDetailGalleryClick() {
@@ -943,7 +942,7 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_GALLERY_CLICK);
 
-		s.trackLink(null, "o", "Gallery View", null, null);
+		s.trackLink("Gallery View");
 	}
 
 	public static void trackHotelDetailRoomGalleryClick() {
@@ -953,14 +952,14 @@ public class OmnitureTracking {
 
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 
-		s.trackLink(null, "o", "Gallery View", null, null);
+		s.trackLink("Gallery View");
 	}
 
 	public static void trackLinkHotelV2MapSelectRoom() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_MAP_SELECT_ROOM + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_MAP_SELECT_ROOM);
-		s.trackLink(null, "o", "Infosite Map", null, null);
+		s.trackLink("Infosite Map");
 	}
 
 	public static void trackHotelV2Reviews() {
@@ -983,7 +982,7 @@ public class OmnitureTracking {
 		String pageName = HOTELSV2_REVIEWS + "." + category;
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad...");
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
-		s.trackLink(null, "o", "Hotel Reviews", null, null);
+		s.trackLink("Hotel Reviews");
 	}
 
 	public static void trackHotelV2EtpInfo() {
@@ -1037,7 +1036,7 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_CHANGE_DATE);
 
-		s.trackLink(null, "o", "Infosite Change Dates", null, null);
+		s.trackLink("Infosite Change Dates");
 	}
 
 	public static void trackPageLoadHotelV2CheckoutInfo(
@@ -1116,7 +1115,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_TRIP_SUMMARY + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_TRIP_SUMMARY);
-		s.trackLink(null, "o", "Hotel Checkout", null, null);
+		s.trackLink("Hotel Checkout");
 	}
 
 	public static void trackPriceChange(String priceChange) {
@@ -1125,7 +1124,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_PRICE_CHANGE);
 		s.setEvents("event62");
 		s.setProp(9, "HOT|" + priceChange);
-		s.trackLink(null, "o", "Hotel Checkout", null, null);
+		s.trackLink("Hotel Checkout");
 	}
 
 	public static void trackHotelV2CheckoutTraveler() {
@@ -1138,7 +1137,7 @@ public class OmnitureTracking {
 	public static void trackHotelV2StoredCardSelect() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_SELECT_STORED_CARD + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_SELECT_STORED_CARD);
-		s.trackLink(null, "o", "Hotel Checkout", null, null);
+		s.trackLink("Hotel Checkout");
 	}
 
 	public static void trackHotelV2PaymentEdit() {
@@ -1192,7 +1191,7 @@ public class OmnitureTracking {
 	public static void trackHotelV2CheckoutErrorRetry() {
 		Log.d(TAG, "Tracking \"" + "App.Hotels.CKO.Error.Retry" + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent("App.Hotels.CKO.Error.Retry");
-		s.trackLink(null, "o", "Hotel Checkout", null, null);
+		s.trackLink("Hotel Checkout");
 	}
 
 	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse,
@@ -1371,21 +1370,21 @@ public class OmnitureTracking {
 	public static void trackHotelV2ConfirmationCalendar() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_ADD_CALENDAR + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_ADD_CALENDAR);
-		s.trackLink(null, "o", "Confirmation Trip Action", null, null);
+		s.trackLink("Confirmation Trip Action");
 	}
 
 	public static void trackHotelV2CallCustomerSupport() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_CALL_CUSTOMER_SUPPORT + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_CALL_CUSTOMER_SUPPORT);
 		s.setEvents("event35");
-		s.trackLink(null, "o", "Confirmation Trip Action", null, null);
+		s.trackLink("Confirmation Trip Action");
 	}
 
 	public static void trackHotelV2ConfirmationDirection() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_DIRECTIONS + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_DIRECTIONS);
-		s.trackLink(null, "o", "Confirmation Trip Action", null, null);
+		s.trackLink("Confirmation Trip Action");
 	}
 
 	public static void trackHotelV2ConfirmationCrossSell(String typeOfBusiness) {
@@ -1396,14 +1395,14 @@ public class OmnitureTracking {
 		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
 		s.setProp(7, posTpid);
 
-		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
+		s.trackLink("Confirmation Cross Sell");
 	}
 
 	public static void trackHotelV2ExpandCoupon() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_EXPAND_COUPON + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_EXPAND_COUPON);
-		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+		s.trackLink("CKO:Coupon Action");
 	}
 
 	public static void trackHotelV2EnteredCouponSuccess(String couponCode) {
@@ -1412,7 +1411,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_ENTERED_COUPON_SUCCESS);
 		s.setEvents("event21");
 		s.setEvar(24, couponCode);
-		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+		s.trackLink("CKO:Coupon Action");
 	}
 
 	public static void trackHotelV2SavedCouponSuccess(String couponCode) {
@@ -1421,7 +1420,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_SAVED_COUPON_SUCCESS);
 		s.setEvents("event21");
 		s.setEvar(24, couponCode);
-		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+		s.trackLink("CKO:Coupon Action");
 	}
 
 	public static void trackHotelV2EnteredCouponFail(String couponCode, String errorMessage) {
@@ -1431,7 +1430,7 @@ public class OmnitureTracking {
 		s.setEvents("event22");
 		s.setEvar(24, couponCode);
 		s.setProp(36, errorMessage);
-		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+		s.trackLink("CKO:Coupon Action");
 	}
 
 	public static void trackHotelV2SavedCouponFail(String couponCode, String errorMessage) {
@@ -1441,7 +1440,7 @@ public class OmnitureTracking {
 		s.setEvents("event22");
 		s.setEvar(24, couponCode);
 		s.setProp(36, errorMessage);
-		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+		s.trackLink("CKO:Coupon Action");
 	}
 
 	public static void trackHotelV2CouponRemove(String couponCode) {
@@ -1449,14 +1448,14 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_COUPON_REMOVE);
 		s.setEvar(24, couponCode);
-		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+		s.trackLink("CKO:Coupon Action");
 	}
 
 	public static void trackHotelV2CouponRemoveFail(String couponName, String error) {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_COUPON_REMOVE_FAILURE);
 		s.setProp(36, error);
 		s.setEvar(24, couponName);
-		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+		s.trackLink("CKO:Coupon Action");
 	}
 
 	private static void addPageLoadTimeTrackingEvents(ADMS_Measurement s, PageUsableData pageLoadTimeData) {
@@ -1718,7 +1717,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" category...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXRTROnSearchAndDetails);
-		s.trackLink(null, "o", "ape:Log Experiment", null, null);
+		s.trackLink("ape:Log Experiment");
 	}
 
 	public static void trackAppLXSearch(LxSearchParams lxSearchParams,
@@ -1859,7 +1858,7 @@ public class OmnitureTracking {
 		s.setEvar(28, rffr);
 		s.setProp(16, rffr);
 		s.setProp(61, tpid);
-		s.trackLink(null, "o", LX_SEARCH, null, null);
+		s.trackLink(LX_SEARCH);
 	}
 
 	public static void trackAppLXProductInformation(ActivityDetailsResponse activityDetailsResponse,
@@ -2012,7 +2011,7 @@ public class OmnitureTracking {
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.setEvar(28, rffr);
 		s.setProp(16, rffr);
-		s.trackLink(null, "o", LX_INFO, null, null);
+		s.trackLink(LX_INFO);
 	}
 
 	private static ADMS_Measurement internalTrackAppLX(String pageName) {
@@ -2052,37 +2051,37 @@ public class OmnitureTracking {
 	public static void trackLaunchSignIn() {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_SIGN_IN);
 		addStandardFields(s);
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	public static void trackLaunchActiveItin() {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_ACTIVE_ITIN);
 		addStandardFields(s);
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	public static void trackLaunchMemberPricing() {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_MEMBER_PRICING);
 		addStandardFields(s);
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	public static void trackLaunchLastMinuteDeal() {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_LAST_MINUTE_DEAL);
 		addStandardFields(s);
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	public static void trackMemberPricingShop() {
 		ADMS_Measurement s = createTrackLinkEvent(MEMBER_PRICING_SHOP);
 		addStandardFields(s);
-		s.trackLink(null, "o", "Member Deals", null, null);
+		s.trackLink("Member Deals");
 	}
 
 	public static void trackMesoHotel(String hotelName) {
 		ADMS_Measurement s = createTrackLinkEvent(MESO_BASE);
 		s.setEvar(12, MESO_HOTEL_AD + "." + hotelName);
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	public static void trackLastMinuteDealsPageLoad() {
@@ -2096,7 +2095,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, getFormattedRank(position));
 		s.setProp(16, getFormattedRank(position));
-		s.trackLink(null, "o", "Last Minute Deals", null, null);
+		s.trackLink("Last Minute Deals");
 	}
 
 	private static String getFormattedRank(int position) {
@@ -2213,7 +2212,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, AIR_ATTACH_ITIN_XSELL_REF);
 		s.setProp(16, AIR_ATTACH_ITIN_XSELL_REF);
-		s.trackLink(null, "o", AIR_ATTACH_ITIN_XSELL, null, null);
+		s.trackLink(AIR_ATTACH_ITIN_XSELL);
 	}
 
 	public static void trackPhoneAirAttachLaunchScreenClick() {
@@ -2221,14 +2220,14 @@ public class OmnitureTracking {
 		s.setEvar(12, "Launch.Attach.Hotel");
 		s.setEvar(28, AIR_ATTACH_PHONE_LAUNCH_SCREEN_CLICK);
 		s.setProp(16, AIR_ATTACH_PHONE_LAUNCH_SCREEN_CLICK);
-		s.trackLink(null, "o", AIR_ATTACH_PHONE_LAUNCH_SCREEN, null, null);
+		s.trackLink(AIR_ATTACH_PHONE_LAUNCH_SCREEN);
 	}
 
 	public static void trackFlightConfirmationAirAttachEligible() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, AIR_ATTACH_ELIGIBLE);
 		s.setProp(16, AIR_ATTACH_ELIGIBLE);
-		s.trackLink(null, "o", "Checkout", null, null);
+		s.trackLink("Checkout");
 	}
 
 	// Evar 30 doc: https://confluence/display/Omniture/eVar30+-+Product+Details
@@ -2238,7 +2237,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, ADD_ATTACH_HOTEL);
 		s.setProp(16, ADD_ATTACH_HOTEL);
-		s.trackLink(null, "o", "Checkout", null, null);
+		s.trackLink("Checkout");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2331,7 +2330,7 @@ public class OmnitureTracking {
 	public static void trackItinTripRefreshCallMade() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_MADE);
 		s.setEvents("event286");
-		s.trackLink(null, "o", "Trips Call", null, null);
+		s.trackLink("Trips Call");
 	}
 
 	public static void trackItinTripRefreshCallSuccess(boolean tripHasFlight) {
@@ -2340,24 +2339,24 @@ public class OmnitureTracking {
 		if (tripHasFlight) {
 			trackAbacusTest(s, AbacusUtils.TripsNewFlightAlerts);
 		}
-		s.trackLink(null, "o", "Trips Call", null, null);
+		s.trackLink("Trips Call");
 	}
 
 	public static void trackItinTripRefreshCallFailure(String error) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_FAILURE);
 		s.setEvents("event288");
 		s.setProp(36, error);
-		s.trackLink(null, "o", "Trips Call", null, null);
+		s.trackLink("Trips Call");
 	}
 
 	public static void trackItinNewFlightDirections() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_NEW_FLIGHT_DIRECTIONS);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinNewFlightTerminalMaps() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_NEW_FLIGHT_TERMINAL_MAPS);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinEmpty() {
@@ -2392,7 +2391,7 @@ public class OmnitureTracking {
 	private static void trackItineraryClickAction(String trackingId) {
 		Log.d(TAG, "Tracking \"" + trackingId + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(trackingId);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackFindItin() {
@@ -2433,7 +2432,7 @@ public class OmnitureTracking {
 		pageName += "Start";
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
-		s.trackLink(null, "o", "Itinerary Sharing", null, null);
+		s.trackLink("Itinerary Sharing");
 	}
 
 	private static String getTrackSharePrefix(Type type) {
@@ -2516,68 +2515,68 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, ITIN_HOTEL_ROOM_CANCEL_CLICK);
 		s.setProp(16, ITIN_HOTEL_ROOM_CANCEL_CLICK);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackHotelItinManageBookingClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MANAGE_BOOKING);
 		trackAbacusTest(s, AbacusUtils.TripsHotelsM2);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackHotelItinPricingRewardsClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_PRICING_REWARDS);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackHotelItinAdditionalInfoClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_INFO);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackHotelItinCheckInPoliciesDialogClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CHECK_IN_POLICIES);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackHotelItinChangeAndCancelRulesDialogClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CHANGE_CANCEL_RULES);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackFlightItinLegDetailWidgetRulesAndRestrictionsDialogClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_LEG_DETAIL_WIDGET_RULES_RESTRICTION);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackFlightItinAirlineSupportWebsiteClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_AIRLINE_WEB_SUPPORT);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackFlightItinAirlineSupportCallClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_AIRLINE_CALL_SUPPORT);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackFlightItinCancelFlight() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CANCEL_FLIGHT);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackFlightItinChangeFlight() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHANGE_FLIGHT);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackHotelItinChangeHotel() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CHANGE_HOTEL);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackHotelItinCancelHotel() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CANCEL_HOTEL);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	private static HashMap<String, String> deepLinkArgs = new HashMap<>();
@@ -2647,92 +2646,92 @@ public class OmnitureTracking {
 
 	public static void trackItinHotelMapDirectionsButton() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_DIRECTIONS);
-		s.trackLink(null, "o", "Map Action", null, null);
+		s.trackLink("Map Action");
 	}
 
 	public static void trackItinExpandedMapZoomIn() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_ZOOM_IN);
-		s.trackLink(null, "o", "Map Action", null, null);
+		s.trackLink("Map Action");
 	}
 
 	public static void trackItinExpandedMapZoomOut() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_ZOOM_OUT);
-		s.trackLink(null, "o", "Map Action", null, null);
+		s.trackLink("Map Action");
 	}
 
 	public static void trackItinExpandedMapZoomPan() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_PAN);
-		s.trackLink(null, "o", "Map Action", null, null);
+		s.trackLink("Map Action");
 	}
 
 	public static void trackItinHotelDirections() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_NEW_HOTEL_DIRECTIONS);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinHotelExpandMap() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_OPEN);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinFlightExpandMap() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_MAP_OPEN);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinHotelCallHotel() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL_HOTEL);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinHotelMessaging() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MESSAGE_HOTEL);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinHotelCallSupport() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL_EXPEDIA);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinHotelOpenSupportWebsite() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_OPEN_SUPPORT_WEBSITE);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinFlightOpenSupportWebsite() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_OPEN_SUPPORT_WEBSITE);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinFlightCallSupport() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CALL_EXPEDIA);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinFlightChangeLearnMore() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHANGE_FLIGHT_LEARN_MORE);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinFlightCancelLearnMore() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CANCEL_FLIGHT_LEARN_MORE);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinHotelCancelLearnMore() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CANCEL_HOTEL_LEARN_MORE);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinHotelChangeLearnMore() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CHANGE_HOTEL_LEARN_MORE);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinHotelCall() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinHotelMessage(Boolean isManageBooking) {
@@ -2743,7 +2742,7 @@ public class OmnitureTracking {
 		else {
 			s = createTrackLinkEvent(ITIN_HOTEL_MESSAGE);
 		}
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 
@@ -2869,7 +2868,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN);
 		s.setEvents("event95");
 		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, tripLegs));
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	private static String getFlightCheckInProductString(String airlineCode, boolean isSplitTicket, int tripLegs) {
@@ -2885,26 +2884,26 @@ public class OmnitureTracking {
 
 	public static void trackItinFlightBaggageInfoClicked() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_BAGGAGEINFO);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinFlightVisitSite() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN_VISIT);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinFlightCheckInSuccess(String airlineCode, boolean isSplitTicket, int flightLegs) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN_SUCCESS);
 		s.setEvents("event96");
 		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, flightLegs));
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinFlightCheckInFailure(String airlineCode, boolean isSplitTicket, int flightLegs) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN_FAILURE);
 		s.setEvents("event97");
 		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, flightLegs));
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 
@@ -2926,21 +2925,21 @@ public class OmnitureTracking {
 
 	public static void trackItinFlightManageBooking() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_MANAGE_BOOKING);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 	public static void trackItinFlightTravelerInfo() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_TRAVELER_INFO);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinFlightPriceSummary() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_PRICE_SUMMARY);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinFlightAdditionalInfo() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_INFO_ADDITIONAL);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinCar(Context context) {
@@ -3013,14 +3012,14 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(11, link);
 		s.setEvents("event212");
-		s.trackLink(null, "o", link, null, null);
+		s.trackLink(link);
 	}
 
 	public static void trackNotificationShown(Notification notification) {
 		String link = setItinNotificationLink(notification);
 		ADMS_Measurement s = createTrackLinkEvent(link);
 		s.setEvents("event208");
-		s.trackLink(null, "o", link, null, null);
+		s.trackLink(link);
 	}
 
 	@VisibleForTesting
@@ -3119,7 +3118,7 @@ public class OmnitureTracking {
 
 		s.setEvar(12, link);
 
-		s.trackLink(null, "o", link, null, null);
+		s.trackLink(link);
 	}
 
 	public static void trackAddLxItin() {
@@ -3128,7 +3127,7 @@ public class OmnitureTracking {
 		s.setProp(16, ADD_LX_ITIN);
 		s.setEvar(12, CROSS_SELL_LX_FROM_ITIN);
 
-		s.trackLink(null, "o", "Itinerary X-Sell", null, null);
+		s.trackLink("Itinerary X-Sell");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3192,19 +3191,19 @@ public class OmnitureTracking {
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
 		s.setEvents("event26");
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackSmartLockPasswordAutoSignIn() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
 		s.setEvents("event26,event216");
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackSmartLockPasswordSignIn() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
 		s.setEvents("event26,event218");
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public enum LogOut {
@@ -3225,7 +3224,7 @@ public class OmnitureTracking {
 
 	public static void trackLogOutAction(LogOut type) {
 		ADMS_Measurement s = createTrackLinkEvent(type.getPageName());
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackLoginScreen() {
@@ -3251,20 +3250,20 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(
 			isAllowed ? LOGIN_CONTACT_ACCESS_ALLOWED : LOGIN_CONTACT_ACCESS_NOT_ALLOWED);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackEmailPrompt() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_EMAIL_PROMPT);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackEmailPromptChoice(boolean useExisting) {
 		ADMS_Measurement s = createTrackLinkEvent(
 			useExisting ? LOGIN_EMAIL_PROMPT_EXISTING : LOGIN_EMAIL_PROMPT_NEW);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackLocationSoftPrompt(boolean accept) {
@@ -3275,7 +3274,7 @@ public class OmnitureTracking {
 		else {
 			s = createTrackLinkEvent(LAUNCH_SCREEN_LOCATION_SOFT_PROMPT_CANCEL);
 		}
-		s.trackLink(null, "o", "Soft Prompt", null, null);
+		s.trackLink("Soft Prompt");
 	}
 
 	public static void trackLocationNativePrompt(boolean accept) {
@@ -3288,7 +3287,7 @@ public class OmnitureTracking {
 			s = createTrackLinkEvent(LAUNCH_SCREEN_LOCATION_NATIVE_PROMPT_CANCEL);
 			s.setEvents("event40");
 		}
-		s.trackLink(null, "o", "App Message", null, null);
+		s.trackLink("App Message");
 	}
 
 	public static void trackLoginCreateUsername() {
@@ -3334,7 +3333,7 @@ public class OmnitureTracking {
 	public static void trackMarketingOptIn(boolean optIn) {
 		ADMS_Measurement s = createTrackLinkEvent(optIn ? LOGIN_MARKETING_OPT_IN : LOGIN_MARKETING_OPT_OUT);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackAccountCreateSuccess() {
@@ -3389,7 +3388,7 @@ public class OmnitureTracking {
 		s.setProp(16, LOGIN_ACCOUNT_FACEBOOK_SIGN_IN);
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 
-		s.trackLink("nil", "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	// todo : https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/5759
@@ -3470,7 +3469,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setProp(16, NEW_USER_ONBOARDING_GO_SIGNIN);
 		s.setEvar(28, NEW_USER_ONBOARDING_GO_SIGNIN);
-		s.trackLink(null, "o", "New User Onboarding", null, null);
+		s.trackLink("New User Onboarding");
 	}
 
 	public static void trackAccountPageLoad() {
@@ -3503,37 +3502,37 @@ public class OmnitureTracking {
 		}
 		ADMS_Measurement s = createTrackLinkEvent(link);
 
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	public static void trackExpandedLobView() {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_SCREEN_EXPANDED_LOB);
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	public static void trackClickCountrySetting() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_COUNTRY_SETTING);
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackClickSupportWebsite() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SUPPORT_WEBSITE);
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackClickSupportBooking() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SUPPORT_BOOKING);
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackClickSupportApp() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SUPPORT_APP);
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackClickRateApp() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_COMMUNICATE_RATE);
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackForceUpgradeBanner() {
@@ -3545,38 +3544,38 @@ public class OmnitureTracking {
 
 	public static void trackAppUpgradeClick() {
 		ADMS_Measurement s = createTrackLinkEvent(LEGACY_USER_APP_UPDATE_TAP);
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	public static void trackClickClearPrivateData() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_CLEAR_DATA);
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackClickTermsAndConditions() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_TERMS);
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackClickPrivacyPolicy() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_PRIVACY);
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackClickAtolInformation() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_ATOL);
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackClickOpenSourceLicenses() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_LICENSES);
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 	public static void trackClickSignOut() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SIGN_OUT);
 		s.setEvents("event29");
-		s.trackLink(null, "o", "Accounts", null, null);
+		s.trackLink("Accounts");
 	}
 
 
@@ -3636,7 +3635,7 @@ public class OmnitureTracking {
 		s.setEvar(28, link);
 		s.setProp(16, link);
 
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	public static void trackProWizardClick() {
@@ -3648,14 +3647,14 @@ public class OmnitureTracking {
 		s.setEvar(28, link);
 		s.setProp(16, link);
 
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	public static void trackNewLaunchScreenSeeAllClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		addCommonLaunchScreenFields(s, LAUNCH_MESSAGING, "SeeAll");
 
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	public static void trackNewLaunchScreenTileClick(boolean isLaunchCollection) {
@@ -3669,7 +3668,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		addCommonLaunchScreenFields(s, launchMessage, "DealTile");
 
-		s.trackLink(null, "o", "App Landing", null, null);
+		s.trackLink("App Landing");
 	}
 
 	private static void addCommonLaunchScreenFields(ADMS_Measurement s, String launchMessage,
@@ -3790,7 +3789,7 @@ public class OmnitureTracking {
 	 * variables from being erroneously sent along with the tracking call.
 	 */
 	private static ADMS_Measurement getFreshTrackingObject() {
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(sContext);
+		ADMS_Measurement s = new ADMS_Measurement();
 		addStandardFields(s);
 		return s;
 	}
@@ -3949,7 +3948,7 @@ public class OmnitureTracking {
 
 	private static void internalTrackLink(ADMS_Measurement s) {
 		Log.d(TAG, "Tracking \"" + s.getProp(16) + "\" linkClick");
-		s.trackLink(null, "o", s.getEvar(28), null, null);
+		s.trackLink(s.getEvar(28));
 	}
 
 	private static ADMS_Measurement createTrackLinkEvent(String link) {
@@ -4205,13 +4204,13 @@ public class OmnitureTracking {
 	public static void trackAppCarFlexViewABTest() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarsFlexView);
-		s.trackLink(null, "o", "Car Flexview", null, null);
+		s.trackLink("Car Flexview");
 	}
 
 	public static void trackAppCarAATest() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarsAATest);
-		s.trackLink(null, "o", "Car AA test", null, null);
+		s.trackLink("Car AA test");
 	}
 
 	public static void trackAppRailWebViewRetry() {
@@ -4237,7 +4236,7 @@ public class OmnitureTracking {
 	public static void trackAppRailWebViewABTest() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidRailHybridAppForDEEnabled);
-		s.trackLink(null, "o", "Rail Webview", null, null);
+		s.trackLink("Rail Webview");
 	}
 
 	public static void trackCheckoutPayment(LineOfBusiness lineOfBusiness) {
@@ -4283,7 +4282,7 @@ public class OmnitureTracking {
 		String rewardAppliedPercentage = ProductFlavorFeatureConfiguration.getInstance()
 			.getOmnitureEventValue(OmnitureEventName.REWARD_APPLIED_PERCENTAGE_TEMPLATE);
 		s.setEvar(53, String.format(Locale.getDefault(), rewardAppliedPercentage, percentagePaidWithPoints));
-		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+		s.trackLink(PAY_WITH_POINTS_CUSTOM_LINK_NAME);
 	}
 
 	public static void trackPayWithPointsDisabled() {
@@ -4294,7 +4293,7 @@ public class OmnitureTracking {
 		s.setProp(16, PAY_WITH_POINTS_DISABLED);
 		s.setEvar(53,
 			ProductFlavorFeatureConfiguration.getInstance().getOmnitureEventValue(OmnitureEventName.NO_REWARDS_USED));
-		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+		s.trackLink(PAY_WITH_POINTS_CUSTOM_LINK_NAME);
 	}
 
 	public static void trackPayWithPointsReEnabled(int percentagePaidWithPoints) {
@@ -4309,7 +4308,7 @@ public class OmnitureTracking {
 		String rewardAppliedPercentage = ProductFlavorFeatureConfiguration.getInstance()
 			.getOmnitureEventValue(OmnitureEventName.REWARD_APPLIED_PERCENTAGE_TEMPLATE);
 		s.setEvar(53, String.format(Locale.getDefault(), rewardAppliedPercentage, percentagePaidWithPoints));
-		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+		s.trackLink(PAY_WITH_POINTS_CUSTOM_LINK_NAME);
 	}
 
 	public static void trackPayWithPointsError(String errorMessage) {
@@ -4319,14 +4318,14 @@ public class OmnitureTracking {
 		s.setEvar(28, PAY_WITH_POINTS_ERROR);
 		s.setProp(16, PAY_WITH_POINTS_ERROR);
 		s.setProp(36, errorMessage);
-		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+		s.trackLink(PAY_WITH_POINTS_CUSTOM_LINK_NAME);
 	}
 
 	public static void trackPinnedSearch() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPinnedSearch);
 
-		s.trackLink(null, "o", "Pinned Search Hit", null, null);
+		s.trackLink("Pinned Search Hit");
 	}
 
 	public static void trackUrgencyScore(int score) {
@@ -4336,7 +4335,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, compressionVar);
 		s.setProp(16, compressionVar);
-		s.trackLink(null, "o", "Compression Score", null, null);
+		s.trackLink("Compression Score");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4633,7 +4632,7 @@ public class OmnitureTracking {
 	private static void createAndTrackLinkEvent(String link, String linkName) {
 		Log.d(TAG, "Tracking \"" + link + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(link);
-		s.trackLink(null, "o", linkName, null, null);
+		s.trackLink(linkName);
 	}
 
 	private static void trackPackagesHotelMapLinkEvent(String link) {
@@ -4743,7 +4742,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE);
 		s.setEvents("event34");
-		s.trackLink(null, "o", "Package Infosite", null, null);
+		s.trackLink("Package Infosite");
 	}
 
 	public static void trackPackagesHotelInfoActionSelectRoom(boolean stickyButton) {
@@ -4764,7 +4763,7 @@ public class OmnitureTracking {
 
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 
-		s.trackLink(null, "o", "Gallery View", null, null);
+		s.trackLink("Gallery View");
 	}
 
 	public static void trackPackageHotelDetailRoomGalleryClick() {
@@ -4774,7 +4773,7 @@ public class OmnitureTracking {
 
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 
-		s.trackLink(null, "o", "Gallery View", null, null);
+		s.trackLink("Gallery View");
 	}
 
 	public static void trackPackagesHotelReviewPageLoad() {
@@ -5206,7 +5205,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
 		s.setProp(16, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
-		s.trackLink(null, "o", "Flight Baggage Fee", null, null);
+		s.trackLink("Flight Baggage Fee");
 	}
 
 	public static void trackFlightSearchFormInteracted() {
@@ -5215,7 +5214,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHTS_V2_SEARCH_FORM_INTERACTED);
 		s.setProp(16, FLIGHTS_V2_SEARCH_FORM_INTERACTED);
-		s.trackLink(null, "o", "Form Interaction", null, null);
+		s.trackLink("Form Interaction");
 	}
 
 	public static void trackFlightCheckoutConfirmationPageLoad(PageUsableData pageUsableData) {
@@ -5342,7 +5341,7 @@ public class OmnitureTracking {
 		s.setEvar(65, Constants.KRAZY_GLUE_PARTNER_ID);
 		s.setEvents("event83");
 
-		s.trackLink(null, "o", FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK, null, null);
+		s.trackLink(FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK);
 	}
 
 	public static void trackFlightsKrazyGlueSeeMoreClick() {
@@ -5353,7 +5352,7 @@ public class OmnitureTracking {
 		s.setEvar(65, Constants.KRAZY_GLUE_PARTNER_ID);
 		s.setEvents("event83");
 
-		s.trackLink(null, "o", FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK, null, null);
+		s.trackLink(FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK);
 	}
 
 	public static void trackFlightsKrazyglueExposure(List<KrazyglueResponse.KrazyglueHotel> krazyGlueHotels) {
@@ -5440,7 +5439,7 @@ public class OmnitureTracking {
 	public static void trackFlightInsuranceError(String message) {
 		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_INSURANCE_ERROR);
 		s.setProp(36, "ins:" + message);
-		s.trackLink(null, "o", "Flight Checkout", null, null);
+		s.trackLink("Flight Checkout");
 	}
 
 	public static void trackFlightInsuranceTermsClick() {
@@ -5453,14 +5452,14 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
 		s.setProp(16, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
-		s.trackLink(null, "o", "", null, null);
+		s.trackLink("");
 	}
 
 	public static void trackFlightTravelerPickerClick(String actionLabel) {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX + actionLabel);
 		s.setProp(16, FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX + actionLabel);
-		s.trackLink(null, "o", FLIGHTS_V2_TRAVELER_LINK_NAME, null, null);
+		s.trackLink(FLIGHTS_V2_TRAVELER_LINK_NAME);
 	}
 
 	public static void trackFlightSearchButtonClick(boolean trackGreedyCallEvent, boolean isGreedyCallAborted) {
@@ -5470,7 +5469,7 @@ public class OmnitureTracking {
 		if (isFlightGreedySearchEnabled(sContext) && trackGreedyCallEvent) {
 			s.setEvents(isGreedyCallAborted ? "event334" : "event333");
 		}
-		s.trackLink(null, "o", "Search Button Clicked", null, null);
+		s.trackLink("Search Button Clicked");
 	}
 
 	public static void trackFlightAdvanceSearchFiltersClick(String filterLabel, boolean isSelected) {
@@ -5485,7 +5484,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHTS_V2_SWITCH_TO_FROM);
 		s.setProp(16, FLIGHTS_V2_SWITCH_TO_FROM);
-		s.trackLink(null, "o", "Switched to-from fields", null, null);
+		s.trackLink("Switched to-from fields");
 	}
 
 	public static void trackFlightSRPScrollDepth(int scrollDepth, boolean isOutboundFlight, boolean isRoundTrip,
@@ -5497,7 +5496,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(link.toString());
 		String event = new StringBuilder("event245=").append(totalCount).toString();
 		s.setEvents(event);
-		s.trackLink(null, "o", "Scroll", null, null);
+		s.trackLink("Scroll");
 	}
 
 	public static void trackPageLoadFlightSearchV2() {
@@ -5669,7 +5668,7 @@ public class OmnitureTracking {
 	public static void trackFlightFilterZeroResults() {
 		ADMS_Measurement s = createTrackLinkEvent(FLIGHTS_V2_FLIGHT_FILTER_ZERO_RESULTS);
 		s.setEvents("event273");
-		s.trackLink(null, "o", "Zero results", null, null);
+		s.trackLink("Zero results");
 	}
 
 	public static void trackFlightFilterDuration() {
@@ -5804,7 +5803,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, upgradeString);
 		s.setProp(16, upgradeString);
-		s.trackLink(null, "o", "Rate Details View", null, null);
+		s.trackLink("Rate Details View");
 	}
 
 	private static String getRankEvent(kotlin.Pair outboundSelectedAndTotalLegRank,
@@ -5840,7 +5839,7 @@ public class OmnitureTracking {
 
 	public static void trackFlightCabinClassSelect(String cabinClass) {
 		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_SEATING_CLASS_SELECT + cabinClass);
-		s.trackLink(null, "o", "Search Results Update", null, null);
+		s.trackLink("Search Results Update");
 	}
 
 	private static void trackPriceChange(ADMS_Measurement s, int priceChangePercentage, String trackingId,
@@ -5850,7 +5849,7 @@ public class OmnitureTracking {
 		s.setProp(9, lobForProp9 + priceChangePercentage);
 		s.setEvar(28, trackingId);
 		s.setProp(16, trackingId);
-		s.trackLink(null, "o", linkName, null, null);
+		s.trackLink(linkName);
 	}
 
 	public static void trackFlightCheckoutSelectTraveler() {
@@ -5904,7 +5903,7 @@ public class OmnitureTracking {
 		s.setEvar(28, FLIGHTS_V2_ERROR);
 		s.setProp(16, FLIGHTS_V2_ERROR);
 		s.setProp(36, errorType);
-		s.trackLink(null, "o", "Flight Error", null, null);
+		s.trackLink("Flight Error");
 	}
 
 	public static void trackFlightCheckoutError(String errorType) {
@@ -5912,7 +5911,7 @@ public class OmnitureTracking {
 			FLIGHTS_V2_CHECKOUT_ERROR);
 		s.setProp(16, FLIGHTS_V2_CHECKOUT_ERROR);
 		s.setProp(36, errorType);
-		s.trackLink(null, "o", "Flight Checkout", null, null);
+		s.trackLink("Flight Checkout");
 	}
 
 	public static void trackCrossSellPackageBannerClick() {
@@ -5920,7 +5919,7 @@ public class OmnitureTracking {
 		s.setEvar(28, FLIGHT_SEARCH_ROUNDTRIP_OUT_HOTELBANNER_SELECT);
 		s.setProp(16, FLIGHT_SEARCH_ROUNDTRIP_OUT_HOTELBANNER_SELECT);
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
-		s.trackLink(null, "o", FLIGHTS_V2_CROSS_SELL_PACKAGE_LINK_NAME, null, null);
+		s.trackLink(FLIGHTS_V2_CROSS_SELL_PACKAGE_LINK_NAME);
 	}
 
 	private static String getFlightV2Evar47String(
@@ -6265,7 +6264,7 @@ public class OmnitureTracking {
 		s.setEvar(28, RAIL_RATE_DETAILS_TOTAL_COST);
 		s.setProp(16, RAIL_RATE_DETAILS_TOTAL_COST);
 		s.setEvar(61, "1");
-		s.trackLink(null, "o", "Rate Details", null, null);
+		s.trackLink("Rate Details");
 	}
 
 	public static void trackRailTripOverviewDetailsExpand() {
@@ -6275,7 +6274,7 @@ public class OmnitureTracking {
 		s.setEvar(28, RAIL_RATE_DETAILS_VIEW_DETAILS);
 		s.setProp(16, RAIL_RATE_DETAILS_VIEW_DETAILS);
 		s.setEvar(61, "1");
-		s.trackLink(null, "o", "Rate Details View", null, null);
+		s.trackLink("Rate Details View");
 	}
 
 	public static void trackRailError(String errorType) {
@@ -6286,7 +6285,7 @@ public class OmnitureTracking {
 		s.setProp(16, RAIL_ERROR);
 		s.setProp(36, errorType);
 		s.setEvar(61, "1");
-		s.trackLink(null, "o", "Rail Error", null, null);
+		s.trackLink("Rail Error");
 	}
 
 	public static void trackRailCheckoutError(String errorType) {
@@ -6296,7 +6295,7 @@ public class OmnitureTracking {
 		s.setProp(16, RAIL_CHECKOUT_ERROR);
 		s.setProp(36, errorType);
 		s.setEvar(61, "1");
-		s.trackLink(null, "o", "Rail Checkout", null, null);
+		s.trackLink("Rail Checkout");
 	}
 
 	public static void trackRailCheckoutPriceChange(int priceDiff) {
@@ -6308,7 +6307,7 @@ public class OmnitureTracking {
 		s.setProp(16, RAIL_CHECKOUT_PRICE_CHANGE);
 		s.setProp(7, "1");
 		s.setEvar(61, "1");
-		s.trackLink(null, "o", "Rail Checkout", null, null);
+		s.trackLink("Rail Checkout");
 	}
 
 	public static void trackRailCheckoutTotalCostToolTip() {
@@ -6318,7 +6317,7 @@ public class OmnitureTracking {
 		s.setEvar(28, RAIL_CHECKOUT_TOTAL_COST);
 		s.setProp(16, RAIL_CHECKOUT_TOTAL_COST);
 		s.setEvar(61, "1");
-		s.trackLink(null, "o", "Rail Checkout", null, null);
+		s.trackLink("Rail Checkout");
 	}
 
 	public static void trackRailEditTravelerInfo() {
@@ -6340,12 +6339,12 @@ public class OmnitureTracking {
 
 	public static void trackItinSignIn() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_NEW_SIGN_IN);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinRefresh() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_USER_REFRESH);
-		s.trackLink(null, "o", "Itinerary Action", null, null);
+		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinUserRating() {
@@ -6371,6 +6370,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		s.setEvar(28, rfrrid);
 		s.setProp(16, rfrrid);
-		s.trackLink(null, "o", "Rate App Action", null, null);
+		s.trackLink("Rate App Action");
 	}
 }
