@@ -206,7 +206,7 @@ public class TripUtils {
 			FlightLeg firstFlightLeg = trip.getFlightTrip().getLeg(0);
 			String cityName = firstFlightLeg.getSegment(firstFlightLeg.getSegmentCount() - 1).getDestinationWaypoint()
 				.getAirport().mCity;
-			return cityName;
+			return (cityName == null) ? "" : cityName;
 		}
 		return "";
 	}
