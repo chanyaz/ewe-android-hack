@@ -160,8 +160,8 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesBundleWidgetTap()
     }
 
-    fun trackBundleOverviewPageLoad(packageDetails: PackageCreateTripResponse.PackageDetails, pageUsableData: PageUsableData) {
-        OmnitureTracking.trackPackagesBundlePageLoad(packageDetails, pageUsableData)
+    fun trackBundleOverviewPageLoad(packageTotal: Double?, pageUsableData: PageUsableData) {
+        OmnitureTracking.trackPackagesBundlePageLoad(packageTotal, pageUsableData)
     }
 
     fun trackBundleOverviewHotelExpandClick(isExpanding: Boolean) {

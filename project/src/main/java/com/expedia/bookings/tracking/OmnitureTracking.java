@@ -4814,13 +4814,13 @@ public class OmnitureTracking {
 		createAndTrackLinkEvent(PACKAGES_BUNDLE_VIEW_TAP, "Bundle Widget Tap");
 	}
 
-	public static void trackPackagesBundlePageLoad(PackageCreateTripResponse.PackageDetails packageDetails,
+	public static void trackPackagesBundlePageLoad(Double packageTotal,
 		PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_BUNDLE_OVERVIEW_LOAD + "\"");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_BUNDLE_OVERVIEW_LOAD);
 		addPackagesCommonFields(s);
-		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue());
+		setPackageProducts(s, packageTotal);
 		s.setEvents("event4");
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		trackAbacusTest(s, AbacusUtils.PackagesBackFlowFromOverview);

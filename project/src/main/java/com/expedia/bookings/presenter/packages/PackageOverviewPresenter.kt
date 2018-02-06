@@ -79,6 +79,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         webCheckoutViewModel.blankViewObservable.subscribe {
             webCheckoutView.toggleLoading(true)
         }
+        webCheckoutViewModel.packageCreateTripViewModel.multiItemResponseSubject.subscribe { tripResponse ->
+            fireCheckoutOverviewTracking(Db.getPackageResponse().getCurrentOfferPrice()?.packageTotalPrice?.amount?.toDouble())
+        }
         webCheckoutView
     }
 
@@ -352,8 +355,12 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
     override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
         createTripResponse as PackageCreateTripResponse
+        fireCheckoutOverviewTracking(createTripResponse.packageDetails.pricing.packageTotal.amount.toDouble())
+    }
+
+    private fun fireCheckoutOverviewTracking(amount: Double?) {
         PackagesPageUsableData.RATE_DETAILS.pageUsableData.markAllViewsLoaded()
-        PackagesTracking().trackBundleOverviewPageLoad(createTripResponse.packageDetails, PackagesPageUsableData.RATE_DETAILS.pageUsableData)
+        PackagesTracking().trackBundleOverviewPageLoad(amount, PackagesPageUsableData.RATE_DETAILS.pageUsableData)
     }
 
     override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {

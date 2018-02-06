@@ -199,7 +199,7 @@ class OmnitureTrackingTest {
     fun testLoggingForPackagesBackFlowABTest() {
         AbacusTestUtils.bucketTests(AbacusUtils.PackagesBackFlowFromOverview)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails(), null)
+        OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails().pricing.packageTotal.amount.toDouble(), null)
         assertStateTracked(withProps(mapOf(34 to "16163.0.1")), mockAnalyticsProvider)
     }
 
@@ -208,7 +208,7 @@ class OmnitureTrackingTest {
     fun testLoggingForPackagesBackFlowABTestControlled() {
         AbacusTestUtils.unbucketTests(AbacusUtils.PackagesBackFlowFromOverview)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails(), null)
+        OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails().pricing.packageTotal.amount.toDouble(), null)
         assertStateTracked(withProps(mapOf(34 to "16163.0.0")), mockAnalyticsProvider)
     }
 
