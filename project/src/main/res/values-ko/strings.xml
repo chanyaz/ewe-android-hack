@@ -43,6 +43,8 @@
     <string name="hotelsv2_slide_purchase">밀어서 구매하기</string>
     <!-- Change Dates in case of Sold Out -->
     <string name="change_dates">날짜 변경</string>
+    <!-- Select Dates in case of dateless infosite -->
+    <string name="hotel_info_site_select_dates">날짜 선택</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">안전한 보안 결제</string>
     <!-- Accessibility content description for google map view on hotel results -->
@@ -580,7 +582,7 @@
     <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
     <string name="checkout_traveler_title_TEMPLATE">여행객 {travelernumber} ({passengerycategory})</string>
     <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
-    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <string name="traveler_age_range_TEMPLATE">{category}({range})</string>
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">만 18+</string>
     <!-- Youth age label on flight checkout traveler summary card -->
@@ -868,6 +870,21 @@
     <!-- New launch screen -->
     <!-- Search screen title -->
     <string name="search_title">검색</string>
+
+    <!--Meso destination ad card-->
+    <string name="meso_destination_name_las_vegas">라스베이거스</string>
+    <string name="meso_destination_name_los_angeles">로스앤젤레스</string>
+    <string name="meso_destination_name_miami">마이애미</string>
+    <string name="meso_destination_name_cancun">칸쿤</string>
+    <string name="meso_destination_name_san_diego">샌디에이고</string>
+
+    <string name="meso_destination_description_las_vegas">전통이 느껴지는 라스베이거스</string>
+    <string name="meso_destination_description_los_angeles">로스앤젤레스에서 완벽한 하루를!</string>
+    <string name="meso_destination_description_miami">마이애미에서 놓쳐선 안 되는 10가지</string>
+    <string name="meso_destination_description_cancun">어떤 일정도 완벽하게 만드는 칸쿤</string>
+    <string name="meso_destination_description_san_diego">샌디에이고에서 놓쳐선 안 되는 10가지</string>
+
+    <string name="meso_sponsored_text">스폰서</string>
 
     <!-- Meso hotel ad card -->
 
@@ -1427,6 +1444,10 @@
     <string name="itin_hotel_check_in_policies_dialog_title">체크인 정책</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">변경 및 취소 규정</string>
+    <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
+    <string name="itin_hotel_manage_booking_room_tab_title_TEMPLATE">객실 {number}</string>
+    <!--Hotel itin manage booking total rooms text TEMPLATE. {number} total rooms (e.g., 2 total rooms)-->
+    <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">총 객실 {number}개</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">일정 공유</string>
@@ -1506,6 +1527,8 @@
     <string name="itin_flight_manage_booking_header">예약 관리</string>
     <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_flight_itinerary_number_TEMPLATE">일정 번호: {itin_number}</string>
+    <!--Flight itin number content description template. Talkback will announce "Itinerary # {itin_number}" to "Itinerary number {itin_number}" (eg., Itinerary number 7282906974428)-->
+    <string name="itin_flight_itinerary_number_content_description_TEMPLATE">일정 번호: {itin_number}</string>
     <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} 고객 지원</string>
     <!--Flight customer support website toolbar header-->
@@ -1553,16 +1576,20 @@
     <string name="itin_flight_airline_support_widget_airlines_support_TEMPLATE">{airline_name} 고객 지원</string>
     <!--Flight itin, flight Airline support detail widget's ticket template. Ticket # {ticket_number} (eg., Ticket # 87654321)-->
     <string name="itin_flight_airline_support_widget_ticket_TEMPLATE">티켓 번호: {ticket_number}</string>
+    <!--Flight itin, flight Airline support detail widget's ticket content description template. Talkback will announce "Ticket # {ticket_number}" to "Ticket number {ticket_number}" (eg., Ticket number 87654321)-->
+    <string name="itin_flight_airline_support_widget_ticket_content_description_TEMPLATE">티켓 번호: {ticket_number}</string>
     <!--Flight itin, flight Airline support detail widget's confirmation template. Confirmation # {confirmation_number} (eg., Confirmation # 67867)-->
     <string name="itin_flight_airline_support_widget_confirmation_TEMPLATE">확인 번호: {confirmation_number}</string>
+    <!--Flight itin, flight Airline support detail widget's confirmation content description template. Talkback will announce "Confirmation # {confirmation_number}" to "Confirmation number {confirmation_number}" (eg., Confirmation number 67867)-->
+    <string name="itin_flight_airline_support_widget_confirmation_content_description_TEMPLATE">확인 번호: {confirmation_number}</string>
     <!--Flight itin, flight Airline support detail widget's Itinerary template. Itinerary # {itinerary_number} (eg., Itinerary # 87654321)-->
     <string name="itin_flight_airline_support_widget_itinerary_TEMPLATE">일정 번호: {itinerary_number}</string>
+    <!--Flight itin, flight Airline support detail widget's Itinerary content description template. Talkback will announce "Itinerary # {itinerary_number}" to "Itinerary number {itinerary_number}" (eg., Itinerary number 87654321)-->
+    <string name="itin_flight_airline_support_widget_itinerary_content_description_TEMPLATE">일정 번호: {itinerary_number}</string>
     <!--Flight itin, flight Airline support detail widget's customer support template. {airline_name} customer support (eg., Alaska airlines customer support)-->
     <string name="itin_flight_airline_support_widget_customer_support_TEMPLATE">{airline_name} 고객 지원</string>
     <!--Flight itin, flight Airline support detail widget's Airline customer support tile for airline support webview-->
     <string name="itin_flight_airline_support_widget_support_webview_title">항공사 고객 지원</string>
-    <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
-    <string name="itin_flight_airline_support_widget_number_text">번호</string>
     <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
     <string name="itin_flight_modify_widget_cancel_reservation_text">예약 취소</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
@@ -2013,10 +2040,6 @@
     <string name="price_dropped_from_TEMPLATE">요금이 %1$s에서 인하됨</string>
 
     <!-- Checkout Activity -->
-    <!-- Explicit acceptance of TOS -->
-    <string name="Do_you_accept">위에 나온 모든 약관에 동의하시나요?</string>
-    <!-- I Accept button label -->
-    <string name="I_Accept">동의</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">고객님 카드에 {dueamount}의 금액이 청구됩니다.</string>
     <!-- Your are using pwp points -->
@@ -2608,6 +2631,8 @@
     <string name="current_location">현재 위치</string>
     <string name="recent_searched_location">최근 검색된 위치</string>
     <string name="suggested_location">제안된 위치</string>
+    <!-- Label to describe ESS results close to device lat/lng-->
+    <string name="nearby_locations">근처 위치</string>
     <!-- To notify the section suggested locations while navigating using talkback -->
     <string name="suggested_location_list">제안된 위치</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
@@ -2618,6 +2643,8 @@
 
     <!-- Showing search suggestion label for recent search history -->
     <string name="suggestion_label_recent_search">최근 검색 내용</string>
+    <!-- Showing search suggestion label for past Searches -->
+    <string name="suggestion_label_past_searches">지난 검색 내용</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -3226,7 +3253,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s%2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
@@ -3876,6 +3903,8 @@
     <string name="hotel_deal_TEMPLATE">이 호텔을 예약하시면 {price}({savings}%) 할인됩니다.</string>
     <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
     <string name="packages_invalid_user_title_label">업데이트해 주세요!</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">죄송합니다. 이 버전의 앱에서는 항공+호텔 예약이 지원되지 않습니다.\n항공+호텔 특가 상품을 보려면 지금 업데이트하세요.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">항공을 함께 예약하시면 {night}박이 무료입니다.</item>
@@ -4220,7 +4249,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} 출발 {arrival} 도착</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>

@@ -43,6 +43,8 @@
     <string name="hotelsv2_slide_purchase">滑動以購買</string>
     <!-- Change Dates in case of Sold Out -->
     <string name="change_dates">變更日期</string>
+    <!-- Select Dates in case of dateless infosite -->
+    <string name="hotel_info_site_select_dates">選擇日期</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">安全付款</string>
     <!-- Accessibility content description for google map view on hotel results -->
@@ -869,6 +871,21 @@
     <!-- Search screen title -->
     <string name="search_title">搜尋</string>
 
+    <!--Meso destination ad card-->
+    <string name="meso_destination_name_las_vegas">拉斯維加斯</string>
+    <string name="meso_destination_name_los_angeles">洛杉磯</string>
+    <string name="meso_destination_name_miami">邁阿密</string>
+    <string name="meso_destination_name_cancun">坎昆</string>
+    <string name="meso_destination_name_san_diego">聖地牙哥</string>
+
+    <string name="meso_destination_description_las_vegas">拉斯維加斯經典行程</string>
+    <string name="meso_destination_description_los_angeles">洛杉磯完美一日遊</string>
+    <string name="meso_destination_description_miami">邁阿密十大熱門活動</string>
+    <string name="meso_destination_description_cancun">坎昆彈性行程</string>
+    <string name="meso_destination_description_san_diego">聖地牙哥十大熱門活動</string>
+
+    <string name="meso_sponsored_text">贊助</string>
+
     <!-- Meso hotel ad card -->
 
     <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
@@ -1427,6 +1444,10 @@
     <string name="itin_hotel_check_in_policies_dialog_title">入住規定</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">變更和取消規定</string>
+    <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
+    <string name="itin_hotel_manage_booking_room_tab_title_TEMPLATE">客房 {number}</string>
+    <!--Hotel itin manage booking total rooms text TEMPLATE. {number} total rooms (e.g., 2 total rooms)-->
+    <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">總共 {number} 間客房</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">分享行程</string>
@@ -1506,6 +1527,8 @@
     <string name="itin_flight_manage_booking_header">管理預訂</string>
     <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_flight_itinerary_number_TEMPLATE">行程編號 {itin_number}</string>
+    <!--Flight itin number content description template. Talkback will announce "Itinerary # {itin_number}" to "Itinerary number {itin_number}" (eg., Itinerary number 7282906974428)-->
+    <string name="itin_flight_itinerary_number_content_description_TEMPLATE">行程編號：{itin_number}</string>
     <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} 客服中心</string>
     <!--Flight customer support website toolbar header-->
@@ -1553,16 +1576,20 @@
     <string name="itin_flight_airline_support_widget_airlines_support_TEMPLATE">{airline_name}支援</string>
     <!--Flight itin, flight Airline support detail widget's ticket template. Ticket # {ticket_number} (eg., Ticket # 87654321)-->
     <string name="itin_flight_airline_support_widget_ticket_TEMPLATE">機票號碼 {ticket_number}</string>
+    <!--Flight itin, flight Airline support detail widget's ticket content description template. Talkback will announce "Ticket # {ticket_number}" to "Ticket number {ticket_number}" (eg., Ticket number 87654321)-->
+    <string name="itin_flight_airline_support_widget_ticket_content_description_TEMPLATE">機票編號：{ticket_number}</string>
     <!--Flight itin, flight Airline support detail widget's confirmation template. Confirmation # {confirmation_number} (eg., Confirmation # 67867)-->
     <string name="itin_flight_airline_support_widget_confirmation_TEMPLATE">確認編號 {confirmation_number}</string>
+    <!--Flight itin, flight Airline support detail widget's confirmation content description template. Talkback will announce "Confirmation # {confirmation_number}" to "Confirmation number {confirmation_number}" (eg., Confirmation number 67867)-->
+    <string name="itin_flight_airline_support_widget_confirmation_content_description_TEMPLATE">確認編號：{confirmation_number}</string>
     <!--Flight itin, flight Airline support detail widget's Itinerary template. Itinerary # {itinerary_number} (eg., Itinerary # 87654321)-->
     <string name="itin_flight_airline_support_widget_itinerary_TEMPLATE">行程編號 {itinerary_number}</string>
+    <!--Flight itin, flight Airline support detail widget's Itinerary content description template. Talkback will announce "Itinerary # {itinerary_number}" to "Itinerary number {itinerary_number}" (eg., Itinerary number 87654321)-->
+    <string name="itin_flight_airline_support_widget_itinerary_content_description_TEMPLATE">行程編號：{itinerary_number}</string>
     <!--Flight itin, flight Airline support detail widget's customer support template. {airline_name} customer support (eg., Alaska airlines customer support)-->
     <string name="itin_flight_airline_support_widget_customer_support_TEMPLATE">{airline_name} 客服中心</string>
     <!--Flight itin, flight Airline support detail widget's Airline customer support tile for airline support webview-->
     <string name="itin_flight_airline_support_widget_support_webview_title">航空公司客服中心</string>
-    <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
-    <string name="itin_flight_airline_support_widget_number_text">編號</string>
     <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
     <string name="itin_flight_modify_widget_cancel_reservation_text">取消預訂</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
@@ -2013,10 +2040,6 @@
     <string name="price_dropped_from_TEMPLATE">降價前價格：%1$s</string>
 
     <!-- Checkout Activity -->
-    <!-- Explicit acceptance of TOS -->
-    <string name="Do_you_accept">是否接受上述所有條件？</string>
-    <!-- I Accept button label -->
-    <string name="I_Accept">我接受</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">我們將向您的信用卡收取 {dueamount}</string>
     <!-- Your are using pwp points -->
@@ -2608,6 +2631,8 @@
     <string name="current_location">目前位置</string>
     <string name="recent_searched_location">最近搜尋過的地點</string>
     <string name="suggested_location">建議地點</string>
+    <!-- Label to describe ESS results close to device lat/lng-->
+    <string name="nearby_locations">附近的地點</string>
     <!-- To notify the section suggested locations while navigating using talkback -->
     <string name="suggested_location_list">建議地點</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
@@ -2618,6 +2643,8 @@
 
     <!-- Showing search suggestion label for recent search history -->
     <string name="suggestion_label_recent_search">最近的搜尋</string>
+    <!-- Showing search suggestion label for past Searches -->
+    <string name="suggestion_label_past_searches">過去的搜尋</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -3226,7 +3253,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -3876,6 +3903,8 @@
     <string name="hotel_deal_TEMPLATE">預訂此飯店，可省 {price} ({savings}%)</string>
     <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
     <string name="packages_invalid_user_title_label">該要更新了！</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">很抱歉，這個版本的 App 不提供套裝行程預訂功能。\n立即更新，才不會錯過套裝優惠。</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">同時預訂機票，可獲得 {night} 晚免費住宿。</item>

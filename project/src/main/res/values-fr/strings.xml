@@ -43,6 +43,8 @@
     <string name="hotelsv2_slide_purchase">Faites glisser pour effectuer le paiement</string>
     <!-- Change Dates in case of Sold Out -->
     <string name="change_dates">Modifier les dates</string>
+    <!-- Select Dates in case of dateless infosite -->
+    <string name="hotel_info_site_select_dates">Choisir des dates</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">Paiement sécurisé</string>
     <!-- Accessibility content description for google map view on hotel results -->
@@ -869,6 +871,21 @@
     <!-- Search screen title -->
     <string name="search_title">Rechercher</string>
 
+    <!--Meso destination ad card-->
+    <string name="meso_destination_name_las_vegas">Las Vegas</string>
+    <string name="meso_destination_name_los_angeles">Los Angeles</string>
+    <string name="meso_destination_name_miami">Miami</string>
+    <string name="meso_destination_name_cancun">Cancún</string>
+    <string name="meso_destination_name_san_diego">San Diego</string>
+
+    <string name="meso_destination_description_las_vegas">Charme rétro à Las Vegas</string>
+    <string name="meso_destination_description_los_angeles">Journée inoubliable à L.A.</string>
+    <string name="meso_destination_description_miami">10 activités incontournables à Miami</string>
+    <string name="meso_destination_description_cancun">Des vacances au gré de vos envies</string>
+    <string name="meso_destination_description_san_diego">10 activités incontournables à San Diego</string>
+
+    <string name="meso_sponsored_text">Lien commercial</string>
+
     <!-- Meso hotel ad card -->
 
     <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
@@ -1427,6 +1444,10 @@
     <string name="itin_hotel_check_in_policies_dialog_title">Conditions pour l\&apos;arrivée</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Règles de modification et d\&apos;annulation</string>
+    <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
+    <string name="itin_hotel_manage_booking_room_tab_title_TEMPLATE">Chambre {number}</string>
+    <!--Hotel itin manage booking total rooms text TEMPLATE. {number} total rooms (e.g., 2 total rooms)-->
+    <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">Total : {number} chambres</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Partager votre voyage</string>
@@ -1506,8 +1527,10 @@
     <string name="itin_flight_manage_booking_header">Gérer la réservation</string>
     <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_flight_itinerary_number_TEMPLATE">N° de voyage : {itin_number}</string>
+    <!--Flight itin number content description template. Talkback will announce "Itinerary # {itin_number}" to "Itinerary number {itin_number}" (eg., Itinerary number 7282906974428)-->
+    <string name="itin_flight_itinerary_number_content_description_TEMPLATE">Numéro de voyage : {itin_number}</string>
     <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
-    <string name="itin_flight_customer_support_site_header_TEMPLATE">Service clients {brand}</string>
+    <string name="itin_flight_customer_support_site_header_TEMPLATE">Assistance clientèle de {brand}</string>
     <!--Flight customer support website toolbar header-->
     <string name="itin_flight_customer_support_site_toolbar_header">Service clients</string>
     <!--Flight itin, flight leg detail widget title. {departure} to {arrival} (eg., SFO to SEA)-->
@@ -1553,16 +1576,20 @@
     <string name="itin_flight_airline_support_widget_airlines_support_TEMPLATE">Assistance de {airline_name}</string>
     <!--Flight itin, flight Airline support detail widget's ticket template. Ticket # {ticket_number} (eg., Ticket # 87654321)-->
     <string name="itin_flight_airline_support_widget_ticket_TEMPLATE">Nº de billet : {ticket_number}</string>
+    <!--Flight itin, flight Airline support detail widget's ticket content description template. Talkback will announce "Ticket # {ticket_number}" to "Ticket number {ticket_number}" (eg., Ticket number 87654321)-->
+    <string name="itin_flight_airline_support_widget_ticket_content_description_TEMPLATE">Numéro de voyage: {ticket_number}</string>
     <!--Flight itin, flight Airline support detail widget's confirmation template. Confirmation # {confirmation_number} (eg., Confirmation # 67867)-->
     <string name="itin_flight_airline_support_widget_confirmation_TEMPLATE">Nº de confirmation : {confirmation_number}</string>
+    <!--Flight itin, flight Airline support detail widget's confirmation content description template. Talkback will announce "Confirmation # {confirmation_number}" to "Confirmation number {confirmation_number}" (eg., Confirmation number 67867)-->
+    <string name="itin_flight_airline_support_widget_confirmation_content_description_TEMPLATE">Numéro de confirmation : {confirmation_number}</string>
     <!--Flight itin, flight Airline support detail widget's Itinerary template. Itinerary # {itinerary_number} (eg., Itinerary # 87654321)-->
     <string name="itin_flight_airline_support_widget_itinerary_TEMPLATE">N° de voyage : {itinerary_number}</string>
+    <!--Flight itin, flight Airline support detail widget's Itinerary content description template. Talkback will announce "Itinerary # {itinerary_number}" to "Itinerary number {itinerary_number}" (eg., Itinerary number 87654321)-->
+    <string name="itin_flight_airline_support_widget_itinerary_content_description_TEMPLATE">Numéro de voyage : {itinerary_number}</string>
     <!--Flight itin, flight Airline support detail widget's customer support template. {airline_name} customer support (eg., Alaska airlines customer support)-->
     <string name="itin_flight_airline_support_widget_customer_support_TEMPLATE">Assistance clientèle de {airline_name}</string>
     <!--Flight itin, flight Airline support detail widget's Airline customer support tile for airline support webview-->
     <string name="itin_flight_airline_support_widget_support_webview_title">Assistance clientèle de la compagnie aérienne</string>
-    <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
-    <string name="itin_flight_airline_support_widget_number_text">numéro</string>
     <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
     <string name="itin_flight_modify_widget_cancel_reservation_text">Annuler la réservation</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
@@ -2013,10 +2040,6 @@
     <string name="price_dropped_from_TEMPLATE">Le prix a baissé de %1$s</string>
 
     <!-- Checkout Activity -->
-    <!-- Explicit acceptance of TOS -->
-    <string name="Do_you_accept">Acceptez-vous toutes les conditions indiquées ci-dessus ?</string>
-    <!-- I Accept button label -->
-    <string name="I_Accept">J\&apos;accepte</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Votre carte sera débitée de {dueamount}</string>
     <!-- Your are using pwp points -->
@@ -2608,6 +2631,8 @@
     <string name="current_location">Position actuelle</string>
     <string name="recent_searched_location">Location récemment recherchée</string>
     <string name="suggested_location">Emplacement suggérée</string>
+    <!-- Label to describe ESS results close to device lat/lng-->
+    <string name="nearby_locations">Lieux à proximité</string>
     <!-- To notify the section suggested locations while navigating using talkback -->
     <string name="suggested_location_list">Emplacements suggérés</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
@@ -2618,6 +2643,8 @@
 
     <!-- Showing search suggestion label for recent search history -->
     <string name="suggestion_label_recent_search">Recherches récentes</string>
+    <!-- Showing search suggestion label for past Searches -->
+    <string name="suggestion_label_past_searches">Recherches passées</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -3876,6 +3903,8 @@
     <string name="hotel_deal_TEMPLATE">Réservez et économisez {price} ({savings} %)</string>
     <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
     <string name="packages_invalid_user_title_label">Mise à jour requise !</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">Désolés, la réservation de formules n\&apos;est pas disponible sur cette version de l\&apos;appli.\nPour profiter de ces offres, mettez à jour votre appli.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">{night} nuit gratuite en réservant un vol en même temps.</item>
