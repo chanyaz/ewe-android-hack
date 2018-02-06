@@ -23,6 +23,7 @@ class ItinCardDataHotelBuilder {
     private var childCount = 0
     private var infantCount = 0
     private var guestCount = 1
+    private var specialInstructions = ""
 
     fun build(): ItinCardDataHotel {
         val itinCardDataHotel = makeHotel()
@@ -32,6 +33,9 @@ class ItinCardDataHotelBuilder {
         parentTrip.setIsTripUpgradable(upgradeableRoom)
         parentTrip.setIsShared(isSharedItin)
         parentTrip.setIsShared(isSharedItin)
+        if (specialInstructions.isNotEmpty()) {
+            itinCardDataHotel.property.specialInstruction = listOf(specialInstructions)
+        }
 
         val tripHotel = itinCardDataHotel.tripComponent as TripHotel
         tripHotel.startDate = checkInDate
@@ -61,6 +65,11 @@ class ItinCardDataHotelBuilder {
 
     fun withRoomUpgradeWebUrl(url: String): ItinCardDataHotelBuilder {
         roomUpgradeWebUrl = url
+        return this
+    }
+
+    fun withSpecialInstructions(instructions: String = "No running in the halls"): ItinCardDataHotelBuilder {
+        specialInstructions = instructions
         return this
     }
 

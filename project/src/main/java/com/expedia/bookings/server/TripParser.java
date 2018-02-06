@@ -284,6 +284,11 @@ public class TripParser {
 				property.setCheckInPolicies(checkInPolicies);
 			}
 
+			List<String> specialInstructions = JSONUtils.getStringList(propertyJson, "specialCheckInInstructions");
+			if (specialInstructions != null && !specialInstructions.isEmpty()) {
+				property.setSpecialInstruction(specialInstructions);
+			}
+
 			hotel.setProperty(property);
 		}
 

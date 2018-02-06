@@ -4,9 +4,11 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.TextView
@@ -74,5 +76,35 @@ class HotelItinCheckInCheckOutDetailsTest {
         hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
         assertEquals(hotelItinCheckinCheckOutWidget.checkInTimeView.text.toString(), JodaUtils.formatDateTime(activity, itinCardDataHotel.startDate, DateUtils.FORMAT_SHOW_TIME).toLowerCase())
         assertEquals(hotelItinCheckinCheckOutWidget.checkOutTimeView.text.toString(), JodaUtils.formatDateTime(activity, itinCardDataHotel.endDate, DateUtils.FORMAT_SHOW_TIME).toLowerCase())
+    }
+
+    @Test
+    fun checkInOutPoliciesButtonTextCheckTest() {
+        var itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
+        assertEquals(activity.getString(R.string.itin_hotel_check_in_policies_dialog_title), hotelItinCheckinCheckOutWidget.checkInOutPoliciesButtonText.text)
+        hotelItinCheckinCheckOutWidget.checkInOutPoliciesContainer.performClick()
+        var dialog = ShadowAlertDialog.getLatestAlertDialog()
+        assertEquals(true, dialog.isShowing)
+        assertEquals(View.GONE, dialog.findViewById<View>(R.id.fragment_dialog_second_heading).visibility)
+        assertEquals(View.GONE, dialog.findViewById<View>(R.id.fragment_dialog_scrollable_second_text_content).visibility)
+
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.TripsHotelsM2)
+        hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
+        assertEquals(activity.getString(R.string.itin_hotel_check_in_policies_dialog_title), hotelItinCheckinCheckOutWidget.checkInOutPoliciesButtonText.text)
+        hotelItinCheckinCheckOutWidget.checkInOutPoliciesContainer.performClick()
+        dialog = ShadowAlertDialog.getLatestAlertDialog()
+        assertEquals(true, dialog.isShowing)
+        assertEquals(View.GONE, dialog.findViewById<View>(R.id.fragment_dialog_second_heading).visibility)
+        assertEquals(View.GONE, dialog.findViewById<View>(R.id.fragment_dialog_scrollable_second_text_content).visibility)
+
+        itinCardDataHotel = ItinCardDataHotelBuilder().withSpecialInstructions().build()
+        hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
+        assertEquals(activity.getString(R.string.itin_hotel_check_in_policies_and_special_instruction), hotelItinCheckinCheckOutWidget.checkInOutPoliciesButtonText.text)
+        hotelItinCheckinCheckOutWidget.checkInOutPoliciesContainer.performClick()
+        dialog = ShadowAlertDialog.getLatestAlertDialog()
+        assertEquals(View.VISIBLE, dialog.findViewById<View>(R.id.fragment_dialog_second_heading).visibility)
+        assertEquals(View.VISIBLE, dialog.findViewById<View>(R.id.fragment_dialog_scrollable_second_text_content).visibility)
+        assertEquals("No running in the halls", (dialog.findViewById<View>(R.id.fragment_dialog_scrollable_second_text_content) as TextView).text.toString())
     }
 }

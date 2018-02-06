@@ -9,11 +9,13 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.data.ItinCardDataHotel
-import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.fragment.ScrollableContentDialogFragment
+import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 
 class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
@@ -37,13 +39,27 @@ class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : L
         checkOutDateView.contentDescription = LocaleBasedDateFormatUtils.dateTimeToEEEEMMMd(itinCardDataHotel.endDate)
         checkInTimeView.text = itinCardDataHotel.getFallbackCheckInTime(context).toLowerCase()
         checkOutTimeView.text = itinCardDataHotel.getFallbackCheckOutTime(context).toLowerCase()
-        if (!itinCardDataHotel.property.checkInPolicies.isEmpty()) {
+        if (itinCardDataHotel.property.checkInPolicies.isNotEmpty()) {
             checkInPoliciesDivider.visibility = View.VISIBLE
             checkInOutPoliciesContainer.visibility = View.VISIBLE
+            val specialInstructions = itinCardDataHotel.property.specialInstruction
+            val shouldShowSpecialInstruction = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.TripsHotelsM2)
+                    && specialInstructions.isNotEmpty()
+            if (shouldShowSpecialInstruction) {
+                checkInOutPoliciesButtonText.text = context.getString(R.string.itin_hotel_check_in_policies_and_special_instruction)
+            }
             checkInOutPoliciesContainer.setOnClickListener {
                 val fragmentManager = (context as FragmentActivity).supportFragmentManager
-                val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_in_policies_dialog_title),
-                        TextUtils.join("<br>", itinCardDataHotel.property.checkInPolicies).toString())
+                val dialog = if (shouldShowSpecialInstruction) {
+                    ScrollableContentDialogFragment.newInstance(
+                            context.resources.getString(R.string.itin_hotel_check_in_policies_dialog_title),
+                            TextUtils.join("<br>", itinCardDataHotel.property.checkInPolicies).toString(),
+                            context.getString(R.string.itin_hotel_special_instruction_dialog_sub_title),
+                            TextUtils.join("<br>", specialInstructions).toString())
+                } else {
+                    ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_in_policies_dialog_title),
+                            TextUtils.join("<br>", itinCardDataHotel.property.checkInPolicies).toString())
+                }
                 dialog.show(fragmentManager, DIALOG_TAG)
                 OmnitureTracking.trackHotelItinCheckInPoliciesDialogClick()
             }

@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp">
+    android:layout_height="match_parent">
 
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/fragment_dialog_scrollable_text_content"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="textStart"
-        android:textColor="@color/gray600"
-        android:textSize="14sp"
-        android:textColorLink="@color/app_primary"
-        android:textStyle="normal" />
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/fragment_dialog_scrollable_text_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textColor="@color/gray600"
+            android:textColorLink="@color/app_primary"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/fragment_dialog_second_heading"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:visibility="gone" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/fragment_dialog_scrollable_second_text_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textAlignment="textStart"
+            android:textColor="@color/gray600"
+            android:textColorLink="@color/app_primary"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </ScrollView>

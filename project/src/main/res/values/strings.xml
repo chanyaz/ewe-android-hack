@@ -1445,6 +1445,10 @@
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Free Wifi</string>
     <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
     <string name="itin_hotel_check_in_policies_dialog_title">Check-in policies</string>
+    <!--Sub Title text for a pop-up that lists check-in special instructions-->
+    <string name="itin_hotel_special_instruction_dialog_sub_title">Special instructions</string>
+    <!--Button title for check-in policies and special instructions-->
+    <string name="itin_hotel_check_in_policies_and_special_instruction">Check-in and special instructions</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Change and cancellation rules</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->

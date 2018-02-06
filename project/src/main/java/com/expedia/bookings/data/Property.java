@@ -97,6 +97,7 @@ public class Property implements JSONable {
 	private HotelTextSection mMandatoryFeesText;
 	private HotelTextSection mRenovationText;
 	private List<String> checkInPolicies = new ArrayList<>();
+	private List<String> specialInstruction = new ArrayList<>();
 
 	// These change based on when the user requests data
 	private boolean mAvailable;
@@ -225,6 +226,14 @@ public class Property implements JSONable {
 			mHotelMedia = new ArrayList<HotelMedia>();
 		}
 		mHotelMedia.add(hotelMedia);
+	}
+
+	public List<String> getSpecialInstruction() {
+		return specialInstruction;
+	}
+
+	public void setSpecialInstruction(List<String> specialInstruction) {
+		this.specialInstruction = specialInstruction;
 	}
 
 	public HotelMedia getMedia(int index) {
@@ -501,6 +510,7 @@ public class Property implements JSONable {
 			obj.putOpt("omnitureAdDisplayedUrl", mOmnitureAdDisplayedUrl);
 			obj.putOpt("isETPHotel", mIsETPHotel);
 			JSONUtils.putStringList(obj, "checkInPolicies", checkInPolicies);
+			JSONUtils.putStringList(obj, "specialCheckInInstructions", specialInstruction);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -554,6 +564,10 @@ public class Property implements JSONable {
 		List<String> policies = JSONUtils.getStringList(obj, "checkInPolicies");
 		if (policies != null && policies.size() > 0) {
 			checkInPolicies = policies;
+		}
+		List<String> specialCheckInInstructions = JSONUtils.getStringList(obj, "specialCheckInInstructions");
+		if (specialCheckInInstructions != null && specialCheckInInstructions.size() > 0) {
+			specialInstruction = specialCheckInInstructions;
 		}
 		return true;
 	}
