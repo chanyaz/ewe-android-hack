@@ -222,6 +222,20 @@
                             android:visibility="gone"/>
                     </android.support.v7.widget.CardView>
 
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/flight_recent_search_widget_card_view"
+                        style="@style/MaterialCardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardUseCompatPadding="true"
+                        android:importantForAccessibility="yes"
+                        android:visibility="gone">
+                        <ViewStub
+                            android:id="@+id/flight_recent_search_widget_stub"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout="@layout/flight_recent_search_widget" />
+                    </android.support.v7.widget.CardView>
                 </LinearLayout>
             </FrameLayout>
         </ScrollView>

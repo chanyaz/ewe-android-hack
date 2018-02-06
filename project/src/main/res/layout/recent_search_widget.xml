@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/recent_search_widget"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/recent_search_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/recent_search_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/recents"
+            android:tint="@color/flight_primary_color" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/recent_search_widget_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/flight_recent_search_label"
+            android:textColor="@color/flight_primary_color"
+            android:textSize="15sp"
+            app:textStyle="medium" />
+
+        <ImageView
+            android:id="@+id/recent_search_header_chevron"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/read_more_without_padding"
+            android:tint="@color/flight_primary_color" />
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recent_search_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

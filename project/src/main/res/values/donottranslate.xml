@@ -133,6 +133,8 @@
     <string name="preference_abacus_setting_meso_destination">Meso Destination</string>
     <string name="preference_abacus_setting_urgency_50">50% hotels left or less</string>
     <string name="preference_abacus_setting_urgency_70">30% hotels left or less</string>
+    <string name="preference_abacus_setting_recent_search_vertical">Vertical tiles</string>
+    <string name="preference_abacus_setting_recent_search_horizontal">Horizontal tiles</string>
 
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>

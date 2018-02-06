@@ -32,19 +32,21 @@ import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
+import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.utils.setContentDescriptionToolbarTabs
 import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.flights.FlightOneWayRoundTripTabs
+import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
 import com.expedia.vm.BaseSearchViewModel
-import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
+import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.flights.AdvanceSearchFilter
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel
 import com.squareup.phrase.Phrase
@@ -91,6 +93,12 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         else travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
     }
     val isShowSuggestionLabelTestEnabled: Boolean = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
+
+    val recentSearchStub: ViewStub by bindView(R.id.flight_recent_search_widget_stub)
+    val flightRecentSearchCardView: CardView by bindView(R.id.flight_recent_search_widget_card_view)
+    val recentSearchWidgetContainer by lazy {
+        recentSearchStub.inflate().findViewById<RecentSearchWidgetContainer>(R.id.flight_recent_searches_widget)
+    }
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -271,6 +279,11 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
             dividerParams.setMargins(paddingLeft, 0, paddingRight, 0)
             flightsSearchDivider.layoutParams = dividerParams
+        }
+
+        if (isRecentSearchesForFlightsEnabled(context)) {
+            flightRecentSearchCardView.visibility = View.VISIBLE
+            recentSearchWidgetContainer.viewModel.fetchandShowRecentObservable.onNext(Unit)
         }
     }
 

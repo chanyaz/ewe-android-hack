@@ -113,6 +113,7 @@
     <dimen name="flight_leg_day_textview_margin_top">-2dp</dimen>
     <dimen name="flight_leg_day_textview_margin_top_no_overlap">3dp</dimen>
     <dimen name="flight_sort_filter_container_height">58dp</dimen>
+    <dimen name="flight_recent_search_item_margin_bottom">10dp</dimen>
 
     <!-- FlightTripView dimensions -->
     <dimen name="flight_trip_view_stroke_width">2dp</dimen>

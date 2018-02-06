@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.robolectric;
 
+import java.util.ArrayList;
+
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +25,7 @@ import android.view.ViewStub;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.expedia.bookings.R;
@@ -30,6 +33,7 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.flights.FlightSearchParams;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
+import com.expedia.bookings.data.flights.RecentSearch;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
 import com.expedia.bookings.services.TestObserver;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
@@ -44,8 +48,10 @@ import com.expedia.bookings.widget.FlightCabinClassPickerView;
 import com.expedia.bookings.widget.FlightCabinClassWidget;
 import com.expedia.bookings.widget.FlightTravelerPickerView;
 import com.expedia.bookings.widget.FlightTravelerWidgetV2;
+import com.expedia.bookings.widget.TextView;
 import com.expedia.bookings.widget.TravelerPickerView;
 import com.expedia.bookings.widget.TravelerWidgetV2;
+import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
@@ -665,6 +671,84 @@ public class FlightSearchPresenterTest {
 		TabLayout.Tab tab = widget.getTabs().getTabAt(1);
 		tab.select();
 		assertEquals("One way tab", tab.getContentDescription());
+	}
+
+	@Test
+	public void testRecentSearchWidget() {
+		AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRecentSearch);
+		AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRecentSearch, 1);
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
+		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
+		TextView recentSearchHeader = recentSearchWidgetContainer.findViewById(R.id.recent_search_widget_header);
+		ImageView recentSearchIcon = (ImageView) recentSearchWidgetContainer.findViewById(R.id.recent_search_icon);
+		ImageView recentSearchChevron = (ImageView) recentSearchWidgetContainer.findViewById(R.id.recent_search_header_chevron);
+
+		assertEquals(View.VISIBLE , recentSearchWidgetContainer.getVisibility());
+		assertEquals("Recent Searches", recentSearchHeader.getText().toString());
+		assertEquals(View.VISIBLE ,recentSearchIcon.getVisibility());
+		assertEquals(View.VISIBLE ,recentSearchChevron.getVisibility());
+
+	}
+
+	@Test
+	public void testRecentSearchWidgetItem() {
+		AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRecentSearch);
+		AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRecentSearch, 1);
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
+		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
+
+		RecyclerView recentSearchWidgetItems = recentSearchWidgetContainer.getRecyclerView();
+
+		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
+		recentSearches.add(new RecentSearch("SFO", "LAS", "$200", "Nov 10 - Nov 12",
+			"as of Oct 10", "2", "Premium Economy", true));
+
+		recentSearches.add(new RecentSearch("SEA", "SFO", "$400", "Feb 10 - Mar 15",
+			"as of Jan 10", "3", "Business", false));
+
+		recentSearchWidgetContainer.getViewModel().getRecentSearchesObservable().onNext(recentSearches);
+		recentSearchWidgetItems.measure(0, 0);
+		recentSearchWidgetItems.layout(0, 0, 100, 10000);
+
+		View firstItem = recentSearchWidgetItems.getChildAt(0);
+
+		TextView sourceLocation = firstItem.findViewById(R.id.recent_search_origin);
+		TextView destinationLocation = firstItem.findViewById(R.id.recent_search_destination);
+		TextView price = firstItem.findViewById(R.id.recent_search_price);
+		TextView dateRange = firstItem.findViewById(R.id.recent_search_date);
+		TextView priceSubtitle = firstItem.findViewById(R.id.recent_search_price_subtitle);
+		TextView travelerCount = firstItem.findViewById(R.id.recent_search_traveler_count);
+		TextView flightClass = firstItem.findViewById(R.id.recent_search_class);
+
+		assertEquals("SFO", sourceLocation.getText().toString());
+		assertEquals("LAS", destinationLocation.getText().toString());
+		assertEquals("$200", price.getText().toString());
+		assertEquals("Nov 10 - Nov 12", dateRange.getText().toString());
+		assertEquals("as of Oct 10", priceSubtitle.getText().toString());
+		assertEquals("2", travelerCount.getText().toString());
+		assertEquals("Premium Economy", flightClass.getText().toString());
+	}
+
+	@Test
+	public void testRecentSearchWidgetVisibility() {
+
+		AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRecentSearch);
+		AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRecentSearch, 1);
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
+
+		assertEquals(View.VISIBLE ,widget.findViewById(R.id.flight_recent_searches_widget).getVisibility());
+
+		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
+		LinearLayout recentHeaderContainer = recentSearchWidgetContainer.findViewById(R.id.recent_search_header_container);
+		RecyclerView recentSearchWidgetItems = recentSearchWidgetContainer.getRecyclerView();
+
+		assertEquals(View.VISIBLE ,recentSearchWidgetItems.getVisibility());
+		recentHeaderContainer.performClick();
+		assertEquals(View.GONE ,recentSearchWidgetItems.getVisibility());
+
 	}
 
 	private String getExpectedToolTipContDesc(LocalDate startDate, LocalDate endDate) {

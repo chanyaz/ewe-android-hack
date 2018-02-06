@@ -5000,5 +5000,7 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Regular Price {ticket_type} {activity_original_price}. Discounted price {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">Double Expedia+ Points!</string>
     <string name="hotel_2x_points_search_content">You\'ll earn double points just for booking in the app!</string>
+    <!-- Recent search header string -->
+    <string name="flight_recent_search_label">Recent Searches</string>
 
 </resources>

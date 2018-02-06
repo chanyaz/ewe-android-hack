@@ -1000,6 +1000,14 @@
         <item name="android:layout_marginRight">12dp</item>
     </style>
 
+    <style name="RecentSearchFirstLine">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/defaultTextColor</item>
+        <item name="android:textSize">@dimen/type_400_text_size</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="textStyle">medium</item>
+    </style>
     <style name="CVVPromptBase">
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:singleLine">true</item>

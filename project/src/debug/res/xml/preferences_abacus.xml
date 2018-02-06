@@ -309,8 +309,8 @@
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
+            android:entries="@array/abacus_fl_recent_variant_choices"
+            android:entryValues="@array/abacus_meso_variant_choice_values"
             android:key="24765"
             android:summary="%s"
             android:title="Flights Recent Search - 24765" />

@@ -97,3 +97,8 @@ fun isDisplayBasicEconomyTooltipForPackagesEnabled(context: Context): Boolean {
 fun showNewCreditCardExpiryFormField(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.CardExpiryDateFormField)
 }
+
+fun isRecentSearchesForFlightsEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppFlightsRecentSearch) &&
+            !AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch)
+}

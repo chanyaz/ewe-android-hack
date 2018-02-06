@@ -773,6 +773,13 @@
         <item>@string/preference_abacus_setting_meso_destination</item>
     </string-array>
 
+    <string-array name="abacus_fl_recent_variant_choices">
+        <item>@string/preference_abacus_setting_server</item>
+        <item>@string/preference_abacus_setting_control</item>
+        <item>@string/preference_abacus_setting_recent_search_vertical</item>
+        <item>@string/preference_abacus_setting_recent_search_horizontal</item>
+    </string-array>
+
     <string-array name="abacus_package_title_change">
         <item>@string/preference_abacus_setting_server</item>
         <item>@string/preference_abacus_setting_control</item>
