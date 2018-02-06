@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -188,24 +189,62 @@ class PackageOverviewPresenterTest {
         assertEquals("2 travelers", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.travelers.text)
     }
 
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testBundleTotalPriceDisplayedForMIDWithMandatoryDisplayTypeTotal() {
+    private fun assertTotalPriceDisplayedForMID(displayType: MandatoryFees.DisplayType,
+                                                displayCurrency: MandatoryFees.DisplayCurrency,
+                                                expectedTotalPrice: String) {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
-        setupOverviewPresenter()
+        setupOverviewPresenter(displayType, displayCurrency)
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
 
-        assertEquals("$250", overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleTotalPrice.text)
+        assertEquals(expectedTotalPrice, overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleTotalPrice.text)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testBundleTotalPriceDisplayedForMIDWithMandatoryDisplayTypeDaily() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppPackagesMidApi)
-        setupOverviewPresenter(false)
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+    fun testBundleTotalPriceMIDNonePointOfSale() {
+        assertTotalPriceDisplayedForMID(MandatoryFees.DisplayType.NONE,
+                MandatoryFees.DisplayCurrency.POINT_OF_SALE,
+                "$250")
+    }
 
-        assertEquals("$350", overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleTotalPrice.text)
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBundleTotalPriceMIDNonePointOfSupply() {
+        assertTotalPriceDisplayedForMID(MandatoryFees.DisplayType.NONE,
+                MandatoryFees.DisplayCurrency.POINT_OF_SUPPLY,
+                "$200")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBundleTotalPriceMIDDailyPointOfSale() {
+        assertTotalPriceDisplayedForMID(MandatoryFees.DisplayType.DAILY,
+                MandatoryFees.DisplayCurrency.POINT_OF_SALE,
+                "$350")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBundleTotalPriceMIDDailyPointOfSupply() {
+        assertTotalPriceDisplayedForMID(MandatoryFees.DisplayType.DAILY,
+                MandatoryFees.DisplayCurrency.POINT_OF_SUPPLY,
+                "$200")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBundleTotalPriceMIDTotalPointOfSale() {
+        assertTotalPriceDisplayedForMID(MandatoryFees.DisplayType.TOTAL,
+                MandatoryFees.DisplayCurrency.POINT_OF_SALE,
+                "$250")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBundleTotalPriceMIDTotalPointOfSupply() {
+        assertTotalPriceDisplayedForMID(MandatoryFees.DisplayType.TOTAL,
+                MandatoryFees.DisplayCurrency.POINT_OF_SUPPLY,
+                "$200")
     }
 
     @Test
@@ -313,11 +352,12 @@ class PackageOverviewPresenterTest {
         Db.setPackageResponse(baseMidResponse)
     }
 
-    private fun setupOverviewPresenter(mandatoryTotalDisplayType: Boolean = true) {
+    private fun setupOverviewPresenter(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
+                                       displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE) {
         overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
         overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
         setUpPackageDb()
-        PackageTestUtil.setDbPackageSelectedHotel(mandatoryTotalDisplayType)
+        PackageTestUtil.setDbPackageSelectedHotel(displayType, displayCurrency)
     }
 
     private fun setPackagePrice(): PackageOfferModel.PackagePrice {

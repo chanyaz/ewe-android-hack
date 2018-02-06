@@ -11,15 +11,18 @@ import java.math.BigDecimal
 import java.text.DecimalFormat
 
 class HotelResortFeeFormatter {
-    fun getResortFee(context: Context, roomResponse: HotelOffersResponse.HotelRoomResponse?,
-                     isPackage: Boolean, hotelCountry: String): String {
+    fun getResortFee(context: Context,
+                     roomResponse: HotelOffersResponse.HotelRoomResponse?,
+                     isPackage: Boolean,
+                     hotelCountry: String,
+                     showResortFeesInHotelLocalCurrency: Boolean = PointOfSale.getPointOfSale().showResortFeesInHotelLocalCurrency()): String {
         var resortText = ""
         if (roomResponse?.rateInfo?.chargeableRateInfo?.showResortFeeMessage == true) {
             val rate = roomResponse.rateInfo.chargeableRateInfo
 
             /* showResortFeesInHotelLocalCurrency() is true only for UK and ebookers POS.
              We would get resort fees in point of supply currency */
-            if (isPackage && PointOfSale.getPointOfSale().showResortFeesInHotelLocalCurrency()) {
+            if (isPackage && showResortFeesInHotelLocalCurrency) {
                 val df = DecimalFormat("#.00")
                 val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()),
                         CurrencyUtils.currencyForLocale(hotelCountry))

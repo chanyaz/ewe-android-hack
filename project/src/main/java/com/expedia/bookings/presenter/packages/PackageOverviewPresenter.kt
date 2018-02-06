@@ -42,10 +42,10 @@ import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.squareup.phrase.Phrase
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.Days
 import org.joda.time.format.DateTimeFormat
 import java.math.BigDecimal
-import io.reactivex.subjects.PublishSubject
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
 
@@ -417,7 +417,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         var mandatoryFee: Float = 0F
 
         //rateInfo.totalMandatoryFees has either daily or total mandatory fees based upon the display type (See convertMidHotelRoomResponse() in HotelOfferResponse for reference)
-        if (rateInfo.mandatoryDisplayCurrency == MandatoryFees.DisplayCurrency.POINT_OF_SALE && rateInfo.totalMandatoryFees != null) {
+        if (rateInfo.mandatoryDisplayCurrency == MandatoryFees.DisplayCurrency.POINT_OF_SALE) {
             if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.DAILY) {
                 mandatoryFee = rateInfo.totalMandatoryFees * getNumberOfDaysInHotel()
             } else {

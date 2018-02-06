@@ -97,7 +97,8 @@ class PackageTestUtil {
         }
 
         @JvmStatic
-        fun dummyMidHotelRoomOffer(): HotelOffer {
+        fun dummyMidHotelRoomOffer(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
+                                   displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE): HotelOffer {
             val hotelRoomOfferJson = """
                 {
               "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
@@ -142,13 +143,103 @@ class PackageTestUtil {
               },
               "inventoryType": "MERCHANT",
               "mandatoryFees": {
-                "displayType": "NONE"
+                "totalMandatoryFeesPOSCurrency": {
+                  "amount": 158.62,
+                  "currency": "GBP"
+                },
+                "totalMandatoryFeesSupplyCurrency": {
+                  "amount": 221.1,
+                  "currency": "USD"
+                },
+                "dailyResortFeePOSCurrency": {
+                  "amount": 31.72,
+                  "currency": "GBP"
+                },
+                "displayType": "$displayType",
+                "displayCurrency": "$displayCurrency"
               },
               "memberDeal": true,
               "sourceTypeRestricted": false,
               "sameDayDRR": false
             }"""
             return Gson().fromJson(hotelRoomOfferJson, HotelOffer::class.java)
+        }
+
+        @JvmStatic
+        fun dummyMIDItemRoomOffer(): MultiItemOffer {
+            val hotelRoomMultiItemOfferJson = """
+        {
+          "price": {
+            "basePrice": {
+              "amount": 255.00,
+              "currency": "USD"
+            },
+            "taxesAndFees": {
+              "amount": 57.06,
+              "currency": "USD"
+            },
+            "totalPrice": {
+              "amount": 312.06,
+              "currency": "USD"
+            },
+            "referenceBasePrice": {
+              "amount": 255.00,
+              "currency": "USD"
+            },
+            "referenceTaxesAndFees": {
+              "amount": 57.06,
+              "currency": "USD"
+            },
+            "referenceTotalPrice": {
+              "amount": 312.06,
+              "currency": "USD"
+            },
+            "savings": {
+              "amount": 0.00,
+              "currency": "USD"
+            },
+            "avgPricePerPerson": {
+              "amount": 312.06,
+              "currency": "USD"
+            },
+            "showSavings": false,
+            "avgReferencePricePerPerson": {
+              "amount": 312.06,
+              "currency": "USD"
+            },
+            "deltaAvgPricePerPerson": {
+              "amount": 0.00,
+              "currency": "USD"
+            }
+          },
+          "searchedOffer": {
+            "productType": "Hotel",
+            "productKey": "hotel-0"
+          },
+          "packagedOffers": [
+            {
+              "productType": "Air",
+              "productKey": "flight-0"
+            }
+          ],
+          "loyaltyInfo": {
+            "earn": {
+              "points": {
+                "base": 624,
+                "bonus": 624,
+                "total": 1248
+              }
+            }
+          },
+          "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=208290304&roomTypeCode=201660950&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+          "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290304,201660950&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+          "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=201660950208290304&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290304,201660950&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+          "cancellationPolicy": {
+            "freeCancellationAvailable": false
+          }
+        }
+        """
+            return Gson().fromJson(hotelRoomMultiItemOfferJson, MultiItemOffer::class.java)
         }
 
         @JvmStatic
@@ -161,7 +252,8 @@ class PackageTestUtil {
         }
 
         @JvmStatic
-        fun setDbPackageSelectedHotel(mandatoryTotalDisplayType: Boolean = true) {
+        fun setDbPackageSelectedHotel(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
+                                      displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE) {
             val hotel = Hotel()
             hotel.packageOfferModel = PackageOfferModel()
             hotel.city = "Detroit"
@@ -179,7 +271,7 @@ class PackageTestUtil {
             roomResponse.supplierType = "MERCHANT"
             roomResponse.ratePlanCode = "test"
             roomResponse.roomTypeCode = "penthouse"
-            roomResponse.rateInfo = setRateInfo(mandatoryTotalDisplayType)
+            roomResponse.rateInfo = setRateInfo(displayType, displayCurrency)
             Db.setPackageSelectedHotel(hotel, roomResponse)
         }
 
@@ -224,16 +316,14 @@ class PackageTestUtil {
             return trip
         }
 
-        private fun setRateInfo(mandatoryDisplayType: Boolean): HotelOffersResponse.RateInfo {
-            var rateInfo = HotelOffersResponse.RateInfo()
+        private fun setRateInfo(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
+                                displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE): HotelOffersResponse.RateInfo {
+            val rateInfo = HotelOffersResponse.RateInfo()
             rateInfo.chargeableRateInfo = HotelRate()
-            if (mandatoryDisplayType) {
-                rateInfo.chargeableRateInfo.mandatoryDisplayType = MandatoryFees.DisplayType.TOTAL
-                rateInfo.chargeableRateInfo.totalMandatoryFees = 50F
-            } else {
-                rateInfo.chargeableRateInfo.mandatoryDisplayType = MandatoryFees.DisplayType.DAILY
-                rateInfo.chargeableRateInfo.totalMandatoryFees = 50F
-            }
+            rateInfo.chargeableRateInfo.showResortFeeMessage = true
+            rateInfo.chargeableRateInfo.mandatoryDisplayType = displayType
+            rateInfo.chargeableRateInfo.mandatoryDisplayCurrency = displayCurrency
+            rateInfo.chargeableRateInfo.totalMandatoryFees = 50F
             return rateInfo
         }
     }

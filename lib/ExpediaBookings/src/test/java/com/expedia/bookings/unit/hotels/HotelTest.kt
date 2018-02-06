@@ -3,6 +3,7 @@ package com.expedia.bookings.unit.hotels
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse.convertMidHotelRoomResponse
 import com.expedia.bookings.data.multiitem.HotelOffer
+import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.multiitem.MultiItemOffer
 import com.expedia.bookings.data.packages.PackageHotel
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -59,7 +60,7 @@ class HotelTest {
     }
 
     @Test
-    fun testConvertMidHotelOfferResonse() {
+    fun testConvertMidHotelOfferResponse() {
         val hotelOffer = dummyMidHotelRoomOffer()
         val multiItemOffer = dummyMultiItemRoomOffer()
 
@@ -92,6 +93,69 @@ class HotelTest {
         assertEquals(room.roomTypeDescription, hotelOffer.roomRatePlanDescription)
         assertEquals(room.supplierType, hotelOffer.inventoryType)
         assertEquals(room.packageLoyaltyInformation, multiItemOffer.loyaltyInfo)
+    }
+
+    private fun assertMIDMandatoryFeesDisplayTypeDisplayCurrency(displayType: MandatoryFees.DisplayType,
+                                                                 displayCurrency: MandatoryFees.DisplayCurrency,
+                                                                 totalMandatoryFees: Float,
+                                                                 showResortFeeMessage: Boolean) {
+        val hotelOffer = dummyMidHotelRoomOffer(displayType, displayCurrency)
+        val multiItemOffer = dummyMultiItemRoomOffer()
+
+        val room = convertMidHotelRoomResponse(hotelOffer, multiItemOffer)
+
+        assertEquals(displayType, room.rateInfo.chargeableRateInfo.mandatoryDisplayType)
+        assertEquals(displayCurrency, room.rateInfo.chargeableRateInfo.mandatoryDisplayCurrency)
+        assertEquals(totalMandatoryFees, room.rateInfo.chargeableRateInfo.totalMandatoryFees)
+        assertEquals(showResortFeeMessage, room.rateInfo.chargeableRateInfo.showResortFeeMessage)
+    }
+
+    @Test
+    fun testMIDMandatoryFeesNonePointOfSale() {
+        assertMIDMandatoryFeesDisplayTypeDisplayCurrency(MandatoryFees.DisplayType.NONE,
+                MandatoryFees.DisplayCurrency.POINT_OF_SALE,
+                158.62f,
+                false)
+    }
+
+    @Test
+    fun testMIDMandatoryFeesNonePointOfSupply() {
+        assertMIDMandatoryFeesDisplayTypeDisplayCurrency(MandatoryFees.DisplayType.NONE,
+                MandatoryFees.DisplayCurrency.POINT_OF_SUPPLY,
+                0f,
+                false)
+    }
+
+    @Test
+    fun testMIDMandatoryFeesDailyPointOfSale() {
+        assertMIDMandatoryFeesDisplayTypeDisplayCurrency(MandatoryFees.DisplayType.DAILY,
+                MandatoryFees.DisplayCurrency.POINT_OF_SALE,
+                31.72f,
+                true)
+    }
+
+    @Test
+    fun testMIDMandatoryFeesDailyPointOfSupply() {
+        assertMIDMandatoryFeesDisplayTypeDisplayCurrency(MandatoryFees.DisplayType.DAILY,
+                MandatoryFees.DisplayCurrency.POINT_OF_SUPPLY,
+                0f,
+                true)
+    }
+
+    @Test
+    fun testMIDMandatoryFeesTotalPointOfSale() {
+        assertMIDMandatoryFeesDisplayTypeDisplayCurrency(MandatoryFees.DisplayType.TOTAL,
+                MandatoryFees.DisplayCurrency.POINT_OF_SALE,
+                158.62f,
+                true)
+    }
+
+    @Test
+    fun testMIDMandatoryFeesTotalPointOfSupply() {
+        assertMIDMandatoryFeesDisplayTypeDisplayCurrency(MandatoryFees.DisplayType.TOTAL,
+                MandatoryFees.DisplayCurrency.POINT_OF_SUPPLY,
+                221.1f,
+                true)
     }
 
     @Test
@@ -142,6 +206,8 @@ class HotelTest {
         // hotelName Field is used
         assertEquals(hotel.localizedName, packageHotel.hotelName)
     }
+
+    //Test Helper methods
 
     private fun dummyMultiItemOffer(): MultiItemOffer {
         val multiItemOfferJson = """
@@ -342,7 +408,9 @@ class HotelTest {
         return Gson().fromJson(hotelOfferJson, HotelOffer::class.java)
     }
 
-    private fun dummyMidHotelRoomOffer(): HotelOffer {
+    private fun dummyMidHotelRoomOffer(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
+                                       displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE): HotelOffer {
+
         val hotelRoomOfferJson = """
         {
       "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
@@ -387,7 +455,20 @@ class HotelTest {
       },
       "inventoryType": "MERCHANT",
       "mandatoryFees": {
-        "displayType": "NONE"
+        "totalMandatoryFeesPOSCurrency": {
+          "amount": 158.62,
+          "currency": "GBP"
+        },
+        "totalMandatoryFeesSupplyCurrency": {
+          "amount": 221.1,
+          "currency": "USD"
+        },
+        "dailyResortFeePOSCurrency": {
+          "amount": 31.72,
+          "currency": "GBP"
+        },
+        "displayType": "$displayType",
+        "displayCurrency": "$displayCurrency"
       },
       "memberDeal": true,
       "sourceTypeRestricted": false,

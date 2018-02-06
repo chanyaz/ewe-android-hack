@@ -251,7 +251,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 		hotelRoomResponse.rateInfo.chargeableRateInfo.airAttached = false;
 
 		hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = room.getPrice().getTotalPrice().getCurrency();
-		hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = true;
+		hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = roomOffer.getMandatoryFees() != null;
 
 		if (roomOffer.getMandatoryFees() != null) {
 			hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayType = roomOffer.getMandatoryFees()
@@ -273,8 +273,12 @@ public class HotelOffersResponse extends BaseApiResponse {
 				}
 				break;
 			case DAILY:
-				hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
-					.getDailyResortFeePOSCurrency().getAmount().floatValue();
+				if (hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayCurrency
+					== MandatoryFees.DisplayCurrency.POINT_OF_SALE
+					&& roomOffer.getMandatoryFees().getDailyResortFeePOSCurrency().getAmount() != null) {
+					hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
+						.getDailyResortFeePOSCurrency().getAmount().floatValue();
+				}
 				break;
 			case NONE:
 				if (hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayCurrency
