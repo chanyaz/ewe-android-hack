@@ -13,6 +13,7 @@ import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
 import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
@@ -65,7 +66,7 @@ class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<Rec
                 if (lastMinuteDealActivity.currentFocus != null) {
                     animOptions = AnimUtils.createActivityScaleBundle(lastMinuteDealActivity.currentFocus)
                 }
-                HotelNavUtils.goToHotels(this.context, holder.searchParams, animOptions, 0)
+                HotelNavUtils.goToHotels(this.context, holder.searchParams, animOptions, NavUtils.DEAL_SEARCH)
                 OmnitureTracking.trackLastMinuteDealDestinationTappedRank(holder.adapterPosition)
             }
             return holder

@@ -33,7 +33,7 @@ class MemberDealsActivity : AppCompatActivity() {
         }
 
         adapter = MemberDealListAdapter(this, endlessObserver {
-            HotelNavUtils.goToHotels(this@MemberDealsActivity, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
+            HotelNavUtils.goToHotels(this@MemberDealsActivity, NavUtils.DEAL_SEARCH)
             OmnitureTracking.trackMemberPricingShop()
         })
 

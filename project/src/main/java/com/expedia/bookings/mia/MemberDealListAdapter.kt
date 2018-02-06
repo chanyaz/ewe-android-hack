@@ -59,7 +59,7 @@ class MemberDealListAdapter(private val context: Context, private val searchHote
             view.setOnClickListener {
                 val memberDealActivity = context as MemberDealsActivity
                 val animOptions = AnimUtils.createActivityScaleBundle(memberDealActivity.currentFocus)
-                HotelNavUtils.goToHotels(this.context, holder.searchParams, animOptions, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
+                HotelNavUtils.goToHotels(this.context, holder.searchParams, animOptions, NavUtils.DEAL_SEARCH)
             }
             return holder
         } else {

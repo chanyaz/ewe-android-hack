@@ -355,7 +355,7 @@ public class AccountLibActivity extends AppCompatActivity
 
 			if (intent != null) {
 				if (intent.hasExtra(ARG_BUNDLE)) {
-					if (intent.getBundleExtra(ARG_BUNDLE).containsKey(Codes.MEMBER_ONLY_DEALS)) {
+					if (intent.getBundleExtra(ARG_BUNDLE).containsKey(Codes.DEALS)) {
 						NavUtils.goToMemberPricing(getBaseContext());
 					}
 				}
