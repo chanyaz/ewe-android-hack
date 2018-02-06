@@ -51,6 +51,7 @@ class PackageErrorViewModel(context: Context) : AbstractErrorViewModel(context) 
                 }
                 ApiError.Code.PACKAGE_DATE_MISMATCH_ERROR -> {
                     createTripUnknownErrorObservable.onNext(Unit)
+                    PackagesTracking().trackCheckoutErrorRetry()
                 }
                 else -> {
                     defaultErrorObservable.onNext(Unit)
