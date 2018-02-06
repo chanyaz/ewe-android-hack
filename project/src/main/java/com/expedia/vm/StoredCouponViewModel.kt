@@ -73,7 +73,6 @@ class StoredCouponViewModel(val context: Context, hotelServices: HotelServices, 
         val errorType = trip.firstError.errorInfo.couponErrorType ?: "FallBack"
         val stringId = couponErrorMap[errorType] ?: R.string.coupon_error_fallback
         val text = context.resources.getString(stringId)
-        //TODO: Use the following observable to display the error in stored coupon
         errorMessageObservable.onNext(text)
         hasDiscountObservable.onNext(false)
         if (storedCouponActionParam.value.isFromNotSignedInToSignedIn) {

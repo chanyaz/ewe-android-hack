@@ -32,6 +32,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -73,11 +74,23 @@ class MaterialFormsHotelCouponTest {
     }
 
     @Test
-    fun testCouponError() {
+    fun testApplyCouponError() {
         couponWidget.viewmodel.applyCouponViewModel.errorMessageObservable.onNext("Hello")
         couponWidget.showError(true)
         assertTrue(couponWidget.couponCode.getParentTextInputLayout()!!.isErrorEnabled)
         assertEquals("Hello", couponWidget.couponCode.getParentTextInputLayout()!!.error)
+    }
+
+    @Test
+    fun testStoredCouponError() {
+        val errorMessageTestObserver = TestObserver<String>()
+        couponWidget.viewmodel.storedCouponViewModel.errorMessageObservable.subscribe(errorMessageTestObserver)
+
+        couponWidget.viewmodel.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam(false, "hotel_coupon_errors_expired"))
+
+        errorMessageTestObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+        errorMessageTestObserver.assertValueCount(1)
+        assertEquals("Sorry, but this coupon has expired.", errorMessageTestObserver.values()[0])
     }
 
     @Test

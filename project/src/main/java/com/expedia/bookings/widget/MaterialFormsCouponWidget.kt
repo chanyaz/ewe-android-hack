@@ -55,6 +55,11 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
 
         getStoredCouponListAdapter().applyStoredCouponObservable.subscribe(viewmodel.storedCouponViewModel.applyStoredCouponObservable)
 
+        viewmodel.storedCouponViewModel.errorMessageObservable.withLatestFrom(viewmodel.storedCouponViewModel.storedCouponActionParam, { errorText, storedCouponActionParam ->
+            storedCouponWidget.viewModel.errorObservable.onNext(Pair(errorText, storedCouponActionParam.instanceId))
+            enableCouponUi(true)
+        }).subscribe()
+
         viewmodel.storedCouponViewModel.applyStoredCouponObservable.subscribe {
             enableCouponUi(false)
         }

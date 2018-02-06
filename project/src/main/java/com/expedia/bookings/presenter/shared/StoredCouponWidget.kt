@@ -14,7 +14,7 @@ class StoredCouponWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        storedCouponRecyclerView.adapter = StoredCouponListAdapter(viewModel.storedCouponsSubject, viewModel.enableStoredCouponsSubject)
+        storedCouponRecyclerView.adapter = StoredCouponListAdapter(viewModel.storedCouponsSubject, viewModel.enableStoredCouponsSubject, viewModel.errorObservable)
         storedCouponRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 }

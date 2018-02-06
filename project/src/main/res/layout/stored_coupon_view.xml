@@ -57,6 +57,13 @@
             android:src="@drawable/validated"
             android:visibility="gone" />
 
+        <ImageView
+            android:id="@+id/error_image_view"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/invalid"
+            android:visibility="gone" />
+
     </FrameLayout>
 
 </LinearLayout>

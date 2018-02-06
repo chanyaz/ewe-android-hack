@@ -349,7 +349,7 @@
       },
       {
         "name": "VALID",
-        "instanceId": "hotel_coupon_errors_VALID",
+        "instanceId": "happypath_createtrip_saved_coupons_select",
         "redemptionStatus": "VALID"
       },
       {
@@ -409,7 +409,7 @@
       },
       {
         "name": "Not exists",
-        "instanceId": "hotel_coupon_errors_not_exists.json",
+        "instanceId": "hotel_coupon_errors_not_exists",
         "redemptionStatus": "VALID"
       },
       {

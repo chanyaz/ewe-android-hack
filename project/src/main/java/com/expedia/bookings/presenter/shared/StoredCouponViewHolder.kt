@@ -9,7 +9,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.StoredCouponViewHolderViewModel
 
 class StoredCouponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -17,14 +16,33 @@ class StoredCouponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val defaultStateImage by bindView<ImageView>(R.id.stored_coupon_default)
     val progressBar by bindView<ProgressBar>(R.id.stored_coupon_progress_bar)
     val couponApplied by bindView<ImageView>(R.id.coupon_applied_successful)
+    val errorImageView by bindView<ImageView>(R.id.error_image_view)
     val couponErrorTextView by bindView<TextView>(R.id.coupon_error)
 
     val viewModel: StoredCouponViewHolderViewModel by lazy {
         val vm = StoredCouponViewHolderViewModel()
         vm.couponName.subscribeText(couponNameTextView)
-        vm.progressBarVisibility.subscribeVisibility(progressBar)
-        vm.couponAppliedVisibility.subscribeVisibility(couponApplied)
-        vm.defaultStateImageVisibility.subscribeVisibility(defaultStateImage)
+        vm.couponStatus.subscribe { status ->
+            progressBar.visibility = View.GONE
+            when (status) {
+                StoredCouponAppliedStatus.DEFAULT -> {
+                    defaultStateImage.visibility = View.VISIBLE
+                    errorImageView.visibility = View.GONE
+                    couponApplied.visibility = View.GONE
+                }
+                StoredCouponAppliedStatus.SUCCESS -> {
+                    defaultStateImage.visibility = View.GONE
+                    errorImageView.visibility = View.GONE
+                    couponApplied.visibility = View.VISIBLE
+                }
+                StoredCouponAppliedStatus.ERROR -> {
+                    defaultStateImage.visibility = View.GONE
+                    errorImageView.visibility = View.VISIBLE
+                    couponApplied.visibility = View.GONE
+                }
+            }
+        }
+
         vm.errorObservable.subscribeTextAndVisibility(couponErrorTextView)
         vm.enableViewHolder.subscribe {
             view.isEnabled = it
@@ -34,8 +52,8 @@ class StoredCouponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     init {
         view.setOnClickListener {
-            viewModel.defaultStateImageVisibility.onNext(false)
-            viewModel.progressBarVisibility.onNext(true)
+            defaultStateImage.visibility = View.GONE
+            progressBar.visibility = View.VISIBLE
             val clickHolderViewTag = itemView.tag as Int
             viewModel.couponClickActionSubject.onNext(clickHolderViewTag)
         }

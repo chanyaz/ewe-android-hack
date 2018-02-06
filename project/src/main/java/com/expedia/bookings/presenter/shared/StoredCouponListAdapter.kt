@@ -9,12 +9,21 @@ import com.expedia.util.safeSubscribe
 import io.reactivex.subjects.PublishSubject
 
 class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCouponAdapter>>,
-                              val enableStoredCouponsSubject: PublishSubject<Boolean>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                              val enableStoredCouponsSubject: PublishSubject<Boolean>, val errorMessageAndSavedCouponInstanceIDObservable: PublishSubject<Pair<String, String>>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var coupons = arrayListOf<StoredCouponAdapter>()
     val applyStoredCouponObservable = PublishSubject.create<HotelCreateTripResponse.SavedCoupon>()
 
     init {
+        errorMessageAndSavedCouponInstanceIDObservable.subscribe {
+            val errorMessage = it.first
+            val instanceId = it.second
+
+            coupons.firstOrNull { it.errorMessage.isNotEmpty() }?.errorMessage = ""
+            coupons.first { it.savedCoupon.instanceId == instanceId }.errorMessage = errorMessage
+            notifyDataSetChanged()
+        }
+
         storedCouponsSubject.safeSubscribe { newCoupons ->
             coupons.clear()
             coupons.addAll(newCoupons!!)
@@ -34,7 +43,10 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         val storedCouponHolder = holder as StoredCouponViewHolder
         storedCouponHolder.viewModel.couponName.onNext(coupons[position].savedCoupon.name)
-        storedCouponHolder.viewModel.couponStatus.onNext(coupons[position].savedCouponStatus)
+        storedCouponHolder.viewModel.couponStatus.onNext(if (coupons[position].errorMessage.isEmpty()) {
+            coupons[position].savedCouponStatus
+        } else StoredCouponAppliedStatus.ERROR)
+        storedCouponHolder.viewModel.errorObservable.onNext(coupons[position].errorMessage)
         storedCouponHolder.viewModel.couponClickActionSubject.subscribe { viewHolderTag ->
             applyStoredCouponObservable.onNext(coupons[viewHolderTag].savedCoupon)
         }

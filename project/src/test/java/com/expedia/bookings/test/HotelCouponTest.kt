@@ -368,7 +368,7 @@ class HotelCouponTest {
         vm.storedCouponViewModel.storedCouponTrackingObservable.onNext("test saved coupon")
         vm.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam(false, "hotel_coupon_session_timeout_error"))
 
-        assertEquals("Sorry, but we're having a problem. Please try again.", testErrorMessageObservable.values()[0])
+        assertEquals("Sorry, we're having a problem. Please try again.", testErrorMessageObservable.values()[0])
     }
 
     @Test
@@ -377,7 +377,7 @@ class HotelCouponTest {
         vm.applyCouponViewModel.errorMessageObservable.subscribe(testErrorMessageObservable)
         vm.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(false, "hotel_coupon_session_timeout_error"))
 
-        assertEquals("Sorry, but we're having a problem. Please try again.", testErrorMessageObservable.values()[0])
+        assertEquals("Sorry, we're having a problem. Please try again.", testErrorMessageObservable.values()[0])
     }
 
     private fun setupCouponWidget(): CouponWidget {
