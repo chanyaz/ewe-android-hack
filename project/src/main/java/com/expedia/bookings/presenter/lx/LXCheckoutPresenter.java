@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
@@ -53,6 +54,7 @@ public class LXCheckoutPresenter extends Presenter {
 	@Inject
 	protected UserStateManager userStateManager;
 
+	@VisibleForTesting
 	@InjectView(R.id.checkout)
 	LXCheckoutMainViewPresenter checkout;
 
@@ -245,7 +247,7 @@ public class LXCheckoutPresenter extends Presenter {
 	public void showPaymentFailed(Events.LXPaymentFailed event) {
 		show(checkout, FLAG_CLEAR_TOP);
 		checkout.slideWidget.resetSlider();
-		checkout.paymentInfoCardView.getCardInfoContainer().performClick();
+		checkout.paymentInfoCardView.showPaymentForm(true);
 	}
 
 	private void showCheckoutErrorDialog(@StringRes int message) {

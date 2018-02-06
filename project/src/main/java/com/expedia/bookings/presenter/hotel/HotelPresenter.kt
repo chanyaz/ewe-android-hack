@@ -526,7 +526,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         show(checkoutPresenter, FLAG_CLEAR_TOP)
         checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, FLAG_CLEAR_TOP)
         checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.showPaymentForm(fromPaymentError = true)
-        checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.viewmodel.clearTemporaryCardObservable.onNext(Unit)
     }
 
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {

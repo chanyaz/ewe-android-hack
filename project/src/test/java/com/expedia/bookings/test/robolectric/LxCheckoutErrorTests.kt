@@ -10,8 +10,11 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.lx.LXCheckoutPresenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -20,8 +23,11 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget
 import com.expedia.bookings.widget.LXErrorWidget
+import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.TextView
+import com.expedia.vm.PaymentViewModel
 import com.squareup.phrase.Phrase
+import kotlinx.android.synthetic.main.lx_checkout_presenter.view.checkout
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
@@ -32,6 +38,8 @@ import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -87,6 +95,27 @@ class LxCheckoutErrorTests {
         val sectionBillingInfo = checkoutPresenter.findViewById<View>(R.id.section_billing_info)
         assertEquals(View.VISIBLE, sectionBillingInfo.visibility)
         assertEquals(View.VISIBLE, editbox.visibility)
+    }
+
+    @Test
+    fun testPaymentFailedErrorRemovesTempCard() {
+        val paymentWidget = checkoutPresenter.checkout.paymentInfoCardView
+        paymentWidget.viewmodel = PaymentViewModel(activity)
+        paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+        paymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.LX)
+        paymentWidget.viewmodel.isCreditCardRequired.onNext(true)
+        val billingInfo = BillingInfo()
+        billingInfo.setNumberAndDetectType("4111111111111111", activity)
+        paymentWidget.sectionBillingInfo.bind(billingInfo)
+        paymentWidget.userChoosesToSaveCard()
+
+        assertNotNull(Db.sharedInstance.temporarilySavedCard)
+
+        performLxCheckoutError("PaymentFailed")
+        errorButton.performClick()
+
+        assertNull(Db.sharedInstance.temporarilySavedCard)
+        assertEquals("", paymentWidget.creditCardNumber.text.toString())
     }
 
     @Test

@@ -335,7 +335,10 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.userChoosesToSaveCard();
 
 		assertTrue(paymentWidget.hasTempCard());
+
 		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
+		hotelPresenter.getErrorPresenter().getErrorButton().performClick();
+
 		assertFalse(paymentWidget.hasTempCard());
 	}
 
@@ -345,8 +348,13 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.userChoosesToSaveCard();
 
 		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
+		assertTrue(paymentWidget.hasTempCard());
+
 		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
+		hotelPresenter.getErrorPresenter().getErrorButton().performClick();
+
 		assertNull(Db.sharedInstance.getTemporarilySavedCard());
+		assertFalse(paymentWidget.hasTempCard());
 	}
 
 	@Test
@@ -355,8 +363,13 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.userChoosesToSaveCard();
 
 		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
+		assertTrue(paymentWidget.hasTempCard());
+
 		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutCardErrorObservable().onNext(Unit.INSTANCE);
+		hotelPresenter.getErrorPresenter().getErrorButton().performClick();
+
 		assertNull(Db.sharedInstance.getTemporarilySavedCard());
+		assertFalse(paymentWidget.hasTempCard());
 	}
 
 	@Test
@@ -365,9 +378,34 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.userChoosesToSaveCard();
 
 		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
+		assertTrue(paymentWidget.hasTempCard());
+
 		hotelPresenter.getErrorPresenter().getViewModel().setError(new ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS));
 		hotelPresenter.getErrorPresenter().getViewModel().handleCheckoutErrors();
+
 		assertNull(Db.sharedInstance.getTemporarilySavedCard());
+		assertFalse(paymentWidget.hasTempCard());
+	}
+
+	@Test
+	public void testTempCardRemovedFromStoredCardListAfterPaymentError() {
+		User user = UserLoginTestUtil.mockUser();
+		user.addStoredCreditCard(getNewCard(PaymentType.CARD_MAESTRO));
+		user.addStoredCreditCard(getNewCard(PaymentType.CARD_VISA));
+		UserLoginTestUtil.setupUserAndMockLogin(user);
+		userStateManager.getUserSource().setUser(user);
+		setupPaymentWidget();
+		tempSavedCardBillingInfo.setIsTempCard(true);
+		paymentWidget.getSectionBillingInfo().bind(tempSavedCardBillingInfo);
+		paymentWidget.userChoosesToSaveCard();
+		ListView storedCardList = paymentWidget.getStoredCreditCardList().findViewById(R.id.stored_card_list);
+		paymentWidget.getStoredCreditCardList().bind();
+
+		assertEquals(3, storedCardList.getAdapter().getCount());
+
+		paymentWidget.showPaymentForm(true);
+
+		assertEquals(2, storedCardList.getAdapter().getCount());
 	}
 
 	@Test

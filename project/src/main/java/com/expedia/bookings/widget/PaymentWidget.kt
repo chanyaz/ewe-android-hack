@@ -178,6 +178,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             creditCardPostalCode.requestFocus()
         }
 
+        vm.clearTemporaryCardObservable.subscribe {
+            storedCreditCardList.bind()
+        }
+
         vm.clearHiddenBillingAddress.subscribe {
             if (!isCompletelyFilled()) {
                 val location = Location()
@@ -284,12 +288,14 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             trackPaymentEnterNewCard()
             if (fromPaymentError) {
                 clearCCAndCVV()
+                viewmodel.clearTemporaryCardObservable.onNext(Unit)
             }
         } else {
             show(PaymentOption(), FLAG_CLEAR_BACKSTACK)
             trackShowPaymentOptions()
             if (fromPaymentError) {
                 removeStoredCard()
+                viewmodel.clearTemporaryCardObservable.onNext(Unit)
             }
         }
         viewmodel.expandObserver.onNext(true)
