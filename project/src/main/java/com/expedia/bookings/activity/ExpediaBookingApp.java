@@ -1,5 +1,10 @@
 package com.expedia.bookings.activity;
 
+import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
@@ -61,11 +66,11 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.util.LanguageHelper;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.ShortcutUtils;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.util.LanguageHelper;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -79,11 +84,6 @@ import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 import net.danlew.android.joda.JodaTimeAndroid;
-
-import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -139,9 +139,9 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		sIsRobolectric = isRobolectric;
 	}
 
+
 	@Override
 	public void onCreate() {
-
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
 		//Init language as per dev settings
 		if (BuildConfig.DEBUG) {

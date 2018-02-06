@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.Scroller
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.enums.OnboardingPagerState
 import com.expedia.bookings.onboarding.LeftRightFlingListener
@@ -69,6 +70,9 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).appComponent().inject(this)
         setContentView(R.layout.activity_onboarding)
+
+        ActivityTransitionCircularRevealHelper.startCircularRevealTransitionAnimation(this, savedInstanceState, intent, viewPager)
+
         CarnivalUtils.getInstance().toggleNotifications(false)
 
         viewPager.adapter = pagerAdapter
@@ -115,8 +119,10 @@ class OnboardingActivity : AppCompatActivity() {
             }
             previousItem = viewPager.currentItem
         }
+
         override fun onPageScrollStateChanged(state: Int) {
         }
+
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
         }
     }
@@ -171,7 +177,7 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun showNext() {
-        if (!isAnimating && viewPager.currentItem < OnboardingPagerState.values().size - 1 ) {
+        if (!isAnimating && viewPager.currentItem < OnboardingPagerState.values().size - 1) {
             animateTextThenGoToNewPage(FlingType.RIGHT_FLING)
         }
     }
@@ -241,6 +247,7 @@ class OnboardingActivity : AppCompatActivity() {
         override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int, duration: Int) {
             super.startScroll(startX, startY, dx, dy, mDuration)
         }
+
         override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int) {
             super.startScroll(startX, startY, dx, dy, mDuration)
         }

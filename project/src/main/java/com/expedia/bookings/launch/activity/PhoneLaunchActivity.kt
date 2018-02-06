@@ -17,9 +17,11 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -81,7 +83,6 @@ import javax.inject.Inject
 class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.LaunchFragmentListener, AccountSettingsFragment.AccountFragmentListener,
         ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
         , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener {
-
     private var pagerSelectedPosition = PAGER_POS_LAUNCH
 
     lateinit var appStartupTimeLogger: AppStartupTimeLogger
@@ -127,10 +128,12 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     private val debugMenu: DebugMenu by lazy {
         DebugMenuFactory.newInstance(this)
     }
+
     private var hasMenu = false
 
     val viewPager by bindView<DisableableViewPager>(R.id.viewpager)
     val toolbar by bindView<PhoneLaunchToolbar>(R.id.launch_toolbar)
+    val rootLayout by bindView<LinearLayout>(R.id.root_linear_layout)
 
     val pagerAdapter: PagerAdapter by lazy {
         PagerAdapter(supportFragmentManager)
@@ -138,10 +141,12 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         Ui.getApplication(this).appComponent().inject(this)
         Ui.getApplication(this).defaultLaunchComponents()
         Ui.getApplication(this).launchComponent()
         setContentView(R.layout.activity_phone_launch)
+        ActivityTransitionCircularRevealHelper.startCircularRevealTransitionAnimation(this, savedInstanceState, intent, rootLayout)
 
         isFromConfirmation = intent.getBooleanExtra(PhoneLaunchActivity.ARG_IS_FROM_CONFIRMATION, false)
 
@@ -444,8 +449,10 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             if (endDate.isBefore(LocalDate.now())) {
                 endDate = LocalDate.now().plusDays(14)
             }
-            LXNavUtils.goToActivities(this, null, LXDataUtils.fromHotelParams(this, startDate, endDate, data.propertyLocation),
-                    NavUtils.FLAG_OPEN_RESULTS)
+            LXNavUtils.goToActivities(
+                    this,
+                    null,
+                    LXDataUtils.fromHotelParams(this, startDate, endDate, data.propertyLocation), NavUtils.FLAG_OPEN_RESULTS)
         }
     }
 
@@ -457,8 +464,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     fun shouldShowOverFlowMenu(): Boolean {
-        return (BuildConfig.DEBUG &&
-                SettingUtils.get(this@PhoneLaunchActivity, this@PhoneLaunchActivity.getString(R.string.preference_launch_screen_overflow), false))
+        return (BuildConfig.DEBUG && SettingUtils.get(this@PhoneLaunchActivity, this@PhoneLaunchActivity.getString(R.string.preference_launch_screen_overflow), false))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -695,7 +701,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     companion object {
-
         const val NUMBER_OF_TABS = 3
         const val PAGER_POS_LAUNCH = 0
         const val PAGER_POS_ITIN = 1

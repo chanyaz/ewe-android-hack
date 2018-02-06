@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ActivityKillReceiver;
 import com.expedia.bookings.activity.DeepLinkWebViewActivity;
+import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -27,6 +28,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.mia.activity.MemberDealsActivity;
+import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.rail.activity.RailActivity;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.tracking.RailWebViewTracking;
@@ -81,6 +83,14 @@ public class NavUtils {
 		}
 	}
 
+	public static void goToOnboardingScreen(Context context, Bundle animOptions, int revealXPos, int revealYPos, int backgroundColor) {
+		Intent intent = new Intent(context, OnboardingActivity.class);
+		intent.putExtra(ActivityTransitionCircularRevealHelper.ARG_CIRCULAR_REVEAL_X, revealXPos);
+		intent.putExtra(ActivityTransitionCircularRevealHelper.ARG_CIRCULAR_REVEAL_Y, revealYPos);
+		intent.putExtra(ActivityTransitionCircularRevealHelper.ARG_CIRCULAR_REVEAL_BACKGROUND_COLOR, backgroundColor);
+		context.startActivity(intent, animOptions);
+	}
+
 	public static void goToLaunchScreen(Context context) {
 		goToLaunchScreen(context, false);
 	}
@@ -93,6 +103,17 @@ public class NavUtils {
 		}
 		sendKillActivityBroadcast(context);
 		context.startActivity(intent);
+	}
+
+	public static void goToLaunchScreen(Context context, Bundle animOptions, int revealXPos, int revealYPos, int backgroundColor) {
+		Intent intent = getLaunchIntent(context);
+		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+		intent.putExtra(ActivityTransitionCircularRevealHelper.ARG_CIRCULAR_REVEAL_X, revealXPos);
+		intent.putExtra(ActivityTransitionCircularRevealHelper.ARG_CIRCULAR_REVEAL_Y, revealYPos);
+		intent.putExtra(ActivityTransitionCircularRevealHelper.ARG_CIRCULAR_REVEAL_BACKGROUND_COLOR, backgroundColor);
+		sendKillActivityBroadcast(context);
+		context.startActivity(intent, animOptions);
 	}
 
 	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall, LineOfBusiness lobNotSupported) {

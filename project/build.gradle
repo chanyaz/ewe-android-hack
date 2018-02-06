@@ -98,7 +98,7 @@ dependencies {
     }
 
     // Library for playing animations created with After Effects and the Bodymovin plugin
-    implementation ('com.airbnb.android:lottie:2.5.0-rc1') {
+    implementation ('com.airbnb.android:lottie:2.5.0') {
         exclude group: 'com.android.support'
     }
 
