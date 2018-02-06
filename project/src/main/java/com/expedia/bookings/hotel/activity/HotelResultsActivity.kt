@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.hotel.util.HotelSearchParamsProvider
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
@@ -139,7 +140,9 @@ class HotelResultsActivity : AppCompatActivity() {
             }
         }
         presenter.hotelSelectedSubject.subscribe { hotel ->
-            //todo https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/9175
+            val intent = Intent(this, HotelDetailsActivity::class.java)
+            intent.putExtra(HotelExtras.EXTRA_HOTEL_SELECTED_ID, hotel.hotelId)
+            startActivity(intent)
         }
     }
 
