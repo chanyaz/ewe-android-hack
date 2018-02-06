@@ -133,6 +133,12 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         }
         val numTravelers = Db.sharedInstance.packageParams.guests
         overviewPresenter.vm.selectedFlightLegSubject.subscribe { selectedFlight ->
+            if (selectedFlight.outbound) {
+                PackagesPageUsableData.FLIGHT_OUTBOUND_DETAILS.pageUsableData.markPageLoadStarted()
+            } else {
+                PackagesPageUsableData.FLIGHT_INBOUND_DETAILS.pageUsableData.markPageLoadStarted()
+            }
+
             overviewPresenter.paymentFeesMayApplyTextView.setOnClickListener {
                 if (!selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()) {
                     overviewPresenter.showPaymentFeesObservable.onNext(true)
@@ -234,7 +240,15 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun trackFlightOverviewLoad() {
         val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
-        PackagesTracking().trackFlightRoundTripDetailsLoad(isOutboundSearch)
+
+        if (isOutboundSearch) {
+            PackagesPageUsableData.FLIGHT_OUTBOUND_DETAILS.pageUsableData.markAllViewsLoaded()
+        } else {
+            PackagesPageUsableData.FLIGHT_INBOUND_DETAILS.pageUsableData.markAllViewsLoaded()
+        }
+
+        PackagesTracking().trackFlightRoundTripDetailsLoad(isOutboundSearch,
+                if (isOutboundSearch) PackagesPageUsableData.FLIGHT_OUTBOUND_DETAILS.pageUsableData else PackagesPageUsableData.FLIGHT_INBOUND_DETAILS.pageUsableData)
     }
 
     override fun trackFlightSortFilterLoad() {

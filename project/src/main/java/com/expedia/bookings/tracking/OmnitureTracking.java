@@ -4723,8 +4723,8 @@ public class OmnitureTracking {
 			AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass);
 	}
 
-	public static void trackPackagesFlightRoundTripOutDetailsLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_DETAILS, null,
+	public static void trackPackagesFlightRoundTripOutDetailsLoad(PageUsableData pageUsableData) {
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_DETAILS, pageUsableData,
 			AbacusUtils.EBAndroidAppPackagesDisplayBasicEconomyTooltip);
 	}
 
@@ -4732,8 +4732,8 @@ public class OmnitureTracking {
 		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_RESULTS, pageUsableData);
 	}
 
-	public static void trackPackagesFlightRoundTripInDetailsLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_DETAILS, null);
+	public static void trackPackagesFlightRoundTripInDetailsLoad(PageUsableData pageUsableData) {
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_DETAILS, pageUsableData);
 	}
 
 	public static void trackPackagesHotelInfoLoad(String hotelId, PageUsableData pageUsableData) {

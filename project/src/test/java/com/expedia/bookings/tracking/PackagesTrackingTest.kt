@@ -188,7 +188,7 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightRoundTripDetailsLoadOutBound() {
-        sut.trackFlightRoundTripDetailsLoad(true)
+        sut.trackFlightRoundTripDetailsLoad(true, PageUsableData())
         val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
@@ -196,7 +196,7 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightRoundTripDetailsLoadInBound() {
-        sut.trackFlightRoundTripDetailsLoad(false)
+        sut.trackFlightRoundTripDetailsLoad(false, PageUsableData())
         val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }

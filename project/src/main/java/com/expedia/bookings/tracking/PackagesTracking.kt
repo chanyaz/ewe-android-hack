@@ -104,10 +104,10 @@ class PackagesTracking {
         }
     }
 
-    fun trackFlightRoundTripDetailsLoad(isOutBound: Boolean) {
+    fun trackFlightRoundTripDetailsLoad(isOutBound: Boolean, pageUsableData: PageUsableData) {
         if (isOutBound)
-            OmnitureTracking.trackPackagesFlightRoundTripOutDetailsLoad()
-        else OmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad()
+            OmnitureTracking.trackPackagesFlightRoundTripOutDetailsLoad(pageUsableData)
+        else OmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad(pageUsableData)
     }
 
     fun trackHotelDetailLoad(hotelId: String, pageUsableData: PageUsableData) {

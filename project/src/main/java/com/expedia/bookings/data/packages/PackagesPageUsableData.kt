@@ -7,6 +7,8 @@ enum class PackagesPageUsableData(val pageUsableData: PageUsableData) {
     HOTEL_RESULTS(PageUsableData()),
     HOTEL_INFOSITE(PageUsableData()),
     FLIGHT_OUTBOUND(PageUsableData()),
+    FLIGHT_OUTBOUND_DETAILS(PageUsableData()),
     FLIGHT_INBOUND(PageUsableData()),
+    FLIGHT_INBOUND_DETAILS(PageUsableData()),
     RATE_DETAILS(PageUsableData())
 }
