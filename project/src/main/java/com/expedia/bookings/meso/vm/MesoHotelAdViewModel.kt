@@ -29,12 +29,10 @@ class MesoHotelAdViewModel(val context: Context) {
     val hotelParamsForSearch: HotelSearchParams by lazy { getHotelSearchParams() }
 
     fun dataIsValid(): Boolean {
-        return mesoHotelAdResponse?.hotelId != null &&
+        return !mesoHotelAdResponse?.hotelId.isNullOrBlank() &&
                 mesoHotelAdResponse?.percentageOff != null &&
                 mesoHotelAdResponse?.hotelName != null &&
                 mesoHotelAdResponse?.propertyLocation != null &&
-                mesoHotelAdResponse?.strikethroughPrice != null &&
-                mesoHotelAdResponse?.offerPrice != null &&
                 mesoHotelAdResponse?.regionId != null
     }
 
@@ -85,9 +83,7 @@ class MesoHotelAdViewModel(val context: Context) {
     }
 
     private fun getSubTextFormattedString(bulletOrNewLine: String): String {
-        return if (mesoHotelAdResponse?.propertyLocation != null &&
-                mesoHotelAdResponse?.strikethroughPrice != null &&
-                mesoHotelAdResponse?.offerPrice != null) {
+        return if (subTextDataIsValid()) {
             Phrase.from(context, R.string.meso_sub_text_TEMPLATE)
                     .put("location", mesoHotelAdResponse?.propertyLocation)
                     .put("bullet_or_new_line", bulletOrNewLine)
@@ -95,7 +91,13 @@ class MesoHotelAdViewModel(val context: Context) {
                     .put("price", mesoHotelAdResponse?.offerPrice)
                     .format()
                     .toString()
-        } else ""
+        } else (mesoHotelAdResponse?.propertyLocation ?: "").toString()
+    }
+
+    private fun subTextDataIsValid(): Boolean {
+        return !mesoHotelAdResponse?.propertyLocation.isNullOrBlank() &&
+                !mesoHotelAdResponse?.strikethroughPrice.isNullOrBlank() &&
+                !mesoHotelAdResponse?.offerPrice.isNullOrBlank()
     }
 
     private fun getHotelSearchParams(): HotelSearchParams {
