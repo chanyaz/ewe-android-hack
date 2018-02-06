@@ -93,6 +93,7 @@ class UserFilterChoicesTest {
         searchOptions.filterStarRatings = listOf(10, 40, 50)
         searchOptions.userSort = HotelSearchParams.SortType.DISTANCE
         searchOptions.filterVipOnly = true
+        searchOptions.amenities = hashSetOf(1, 3)
 
         val filterOptions = UserFilterChoices.fromHotelFilterOptions(searchOptions)
         assertEquals(hotelName, filterOptions.name)
@@ -104,6 +105,8 @@ class UserFilterChoicesTest {
 
         assertFalse(filterOptions.hotelStarRating.two)
         assertFalse(filterOptions.hotelStarRating.three)
+        assertTrue(filterOptions.amenities.contains(1))
+        assertTrue(filterOptions.amenities.contains(3))
     }
 
     @Test

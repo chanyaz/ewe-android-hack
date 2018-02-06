@@ -25,7 +25,6 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.ShopWithPointsViewModel
@@ -88,9 +87,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         hotelSortOptionsView.updateSortItems(sortList)
     }
 
-    var viewModel: BaseHotelFilterViewModel by notNullAndObservable { vm ->
-        bindViewModel(vm)
-    }
+    private lateinit var viewModel: BaseHotelFilterViewModel
 
     init {
         inflate()
@@ -120,6 +117,11 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         }
 
         resetStars()
+    }
+
+    fun setViewModel(viewModel: BaseHotelFilterViewModel) {
+        this.viewModel = viewModel
+        bindViewModel(viewModel)
     }
 
     open fun shakeForError() {

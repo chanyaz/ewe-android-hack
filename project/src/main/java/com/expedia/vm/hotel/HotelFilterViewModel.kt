@@ -3,22 +3,23 @@ package com.expedia.vm.hotel
 import android.content.Context
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.tracking.hotel.FilterTracker
 import com.expedia.bookings.tracking.hotel.HotelFilterTracker
 import io.reactivex.subjects.PublishSubject
 
 class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context) {
-    //in
-    val searchOptionsUpdatedObservable = PublishSubject.create<UserFilterChoices>()
+    //out
+    val presetFilterOptionsUpdatedSubject = PublishSubject.create<UserFilterChoices>()
 
-    private var withSearchOptions = false
+    private var presetFilterOptions = false
     private var previousFilterChoices: UserFilterChoices? = null
 
     init {
         doneButtonEnableObservable.onNext(true)
         doneObservable.subscribe {
             filterCountObservable.onNext(userFilterChoices.filterCount())
-            if (defaultFilterOptions() && !withSearchOptions) {
+            if (defaultFilterOptions() && !presetFilterOptions) {
                 originalResponse?.let {
                     filterObservable.onNext(it)
                 }
@@ -33,15 +34,15 @@ class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context)
         clearObservable.subscribe {
             previousFilterChoices = null
         }
+    }
 
-        newSearchOptionsObservable.subscribe { searchOptions ->
-            withSearchOptions = false
-            if (searchOptions.isNotEmpty()) {
-                val filterChoices = UserFilterChoices.fromHotelFilterOptions(searchOptions)
-                previousFilterChoices = filterChoices
-                withSearchOptions = true
-                searchOptionsUpdatedObservable.onNext(filterChoices)
-            }
+    override fun updatePresetOptions(filterOptions: HotelSearchParams.HotelFilterOptions) {
+        presetFilterOptions = false
+        if (filterOptions.isNotEmpty()) {
+            val filterChoices = UserFilterChoices.fromHotelFilterOptions(filterOptions)
+            previousFilterChoices = filterChoices
+            presetFilterOptions = true
+            presetFilterOptionsUpdatedSubject.onNext(filterChoices)
         }
     }
 

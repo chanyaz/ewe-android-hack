@@ -41,6 +41,8 @@ class HotelFilterViewTest {
     private var shopWithPointsViewModel: ShopWithPointsViewModel by Delegates.notNull()
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
 
+    private lateinit var viewModel: HotelFilterViewModel
+
     @Before fun before() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(RuntimeEnvironment.application, paymentModel, UserLoginStateChangedModel())
@@ -88,10 +90,10 @@ class HotelFilterViewTest {
     fun testNeighborhoodManyToNone() {
         // https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/1164
         initViewModel()
-        hotelFilterView.viewModel.neighborhoodListObservable.onNext(getNeighborhoodList())
+        viewModel.neighborhoodListObservable.onNext(getNeighborhoodList())
         assertTrue(hotelFilterView.neighborhoodView.visibility == View.VISIBLE)
 
-        hotelFilterView.viewModel.neighborhoodListObservable.onNext(emptyList())
+        viewModel.neighborhoodListObservable.onNext(emptyList())
         assertTrue(hotelFilterView.neighborhoodView.visibility == View.GONE)
     }
 
@@ -101,7 +103,7 @@ class HotelFilterViewTest {
         initViewModel()
         val list = ArrayList<HotelSearchResponse.Neighborhood>()
         list.add(HotelSearchResponse.Neighborhood())
-        hotelFilterView.viewModel.neighborhoodListObservable.onNext(list)
+        viewModel.neighborhoodListObservable.onNext(list)
 
         assertTrue(hotelFilterView.neighborhoodView.visibility == View.VISIBLE)
         assertTrue(hotelFilterView.neighborhoodLabel.visibility == View.VISIBLE)
@@ -110,10 +112,10 @@ class HotelFilterViewTest {
     @Test
     fun testNeighborhoodNoneToMany() {
         initViewModel()
-        hotelFilterView.viewModel.neighborhoodListObservable.onNext(emptyList())
+        viewModel.neighborhoodListObservable.onNext(emptyList())
         assertTrue(hotelFilterView.neighborhoodView.visibility == View.GONE)
 
-        hotelFilterView.viewModel.neighborhoodListObservable.onNext(getNeighborhoodList())
+        viewModel.neighborhoodListObservable.onNext(getNeighborhoodList())
         assertTrue(hotelFilterView.neighborhoodView.visibility == View.VISIBLE)
     }
 
@@ -127,7 +129,7 @@ class HotelFilterViewTest {
         val userFilters = UserFilterChoices()
         val name = "Hyatt"
         userFilters.name = name
-        (hotelFilterView.viewModel as HotelFilterViewModel).searchOptionsUpdatedObservable.onNext(userFilters)
+        viewModel.presetFilterOptionsUpdatedSubject.onNext(userFilters)
 
         assertEquals(name, testSubscriber.values()[0].toString())
     }
@@ -142,7 +144,7 @@ class HotelFilterViewTest {
         val userFilters = UserFilterChoices()
         val stars = UserFilterChoices.StarRatings(true, true, true, true, true)
         userFilters.hotelStarRating = stars
-        (hotelFilterView.viewModel as HotelFilterViewModel).searchOptionsUpdatedObservable.onNext(userFilters)
+        viewModel.presetFilterOptionsUpdatedSubject.onNext(userFilters)
 
         assertEquals(stars, testSubscriber.values()[0])
     }
@@ -156,7 +158,7 @@ class HotelFilterViewTest {
 
         val userFilters = UserFilterChoices()
         userFilters.isVipOnlyAccess = true
-        (hotelFilterView.viewModel as HotelFilterViewModel).searchOptionsUpdatedObservable.onNext(userFilters)
+        viewModel.presetFilterOptionsUpdatedSubject.onNext(userFilters)
 
         assertTrue(testSubscriber.values()[0])
     }
@@ -168,7 +170,8 @@ class HotelFilterViewTest {
 
     private fun initViewModel() {
         hotelFilterView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_filter_view_test, null) as HotelServerFilterView
-        hotelFilterView.viewModel = HotelFilterViewModel(activity)
+        viewModel = HotelFilterViewModel(activity)
+        hotelFilterView.setViewModel(viewModel)
         hotelFilterView.shopWithPointsViewModel = shopWithPointsViewModel
     }
 

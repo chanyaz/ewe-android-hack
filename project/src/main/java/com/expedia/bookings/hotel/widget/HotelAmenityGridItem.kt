@@ -44,6 +44,11 @@ class HotelAmenityGridItem(context: Context, val amenity: Amenity) : LinearLayou
         amenity.filterDescriptionId?.let { id -> textView.text = context.getString(id) }
     }
 
+    fun select() {
+        icon.isSelected = true
+        amenitySelected.onNext(amenity)
+    }
+
     fun deselect() {
         icon.isSelected = false
     }

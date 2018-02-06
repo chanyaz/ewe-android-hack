@@ -71,7 +71,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     lateinit var urgencyViewModel: UrgencyViewModel
 
     init {
-        filterView.viewModel.filterByParamsObservable.subscribe { params ->
+        filterViewModel.filterByParamsObservable.subscribe { params ->
             viewModel.filterParamsSubject.onNext(params)
         }
 
@@ -130,7 +130,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         vm.locationParamsSubject.subscribe { params ->
             filterView.sortByObserver.onNext(params.isCurrentLocationSearch && !params.isGoogleSuggestionSearch)
-            filterView.viewModel.clearObservable.onNext(Unit)
+            filterViewModel.clearObservable.onNext(Unit)
         }
 
         vm.filterParamsSubject.subscribe {
@@ -143,7 +143,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 animateMapCarouselOut()
             }
         }
-        vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewModel.isCurrentLocationSearch)
+        vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterViewModel.isCurrentLocationSearch)
 
         vm.errorObservable.subscribe { hideMapLoadingOverlay() }
     }
@@ -213,7 +213,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         filterBtnWithCountWidget.subscribeOnClick(filterButtonOnClickObservable)
-        filterView.viewModel.filterCountObservable.subscribe(filterCountObserver)
+        filterViewModel.filterCountObservable.subscribe(filterCountObserver)
 
         mapWidget.cameraChangeSubject.subscribe {
             if (currentState?.equals(ResultsMap::class.java.name) == true
@@ -313,8 +313,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     fun showFilterCachedResults() {
-        filterView.viewModel.clearObservable.onNext(Unit)
-        val cachedFilterResponse = filterView.viewModel.originalResponse ?: adapter.resultsSubject.value
+        filterViewModel.clearObservable.onNext(Unit)
+        val cachedFilterResponse = filterViewModel.originalResponse ?: adapter.resultsSubject.value
         viewModel.hotelResultsObservable.onNext(cachedFilterResponse)
     }
 
@@ -325,20 +325,20 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     private fun newParams(params: HotelSearchParams) {
-        filterView.viewModel.resetPriceSliderFilterTracking()
+        filterViewModel.resetPriceSliderFilterTracking()
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
         if (currentState == ResultsList::class.java.name) {
             moveMapToDestination(params.suggestion)
         }
         filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
 
-        filterView.viewModel.clearObservable.onNext(Unit)
+        filterViewModel.clearObservable.onNext(Unit)
         if (params.suggestion.gaiaId != null) {
-            filterView.viewModel.setSearchLocationId(params.suggestion.gaiaId)
+            filterViewModel.setSearchLocationId(params.suggestion.gaiaId)
         }
-        filterView.viewModel.sortSpinnerObservable.onNext(DisplaySort.fromServerSort(params.getSortOrder()))
-        params.filterOptions?.let {
-            filterView.viewModel.newSearchOptionsObservable.onNext(it)
+        filterViewModel.sortSpinnerObservable.onNext(DisplaySort.fromServerSort(params.getSortOrder()))
+        params.filterOptions?.let { filterOptions ->
+            filterViewModel.updatePresetOptions(filterOptions)
         }
 
         swpEnabled = params.shopWithPoints

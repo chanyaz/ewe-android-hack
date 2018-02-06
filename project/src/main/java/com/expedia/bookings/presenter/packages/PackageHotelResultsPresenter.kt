@@ -43,7 +43,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             val filterCountObserver: Observer<Int> = endlessObserver { numberOfFilters ->
                 filterBtnWithCountWidget.showNumberOfFilters(numberOfFilters)
             }
-            filterView.viewModel.filterCountObservable.subscribe(filterCountObserver)
+            filterViewModel.filterCountObservable.subscribe(filterCountObserver)
             sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget, 0, filterHeight.toInt())
         }
 
@@ -71,7 +71,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             show(ResultsList())
 
             filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
-            filterView.viewModel.clearObservable.onNext(Unit)
+            filterViewModel.clearObservable.onNext(Unit)
         }
     }
 
@@ -92,7 +92,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         super.onFinishInflate()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
-        filterView.viewModel.priceRangeContainerVisibility.onNext(false)
+        filterViewModel.priceRangeContainerVisibility.onNext(false)
     }
 
     override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {

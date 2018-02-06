@@ -58,6 +58,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
             if (searchOptions.filterStarRatings.isNotEmpty()) {
                 filterChoices.hotelStarRating = StarRatings.fromParamList(searchOptions.filterStarRatings)
             }
+            filterChoices.amenities = searchOptions.amenities
 
             return filterChoices
         }

@@ -74,8 +74,8 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
                 staticClearFilterButton.visibility = VISIBLE
             }
         }
-        (vm as HotelFilterViewModel).searchOptionsUpdatedObservable.subscribe { newFilterOptions ->
-            updateWithSearchOptions(newFilterOptions)
+        (vm as HotelFilterViewModel).presetFilterOptionsUpdatedSubject.subscribe { newFilterOptions ->
+            updatePresetFilterChoices(newFilterOptions)
         }
 
         vm.availableAmenityOptionsObservable.subscribe { filterOptions ->
@@ -95,9 +95,14 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
         return stub.inflate() as ServerNeighborhoodFilterView
     }
 
-    fun updateWithSearchOptions(filterOptions: UserFilterChoices) {
+    private fun updatePresetFilterChoices(filterOptions: UserFilterChoices) {
         if (!filterOptions.name.isNullOrEmpty()) hotelNameFilterView.updateName(filterOptions.name)
         filterVipView.update(filterOptions.isVipOnlyAccess)
         starRatingView.update(filterOptions.hotelStarRating)
+        amenityViews.forEach { amenityView ->
+            if (filterOptions.amenities.contains(Amenity.getSearchKey(amenityView.amenity))) {
+                amenityView.select()
+            }
+        }
     }
 }

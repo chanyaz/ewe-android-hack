@@ -35,7 +35,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val neighborhoodListObservable = PublishSubject.create<List<HotelSearchResponse.Neighborhood>>()
     val newPriceRangeObservable = PublishSubject.create<PriceRange>()
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
-    val newSearchOptionsObservable = PublishSubject.create<HotelSearchParams.HotelFilterOptions>()
     val availableAmenityOptionsObservable = PublishSubject.create<Set<String>>()
 
     private var trackingDone = false
@@ -294,4 +293,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.amenities = HashSet()
         userFilterChoices.neighborhoods = HashSet()
     }
+
+    open fun updatePresetOptions(filterOptions: HotelSearchParams.HotelFilterOptions) {}
 }

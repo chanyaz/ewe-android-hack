@@ -141,6 +141,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     var baseViewModel: BaseHotelResultsViewModel by notNull()
 
+    protected val filterViewModel by lazy<BaseHotelFilterViewModel> { createFilterViewModel() }
+
     protected fun animateMapCarouselIn() {
         if (mapCarouselContainer.visibility != View.VISIBLE) {
             val carouselAnimation = mapCarouselContainer.animate().translationX(0f)
@@ -226,9 +228,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         }
         if (!response.isFilteredResponse) {
-            filterView.viewModel.setHotelList(response)
+            filterViewModel.setHotelList(response)
         }
-        filterView.viewModel.availableAmenityOptionsObservable.onNext(response.amenityFilterOptions.keys)
+        filterViewModel.availableAmenityOptionsObservable.onNext(response.amenityFilterOptions.keys)
         mapWidget.newResults(response, updateBounds = true)
     }
 
@@ -258,11 +260,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     override fun back(): Boolean {
         if (ResultsFilter().javaClass.name == currentState) {
-            if (filterView.viewModel.isFilteredToZeroResults()) {
+            if (filterViewModel.isFilteredToZeroResults()) {
                 filterView.shakeForError()
                 return true
             } else {
-                filterView.viewModel.doneObservable.onNext(Unit)
+                filterViewModel.doneObservable.onNext(Unit)
                 return true
             }
         } else if (ResultsMap().javaClass.name == currentState) {
@@ -280,10 +282,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter = getHotelListAdapter()
 
         recyclerView.adapter = adapter
-        filterView.viewModel = createFilterViewModel()
-        filterView.viewModel.filterObservable.subscribe(filterObserver)
+        filterView.setViewModel(filterViewModel)
+        filterViewModel.filterObservable.subscribe(filterObserver)
 
-        filterView.viewModel.showPreviousResultsObservable.subscribe {
+        filterViewModel.showPreviousResultsObservable.subscribe {
             if (previousWasList) {
                 show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
                 resetListOffset()
@@ -307,7 +309,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         filterButtonOnClickObservable.subscribe {
             showWithTracking(ResultsFilter())
-            filterView.viewModel.sortContainerVisibilityObservable.onNext(true)
+            filterViewModel.sortContainerVisibilityObservable.onNext(true)
             filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
         }
     }
@@ -375,7 +377,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         inflateAndSetupToolbarMenu()
 
-        filterView.viewModel.filterCountObservable.subscribe { filterCount ->
+        filterViewModel.filterCountObservable.subscribe { filterCount ->
             updateFilterCount(filterCount)
         }
 
@@ -412,7 +414,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             showWithTracking(ResultsFilter())
             val isResults = currentState == ResultsList::class.java.name
             previousWasList = isResults
-            filterView.viewModel.sortContainerVisibilityObservable.onNext(isResults)
+            filterViewModel.sortContainerVisibilityObservable.onNext(isResults)
             filterView.toolbar.title = if (isResults) resources.getString(R.string.sort_and_filter) else resources.getString(R.string.filter)
         }
         filterButtonText = filterMenuItem.actionView.findViewById<TextView>(R.id.filter_text)
