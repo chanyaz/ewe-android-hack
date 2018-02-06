@@ -59,16 +59,17 @@
                 android:layout_marginTop="19dp"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
-                android:text="@string/itin_hotel_details_room_details_title_text"
                 android:textColor="@color/gray900"
                 android:textSize="18sp"
                 app:textStyle="medium" />
 
-            <com.expedia.bookings.itin.widget.HotelItinRoomDetails
-                android:id="@+id/widget_hotel_itin_room_details"
+            <LinearLayout
+                android:id="@+id/hotel_itin_details_multi_room_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp" />
+                android:layout_marginTop="11dp"
+                android:dividerPadding="12dp"
+                android:orientation="vertical" />
 
             <!--Booking details-->
             <com.expedia.bookings.itin.widget.HotelItinBookingDetails

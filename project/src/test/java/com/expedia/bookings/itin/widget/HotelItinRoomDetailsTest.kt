@@ -172,4 +172,23 @@ class HotelItinRoomDetailsTest {
                 "Prices and hotel availability are not guaranteed until full payment is received.If you would like to book multiple rooms, you must use a different name for each room. Otherwise, the duplicate reservation will be canceled by the hotel.", rulesText.text.toString())
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Manage.Info.Change-Cancel", mockAnalyticsProvider)
     }
+
+    @Test
+    fun testDoOnClick() {
+        assertEquals(View.VISIBLE, roomDetailsWidget.collapsedRoomDetails.visibility)
+        assertEquals(View.GONE, roomDetailsWidget.expandedRoomDetails.visibility)
+        roomDetailsWidget.doOnClick()
+        assertEquals(View.VISIBLE, roomDetailsWidget.collapsedRoomDetails.visibility)
+        assertEquals(View.VISIBLE, roomDetailsWidget.expandedRoomDetails.visibility)
+        roomDetailsWidget.doOnClick()
+        assertEquals(View.VISIBLE, roomDetailsWidget.collapsedRoomDetails.visibility)
+        assertEquals(View.GONE, roomDetailsWidget.expandedRoomDetails.visibility)
+    }
+
+    @Test
+    fun testShowChevron() {
+        assertEquals(View.GONE, roomDetailsWidget.roomDetailsChevron.visibility)
+        roomDetailsWidget.showChevron()
+        assertEquals(View.VISIBLE, roomDetailsWidget.roomDetailsChevron.visibility)
+    }
 }

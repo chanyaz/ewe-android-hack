@@ -1349,6 +1349,8 @@
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">Your room</string>
+    <!--Hotel itin card room details heading - multiple rooms-->
+    <string name="itin_hotel_details_room_details_multi_room_title_text">Your rooms</string>
     <!--Hotel itin card booking details heading-->
     <string name="itin_hotel_details_booking_details_title_text">Booking information</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->

@@ -23,7 +23,10 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
 
     val roomDetailsText: TextView by bindView(R.id.itin_hotel_details_room_details_text)
     val roomDetailsChevron: ImageView by bindView(R.id.itin_hotel_room_details_chevron)
+
+    val collapsedRoomDetails: LinearLayout by bindView(R.id.itin_hotel_details_room_collapsed_view)
     val expandedRoomDetails: LinearLayout by bindView(R.id.expanded_room_details_container)
+
     val roomRequestsText: TextView by bindView(R.id.hotel_itin_room_details_requests)
     val reservedFor: TextView by bindView(R.id.itin_hotel_details_reserved_for)
     val guestName: TextView by bindView(R.id.itin_hotel_details_guest_name)
@@ -32,38 +35,37 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
     val container: ViewGroup by bindView(R.id.container)
     val changeCancelRulesContainer: LinearLayout by bindView(R.id.change_cancel_rules_container)
     val changeCancelRulesButtonText: TextView by bindView(R.id.change_cancel_rules_button_text)
-    var isRowClickable = false
-    val DIALOG_TAG = "CHANGE_CANCEL_RULES_DIALOG"
 
-    private val collapsedRoomDetails: LinearLayout by bindView(R.id.itin_hotel_details_room_collapsed_view)
+    val DIALOG_TAG = "CHANGE_CANCEL_RULES_DIALOG"
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_room_details, this)
-        collapsedRoomDetails.setOnClickListener {
-            if (!isRowClickable) {
-                return@setOnClickListener
-            } else {
-                if (expandedRoomDetails.visibility == View.GONE) {
-                    expandRoomDetailsView()
-                } else {
-                    collapseRoomDetailsView()
-                }
-            }
+    }
+
+    fun doOnClick() {
+        if (expandedRoomDetails.visibility == View.GONE) {
+            expandRoomDetailsView()
+        } else {
+            collapseRoomDetailsView()
         }
     }
 
-    fun hideWidget() {
-        visibility = View.GONE
+    fun showChevron() {
+        roomDetailsChevron.visibility = View.VISIBLE
     }
 
     fun expandRoomDetailsView() {
-        expandedRoomDetails.visibility = View.VISIBLE
-        AnimUtils.rotate(roomDetailsChevron)
+        if (expandedRoomDetails.visibility == View.GONE) {
+            expandedRoomDetails.visibility = View.VISIBLE
+            AnimUtils.rotate(roomDetailsChevron)
+        }
     }
 
     fun collapseRoomDetailsView() {
-        expandedRoomDetails.visibility = View.GONE
-        AnimUtils.reverseRotate(roomDetailsChevron)
+        if (expandedRoomDetails.visibility == View.VISIBLE) {
+            expandedRoomDetails.visibility = View.GONE
+            AnimUtils.reverseRotate(roomDetailsChevron)
+        }
     }
 
     fun setUpRoomAndOccupantInfo(room: TripHotelRoom) {
@@ -78,6 +80,57 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
 
         container.layoutTransition.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0)
         container.layoutTransition.setStartDelay(LayoutTransition.APPEARING, 0)
+    }
+
+    fun setUpAndShowAmenities(tripHotelRoom: TripHotelRoom) {
+        val breakfastAmenityIds = listOf(2, 4, 8, 4096, 8192, 16777216)
+        val amenities = tripHotelRoom.amenityIds
+        var showAmenities = false
+        amenitiesContainer.removeAllViews()
+        amenities.map {
+            if (it in breakfastAmenityIds) breakfastAmenityIds[0] else it
+        }.toSet().forEach {
+            val amenity = HotelItinRoomAmenity(context)
+            when (it) {
+                2 -> {
+                        amenity.setUp(context.resources.getString(R.string.itin_hotel_room_amenity_free_breakfast),
+                                R.drawable.itin_hotel_room_free_breakfast,
+                                context.resources.getString(R.string.itin_hotel_room_amenity_free_breakfast_cont_desc))
+                        amenitiesContainer.addView(amenity)
+                        showAmenities = true
+                }
+                128 -> {
+                    amenity.setUp(context.resources.getString(R.string.itin_hotel_room_amenity_free_parking),
+                            R.drawable.itin_hotel_room_parking_icon,
+                            context.resources.getString(R.string.itin_hotel_room_amenity_free_parking_cont_desc))
+                    amenitiesContainer.addView(amenity)
+                    showAmenities = true
+                }
+                2048 -> {
+                    amenity.setUp(context.resources.getString(R.string.itin_hotel_room_amenity_free_wifi),
+                            R.drawable.itin_hotel_free_wifi,
+                            context.resources.getString(R.string.itin_hotel_room_amenity_free_wifi_cont_desc))
+                    amenitiesContainer.addView(amenity)
+                    showAmenities = true
+                }
+            }
+        }
+        if (showAmenities) {
+            amenitiesContainer.visibility = View.VISIBLE
+            amenitiesDivider.visibility = View.VISIBLE
+        }
+    }
+
+    fun setupAndShowChangeAndCancelRules(changeAndCancelRules: List<String>?) {
+        changeCancelRulesContainer.visibility = View.VISIBLE
+        changeCancelRulesContainer.setOnClickListener {
+            val fragmentManager = (context as FragmentActivity).supportFragmentManager
+            val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_cancel_rules_label),
+                    TextUtils.join("<br>", changeAndCancelRules).toString())
+            dialog.show(fragmentManager, DIALOG_TAG)
+            OmnitureTracking.trackHotelItinChangeAndCancelRulesDialogClick()
+        }
+        changeCancelRulesButtonText.setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
     }
 
     private fun reservedForDetails(tripHotelRoom: TripHotelRoom) {
@@ -173,56 +226,5 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
         }
         val formattedList = TextUtils.join(", ", list)
         return formattedList
-    }
-
-    fun setUpAndShowAmenities(tripHotelRoom: TripHotelRoom) {
-        val breakfastAmenityIds = listOf(2, 4, 8, 4096, 8192, 16777216)
-        val amenities = tripHotelRoom.amenityIds
-        var showAmenities = false
-        amenitiesContainer.removeAllViews()
-        amenities.map {
-            if (it in breakfastAmenityIds) breakfastAmenityIds[0] else it
-        }.toSet().forEach {
-            val amenity = HotelItinRoomAmenity(context)
-            when (it) {
-                2 -> {
-                        amenity.setUp(context.resources.getString(R.string.itin_hotel_room_amenity_free_breakfast),
-                                R.drawable.itin_hotel_room_free_breakfast,
-                                context.resources.getString(R.string.itin_hotel_room_amenity_free_breakfast_cont_desc))
-                        amenitiesContainer.addView(amenity)
-                        showAmenities = true
-                }
-                128 -> {
-                    amenity.setUp(context.resources.getString(R.string.itin_hotel_room_amenity_free_parking),
-                            R.drawable.itin_hotel_room_parking_icon,
-                            context.resources.getString(R.string.itin_hotel_room_amenity_free_parking_cont_desc))
-                    amenitiesContainer.addView(amenity)
-                    showAmenities = true
-                }
-                2048 -> {
-                    amenity.setUp(context.resources.getString(R.string.itin_hotel_room_amenity_free_wifi),
-                            R.drawable.itin_hotel_free_wifi,
-                            context.resources.getString(R.string.itin_hotel_room_amenity_free_wifi_cont_desc))
-                    amenitiesContainer.addView(amenity)
-                    showAmenities = true
-                }
-            }
-        }
-        if (showAmenities) {
-            amenitiesContainer.visibility = View.VISIBLE
-            amenitiesDivider.visibility = View.VISIBLE
-        }
-    }
-
-    fun setupAndShowChangeAndCancelRules(changeAndCancelRules: List<String>?) {
-        changeCancelRulesContainer.visibility = View.VISIBLE
-        changeCancelRulesContainer.setOnClickListener {
-            val fragmentManager = (context as FragmentActivity).supportFragmentManager
-            val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_cancel_rules_label),
-                    TextUtils.join("<br>", changeAndCancelRules).toString())
-            dialog.show(fragmentManager, DIALOG_TAG)
-            OmnitureTracking.trackHotelItinChangeAndCancelRulesDialogClick()
-        }
-        changeCancelRulesButtonText.setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
     }
 }

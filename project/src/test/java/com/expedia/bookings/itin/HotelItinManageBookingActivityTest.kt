@@ -52,7 +52,6 @@ class HotelItinManageBookingActivityTest {
         val roomDetailsView = activity.manageRoomViewModel.manageRoomWidget.roomDetailsView
         assertEquals(View.GONE, roomDetailsView.expandedRoomDetails.visibility)
         assertEquals(View.GONE, roomDetailsView.roomDetailsChevron.visibility)
-        assertEquals(false, roomDetailsView.isRowClickable)
         assertEquals(View.GONE, roomDetailsView.changeCancelRulesContainer.visibility)
         assertEquals(View.GONE, roomDetailsView.amenitiesContainer.visibility)
     }
@@ -66,7 +65,6 @@ class HotelItinManageBookingActivityTest {
         val roomDetailsView = activity.manageRoomViewModel.manageRoomWidget.roomDetailsView
         assertEquals(View.VISIBLE, roomDetailsView.expandedRoomDetails.visibility)
         assertEquals(View.GONE, roomDetailsView.roomDetailsChevron.visibility)
-        assertEquals(false, roomDetailsView.isRowClickable)
         assertEquals(View.VISIBLE, roomDetailsView.changeCancelRulesContainer.visibility)
         assertEquals(View.GONE, roomDetailsView.amenitiesContainer.visibility)
     }
