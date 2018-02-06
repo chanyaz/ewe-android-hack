@@ -24,6 +24,7 @@ repositories {
         }
     }
     maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
+    google()
 }
 
 dependencies {
@@ -175,6 +176,28 @@ dependencies {
     androidTestImplementation "tools.fastlane:screengrab:0.5.5"
     androidTestImplementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     androidTestImplementation 'com.linkedin.testbutler:test-butler-library:1.2.0'
+
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+    // alternatively, just ViewModel
+    implementation "android.arch.lifecycle:viewmodel:1.1.0"
+    // alternatively, just LiveData
+    implementation "android.arch.lifecycle:livedata:1.1.0"
+
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
+
+    // Room (use 1.1.0-alpha1 for latest alpha)
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+
+    // Paging
+    implementation "android.arch.paging:runtime:1.0.0-alpha5"
+
+    // Test helpers for LiveData
+    testImplementation "android.arch.core:core-testing:1.1.0"
+
+    // Test helpers for Room
+    testImplementation "android.arch.persistence.room:testing:1.0.0"
 }
 
 if (!project.ext.has("cucumberInstrumentation")) {
