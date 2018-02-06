@@ -969,6 +969,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun showDetails(hotelId: String) {
+
         val showDateless = hotelSearchParams.isDatelessSearch
                 && AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelDatelessInfosite)
         hotelDetailViewModel.isDatelessObservable.onNext(showDateless)

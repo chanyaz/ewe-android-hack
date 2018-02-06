@@ -15,7 +15,6 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
-import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.RetrofitError
