@@ -43,6 +43,8 @@
     <string name="hotelsv2_slide_purchase">Sveip for å betale</string>
     <!-- Change Dates in case of Sold Out -->
     <string name="change_dates">Endre datoer</string>
+    <!-- Select Dates in case of dateless infosite -->
+    <string name="hotel_info_site_select_dates">Velg datoer</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">Sikker utsjekking</string>
     <!-- Accessibility content description for google map view on hotel results -->
@@ -869,6 +871,21 @@
     <!-- Search screen title -->
     <string name="search_title">Søk</string>
 
+    <!--Meso destination ad card-->
+    <string name="meso_destination_name_las_vegas">Las Vegas</string>
+    <string name="meso_destination_name_los_angeles">Los Angeles</string>
+    <string name="meso_destination_name_miami">Miami</string>
+    <string name="meso_destination_name_cancun">Cancun</string>
+    <string name="meso_destination_name_san_diego">San Diego</string>
+
+    <string name="meso_destination_description_las_vegas">Vintage Las Vegas</string>
+    <string name="meso_destination_description_los_angeles">En perfekt dag i Los Angeles</string>
+    <string name="meso_destination_description_miami">De 10 beste aktivitetene i Miami</string>
+    <string name="meso_destination_description_cancun">Reiseruter i Cancun som passer alle timeplaner</string>
+    <string name="meso_destination_description_san_diego">De 10 beste aktivitetene i San Diego</string>
+
+    <string name="meso_sponsored_text">Sponset</string>
+
     <!-- Meso hotel ad card -->
 
     <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
@@ -1427,6 +1444,10 @@
     <string name="itin_hotel_check_in_policies_dialog_title">Innsjekkingsregler</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Regler for endring og avbestilling</string>
+    <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
+    <string name="itin_hotel_manage_booking_room_tab_title_TEMPLATE">Rom {number}</string>
+    <!--Hotel itin manage booking total rooms text TEMPLATE. {number} total rooms (e.g., 2 total rooms)-->
+    <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">{number} rom totalt</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Del reiserute</string>
@@ -1506,6 +1527,8 @@
     <string name="itin_flight_manage_booking_header">Administrer bestillingen</string>
     <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_flight_itinerary_number_TEMPLATE">Reiserutenummer: {itin_number}</string>
+    <!--Flight itin number content description template. Talkback will announce "Itinerary # {itin_number}" to "Itinerary number {itin_number}" (eg., Itinerary number 7282906974428)-->
+    <string name="itin_flight_itinerary_number_content_description_TEMPLATE">Reiserutenummer {itin_number}</string>
     <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} kundeservice</string>
     <!--Flight customer support website toolbar header-->
@@ -1553,16 +1576,20 @@
     <string name="itin_flight_airline_support_widget_airlines_support_TEMPLATE">{airline_name} kundeservice</string>
     <!--Flight itin, flight Airline support detail widget's ticket template. Ticket # {ticket_number} (eg., Ticket # 87654321)-->
     <string name="itin_flight_airline_support_widget_ticket_TEMPLATE">Billettnr. {ticket_number}</string>
+    <!--Flight itin, flight Airline support detail widget's ticket content description template. Talkback will announce "Ticket # {ticket_number}" to "Ticket number {ticket_number}" (eg., Ticket number 87654321)-->
+    <string name="itin_flight_airline_support_widget_ticket_content_description_TEMPLATE">Billettnummer {ticket_number}</string>
     <!--Flight itin, flight Airline support detail widget's confirmation template. Confirmation # {confirmation_number} (eg., Confirmation # 67867)-->
     <string name="itin_flight_airline_support_widget_confirmation_TEMPLATE">Bekreftelsesnummer {confirmation_number}</string>
+    <!--Flight itin, flight Airline support detail widget's confirmation content description template. Talkback will announce "Confirmation # {confirmation_number}" to "Confirmation number {confirmation_number}" (eg., Confirmation number 67867)-->
+    <string name="itin_flight_airline_support_widget_confirmation_content_description_TEMPLATE">Bekreftelsesnummer {confirmation_number}</string>
     <!--Flight itin, flight Airline support detail widget's Itinerary template. Itinerary # {itinerary_number} (eg., Itinerary # 87654321)-->
     <string name="itin_flight_airline_support_widget_itinerary_TEMPLATE">Reiserutenummer: {itinerary_number}</string>
+    <!--Flight itin, flight Airline support detail widget's Itinerary content description template. Talkback will announce "Itinerary # {itinerary_number}" to "Itinerary number {itinerary_number}" (eg., Itinerary number 87654321)-->
+    <string name="itin_flight_airline_support_widget_itinerary_content_description_TEMPLATE">Reiserutenummer {itinerary_number}</string>
     <!--Flight itin, flight Airline support detail widget's customer support template. {airline_name} customer support (eg., Alaska airlines customer support)-->
     <string name="itin_flight_airline_support_widget_customer_support_TEMPLATE">{airline_name} kundeservice</string>
     <!--Flight itin, flight Airline support detail widget's Airline customer support tile for airline support webview-->
     <string name="itin_flight_airline_support_widget_support_webview_title">Flyselskapets kundeservice</string>
-    <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
-    <string name="itin_flight_airline_support_widget_number_text">-nummer</string>
     <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
     <string name="itin_flight_modify_widget_cancel_reservation_text">Avbestill</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
@@ -2013,10 +2040,6 @@
     <string name="price_dropped_from_TEMPLATE">Prisen har gått ned fra %1$s</string>
 
     <!-- Checkout Activity -->
-    <!-- Explicit acceptance of TOS -->
-    <string name="Do_you_accept">Godkjenner du alle betingelsene nevnt over?</string>
-    <!-- I Accept button label -->
-    <string name="I_Accept">Jeg godkjenner dette</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Kortet ditt vil bli belastet med {dueamount}</string>
     <!-- Your are using pwp points -->
@@ -2608,6 +2631,8 @@
     <string name="current_location">Plassering</string>
     <string name="recent_searched_location">Sted du nylig har søkt etter</string>
     <string name="suggested_location">Forslag til sted</string>
+    <!-- Label to describe ESS results close to device lat/lng-->
+    <string name="nearby_locations">Steder i nærheten</string>
     <!-- To notify the section suggested locations while navigating using talkback -->
     <string name="suggested_location_list">Anbefalte steder</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
@@ -2618,6 +2643,8 @@
 
     <!-- Showing search suggestion label for recent search history -->
     <string name="suggestion_label_recent_search">Nylige søk</string>
+    <!-- Showing search suggestion label for past Searches -->
+    <string name="suggestion_label_past_searches">Tidligere søk</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -3876,6 +3903,8 @@
     <string name="hotel_deal_TEMPLATE">Bestill og spar {price} ({savings}%)</string>
     <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
     <string name="packages_invalid_user_title_label">På tide med en oppdatering!</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">Beklager, det er ikke mulig å bestille pakketilbud i denne versjonen av appen.\nOppdater nå for å få pakketilbud.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">{night} hotellnatt uten ekstra kostnad når du bestiller fly samtidig.</item>

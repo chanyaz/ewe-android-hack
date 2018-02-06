@@ -43,6 +43,8 @@
     <string name="hotelsv2_slide_purchase">スライドして購入</string>
     <!-- Change Dates in case of Sold Out -->
     <string name="change_dates">日付の変更</string>
+    <!-- Select Dates in case of dateless infosite -->
+    <string name="hotel_info_site_select_dates">日付を選択</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">安全にお支払い</string>
     <!-- Accessibility content description for google map view on hotel results -->
@@ -869,6 +871,21 @@
     <!-- Search screen title -->
     <string name="search_title">検索</string>
 
+    <!--Meso destination ad card-->
+    <string name="meso_destination_name_las_vegas">ラスベガス</string>
+    <string name="meso_destination_name_los_angeles">ロサンゼルス</string>
+    <string name="meso_destination_name_miami">マイアミ</string>
+    <string name="meso_destination_name_cancun">カンクン</string>
+    <string name="meso_destination_name_san_diego">サンディエゴ</string>
+
+    <string name="meso_destination_description_las_vegas">古き良きラスベガスを満喫</string>
+    <string name="meso_destination_description_los_angeles">ロサンゼルスで最高の 1 日を !</string>
+    <string name="meso_destination_description_miami">マイアミの人気現地ツアー トップ 10</string>
+    <string name="meso_destination_description_cancun">さまざまな日程で楽しめるカンクン !</string>
+    <string name="meso_destination_description_san_diego">サンディエゴの人気現地ツアー トップ 10</string>
+
+    <string name="meso_sponsored_text">スポンサー提供</string>
+
     <!-- Meso hotel ad card -->
 
     <!-- The {location} is going to be the city, state the hotel is in. {bullet_or_new_line} will either be a bullet
@@ -1427,6 +1444,10 @@
     <string name="itin_hotel_check_in_policies_dialog_title">チェックイン ポリシー</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">変更およびキャンセル規則</string>
+    <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
+    <string name="itin_hotel_manage_booking_room_tab_title_TEMPLATE">客室 {number}</string>
+    <!--Hotel itin manage booking total rooms text TEMPLATE. {number} total rooms (e.g., 2 total rooms)-->
+    <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">合計 {number} 室</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">旅程をシェアする</string>
@@ -1506,6 +1527,8 @@
     <string name="itin_flight_manage_booking_header">予約の管理</string>
     <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_flight_itinerary_number_TEMPLATE">旅程番号 : {itin_number}</string>
+    <!--Flight itin number content description template. Talkback will announce "Itinerary # {itin_number}" to "Itinerary number {itin_number}" (eg., Itinerary number 7282906974428)-->
+    <string name="itin_flight_itinerary_number_content_description_TEMPLATE">旅程番号 {itin_number}</string>
     <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_flight_customer_support_site_header_TEMPLATE">{brand} カスタマーサポート</string>
     <!--Flight customer support website toolbar header-->
@@ -1553,16 +1576,20 @@
     <string name="itin_flight_airline_support_widget_airlines_support_TEMPLATE">{airline_name}のサポート</string>
     <!--Flight itin, flight Airline support detail widget's ticket template. Ticket # {ticket_number} (eg., Ticket # 87654321)-->
     <string name="itin_flight_airline_support_widget_ticket_TEMPLATE">チケット番号 {ticket_number}</string>
+    <!--Flight itin, flight Airline support detail widget's ticket content description template. Talkback will announce "Ticket # {ticket_number}" to "Ticket number {ticket_number}" (eg., Ticket number 87654321)-->
+    <string name="itin_flight_airline_support_widget_ticket_content_description_TEMPLATE">チケット番号 {ticket_number}</string>
     <!--Flight itin, flight Airline support detail widget's confirmation template. Confirmation # {confirmation_number} (eg., Confirmation # 67867)-->
     <string name="itin_flight_airline_support_widget_confirmation_TEMPLATE">確認番号 {confirmation_number}</string>
+    <!--Flight itin, flight Airline support detail widget's confirmation content description template. Talkback will announce "Confirmation # {confirmation_number}" to "Confirmation number {confirmation_number}" (eg., Confirmation number 67867)-->
+    <string name="itin_flight_airline_support_widget_confirmation_content_description_TEMPLATE">確認番号 {confirmation_number}</string>
     <!--Flight itin, flight Airline support detail widget's Itinerary template. Itinerary # {itinerary_number} (eg., Itinerary # 87654321)-->
     <string name="itin_flight_airline_support_widget_itinerary_TEMPLATE">旅程番号 : {itinerary_number}</string>
+    <!--Flight itin, flight Airline support detail widget's Itinerary content description template. Talkback will announce "Itinerary # {itinerary_number}" to "Itinerary number {itinerary_number}" (eg., Itinerary number 87654321)-->
+    <string name="itin_flight_airline_support_widget_itinerary_content_description_TEMPLATE">旅程番号 {itinerary_number}</string>
     <!--Flight itin, flight Airline support detail widget's customer support template. {airline_name} customer support (eg., Alaska airlines customer support)-->
     <string name="itin_flight_airline_support_widget_customer_support_TEMPLATE">{airline_name}のカスタマーサポート</string>
     <!--Flight itin, flight Airline support detail widget's Airline customer support tile for airline support webview-->
     <string name="itin_flight_airline_support_widget_support_webview_title">航空会社のカスタマーサポート</string>
-    <!--Flight itin, flight Airline support detail widget's number text (this text will replace "#" in accessibility)-->
-    <string name="itin_flight_airline_support_widget_number_text">番号</string>
     <!--Flight itin, flight  modify reservation widget's Cancel reservation text-->
     <string name="itin_flight_modify_widget_cancel_reservation_text">予約をキャンセル</string>
     <!--Flight itin, flight modify reservation widget's Change reservation text-->
@@ -2013,10 +2040,6 @@
     <string name="price_dropped_from_TEMPLATE">料金が %1$s から減額されました</string>
 
     <!-- Checkout Activity -->
-    <!-- Explicit acceptance of TOS -->
-    <string name="Do_you_accept">上記の全条項に同意しますか ?</string>
-    <!-- I Accept button label -->
-    <string name="I_Accept">同意する</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">カードに {dueamount} が課金されます</string>
     <!-- Your are using pwp points -->
@@ -2608,6 +2631,8 @@
     <string name="current_location">現在地</string>
     <string name="recent_searched_location">最近検索したロケーション</string>
     <string name="suggested_location">おすすめのロケーション</string>
+    <!-- Label to describe ESS results close to device lat/lng-->
+    <string name="nearby_locations">周辺都市</string>
     <!-- To notify the section suggested locations while navigating using talkback -->
     <string name="suggested_location_list">検索候補</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
@@ -2618,6 +2643,8 @@
 
     <!-- Showing search suggestion label for recent search history -->
     <string name="suggestion_label_recent_search">最近の検索履歴</string>
+    <!-- Showing search suggestion label for past Searches -->
+    <string name="suggestion_label_past_searches">過去の検索履歴</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -3876,6 +3903,8 @@
     <string name="hotel_deal_TEMPLATE">同時予約で、{price} ({savings}%} 割引</string>
     <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
     <string name="packages_invalid_user_title_label">アップデートが必要です。</string>
+    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
+    <string name="packages_invalid_user_text_label">申し訳ありません。このアプリのバージョンではホテル + 航空券を予約できません。\n今すぐアップデートして、お得なホテル + 航空券をチェックしましょう。</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">航空券との同時予約で、このホテルが {night} 泊無料になります。</item>
