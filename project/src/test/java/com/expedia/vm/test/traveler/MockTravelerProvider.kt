@@ -108,6 +108,7 @@ class MockTravelerProvider {
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testNumber)
         Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
         Mockito.`when`(mockTraveler.gender).thenReturn(testGender)
+        Mockito.`when`(mockTraveler.fullNameBasedOnPos).thenReturn(testFullName)
 
         return mockTraveler
     }

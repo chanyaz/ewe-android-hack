@@ -15,6 +15,7 @@ class TravelerSelectItem(context: Context, travelerSelectItemViewModel: Traveler
         travelerSelectItemViewModel.titleFontObservable.subscribeFont(detailsText)
         travelerSelectItemViewModel.iconStatusObservable.subscribe {
             travelerStatusIcon.status = it
+            setTravelerCardContentDescription(it, travelerSelectItemViewModel.titleObservable.value, travelerSelectItemViewModel.subtitleObservable.value)
         }
 
         travelerSelectItemViewModel.subtitleTextColorObservable.subscribeTextColor(secondaryText)
