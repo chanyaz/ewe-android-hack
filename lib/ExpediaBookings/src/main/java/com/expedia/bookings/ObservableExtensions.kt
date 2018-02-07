@@ -9,6 +9,7 @@ import io.reactivex.functions.Function3
 import io.reactivex.functions.Function4
 import io.reactivex.functions.Function5
 import io.reactivex.functions.Function6
+import io.reactivex.functions.Function7
 import io.reactivex.functions.Function8
 
 fun <T> Observable<T>.subscribeObserver(observer: Observer<T>): Disposable {
@@ -50,6 +51,10 @@ object ObservableOld {
 
     fun <T1, T2, T3, T4, T5, T6, R> combineLatest(o1: Observable<T1>, o2: Observable<T2>, o3: Observable<T3>, o4: Observable<T4>, o5: Observable<T5>, o6: Observable<T6>, block: (T1, T2, T3, T4, T5, T6) -> R): Observable<R> {
         return Observable.combineLatest(o1, o2, o3, o4, o5, o6, Function6 { t1, t2, t3, t4, t5, t6 -> block(t1, t2, t3, t4, t5, t6) })
+    }
+
+    fun <T1, T2, T3, T4, T5, T6, T7, R> combineLatest(o1: Observable<T1>, o2: Observable<T2>, o3: Observable<T3>, o4: Observable<T4>, o5: Observable<T5>, o6: Observable<T6>, o7: Observable<T7>, block: (T1, T2, T3, T4, T5, T6, T7) -> R): Observable<R> {
+        return Observable.combineLatest(o1, o2, o3, o4, o5, o6, o7, Function7 { t1, t2, t3, t4, t5, t6, t7 -> block(t1, t2, t3, t4, t5, t6, t7) })
     }
 
     fun <T1, T2, T3, T4, T5, R> combineLatest(o1: Observable<T1>, o2: Observable<T2>, o3: Observable<T3>, o4: Observable<T4>, o5: Observable<T5>, block: (T1, T2, T3, T4, T5) -> R): Observable<R> {

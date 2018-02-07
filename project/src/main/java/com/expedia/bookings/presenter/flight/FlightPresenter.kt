@@ -167,7 +167,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.regionNames.onNext(Optional(params.arrivalAirport.regionNames))
             presenter.toolbarViewModel.country.onNext(Optional(params.arrivalAirport.hierarchyInfo?.country?.name))
             presenter.toolbarViewModel.airport.onNext(Optional(params.arrivalAirport.hierarchyInfo?.airport?.airportCode))
-            presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             presenter.toolbarViewModel.date.onNext(params.departureDate)
             searchTrackingBuilder.searchParams(params)
@@ -219,7 +218,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.regionNames.onNext(Optional(params.departureAirport.regionNames))
             presenter.toolbarViewModel.country.onNext(Optional(params.departureAirport.hierarchyInfo?.country?.name))
             presenter.toolbarViewModel.airport.onNext(Optional(params.departureAirport.hierarchyInfo?.airport?.airportCode))
-            presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             params.returnDate?.let {
                 presenter.toolbarViewModel.date.onNext(it)

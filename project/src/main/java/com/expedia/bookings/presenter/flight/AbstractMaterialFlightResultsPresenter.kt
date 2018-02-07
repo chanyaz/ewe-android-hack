@@ -11,6 +11,7 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
+import com.expedia.vm.FlightToolbarViewModel
 import com.expedia.vm.flights.BaseFlightOffersViewModel
 import com.expedia.vm.flights.FlightOverviewViewModel
 
@@ -19,6 +20,7 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
     lateinit var flightOfferViewModel: BaseFlightOffersViewModel
 
     init {
+        toolbarViewModel = FlightToolbarViewModel(context)
         toolbarViewModel.menuVisibilitySubject.subscribe { menuSearch.isVisible = it }
     }
 

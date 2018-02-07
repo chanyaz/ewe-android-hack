@@ -90,7 +90,6 @@ class FlightInboundPresenterTest {
         flightInboundPresenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
         flightInboundPresenter.toolbarViewModel.country.onNext(Optional("India"))
         flightInboundPresenter.toolbarViewModel.airport.onNext(Optional("BLR"))
-        flightInboundPresenter.toolbarViewModel.lob.onNext(flightInboundPresenter.getLineOfBusiness())
         assertEquals("Select return flight", flightInboundPresenter.toolbar.title.toString())
     }
 
@@ -177,7 +176,6 @@ class FlightInboundPresenterTest {
         flightInboundPresenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
         flightInboundPresenter.toolbarViewModel.country.onNext(Optional("India"))
         flightInboundPresenter.toolbarViewModel.airport.onNext(Optional("BLR"))
-        flightInboundPresenter.toolbarViewModel.lob.onNext(flightInboundPresenter.getLineOfBusiness())
         val travelDate = DateFormatUtils.formatLocalDateToShortDayAndDate(currentTime)
         assertEquals(View.VISIBLE, flightInboundPresenter.toolbar.visibility)
         assertEquals(travelDate + ", 1 traveler", flightInboundPresenter.toolbar.subtitle)

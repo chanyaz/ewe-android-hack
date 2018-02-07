@@ -34,8 +34,8 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.BaseFlightFilterViewModel
+import com.expedia.vm.BaseToolbarViewModel
 import com.expedia.vm.FlightResultsViewModel
-import com.expedia.vm.FlightToolbarViewModel
 import com.expedia.vm.WebViewViewModel
 import io.reactivex.Observer
 import io.reactivex.exceptions.OnErrorNotImplementedException
@@ -125,7 +125,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         presenter
     }
 
-    var toolbarViewModel: FlightToolbarViewModel by notNullAndObservable { vm ->
+    var toolbarViewModel: BaseToolbarViewModel by notNullAndObservable { vm ->
         vm.titleSubject.subscribe {
             toolbar.title = it
         }
@@ -300,7 +300,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     private fun setupToolbar() {
-        toolbarViewModel = FlightToolbarViewModel(context)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))

@@ -42,6 +42,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
+import com.expedia.vm.PackageToolbarViewModel
 import com.expedia.vm.packages.FlightOverviewViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
@@ -97,6 +98,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     init {
+        toolbarViewModel = PackageToolbarViewModel(context)
         toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
             if (!isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
                 menuFilter.isVisible = showMenu
@@ -161,7 +163,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         toolbarViewModel.airport.onNext(Optional(destinationOrOrigin?.hierarchyInfo?.airport?.airportCode))
         toolbarViewModel.travelers.onNext(numTravelers)
         toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.sharedInstance.packageParams.startDate else Db.sharedInstance.packageParams.endDate as LocalDate)
-        toolbarViewModel.lob.onNext(getLineOfBusiness())
         if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView()) {
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
             bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))

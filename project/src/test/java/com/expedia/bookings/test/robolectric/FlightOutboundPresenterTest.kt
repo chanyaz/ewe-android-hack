@@ -49,7 +49,6 @@ class FlightOutboundPresenterTest {
         flightOutboundPresenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
         flightOutboundPresenter.toolbarViewModel.country.onNext(Optional("India"))
         flightOutboundPresenter.toolbarViewModel.airport.onNext(Optional("BLR"))
-        flightOutboundPresenter.toolbarViewModel.lob.onNext(flightOutboundPresenter.getLineOfBusiness())
         assertEquals("Select flight to Bengaluru, India", flightOutboundPresenter.toolbar.title.toString())
     }
 }

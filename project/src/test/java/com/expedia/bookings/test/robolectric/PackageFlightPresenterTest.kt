@@ -115,7 +115,6 @@ class PackageFlightPresenterTest {
         presenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
         presenter.toolbarViewModel.country.onNext(Optional("India"))
         presenter.toolbarViewModel.airport.onNext(Optional("BLR"))
-        presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
         assertEquals("Outbound to Bengaluru, India (BLR)", presenter.toolbar.title.toString())
     }
 
@@ -136,7 +135,6 @@ class PackageFlightPresenterTest {
         presenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
         presenter.toolbarViewModel.country.onNext(Optional("India"))
         presenter.toolbarViewModel.airport.onNext(Optional("BLR"))
-        presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
         assertEquals("Inbound to Bengaluru, India (BLR)", presenter.toolbar.title.toString())
     }
 
@@ -157,7 +155,6 @@ class PackageFlightPresenterTest {
         presenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
         presenter.toolbarViewModel.country.onNext(Optional("India"))
         presenter.toolbarViewModel.airport.onNext(Optional("BLR"))
-        presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
         assertEquals("Step 2: Flight to Bengaluru", presenter.toolbar.title.toString())
     }
 
@@ -178,7 +175,6 @@ class PackageFlightPresenterTest {
         presenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
         presenter.toolbarViewModel.country.onNext(Optional("India"))
         presenter.toolbarViewModel.airport.onNext(Optional("BLR"))
-        presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
         assertEquals("Step 3: Flight to Bengaluru", presenter.toolbar.title.toString())
     }
 
