@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -29,6 +30,7 @@ class SpecialNoticeWidget(context: Context, attrs: AttributeSet) : FrameLayout(c
             activity.onBackPressed()
         }
         container.setPadding(0, toolBarHeight + statusBarHeight, 0, 0)
+        AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
     }
 
     fun setText(text: Pair<String, String>) {
