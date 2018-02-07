@@ -248,6 +248,7 @@
         <activity
             android:name="com.expedia.ui.LOBWebViewActivity"
             android:resizeableActivity="false"
+            android:screenOrientation="portrait"
             tools:ignore="UnusedAttribute" />
 
         <!-- LX activity -->
