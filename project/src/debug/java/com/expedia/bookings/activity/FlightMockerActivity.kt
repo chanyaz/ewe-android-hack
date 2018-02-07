@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity
 
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
@@ -27,7 +26,6 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flight_mocker)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setupViews()
     }
 

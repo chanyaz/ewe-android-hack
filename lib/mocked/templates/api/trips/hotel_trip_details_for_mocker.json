@@ -1,0 +1,521 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "58fc868b-63e9-42cc-a0c3-6ac4dd78beaa",
+    "webDetailsURL": "https://www.expedia.com/trips/7280999576135",
+    "tripNumber": 7280999576135,
+    "orderNumber": 8065305197869,
+    "title": "Hotel in Bengaluru",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/58fc868b-63e9-42cc-a0c3-6ac4dd78beaa/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-03-12T15:00:00+05:30",
+      "localized": "Mar 12, 2018 3:00:00 PM",
+      "epochSeconds": 1520847000,
+      "timeZoneOffsetSeconds": 19800,
+      "localizedShortDate": "3/12/2018",
+      "localizedMediumDate": "Mar 12",
+      "localizedFullDate": "Mon, Mar 12",
+      "localizedLongDate": "Mar 12, 2018",
+      "localizedShortTime": "3:00pm"
+    },
+    "endTime": {
+      "raw": "2018-03-16T11:00:00+05:30",
+      "localized": "Mar 16, 2018 11:00:00 AM",
+      "epochSeconds": 1521178200,
+      "timeZoneOffsetSeconds": 19800,
+      "localizedShortDate": "3/16/2018",
+      "localizedMediumDate": "Mar 16",
+      "localizedFullDate": "Fri, Mar 16",
+      "localizedLongDate": "Mar 16, 2018",
+      "localizedShortTime": "11:00am"
+    },
+    "tripCreatedTime": {
+      "raw": "2017-07-17T19:43:40Z",
+      "localized": "Jul 17, 2017 7:43:40 PM",
+      "epochSeconds": 1500320620,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Mon, 17 Jul",
+      "localizedMediumDate": "Jul 17, 2017",
+      "localizedFullDate": "Monday, July 17, 2017",
+      "localizedLongDate": "July 17, 2017",
+      "localizedShortTime": "7:43 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2018-02-06T23:40:36Z",
+      "localized": "Feb 6, 2018 11:40:36 PM",
+      "epochSeconds": 1517960436,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Tue, 6 Feb",
+      "localizedMediumDate": "Feb 6, 2018",
+      "localizedFullDate": "Tuesday, February 6, 2018",
+      "localizedLongDate": "February 6, 2018",
+      "localizedShortTime": "11:40 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2018-02-06T23:40:36Z",
+      "localized": "Feb 6, 2018 11:40:36 PM",
+      "epochSeconds": 1517960436,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Tue, 6 Feb",
+      "localizedMediumDate": "Feb 6, 2018",
+      "localizedFullDate": "Tuesday, February 6, 2018",
+      "localizedLongDate": "February 6, 2018",
+      "localizedShortTime": "11:40 PM"
+    },
+    "ownerId": 1198215898,
+    "bookingStatus": "BOOKED",
+    "rewardList": [
+      {
+        "totalPoints": 217.00,
+        "basePoints": 109.00,
+        "bonusPoints": [
+          {
+            "m_pointValue": 108.00,
+            "m_pointType": "offerPoint",
+            "m_pointDescription": "App Booking Double Points",
+            "m_status": "PENDING",
+            "m_programId": 3
+          }
+        ],
+        "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+        "signUpUrl": "",
+        "viewStatementURL": "/user/rewards",
+        "programName": "ExpediaRewards"
+      }
+    ],
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/Wmrv90zt1YqVRqMBlqCQ0MCAFMcAPCdYJ1KVjSlwkFLiKhlC7pm8JaEplxy9pskv4DRXtYGitPzsAC5hjUf0vFOg",
+    "customerSupport": {},
+    "isBookedUsingForeignCurrency": false,
+    "hotels": [
+      {
+        "uniqueID": "B43C38B0-6F14-4D9D-BBEC-F56AEA3DF3B9_0",
+        "hotelId": "17669432",
+        "checkInDateTime": {
+          "raw": "2018-03-12T15:00:00+05:30",
+          "localized": "Mar 12, 2018 3:00:00 PM",
+          "epochSeconds": 1520847000,
+          "timeZoneOffsetSeconds": 19800,
+          "localizedShortDate": "3/12/2018",
+          "localizedMediumDate": "Mar 12",
+          "localizedFullDate": "Mon, Mar 12",
+          "localizedLongDate": "Mar 12, 2018",
+          "localizedShortTime": "3:00pm"
+        },
+        "checkOutDateTime": {
+          "raw": "2018-03-16T11:00:00+05:30",
+          "localized": "Mar 16, 2018 11:00:00 AM",
+          "epochSeconds": 1521178200,
+          "timeZoneOffsetSeconds": 19800,
+          "localizedShortDate": "3/16/2018",
+          "localizedMediumDate": "Mar 16",
+          "localizedFullDate": "Fri, Mar 16",
+          "localizedLongDate": "Mar 16, 2018",
+          "localizedShortTime": "11:00am"
+        },
+        "checkInDate": "2018-03-12T15:00:00+05:30",
+        "checkOutDate": "2018-03-16T11:00:00+05:30",
+        "checkInDateLocalized": "Mar 12, 2018",
+        "checkOutDateLocalized": "Mar 16, 2018",
+        "numberOfNights": 4,
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Booked",
+        "bookingStatusMessage": "Your reservation is booked. No need to call us to reconfirm this reservation.",
+        "bookedDate": "2017-07-17",
+        "inventoryType": "DIRECT_AGENCY",
+        "inventoryTypeEnum": "DIRECT_AGENCY",
+        "inventorySource": "INTERNAL",
+        "paymentModel": "HOTEL_COLLECT",
+        "inventoryVisibility": "VISIBLE",
+        "orderNumber": "8065305197869",
+        "state": "PRE_START_4",
+        "infositeURL": "https://www.expedia.com/itin.h17669432.Hotel-Information?langid=1033",
+        "reviewSubmissionURL": "https://www.expedia.com/ReviewSubmission?ItinId=7280999576135&htid=17669432&campaignId=APP.REVIEW.DEEPLINK.URL",
+        "hotelPropertyInfo": {
+          "address": {
+            "addressLine1": "12, Achaiah Shetty Layout, Aramane Nagar",
+            "addressLine2": "Mekhri Circle",
+            "city": "Bengaluru",
+            "countrySubdivisionCode": "Karnataka",
+            "postalCode": "560080",
+            "countryCode": "IND",
+            "countryName": " India",
+            "fullAddress": "12, Achaiah Shetty Layout, Aramane Nagar, Bengaluru, Karnataka, 560080 India",
+            "airportCode": "BLR"
+          },
+          "name": "Crest Hotel",
+          "starRating": "35",
+          "photoThumbnailURL": "/hotels/18000000/17670000/17669500/17669432/51f825a8_l.jpg",
+          "photoThumbnail500pixURL": "/hotels/18000000/17670000/17669500/17669432/51f825a8_y.jpg",
+          "photoThumbnail1000pixURL": "/hotels/18000000/17670000/17669500/17669432/51f825a8_z.jpg",
+          "localPhone": "+91-0-8040998755",
+          "tollFreePhone": "91-80-40998755",
+          "formattedPhoneNumbers": "Tel: 91 (0) 8040998755, Fax: 91 (0) 8040998755",
+          "checkInPolicies": [
+            "Check-in time starts at noon",
+            "Check-in time ends at noon",
+            "Minimum check-in age is 18"
+          ],
+          "checkInStartTimePolicy": {
+            "label": "Check-in time starts at",
+            "value": "noon"
+          },
+          "checkInEndTimePolicy": {
+            "label": "Check-in time ends at",
+            "value": "noon"
+          },
+          "checkOutTimePolicy": {
+            "label": "Check-out time is",
+            "value": "noon"
+          },
+          "generalRules": [
+            "Check-out time is noon",
+            "No cribs (infant beds) available"
+          ],
+          "restrictionPolicies": [],
+          "fees": [],
+          "mandatoryFees": [],
+          "specialCheckInInstructions": [
+            "Taxes are subject to change based on Goods and Services Tax (GST) implementation. For more details, please contact the property using the information on the reservation confirmation received after booking."
+          ],
+          "latitude": 13.014492,
+          "longitude": 77.583052,
+          "isVipAccess": false,
+          "googleMapsLink": "//maps.google.com/?q=560080+Bengaluru%2C+12%2C+Achaiah+Shetty+Layout%2C+Aramane+Nagar+Mekhri+Circle",
+          "regionId": "6126935"
+        },
+        "totalPriceDetails": {
+          "primaryCurrencyCode": "INR",
+          "base": "10000.00",
+          "baseFormatted": "₹10,000.00",
+          "baseWithAdjustmentForDRRRateDiscount": "3500.00",
+          "baseWithAdjustmentForDRRRateDiscountFormatted": "₹3,500.00",
+          "adjustmentForDRRRateDiscount": "-6500.00",
+          "adjustmentForDRRRateDiscountFormatted": "-₹6,500.00",
+          "drrRateDiscountDescription": "Member’s price: 65%",
+          "subTotalBeforeCoupon": "3500.00",
+          "subTotalBeforeCouponFormatted": "₹3,500.00",
+          "taxStatus": "INCLUDED",
+          "total": "3500.00",
+          "totalFormatted": "₹3,500.00",
+          "chargedTotalFormatted": "₹3,500.00",
+          "totalPOSCurrencyCode": "USD",
+          "isCurrencyConversionEnabled": false,
+          "totalPOS": "54.31",
+          "totalPOSFormatted": "$54.31",
+          "_exchangeRatePOSCyToUSD": 0.015517,
+          "_exchangeRateSupplierCyToUSD": 1.000000,
+          "hasFees": false,
+          "expediaChangeFee": "0",
+          "expediaChangeFeeFormatted": "₹0.00"
+        },
+        "rules": {
+          "cancelChangeRulesIntroduction": "If you cancel or change your plans, please cancel your reservation in accordance with the property's cancellation policies to avoid a no-show charge.",
+          "cancelChangeRules": [
+            "Cancellations or changes made after 6:00pm (India Daylight Time) on Mar 11, 2018 or no-shows are subject to a property fee equal to the first nights rate plus taxes and fees."
+          ],
+          "cancellationWindowTime": {
+            "raw": "2018-03-11T18:00:00Z",
+            "localized": "Mar 11, 2018 6:00:00 PM",
+            "epochSeconds": 1520791200,
+            "timeZoneOffsetSeconds": 0,
+            "localizedShortDate": "Sun, 11 Mar",
+            "localizedMediumDate": "Mar 11, 2018",
+            "localizedFullDate": "Sunday, March 11, 2018",
+            "localizedLongDate": "March 11, 2018",
+            "localizedShortTime": "6:00 PM"
+          },
+          "opaqueRules": [],
+          "opaquePolicies": [],
+          "lateArrivalInstructions": "If a late check-in is planned, contact this property directly for their late check-in policy.",
+          "currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+          "extraGuestPolicies": [
+            "Availability of accommodation in the same property for extra guests is not guaranteed."
+          ],
+          "occupancyPolicies": [
+            "Base rate is for 2 guests.",
+            "If rates are listed below, they may be quoted in the currency of the country where the property is located.",
+            "This property considers guests of any age to be an adult."
+          ],
+          "paymentPolicies": [],
+          "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+          "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel."
+        },
+        "rooms": [
+          {
+            "uniqueID": "B43C38B0-6F14-4D9D-BBEC-F56AEA3DF3B9_0_879043803",
+            "roomRatePlanDescription": "Deluxe Double Room, 1 Bedroom",
+            "roomTypeCode": "201868981",
+            "ratePlanCode": "209457961",
+            "bookingStatus": "BOOKED",
+            "bookingStatusEnum": "BOOKED",
+            "drrRateDiscountDescription": "Member’s price: 65%",
+            "orderLineNumber": "48a6d0f9-7a09-4f67-ab1d-710060cc65ff",
+            "refundabilityStatus": "REFUNDABLE",
+            "availableOnAllDates": true,
+            "roomCancelLink": "https://www.expedia.com/hotel-cancel-details?tripid=58fc868b-63e9-42cc-a0c3-6ac4dd78beaa&ordernumber=8065305197869&orderlineguid=48a6d0f9-7a09-4f67-ab1d-710060cc65ff&roomNumber=0",
+            "roomChangeLink": "https://www.expedia.com/trips/58fc868b-63e9-42cc-a0c3-6ac4dd78beaa/ordernumber/8065305197869/orderlinenumber/48a6d0f9-7a09-4f67-ab1d-710060cc65ff/change",
+            "roomChangeLinkForMobileWebView": "https://www.expedia.com/trips/58fc868b-63e9-42cc-a0c3-6ac4dd78beaa/ordernumber/8065305197869/orderlinenumber/48a6d0f9-7a09-4f67-ab1d-710060cc65ff/change?blockHardChange=true&mobileWebView=true",
+            "totalPriceDetails": {
+              "primaryCurrencyCode": "INR",
+              "base": "10000.00",
+              "baseFormatted": "₹10,000.00",
+              "baseWithAdjustmentForDRRRateDiscount": "3500.00",
+              "baseWithAdjustmentForDRRRateDiscountFormatted": "₹3,500.00",
+              "adjustmentForDRRRateDiscount": "-6500.00",
+              "adjustmentForDRRRateDiscountFormatted": "-₹6,500.00",
+              "subTotalBeforeCoupon": "3500.00",
+              "subTotalBeforeCouponFormatted": "₹3,500.00",
+              "total": "3500.00",
+              "totalFormatted": "₹3,500.00",
+              "chargedTotalFormatted": "₹3,500.00",
+              "totalPOSCurrencyCode": "USD",
+              "isCurrencyConversionEnabled": false,
+              "totalPOS": "54.31",
+              "totalPOSFormatted": "$54.31",
+              "_exchangeRatePOSCyToUSD": 0.015517,
+              "_exchangeRateSupplierCyToUSD": 1.000000,
+              "averagePricePerDay": "875.00",
+              "averagePricePerDayFormatted": "₹875.00",
+              "priceDetailsPerDay": [
+                {
+                  "day": {
+                    "raw": "2018-03-12T15:00:00+05:30",
+                    "localized": "Mar 12, 2018 3:00:00 PM",
+                    "epochSeconds": 1520847000,
+                    "timeZoneOffsetSeconds": 19800,
+                    "localizedShortDate": "Mon, 12 Mar",
+                    "localizedMediumDate": "Mar 12, 2018",
+                    "localizedFullDate": "Monday, March 12, 2018",
+                    "localizedLongDate": "March 12, 2018",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "INR",
+                  "amount": "875.00",
+                  "amountFormatted": "₹875.00",
+                  "localizedDay": {
+                    "raw": "2018-03-12T15:00:00+05:30",
+                    "localized": "Mar 12, 2018 3:00:00 PM",
+                    "epochSeconds": 1520847000,
+                    "timeZoneOffsetSeconds": 19800,
+                    "localizedShortDate": "3/12/2018",
+                    "localizedMediumDate": "Mar 12",
+                    "localizedFullDate": "Mon, Mar 12",
+                    "localizedLongDate": "Mar 12, 2018",
+                    "localizedShortTime": "3:00pm"
+                  }
+                },
+                {
+                  "day": {
+                    "raw": "2018-03-13T15:00:00+05:30",
+                    "localized": "Mar 13, 2018 3:00:00 PM",
+                    "epochSeconds": 1520933400,
+                    "timeZoneOffsetSeconds": 19800,
+                    "localizedShortDate": "Tue, 13 Mar",
+                    "localizedMediumDate": "Mar 13, 2018",
+                    "localizedFullDate": "Tuesday, March 13, 2018",
+                    "localizedLongDate": "March 13, 2018",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "INR",
+                  "amount": "875.00",
+                  "amountFormatted": "₹875.00",
+                  "localizedDay": {
+                    "raw": "2018-03-13T15:00:00+05:30",
+                    "localized": "Mar 13, 2018 3:00:00 PM",
+                    "epochSeconds": 1520933400,
+                    "timeZoneOffsetSeconds": 19800,
+                    "localizedShortDate": "3/13/2018",
+                    "localizedMediumDate": "Mar 13",
+                    "localizedFullDate": "Tue, Mar 13",
+                    "localizedLongDate": "Mar 13, 2018",
+                    "localizedShortTime": "3:00pm"
+                  }
+                },
+                {
+                  "day": {
+                    "raw": "2018-03-14T15:00:00+05:30",
+                    "localized": "Mar 14, 2018 3:00:00 PM",
+                    "epochSeconds": 1521019800,
+                    "timeZoneOffsetSeconds": 19800,
+                    "localizedShortDate": "Wed, 14 Mar",
+                    "localizedMediumDate": "Mar 14, 2018",
+                    "localizedFullDate": "Wednesday, March 14, 2018",
+                    "localizedLongDate": "March 14, 2018",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "INR",
+                  "amount": "875.00",
+                  "amountFormatted": "₹875.00",
+                  "localizedDay": {
+                    "raw": "2018-03-14T15:00:00+05:30",
+                    "localized": "Mar 14, 2018 3:00:00 PM",
+                    "epochSeconds": 1521019800,
+                    "timeZoneOffsetSeconds": 19800,
+                    "localizedShortDate": "3/14/2018",
+                    "localizedMediumDate": "Mar 14",
+                    "localizedFullDate": "Wed, Mar 14",
+                    "localizedLongDate": "Mar 14, 2018",
+                    "localizedShortTime": "3:00pm"
+                  }
+                },
+                {
+                  "day": {
+                    "raw": "2018-03-15T15:00:00+05:30",
+                    "localized": "Mar 15, 2018 3:00:00 PM",
+                    "epochSeconds": 1521106200,
+                    "timeZoneOffsetSeconds": 19800,
+                    "localizedShortDate": "Thu, 15 Mar",
+                    "localizedMediumDate": "Mar 15, 2018",
+                    "localizedFullDate": "Thursday, March 15, 2018",
+                    "localizedLongDate": "March 15, 2018",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "INR",
+                  "amount": "875.00",
+                  "amountFormatted": "₹875.00",
+                  "localizedDay": {
+                    "raw": "2018-03-15T15:00:00+05:30",
+                    "localized": "Mar 15, 2018 3:00:00 PM",
+                    "epochSeconds": 1521106200,
+                    "timeZoneOffsetSeconds": 19800,
+                    "localizedShortDate": "3/15/2018",
+                    "localizedMediumDate": "Mar 15",
+                    "localizedFullDate": "Thu, Mar 15",
+                    "localizedLongDate": "Mar 15, 2018",
+                    "localizedShortTime": "3:00pm"
+                  }
+                }
+              ],
+              "isSameRateForAllNights": true,
+              "expediaChangeFee": "0",
+              "expediaChangeFeeFormatted": "₹0.00"
+            },
+            "roomPreferences": {
+              "primaryOccupant": {
+                "firstName": "Nina",
+                "fullName": "Nina Ricci",
+                "email": "test123@123.com",
+                "phone": "1-555-8885858"
+              },
+              "otherOccupantInfo": {
+                "adultCount": 1,
+                "childCount": 0,
+                "infantCount": 0,
+                "childAndInfantCount": 0,
+                "maxGuestCount": 0,
+                "childAndInfantAges": []
+              },
+              "occupantSelectedRoomOptions": {
+                "bedTypeName": "1 queen bed",
+                "defaultBedTypeName": "1 queen bed",
+                "smokingPreference": "NONSMOKING_ROOM",
+                "accessibilityOptions": [],
+                "hasExtraBedAdult": false,
+                "hasExtraBedChild": false,
+                "hasExtraBedInfant": false,
+                "isSmokingPreferenceSelected": true,
+                "isRoomOptionsAvailable": true
+              },
+              "availableRoomOptions": {
+                "bedTypes": [
+                  {
+                    "id": "37310",
+                    "description": "1 Queen Bed",
+                    "selected": false
+                  }
+                ],
+                "isNewBedTypes": true,
+                "isSmokingRoomAvailable": false,
+                "isNonSmokingRoomAvailable": true
+              }
+            },
+            "amenities": [
+              "Free Parking",
+              "Free Breakfast",
+              "Free Internet"
+            ],
+            "amenityIds": [
+              128,
+              1073742786,
+              1073742787
+            ],
+            "nonPricePromotionData": {},
+            "hotelRatePlan": {
+              "m_type": 524288
+            }
+          }
+        ],
+        "isFreeCancellationAvailable": false,
+        "paymentsAndCreditFees": {
+          "paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+          "noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+          "isDirectAgency": true,
+          "isGDS": false,
+          "isFullyCancelled": false,
+          "isAnyRoomCancelled": false,
+          "isDepositRequired": false,
+          "isPaymentsCreditsVisible": false
+        },
+        "showVATDisclaimer": false,
+        "action": {
+          "isChangeable": true,
+          "isCancellable": true
+        }
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "54.31",
+      "totalFormatted": "$54.31"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "clientId": "expedia.app.android.phone:18.7.0",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "fromCloud": [
+      "isBookedUsingForeignCurrency",
+      "orderNumber",
+      "isTripUpgradable",
+      "tripDataSource",
+      "zetaTrip",
+      "tripId",
+      "levelOfDetail",
+      "title",
+      "ownerId",
+      "billPayMethod",
+      "totalTripPrice",
+      "isRewardsPointsBooking",
+      "bookingStatus",
+      "startTime",
+      "tripUpdatedTime",
+      "isCouponApplied",
+      "isMRP",
+      "tripNumber",
+      "email",
+      "customerSupport",
+      "clientId",
+      "webDetailsURL",
+      "rewardList",
+      "tripSource",
+      "updateTripNameDescPathURL",
+      "tripCreatedTime",
+      "sharableDetailsURL",
+      "hotels",
+      "endTime",
+      "readTripError",
+      "tripCacheUpdatedTime"
+    ],
+    "tripDataSource": "EXPWEB_HYBRID",
+    "isTripUpgradable": false,
+    "email": {
+      "m_email": "test123@123.com"
+    },
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false"
+  }
+}
