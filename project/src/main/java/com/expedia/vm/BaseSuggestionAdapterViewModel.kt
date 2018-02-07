@@ -7,9 +7,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.services.ISuggestionV4Services
-import com.expedia.bookings.shared.util.GaiaNearbyManager
 import com.expedia.bookings.shared.data.SuggestionDataItem
+import com.expedia.bookings.shared.util.GaiaNearbyManager
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.util.endlessObserver
@@ -42,7 +43,8 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
     private var currentLocation: SuggestionV4? = null
     private var nearby: ArrayList<SuggestionV4> = ArrayList()
     private var lastQuery: String = ""
-    private var userRecentSearches: List<SuggestionV4> = emptyList() //TODO eventually, we need to store and display search params+location
+    private var userRecentSearches: List<SearchInfo> = emptyList()
+
     private val gaiaSubscriptions = CompositeDisposable()
 
     private val minSuggestionQueryByteLength = 3
@@ -77,7 +79,7 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
         return lastQuery
     }
 
-    fun setUserSearchHistory(userSearchHistory: List<SuggestionV4>) {
+    fun setUserSearchHistory(userSearchHistory: List<SearchInfo>) {
         userRecentSearches = userSearchHistory
         if (lastQuery.isEmpty()) {
             suggestionItemsSubject.onNext(getSuggestionAdapterItems())
@@ -154,7 +156,7 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
                         if (userRecentSearches.isNotEmpty() && areLabelsEnabled()) {
                             suggestions.add(SuggestionDataItem.Label(context.getString(R.string.suggestion_label_recent_search)))
                         }
-                        suggestions.addAll(userRecentSearches.toDataItemList())
+                        suggestions.addAll(userRecentSearches.toSearchInfoDataItemList())
                     }
                 }
             }
@@ -245,5 +247,9 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
 
     private fun List<SuggestionV4>.toDataItemList(): List<SuggestionDataItem.SuggestionDropDown> {
         return this.map { suggestion -> SuggestionDataItem.SuggestionDropDown(suggestion) }
+    }
+
+    private fun List<SearchInfo>.toSearchInfoDataItemList(): List<SuggestionDataItem.SearchInfoDropDown> {
+        return this.map { suggestion -> SuggestionDataItem.SearchInfoDropDown(suggestion) }
     }
 }

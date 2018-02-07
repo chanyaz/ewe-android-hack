@@ -3,6 +3,8 @@ package com.expedia.bookings.hotel.vm
 import android.location.Location
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.travelgraph.SearchInfo
+import com.expedia.bookings.data.travelgraph.TravelerInfo
 import com.expedia.bookings.services.ISuggestionV4Services
 import com.expedia.bookings.shared.data.SuggestionDataItem
 import com.expedia.bookings.shared.util.GaiaNearbyManager
@@ -12,6 +14,7 @@ import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.mobiata.android.util.SettingUtils
 import io.reactivex.observers.TestObserver
 import io.reactivex.subjects.PublishSubject
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -70,20 +73,21 @@ class HotelSuggestionAdapterViewModelTest {
         val recentSearchId = "12345"
         viewModel.suggestionItemsSubject.subscribe(testSubscriber)
 
-        viewModel.setUserSearchHistory(listOf(getSuggestion(recentSearchId)))
+        val recentSearch = SearchInfo(getSuggestion(recentSearchId), LocalDate.now(), LocalDate.now(), TravelerInfo())
+        viewModel.setUserSearchHistory(listOf(recentSearch))
         mockLocationObservable.onNext(Mockito.mock(Location::class.java))
         mockGaiaManager.suggestionsSubject.onNext(listOf(getSuggestion(name = expectedGaiaName)))
 
         val outputSuggestions = testSubscriber.values()[1]
         val first = outputSuggestions[0] as SuggestionDataItem.CurrentLocation
         val second = outputSuggestions[1] as SuggestionDataItem.Label
-        val third = outputSuggestions[2] as SuggestionDataItem.SuggestionDropDown
+        val third = outputSuggestions[2] as SuggestionDataItem.SearchInfoDropDown
         val four = outputSuggestions[3] as SuggestionDataItem.Label
         val five = outputSuggestions[4] as SuggestionDataItem.SuggestionDropDown
 
         assertEquals(context.getString(R.string.current_location), first.suggestion.regionNames.displayName)
         assertEquals(context.getString(R.string.suggestion_label_recent_search), second.suggestionLabel)
-        assertEquals(recentSearchId, third.suggestion.gaiaId)
+        assertEquals(recentSearchId, third.searchInfo.destination.gaiaId)
         assertEquals(context.getString(R.string.nearby_locations), four.suggestionLabel)
         assertEquals(expectedGaiaName, five.suggestion.regionNames.displayName)
     }

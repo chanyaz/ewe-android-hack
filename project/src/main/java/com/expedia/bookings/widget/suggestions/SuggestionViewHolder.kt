@@ -12,7 +12,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 
-class SuggestionViewHolder(val root: ViewGroup, val vm: BaseSuggestionViewModel) : RecyclerView.ViewHolder(root) {
+open class SuggestionViewHolder(val root: ViewGroup, val vm: BaseSuggestionViewModel) : RecyclerView.ViewHolder(root) {
     @VisibleForTesting val icon: ImageView by bindView(R.id.icon_imageview)
     @VisibleForTesting val hierarchyIcon: ImageView by bindView(R.id.hierarchy_imageview)
 

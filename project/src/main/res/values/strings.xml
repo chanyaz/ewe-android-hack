@@ -3210,13 +3210,21 @@
         <item quantity="many">%d Seniors</item>
         <item quantity="other">%d Seniors</item>
     </plurals>
-    <!-- A number of guests. Capitalized -->
+    <!-- A number of guests. -->
     <plurals name="number_of_guests">
         <item quantity="zero">%d guests</item>
         <item quantity="one">%d guest</item>
         <item quantity="two">%d guests</item>
         <item quantity="many">%d guests</item>
         <item quantity="other">%d guests</item>
+    </plurals>
+    <!-- A number of guests. Capitalized-->
+    <plurals name="number_of_guests_capitalized">
+        <item quantity="zero">%d Guests</item>
+        <item quantity="one">%d Guest</item>
+        <item quantity="two">%d Guests</item>
+        <item quantity="many">%d Guests</item>
+        <item quantity="other">%d Guests</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
@@ -4548,6 +4556,9 @@
     <string name="add_child_traveler_cont_desc">Add one child traveler</string>
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">Remove one child traveler</string>
+
+    <!--Recent search subtitle in the suggestions dropdown, e.g Jun 3 - Jun 4 1 Night 2 Guests -->
+    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate} \u2013 {enddate}\u0020 \u0020{nights}\u0020 \u0020{guests}</string>
 
     <!--Rail Traveler widget youth plus button content description-->
     <string name="rails_add_youth_traveler_cont_desc">Add one youth traveler</string>

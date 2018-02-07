@@ -1,5 +1,6 @@
 package com.expedia.vm.packages
 
+import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.shared.vm.BaseSuggestionViewModel
@@ -7,8 +8,8 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 
-class PackageSuggestionViewModel(private val isOrigin: Boolean) : BaseSuggestionViewModel() {
-    override fun getTitle(suggestion: SuggestionV4): String {
+class PackageSuggestionViewModel(private val isOrigin: Boolean, context: Context) : BaseSuggestionViewModel(context) {
+    override fun getTitle(): String {
         val isChild = suggestion.hierarchyInfo?.isChild ?: false
         val isHistory = suggestion.isHistoryItem
         val displayName = getDisplayName(suggestion)
@@ -20,14 +21,14 @@ class PackageSuggestionViewModel(private val isOrigin: Boolean) : BaseSuggestion
         return if (isChild && isHistory) SuggestionStrUtils.formatDashWithoutSpace(shortName) else displayName
     }
 
-    override fun getSubTitle(suggestion: SuggestionV4): String {
+    override fun getSubTitle(): String {
         if (isOrigin) {
             return StrUtils.formatCityStateName(getDisplayName(suggestion))
         }
         return ""
     }
 
-    override fun getIcon(suggestion: SuggestionV4): Int {
+    override fun getIcon(): Int {
         if (suggestion.isHistoryItem) {
             return R.drawable.recents
         } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {

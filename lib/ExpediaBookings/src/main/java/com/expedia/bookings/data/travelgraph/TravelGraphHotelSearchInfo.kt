@@ -9,6 +9,16 @@ class TravelGraphHotelSearchInfo {
     var allRegions: List<TravelGraphSearchRegion> = emptyList()
     var roomList: List<TravelGraphHotelRoom> = emptyList()
 
+    fun getTravelerInfo(): TravelerInfo {
+        if (roomList.isNotEmpty() && roomList[0].roomOccupants != null) {
+            val roomDetails = roomList[0].roomOccupants!!
+            return TravelerInfo(roomDetails.numberOfAdults, roomDetails.agesOfChildren)
+        }
+
+        //Else default to 1 adult, cuz why not
+        return TravelerInfo()
+    }
+
     class TravelGraphSearchRegion {
         var id: String? = null
         var type: String? = null

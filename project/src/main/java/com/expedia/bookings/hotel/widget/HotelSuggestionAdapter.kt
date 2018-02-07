@@ -1,5 +1,6 @@
 package com.expedia.bookings.hotel.widget
 
+import android.content.Context
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.hotel.vm.HotelSuggestionViewModel
@@ -9,8 +10,8 @@ import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 
 class HotelSuggestionAdapter(viewModel: BaseSuggestionAdapterViewModel) : BaseSuggestionAdapter(viewModel) {
-    override fun getSuggestionViewModel(): BaseSuggestionViewModel {
-        return HotelSuggestionViewModel()
+    override fun getSuggestionViewModel(context: Context): BaseSuggestionViewModel {
+        return HotelSuggestionViewModel(context)
     }
 
     override fun getSuggestionTrackingData(suggestion: SuggestionV4, position: Int): SuggestionTrackingData {

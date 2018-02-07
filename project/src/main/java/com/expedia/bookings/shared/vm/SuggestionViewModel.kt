@@ -1,22 +1,23 @@
 package com.expedia.bookings.shared.vm
 
+import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.utils.SuggestionStrUtils
 
-class SuggestionViewModel : BaseSuggestionViewModel() {
-    override fun getTitle(suggestion: SuggestionV4): String {
+class SuggestionViewModel(context: Context) : BaseSuggestionViewModel(context) {
+    override fun getTitle(): String {
         if (isChild(suggestion) && suggestion.isHistoryItem) {
             return SuggestionStrUtils.formatDashWithoutSpace(getShortName(suggestion))
         }
         return getDisplayName(suggestion)
     }
 
-    override fun getSubTitle(suggestion: SuggestionV4): String {
+    override fun getSubTitle(): String {
         return ""
     }
 
-    override fun getIcon(suggestion: SuggestionV4): Int {
+    override fun getIcon(): Int {
         if (suggestion.isHistoryItem) {
             return R.drawable.recents
         } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {

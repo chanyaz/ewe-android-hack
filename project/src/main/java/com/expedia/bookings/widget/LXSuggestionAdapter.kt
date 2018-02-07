@@ -1,12 +1,13 @@
 package com.expedia.bookings.widget
 
+import android.content.Context
 import com.expedia.bookings.shared.vm.BaseSuggestionViewModel
 import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
 import com.expedia.vm.LXSuggestionAdapterViewModel
 import com.expedia.vm.lx.LxSuggestionViewModel
 
 class LXSuggestionAdapter(viewmodel: LXSuggestionAdapterViewModel) : BaseSuggestionAdapter(viewmodel) {
-    override fun getSuggestionViewModel(): BaseSuggestionViewModel {
-        return LxSuggestionViewModel()
+    override fun getSuggestionViewModel(context: Context): BaseSuggestionViewModel {
+        return LxSuggestionViewModel(context)
     }
 }

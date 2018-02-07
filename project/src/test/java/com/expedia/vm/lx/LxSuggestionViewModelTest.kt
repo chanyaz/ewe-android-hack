@@ -8,11 +8,12 @@ import com.expedia.testutils.builder.TestSuggestionV4Builder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 class LxSuggestionViewModelTest {
-    private val testVM = LxSuggestionViewModel()
+    private val testVM = LxSuggestionViewModel(RuntimeEnvironment.application)
     private val testObserver = TestObserver<Int>()
 
     @Before

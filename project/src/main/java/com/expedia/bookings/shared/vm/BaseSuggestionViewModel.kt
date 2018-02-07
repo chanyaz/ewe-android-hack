@@ -1,12 +1,14 @@
 package com.expedia.bookings.shared.vm
 
+import android.content.Context
 import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.text.HtmlCompat
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-abstract class BaseSuggestionViewModel() {
+abstract class BaseSuggestionViewModel(val context: Context) {
 
     // Outputs
     val titleObservable = BehaviorSubject.create<String>()
@@ -15,19 +17,25 @@ abstract class BaseSuggestionViewModel() {
     val iconObservable = BehaviorSubject.create<Int>()
     val suggestionLabelTitleObservable = PublishSubject.create<String>()
 
-    private lateinit var suggestion: SuggestionV4
+    protected lateinit var suggestion: SuggestionV4
+    protected var searchInfo: SearchInfo? = null
 
-    protected abstract fun getTitle(suggestion: SuggestionV4): String
-    protected abstract fun getSubTitle(suggestion: SuggestionV4): String
-    protected abstract fun getIcon(suggestion: SuggestionV4): Int
+    protected abstract fun getTitle(): String
+    protected abstract fun getSubTitle(): String
+    protected abstract fun getIcon(): Int
 
     fun bind(suggestion: SuggestionV4) {
         this.suggestion = suggestion
 
-        titleObservable.onNext(getTitle(suggestion))
-        subtitleObservable.onNext(getSubTitle(suggestion))
+        titleObservable.onNext(getTitle())
+        subtitleObservable.onNext(getSubTitle())
         isChildObservable.onNext(isChild(suggestion) && !suggestion.isHistoryItem)
-        iconObservable.onNext(getIcon(suggestion))
+        iconObservable.onNext(getIcon())
+    }
+
+    fun bind(searchInfo: SearchInfo) {
+        this.searchInfo = searchInfo
+        bind(searchInfo.destination)
     }
 
     fun bindLabel(label: String) {

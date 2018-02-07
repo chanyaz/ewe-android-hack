@@ -17,15 +17,16 @@ class SuggestionViewHolderTest {
     lateinit var testViewHolder: SuggestionViewHolder
 
     private lateinit var rootView: ViewGroup
+    private val context = RuntimeEnvironment.application
 
     @Before
     fun setUp() {
-        rootView = LayoutInflater.from(RuntimeEnvironment.application).inflate(R.layout.suggestion_dropdown_item, null, false) as ViewGroup
+        rootView = LayoutInflater.from(context).inflate(R.layout.suggestion_dropdown_item, null, false) as ViewGroup
     }
 
     @Test
     fun testRecentChildSuggestion() {
-        val testVM = HotelSuggestionViewModel()
+        val testVM = HotelSuggestionViewModel(context)
 
         testViewHolder = SuggestionViewHolder(rootView, testVM)
         testVM.isChildObservable.onNext(false)
@@ -36,7 +37,7 @@ class SuggestionViewHolderTest {
 
     @Test
     fun testChildSuggestion() {
-        val testVM = HotelSuggestionViewModel()
+        val testVM = HotelSuggestionViewModel(context)
 
         testViewHolder = SuggestionViewHolder(rootView, testVM)
 

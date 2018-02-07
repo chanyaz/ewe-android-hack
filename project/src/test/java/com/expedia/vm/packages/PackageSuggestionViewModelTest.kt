@@ -7,12 +7,14 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.builder.TestSuggestionV4Builder
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 class PackageSuggestionViewModelTest {
-    private val originVM = PackageSuggestionViewModel(isOrigin = true)
-    private val destVM = PackageSuggestionViewModel(isOrigin = false)
+    private val context = RuntimeEnvironment.application
+    private val originVM = PackageSuggestionViewModel(true, context)
+    private val destVM = PackageSuggestionViewModel(false, context)
 
     @Test
     fun testSubtitleOrigin() {

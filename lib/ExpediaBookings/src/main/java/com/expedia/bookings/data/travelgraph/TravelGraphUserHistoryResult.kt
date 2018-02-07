@@ -1,6 +1,5 @@
 package com.expedia.bookings.data.travelgraph
 
-import com.expedia.bookings.data.SuggestionV4
 import java.util.ArrayList
 
 class TravelGraphUserHistoryResult {
@@ -10,17 +9,18 @@ class TravelGraphUserHistoryResult {
 
     private val maxSuggestion = 3
 
-    fun convertToSuggestionV4List(): List<SuggestionV4> {
-        val suggestionList = ArrayList<SuggestionV4>()
-        for (tgItem in items) {
-            if (suggestionList.count() >= maxSuggestion) {
+    fun getRecentSearchInfos(): List<SearchInfo> {
+        val recentSearches = ArrayList<SearchInfo>()
+        for (item in items) {
+            if (recentSearches.count() >= maxSuggestion) {
                 break
             }
-            if (tgItem.isValid()) {
-                suggestionList.add(tgItem.searchInfo!!.searchRegion!!.toSuggestionV4()!!)
+
+            val searchInfo = item.toRecentSearchInfo()
+            if (searchInfo != null && searchInfo.isValid()) {
+                recentSearches.add(searchInfo)
             }
         }
-
-        return suggestionList
+        return recentSearches
     }
 }

@@ -2,44 +2,31 @@ package com.expedia.bookings.unit.travelgraph
 
 import com.expedia.bookings.data.travelgraph.TravelGraphHotelSearchInfo
 import com.expedia.bookings.data.travelgraph.TravelGraphItem
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
+import java.util.Date
 
 class TravelGraphItemTest {
 
     @Test
-    fun testIsInvalidIfSearchInfoMissing() {
+    fun testRecentSearchIsNullIfSearchInfoMissing() {
         val tgItem = TravelGraphItem()
-        assertFalse(tgItem.isValid())
+        assertNull(tgItem.toRecentSearchInfo())
     }
 
     @Test
-    fun testIsInvalidIfSearchRegionMissing() {
-        val tgItem = TravelGraphItem()
-        tgItem.searchInfo = TravelGraphHotelSearchInfo()
-        assertFalse(tgItem.isValid())
-    }
-
-    @Test
-    fun testIsInvalidIfSearchRegionBad() {
-        val searchInfo = TravelGraphHotelSearchInfo()
-        searchInfo.searchRegion = TravelGraphHotelSearchInfo.TravelGraphSearchRegion()
-
-        val tgItem = TravelGraphItem()
-        tgItem.searchInfo = searchInfo
-        assertFalse(tgItem.isValid())
-    }
-
-    @Test
-    fun testValidSearchRegion() {
+    fun testToValidRecentSearchInfo() {
         val searchInfo = TravelGraphHotelSearchInfo()
         val searchRegion = TravelGraphHotelSearchInfo.TravelGraphSearchRegion()
         searchRegion.id = "123"
         searchInfo.searchRegion = searchRegion
 
         val tgItem = TravelGraphItem()
+        tgItem.startDateUTCTimestamp = Date().time
+        tgItem.endDateUTCTimestamp = Date().time
+
         tgItem.searchInfo = searchInfo
-        assertTrue(tgItem.isValid())
+        assertNotNull(tgItem.toRecentSearchInfo())
     }
 }

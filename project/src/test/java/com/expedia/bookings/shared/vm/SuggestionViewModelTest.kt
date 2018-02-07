@@ -6,13 +6,14 @@ import com.expedia.testutils.builder.TestSuggestionV4Builder
 import io.reactivex.observers.TestObserver
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class SuggestionViewModelTest {
-    private val viewModel = SuggestionViewModel()
+    private val viewModel = SuggestionViewModel(RuntimeEnvironment.application)
 
     val expectedDisplayName = "Chicago and Vicinity"
     val expectedShortName = "ChiCity"

@@ -38,9 +38,9 @@ import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseSearchViewModel
+import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
-import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.hotel.AdvancedSearchOptionsViewModel
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
@@ -165,7 +165,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
 
         travelGraphViewModel.searchHistoryResultSubject.subscribe { searchHistory ->
-            suggestionViewModel.setUserSearchHistory(searchHistory.convertToSuggestionV4List())
+            suggestionViewModel.setUserSearchHistory(searchHistory.getRecentSearchInfos())
         }
 
         advancedOptionsDetails.viewModel = advancedOptionsViewModel
