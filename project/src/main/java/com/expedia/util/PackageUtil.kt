@@ -16,6 +16,8 @@ object PackageUtil {
             val pointOfSaleId = PointOfSale.getPointOfSale().pointOfSaleId
             return pointOfSaleId == PointOfSaleId.GERMANY ||
                     pointOfSaleId == PointOfSaleId.THAILAND ||
+                    pointOfSaleId == PointOfSaleId.FRANCE ||
+                    pointOfSaleId == PointOfSaleId.ITALY ||
                     pointOfSaleId == PointOfSaleId.EBOOKERS_GERMANY
         }
 

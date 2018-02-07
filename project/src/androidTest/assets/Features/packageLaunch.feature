@@ -53,3 +53,5 @@ Feature: Package Launch
       | point_of_sale |
       | Thailand      |
       | Germany       |
+      | France        |
+      | Italy         |
