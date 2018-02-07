@@ -42,7 +42,6 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
-import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
@@ -315,13 +314,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 		});
 		toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc);
-
 		toolbar.setTitle(getToolbarTitle());
-
 		menuDone = toolbar.getMenu().findItem(R.id.menu_done);
-		// Let's start with not showing the menuDone button
 		menuDone.setVisible(false);
-
 		toolbar.getViewModel().getNextClicked().subscribe(new Observer<Unit>() {
 			@Override
 			public void onComplete() {
@@ -364,7 +359,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			public void onNext(ExpandableCardView cardView) {
 				lastExpandedCard = currentExpandedCard;
 				currentExpandedCard = cardView;
-				menuDone.setTitle(currentExpandedCard.getMenuButtonTitle());
 				show(new WidgetExpanded());
 			}
 		});
@@ -404,7 +398,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public void resetMenuButton() {
 		if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
 			menuDone.setVisible(true);
-			menuDone.setTitle(R.string.next);
+			toolbar.getViewModel().getMenuTitle().onNext(getContext().getString(R.string.next));
 		}
 		else {
 			menuDone.setVisible(false);
@@ -528,14 +522,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		else {
 			animateInSlideToPurchase(false);
 		}
-	}
-
-	public void toolbarSetNavIcon(boolean forward) {
-		toolbar.setNavigationContentDescription(forward ? R.string.toolbar_nav_icon_close_cont_desc
-				: R.string.toolbar_nav_icon_cont_desc);
-		toolbar.getToolbarNavIcon().setParameter(
-				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
-						: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
 	}
 
 	public static class CheckoutDefault {

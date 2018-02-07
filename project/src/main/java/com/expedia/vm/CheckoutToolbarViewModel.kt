@@ -41,12 +41,17 @@ class CheckoutToolbarViewModel(val context: Context) {
             }
             context.getString(R.string.done),
             context.getString(R.string.coupon_apply_button),
-            context.getString(R.string.coupon_apply_button_ally),
-            context.getString(R.string.coupon_submit_button),
-            context.getString(R.string.coupon_submit_button_ally) -> {
+            context.getString(R.string.coupon_submit_button) -> {
                 doneClickedMethod.value?.invoke()
             }
         }
         return true
+    }
+
+    init {
+        expanded.map { it.menuButtonTitle }.subscribe(menuTitle)
+        showDone.subscribe { isFilledIn ->
+            menuTitle.onNext(if (isFilledIn) context.getString(R.string.done) else context.getString(R.string.next))
+        }
     }
 }

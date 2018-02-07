@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponWidget
-import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isShowSavedCoupons
 import com.expedia.bookings.withLatestFrom
@@ -87,11 +86,7 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     override fun getMenuButtonTitle(): String? {
-        if (AccessibilityUtil.isTalkBackEnabled(context)) {
-            return resources.getString(R.string.coupon_apply_button_ally)
-        } else {
-            return resources.getString(R.string.coupon_apply_button)
-        }
+        return resources.getString(R.string.coupon_apply_button)
     }
 
     override fun setExpanded(expand: Boolean, animate: Boolean) {

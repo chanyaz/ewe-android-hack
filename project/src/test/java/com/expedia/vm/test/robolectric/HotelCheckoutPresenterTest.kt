@@ -1,5 +1,6 @@
 package com.expedia.vm.test.robolectric
 
+import android.content.Context
 import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.app.FragmentActivity
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.accessibility.AccessibilityManager
 import android.view.inputmethod.EditorInfo
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
@@ -48,6 +50,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.FacebookEvents.Companion.userStateManager
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
@@ -66,9 +69,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.RoboLayoutInflater
 import org.robolectric.shadows.ShadowAlertDialog
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -170,9 +175,6 @@ class HotelCheckoutPresenterTest {
         checkout.toolbar.viewModel.onMenuItemClicked("Apply")
         testEnableSubmitButtonObservable.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testOnCouponSubmitClicked.assertValueCount(1)
-
-        checkout.toolbar.viewModel.onMenuItemClicked("Apply Button")
-        testOnCouponSubmitClicked.assertValueCount(2)
     }
 
     @Test
@@ -237,6 +239,25 @@ class HotelCheckoutPresenterTest {
     }
 
     @Test
+    fun testMaterialCouponWidgetToolbarItemReadsApplyWhenTalkBackOn() {
+        setupHotelMaterialForms()
+        checkout.show(CheckoutBasePresenter.Ready())
+
+        val mockAccessibilityManager = Mockito.mock(AccessibilityManager::class.java)
+        val spyContext = Mockito.spy(activity)
+        Mockito.`when`(spyContext.getSystemService(Context.ACCESSIBILITY_SERVICE)).thenReturn(mockAccessibilityManager)
+        Mockito.`when`(mockAccessibilityManager.isEnabled).thenReturn(true)
+        Mockito.`when`(mockAccessibilityManager.isTouchExplorationEnabled).thenReturn(true)
+        assertTrue(AccessibilityUtil.isTalkBackEnabled(spyContext))
+
+        val couponWidget = RoboLayoutInflater(spyContext).inflate(R.layout.test_material_forms_coupon_widget_stub, null) as MaterialFormsCouponWidget
+        checkout.toolbar.viewModel.expanded.onNext(couponWidget)
+        assertTrue(AccessibilityUtil.isTalkBackEnabled(couponWidget.context))
+
+        assertEquals("Apply", checkout.menuDone.title.toString())
+    }
+
+    @Test
     fun testCouponWidgetToolbarWhenExpandedWithHotelMaterialABTestTurnedOff() {
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
         checkout = checkoutView.hotelCheckoutWidget
@@ -244,6 +265,27 @@ class HotelCheckoutPresenterTest {
         checkout.show(CheckoutBasePresenter.Ready())
         val couponWidget = LayoutInflater.from(activity).inflate(R.layout.coupon_widget_stub, null) as CouponWidget
         checkout.toolbar.viewModel.expanded.onNext(couponWidget)
+
+        assertEquals("Submit", checkout.menuDone.title.toString())
+    }
+
+    @Test
+    fun testCouponWidgetToolbarReadsSubmitWhenTalkBackOn() {
+        val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
+        checkout = checkoutView.hotelCheckoutWidget
+
+        checkout.show(CheckoutBasePresenter.Ready())
+
+        val mockAccessibilityManager = Mockito.mock(AccessibilityManager::class.java)
+        val spyContext = Mockito.spy(activity)
+        Mockito.`when`(spyContext.getSystemService(Context.ACCESSIBILITY_SERVICE)).thenReturn(mockAccessibilityManager)
+        Mockito.`when`(mockAccessibilityManager.isEnabled).thenReturn(true)
+        Mockito.`when`(mockAccessibilityManager.isTouchExplorationEnabled).thenReturn(true)
+        assertTrue(AccessibilityUtil.isTalkBackEnabled(spyContext))
+
+        val couponWidget = RoboLayoutInflater(spyContext).inflate(R.layout.coupon_widget_stub, null) as CouponWidget
+        checkout.toolbar.viewModel.expanded.onNext(couponWidget)
+        assertTrue(AccessibilityUtil.isTalkBackEnabled(couponWidget.context))
 
         assertEquals("Submit", checkout.menuDone.title.toString())
     }

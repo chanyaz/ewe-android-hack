@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 
@@ -59,11 +58,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidge
     }
 
     override fun getMenuButtonTitle(): String? {
-        if (AccessibilityUtil.isTalkBackEnabled(context)) {
-            return resources.getString(R.string.coupon_submit_button_ally)
-        } else {
-            return resources.getString(R.string.coupon_submit_button)
-        }
+        return resources.getString(R.string.coupon_submit_button)
     }
 
     override fun showHotelCheckoutView(couponInstanceId: String?): Boolean {

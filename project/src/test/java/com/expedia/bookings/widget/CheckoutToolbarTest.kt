@@ -77,10 +77,19 @@ class CheckoutToolbarTest {
         toolbar.viewModel.showDone.onNext(false)
 
         assertNotNull(actionMenuView.getChildAt(0))
-        assertEquals("Next button", actionMenuView.getChildAt(0).contentDescription)
+        assertEquals("Next, Button", actionMenuView.getChildAt(0).contentDescription)
 
         toolbar.viewModel.showDone.onNext(true)
-        assertEquals("Done button", actionMenuView.getChildAt(0).contentDescription)
+        assertEquals("Done, Button", actionMenuView.getChildAt(0).contentDescription)
+
+        toolbar.viewModel.menuTitle.onNext("Apply")
+        assertEquals("Apply, Button", actionMenuView.getChildAt(0).contentDescription)
+
+        toolbar.viewModel.menuTitle.onNext("Submit")
+        assertEquals("Submit, Button", actionMenuView.getChildAt(0).contentDescription)
+
+        toolbar.viewModel.enableMenuItem.onNext(false)
+        assertEquals("Submit, disabled, Button", actionMenuView.getChildAt(0).contentDescription)
     }
 
     @Test

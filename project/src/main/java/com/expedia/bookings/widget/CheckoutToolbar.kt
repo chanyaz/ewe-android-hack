@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
-import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.interfaces.ToolbarListener
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -40,6 +39,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
         }
         vm.menuTitle.subscribe {
             menuItem.title = it
+            setMenuItemContentDescription()
         }
         vm.menuVisibility.subscribe {
             menuItem.isVisible = it
@@ -51,6 +51,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
             }
             menuItem.isVisible = true
             menuItem.isEnabled = enable
+            setMenuItemContentDescription()
         }
         vm.nextClicked.subscribe {
             setNextFocus()
@@ -58,6 +59,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
         vm.visibleMenuWithTitleDone.subscribe {
             menuItem.isVisible = true
             menuItem.title = context.getString(R.string.done)
+            setMenuItemContentDescription()
         }
 
         vm.currentFocus.subscribe {
@@ -68,19 +70,9 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
             setNavArrowBarParameter(it)
         }
 
-        vm.showDone.subscribe { isFilledIn ->
-            vm.menuTitle.onNext(if (isFilledIn) context.getString(R.string.done) else context.getString(R.string.next))
-        }
-
         vm.toolbarNavIconContentDesc.subscribe {
             navigationContentDescription = it
         }
-
-        ObservableOld.combineLatest(vm.menuVisibility, vm.showDone, { menuVisibility, formFilledIn -> Pair(menuVisibility, formFilledIn) })
-                .filter { it.first }
-                .subscribe {
-                    AccessibilityUtil.setMenuItemContentDescription(this, if (it.second) context.getString(R.string.done_cont_desc) else context.getString(R.string.next_cont_desc))
-                }
     }
 
     init {
@@ -154,5 +146,14 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
 
     override fun onMenuItemSelected(menu: MenuBuilder?, item: MenuItem?): Boolean {
         return false
+    }
+
+    private fun setMenuItemContentDescription() {
+        val contentDescription = StringBuilder(menuItem.title)
+        if (!menuItem.isEnabled) {
+            contentDescription.append(", ${context.getString(R.string.accessibility_cont_desc_card_is_disabled)}")
+        }
+        contentDescription.append(", ${context.getString(R.string.accessibility_cont_desc_role_button)}")
+        AccessibilityUtil.setMenuItemContentDescription(this, contentDescription.toString())
     }
 }
