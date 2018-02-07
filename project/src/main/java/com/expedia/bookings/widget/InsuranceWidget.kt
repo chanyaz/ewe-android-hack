@@ -5,11 +5,11 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.SwitchCompat
-import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
@@ -44,7 +44,6 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : CardView(context,
                 toggleSwitch.isChecked = isChecked
             }
         }
-        vm.termsObservable.subscribeText(termsTextView)
         vm.titleColorObservable.subscribeTextColor(titleTextView)
         vm.titleObservable.subscribeText(titleTextView)
         vm.toggleSwitchEnabledObservable.subscribeEnabled(toggleSwitch)
@@ -64,9 +63,14 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : CardView(context,
             FlightsV2Tracking.trackInsuranceBenefitsClick()
         }
 
-        termsTextView.movementMethod = LinkMovementMethod.getInstance()
-        termsTextView.setOnClickListener { FlightsV2Tracking.trackInsuranceTermsClick() }
         termsTextView.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
+        termsTextView.setOnClickListener {
+            FlightsV2Tracking.trackInsuranceTermsClick()
+            context.startActivity(WebViewActivity.IntentBuilder(context)
+                    .setTitle(termsTextView.text.toString())
+                    .setUrl(viewModel.termsUrl)
+                    .intent)
+        }
 
         toggleSwitch.setOnCheckedChangeListener { switch, isChecked ->
             if (!suppressNextToggleEvent) {

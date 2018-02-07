@@ -18,7 +18,6 @@ import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FontCache
-import com.expedia.bookings.utils.SpannableLinkBuilder
 import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
@@ -35,7 +34,6 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     // outputs
     val benefitsObservable = BehaviorSubject.create<Spanned>()
     val programmaticToggleObservable = PublishSubject.create<Boolean>()
-    val termsObservable = PublishSubject.create<SpannableStringBuilder>()
     val titleColorObservable = PublishSubject.create<Int>()
     val titleObservable = PublishSubject.create<SpannableStringBuilder>()
     val updatedTripObservable = PublishSubject.create<FlightCreateTripResponse>()
@@ -43,11 +41,12 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     val toggleSwitchEnabledObservable = PublishSubject.create<Boolean>()
 
     private var canWidgetBeDisplayed: Boolean = true
-    private val haveProduct: Boolean get() = product != null
+    private val haveProduct: Boolean get() = product?.terms?.url != null
     private var product: InsuranceProduct? = null
 
     private lateinit var lastAction: InsuranceAction
     private lateinit var trip: FlightTripResponse
+    lateinit var termsUrl: String
     lateinit var tripId: String
 
     enum class InsuranceAction {
@@ -72,8 +71,8 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
             trip.newTrip?.tripId?.let { tripId = it }
 
             if (haveProduct) {
+                termsUrl = product?.terms?.url.orEmpty()
                 updateBenefits()
-                updateTerms()
                 updateTitle()
             }
             updateToggleSwitch()
@@ -159,13 +158,6 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
             benefitsId = R.string.insurance_benefits_domestic
         }
         benefitsObservable.onNext(HtmlCompat.fromHtml(context.resources.getString(benefitsId)))
-    }
-
-    fun updateTerms() {
-        val linkContent = context.resources.getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-                product!!.terms.url, context.resources.getString(R.string.insurance_terms))
-        termsObservable.onNext(SpannableLinkBuilder().withColor(Ui.obtainThemeColor(context, R.attr.primary_color))
-                .withContent(linkContent).bubbleUpClicks().build())
     }
 
     fun updateTitle() {
