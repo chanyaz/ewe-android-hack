@@ -17,15 +17,14 @@ class HotelItinModifyReservationViewModel(context: Context) : ItinModifyReservat
         }
 
         roomChangeSubject.subscribe {
-            if (it.roomCancelLink.isNotEmpty()) {
+            if (!it.roomCancelLink.isNullOrEmpty()) {
                 cancelUrl = it.roomCancelLink
                 cancelReservationSubject.onNext(Unit)
             }
-
-            if (it.roomChangeLinkForMobileWebView.isNotEmpty()) {
+            if (!it.roomChangeLinkForMobileWebView.isNullOrEmpty()) {
                 changeUrl = it.roomChangeLinkForMobileWebView
                 changeReservationSubject.onNext(Unit)
-            } else if (it.roomChangeLink.isNotEmpty()) {
+            } else if (!it.roomChangeLink.isNullOrEmpty()) {
                 changeUrl = it.roomChangeLink
                 changeReservationSubject.onNext(Unit)
             }
