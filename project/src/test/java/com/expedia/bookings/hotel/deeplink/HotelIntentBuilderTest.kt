@@ -50,12 +50,12 @@ class HotelIntentBuilderTest {
         val deepLink = HotelDeepLink()
 
         val noMemberDealIntent = testBuilder.from(context, deepLink).build(context)
-        assertFalse(noMemberDealIntent.hasExtra(Codes.MEMBER_ONLY_DEALS),
+        assertFalse(noMemberDealIntent.hasExtra(Codes.DEALS),
                 "FAILURE: If member deals is false from deepLink the extra should not be added to the intent.")
 
         deepLink.memberOnlyDealSearch = true
         val memberDealIntent = testBuilder.from(context, deepLink).build(context)
-        assertTrue(memberDealIntent.getBooleanExtra(Codes.MEMBER_ONLY_DEALS, false))
+        assertTrue(memberDealIntent.getBooleanExtra(Codes.DEALS, false))
     }
 
     @Test

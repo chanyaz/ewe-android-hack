@@ -99,7 +99,7 @@ class HotelIntentBuilder {
         intent.putExtra(HotelExtras.LANDING_PAGE, landingPage?.id)
 
         if (memberDealSearch) {
-            intent.putExtra(Codes.MEMBER_ONLY_DEALS, true)
+            intent.putExtra(Codes.DEALS, true)
         }
 
         if (params != null) {

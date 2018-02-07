@@ -53,8 +53,8 @@ class HotelNavUtils : NavUtils() {
                 intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true)
             }
 
-            if (expediaFlags and MEMBER_ONLY_DEAL_SEARCH != 0) {
-                intent.putExtra(Codes.MEMBER_ONLY_DEALS, true)
+            if (expediaFlags and DEAL_SEARCH != 0) {
+                intent.putExtra(Codes.DEALS, true)
             }
 
             if (expediaFlags and FLAG_PINNED_SEARCH_RESULTS != 0) {

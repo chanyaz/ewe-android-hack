@@ -467,7 +467,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			NavUtils.goToMemberPricing(this);
 		}
 		else {
-			NavUtils.goToSignIn(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH);
+			NavUtils.goToSignIn(this, NavUtils.DEAL_SEARCH);
 		}
 	}
 

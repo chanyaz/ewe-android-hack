@@ -41,7 +41,7 @@ public class NavUtils {
 	public static final int FLAG_DEEPLINK = 0x00000001;
 	public static final int FLAG_OPEN_SEARCH = 0x00000002;
 	public static final int FLAG_OPEN_RESULTS = 0x00000004;
-	public static final int MEMBER_ONLY_DEAL_SEARCH = 0x00000008;
+	public static final int DEAL_SEARCH = 0x00000008;
 	public static final int FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK = 0x00000010;
 	public static final int FLAG_PINNED_SEARCH_RESULTS = 0x00000020;
 
@@ -176,8 +176,8 @@ public class NavUtils {
 			bundle = AccountLibActivity.createArgumentsBundle(LineOfBusiness.LAUNCH, new ItinerarySyncLoginExtender());
 		}
 
-		if ((flags & MEMBER_ONLY_DEAL_SEARCH) != 0) {
-			bundle.putBoolean(Codes.MEMBER_ONLY_DEALS, true);
+		if ((flags & DEAL_SEARCH) != 0) {
+			bundle.putBoolean(Codes.DEALS, true);
 		}
 
 		getUserStateManager(context).signIn((Activity) context, bundle);

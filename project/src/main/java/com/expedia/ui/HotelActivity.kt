@@ -60,7 +60,7 @@ class HotelActivity : AbstractAppCompatActivity() {
 
     private fun handleDeepLink(intent: Intent) {
         val searchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(intent.getStringExtra(HotelExtras.EXTRA_HOTEL_SEARCH_PARAMS))
-        if (intent.hasExtra(Codes.MEMBER_ONLY_DEALS) && searchParams != null) {
+        if (intent.hasExtra(Codes.DEALS) && searchParams != null) {
             searchParams.sortType = HotelSearchParams.SortType.MOBILE_DEALS.sortName
             searchParams.shopWithPoints = false
         }

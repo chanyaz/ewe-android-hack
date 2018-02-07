@@ -20,6 +20,6 @@ public class Codes {
 	public final static String TRAVELER_INDEX = "TRAVELER_INDEX";
 	public final static String CARS_PRODUCT_KEY = "CARS_PRODUCT_KEY";
 
-	// From Member Only Deals
-	public final static String MEMBER_ONLY_DEALS = "MEMBER_ONLY_DEALS";
+	// From Member Only Deals Or Last Minute Deals
+	public final static String DEALS = "DEALS";
 }
