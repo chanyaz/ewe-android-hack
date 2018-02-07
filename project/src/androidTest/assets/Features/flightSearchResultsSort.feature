@@ -6,9 +6,9 @@ Feature: Sorting of Flight results
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | LHR                                      |
-      | destination         | Malaga                                   |
+      | destination         | Spain                                    |
       | source_suggest      | London, England, UK (LHR - Heathrow)     |
-      | destination_suggest | AGP, Malaga, Spain                       |
+      | destination_suggest | BCN - Barcelona Intl.                    |
       | start_date          | 15                                       |
       | end_date            | 20                                       |
       | adults              | 3                                        |
@@ -67,9 +67,9 @@ Feature: Sorting of Flight results
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | LHR                                      |
-      | destination         | Malaga                                   |
+      | destination         | Spain                                    |
       | source_suggest      | London, England, UK (LHR - Heathrow)     |
-      | destination_suggest | AGP, Malaga, Spain                       |
+      | destination_suggest | BCN - Barcelona Intl.                    |
       | start_date          | 5                                        |
       | end_date            | 10                                       |
       | adults              | 1                                        |

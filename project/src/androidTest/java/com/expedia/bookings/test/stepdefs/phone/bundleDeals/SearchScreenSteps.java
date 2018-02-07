@@ -194,10 +194,10 @@ public class SearchScreenSteps {
 	}
 	@Then("^I select (outbound?|inbound) flight to (destination|source) at position (\\d+)$")
 	public void clickFlights(String ignore1, String ignore2, int pos) throws Throwable {
-		PackageScreen.flightList().perform(RecyclerViewActions.actionOnItemAtPosition(pos, click()));
+		PackageScreen.flightList()
+			.perform(waitForViewToDisplay(), RecyclerViewActions.actionOnItemAtPosition(pos, click()));
 		clickFlightOnDetails();
 	}
-
 	@Then("^Validate that there is a docked outbound flight$")
 	public void checkDockedOBFlight() throws Throwable {
 		PackageScreen.dockedOBTextView()

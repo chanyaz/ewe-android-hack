@@ -214,7 +214,7 @@ public class TestUtil {
 
 	public static String getDateInEEMMMddyyyy(String days) {
 		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
-		Format dateFormatter = new SimpleDateFormat("EEE MMM dd, yyyy", Locale.US);
+		Format dateFormatter = new SimpleDateFormat("EEE, MMM dd, yyyy", Locale.US);
 		return dateFormatter.format(startDate.toDate());
 	}
 
