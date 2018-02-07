@@ -96,9 +96,11 @@ enum class Amenity(@DrawableRes val drawableRes: Int,
         }
 
         private fun createAmenityIdList(amenity: Amenity, jsonData: JSONObject, mapping: HashMap<Int, Amenity>) {
-            val jsonList = jsonData.optJSONArray(amenity.jsonId) ?: return
-            for (i in 0 until jsonList.length()) {
-                mapping.put(jsonList.optInt(i), amenity)
+            val jsonList = jsonData.optJSONArray(amenity.jsonId)
+            if (jsonList != null) {
+                for (i in 0 until jsonList.length()) {
+                    mapping.put(jsonList.optInt(i), amenity)
+                }
             }
         }
 

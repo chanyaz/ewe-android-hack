@@ -285,11 +285,13 @@ fun EditText.subscribeMaterialFormsError(observer: Observable<Boolean>, errorMes
         this.setRightDrawable(rightDrawableId)
 
         val errorMessage = this.context.resources.getString(errorMessageId)
-        val parentTextInputLayout = this.getParentTextInputLayout() ?: return@subscribe
-        this.setParentTextInputLayoutError(parentTextInputLayout, hasError, errorMessage)
+        val parentTextInputLayout = this.getParentTextInputLayout()
+        if (parentTextInputLayout != null) {
+            this.setParentTextInputLayoutError(parentTextInputLayout, hasError, errorMessage)
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
-            this.updatePaddingForOldApi()
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
+                this.updatePaddingForOldApi()
+            }
         }
     }
 }

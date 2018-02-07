@@ -17,7 +17,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.presenter.packages.BundleWidget
@@ -252,17 +251,19 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     private fun updateBundlePricing() {
-        val packagePrice: PackageOfferModel.PackagePrice = Db.getPackageResponse().getCurrentOfferPrice() ?: return
-        if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
-            bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+        val packagePrice = Db.getPackageResponse().getCurrentOfferPrice()
+        if (packagePrice != null) {
+            if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
+                bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+            }
+            val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
+                    packagePrice.tripSavings.currencyCode)
+            bundlePriceWidget.viewModel.pricePerPerson.onNext(Money(BigDecimal(packagePrice.pricePerPerson.amount.toDouble()),
+                    packagePrice.pricePerPerson.currencyCode))
+            bundlePriceFooter.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+                    packagePrice.packageTotalPrice.currencyCode))
+            bundlePriceFooter.viewModel.savings.onNext(packageSavings)
         }
-        val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
-                packagePrice.tripSavings.currencyCode)
-        bundlePriceWidget.viewModel.pricePerPerson.onNext(Money(BigDecimal(packagePrice.pricePerPerson.amount.toDouble()),
-                packagePrice.pricePerPerson.currencyCode))
-        bundlePriceFooter.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
-                packagePrice.packageTotalPrice.currencyCode))
-        bundlePriceFooter.viewModel.savings.onNext(packageSavings)
     }
 
     private fun getBottomOffsetForClosing(): Int {

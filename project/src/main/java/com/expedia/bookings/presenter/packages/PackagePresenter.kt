@@ -117,14 +117,15 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             pageUsableData.markPageLoadStarted(startTime)
         }
         presenter.bundleWidget.viewModel.showBundleTotalObservable.filter { !isMidAPIEnabled(context) || it }.subscribe { visible ->
-            val packagePrice = Db.getPackageResponse().getCurrentOfferPrice() ?: return@subscribe
-
-            val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
-                    packagePrice.tripSavings.currencyCode)
-            presenter.totalPriceWidget.visibility = View.VISIBLE
-            presenter.totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
-                    packagePrice.packageTotalPrice.currencyCode))
-            presenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)
+            val packagePrice = Db.getPackageResponse().getCurrentOfferPrice()
+            if (packagePrice != null) {
+                val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
+                        packagePrice.tripSavings.currencyCode)
+                presenter.totalPriceWidget.visibility = View.VISIBLE
+                presenter.totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+                        packagePrice.packageTotalPrice.currencyCode))
+                presenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)
+            }
         }
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
             tripResponse = trip as PackageCreateTripResponse

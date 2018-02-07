@@ -29,11 +29,13 @@ fun TextView.removeErrorExclamation(newDrawableRight: Drawable?) {
 fun TextView.setMaterialFormsError(isValid: Boolean, errorMessage: String, rightDrawableId: Int = 0) {
     setRightDrawable(rightDrawableId)
 
-    val parentTextInputLayout = this.getParentTextInputLayout() ?: return
-    setParentTextInputLayoutError(parentTextInputLayout, !isValid, errorMessage)
+    val parentTextInputLayout = this.getParentTextInputLayout()
+    if (parentTextInputLayout != null) {
+        setParentTextInputLayoutError(parentTextInputLayout, !isValid, errorMessage)
 
-    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
-        this.updatePaddingForOldApi()
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
+            this.updatePaddingForOldApi()
+        }
     }
 }
 

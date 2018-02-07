@@ -90,12 +90,13 @@ class LXMapView(context: Context, attrs: AttributeSet) : FrameLayout(context, at
     }
 
     fun addMarker(googleMap: GoogleMap?, hotelLatLng: LatLong) {
-        googleMap ?: return
-        val marker = MarkerOptions()
-        marker.position(LatLng(hotelLatLng.latitude, hotelLatLng.longitude))
-        val drawableId = Ui.obtainThemeResID(context, R.attr.map_pin_drawable)
-        marker.icon(BitmapDescriptorFactory.fromResource(drawableId))
-        googleMap.addMarker(marker)
+        if (googleMap != null) {
+            val marker = MarkerOptions()
+            marker.position(LatLng(hotelLatLng.latitude, hotelLatLng.longitude))
+            val drawableId = Ui.obtainThemeResID(context, R.attr.map_pin_drawable)
+            marker.icon(BitmapDescriptorFactory.fromResource(drawableId))
+            googleMap.addMarker(marker)
+        }
     }
 
     override fun onMapReady(map: GoogleMap) {

@@ -137,11 +137,12 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
     }
 
     private fun addMarker(googleMap: GoogleMap?, hotelLatLng: LatLng) {
-        googleMap ?: return
-        val marker = MarkerOptions()
-        marker.position(hotelLatLng)
-        val drawableId = Ui.obtainThemeResID(context, R.attr.map_pin_drawable)
-        marker.icon(BitmapDescriptorFactory.fromResource(drawableId))
-        googleMap.addMarker(marker)
+        if (googleMap != null) {
+            val marker = MarkerOptions()
+            marker.position(hotelLatLng)
+            val drawableId = Ui.obtainThemeResID(context, R.attr.map_pin_drawable)
+            marker.icon(BitmapDescriptorFactory.fromResource(drawableId))
+            googleMap.addMarker(marker)
+        }
     }
 }
