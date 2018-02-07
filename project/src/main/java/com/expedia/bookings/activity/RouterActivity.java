@@ -121,6 +121,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppAccountSinglePageSignUp.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightsRecentSearch.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppBrandColors.getKey());
 		}
 
 		Ui.getApplication(this).appComponent().abacus()
