@@ -82,11 +82,7 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     override fun getMenuButtonTitle(): String? {
-        if (AccessibilityUtil.isTalkBackEnabled(context)) {
-            return resources.getString(R.string.coupon_apply_button_ally)
-        } else {
-            return resources.getString(R.string.coupon_apply_button)
-        }
+        return resources.getString(R.string.coupon_apply_button)
     }
 
     override fun setExpanded(expand: Boolean, animate: Boolean) {

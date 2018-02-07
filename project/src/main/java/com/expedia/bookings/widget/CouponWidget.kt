@@ -59,11 +59,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidge
     }
 
     override fun getMenuButtonTitle(): String? {
-        if (AccessibilityUtil.isTalkBackEnabled(context)) {
-            return resources.getString(R.string.coupon_submit_button_ally)
-        } else {
-            return resources.getString(R.string.coupon_submit_button)
-        }
+        return resources.getString(R.string.coupon_submit_button)
     }
 
     override fun showHotelCheckoutView(couponInstanceId: String?): Boolean {
