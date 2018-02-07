@@ -8,7 +8,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -28,7 +28,7 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		PackageScreen.searchPackage();
 		Common.delay(2);
 
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		Common.delay(3);
 
 		EspressoUtils.assertViewWithSiblingIsNotDisplayed(R.id.discount_percentage, R.id.air_attach_swp_image_details);
@@ -48,7 +48,7 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		PackageScreen.searchPackageFor(2, 1);
 		Common.delay(1);
 
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
 
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
@@ -62,9 +62,9 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 	public void testVIPHotel() throws Throwable {
 		PackageScreen.searchPackage();
 		Common.delay(1);
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		Common.delay(3);
-		HotelScreen.clickVIPAccess();
+		HotelInfoSiteScreen.clickVIPAccess();
 		Common.delay(2);
 		EspressoUtils.assertViewWithTextIsDisplayed(getActivity().getString(R.string.vip_access_message));
 		Common.pressBack();
@@ -75,8 +75,8 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 	@Test
 	public void testRenoHotel() throws Throwable {
 		PackageScreen.searchPackage();
-		HotelScreen.selectHotel("Package Happy Path");
-		HotelScreen.clickRenoInfo();
+		HotelResultsScreen.selectHotel("Package Happy Path");
+		HotelInfoSiteScreen.clickRenoInfo();
 		onView(allOf(withId(R.id.content_description),
 			withText("<ul><li>Elevator</li><li>Front desk</li><li>Lobby</li></ul>")));
 	}

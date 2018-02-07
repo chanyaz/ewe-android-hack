@@ -11,7 +11,7 @@ import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
@@ -37,7 +37,7 @@ public class PackagesFlightsTest extends PackageTestCase {
 		SearchScreen.selectDates(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
 		HotelInfoSiteScreen.bookRoomType("happy_outbound_flight");
 		Common.delay(1);
@@ -58,7 +58,7 @@ public class PackagesFlightsTest extends PackageTestCase {
 		SearchScreen.selectDates(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
 
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		HotelInfoSiteScreen.clickStickySelectRoom();
 		HotelInfoSiteScreen.bookRoomType("Packages Flights Show More Airlines");
 

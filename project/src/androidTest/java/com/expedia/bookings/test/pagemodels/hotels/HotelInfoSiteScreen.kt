@@ -10,6 +10,7 @@ import android.support.test.espresso.matcher.ViewMatchers.hasSibling
 import android.support.test.espresso.matcher.ViewMatchers.isClickable
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.isSelected
 import android.support.test.espresso.matcher.ViewMatchers.withChild
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withId
@@ -63,6 +64,81 @@ object HotelInfoSiteScreen {
         return onView(numberOfGuests)
     }
 
+    @JvmStatic
+    fun reviews(): ViewInteraction {
+        return onView(withId(R.id.widget_hotel_reviews))
+    }
+
+    @JvmStatic
+    fun etpAndFreeCancellationMessagingContainer(): ViewInteraction {
+        return onView(withId(R.id.etp_and_free_cancellation_messaging_container))
+    }
+
+    @JvmStatic
+    fun etpInfoText(): ViewInteraction {
+        return onView(withId(R.id.etp_info_text))
+    }
+
+    @JvmStatic
+    fun etpInfoTextSmall(): ViewInteraction {
+        return onView(withId(R.id.etp_info_text_small))
+    }
+
+    @JvmStatic
+    fun freeCancellation(): ViewInteraction {
+        return onView(withId(R.id.free_cancellation))
+    }
+
+    @JvmStatic
+    fun freeCancellationSmall(): ViewInteraction {
+        return onView(withId(R.id.free_cancellation_small))
+    }
+
+    @JvmStatic
+    fun horizontalDividerBwEtpAndFreeCancellation(): ViewInteraction {
+        return onView(withId(R.id.horizontal_divider_bw_etp_and_free_cancellation))
+    }
+
+    @JvmStatic
+    fun etpPlaceholder(): ViewInteraction {
+        return onView(withId(R.id.pay_now_pay_later_tabs))
+    }
+
+    @JvmStatic
+    fun payNowAndLaterOptions(): ViewInteraction {
+        return onView(withId(R.id.pay_now_pay_later_tabs))
+    }
+
+    @JvmStatic
+    fun roomsContainer(): ViewInteraction {
+        return onView(withId(R.id.room_container))
+    }
+
+    @JvmStatic
+    fun resortFeesText(): ViewInteraction {
+        return onView(withId(R.id.resort_fees_text))
+    }
+
+    @JvmStatic
+    fun ratingContainer(): ViewInteraction {
+        return onView(withId(R.id.rating_container))
+    }
+
+    @JvmStatic
+    fun amenityContainer(): ViewInteraction {
+        return onView(withId(R.id.amenities_table_row))
+    }
+
+    @JvmStatic
+    fun commonAmenitiesText(): ViewInteraction {
+        return onView(withId(R.id.common_amenities_text))
+    }
+
+    @JvmStatic
+    fun hotelDetailsStarRating(): ViewInteraction {
+        return onView(withId(R.id.hotel_star_rating_bar))
+    }
+
     // Actions
     @JvmStatic
     fun clickOnVIPAccess() {
@@ -88,6 +164,55 @@ object HotelInfoSiteScreen {
     @JvmStatic
     fun validateNumberOfGuests(guestsString: String) {
         numberOfGuests().check(matches(withText(guestsString)))
+    }
+
+    @JvmStatic
+    fun verifyHeaderLabelText(expectedText: String) {
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(headerLabelText, 10, TimeUnit.SECONDS)
+        onView(headerLabelText).check(matches(withText(expectedText)))
+    }
+
+    @JvmStatic
+    fun clickRenoInfo() {
+        onView(withId(R.id.renovation_container)).perform(scrollTo(), click())
+    }
+
+    @JvmStatic
+    fun clickPayLater() {
+        onView(withId(R.id.right_tab_text_view)).perform(click())
+        onView(allOf(withId(R.id.right_tab_text_view), isSelected())).perform(waitForViewToDisplay())
+    }
+
+    @JvmStatic
+    fun clickPayNow() {
+        onView(withId(R.id.left_tab_text_view)).perform(click())
+        onView(allOf(withId(R.id.left_tab_text_view), isSelected())).perform(waitForViewToDisplay())
+    }
+
+    @JvmStatic
+    fun clickRatingContainer() {
+        onView(withId(R.id.rating_container)).perform(scrollTo(), click())
+    }
+
+    @JvmStatic
+    @Throws(Throwable::class)
+    fun clickSwPToggle() {
+        onView(withId(R.id.swp_switch)).perform(click())
+    }
+
+    @JvmStatic
+    fun clickVIPAccess() {
+        onView(withId(R.id.vip_access_message_container)).perform(click())
+    }
+
+    @JvmStatic
+    fun clickDetailsMiniMap() {
+        onView(withId(R.id.map_click_container)).perform(scrollTo(), click())
+    }
+
+    @JvmStatic
+    fun clickSelectARoomInFullMap() {
+        onView(withId(R.id.map_view_select_room_container)).perform(click())
     }
 
     object VIPAccess {
@@ -290,11 +415,5 @@ object HotelInfoSiteScreen {
                         withText(bedType)
                 ))
         )))
-    }
-
-    @JvmStatic
-    fun verifyHeaderLabelText(expectedText: String) {
-        EspressoUtils.waitForViewNotYetInLayoutToDisplay(headerLabelText, 10, TimeUnit.SECONDS)
-        onView(headerLabelText).check(matches(withText(expectedText)))
     }
 }

@@ -18,7 +18,7 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.widget.HotelCarouselRecycler;
 import com.expedia.bookings.widget.HotelMapCarouselAdapter;
@@ -77,7 +77,7 @@ public class HotelResultsCarouselTest {
 		assertViewWithTextIsDisplayedAtPosition(0, R.id.hotel_preview_text, "happy 1");
 		assertViewIsDisplayedAtPosition(0, R.id.hotel_preview_star_rating);
 		assertViewIsDisplayedAtPosition(0, R.id.hotel_guest_rating);
-		HotelScreen.hotelCarousel().perform(ViewActions.swipeLeft());
+		HotelResultsScreen.hotelCarousel().perform(ViewActions.swipeLeft());
 		Common.delay(2);
 		assertViewWithTextIsDisplayedAtPosition(1, R.id.hotel_preview_text, "happy 2");
 		assertViewIsDisplayedAtPosition(1, R.id.hotel_preview_star_rating);
@@ -85,13 +85,13 @@ public class HotelResultsCarouselTest {
 	}
 
 	private void assertViewIsDisplayedAtPosition(int position, int id) {
-		HotelScreen.hotelCarousel().check(
+		HotelResultsScreen.hotelCarousel().check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
 				CoreMatchers.allOf(withId(id), isDisplayed()))));
 	}
 
 	private void assertViewWithTextIsDisplayedAtPosition(int position, int id, String text) {
-		HotelScreen.hotelCarousel().check(
+		HotelResultsScreen.hotelCarousel().check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
 				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
 	}

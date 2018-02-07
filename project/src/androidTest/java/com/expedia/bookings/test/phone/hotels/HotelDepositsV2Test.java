@@ -9,7 +9,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -20,7 +20,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.pagemodels.hotels.HotelScreen.clickPayLater;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
@@ -29,7 +28,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 	@Test
 	public void testInfoWithDepositRequired() throws Throwable {
 		goToResults();
-		HotelScreen.selectHotel("hotel_etp_renovation_resort");
+		HotelResultsScreen.selectHotel("hotel_etp_renovation_resort");
 		HotelInfoSiteScreen.waitForDetailsLoaded();
 
 		//assert book no pay later info screen
@@ -51,7 +50,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 		//assert Deposit terms info screen
 		HotelInfoSiteScreen.waitForDetailsLoaded();
 		HotelInfoSiteScreen.clickStickySelectRoom();
-		clickPayLater();
+		HotelInfoSiteScreen.clickPayLater();
 		Common.delay(1);
 
 		onView(withId(R.id.deposit_terms_text_view)).perform(click());
@@ -74,7 +73,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 		Common.pressBack();
 
 		HotelInfoSiteScreen.waitForDetailsLoaded();
-		clickPayLater();
+		HotelInfoSiteScreen.clickPayLater();
 		Common.delay(1);
 		HotelInfoSiteScreen.bookFirstRoom();
 
@@ -92,7 +91,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 	@Test
 	public void testInfoWithoutDepositNotRequired() throws Throwable {
 		goToResults();
-		HotelScreen.selectHotel("hotel_etp_renovation_resort_with_free_cancellation");
+		HotelResultsScreen.selectHotel("hotel_etp_renovation_resort_with_free_cancellation");
 		HotelInfoSiteScreen.waitForDetailsLoaded();
 
 		//assert book no pay later info screen
@@ -111,7 +110,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 		HotelInfoSiteScreen.waitForDetailsLoaded();
 		HotelInfoSiteScreen.clickStickySelectRoom();
 		Common.delay(2);
-		clickPayLater();
+		HotelInfoSiteScreen.clickPayLater();
 
 		//We don't show deposit terms link if there is no deposit required
 		onView(withId(R.id.deposit_terms_text_view)).check(matches(not(isDisplayed())));

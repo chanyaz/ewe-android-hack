@@ -16,7 +16,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisp
 import com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable
 
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.PaymentOptionsScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.junit.Test
@@ -40,7 +40,7 @@ class FlightCheckoutErrorTest : FlightErrorTestCase() {
         getToCheckoutWithFilledInTravelerDetails()
         PackageScreen.enterPaymentInfo("unknownerror lastname")
 
-        CheckoutViewModel.performSlideToPurchase()
+        CheckoutScreen.performSlideToPurchase()
 
         assertFlightErrorPresenterDisplayed()
         assertButtonDisplayedWithText("Retry")
@@ -56,7 +56,7 @@ class FlightCheckoutErrorTest : FlightErrorTestCase() {
         getToCheckoutWithFilledInTravelerDetails()
         PackageScreen.enterPaymentInfo("paymentfailederror lastname")
 
-        CheckoutViewModel.performSlideToPurchase()
+        CheckoutScreen.performSlideToPurchase()
 
         assertFlightErrorPresenterDisplayed()
         assertButtonDisplayedWithText("Edit Payment")
@@ -72,15 +72,15 @@ class FlightCheckoutErrorTest : FlightErrorTestCase() {
     @Test
     fun testSignedInCheckoutPaymentFailedError() {
         goToCheckout()
-        CheckoutViewModel.signInOnCheckout()
+        CheckoutScreen.signInOnCheckout()
         waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS)
 
-        CheckoutViewModel.clickPaymentInfo()
+        CheckoutScreen.clickPaymentInfo()
         val cardName = "Saved Payment failed Card"
-        CheckoutViewModel.selectStoredCard(cardName)
+        CheckoutScreen.selectStoredCard(cardName)
         PaymentOptionsScreen.assertCardSelectionMatches(cardName, 5)
         Common.pressBack()
-        CheckoutViewModel.performSlideToPurchase(true)
+        CheckoutScreen.performSlideToPurchase(true)
 
         assertFlightErrorPresenterDisplayed()
         assertButtonDisplayedWithText("Edit Payment")
@@ -97,7 +97,7 @@ class FlightCheckoutErrorTest : FlightErrorTestCase() {
         getToCheckoutWithFilledInTravelerDetails()
         PackageScreen.enterPaymentInfo("sessiontimeout lastname")
 
-        CheckoutViewModel.performSlideToPurchase()
+        CheckoutScreen.performSlideToPurchase()
 
         assertFlightErrorPresenterDisplayed()
         assertButtonDisplayedWithText("New Search")
@@ -113,7 +113,7 @@ class FlightCheckoutErrorTest : FlightErrorTestCase() {
         getToCheckoutWithFilledInTravelerDetails()
         PackageScreen.enterPaymentInfo("tripalreadybooked lastname")
 
-        CheckoutViewModel.performSlideToPurchase()
+        CheckoutScreen.performSlideToPurchase()
 
         assertConfirmationViewIsDisplayed()
     }

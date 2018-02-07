@@ -12,10 +12,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.IdlingResources.LxIdlingResource;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.lx.LXInfositeScreen;
 import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 import com.expedia.bookings.test.pagemodels.common.CVVEntryScreen;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -68,16 +68,16 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		selectOffers();
 		doLogin();
 
-		CheckoutViewModel.clickTravelerInfo();
-		CheckoutViewModel.clickStoredTravelerButton();
-		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
+		CheckoutScreen.clickTravelerInfo();
+		CheckoutScreen.clickStoredTravelerButton();
+		CheckoutScreen.selectStoredTraveler("Expedia Automation First");
 
-		CheckoutViewModel.clickStoredTravelerButton();
-		CheckoutViewModel.selectStoredTraveler("Add New Traveler");
+		CheckoutScreen.clickStoredTravelerButton();
+		CheckoutScreen.selectStoredTraveler("Add New Traveler");
 
-		CheckoutViewModel.firstName().check(matches(withText("")));
-		CheckoutViewModel.lastName().check(matches(withText("")));
-		CheckoutViewModel.phone().check(matches(withText("")));
+		CheckoutScreen.firstName().check(matches(withText("")));
+		CheckoutScreen.lastName().check(matches(withText("")));
+		CheckoutScreen.phone().check(matches(withText("")));
 	}
 
 	@Test
@@ -110,15 +110,15 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	private void doLogin() throws Throwable {
 		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
-		CheckoutViewModel.enterLoginDetails();
-		CheckoutViewModel.pressDoLogin();
+		CheckoutScreen.enterLoginDetails();
+		CheckoutScreen.pressDoLogin();
 		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS);
 	}
 
 	private void selectStoredCard() throws Throwable {
-		CheckoutViewModel.clickPaymentInfo();
-		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
-		CheckoutViewModel.clickDone();
+		CheckoutScreen.clickPaymentInfo();
+		CheckoutScreen.selectStoredCard("Saved AmexTesting");
+		CheckoutScreen.clickDone();
 	}
 
 	private void validateRestHappyFlow() throws Throwable {
@@ -142,12 +142,12 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 	}
 
 	private void manuallyEnterTravelerInfo() throws Throwable {
-		CheckoutViewModel.enterTravelerInfo();
-		CheckoutViewModel.enterPaymentInfo();
+		CheckoutScreen.enterTravelerInfo();
+		CheckoutScreen.enterPaymentInfo();
 	}
 
 	private void purchaseActivity(boolean isAmex) throws Throwable {
-		CheckoutViewModel.performSlideToPurchase();
+		CheckoutScreen.performSlideToPurchase();
 		CVVEntryScreen.enterCVV(isAmex ? "6286" : "111");
 		CVVEntryScreen.clickBookButton();
 	}

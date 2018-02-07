@@ -13,7 +13,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -60,8 +60,8 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 
 		PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(click());
 
-		CheckoutViewModel.waitForPaymentInfoDisplayed();
-		CheckoutViewModel.clickPaymentInfo();
+		CheckoutScreen.waitForPaymentInfoDisplayed();
+		CheckoutScreen.clickPaymentInfo();
 		assertPaymentInfoCleared();
 	}
 
@@ -71,7 +71,7 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 		PackageScreen.checkout().perform(click());
 
 		PackageScreen.enterTravelerInfo();
-		CheckoutViewModel.clickPaymentInfo();
+		CheckoutScreen.clickPaymentInfo();
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
@@ -85,8 +85,8 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 		BillingAddressScreen.typeTextCity("errorcheckoutcard", addressSectionParentId);
 		BillingAddressScreen.typeTextState("CA", addressSectionParentId);
 		BillingAddressScreen.typeTextPostalCode("94105", addressSectionParentId);
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.performSlideToPurchase();
+		CheckoutScreen.clickDone();
+		CheckoutScreen.performSlideToPurchase();
 
 		PackageScreen.assertErrorScreen("Edit Payment", "We're sorry, but we were unable to process your payment. Please verify that you entered your information correctly.");
 		onView(withId(R.id.error_action_button)).perform(click());
@@ -100,7 +100,7 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 		PackageScreen.checkout().perform(click());
 		PackageScreen.enterTravelerInfo();
 
-		CheckoutViewModel.clickPaymentInfo();
+		CheckoutScreen.clickPaymentInfo();
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
@@ -114,16 +114,16 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 		BillingAddressScreen.typeTextCity("errorcheckoutcard", addressSectionParentId);
 		BillingAddressScreen.typeTextState("CA", addressSectionParentId);
 		BillingAddressScreen.typeTextPostalCode("94105", addressSectionParentId);
-		CheckoutViewModel.clickDone();
+		CheckoutScreen.clickDone();
 
-		CheckoutViewModel.paymentInfo().check(matches(hasDescendant(withText("Visa …1111"))));
+		CheckoutScreen.paymentInfo().check(matches(hasDescendant(withText("Visa …1111"))));
 		Espresso.onView(ViewMatchers.withId(R.id.slide_to_purchase_widget)).check(ViewAssertions.matches(isCompletelyDisplayed()));
 
-		CheckoutViewModel.signInOnCheckout();
-		CheckoutViewModel.waitForPaymentInfoDisplayed();
+		CheckoutScreen.signInOnCheckout();
+		CheckoutScreen.waitForPaymentInfoDisplayed();
 
-		CheckoutViewModel.paymentInfo().check(matches(hasDescendant(withText("AmexTesting"))));
-		CheckoutViewModel.waitForSlideToPurchase();
+		CheckoutScreen.paymentInfo().check(matches(hasDescendant(withText("AmexTesting"))));
+		CheckoutScreen.waitForSlideToPurchase();
 		Espresso.onView(ViewMatchers.withId(R.id.slide_to_purchase_widget)).check(ViewAssertions.matches(isCompletelyDisplayed()));
 	}
 

@@ -11,7 +11,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -50,7 +50,7 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		onView(withText("Change hotel")).perform(click());
 		Common.delay(1);
 
-		HotelScreen.selectHotel("Price Change");
+		HotelResultsScreen.selectHotel("Price Change");
 		Common.delay(1);
 
 		HotelInfoSiteScreen.clickStickySelectRoom();

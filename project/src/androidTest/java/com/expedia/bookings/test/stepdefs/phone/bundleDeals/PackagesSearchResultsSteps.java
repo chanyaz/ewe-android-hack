@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.stepdefs.phone.bundleDeals;
 
 
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
 import cucumber.api.java.en.And;
@@ -16,7 +16,7 @@ public class PackagesSearchResultsSteps {
 
 	@And("^I wait for hotels results for packages to load$")
 	public void waitForHotelsForPackage() throws Throwable {
-		HotelScreen.hotelResultsList().perform(waitForViewToDisplay());
+		HotelResultsScreen.hotelResultsList().perform(waitForViewToDisplay());
 	}
 
 	@And("^I tap on bundle overview sliding widget bar at the bottom$")
@@ -28,7 +28,7 @@ public class PackagesSearchResultsSteps {
 
 	@Then("^Hotels SRP is displayed$")
 	public void validateHotelResultsShown() throws Throwable {
-		HotelScreen.hotelResultsList().check(matches(isDisplayed()));
+		HotelResultsScreen.hotelResultsList().check(matches(isDisplayed()));
 	}
 
 	@And("^I wait for flight results for packages to load$")

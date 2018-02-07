@@ -6,7 +6,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -22,14 +22,14 @@ public class HotelDetailRenovationTest extends HotelTestCase {
 	@Test
 	public void testETPHotelWithoutFreeCancellationHavingRenovation() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
-		HotelScreen.selectHotel("hotel_etp_renovation_resort");
+		HotelResultsScreen.selectHotel("hotel_etp_renovation_resort");
 		HotelInfoSiteScreen.waitForDetailsLoaded();
 
 		HotelInfoSiteScreen.clickStickySelectRoom();
-		HotelScreen.clickPayNow();
+		HotelInfoSiteScreen.clickPayNow();
 
-		HotelScreen.ratingContainer().check(matches(not(isDisplayed())));
-		HotelScreen.amenityContainer().check(matches(not(isDisplayed())));
+		HotelInfoSiteScreen.ratingContainer().check(matches(not(isDisplayed())));
+		HotelInfoSiteScreen.amenityContainer().check(matches(not(isDisplayed())));
 
 		HotelInfoSiteScreen.roomCardViewForRoomType("hotel_etp_renovation_resort_0").perform(scrollTo());
 

@@ -8,7 +8,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
@@ -31,7 +31,7 @@ public class PackageFlightsResultsTest extends PackageTestCase {
 		Common.delay(1);
 
 
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
 
 		HotelInfoSiteScreen.bookFirstRoom();

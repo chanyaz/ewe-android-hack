@@ -16,11 +16,11 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -317,12 +317,12 @@ public class PackageScreen {
 	}
 
 	public static void clickPaymentDone() {
-		CheckoutViewModel.clickDone();
+		CheckoutScreen.clickDone();
 	}
 
 	public static void clickPaymentInfo() {
-		CheckoutViewModel.waitForPaymentInfoDisplayed();
-		CheckoutViewModel.clickPaymentInfo();
+		CheckoutScreen.waitForPaymentInfoDisplayed();
+		CheckoutScreen.clickPaymentInfo();
 	}
 
 	public static void clickSpecialAssistance() {
@@ -393,7 +393,7 @@ public class PackageScreen {
 
 	public static void doPackageSearch() throws Throwable {
 		searchPackage();
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		HotelInfoSiteScreen.bookFirstRoom();
 
 		PackageScreen.selectFlight(0);

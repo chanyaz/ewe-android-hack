@@ -15,7 +15,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.mobiata.android.Log;
@@ -245,7 +245,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		SearchScreen.selectDates(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
 
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		HotelInfoSiteScreen.bookRoomType("happy_outbound_flight");
 
 		PackageScreen.flightList().perform(waitForViewToDisplay());

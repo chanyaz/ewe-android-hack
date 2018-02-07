@@ -7,7 +7,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -24,7 +24,7 @@ public class PackageFlightPresenterTest extends PackageTestCase {
 		PackageScreen.searchPackage();
 
 		//select hotel
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
 		PackageScreen.hotelDetailsToolbar().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(

@@ -9,7 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.CoreMatchers.allOf
@@ -38,7 +38,7 @@ class FlightPriceChangeTest : FlightErrorTestCase() {
 
         PackageScreen.enterTravelerInfo()
         PackageScreen.enterPaymentInfo()
-        CheckoutViewModel.performSlideToPurchase()
+        CheckoutScreen.performSlideToPurchase()
 
         FlightTestHelpers.assertConfirmationViewIsDisplayed()
     }
@@ -51,7 +51,7 @@ class FlightPriceChangeTest : FlightErrorTestCase() {
 
         PackageScreen.enterTravelerInfo()
         PackageScreen.enterPaymentInfo("checkoutpricechange lastname")
-        CheckoutViewModel.performSlideToPurchase()
+        CheckoutScreen.performSlideToPurchase()
     }
 
     @Test
@@ -66,7 +66,7 @@ class FlightPriceChangeTest : FlightErrorTestCase() {
 
         PackageScreen.enterTravelerInfo()
         PackageScreen.enterPaymentInfo("checkoutpricechangewithinsurance lastname")
-        CheckoutViewModel.performSlideToPurchase()
+        CheckoutScreen.performSlideToPurchase()
         FlightsOverviewScreen.assertPriceChangeShown("The price of your trip has changed from \$715.00 to \$763.00. Rates can change frequently. Book now to lock in this price.")
         onView(withId(android.R.id.button1)).perform(ViewActions.click())
         assertInsuranceAfterPriceChange()
@@ -76,13 +76,13 @@ class FlightPriceChangeTest : FlightErrorTestCase() {
     fun testCheckoutSignedInPriceChange() {
         getToCheckoutOverview(PriceChangeType.CHECKOUT)
         PackageScreen.checkout().perform(ViewActions.click())
-        CheckoutViewModel.signInOnCheckout()
+        CheckoutScreen.signInOnCheckout()
 
         Common.delay(2) // waitForViewToDisplay does not work as this button is not in previous view (sign in)
-        CheckoutViewModel.clickPaymentInfo()
-        CheckoutViewModel.selectStoredCard("Saved checkoutpricechange")
+        CheckoutScreen.clickPaymentInfo()
+        CheckoutScreen.selectStoredCard("Saved checkoutpricechange")
         Common.pressBack()
-        CheckoutViewModel.performSlideToPurchase(true)
+        CheckoutScreen.performSlideToPurchase(true)
         FlightsOverviewScreen.assertPriceChangeShown("The price of your trip has changed from \$696.00 to \$763.00. Rates can change frequently. Book now to lock in this price.")
     }
 

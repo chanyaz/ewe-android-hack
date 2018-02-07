@@ -14,10 +14,10 @@ import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import org.junit.Test
 
 class HotelCheckoutTest : HotelTestCase() {
@@ -25,7 +25,7 @@ class HotelCheckoutTest : HotelTestCase() {
     @Test
     fun testCardNumberClearedAfterCreateTrip() {
         SearchScreen.doGenericHotelSearch()
-        HotelScreen.selectHotel("happypath")
+        HotelResultsScreen.selectHotel("happypath")
         Common.delay(1)
         HotelInfoSiteScreen.bookFirstRoom()
         enterTravelerAndPaymentDetails()
@@ -35,9 +35,9 @@ class HotelCheckoutTest : HotelTestCase() {
 
         // assert that credit card number is empty
         Common.delay(1)
-        CheckoutViewModel.paymentInfo().perform(scrollTo())
+        CheckoutScreen.paymentInfo().perform(scrollTo())
         EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Enter payment details")
-        CheckoutViewModel.clickPaymentInfo()
+        CheckoutScreen.clickPaymentInfo()
         Common.delay(1)
         EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "")
         Espresso.pressBack()
@@ -46,36 +46,36 @@ class HotelCheckoutTest : HotelTestCase() {
     @Test
     fun testLoggedInCustomerCanEnterNewTraveler() {
         SearchScreen.doGenericHotelSearch()
-        HotelScreen.selectHotel()
+        HotelResultsScreen.selectHotel("happypath")
         HotelInfoSiteScreen.bookFirstRoom()
-        CheckoutViewModel.clickDone()
+        CheckoutScreen.clickDone()
 
-        HotelScreen.doLogin()
+        CheckoutScreen.loginAsQAUser()
         Common.delay(1)
 
-        CheckoutViewModel.clickTravelerInfo()
-        CheckoutViewModel.clickStoredTravelerButton()
-        CheckoutViewModel.selectStoredTraveler("Expedia Automation First")
+        CheckoutScreen.clickTravelerInfo()
+        CheckoutScreen.clickStoredTravelerButton()
+        CheckoutScreen.selectStoredTraveler("Expedia Automation First")
 
-        CheckoutViewModel.clickStoredTravelerButton()
-        CheckoutViewModel.selectStoredTraveler("Add New Traveler")
+        CheckoutScreen.clickStoredTravelerButton()
+        CheckoutScreen.selectStoredTraveler("Add New Traveler")
 
-        CheckoutViewModel.firstName().check(matches(withText("")))
-        CheckoutViewModel.lastName().check(matches(withText("")))
-        CheckoutViewModel.phone().check(matches(withText("")))
+        CheckoutScreen.firstName().check(matches(withText("")))
+        CheckoutScreen.lastName().check(matches(withText("")))
+        CheckoutScreen.phone().check(matches(withText("")))
     }
 
     private fun enterTravelerAndPaymentDetails() {
-        CheckoutViewModel.waitForCheckout()
-        CheckoutViewModel.enterTravelerInfo()
-        CheckoutViewModel.enterPaymentInfoHotels()
+        CheckoutScreen.waitForCheckout()
+        CheckoutScreen.enterTravelerInfo()
+        CheckoutScreen.enterPaymentInfoHotels()
     }
 
     @Test
     fun testResortFeeDisclaimerTextVisibility() {
         SearchScreen.doGenericHotelSearch()
         // Check to make sure non merchant shows up in result list
-        HotelScreen.selectHotel("Non Merchant Hotel")
+        HotelResultsScreen.selectHotel("Non Merchant Hotel")
         Common.delay(1)
 
         HotelInfoSiteScreen.clickStickySelectRoom()
@@ -83,34 +83,34 @@ class HotelCheckoutTest : HotelTestCase() {
 
         HotelInfoSiteScreen.bookFirstRoom()
 
-        CheckoutViewModel.resortFeeDisclaimerText().perform(scrollTo())
+        CheckoutScreen.resortFeeDisclaimerText().perform(scrollTo())
         Common.delay(1)
 
         //On Checkout page resortFeeDisclaimerText is Visible
-        CheckoutViewModel.resortFeeDisclaimerText().check(matches(withText("The $3 resort fee will be collected at the hotel. The total price for your stay will be $21.08.")))
-        CheckoutViewModel.clickPaymentInfo()
+        CheckoutScreen.resortFeeDisclaimerText().check(matches(withText("The $3 resort fee will be collected at the hotel. The total price for your stay will be $21.08.")))
+        CheckoutScreen.clickPaymentInfo()
 
         //On paymentInfo page resortFeeDisclaimerText's Visibility is Gone
-        CheckoutViewModel.resortFeeDisclaimerText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+        CheckoutScreen.resortFeeDisclaimerText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
     }
 
     @Test
     fun testFreeCancellationNotAvailableAndHiddenFromSummary() {
         SearchScreen.doGenericHotelSearch()
-        HotelScreen.selectHotel("happypath")
+        HotelResultsScreen.selectHotel("happypath")
 
         HotelInfoSiteScreen.bookFirstRoom()
-        CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+        CheckoutScreen.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
     }
 
     @Test
     fun testFreeCancellationAvailableAndShownInSummary() {
         SearchScreen.doGenericHotelSearch()
         // Check to make sure non merchant shows up in result list
-        HotelScreen.selectHotel("Non Merchant Hotel")
+        HotelResultsScreen.selectHotel("Non Merchant Hotel")
 
         HotelInfoSiteScreen.bookFirstRoom()
-        CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        CheckoutScreen.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
 
     @Test
@@ -120,32 +120,32 @@ class HotelCheckoutTest : HotelTestCase() {
                 AbacusVariant.BUCKETED.value)
 
         // Check to make sure non merchant shows up in result list
-        HotelScreen.selectHotel("Non Merchant Hotel")
+        HotelResultsScreen.selectHotel("Non Merchant Hotel")
 
         HotelInfoSiteScreen.bookFirstRoom()
 
-        CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
-        CheckoutViewModel.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        CheckoutScreen.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+        CheckoutScreen.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 
-        CheckoutViewModel.freeCancellationTooltipText().perform(click())
+        CheckoutScreen.freeCancellationTooltipText().perform(click())
 
-        CheckoutViewModel.freeCancellationWidget().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        CheckoutScreen.freeCancellationWidget().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
         Common.pressBack()
 
-        CheckoutViewModel.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        CheckoutScreen.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
 
     @Test
     fun testTravelerCardContentDescription() {
         SearchScreen.doGenericHotelSearch()
-        HotelScreen.selectHotel("happypath")
+        HotelResultsScreen.selectHotel("happypath")
         HotelInfoSiteScreen.bookFirstRoom()
-        CheckoutViewModel.waitForCheckout()
-        CheckoutViewModel.clickDone()
+        CheckoutScreen.waitForCheckout()
+        CheckoutScreen.clickDone()
 
-        CheckoutViewModel.travelerInfo().check(matches(ViewMatchers.withContentDescription(" Error: Enter missing traveler details. Button.")))
+        CheckoutScreen.travelerInfo().check(matches(ViewMatchers.withContentDescription(" Error: Enter missing traveler details. Button.")))
 
-        CheckoutViewModel.enterTravelerInfo()
-        CheckoutViewModel.travelerInfo().check(matches(ViewMatchers.withContentDescription("FiveStar Bear, 4158675309, traveler details complete. Button.")))
+        CheckoutScreen.enterTravelerInfo()
+        CheckoutScreen.travelerInfo().check(matches(ViewMatchers.withContentDescription("FiveStar Bear, 4158675309, traveler details complete. Button.")))
     }
 }

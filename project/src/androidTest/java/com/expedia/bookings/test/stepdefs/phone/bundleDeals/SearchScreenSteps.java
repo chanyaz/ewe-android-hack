@@ -21,7 +21,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
@@ -180,7 +180,7 @@ public class SearchScreenSteps {
 	}
 	@Then("^I select hotel at position (\\d+) on HSR screen$")
 	public void selectHotel(int position) throws Throwable {
-		HotelScreen.hotelResultsList().perform(waitForViewToDisplay(), RecyclerViewActions.actionOnItemAtPosition(position + 1, click()));
+		HotelResultsScreen.hotelResultsList().perform(waitForViewToDisplay(), RecyclerViewActions.actionOnItemAtPosition(position + 1, click()));
 	}
 	@Then("^I store the hotel name in \"(.*?)\"$")
 	public void saveHotel(String key) throws Throwable {

@@ -151,8 +151,8 @@ public class PaymentOptionsScreen {
 
 	public static void enterCardInfo() {
 		openCardPaymentSection();
-		CheckoutViewModel.enterPaymentDetails();
-		CheckoutViewModel.pressClose();
+		CheckoutScreen.enterPaymentDetails();
+		CheckoutScreen.pressClose();
 	}
 
 	public static void assertCardSelectionMatches(String cardName, int index) {

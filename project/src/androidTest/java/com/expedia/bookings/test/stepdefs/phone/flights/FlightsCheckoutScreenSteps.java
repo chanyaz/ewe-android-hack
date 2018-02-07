@@ -6,12 +6,12 @@ import java.util.concurrent.TimeUnit;
 import android.support.test.espresso.Espresso;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -102,14 +102,14 @@ public class FlightsCheckoutScreenSteps {
 
 	@Then("^I login with user having single stored card at checkout screen$")
 	public void loginWithSingleStoredCard() throws Throwable {
-		CheckoutViewModel.enterSingleCardLoginDetails();
-		CheckoutViewModel.pressDoLogin();
+		CheckoutScreen.enterSingleCardLoginDetails();
+		CheckoutScreen.pressDoLogin();
 	}
 
 	@Then("^I login with user having multiple stored card at checkout screen$")
 	public void loginWithMultipleStoredCard() throws Throwable {
-		CheckoutViewModel.enterLoginDetails("qa-ehcc@mobiata.com", "password");
-		CheckoutViewModel.pressDoLogin();
+		CheckoutScreen.enterLoginDetails("qa-ehcc@mobiata.com", "password");
+		CheckoutScreen.pressDoLogin();
 	}
 
 	@And("^I wait for checkout screen to load$")
@@ -129,7 +129,7 @@ public class FlightsCheckoutScreenSteps {
 	}
 	@And("^I click on Payment Info$")
 	public void clickPaymentInfo() throws Throwable {
-		CheckoutViewModel.clickPaymentInfo();
+		CheckoutScreen.clickPaymentInfo();
 	}
 	@And("^Validate that Credit card \"(.*?)\" is shown selected at Payment Method screen$")
 	public void validateSelectedPaymentMethod(String creditCard) throws Throwable {
@@ -139,7 +139,7 @@ public class FlightsCheckoutScreenSteps {
 
 	@And("^I tap on payment details$")
 	public void tapOnPaymentDetails() throws Throwable {
-		CheckoutViewModel.clickPaymentInfo();
+		CheckoutScreen.clickPaymentInfo();
 	}
 
 	@Then("^I verify that field to enter credit card is present on the payment details form$")

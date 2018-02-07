@@ -9,9 +9,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.MockModeShim;
 import com.mobiata.mocke3.ExpediaDispatcher;
@@ -31,17 +32,17 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 	public void testHotelPhoneHappyPath() throws Throwable {
 		SearchScreen.searchEditText().check(ViewAssertions.matches(withHint("Enter Destination")));
 		SearchScreen.doGenericHotelSearch();
-		HotelScreen.selectHotel();
+		HotelResultsScreen.selectHotel("happypath");
 		reviews();
 		launchFullMap();
 		HotelInfoSiteScreen.bookFirstRoom();
 
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.enterTravelerInfo();
+		CheckoutScreen.clickDone();
+		CheckoutScreen.enterTravelerInfo();
 
-		CheckoutViewModel.enterPaymentInfoHotels();
-		CheckoutViewModel.performSlideToPurchase(false);
-		HotelScreen.enterCVVAndBook();
+		CheckoutScreen.enterPaymentInfoHotels();
+		CheckoutScreen.performSlideToPurchase(false);
+		HotelCheckoutScreen.enterCVVAndBook();
 		assertICanSeeItinNumber();
 		verifyTravelAdTracking();
 	}
@@ -49,18 +50,18 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 	@Test
 	public void testNewHotelPhoneHappyPathLoggedInCustomer() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
-		HotelScreen.selectHotel();
+		HotelResultsScreen.selectHotel("happypath");
 		HotelInfoSiteScreen.bookFirstRoom();
-		CheckoutViewModel.clickDone();
+		CheckoutScreen.clickDone();
 
-		HotelScreen.doLogin();
-		CheckoutViewModel.selectStoredTraveler();
+		CheckoutScreen.loginAsQAUser();
+		CheckoutScreen.selectStoredTraveler();
 		Common.delay(1);
 
 		// checkout
-		CheckoutViewModel.selectStoredCard(true);
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.performSlideToPurchase(true);
+		CheckoutScreen.selectStoredCard(true);
+		CheckoutScreen.clickDone();
+		CheckoutScreen.performSlideToPurchase(true);
 
 		assertICanSeeItinNumber();
 	}
@@ -68,15 +69,15 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 	@Test
 	public void testSingleStoredCard() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
-		HotelScreen.selectHotel("happypath");
+		HotelResultsScreen.selectHotel("happypath");
 
 		HotelInfoSiteScreen.clickStickySelectRoom();
 		HotelInfoSiteScreen.bookRoomType("happypath_2_night_stay_0");
 
-		CheckoutViewModel.enterSingleCardLoginDetails();
+		CheckoutScreen.enterSingleCardLoginDetails();
 
-		CheckoutViewModel.pressDoLogin();
-		CheckoutViewModel.performSlideToPurchase(true);
+		CheckoutScreen.pressDoLogin();
+		CheckoutScreen.performSlideToPurchase(true);
 
 		onView(withId(R.id.itin_text_view)).check(matches((withText("Itinerary #184327605820"))));
 		assertViewIsDisplayed(R.id.confirmation_text);
@@ -85,19 +86,19 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 	@Test
 	public void testNoStoredCard() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
-		HotelScreen.selectHotel("happypath");
+		HotelResultsScreen.selectHotel("happypath");
 
 		HotelInfoSiteScreen.clickStickySelectRoom();
 		HotelInfoSiteScreen.bookRoomType("happypath_0");
 
-		CheckoutViewModel.clickLogin();
-		CheckoutViewModel.enterUsername("nostoredcards@mobiata.com");
-		CheckoutViewModel.enterPassword("password");
-		CheckoutViewModel.pressDoLogin();
+		CheckoutScreen.clickLogin();
+		CheckoutScreen.enterUsername("nostoredcards@mobiata.com");
+		CheckoutScreen.enterPassword("password");
+		CheckoutScreen.pressDoLogin();
 		Common.delay(1);
-		CheckoutViewModel.paymentInfo().perform(scrollTo());
+		CheckoutScreen.paymentInfo().perform(scrollTo());
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Enter payment details");
-		CheckoutViewModel.clickPaymentInfo();
+		CheckoutScreen.clickPaymentInfo();
 		Common.delay(1);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");
 
@@ -108,7 +109,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 	}
 
 	private void reviews() throws Throwable {
-		HotelScreen.clickRatingContainer();
+		HotelInfoSiteScreen.clickRatingContainer();
 		Common.delay(1);
 		onView(withText(R.string.user_review_sort_button_critical)).perform(click());
 		onView(withText(R.string.user_review_sort_button_favorable)).perform(click());
@@ -119,9 +120,9 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 
 	private void launchFullMap() throws Throwable {
 		Common.delay(1);
-		HotelScreen.clickDetailsMiniMap();
+		HotelInfoSiteScreen.clickDetailsMiniMap();
 		Common.delay(1);
-		HotelScreen.clickSelectARoomInFullMap();
+		HotelInfoSiteScreen.clickSelectARoomInFullMap();
 	}
 
 	private void verifyTravelAdTracking() {

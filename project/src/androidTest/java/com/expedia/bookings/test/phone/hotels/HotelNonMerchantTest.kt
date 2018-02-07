@@ -8,7 +8,7 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.HotelTestCase
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import org.junit.Test
 
 class HotelNonMerchantTest : HotelTestCase() {
@@ -17,7 +17,7 @@ class HotelNonMerchantTest : HotelTestCase() {
     fun testNonMerchantHotel() {
         SearchScreen.doGenericHotelSearch()
         // Check to make sure non merchant shows up in result list
-        HotelScreen.selectHotel("Non Merchant Hotel")
+        HotelResultsScreen.selectHotel("Non Merchant Hotel")
         Common.delay(1)
 
         HotelInfoSiteScreen.clickStickySelectRoom()

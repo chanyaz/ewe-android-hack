@@ -7,7 +7,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
@@ -28,7 +28,7 @@ class FlightsAirAttachTest : NewFlightTestCase() {
         PackageScreen.travelerInfo().perform(ViewActions.click())
         enterPrimaryTravelerInfo()
         enterPaymentInfo()
-        CheckoutViewModel.performSlideToPurchase()
+        CheckoutScreen.performSlideToPurchase()
         assertAirAttachIsShown()
 
         Espresso.onView(ViewMatchers.withId(R.id.hotel_cross_sell_body)).perform(ViewActions.click())
@@ -47,7 +47,7 @@ class FlightsAirAttachTest : NewFlightTestCase() {
         enterPrimaryTravelerInfo()
         enterNonPrimaryTravelerInfo()
         enterPaymentInfo()
-        CheckoutViewModel.performSlideToPurchase()
+        CheckoutScreen.performSlideToPurchase()
 
         assertAirAttachIsShown()
 

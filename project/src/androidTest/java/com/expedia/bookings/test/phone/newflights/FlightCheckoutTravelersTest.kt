@@ -19,10 +19,10 @@ import com.expedia.bookings.test.espresso.EspressoUser
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel.clickLogin
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel.enterUsername
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel.enterPassword
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen.clickLogin
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen.enterUsername
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen.enterPassword
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
@@ -62,7 +62,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         onView(withId(R.id.additional_traveler_container)).perform(waitForViewToDisplay())
         Common.pressBack()
 
-        CheckoutViewModel.signInOnCheckout()
+        CheckoutScreen.signInOnCheckout()
         EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS)
 
         onView(allOf(withId(R.id.primary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
@@ -125,7 +125,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
     @Test
     fun testSingleTravelerCheckout() {
         flightSearchAndGoToCheckout(1)
-        CheckoutViewModel.signInOnCheckout()
+        CheckoutScreen.signInOnCheckout()
         EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS)
 
         onView(allOf(withId(R.id.primary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
@@ -152,7 +152,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         enterPassword("password")
         val signInButton = onView(withId(R.id.sign_in_button))
         signInButton.perform(waitForViewToDisplay())
-        Common.closeSoftKeyboard(CheckoutViewModel.password())
+        Common.closeSoftKeyboard(CheckoutScreen.password())
         signInButton.perform(click())
         EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(android.R.id.button1), 10, TimeUnit.SECONDS)
         onView(withId(android.R.id.button1)).perform(ViewActions.click())

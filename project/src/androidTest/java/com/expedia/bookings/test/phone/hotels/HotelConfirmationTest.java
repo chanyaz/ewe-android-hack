@@ -9,10 +9,11 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.utils.DateFormatUtils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -29,12 +30,12 @@ public class HotelConfirmationTest extends HotelTestCase {
 	@Test
 	public void testConfirmationView() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
-		HotelScreen.selectHotel();
+		HotelResultsScreen.selectHotel("happypath");
 		HotelInfoSiteScreen.bookFirstRoom();
-		HotelScreen.checkout(true);
-		CheckoutViewModel.performSlideToPurchase(false);
-		HotelScreen.enterCVVAndBook();
-		HotelScreen.waitForConfirmationDisplayed();
+		HotelCheckoutScreen.checkout(true);
+		CheckoutScreen.performSlideToPurchase(false);
+		HotelCheckoutScreen.enterCVVAndBook();
+		HotelCheckoutScreen.waitForConfirmationDisplayed();
 
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 		String checkinDate = "2014-04-23";

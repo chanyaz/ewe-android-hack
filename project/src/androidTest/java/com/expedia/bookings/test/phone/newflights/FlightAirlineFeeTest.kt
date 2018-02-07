@@ -14,10 +14,9 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.espresso.ViewActions
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen
@@ -38,9 +37,9 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
 
         signIn()
         assertCheckoutOverviewCardFeeWarningShown()
-        CheckoutViewModel.clickPaymentInfo()
+        CheckoutScreen.clickPaymentInfo()
         assertCheckoutOverviewCardFeeWarningShown()
-        CheckoutViewModel.selectStoredCard("Saved Visa 1111")
+        CheckoutScreen.selectStoredCard("Saved Visa 1111")
         assertCheckoutOverviewCardFeeWarningShown()
         Common.pressBack()
 
@@ -58,7 +57,7 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
         assertCardFeeWarningShown()
         assertCheckoutOverviewMayChargeCardFeeTextShown()
 
-        CheckoutViewModel.clickPaymentInfo()
+        CheckoutScreen.clickPaymentInfo()
         onView(withId(R.id.card_fee_warning_text)).check(ViewAssertions.matches(not(isDisplayed())))
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
@@ -75,7 +74,7 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
     fun testAirlineFeeReset() {
         selectFlightsProceedToCheckout()
 
-        CheckoutViewModel.clickPaymentInfo()
+        CheckoutScreen.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
         CardInfoScreen.assertPaymentFormCardFeeWarningShown("Payment method fee: $2.50")
@@ -88,8 +87,8 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
 
         // clear existing card number
         signIn()
-        CheckoutViewModel.clickPaymentInfo()
-        CheckoutViewModel.clickAddCreditCard() // resets card details
+        CheckoutScreen.clickPaymentInfo()
+        CheckoutScreen.clickAddCreditCard() // resets card details
         CardInfoScreen.assertPaymentFormCardFeeWarningNotShown()
     }
 
@@ -131,7 +130,7 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
     }
 
     private fun signIn() {
-        HotelScreen.doLogin()
+        CheckoutScreen.loginAsQAUser()
     }
 
     private fun assertCardFeeWarningShown() {

@@ -10,7 +10,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.mobiata.android.Log;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -53,7 +53,7 @@ public class LaunchScreenTest extends PhoneTestCase {
 		collectionLocation.location = suggestion;
 		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));
 		// Assert that the results screen is displayed
-		HotelScreen.waitForResultsLoaded();
+		HotelResultsScreen.waitForResultsLoaded(10);
 	}
 
 }

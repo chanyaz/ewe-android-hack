@@ -25,7 +25,7 @@ import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
 import com.expedia.bookings.test.espresso.CalendarPickerActions
 import com.expedia.bookings.test.espresso.TestValues
 import com.expedia.bookings.test.espresso.ViewActions
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -203,7 +203,7 @@ object SearchScreen {
         selectGuestsButton().perform(click())
         setGuests(adults, children)
         if (clickSwP) {
-            HotelScreen.clickSwPToggle()
+            HotelInfoSiteScreen.clickSwPToggle()
         }
 
         searchButton().perform(click())

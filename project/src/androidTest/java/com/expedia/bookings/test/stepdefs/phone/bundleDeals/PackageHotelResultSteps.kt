@@ -2,7 +2,7 @@ package com.expedia.bookings.test.stepdefs.phone.bundleDeals
 
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.EspressoUtils
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import cucumber.api.java.en.Then
 
 class PackageHotelResultSteps {
@@ -13,7 +13,7 @@ class PackageHotelResultSteps {
         val position = parameters["position"]!!.toInt()
         val title = parameters["title"]
         val message = parameters["message"]
-        EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), position, R.id.unreal_deal_heading, title)
-        EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), position, R.id.unreal_deal_message, message)
+        EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelResultsScreen.hotelResultsList(), position, R.id.unreal_deal_heading, title)
+        EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelResultsScreen.hotelResultsList(), position, R.id.unreal_deal_message, message)
     }
 }

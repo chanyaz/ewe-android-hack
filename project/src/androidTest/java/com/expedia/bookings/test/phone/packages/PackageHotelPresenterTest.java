@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -26,7 +26,7 @@ public class PackageHotelPresenterTest extends PackageTestCase {
 		assertSlidingBundleWidgetNoSelection(true);
 
 		//details to bundle overview
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		PackageScreen.hotelDetailsToolbar().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));

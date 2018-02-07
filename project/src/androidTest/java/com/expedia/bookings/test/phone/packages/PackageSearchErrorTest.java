@@ -12,7 +12,7 @@ import com.expedia.bookings.test.espresso.TestValues;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -55,14 +55,14 @@ public class PackageSearchErrorTest extends PackageTestCase {
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		SearchScreen.selectDates(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
-		HotelScreen.hotelResultsList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("hotel offers error")), click()));
+		HotelResultsScreen.hotelResultsList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("hotel offers error")), click()));
 
 		PackageScreen.assertErrorScreen("Edit Search", "Sorry, we were unable to find any results. Please modify your search criteria and try again.");
 		onView(withId(R.id.error_action_button)).perform(click());
 
 		//Error action button takes back to search screen
 		SearchScreen.searchButton().perform(click());
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		HotelInfoSiteScreen.bookFirstRoom();
 	}
 }

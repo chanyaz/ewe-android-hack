@@ -21,13 +21,13 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.SaveTravelerPrompt;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -187,7 +187,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		Espresso.closeSoftKeyboard();
 		Common.pressBack();
 		assertViewIsCompletelyDisplayed(R.id.checkout_button);
-		CheckoutViewModel.signInOnCheckout();
+		CheckoutScreen.signInOnCheckout();
 		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS);
 		assertViewIsDisplayed(R.id.slide_to_purchase_widget);
 		assertViewIsNotDisplayed(R.id.checkout_button);
@@ -196,7 +196,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	@Test
 	public void testNewFlightHappyPathSignedIn() throws Throwable {
 		getToCheckoutScreen();
-		CheckoutViewModel.signInOnCheckout();
+		CheckoutScreen.signInOnCheckout();
 		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS);
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
@@ -210,10 +210,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		// and it's a low enough priority where additional time might not be spent to fix this.
 		SaveTravelerPrompt.ifPresentClickSave();
 
-		CheckoutViewModel.clickPaymentInfo();
-		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
+		CheckoutScreen.clickPaymentInfo();
+		CheckoutScreen.selectStoredCard("Saved AmexTesting");
 		Common.pressBack();
-		CheckoutViewModel.performSlideToPurchase(true);
+		CheckoutScreen.performSlideToPurchase(true);
 		assertSignedInConfirmationView();
 	}
 

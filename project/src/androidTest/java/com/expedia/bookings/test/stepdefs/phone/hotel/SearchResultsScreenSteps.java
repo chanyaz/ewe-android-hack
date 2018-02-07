@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.stepdefs.phone.hotel;
 
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelSearchResults;
 
 import cucumber.api.java.en.And;
@@ -11,7 +11,7 @@ public class SearchResultsScreenSteps {
 
 	@Then("^I can see hotel search results$")
 	public void waitForSearchResultsToAppear() throws Throwable {
-		HotelScreen.waitForResultsLoaded(30);
+		HotelResultsScreen.waitForResultsLoaded(30);
 	}
 
 	@And("^I verify that the vip label is present for any of the hotels in the list$")

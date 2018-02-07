@@ -44,4 +44,10 @@ public class LogInScreen {
 	public static void typeTextPasswordEditText(String text) {
 		passwordEditText().perform(typeText(text));
 	}
+
+	public static void signIn(String username) {
+		typeTextEmailEditText(username);
+		typeTextPasswordEditText("password");
+		clickOnLoginButton();
+	}
 }

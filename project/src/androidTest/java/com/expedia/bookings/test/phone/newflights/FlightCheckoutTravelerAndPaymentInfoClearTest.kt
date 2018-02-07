@@ -14,7 +14,7 @@ import com.expedia.bookings.test.espresso.CustomMatchers.hasTextInputLayoutError
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.PaymentOptionsScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
@@ -60,7 +60,7 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         onView(withId(R.id.last_name_layout_input)).check(matches(hasTextInputLayoutErrorText("Enter last name using letters only (minimum 2 characters)")))
         Common.pressBack()
 
-        CheckoutViewModel.signInOnCheckout()
+        CheckoutScreen.signInOnCheckout()
         EspressoUtils.waitForViewNotYetInLayoutToDisplay(ViewMatchers.withId(R.id.login_widget), 10, TimeUnit.SECONDS)
 
         PackageScreen.travelerInfo().perform(ViewActions.click())
@@ -70,7 +70,7 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
     @Test
     fun testPaymentInfoCCVClear() {
         flightSearchAndGoToCheckout()
-        CheckoutViewModel.signInOnCheckout()
+        CheckoutScreen.signInOnCheckout()
         EspressoUtils.waitForViewNotYetInLayoutToDisplay(ViewMatchers.withId(R.id.login_widget), 10, TimeUnit.SECONDS)
 
         PackageScreen.clickPaymentInfo()
@@ -78,12 +78,12 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         fillPaymentInfo()
 
         onView(withId(android.R.id.button1)).perform(click())
-        CheckoutViewModel.clickPaymentInfo()
-        CheckoutViewModel.selectStoredCard("Saved Visa 1111")
+        CheckoutScreen.clickPaymentInfo()
+        CheckoutScreen.selectStoredCard("Saved Visa 1111")
 
         PaymentOptionsScreen.assertCardSelectionMatches("Saved Visa 1111", 2)
         Common.pressBack()
-        CheckoutViewModel.performSlideToPurchase()
+        CheckoutScreen.performSlideToPurchase()
         EspressoUtils.assertViewIsDisplayed(R.id.cvv)
     }
 

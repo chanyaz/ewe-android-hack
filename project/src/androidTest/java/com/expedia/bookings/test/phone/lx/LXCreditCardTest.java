@@ -8,7 +8,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.LxTestCase;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.lx.LXInfositeScreen;
 import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 
@@ -30,13 +30,13 @@ public class LXCreditCardTest extends LxTestCase {
 		LXInfositeScreen.bookNowButton(ticketName).perform(clickWhenEnabled());
 		Common.delay(1);
 		screenshot("LX Checkout Started");
-		CheckoutViewModel.enterPaymentInfo();
+		CheckoutScreen.enterPaymentInfo();
 		screenshot("LX Checkout Ready");
 		Common.pressBack();
 		Common.delay(1);
 		LXInfositeScreen.bookNowButton(ticketName).perform(clickWhenEnabled());
 		Common.delay(1);
-		CheckoutViewModel.clickPaymentInfo();
+		CheckoutScreen.clickPaymentInfo();
 		Common.delay(1);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");
 	}

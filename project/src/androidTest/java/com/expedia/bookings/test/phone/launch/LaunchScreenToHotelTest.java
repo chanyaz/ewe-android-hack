@@ -15,7 +15,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
@@ -44,7 +44,7 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 		collectionLocation.location = suggestion;
 		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));
 		// Assert that the results screen is displayed
-		HotelScreen.waitForResultsLoaded();
+		HotelResultsScreen.waitForResultsLoaded(10);
 		Common.pressBack();
 		// Assert that the search screen is displayed with the correct search params
 		SearchScreen.selectDestinationTextView().check(ViewAssertions.matches(ViewMatchers.withText("San Francisco")));
@@ -74,7 +74,7 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 		collectionLocation.location = suggestion;
 		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));
 		// Assert that the results screen is displayed
-		HotelScreen.waitForResultsLoaded();
+		HotelResultsScreen.waitForResultsLoaded(10);
 		Common.pressBack();
 		// Test that searching still works
 		SearchScreen.searchButton().perform(click());

@@ -13,6 +13,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CustomMatchers;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.widget.CheckoutToolbar;
@@ -38,7 +39,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-public class CheckoutViewModel {
+public class CheckoutScreen {
 	// Checkout
 
 	public static ViewInteraction travelerInfo() {
@@ -188,7 +189,7 @@ public class CheckoutViewModel {
 	public static void pressDoLogin() {
 		ViewInteraction signInButton = onView(withId(R.id.sign_in_button));
 		signInButton.perform(waitForViewToDisplay());
-		Common.closeSoftKeyboard(CheckoutViewModel.password());
+		Common.closeSoftKeyboard(CheckoutScreen.password());
 		signInButton.perform(click());
 		waitForCheckoutToolbar();
 	}
@@ -243,10 +244,10 @@ public class CheckoutViewModel {
 		Common.delay(1);
 		enterFirstName("FiveStar");
 		enterLastName("Bear");
-		Common.closeSoftKeyboard(CheckoutViewModel.lastName());
+		Common.closeSoftKeyboard(CheckoutScreen.lastName());
 		Common.delay(1);
 		enterEmail("noah@mobiata.com");
-		Common.closeSoftKeyboard(CheckoutViewModel.email());
+		Common.closeSoftKeyboard(CheckoutScreen.email());
 		Common.delay(1);
 		enterPhoneNumber("4158675309");
 		clickDone();
@@ -254,18 +255,18 @@ public class CheckoutViewModel {
 	}
 
 	public static void selectStoredTraveler() throws Throwable {
-		CheckoutViewModel.clickTravelerInfo();
-		CheckoutViewModel.clickStoredTravelerButton();
-		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
-		CheckoutViewModel.pressClose();
+		CheckoutScreen.clickTravelerInfo();
+		CheckoutScreen.clickStoredTravelerButton();
+		CheckoutScreen.selectStoredTraveler("Expedia Automation First");
+		CheckoutScreen.pressClose();
 	}
 
 	public static void enterPaymentInfo() {
 		Common.delay(2);
-		CheckoutViewModel.clickPaymentInfo();
+		CheckoutScreen.clickPaymentInfo();
 		Common.delay(1);
 		enterPaymentDetails();
-		CheckoutViewModel.clickDone();
+		CheckoutScreen.clickDone();
 		Common.delay(1);
 	}
 
@@ -273,17 +274,17 @@ public class CheckoutViewModel {
 		if (defaultSelection) {
 			return;
 		}
-		CheckoutViewModel.clickPaymentInfo();
+		CheckoutScreen.clickPaymentInfo();
 		Common.delay(1);
 		PaymentOptionsScreen.enterCardInfo();
 	}
 
 	public static void enterPaymentInfoHotels() {
 		Common.delay(2);
-		CheckoutViewModel.clickPaymentInfo();
+		CheckoutScreen.clickPaymentInfo();
 		Common.delay(1);
 		enterPaymentDetails();
-		CheckoutViewModel.clickDone();
+		CheckoutScreen.clickDone();
 		Common.delay(1);
 	}
 
@@ -385,4 +386,9 @@ public class CheckoutViewModel {
 		return onView(withId(R.id.free_cancellation_description));
 	}
 
+	public static void loginAsQAUser() throws Throwable {
+		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
+		CheckoutScreen.enterLoginDetails();
+		CheckoutScreen.pressDoLogin();
+	}
 }

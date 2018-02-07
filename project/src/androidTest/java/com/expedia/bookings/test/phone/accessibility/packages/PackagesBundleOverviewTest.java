@@ -8,8 +8,9 @@ import android.support.test.espresso.ViewInteraction;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
@@ -55,7 +56,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		openCloseSlidingBundleWidget("$0.00", "$0.00", "$0");
 
 		onView(withId(R.id.hotel_results_toolbar)).check(matches(withNavigationContentDescription("Back")));
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 
 		onView(withId(R.id.hotel_star_rating_bar)).check(matches(hasContentDescription()));
 
@@ -86,7 +87,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		PackageScreen.checkout().perform(click());
 		checkBundleOverviewFlightContentDescription(PackageScreen.inboundFlightInfoRowContainer(), "Jul 16 at 1:45 pm", "(SFO) San Francisco", true, false);
 
-		HotelScreen.doLogin();
+		CheckoutScreen.loginAsQAUser();
 		onView(withId(R.id.card_icon)).perform(waitForViewToDisplay());
 		onView(withId(R.id.card_icon)).check(matches(hasContentDescription()));
 		onView(withId(R.id.account_top_textview)).check(matches(hasContentDescription()));

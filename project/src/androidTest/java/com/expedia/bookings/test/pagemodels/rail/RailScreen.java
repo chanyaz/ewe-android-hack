@@ -14,7 +14,7 @@ import com.expedia.bookings.test.espresso.CalendarPickerActions;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
@@ -201,8 +201,8 @@ public class RailScreen {
 		onView(withId(R.id.rail_traveler_card_view)).perform(waitForViewToDisplay());
 		onView(withId(R.id.rail_traveler_card_view)).check(matches(isDisplayed()));
 
-		CheckoutViewModel.waitForPaymentInfoDisplayed();
-		CheckoutViewModel.paymentInfo().perform(click());
+		CheckoutScreen.waitForPaymentInfoDisplayed();
+		CheckoutScreen.paymentInfo().perform(click());
 		enterPaymentDetails();
 
 		performSlideToPurchase();

@@ -39,7 +39,6 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.CustomMatchers.airportDropDownEntryWithAirportCode
 import com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay
 import com.expedia.bookings.test.espresso.ViewActions
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import com.expedia.bookings.test.pagemodels.lx.LXScreen
 import com.expedia.bookings.test.pagemodels.common.LogInScreen
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen
@@ -47,6 +46,8 @@ import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.common.TripsScreen
 import com.expedia.bookings.test.Settings
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelSortAndFilterScreen
 import com.expedia.bookings.utils.Ui
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -196,15 +197,15 @@ class PlayStoreScreenshotSweep {
 
         waitForHotelResultsToLoad()
 
-        HotelScreen.hotelResultsList().perform(tinySwipeDown())
+        HotelResultsScreen.hotelResultsList().perform(tinySwipeDown())
 
         Screengrab.screenshot("hotel_results")
-        HotelScreen.clickSortFilter()
-        HotelScreen.filterHotelName().perform(click(), typeText(hotelSearchInfo.hotelName))
-        HotelScreen.doneButton().perform(click())
+        HotelSortAndFilterScreen.clickSortFilter()
+        HotelSortAndFilterScreen.filterHotelName().perform(click(), typeText(hotelSearchInfo.hotelName))
+        HotelSortAndFilterScreen.clickSortFilterDoneButton()
         waitForHotelResultsToLoad()
 
-        HotelScreen.hotelResultsList().perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click()))
+        HotelResultsScreen.hotelResultsList().perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click()))
         HotelInfoSiteScreen.waitForDetailsLoaded()
         Screengrab.screenshot("hotel_infosite")
 
@@ -284,7 +285,7 @@ class PlayStoreScreenshotSweep {
     }
 
     private fun waitForHotelResultsToLoad() {
-        HotelScreen.waitForResultsLoaded(30)
+        HotelResultsScreen.waitForResultsLoaded(30)
         Common.delay(3)
     }
 

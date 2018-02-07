@@ -6,34 +6,35 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
+
 
 public class HotelEmailOptInOutTest extends HotelTestCase {
 
 	private void goToCheckout(String room) throws Throwable {
 		SearchScreen.doGenericHotelSearch();
-		HotelScreen.selectHotel("hotel_email_opt_in");
+		HotelResultsScreen.selectHotel("hotel_email_opt_in");
 		Common.delay(1);
 		HotelInfoSiteScreen.clickStickySelectRoom();
 		HotelInfoSiteScreen.bookRoomType(room);
-		CheckoutViewModel.waitForCheckout();
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickTravelerInfo();
+		CheckoutScreen.waitForCheckout();
+		CheckoutScreen.clickDone();
+		CheckoutScreen.clickTravelerInfo();
 	}
 
 	//test ALWAYS
 	@Test
 	public void testEmailOptInAlways() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
-		HotelScreen.selectHotel("hotel_email_opt_in");
+		HotelResultsScreen.selectHotel("hotel_email_opt_in");
 		Common.delay(1);
 		HotelInfoSiteScreen.bookFirstRoom();
-		CheckoutViewModel.waitForCheckout();
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickTravelerInfo();
+		CheckoutScreen.waitForCheckout();
+		CheckoutScreen.clickDone();
+		CheckoutScreen.clickTravelerInfo();
 		Common.delay(1);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.merchandise_guest_opt_checkbox);
 	}

@@ -15,7 +15,7 @@ import com.expedia.bookings.test.espresso.HotelTestCase
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
@@ -143,7 +143,7 @@ class SearchScreenTest : HotelTestCase() {
 
         //Search button will be enabled
         SearchScreen.searchButton().perform(click())
-        HotelScreen.waitForResultsLoaded()
+        HotelResultsScreen.waitForResultsLoaded()
     }
 
     @Throws(Throwable::class)

@@ -10,7 +10,7 @@ import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.TestValues;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
@@ -32,7 +32,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 	@Test
 	public void testPackageBackNavigation() throws Throwable {
 		PackageScreen.searchPackage();
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		HotelInfoSiteScreen.bookFirstRoom();
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(waitForViewToDisplay(), click());
@@ -101,7 +101,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		onView(withId(android.R.id.button1)).perform(click());
 		SearchScreen.searchButton().perform(waitForViewToDisplay());
 		SearchScreen.searchButton().perform(click());
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name,
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelResultsScreen.hotelResultsList(), 2, R.id.hotel_name,
 			"Package Happy Path");
 		Common.pressBack();
 		onView(allOf(withId(R.id.widget_bundle_overview))).perform(ViewActions.waitForViewToDisplay());
@@ -139,18 +139,18 @@ public class PackageBackNavigationTest extends PackageTestCase {
 
 	private void assertHotelSRP() {
 		PackageScreen.hotelResultsToolbar().perform(waitForViewToDisplay());
-		HotelScreen.hotelResultsToolbar().check(matches(hasDescendant(
+		HotelResultsScreen.hotelResultsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Hotels in Detroit, MI")))));
 		EspressoUtils
-			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name,
+			.assertViewWithTextIsDisplayedAtPosition(HotelResultsScreen.hotelResultsList(), 2, R.id.hotel_name,
 				"Package Happy Path");
 		EspressoUtils
-			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price,
+			.assertViewWithTextIsDisplayedAtPosition(HotelResultsScreen.hotelResultsList(), 2, R.id.strike_through_price,
 				"$538");
 		EspressoUtils
-			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
+			.assertViewWithTextIsDisplayedAtPosition(HotelResultsScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
 		EspressoUtils
-			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.unreal_deal_message,
+			.assertViewWithTextIsDisplayedAtPosition(HotelResultsScreen.hotelResultsList(), 2, R.id.unreal_deal_message,
 				"Book this and save $110 (22%)");
 	}
 }

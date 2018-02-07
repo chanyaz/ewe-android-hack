@@ -14,11 +14,11 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -48,7 +48,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		SearchScreen.searchButton().perform(click());
 
-		HotelScreen.mapFab().perform(click());
+		HotelResultsScreen.mapFab().perform(click());
 		Common.pressBack();
 		assertHotelSRP();
 
@@ -58,7 +58,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		assertFilter();
 
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 
 		assertHotelInfoSite();
 		reviews();
@@ -84,10 +84,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.checkout().perform(click());
 
-		HotelScreen.doLogin();
+		CheckoutScreen.loginAsQAUser();
 		onView(allOf(withId(R.id.card_info_name), withText("AmexTesting"))).check(matches(isDisplayed()));
 		assertCheckout();
-		HotelScreen.clickSignOut();
+		HotelCheckoutScreen.clickSignOut();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		onView(allOf(withId(R.id.boarding_warning), withText(mRes.getString(R.string.name_must_match_warning_new)))).check(matches(isDisplayed()));
@@ -117,7 +117,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.enterPaymentInfo();
 
 		assertCheckout();
-		CheckoutViewModel.performSlideToPurchase();
+		CheckoutScreen.performSlideToPurchase();
 
 		assertConfirmation();
 	}*/
@@ -129,13 +129,13 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		SearchScreen.selectDates(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
-		HotelScreen.mapFab().perform(click());
+		HotelResultsScreen.mapFab().perform(click());
 		Common.pressBack();
 		Common.pressBack();
 		onView(withId(R.id.widget_bundle_overview)).perform(waitForViewToDisplay());
 		onView(withId(R.id.widget_bundle_overview)).check(matches(isDisplayed()));
 		PackageScreen.clickHotelBundle();
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 		HotelInfoSiteScreen.bookFirstRoom();
 		Common.delay(1);
 		PackageScreen.selectFlight(0);
@@ -148,7 +148,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.selectThisFlight().perform(waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 		PackageScreen.checkout().perform(click());
-		HotelScreen.doLogin();
+		CheckoutScreen.loginAsQAUser();
 		onView(allOf(withId(R.id.card_info_name), withText("AmexTesting"))).check(matches(isDisplayed()));
 		assertCheckout();
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
@@ -170,7 +170,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		onView(withText(R.string.no_thanks)).perform(click());
 
-		CheckoutViewModel.performSlideToPurchase(true);
+		CheckoutScreen.performSlideToPurchase(true);
 		onView(allOf(withId(R.id.destination), withText("Detroit"))).check(matches(isDisplayed()));
 	}
 
@@ -197,19 +197,19 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	}
 
 	private void assertHotelSRP() {
-		HotelScreen.hotelResultsToolbar().check(matches(hasDescendant(
+		HotelResultsScreen.hotelResultsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Hotels in Detroit, MI")))));
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name,
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelResultsScreen.hotelResultsList(), 2, R.id.hotel_name,
 			"Package Happy Path");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$538");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.unreal_deal_message, "Book this and save $110 (22%)");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelResultsScreen.hotelResultsList(), 2, R.id.strike_through_price, "$538");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelResultsScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelResultsScreen.hotelResultsList(), 2, R.id.unreal_deal_message, "Book this and save $110 (22%)");
 	}
 
 	private void assertHotelInfoSite() {
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
-		float detailsHotelRating = EspressoUtils.getStarRatingValue(HotelScreen.hotelDetailsStarRating());
+		float detailsHotelRating = EspressoUtils.getStarRatingValue(HotelInfoSiteScreen.hotelDetailsStarRating());
 		assertEquals(4.0f, detailsHotelRating);
 		onView(allOf(withId(R.id.user_rating), withText("4.4"))).check(matches(isDisplayed()));
 		onView(withId(R.id.hotel_search_info)).check(matches(withText("Feb 3 - Feb 4")));
@@ -238,8 +238,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	}
 
 	private void reviews() throws Throwable {
-		HotelScreen.clickRatingContainer();
-		HotelScreen.reviews().perform(waitForViewToDisplay());
+		HotelInfoSiteScreen.clickRatingContainer();
+		HotelInfoSiteScreen.reviews().perform(waitForViewToDisplay());
 		onView(withId(R.id.hotel_reviews_toolbar)).check(matches(withNavigationContentDescription("Close")));
 		onView(withText(R.string.user_review_sort_button_critical)).perform(click());
 		onView(withText(R.string.user_review_sort_button_favorable)).perform(click());

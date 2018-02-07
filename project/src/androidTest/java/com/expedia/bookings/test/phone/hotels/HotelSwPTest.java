@@ -6,10 +6,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.common.TripsScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
@@ -20,7 +22,7 @@ public class HotelSwPTest extends PhoneTestCase {
 	public void testUserWithSwpToggleOffSignsOut() throws Throwable {
 		goToCheckout(true);
 
-		HotelScreen.clickSignOut();
+		HotelCheckoutScreen.clickSignOut();
 		Common.delay(1);
 		Common.pressBack();
 
@@ -31,7 +33,7 @@ public class HotelSwPTest extends PhoneTestCase {
 	public void testUserWithSwpToggleOnSignsOut() throws Throwable {
 		goToCheckout(false);
 
-		HotelScreen.clickSignOut();
+		HotelCheckoutScreen.clickSignOut();
 		Common.pressBack();
 
 		assertViewIsDisplayed(R.id.widget_hotel_search);
@@ -41,7 +43,7 @@ public class HotelSwPTest extends PhoneTestCase {
 		LaunchScreen.waitForLOBHeaderToBeDisplayed();
 		LaunchScreen.tripsButton().perform(click());
 		TripsScreen.clickOnLogInButton();
-		HotelScreen.signIn("goldstatus@mobiata.com");
+		LogInScreen.signIn("goldstatus@mobiata.com");
 		LaunchScreen.shopButton().perform(click());
 		LaunchScreen.hotelsLaunchButton().perform(click());
 		if (clickSwP) {
@@ -50,7 +52,7 @@ public class HotelSwPTest extends PhoneTestCase {
 		else {
 			SearchScreen.doGenericHotelSearch();
 		}
-		HotelScreen.selectHotel("happypath");
+		HotelResultsScreen.selectHotel("happypath");
 		HotelInfoSiteScreen.bookFirstRoom();
 	}
 }

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.PackageTestCase;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
@@ -41,7 +41,7 @@ public class PackageHotelResultsTest extends PackageTestCase {
 		pressBack();
 		assertViewWithTextIsDisplayed(R.id.filter_count_text, "1");
 		onView(withId(R.id.filter_text)).check(matches(not(isDisplayed())));
-		HotelScreen.mapFab().perform(click());
+		HotelResultsScreen.mapFab().perform(click());
 		onView(withId(R.id.filter_text)).check(matches(isDisplayed()));
 		assertViewWithTextIsDisplayed(R.id.filter_count_text, "1");
 	}

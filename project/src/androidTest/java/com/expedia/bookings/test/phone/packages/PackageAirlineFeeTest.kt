@@ -11,9 +11,9 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.PackageTestCase
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import org.junit.Test
 import java.util.concurrent.TimeUnit
@@ -23,7 +23,7 @@ class PackageAirlineFeeTest : PackageTestCase() {
     @Test
     fun testAirlineFees() {
         PackageScreen.searchPackage()
-        HotelScreen.selectHotel("Package Happy Path")
+        HotelResultsScreen.selectHotel("Package Happy Path")
         HotelInfoSiteScreen.bookFirstRoom()
 
         PackageScreen.selectFlight(0)
@@ -34,13 +34,13 @@ class PackageAirlineFeeTest : PackageTestCase() {
         PackageScreen.selectThisFlight().perform(click())
         PackageScreen.checkout().perform(click())
 
-        CheckoutViewModel.clickPaymentInfo()
+        CheckoutScreen.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
         CardInfoScreen.assertPaymentFormCardFeeWarningShown("Payment method fee: $2.50")
 
         PackageScreen.completePaymentForm()
-        CheckoutViewModel.clickDone()
+        CheckoutScreen.clickDone()
 
         assertCheckoutOverviewCardFeeWarningShown()
     }

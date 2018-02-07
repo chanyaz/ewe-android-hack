@@ -8,7 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
@@ -22,7 +22,7 @@ class FlightCheckoutInvalidPaymentTypeTest : NewFlightTestCase() {
         selectFlightsProceedToCheckout()
         assertWarningNotShown()
 
-        CheckoutViewModel.clickPaymentInfo()
+        CheckoutScreen.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("6333333333333333")
         assertWarningWarningShown()
@@ -36,14 +36,14 @@ class FlightCheckoutInvalidPaymentTypeTest : NewFlightTestCase() {
         selectFlightsProceedToCheckout()
         assertWarningNotShown()
 
-        CheckoutViewModel.clickPaymentInfo()
+        CheckoutScreen.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
 
         assertWarningNotShown()
         CardInfoScreen.assertCardInfoLabelShown()
         PackageScreen.completePaymentForm()
-        CheckoutViewModel.clickDone()
+        CheckoutScreen.clickDone()
 
         assertWarningNotShown()
     }

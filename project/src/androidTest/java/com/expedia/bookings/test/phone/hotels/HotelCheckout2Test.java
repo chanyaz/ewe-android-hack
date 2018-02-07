@@ -10,10 +10,12 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
+import com.expedia.bookings.test.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -28,41 +30,41 @@ public class HotelCheckout2Test extends HotelTestCase {
 	@Test
 	public void testCouponIsClearedEachCreateTrip() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
-		HotelScreen.selectHotel("happypath");
+		HotelResultsScreen.selectHotel("happypath");
 		HotelInfoSiteScreen.bookFirstRoom();
 
 		//a11y test for cost summary
 		onView(withId(R.id.cost_summary)).check(matches(withContentDescription("Total with Tax $135.81 Due to Expedia today $0  Cost summary information Button")));
 
-		CheckoutViewModel.waitForCheckout();
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.applyCoupon("hotel_coupon_success");
+		CheckoutScreen.waitForCheckout();
+		CheckoutScreen.clickDone();
+		CheckoutScreen.applyCoupon("hotel_coupon_success");
 		// Coupon was applied
-		CheckoutViewModel.scrollView().perform(ViewActions.swipeDown());
+		CheckoutScreen.scrollView().perform(ViewActions.swipeDown());
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.total_price_with_tax_and_fees, "$114.76");
 
 		// Nav back to rooms and rates
 		Espresso.pressBack();
 		Espresso.pressBack();
-		HotelScreen.selectHotel("happypath");
+		HotelResultsScreen.selectHotel("happypath");
 		HotelInfoSiteScreen.clickStickySelectRoom();
 		HotelInfoSiteScreen.bookRoomType("happypath_2_night_stay_0");
 
 		// Pick a different room, should refresh createTrip with a new price
-		CheckoutViewModel.scrollView().perform(ViewActions.swipeDown());
+		CheckoutScreen.scrollView().perform(ViewActions.swipeDown());
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.total_price_with_tax_and_fees, "$2,394.88");
 	}
 
 	@Test
 	public void testTealeafIDClearedAfterSignIn() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
-		HotelScreen.selectHotel("tealeaf_id");
+		HotelResultsScreen.selectHotel("tealeaf_id");
 		Common.delay(1);
 		HotelInfoSiteScreen.bookFirstRoom();
 		Assert.assertEquals(Db.getTripBucket().getHotelV2().mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id");
-		HotelScreen.clickSignIn();
-		HotelScreen.signIn();
-		EspressoUtils.waitForViewNotYetInLayoutToDisplay(CheckoutViewModel.toolBarMatcher(), 10, TimeUnit.SECONDS);
+		HotelCheckoutScreen.clickSignIn();
+		LogInScreen.signIn("qa-ehcc@mobiata.com");
+		EspressoUtils.waitForViewNotYetInLayoutToDisplay(CheckoutScreen.toolBarMatcher(), 10, TimeUnit.SECONDS);
 		Assert.assertEquals(Db.getTripBucket().getHotelV2().mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id_signed_in");
 	}
 }

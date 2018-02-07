@@ -14,7 +14,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
@@ -26,8 +26,8 @@ class FlightCheckoutFormsTest : NewFlightTestCase() {
     @Test
     fun testNoUnicodeOnRomanPaymentFields() {
         selectFlightsProceedToCheckout()
-        CheckoutViewModel.clickPaymentInfo()
-        CheckoutViewModel.waitForPaymentInfoDisplayed()
+        CheckoutScreen.clickPaymentInfo()
+        CheckoutScreen.waitForPaymentInfoDisplayed()
 
         CardInfoScreen.nameOnCardEditText().perform(replaceText("ㅎ"))
         assertInvalidCharacter()

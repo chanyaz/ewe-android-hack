@@ -10,7 +10,7 @@ import com.expedia.bookings.activity.DeepLinkRouterActivity
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import org.junit.Test
 
 class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivity>(DeepLinkRouterActivity::class.java) {
@@ -28,7 +28,7 @@ class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivit
         setActivityIntent(intent)
         activity
 
-        HotelScreen.waitForResultsLoaded()
+        HotelResultsScreen.waitForResultsLoaded()
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_results)
     }
 
@@ -45,7 +45,7 @@ class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivit
         setActivityIntent(intent)
         activity
 
-        HotelScreen.waitForResultsLoaded()
+        HotelResultsScreen.waitForResultsLoaded()
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_results)
     }
 
@@ -64,7 +64,7 @@ class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivit
         setActivityIntent(intent)
         activity
 
-        HotelScreen.waitForResultsLoaded()
+        HotelResultsScreen.waitForResultsLoaded()
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_results)
     }
 

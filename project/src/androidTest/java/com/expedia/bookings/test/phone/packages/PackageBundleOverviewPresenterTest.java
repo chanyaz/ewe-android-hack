@@ -12,7 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -49,7 +49,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		PackageScreen.clickHotelBundle();
 
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 
 		HotelInfoSiteScreen.bookFirstRoom();
 
@@ -154,7 +154,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 	@Test
 	public void testHotelOverview() throws Throwable {
 		PackageScreen.searchPackage();
-		HotelScreen.selectHotel("Package Happy Path");
+		HotelResultsScreen.selectHotel("Package Happy Path");
 
 		HotelInfoSiteScreen.bookRoomType("happy_outbound_flight");
 

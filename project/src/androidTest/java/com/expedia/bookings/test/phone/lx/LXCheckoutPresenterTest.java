@@ -5,7 +5,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.LxTestCase;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.lx.LXInfositeScreen;
 import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 import com.expedia.bookings.utils.LXDataUtils;
@@ -65,9 +65,9 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 
 		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		LXScreen.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
-		CheckoutViewModel.enterTravelerInfo();
+		CheckoutScreen.enterTravelerInfo();
 		LXScreen.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
-		CheckoutViewModel.enterPaymentInfo();
+		CheckoutScreen.enterPaymentInfo();
 		LXScreen.checkoutSlideToPurchase().check(matches(isDisplayed()));
 	}
 
