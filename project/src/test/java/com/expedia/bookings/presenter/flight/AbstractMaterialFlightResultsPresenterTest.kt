@@ -276,7 +276,7 @@ class AbstractMaterialFlightResultsPresenterTest {
             throw UnsupportedOperationException()
         }
 
-        override fun trackFlightOverviewLoad() {
+        override fun trackFlightOverviewLoad(flight: FlightLeg) {
             // Do nothing
         }
 

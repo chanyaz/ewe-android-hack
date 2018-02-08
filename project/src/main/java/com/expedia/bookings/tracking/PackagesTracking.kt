@@ -3,6 +3,7 @@ package com.expedia.bookings.tracking
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -104,10 +105,10 @@ class PackagesTracking {
         }
     }
 
-    fun trackFlightRoundTripDetailsLoad(isOutBound: Boolean, pageUsableData: PageUsableData) {
+    fun trackFlightRoundTripDetailsLoad(isOutBound: Boolean, pageUsableData: PageUsableData, flight: FlightLeg) {
         if (isOutBound)
-            OmnitureTracking.trackPackagesFlightRoundTripOutDetailsLoad(pageUsableData)
-        else OmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad(pageUsableData)
+            OmnitureTracking.trackPackagesFlightRoundTripOutDetailsLoad(pageUsableData, flight)
+        else OmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad(pageUsableData, flight)
     }
 
     fun trackHotelDetailLoad(hotelId: String, pageUsableData: PageUsableData) {

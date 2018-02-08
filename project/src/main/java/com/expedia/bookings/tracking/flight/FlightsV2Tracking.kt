@@ -50,8 +50,8 @@ object FlightsV2Tracking {
         FacebookEvents().trackFlightV2Search(trackingData)
     }
 
-    fun trackFlightOverview(isOutboundFlight: Boolean, isRoundTrip: Boolean) {
-        OmnitureTracking.trackFlightOverview(isOutboundFlight, isRoundTrip)
+    fun trackFlightOverview(isOutboundFlight: Boolean, isRoundTrip: Boolean, flight: FlightLeg) {
+        OmnitureTracking.trackFlightOverview(isOutboundFlight, isRoundTrip, flight)
     }
 
     fun trackResultInBoundFlights(trackingData: FlightSearchTrackingData, outboundSelectedAndTotalLegRank: Pair<Int, Int>) {

@@ -120,6 +120,7 @@ import com.mobiata.android.util.SettingUtils;
 
 import kotlin.NotImplementedError;
 
+import static com.expedia.bookings.utils.FeatureUtilKt.isDisplayBasicEconomyTooltipForPackagesEnabled;
 import static com.expedia.bookings.utils.FeatureUtilKt.isFlightGreedySearchEnabled;
 import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
 
@@ -4747,6 +4748,12 @@ public class OmnitureTracking {
 
 	private static void trackPackagesPageLoadWithDPageName(String pageName, PageUsableData pageUsableData,
 		ABTest... abTests) {
+		ADMS_Measurement s = trackPackagesCommonDetails(pageName, pageUsableData, abTests);
+		s.track();
+	}
+
+	private static ADMS_Measurement trackPackagesCommonDetails(String pageName, PageUsableData pageUsableData,
+		ABTest... abTests) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName, null);
 		s.setEvar(18, "D=pageName");
@@ -4756,7 +4763,15 @@ public class OmnitureTracking {
 		for (ABTest testKey : abTests) {
 			trackAbacusTest(s, testKey);
 		}
-		s.track();
+		return s;
+	}
+
+	private static void appendEmptyFareRulesTracking(ADMS_Measurement s, FlightLeg flight) {
+		if (flight.basicEconomyTooltipInfo.isEmpty() ||
+			(!flight.basicEconomyTooltipInfo.isEmpty() && flight.basicEconomyTooltipInfo.get(0).fareRules.length == 0)) {
+			s.setEvar(28, "Empty fare rules");
+			s.setProp(16, "Empty fare rules");
+		}
 	}
 
 	public static void trackPackagesFlightRoundTripOutLoad(PageUsableData pageUsableData) {
@@ -4764,8 +4779,8 @@ public class OmnitureTracking {
 			AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass);
 	}
 
-	public static void trackPackagesFlightRoundTripOutDetailsLoad(PageUsableData pageUsableData) {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_DETAILS, pageUsableData,
+	public static void trackPackagesFlightRoundTripOutDetailsLoad(PageUsableData pageUsableData, FlightLeg flight) {
+		trackPackagesFlightDetailsLoadWithPageName(PACKAGES_HOTEL_RT_OUT_DETAILS, pageUsableData, flight,
 			AbacusUtils.EBAndroidAppPackagesDisplayBasicEconomyTooltip);
 	}
 
@@ -4773,8 +4788,17 @@ public class OmnitureTracking {
 		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_RESULTS, pageUsableData);
 	}
 
-	public static void trackPackagesFlightRoundTripInDetailsLoad(PageUsableData pageUsableData) {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_DETAILS, pageUsableData);
+	public static void trackPackagesFlightRoundTripInDetailsLoad(PageUsableData pageUsableData, FlightLeg flight) {
+		trackPackagesFlightDetailsLoadWithPageName(PACKAGES_HOTEL_RT_IN_DETAILS, pageUsableData, flight);
+	}
+
+	public static void trackPackagesFlightDetailsLoadWithPageName(String pageName, PageUsableData pageUsableData,
+		FlightLeg flight, ABTest... abTests) {
+		ADMS_Measurement s = trackPackagesCommonDetails(pageName, pageUsableData, abTests);
+		if (isDisplayBasicEconomyTooltipForPackagesEnabled(sContext)) {
+			appendEmptyFareRulesTracking(s, flight);
+		}
+		s.track();
 	}
 
 	public static void trackPackagesHotelInfoLoad(String hotelId, PageUsableData pageUsableData) {
@@ -5668,7 +5692,7 @@ public class OmnitureTracking {
 		return layoverDuration;
 	}
 
-	public static void trackFlightOverview(Boolean isOutboundFlight, Boolean isRoundTrip) {
+	public static void trackFlightOverview(Boolean isOutboundFlight, Boolean isRoundTrip, FlightLeg flight) {
 		String pageName = !isRoundTrip ? FLIGHT_SEARCH_ONE_WAY_DETAILS :
 			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS : FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS;
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
@@ -5677,6 +5701,7 @@ public class OmnitureTracking {
 		if (isOutboundFlight) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode);
 		}
+		appendEmptyFareRulesTracking(s, flight);
 		s.track();
 	}
 

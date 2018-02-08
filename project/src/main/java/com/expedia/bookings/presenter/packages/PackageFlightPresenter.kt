@@ -247,7 +247,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun isOutboundResultsPresenter(): Boolean = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
 
-    override fun trackFlightOverviewLoad() {
+    override fun trackFlightOverviewLoad(flight: FlightLeg) {
         val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
 
         if (isOutboundSearch) {
@@ -257,7 +257,8 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         }
 
         PackagesTracking().trackFlightRoundTripDetailsLoad(isOutboundSearch,
-                if (isOutboundSearch) PackagesPageUsableData.FLIGHT_OUTBOUND_DETAILS.pageUsableData else PackagesPageUsableData.FLIGHT_INBOUND_DETAILS.pageUsableData)
+                if (isOutboundSearch) PackagesPageUsableData.FLIGHT_OUTBOUND_DETAILS.pageUsableData else PackagesPageUsableData.FLIGHT_INBOUND_DETAILS.pageUsableData,
+                flight)
     }
 
     override fun trackFlightSortFilterLoad() {

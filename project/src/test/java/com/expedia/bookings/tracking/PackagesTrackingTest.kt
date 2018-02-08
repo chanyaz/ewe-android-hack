@@ -10,6 +10,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.TestObserver
@@ -188,7 +189,7 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightRoundTripDetailsLoadOutBound() {
-        sut.trackFlightRoundTripDetailsLoad(true, PageUsableData())
+        sut.trackFlightRoundTripDetailsLoad(true, PageUsableData(), FlightLeg())
         val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
@@ -196,7 +197,7 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightRoundTripDetailsLoadInBound() {
-        sut.trackFlightRoundTripDetailsLoad(false, PageUsableData())
+        sut.trackFlightRoundTripDetailsLoad(false, PageUsableData(), FlightLeg())
         val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
