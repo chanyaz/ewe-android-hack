@@ -129,6 +129,30 @@ class HotelSearchParamsTest {
     }
 
     @Test
+    fun testWithinDateRange() {
+        val builder = HotelSearchParams.Builder(maxStay, maxRange)
+        val endDate = LocalDate.now().plusDays(maxRange)
+        builder.endDate(endDate)
+        assertTrue(builder.isWithinDateRange())
+    }
+
+    @Test
+    fun testBeyondDateRange() {
+        val builder = HotelSearchParams.Builder(maxStay, maxRange)
+        val endDate = LocalDate.now().plusDays(maxRange + 2)
+        builder.endDate(endDate)
+        assertFalse(builder.isWithinDateRange())
+    }
+
+    @Test
+    fun testWithinDateRangeAtMaxPlusOne() {
+        val builder = HotelSearchParams.Builder(maxStay, maxRange)
+        val endDate = LocalDate.now().plusDays(maxRange + 1)
+        builder.endDate(endDate)
+        assertTrue(builder.isWithinDateRange())
+    }
+
+    @Test
     fun testPrefetchNotEqual_Suggestion() {
         val builder = HotelSearchParams.Builder(maxStay, maxRange)
         val firstParams = builder.destination(getDummySuggestion("chicago", "Chi", "gaia1"))

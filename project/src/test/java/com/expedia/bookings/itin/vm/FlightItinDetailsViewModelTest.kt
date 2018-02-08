@@ -512,15 +512,16 @@ class FlightItinDetailsViewModelTest {
     fun createOmnitureValues() {
         val testItinCardData = ItinCardDataFlightBuilder().build()
         val startDate = DateTime.now().plusDays(30)
+        val endDate = startDate.plusDays(7)
         val formattedStartDate = JodaUtils.format(startDate, "yyyy-MM-dd")
-        val endDate = JodaUtils.format(startDate.plusDays(7), "yyyy-MM-dd")
+        val formattedEndDate = JodaUtils.format(endDate, "yyyy-MM-dd")
         val expectedValues = HashMap<String, String?>()
-        expectedValues.put("duration", "8")
-        expectedValues.put("productString", ";Flight:UA:OW;;")
-        expectedValues.put("tripStartDate", formattedStartDate)
-        expectedValues.put("daysUntilTrip", "30")
-        expectedValues.put("tripEndDate", endDate)
-        expectedValues.put("orderAndTripNumbers", "8063550177859|7238007847306")
+        expectedValues["duration"] = "8"
+        expectedValues["productString"] = ";Flight:UA:OW;;"
+        expectedValues["tripStartDate"] = formattedStartDate
+        expectedValues["daysUntilTrip"] = "30"
+        expectedValues["tripEndDate"] = formattedEndDate
+        expectedValues["orderAndTripNumbers"] = "8063550177859|7238007847306"
 
         val values = sut.createOmnitureTrackingValues(testItinCardData)
 

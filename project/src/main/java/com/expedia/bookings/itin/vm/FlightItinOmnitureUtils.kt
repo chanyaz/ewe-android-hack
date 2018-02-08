@@ -28,7 +28,7 @@ class FlightItinOmnitureUtils {
     fun calculateTripDuration(trip: ItinCardDataFlight): String? {
         if (trip.tripStartDate != null && trip.tripEndDate != null) {
             val tripStartDate = trip.tripStartDate.withTimeAtStartOfDay()
-            val tripEndDate = trip.tripEndDate.withTimeAtStartOfDay()
+            val tripEndDate = trip.tripEndDate.withTimeAtStartOfDay().plusHours(2)
             if (tripStartDate == tripEndDate) {
                 return "0.0"
             } else {

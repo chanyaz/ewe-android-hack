@@ -424,10 +424,6 @@ public class CalendarPicker extends LinearLayout {
 		mState.setMaxSelectableDateRange(numDays);
 	}
 
-	public void setSameStartAndEndDateAllowed(boolean sameStartAndEndDateAllowed) {
-		mState.setSameStartAndEndDateAllowed(sameStartAndEndDateAllowed);
-	}
-
 	public LocalDate getStartDate() {
 		return mState.mStartDate;
 	}
@@ -758,8 +754,6 @@ public class CalendarPicker extends LinearLayout {
 
 		private int mMaxSelectableDateRange;
 
-		private boolean mSameStartAndEndDateAllowed;
-
 		// We keep track of what has changed so that we don't do unnecessary View updates
 		private CalendarState mLastState;
 
@@ -812,11 +806,6 @@ public class CalendarPicker extends LinearLayout {
 				mMaxSelectableDate = maxDate;
 				validateAndSyncState();
 			}
-		}
-
-		public void setSameStartAndEndDateAllowed(boolean sameStartAndEndDateAllowed) {
-			mSameStartAndEndDateAllowed = sameStartAndEndDateAllowed;
-			validateAndSyncState();
 		}
 
 		/**
@@ -887,13 +876,11 @@ public class CalendarPicker extends LinearLayout {
 				}
 
 				if (mEndDate != null && mEndDate.isAfter(mMaxSelectableDate)) {
-					if (!mSameStartAndEndDateAllowed && mStartDate.isEqual(mMaxSelectableDate)) {
+					if (mStartDate != null && mStartDate.isEqual(mMaxSelectableDate)) {
 						Log.v("End date (" + mEndDate
 							+ ") is AFTER max selectable date (" + mMaxSelectableDate
-							+ ") and start date (" + mStartDate
-							+ ") is at max selectable date;"
-							+ " can't have same start and end date; setting end date to null");
-						mEndDate = null;
+							+ "); Start date is at max selectable date; setting end date to max date + 1");
+						mEndDate = mMaxSelectableDate.plusDays(1);
 					} else {
 						Log.v("End date (" + mEndDate
 							+ ") is AFTER max selectable date (" + mMaxSelectableDate
@@ -989,7 +976,6 @@ public class CalendarPicker extends LinearLayout {
 			mLastState.mMinSelectableDate = mMinSelectableDate;
 			mLastState.mMaxSelectableDate = mMaxSelectableDate;
 			mLastState.mMaxSelectableDateRange = mMaxSelectableDateRange;
-			mLastState.mSameStartAndEndDateAllowed = mSameStartAndEndDateAllowed;
 		}
 	}
 

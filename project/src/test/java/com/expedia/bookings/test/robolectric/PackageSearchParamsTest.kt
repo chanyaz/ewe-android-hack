@@ -192,7 +192,7 @@ class PackageSearchParamsTest {
         val expectedSearchParams = arrayListOf<PackageSearchParams>()
         val expectedOrigins = arrayListOf<Unit>()
         val expectedDates = arrayListOf<Unit>()
-        val expectedRangeErrors = arrayListOf("This date is too far out, please choose a closer date.", "This date is too far out, please choose a closer date.")
+        val expectedRangeErrors = arrayListOf("This date is too far out, please choose a closer date.")
         val origin = getDummySuggestion("123")
         val destination = getDummySuggestion("456")
 
@@ -222,12 +222,28 @@ class PackageSearchParamsTest {
                 .endDate(LocalDate.now().plusDays(1)).build() as PackageSearchParams)
 
         // Select days beyond 329
-        vm.datesUpdated(LocalDate.now().plusDays(329), LocalDate.now().plusDays(330))
+        vm.datesUpdated(LocalDate.now().plusDays(330), LocalDate.now().plusDays(331))
         vm.searchObserver.onNext(Unit)
 
-        // Select days beyond 329 but same day
-        vm.datesUpdated(LocalDate.now().plusDays(329), LocalDate.now().plusDays(329))
+        // Select days at 329
+        vm.datesUpdated(LocalDate.now().plusDays(329), LocalDate.now().plusDays(330))
         vm.searchObserver.onNext(Unit)
+        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .origin(origin)
+                .destination(destination)
+                .startDate(LocalDate.now().plusDays(329))
+                .endDate(LocalDate.now().plusDays(330)).build() as PackageSearchParams)
+
+        // Select days at 329
+        vm.datesUpdated(LocalDate.now().plusDays(329), null)
+        vm.searchObserver.onNext(Unit)
+        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .origin(origin)
+                .destination(destination)
+                .startDate(LocalDate.now().plusDays(329))
+                .endDate(LocalDate.now().plusDays(330)).build() as PackageSearchParams)
 
         // Select both start date and end date and search
         vm.datesUpdated(LocalDate.now(), LocalDate.now().plusDays(3))
@@ -241,6 +257,8 @@ class PackageSearchParamsTest {
 
         assertEquals(expectedSearchParams[0].endDate, searchParamsSubscriber.values()[0].endDate)
         assertEquals(expectedSearchParams[1].endDate, searchParamsSubscriber.values()[1].endDate)
+        assertEquals(expectedSearchParams[2].endDate, searchParamsSubscriber.values()[2].endDate)
+        assertEquals(expectedSearchParams[3].endDate, searchParamsSubscriber.values()[3].endDate)
         noDatesSubscriber.assertValueSequence(expectedDates)
         maxRangeSubscriber.assertValueSequence(expectedRangeErrors)
         noOriginSubscriber.assertValueSequence(expectedOrigins)

@@ -76,7 +76,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         return null
     }
 
-    class Builder(maxStay: Int, maxRange: Int) : BaseSearchParams.Builder(maxStay, maxRange) {
+    class Builder(maxStay: Int, maxStartRange: Int) : BaseSearchParams.Builder(maxStay, maxStartRange) {
         private var isPackage: Boolean = false
         private var shopWithPoints: Boolean = false
         private var priceRange: PriceRange? = null

@@ -96,14 +96,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
         calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end))
 
         if (start != null && (end == null || start == end)) {
-            val maxDate = rules.getFirstAvailableDate().plusDays(rules.getMaxDateRange())
-            if (start != maxDate) {
-                end = start.plusDays(1)
-            } else if (rules.sameStartAndEndDateAllowed()) {
-                end = start
-            } else {
-                end = null
-            }
+            end = start.plusDays(1)
         }
 
         super.onDatesChanged(Pair(start, end))

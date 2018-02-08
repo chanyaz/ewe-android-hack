@@ -9,7 +9,7 @@ open class BaseSearchParams(val origin: SuggestionV4?, val destination: Suggesti
     open val guestString = listOf(adults).plus(children).joinToString(",")
     val childrenString = children.joinToString(",")
 
-    abstract class Builder(var maxStay: Int, val maxRange: Int) {
+    abstract class Builder(var maxStay: Int, val maxStartRange: Int) {
         protected var originLocation: SuggestionV4? = null
         protected var destinationLocation: SuggestionV4? = null
         protected var startDate: LocalDate? = null
@@ -82,7 +82,8 @@ open class BaseSearchParams(val origin: SuggestionV4?, val destination: Suggesti
         }
 
         open fun isWithinDateRange(): Boolean {
-            return Days.daysBetween(LocalDate.now(), endDate).days <= maxRange
+            // end date can be max start range + 1
+            return Days.daysBetween(LocalDate.now(), endDate).days <= maxStartRange + 1
         }
     }
 }

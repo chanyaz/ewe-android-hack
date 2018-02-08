@@ -132,7 +132,7 @@ class HotelSearchViewModelTest {
     }
 
     @Test
-    fun testStartMaxDateCantDoSearch() {
+    fun testStartMaxDateCanDoSearch() {
         val testErrorNoDatesObservable = TestObserver.create<Unit>()
         testViewModel.errorNoDatesObservable.subscribe(testErrorNoDatesObservable)
 
@@ -140,12 +140,32 @@ class HotelSearchViewModelTest {
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = startDate, endDate = null)
 
-        assertFalse(testViewModel.getParamsBuilder().hasStartAndEndDates())
+        assertTrue(testViewModel.getParamsBuilder().hasStartAndEndDates())
 
         testViewModel.searchObserver.onNext(Unit)
 
-        testGenericSearchSubscriber.assertValueCount(0)
-        testErrorNoDatesObservable.assertValueCount(1)
+        assertEquals(startDate, testGenericSearchSubscriber.values()[0].startDate)
+        assertEquals(startDate.plusDays(1), testGenericSearchSubscriber.values()[0].endDate)
+        testErrorNoDatesObservable.assertValueCount(0)
+    }
+
+    @Test
+    fun testStartMaxDateEndBeyondMaxByOneCanDoSearch() {
+        val testErrorNoDatesObservable = TestObserver.create<Unit>()
+        testViewModel.errorNoDatesObservable.subscribe(testErrorNoDatesObservable)
+
+        val startDate = today.plusDays(testViewModel.getCalendarRules().getMaxDateRange())
+        val endDate = startDate.plusDays(1)
+        triggerParams(suggestion = suggestionBuilder.build(),
+                startDate = startDate, endDate = endDate)
+
+        assertTrue(testViewModel.getParamsBuilder().hasStartAndEndDates())
+
+        testViewModel.searchObserver.onNext(Unit)
+
+        assertEquals(startDate, testGenericSearchSubscriber.values()[0].startDate)
+        assertEquals(endDate, testGenericSearchSubscriber.values()[0].endDate)
+        testErrorNoDatesObservable.assertValueCount(0)
     }
 
     @Test

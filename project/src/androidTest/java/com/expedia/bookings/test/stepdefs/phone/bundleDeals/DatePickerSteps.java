@@ -86,9 +86,9 @@ public class DatePickerSteps {
 		// Forcefully setting invalid date in test would result in selection of max selectable date as start and end.
 		SearchScreen.chooseDates(maxSelectableDate.plusDays(1), null);
 		SearchScreen.searchAlertDialogDone().perform(click());
-		String date = getFormattedDate(maxSelectableDate, dateFormatterEEEMMMd);
-		SearchScreen.calendarCard().check(matches(withText(date + "  -  " + date + " (0 nights)")));
-
+		String startDate = getFormattedDate(maxSelectableDate, dateFormatterEEEMMMd);
+		String endDate = getFormattedDate(maxSelectableDate.plusDays(1), dateFormatterEEEMMMd);
+		SearchScreen.calendarCard().check(matches(withText(startDate + "  -  " + endDate + " (1 night)")));
 	}
 
 }

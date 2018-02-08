@@ -21,7 +21,7 @@ class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destin
         return this.searchType == SearchType.ROUND_TRIP
     }
 
-    class Builder(maxStay: Int, maxRange: Int) : BaseSearchParams.Builder(maxStay, maxRange) {
+    class Builder(maxStay: Int, maxStartRange: Int) : BaseSearchParams.Builder(maxStay, maxStartRange) {
         private var searchType = SearchType.ONE_WAY
         private var departDateTimeMillis: Int? = null
         private var returnDateTimeMillis: Int? = null
@@ -89,9 +89,9 @@ class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destin
 
         override fun isWithinDateRange(): Boolean {
             if (searchType == SearchType.ROUND_TRIP) {
-                return Days.daysBetween(LocalDate.now(), endDate).days <= maxRange
+                return Days.daysBetween(LocalDate.now(), endDate).days <= maxStartRange
             } else {
-                return Days.daysBetween(LocalDate.now(), startDate).days <= maxRange
+                return Days.daysBetween(LocalDate.now(), startDate).days <= maxStartRange
             }
         }
 
