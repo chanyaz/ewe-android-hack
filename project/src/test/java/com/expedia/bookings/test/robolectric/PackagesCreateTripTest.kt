@@ -69,7 +69,7 @@ class PackagesCreateTripTest {
     @Test
     fun testExceptionThrownInMultiItemCreateTripParams() {
         val searchParams = getDummySearchParams()
-        searchParams.roomTypeCode = null
+        searchParams.latestSelectedOfferInfo.roomTypeCode = null
         try {
             MultiItemCreateTripParams.fromPackageSearchParams(searchParams)
         } catch (e: Exception) {
@@ -149,14 +149,14 @@ class PackagesCreateTripTest {
                 .startDate(date)
                 .endDate(date.plusDays(2))
                 .build() as PackageSearchParams
-        params.hotelId = "hotelID"
-        params.latestSelectedFlightPIID = "mid_create_trip"
+        params.latestSelectedOfferInfo.hotelId = "hotelID"
+        params.latestSelectedOfferInfo.flightPIID = "mid_create_trip"
         params.packagePIID = "packagePIID"
-        params.ratePlanCode = "ratePlanCode"
-        params.roomTypeCode = "roomTypeCode"
-        params.inventoryType = "inventoryType"
-        params.latestSelectedProductOfferPrice = PackageOfferModel.PackagePrice()
-        params.latestSelectedProductOfferPrice?.packageTotalPrice = Money(BigDecimal(300.50), "USD")
+        params.latestSelectedOfferInfo.ratePlanCode = "ratePlanCode"
+        params.latestSelectedOfferInfo.roomTypeCode = "roomTypeCode"
+        params.latestSelectedOfferInfo.inventoryType = "inventoryType"
+        params.latestSelectedOfferInfo.productOfferPrice = PackageOfferModel.PackagePrice()
+        params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice = Money(BigDecimal(300.50), "USD")
         params.packagePIID = "923012"
         params.searchProduct = Constants.PRODUCT_FLIGHT
         params.currentFlights = arrayOf("legs")

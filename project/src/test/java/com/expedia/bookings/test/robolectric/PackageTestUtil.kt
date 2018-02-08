@@ -278,13 +278,13 @@ class PackageTestUtil {
         @JvmStatic
         fun getMIDPackageSearchParams(): PackageSearchParams {
             val packageParams = getPackageSearchParams(LocalDate.parse("2017-12-07"), LocalDate.parse("2017-12-08"))
-            packageParams.hotelId = "1111"
-            packageParams.latestSelectedFlightPIID = "mid_create_trip"
-            packageParams.inventoryType = "AA"
-            packageParams.ratePlanCode = "AAA"
-            packageParams.roomTypeCode = "AA"
-            packageParams.latestSelectedProductOfferPrice = PackageOfferModel.PackagePrice()
-            packageParams.latestSelectedProductOfferPrice?.packageTotalPrice = Money(100, "USD")
+            packageParams.latestSelectedOfferInfo.hotelId = "1111"
+            packageParams.latestSelectedOfferInfo.flightPIID = "mid_create_trip"
+            packageParams.latestSelectedOfferInfo.inventoryType = "AA"
+            packageParams.latestSelectedOfferInfo.ratePlanCode = "AAA"
+            packageParams.latestSelectedOfferInfo.roomTypeCode = "AA"
+            packageParams.latestSelectedOfferInfo.productOfferPrice = PackageOfferModel.PackagePrice()
+            packageParams.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice = Money(100, "USD")
             return packageParams
         }
 

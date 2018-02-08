@@ -233,14 +233,14 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     }
 
     private fun setSplitTicketMessagingOnBundleOverview(packageParams: PackageSearchParams) {
-        if (packageParams.latestSelectedFlightSplitTicket) {
-            val latestSelectedOutboundFlightBaggageFeesUrl = packageParams.latestSelectedOutboundFlightBaggageFeesUrl
-            val latestSelectedInboundFlightBaggageFeesUrl = packageParams.latestSelectedInboundFlightBaggageFeesUrl
+        if (packageParams.latestSelectedOfferInfo.isSplitTicketFlights) {
+            val latestSelectedOutboundFlightBaggageFeesUrl = packageParams.latestSelectedOfferInfo.outboundFlightBaggageFeesUrl
+            val latestSelectedInboundFlightBaggageFeesUrl = packageParams.latestSelectedOfferInfo.inboundFlightBaggageFeesUrl
             if (latestSelectedOutboundFlightBaggageFeesUrl != null && latestSelectedInboundFlightBaggageFeesUrl != null) {
                 splitTicketBaggageFeesLinksObservable.onNext(getSplitTicketBaggageFeesLink(latestSelectedOutboundFlightBaggageFeesUrl, latestSelectedInboundFlightBaggageFeesUrl))
             }
         }
-        showSplitTicketMessagingObservable.onNext(packageParams.latestSelectedFlightSplitTicket)
+        showSplitTicketMessagingObservable.onNext(packageParams.latestSelectedOfferInfo.isSplitTicketFlights)
     }
 
     private fun getSplitTicketBaggageFeesLink(outboundBaggageFeesUrl: String, inboundBaggageFeesUrl: String): SpannableStringBuilder {

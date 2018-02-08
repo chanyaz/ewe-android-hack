@@ -56,7 +56,7 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         Db.setPackageParams(params)
 
         services?.hotelOffer(params.packagePIID!!, params.startDate.toString(), params.endDate.toString(),
-                params.ratePlanCode, params.roomTypeCode, params.adults, params.childAges!![0].toInt())!!.subscribe(observer)
+                params.latestSelectedOfferInfo.ratePlanCode, params.latestSelectedOfferInfo.roomTypeCode, params.adults, params.childAges!![0].toInt())!!.subscribe(observer)
         observer.awaitTerminalEvent()
 
         return observer.values()[0]

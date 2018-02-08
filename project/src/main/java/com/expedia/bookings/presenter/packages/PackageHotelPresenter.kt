@@ -112,9 +112,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.viewModel = PackageHotelResultsViewModel(context)
         presenter.hotelSelectedSubject.subscribe { hotel ->
             val params = Db.sharedInstance.packageParams
-            params.hotelId = hotel.hotelId
-            params.latestSelectedFlightPIID = Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotel.hotelPid)
-            params.latestSelectedProductOfferPrice = hotel.packageOfferModel.price
+            params.latestSelectedOfferInfo.hotelId = hotel.hotelId
+            params.latestSelectedOfferInfo.flightPIID = Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotel.hotelPid)
+            params.latestSelectedOfferInfo.productOfferPrice = hotel.packageOfferModel.price
 
             PackagesTracking().trackHotelMapCarouselPropertyClick()
             hotelSelectedObserver.onNext(hotel)
@@ -483,10 +483,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         updatePackagePrice(offer)
         val params = Db.sharedInstance.packageParams
         params.packagePIID = offer.productKey
-        params.ratePlanCode = offer.ratePlanCode
-        params.roomTypeCode = offer.roomTypeCode
-        params.inventoryType = offer.supplierType
-        params.latestSelectedProductOfferPrice = Db.getPackageResponse().getCurrentOfferPrice()
+        params.latestSelectedOfferInfo.ratePlanCode = offer.ratePlanCode
+        params.latestSelectedOfferInfo.roomTypeCode = offer.roomTypeCode
+        params.latestSelectedOfferInfo.inventoryType = offer.supplierType
+        params.latestSelectedOfferInfo.productOfferPrice = Db.getPackageResponse().getCurrentOfferPrice()
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()

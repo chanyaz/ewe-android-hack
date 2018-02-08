@@ -7,23 +7,23 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
+import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
-import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
-import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.google.gson.GsonBuilder
+import io.reactivex.Observable
+import io.reactivex.Scheduler
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import io.reactivex.Observable
-import io.reactivex.Scheduler
 import java.text.NumberFormat
 import java.util.ArrayList
 import java.util.Currency
@@ -78,7 +78,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 adults = params.adults,
                 childAges = params.childAges,
                 infantsInSeats = params.infantsInSeats,
-                flightPIID = if (params.isChangePackageSearch()) params.latestSelectedFlightPIID else null)
+                flightPIID = if (params.isChangePackageSearch()) params.latestSelectedOfferInfo.flightPIID else null)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { it.setup() }
@@ -98,10 +98,10 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 adults = params.adults,
                 childAges = params.childAges,
                 infantsInSeats = params.infantsInSeats,
-                hotelId = params.hotelId,
-                flightPIID = params.latestSelectedFlightPIID,
-                anchorTotalPrice = params.latestSelectedProductOfferPrice?.packageTotalPrice?.amount,
-                currencyCode = params.latestSelectedProductOfferPrice?.packageTotalPrice?.currencyCode)
+                hotelId = params.latestSelectedOfferInfo.hotelId,
+                flightPIID = params.latestSelectedOfferInfo.flightPIID,
+                anchorTotalPrice = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.amount,
+                currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
@@ -119,18 +119,18 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 adults = params.adults,
                 childAges = params.childAges,
                 infantsInSeats = params.infantsInSeats,
-                hotelId = params.hotelId,
-                ratePlanCode = params.ratePlanCode,
-                roomTypeCode = params.roomTypeCode,
+                hotelId = params.latestSelectedOfferInfo.hotelId,
+                ratePlanCode = params.latestSelectedOfferInfo.ratePlanCode,
+                roomTypeCode = params.latestSelectedOfferInfo.roomTypeCode,
                 legIndex = 0,
-                anchorTotalPrice = params.latestSelectedProductOfferPrice?.packageTotalPrice?.amount,
-                currencyCode = params.latestSelectedProductOfferPrice?.packageTotalPrice?.currencyCode)
+                anchorTotalPrice = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.amount,
+                currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {
                     it.setup()
                     if (!it.hasErrors()) {
-                        params.latestSelectedProductOfferPrice?.let { offerPrice ->
+                        params.latestSelectedOfferInfo.productOfferPrice?.let { offerPrice ->
                             it.setCurrentOfferPrice(offerPrice)
                         }
                     }
@@ -151,19 +151,19 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 adults = params.adults,
                 childAges = params.childAges,
                 infantsInSeats = params.infantsInSeats,
-                hotelId = params.hotelId,
-                ratePlanCode = params.ratePlanCode,
-                roomTypeCode = params.roomTypeCode,
+                hotelId = params.latestSelectedOfferInfo.hotelId,
+                ratePlanCode = params.latestSelectedOfferInfo.ratePlanCode,
+                roomTypeCode = params.latestSelectedOfferInfo.roomTypeCode,
                 legIndex = 1,
                 outboundLegId = params.selectedLegId,
-                anchorTotalPrice = params.latestSelectedProductOfferPrice?.packageTotalPrice?.amount,
-                currencyCode = params.latestSelectedProductOfferPrice?.packageTotalPrice?.currencyCode)
+                anchorTotalPrice = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.amount,
+                currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {
                     it.setup()
                     if (!it.hasErrors()) {
-                        params.latestSelectedProductOfferPrice?.let { offerPrice ->
+                        params.latestSelectedOfferInfo.productOfferPrice?.let { offerPrice ->
                             it.setCurrentOfferPrice(offerPrice)
                         }
                     }

@@ -222,8 +222,8 @@ class PackageFlightPresenterTest {
 
         params.packagePIID = hotelResponse.getHotels()[0].hotelId
         params.currentFlights = arrayOf("legs")
-        params.ratePlanCode = "flight_outbound_happy"
-        params.roomTypeCode = "flight_outbound_happy"
+        params.latestSelectedOfferInfo.ratePlanCode = "flight_outbound_happy"
+        params.latestSelectedOfferInfo.roomTypeCode = "flight_outbound_happy"
         roomResponse = mockPackageServiceRule.getPSSOffersSearchResponse("package_happy")
         Db.setPackageSelectedHotel(hotelResponse.getHotels().get(0), roomResponse.getBundleRoomResponse()[0])
 

@@ -195,9 +195,9 @@ public class PackageServicesTest {
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
-		params.setHotelId("hotelID");
-		params.setRatePlanCode("flight_outbound_happy");
-		params.setRoomTypeCode("flight_outbound_happy");
+		params.getLatestSelectedOfferInfo().setHotelId("hotelID");
+		params.getLatestSelectedOfferInfo().setRatePlanCode("flight_outbound_happy");
+		params.getLatestSelectedOfferInfo().setRoomTypeCode("flight_outbound_happy");
 
 		service.packageSearch(params, ProductSearchType.MultiItemOutboundFlights).subscribe(observer);
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
@@ -240,9 +240,9 @@ public class PackageServicesTest {
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
-		params.setHotelId("hotelID");
-		params.setRatePlanCode("error");
-		params.setRoomTypeCode("flight_outbound_happy");
+		params.getLatestSelectedOfferInfo().setHotelId("hotelID");
+		params.getLatestSelectedOfferInfo().setRatePlanCode("error");
+		params.getLatestSelectedOfferInfo().setRoomTypeCode("flight_outbound_happy");
 
 		service.packageSearch(params, ProductSearchType.MultiItemOutboundFlights).subscribe(observer);
 
@@ -275,9 +275,9 @@ public class PackageServicesTest {
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
-		params.setHotelId("hotelID");
-		params.setRatePlanCode("flight_outbound_happy");
-		params.setRoomTypeCode("flight_outbound_happy");
+		params.getLatestSelectedOfferInfo().setHotelId("hotelID");
+		params.getLatestSelectedOfferInfo().setRatePlanCode("flight_outbound_happy");
+		params.getLatestSelectedOfferInfo().setRoomTypeCode("flight_outbound_happy");
 		params.setSelectedLegId("flight_inbound_happy");
 
 		service.packageSearch(params, ProductSearchType.MultiItemInboundFlights).subscribe(observer);
@@ -321,9 +321,9 @@ public class PackageServicesTest {
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
-		params.setHotelId("hotelID");
-		params.setRatePlanCode("flight_outbound_happy");
-		params.setRoomTypeCode("flight_outbound_happy");
+		params.getLatestSelectedOfferInfo().setHotelId("hotelID");
+		params.getLatestSelectedOfferInfo().setRatePlanCode("flight_outbound_happy");
+		params.getLatestSelectedOfferInfo().setRoomTypeCode("flight_outbound_happy");
 		params.setSelectedLegId("error");
 
 		service.packageSearch(params, ProductSearchType.MultiItemInboundFlights).subscribe(observer);
@@ -358,7 +358,7 @@ public class PackageServicesTest {
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
-		params.setHotelId("happy_room");
+		params.getLatestSelectedOfferInfo().setHotelId("happy_room");
 
 		service.multiItemRoomSearch(params).subscribe(observer);
 
@@ -385,7 +385,7 @@ public class PackageServicesTest {
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
-		params.setHotelId("error");
+		params.getLatestSelectedOfferInfo().setHotelId("error");
 
 		service.multiItemRoomSearch(params).subscribe(observer);
 
@@ -447,9 +447,9 @@ public class PackageServicesTest {
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
-		params.setHotelId("hotelID");
-		params.setRatePlanCode("flight_outbound_happy");
-		params.setRoomTypeCode("flight_outbound_happy");
+		params.getLatestSelectedOfferInfo().setHotelId("hotelID");
+		params.getLatestSelectedOfferInfo().setRatePlanCode("flight_outbound_happy");
+		params.getLatestSelectedOfferInfo().setRoomTypeCode("flight_outbound_happy");
 		params.setSelectedLegId("flight_inbound_happy");
 
 		service.packageSearch(params, ProductSearchType.MultiItemInboundFlights).subscribe(observer);

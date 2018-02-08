@@ -274,8 +274,8 @@ class SlidingBundleWidgetTest {
 
         params.packagePIID = hotelResponse.getHotels()[0].hotelId
         params.currentFlights = arrayOf("legs")
-        params.ratePlanCode = "flight_outbound_happy"
-        params.roomTypeCode = "flight_outbound_happy"
+        params.latestSelectedOfferInfo.ratePlanCode = "flight_outbound_happy"
+        params.latestSelectedOfferInfo.roomTypeCode = "flight_outbound_happy"
         searchRooms()
         roomResponse = offerObserver.values()[0]
         addCurrentOfferToDB(roomResponse.getBundleRoomResponse()[0])
@@ -294,7 +294,7 @@ class SlidingBundleWidgetTest {
     }
 
     private fun searchRooms() {
-        packageServiceRule.services!!.hotelOffer(params.packagePIID!!, params.startDate.toString(), params.endDate.toString(), params.ratePlanCode!!, params.roomTypeCode, params.adults, params.childAges!![0].toInt()).subscribe(offerObserver)
+        packageServiceRule.services!!.hotelOffer(params.packagePIID!!, params.startDate.toString(), params.endDate.toString(), params.latestSelectedOfferInfo.ratePlanCode!!, params.latestSelectedOfferInfo.roomTypeCode, params.adults, params.childAges!![0].toInt()).subscribe(offerObserver)
         offerObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
     }
 

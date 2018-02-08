@@ -126,7 +126,7 @@ class BundleOverviewViewModelTests {
         sut.errorObservable.subscribe(errorSubscriber)
 
         val params = setUpParams()
-        params.ratePlanCode = "error"
+        params.latestSelectedOfferInfo.ratePlanCode = "error"
         sut.flightParamsObservable.onNext(params)
 
         errorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
