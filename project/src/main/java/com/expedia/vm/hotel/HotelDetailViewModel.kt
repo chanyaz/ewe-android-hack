@@ -23,7 +23,6 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.trackingString
 import com.expedia.vm.BaseHotelDetailViewModel
-import com.expedia.vm.HotelInfoToolbarViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
@@ -190,14 +189,6 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
 
     override fun getTelesalesNumber(): String {
         return hotelOffersResponse.telesalesNumber
-    }
-
-    companion object {
-        @JvmStatic
-        fun convertToToolbarViewModel(detailViewModel: BaseHotelDetailViewModel): HotelInfoToolbarViewModel {
-            val viewModel = HotelInfoToolbarViewModel(detailViewModel.context, detailViewModel.hotelNameObservable.value, detailViewModel.hotelRatingObservable.value, detailViewModel.hotelSoldOut.value)
-            return viewModel
-        }
     }
 
     private fun getSearchInfoTextColor(): Int {

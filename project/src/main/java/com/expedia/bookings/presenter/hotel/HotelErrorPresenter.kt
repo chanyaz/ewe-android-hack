@@ -10,15 +10,19 @@ import com.expedia.bookings.widget.HotelDetailsToolbar
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AbstractErrorViewModel
 import com.expedia.vm.HotelErrorViewModel
+import com.expedia.vm.HotelInfoToolbarViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 
 class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPresenter(context, attr) {
 
     val hotelDetailsToolbar: HotelDetailsToolbar by bindView(R.id.hotel_details_toolbar)
 
+    val hotelInfoToolbarViewModel = HotelInfoToolbarViewModel(context)
+
     var hotelDetailViewModel: HotelDetailViewModel by notNullAndObservable { vm ->
-        vm.hotelOffersSubject.subscribe {
-            hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
+        vm.hotelOffersSubject.subscribe { hotelOffersResponse ->
+            hotelInfoToolbarViewModel.bind(hotelOffersResponse.hotelName ?: "", hotelDetailViewModel.hotelRatingObservable.value, hotelDetailViewModel.hotelSoldOut.value)
+            hotelDetailsToolbar.setHotelDetailViewModel(hotelInfoToolbarViewModel)
         }
     }
 
