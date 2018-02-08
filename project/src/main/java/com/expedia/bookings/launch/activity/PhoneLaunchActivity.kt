@@ -113,7 +113,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         @Inject set
 
     var jumpToItinId: String? = null
-    private var jumpToActivityCross: String? = null
+    private var jumpToActivityCross: String = ""
     private var pagerPosition = PAGER_POS_LAUNCH
 
     private var itinListFragment: ItinItemListFragment? = null
@@ -181,9 +181,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             // No need to do anything special, waterfall is the default behavior anyway
         } else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
             handleArgJumpToNotification(intent)
-            if (jumpToActivityCross == null)
+            if (jumpToActivityCross.isEmpty())
                 gotoItineraries()
-            else gotoActivitiesCrossSell()
+            else gotoActivitiesCrossSell(jumpToActivityCross)
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
             gotoItineraries()
         } else if (ItineraryManager.haveTimelyItinItem()) {
@@ -263,9 +263,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             gotoWaterfall()
         } else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
             handleArgJumpToNotification(intent)
-            if (jumpToActivityCross == null)
+            if (jumpToActivityCross.isEmpty())
                 gotoItineraries()
-            else gotoActivitiesCrossSell()
+            else gotoActivitiesCrossSell(jumpToActivityCross)
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
             gotoItineraries()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ACCOUNT, false)) {
@@ -447,19 +447,21 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         }
     }
 
-    @Synchronized private fun gotoActivitiesCrossSell() {
-        val data = ItineraryManager.getInstance().getItinCardDataFromItinId(jumpToActivityCross) as ItinCardDataHotel
-        jumpToActivityCross = null
-        var startDate = data.startDate.toLocalDate()
-        var endDate = data.endDate.toLocalDate()
-        if (startDate.isBefore(LocalDate.now())) {
-            startDate = LocalDate.now()
+    @Synchronized fun gotoActivitiesCrossSell(id: String, itinManager: ItineraryManager = ItineraryManager.getInstance()) {
+        val data = itinManager.getItinCardDataFromItinId(id)
+        jumpToActivityCross = ""
+        if (data is ItinCardDataHotel) {
+            var startDate = data.startDate.toLocalDate()
+            var endDate = data.endDate.toLocalDate()
+            if (startDate.isBefore(LocalDate.now())) {
+                startDate = LocalDate.now()
+            }
+            if (endDate.isBefore(LocalDate.now())) {
+                endDate = LocalDate.now().plusDays(14)
+            }
+            LXNavUtils.goToActivities(this, null, LXDataUtils.fromHotelParams(this, startDate, endDate, data.propertyLocation),
+                    NavUtils.FLAG_OPEN_RESULTS)
         }
-        if (endDate.isBefore(LocalDate.now())) {
-            endDate = LocalDate.now().plusDays(14)
-        }
-        LXNavUtils.goToActivities(this, null, LXDataUtils.fromHotelParams(this, startDate, endDate, data.propertyLocation),
-                NavUtils.FLAG_OPEN_RESULTS)
     }
 
     @Synchronized private fun gotoAccount() {
