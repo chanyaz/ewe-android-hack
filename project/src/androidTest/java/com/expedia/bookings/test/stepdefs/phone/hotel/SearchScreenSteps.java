@@ -15,10 +15,16 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 
 public class SearchScreenSteps {
+	@When("^I search for \"(.*?)\" and select the item with the magnifying glass$")
+	public void searchAndSelectItemWithMagnifyingGlass(String location) throws Throwable {
+		enterDestination(location);
+		SearchScreen.selectItemWithMagnifyingGlass();
+	}
+
 	@When("^I search for hotels and choose a specific location$")
 	public void searchAndSelectSpecificLocation(Map<String, String> searchOpts) throws Throwable {
 		enterDestination(searchOpts.get("location"));
-		SearchScreen.selectSpecificLocation(searchOpts.get("suggestion"));
+		SearchScreen.selectSpecificLocationWithText(searchOpts.get("suggestion"));
 	}
 
 	@When("^I search for hotels with following criteria$")
@@ -31,6 +37,11 @@ public class SearchScreenSteps {
 	public void enterDestination(String arg1) throws Throwable {
 		Common.delay(1);
 		SearchScreen.searchEditText().perform(typeText(arg1));
+	}
+
+	@Then("^I select hotel with the text \"(.*?)\"$")
+	public void selectHotelWithText(String text) throws Throwable {
+		SearchScreen.selectHotelWithText(text);
 	}
 
 	@Then("^I select (\\d+) , (\\d+) as check in and checkout date$")

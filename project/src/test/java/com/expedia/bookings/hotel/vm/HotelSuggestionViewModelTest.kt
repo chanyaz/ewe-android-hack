@@ -17,11 +17,13 @@ import org.robolectric.RuntimeEnvironment
 @RunWith(RobolectricRunner::class)
 class HotelSuggestionViewModelTest {
     private val testVM = HotelSuggestionViewModel(RuntimeEnvironment.application)
-    private val testObserver = TestObserver<Int>()
+    private val testIconObserver = TestObserver<Int>()
+    private val testIconContentDescriptionObserver = TestObserver<String>()
 
     @Before
     fun setup() {
-        testVM.iconObservable.subscribe(testObserver)
+        testVM.iconObservable.subscribe(testIconObserver)
+        testVM.iconContentDescriptionObservable.subscribe(testIconContentDescriptionObserver)
     }
 
     @Test
@@ -57,7 +59,8 @@ class HotelSuggestionViewModelTest {
         val suggestion = TestSuggestionV4Builder().regionDisplayName("notnull")
                 .iconType(SuggestionV4.IconType.HISTORY_ICON).build()
         testVM.bind(suggestion)
-        testObserver.assertValue(R.drawable.search_type_icon)
+        testIconObserver.assertValue(R.drawable.search_type_icon)
+        testIconContentDescriptionObserver.assertValue("HISTORY_ICON")
     }
 
     @Test
@@ -65,7 +68,8 @@ class HotelSuggestionViewModelTest {
         val suggestion = TestSuggestionV4Builder().regionDisplayName("notnull")
                 .iconType(SuggestionV4.IconType.RECENT_SEARCH_ICON).build()
         testVM.bind(suggestion)
-        testObserver.assertValue(R.drawable.recents)
+        testIconObserver.assertValue(R.drawable.recents)
+        testIconContentDescriptionObserver.assertValue("RECENT_SEARCH_ICON")
     }
 
     @Test
@@ -73,7 +77,8 @@ class HotelSuggestionViewModelTest {
         val suggestion = TestSuggestionV4Builder().regionDisplayName("notnull")
                 .iconType(SuggestionV4.IconType.CURRENT_LOCATION_ICON).build()
         testVM.bind(suggestion)
-        testObserver.assertValue(R.drawable.ic_suggest_current_location)
+        testIconObserver.assertValue(R.drawable.ic_suggest_current_location)
+        testIconContentDescriptionObserver.assertValue("CURRENT_LOCATION_ICON")
     }
 
     @Test
@@ -81,7 +86,8 @@ class HotelSuggestionViewModelTest {
         val suggestion = TestSuggestionV4Builder().regionDisplayName("notnull")
                 .iconType(SuggestionV4.IconType.MAGNIFYING_GLASS_ICON).build()
         testVM.bind(suggestion)
-        testObserver.assertValue(R.drawable.google_search)
+        testIconObserver.assertValue(R.drawable.google_search)
+        testIconContentDescriptionObserver.assertValue("MAGNIFYING_GLASS_ICON")
     }
 
     @Test
@@ -89,7 +95,8 @@ class HotelSuggestionViewModelTest {
         val suggestion = TestSuggestionV4Builder().regionDisplayName("notnull")
                 .type("HOTEL").build()
         testVM.bind(suggestion)
-        testObserver.assertValue(R.drawable.hotel_suggest)
+        testIconObserver.assertValue(R.drawable.hotel_suggest)
+        testIconContentDescriptionObserver.assertValue("HOTEL_ICON")
     }
 
     @Test
@@ -97,13 +104,15 @@ class HotelSuggestionViewModelTest {
         val suggestion = TestSuggestionV4Builder().regionDisplayName("notnull")
                 .type("AIRPORT").build()
         testVM.bind(suggestion)
-        testObserver.assertValue(R.drawable.airport_suggest)
+        testIconObserver.assertValue(R.drawable.airport_suggest)
+        testIconContentDescriptionObserver.assertValue("AIRPORT_ICON")
     }
 
     @Test
     fun testDefaultIcon() {
         val suggestion = TestSuggestionV4Builder().regionDisplayName("notnull").build()
         testVM.bind(suggestion)
-        testObserver.assertValue(R.drawable.search_type_icon)
+        testIconObserver.assertValue(R.drawable.search_type_icon)
+        testIconContentDescriptionObserver.assertValue("SEARCH_TYPE_ICON")
     }
 }

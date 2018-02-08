@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.hotel.vm.HotelSuggestionViewModel
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.shared.vm.SuggestionViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.testutils.builder.TestSuggestionV4Builder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,7 +28,7 @@ class SuggestionViewHolderTest {
 
     @Test
     fun testRecentChildSuggestion() {
-        val testVM = HotelSuggestionViewModel(context)
+        val testVM = SuggestionViewModel(context)
 
         testViewHolder = SuggestionViewHolder(rootView, testVM)
         testVM.isChildObservable.onNext(false)
@@ -37,7 +39,7 @@ class SuggestionViewHolderTest {
 
     @Test
     fun testChildSuggestion() {
-        val testVM = HotelSuggestionViewModel(context)
+        val testVM = SuggestionViewModel(context)
 
         testViewHolder = SuggestionViewHolder(rootView, testVM)
 
@@ -45,5 +47,17 @@ class SuggestionViewHolderTest {
 
         assertEquals(View.VISIBLE, testViewHolder.hierarchyIcon.visibility)
         assertEquals(View.GONE, testViewHolder.icon.visibility)
+    }
+
+    @Test
+    fun testSuggestionIconTypeContentDescription() {
+        val testVM = SuggestionViewModel(context)
+
+        testViewHolder = SuggestionViewHolder(rootView, testVM)
+
+        val suggestion = TestSuggestionV4Builder().regionDisplayName("notnull").iconType(SuggestionV4.IconType.SEARCH_TYPE_ICON).build()
+        testVM.bind(suggestion)
+
+        assertEquals("SEARCH_TYPE_ICON", testViewHolder.icon.contentDescription)
     }
 }

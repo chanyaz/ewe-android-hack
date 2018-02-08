@@ -16,6 +16,7 @@ abstract class BaseSuggestionViewModel(val context: Context) {
     val isChildObservable = BehaviorSubject.create<Boolean>()
     val iconObservable = BehaviorSubject.create<Int>()
     val suggestionLabelTitleObservable = PublishSubject.create<String>()
+    val iconContentDescriptionObservable = PublishSubject.create<String>()
 
     protected lateinit var suggestion: SuggestionV4
     protected var searchInfo: SearchInfo? = null
@@ -31,6 +32,7 @@ abstract class BaseSuggestionViewModel(val context: Context) {
         subtitleObservable.onNext(getSubTitle())
         isChildObservable.onNext(isChild(suggestion) && !suggestion.isHistoryItem)
         iconObservable.onNext(getIcon())
+        iconContentDescriptionObservable.onNext(getIconContentDescription())
     }
 
     fun bind(searchInfo: SearchInfo) {
@@ -53,5 +55,13 @@ abstract class BaseSuggestionViewModel(val context: Context) {
     @VisibleForTesting
     fun isChild(suggestion: SuggestionV4): Boolean {
         return suggestion.hierarchyInfo?.isChild ?: false
+    }
+
+    private fun getIconContentDescription(): String {
+        return when (suggestion.type) {
+            "HOTEL" -> "HOTEL_ICON"
+            "AIRPORT" -> "AIRPORT_ICON"
+            else -> suggestion.iconType.toString()
+        }
     }
 }

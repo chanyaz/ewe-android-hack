@@ -12,6 +12,7 @@ import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.withParent
 import android.support.test.espresso.matcher.ViewMatchers.withClassName
+import android.support.test.espresso.matcher.ViewMatchers.withContentDescription
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
@@ -345,12 +346,25 @@ object SearchScreen {
     }
 
     @Throws(Throwable::class)
-    @JvmStatic fun selectSpecificLocation(location: String) {
-        val viewMatcher = hasDescendant(allOf(
-                withText(Matchers.hasToString(location)),
-                withId(R.id.title_textview)
-        ))
+    @JvmStatic fun selectItemWithMagnifyingGlass() {
+        val viewMatcher = allOf(hasDescendant(withContentDescription("MAGNIFYING_GLASS_ICON")),
+                hasDescendant(allOf(withId(R.id.suggestion_text_container))))
+        selectSuggestion(viewMatcher)
+    }
 
+    @Throws(Throwable::class)
+    @JvmStatic fun selectHotelWithText(text: String) {
+        val viewMatcher = allOf(hasDescendant(withContentDescription("HOTEL_ICON")),
+                hasDescendant(allOf(withId(R.id.suggestion_text_container),
+                        hasDescendant(withText(Matchers.containsString(text))))))
+        selectSuggestion(viewMatcher)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectSpecificLocationWithText(text: String) {
+        val viewMatcher = allOf(hasDescendant(withContentDescription("SEARCH_TYPE_ICON")),
+                hasDescendant(allOf(withId(R.id.suggestion_text_container),
+                        hasDescendant(withText(text)))))
         selectSuggestion(viewMatcher)
     }
 

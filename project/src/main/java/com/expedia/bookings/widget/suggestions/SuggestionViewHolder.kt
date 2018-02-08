@@ -37,6 +37,10 @@ open class SuggestionViewHolder(val root: ViewGroup, val vm: BaseSuggestionViewM
         vm.iconObservable.subscribe { imageSource ->
             icon.setImageResource(imageSource)
         }
+
+        vm.iconContentDescriptionObservable.subscribe { type ->
+            icon.contentDescription = type
+        }
     }
 
     fun displayDivider(display: Boolean) {
