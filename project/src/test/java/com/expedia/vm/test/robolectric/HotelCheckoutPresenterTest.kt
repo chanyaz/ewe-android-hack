@@ -360,7 +360,7 @@ class HotelCheckoutPresenterTest {
     @Test
     fun testTravelerCheckoutParamsWhenHotelMaterialFormIsTurnedOn() {
         val testCheckoutParams = TestObserver<HotelCheckoutV2Params>()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = setupHotelCheckoutPresenter()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
         val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
@@ -735,7 +735,7 @@ class HotelCheckoutPresenterTest {
 
     @Test
     fun testEmailOptedInTravelerDetailsOnBookMaterialFormOn() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = setupHotelCheckoutPresenter()
         val testCheckoutParams = TestObserver<HotelCheckoutV2Params>()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
@@ -798,7 +798,7 @@ class HotelCheckoutPresenterTest {
 
     @Test
     fun testOptOutCheckedSetsFalseParamMaterialFormOn() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = setupHotelCheckoutPresenter()
         val testCheckoutParams = TestObserver<HotelCheckoutV2Params>()
         checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
@@ -867,7 +867,7 @@ class HotelCheckoutPresenterTest {
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
         activity.setTheme(R.style.Theme_Hotels_Default)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
         checkout = checkoutView.hotelCheckoutWidget
         checkout.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))

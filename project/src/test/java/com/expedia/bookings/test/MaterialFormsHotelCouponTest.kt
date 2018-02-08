@@ -63,7 +63,7 @@ class MaterialFormsHotelCouponTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         Db.sharedInstance.resetTravelers()
         activity.setTheme(R.style.Theme_Hotels_Default)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter
         checkout = checkoutView.hotelCheckoutWidget
         checkout.paymentInfoCardView.viewmodel.lineOfBusiness.onNext(LineOfBusiness.HOTELS)

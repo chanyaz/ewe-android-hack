@@ -94,7 +94,7 @@ class HotelCheckoutInfoTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testHotelMaterialFormsBucketedTracking() {
-        enableABTest(true, AbacusUtils.EBAndroidAppHotelMaterialForms.key)
+        enableABTestWithRemoteFeatureFlag(true, AbacusUtils.EBAndroidAppHotelMaterialForms)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
@@ -106,7 +106,7 @@ class HotelCheckoutInfoTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testHotelMaterialFormsControlTracking() {
-        enableABTest(false, AbacusUtils.EBAndroidAppHotelMaterialForms.key)
+        enableABTestWithRemoteFeatureFlag(false, AbacusUtils.EBAndroidAppHotelMaterialForms)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 

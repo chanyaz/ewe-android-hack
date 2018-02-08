@@ -684,7 +684,7 @@ class PaymentWidgetV2Test {
     }
 
     private fun setupHotelMaterialForms() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms)
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()

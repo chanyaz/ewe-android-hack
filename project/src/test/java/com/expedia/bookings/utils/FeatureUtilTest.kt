@@ -16,7 +16,7 @@ class FeatureUtilTest {
 
     @Test
     fun testEnableHotelMaterialForms() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppHotelMaterialForms)
         assertTrue(isHotelMaterialForms(context))
     }
 
