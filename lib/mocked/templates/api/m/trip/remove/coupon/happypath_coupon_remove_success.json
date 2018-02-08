@@ -436,11 +436,6 @@
         "name": "Unrecognized",
         "instanceId": "hotel_coupon_errors_unrecognized",
         "redemptionStatus": "VALID"
-      },
-      {
-        "name": "coupon remove failure",
-        "instanceId": "happypath_createtrip_coupon_remove_failure",
-        "redemptionStatus": "VALID"
       }
     ],
     "rewards":

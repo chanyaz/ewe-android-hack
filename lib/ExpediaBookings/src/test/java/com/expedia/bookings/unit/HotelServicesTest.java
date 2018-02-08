@@ -367,7 +367,7 @@ public class HotelServicesTest {
 		givenServerUsingMockResponses();
 
 		TestObserver<HotelCreateTripResponse> subscriber = new TestObserver<>();
-		service.removeCoupon("hotel_coupon_remove_success", true).subscribe(subscriber);
+		service.removeCoupon("happypath_coupon_remove_success", true).subscribe(subscriber);
 		subscriber.awaitTerminalEvent(2, TimeUnit.SECONDS);
 		subscriber.assertComplete();
 

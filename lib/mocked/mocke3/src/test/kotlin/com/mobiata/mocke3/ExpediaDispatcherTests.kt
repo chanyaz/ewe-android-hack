@@ -70,7 +70,7 @@ class ExpediaDispatcherTests {
 
     @Test
     fun testRequestWithHotelRemoveCouponPathReturnsMatchingMockResponse() {
-        assertPathReturnsMockBodyWithString("api/m/trip/remove/coupon", mapOf(Pair("tripId", "hotel_coupon_remove_success")), "api/m/trip/remove/coupon/hotel_coupon_remove_success.json")
+        assertPathReturnsMockBodyWithString("api/m/trip/remove/coupon", mapOf(Pair("tripId", "happypath_coupon_remove_success")), "api/m/trip/remove/coupon/happypath_coupon_remove_success.json")
     }
 
     @Test

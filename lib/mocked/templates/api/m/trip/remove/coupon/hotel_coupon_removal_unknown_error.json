@@ -1,9 +1,13 @@
 {
-    "activityId": "58b6be8a-d533-4eb0-aaa6-0228e000056c",
     "errors": [
         {
-            "diagnosticId": 2007,
-            "errorCode": "UNKNOWN_ERROR"
+            "errorCode": "UNKNOWN_ERROR",
+            "errorInfo": {
+                "summary": "An unknown or unexpected error occurred."
+            },
+            "diagnosticId": -372122332,
+            "diagnosticFullText": "java.lang.IllegalArgumentException"
         }
-    ]
+    ],
+    "activityId": "ef75cdcf-2dd1-4bfb-86c7-4354dd3ac4c8"
 }
