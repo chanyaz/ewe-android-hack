@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,11 +12,17 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.text.StrikethroughTagHandler;
 import com.squareup.phrase.Phrase;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,6 +32,18 @@ public class LXTicketPicker extends LinearLayout {
 
 	@InjectView(R.id.ticket_details)
 	TextView ticketDetails;
+
+	@InjectView(R.id.ticket_details_container)
+	LinearLayout ticketDetailsContainer;
+
+	@InjectView(R.id.traveler_type)
+	TextView travelerTypeView;
+
+	@InjectView(R.id.original_price)
+	TextView originalPriceView;
+
+	@InjectView(R.id.actual_price)
+	TextView actualPriceView;
 
 	@InjectView(R.id.ticket_count)
 	TextView ticketCount;
@@ -103,37 +122,73 @@ public class LXTicketPicker extends LinearLayout {
 		this.isGroundTransport = isGroundTransport;
 
 		String ticketDetailsText = null;
-		Money perTicketPrice = null;
-		if (ticket.prices == null) {
-			perTicketPrice = ticket.money;
-		}
-		else if (defaultCount == 0) {
-			perTicketPrice = ticket.prices.get(0).money;
-		}
-		else {
-			for (Ticket.LxTicketPrices price : ticket.prices) {
-				if (defaultCount == price.travellerNum) {
-					perTicketPrice = price.money;
-				}
-			}
-		}
+		HashMap<String, Money> moneyMap = LXDataUtils.getPriceMoneyMap(ticket, defaultCount);
+		Money perTicketPrice = moneyMap.get("perTicketPrice");
+		Money perTicketOriginalPrice = moneyMap.get("perTicketOriginalPrice");
+		String priceContentDescr;
 		if (perTicketPrice == null) {
 			perTicketPrice = ticket.prices.get(0).money;
+			perTicketOriginalPrice = ticket.prices.get(0).originalPriceMoney;
 			defaultCount = ticket.prices.get(0).travellerNum;
 		}
-		if (Strings.isNotEmpty(ticket.restrictionText)) {
-			ticketDetailsText = String
-					.format(getResources().getString(R.string.ticket_details_template), perTicketPrice.getFormattedMoney(
-							Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
-							LXDataUtils.ticketDisplayName(getContext(), ticket.code), ticket.restrictionText);
+
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_lx_redesign)) {
+			if (Strings.isNotEmpty(ticket.restrictionText)) {
+				ticketDetailsText = Phrase.from(this, R.string.ticket_details_new_TEMPLATE)
+						.put("traveler_type", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
+						.put("restriction_text", ticket.restrictionText)
+						.format()
+						.toString();
+			}
+			else {
+				ticketDetailsText = Phrase.from(this, R.string.ticket_details_no_restriction_new_TEMPLATE)
+						.put("traveler_type", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
+						.format()
+						.toString();
+			}
+			travelerTypeView.setText(ticketDetailsText);
+			if (!perTicketOriginalPrice.getAmount().equals(BigDecimal.ZERO)) {
+				originalPriceView.setText(HtmlCompat.fromHtml(
+						getContext().getString(R.string.strike_template,
+								perTicketOriginalPrice.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)),
+						null,
+						new StrikethroughTagHandler()));
+				originalPriceView.setVisibility(View.VISIBLE);
+				priceContentDescr = Phrase.from(getContext(), R.string.lx_total_price_description_TEMPLATE)
+						.put("original_price", perTicketOriginalPrice.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
+						.put("activity_price", perTicketPrice.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
+						.format()
+						.toString();
+			}
+			else {
+				originalPriceView.setVisibility(View.GONE);
+				priceContentDescr = Phrase.from(getContext(), R.string.activity_price_without_discount_cont_desc_TEMPLATE)
+						.put("activity_price", perTicketPrice.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
+						.format()
+						.toString();
+			}
+			actualPriceView.setText(perTicketPrice.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL));
+			actualPriceView.setContentDescription(priceContentDescr);
+			ticketDetailsContainer.setVisibility(View.VISIBLE);
+			ticketDetails.setVisibility(View.GONE);
 		}
 		else {
-			ticketDetailsText = String
-				.format(getResources().getString(R.string.ticket_details_no_restriction_TEMPLATE),
-						perTicketPrice.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
-					LXDataUtils.ticketDisplayName(getContext(), ticket.code));
+			if (Strings.isNotEmpty(ticket.restrictionText)) {
+				ticketDetailsText = String
+						.format(getResources().getString(R.string.ticket_details_template), perTicketPrice.getFormattedMoney(
+								Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
+								LXDataUtils.ticketDisplayName(getContext(), ticket.code), ticket.restrictionText);
+			}
+			else {
+				ticketDetailsText = String
+					.format(getResources().getString(R.string.ticket_details_no_restriction_TEMPLATE),
+							perTicketPrice.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
+						LXDataUtils.ticketDisplayName(getContext(), ticket.code));
+			}
+			ticketDetails.setText(ticketDetailsText);
+			ticketDetails.setVisibility(View.VISIBLE);
+			ticketDetailsContainer.setVisibility(View.GONE);
 		}
-		ticketDetails.setText(ticketDetailsText);
 		ticket.count = defaultCount;
 
 		ticketAdd.setContentDescription(Phrase.from(this, R.string.lx_add_ticket_button_cont_desc_TEMPLATE)

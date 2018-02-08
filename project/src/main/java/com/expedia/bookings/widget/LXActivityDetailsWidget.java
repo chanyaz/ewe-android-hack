@@ -43,6 +43,7 @@ import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.Constants;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 
@@ -124,6 +125,12 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@InjectView(R.id.recommended_divider)
 	View recommendedDivider;
 
+	@InjectView(R.id.discount_container)
+	FrameLayout discountContainer;
+
+	@InjectView(R.id.discount_percentage)
+	TextView discountPercentageView;
+
 	@Inject
 	LXState lxState;
 
@@ -160,6 +167,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		cancellation.setVisibility(View.GONE);
 		offerDatesContainer.setVisibility(View.GONE);
 		offers.setVisibility(View.GONE);
+		discountContainer.setVisibility(View.GONE);
 		offset = Ui.toolbarSizeWithStatusBar(getContext());
 		offers.getOfferPublishSubject().subscribe(lxOfferObserever);
 		defaultScroll();
@@ -215,6 +223,9 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 			buildMapSection(activityDetails);
 		}
 		buildSections(activityDetails);
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_lx_redesign)) {
+			buildDiscountSection(activityDetails.offersDetail.offers);
+		}
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.getActivityStartDate());
 	}
 
@@ -579,5 +590,20 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@Override
 	public void onImageViewBitmapLoaded(int index) {
 		updateGalleryPosition();
+	}
+
+	public void buildDiscountSection(List<Offer> offers) {
+		if (offers.get(0).discountPercentage >= Constants.LX_MIN_DISCOUNT_PERCENTAGE) {
+			discountPercentageView.setText(Phrase.from(getContext(), R.string.lx_discount_percentage_text_TEMPLATE)
+					.put("discount", offers.get(0).discountPercentage)
+					.format());
+			discountPercentageView.setContentDescription(Phrase.from(getContext(), R.string.lx_discount_percentage_description_TEMPLATE)
+					.put("discount", offers.get(0).discountPercentage)
+					.format());
+			discountContainer.setVisibility(View.VISIBLE);
+		}
+		else {
+			discountContainer.setVisibility(View.GONE);
+		}
 	}
 }

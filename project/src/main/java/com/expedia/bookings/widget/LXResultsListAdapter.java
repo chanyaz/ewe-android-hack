@@ -23,6 +23,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
+import com.expedia.bookings.utils.Constants;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.picasso.Picasso;
 
@@ -165,7 +166,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			itemView.setTag(activity);
 			urgencyMessage.setVisibility(View.GONE);
 			if (activity.modPricingEnabled(lxModTestEnabled)) {
-				if (activity.mipDiscountPercentage >= 5) {
+				if (activity.mipDiscountPercentage >= Constants.LX_MIN_DISCOUNT_PERCENTAGE) {
 					urgencyMessage.setVisibility(View.VISIBLE);
 				}
 				LXDataUtils.bindPriceAndTicketType(itemView.getContext(), activity.fromPriceTicketCode, activity.mipPrice,
@@ -189,9 +190,9 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			}
 			LXDataUtils.bindDuration(itemView.getContext(), activity.duration, activity.isMultiDuration, duration);
 
-			if (FeatureToggleUtil.isFeatureEnabled(itemView.getContext(), R.string.preference_enable_lx_srp_redesign)) {
+			if (FeatureToggleUtil.isFeatureEnabled(itemView.getContext(), R.string.preference_enable_lx_redesign)) {
 				LXDataUtils.bindRecommendation(itemView.getContext(), activity.recommendationScore, recommendationScoreView, recommendationTextView);
-				LXDataUtils.bindDiscountPercentage(activity, discountPercentageView);
+				LXDataUtils.bindDiscountPercentage(itemView.getContext(), activity, discountPercentageView);
 			}
 
 			List<String> imageURLs = Images

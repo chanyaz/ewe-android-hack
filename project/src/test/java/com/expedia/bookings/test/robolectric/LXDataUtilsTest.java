@@ -1,9 +1,11 @@
 package com.expedia.bookings.test.robolectric;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
@@ -11,6 +13,7 @@ import org.robolectric.RuntimeEnvironment;
 import android.content.Context;
 import android.net.Uri;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -29,6 +32,8 @@ import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import static org.junit.Assert.assertEquals;
 
@@ -219,6 +224,7 @@ public class LXDataUtilsTest {
 		LXDataUtils.bindRecommendation(getContext(), 63, recommendationScore, recommendationText);
 		assertEquals("3.2", recommendationScore.getText());
 		assertEquals("of 5", recommendationText.getText());
+		assertEquals("Activity Rated, 3.2 of 5", recommendationText.getContentDescription());
 
 		LXDataUtils.bindRecommendation(getContext(), 89, recommendationScore, recommendationText);
 		assertEquals("4.5", recommendationScore.getText());
@@ -236,12 +242,13 @@ public class LXDataUtilsTest {
 		LXActivity activity1 = new LXActivity();
 		activity1.discountPercentage = 10;
 
-		LXDataUtils.bindDiscountPercentage(activity1, discountPercentage);
+		LXDataUtils.bindDiscountPercentage(getContext(), activity1, discountPercentage);
 		assertEquals("-10%", discountPercentage.getText());
+		assertEquals("10% discount on original pricing", discountPercentage.getContentDescription());
 
 		LXActivity activity2 = new LXActivity();
 
-		LXDataUtils.bindDiscountPercentage(activity2, discountPercentage);
+		LXDataUtils.bindDiscountPercentage(getContext(), activity2, discountPercentage);
 		assertEquals(View.GONE, discountPercentage.getVisibility());
 	}
 
@@ -272,5 +279,89 @@ public class LXDataUtilsTest {
 		assertEquals(0, LXDataUtils.decrementTicketCountForVolumePricing(1, prices));
 		assertEquals(0, LXDataUtils.decrementTicketCountForVolumePricing(0, prices));
 		assertEquals(4, LXDataUtils.decrementTicketCountForVolumePricing(4, prices));
+	}
+
+	private List<Ticket> getSelectedTickets(Gson gson) {
+		List<Ticket> selectedTickets = new ArrayList<>();
+
+		Ticket adultTicket = gson.fromJson(
+				"{\"code\": \"Adult\",\"count\": \"3 \", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"$145\", \"amount\": \"130\", \"originalAmount\": \"145\", \"displayName\": null, \"defaultTicketCount\": 2 }",
+				Ticket.class);
+		adultTicket.money = new Money(adultTicket.amount, "USD");
+		adultTicket.originalPriceMoney = new Money(adultTicket.originalAmount, "USD");
+
+		Ticket childTicket = gson.fromJson(
+				"{\"code\": \"Child\",\"count\": \"1\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"$0\", \"amount\": \"110\", \"originalAmount\": \"0\", \"displayName\": null, \"defaultTicketCount\": 0 }",
+				Ticket.class);
+		childTicket.money = new Money(childTicket.amount, "USD");
+		childTicket.originalPriceMoney = new Money(childTicket.originalAmount, "USD");
+
+		Ticket adultTicket1 = gson.fromJson(
+				"{\"code\": \"Adult\",\"count\": \"3\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"$145\", \"amount\": \"130\", \"originalAmount\": \"145\", \"displayName\": null, \"defaultTicketCount\": 2, \"prices\": [{\"originalPrice\": \"$145\", \"travellerNum\": 2, \"amount\": \"125\", \"originalAmount\": \"145\", \"price\": \"$125\"}, {\n" +
+						"\"originalPrice\": \"$0\",\n" +
+						"\"cost\": null,\n" +
+						"\"travellerNum\": 3,\n" +
+						"\"amount\": \"39.65\",\n" +
+						"\"originalAmount\": \"0\",\n" +
+						"\"price\": \"$39.65\"\n" +
+						"}] }",
+				Ticket.class);
+		adultTicket1.money = new Money(adultTicket1.amount, "USD");
+		adultTicket1.originalPriceMoney = new Money(adultTicket1.originalAmount, "USD");
+
+		List<Ticket.LxTicketPrices> adultPrices = new ArrayList<>();
+		Ticket.LxTicketPrices adultPrice = adultTicket1.prices.get(0);
+		adultPrice.money = new Money(adultPrice.amount, "USD");
+		adultPrice.originalPriceMoney = new Money(adultPrice.originalAmount, "USD");
+
+		Ticket.LxTicketPrices adultPrice1 = adultTicket1.prices.get(1);
+		adultPrice1.money = new Money(adultPrice1.amount, "USD");
+		adultPrice1.originalPriceMoney = new Money(adultPrice1.originalAmount, "USD");
+
+		adultPrices.add(adultPrice);
+		adultPrices.add(adultPrice1);
+		adultTicket1.prices = adultPrices;
+
+		selectedTickets.add(adultTicket);
+		selectedTickets.add(childTicket);
+		selectedTickets.add(adultTicket1);
+		return selectedTickets;
+	}
+
+	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.VOYAGES})
+	public void testAddPriceSummaryRow() {
+		LinearLayout viewGroup = new LinearLayout(getContext());
+		Gson gson = new GsonBuilder().create();
+		List<Ticket> selectedTickets = getSelectedTickets(gson);
+
+		LXDataUtils.addPriceSummaryRow(getContext(), viewGroup, selectedTickets.get(0));
+		TextView stpView = viewGroup.getChildAt(0).findViewById(R.id.strike_through_price);
+		TextView travelerPriceView = viewGroup.getChildAt(0).findViewById(R.id.traveler_price);
+		Assert.assertEquals("$145", stpView.getText().toString());
+		Assert.assertEquals("$130/Adult", travelerPriceView.getText());
+		Assert.assertEquals("Regular Price per adult $145. Discounted price per adult $130", travelerPriceView.getContentDescription());
+
+		LXDataUtils.addPriceSummaryRow(getContext(), viewGroup, selectedTickets.get(1));
+		stpView = viewGroup.getChildAt(1).findViewById(R.id.strike_through_price);
+		travelerPriceView = viewGroup.getChildAt(1).findViewById(R.id.traveler_price);
+		Assert.assertEquals("", stpView.getText());
+		Assert.assertEquals(View.GONE, stpView.getVisibility());
+		Assert.assertEquals("$110/Child", travelerPriceView.getText());
+		Assert.assertEquals("Price is $110 per child", travelerPriceView.getContentDescription());
+	}
+
+	@Test
+	public void testGetPriceMoneyMap() {
+		Gson gson = new GsonBuilder().create();
+		List<Ticket> selectedTickets = getSelectedTickets(gson);
+
+		HashMap<String, Money> moneyMap1 = LXDataUtils.getPriceMoneyMap(selectedTickets.get(0), 0);
+		HashMap<String, Money> moneyMap2 = LXDataUtils.getPriceMoneyMap(selectedTickets.get(2), 0);
+		HashMap<String, Money> moneyMap3 = LXDataUtils.getPriceMoneyMap(selectedTickets.get(2), 3);
+
+		Assert.assertEquals(new Money("130", "USD"), moneyMap1.get("perTicketPrice"));
+		Assert.assertEquals(new Money("125", "USD"), moneyMap2.get("perTicketPrice"));
+		Assert.assertEquals(new Money("39.65", "USD"), moneyMap3.get("perTicketPrice"));
 	}
 }

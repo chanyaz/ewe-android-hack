@@ -3,6 +3,7 @@ package com.expedia.bookings.utils;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -12,6 +13,8 @@ import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -391,11 +394,18 @@ public class LXDataUtils {
 					.format();
 			}
 			else {
-				activityPriceContDesc = Phrase.from(context, R.string.activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE)
-					.put("activity_price", price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
-					.put("activity_original_price", originalPrice.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
-					.put("ticket_type", LXDataUtils.perTicketTypeDisplayLabel(context, fromPriceTicketCode))
-					.format();
+				int template;
+				if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_lx_redesign)) {
+					template = R.string.activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE;
+				}
+				else {
+					template = R.string.activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE;
+				}
+				activityPriceContDesc = Phrase.from(context, template)
+						.put("activity_price", price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
+						.put("activity_original_price", originalPrice.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
+						.put("ticket_type", LXDataUtils.perTicketTypeDisplayLabel(context, fromPriceTicketCode))
+						.format();
 			}
 			activityPrice.setContentDescription(activityPriceContDesc);
 		}
@@ -427,6 +437,9 @@ public class LXDataUtils {
 			}
 			recommendationScoreView.setText(String.valueOf(recommendRating));
 			recommendationTextView.setText(recommendText);
+			recommendationTextView.setContentDescription(Phrase.from(context, R.string.lx_recommend_rating_TEMPLATE)
+											.put("recommend_score", String.valueOf(recommendRating))
+											.format().toString());
 			recommendationScoreView.setVisibility(View.VISIBLE);
 			recommendationTextView.setVisibility(View.VISIBLE);
 		}
@@ -436,9 +449,15 @@ public class LXDataUtils {
 		}
 	}
 
-	public static void bindDiscountPercentage(LXActivity activity, TextView discountBadge) {
+	public static void bindDiscountPercentage(Context context, LXActivity activity, TextView discountBadge) {
 		if (activity.discountPercentage != 0) {
-			discountBadge.setText("-" + String.valueOf(activity.discountPercentage) + "%");
+			discountBadge.setText(Phrase.from(context, R.string.lx_discount_percentage_text_TEMPLATE)
+					.put("discount", activity.discountPercentage)
+					.format()
+					.toString());
+			discountBadge.setContentDescription(Phrase.from(context, R.string.lx_discount_percentage_description_TEMPLATE)
+					.put("discount", activity.discountPercentage)
+					.format().toString());
 			discountBadge.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -497,6 +516,72 @@ public class LXDataUtils {
 			ticketCount = prices.get(currentIndex - 1).travellerNum;
 		}
 		return ticketCount;
+	}
+
+	public static void addPriceSummaryRow(Context context, ViewGroup summaryContainer, Ticket ticket) {
+		LinearLayout summaryRow = Ui.inflate(R.layout.section_lx_price_summary_row, summaryContainer, false);
+		TextView stpView = summaryRow.findViewById(R.id.strike_through_price);
+		TextView travelerPriceView = summaryRow.findViewById(R.id.traveler_price);
+
+		HashMap<String, Money> moneyMap = getPriceMoneyMap(ticket, 0);
+		Money priceMoney = moneyMap.get("perTicketPrice");
+		Money originalPriceMoney = moneyMap.get("perTicketOriginalPrice");
+		final CharSequence activityPriceContDesc;
+
+		if (!originalPriceMoney.getAmount().equals(BigDecimal.ZERO)) {
+			stpView.setText(HtmlCompat.fromHtml(
+					context.getString(R.string.strike_template,
+					originalPriceMoney.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)),
+					null,
+					new StrikethroughTagHandler()));
+			stpView.setVisibility(View.VISIBLE);
+			activityPriceContDesc = Phrase.from(context, R.string.activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE)
+					.put("activity_price", priceMoney.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
+					.put("activity_original_price", originalPriceMoney.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
+					.put("ticket_type", LXDataUtils.perTicketTypeDisplayLabel(context, ticket.code))
+					.format().toString();
+		}
+		else {
+			stpView.setVisibility(View.GONE);
+			activityPriceContDesc = Phrase
+					.from(context, R.string.activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE)
+					.put("activity_price", priceMoney.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
+					.put("ticket_type", LXDataUtils.perTicketTypeDisplayLabel(context, ticket.code))
+					.format().toString();
+		}
+		travelerPriceView.setText(Phrase.from(context, R.string.lx_price_per_traveler_TEMPLATE)
+				.put("price", priceMoney.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
+				.put("traveler_type", LXDataUtils.ticketDisplayName(context, ticket.code))
+				.format().toString());
+
+		travelerPriceView.setContentDescription(activityPriceContDesc);
+		summaryContainer.addView(summaryRow);
+	}
+
+	public static HashMap<String, Money> getPriceMoneyMap(Ticket ticket, int defaultCount) {
+		Money perTicketPrice = null;
+		Money perTicketOriginalPrice = null;
+		HashMap<String, Money> moneyMap = new HashMap<>();
+
+		if (ticket.prices == null) {
+			perTicketPrice = ticket.money;
+			perTicketOriginalPrice = ticket.originalPriceMoney;
+		}
+		else if (defaultCount == 0) {
+			perTicketPrice = ticket.prices.get(0).money;
+			perTicketOriginalPrice = ticket.prices.get(0).originalPriceMoney;
+		}
+		else {
+			for (Ticket.LxTicketPrices price : ticket.prices) {
+				if (defaultCount == price.travellerNum) {
+					perTicketPrice = price.money;
+					perTicketOriginalPrice = price.originalPriceMoney;
+				}
+			}
+		}
+		moneyMap.put("perTicketPrice", perTicketPrice);
+		moneyMap.put("perTicketOriginalPrice", perTicketOriginalPrice);
+		return moneyMap;
 	}
 
 }

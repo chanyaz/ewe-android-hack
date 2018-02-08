@@ -2,6 +2,7 @@
 <com.expedia.bookings.widget.LXTicketPicker
     android:id="@+id/ticket_picker"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
@@ -17,7 +18,49 @@
         android:layout_height="wrap_content"
         android:layout_weight=".8"
         android:textColor="@color/lx_ticket_summary_color"
-        android:textSize="12dp" />
+        android:textSize="12dp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/ticket_details_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight=".8"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/traveler_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lx_ticket_title_color"
+            style="@style/Core.Text.300"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/original_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lx_ticket_summary_color"
+                android:textSize="11sp"
+                android:layout_marginRight="3dp"
+                android:importantForAccessibility="no"/>
+
+            <TextView
+                android:id="@+id/actual_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lx_ticket_title_color"
+                style="@style/Core.Text.200"
+                app:textStyle="thin"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/ticket_remove"

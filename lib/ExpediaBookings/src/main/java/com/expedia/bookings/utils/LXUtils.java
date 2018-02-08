@@ -79,4 +79,42 @@ public class LXUtils {
 		return categoryKey.replaceAll("[^a-zA-Z0-9]", "");
 	}
 
+	public static Money getTotalOriginalAmount(List<Ticket> selectedTickets) {
+		Money totalMoney = new Money();
+
+		if (CollectionUtils.isEmpty(selectedTickets)) {
+			//Should be invoked with at least 1 selected ticket!
+			return totalMoney;
+		}
+
+		for (Ticket ticket : selectedTickets) {
+			BigDecimal amountDueForTickets = BigDecimal.ZERO;
+			if (ticket.prices == null || ticket.count == 0) {
+				amountDueForTickets = ticket.originalPriceMoney.getAmount().multiply(BigDecimal.valueOf(ticket.count));
+			}
+			else {
+				for (Ticket.LxTicketPrices price : ticket.prices) {
+					if (ticket.count == price.travellerNum) {
+						amountDueForTickets = price.originalPriceMoney.getAmount().multiply(BigDecimal.valueOf(price.travellerNum));
+					}
+				}
+			}
+			totalMoney.setAmount(totalMoney.getAmount().add(amountDueForTickets));
+		}
+
+		//Currency code for all tickets is the same!
+		String currencyCode = selectedTickets.get(0).originalPriceMoney.getCurrency();
+		totalMoney.setCurrency(currencyCode);
+
+		return totalMoney;
+	}
+
+	public static int getDiscountPercentValue(BigDecimal discountedAmount, BigDecimal originalAmount) {
+		if (originalAmount.equals(BigDecimal.ZERO)) {
+			return 0;
+		}
+
+		float discountPercentage = ((originalAmount.floatValue() - discountedAmount.floatValue()) / originalAmount.floatValue()) * 100;
+		return Math.round(discountPercentage);
+	}
 }

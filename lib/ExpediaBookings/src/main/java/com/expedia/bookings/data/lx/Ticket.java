@@ -10,7 +10,9 @@ public class Ticket implements Comparable<Ticket> {
 	public LXTicketType code;
 	public String restrictionText;
 	public String amount;
+	public String originalAmount;
 	public Money money;
+	public Money originalPriceMoney;
 	// Count is manipulated from the ticket picker. But this is send back in create trip/ checkout api response.
 	public int count;
 	public List<LXPriceBreakdownItem> priceBreakdownItemList;
@@ -32,6 +34,8 @@ public class Ticket implements Comparable<Ticket> {
 		public String amount;
 		public String price;
 		public Money money;
+		public String originalAmount;
+		public Money originalPriceMoney;
 	}
 
 	@Override

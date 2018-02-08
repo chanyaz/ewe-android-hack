@@ -203,8 +203,10 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
             for (availabilityInfo in offer.availabilityInfo) {
                 for (ticket in availabilityInfo.tickets) {
                     ticket.money = Money(ticket.amount, response.currencyCode)
+                    ticket.originalPriceMoney = Money(ticket.originalAmount, response.currencyCode)
                     ticket.prices?.forEach { price ->
                         price.money = Money(price.amount, response.currencyCode)
+                        price.originalPriceMoney = Money(price.originalAmount, response.currencyCode)
                     }
                 }
             }

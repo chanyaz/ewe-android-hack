@@ -125,4 +125,7 @@ public class Constants {
 	public static final String MESO_MIAMI_WEBVIEW_URL = "https://viewfinder.expedia.com/miami/top-10-things-to-do-in-miami";
 	public static final String MESO_CANCUN_WEBVIEW_URL = "https://viewfinder.expedia.com/features/cancun-itineraries-schedule";
 	public static final String MESO_SAN_DIEGO_WEBVIEW_URL = "https://viewfinder.expedia.com/san-diego/top-10-things-to-do-in-san-diego";
+
+	//LX
+	public static final int LX_MIN_DISCOUNT_PERCENTAGE = 5;
 }

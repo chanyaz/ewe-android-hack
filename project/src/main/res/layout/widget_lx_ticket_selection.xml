@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/lx_ticket_title_color"
-        android:textSize="15sp"
+        style="@style/Core.Text.400"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
         android:paddingTop="14dp"
@@ -108,7 +108,9 @@
         android:background="?attr/selectableItemBackground"
         android:paddingTop="5dp"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp" />
+        android:paddingRight="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"/>
 
     <LinearLayout
         android:id="@+id/ticket_selectors_container"
@@ -130,25 +132,93 @@
         android:padding="14dp"
         android:clipToPadding="false">
 
-        <TextView
-            android:id="@+id/selected_ticket_summary"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textColor="@color/lx_ticket_summary_color"
-            android:textSize="12sp" />
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/selected_ticket_summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textColor="@color/lx_ticket_summary_color"
+                android:textSize="13sp"
+                android:layout_marginBottom="3dp"/>
+
+            <LinearLayout
+                android:id="@+id/price_summary_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <com.expedia.bookings.widget.RoundedCornerFrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:radius="2dp"
+                    android:layout_marginRight="3dp">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/discount_percentage"
+                        style="@style/Core.Text.200.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/success_green"
+                        android:gravity="center"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="3dp"
+                        android:textColor="@color/white"
+                        android:importantForAccessibility="no"/>
+
+                </com.expedia.bookings.widget.RoundedCornerFrameLayout>
+
+                <com.wefika.flowlayout.FlowLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/strike_through_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:textColor="@color/gray700"
+                    android:layout_marginRight="4dp"
+                    app:textStyle="light"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone"
+                    android:importantForAccessibility="no"/>
+
+                <TextView
+                    android:id="@+id/actual_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Core.Text.300"
+                    android:maxLines="1"
+                    android:textColor="@color/gray900"/>
+
+                </com.wefika.flowlayout.FlowLayout>
+            </LinearLayout>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/lx_book_now"
             android:layout_width="wrap_content"
-            android:layout_height="37dp"
+            android:layout_height="wrap_content"
             android:background="?attr/skin_lxBookNowButtonSelectorDrawable"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="15sp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
+            android:paddingLeft="42dp"
+            android:paddingRight="42dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="13dp"
+            android:text="@string/offer_book_now_button"/>
     </LinearLayout>
 
 </com.expedia.bookings.widget.LXTicketSelectionWidget>

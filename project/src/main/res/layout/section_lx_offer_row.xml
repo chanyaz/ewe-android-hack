@@ -40,7 +40,16 @@
                 android:maxLines="1"
                 android:textColor="@color/lx_ticket_summary_color"
                 android:textSize="11sp"
-                app:textStyle="normal" />
+                app:textStyle="normal"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/activity_price_summary_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <Button

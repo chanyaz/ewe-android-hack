@@ -215,6 +215,11 @@
     <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Book Now %1$s</string>
+    <!-- Template for ticket details (eg: Adult (12+ years)) -->
+    <string name="ticket_details_new_TEMPLATE">{traveler_type} ({restriction_text})</string>
+    <!-- Template for ticket details without restrictions (eg: Traveler) -->
+    <string name="ticket_details_no_restriction_new_TEMPLATE">{traveler_type}</string>
+    <string name="offer_book_now_button">Book Now</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
@@ -4938,4 +4943,22 @@
     <!-- Accessibility content description for Search Type. Eg. RoundTrip Tab -->
     <string name="accessibility_cont_desc_search_type_TEMPLATE">{tabname} tab</string>
 
+    <!--Accessibility content description Template for the Activity Recommendation Rating Eg. Activity Rated, 3.2 of 5-->
+    <string name="lx_recommend_rating_TEMPLATE">Activity Rated, {recommend_score} of 5</string>
+    <!--Activity Discount Percentage Template Eg. -10%-->
+    <string name="lx_discount_percentage_text_TEMPLATE">-{discount}%</string>
+    <!--Accessibility Content Description Template for Activity Discount Percentage Eg. 10% discount on original pricing-->
+    <string name="lx_discount_percentage_description_TEMPLATE">{discount}% discount on original pricing</string>
+    <!--Accessibility Content Description Template for showing Discounted pricing Eg. Regular price $125, Discounted price $110-->
+    <string name="lx_total_price_description_TEMPLATE">Regular price {original_price}, Discounted price {activity_price}</string>
+    <!--Accessibility Content Description Template for showing Discounted Pricing with Discount Percentage Eg. Regular price $100, Discounted price $80, Total discount given: 20%.-->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">Regular price {original_price}, Discounted price {activity_price}, Total discount given: {discount}%.</string>
+    <!--Accessibility Content Description Template for Activity price with no discounting. Eg. Price is $78.-->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">Price is {activity_price}.</string>
+    <!--LX Price per traveler Template Eg. $145/Adult-->
+    <string name="lx_price_per_traveler_TEMPLATE">{price}/{traveler_type}</string>
+    <!--Accessibility Content Description Template for the Selected Tickets summary Eg. 1 Adult, 2 Children Selected-->
+    <string name="lx_ticket_selected_summary_TEMPLATE">{ticket_summary} Selected</string>
+    <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
+    <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Regular Price {ticket_type} {activity_original_price}. Discounted price {ticket_type} {activity_price}</string>
 </resources>

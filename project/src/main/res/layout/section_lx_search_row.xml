@@ -158,7 +158,8 @@
                     android:textColor="@color/gray900"
                     android:layout_marginBottom="4dp"
                     style="@style/Core.Text.400"
-                    android:fontFamily="sans-serif-medium"/>
+                    android:fontFamily="sans-serif-medium"
+                    android:importantForAccessibility="no"/>
 
                 <TextView
                     android:id="@+id/activity_recommended_text"
