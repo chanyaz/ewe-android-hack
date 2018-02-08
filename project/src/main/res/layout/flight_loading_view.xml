@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/flight_loading_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/airplane_animation"
+            android:layout_width="82dp"
+            android:layout_height="82dp"
+            android:layout_marginBottom="8dp"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="lottie/plane.json"
+            app:lottie_loop="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/origin_place_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="8dp"
+                app:textStyle="medium"
+                android:textSize="@dimen/type_400_text_size" />
+
+            <com.larvalabs.svgandroid.widget.SVGView
+                android:id="@+id/right_hand_arrow"
+                android:layout_width="18dp"
+                android:layout_height="18dp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/destination_place_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                app:textStyle="medium"
+                android:textSize="@dimen/type_400_text_size" />
+
+        </LinearLayout>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/searching_flights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/loading_flights_from_400_airlines"
+            android:textSize="@dimen/type_300_text_size" />
+
+</LinearLayout>

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:animateLayoutChanges="true">
 
     <ViewStub
         android:id="@+id/bundle_total_top_stub"
@@ -12,6 +13,15 @@
         android:layout_height="wrap_content"
         android:inflatedId="@+id/bundle_total_top_view"
         android:layout="@layout/bundle_price_top_stub" />
+
+    <ProgressBar
+        android:id="@+id/flight_loader_progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="2dp"
+        android:progressDrawable="@drawable/flight_progress_bar"
+        android:visibility="gone" />
 
     <View
         android:id="@+id/toolbar_dropshadow_bundle_total_top"
@@ -43,11 +53,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.expedia.bookings.widget.FlightListRecyclerView
-            android:id="@+id/list_view"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never" />
+            android:orientation="vertical">
+
+            <ViewStub
+                android:id="@+id/flight_loading_screen"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout="@layout/flight_loading_widget" />
+
+            <com.expedia.bookings.widget.FlightListRecyclerView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
+
+        </LinearLayout>
 
         <com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
             android:id="@+id/sort_filter_button_container"
