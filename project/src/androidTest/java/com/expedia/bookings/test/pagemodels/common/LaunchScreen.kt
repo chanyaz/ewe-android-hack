@@ -82,7 +82,7 @@ object LaunchScreen {
             return "Hotel + Flight Deals"
         } else if (pos == "Canada") {
             return "Flight + Hotel"
-        } else if (pos == "Japan" || pos == "Singapore" || pos == "Malaysia" || pos == "Thailand" || pos == "Germany") {
+        } else if (pos == "Japan" || pos == "Singapore" || pos == "Malaysia" || pos == "Thailand" || pos == "Germany" || pos == "France" || pos == "Italy") {
             return "Hotel + Flight"
         } else {
             return "Bundle Deals"
