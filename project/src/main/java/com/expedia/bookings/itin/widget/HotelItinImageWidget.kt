@@ -38,7 +38,7 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
         val callActionButton = setupHotelPhone(itinCardDataHotel)
         val messageActionButton = setupHotelMessaging(itinCardDataHotel.property.epcConversationUrl)
 
-        if (!itinCardDataHotel.property.thumbnail.originalUrl.isNullOrBlank()) {
+        if (!itinCardDataHotel.property?.thumbnail?.originalUrl.isNullOrBlank()) {
             val hotelMedia = HotelMedia(itinCardDataHotel.property.thumbnail.originalUrl)
             PicassoHelper.Builder(hotelImageView)
                     .setPlaceholder(R.drawable.room_fallback)
