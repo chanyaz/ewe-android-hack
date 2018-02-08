@@ -28,14 +28,14 @@ class FlightItinDetailsActivityTest {
         intent.putExtra("FLIGHT_ITIN_ID", "FLIGHT_ITIN_ID")
         activity = Robolectric.buildActivity(FlightItinDetailsActivity::class.java, intent).create().get()
         itinCardData = flightBuilder.build()
-        activity.viewModel.itinCardDataFlight = itinCardData
+        activity.toolbarViewModel.itinCardData = itinCardData
     }
 
     @Test
     fun testShareClickOmniture() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
-        activity.viewModel.itinCardDataFlight.flightLeg.shareInfo.shortSharableDetailsUrl = "http://e.xp.co"
+        activity.toolbarViewModel.itinCardData.flightLeg.shareInfo.shortSharableDetailsUrl = "http://e.xp.co"
         activity.toolbarViewModel.shareIconClickedSubject.onNext(Unit)
 
         OmnitureTestUtils.assertLinkTracked("Itinerary Sharing", "App.Itinerary.Flight.Share.Start", mockAnalyticsProvider)
@@ -44,7 +44,7 @@ class FlightItinDetailsActivityTest {
     @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     @Test
     fun testShareClickIntent() {
-        activity.viewModel.itinCardDataFlight.flightLeg.shareInfo.shortSharableDetailsUrl = "http://e.xp.co"
+        activity.toolbarViewModel.itinCardData.flightLeg.shareInfo.shortSharableDetailsUrl = "http://e.xp.co"
         activity.toolbarViewModel.shareIconClickedSubject.onNext(Unit)
 
         val shadowActivity = shadowOf(activity)

@@ -2,23 +2,23 @@ package com.expedia.bookings.itin.vm
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.utils.FormatUtils
 import com.squareup.phrase.Phrase
-import org.joda.time.DateTime
 import io.reactivex.subjects.PublishSubject
+import org.joda.time.DateTime
 
 class FlightItinDetailsViewModel(private val context: Context, private val itinId: String) {
 
-    lateinit var itinCardDataFlight: ItinCardDataFlight
     var itineraryManager: ItineraryManager = ItineraryManager.getInstance()
+    private var trackingFired = false
 
     val itinCardDataFlightObservable = PublishSubject.create<ItinCardDataFlight>()
     val itinCardDataNotValidSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
@@ -33,11 +33,19 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
 
     init {
         itinCardDataFlightObservable.subscribe {
-            updateToolbar()
-            updateLegSummaryWidget()
-            updateConfirmationWidget()
-            updateBaggageInfoUrl()
-            updateBookingInfoWidget()
+            updateToolbar(it)
+            updateLegSummaryWidget(it)
+            updateConfirmationWidget(it)
+            updateBaggageInfoUrl(it)
+            updateBookingInfoWidget(it)
+            trackOmniture(it)
+        }
+    }
+
+    private fun trackOmniture(dataFlight: ItinCardDataFlight) {
+        if (!trackingFired) {
+            OmnitureTracking.trackItinFlight(context, createOmnitureTrackingValues(dataFlight))
+            trackingFired = true
         }
     }
 
@@ -51,38 +59,37 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
         if (freshItinCardDataFlight == null) {
             itinCardDataNotValidSubject.onNext(Unit)
         } else {
-            itinCardDataFlight = freshItinCardDataFlight
             itinCardDataFlightObservable.onNext(freshItinCardDataFlight)
         }
     }
 
-    fun updateConfirmationWidget() {
-        val isShared = itinCardDataFlight.isSharedItin
-        val confirmationStatus = itinCardDataFlight.confirmationStatus
-        val confirmationNumbers = itinCardDataFlight.getSpannedConfirmationNumbers(context)
+    fun updateConfirmationWidget(dataFlight: ItinCardDataFlight) {
+        val isShared = dataFlight.isSharedItin
+        val confirmationStatus = dataFlight.confirmationStatus
+        val confirmationNumbers = dataFlight.getSpannedConfirmationNumbers(context)
         updateConfirmationSubject.onNext(ItinConfirmationViewModel.WidgetParams(confirmationStatus, confirmationNumbers, isShared))
     }
 
-    private fun updateToolbar() {
+    private fun updateToolbar(dataFlight: ItinCardDataFlight) {
         val destinationCity = Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)
-                .put("destination", itinCardDataFlight.flightLeg.lastWaypoint?.airport?.mCity ?: "").format().toString()
-        val startDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataFlight.startDate).capitalize()
-        updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(destinationCity, startDate, !itinCardDataFlight.isSharedItin))
+                .put("destination", dataFlight.flightLeg.lastWaypoint?.airport?.mCity ?: "").format().toString()
+        val startDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(dataFlight.startDate).capitalize()
+        updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(destinationCity, startDate, !dataFlight.isSharedItin))
     }
 
-    fun updateBaggageInfoUrl() {
-        val url = itinCardDataFlight.baggageInfoUrl
+    fun updateBaggageInfoUrl(dataFlight: ItinCardDataFlight) {
+        val url = dataFlight.baggageInfoUrl
         createBaggageInfoWebviewWidgetSubject.onNext(url)
     }
 
-    fun createOmnitureTrackingValues(): HashMap<String, String?> {
-        return FlightItinOmnitureUtils().createOmnitureTrackingValues(itinCardDataFlight)
+    fun createOmnitureTrackingValues(dataFlight: ItinCardDataFlight): HashMap<String, String?> {
+        return FlightItinOmnitureUtils().createOmnitureTrackingValues(dataFlight)
     }
 
     @VisibleForTesting
-    fun updateLegSummaryWidget() {
+    fun updateLegSummaryWidget(dataFlight: ItinCardDataFlight) {
         clearLegSummaryContainerSubject.onNext(Unit)
-        val leg = itinCardDataFlight.flightLeg
+        val leg = dataFlight.flightLeg
         if (leg != null && leg.segmentCount > 0) {
             val segments = leg.segments
             for (segment in segments) {
@@ -123,7 +130,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                     redEyeDaysSB.append(segment.daySpan())
                     redEyeDays = redEyeDaysSB.toString()
                 }
-                if (BuildConfig.DEBUG && itinCardDataFlight.id == "flightMock") {
+                if (dataFlight.id == "flightMock") {
                     var depart = segment.originWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED)
                     var arrival = segment.destinationWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED)
                     when (segment.mFlightHistoryId) {
@@ -247,14 +254,14 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     }
 
     @VisibleForTesting
-    fun updateBookingInfoWidget() {
-        val travelerNames = itinCardDataFlight.travelersFullName
-        val isShared = itinCardDataFlight.isSharedItin
+    fun updateBookingInfoWidget(dataFlight: ItinCardDataFlight) {
+        val travelerNames = dataFlight.travelersFullName
+        val isShared = dataFlight.isSharedItin
         createBookingInfoWidgetSubject.onNext(FlightItinBookingInfoViewModel.WidgetParams(
                 travelerNames,
                 isShared,
-                itinCardDataFlight.detailsUrl,
-                itinCardDataFlight.id
+                dataFlight.detailsUrl,
+                dataFlight.id
         ))
     }
 

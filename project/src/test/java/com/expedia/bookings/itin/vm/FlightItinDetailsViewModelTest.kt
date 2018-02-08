@@ -80,7 +80,6 @@ class FlightItinDetailsViewModelTest {
         itinCardDataValidSubscriber.assertNoValues()
         itinCardDataSubscriber.assertValueCount(1)
         itinCardDataSubscriber.assertValue(testItinCardData)
-        assertEquals(testItinCardData, sut.itinCardDataFlight)
     }
 
     @Test
@@ -124,8 +123,7 @@ class FlightItinDetailsViewModelTest {
     fun testUpdateConfirmation() {
         sut.updateConfirmationSubject.subscribe(updateConfirmationSubscriber)
         val testItinCardData = ItinCardDataFlightBuilder().build()
-        sut.itinCardDataFlight = testItinCardData
-        sut.updateConfirmationWidget()
+        sut.updateConfirmationWidget(testItinCardData)
         updateConfirmationSubscriber.assertValueCount(1)
         val charSeq = updateConfirmationSubscriber.values()[0].confirmationNumbers
         updateConfirmationSubscriber.assertValue(ItinConfirmationViewModel.WidgetParams(TicketingStatus.COMPLETE, charSeq, false))
@@ -141,8 +139,7 @@ class FlightItinDetailsViewModelTest {
         testItinCardData.flightLeg.segments[0].originWaypoint = TestWayPoint("SFO", "San Francisco", dateTime)
         testItinCardData.flightLeg.segments[0].originWaypoint.gate = "52A"
         testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("LAS", "Las Vegas", dateTime)
-        sut.itinCardDataFlight = testItinCardData
-        sut.updateLegSummaryWidget()
+        sut.updateLegSummaryWidget(testItinCardData)
         clearLegSummaryContainerSubscriber.assertValueCount(1)
         clearLegSummaryContainerSubscriber.assertValue(Unit)
         createLegSummaryWidgetsSubscriber.assertValueCount(1)
@@ -181,8 +178,7 @@ class FlightItinDetailsViewModelTest {
         testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("LAS", "Las Vegas", dateTime)
         testItinCardData.flightLeg.segments[0].setIsSeatMapAvailable(false)
         testItinCardData.flightLeg.segments[0].removeSeat(0)
-        sut.itinCardDataFlight = testItinCardData
-        sut.updateLegSummaryWidget()
+        sut.updateLegSummaryWidget(testItinCardData)
         clearLegSummaryContainerSubscriber.assertValueCount(1)
         clearLegSummaryContainerSubscriber.assertValue(Unit)
         createLegSummaryWidgetsSubscriber.assertValueCount(1)
@@ -220,8 +216,7 @@ class FlightItinDetailsViewModelTest {
         testItinCardData.flightLeg.segments[0].originWaypoint.gate = "52A"
         testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("LAS", "Las Vegas", dateTime)
         testItinCardData.flightLeg.segments[0].removeSeat(0)
-        sut.itinCardDataFlight = testItinCardData
-        sut.updateLegSummaryWidget()
+        sut.updateLegSummaryWidget(testItinCardData)
         clearLegSummaryContainerSubscriber.assertValueCount(1)
         clearLegSummaryContainerSubscriber.assertValue(Unit)
         createLegSummaryWidgetsSubscriber.assertValueCount(1)
@@ -260,8 +255,7 @@ class FlightItinDetailsViewModelTest {
         testItinCardData.flightLeg.segments[0].originWaypoint.gate = "52A"
         testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("LAS", "Las Vegas", dateTime.plusDays(1))
         testItinCardData.flightLeg.segments[0].removeSeat(0)
-        sut.itinCardDataFlight = testItinCardData
-        sut.updateLegSummaryWidget()
+        sut.updateLegSummaryWidget(testItinCardData)
         clearLegSummaryContainerSubscriber.assertValueCount(1)
         clearLegSummaryContainerSubscriber.assertValue(Unit)
         createLegSummaryWidgetsSubscriber.assertValueCount(1)
@@ -301,8 +295,7 @@ class FlightItinDetailsViewModelTest {
         testItinCardData.flightLeg.segments[1].destinationWaypoint = TestWayPoint("PBI", "West Palm Beach", dateTime)
         testItinCardData.flightLeg.segments[1].destinationWaypoint.terminal = "5"
         testItinCardData.flightLeg.segments[1].destinationWaypoint.gate = "7A"
-        sut.itinCardDataFlight = testItinCardData
-        sut.updateLegSummaryWidget()
+        sut.updateLegSummaryWidget(testItinCardData)
         clearLegSummaryContainerSubscriber.assertValueCount(1)
         clearLegSummaryContainerSubscriber.assertValue(Unit)
         createLegSummaryWidgetsSubscriber.assertValueCount(2)
@@ -355,10 +348,8 @@ class FlightItinDetailsViewModelTest {
     fun testUpdateBookingInfoWidget() {
         sut.createBookingInfoWidgetSubject.subscribe(createBookingInfoWidgetSubscriber)
         val testItinCardData = ItinCardDataFlightBuilder().build()
-        sut.itinCardDataFlight = testItinCardData
-
         createBookingInfoWidgetSubscriber.assertNoValues()
-        sut.updateBookingInfoWidget()
+        sut.updateBookingInfoWidget(testItinCardData)
         val name = "Girija Balachandran"
         createBookingInfoWidgetSubscriber.assertValueCount(1)
         createBookingInfoWidgetSubscriber.assertValue(FlightItinBookingInfoViewModel.WidgetParams(
@@ -373,8 +364,7 @@ class FlightItinDetailsViewModelTest {
     fun testLayoverWidget() {
         sut.createLayoverWidgetSubject.subscribe(createLayoverSubscriber)
         val testItinCardData = ItinCardDataFlightBuilder().build(multiSegment = true)
-        sut.itinCardDataFlight = testItinCardData
-        sut.updateLegSummaryWidget()
+        sut.updateLegSummaryWidget(testItinCardData)
 
         assertNotNull(testItinCardData.flightLeg.segments[0].layoverDuration)
         assertNotEquals("", testItinCardData.flightLeg.segments[0].layoverDuration)
@@ -387,8 +377,7 @@ class FlightItinDetailsViewModelTest {
     fun testLayoverWidgetNoLayover() {
         sut.createLayoverWidgetSubject.subscribe(createLayoverSubscriber)
         val testItinCardData = ItinCardDataFlightBuilder().build()
-        sut.itinCardDataFlight = testItinCardData
-        sut.updateLegSummaryWidget()
+        sut.updateLegSummaryWidget(testItinCardData)
 
         assertEquals(null, testItinCardData.flightLeg.segments[0].layoverDuration)
         createLayoverSubscriber.assertValueCount(0)
@@ -398,8 +387,7 @@ class FlightItinDetailsViewModelTest {
     fun baggageInfoWebViewButton() {
         sut.createBaggageInfoWebviewWidgetSubject.subscribe(createBaggageInfoWebviewSubcriber)
         val testItinCardData = ItinCardDataFlightBuilder().build()
-        sut.itinCardDataFlight = testItinCardData
-        sut.updateBaggageInfoUrl()
+        sut.updateBaggageInfoUrl(testItinCardData)
         createBaggageInfoWebviewSubcriber.assertValueCount(1)
         createBaggageInfoWebviewSubcriber.assertValue(testItinCardData.baggageInfoUrl)
     }
@@ -523,7 +511,6 @@ class FlightItinDetailsViewModelTest {
     @Test
     fun createOmnitureValues() {
         val testItinCardData = ItinCardDataFlightBuilder().build()
-        sut.itinCardDataFlight = testItinCardData
         val startDate = DateTime.now().plusDays(30)
         val formattedStartDate = JodaUtils.format(startDate, "yyyy-MM-dd")
         val endDate = JodaUtils.format(startDate.plusDays(7), "yyyy-MM-dd")
@@ -535,7 +522,7 @@ class FlightItinDetailsViewModelTest {
         expectedValues.put("tripEndDate", endDate)
         expectedValues.put("orderAndTripNumbers", "8063550177859|7238007847306")
 
-        val values = sut.createOmnitureTrackingValues()
+        val values = sut.createOmnitureTrackingValues(testItinCardData)
 
         assertEquals(expectedValues, values)
     }

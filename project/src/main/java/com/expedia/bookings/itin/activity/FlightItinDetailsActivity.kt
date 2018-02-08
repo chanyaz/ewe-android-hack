@@ -82,7 +82,10 @@ class FlightItinDetailsActivity : AppCompatActivity() {
             flightBookingDetailsWidget.viewModel = FlightItinBookingInfoViewModel(this, intent.getStringExtra(FlightItinDetailsActivity.FLIGHT_ITIN_ID))
             flightBookingDetailsWidget.viewModel.updateBookingInfoWidget(params)
         }
-        vm.itinCardDataFlightObservable.subscribe(flightItinMapWidgetViewModel.itinCardDataObservable)
+        vm.itinCardDataFlightObservable.subscribe {
+            flightItinMapWidgetViewModel.itinCardDataObservable.onNext(it)
+            toolbarViewModel.itinCardDataSubject.onNext(it)
+        }
     }
 
     private val itinConfirmationWidget by bindView<ItinConfirmationWidget>(R.id.widget_itin_flight_confirmation_cardview)
@@ -102,7 +105,7 @@ class FlightItinDetailsActivity : AppCompatActivity() {
             finishActivity()
         }
         vm.shareIconClickedSubject.subscribe {
-            val shareHelper = ShareTripHelper(this, viewModel.itinCardDataFlight)
+            val shareHelper = ShareTripHelper(this, vm.itinCardData)
             shareHelper.fetchShortShareUrlShowShareDialog()
             OmnitureTracking.trackItinShareStart(TripComponent.Type.FLIGHT)
         }
@@ -127,10 +130,6 @@ class FlightItinDetailsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.onResume()
-        if (!trackingFired) {
-            OmnitureTracking.trackItinFlight(this, viewModel.createOmnitureTrackingValues())
-            trackingFired = true
-        }
     }
 
     override fun onBackPressed() {
