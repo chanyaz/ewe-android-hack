@@ -167,7 +167,6 @@ public class PointOfSaleTest {
 	@Test
 	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void checkVipAccessDisabledLocales() {
-		assertVipAccessForPOSKey(PointOfSaleId.ITALY.getId(), false);
 		assertVipAccessForPOSKey(PointOfSaleId.GERMANY.getId(), false);
 	}
 
