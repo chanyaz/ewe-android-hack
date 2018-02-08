@@ -1365,8 +1365,9 @@ public class ItineraryManager implements JSONable {
 		}
 
 		void refreshAllTrips(TimeSource timeSource, Map<String, Trip> trips) {
+			final Map<String, Trip> readMap = Collections.unmodifiableMap(new HashMap(trips));
 			final List<Observable<JSONObject>> observables = new ArrayList<>();
-			for (Trip trip : trips.values()) {
+			for (Trip trip : readMap.values()) {
 				if (timeSource.now() - REFRESH_TRIP_CUTOFF > trip.getLastCachedUpdateMillis()) {
 					if (trip.isShared() && trip.hasExpired(CUTOFF_HOURS)) {
 						Log.w(LOGGING_TAG, "REFRESH_ALL_TRIPS: Removing a shared trip because it is completed and past the cutoff.  tripNum=" + trip.getItineraryKey());
