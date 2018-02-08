@@ -158,7 +158,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         if (viewType == HotelAdapterItem.TRANSPARENT_MAPVIEW) {
             val header = View(parent.context)
             val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.height = if (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty()) 0 else AndroidUtils.getScreenSize(parent.context).y
+            lp.height = if (isHideMiniMapOnResultBucketed(parent.context) || ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty()) 0 else AndroidUtils.getScreenSize(parent.context).y
             header.layoutParams = lp
             return MapSwitchClickInterceptorTransparentHeaderViewHolder(header)
         } else if (viewType == HotelAdapterItem.LOADING) {
@@ -187,6 +187,11 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             }
             return holder
         }
+    }
+
+    private fun isHideMiniMapOnResultBucketed(context: Context): Boolean {
+        return AbacusFeatureConfigManager.isUserBucketedForTest(context,
+                AbacusUtils.HotelHideMiniMapOnResult)
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
@@ -239,11 +244,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                     resultsDescriptionHeader.setOnClickListener(null)
                 }
             }
-        }
-
-        private fun isHideMiniMapOnResultBucketed(context: Context): Boolean {
-            return AbacusFeatureConfigManager.isUserBucketedForTest(context,
-                    AbacusUtils.HotelHideMiniMapOnResult)
         }
     }
 
