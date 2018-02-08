@@ -37,7 +37,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
     // outputs
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>()
     val showNoInternetRetryDialog = PublishSubject.create<Unit>()
-    val isUserEvolableBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
+    val isUserEvolableBucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
 
     init {
         val pointOfSale = PointOfSale.getPointOfSale()

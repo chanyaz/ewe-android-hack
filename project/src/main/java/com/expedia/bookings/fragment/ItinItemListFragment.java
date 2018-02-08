@@ -333,7 +333,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public void goToItin(String itinId) {
 		Boolean isFlightDetailOn = AbacusFeatureConfigManager
-			.isUserBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewDesign);
+			.isBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewDesign);
 		ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(itinId);
 		if (data instanceof ItinCardDataHotel) {
 			startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()));

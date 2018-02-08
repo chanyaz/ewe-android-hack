@@ -69,7 +69,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val trackSearchClicked = PublishSubject.create<Unit>()
 
     val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
-    val isUserEvolableBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
+    val isUserEvolableBucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
     var toAndFromFlightFieldsSwitched = false
     var isGreedyCallStarted = false
 
@@ -120,7 +120,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         getParamsBuilder().maxStay = maxStay
         val flightSearchParams = getParamsBuilder().build()
         greedySearchParamsObservable.onNext(flightSearchParams)
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
                 && shouldPerformCacheCalls(flightSearchParams)) {
             val cachedSearchParams = flightSearchParams.buildParamsForCachedSearch(maxStay, getCalendarRules().getMaxDateRange())
             greedyCachedSearchParamsObservable.onNext(cachedSearchParams)
@@ -244,7 +244,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             if (BuildConfig.DEBUG && SettingUtils.get(context, R.string.preference_enable_retain_prev_flight_search_params, false)) {
                 SearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }
-            if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
+            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
                     && shouldPerformCacheCalls(flightSearchParams)) {
                 val cachedSearchParams = flightSearchParams.buildParamsForCachedSearch(maxStay, getCalendarRules().getMaxDateRange())
                 cachedSearchParamsObservable.onNext(cachedSearchParams)

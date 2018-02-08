@@ -404,7 +404,7 @@ public class AccountLibActivity extends AppCompatActivity
 
 	private boolean isRecaptchaABTestEnabled() {
 		// Returns true if AB test enabled or abacus is missing the response. (i.e. "fail on")
-		return AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppAccountRecaptcha)
+		return AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppAccountRecaptcha)
 				||	Db.sharedInstance.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppAccountRecaptcha) == null;
 	}
 

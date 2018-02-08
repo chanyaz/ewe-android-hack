@@ -33,7 +33,7 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
     }
 
     fun update(viewModel: HotelViewModel) {
-        val newSoldOutTreatment = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelSoldOutOnHSRTreatment)
+        val newSoldOutTreatment = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSoldOutOnHSRTreatment)
         soldOutTextView.updateVisibility(viewModel.isHotelSoldOut && !newSoldOutTreatment)
         priceContainer.setInverseVisibility(viewModel.isHotelSoldOut)
         if (viewModel.isHotelSoldOut) {

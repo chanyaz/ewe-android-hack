@@ -181,7 +181,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		if (viewType == LaunchDataItem.SIGN_IN_VIEW) {
-			if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)) {
+			if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)) {
 				View view = LayoutInflater.from(context).inflate(R.layout.signin_prompt_card, parent, false);
 				return new BrandSignInLaunchCard(view, context);
 			}
@@ -206,7 +206,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			view.setOnClickListener(new MemberDealClickListener());
 
 			int memberDealsDrawable = R.drawable.ic_member_deals_icon;
-			if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)) {
+			if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)) {
 				memberDealsDrawable = R.drawable.ic_member_only_tag_bg;
 			}
 
@@ -549,7 +549,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean showLastMinuteDeal() {
-		return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppLastMinuteDeals);
+		return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLastMinuteDeals);
 
 	}
 

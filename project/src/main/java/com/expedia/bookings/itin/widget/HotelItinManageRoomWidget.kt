@@ -52,7 +52,7 @@ class HotelItinManageRoomWidget(context: Context, attributeSet: AttributeSet?) :
     }
 
     fun setupReservationModifications() {
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.TripsHotelsM2)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripsHotelsM2)) {
             modifyReservationWidget.visibility = View.VISIBLE
         } else {
             manageBookingButton.visibility = View.VISIBLE

@@ -130,6 +130,6 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
     }
 
     fun isEvolableEnabled(): Boolean {
-        return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
+        return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
     }
 }

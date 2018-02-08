@@ -190,7 +190,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     }
 
     private fun isHideMiniMapOnResultBucketed(context: Context): Boolean {
-        return AbacusFeatureConfigManager.isUserBucketedForTest(context,
+        return AbacusFeatureConfigManager.isBucketedForTest(context,
                 AbacusUtils.HotelHideMiniMapOnResult)
     }
 

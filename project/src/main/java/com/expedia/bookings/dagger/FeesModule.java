@@ -25,7 +25,7 @@ public class FeesModule {
 	@Reusable
 	CardFeeService provideCardFeeService(Context context, EndpointProvider endpointProvider, OkHttpClient client,
 		Interceptor interceptor, HMACInterceptor hmacInterceptor) {
-		boolean isUserBucketedForAPIMAuth = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint);
+		boolean isUserBucketedForAPIMAuth = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint);
 		final String kongEndpointUrl = endpointProvider.getKongEndpointUrl();
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		List<Interceptor> interceptorList = new ArrayList<>();

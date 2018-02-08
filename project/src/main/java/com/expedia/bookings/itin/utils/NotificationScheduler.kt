@@ -90,7 +90,7 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
 
             val courier = Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(context))
             //use old Flight Alert system
-            if (!AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.TripsNewFlightAlerts)) {
+            if (!AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripsNewFlightAlerts)) {
                 val payload = PushNotificationUtils
                         .buildPushRegistrationPayload(context, regId, siteId, userTuid,
                                 getItinFlights(itinCardDatas))

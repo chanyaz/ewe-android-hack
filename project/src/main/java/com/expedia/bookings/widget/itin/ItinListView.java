@@ -786,7 +786,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
 
-		Boolean isFlightItinCardDetailBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewDesign);
+		Boolean isFlightItinCardDetailBucketed = AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewDesign);
 
 		if (data != null) {
 			if (view instanceof ItinButtonCard) {

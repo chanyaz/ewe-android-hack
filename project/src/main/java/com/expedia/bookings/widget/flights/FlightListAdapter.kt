@@ -25,7 +25,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
     val ScrollDepth3 = 90
     lateinit var scrollDepthMap: HashMap<Int, Int>
     val trackScrollDepthSubject = PublishSubject.create<Int>()
-    val showDeltaPricing = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
+    val showDeltaPricing = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
 
     override fun adjustPosition(): Int {
         isCrossSellPackageOnFSR = showCrossSellPackageBannerCell()

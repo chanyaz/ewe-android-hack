@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.vm.AbstractFlightViewModel
 
 open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboundSearch: Boolean = true) : AbstractFlightViewModel(context, flightLeg) {
-    val showDeltaPricing = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
+    val showDeltaPricing = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
     override fun price(): String {
         val priceToShow = StringBuilder()
         var price = flightLeg.packageOfferModel.price.averageTotalPricePerTicket

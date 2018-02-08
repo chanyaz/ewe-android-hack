@@ -17,7 +17,7 @@ open class HotelSuggestionManager(private val service: SuggestionV4Services) {
     val errorSubject = PublishSubject.create<Unit>()
 
     open fun fetchHotelSuggestions(context: Context, regionName: String) {
-        val sameAsWeb = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelAutoSuggestSameAsWeb)
+        val sameAsWeb = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelAutoSuggestSameAsWeb)
         val guid: String? = if (sameAsWeb) Db.sharedInstance.abacusGuid else null
 
         service.getHotelSuggestionsV4(regionName, getSuggestionServiceCallback(), sameAsWeb, guid)

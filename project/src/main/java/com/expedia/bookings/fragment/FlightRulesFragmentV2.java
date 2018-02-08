@@ -29,7 +29,7 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		flightCreateTripResponse = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.EBAndroidAppFlightsEvolable)) {
+		if (AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidAppFlightsEvolable)) {
 			fetchEvolableDetails();
 		}
 	}

@@ -11,7 +11,7 @@ import com.mobiata.android.util.AndroidUtils
 
 class BaggageFeeInfoWebView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
-    private val isWebViewImprovementABTestEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsBaggageWebViewHideAd)
+    private val isWebViewImprovementABTestEnabled = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsBaggageWebViewHideAd)
 
     override fun onFinishInflate() {
         super.onFinishInflate()

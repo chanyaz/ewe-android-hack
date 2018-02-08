@@ -58,7 +58,7 @@ class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewMo
 
         bedTypeTextView.text = viewModel.bedTypeString
 
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelRoomImageGallery)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelRoomImageGallery)) {
             roomPhotoCountView.updateVisibility(viewModel.hasRoomImages())
             if (viewModel.hasRoomImages()) {
                 headerImageView.subscribeOnClick(roomImageClickedSubject)

@@ -36,9 +36,9 @@ class AbacusHelperUtilsTest {
         val abacusResponse = getNewResponse()
         Db.sharedInstance.setAbacusResponse(abacusResponse)
 
-        assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, test1))
-        assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, test2))
-        assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, test3))
+        assertFalse(AbacusFeatureConfigManager.isBucketedForTest(context, test1))
+        assertTrue(AbacusFeatureConfigManager.isBucketedForTest(context, test2))
+        assertFalse(AbacusFeatureConfigManager.isBucketedForTest(context, test3))
     }
 
     @Test
@@ -49,18 +49,18 @@ class AbacusHelperUtilsTest {
         Db.sharedInstance.abacusResponse.forceUpdateABTest(test1.key, 1)
 
         assertEquals(1, ForceBucketPref.getForceBucketedTestValue(context, test1.key, -1))
-        assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, test1))
-        assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, test2))
-        assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, test3))
+        assertTrue(AbacusFeatureConfigManager.isBucketedForTest(context, test1))
+        assertTrue(AbacusFeatureConfigManager.isBucketedForTest(context, test2))
+        assertFalse(AbacusFeatureConfigManager.isBucketedForTest(context, test3))
         assertEquals(0, Db.sharedInstance.abacusResponse.testForKey(test3).value)
 
         AbacusHelperUtils.updateAbacusResponse(getNewResponse())
         AbacusHelperUtils.updateForceBucketedTests(context)
 
         assertEquals(1, ForceBucketPref.getForceBucketedTestValue(context, test1.key, -1))
-        assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, test1))
-        assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, test2))
-        assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, test3))
+        assertTrue(AbacusFeatureConfigManager.isBucketedForTest(context, test1))
+        assertTrue(AbacusFeatureConfigManager.isBucketedForTest(context, test2))
+        assertFalse(AbacusFeatureConfigManager.isBucketedForTest(context, test3))
         assertEquals(0, Db.sharedInstance.abacusResponse.testForKey(test3).value)
     }
 

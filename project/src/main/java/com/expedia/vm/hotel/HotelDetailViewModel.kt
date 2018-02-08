@@ -110,7 +110,7 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
     }
 
     override fun isChangeDatesEnabled(): Boolean {
-        return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelEnableInfositeChangeDate)
+        return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelEnableInfositeChangeDate)
     }
 
     override fun pricePerDescriptor(): String {

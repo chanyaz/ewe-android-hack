@@ -93,11 +93,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     lateinit var travelerManager: TravelerManager
     lateinit var createTripBuilder: FlightCreateTripParams.Builder
 
-    val isByotEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch)
+    val isByotEnabled = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch)
     val pageUsableData = PageUsableData()
-    val showMoreInfoOnOverview = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
-    val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)
-    val isUserEvolableBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
+    val showMoreInfoOnOverview = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+    val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)
+    val isUserEvolableBucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById<ViewStub>(R.id.error_presenter_stub)
@@ -184,7 +184,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.setupComplete()
 
         val allViewsLoadedObservable = (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
             allViewsLoadedObservable.withLatestFrom(presenter.flightOfferViewModel.cachedSearchTrackingString, { _, trackingString -> trackingString }).subscribe { trackingString ->
                 trackResultsLoaded(trackingString)
             }
@@ -538,7 +538,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             searchViewModel.cancelGreedyCallObservable.subscribe {
                 flightOfferViewModel.cancelGreedySearchObservable.onNext(Unit)
                 flightOfferViewModel.isGreedyCallAborted = true
-                if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
+                if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
                     flightOfferViewModel.cancelGreedyCachedSearchObservable.onNext(Unit)
                 }
             }

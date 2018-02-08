@@ -49,7 +49,7 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         inboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
         outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight1_icon)
         inboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight2_icon)
-        val shouldShowSeatingAndCabinClass = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
+        val shouldShowSeatingAndCabinClass = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
         outboundFlightWidget.showFlightCabinClass = shouldShowSeatingAndCabinClass
         inboundFlightWidget.showFlightCabinClass = shouldShowSeatingAndCabinClass
         basicEconomyMessageTextView.subscribeOnClick(basicEconomyInfoClickedSubject)

@@ -158,7 +158,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     private fun initSortFilterCallToAction() {
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelNewFilterCtaText)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelNewFilterCtaText)) {
             narrowResultsPromptView.setText(R.string.new_filters_available)
         } else {
             narrowResultsPromptView.setText(R.string.narrow_your_results)

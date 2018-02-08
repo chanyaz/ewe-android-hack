@@ -11,14 +11,14 @@ import com.mobiata.android.util.SettingUtils
 class AbacusFeatureConfigManager {
 
     companion object {
-        @Deprecated("Use isUserBucketedForTest(context, ABTest) instead")
+        @Deprecated("Use isBucketedForTest(context, ABTest) instead")
         @JvmStatic
         fun isUserBucketedForTest(abacusTest: ABTest): Boolean {
             return isInVariant(abacusTest, AbacusVariant.BUCKETED)
         }
 
         @JvmStatic
-        fun isUserBucketedForTest(context: Context, abacusTest: ABTest): Boolean {
+        fun isBucketedForTest(context: Context, abacusTest: ABTest): Boolean {
             return isBucketedForVariant(context, abacusTest, AbacusVariant.BUCKETED)
         }
 

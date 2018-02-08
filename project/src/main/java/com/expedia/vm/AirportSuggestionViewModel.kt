@@ -13,7 +13,7 @@ import io.reactivex.Observable
 
 class AirportSuggestionViewModel(context: Context, suggestionsService: SuggestionV4Services, private val isDest: Boolean, locationObservable: Observable<Location>?) : BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
 
-    private val showSuggestionLabel: Boolean = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
+    private val showSuggestionLabel: Boolean = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
 
     override fun getSuggestionService(query: String) {
         suggestionsService.getAirports(query, isDest, generateSuggestionServiceCallback(), Db.sharedInstance.abacusGuid)

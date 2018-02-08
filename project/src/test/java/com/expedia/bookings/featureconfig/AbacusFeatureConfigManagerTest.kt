@@ -26,14 +26,14 @@ class AbacusFeatureConfigManagerTest {
     fun testSatelliteManagedEnabledABTest() {
         val abTest = ABTest(12345, true)
         AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
-        assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
+        assertTrue(AbacusFeatureConfigManager.isBucketedForTest(context, abTest))
     }
 
     @Test
     fun testSatelliteManagedDisabledABTest() {
         val abTest = ABTest(99999, true)
         AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
-        assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
+        assertFalse(AbacusFeatureConfigManager.isBucketedForTest(context, abTest))
     }
 
     @Test
@@ -41,21 +41,21 @@ class AbacusFeatureConfigManagerTest {
         val abTest = ABTest(99999, true)
         AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
         updateTestOverride(abTest.key)
-        assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
+        assertTrue(AbacusFeatureConfigManager.isBucketedForTest(context, abTest))
     }
 
     @Test
     fun testNonSatelliteABTestIsBucketed() {
         val abTest = ABTest(12345)
         AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
-        assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
+        assertTrue(AbacusFeatureConfigManager.isBucketedForTest(context, abTest))
     }
 
     @Test
     fun testNonSatelliteABTestInControl() {
         val abTest = ABTest(12345)
         AbacusTestUtils.updateABTest(abTest, AbacusVariant.CONTROL.value)
-        assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
+        assertFalse(AbacusFeatureConfigManager.isBucketedForTest(context, abTest))
     }
 
     @Test

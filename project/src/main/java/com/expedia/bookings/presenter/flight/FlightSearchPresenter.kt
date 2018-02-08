@@ -77,18 +77,18 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
 
     val isFlightAdvanceSearchTestEnabled = !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
-            AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch)
+            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch)
     val swapFlightsLocationsButton: ImageView by bindView(R.id.swapFlightsLocationsButton)
     val flightsSearchDivider: View by bindView(R.id.flight_search_divider)
-    val isSwitchToAndFromFieldsFeatureEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSwitchFields)
+    val isSwitchToAndFromFieldsFeatureEnabled = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSwitchFields)
 
     val travelerFlightCardViewStub: ViewStub by bindView(R.id.traveler_flight_stub)
     override val travelerWidgetV2 by lazy {
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp))
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp))
             travelerFlightCardViewStub.inflate().findViewById<FlightTravelerWidgetV2>(R.id.traveler_card)
         else travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
     }
-    val isShowSuggestionLabelTestEnabled: Boolean = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
+    val isShowSuggestionLabelTestEnabled: Boolean = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm

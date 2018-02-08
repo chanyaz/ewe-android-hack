@@ -22,7 +22,7 @@ class FeatureToggleUtil {
         }
 
         private fun isTestBucketed(context: Context, abTest: ABTest): Boolean {
-            return AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest)
+            return AbacusFeatureConfigManager.isBucketedForTest(context, abTest)
         }
     }
 }

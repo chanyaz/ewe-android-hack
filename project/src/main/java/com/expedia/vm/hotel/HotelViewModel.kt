@@ -62,7 +62,7 @@ open class HotelViewModel(private val context: Context) {
     val showAirAttachWithDiscountLabel: Boolean get() = (hotel.lowRateInfo?.isShowAirAttached() ?: false) && !loyaltyAvailable
     val showAirAttachIconWithoutDiscountLabel: Boolean get() = (hotel.lowRateInfo?.isShowAirAttached() ?: false) && loyaltyAvailable
     val neighborhoodName: String get() = hotel.neighborhoodName ?: ""
-    val showSoldOutOverlay: Boolean get() = isHotelSoldOut && AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelSoldOutOnHSRTreatment)
+    val showSoldOutOverlay: Boolean get() = isHotelSoldOut && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSoldOutOnHSRTreatment)
 
     init {
         soldOut.subscribe { soldOut ->

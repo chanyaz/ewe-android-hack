@@ -246,7 +246,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
     fun cancelGreedyCalls() {
         cancelGreedySearchObservable.onNext(Unit)
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
             cancelGreedyCachedSearchObservable.onNext(Unit)
         }
     }
@@ -264,7 +264,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                                 FlightSearchType.NORMAL -> false
                             }
                 }
-                if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
+                if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
                     // Check for cached api response
                     if (response.isResponseCached()) {
                         isCachedCallCompleted.onNext(true)

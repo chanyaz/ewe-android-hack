@@ -16,7 +16,7 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
     override val showEarnMessage = BehaviorSubject.create<Boolean>()
 
     override fun shouldShowSeatingClassAndBookingCode(): Boolean {
-        return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
+        return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
     }
 
     override fun pricePerPersonString(selectedFlight: FlightLeg): String {

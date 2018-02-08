@@ -170,7 +170,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             isLocationPermissionPending = savedInstanceState.getBoolean("is_location_permission_pending", false)
         }
 
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             loginStateSubsciption = userLoginStateChangedModel.userLoginStateChanged.distinctUntilChanged().filter { isSignIn -> isSignIn == true }.subscribe {
                 SettingUtils.save(this, PREF_USER_ENTERS_FROM_SIGNIN, true)
             }
@@ -209,7 +209,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
         appStartupTimeLogger.setEndTime()
 
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             if (shouldShowSoftPrompt()) {
                 requestLocationPermissionViaSoftPrompt()
             }
@@ -508,7 +508,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this), getLaunchTrackingEventsString())
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             if (SettingUtils.get(this, PREF_USER_ENTERS_FROM_SIGNIN, false)) {
 
                 if (pagerPosition == PAGER_POS_ITIN) {

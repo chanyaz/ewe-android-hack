@@ -16,7 +16,7 @@ class FlightResultsViewModel(context: Context, lob: LineOfBusiness) {
     val isOutboundResults = BehaviorSubject.create<Boolean>()
     val airlineChargesFeesSubject = PublishSubject.create<Boolean>()
     val shouldShowDeltaPricing = lob == LineOfBusiness.FLIGHTS_V2 &&
-            AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
+            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
     val doNotOverrideFilterButton = lob == LineOfBusiness.PACKAGES &&
             isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)
 

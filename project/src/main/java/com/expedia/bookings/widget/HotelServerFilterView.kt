@@ -35,7 +35,7 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelAmenityFilter)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelAmenityFilter)) {
             amenitiesLabelView.visibility = View.VISIBLE
             amenitiesGridView.visibility = View.VISIBLE
             Amenity.getFilterAmenities().forEach { amenity ->
