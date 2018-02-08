@@ -33,8 +33,13 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
     var ratePlanCode: String? = null
     var roomTypeCode: String? = null
     var inventoryType: String? = null
+
     var latestSelectedProductOfferPrice: PackageOfferModel.PackagePrice? = null
     var latestSelectedFlightPIID: String? = null
+
+    var latestSelectedFlightSplitTicket: Boolean = false
+    var latestSelectedOutboundFlightBaggageFeesUrl: String? = null
+    var latestSelectedInboundFlightBaggageFeesUrl: String? = null
 
     val originId: String?
         get() {

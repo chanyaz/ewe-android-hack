@@ -79,6 +79,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             Db.setPackageFlightBundle(Db.sharedInstance.packageSelectedOutboundFlight, flight)
             params.currentFlights[1] = flight.legId
             params.latestSelectedFlightPIID = Db.getPackageResponse().getSelectedFlightPIID(params.currentFlights[0], params.currentFlights[1])
+
+            params.latestSelectedInboundFlightBaggageFeesUrl = flight.baggageFeesUrl
+            params.latestSelectedOutboundFlightBaggageFeesUrl = Db.getPackageResponse().getFlightLegs().firstOrNull { it.legId == params.currentFlights[0] }?.baggageFeesUrl
+            params.latestSelectedFlightSplitTicket =  Db.getPackageResponse().isSplitTicketFlights(params.currentFlights[0], params.currentFlights[1])
         }
         params.selectedLegId = flight.departureLeg
         params.packagePIID = flight.packageOfferModel.piid

@@ -13,25 +13,25 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.PackageResponseUtils
-import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
-import com.expedia.bookings.utils.Ui
 import com.google.gson.Gson
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
-import org.joda.time.Days
-import org.joda.time.format.DateTimeFormat
-import retrofit2.HttpException
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import org.joda.time.Days
+import org.joda.time.format.DateTimeFormat
+import retrofit2.HttpException
 
 class BundleOverviewViewModel(val context: Context, val packageServices: PackageServices?) {
     val hotelParamsObservable = PublishSubject.create<PackageSearchParams>()
@@ -128,7 +128,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         stepThreeTextObservale.onNext("")
         setAirlineFeeTextOnBundleOverview()
         if (isMidAPIEnabled(context)) {
-            setSplitTicketMessagingOnBundleOverview()
+            setSplitTicketMessagingOnBundleOverview(Db.sharedInstance.packageParams)
         }
     }
 
@@ -232,22 +232,15 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         }
     }
 
-    fun setSplitTicketMessagingOnBundleOverview() {
-        val packageResponse = Db.getPackageResponse() as MultiItemApiSearchResponse
-        if (packageResponse.flights.isNotEmpty()) {
-            val flightOfferMap = packageResponse.flights
-            val flightLegs = packageResponse.getFlightLegs()
-            val selectedFlightPIID = Db.sharedInstance.packageParams.latestSelectedFlightPIID
-            val selectedFlightOfferKey = flightOfferMap.keys.filter { flightOfferMap.get(it)?.piid.equals(selectedFlightPIID) }.first()
-            val legIdList = flightOfferMap.get(selectedFlightOfferKey)?.legIds!!
-            val isSplitTicket = flightOfferMap.get(selectedFlightOfferKey)?.splitTicket!!
-            if (isSplitTicket) {
-                val outboundLeg = flightLegs.filter { it.legId.equals(legIdList.first()) }.first()
-                val inboundLeg = flightLegs.filter { it.legId.equals(legIdList.last()) }.first()
-                splitTicketBaggageFeesLinksObservable.onNext(getSplitTicketBaggageFeesLink(outboundLeg.baggageFeesUrl, inboundLeg.baggageFeesUrl))
+    private fun setSplitTicketMessagingOnBundleOverview(packageParams: PackageSearchParams) {
+        if (packageParams.latestSelectedFlightSplitTicket) {
+            val latestSelectedOutboundFlightBaggageFeesUrl = packageParams.latestSelectedOutboundFlightBaggageFeesUrl
+            val latestSelectedInboundFlightBaggageFeesUrl = packageParams.latestSelectedInboundFlightBaggageFeesUrl
+            if (latestSelectedOutboundFlightBaggageFeesUrl != null && latestSelectedInboundFlightBaggageFeesUrl != null) {
+                splitTicketBaggageFeesLinksObservable.onNext(getSplitTicketBaggageFeesLink(latestSelectedOutboundFlightBaggageFeesUrl, latestSelectedInboundFlightBaggageFeesUrl))
             }
-            showSplitTicketMessagingObservable.onNext(isSplitTicket)
         }
+        showSplitTicketMessagingObservable.onNext(packageParams.latestSelectedFlightSplitTicket)
     }
 
     private fun getSplitTicketBaggageFeesLink(outboundBaggageFeesUrl: String, inboundBaggageFeesUrl: String): SpannableStringBuilder {

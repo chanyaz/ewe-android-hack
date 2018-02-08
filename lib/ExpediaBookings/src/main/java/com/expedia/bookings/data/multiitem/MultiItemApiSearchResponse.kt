@@ -189,6 +189,15 @@ data class MultiItemApiSearchResponse(
         }?.piid
     }
 
+    override fun isSplitTicketFlights(outboundLegId: String?, inboundLegId: String?): Boolean {
+        if (outboundLegId == null || inboundLegId == null) {
+            return false
+        }
+        return flights.values.firstOrNull { flightOffer ->
+            flightOffer.legIds[0] == outboundLegId && flightOffer.legIds[1] == inboundLegId
+        }?.splitTicket ?: false
+    }
+
     override fun getFlightPIIDFromSelectedHotel(hotelKey: String?): String? {
         if (hotelKey == null) {
             return null

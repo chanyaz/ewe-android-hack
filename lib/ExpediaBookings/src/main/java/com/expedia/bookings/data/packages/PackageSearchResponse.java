@@ -79,6 +79,11 @@ public class PackageSearchResponse extends PackageBaseApiResponse implements Bun
 		return null;
 	}
 
+	@Override
+	public boolean isSplitTicketFlights(@Nullable String outboundLegId, @Nullable String inboundLegId) {
+		return false;
+	}
+
 	public static class PackageInfo {
 		public HotelCheckinDate hotelCheckinDate;
 		public HotelCheckoutDate hotelCheckoutDate;
