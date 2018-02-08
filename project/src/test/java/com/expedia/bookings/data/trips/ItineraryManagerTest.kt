@@ -7,6 +7,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.featureconfig.SatelliteFeatureConstants
 import com.expedia.bookings.interceptors.MockInterceptor
+import com.expedia.bookings.services.NonFatalLoggerInterface
 import com.expedia.bookings.services.TripsServices
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
 import com.expedia.bookings.test.MultiBrand
@@ -59,7 +60,7 @@ class ItineraryManagerTest {
         logger.level = HttpLoggingInterceptor.Level.BODY
         server.setDispatcher(ExpediaDispatcher(opener))
         val service = TripsServices("http://localhost:" + server.port,
-                OkHttpClient.Builder().addInterceptor(logger).build(), interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+                OkHttpClient.Builder().addInterceptor(logger).build(), interceptor, Schedulers.trampoline(), Schedulers.trampoline(), MockNonFatalLogger())
         service
     }
 
@@ -358,5 +359,11 @@ class ItineraryManagerTest {
 
     private class TimeSourceTwenty : TimeSource {
         override fun now(): Long = TimeUnit.MINUTES.toMillis(20)
+    }
+
+    private class MockNonFatalLogger : NonFatalLoggerInterface {
+        override fun logException(e: Exception) {
+            println("MockNonFatalLogger: ${e.printStackTrace()}")
+        }
     }
 }

@@ -31,7 +31,7 @@ public final class TripModule {
 	@TripScope
 	TripsServicesInterface provideTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new TripsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new TripsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), new CrashlyticsNonFatalLogger());
 	}
 
 	@Provides

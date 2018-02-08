@@ -7,9 +7,8 @@ import okhttp3.OkHttpClient
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import java.io.IOException
 
-class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) : TripsServicesInterface {
+class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, private val nonFatalLogger: NonFatalLoggerInterface) : TripsServicesInterface {
 
     val LOGTAG = "TRIPS_SERVICES"
     val tripsApi: TripsApi by lazy {
@@ -37,8 +36,9 @@ class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
                     null
                 }
             }
-        } catch (e: IOException) {
-            print(LOGTAG + " Exception occurred when making getTripDetails call: " + e.printStackTrace())
+        } catch (e: Exception) {
+            nonFatalLogger.logException(e)
+            print("$LOGTAG Exception occurred when making getTripDetails call: ${e.printStackTrace()}")
             return null
         }
     }
@@ -57,8 +57,9 @@ class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
                     null
                 }
             }
-        } catch (e: IOException) {
-            print(LOGTAG + " Exception occurred when making getSharedTripDetails call: " + e.printStackTrace())
+        } catch (e: Exception) {
+            nonFatalLogger.logException(e)
+            print("$LOGTAG Exception occurred when making getTripDetails call: ${e.printStackTrace()}")
             return null
         }
     }
@@ -77,8 +78,9 @@ class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
                     null
                 }
             }
-        } catch (e: IOException) {
-            print(LOGTAG + " Exception occurred when making getGuestTrip call: " + e.printStackTrace())
+        } catch (e: Exception) {
+            nonFatalLogger.logException(e)
+            print("$LOGTAG Exception occurred when making getTripDetails call: ${e.printStackTrace()}")
             return null
         }
     }
