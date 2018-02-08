@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.telephony.PhoneNumberUtils;
 
+import java.net.URISyntaxException;
+
 public class SocialUtils {
 	public static boolean canHandleIntentOfTypeXandUriY(Context context, String intentType, String url) {
 		final Intent intent = new Intent(intentType);
@@ -120,5 +122,17 @@ public class SocialUtils {
 		phoneNumber = phoneNumber.replaceAll("\\s","");
 		final Intent call = getCallIntent(context, phoneNumber);
 		context.startActivity(call);
+	}
+
+	public static void openApp(Context context, String url) {
+		try {
+			Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+
+			if (intent != null) {
+				context.startActivity(intent);
+			}
+		} catch (URISyntaxException e) {
+			Log.w("Unable to open the app", e);
+		}
 	}
 }

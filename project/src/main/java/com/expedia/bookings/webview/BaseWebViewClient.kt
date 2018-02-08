@@ -26,6 +26,11 @@ open class BaseWebViewClient(val activity: Activity, val loadCookies: Boolean,
             // more detail: https://github.com/ExpediaInc/ewe-ios-eb/wiki/WebView-hosted-ExpWeb-communication-to-Native-app
             activity.finish()
             return true
+        } else if (url.contains("ubr.to/2noQerV")) {
+            // This is required to prevent the app WebView page from showing URL Exception
+            view.stopLoading()
+            SocialUtils.openApp(activity, url)
+            return false
         } else if (loadCookies) {
             view.loadUrl(url)
             return false
