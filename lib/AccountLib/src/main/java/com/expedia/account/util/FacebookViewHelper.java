@@ -224,6 +224,13 @@ public class FacebookViewHelper {
 
 				@Override
 				public void onNext(FacebookLinkResponse facebookLinkResponse) {
+					if (facebookLinkResponse == null || facebookLinkResponse.status == null) {
+						Log.d("FACEBOOK: facebookAutoLogin response arrived null");
+						mAccountView.onFacebookError();
+						showErrorFacebookUnknown();
+						return;
+					}
+
 					Log.d("FACEBOOK: facebookAutoLogin response: "
 						+ facebookLinkResponse.status.name());
 					switch (facebookLinkResponse.status) {
