@@ -111,6 +111,10 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         return getCheckoutTripResponse("error_room_unavailable_0")
     }
 
+    fun getHappyPathCreateTripResponseWithCouponApplied(): HotelCreateTripResponse {
+        return getCreateTripResponse("happypath_createtrip_saved_coupons_select")
+    }
+
     private fun getOfferResponse(responseFileName: String): HotelOffersResponse {
         val suggestion = SuggestionV4()
         suggestion.coordinates = SuggestionV4.LatLng()

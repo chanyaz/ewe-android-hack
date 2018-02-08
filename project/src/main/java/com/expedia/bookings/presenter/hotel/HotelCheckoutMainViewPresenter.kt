@@ -18,6 +18,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.otto.Events
@@ -79,6 +80,16 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         couponCardView.viewmodel.applyCouponViewModel.applyCouponSuccessObservable.subscribe(createTripViewmodel.tripResponseObservable)
         couponCardView.viewmodel.storedCouponViewModel.storedCouponSuccessObservable.subscribe(createTripViewmodel.tripResponseObservable)
         couponCardView.viewmodel.removeCouponSuccessTrackingInfoObservable.subscribe(createTripViewmodel.tripResponseObservable)
+
+        couponCardView.viewmodel.networkErrorAlertDialogForRemoveCoupon.subscribe {
+            val retryFun = fun() {
+                couponCardView.viewmodel.couponRemoveObservable.onNext(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
+            }
+            val cancelFun = fun() {
+                createTripViewmodel.tripResponseObservable.onNext(Db.getTripBucket().hotelV2.mHotelTripResponse)
+            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
 
         couponCardView.viewmodel.errorShowDialogObservable.subscribe {
 

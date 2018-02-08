@@ -16,9 +16,11 @@ import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.isHotelMaterialForms
 import com.squareup.phrase.Phrase
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -39,6 +41,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val onCouponWidgetExpandSubject = PublishSubject.create<Boolean>()
     val networkErrorAlertDialogObservable = PublishSubject.create<Unit>()
     val removeCouponErrorTrackingInfoObservable = PublishSubject.create<String>()
+    val networkErrorAlertDialogForRemoveCoupon = PublishSubject.create<Unit>()
     var compositeDisposable = CompositeDisposable()
 
     val applyCouponViewModel by lazy {
@@ -72,16 +75,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     init {
         couponRemoveObservable.subscribe { tripId ->
             removeObservable.onNext(false)
-            val observable = hotelServices.removeCoupon(tripId, PointOfSale.getPointOfSale().isPwPEnabledForHotels)
-            observable.subscribe { trip ->
-                if (trip.hasErrors()) {
-                    errorRemoveCouponShowDialogObservable.onNext(trip.firstError)
-                    removeCouponErrorTrackingInfoObservable.onNext(trip.firstError.errorInfo.couponErrorType)
-                } else {
-                    couponChangeSuccess(trip)
-                    removeCouponSuccessTrackingInfoObservable.onNext(trip)
-                }
-            }
+            hotelServices.removeCoupon(tripId, PointOfSale.getPointOfSale().isPwPEnabledForHotels).subscribeObserver(couponRemoveObserver())
         }
     }
 
@@ -148,6 +142,28 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             couponSubtitleObservable.onNext(subtitle)
         } else {
             discountObservable.onNext(couponRate.formattedMoney)
+        }
+    }
+
+    fun couponRemoveObserver() = object : DisposableObserver<HotelCreateTripResponse>() {
+        override fun onNext(trip: HotelCreateTripResponse) {
+            if (trip.hasErrors()) {
+                errorRemoveCouponShowDialogObservable.onNext(trip.firstError)
+                removeCouponErrorTrackingInfoObservable.onNext(trip.firstError.errorInfo.couponErrorType)
+            } else {
+                couponChangeSuccess(trip)
+                removeCouponSuccessTrackingInfoObservable.onNext(trip)
+            }
+        }
+
+        override fun onComplete() {
+            // ignore
+        }
+
+        override fun onError(e: Throwable) {
+            if (RetrofitUtils.isNetworkError(e)) {
+                networkErrorAlertDialogForRemoveCoupon.onNext(Unit)
+            }
         }
     }
 }

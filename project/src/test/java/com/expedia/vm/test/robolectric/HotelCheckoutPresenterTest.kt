@@ -11,6 +11,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.accessibility.AccessibilityManager
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
@@ -72,9 +73,11 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.RoboLayoutInflater
 import org.robolectric.shadows.ShadowAlertDialog
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -878,6 +881,50 @@ class HotelCheckoutPresenterTest {
 
         val expectedEvars = mapOf(61 to PointOfSale.getPointOfSale().tpid.toString())
         OmnitureTestUtils.assertLinkTracked("Universal Checkout", "App.CKO.SlideToBook", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testNetworkErrorAlertDialogShownDuringRemoveCoupon() {
+        goToCheckout()
+        checkout.couponCardView.viewmodel.couponRemoveObserver().onError(IOException("Cannot connect"))
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val shadowOfAlertDialog = Shadows.shadowOf(alertDialog)
+
+        assertTrue(alertDialog.isShowing)
+        assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", shadowOfAlertDialog.message)
+    }
+
+    @Test
+    fun testNetworkErrorAlertDialogRetryClickActionForRemoveCoupon() {
+        val testSubscriber = TestObserver.create<String>()
+        goToCheckout()
+        checkout.couponCardView.viewmodel.couponRemoveObserver().onError(IOException("Cannot connect"))
+        checkout.couponCardView.viewmodel.couponRemoveObservable.subscribe(testSubscriber)
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val retryButton = alertDialog.findViewById<Button>(android.R.id.button1)
+        retryButton.performClick()
+
+        assertEquals(1, testSubscriber.valueCount())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    fun testNetworkErrorAlertDialogCancelClickActionForRemoveCoupon() {
+        val testSubscriber = TestObserver.create<String>()
+        goToCheckout()
+        checkout.paymentModel.createTripSubject.onNext(mockHotelServices.getHappyCreateTripResponse())
+
+        assertEquals("The Mosser", checkout.hotelCheckoutSummaryWidget.hotelName.text)
+        assertEquals("$135.81", checkout.hotelCheckoutSummaryWidget.totalPriceWithTax.text)
+
+        checkout.couponCardView.viewmodel.couponRemoveObserver().onError(IOException("Cannot connect"))
+        checkout.couponCardView.viewmodel.couponRemoveObservable.subscribe(testSubscriber)
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val cancelButton = alertDialog.findViewById<Button>(android.R.id.button2)
+        cancelButton.performClick()
+
+        assertEquals("The Mosser", checkout.hotelCheckoutSummaryWidget.hotelName.text)
+        assertEquals("$135.81", checkout.hotelCheckoutSummaryWidget.totalPriceWithTax.text)
     }
 
     private fun givenLoggedInUserAndTravelerInDb() {
