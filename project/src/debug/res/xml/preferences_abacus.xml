@@ -766,8 +766,8 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="24552"
-            android:title="LX Notifications for Hotel Customers - 24552" />
+            android:key="24888"
+            android:title="LX Notifications for Hotel Customers - 24888" />
 
     </PreferenceCategory>
 

@@ -3098,6 +3098,13 @@ public class OmnitureTracking {
 		return link;
 	}
 
+	public static void trackLXNotificationTest() {
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidLXNotifications);
+		s.track();
+	}
+
 	@NonNull
 	private static String buildLinkBasedOnTemplateName(String templateName) {
 		StringBuilder sb = new StringBuilder("Itinerary.");

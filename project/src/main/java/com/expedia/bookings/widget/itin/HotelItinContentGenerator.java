@@ -383,6 +383,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			notifications.add(generateGetReadyNotification());
 			notifications.add(generateActivityCrossSellNotification());
 		}
+		OmnitureTracking.trackLXNotificationTest();
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.EBAndroidLXNotifications) && isDurationLongerThanDays(1)) {
 			notifications.add(generateActivityInTripNotification());
 		}

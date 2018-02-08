@@ -37,7 +37,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppShowFlightsCheckoutWebview = new ABTest(15371, true);
 	public static final ABTest EBAndroidAppDisplayEligibleCardsOnPaymentForm = new ABTest(15682);
 	public static final ABTest EBAndroidAppHotelMaterialForms = new ABTest(24870, true);
-	public static final ABTest EBAndroidLXNotifications = new ABTest(24552);
+	public static final ABTest EBAndroidLXNotifications = new ABTest(24888);
 	public static final ABTest EBAndroidAppSavedCoupons = new ABTest(16365, true);
 
 	// Rail tests
