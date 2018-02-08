@@ -45,7 +45,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
 
     //Setup the data I need to behave as a View Model for my View
     val offersObserver = endlessObserver<HotelOffersResponse> { response ->
-        hotelName.onNext(response.hotelName)
+        hotelName.onNext(response.hotelName ?: "")
         hotelStarRating.onNext(response.hotelStarRating.toFloat())
         hotelStarRatingContentDescription.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, response.hotelStarRating))
         hotelStarRatingVisibility.onNext(response.hotelStarRating > 0)

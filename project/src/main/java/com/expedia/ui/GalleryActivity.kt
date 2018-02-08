@@ -85,7 +85,8 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
     private fun setUpToolbar() {
         val hotelName = intent.getStringExtra("Name")
         val hotelRating = intent.getFloatExtra("Rating", 0f)
-        val vm = HotelInfoToolbarViewModel(this@GalleryActivity, hotelName, hotelRating, false)
+        val vm = HotelInfoToolbarViewModel(this@GalleryActivity)
+        vm.bind(hotelName, hotelRating, false)
         toolbar.setHotelDetailViewModel(vm)
         toolbar.refreshForCystalTheme()
         toolbar.toolBarBackground.alpha = 0f

@@ -398,7 +398,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             amenitiesListObservable.onNext(amenityList)
         }
 
-        hotelNameObservable.onNext(offerResponse.hotelName)
+        hotelNameObservable.onNext(offerResponse.hotelName ?: "")
 
         hotelRatingObservable.onNext(offerResponse.hotelStarRating.toFloat())
         hotelRatingObservableVisibility.onNext(offerResponse.hotelStarRating > 0)

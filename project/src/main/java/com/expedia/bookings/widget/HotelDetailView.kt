@@ -30,7 +30,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.vm.BaseHotelDetailViewModel
-import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.vm.HotelInfoToolbarViewModel
 import io.reactivex.Observable
 import kotlin.properties.Delegates
 
@@ -58,6 +58,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private val detailContainer: ScrollView by bindView(R.id.detail_container)
     private var galleryExpanded = false
+    private val hotelInfoToolbarViewModel = HotelInfoToolbarViewModel(context)
 
     private var statusBarHeight = 0
     private var toolbarHeightOffset: Float by Delegates.notNull()
@@ -74,8 +75,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         resortFeeWidget.feeType.visibility = if (vm.showFeeType()) View.VISIBLE else View.GONE
         resortFeeWidget.feeType.setText(vm.getFeeTypeText())
 
-        vm.hotelOffersSubject.subscribe {
-            hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
+        vm.hotelOffersSubject.subscribe { hotelOffersResponse ->
+            hotelInfoToolbarViewModel.bind(hotelOffersResponse)
         }
 
         Observable.merge(vm.hotelSoldOut, vm.isDatelessObservable).subscribe {
@@ -121,6 +122,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarHeight = Ui.getToolbarSize(getContext())
         Ui.showTransparentStatusBar(getContext())
+        hotelDetailsToolbar.setHotelDetailViewModel(hotelInfoToolbarViewModel)
 
         toolbarHeightOffset = statusBarHeight.toFloat() + toolBarHeight
         hotelDetailsToolbar.toolbar.setNavigationOnClickListener { view ->
