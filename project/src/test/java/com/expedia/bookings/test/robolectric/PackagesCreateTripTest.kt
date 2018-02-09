@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.OmnitureTestUtils
+import android.widget.TextView
+import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
@@ -32,6 +34,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.shadows.ShadowDialog
 import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -138,6 +141,44 @@ class PackagesCreateTripTest {
     }
 
     @Test
+    fun testMultiItemCreateTripErrorHandled() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
+        val showErrorAlertObserver = TestObserver<Unit>()
+        val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
+        createTripViewModel.showMIDCreateTripErrorAlertObservable.subscribe(showErrorAlertObserver)
+        createTripViewModel.packageServices = packageServiceRule.services!!
+
+        val errorParams = MultiItemCreateTripParams.fromPackageSearchParams(getDummySearchParams("error"))
+        showErrorAlertObserver.assertValueCount(0)
+
+        createTripViewModel.packageServices.multiItemCreateTrip(errorParams).subscribe(createTripViewModel.makeMultiItemCreateTripResponseObserver())
+
+        showErrorAlertObserver.assertValueCount(1)
+    }
+
+    @Test
+    fun testShowMIDCreateTripErrorDialogDisplayed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
+
+        activity.packagePresenter.bundlePresenter.showCheckout()
+        val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
+        val testCreateTripObserver = TestObserver<Unit>()
+
+        createTripViewModel.showMIDCreateTripErrorAlertObservable.onNext(Unit)
+
+        val errorDialog = ShadowDialog.getLatestDialog()
+        val changeFlight = errorDialog.findViewById<TextView>(R.id.change_flight)
+        assertEquals("Change flights", changeFlight.text)
+
+        val retry = errorDialog.findViewById<TextView>(R.id.retry)
+        assertEquals("Retry", retry.text)
+
+        retry.performClick()
+
+        createTripViewModel.performMultiItemCreateTripSubject.subscribe(testCreateTripObserver)
+    }
+
+    @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDCreateTripShowErrorPresenter() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
@@ -156,7 +197,7 @@ class PackagesCreateTripTest {
         showErrorPresenterTestSubscriber.assertValueCount(1)
     }
 
-    private fun getDummySearchParams(): PackageSearchParams {
+    private fun getDummySearchParams(response: String = "mid_create_trip"): PackageSearchParams {
         val originDestSuggestions = getOriginDestSuggestions()
         val date = LocalDate.now()
         val params = PackageSearchParams.Builder(0, 0)
@@ -168,7 +209,7 @@ class PackagesCreateTripTest {
                 .endDate(date.plusDays(2))
                 .build() as PackageSearchParams
         params.latestSelectedOfferInfo.hotelId = "hotelID"
-        params.latestSelectedOfferInfo.flightPIID = "mid_create_trip"
+        params.latestSelectedOfferInfo.flightPIID = response
         params.packagePIID = "packagePIID"
         params.latestSelectedOfferInfo.ratePlanCode = "ratePlanCode"
         params.latestSelectedOfferInfo.roomTypeCode = "roomTypeCode"

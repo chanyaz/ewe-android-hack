@@ -786,6 +786,9 @@
     <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">Creating the trip…</string>
+    <!-- Error dialog title when there's a MID create trip error -->
+    <string name="server_error">Server Error</string>
+
 
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Checkout</string>

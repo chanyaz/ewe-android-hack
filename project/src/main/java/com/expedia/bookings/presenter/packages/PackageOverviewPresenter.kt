@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.packages
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.support.annotation.VisibleForTesting
@@ -30,6 +31,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.PackageCheckoutPresenter
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.safeSubscribeOptional
@@ -64,6 +66,13 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         val webCheckoutView = viewStub.inflate() as WebCheckoutView
         val webCheckoutViewModel = PackageWebCheckoutViewViewModel(context)
         webCheckoutViewModel.packageCreateTripViewModel = getCheckoutPresenter().getCreateTripViewModel()
+        webCheckoutViewModel.packageCreateTripViewModel.showMIDCreateTripErrorAlertObservable.subscribe {
+            if (webCheckoutView.visibility == View.VISIBLE) {
+                back()
+            }
+            midCreateTripErrorDialog.show()
+        }
+
         webCheckoutView.viewModel = webCheckoutViewModel
 
         webCheckoutViewModel.closeView.subscribe {
@@ -90,6 +99,24 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     override fun injectComponents() {}
+
+    private val midCreateTripErrorDialog: Dialog by lazy {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.mid_createtrip_error_dialog)
+        val changeFlight = dialog.findViewById<TextView>(R.id.change_flight)
+        changeFlight.setOnClickListener {
+            onFlightChange()
+            dialog.dismiss()
+        }
+
+        val retry = dialog.findViewById<TextView>(R.id.retry)
+        retry.setOnClickListener {
+            (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).packageCreateTripViewModel.performMultiItemCreateTripSubject.onNext(Unit)
+            dialog.dismiss()
+        }
+        dialog.setCanceledOnTouchOutside(false)
+        dialog
+    }
 
     init {
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
@@ -159,15 +186,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         })
 
         changeFlight.setOnMenuItemClickListener({
-            resetBundleOverview()
-            bundleOverviewHeader.toggleOverviewHeader(false)
-
-            val params = Db.sharedInstance.packageParams
-            params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
-            params.searchProduct = Constants.PRODUCT_FLIGHT
-            params.selectedLegId = null
-
-            bundleWidget.viewModel.flightParamsObservable.onNext(params)
+            onFlightChange()
             PackagesTracking().trackBundleEditItemClick("Flight")
 
             true
@@ -198,6 +217,18 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 setupOverviewPresenterForMID()
             }
         }
+    }
+
+    private fun onFlightChange() {
+        resetBundleOverview()
+        bundleOverviewHeader.toggleOverviewHeader(false)
+
+        val params = Db.sharedInstance.packageParams
+        params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
+        params.searchProduct = Constants.PRODUCT_FLIGHT
+        params.selectedLegId = null
+
+        bundleWidget.viewModel.flightParamsObservable.onNext(params)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
