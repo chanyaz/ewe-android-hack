@@ -2527,7 +2527,6 @@ public class OmnitureTracking {
 
 	public static void trackHotelItinManageBookingClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MANAGE_BOOKING);
-		trackAbacusTest(s, AbacusUtils.TripsHotelsM2);
 		s.trackLink("Itinerary Action");
 	}
 
@@ -2644,9 +2643,6 @@ public class OmnitureTracking {
 	public static void trackItinHotel(Boolean hasHotelMessagingURL) {
 		Log.d(TAG, "Tracking \"" + ITIN_HOTEL + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_HOTEL);
-		if (hasHotelMessagingURL) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsMessageHotel);
-		}
 		s.setEvents("event63");
 		s.track();
 	}
@@ -2830,7 +2826,6 @@ public class OmnitureTracking {
 				s.setEvar(5, String.valueOf(trip.get("daysUntilTrip")));
 			}
 		}
-		trackAbacusTest(s, AbacusUtils.TripsFlightsNewDesign);
 		s.setProp(2, "itinerary");
 		s.setEvar(2, "D=c2");
 		s.track();

@@ -43,8 +43,7 @@ class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : L
             checkInPoliciesDivider.visibility = View.VISIBLE
             checkInOutPoliciesContainer.visibility = View.VISIBLE
             val specialInstructions = itinCardDataHotel.property.specialInstruction
-            val shouldShowSpecialInstruction = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripsHotelsM2)
-                    && specialInstructions.isNotEmpty()
+            val shouldShowSpecialInstruction = specialInstructions.isNotEmpty()
             if (shouldShowSpecialInstruction) {
                 checkInOutPoliciesButtonText.text = context.getString(R.string.itin_hotel_check_in_policies_and_special_instruction)
             }

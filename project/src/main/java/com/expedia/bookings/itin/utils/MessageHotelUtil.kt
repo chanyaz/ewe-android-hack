@@ -11,9 +11,6 @@ import com.expedia.bookings.tracking.OmnitureTracking
 
 object MessageHotelUtil {
 
-    fun isHotelMessagingEnabled(context: Context): Boolean =
-            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppTripsMessageHotel)
-
     fun getClickListener(url: String, context: Context, fromManageBooking: Boolean = false): View.OnClickListener =
             View.OnClickListener {
                 OmnitureTracking.trackItinHotelMessage(fromManageBooking)

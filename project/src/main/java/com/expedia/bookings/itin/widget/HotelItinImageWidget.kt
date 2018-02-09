@@ -13,7 +13,6 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.utils.MessageHotelUtil.getClickListener
-import com.expedia.bookings.itin.utils.MessageHotelUtil.isHotelMessagingEnabled
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.Ui
@@ -85,7 +84,7 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
         val messagingButton: SummaryButton
         val messagingTitle: String = context.getString(R.string.itin_hotel_details_message_hotel_button)
 
-        if (messagingUrl.isNotEmpty() && isHotelMessagingEnabled(context)) {
+        if (messagingUrl.isNotEmpty()) {
             messagingButton = SummaryButton(R.drawable.ic_hotel_message_icon,
                     messagingTitle,
                     messagingTitle,

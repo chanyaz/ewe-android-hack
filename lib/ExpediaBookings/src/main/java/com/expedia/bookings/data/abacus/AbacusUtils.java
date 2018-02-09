@@ -47,7 +47,6 @@ public class AbacusUtils {
 
 	// Trips tests
 	public static final ABTest TripsNewFlightAlerts = new ABTest(16205, true);
-	public static final ABTest TripsFlightsNewDesign = new ABTest(14655, true);
 	public static final ABTest EBAndroidAppTripsMessageHotel = new ABTest(16176, true);
 	public static final ABTest TripsHotelsM2 = new ABTest(24601, true);
 
@@ -184,7 +183,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelCheckinCheckoutDatesInline.getKey());
 		testIDs.add(EBAndroidAppShowFlightsCheckoutWebview.getKey());
 		testIDs.add(EBAndroidAppFlightsEvolable.getKey());
-		testIDs.add(TripsFlightsNewDesign.getKey());
 		testIDs.add(EBAndroidAppDisplayEligibleCardsOnPaymentForm.getKey());
 		testIDs.add(EBAndroidAppFlightsSearchResultCaching.getKey());
 		testIDs.add(EBAndroidAppBrandColors.getKey());
@@ -206,10 +204,8 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSavedCoupons.getKey());
 		testIDs.add(PackagesBackFlowFromOverview.getKey());
 		testIDs.add(EBAndroidAppFlightsAPIKongEndPoint.getKey());
-		testIDs.add(EBAndroidAppTripsMessageHotel.getKey());
 		testIDs.add(HotelAmenityFilter.getKey());
 		testIDs.add(EBAndroidAppPackagesDisplayFlightSeatingClass.getKey());
-		testIDs.add(TripsHotelsM2.getKey());
 		testIDs.add(HotelNewFilterCtaText.getKey());
 		testIDs.add(HotelDatelessInfosite.getKey());
 		testIDs.add(HotelUrgencyV2.getKey());

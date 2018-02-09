@@ -786,8 +786,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
 
-		Boolean isFlightItinCardDetailBucketed = AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewDesign);
-
 		if (data != null) {
 			if (view instanceof ItinButtonCard) {
 				// Do nothing
@@ -804,7 +802,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 						.toBundle());
 			}
-			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.FLIGHT && isFlightItinCardDetailBucketed) {
+			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.FLIGHT) {
 				getContext().startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()),
 						ActivityOptionsCompat
 							.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)

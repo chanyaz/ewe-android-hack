@@ -9,7 +9,6 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.utils.MessageHotelUtil.getClickListener
-import com.expedia.bookings.itin.utils.MessageHotelUtil.isHotelMessagingEnabled
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.bindView
@@ -37,7 +36,7 @@ class HotelItinManageBookingHelp(context: Context, attr: AttributeSet?) : Linear
 
         val hotelMessagingUrl = itinCardDataHotel.property.epcConversationUrl
 
-        if (isHotelMessagingEnabled(context) && hotelMessagingUrl.isNotEmpty()) {
+        if (hotelMessagingUrl.isNotEmpty()) {
             messageHotel.visibility = View.VISIBLE
             messageHotel.setOnClickListener(getClickListener(context = context, url = hotelMessagingUrl, fromManageBooking = true))
         }

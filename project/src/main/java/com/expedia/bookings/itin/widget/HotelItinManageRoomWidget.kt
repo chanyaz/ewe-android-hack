@@ -52,11 +52,7 @@ class HotelItinManageRoomWidget(context: Context, attributeSet: AttributeSet?) :
     }
 
     fun setupReservationModifications() {
-        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripsHotelsM2)) {
-            modifyReservationWidget.visibility = View.VISIBLE
-        } else {
-            manageBookingButton.visibility = View.VISIBLE
-        }
+        modifyReservationWidget.visibility = View.VISIBLE
     }
 
     private fun buildWebViewIntent(title: Int, url: String, anchor: String?, tripId: String): WebViewActivity.IntentBuilder {
