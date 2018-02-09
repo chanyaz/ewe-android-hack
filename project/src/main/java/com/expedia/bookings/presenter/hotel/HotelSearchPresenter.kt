@@ -133,6 +133,9 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             updateDestinationText(suggestionName)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName(), shouldSaveSuggestionHierarchyChildInfo())
             updateSearchOptions(suggestion)
+            if (suggestion.isRecentSearchItem) {
+                HotelTracking.trackHotelRecentSearchClick()
+            }
             showDefault()
         }
     }

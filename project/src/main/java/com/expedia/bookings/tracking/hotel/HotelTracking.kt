@@ -238,6 +238,10 @@ open class HotelTracking {
             OmnitureTracking.trackGeoSuggestionClick()
         }
 
+        fun trackHotelRecentSearchClick() {
+            OmnitureTracking.trackHotelRecentSearchClick()
+        }
+
         fun trackHotelSearch(trackingParams: HotelSearchTrackingData, searchParams: HotelSearchParams) {
             OmnitureTracking.trackHotelsV2Search(trackingParams)
             FacebookEvents().trackHotelV2Search(trackingParams)

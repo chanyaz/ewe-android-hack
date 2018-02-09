@@ -101,6 +101,14 @@
             android:summary="%s"
             android:title="Hotel Image Grid - 24841" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="15832"
+            android:summary="%s"
+            android:title="Hotel Recent Search - 15832" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
