@@ -80,11 +80,27 @@
 
             <include layout="@layout/package_flight_filter_divider" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/stops_label"
-                style="@style/FilterSortLabelTheme"
-                android:text="@string/stops"
-                android:focusable="true"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/stops_label"
+                    style="@style/FilterSortLabelTheme"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:text="@string/stops" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/price_label_stops"
+                    style="@style/FilterSortLabelTheme"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/price_label"
+                    android:visibility="gone"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/stops_container"
@@ -139,12 +155,28 @@
 
             <include layout="@layout/package_flight_filter_divider" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/airlines_label"
-                style="@style/FilterSortLabelTheme"
-                android:paddingBottom="@dimen/sort_filter_padding_small"
-                android:text="@string/airlines"
-                android:focusable="true"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/airlines_label"
+                    style="@style/FilterSortLabelTheme"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:paddingBottom="@dimen/sort_filter_padding_small"
+                    android:text="@string/airlines" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/price_label_airline"
+                    style="@style/FilterSortLabelTheme"
+                    android:focusable="true"
+                    android:text="@string/price_label"
+                    android:gravity="center"
+                    android:visibility="gone"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/airlines_container"

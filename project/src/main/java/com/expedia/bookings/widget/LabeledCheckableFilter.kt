@@ -8,10 +8,11 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
+import com.expedia.util.subscribeOnClick
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 
-class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
+open class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
     val stopsLabel: TextView by bindView(R.id.label)
     val resultsLabel: TextView by bindView(R.id.results_label)
     val checkBox: CheckBox by bindView(R.id.check_box)
@@ -33,6 +34,7 @@ class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : Relativ
         value = filterValue
         resultsLabel.text = filterResults.toString()
         checkBox.isChecked = false
+        subscribeOnClick(checkObserver)
         refreshContentDescription()
     }
 

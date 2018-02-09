@@ -6,7 +6,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
@@ -56,6 +58,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     var hasTrackedArrivalTimeFilterInteraction = false
     val resetFilterTracking = PublishSubject.create<Unit>()
     val durationFilterInteractionFromUser = PublishSubject.create<Unit>()
+    val shouldShowShowPriceAndLogoOnFilter = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo) && (lob == LineOfBusiness.FLIGHTS_V2)
 
     enum class Stops(val stops: Int) {
         NONSTOP(0),
@@ -311,14 +314,36 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
 
         originalList?.forEach { leg ->
             val airlineCount = airlines[leg.carrierName]?.count ?: 0
-            airlines.put(leg.carrierName, CheckedFilterProperties(airlineCount + 1))
+            if (shouldShowShowPriceAndLogoOnFilter) {
+                val minAirlinePrice = if (airlines.containsKey(leg.carrierName)) {
+                    getMinPrice(airlines[leg.carrierName]?.minPrice, leg.packageOfferModel.price.averageTotalPricePerTicket)
+                } else {
+                    leg.packageOfferModel.price.averageTotalPricePerTicket
+                }
+                airlines.put(leg.carrierName, CheckedFilterProperties(airlineCount + 1, minAirlinePrice, leg.carrierLogoUrl))
+            } else {
+                airlines.put(leg.carrierName, CheckedFilterProperties(airlineCount + 1))
+            }
 
             val key = getStops(leg.stopCount)
             val stopCount = stops[key]?.count ?: 0
-            stops.put(key, CheckedFilterProperties(stopCount + 1))
+            if (shouldShowShowPriceAndLogoOnFilter) {
+                val minStopPrice = if (stops.containsKey(key)) {
+                    getMinPrice(stops[key]!!.minPrice, leg.packageOfferModel.price.averageTotalPricePerTicket)
+                } else {
+                    leg.packageOfferModel.price.averageTotalPricePerTicket
+                }
+                stops.put(key, CheckedFilterProperties(stopCount + 1, minStopPrice))
+            } else {
+                stops.put(key, CheckedFilterProperties(stopCount + 1))
+            }
         }
         stopsObservable.onNext(stops)
         airlinesObservable.onNext(airlines)
+    }
+
+    private fun getMinPrice(minPrice: Money?, legPrice: Money): Money? {
+        return if ((minPrice != null) && (minPrice.roundedAmount < legPrice.roundedAmount)) minPrice else legPrice
     }
 
     private fun resetRangeBars() {

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.LabeledCheckableFilterWithPriceAndLogo android:id="@+id/filter_categories_widget"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/airlines_filter_height"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingBottom="@dimen/sort_filter_padding_small"
+    android:paddingLeft="@dimen/sort_filter_padding_checkmarks"
+    android:paddingRight="@dimen/sort_filter_padding_normal"
+    android:paddingTop="@dimen/sort_filter_padding_small">
+
+    <CheckBox
+        android:id="@+id/check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/sort_filter_padding_checkmarks"
+        android:clickable="false"
+        android:focusable="false" />
+
+    <ImageView
+        android:id="@+id/airline_logo_image_view"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/sort_filter_padding_checkmarks"
+        android:layout_toEndOf="@+id/check_box"
+        android:src="@drawable/ic_airline_backup" />
+
+    <LinearLayout
+        android:id="@+id/label_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/airline_logo_image_view"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:focusable="false"
+            android:maxLines="1"
+            android:textColor="@color/hotel_filter_neighborhood_text"
+            android:textSize="@dimen/package_sort_filter_label_text_size" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/count_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:focusable="false"
+            android:maxLines="1"
+            android:paddingTop="2dp"
+            android:textColor="@color/gray600"
+            android:textSize="12sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/results_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/sort_filter_padding_small"
+        android:background="@drawable/filter_number_bg_flights"
+        android:ellipsize="end"
+        android:focusable="false"
+        android:maxLines="1"
+        android:paddingBottom="4dp"
+        android:paddingLeft="11dp"
+        android:paddingRight="11dp"
+        android:paddingTop="4dp"
+        android:textColor="@color/packages_filter_color"
+        android:textSize="14sp" />
+</com.expedia.bookings.widget.LabeledCheckableFilterWithPriceAndLogo>

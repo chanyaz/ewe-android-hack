@@ -21,6 +21,7 @@ public class FlightLeg {
 	public String baggageFeesUrl;
 	public String carrierCode;
 	public String carrierName;
+	public String carrierLogoUrl;
 	public String departureDateTimeISO;
 	public String departureTimeShort;
 	public String destinationAirport;

@@ -158,6 +158,7 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
                 lastSegment = segment
             }
             leg.airlines = airlines
+            leg.carrierLogoUrl = leg.segments.first().airlineLogoURL
             if (leg.durationMinute > 59) {
                 val extraHours: Int = leg.durationMinute / 60
                 leg.durationHour += extraHours

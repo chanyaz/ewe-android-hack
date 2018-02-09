@@ -750,6 +750,8 @@
     <string name="stops">Stops</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Airlines</string>
+    <!-- Header for a flight filter above the price on checked filters-->
+    <string name="price_label">Price</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">

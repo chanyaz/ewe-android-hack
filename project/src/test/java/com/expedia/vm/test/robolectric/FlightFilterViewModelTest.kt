@@ -8,9 +8,11 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.BaseFlightFilterWidget
 import com.expedia.bookings.widget.LabeledCheckableFilter
 import com.expedia.vm.BaseFlightFilterViewModel
@@ -22,12 +24,14 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.TreeMap
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class FlightFilterViewModelTest {
@@ -38,8 +42,7 @@ class FlightFilterViewModelTest {
     @Before
     fun before() {
         widget = LayoutInflater.from(getContext()).inflate(R.layout.flight_filter_widget_test, null) as BaseFlightFilterWidget
-        widget.viewModelBase = BaseFlightFilterViewModel(getContext(), LineOfBusiness.FLIGHTS_V2)
-        vm = widget.viewModelBase
+        setViewModel()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
@@ -156,6 +159,8 @@ class FlightFilterViewModelTest {
         val stopsOutput = testStopsSubscriber.values().get(0)
         assertTrue(stopsOutput.containsKey(Stops.ONE_STOP))
         assertEquals(3, stopsOutput[Stops.ONE_STOP]?.count)
+        assertNull(stopsOutput[Stops.ONE_STOP]?.logo)
+        assertNull(stopsOutput[Stops.ONE_STOP]?.minPrice)
     }
 
     @Test
@@ -167,12 +172,45 @@ class FlightFilterViewModelTest {
         val airlineOutput = testAirlineSubscriber.values()[0]
         assertTrue(airlineOutput.containsKey("American Airlines"))
         assertEquals(3, airlineOutput.get("American Airlines")?.count)
+        assertNull(airlineOutput.get("American Airlines")?.logo)
+        assertNull(airlineOutput.get("American Airlines")?.minPrice)
+    }
+
+    @Test
+    fun testStopsObservableForPriceAndLogoAbTest() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo, 1)
+        setViewModel()
+        val testStopsSubscriber = TestObserver<TreeMap<Stops, CheckedFilterProperties>>()
+        vm.stopsObservable.subscribe(testStopsSubscriber)
+        vm.flightResultsObservable.onNext(getFlightList())
+
+        val stopsOutput = testStopsSubscriber.values().get(0)
+        assertTrue(stopsOutput.containsKey(Stops.ONE_STOP))
+        assertEquals(3, stopsOutput[Stops.ONE_STOP]?.count)
+        assertEquals(Money(200, "USD"), stopsOutput[Stops.ONE_STOP]?.minPrice)
+        assertNull(stopsOutput[Stops.ONE_STOP]?.logo)
+    }
+
+    @Test
+    fun testAirlineObservableForPriceAndLogoAbTest() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo, 1)
+        setViewModel()
+        val testAirlineSubscriber = TestObserver<TreeMap<String, CheckedFilterProperties>>()
+        vm.airlinesObservable.subscribe(testAirlineSubscriber)
+        vm.flightResultsObservable.onNext(getFlightList())
+
+        val airlineOutput = testAirlineSubscriber.values()[0]
+        assertTrue(airlineOutput.containsKey("American Airlines"))
+        assertEquals(3, airlineOutput.get("American Airlines")?.count)
+        assertEquals(Money(200, "USD"), airlineOutput.get("American Airlines")?.minPrice)
+        assertEquals("https/AmericanAirline", airlineOutput.get("American Airlines")?.logo)
     }
 
     private fun getFlightList(): List<FlightLeg> {
         val list = ArrayList<FlightLeg>()
         val flightLeg1 = FlightLeg()
         flightLeg1.carrierName = "American Airlines"
+        flightLeg1.carrierLogoUrl = "https/AmericanAirline"
         flightLeg1.elapsedDays = 1
         flightLeg1.durationHour = 19
         flightLeg1.durationMinute = 10
@@ -183,9 +221,12 @@ class FlightFilterViewModelTest {
         flightLeg1.packageOfferModel = PackageOfferModel()
         flightLeg1.packageOfferModel.price = PackageOfferModel.PackagePrice()
         flightLeg1.packageOfferModel.price.packageTotalPrice = Money("200", "USD")
+        flightLeg1.packageOfferModel.price.averageTotalPricePerTicket = Money("200", "USD")
+        flightLeg1.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal(200)
 
         val flightLeg2 = FlightLeg()
         flightLeg2.carrierName = "American Airlines"
+        flightLeg2.carrierLogoUrl = "https/AmericanAirline"
         flightLeg2.durationHour = 19
         flightLeg2.durationMinute = 0
         flightLeg2.departureDateTimeISO = "2016-09-07T01:20:00.000-05:00"
@@ -194,9 +235,12 @@ class FlightFilterViewModelTest {
         flightLeg2.packageOfferModel = PackageOfferModel()
         flightLeg2.packageOfferModel.price = PackageOfferModel.PackagePrice()
         flightLeg2.packageOfferModel.price.packageTotalPrice = Money("300", "USD")
+        flightLeg2.packageOfferModel.price.averageTotalPricePerTicket = Money("300", "USD")
+        flightLeg2.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal(300)
 
         val flightLeg3 = FlightLeg()
         flightLeg3.carrierName = "American Airlines"
+        flightLeg3.carrierLogoUrl = "https/AmericanAirline"
         flightLeg3.durationHour = 18
         flightLeg3.durationMinute = 0
         flightLeg3.departureDateTimeISO = "2016-09-07T21:20:00.000-05:00"
@@ -205,10 +249,17 @@ class FlightFilterViewModelTest {
         flightLeg3.packageOfferModel = PackageOfferModel()
         flightLeg3.packageOfferModel.price = PackageOfferModel.PackagePrice()
         flightLeg3.packageOfferModel.price.packageTotalPrice = Money("220", "USD")
+        flightLeg3.packageOfferModel.price.averageTotalPricePerTicket = Money("220", "USD")
+        flightLeg3.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal(220)
 
         list.add(flightLeg1)
         list.add(flightLeg2)
         list.add(flightLeg3)
         return list
+    }
+
+    fun setViewModel() {
+        widget.viewModelBase = BaseFlightFilterViewModel(getContext(), LineOfBusiness.FLIGHTS_V2)
+        vm = widget.viewModelBase
     }
 }
