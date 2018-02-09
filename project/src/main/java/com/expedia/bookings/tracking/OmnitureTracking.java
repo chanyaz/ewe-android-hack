@@ -4432,6 +4432,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_SEARCH_ERROR = "App.Package.Hotels-Search.NoResults";
 	private static final String PACKAGES_CHECKOUT_ERROR = "App.Package.Checkout.Error";
 	private static final String PACKAGES_CHECKOUT_ERROR_RETRY = "App.Package.CKO.Error.Retry";
+	private static final String PACKAGES_MID_SERVER_ERROR = "App.Package.Checkout.Error";
 
 	private static final String PACKAGES_CHECKOUT_SELECT_TRAVELER = "App.Package.Checkout.Traveler.Select";
 	private static final String PACKAGES_CHECKOUT_EDIT_TRAVELER = "App.Package.Checkout.Traveler.Edit.Info";
@@ -4687,6 +4688,13 @@ public class OmnitureTracking {
 
 	public static void trackPackagesPaymentStoredCCSelect() {
 		createAndTrackLinkEvent(PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC, "Package Checkout");
+	}
+
+	public static void trackPackagesMIDCreateTripError(String errorType) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_MID_SERVER_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_MID_SERVER_ERROR);
+		s.setProp(36, errorType);
+		s.track();
 	}
 
 	public static void trackPackagesConfirmation(PackageCheckoutResponse response, String hotelSupplierType,

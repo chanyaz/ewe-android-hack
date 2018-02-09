@@ -268,6 +268,10 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesCheckoutShowSlideToPurchase(flexStatus, cardType)
     }
 
+    fun trackMidCreateTripError(error: String) {
+        OmnitureTracking.trackPackagesMIDCreateTripError(error)
+    }
+
     fun trackCheckoutPaymentCID() {
         OmnitureTracking.trackPackagesCheckoutPaymentCID()
     }

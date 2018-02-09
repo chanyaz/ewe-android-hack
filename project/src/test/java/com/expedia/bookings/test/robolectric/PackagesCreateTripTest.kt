@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
@@ -15,12 +16,15 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.ui.PackageActivity
+import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -117,6 +121,20 @@ class PackagesCreateTripTest {
         createTripSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         createTripSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMidCreateTripErrorTracking() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        PackagesTracking().trackMidCreateTripError("MID_CREATETRIP_INVALID_REQUEST")
+        val linkName = "App.Package.Checkout.Error"
+
+        OmnitureTestUtils.assertStateTracked(linkName,
+                Matchers.allOf(OmnitureMatchers.withProps(mapOf(36 to "MID_CREATETRIP_INVALID_REQUEST")),
+                        OmnitureMatchers.withEvars(mapOf(18 to linkName))),
+                mockAnalyticsProvider)
     }
 
     @Test
