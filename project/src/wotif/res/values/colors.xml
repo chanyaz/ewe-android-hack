@@ -122,4 +122,8 @@
     <color name="itin_card_action_item_text_color">@color/app_primary</color>
     <color name="itin_add_guest_text_button_color">@color/app_primary</color>
 
+    <!--Single Page Sign Up-->
+    <color name="acct__single_page_toolbar_color">@color/new_launch_screen_color</color>
+    <color name="acct__single_page_create_account_bg_color">@color/new_launch_screen_color</color>
+
 </resources>

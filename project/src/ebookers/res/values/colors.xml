@@ -141,4 +141,8 @@
     <color name="flight_primary_color">@color/packages_primary_color</color>
     <color name="flights_error_message_infants">@color/error_color</color>
 
+    <!--Single Page Sign Up-->
+    <color name="acct__single_page_toolbar_color">@color/new_launch_screen_color</color>
+    <color name="acct__single_page_create_account_bg_color">@color/new_launch_screen_color</color>
+
 </resources>
