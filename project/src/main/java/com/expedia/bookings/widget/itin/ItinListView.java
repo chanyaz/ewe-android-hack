@@ -1,9 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.Semaphore;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -39,11 +35,16 @@ import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
+import com.expedia.bookings.itin.activity.LegacyItinCardDataActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
 import com.mobiata.android.Log;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.Semaphore;
 
 @SuppressWarnings("rawtypes")
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
@@ -571,6 +572,15 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private void showDetails(final int position, final boolean animate) {
 		// Invalid index
 		if (position < 0 || position >= mAdapter.getCount()) {
+			return;
+		}
+
+		if (LegacyItinCardDataActivity.featureEnabled(getContext())) {
+			ItinCardData data = mAdapter.getItem(position);
+			getContext().startActivity(LegacyItinCardDataActivity.createIntent(getContext(), data.getId()),
+					ActivityOptionsCompat
+							.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
+							.toBundle());
 			return;
 		}
 

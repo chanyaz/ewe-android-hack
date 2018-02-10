@@ -147,6 +147,14 @@
             tools:ignore="UnusedAttribute" />
 
         <activity
+            android:name="com.expedia.bookings.itin.activity.LegacyItinCardDataActivity"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:theme="@style/LaunchTheme.Light"
+            tools:ignore="UnusedAttribute"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name="com.expedia.bookings.itin.activity.HotelItinDetailsActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
