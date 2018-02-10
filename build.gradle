@@ -9,9 +9,9 @@ buildscript {
 
     repositories {
         jcenter()
+        google()
         maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://jitpack.io' }
-        maven { url 'https://maven.google.com' }
     }
     dependencies {
         classpath 'io.fabric.tools:gradle:1.25.1'
@@ -44,7 +44,7 @@ apply plugin: 'com.github.ben-manes.versions'
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
 ext.supportLibVersion = "26.1.0"
-ext.googlePlayServicesVersion = "11.0.4"
+ext.googlePlayServicesVersion = "11.8.0"
 
 ext.compileSdkVersion = 26
 ext.buildToolsVersion = "26.0.2"
@@ -143,7 +143,7 @@ dependencyUpdates.resolutionStrategy = {
 allprojects {
     repositories {
         jcenter()
-        maven { url 'https://maven.google.com' }
+        google()
     }
 }
 

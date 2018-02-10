@@ -15,7 +15,6 @@ apply plugin: 'com.shazam.fork.reporter.jenkins'
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
 repositories {
-    jcenter()
     maven { url 'https://maven.fabric.io/public' }
     maven {
         url "s3://mobiata-maven/release"
@@ -115,9 +114,6 @@ dependencies {
     }
 
     // Debug dependencies
-//    def leakCanaryVersion = '1.3.1'
-//    debugImplementation "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
-//    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
 
     // junit is only for mockwebserver
     debugImplementation "com.squareup.okhttp3:mockwebserver:${okhttp_version}"
