@@ -33,6 +33,9 @@ import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
 class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+
+    val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
+
     val titleView: TextView by bindView(R.id.deals_title)
     private val dateView: TextView by bindView(R.id.deals_date)
     private val discountView: TextView by bindView(R.id.deals_discount_percentage)
@@ -44,8 +47,6 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
     val dealsSubtitle: TextView by bindView(R.id.deals_subtitle)
     lateinit var searchParams: HotelSearchParams
     private lateinit var discountPercent: String
-
-    val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
 
     fun bind(vm: DealsDestinationViewModel) {
         discountView.visibility = View.VISIBLE
@@ -73,6 +74,25 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
         hideDiscountViewWithNoDiscount()
     }
 
+    fun setSearchParams(vm: DealsDestinationViewModel): HotelSearchParams {
+        val params = HotelSearchParams()
+        params.regionId = vm.regionId
+        params.checkInDate = vm.startDate
+        params.checkOutDate = vm.endDate
+        params.searchType = HotelSearchParams.SearchType.CITY
+        params.hotelId = getHotelId(vm)
+        params.query = vm.cityName
+        params.numAdults = getNumAdults(vm)
+        return params
+    }
+
+    private fun getNumAdults(vm: DealsDestinationViewModel): Int {
+        if (view.context is LastMinuteDealActivity) {
+            return vm.numberOfLastMinuteDealTravelers
+        }
+        return vm.numberOfMemberOnlyDealTravelers
+    }
+
     private fun getSubtitle(vm: DealsDestinationViewModel): String? {
         if (view.context is LastMinuteDealActivity) {
             return vm.cityName
@@ -96,16 +116,10 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
         }
     }
 
-    fun setSearchParams(vm: DealsDestinationViewModel): HotelSearchParams {
-        val params = HotelSearchParams()
-        params.regionId = vm.regionId
-        params.checkInDate = vm.startDate
-        params.checkOutDate = vm.endDate
-        params.sortType = "discounts"
-        params.searchType = HotelSearchParams.SearchType.CITY
-        params.query = vm.cityName
-
-        return params
+    private fun getHotelId(vm: DealsDestinationViewModel): String? {
+        return if (view.context is LastMinuteDealActivity) {
+            vm.hotelId
+        } else null
     }
 
     fun getDealsContentDesc(): CharSequence {

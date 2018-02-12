@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.os.LastMinuteDealsResponse
 import com.expedia.bookings.data.sos.DealsDestination
 import com.expedia.bookings.hotel.deeplink.HotelExtras
@@ -14,6 +15,7 @@ import com.expedia.bookings.mia.LastMinuteDealListAdapter
 import com.expedia.bookings.mia.activity.LastMinuteDealActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.HotelsV2DataUtil
+import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -45,6 +47,24 @@ class LastMinuteDealListAdapterTest {
     }
 
     @Test
+    fun tappingOnLastMinuteDeals_setsParamsCorrectlyForHotelSearch() {
+        adapterUnderTest.resultSubject.onNext(dealResponseWithDeals)
+        val vm = DealsDestinationViewModel(context, dealResponseWithDeals.offers!!.hotels!![1], "USD")
+        val recyclerView = setupRecyclerView()
+
+        clickOnViewHolderForAdapterPosition(recyclerView, vm, 0)
+
+        val startedIntent = lastMinuteDealShadowActivity.nextStartedActivity
+        val hotelSearchParamsString = startedIntent.extras.getString(HotelExtras.EXTRA_HOTEL_SEARCH_PARAMS)
+        val hotelSearchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(hotelSearchParamsString)
+
+        assertEquals(hotelSearchParams?.adults, 2)
+        assertEquals(hotelSearchParams?.suggestion?.hotelId, "12345")
+        assertEquals(hotelSearchParams?.checkIn, LocalDate(2018, 2, 12))
+        assertEquals(hotelSearchParams?.checkOut, LocalDate(2018, 2, 16))
+    }
+
+    @Test
     fun tappingDestinationTracksRank() {
         adapterUnderTest.resultSubject.onNext(dealResponseWithDeals)
 
@@ -71,6 +91,20 @@ class LastMinuteDealListAdapterTest {
         val hotelSearchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(hotelSearchParamsString)
 
         assertFalse(hotelSearchParams!!.shopWithPoints)
+    }
+
+    @Test
+    fun tappingOnLastMinuteDeals_sendsDealsCodeOnIntent() {
+        adapterUnderTest.resultSubject.onNext(dealResponseWithDeals)
+        val vm = DealsDestinationViewModel(context, DealsDestination().Hotel(), "")
+        val recyclerView = setupRecyclerView()
+
+        clickOnViewHolderForAdapterPosition(recyclerView, vm, 0)
+
+        val startedIntent = lastMinuteDealShadowActivity.nextStartedActivity
+        val code = startedIntent.extras.get(Codes.DEALS)
+
+        assertEquals(true, code)
     }
 
     @Test
@@ -120,11 +154,15 @@ class LastMinuteDealListAdapterTest {
                 lastMinuteDealsDestination.hotelPricingInfo = DealsDestination().Hotel().HotelPricingInfo()
                 lastMinuteDealsDestination.hotelInfo = DealsDestination().Hotel().HotelInfo()
                 lastMinuteDealsDestination.destination = DealsDestination().Hotel().Destination()
+                lastMinuteDealsDestination.offerDateRange = DealsDestination().Hotel().OfferDateRange()
                 lastMinuteDealsDestination.hotelPricingInfo!!.crossOutPriceValue = crossoutPriceValue
                 lastMinuteDealsDestination.hotelPricingInfo!!.percentSavings = 20.00
                 lastMinuteDealsDestination.hotelInfo!!.hotelProvince = "Some State"
                 lastMinuteDealsDestination.hotelInfo!!.hotelName = "Some Hotel"
                 lastMinuteDealsDestination.destination!!.shortName = "Some City"
+                lastMinuteDealsDestination.hotelInfo!!.hotelId = "12345"
+                lastMinuteDealsDestination.offerDateRange!!.travelStartDate = listOf(2018, 2, 12)
+                lastMinuteDealsDestination.offerDateRange!!.travelEndDate = listOf(2018, 2, 16)
                 listLoading.add(lastMinuteDealsDestination)
             }
             return listLoading

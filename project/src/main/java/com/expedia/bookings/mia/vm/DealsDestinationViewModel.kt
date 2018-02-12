@@ -32,6 +32,11 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
 
     val regionId: String? = leadingHotel.destination?.regionID
 
+    val hotelId: String? = leadingHotel.hotelInfo?.hotelId
+
+    val numberOfLastMinuteDealTravelers = 2
+    val numberOfMemberOnlyDealTravelers = 1
+
     val startDate: LocalDate by lazy {
         getDateInLocalDateFormat(leadingHotel.offerDateRange?.travelStartDate)
     }
