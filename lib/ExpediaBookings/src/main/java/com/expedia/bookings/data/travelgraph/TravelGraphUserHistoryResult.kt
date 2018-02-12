@@ -8,9 +8,14 @@ class TravelGraphUserHistoryResult {
     var action: TravelGraphUserHistoryResponse.TravelGraphItemType? = null
     var items: List<TravelGraphItem> = emptyList()
 
+    private val maxSuggestion = 3
+
     fun convertToSuggestionV4List(): List<SuggestionV4> {
         val suggestionList = ArrayList<SuggestionV4>()
-        items.forEach { tgItem ->
+        for (tgItem in items) {
+            if (suggestionList.count() >= maxSuggestion) {
+                break
+            }
             if (tgItem.isValid()) {
                 suggestionList.add(tgItem.searchInfo!!.searchRegion!!.toSuggestionV4()!!)
             }

@@ -73,4 +73,8 @@ object AbacusTestUtils {
         Db.sharedInstance.setAbacusResponse(abacusResponse)
         SettingUtils.save(context, featureKey, false)
     }
+
+    @JvmStatic fun enableFeature(context: Context, @StringRes featureKey: Int) {
+        SettingUtils.save(context, featureKey, true)
+    }
 }
