@@ -17,7 +17,7 @@ class LegacyItinCardDataActivity : AppCompatActivity(), ItinCard.OnItinCardClick
 
         @JvmStatic
         fun featureEnabled(): Boolean {
-            return Features.LEGACY_ITIN_CARD_IN_ACTIVITY.enabled()
+            return Features.all.legacyItinCardInActivity.enabled()
         }
 
         @JvmStatic

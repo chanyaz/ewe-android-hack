@@ -9,12 +9,14 @@ interface Feature {
 
 class Features {
     companion object {
-        val LEGACY_ITIN_CARD_IN_ACTIVITY: Feature by RemoteFeatureDelegate()
+        val all = Features()
     }
+
+    val legacyItinCardInActivity: Feature by RemoteFeatureDelegate()
 }
 
-class RemoteFeatureDelegate : ReadOnlyProperty<Features.Companion, Feature> {
-    override fun getValue(thisRef: Features.Companion, property: KProperty<*>): Feature {
+class RemoteFeatureDelegate : ReadOnlyProperty<Features, Feature> {
+    override fun getValue(thisRef: Features, property: KProperty<*>): Feature {
         return RemoteFeature(property.name)
     }
 }

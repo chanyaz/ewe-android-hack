@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.RouterActivity;
+import com.expedia.bookings.activity.SatelliteRemoteFeatureResolver;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.fragment.AccountSettingsFragment;
 import com.expedia.bookings.hotel.util.HotelGalleryManager;
@@ -111,4 +112,6 @@ public interface AppComponent {
 	FlightRegistrationHandler flightRegistrationService();
 
 	NotificationScheduler notificationScheduler();
+
+	SatelliteRemoteFeatureResolver satelliteRemoteFeatureResolver();
 }

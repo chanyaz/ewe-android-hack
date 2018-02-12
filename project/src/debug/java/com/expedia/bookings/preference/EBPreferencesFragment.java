@@ -1,7 +1,5 @@
 package com.expedia.bookings.preference;
 
-import java.io.IOException;
-
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -27,12 +25,14 @@ import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.utils.ChuckShim;
-import com.expedia.bookings.vm.DebugSelectLanguageVM;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UniqueIdentifierHelper;
+import com.expedia.bookings.vm.DebugSelectLanguageVM;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+
+import java.io.IOException;
 
 import io.reactivex.functions.Consumer;
 import kotlin.Unit;
@@ -189,13 +189,20 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 				.commit();
 			return true;
 		}
-
 		else if (getString(R.string.preference_open_feature_toggle_settings).equals(key)) {
 			getFragmentManager()
 				.beginTransaction()
 				.replace(R.id.fragment_container, new FeatureTogglePreferencesFragment())
 				.addToBackStack(FeatureTogglePreferencesFragment.class.getName())
 				.commit();
+			return true;
+		}
+		else if (getString(R.string.preference_open_remote_feature_toggle_settings).equals(key)) {
+			getFragmentManager()
+					.beginTransaction()
+					.replace(R.id.fragment_container, new RemoteFeaturePreferencesFragment())
+					.addToBackStack(RemoteFeaturePreferencesFragment.class.getName())
+					.commit();
 			return true;
 		}
 		else if (getString(R.string.preference_clear_user_cookies).equals(key)) {

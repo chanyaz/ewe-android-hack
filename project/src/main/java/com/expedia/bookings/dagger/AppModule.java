@@ -1,17 +1,10 @@
 package com.expedia.bookings.dagger;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.SatelliteRemoteFeatureResolver;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -50,6 +43,14 @@ import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -401,5 +402,11 @@ public class AppModule {
 	NotificationScheduler provideNotificationScheduler(Context context, NotificationManager notificationManager,
 		UserStateManager userStateManager, TNSServices tnsServices) {
 		return new NotificationScheduler(context, notificationManager, userStateManager, tnsServices);
+	}
+
+	@Provides
+	@Singleton
+	SatelliteRemoteFeatureResolver satelliteRemoteFeatureResolver(Context context) {
+		return new SatelliteRemoteFeatureResolver(context);
 	}
 }
