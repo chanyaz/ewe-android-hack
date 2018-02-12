@@ -3,6 +3,7 @@ package com.expedia.bookings.test.stepdefs.phone;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.pagemodels.common.TripsScreen;
 import com.expedia.bookings.test.support.Users;
 import com.expedia.bookings.test.support.Users.User;
 
@@ -17,7 +18,7 @@ import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDispla
 import static com.expedia.bookings.test.pagemodels.common.LaunchScreen.waitForLOBHeaderToBeDisplayed;
 
 public class HomeScreenSteps {
-	@And("^I tap on \"(Shop|Trip|Account)\" tab$")
+	@And("^I tap on \"(Shop Travel|Trips|Account)\" tab$")
 	public void homeScreenSwitchToTab(String tab) throws Throwable {
 		switch (tab) {
 			case "Account":
@@ -27,8 +28,9 @@ public class HomeScreenSteps {
 			case "Trips":
 				EspressoUtils.waitForViewNotYetInLayoutToDisplay(LaunchScreen.getTripsButton(), 10, TimeUnit.SECONDS);
 				LaunchScreen.tripsButton().perform(click());
+				TripsScreen.waitForTripsViewToLoad();
 				break;
-			case "Shop":
+			case "Shop Travel":
 				EspressoUtils.waitForViewNotYetInLayoutToDisplay(LaunchScreen.getShopButton(), 10, TimeUnit.SECONDS);
 				LaunchScreen.shopButton().perform(click());
 				break;

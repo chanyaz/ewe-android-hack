@@ -57,7 +57,6 @@ object LaunchScreen {
     }
 
     @JvmStatic fun tripsButton(): ViewInteraction {
-        waitForLOBHeaderToBeDisplayed()
         return onView(tripsButton)
     }
 

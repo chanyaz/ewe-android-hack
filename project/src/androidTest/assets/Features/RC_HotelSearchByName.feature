@@ -1,6 +1,6 @@
-@Prod @RC_HotelSearch
 Feature: Hotel Search with name
 
+  @Prod @RC_HotelSearch
   Scenario Outline: Successfully searching for hotels with hotel name.
 
     Given I launch the App

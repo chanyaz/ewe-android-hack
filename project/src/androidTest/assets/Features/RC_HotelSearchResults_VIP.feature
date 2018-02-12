@@ -7,7 +7,7 @@ Feature: +VIP labels and functionality on HSR and HIS pages
     And I login with user, which has
       | tier | <tier> |
       | type | <type> |
-    And I tap on "Shop" tab
+    And I tap on "Shop Travel" tab
     When I launch "Hotels" LOB
     When I search for hotels and choose a specific location
       | location   | <location>      |

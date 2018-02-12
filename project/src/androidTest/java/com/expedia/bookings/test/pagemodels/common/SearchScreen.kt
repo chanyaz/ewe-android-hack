@@ -23,6 +23,7 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.CustomMatchers
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
 import com.expedia.bookings.test.espresso.CalendarPickerActions
+import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.TestValues
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
@@ -37,6 +38,7 @@ import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 
 object SearchScreen {
+    @JvmStatic val suggestionList = withId(R.id.suggestion_list)
 
     @JvmStatic fun origin(): ViewInteraction {
         return onView(withId(R.id.origin_card))
@@ -359,9 +361,8 @@ object SearchScreen {
     }
 
     @JvmStatic private fun selectSuggestion(viewMatcher: Matcher<View>) {
-        suggestionList().perform(ViewActions.waitForViewToDisplay())
-
-        suggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS))
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(suggestionList, 10, TimeUnit.SECONDS)
+        waitForSuggestions(viewMatcher)
         suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, click()))
     }
 
@@ -374,7 +375,7 @@ object SearchScreen {
     }
 
     @JvmStatic fun suggestionList(): ViewInteraction {
-        return onView(withId(R.id.suggestion_list))
+        return onView(suggestionList)
     }
 
     @JvmStatic fun searchEditText(): ViewInteraction {

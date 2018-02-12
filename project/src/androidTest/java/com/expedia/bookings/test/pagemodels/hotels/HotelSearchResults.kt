@@ -16,7 +16,7 @@ import com.expedia.bookings.test.espresso.CustomMatchers.withIndex
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.ViewActions.swipeUntilUiObjectIsVisible
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.endsWith
+import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.startsWith
 import org.junit.Assert.assertTrue
@@ -41,7 +41,7 @@ object HotelSearchResults {
     private val resultsDescriptionHeader = allOf(withParent(resultsDescriptionContainer), withId(R.id.results_description_header))
     private val resultsHeaderLoyaltyPoints = allOf(withParent(resultsDescriptionContainer), withId(R.id.loyalty_points_applied_message))
     private val searchIsInProgress = allOf(resultsDescriptionHeader, withText("Searching hotels…"))
-    private val searchIsDone = allOf(resultsDescriptionHeader, withText(allOf(startsWith("Prices average per night"), endsWith("Results"))))
+    private val searchIsDone = allOf(resultsDescriptionHeader, withText(allOf(startsWith("Prices average per night"), containsString("Results"))))
     //Hotel Results Collection
     private val hotelSearchResultsContainer = withId(R.id.list_view)
     private val uHotelSearchResultsContainer = UiSelector().resourceId("com.expedia.bookings.debug:id/list_view")
