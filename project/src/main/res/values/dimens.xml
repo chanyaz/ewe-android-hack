@@ -171,6 +171,7 @@
     <dimen name="hotel_map_loyalty_header_height">33dp</dimen>
     <dimen name="hotel_carousel_fab_vertical_offset">10dp</dimen>
     <dimen name="hotel_results_last_price_buffer">90dp</dimen>
+    <dimen name="hotel_results_last_price_buffer_hide_mini_map">200dp</dimen>
     <dimen name="hotel_results_change_date_height">50dp</dimen>
 
     <!-- Dimensions for hotel details -->
