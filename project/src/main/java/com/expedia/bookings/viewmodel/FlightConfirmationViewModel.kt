@@ -7,5 +7,4 @@ class FlightConfirmationViewModel: ViewModel() {
         super.onCleared()
     }
 
-
 }
