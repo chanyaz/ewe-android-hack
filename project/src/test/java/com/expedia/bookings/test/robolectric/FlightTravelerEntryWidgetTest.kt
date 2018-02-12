@@ -36,6 +36,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
+import org.robolectric.shadows.ShadowListPopupWindow
 import kotlin.properties.Delegates.notNull
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -376,6 +377,46 @@ class FlightTravelerEntryWidgetTest {
 
         val travelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById<View>(R.id.select_traveler_button) as Button
         assertEquals(traveler.fullName, travelerButton.text.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTravelerButtonWithSavedTravelerContentDescription() {
+        setPOS(PointOfSaleId.UNITED_STATES)
+        givenMaterialForm()
+        setupViewModel(0, false)
+        val selectTravelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById<Button>(R.id.select_traveler_button)
+        widget.resetStoredTravelerSelection()
+
+        assertEquals("Saved traveler, Oscar The Grouch, button, opens traveler list", selectTravelerButton.contentDescription)
+    }
+
+    @Test
+    fun testTravelerButtonWithEmptyTravelerContentDescription() {
+        givenMaterialForm()
+        setupViewModel(0, false)
+        val selectTravelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById<Button>(R.id.select_traveler_button)
+        widget.viewModel.updateTraveler(Traveler())
+        widget.resetStoredTravelerSelection()
+
+        assertEquals("Select saved contacts, button, opens traveler list", selectTravelerButton.contentDescription)
+    }
+
+    @Test
+    fun testTravelerButtonAddTravelerContentDescription() {
+        givenMaterialForm()
+        val user = UserLoginTestUtil.mockUser()
+        user.primaryTraveler = traveler
+        user.addAssociatedTraveler(traveler)
+        UserLoginTestUtil.setupUserAndMockLogin(user)
+        setupViewModel(0, false)
+
+        val selectTravelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById<Button>(R.id.select_traveler_button)
+        selectTravelerButton.performClick()
+        val travelerList = ShadowListPopupWindow.getLatestListPopupWindow()
+        travelerList.performItemClick(1)
+
+        assertEquals("Add New Traveler, button, opens traveler list", selectTravelerButton.contentDescription)
     }
 
     @Test

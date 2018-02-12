@@ -2149,6 +2149,12 @@
     <string name="guest_details">Guest details</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">Traveler names must match government-issued photo ID exactly.</string>
+    <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
+    <string name="saved_traveler_button_content_description_TEMPLATE">Saved traveler, {travelername}, button, opens traveler list</string>
+    <!-- For saved travelers button without saved traveler, such as Add New Traveler or Select saved contacts, EG, Add New Traveler, button, opens traveler list -->
+    <string name="select_traveler_button_content_description_TEMPLATE">{buttontitle}, button, opens traveler list</string>
+    <!-- Announced when saved traveler dropdown list is shown to user-->
+    <string name="traveler_list_opened">Traveler List Opened</string>
 
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_country_code_dropdown_cont_desc">Country code</string>
