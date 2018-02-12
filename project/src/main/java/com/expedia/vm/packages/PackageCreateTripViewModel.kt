@@ -31,7 +31,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
     val tripParams = BehaviorSubject.create<PackageCreateTripParams>()
     val performMultiItemCreateTripSubject = PublishSubject.create<Unit>()
     val multiItemResponseSubject = PublishSubject.create<MultiItemApiCreateTripResponse>()
-    val showMIDCreateTripErrorAlertObservable = PublishSubject.create<Unit>()
+    val midCreateTripErrorObservable = PublishSubject.create<String>()
 
     init {
         tripParams.subscribe { params ->
@@ -73,7 +73,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
 
             override fun onNext(response: MultiItemApiCreateTripResponse) {
                 if (response.errors != null) {
-                    showMIDCreateTripErrorAlertObservable.onNext(Unit)
+                    midCreateTripErrorObservable.onNext(response.errors!![0].key)
                 } else {
                     showCreateTripDialogObservable.onNext(false)
                     multiItemResponseSubject.onNext(response)

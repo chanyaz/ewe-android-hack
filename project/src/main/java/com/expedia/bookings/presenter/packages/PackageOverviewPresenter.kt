@@ -66,7 +66,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         val webCheckoutView = viewStub.inflate() as WebCheckoutView
         val webCheckoutViewModel = PackageWebCheckoutViewViewModel(context)
         webCheckoutViewModel.packageCreateTripViewModel = getCheckoutPresenter().getCreateTripViewModel()
-        webCheckoutViewModel.packageCreateTripViewModel.showMIDCreateTripErrorAlertObservable.subscribe {
+        webCheckoutViewModel.packageCreateTripViewModel.midCreateTripErrorObservable.subscribe { error ->
+            PackagesTracking().trackMidCreateTripError(error)
             if (webCheckoutView.visibility == View.VISIBLE) {
                 back()
             }

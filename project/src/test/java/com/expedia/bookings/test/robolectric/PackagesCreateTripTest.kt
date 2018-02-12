@@ -22,7 +22,6 @@ import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.ui.PackageActivity
@@ -131,7 +130,11 @@ class PackagesCreateTripTest {
     fun testMidCreateTripErrorTracking() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        PackagesTracking().trackMidCreateTripError("MID_CREATETRIP_INVALID_REQUEST")
+
+        activity.packagePresenter.bundlePresenter.showCheckout()
+        val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
+        createTripViewModel.midCreateTripErrorObservable.onNext("MID_CREATETRIP_INVALID_REQUEST")
+
         val linkName = "App.Package.Checkout.Error"
 
         OmnitureTestUtils.assertStateTracked(linkName,
@@ -143,9 +146,9 @@ class PackagesCreateTripTest {
     @Test
     fun testMultiItemCreateTripErrorHandled() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
-        val showErrorAlertObserver = TestObserver<Unit>()
+        val showErrorAlertObserver = TestObserver<String>()
         val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
-        createTripViewModel.showMIDCreateTripErrorAlertObservable.subscribe(showErrorAlertObserver)
+        createTripViewModel.midCreateTripErrorObservable.subscribe(showErrorAlertObserver)
         createTripViewModel.packageServices = packageServiceRule.services!!
 
         val errorParams = MultiItemCreateTripParams.fromPackageSearchParams(getDummySearchParams("error"))
@@ -164,7 +167,7 @@ class PackagesCreateTripTest {
         val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
         val testCreateTripObserver = TestObserver<Unit>()
 
-        createTripViewModel.showMIDCreateTripErrorAlertObservable.onNext(Unit)
+        createTripViewModel.midCreateTripErrorObservable.onNext("error")
 
         val errorDialog = ShadowDialog.getLatestDialog()
         val changeFlight = errorDialog.findViewById<TextView>(R.id.change_flight)
