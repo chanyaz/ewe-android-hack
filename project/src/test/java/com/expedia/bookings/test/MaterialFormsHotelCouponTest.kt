@@ -13,6 +13,7 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
 import com.expedia.bookings.presenter.shared.StoredCouponAdapter
+import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.services.TestObserver
@@ -190,5 +191,17 @@ class MaterialFormsHotelCouponTest {
 
         assertEquals("Coupon applied!", couponWidget.appliedCouponMessage.text)
         assertEquals("CL9XR34LHP6V3H2B (-$23.80)", couponWidget.appliedCouponSubtitle.text)
+    }
+
+    @Test
+    fun testFunctionalityOfClickOnStoredCouponViewHolder() {
+        val testSubscriber = TestObserver.create<HotelCreateTripResponse.SavedCoupon>()
+        couponWidget.viewmodel.storedCouponViewModel.applyStoredCouponObservable.subscribe(testSubscriber)
+        val couponAdapter = couponWidget.storedCouponWidget.storedCouponRecyclerView.adapter as StoredCouponListAdapter
+        couponAdapter.coupons.addAll(CouponTestUtil.createStoredCouponAdapterData())
+        couponAdapter.applyStoredCouponObservable.onNext(0)
+
+        assertEquals("1", testSubscriber.values()[0].instanceId)
+        assertEquals("A", testSubscriber.values()[0].name)
     }
 }

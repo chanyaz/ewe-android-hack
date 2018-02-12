@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.presenter.shared.StoredCouponAppliedStatus
 import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponViewHolder
@@ -86,17 +85,28 @@ class StoredCouponWidgetTest {
 
     @Test
     fun testFunctionalityOfClickOnStoredCouponViewHolder() {
-        val applyStoredCouponTestSubject = TestObserver.create<HotelCreateTripResponse.SavedCoupon>()
         setupStoredCouponWidget()
-        val adapter = (storedCouponWidget.storedCouponRecyclerView.adapter as StoredCouponListAdapter)
-        adapter.applyStoredCouponObservable.subscribe(applyStoredCouponTestSubject)
-
         val storedCouponViewHolderAt0 = findStoredCouponViewHolderAtPosition(0)
         storedCouponViewHolderAt0.itemView.performClick()
 
-        assertEquals("1", applyStoredCouponTestSubject.values()[0].instanceId)
-        assertEquals("A", applyStoredCouponTestSubject.values()[0].name)
         testViewsInStoredCouponViewHolder(View.GONE, "A", View.GONE, storedCouponViewHolderAt0, View.VISIBLE, View.GONE)
+    }
+
+    @Test
+    fun testObserverCountForCouponClickAction() {
+        val testApplyCoupon = TestObserver.create<Int>()
+        setupStoredCouponWidget()
+        val adapter = (storedCouponWidget.storedCouponRecyclerView.adapter as StoredCouponListAdapter)
+        adapter.applyStoredCouponObservable.subscribe(testApplyCoupon)
+        val storedCouponViewHolderAt0 = findStoredCouponViewHolderAtPosition(0)
+        storedCouponViewHolderAt0.itemView.performClick()
+
+        assertEquals(1, testApplyCoupon.valueCount())
+
+        adapter.notifyDataSetChanged()
+        storedCouponViewHolderAt0.itemView.performClick()
+
+        assertEquals(2, testApplyCoupon.valueCount())
     }
 
     fun setupStoredCouponWidget(couponNames: List<String> = listOf("A", "B", "C"),
@@ -114,10 +124,12 @@ class StoredCouponWidgetTest {
         return (storedCouponWidget.storedCouponRecyclerView.findViewHolderForAdapterPosition(position) as StoredCouponViewHolder)
     }
 
-    fun testViewsInStoredCouponViewHolder(visibilityOfDefaultImage: Int, couponText: String, visibilityOfAppliedImage: Int, viewHolder: StoredCouponViewHolder, visibilityOfProgressBar: Int, visibilityOfErrorImage: Int) {
+    fun testViewsInStoredCouponViewHolder(visibilityOfDefaultImage: Int, couponText: String, visibilityOfAppliedImage: Int, viewHolder: StoredCouponViewHolder, visibilityOfProgressBar: Int, visibilityOfErrorImage: Int, visibilityOfErrorString: Int = View.GONE) {
         assertEquals(couponText, viewHolder.couponNameTextView.text.toString())
         assertEquals(visibilityOfDefaultImage, viewHolder.defaultStateImage.visibility)
         assertEquals(visibilityOfAppliedImage, viewHolder.couponApplied.visibility)
         assertEquals(visibilityOfProgressBar, viewHolder.progressBar.visibility)
+        assertEquals(visibilityOfErrorImage, viewHolder.errorImageView.visibility)
+        assertEquals(visibilityOfErrorString, viewHolder.couponErrorTextView.visibility)
     }
 }

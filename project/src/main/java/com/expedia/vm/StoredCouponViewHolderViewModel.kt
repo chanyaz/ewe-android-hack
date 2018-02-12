@@ -8,5 +8,4 @@ class StoredCouponViewHolderViewModel {
     val couponStatus = PublishSubject.create<StoredCouponAppliedStatus>()
     val enableViewHolder = PublishSubject.create<Boolean>()
     val errorObservable = PublishSubject.create<String>()
-    val couponClickActionSubject = PublishSubject.create<Int>()
 }

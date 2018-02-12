@@ -52,7 +52,9 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     override fun setUpViewModelSubscriptions() {
 
-        getStoredCouponListAdapter().applyStoredCouponObservable.subscribe(viewmodel.storedCouponViewModel.applyStoredCouponObservable)
+        getStoredCouponListAdapter().applyStoredCouponObservable.subscribe { clickPosition ->
+            viewmodel.storedCouponViewModel.applyStoredCouponObservable.onNext(getStoredCouponListAdapter().coupons[clickPosition].savedCoupon)
+        }
 
         viewmodel.storedCouponViewModel.errorMessageObservable.withLatestFrom(viewmodel.storedCouponViewModel.storedCouponActionParam, { errorText, storedCouponActionParam ->
             storedCouponWidget.viewModel.errorObservable.onNext(Pair(errorText, storedCouponActionParam.instanceId))
@@ -68,8 +70,8 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
                 .map { it.isNotEmpty() && isShowSavedCoupons(context) }
                 .subscribe(viewmodel.storedCouponWidgetVisibilityObservable)
 
-        viewmodel.storedCouponViewModel.applyStoredCouponObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, {
-            coupon, paymentSplitsAndTripResponse -> Pair(coupon, paymentSplitsAndTripResponse)
+        viewmodel.storedCouponViewModel.applyStoredCouponObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, { coupon, paymentSplitsAndTripResponse ->
+            Pair(coupon, paymentSplitsAndTripResponse)
         }).subscribe {
             viewmodel.submitStoredCoupon(it.second.paymentSplits, it.second.tripResponse, userStateManager, it.first)
         }

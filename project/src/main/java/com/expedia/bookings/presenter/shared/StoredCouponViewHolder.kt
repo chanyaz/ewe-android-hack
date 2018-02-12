@@ -10,8 +10,9 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.StoredCouponViewHolderViewModel
+import io.reactivex.subjects.PublishSubject
 
-class StoredCouponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class StoredCouponViewHolder(view: View, clickActionObserver: PublishSubject<Int>) : RecyclerView.ViewHolder(view) {
     val couponNameTextView by bindView<TextView>(R.id.hotel_coupon_name)
     val defaultStateImage by bindView<ImageView>(R.id.stored_coupon_default)
     val progressBar by bindView<ProgressBar>(R.id.stored_coupon_progress_bar)
@@ -52,10 +53,12 @@ class StoredCouponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     init {
         view.setOnClickListener {
+            errorImageView.visibility = View.GONE
+            couponErrorTextView.visibility = View.GONE
             defaultStateImage.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
             val clickHolderViewTag = itemView.tag as Int
-            viewModel.couponClickActionSubject.onNext(clickHolderViewTag)
+            clickActionObserver.onNext(clickHolderViewTag)
         }
     }
 }

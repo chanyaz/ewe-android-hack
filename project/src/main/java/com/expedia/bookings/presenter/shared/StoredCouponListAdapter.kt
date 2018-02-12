@@ -4,15 +4,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.util.safeSubscribe
 import io.reactivex.subjects.PublishSubject
 
 class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCouponAdapter>>,
-                              val enableStoredCouponsSubject: PublishSubject<Boolean>, val errorMessageAndSavedCouponInstanceIDObservable: PublishSubject<Pair<String, String>>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                              val enableStoredCouponsSubject: PublishSubject<Boolean>, errorMessageAndSavedCouponInstanceIDObservable: PublishSubject<Pair<String, String>>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var coupons = arrayListOf<StoredCouponAdapter>()
-    val applyStoredCouponObservable = PublishSubject.create<HotelCreateTripResponse.SavedCoupon>()
+    val applyStoredCouponObservable = PublishSubject.create<Int>()
 
     init {
         errorMessageAndSavedCouponInstanceIDObservable.subscribe {
@@ -33,7 +32,7 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.stored_coupon_view, parent, false)
-        return StoredCouponViewHolder(view as ViewGroup)
+        return StoredCouponViewHolder(view as ViewGroup, applyStoredCouponObservable)
     }
 
     override fun getItemCount(): Int {
@@ -47,9 +46,6 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
             coupons[position].savedCouponStatus
         } else StoredCouponAppliedStatus.ERROR)
         storedCouponHolder.viewModel.errorObservable.onNext(coupons[position].errorMessage)
-        storedCouponHolder.viewModel.couponClickActionSubject.subscribe { viewHolderTag ->
-            applyStoredCouponObservable.onNext(coupons[viewHolderTag].savedCoupon)
-        }
         holder.itemView.tag = position
         enableStoredCouponsSubject.subscribe(holder.viewModel.enableViewHolder)
     }
