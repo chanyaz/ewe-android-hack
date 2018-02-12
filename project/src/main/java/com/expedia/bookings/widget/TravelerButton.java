@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -69,12 +70,8 @@ public class TravelerButton extends LinearLayout {
 	@OnClick(R.id.select_traveler_button)
 	public void onShowTraveler() {
 		Ui.hideKeyboard((Activity) getContext());
-		postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				showSavedTravelers();
-			}
-		}, 100L);
+		showSavedTravelers();
+		announceForAccessibility(getContext().getString(R.string.traveler_list_opened));
 	}
 
 	@Override
@@ -106,6 +103,7 @@ public class TravelerButton extends LinearLayout {
 
 	public void updateSelectTravelerText(String text) {
 		selectTraveler.setText(text);
+		setSelectTravelerContentDescription(text);
 	}
 
 	private void onStoredTravelerSelected(int position) {
@@ -118,7 +116,8 @@ public class TravelerButton extends LinearLayout {
 			if (mTravelerButtonListener != null) {
 				mTravelerButtonListener.onAddNewTravelerSelected();
 			}
-			selectTraveler.setText(getResources().getString(R.string.add_new_traveler));
+			String addTravelerText = getResources().getString(R.string.add_new_traveler);
+			updateSelectTravelerText(addTravelerText);
 			mStoredTravelerPopup.dismiss();
 			return;
 		}
@@ -206,9 +205,8 @@ public class TravelerButton extends LinearLayout {
 				deselectCurrentTraveler();
 				Traveler mainTraveler = results.getTraveler();
 				Db.getWorkingTravelerManager().shiftWorkingTraveler(mainTraveler);
-				String travelerFullName;
-				travelerFullName = mainTraveler.getFullNameBasedOnPos();
-				selectTraveler.setText(travelerFullName);
+				String travelerFullName = mainTraveler.getFullNameBasedOnPos();
+				updateSelectTravelerText(travelerFullName);
 				if (mTravelerButtonListener != null) {
 					mTravelerButtonListener.onTravelerChosen(mainTraveler);
 				}
@@ -229,5 +227,21 @@ public class TravelerButton extends LinearLayout {
 	private void deselectCurrentTraveler() {
 		Traveler previousTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 		TravelerUtils.resetPreviousTravelerSelectState(previousTraveler, getContext());
+	}
+
+	private void setSelectTravelerContentDescription(String buttonText) {
+		String contentDescription = isNotTravelerName(buttonText) ?
+			Phrase.from(getContext(), R.string.select_traveler_button_content_description_TEMPLATE)
+				.put("buttontitle", buttonText)
+				.format().toString() :
+			Phrase.from(getContext(), R.string.saved_traveler_button_content_description_TEMPLATE)
+				.put("travelername", buttonText)
+				.format().toString();
+		selectTraveler.setContentDescription(contentDescription);
+	}
+
+	private boolean isNotTravelerName(String text) {
+		return text.equals(getContext().getString(R.string.add_new_traveler)) ||
+			text.equals(getContext().getString(R.string.traveler_saved_contacts_text));
 	}
 }

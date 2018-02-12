@@ -15,6 +15,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
+import com.expedia.bookings.section.TravelerAutoCompleteAdapter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -36,6 +37,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
+import org.robolectric.shadows.ShadowListPopupWindow
 import kotlin.properties.Delegates.notNull
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -376,6 +378,47 @@ class FlightTravelerEntryWidgetTest {
 
         val travelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById<View>(R.id.select_traveler_button) as Button
         assertEquals(traveler.fullName, travelerButton.text.toString())
+    }
+
+    @Test
+    fun testTravelerButtonWithSavedTravelerContentDescription() {
+        setPOS(PointOfSaleId.UNITED_STATES)
+        givenMaterialForm()
+        setupViewModel(0, false)
+        val selectTraveler = travelerPresenter.travelerEntryWidget.travelerButton.findViewById<Button>(R.id.select_traveler_button)
+        widget.resetStoredTravelerSelection()
+
+        assertEquals("Saved Traveler, Oscar The Grouch, button, opens traveler list", selectTraveler.contentDescription)
+    }
+
+    @Test
+    fun testTravelerButtonWithEmptyTravelerContentDescription() {
+        setPOS(PointOfSaleId.UNITED_STATES)
+        givenMaterialForm()
+        Db.sharedInstance.travelers.add(Traveler())
+        setupViewModel(2, false)
+        val selectTraveler = travelerPresenter.travelerEntryWidget.travelerButton.findViewById<Button>(R.id.select_traveler_button)
+        widget.resetStoredTravelerSelection()
+
+        assertEquals("Select saved contacts, button, opens traveler list", selectTraveler.contentDescription)
+    }
+
+    @Test
+    fun testTravelerButtonAddTravelerContentDescription() {
+        setPOS(PointOfSaleId.UNITED_STATES)
+        givenMaterialForm()
+        val user = UserLoginTestUtil.mockUser()
+        user.primaryTraveler = traveler
+        user.addAssociatedTraveler(traveler)
+        UserLoginTestUtil.setupUserAndMockLogin(user)
+        setupViewModel(0, false)
+
+        val selectTraveler = travelerPresenter.travelerEntryWidget.travelerButton.findViewById<Button>(R.id.select_traveler_button)
+        selectTraveler.performClick()
+        val travelerList = ShadowListPopupWindow.getLatestListPopupWindow()
+        travelerList.performItemClick(1)
+
+        assertEquals("Add New Traveler, button, opens traveler list", selectTraveler.contentDescription)
     }
 
     @Test
