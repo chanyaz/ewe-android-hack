@@ -123,6 +123,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 
 		seeAllButton = ButterKnife.findById(headerView, R.id.see_all_hotels_button);
+		seeAllButton.setContentDescription(Phrase.from(context, R.string.a11y_button_TEMPLATE)
+				.put("description", context.getString(R.string.nearby_deals_expand)).format().toString());
 		launchListTitle = ButterKnife.findById(headerView, R.id.launch_list_header_title);
 		FontCache.setTypeface(launchListTitle, FontCache.Font.ROBOTO_MEDIUM);
 		setListData(new ArrayList<LaunchDataItem>(), "");
