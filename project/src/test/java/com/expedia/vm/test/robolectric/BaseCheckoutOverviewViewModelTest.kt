@@ -30,6 +30,7 @@ class BaseCheckoutOverviewViewModelTest {
         datesTitleTestSubscriber.assertValueCount(1)
         datesTitleContDescTestSubscriber.assertValueCount(1)
 
+        assertEquals(true, viewmodel.shouldResetBehavior)
         assertEquals("Mon Sep 06, 2021", datesTitleTestSubscriber.values().first())
         assertEquals("Mon Sep 06, 2021", datesTitleContDescTestSubscriber.values().first())
     }
@@ -50,6 +51,7 @@ class BaseCheckoutOverviewViewModelTest {
         datesTitleTestSubscriber.assertValueCount(1)
         datesTitleContDescTestSubscriber.assertValueCount(1)
 
+        assertEquals(true, viewmodel.shouldResetBehavior)
         assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", datesTitleTestSubscriber.values().first())
         assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", datesTitleContDescTestSubscriber.values().first())
     }
