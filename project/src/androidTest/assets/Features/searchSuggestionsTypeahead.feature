@@ -45,7 +45,8 @@ Feature: Search Suggestions for Flights
     And I launch "Flights" LOB
     When I type "lon" in the flights search box
     And I select "London, England, UK (LON - All Airports)" from suggestions
-    And I type "lo" in the flights destination search box
+    And I press back following number of times: 2
+    And I type "lo" in the flights search box
     Then "London, England, UK (LON - All Airports)" is listed at the top of suggestion list as recent search
 
   @Flights @FlightsTypeahead
