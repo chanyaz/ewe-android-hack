@@ -214,12 +214,14 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SEARCH_FILTER_NEIGHBOURHOOD = "App.Hotels.Search.Neighborhood";
 	private static final String HOTELSV2_SEARCH_FILTER_BY_NAME = "App.Hotels.Search.HotelName";
 	private static final String HOTELSV2_CLEAR_FILTER = "App.Hotels.Search.ClearFilter";
+	private static final String HOTELSV2_RESULT_CHANGE_DATE = "App.Hotels.Search.ChangeDates";
 	private static final String HOTELSV2_SUPER_SEARCH_FILTER = "App.Hotels.Dest-Search.Filter";
 	private static final String HOTELSV2_SUPER_SEARCH_SORT_BY = "App.Hotels.Dest-Search.Sort.";
 	private static final String HOTELSV2_SUPER_SEARCH_STAR_RATING = "App.Hotels.Dest-Search.Filter.";
 	private static final String HOTELSV2_SUPER_SEARCH_FILTER_VIP = "App.Hotels.Dest-Search.Filter.VIP.";
 	private static final String HOTELSV2_SUPER_SEARCH_CLEAR_FILTER = "App.Hotels.Dest-Search.ClearFilter";
 	private static final String HOTELSV2_SEARCH_MAP = "App.Hotels.Search.Map";
+	private static final String HOTELSV2_RESULT_MAP_CHANGE_DATE = "App.Hotels.Search.Map.ChangeDates";
 	private static final String HOTELSV2_SEARCH_MAP_TO_LIST = "App.Hotels.Search.Expand.List";
 	private static final String HOTELSV2_SEARCH_MAP_TAP_PIN = "App.Hotels.Search.TapPin";
 	private static final String HOTELSV2_SEARCH_THIS_AREA = "App.Hotels.Search.AreaSearch";
@@ -288,6 +290,17 @@ public class OmnitureTracking {
 		s.setProp(16, APP_CKO_SLIDE_TO_BOOK);
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.trackLink(UNIVERSAL_CHECKOUT);
+	}
+
+	public static void trackChangeDateClick(Boolean isMap) {
+		String link;
+		if (isMap) {
+			link = HOTELSV2_RESULT_MAP_CHANGE_DATE;
+		}
+		else {
+			link = HOTELSV2_RESULT_CHANGE_DATE;
+		}
+		createAndTrackLinkEvent(link, "Hotel Search");
 	}
 
 	public static void trackKrazyglueError(@NotNull String errorCause) {
@@ -554,6 +567,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.HotelUrgencyV2);
 		trackAbacusTest(s, AbacusUtils.HotelHideMiniMapOnResult);
 		trackAbacusTest(s, AbacusUtils.HotelSoldOutOnHSRTreatment);
+		trackAbacusTest(s, AbacusUtils.HotelResultChangeDate);
 		// Send the tracking data
 		s.track();
 	}

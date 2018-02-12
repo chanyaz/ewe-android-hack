@@ -8,7 +8,10 @@ import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.hotel.util.HotelCalendarDirections
+import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelSearchManager
+import com.expedia.bookings.model.HotelStayDates
 import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -25,6 +28,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
     // inputs
     val filterParamsSubject = PublishSubject.create<UserFilterChoices>()
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
+    val dateChagedParamsSubject = PublishSubject.create<HotelStayDates>()
 
     // outputs
     val searchInProgressSubject = PublishSubject.create<Unit>()
@@ -38,12 +42,18 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
 
     val paramChangedSubject = PublishSubject.create<HotelSearchParams>()
 
+    val changeDateStringSubject = PublishSubject.create<String>()
+    val guestStringSubject = PublishSubject.create<String>()
+
     var cachedResponse: HotelSearchResponse? = null
         private set
 
     private var isFilteredSearch = false
     private var cachedParams: HotelSearchParams? = null
     private var apiSubscriptions = CompositeDisposable()
+
+    private val hotelCalendarRules by lazy { HotelCalendarRules(context) }
+    private val hotelCalendarDirections by lazy { HotelCalendarDirections(context) }
 
     init {
         paramsSubject.subscribe(endlessObserver { params ->
@@ -63,7 +73,15 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             addFilterCriteria(paramBuilder, filterParams)
             val newParams = paramBuilder.build()
             newParams.clearPinnedHotelId()
-            doSearch(newParams, true)
+            doSearch(newParams, isFilteredSearch = true)
+            paramChangedSubject.onNext(newParams)
+        })
+
+        dateChagedParamsSubject.subscribe(endlessObserver { stayDates ->
+            val builder = HotelSearchParams.Builder(hotelCalendarRules.getMaxDateRange(), hotelCalendarRules.getMaxSearchDurationDays())
+            builder.from(cachedParams!!).startDate(stayDates.getStartDate()).endDate(stayDates.getEndDate())
+            val newParams = builder.build()
+            doSearch(newParams, isChangeDateSearch = true)
             paramChangedSubject.onNext(newParams)
         })
 
@@ -135,17 +153,18 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
                 .destination(suggestion)
                 .startDate(params?.checkIn)
                 .endDate(params?.checkOut)
-                .adults(params?.adults!!)
-                .children(params.children) as HotelSearchParams.Builder
-        return builder.shopWithPoints(params.shopWithPoints)
+                .adults(params?.adults ?: 1)
+                .children(params?.children ?: emptyList()) as HotelSearchParams.Builder
+        return builder.shopWithPoints(params?.shopWithPoints ?: false)
     }
 
-    private fun doSearch(params: HotelSearchParams, isFilteredSearch: Boolean = false) {
+    private fun doSearch(params: HotelSearchParams, isFilteredSearch: Boolean = false, isChangeDateSearch: Boolean = false) {
         cachedParams = params
         this.isFilteredSearch = isFilteredSearch
         updateTitles(params)
+        updateChangeDateString(params)
         searchingForHotelsDateTime.onNext(Unit)
-        if (isFilteredSearch && !hotelSearchManager.fetchingResults) {
+        if ((isChangeDateSearch || isFilteredSearch) && !hotelSearchManager.fetchingResults) {
             searchInProgressSubject.onNext(Unit)
             hotelSearchManager.doSearch(params)
         } else {
@@ -212,5 +231,11 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
                         .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.checkOut))
                         .put("guests", StrUtils.formatGuestString(context, params.guests))
                         .format().toString())
+    }
+
+    private fun updateChangeDateString(params: HotelSearchParams) {
+        val endDate = params.endDate ?: params.startDate.plusDays(1)
+        changeDateStringSubject.onNext(hotelCalendarDirections.getCompleteDateText(params.startDate, endDate, false))
+        guestStringSubject.onNext(StrUtils.formatGuestString(context, params.guests))
     }
 }

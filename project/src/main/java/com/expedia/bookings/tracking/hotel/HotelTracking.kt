@@ -384,5 +384,9 @@ open class HotelTracking {
         fun trackSlideToBook() {
             OmnitureTracking.trackSlideToBookAction()
         }
+
+        fun trackChangeDateClick(isMap: Boolean) {
+            OmnitureTracking.trackChangeDateClick(isMap)
+        }
     }
 }

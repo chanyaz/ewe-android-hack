@@ -6,8 +6,10 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Rect
+import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
+import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -22,17 +24,21 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.AnimationRunner
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
+import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
+import com.expedia.bookings.model.HotelStayDates
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.urgency.UrgencyServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
+import com.expedia.bookings.widget.HotelResultsChangeDateView
 import com.expedia.bookings.widget.HotelServerFilterView
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
@@ -50,7 +56,8 @@ import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
-    val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
+    private val hotelResultChangeDateView: HotelResultsChangeDateView by bindView(R.id.hotel_result_change_date_container)
+    private val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     private val narrowResultsPromptView: TextView by bindView(R.id.narrow_result_prompt)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
@@ -76,6 +83,17 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
+
+        hotelResultChangeDateView.calendarClickedSubject.subscribe {
+            if (!adapter.isLoading() && loadingOverlay.visibility != View.VISIBLE) {
+                showChangeDatesDialog()
+            }
+        }
+
+        if (isBucketedToShowChangeDate()) {
+            hotelResultChangeDateView.visibility = View.VISIBLE
+            toolbarShadow.visibility = View.GONE
+        }
     }
 
     var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
@@ -109,12 +127,12 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             }
         }
 
-        vm.titleSubject.subscribe {
-            toolbarTitle.text = it
+        vm.titleSubject.subscribe { titleString ->
+            toolbarTitle.text = titleString
         }
 
-        vm.subtitleSubject.subscribe {
-            toolbarSubtitle.text = it
+        vm.subtitleSubject.subscribe { subtitleString ->
+            toolbarSubtitle.text = subtitleString
         }
         vm.subtitleContDescSubject.subscribeContentDescription(toolbarSubtitle)
 
@@ -146,6 +164,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterViewModel.isCurrentLocationSearch)
 
         vm.errorObservable.subscribe { hideMapLoadingOverlay() }
+
+        vm.changeDateStringSubject.subscribe(hotelResultChangeDateView.changeDateStringSubject)
+        vm.guestStringSubject.subscribe(hotelResultChangeDateView.guestStringSubject)
     }
 
     private fun showSortAndFilter() {
@@ -293,6 +314,10 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         HotelTracking.trackHotelsSearchAreaClick()
     }
 
+    private fun trackChangeDateClick(isMap: Boolean) {
+        HotelTracking.trackChangeDateClick(isMap)
+    }
+
     override fun getHotelListAdapter(): BaseHotelListAdapter {
         return HotelListAdapter(hotelSelectedSubject, headerClickedSubject, pricingHeaderSelectedSubject)
     }
@@ -303,6 +328,16 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun createFilterViewModel(): BaseHotelFilterViewModel {
         return HotelFilterViewModel(context)
+    }
+
+    override fun showChangeDateBanner() {
+        if (isBucketedToShowChangeDate()) {
+            hotelResultChangeDateView.animateIn()
+        }
+    }
+
+    override fun getScrollListener(): BaseHotelResultsScrollListener {
+        return HotelResultsScrollListener()
     }
 
     fun handleSoldOutHotel(hotelId: String) {
@@ -376,7 +411,39 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
     }
 
+    private fun showChangeDatesDialog() {
+        val params = viewModel.getSearchParams()
+        if (params == null) {
+            return
+        }
+
+        trackChangeDateClick(currentState == BaseHotelResultsPresenter.ResultsMap::class.java.name)
+
+        val dialogFragment = ChangeDatesDialogFragment()
+        dialogFragment.datesChangedSubject.subscribe { stayDates ->
+            viewModel.dateChagedParamsSubject.onNext(stayDates)
+        }
+        val fragmentManager = (context as FragmentActivity).supportFragmentManager
+
+        dialogFragment.presetDates(HotelStayDates(params.checkIn, params.checkOut))
+        dialogFragment.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
+    }
+
     private fun shouldFetchUrgency(): Boolean {
         return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.HotelUrgencyV2)
+    }
+
+    private inner class HotelResultsScrollListener : BaseHotelResultsScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            if (isBucketedToShowChangeDate()) {
+                if (dy < 0) {
+                    hotelResultChangeDateView.animateIn()
+                } else if (dy > 0 && !isHeaderVisible()) {
+                    hotelResultChangeDateView.animateOut()
+                }
+            }
+        }
     }
 }

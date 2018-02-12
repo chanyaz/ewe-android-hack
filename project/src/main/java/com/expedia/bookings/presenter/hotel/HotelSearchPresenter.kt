@@ -140,7 +140,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         }
     }
 
-    private lateinit var travelGraphViewModel: TravelGraphViewModel
+    private var travelGraphViewModel: TravelGraphViewModel
 
     override fun inflate() {
         View.inflate(context, R.layout.widget_hotel_search, this)

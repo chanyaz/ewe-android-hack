@@ -138,4 +138,8 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     override fun createFilterViewModel(): BaseHotelFilterViewModel {
         return PackageFilterViewModel(context)
     }
+
+    override fun getScrollListener(): BaseHotelResultsScrollListener {
+        return BaseHotelResultsScrollListener()
+    }
 }

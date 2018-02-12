@@ -4,7 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import io.reactivex.subjects.PublishSubject
 
@@ -20,5 +22,13 @@ class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubjec
 
     override fun getPriceDescriptorMessageIdForHSR(context: Context): Int? {
         return null
+    }
+
+    override fun getHeaderTopPadding(context: Context, currentPadding: Int): Int {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelResultChangeDate) &&
+                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelHideMiniMapOnResult)) {
+            return context.resources.getDimensionPixelSize(R.dimen.hotel_results_change_date_height) + currentPadding
+        }
+        return currentPadding
     }
 }

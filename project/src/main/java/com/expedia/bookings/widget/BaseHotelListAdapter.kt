@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -38,6 +39,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
 
     abstract fun getHotelCellHolder(parent: ViewGroup): AbstractHotelCellViewHolder
     abstract fun getPriceDescriptorMessageIdForHSR(context: Context): Int?
+    abstract fun getHeaderTopPadding(context: Context, currentPadding: Int): Int
 
     var firstHotelIndex = 0
     val FILTER_PROMPT_POSITION = 15
@@ -215,6 +217,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     }
 
     inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup, val vm: HotelResultsPricingStructureHeaderViewModel) : RecyclerView.ViewHolder(root) {
+        val resultsDescriptionContainer: RelativeLayout by bindView(R.id.results_description_container)
         val resultsDescriptionHeader: TextView by bindView(R.id.results_description_header)
         val loyaltyPointsAppliedHeader: TextView by bindView(R.id.loyalty_points_applied_message)
         val shadow: View by bindView(R.id.drop_shadow)
@@ -222,6 +225,12 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         init {
             if (isHideMiniMapOnResultBucketed(root.context) || ExpediaBookingApp.isDeviceShitty()) {
                 shadow.visibility = View.GONE
+            }
+
+            val offset = getHeaderTopPadding(root.context, resultsDescriptionContainer.paddingTop)
+            if (offset != resultsDescriptionContainer.paddingTop) {
+                resultsDescriptionContainer.setPadding(resultsDescriptionContainer.paddingLeft, offset,
+                        resultsDescriptionContainer.paddingRight, resultsDescriptionContainer.paddingBottom)
             }
 
             val faqUrl = PointOfSale.getPointOfSale().hotelsResultsSortFaqUrl

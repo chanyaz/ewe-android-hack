@@ -72,6 +72,14 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <com.expedia.bookings.widget.HotelResultsChangeDateView
+            android:id="@+id/hotel_result_change_date_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:translationZ="-1dp"
+            android:visibility="gone" />
+
         <View
             android:id="@+id/toolbar_dropshadow"
             android:layout_width="match_parent"

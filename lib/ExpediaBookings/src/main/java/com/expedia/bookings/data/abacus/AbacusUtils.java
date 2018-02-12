@@ -92,6 +92,7 @@ public class AbacusUtils {
 	public static final ABTest HotelSoldOutOnHSRTreatment = new ABTest(24727, true);
 	public static final ABTest HotelImageGrid = new ABTest(24841, true);
 	public static final ABTest HotelRecentSearch = new ABTest(15832, true);
+	public static final ABTest HotelResultChangeDate = new ABTest(24783, true);
 
 	// Cars Web View Tests
 	public static final ABTest EBAndroidAppCarsFlexView = new ABTest(14632);
@@ -221,6 +222,7 @@ public class AbacusUtils {
 		testIDs.add(HotelSoldOutOnHSRTreatment.getKey());
 		testIDs.add(HotelImageGrid.getKey());
 		testIDs.add(HotelRecentSearch.getKey());
+		testIDs.add(HotelResultChangeDate.getKey());
 		return testIDs;
 	}
 

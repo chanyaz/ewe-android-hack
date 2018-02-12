@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/change_date_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hotel_results_change_date_height"
+        android:background="@color/white"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/change_date_calendar_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/search_form_icon_calendar"
+            android:tint="@color/hotel_search_info_selectable_color" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/change_date_calendar_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@+id/change_date_calendar_icon"
+            android:textColor="@color/hotel_search_info_selectable_color" />
+
+        <ImageView
+            android:id="@+id/change_date_guest_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:layout_toLeftOf="@+id/change_date_guest_text_view"
+            android:src="@drawable/search_form_icon_person"
+            android:tint="@color/search_screen_icon_color_v2" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/change_date_guest_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/change_date_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_dropshadow_height"
+        android:background="@drawable/tb_shadow" />
+
+</merge>

@@ -38,8 +38,10 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.transition.HorizontalTranslateTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
@@ -201,6 +203,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         mapWidget.adjustPadding(getRequiredMapPadding())
     }
 
+    protected fun isBucketedToShowChangeDate(): Boolean {
+        return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelResultChangeDate)
+    }
+
     private fun animateFab(newTranslationY: Float) {
         fab.animate().translationY(newTranslationY).setInterpolator(DecelerateInterpolator()).start()
     }
@@ -322,6 +328,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     override fun onFinishInflate() {
+        super.onFinishInflate()
         // add the view of same height as of status bar
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
@@ -341,7 +348,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         val lp = mapCarouselRecycler.layoutParams
         lp.width = screen.x
 
-        recyclerView.addOnScrollListener(scrollListener)
+        recyclerView.addOnScrollListener(getScrollListener())
         recyclerView.addOnItemTouchListener(touchListener)
 
         mapCarouselRecycler.carouselSwipedSubject.subscribe { hotel ->
@@ -391,6 +398,14 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         mapWidget.clusterClickedSubject.subscribe {
             animateMapCarouselOut()
+        }
+
+        toolbar.viewTreeObserver.addOnGlobalLayoutListener {
+            setupToolbarTransition()
+            if (isBucketedToShowChangeDate() && getLineOfBusiness() == LineOfBusiness.HOTELS) {
+                toolbarTitleTransition?.jumpToTarget()
+                subTitleTransition?.fadeOut(1.0f)
+            }
         }
     }
 
@@ -445,8 +460,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter.showLoading()
     }
 
-    val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
+    protected open inner class BaseHotelResultsScrollListener : RecyclerView.OnScrollListener() {
 
+        @CallSuper
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             val firstItem = recyclerView.findViewHolderForAdapterPosition(1)
 
@@ -490,6 +506,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         }
 
+        @CallSuper
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             if (shouldBlockTransition() || currentState?.equals(ResultsMap::class.java.name) ?: false) {
                 return
@@ -565,8 +582,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             super.startTransition(forward)
             transitionRunning = true
             secondTransitionStarted = false
-
-            setupToolbarMeasurements()
 
             if (forward) {
                 firstStepTransitionTime = .33f
@@ -658,6 +673,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         var startingFabTranslation: Float = 0f
         var finalFabTranslation: Float = 0f
 
+        val shouldAnimateTitleSubtitle = !isBucketedToShowChangeDate() || getLineOfBusiness() != LineOfBusiness.HOTELS
+
         override fun startTransition(forwardToList: Boolean) {
             super.startTransition(forwardToList)
             transitionRunning = true
@@ -705,6 +722,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             hideBundlePriceOverview(!forwardToList)
             updateFilterButtonTextVisibility(forwardToList)
             showFilterMenuItem(forwardToList)
+            if (!forwardToList) {
+                showChangeDateBanner()
+            }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -720,13 +740,18 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (fabShouldVisiblyMove) {
                 fab.translationY = startingFabTranslation - f * (startingFabTranslation - finalFabTranslation)
             }
+
             if (forward) {
-                toolbarTitleTransition?.toOrigin(f)
-                subTitleTransition?.fadeIn(f)
+                if (shouldAnimateTitleSubtitle) {
+                    toolbarTitleTransition?.toOrigin(f)
+                    subTitleTransition?.fadeIn(f)
+                }
                 sortFilterButtonTransition?.toOrigin(f)
             } else {
-                toolbarTitleTransition?.toTarget(f)
-                subTitleTransition?.fadeOut(f)
+                if (shouldAnimateTitleSubtitle) {
+                    toolbarTitleTransition?.toTarget(f)
+                    subTitleTransition?.fadeOut(f)
+                }
                 sortFilterButtonTransition?.toTarget(f)
             }
         }
@@ -886,28 +911,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    var yTranslationRecyclerTempBackground = 0f
-    var yTranslationRecyclerView = 0f
-
-    fun setupToolbarMeasurements() {
-        if (yTranslationRecyclerTempBackground == 0f && recyclerView.getChildAt(1) != null) {
-            yTranslationRecyclerTempBackground = (recyclerView.getChildAt(0).height + recyclerView.getChildAt(0).top + toolbar.height).toFloat()
-            yTranslationRecyclerView = (recyclerView.getChildAt(0).height + recyclerView.getChildAt(0).top).toFloat()
-            recyclerTempBackground.translationY = yTranslationRecyclerTempBackground
-
-            toolbarTitleTransition = VerticalTranslateTransition(toolbarTitle, toolbarTitle.top,
-                    (toolbarSubtitle.bottom - toolbarSubtitle.top) / 2)
-
-            subTitleTransition = VerticalFadeTransition(toolbarSubtitle, 0, (toolbarSubtitle.bottom - toolbarSubtitle.top))
-        }
-    }
-
     fun animationStart() {
         recyclerTempBackground.visibility = View.VISIBLE
     }
 
     fun animationUpdate(f: Float, forward: Boolean) {
-        setupToolbarMeasurements()
         val factor = if (forward) f else Math.abs(1 - f)
         navIcon.parameter = factor
     }
@@ -971,6 +979,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
+    open fun showChangeDateBanner() {
+        //
+    }
+
     // Classes for state
     class ResultsList
 
@@ -991,6 +1003,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 bd.startDownload(BD_KEY, mGeocodeDownload(suggestion.regionNames.fullName), geoCallback())
             }
         }
+    }
+
+    private fun setupToolbarTransition() {
+        toolbarTitleTransition = VerticalTranslateTransition(toolbarTitle, toolbarTitle.top,
+                (toolbarSubtitle.bottom - toolbarSubtitle.top) / 2)
+
+        subTitleTransition = VerticalFadeTransition(toolbarSubtitle, 0, (toolbarSubtitle.bottom - toolbarSubtitle.top))
     }
 
     private fun getRequiredMapPadding(): Int {
@@ -1035,4 +1054,5 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun trackMapSearchAreaClick()
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun getHotelListAdapter(): BaseHotelListAdapter
+    protected abstract fun getScrollListener(): BaseHotelResultsScrollListener
 }
