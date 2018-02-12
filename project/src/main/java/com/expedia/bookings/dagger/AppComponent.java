@@ -1,8 +1,5 @@
 package com.expedia.bookings.dagger;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import android.content.Context;
 
 import com.expedia.bookings.activity.AccountLibActivity;
@@ -34,6 +31,11 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
 
+import org.jetbrains.annotations.NotNull;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import dagger.Component;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -63,7 +65,7 @@ public interface AppComponent {
 
 	PointOfSaleStateModel pointOfSaleStateModel();
 
-	Context appContext();
+	@NotNull Context appContext();
 
 	EndpointProvider endpointProvider();
 

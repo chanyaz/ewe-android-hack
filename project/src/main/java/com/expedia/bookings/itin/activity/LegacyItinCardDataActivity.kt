@@ -7,8 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
-import com.expedia.bookings.featureconfig.SatelliteFeatureConstants
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.widget.itin.ItinCard
 
 class LegacyItinCardDataActivity : AppCompatActivity(), ItinCard.OnItinCardClickListener {
@@ -17,9 +16,8 @@ class LegacyItinCardDataActivity : AppCompatActivity(), ItinCard.OnItinCardClick
         private const val ITIN_ID_EXTRA = "ITIN_ID"
 
         @JvmStatic
-        fun featureEnabled(context: Context): Boolean {
-            return SatelliteFeatureConfigManager
-                    .isFeatureEnabled(context, SatelliteFeatureConstants.LEGACY_ITIN_CARD_IN_ACTIVITY)
+        fun featureEnabled(): Boolean {
+            return Features.LEGACY_ITIN_CARD_IN_ACTIVITY.enabled()
         }
 
         @JvmStatic

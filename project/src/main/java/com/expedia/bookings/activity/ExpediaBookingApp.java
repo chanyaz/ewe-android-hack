@@ -154,6 +154,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		CountryConfig.loadCountryConfigs(getAssets());
 
 		defaultAppComponents();
+		PluginInitializer.initializePlugins(appComponent());
 		startupTimer.addSplit("Dagger AppModule created");
 
 		AppStartupTimeLogger appStartupTimeLogger = appComponent().appStartupTimeLogger();

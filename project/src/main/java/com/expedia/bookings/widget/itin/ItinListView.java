@@ -575,7 +575,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return;
 		}
 
-		if (LegacyItinCardDataActivity.featureEnabled(getContext())) {
+		if (LegacyItinCardDataActivity.featureEnabled()) {
 			ItinCardData data = mAdapter.getItem(position);
 			getContext().startActivity(LegacyItinCardDataActivity.createIntent(getContext(), data.getId()),
 					ActivityOptionsCompat
