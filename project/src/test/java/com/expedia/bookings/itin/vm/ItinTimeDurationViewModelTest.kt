@@ -43,9 +43,9 @@ class ItinTimeDurationViewModelTest {
         assertEquals("36m", durationMins)
 
         durationMins = sut.getFormattedDuration(0)
-        assertEquals(null, durationMins)
+        assertEquals("", durationMins)
 
         durationMins = sut.getFormattedDuration(-5)
-        assertEquals(null, durationMins)
+        assertEquals("", durationMins)
     }
 }

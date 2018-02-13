@@ -29,27 +29,27 @@ class FlightItinTotalDurationWidgetTest {
     fun totalDurationTextAndContDesc() {
         sut.viewModel.createTimeDurationWidgetSubject
                 .onNext(ItinTimeDurationViewModel
-                        .TimeDurationWidgetParams("Total Duration: 1d 12h 15m", "Total Duration: 1 day 12 hour 15 minutes", null))
+                        .TimeDurationWidgetParams("1d 12h 15m", "1 day 12 hour 15 minutes", null, ItinTimeDurationViewModel.DurationType.TOTAL_DURATION))
         assertEquals(View.VISIBLE, sut.visibility)
-        assertEquals("Total Duration: 1d 12h 15m", sut.durationText.text.toString())
-        assertEquals("Total Duration: 1 day 12 hour 15 minutes", sut.durationText.contentDescription.toString())
+        assertEquals("Total duration: 1d 12h 15m", sut.durationText.text.toString())
+        assertEquals("Total duration: 1 day 12 hour 15 minutes", sut.durationText.contentDescription.toString())
     }
 
     @Test
     fun totalDurationTextAndContDescNullOrEmpty() {
         sut.viewModel.createTimeDurationWidgetSubject
                 .onNext(ItinTimeDurationViewModel
-                        .TimeDurationWidgetParams(null, "Total Duration: 1 day 12 hour 15 minutes", null))
+                        .TimeDurationWidgetParams("", "Total duration: 1 day 12 hour 15 minutes", null, ItinTimeDurationViewModel.DurationType.TOTAL_DURATION))
         assertEquals(View.GONE, sut.visibility)
 
         sut.viewModel.createTimeDurationWidgetSubject
                 .onNext(ItinTimeDurationViewModel
-                        .TimeDurationWidgetParams("Total Duration: 1d 12h 15m", "", null))
+                        .TimeDurationWidgetParams("Total duration: 1d 12h 15m", "", null, ItinTimeDurationViewModel.DurationType.TOTAL_DURATION))
         assertEquals(View.GONE, sut.visibility)
 
         sut.viewModel.createTimeDurationWidgetSubject
                 .onNext(ItinTimeDurationViewModel
-                        .TimeDurationWidgetParams(null, "", null))
+                        .TimeDurationWidgetParams("", "", null, ItinTimeDurationViewModel.DurationType.TOTAL_DURATION))
         assertEquals(View.GONE, sut.visibility)
     }
 }
