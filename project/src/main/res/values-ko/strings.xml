@@ -215,6 +215,11 @@
     <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">지금 예약: %1$s</string>
+    <!-- Template for ticket details (eg: Adult (12+ years)) -->
+    <string name="ticket_details_new_TEMPLATE">{traveler_type}({restriction_text})</string>
+    <!-- Template for ticket details without restrictions (eg: Traveler) -->
+    <string name="ticket_details_no_restriction_new_TEMPLATE">{traveler_type}</string>
+    <string name="offer_book_now_button">지금 예약</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
@@ -582,7 +587,7 @@
     <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
     <string name="checkout_traveler_title_TEMPLATE">여행객 {travelernumber} ({passengerycategory})</string>
     <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
-    <string name="traveler_age_range_TEMPLATE">{category}({range})</string>
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">만 18+</string>
     <!-- Youth age label on flight checkout traveler summary card -->
@@ -893,6 +898,7 @@
      price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
      Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
     <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line}1박당 &lt;strike&gt;{strike_price}&lt;/strike&gt; {price}~</string>
+    <string name="launch_section_get_inspired">어디로 떠나볼까?</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">오늘 밤 추천 호텔</string>
@@ -1348,6 +1354,8 @@
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">내 객실 정보</string>
+    <!--Hotel itin card room details heading - multiple rooms-->
+    <string name="itin_hotel_details_room_details_multi_room_title_text">내 객실 정보</string>
     <!--Hotel itin card booking details heading-->
     <string name="itin_hotel_details_booking_details_title_text">예약 정보</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
@@ -1442,6 +1450,10 @@
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">무료 WiFi</string>
     <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
     <string name="itin_hotel_check_in_policies_dialog_title">체크인 정책</string>
+    <!--Sub Title text for a pop-up that lists check-in special instructions-->
+    <string name="itin_hotel_special_instruction_dialog_sub_title">특별 지침</string>
+    <!--Button title for check-in policies and special instructions-->
+    <string name="itin_hotel_check_in_policies_and_special_instruction">체크인 및 특별 지침</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">변경 및 취소 규정</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2877,10 +2889,10 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
     <string name="package_hotel_results_header">1인당 왕복 총 요금 • 호텔 및 항공 포함</string>
 
-    <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
-    <string name="urgency_percent_booked_TEMPLATE">{percentage}% 예약됨</string>
-    <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
-    <string name="urgency_destination_description_TEMPLATE">{destination}의 경우 선택된 날짜에 인기 있는 지역입니다.</string>
+    <!-- Urgency message indicating percent of hotels remaining in a region-->
+    <string name="urgency_only_x_hotels_left_TEMPLATE">호텔이 {percent}%만 남았어요!</string>
+    <!-- Urgency message to encourage user to book soon-->
+    <string name="urgency_book_soon">매진되기 전에 서둘러 예약하세요.</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">객실 정보</string>
@@ -3003,12 +3015,8 @@
     <string name="enter_coupon_code">쿠폰 코드 입력</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">제출</string>
-    <!-- Coupon submit button for accessibility -->
-    <string name="coupon_submit_button_ally">제출 버튼</string>
     <!-- Coupon apply button -->
     <string name="coupon_apply_button">적용하기</string>
-    <!-- Coupon apply button for accessibility -->
-    <string name="coupon_apply_button_ally">적용하기 버튼</string>
 
 
     <!-- Coupon Error Strings -->
@@ -3019,13 +3027,13 @@
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">죄송합니다. 이 쿠폰은 만료되었습니다.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">죄송합니다. 저희 쪽에 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
+    <string name="coupon_error_not_redeemed">죄송합니다. 쿠폰을 적용할 수 없습니다. 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">죄송합니다. 이 쿠폰 코드는 이미 사용되었습니다.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">죄송합니다. 저희 쪽에 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
+    <string name="coupon_error_fallback">죄송합니다. 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">예약 요금이 변동되어 쿠폰이 적용되지 않았습니다. 확인하고 다시 시도해 주세요.</string>
+    <string name="coupon_error_price_change">예약 요금이 변경되었습니다. 새로운 총액을 확인하고 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">죄송합니다. 이 쿠폰 코드는 다른 국가용입니다.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
@@ -3253,7 +3261,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s%2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
@@ -4249,7 +4257,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} 출발 {arrival} 도착</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4510,6 +4518,14 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">좌석 등급 변경</string>
 
+    <string name="basic_economy_rule_1">체크인 시 좌석 배정</string>
+    <string name="basic_economy_rule_2">체크인 후 좌석 배정</string>
+    <string name="basic_economy_rule_3">변경 및 환불 불가</string>
+    <string name="basic_economy_rule_4">마지막 그룹으로 탑승</string>
+    <string name="basic_economy_rule_5">업그레이드 없음</string>
+    <string name="basic_economy_rule_6">1개 소지품만 허용(좌석 위 짐칸 이용 불가)</string>
+    <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
+    <string name="basic_economy_tooltip_header_TEMPLATE">{airlineshortname} 베이직 이코노미 운임</string>
 
     <!-- Generic date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="start_dash_end_date_range_TEMPLATE">{startdate} - {enddate}</string>
@@ -4924,7 +4940,25 @@
     <!-- Select Room button content description with room type and option number; verb; as in select a hotel room, ex. Select, Studio, 1 Queen Bed Option 1-->
     <string name="select_room_button_with_options_content_description_TEMPLATE">{room} {option} 선택하기</string>
 
-    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
-    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">{flightsearchtype} 탭</string>
+    <!-- Accessibility content description for Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_search_type_TEMPLATE">{tabname} 탭</string>
 
+    <!--Accessibility content description Template for the Activity Recommendation Rating Eg. Activity Rated, 3.2 of 5-->
+    <string name="lx_recommend_rating_TEMPLATE">즐길거리 평점 {recommend_score} / 5</string>
+    <!--Activity Discount Percentage Template Eg. -10%-->
+    <string name="lx_discount_percentage_text_TEMPLATE">-{discount}%</string>
+    <!--Accessibility Content Description Template for Activity Discount Percentage Eg. 10% discount on original pricing-->
+    <string name="lx_discount_percentage_description_TEMPLATE">원래 요금에서 {discount}% 할인입니다.</string>
+    <!--Accessibility Content Description Template for showing Discounted pricing Eg. Regular price $125, Discounted price $110-->
+    <string name="lx_total_price_description_TEMPLATE">일반 요금은 {original_price}, 할인된 요금은 {activity_price}입니다.</string>
+    <!--Accessibility Content Description Template for showing Discounted Pricing with Discount Percentage Eg. Regular price $100, Discounted price $80, Total discount given: 20%.-->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">일반 요금은 {original_price}, 할인된 요금은 {activity_price}, 제공된 총 할인율은 {discount}%입니다.</string>
+    <!--Accessibility Content Description Template for Activity price with no discounting. Eg. Price is $78.-->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">요금은 {activity_price}입니다.</string>
+    <!--LX Price per traveler Template Eg. $145/Adult-->
+    <string name="lx_price_per_traveler_TEMPLATE">{price}/{traveler_type}</string>
+    <!--Accessibility Content Description Template for the Selected Tickets summary Eg. 1 Adult, 2 Children Selected-->
+    <string name="lx_ticket_selected_summary_TEMPLATE">{ticket_summary} 선택됨</string>
+    <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
+    <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">{ticket_type} 일반 요금은 {activity_original_price}입니다. {ticket_type} 할인된 요금은 {activity_price}입니다.</string>
 </resources>

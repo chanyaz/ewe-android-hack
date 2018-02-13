@@ -215,6 +215,11 @@
     <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Reserva por %1$s</string>
+    <!-- Template for ticket details (eg: Adult (12+ years)) -->
+    <string name="ticket_details_new_TEMPLATE">{traveler_type} ({restriction_text})</string>
+    <!-- Template for ticket details without restrictions (eg: Traveler) -->
+    <string name="ticket_details_no_restriction_new_TEMPLATE">{traveler_type}</string>
+    <string name="offer_book_now_button">Reserva ya</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
@@ -893,6 +898,7 @@
      price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
      Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
     <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line}desde &lt;strike&gt;{strike_price}&lt;/strike&gt; {price}/noche</string>
+    <string name="launch_section_get_inspired">Deja que te inspiremos</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Hoteles recomendados para hoy</string>
@@ -1348,6 +1354,8 @@
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">Tu habitación</string>
+    <!--Hotel itin card room details heading - multiple rooms-->
+    <string name="itin_hotel_details_room_details_multi_room_title_text">Tus habitaciones</string>
     <!--Hotel itin card booking details heading-->
     <string name="itin_hotel_details_booking_details_title_text">Datos de la reserva</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
@@ -1442,6 +1450,10 @@
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wifi gratis</string>
     <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
     <string name="itin_hotel_check_in_policies_dialog_title">Normas del registro de entrada</string>
+    <!--Sub Title text for a pop-up that lists check-in special instructions-->
+    <string name="itin_hotel_special_instruction_dialog_sub_title">Instrucciones especiales</string>
+    <!--Button title for check-in policies and special instructions-->
+    <string name="itin_hotel_check_in_policies_and_special_instruction">Registro de entrada e instrucciones especiales</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Normas de cambios y cancelaciones</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2877,10 +2889,10 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
     <string name="package_hotel_results_header">Precio total de ida y vuelta por persona • Incluye hotel y vuelos</string>
 
-    <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
-    <string name="urgency_percent_booked_TEMPLATE">{percentage} % reservado</string>
-    <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
-    <string name="urgency_destination_description_TEMPLATE">{destination} es un destino muy popular en estas fechas</string>
+    <!-- Urgency message indicating percent of hotels remaining in a region-->
+    <string name="urgency_only_x_hotels_left_TEMPLATE">¡Solo nos queda un {percent} % de hoteles disponibles!</string>
+    <!-- Urgency message to encourage user to book soon-->
+    <string name="urgency_book_soon">Reserva pronto para que no se te escapen.</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">Información de la habitación</string>
@@ -3003,29 +3015,25 @@
     <string name="enter_coupon_code">Introduce el código del cupón</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Enviar</string>
-    <!-- Coupon submit button for accessibility -->
-    <string name="coupon_submit_button_ally">Botón de Enviar</string>
     <!-- Coupon apply button -->
     <string name="coupon_apply_button">Canjear</string>
-    <!-- Coupon apply button for accessibility -->
-    <string name="coupon_apply_button_ally">Botón para canjear</string>
 
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
-    <string name="coupon_error_unknown">Lo sentimos, pero este código de descuento no existe.</string>
+    <string name="coupon_error_unknown">Este código de descuento no existe.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Lo sentimos, pero este código de descuento no existe.</string>
+    <string name="coupon_error_unrecognized">Este código de descuento no existe.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Lo sentimos, pero este código de descuento ha caducado.</string>
+    <string name="coupon_error_expired">Este código de descuento ha caducado.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Lo sentimos, estamos teniendo problemas en este momento. Vuelve a intentarlo.</string>
+    <string name="coupon_error_not_redeemed">No hemos podido aplicar el cupón. Vuelve a intentarlo.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Lo sentimos, pero este código de descuento ya ha sido canjeado.</string>
+    <string name="coupon_error_duplicate">Este código de descuento ya se ha canjeado.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Lo sentimos, estamos teniendo problemas en este momento. Vuelve a intentarlo.</string>
+    <string name="coupon_error_fallback">Se ha detectado un problema en este momento. Vuelve a intentarlo.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">El coste de la reserva ha cambiado, así que no hemos aplicado el código de descuento. Conéctate y vuelve a intentarlo.</string>
+    <string name="coupon_error_price_change">El coste de la reserva ha cambiado. Comprueba el nuevo total e inténtalo otra vez.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Lo sentimos, pero este código de descuento no es válido en tu país.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
@@ -4510,6 +4518,14 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Modifica la clase de tarifa</string>
 
+    <string name="basic_economy_rule_1">El asiento se asigna al realizar la facturación en línea.</string>
+    <string name="basic_economy_rule_2">El asiento se asigna tras realizar la facturación en línea.</string>
+    <string name="basic_economy_rule_3">No se permiten ni cambios ni reembolsos.</string>
+    <string name="basic_economy_rule_4">Embarque con el último grupo.</string>
+    <string name="basic_economy_rule_5">No se aplican mejoras de categoría.</string>
+    <string name="basic_economy_rule_6">Solo se permite 1 bulto personal, sin acceso al compartimento superior.</string>
+    <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
+    <string name="basic_economy_tooltip_header_TEMPLATE">Tarifa turista básica de {airlineshortname}</string>
 
     <!-- Generic date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="start_dash_end_date_range_TEMPLATE">{startdate} - {enddate}</string>
@@ -4924,7 +4940,25 @@
     <!-- Select Room button content description with room type and option number; verb; as in select a hotel room, ex. Select, Studio, 1 Queen Bed Option 1-->
     <string name="select_room_button_with_options_content_description_TEMPLATE">Seleccionar, {room}, {option}</string>
 
-    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
-    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">Pestaña {flightsearchtype}</string>
+    <!-- Accessibility content description for Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_search_type_TEMPLATE">Pestaña {tabname}</string>
 
+    <!--Accessibility content description Template for the Activity Recommendation Rating Eg. Activity Rated, 3.2 of 5-->
+    <string name="lx_recommend_rating_TEMPLATE">Actividad con la calificación de {recommend_score} sobre 5</string>
+    <!--Activity Discount Percentage Template Eg. -10%-->
+    <string name="lx_discount_percentage_text_TEMPLATE">-{discount} %</string>
+    <!--Accessibility Content Description Template for Activity Discount Percentage Eg. 10% discount on original pricing-->
+    <string name="lx_discount_percentage_description_TEMPLATE">{discount} % de descuento sobre el precio original</string>
+    <!--Accessibility Content Description Template for showing Discounted pricing Eg. Regular price $125, Discounted price $110-->
+    <string name="lx_total_price_description_TEMPLATE">El precio regular es de {original_price}. El precio con descuento es de {activity_price}</string>
+    <!--Accessibility Content Description Template for showing Discounted Pricing with Discount Percentage Eg. Regular price $100, Discounted price $80, Total discount given: 20%.-->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">El precio regular es de {original_price}.  El precio con descuento es de {activity_price}. Se aplica un descuento del {discount} %.</string>
+    <!--Accessibility Content Description Template for Activity price with no discounting. Eg. Price is $78.-->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">El precio es {activity_price}.</string>
+    <!--LX Price per traveler Template Eg. $145/Adult-->
+    <string name="lx_price_per_traveler_TEMPLATE">{price}/{traveler_type}</string>
+    <!--Accessibility Content Description Template for the Selected Tickets summary Eg. 1 Adult, 2 Children Selected-->
+    <string name="lx_ticket_selected_summary_TEMPLATE">Actividad seleccionada para {ticket_summary}</string>
+    <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
+    <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">El precio regular {ticket_type} es de {activity_original_price}. El precio con descuento {ticket_type} es de {activity_price}.</string>
 </resources>

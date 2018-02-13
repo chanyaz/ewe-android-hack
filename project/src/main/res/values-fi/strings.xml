@@ -215,6 +215,11 @@
     <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Varaa nyt %1$s</string>
+    <!-- Template for ticket details (eg: Adult (12+ years)) -->
+    <string name="ticket_details_new_TEMPLATE">{traveler_type} ({restriction_text})</string>
+    <!-- Template for ticket details without restrictions (eg: Traveler) -->
+    <string name="ticket_details_no_restriction_new_TEMPLATE">{traveler_type}</string>
+    <string name="offer_book_now_button">Varaa nyt</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
@@ -614,7 +619,7 @@
     <!-- LX reservation confirmation text -->
     <string name="lx_successful_checkout_reservation_label">Varauksesi on vahvistettu!</string>
     <!-- Text for getting current location suggestion -->
-    <string name="lx_getting_current_location">Sijaintia määritetään…</string>
+    <string name="lx_getting_current_location">Määritetään sijaintia…</string>
     <!-- LX Error Fetching activity details -->
     <string name="lx_error_details">Tietoja ei voitu hakea. Ole hyvä ja yritä uudelleen.</string>
     <!-- Current location failed toolbar text -->
@@ -780,7 +785,7 @@
     <!-- Template for packages total includes taxes and fees e.g Trip total (with taxes & fee) -->
     <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_create_trip">Matkaa luodaan…</string>
+    <string name="spinner_text_create_trip">Luodaan matkaa…</string>
 
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Maksu</string>
@@ -893,6 +898,7 @@
      price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
      Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
     <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line}alkaen &lt;strike&gt;{strike_price}&lt;/strike&gt; {price}/yö</string>
+    <string name="launch_section_get_inspired">Inspiraatiota</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Suositeltuja hotelleja täksi yöksi</string>
@@ -1348,6 +1354,8 @@
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">Huoneesi</string>
+    <!--Hotel itin card room details heading - multiple rooms-->
+    <string name="itin_hotel_details_room_details_multi_room_title_text">Huoneesi</string>
     <!--Hotel itin card booking details heading-->
     <string name="itin_hotel_details_booking_details_title_text">Varaustiedot</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
@@ -1442,6 +1450,10 @@
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Ilmainen Wi-Fi</string>
     <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
     <string name="itin_hotel_check_in_policies_dialog_title">Sisäänkirjautumiskäytännöt</string>
+    <!--Sub Title text for a pop-up that lists check-in special instructions-->
+    <string name="itin_hotel_special_instruction_dialog_sub_title">Erikoisohjeet</string>
+    <!--Button title for check-in policies and special instructions-->
+    <string name="itin_hotel_check_in_policies_and_special_instruction">Sisäänkirjautuminen ja erikoisohjeet</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Muutos- ja peruutusehdot</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -1873,7 +1885,7 @@
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
     <string name="hint_arrival_airport">Saapumislentokenttä</string>
     <!-- Label for when flights are loading -->
-    <string name="loading_flights">Lentoja ladataan…</string>
+    <string name="loading_flights">Ladataan lentoja…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
     <string name="loading_flights_from_400_airlines">Haetaan lentoja yli 400 lentoyhtiön joukosta…</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
@@ -1966,7 +1978,7 @@
     <!-- Label for Business Economy -->
     <string name="cabin_code_basic_economy">Basic Economy</string>
     <!-- Label for "premium coach" cabin code -->
-    <string name="cabin_code_premium_coach">Premium economy</string>
+    <string name="cabin_code_premium_coach">Premium Economy</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Business</string>
     <!-- Label for "first" cabin code -->
@@ -2310,7 +2322,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE2">Haluaa istuinpaikan: %1$s</string>
     <!-- loading traveler info -->
-    <string name="loading_traveler_info">Matkustajan tietoja ladataan…</string>
+    <string name="loading_traveler_info">Ladataan matkustajan tietoja…</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2366,7 +2378,7 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Tarjous vanhenee tänään</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">Saat jopa 55 % alennusta kohteen {location} hotelleista</string>
+    <string name="air_attach_variant1_string1_TEMPLATE">Säästä jopa 55 % kohteen {location} hotelleista</string>
     <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
     <string name="air_attach_variant2_string1_TEMPLATE">Jopa 55 % alennusta kohteen {location} hotelleista</string>
     <!-- Air attach messaging variant1 string1 -->
@@ -2567,7 +2579,7 @@
     <!-- Expedia ETP book now/pay later search results -->
     <string name="book_now_pay_later">Varaa nyt, maksa myöhemmin</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">Pahoittelemme, mutta emme pysty etsimään hotelleja yli %1$s päivälle.</string>
+    <string name="hotel_search_range_error_TEMPLATE">Pahoittelemme, mutta emme pysty hakemaan hotelleja yli %1$s päivän yöpymiselle.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Hakuvirhe</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
@@ -2617,7 +2629,7 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_hundreds">Hotelleja etsitään…</string>
+    <string name="progress_searching_hotels_hundreds">Haetaan hotelleja…</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Valitse toinen huone</string>
     <!-- Message displayed when room is sold out -->
@@ -2672,7 +2684,7 @@
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
-    <string name="loading_hotels">Hotelleja ladataan…</string>
+    <string name="loading_hotels">Ladataan hotelleja…</string>
     <!-- The label for deposit terms button -->
     <string name="deposit_terms">Takuumaksuehdot</string>
 
@@ -2877,10 +2889,10 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
     <string name="package_hotel_results_header">Menopaluumatkan kokonaishinta per henkilö • sisältää hotellin ja lennot</string>
 
-    <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
-    <string name="urgency_percent_booked_TEMPLATE">{percentage} % varattu</string>
-    <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
-    <string name="urgency_destination_description_TEMPLATE">{destination} on suosittu hakeminasi päivinä</string>
+    <!-- Urgency message indicating percent of hotels remaining in a region-->
+    <string name="urgency_only_x_hotels_left_TEMPLATE">Enää {percent} % hotelleista jäljellä sivustollamme!</string>
+    <!-- Urgency message to encourage user to book soon-->
+    <string name="urgency_book_soon">Varaa pian varmistaaksesi majoituksesi.</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">Huonetiedot</string>
@@ -3003,12 +3015,8 @@
     <string name="enter_coupon_code">Anna kuponkikoodi</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Lähetä</string>
-    <!-- Coupon submit button for accessibility -->
-    <string name="coupon_submit_button_ally">Lähetyspainike</string>
     <!-- Coupon apply button -->
     <string name="coupon_apply_button">Käytä</string>
-    <!-- Coupon apply button for accessibility -->
-    <string name="coupon_apply_button_ally">Käytä-painike</string>
 
 
     <!-- Coupon Error Strings -->
@@ -3019,13 +3027,13 @@
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Valitettavasti tämä kuponki on vanhentunut.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Meillä on valitettavasti ongelmia tällä hetkellä. Ole hyvä ja yritä uudelleen.</string>
+    <string name="coupon_error_not_redeemed">Valitettavasti emme voineet käyttää kuponkia. Ole hyvä ja yritä uudelleen.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">Valitettavasti tämä kuponkikoodi on jo käytetty.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Meillä on valitettavasti ongelmia tällä hetkellä. Ole hyvä ja yritä uudelleen.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Varauksen hinta muuttui, joten emme käyttäneet kuponkia. Tarkista ja yritä uudelleen.</string>
+    <string name="coupon_error_price_change">Varauksen hinta on muuttunut. Tarkista uusi kokonaishintasi ja yritä uudelleen.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Valitettavasti tämä kuponkikoodi on voimassa toisessa maassa.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
@@ -3894,7 +3902,7 @@
     <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
     <string name="step_three">Vaihe 3: Valitse saapuva lento</string>
     <!-- package hotel results unreal deal text label -->
-    <string name="unreal_deal_text">Unreal deal</string>
+    <string name="unreal_deal_text">Unreal Deal</string>
     <!-- package hotel results unreal deal message for freeHotel -->
     <string name="free_hotel_deal">Saat hotellin ilmaiseksi, kun varaat yhdessä.</string>
     <!-- package hotel results unreal deal message for freeFlight -->
@@ -4119,7 +4127,7 @@
     <string name="pay_with_point_total_available_TEMPLATE">{money} jäljellä ({points} Expedia+-pistettä)</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">Pisteiden arvo ylittää saatavilla olevan arvon.\nAnna {money} tai vähemmän.</string>
     <string name="user_enters_more_than_trip">Pisteiden arvo ei voi ylittää nyt maksettavaa summaa.</string>
-    <string name="pwp_calculating_points">Pisteitä lasketaan…</string>
+    <string name="pwp_calculating_points">Lasketaan pisteitä…</string>
     <plurals name="pwp_points_applied_TEMPLATE">
         <item quantity="one">{points} piste käytetty</item>
         <item quantity="other">{points} pistettä käytetty</item>
@@ -4234,7 +4242,7 @@
     <string name="total">Yhteensä</string>
 
     <!-- Label for the tab on fare rules/amenities screen -->
-    <string name="fare_rules">HIntaehdot</string>
+    <string name="fare_rules">Hintaehdot</string>
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">Ei palveluja</string>
@@ -4434,11 +4442,11 @@
     <!-- Hotel card view in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123. Includes hotel and flights.-->
     <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel}, luokitus {starrating} / 5. Ei asiakasluokituksia. Hinta {price}. Sisältää hotellin ja lennot.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}, luokitus {starrating} / 5. Asiakasluokitus {guestrating} / 5.  \u0020</string>
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}, luokitus {starrating} / 5. Asiakasluokitus {guestrating} / 5.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">{hotel}, asiakasluokitus {guestrating} / 5.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
-    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel}, luokitus {starrating} / 5. \u0020</string>
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel}, luokitus {starrating} / 5.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
     <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}.\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
@@ -4446,9 +4454,9 @@
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
     <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 alennusta normaalista hinnasta\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Example. Regularly $100, now $80. -->
-    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Normaalisti {strikethroughprice}, nyt {price}.  \u0020</string>
+    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Normaalisti {strikethroughprice}, nyt {price}.\u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
-    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">{percentage} halvempi kuin alkuperäinen hinta.  \u0020</string>
+    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">{percentage} halvempi kuin alkuperäinen hinta.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Unreal Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4471,7 +4479,7 @@
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">Valitse matkustuspäivät. Painike. Avaa dialogin</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
-    <string name="hotel_card_view_price_cont_desc_TEMPLATE">Hinta {price}.  \u0020</string>
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">Hinta {price}.\u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Matkustajien lukumäärä. Painike. Avaa dialogin. {travelers} matkustaja</item>
@@ -4510,6 +4518,14 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Vaihda hintaluokkaa</string>
 
+    <string name="basic_economy_rule_1">Istuinpaikat määritetään lähtöselvityksessä.</string>
+    <string name="basic_economy_rule_2">Istuinpaikat määritetään lähtöselvityksen jälkeen.</string>
+    <string name="basic_economy_rule_3">Muutokset ja hyvitykset eivät ole sallittuja.</string>
+    <string name="basic_economy_rule_4">Koneeseen nousu viimeisessä ryhmässä.</string>
+    <string name="basic_economy_rule_5">Ei lentoluokan korotusta.</string>
+    <string name="basic_economy_rule_6">Vain 1 henkilökohtainen tavara, ei matkatavarahyllyn käyttöoikeutta.</string>
+    <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
+    <string name="basic_economy_tooltip_header_TEMPLATE">{airlineshortname} Basic Economy -hinta</string>
 
     <!-- Generic date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="start_dash_end_date_range_TEMPLATE">{startdate} – {enddate}</string>
@@ -4924,7 +4940,25 @@
     <!-- Select Room button content description with room type and option number; verb; as in select a hotel room, ex. Select, Studio, 1 Queen Bed Option 1-->
     <string name="select_room_button_with_options_content_description_TEMPLATE">Valitse {room} {option}</string>
 
-    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
-    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">{flightsearchtype} välilehti</string>
+    <!-- Accessibility content description for Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_search_type_TEMPLATE">{tabname} välilehti</string>
 
+    <!--Accessibility content description Template for the Activity Recommendation Rating Eg. Activity Rated, 3.2 of 5-->
+    <string name="lx_recommend_rating_TEMPLATE">Aktiviteetti arvosteltu arvosanalla {recommend_score} kautta 5</string>
+    <!--Activity Discount Percentage Template Eg. -10%-->
+    <string name="lx_discount_percentage_text_TEMPLATE">–{discount} %</string>
+    <!--Accessibility Content Description Template for Activity Discount Percentage Eg. 10% discount on original pricing-->
+    <string name="lx_discount_percentage_description_TEMPLATE">{discount} prosentin alennus alkuperäisestä hinnasta</string>
+    <!--Accessibility Content Description Template for showing Discounted pricing Eg. Regular price $125, Discounted price $110-->
+    <string name="lx_total_price_description_TEMPLATE">Normaalihinta {original_price}, alennettu hinta {activity_price}</string>
+    <!--Accessibility Content Description Template for showing Discounted Pricing with Discount Percentage Eg. Regular price $100, Discounted price $80, Total discount given: 20%.-->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">Normaalihinta {original_price}, alennettu hinta {activity_price}, alennuksen kokonaismäärä: {discount} prosenttia.</string>
+    <!--Accessibility Content Description Template for Activity price with no discounting. Eg. Price is $78.-->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">Hinta on {activity_price}.</string>
+    <!--LX Price per traveler Template Eg. $145/Adult-->
+    <string name="lx_price_per_traveler_TEMPLATE">{price} / {traveler_type}</string>
+    <!--Accessibility Content Description Template for the Selected Tickets summary Eg. 1 Adult, 2 Children Selected-->
+    <string name="lx_ticket_selected_summary_TEMPLATE">{ticket_summary} valittu</string>
+    <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
+    <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Normaalihinta per {ticket_type} {activity_original_price}. Alennettu hinta per {ticket_type} {activity_price}</string>
 </resources>
