@@ -283,7 +283,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 body.ratePlanCode,
                 body.roomTypeCode,
                 body.adults,
-                body.startDate.toString(),
+                body.startDate,
                 body.endDate.toString(),
                 body.totalPrice.packageTotalPrice.amount,
                 body.childAges,

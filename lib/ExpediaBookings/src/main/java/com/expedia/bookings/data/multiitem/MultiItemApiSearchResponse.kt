@@ -17,6 +17,14 @@ data class MultiItemApiSearchResponse(
         val errors: List<MultiItemError>?
 ) : BundleSearchResponse, BundleHotelRoomResponse {
 
+    override fun getRoomTypeCode(): String? {
+        return hotels.values.elementAt(0).roomTypeCode
+    }
+
+    override fun getRatePlanCode(): String? {
+        return hotels.values.elementAt(0).ratePlanCode
+    }
+
     private lateinit var sortedHotels: List<Hotel>
     private lateinit var sortedFlights: List<FlightLeg>
     private lateinit var hotelRooms: List<HotelOffersResponse.HotelRoomResponse>
