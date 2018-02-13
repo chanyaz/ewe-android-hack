@@ -10,11 +10,14 @@ class FlightItinLayoverViewModel(val context: Context) : ItinTimeDurationViewMod
     override fun updateWidget(layoverDurationISO: String) {
         val layoverDurationMinutes = getDurationMinutesFromISO(layoverDurationISO)
         val formattedDuration = getFormattedDuration(layoverDurationMinutes)
-        val contDescDuration = DateTimeUtils.getDurationContDescDaysHoursMins(context, layoverDurationMinutes)
+        var contDescDuration = ""
+        if (!DateTimeUtils.getDurationContDescDaysHoursMins(context, layoverDurationMinutes).isNullOrBlank()) {
+            contDescDuration = DateTimeUtils.getDurationContDescDaysHoursMins(context, layoverDurationMinutes)
+        }
         createTimeDurationWidgetSubject.onNext(TimeDurationWidgetParams(
-                Phrase.from(context, R.string.itin_flight_layover_TEMPLATE).put("layover", formattedDuration).format().toString(),
-                Phrase.from(context, R.string.itin_flight_layover_TEMPLATE).put("layover", contDescDuration).format().toString(),
-                R.drawable.itin_flight_layover_icon
+                formattedDuration,
+                contDescDuration,
+                R.drawable.itin_flight_layover_icon, DurationType.LAYOVER
         ))
     }
 }

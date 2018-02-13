@@ -14,7 +14,7 @@ class FlightItinTotalDurationViewModel(val context: Context) : ItinTimeDurationV
         createTimeDurationWidgetSubject.onNext(ItinTimeDurationViewModel.TimeDurationWidgetParams(
                 Phrase.from(context, R.string.itin_flight_total_duration_TEMPLATE).put("duration", formattedDuration).format().toString(),
                 Phrase.from(context, R.string.itin_flight_total_duration_TEMPLATE).put("duration", contDescDuration).format().toString(),
-                null
+                null, DurationType.TOTAL_DURATION
         ))
     }
 }

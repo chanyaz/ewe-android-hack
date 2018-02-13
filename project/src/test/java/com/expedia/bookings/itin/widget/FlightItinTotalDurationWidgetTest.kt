@@ -39,7 +39,7 @@ class FlightItinTotalDurationWidgetTest {
     fun totalDurationTextAndContDescNullOrEmpty() {
         sut.viewModel.createTimeDurationWidgetSubject
                 .onNext(ItinTimeDurationViewModel
-                        .TimeDurationWidgetParams(null, "Total Duration: 1 day 12 hour 15 minutes", null))
+                        .TimeDurationWidgetParams("", "Total Duration: 1 day 12 hour 15 minutes", null))
         assertEquals(View.GONE, sut.visibility)
 
         sut.viewModel.createTimeDurationWidgetSubject
@@ -49,7 +49,7 @@ class FlightItinTotalDurationWidgetTest {
 
         sut.viewModel.createTimeDurationWidgetSubject
                 .onNext(ItinTimeDurationViewModel
-                        .TimeDurationWidgetParams(null, "", null))
+                        .TimeDurationWidgetParams("", "", null))
         assertEquals(View.GONE, sut.visibility)
     }
 }

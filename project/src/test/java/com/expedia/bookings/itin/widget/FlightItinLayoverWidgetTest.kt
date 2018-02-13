@@ -35,13 +35,13 @@ class FlightItinLayoverWidgetTest {
 
     @Test
     fun testLayoverTextAndContDescNullOrEmpty() {
-        sut.viewModel.createTimeDurationWidgetSubject.onNext(ItinTimeDurationViewModel.TimeDurationWidgetParams(null, "1 day 15 hour 7 minutes layover", null))
+        sut.viewModel.createTimeDurationWidgetSubject.onNext(ItinTimeDurationViewModel.TimeDurationWidgetParams("", "1 day 15 hour 7 minutes layover", null))
         assertEquals(View.GONE, sut.visibility)
 
         sut.viewModel.createTimeDurationWidgetSubject.onNext(ItinTimeDurationViewModel.TimeDurationWidgetParams("1d 15h 7m layover", "", null))
         assertEquals(View.GONE, sut.visibility)
 
-        sut.viewModel.createTimeDurationWidgetSubject.onNext(ItinTimeDurationViewModel.TimeDurationWidgetParams(null, "", null))
+        sut.viewModel.createTimeDurationWidgetSubject.onNext(ItinTimeDurationViewModel.TimeDurationWidgetParams("", "", null))
         assertEquals(View.GONE, sut.visibility)
     }
 }

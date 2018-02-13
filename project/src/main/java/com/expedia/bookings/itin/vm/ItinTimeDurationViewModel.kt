@@ -10,10 +10,17 @@ import io.reactivex.subjects.PublishSubject
 abstract class ItinTimeDurationViewModel(private val context: Context) {
 
     data class TimeDurationWidgetParams(
-            val text: String?,
-            val contDesc: String?,
-            val drawable: Int?
+            val text: String,
+            val contDesc: String,
+            val drawable: Int?,
+            val durationType: DurationType
     )
+
+    enum class DurationType {
+        TOTAL_DURATION,
+        LAYOVER,
+        NONE
+    }
 
     val createTimeDurationWidgetSubject: PublishSubject<TimeDurationWidgetParams> = PublishSubject.create<TimeDurationWidgetParams>()
 
@@ -30,9 +37,9 @@ abstract class ItinTimeDurationViewModel(private val context: Context) {
     }
 
     @VisibleForTesting
-    fun getFormattedDuration(durationMinutes: Int): String? {
+    fun getFormattedDuration(durationMinutes: Int): String {
         return if (durationMinutes > 0) {
             return DateTimeUtils.formatDurationDaysHoursMinutes(context, durationMinutes)
-        } else null
+        } else ""
     }
 }
