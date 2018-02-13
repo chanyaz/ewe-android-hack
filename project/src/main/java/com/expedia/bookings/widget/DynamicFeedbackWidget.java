@@ -78,12 +78,22 @@ public class DynamicFeedbackWidget extends CardView {
 	}
 
 	public void setDynamicCounterText(int count, Money minPrice) {
-		CharSequence text = Phrase
-			.from(getContext().getResources().getQuantityString(R.plurals.count_with_price_results_template, count))
-			.put("number", count).put("price", Money
-				.getFormattedMoneyFromAmountAndCurrencyCode(minPrice.roundedAmount, minPrice.currencyCode,
-					Money.F_NO_DECIMAL).toString())
-			.format();
+		CharSequence text;
+		if (count == 1) {
+			text = Phrase.from(getContext(), R.string.count_with_price__for_one_result_TEMPLATE)
+				.put("price", Money
+					.getFormattedMoneyFromAmountAndCurrencyCode(minPrice.roundedAmount, minPrice.currencyCode,
+						Money.F_NO_DECIMAL).toString())
+				.format();
+		}
+		else {
+			text = Phrase
+				.from(getContext(), R.string.count_with_price_results_TEMPLATE)
+				.put("number", count).put("price", Money
+					.getFormattedMoneyFromAmountAndCurrencyCode(minPrice.roundedAmount, minPrice.currencyCode,
+						Money.F_NO_DECIMAL).toString())
+				.format();
+		}
 		dynamicFeedbackCounter.setText(text);
 	}
 }

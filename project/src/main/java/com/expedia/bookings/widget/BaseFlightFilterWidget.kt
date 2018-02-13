@@ -19,11 +19,14 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.extensions.clearChecks
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
@@ -37,7 +40,6 @@ import java.util.Locale
 
 class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val ANIMATION_DURATION = 500L
-    val rowHeight = resources.getDimensionPixelSize(R.dimen.airlines_filter_height)
 
     val toolbar: Toolbar by bindView(R.id.filters_toolbar)
     val toolbarDropshadow: View by bindView(R.id.filters_toolbar_dropshadow)
@@ -70,6 +72,9 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
     val dynamicFeedbackWidget: DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
     val dynamicFeedbackClearButton: TextView by bindView(R.id.dynamic_feedback_clear_button)
     val filterContainer: ViewGroup by bindView(R.id.filter_container)
+    val checkedFiltersTestVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo)
+    val rowHeight = if (checkedFiltersTestVariant == AbacusVariant.TWO.value) resources.getDimensionPixelSize(R.dimen.airlines_filter_height_with_price_and_count) else resources.getDimensionPixelSize(R.dimen.airlines_filter_height)
+
     val doneButton: Button by lazy {
         val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, null) as Button
         button.setTextColor(ContextCompat.getColor(context, R.color.packages_flight_filter_text))
@@ -216,7 +221,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                 for (key in sortedMap.keys) {
                     val view: RelativeLayout
                     if (vm.shouldShowShowPriceAndLogoOnFilter) {
-                        view = Ui.inflate<LabeledCheckableFilterWithPriceAndLogo<Int>>(LayoutInflater.from(context), R.layout.labeled_checked_filter_with_logo_and_price, this, false)
+                        view = Ui.inflate<PriceProminenceFilterWithLogoAndCount<Int>>(LayoutInflater.from(context), getLayoutIdForCheckedFilters(), this, false)
                         if (sortedMap.size == 1) {
                             view.bind(getStopFilterLabel(key.ordinal), key.ordinal, sortedMap[key])
                         } else {
@@ -248,7 +253,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                 for (key in sortedMap.keys) {
                     val view: RelativeLayout
                     if (vm.shouldShowShowPriceAndLogoOnFilter) {
-                        view = Ui.inflate<LabeledCheckableFilterWithPriceAndLogo<String>>(LayoutInflater.from(context), R.layout.labeled_checked_filter_with_logo_and_price, this, false)
+                        view = Ui.inflate<PriceProminenceFilterWithLogoAndCount<String>>(LayoutInflater.from(context), getLayoutIdForCheckedFilters(), this, false)
                         view.bind(key, key, sortedMap[key], true, vm.selectAirline)
                     } else {
                         view = Ui.inflate<LabeledCheckableFilter<String>>(LayoutInflater.from(context), R.layout.labeled_checked_filter, this, false)
@@ -296,6 +301,14 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
         } else {
             priceLabelForStops.visibility = View.GONE
             priceLabelForAirline.visibility = View.GONE
+        }
+    }
+
+    private fun getLayoutIdForCheckedFilters(): Int {
+        return if (checkedFiltersTestVariant == AbacusVariant.TWO.value) {
+            R.layout.labeled_checked_filter_with_logo_price_and_count
+        } else {
+            R.layout.labeled_checked_filter_with_logo_and_price
         }
     }
 

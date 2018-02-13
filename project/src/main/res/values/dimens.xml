@@ -290,6 +290,8 @@
 
     <!-- Flight Filter Sort -->
     <dimen name="airlines_filter_height">45dp</dimen>
+    <!-- Flight Filter Sort -->
+    <dimen name="airlines_filter_height_with_price_and_count">55dp</dimen>
 
     <!-- Account Screen -->
     <dimen name="about_row_title_text_size">14sp</dimen>

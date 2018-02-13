@@ -15,7 +15,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.BaseFlightFilterWidget
 import com.expedia.bookings.widget.LabeledCheckableFilter
-import com.expedia.bookings.widget.LabeledCheckableFilterWithPriceAndLogo
+import com.expedia.bookings.widget.PriceProminenceFilterWithLogoAndCount
 import com.expedia.vm.BaseFlightFilterViewModel
 import org.junit.Before
 import org.junit.Test
@@ -67,7 +67,7 @@ class FlightFilterWidgetTest {
         setViewModel()
         vm.flightResultsObservable.onNext(getFlightList())
         val stopsContainer = widget.stopsContainer
-        val firstStop = stopsContainer.getChildAt(0) as LabeledCheckableFilterWithPriceAndLogo<Int>
+        val firstStop = stopsContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<Int>
 
         assertEquals(1, stopsContainer.childCount)
         assertEquals(View.GONE, firstStop.logoImage.visibility)
@@ -117,12 +117,46 @@ class FlightFilterWidgetTest {
         setViewModel()
         vm.flightResultsObservable.onNext(getFlightList())
         val airlineContainer = widget.airlinesContainer
-        val firstAirlineFilter = airlineContainer.getChildAt(0) as LabeledCheckableFilterWithPriceAndLogo<String>
+        val firstAirlineFilter = airlineContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<String>
 
         assertEquals(1, airlineContainer.childCount)
         assertEquals(View.VISIBLE, firstAirlineFilter.logoImage.visibility)
         assertEquals("American Airlines", firstAirlineFilter.stopsLabel.text)
         assertEquals("$200", firstAirlineFilter.resultsLabel.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStopsContainerForPriceWithCountVariant() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo, 2)
+        setViewModel()
+        vm.flightResultsObservable.onNext(getFlightList())
+        val stopsContainer = widget.stopsContainer
+        val firstStop = stopsContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<Int>
+
+        assertEquals(1, stopsContainer.childCount)
+        assertEquals(View.GONE, firstStop.logoImage.visibility)
+        assertEquals("1 Stop", firstStop.stopsLabel.text)
+        assertEquals("$200", firstStop.resultsLabel.text)
+        assertEquals(View.VISIBLE, firstStop.countLabel.visibility)
+        assertEquals("3 results", firstStop.countLabel.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testAirlineContainerForPriceWithCountVariant() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo, 2)
+        setViewModel()
+        vm.flightResultsObservable.onNext(getFlightList())
+        val airlineContainer = widget.airlinesContainer
+        val firstAirlineFilter = airlineContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<String>
+
+        assertEquals(1, airlineContainer.childCount)
+        assertEquals(View.VISIBLE, firstAirlineFilter.logoImage.visibility)
+        assertEquals("American Airlines", firstAirlineFilter.stopsLabel.text)
+        assertEquals("$200", firstAirlineFilter.resultsLabel.text)
+        assertEquals(View.VISIBLE, firstAirlineFilter.countLabel.visibility)
+        assertEquals("3 results", firstAirlineFilter.countLabel.text)
     }
 
     fun setViewModel() {

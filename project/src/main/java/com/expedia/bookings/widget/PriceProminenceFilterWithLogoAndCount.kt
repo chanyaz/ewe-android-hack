@@ -6,14 +6,19 @@ import android.view.View
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.BaseFlightFilterViewModel.CheckedFilterProperties
+import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 
-class LabeledCheckableFilterWithPriceAndLogo<T>(context: Context, attrs: AttributeSet) : LabeledCheckableFilter<T>(context, attrs) {
+class PriceProminenceFilterWithLogoAndCount<T>(context: Context, attrs: AttributeSet) : LabeledCheckableFilter<T>(context, attrs) {
     val logoImage: ImageView by bindView(R.id.airline_logo_image_view)
+    val countLabel: TextView by bindView(R.id.count_label)
 
     fun bind(filterName: String, filterValue: T, filterResults: CheckedFilterProperties?, showLogo: Boolean, observer: Observer<T>) {
         this.observer = observer
@@ -26,6 +31,7 @@ class LabeledCheckableFilterWithPriceAndLogo<T>(context: Context, attrs: Attribu
         } else {
             logoImage.visibility = View.GONE
         }
+        showCountLabel(filterResults?.count ?: 0)
         checkBox.isChecked = false
         subscribeOnClick(checkObserver)
     }
@@ -37,7 +43,18 @@ class LabeledCheckableFilterWithPriceAndLogo<T>(context: Context, attrs: Attribu
         checkBox.isChecked = true
         checkBox.isEnabled = false
         logoImage.visibility = View.GONE
+        showCountLabel(filterResults?.count ?: 0)
         this.isClickable = false
+    }
+
+    fun showCountLabel(count: Int) {
+        val testVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo)
+        if (testVariant == AbacusVariant.TWO.value && count != 0) {
+            countLabel.text = getCountLabel(count)
+            countLabel.visibility = View.VISIBLE
+        } else {
+            countLabel.visibility = View.GONE
+        }
     }
 
     fun setAirlineLogo(filterLogoUrl: String?) {
@@ -50,6 +67,13 @@ class LabeledCheckableFilterWithPriceAndLogo<T>(context: Context, attrs: Attribu
             PicassoHelper.Builder(logoImage)
                     .build()
                     .load(R.drawable.ic_airline_backup)
+        }
+    }
+
+    fun getCountLabel(count: Int): String {
+        when (count) {
+            1 -> return resources.getString(R.string.flight_one_filter_result_description)
+            else -> return Phrase.from(context, R.string.flight_filter_result_count_TEMPLATE).put("count", count).format().toString()
         }
     }
 }

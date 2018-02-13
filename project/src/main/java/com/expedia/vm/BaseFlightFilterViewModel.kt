@@ -58,7 +58,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     var hasTrackedArrivalTimeFilterInteraction = false
     val resetFilterTracking = PublishSubject.create<Unit>()
     val durationFilterInteractionFromUser = PublishSubject.create<Unit>()
-    val shouldShowShowPriceAndLogoOnFilter = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo) && (lob == LineOfBusiness.FLIGHTS_V2)
+    val shouldShowShowPriceAndLogoOnFilter = AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo) && (lob == LineOfBusiness.FLIGHTS_V2)
 
     enum class Stops(val stops: Int) {
         NONSTOP(0),
@@ -234,12 +234,13 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         // not to include best flight in the count
         val allFlightsListSize = if (filteredList.isNotEmpty() && filteredList[0].isBestFlight) filteredList.size - 1 else filteredList.size
         val dynamicFeedbackWidgetCount = if (filterCount > 0) allFlightsListSize else -1
-        val minPriceLeg = filteredList.minBy { it.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount }
+        val minPriceLeg: Money? = if (shouldShowShowPriceAndLogoOnFilter) (filteredList.minBy { it.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount })
+                ?.packageOfferModel?.price?.averageTotalPricePerTicket else null
         if (lob == LineOfBusiness.FLIGHTS_V2 && !hasTrackedZeroFilteredResults && dynamicFeedbackWidgetCount == 0) {
             OmnitureTracking.trackFlightFilterZeroResults()
             hasTrackedZeroFilteredResults = true
         }
-        updateDynamicFeedbackWidget.onNext(Pair(dynamicFeedbackWidgetCount, minPriceLeg?.packageOfferModel?.price?.averageTotalPricePerTicket))
+        updateDynamicFeedbackWidget.onNext(Pair(dynamicFeedbackWidgetCount, minPriceLeg))
         doneButtonEnableObservable.onNext(filteredList.size > 0)
         filterCountObservable.onNext(filterCount)
     }

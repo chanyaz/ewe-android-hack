@@ -96,12 +96,6 @@
         <item quantity="other">{number} Results</item>
     </plurals>
 
-    <!-- Label to tell the user how many products match their filter -->
-    <plurals name="count_with_price_results_template">
-        <item quantity="one">{number} Result from {price}</item>
-        <item quantity="other">{number} Results from {price}</item>
-    </plurals>
-
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} Result Filtered</item>
@@ -4024,6 +4018,15 @@
     <string name="flight_one_stop_description">1 Stop</string>
     <!-- Flight Two stop description -->
     <string name="flight_two_plus_stops_description">2+ Stops</string>
+    <!-- Flight 1 result description -->
+    <string name="flight_one_filter_result_description">1 result</string>
+    <!-- Flight multiple result description Eg: 4 results -->
+    <string name="flight_filter_result_count_TEMPLATE">{count} results</string>
+    <!-- Flight 1 result with price description. Eg: 1 Result from $200  -->
+    <string name="count_with_price__for_one_result_TEMPLATE">1 Result from {price}</string>
+    <!-- Flight multiple results with price description. Eg: 4 Results from $200  -->
+    <string name="count_with_price_results_TEMPLATE">{number} Results from {price}</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
