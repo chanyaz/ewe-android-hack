@@ -215,6 +215,11 @@
     <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Reserver nu %1$s</string>
+    <!-- Template for ticket details (eg: Adult (12+ years)) -->
+    <string name="ticket_details_new_TEMPLATE">{traveler_type} ({restriction_text})</string>
+    <!-- Template for ticket details without restrictions (eg: Traveler) -->
+    <string name="ticket_details_no_restriction_new_TEMPLATE">{traveler_type}</string>
+    <string name="offer_book_now_button">Book nu</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
@@ -893,6 +898,7 @@
      price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
      Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
     <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line}fra &lt;strike&gt;{strike_price}&lt;/strike&gt; {price} pr. nat</string>
+    <string name="launch_section_get_inspired">Bliv inspireret</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Anbefalede hoteller til i aften</string>
@@ -1348,6 +1354,8 @@
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">Dit værelse</string>
+    <!--Hotel itin card room details heading - multiple rooms-->
+    <string name="itin_hotel_details_room_details_multi_room_title_text">Dine værelser</string>
     <!--Hotel itin card booking details heading-->
     <string name="itin_hotel_details_booking_details_title_text">Reservationsoplysninger</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
@@ -1442,6 +1450,10 @@
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Gratis wi-fi</string>
     <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
     <string name="itin_hotel_check_in_policies_dialog_title">Indtjekningspolitikker</string>
+    <!--Sub Title text for a pop-up that lists check-in special instructions-->
+    <string name="itin_hotel_special_instruction_dialog_sub_title">Særlige anvisninger</string>
+    <!--Button title for check-in policies and special instructions-->
+    <string name="itin_hotel_check_in_policies_and_special_instruction">Indtjekning og særlige anvisninger</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Ændrings- og afbestillingsregler</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2877,10 +2889,10 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
     <string name="package_hotel_results_header">Samlet pris pr. person tur-retur • inklusive hotel og fly</string>
 
-    <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
-    <string name="urgency_percent_booked_TEMPLATE">{percentage}% reserveret</string>
-    <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
-    <string name="urgency_destination_description_TEMPLATE">{destination} er en populær destination på dine rejsedatoer</string>
+    <!-- Urgency message indicating percent of hotels remaining in a region-->
+    <string name="urgency_only_x_hotels_left_TEMPLATE">Vi har kun {percent}% af hotellerne tilbage!</string>
+    <!-- Urgency message to encourage user to book soon-->
+    <string name="urgency_book_soon">Book nu for at sikre dit overnatningssted.</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">Værelsesoplysninger</string>
@@ -3003,12 +3015,8 @@
     <string name="enter_coupon_code">Indtast kuponkode</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Send</string>
-    <!-- Coupon submit button for accessibility -->
-    <string name="coupon_submit_button_ally">Knappen Send</string>
     <!-- Coupon apply button -->
     <string name="coupon_apply_button">Anvend</string>
-    <!-- Coupon apply button for accessibility -->
-    <string name="coupon_apply_button_ally">Knappen Anvend</string>
 
 
     <!-- Coupon Error Strings -->
@@ -3019,13 +3027,13 @@
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Beklager, men denne kupon er udløbet.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Beklager, men der er opstået et problem. Forsøg venligst igen.</string>
+    <string name="coupon_error_not_redeemed">Beklager, kuponen kunne ikke anvendes. Forsøg venligst igen.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">Beklager, men denne kuponkode er allerede brugt.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Beklager, men der er opstået et problem. Forsøg venligst igen.</string>
+    <string name="coupon_error_fallback">Beklager, der opstod et problem. Forsøg venligst igen.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Prisen på reservationen har ændret sig, så vi har ikke anvendt kuponen. Kontroller venligst, og prøv igen.</string>
+    <string name="coupon_error_price_change">Prisen på reservationen har ændret sig. Se venligst din nye samlede pris, og prøv igen.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Beklager, men denne kuponkode er for et andet land.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
@@ -4510,6 +4518,14 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Ændr prisklasse</string>
 
+    <string name="basic_economy_rule_1">Pladser tildeles ved indtjekning.</string>
+    <string name="basic_economy_rule_2">Pladser tildeles efter indtjekning.</string>
+    <string name="basic_economy_rule_3">Billetændring og refusion er ikke tilladt.</string>
+    <string name="basic_economy_rule_4">Boarding i den sidste boardinggruppe.</string>
+    <string name="basic_economy_rule_5">Ingen opgraderinger.</string>
+    <string name="basic_economy_rule_6">1 personlig genstand, bagagehylde er ikke tilgængelig.</string>
+    <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
+    <string name="basic_economy_tooltip_header_TEMPLATE">{airlineshortname}s basisøkonomiklassepris</string>
 
     <!-- Generic date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="start_dash_end_date_range_TEMPLATE">{startdate} - {enddate}</string>
@@ -4924,7 +4940,25 @@
     <!-- Select Room button content description with room type and option number; verb; as in select a hotel room, ex. Select, Studio, 1 Queen Bed Option 1-->
     <string name="select_room_button_with_options_content_description_TEMPLATE">Vælg {room} {option}</string>
 
-    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
-    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">Faneblad for {flightsearchtype}</string>
+    <!-- Accessibility content description for Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_search_type_TEMPLATE">Faneblad for {tabname}</string>
 
+    <!--Accessibility content description Template for the Activity Recommendation Rating Eg. Activity Rated, 3.2 of 5-->
+    <string name="lx_recommend_rating_TEMPLATE">Denne oplevelse er bedømt til {recommend_score} ud af 5</string>
+    <!--Activity Discount Percentage Template Eg. -10%-->
+    <string name="lx_discount_percentage_text_TEMPLATE">-{discount}%</string>
+    <!--Accessibility Content Description Template for Activity Discount Percentage Eg. 10% discount on original pricing-->
+    <string name="lx_discount_percentage_description_TEMPLATE">{discount}% rabat trækkes fra den oprindelige pris</string>
+    <!--Accessibility Content Description Template for showing Discounted pricing Eg. Regular price $125, Discounted price $110-->
+    <string name="lx_total_price_description_TEMPLATE">Normalpris er {original_price}, den nuværende pris er {activity_price}</string>
+    <!--Accessibility Content Description Template for showing Discounted Pricing with Discount Percentage Eg. Regular price $100, Discounted price $80, Total discount given: 20%.-->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">Normalrpis er {original_price}, den nuværende pris er {activity_price}. Samlet rabat på {discount}%.</string>
+    <!--Accessibility Content Description Template for Activity price with no discounting. Eg. Price is $78.-->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">Prisen er {activity_price}.</string>
+    <!--LX Price per traveler Template Eg. $145/Adult-->
+    <string name="lx_price_per_traveler_TEMPLATE">{price} pr. {traveler_type}</string>
+    <!--Accessibility Content Description Template for the Selected Tickets summary Eg. 1 Adult, 2 Children Selected-->
+    <string name="lx_ticket_selected_summary_TEMPLATE">Oplevelsen er valgt for {ticket_summary}</string>
+    <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
+    <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Normalpris {ticket_type}{activity_original_price}. Prisen med rabat er {ticket_type} {activity_price}</string>
 </resources>

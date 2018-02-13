@@ -215,6 +215,11 @@
     <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">予約する %1$s</string>
+    <!-- Template for ticket details (eg: Adult (12+ years)) -->
+    <string name="ticket_details_new_TEMPLATE">{traveler_type} ({restriction_text})</string>
+    <!-- Template for ticket details without restrictions (eg: Traveler) -->
+    <string name="ticket_details_no_restriction_new_TEMPLATE">{traveler_type}</string>
+    <string name="offer_book_now_button">今すぐ予約</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
@@ -532,7 +537,7 @@
     <string name="tour_the_area_description">市内ツアーに参加して歴史と現代について学ぶ</string>
 
     <string name="fun_for_the_family">ファミリー向けのアクティビティ</string>
-    <string name="fun_for_the_family_description">子供から大人まで、家族で楽しめるアクティビティ</string>
+    <string name="fun_for_the_family_description">お子様から大人まで、家族で楽しめるアクティビティ</string>
 
     <string name="pure_entertainment">エンターテイメント</string>
     <string name="pure_entertainment_description">スポーツ、遊園地、ショー、パフォーマンス</string>
@@ -893,6 +898,7 @@
      price that has a horizontal line through it. The {price} is how much the hotel is selling for per night.
      Example - "Maui, Hawaii · from $364 $200/night" In this example the "$364" would have a strike through it.-->
     <string name="meso_sub_text_TEMPLATE">{location}{bullet_or_new_line} &lt;strike&gt;{strike_price}&lt;/strike&gt; {price} / 泊 ～</string>
+    <string name="launch_section_get_inspired">旅のアイディア</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">おすすめの今晩のホテル</string>
@@ -1348,6 +1354,8 @@
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">客室</string>
+    <!--Hotel itin card room details heading - multiple rooms-->
+    <string name="itin_hotel_details_room_details_multi_room_title_text">客室</string>
     <!--Hotel itin card booking details heading-->
     <string name="itin_hotel_details_booking_details_title_text">予約情報</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
@@ -1442,6 +1450,10 @@
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">無料 WiFi</string>
     <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
     <string name="itin_hotel_check_in_policies_dialog_title">チェックイン ポリシー</string>
+    <!--Sub Title text for a pop-up that lists check-in special instructions-->
+    <string name="itin_hotel_special_instruction_dialog_sub_title">特記事項</string>
+    <!--Button title for check-in policies and special instructions-->
+    <string name="itin_hotel_check_in_policies_and_special_instruction">チェックインおよび特記事項</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">変更およびキャンセル規則</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2877,10 +2889,10 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
     <string name="package_hotel_results_header">往復 (1 名あたり) の合計料金 • 航空券 + ホテルを含む</string>
 
-    <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
-    <string name="urgency_percent_booked_TEMPLATE">{percentage}% 予約済み</string>
-    <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
-    <string name="urgency_destination_description_TEMPLATE">選択された期間には{destination}のホテルは混み合っています</string>
+    <!-- Urgency message indicating percent of hotels remaining in a region-->
+    <string name="urgency_only_x_hotels_left_TEMPLATE">空室のあるホテルは残り {percent}% です !</string>
+    <!-- Urgency message to encourage user to book soon-->
+    <string name="urgency_book_soon">今すぐ予約して、宿泊場所を確保しましょう。</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
     <string name="room_information_button_cont_desc">客室情報</string>
@@ -3003,12 +3015,8 @@
     <string name="enter_coupon_code">クーポンコードを入力</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">送信</string>
-    <!-- Coupon submit button for accessibility -->
-    <string name="coupon_submit_button_ally">送信ボタン</string>
     <!-- Coupon apply button -->
     <string name="coupon_apply_button">適用</string>
-    <!-- Coupon apply button for accessibility -->
-    <string name="coupon_apply_button_ally">適用ボタン</string>
 
 
     <!-- Coupon Error Strings -->
@@ -3019,13 +3027,13 @@
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">申し訳ありません。このクーポンの有効期限が過ぎています。</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">申し訳ありません。エラーが発生しました。もう一度お試しください。</string>
+    <string name="coupon_error_not_redeemed">申し訳ありません。クーポンは適用されませんでした。もう一度お試しください。</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">申し訳ありません。このクーポンはすでに使用されています。</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">申し訳ありません。エラーが発生しました。もう一度お試しください。</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">予約料金が変更されたため、クーポンは適用されませんでした。ご確認の上、再度お試しください。</string>
+    <string name="coupon_error_price_change">予約料金が変更されました。新しい合計料金をご確認いただいてから、再度お試しください。</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">申し訳ありません。この国はこのクーポン コードの対象外です。</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
@@ -4510,6 +4518,14 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">運賃クラスを変更する</string>
 
+    <string name="basic_economy_rule_1">チェックイン時に座席の割り当て。</string>
+    <string name="basic_economy_rule_2">チェックイン後に座席の割り当て。</string>
+    <string name="basic_economy_rule_3">変更および返金不可。</string>
+    <string name="basic_economy_rule_4">最後のグループで搭乗。</string>
+    <string name="basic_economy_rule_5">アップグレードなし。</string>
+    <string name="basic_economy_rule_6">身の回り品 1 個のみ (頭上の収納棚の利用不可)。</string>
+    <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
+    <string name="basic_economy_tooltip_header_TEMPLATE">{airlineshortname}のベーシック エコノミー運賃</string>
 
     <!-- Generic date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="start_dash_end_date_range_TEMPLATE">{startdate} ～ {enddate}</string>
@@ -4540,7 +4556,7 @@
     <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">お子様 {childnumber} の年齢を選択してください。</string>
     <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1. 10 Years old selected."-->
-    <string name="search_child_age_drop_down_cont_desc_TEMPLATE">お子様 {childnumber} の年齢を選択してください。{currentselection} が選択されています。</string>
+    <string name="search_child_age_drop_down_cont_desc_TEMPLATE">お子様 {childnumber} の年齢を選択してください。{currentselection}選択済み。</string>
     <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
     <string name="search_youth_drop_down_cont_desc_TEMPLATE">中人 {youthnumber} の年齢を選択してください。</string>
     <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->
@@ -4924,7 +4940,25 @@
     <!-- Select Room button content description with room type and option number; verb; as in select a hotel room, ex. Select, Studio, 1 Queen Bed Option 1-->
     <string name="select_room_button_with_options_content_description_TEMPLATE">{room} {option}を選択する</string>
 
-    <!-- Accessibility content description for Flight Search Type. Eg. RoundTrip Tab -->
-    <string name="accessibility_cont_desc_flight_search_type_TEMPLATE">{flightsearchtype}タブ</string>
+    <!-- Accessibility content description for Search Type. Eg. RoundTrip Tab -->
+    <string name="accessibility_cont_desc_search_type_TEMPLATE">{tabname}タブ</string>
 
+    <!--Accessibility content description Template for the Activity Recommendation Rating Eg. Activity Rated, 3.2 of 5-->
+    <string name="lx_recommend_rating_TEMPLATE">現地ツアーの評価 5 段階中 {recommend_score}</string>
+    <!--Activity Discount Percentage Template Eg. -10%-->
+    <string name="lx_discount_percentage_text_TEMPLATE">- {discount}%</string>
+    <!--Accessibility Content Description Template for Activity Discount Percentage Eg. 10% discount on original pricing-->
+    <string name="lx_discount_percentage_description_TEMPLATE">元の料金に {discount}% 割引</string>
+    <!--Accessibility Content Description Template for showing Discounted pricing Eg. Regular price $125, Discounted price $110-->
+    <string name="lx_total_price_description_TEMPLATE">通常料金 {original_price}、割引適用後の料金 {activity_price}</string>
+    <!--Accessibility Content Description Template for showing Discounted Pricing with Discount Percentage Eg. Regular price $100, Discounted price $80, Total discount given: 20%.-->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">通常料金 {original_price}、割引適用後の料金 {activity_price}、合計 {discount}% 割引。</string>
+    <!--Accessibility Content Description Template for Activity price with no discounting. Eg. Price is $78.-->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">料金は {activity_price} です。</string>
+    <!--LX Price per traveler Template Eg. $145/Adult-->
+    <string name="lx_price_per_traveler_TEMPLATE">{price}/{traveler_type}</string>
+    <!--Accessibility Content Description Template for the Selected Tickets summary Eg. 1 Adult, 2 Children Selected-->
+    <string name="lx_ticket_selected_summary_TEMPLATE">選択された現地ツアーの対象人数 : {ticket_summary}</string>
+    <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
+    <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">通常料金 {activity_original_price} ({ticket_type})。割引適用後の料金 {activity_price} ({ticket_type})</string>
 </resources>
