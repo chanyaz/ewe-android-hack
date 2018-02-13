@@ -281,6 +281,14 @@
             tools:ignore="UnusedAttribute" />
 
         <activity
+            android:name="com.expedia.bookings.hotel.activity.HotelGalleryGridActivity"
+            android:label="Hotels"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:theme="@style/Theme.Hotels.Default"
+            tools:ignore="UnusedAttribute" />
+
+        <activity
             android:name="com.expedia.bookings.hotel.activity.HotelGalleryActivity"
             android:label="Hotels"
             android:launchMode="singleTop"

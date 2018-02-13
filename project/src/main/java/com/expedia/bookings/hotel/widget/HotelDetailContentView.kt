@@ -30,9 +30,12 @@ import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.activity.HotelGalleryActivity
+import com.expedia.bookings.hotel.activity.HotelGalleryGridActivity
 import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
@@ -515,7 +518,11 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         override fun onNext(t: Unit) {
             viewModel.trackHotelDetailRoomGalleryClick()
-            val intent = Intent(context, HotelGalleryActivity::class.java)
+
+            var intent = Intent(context, HotelGalleryActivity::class.java)
+            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelImageGrid)) {
+                intent = Intent(context, HotelGalleryGridActivity::class.java)
+            }
             val galleryConfig = HotelGalleryConfig(viewModel.hotelNameObservable.value,
                     viewModel.hotelRatingObservable.value, roomCode,
                     showDescription = false, startIndex = 0)

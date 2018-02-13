@@ -146,6 +146,7 @@
     <dimen name="filter_slider_thumbnail_radius">25dp</dimen>
 
     <dimen name="gallery_image_height">240dp</dimen>
+    <dimen name="gallery_grid_spacing">2dp</dimen>
 
     <dimen name="lx_checkout_cost_summary_min_height">270dp</dimen>
 

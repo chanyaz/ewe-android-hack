@@ -13,8 +13,11 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.ScrollView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.DEFAULT_HOTEL_GALLERY_CODE
 import com.expedia.bookings.hotel.activity.HotelGalleryActivity
+import com.expedia.bookings.hotel.activity.HotelGalleryGridActivity
 import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
 import com.expedia.bookings.hotel.deeplink.HotelExtras
@@ -130,7 +133,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 alreadyTrackedGalleryClick = true
             }
 
-            val intent = Intent(context, HotelGalleryActivity::class.java)
+            var intent = Intent(context, HotelGalleryActivity::class.java)
+            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelImageGrid)) {
+                intent = Intent(context, HotelGalleryGridActivity::class.java)
+            }
             val galleryConfig = HotelGalleryConfig(viewmodel.hotelNameObservable.value,
                     viewmodel.hotelRatingObservable.value,
                     roomCode = DEFAULT_HOTEL_GALLERY_CODE,
