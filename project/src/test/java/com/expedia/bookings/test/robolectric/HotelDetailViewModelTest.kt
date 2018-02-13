@@ -795,6 +795,7 @@ class HotelDetailViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA)) // some flavors have Abacus test disabled
     fun testViewDetailsDatelessTracking() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelDatelessInfosite)
         val response = loadOfferInfo("src/test/resources/raw/hotel/hotel_happy_offer.json")
@@ -808,7 +809,7 @@ class HotelDetailViewModelTest {
                 Matchers.allOf(OmnitureMatchers.withEventsString("event3,event11"),
                         OmnitureMatchers.withProductsString("Hotel; Hotel:795934"),
                         OmnitureMatchers.withProps(mapOf(2 to "hotels", 4 to "6056742")),
-                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 4 to "D=c4"))
+                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 4 to "D=c4", 34 to "24648.0.1"))
                 ),
                 mockAnalyticsProvider)
     }

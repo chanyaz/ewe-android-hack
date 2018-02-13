@@ -818,6 +818,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createBasePageLoadInfosite(hotelOffersResponse, isCurrentLocationSearch, pageLoadTimeData, swpEnabled);
 		s.appendEvents("event11");
 		s.setProducts("Hotel; Hotel:" + hotelOffersResponse.hotelId);
+		trackAbacusTest(s, AbacusUtils.HotelDatelessInfosite);
 
 		// Send the tracking data
 		s.track();
