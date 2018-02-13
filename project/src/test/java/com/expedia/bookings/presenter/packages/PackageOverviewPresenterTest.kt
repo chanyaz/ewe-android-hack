@@ -197,6 +197,7 @@ class PackageOverviewPresenterTest {
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
 
         assertEquals(expectedTotalPrice, overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleTotalPrice.text)
+        assertEquals("$100.23 Saved", overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleSavings.text)
     }
 
     @Test
@@ -363,6 +364,7 @@ class PackageOverviewPresenterTest {
     private fun setPackagePrice(): PackageOfferModel.PackagePrice {
         val packagePrice = PackageOfferModel.PackagePrice()
         packagePrice.packageTotalPrice = Money("200", "USD")
+        packagePrice.tripSavings = Money("100.23", "USD")
         return packagePrice
     }
 }
