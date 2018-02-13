@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -200,7 +201,12 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         } else if (viewType == HotelAdapterItem.SPACER) {
             val header = View(parent.context)
             val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.height = parent.context.resources.getDimensionPixelSize(R.dimen.hotel_results_last_price_buffer)
+            if (isHideMiniMapOnResultBucketed(parent.context)) {
+                lp.height = parent.context.resources.getDimensionPixelSize(R.dimen.hotel_results_last_price_buffer_hide_mini_map)
+                header.setBackgroundColor((ContextCompat.getColor(parent.context, R.color.gray100)))
+            } else {
+                lp.height = parent.context.resources.getDimensionPixelSize(R.dimen.hotel_results_last_price_buffer)
+            }
             header.layoutParams = lp
             return EndOfListViewHolder(header)
         } else if (viewType == HotelAdapterItem.URGENCY) {
