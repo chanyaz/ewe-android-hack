@@ -200,8 +200,8 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		else if (getString(R.string.preference_open_remote_feature_toggle_settings).equals(key)) {
 			getFragmentManager()
 					.beginTransaction()
-					.replace(R.id.fragment_container, new RemoteFeaturePreferencesFragment())
-					.addToBackStack(RemoteFeaturePreferencesFragment.class.getName())
+					.replace(R.id.fragment_container, new RemoteFeaturesListFragment())
+					.addToBackStack(RemoteFeaturesListFragment.class.getName())
 					.commit();
 			return true;
 		}

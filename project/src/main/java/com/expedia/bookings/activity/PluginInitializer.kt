@@ -3,8 +3,8 @@ package com.expedia.bookings.activity
 import android.content.Context
 import com.expedia.bookings.dagger.AppComponent
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
-import com.expedia.bookings.features.Plugins
 import com.expedia.bookings.features.RemoteFeatureResolver
+import com.expedia.bookings.plugins.Plugins
 import com.mobiata.android.util.SettingUtils
 
 class PluginInitializer {

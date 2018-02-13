@@ -8,21 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.features.Feature
-import com.expedia.bookings.features.Features
 
-class RemoteFeaturePreferenceFragment : Fragment() {
-
-    private lateinit var name: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        name = arguments.getString("name")
-    }
-
+class RemoteFeaturesListFragment : Fragment(), RemoteFeaturesListAdapter.OnFeatureClickedListener {
     override fun onStart() {
         super.onStart()
-        activity.title = name
+        activity.title = "Remote Feature Toggles"
     }
 
     override fun onResume() {
@@ -39,16 +29,22 @@ class RemoteFeaturePreferenceFragment : Fragment() {
 
         if (view is RecyclerView) {
             view.layoutManager = LinearLayoutManager(context)
-            val feature = feature()
-            if (feature != null) {
-                view.adapter = RemoteFeaturePreferenceAdapter(context, name, feature)
-            }
+            //view.itemAnimator = DefaultItemAnimator()
+            view.adapter = RemoteFeaturesListAdapter(this)
         }
         return view
     }
 
-    private fun feature(): Feature? {
-        return Features.all.namesAndFeatures().find { it.first == name }?.second
+    override fun featureClicked(name: String) {
+        val remoteFeaturePreferenceFragment = RemoteFeaturePreferenceFragment()
+        val args = Bundle()
+        args.putString("name", name)
+        remoteFeaturePreferenceFragment.arguments = args
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, remoteFeaturePreferenceFragment)
+                .addToBackStack(RemoteFeaturePreferenceFragment::class.java.name)
+                .commit()
     }
 }
 
