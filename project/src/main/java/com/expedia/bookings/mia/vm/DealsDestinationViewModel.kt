@@ -28,7 +28,9 @@ class DealsDestinationViewModel(val context: Context, val leadingHotel: DealsDes
 
     val cityName: String? = leadingHotel.destination?.shortName ?: leadingHotel.destination?.city
 
-    val hotelName: String? = leadingHotel.hotelInfo?.hotelName
+    val hotelName: String? by lazy {
+        if (leadingHotel.hotelInfo?.localizedHotelName.isNullOrEmpty()) leadingHotel.hotelInfo?.hotelName else leadingHotel.hotelInfo?.localizedHotelName
+    }
 
     val regionId: String? = leadingHotel.destination?.regionID
 

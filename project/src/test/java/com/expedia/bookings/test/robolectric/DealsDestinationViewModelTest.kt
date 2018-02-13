@@ -82,6 +82,22 @@ class DealsDestinationViewModelTest {
     }
 
     @Test
+    fun nonLocalizedHotelNameIsUsed_givenEmptyLocalizedHotelName() {
+        setupSystemUnderTest()
+        hotel.hotelInfo?.hotelName = "non localized hotel name"
+        hotel.hotelInfo?.localizedHotelName = ""
+        assertEquals("non localized hotel name", vm.hotelName)
+    }
+
+    @Test
+    fun localizedHotelNameIsUsedAsDefault() {
+        setupSystemUnderTest()
+        hotel.hotelInfo?.hotelName = "non localized hotel name"
+        hotel.hotelInfo?.localizedHotelName = "localized hotel name"
+        assertEquals("localized hotel name", vm.hotelName)
+    }
+
+    @Test
     fun hotelBackgroundImageURL_isFormattedWithHighResImage() {
         setupSystemUnderTest()
         hotel.hotelInfo?.hotelImageUrl = "https://images.trvl-media.com/hotels/2000000/1450000/1445800/1445791/3c7df4c6_l.jpg"

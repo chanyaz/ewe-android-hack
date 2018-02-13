@@ -52,6 +52,7 @@ class DealsDestination {
             var hotelName: String? = null
             var hotelImageUrl: String? = null
             var hotelId: String? = null
+            var localizedHotelName: String? = null
         }
 
         fun hasLeadingPrice(): Boolean {
