@@ -60,8 +60,8 @@ class LastMinuteDealListAdapterTest {
 
         assertEquals(hotelSearchParams?.adults, 2)
         assertEquals(hotelSearchParams?.suggestion?.hotelId, "12345")
-        assertEquals(hotelSearchParams?.checkIn, LocalDate(2018, 2, 12))
-        assertEquals(hotelSearchParams?.checkOut, LocalDate(2018, 2, 16))
+        assertEquals(hotelSearchParams?.checkIn, LocalDate.now().plusDays(1))
+        assertEquals(hotelSearchParams?.checkOut, LocalDate.now().plusDays(3))
     }
 
     @Test
@@ -139,6 +139,10 @@ class LastMinuteDealListAdapterTest {
     }
 
     class MockDealResponse(crossoutPriceValue: Double) : LastMinuteDealsResponse() {
+
+        private var checkInDate: LocalDate = LocalDate.now().plusDays(1)
+        private var checkoutDate: LocalDate = LocalDate.now().plusDays(3)
+
         init {
             offers = Offers()
             offerInfo = OfferInfo()
@@ -161,8 +165,8 @@ class LastMinuteDealListAdapterTest {
                 lastMinuteDealsDestination.hotelInfo!!.hotelName = "Some Hotel"
                 lastMinuteDealsDestination.destination!!.shortName = "Some City"
                 lastMinuteDealsDestination.hotelInfo!!.hotelId = "12345"
-                lastMinuteDealsDestination.offerDateRange!!.travelStartDate = listOf(2018, 2, 12)
-                lastMinuteDealsDestination.offerDateRange!!.travelEndDate = listOf(2018, 2, 16)
+                lastMinuteDealsDestination.offerDateRange!!.travelStartDate = listOf(checkInDate.year, checkInDate.monthOfYear, checkInDate.dayOfMonth)
+                lastMinuteDealsDestination.offerDateRange!!.travelEndDate = listOf(checkoutDate.year, checkoutDate.monthOfYear, checkoutDate.dayOfMonth)
                 listLoading.add(lastMinuteDealsDestination)
             }
             return listLoading
