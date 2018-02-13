@@ -304,4 +304,8 @@
     <integer name="pro_wizard_search_enter_duration">800</integer>
     <integer name="pro_wizard_launch_return_duration">300</integer>
     <integer name="search_cards_transition_duration">400</integer>
+
+    <!-- Animation constants -->
+    <integer name="full_screen_slide_time">350</integer>
+
 </resources>
