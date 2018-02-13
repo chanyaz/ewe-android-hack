@@ -448,6 +448,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)
         setCheckoutHeaderOverviewDates()
         setMandatoryFee()
+        Db.getPackageResponse().getCurrentOfferPrice()?.let {
+            totalPriceWidget.viewModel.savings.onNext(it.tripSavings)
+        }
     }
 
     private fun setMandatoryFee() {
