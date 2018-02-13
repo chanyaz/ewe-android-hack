@@ -60,8 +60,8 @@ class LastMinuteDealListAdapterTest {
 
         assertEquals(hotelSearchParams?.adults, 2)
         assertEquals(hotelSearchParams?.suggestion?.hotelId, "12345")
-        assertEquals(hotelSearchParams?.checkIn, LocalDate(2018, 2, 12))
-        assertEquals(hotelSearchParams?.checkOut, LocalDate(2018, 2, 16))
+        assertEquals(hotelSearchParams?.checkIn, LocalDate(2020, 2, 12))
+        assertEquals(hotelSearchParams?.checkOut, LocalDate(2020, 2, 16))
     }
 
     @Test
@@ -161,8 +161,8 @@ class LastMinuteDealListAdapterTest {
                 lastMinuteDealsDestination.hotelInfo!!.hotelName = "Some Hotel"
                 lastMinuteDealsDestination.destination!!.shortName = "Some City"
                 lastMinuteDealsDestination.hotelInfo!!.hotelId = "12345"
-                lastMinuteDealsDestination.offerDateRange!!.travelStartDate = listOf(2018, 2, 12)
-                lastMinuteDealsDestination.offerDateRange!!.travelEndDate = listOf(2018, 2, 16)
+                lastMinuteDealsDestination.offerDateRange!!.travelStartDate = listOf(2020, 2, 12)
+                lastMinuteDealsDestination.offerDateRange!!.travelEndDate = listOf(2020, 2, 16)
                 listLoading.add(lastMinuteDealsDestination)
             }
             return listLoading
