@@ -1,8 +1,13 @@
 package com.expedia.bookings.test.stepdefs.phone;
 
+import android.support.test.InstrumentationRegistry;
+
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.ABTest;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.abacus.AbacusVariant;
@@ -10,6 +15,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
+import com.mobiata.android.util.SettingUtils;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -71,6 +77,7 @@ public class CommonSteps {
 	}
 
 	@And("^I bucket the following tests$")
+	@Deprecated
 	public void bucketABTest(List<String> list) throws Throwable {
 		if (list.contains("FlightsSeatClassAndBookingCode")) {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode.getKey(),
@@ -112,10 +119,20 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass.getKey(),
 					AbacusVariant.BUCKETED.getValue());
 		}
+		if (list.contains("EBAndroidAppTripsMessageHotel")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppTripsMessageHotel.getKey(),
+					AbacusVariant.BUCKETED.getValue());
+		}
+		if (list.contains("TripsHotelsM2")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.TripsHotelsM2.getKey(),
+					AbacusVariant.BUCKETED.getValue());
+		}
+
 		Db.sharedInstance.setAbacusResponse(abacusResponse);
 	}
 
 	@And("^I put following tests in control$")
+	@Deprecated
 	public void contronABTest(List<String> list) {
 		if (list.contains("FlightsCrossSellPackage")) {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR.getKey(),
@@ -128,20 +145,40 @@ public class CommonSteps {
 		Db.sharedInstance.setAbacusResponse(abacusResponse);
 	}
 
-	@And("^I enable following features$")
-	public void enableFeatures(List<String> list) {
-		for (String key : list) {
-			Common.setFeatureFlag(key, true);
+	@And("^I set bucketing rules for A/B tests as$")
+	public void setBucketingRulesForTests(Map<String, String> map) throws Throwable {
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			Field test = AbacusUtils.class.getField(entry.getKey());
+			test.setAccessible(true);
+			Field variant = AbacusVariant.class.getField(entry.getValue());
+			variant.setAccessible(true);
+			ABTest abTest = (ABTest) test.get(test);
+			AbacusVariant abVariant = (AbacusVariant) variant.get(variant);
+
+			if (abTest.getRemote()) {
+				SettingUtils.save(
+						InstrumentationRegistry.getTargetContext(),
+						Integer.toString(abTest.getKey()),
+						abVariant.getValue()
+				);
+			}
+
+			abacusResponse.updateABTestForDebug(
+					abTest.getKey(),
+					abVariant.getValue()
+			);
 		}
+		Db.sharedInstance.setAbacusResponse(abacusResponse);
 	}
 
-	@And("^I disable following features$")
-	public void disableFeatures(List<String> list) {
+	@And("^I (enable|disable) following features$")
+	public void enableDisableFeatures(String enableDisable, List<String> list) {
+		Boolean enable = enableDisable.equalsIgnoreCase("enable");
+
 		for (String key : list) {
-			Common.setFeatureFlag(key, false);
+			Common.setFeatureFlag(key, enable);
 		}
 	}
-
 
 	@And("^I press back$")
 	public void hitBack() {

@@ -15,7 +15,7 @@ Feature: Hotel Search with name
       | destination                | checkInDate | checkOutDate |
       | Hotel Nikko San Francisco  | 5           | 7            |
 
-
+  @Prod @RC_HotelSearch
   Scenario Outline: Successfully searching for hotels through "Did you mean..."
 
     Given I launch the App

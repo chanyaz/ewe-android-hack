@@ -8,7 +8,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
-import com.expedia.bookings.test.pagemodels.common.TripsScreen;
+import com.expedia.bookings.test.pagemodels.trips.TripsScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;

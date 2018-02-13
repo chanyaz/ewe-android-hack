@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.pagemodels.common;
+package com.expedia.bookings.test.pagemodels.trips;
 
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
@@ -9,6 +9,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 
 import org.hamcrest.Matcher;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
@@ -60,5 +61,9 @@ public class TripsScreen {
 	public static void verifyTripItemWithNameIsPresent(String itemName) {
 		onView(tripsItemName).check(matches(withText(itemName)));
 		onView(ViewMatchers.withId(R.id.viewpager)).check(matches(isDisplayed()));
+	}
+
+	public static void clickOnTripItemWithName(@NotNull String hotelName) {
+		onView(tripsItemName).perform(click());
 	}
 }

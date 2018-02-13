@@ -8,4 +8,4 @@ Feature: Bookings on a Trips tab
       | tier | Blue |
       | type | Facebook |
     And I tap on "Trips" tab
-    And I verify that hotel with name "Longhorn Casino & Hotel" is present
+    And I verify that trip item with name "Longhorn Casino & Hotel" is present

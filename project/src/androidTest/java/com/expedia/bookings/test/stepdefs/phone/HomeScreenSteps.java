@@ -3,7 +3,7 @@ package com.expedia.bookings.test.stepdefs.phone;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.pagemodels.common.TripsScreen;
+import com.expedia.bookings.test.pagemodels.trips.TripsScreen;
 import com.expedia.bookings.test.support.Users;
 import com.expedia.bookings.test.support.Users.User;
 
