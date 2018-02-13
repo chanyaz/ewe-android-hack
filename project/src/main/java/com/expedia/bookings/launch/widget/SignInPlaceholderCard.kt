@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import com.expedia.account.Config
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.AbstractGenericPlaceholderCard
@@ -21,11 +19,7 @@ class SignInPlaceholderCard(itemView: View, context: Context) : AbstractGenericP
         }
 
         button_two.setOnClickListener {
-            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
-                NavUtils.goToAccount(activity, Config.InitialState.SinglePageCreateAccount)
-            } else {
-                NavUtils.goToAccount(activity, Config.InitialState.CreateAccount)
-            }
+            NavUtils.goToAccount(activity, Config.InitialState.SinglePageCreateAccount)
             OmnitureTracking.trackLaunchSignIn()
         }
     }

@@ -25,12 +25,10 @@ import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.TextViewDialog
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
@@ -325,11 +323,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         }
 
         createAccountButton.setOnClickListener {
-            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
-                NavUtils.goToAccount(activity, Config.InitialState.SinglePageCreateAccount)
-            } else {
-                NavUtils.goToAccount(activity, Config.InitialState.CreateAccount)
-            }
+            NavUtils.goToAccount(activity, Config.InitialState.SinglePageCreateAccount)
         }
 
         openSourceCredits.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {

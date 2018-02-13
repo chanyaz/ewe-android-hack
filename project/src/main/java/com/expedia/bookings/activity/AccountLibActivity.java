@@ -181,10 +181,9 @@ public class AccountLibActivity extends AppCompatActivity
 			config.setParentActivity(this);
 		}
 
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
-			accountView.setWhiteBackgroundFromActivity(whiteBackground);
-			config.setEnableSinglePageSignUp(true);
-		}
+
+		accountView.setWhiteBackgroundFromActivity(whiteBackground);
+		config.setEnableSinglePageSignUp(true);
 
 		// Logic to determine if we should show the reCaptcha check locally.
 		// We want it to "fail on" if either satellite or abacus calls fails, so that the user isn't blocked from

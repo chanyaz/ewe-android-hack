@@ -113,7 +113,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesDisplayBasicEconomyTooltip = new ABTest(24678);
 
 	// Account
-	public static final ABTest EBAndroidAppAccountSinglePageSignUp = new ABTest(13923);
 	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652, true);
 
 	// Launch
@@ -166,7 +165,6 @@ public class AbacusUtils {
 		testIDs.add(HotelAutoSuggestSameAsWeb.getKey());
 		testIDs.add(EBAndroidAppHotelSuperSearch.getKey());
 		testIDs.add(EBAndroidAppAPIMAuth.getKey());
-		testIDs.add(EBAndroidAppAccountSinglePageSignUp.getKey());
 		testIDs.add(ProWizardTest.getKey());
 		testIDs.add(EBAndroidPopulateCardholderName.getKey());
 		testIDs.add(EBAndroidAppSecureCheckoutIcon.getKey());

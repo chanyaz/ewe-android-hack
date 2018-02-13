@@ -3393,13 +3393,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
 		String pageName;
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
-			pageName = LOGIN_SINGLE_PAGE;
-		}
-		else {
-			pageName = LOGIN_ACCOUNT_CREATE_SUCCESS;
-		}
-
+		pageName = LOGIN_SINGLE_PAGE;
 		s.setAppState(pageName);
 		s.setEvar(18, pageName);
 		s.setEvents("event25,event26");
@@ -3419,12 +3413,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
 		String pageName;
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
-			pageName = LOGIN_SINGLE_PAGE;
-		}
-		else {
-			pageName = LOGIN_ACCOUNT_CREATE_ERROR;
-		}
+		pageName = LOGIN_SINGLE_PAGE;
 
 		s.setAppState(pageName);
 		s.setEvar(18, pageName);
@@ -3465,7 +3454,6 @@ public class OmnitureTracking {
 
 		trackProWizardTest(s, proWizardTestValue);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountSinglePageSignUp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
 		trackAbacusTest(s, AbacusUtils.HotelEarn2xMessaging);
 
