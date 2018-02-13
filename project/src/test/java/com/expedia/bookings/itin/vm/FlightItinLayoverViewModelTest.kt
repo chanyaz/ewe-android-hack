@@ -29,7 +29,7 @@ class FlightItinLayoverViewModelTest {
         createLayoutWidgetSubscriber.assertNoValues()
         sut.updateWidget("PT7H4M")
         createLayoutWidgetSubscriber.assertValueCount(1)
-        createLayoutWidgetSubscriber.assertValue(ItinTimeDurationViewModel.TimeDurationWidgetParams("7h 4m layover", "7 hour 4 minutes layover", R.drawable.itin_flight_layover_icon))
+        createLayoutWidgetSubscriber.assertValue(ItinTimeDurationViewModel.TimeDurationWidgetParams("7h 4m", "7 hour 4 minutes", R.drawable.itin_flight_layover_icon, ItinTimeDurationViewModel.DurationType.LAYOVER))
     }
 
     @Test
@@ -39,6 +39,6 @@ class FlightItinLayoverViewModelTest {
         createLayoutWidgetSubscriber.assertNoValues()
         sut.updateWidget("PT1H16M")
         createLayoutWidgetSubscriber.assertValueCount(1)
-        createLayoutWidgetSubscriber.assertValue(ItinTimeDurationViewModel.TimeDurationWidgetParams("1h 16m layover", "1 hour 16 minutes layover", R.drawable.itin_flight_layover_icon))
+        createLayoutWidgetSubscriber.assertValue(ItinTimeDurationViewModel.TimeDurationWidgetParams("1h 16m", "1 hour 16 minutes", R.drawable.itin_flight_layover_icon, ItinTimeDurationViewModel.DurationType.LAYOVER))
     }
 }
