@@ -10,6 +10,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -57,15 +58,15 @@ class PackagesCreateTripTest {
     @Test
     fun testMultiItemCreateTripParamsFromSearchParams() {
         val searchParams = getDummySearchParams()
-        val fromPackageSearchParams = MultiItemCreateTripParams.fromPackageSearchParams(searchParams)
+        val fromPackageSearchParams = MultiItemCreateTripParams.fromPackageSearchParamsAndLatestPackageResponse(searchParams, getPackageResponse())
 
         assertEquals("mid_create_trip", fromPackageSearchParams.flightPIID)
         assertEquals(1, fromPackageSearchParams.adults)
-        assertEquals(LocalDate.now(), fromPackageSearchParams.startDate)
+        assertEquals("2017-09-07", fromPackageSearchParams.startDate)
         assertEquals(LocalDate.now().plusDays(2), fromPackageSearchParams.endDate)
         assertEquals("hotelID", fromPackageSearchParams.hotelID)
-        assertEquals("roomTypeCode", fromPackageSearchParams.roomTypeCode)
-        assertEquals("ratePlanCode", fromPackageSearchParams.ratePlanCode)
+        assertEquals("201660950", fromPackageSearchParams.roomTypeCode)
+        assertEquals("208290304", fromPackageSearchParams.ratePlanCode)
         assertEquals("inventoryType", fromPackageSearchParams.inventoryType)
         assertEquals(BigDecimal(300.50), fromPackageSearchParams.totalPrice.packageTotalPrice.amount)
         assertEquals("1,14", fromPackageSearchParams.childAges)
@@ -77,7 +78,7 @@ class PackagesCreateTripTest {
         val searchParams = getDummySearchParams()
         searchParams.latestSelectedOfferInfo.roomTypeCode = null
         try {
-            MultiItemCreateTripParams.fromPackageSearchParams(searchParams)
+            MultiItemCreateTripParams.fromPackageSearchParamsAndLatestPackageResponse(searchParams, getPackageResponse())
         } catch (e: Exception) {
             assertEquals(IllegalArgumentException().javaClass, e.javaClass)
         }
@@ -151,7 +152,7 @@ class PackagesCreateTripTest {
         createTripViewModel.midCreateTripErrorObservable.subscribe(showErrorAlertObserver)
         createTripViewModel.packageServices = packageServiceRule.services!!
 
-        val errorParams = MultiItemCreateTripParams.fromPackageSearchParams(getDummySearchParams("error"))
+        val errorParams = MultiItemCreateTripParams.fromPackageSearchParamsAndLatestPackageResponse(getDummySearchParams("error"), getPackageResponse())
         showErrorAlertObserver.assertValueCount(0)
 
         createTripViewModel.packageServices.multiItemCreateTrip(errorParams).subscribe(createTripViewModel.makeMultiItemCreateTripResponseObserver())
@@ -192,7 +193,7 @@ class PackagesCreateTripTest {
 
         val packagePrice = PackageOfferModel.PackagePrice()
         packagePrice.packageTotalPrice = Money()
-        val errorParams = MultiItemCreateTripParams("", "", "", "", "", packagePrice, LocalDate(), LocalDate(), 0, null, null)
+        val errorParams = MultiItemCreateTripParams("", "", "", "", "", packagePrice, "", LocalDate(), 0, null, null)
         showErrorPresenterTestSubscriber.assertValueCount(0)
 
         createTripViewModel.packageServices.multiItemCreateTrip(errorParams).subscribe(createTripViewModel.makeMultiItemCreateTripResponseObserver())
@@ -223,6 +224,11 @@ class PackagesCreateTripTest {
         params.searchProduct = Constants.PRODUCT_FLIGHT
         params.currentFlights = arrayOf("legs")
         return params
+    }
+
+    private fun getPackageResponse(): BundleSearchResponse {
+        return PackageTestUtil.getMockMIDResponse(offers = emptyList(),
+                hotels = mapOf("1" to PackageTestUtil.dummyMidHotelRoomOffer()))
     }
 
     fun getOriginDestSuggestions(): Pair<SuggestionV4, SuggestionV4> {

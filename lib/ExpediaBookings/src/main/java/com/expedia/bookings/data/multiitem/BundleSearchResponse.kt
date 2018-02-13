@@ -19,5 +19,7 @@ interface BundleSearchResponse {
     fun getCurrentOfferPrice(): PackageOfferModel.PackagePrice?
     fun setCurrentOfferPrice(offerPrice: PackageOfferModel.PackagePrice)
     fun hasErrors(): Boolean
+    fun getRatePlanCode(): String?
+    fun getRoomTypeCode(): String?
     val firstError: PackageApiError.Code
 }

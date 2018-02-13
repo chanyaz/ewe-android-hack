@@ -84,6 +84,16 @@ public class PackageSearchResponse extends PackageBaseApiResponse implements Bun
 		return false;
 	}
 
+	@Override
+	public String getRatePlanCode() {
+		return null;
+	}
+
+	@Override
+	public String getRoomTypeCode() {
+		return null;
+	}
+
 	public static class PackageInfo {
 		public HotelCheckinDate hotelCheckinDate;
 		public HotelCheckoutDate hotelCheckoutDate;

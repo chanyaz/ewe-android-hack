@@ -47,7 +47,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
         }
 
         performMultiItemCreateTripSubject.subscribe {
-            val params = MultiItemCreateTripParams.fromPackageSearchParams(Db.sharedInstance.packageParams)
+            val params = MultiItemCreateTripParams.fromPackageSearchParamsAndLatestPackageResponse(Db.sharedInstance.packageParams, Db.getPackageResponse())
             packageServices.multiItemCreateTrip(params).subscribe(makeMultiItemCreateTripResponseObserver())
         }
     }
