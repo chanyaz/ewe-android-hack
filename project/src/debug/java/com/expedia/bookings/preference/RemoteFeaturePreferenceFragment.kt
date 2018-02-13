@@ -51,4 +51,3 @@ class RemoteFeaturePreferenceFragment : Fragment() {
         return Features.all.namesAndFeatures().find { it.first == name }?.second
     }
 }
-

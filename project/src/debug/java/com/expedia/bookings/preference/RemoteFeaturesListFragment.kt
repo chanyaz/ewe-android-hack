@@ -29,7 +29,6 @@ class RemoteFeaturesListFragment : Fragment(), RemoteFeaturesListAdapter.OnFeatu
 
         if (view is RecyclerView) {
             view.layoutManager = LinearLayoutManager(context)
-            //view.itemAnimator = DefaultItemAnimator()
             view.adapter = RemoteFeaturesListAdapter(this)
         }
         return view
@@ -47,4 +46,3 @@ class RemoteFeaturesListFragment : Fragment(), RemoteFeaturesListAdapter.OnFeatu
                 .commit()
     }
 }
-
