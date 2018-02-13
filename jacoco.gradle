@@ -30,7 +30,7 @@ project.afterEvaluate {
                 group = "Reporting"
                 description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
 
-                classDirectories = fileTree(
+                def javaTree = fileTree(
                         dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
                         excludes: ['**/*$special*.*',
                                    '**/*$inlined*.*',
@@ -42,6 +42,8 @@ project.afterEvaluate {
                                    '**/Manifest*.*']
                 )
 
+                def kotlinDebugTree = fileTree(dir: "${project.buildDir}/tmp/kotlin-classes")
+                classDirectories = javaTree + kotlinDebugTree
                 def coverageSourceDirs = [
                         "src/main/java",
                         "src/$productFlavorName/java",
