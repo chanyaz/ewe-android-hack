@@ -17,6 +17,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -25,6 +26,8 @@ class HotelListAdapterTest {
     val testAdapter = HotelListAdapter(testSelectedSubject, PublishSubject.create(), PublishSubject.create())
 
     val context = RuntimeEnvironment.application
+
+    val EXPECTED_URGENCY_LOCATION = 6
 
     @Test
     fun testCreateLoadingViewHolder() {
@@ -84,6 +87,38 @@ class HotelListAdapterTest {
 
         testAdapter.bindViewHolder(viewHolder, 1 + testAdapter.firstHotelIndex)
         assertEquals(View.GONE, viewHolder.pinnedHotelTextView.visibility, "FAIL: Only first item in pinned search should be pinned.")
+    }
+
+    @Test
+    fun testAddUrgencyHappy() {
+        val response = getMockSearchResponse(8, true)
+        testAdapter.resultsSubject.onNext(response)
+        testAdapter.addUrgency("URGENT")
+
+        assertEquals(HotelAdapterItem.URGENCY, testAdapter.getItemViewType(position = EXPECTED_URGENCY_LOCATION),
+                "FAILURE: Expected urgency message to be placed after the 4th hotel result")
+    }
+
+    @Test
+    fun testAddUrgencyOneResult() {
+        val response = getMockSearchResponse(1, true)
+        testAdapter.resultsSubject.onNext(response)
+        testAdapter.addUrgency("URGENT")
+
+        assertEquals(HotelAdapterItem.URGENCY, testAdapter.getItemViewType(position = 4),
+                "FAILURE: if less than 4 results, urgency should appear at the end of the hotel results.")
+    }
+
+    @Test
+    fun testClearUrgency() {
+        val response = getMockSearchResponse(8, true)
+        testAdapter.resultsSubject.onNext(response)
+        testAdapter.addUrgency("URGENT")
+        assertEquals(HotelAdapterItem.URGENCY, testAdapter.getItemViewType(position = EXPECTED_URGENCY_LOCATION))
+
+        testAdapter.clearUrgency()
+        assertNotEquals(HotelAdapterItem.URGENCY, testAdapter.getItemViewType(position = EXPECTED_URGENCY_LOCATION),
+                "FAILURE: Expected urgency message")
     }
 
     fun getMockSearchResponse(hotelCount: Int, pinned: Boolean?): HotelSearchResponse {

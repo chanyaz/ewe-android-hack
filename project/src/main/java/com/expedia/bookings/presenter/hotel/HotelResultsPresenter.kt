@@ -103,6 +103,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         if (shouldFetchUrgency()) {
             vm.hotelResultsObservable.subscribe { response ->
                 vm.getSearchParams()?.let { params ->
+                    adapter.clearUrgency()
                     urgencyViewModel.fetchCompressionScore(response.searchRegionId, params.checkIn, params.checkOut)
                 }
             }

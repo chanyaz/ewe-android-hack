@@ -70,6 +70,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
 
     private val hotelListItemsMetadata: MutableList<HotelListItemMetadata> = ArrayList()
 
+    private var compressionMessage: String? = null
     private var newResultsConsumed = false
     private var pinnedSearch = false
 
@@ -83,6 +84,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                 data.add(HotelAdapterItem.Hotel(hotel))
             }
             data.add(HotelAdapterItem.Spacer())
+            compressionMessage?.let { message -> insertUrgency(HotelAdapterItem.Urgency(message)) }
 
             hotelListItemsMetadata.clear()
             newResultsConsumed = false
@@ -94,8 +96,19 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     }
 
     fun addUrgency(compressionMessage: String) {
-        data.add(firstHotelIndex + URGENCY_POSITION, HotelAdapterItem.Urgency(compressionMessage))
+        clearUrgency()
+        this.compressionMessage = compressionMessage
+        insertUrgency(HotelAdapterItem.Urgency(compressionMessage))
         notifyItemInserted(firstHotelIndex + URGENCY_POSITION)
+    }
+
+    fun clearUrgency() {
+        this.compressionMessage = null
+        val urgencyIndex = data.indexOfFirst { item -> item is HotelAdapterItem.Urgency }
+        if (urgencyIndex != -1) {
+            data.removeAt(urgencyIndex)
+            notifyItemRemoved(urgencyIndex)
+        }
     }
 
     fun isLoading(): Boolean {
@@ -105,6 +118,14 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     fun showLoading() {
         loadingSubject.onNext(Unit)
         notifyDataSetChanged()
+    }
+
+    private fun insertUrgency(item: HotelAdapterItem.Urgency) {
+        if (firstHotelIndex + URGENCY_POSITION < data.size - 1) {
+            data.add(firstHotelIndex + URGENCY_POSITION, item)
+        } else {
+            data.add(data.size - 1, item)
+        }
     }
 
     override fun getItemCount(): Int {
