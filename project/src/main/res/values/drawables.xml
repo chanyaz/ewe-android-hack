@@ -13,5 +13,4 @@
     <item name="ic_toolbar_filter_sort" type="drawable">@drawable/sort</item>
     <item name="flights_cost_summary_dialog_stripe" type="drawable">@drawable/divider_blue_yellow_stripe</item>
     <item name="itin_card_overflow_drawable" type="drawable">@drawable/ic_overflow_white</item>
-    <item name="flight_cko_acct_btn_rewards_bg" type="drawable">@drawable/card_background</item>
 </resources>

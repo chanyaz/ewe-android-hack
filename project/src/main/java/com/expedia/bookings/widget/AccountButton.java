@@ -209,15 +209,13 @@ public class AccountButton extends LinearLayout {
 					Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
 				mLoginTextView.setText(getSignInWithRewardsAmountText(rewardsToEarn));
 				mLoginTextView.setContentDescription(getSignInWithRewardsContentDescriptionText(rewardsToEarn));
+				mLoginContainer.setBackgroundResource(R.color.material_cko_acct_btn_rewards_bg_color);
 			}
 			else if (rewardsInfo.hasPointsToEarn()) {
 				DecimalFormat formatter = new DecimalFormat("#,###");
 				String rewardsToEarn = formatter.format(Math.round(rewardsInfo.getTotalPointsToEarn()));
 				mLoginTextView.setText(getSignInWithRewardsAmountText(rewardsToEarn));
 				mLoginTextView.setContentDescription(getSignInWithRewardsContentDescriptionText(rewardsToEarn));
-			}
-			if (lob == LineOfBusiness.FLIGHTS) {
-				mLoginContainer.setBackgroundResource(R.drawable.flight_cko_acct_btn_rewards_bg);
 			}
 		}
 		else {

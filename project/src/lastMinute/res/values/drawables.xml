@@ -11,5 +11,4 @@
     <item name="ic_toolbar_filter_sort" type="drawable">@drawable/ic_sort</item>
     <item name="flights_cost_summary_dialog_stripe" type="drawable">@drawable/bg_breakdown_candycane</item>
     <item name="border_horizontal_striped_drawable" type="drawable">@drawable/bg_breakdown_candycane</item>
-    <item name="flight_cko_acct_btn_rewards_bg" type="drawable">@drawable/card_background_lm</item>
 </resources>
