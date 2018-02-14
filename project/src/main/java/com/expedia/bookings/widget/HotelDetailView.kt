@@ -73,8 +73,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         resortFeeWidget.feeType.setText(vm.getFeeTypeText())
 
         vm.hotelOffersSubject.subscribe { hotelOffersResponse ->
-            hotelInfoToolbarViewModel.bind(hotelOffersResponse.hotelName ?: "", vm.hotelRatingObservable.value, vm.hotelSoldOut.value)
-            hotelDetailsToolbar.setHotelDetailViewModel(hotelInfoToolbarViewModel)
+            hotelInfoToolbarViewModel.bind(hotelOffersResponse)
         }
 
         Observable.merge(vm.hotelSoldOut, vm.isDatelessObservable).subscribe {
@@ -125,6 +124,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         hotelDetailsToolbar.toolbar.setNavigationOnClickListener { view ->
             (getContext() as Activity).onBackPressed()
         }
+        hotelDetailsToolbar.setHotelDetailViewModel(hotelInfoToolbarViewModel)
 
         galleryView.galleryClickedSubject.subscribe {
             if (!alreadyTrackedGalleryClick) {

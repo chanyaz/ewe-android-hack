@@ -4,19 +4,22 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelInfoToolbarViewModel(val context: Context) {
     val hotelSoldOut = BehaviorSubject.createDefault<Boolean>(false)
-    val toolBarRatingColor = BehaviorSubject.createDefault<Int>(0)
-    val hotelNameObservable = BehaviorSubject.createDefault<String>("")
-    var hotelRatingObservable = BehaviorSubject.createDefault<Float>(0f)
-    var hotelRatingContentDescriptionObservable = BehaviorSubject.createDefault<String>("")
+    val toolBarRatingColor = PublishSubject.create<Int>()
+    val hotelNameObservable = PublishSubject.create<String>()
+    var hotelRatingObservable = PublishSubject.create<Float>()
+    var hotelRatingContentDescriptionObservable = PublishSubject.create<String>()
     var hotelRatingObservableVisibility = BehaviorSubject.createDefault<Boolean>(false)
 
-    fun bind(responseOffer: HotelOffersResponse, hotelStarRating: Float, soldOut: Boolean) {
-        bind(responseOffer.hotelName, hotelStarRating, soldOut)
+    fun bind(offerResponse: HotelOffersResponse) {
+        val soldOut = CollectionUtils.isEmpty(offerResponse.hotelRoomResponse)
+        bind(offerResponse.hotelName?: "", offerResponse.hotelStarRating.toFloat(), soldOut)
     }
 
     fun bind(hotelName: String, hotelStarRating: Float, soldOut: Boolean) {

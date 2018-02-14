@@ -21,8 +21,7 @@ class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPres
 
     var hotelDetailViewModel: HotelDetailViewModel by notNullAndObservable { vm ->
         vm.hotelOffersSubject.subscribe { hotelOffersResponse ->
-            hotelInfoToolbarViewModel.bind(hotelOffersResponse.hotelName ?: "", hotelDetailViewModel.hotelRatingObservable.value, hotelDetailViewModel.hotelSoldOut.value)
-            hotelDetailsToolbar.setHotelDetailViewModel(hotelInfoToolbarViewModel)
+            hotelInfoToolbarViewModel.bind(hotelOffersResponse)
         }
     }
 
@@ -30,10 +29,12 @@ class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPres
         hotelDetailsToolbar.toolbar.setNavigationOnClickListener {
             viewmodel.defaultErrorObservable.onNext(Unit)
         }
+        hotelDetailsToolbar.setHotelDetailViewModel(hotelInfoToolbarViewModel)
+        hotelDetailsToolbar.hideGradient()
+
         standardToolbar.setNavigationOnClickListener {
             getViewModel().handleCheckoutErrors()
         }
-        hotelDetailsToolbar.hideGradient()
     }
 
     override fun setupViewModel(vm: AbstractErrorViewModel) {
