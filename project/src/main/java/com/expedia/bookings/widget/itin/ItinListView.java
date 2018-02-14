@@ -224,18 +224,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// Touch overrides
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		//If we are in detail mode, pass all touches to the ItinCard
-
-		if (false) {
-			if (mDetailsCardView != null) {
-				boolean retVal = mDetailsCardView.dispatchTouchEvent(event);
-				return retVal;
-			}
-			else {
-				return super.onTouchEvent(event);
-			}
-		}
-
 		//If we are in list mode, some shit goes down.
 		//We want the appropriate action to reach the appropriate target.
 		//Thus when we touch a card and drag so our finger is no longer on the card
