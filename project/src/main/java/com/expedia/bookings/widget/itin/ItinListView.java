@@ -385,7 +385,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private void setSelectedCardId(String cardId) {
 		mSelectedCardId = cardId;
-		mAdapter.setSelectedCardId(cardId);
 	}
 
 	public void showDetails(String id) {

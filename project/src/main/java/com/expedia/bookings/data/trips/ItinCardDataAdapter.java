@@ -218,9 +218,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnHideListener {
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public void setSelectedCardId(String cardId) {
-	}
-
 	/**
 	 * Sync the adapter data with the ItineraryManager
 	 */
