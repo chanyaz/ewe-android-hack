@@ -53,7 +53,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/launcher_name"
         android:theme="@style/Theme"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup,android:label">
 
         <!-- ActiveAndroid -->
         <meta-data
@@ -404,9 +404,20 @@
             android:name="com.expedia.bookings.notification.NotificationReceiver"
             android:exported="false" />
 
+        <receiver android:name=".geofencing.TripReceiverForGF"
+            android:exported="false"/>
+
+
+
         <!-- Push Notifications -->
 
         <service android:name="com.expedia.bookings.notification.GCMIntentService" />
+
+        <service android:name=".geofencing.GeoFencingIntentService"/>
+
+        <service android:name=".notification.GeofenceTransitionsIntentService" />
+
+        <service android:name=".notification.carousel.CarouselNotificationService"/>
 
         <receiver
             android:name="com.expedia.bookings.notification.GCMReceiver"

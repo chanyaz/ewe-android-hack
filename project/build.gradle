@@ -45,6 +45,8 @@ dependencies {
     testImplementation "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
     implementation 'com.google.maps.android:android-maps-utils:0.4.3'
 
+    implementation 'in.mamga:carousalnotification:1.0'
+
     // Google Play Services deps on the support lib
     // however we add it here so the android-sdk-manager plugin behaves
 

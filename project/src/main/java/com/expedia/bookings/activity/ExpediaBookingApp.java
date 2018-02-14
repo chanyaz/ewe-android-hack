@@ -24,6 +24,7 @@ import com.expedia.bookings.dagger.AppComponent;
 import com.expedia.bookings.dagger.AppModule;
 import com.expedia.bookings.dagger.DaggerAppComponent;
 import com.expedia.bookings.dagger.DaggerFlightComponent;
+import com.expedia.bookings.dagger.DaggerFourSquareComponent;
 import com.expedia.bookings.dagger.DaggerHotelComponent;
 import com.expedia.bookings.dagger.DaggerLXComponent;
 import com.expedia.bookings.dagger.DaggerLaunchComponent;
@@ -32,6 +33,7 @@ import com.expedia.bookings.dagger.DaggerRailComponent;
 import com.expedia.bookings.dagger.DaggerTravelerComponent;
 import com.expedia.bookings.dagger.DaggerTripComponent;
 import com.expedia.bookings.dagger.FlightComponent;
+import com.expedia.bookings.dagger.FourSquareComponent;
 import com.expedia.bookings.dagger.HotelComponent;
 import com.expedia.bookings.dagger.LXComponent;
 import com.expedia.bookings.dagger.LaunchComponent;
@@ -404,6 +406,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	private FlightComponent mFlightComponent;
 	private TravelerComponent mTravelerComponent;
 	private LaunchComponent mLaunchComponent;
+	private FourSquareComponent mFourSquareComponent;
 
 	private LXComponent mLXComponent;
 	private LXComponent mLXTestComponent;
@@ -438,6 +441,12 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	public void defaultPackageComponents() {
 		setPackageComponent(DaggerPackageComponent.builder()
+			.appComponent(appComponent())
+			.build());
+	}
+
+	public void defaultFourSquareComponents() {
+		setFourSquareComponent(DaggerFourSquareComponent.builder()
 			.appComponent(appComponent())
 			.build());
 	}
@@ -478,12 +487,20 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		mTripComponent = tripComponent;
 	}
 
+	public void setFourSquareComponent(FourSquareComponent fourSquareComponent){
+		mFourSquareComponent = fourSquareComponent;
+	}
+
 	public PackageComponent packageComponent() {
 		return mPackageComponent;
 	}
 
 	public TripComponent tripComponent() {
 		return mTripComponent;
+	}
+
+	public FourSquareComponent fourSquareComponent(){
+		return mFourSquareComponent;
 	}
 
 	public void setFlightComponent(FlightComponent flightComponent) {

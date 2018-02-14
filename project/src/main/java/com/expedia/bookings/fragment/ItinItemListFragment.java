@@ -1,10 +1,13 @@
 package com.expedia.bookings.fragment;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import java.util.Collection;
 import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -40,6 +43,14 @@ import com.expedia.bookings.itin.common.ItinPageUsableTracking;
 import com.expedia.bookings.itin.common.NewAddGuestItinActivity;
 import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.geofencing.GeoFencingIntentService;
+import com.expedia.bookings.geofencing.TripReceiverForGF;
+import com.expedia.bookings.itin.ItinPageUsableTracking;
+import com.expedia.bookings.itin.activity.FlightItinDetailsActivity;
+import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
+import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
+import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureUtilKt;
@@ -47,6 +58,7 @@ import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinListView;
+import com.expedia.util.PermissionsUtils;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
 
@@ -600,6 +612,19 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			if (mJumpToItinId != null) {
 				showItinCard(mJumpToItinId);
 			}
+
+			if (PermissionsUtils.havePermissionToAccessLocation(getActivity())) {
+				for (Trip trip : trips) {
+					//setup geo fencing related alarms
+					if (trip.getStartDate() != null && !trip.isShared()) {
+						PendingIntent pendingIntent = TripReceiverForGF
+							.generateSchedulePendingIntent(getActivity(), trip);
+						AlarmManager mgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+						mgr.set(AlarmManager.RTC_WAKEUP, trip.getStartDate().toDate().getTime(), pendingIntent);
+					}
+				}
+			}
+
 		}
 		mCurrentSyncHasErrors = false;
 	}

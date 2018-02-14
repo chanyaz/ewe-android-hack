@@ -255,7 +255,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         val startOfTodayEastern = DateTime.now().withZone(easternTimeZone).withTimeAtStartOfDay()
 
         // Inject hotel DateTimes
-        val hotelCheckIn = startOfTodayPacific.plusDays(10).withHourOfDay(11).withMinuteOfHour(32)
+        val hotelCheckIn = DateTime.now().plusSeconds(30)//startOfTodayPacific.plusDays(0).withHourOfDay(0).withMinuteOfHour(0)
         val hotelCheckOut = startOfTodayPacific.plusDays(12).withHourOfDay(18).withMinuteOfHour(4)
         params.put("hotelCheckInEpochSeconds", "" + hotelCheckIn.millis / 1000)
         params.put("hotelCheckInTzOffset", "" + pacificTimeZone.getOffset(hotelCheckIn.millis) / 1000)
