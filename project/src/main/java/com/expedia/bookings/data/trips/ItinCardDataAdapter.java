@@ -59,7 +59,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnHideListener {
 	private int mSummaryCardPosition;
 	private int mAltSummaryCardPosition;
 	private List<ItinCardData> mItinCardDatas;
-	private String mSelectedCardId;
 	// This is used when we are syncing with the manager; that way we don't ever make
 	// the adapter's data and the ListView's data go out of sync.
 	private List<ItinCardData> mItinCardDatasSync;
@@ -220,7 +219,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnHideListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public void setSelectedCardId(String cardId) {
-		mSelectedCardId = cardId;
 	}
 
 	/**
