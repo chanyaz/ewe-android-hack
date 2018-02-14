@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.features.Feature
 
 class RemoteFeaturesListFragment : Fragment(), RemoteFeaturesListAdapter.OnFeatureClickedListener {
     override fun onStart() {
@@ -34,10 +35,10 @@ class RemoteFeaturesListFragment : Fragment(), RemoteFeaturesListAdapter.OnFeatu
         return view
     }
 
-    override fun featureClicked(name: String) {
+    override fun featureClicked(feature: Feature) {
         val remoteFeaturePreferenceFragment = RemoteFeaturePreferenceFragment()
         val args = Bundle()
-        args.putString("name", name)
+        args.putString("name", feature.name)
         remoteFeaturePreferenceFragment.arguments = args
         fragmentManager
                 .beginTransaction()

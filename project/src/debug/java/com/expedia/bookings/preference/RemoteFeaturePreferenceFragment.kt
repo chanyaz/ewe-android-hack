@@ -39,15 +39,15 @@ class RemoteFeaturePreferenceFragment : Fragment() {
 
         if (view is RecyclerView) {
             view.layoutManager = LinearLayoutManager(context)
-            val feature = feature()
+            val feature = findFeature()
             if (feature != null) {
-                view.adapter = RemoteFeaturePreferenceAdapter(context, name, feature)
+                view.adapter = RemoteFeaturePreferenceAdapter(context, feature)
             }
         }
         return view
     }
 
-    private fun feature(): Feature? {
-        return Features.all.namesAndFeatures().find { it.first == name }?.second
+    private fun findFeature(): Feature? {
+        return Features.all.features().find { it.name == name }
     }
 }

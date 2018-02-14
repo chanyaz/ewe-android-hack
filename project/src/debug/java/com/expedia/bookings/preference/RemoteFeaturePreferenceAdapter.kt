@@ -14,18 +14,18 @@ import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
 import com.expedia.bookings.features.Feature
 import com.mobiata.android.util.SettingUtils
 
-class RemoteFeaturePreferenceAdapter(val context: Context, val key: String, val feature: Feature) : RecyclerView.Adapter<RemoteFeaturePreferenceAdapter.ViewHolder>() {
+class RemoteFeaturePreferenceAdapter(val context: Context, val feature: Feature) : RecyclerView.Adapter<RemoteFeaturePreferenceAdapter.ViewHolder>() {
     data class PreferenceViewModel(val name: String, val currentValue: () -> Boolean, val update: ((Boolean) -> Unit)? = null)
 
     private val namesAndValues: List<PreferenceViewModel> by lazy {
         listOf(
                 PreferenceViewModel("Enabled with Satellite", {
-                    SatelliteFeatureConfigManager.isEnabled(context, key)
+                    SatelliteFeatureConfigManager.isEnabled(context, feature.name)
                 }),
                 PreferenceViewModel("Turn on Locally", {
-                    SettingUtils.get(context, key, false)
+                    SettingUtils.get(context, feature.name, false)
                 }, { isChecked ->
-                    SettingUtils.save(context, key, isChecked)
+                    SettingUtils.save(context, feature.name, isChecked)
                 }),
                 PreferenceViewModel("Final Result", {
                     feature.enabled()

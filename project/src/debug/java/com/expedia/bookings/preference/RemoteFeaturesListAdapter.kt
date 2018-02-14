@@ -7,16 +7,17 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.features.Feature
 import com.expedia.bookings.features.Features
 
 class RemoteFeaturesListAdapter(private val listener: OnFeatureClickedListener) : RecyclerView.Adapter<RemoteFeaturesListAdapter.ViewHolder>() {
 
     interface OnFeatureClickedListener {
-        fun featureClicked(name: String)
+        fun featureClicked(feature: Feature)
     }
 
-    private val namesAndFeatures by lazy {
-        Features.all.namesAndFeatures()
+    private val features by lazy {
+        Features.all.features()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -25,15 +26,15 @@ class RemoteFeaturesListAdapter(private val listener: OnFeatureClickedListener) 
     }
 
     override fun getItemCount(): Int {
-        return namesAndFeatures.size
+        return features.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val (name, feature) = namesAndFeatures[position]
+        val feature = features[position]
         holder?.itemView?.setOnClickListener {
-            listener.featureClicked(name)
+            listener.featureClicked(feature)
         }
-        holder?.name?.text = name
+        holder?.name?.text = feature.name
         holder?.enabled?.isChecked = feature.enabled()
     }
 

@@ -10,9 +10,9 @@ class RemoteFeatureDelegate : ReadOnlyProperty<Features, Feature> {
     }
 }
 
-class RemoteFeature(private val key: String) : Feature {
+class RemoteFeature(override val name: String) : Feature {
     override fun enabled(): Boolean {
-        return Plugins.remoteFeatureResolver.isEnabled(key)
+        return Plugins.remoteFeatureResolver.isEnabled(name)
     }
 }
 
