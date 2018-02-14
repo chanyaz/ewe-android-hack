@@ -21,7 +21,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.expedia.bookings.utils.AlertDialogUtils;
 import com.expedia.bookings.utils.DateUtils;
-import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.ui.AbstractAppCompatActivity;
@@ -146,9 +145,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 					Events.post(new Events.LXNewSearchParamsAvailable(activityId, location, startDate, endDate, modQualified));
 					return true;
 				}
-				if (!ProWizardBucketCache.isBucketed(getApplicationContext())) {
-					triggerCurrentLocationSuggestions(isGroundTransport);
-				}
+				triggerCurrentLocationSuggestions(isGroundTransport);
 				return true;
 			}
 		});

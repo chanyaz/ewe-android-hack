@@ -29,7 +29,6 @@ import com.expedia.bookings.travelgraph.vm.TravelGraphViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -68,8 +67,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         vm.locationTextObservable.subscribe { locationText ->
             firstLaunch = false
             updateDestinationText(locationText)
-            if (this.visibility == VISIBLE && vm.startDate() == null
-                    && !ProWizardBucketCache.isBucketed(context)) {
+            if (this.visibility == VISIBLE && vm.startDate() == null) {
                 calendarWidgetV2.showCalendarDialog()
             }
         }

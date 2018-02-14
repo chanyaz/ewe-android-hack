@@ -878,10 +878,6 @@
     <!-- Accessibility announcement when Return search screen is selected. -->
     <string name="rail_tab_roundtrip_selected_announcement">Showing return rail search screen</string>
 
-    <!-- New launch screen -->
-    <!-- Search screen title -->
-    <string name="search_title">Search</string>
-
     <!--Meso destination ad card-->
     <string name="meso_destination_name_las_vegas">Las Vegas</string>
     <string name="meso_destination_name_los_angeles">Los Angeles</string>
@@ -928,15 +924,6 @@
     <string name="launch_upcoming_trips_signed_in">You Have An Upcoming Trip!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Access your itineraries on the go and stay up to date on changes</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels">Search Hotels</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels_and_flights">Search Hotels and Flights</string>
-
-    <!-- Label for super search bar at launch screen -->
-    <string name="search_hotels_flight_more">Search Hotels, Flights, and more&#8230;</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Book on the go</string>

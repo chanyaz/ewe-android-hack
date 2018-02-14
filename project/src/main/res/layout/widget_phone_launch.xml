@@ -9,34 +9,11 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <LinearLayout
+    <include
+        android:id="@+id/launch_list_widget"
+        layout="@layout/widget_launch_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include
-            android:id="@+id/pro_wizard_search_bar"
-            layout="@layout/pro_wizard_search_bar_view" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <include
-                android:id="@+id/launch_list_widget"
-                layout="@layout/widget_launch_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <View
-                android:id="@+id/pro_wizard_search_bar_shadow"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_dropshadow_height"
-                android:background="@drawable/tb_shadow" />
-
-        </FrameLayout>
-
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
     <View
         android:id="@+id/darkness"

@@ -46,7 +46,6 @@ import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.FrameLayout;
@@ -110,12 +109,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	public LaunchListAdapter(Context context, View header) {
 		this.context = context;
-		if (showProWizard()) {
-			contentStartPosition = 0;
-		}
-		else {
-			contentStartPosition = 1;
-		}
+		contentStartPosition = 1;
 		headerView = header;
 		if (header == null) {
 			throw new IllegalArgumentException("Don't pass a null View into LaunchListAdapter");
@@ -348,7 +342,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@Override
 	public int getItemViewType(int position) {
-		if (showOnlyLOBView && !showProWizard()) {
+		if (showOnlyLOBView) {
 			return LaunchDataItem.LOB_VIEW;
 		}
 		LaunchDataItem item = listData.get(position);
@@ -357,7 +351,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@Override
 	public int getItemCount() {
-		if (showOnlyLOBView && !showProWizard()) {
+		if (showOnlyLOBView) {
 			return 1;
 		}
 
@@ -371,9 +365,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private ArrayList<LaunchDataItem> makeStaticCards() {
 		ArrayList<LaunchDataItem> items = new ArrayList<>();
-		if (!showProWizard()) {
-			items.add(new LaunchDataItem(LaunchDataItem.LOB_VIEW));
-		}
+		items.add(new LaunchDataItem(LaunchDataItem.LOB_VIEW));
 		if (!showOnlyLOBView) {
 			if (!showSignInCard() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelEarn2xMessaging)) {
 				items.add(new LaunchDataItem(LaunchDataItem.EARN_2X_MESSAGING_BANNER));
@@ -648,10 +640,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 			});
 		}
-	}
-
-	private boolean showProWizard() {
-		return ProWizardBucketCache.isBucketed(context);
 	}
 
 	public int getOffset() {

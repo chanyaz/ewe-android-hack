@@ -43,7 +43,6 @@ import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
-import com.expedia.bookings.launch.widget.ProWizardLaunchTabView
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.notification.NotificationManager
@@ -62,7 +61,6 @@ import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.PlayStoreUtil
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
@@ -139,10 +137,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     val pagerAdapter: PagerAdapter by lazy {
         PagerAdapter(supportFragmentManager)
     }
-
-    private val bottomNavShadow by bindView<View>(R.id.bottom_tab_layout_shadow)
-
-    private val bottomNavTabLayout by bindView<TabLayout>(R.id.bottom_tab_layout)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -385,7 +379,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 when (tab.position) {
                     PAGER_POS_LAUNCH -> {
                         gotoWaterfall()
-                        OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this@PhoneLaunchActivity), getLaunchTrackingEventsString())
+                        OmnitureTracking.trackPageLoadLaunchScreen(getLaunchTrackingEventsString())
                     }
                     PAGER_POS_ITIN -> {
                         if (tripComponent != null) {
@@ -496,7 +490,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         super.onResume()
 
         when (viewPager.currentItem) {
-            PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this), getLaunchTrackingEventsString())
+            PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(getLaunchTrackingEventsString())
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
         if (AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
@@ -536,17 +530,12 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
     override fun onStart() {
         super.onStart()
-        if (ProWizardBucketCache.isBucketed(this)) {
-            setupBottomNav()
-        } else {
-            setupTopNav()
-        }
+        setupTopNav()
     }
 
     override fun onStop() {
         super.onStop()
         toolbar.tabLayout.removeOnTabSelectedListener(pageChangeListener)
-        bottomNavTabLayout.removeOnTabSelectedListener(pageChangeListener)
     }
 
     override fun onDestroy() {
@@ -679,11 +668,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     private fun getLaunchTrackingEventsString(): String {
         val events = mutableListOf<String>()
 
-        if (ProWizardBucketCache.isBucketed(this)) {
-            events.add("event321")
-        } else {
-            events.add("event328")
-        }
+        events.add("event328")
 
         if (ItineraryManager.haveTimelyItinItem()) {
             events.add("event322")
@@ -708,71 +693,27 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         return events.joinToString(",")
     }
 
-    private fun setupBottomNav() {
-        bottomNavTabLayout.setupWithViewPager(viewPager)
-        bottomNavTabLayout.addOnTabSelectedListener(pageChangeListener)
-        bottomNavTabLayout.visibility = View.VISIBLE
-        bottomNavShadow.visibility = View.VISIBLE
-
-        toolbar.visibility = View.GONE
-
-        setupBottomTabIcons()
-    }
-
-    private fun setupBottomTabIcons() {
-        val shopTab = ProWizardLaunchTabView(this, R.drawable.ic_search, resources.getString(R.string.shop))
-        bottomNavTabLayout.getTabAt(PAGER_POS_LAUNCH)?.customView = shopTab
-
-        val itinTab = ProWizardLaunchTabView(this, R.drawable.ic_work, resources.getString(Ui.obtainThemeResID(this, R.attr.skin_tripsTabText)))
-        bottomNavTabLayout.getTabAt(PAGER_POS_ITIN)?.customView = itinTab
-
-        val accountTab = ProWizardLaunchTabView(this, R.drawable.ic_account_circle, resources.getString(R.string.account_settings_menu_label))
-        bottomNavTabLayout.getTabAt(PAGER_POS_ACCOUNT)?.customView = accountTab
-    }
-
     private fun setupTopNav() {
-        toolbar.visibility = View.VISIBLE
         toolbar.tabLayout.setupWithViewPager(viewPager)
         toolbar.tabLayout.addOnTabSelectedListener(pageChangeListener)
         setContentDescriptionToolbarTabs(this, toolbar.tabLayout)
-
-        bottomNavShadow.visibility = View.GONE
-        bottomNavTabLayout.visibility = View.GONE
     }
 
     private fun slideNavigationOut() {
-        if (ProWizardBucketCache.isBucketed(this)) {
-            bottomNavShadow.visibility = View.GONE
-            val bottomBarSlideOut = TranslateYAnimator(bottomNavTabLayout,
-                    startY = 0f, endY = bottomNavTabLayout.height.toFloat(),
-                    duration = TOOLBAR_ANIM_DURATION,
-                    endAction = { bottomNavTabLayout.visibility = View.GONE })
-            bottomBarSlideOut.start()
-        } else {
-            val toolbarSlideOut = TranslateYAnimator(toolbar,
-                    startY = 0f, endY = -toolbar.height.toFloat(),
-                    duration = TOOLBAR_ANIM_DURATION,
-                    startAction = { toolbar.translationY = 0f },
-                    endAction = { toolbar.visibility = View.GONE })
-            toolbarSlideOut.start()
-        }
+        val toolbarSlideOut = TranslateYAnimator(toolbar,
+                startY = 0f, endY = -toolbar.height.toFloat(),
+                duration = TOOLBAR_ANIM_DURATION,
+                startAction = { toolbar.translationY = 0f },
+                endAction = { toolbar.visibility = View.GONE })
+        toolbarSlideOut.start()
     }
 
     private fun slideNavigationIn() {
-        if (ProWizardBucketCache.isBucketed(this)) {
-            val bottomBarSlideIn = TranslateYAnimator(bottomNavTabLayout,
-                    startY = bottomNavTabLayout.height.toFloat(), endY = 0f,
-                    duration = TOOLBAR_ANIM_DURATION,
-                    startAction = { bottomNavTabLayout.visibility = View.VISIBLE },
-                    endAction = { bottomNavShadow.visibility = View.VISIBLE })
-            bottomBarSlideIn.start()
-        } else {
-            val toolbarSlideIn = TranslateYAnimator(toolbar,
-                    startY = -toolbar.height.toFloat(), endY = 0f,
-                    duration = TOOLBAR_ANIM_DURATION,
-                    startAction = { toolbarSlideInStartAction() })
-            toolbarSlideIn.start()
-        }
+        val toolbarSlideIn = TranslateYAnimator(toolbar,
+                startY = -toolbar.height.toFloat(), endY = 0f,
+                duration = TOOLBAR_ANIM_DURATION,
+                startAction = { toolbarSlideInStartAction() })
+        toolbarSlideIn.start()
     }
 
     private fun toolbarSlideInStartAction() {

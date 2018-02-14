@@ -9,22 +9,11 @@
 
     <!-- The listview -->
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/trip_launch_toolbar"
-        style="@style/LaunchActionBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/new_launch_toolbar_background_color"
-        android:visibility="gone"
-        app:title="@string/trips"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
-
     <com.expedia.bookings.widget.itin.ItinListView
         android:id="@android:id/list"
         android:layout_width="@dimen/itin_list_view_width"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/trip_launch_toolbar"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
         android:dividerHeight="0dp"
@@ -38,7 +27,6 @@
         android:id="@+id/sign_in_presenter_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/trip_launch_toolbar"
         android:inflatedId="@+id/sign_in_presenter"
         android:layout="@layout/sign_in_presenter_stub"
         android:visibility="gone" />
@@ -194,7 +182,6 @@
         android:id="@+id/shadow_image_view"
         android:layout_width="match_parent"
         android:layout_height="6dp"
-        android:layout_below="@+id/trip_launch_toolbar"
         android:background="@drawable/ab_shadow" />
 
     <com.expedia.bookings.widget.FrameLayout

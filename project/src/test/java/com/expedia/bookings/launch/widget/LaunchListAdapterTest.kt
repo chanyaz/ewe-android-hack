@@ -35,7 +35,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
@@ -643,23 +642,6 @@ class LaunchListAdapterTest {
 
         assertEquals(View.GONE, viewHolder.button_one.visibility)
         assertEquals(View.GONE, viewHolder.button_two.visibility)
-    }
-
-    // https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/6330
-    @Test
-    fun testDelayedCardsNoInternet() {
-        ProWizardBucketCache.cacheBucket(context, 1)
-        createSystemUnderTest()
-        adapterUnderTest.onHasInternetConnectionChange(false)
-        adapterUnderTest.setListData(ArrayList<LaunchDataItem>(), "")
-
-        val list = ArrayList<LaunchDataItem>()
-        list.add(LaunchDataItem(LaunchDataItem.ITIN_VIEW))
-        assertEquals(0, adapterUnderTest.itemCount, "FAILURE: adapter list must be empty to simulate crash scenario")
-
-        adapterUnderTest.addDelayedStaticCards(list)
-        assertEquals(1, adapterUnderTest.itemCount)
-        ProWizardBucketCache.cacheBucket(context, AbacusVariant.NO_BUCKET.value)
     }
 
     @Test

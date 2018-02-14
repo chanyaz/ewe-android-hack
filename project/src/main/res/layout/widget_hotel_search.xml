@@ -59,12 +59,6 @@
 
                 </FrameLayout>
             </android.support.v7.widget.Toolbar>
-
-            <com.expedia.bookings.launch.widget.LobToolbarWidget
-                android:id="@+id/lob_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
         </LinearLayout>
 
         <View
@@ -96,8 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_margin"
-                    android:background="@drawable/card_background"
-                    android:transitionName="@string/pro_wizard_bar_hero_animation">
+                    android:background="@drawable/card_background">
 
                     <com.expedia.bookings.widget.shared.SearchInputTextView
                         android:id="@+id/destination_card"

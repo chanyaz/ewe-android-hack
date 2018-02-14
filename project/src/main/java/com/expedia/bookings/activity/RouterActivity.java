@@ -18,7 +18,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
@@ -31,13 +30,11 @@ import com.expedia.bookings.tracking.RouterToSignInTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.FeatureToggleUtil;
-import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.facebook.appevents.AppEventsLogger;
-import com.mobiata.android.util.SettingUtils;
 import io.reactivex.Observer;
 import io.reactivex.observers.DisposableObserver;
 
@@ -113,7 +110,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightsEvolable.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppCarsAATest.getKey());
-			query.addExperiment(AbacusUtils.ProWizardTest.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppSoftPromptLocation.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightsGreedySearchCall.getKey());
 			query.addExperiment(PointOfSale.getPointOfSale().getRailsWebViewABTestID().getKey());
@@ -148,14 +144,12 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		public void onError(Throwable e) {
 			if (BuildConfig.DEBUG) {
 				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
-				cacheProWizardBucket(0);
 			}
 			launchScreenSelection();
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
-			cacheProWizardBucket(abacusResponse.variateForTest(AbacusUtils.ProWizardTest));
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
 			launchScreenSelection();
 		}
@@ -253,16 +247,5 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 	private boolean showNewUserOnboarding() {
 		return ExpediaBookingApp.isFirstLaunchEver() && ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled();
-	}
-
-	private void cacheProWizardBucket(int testValue) {
-		if (BuildConfig.DEBUG) {
-			int debugValue = SettingUtils.get(getApplicationContext(),
-					String.valueOf(AbacusUtils.ProWizardTest.getKey()), AbacusVariant.NO_BUCKET.getValue());
-			ProWizardBucketCache.cacheBucket(RouterActivity.this, debugValue);
-		}
-		else {
-			ProWizardBucketCache.cacheBucket(RouterActivity.this, testValue);
-		}
 	}
 }

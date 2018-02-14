@@ -6,8 +6,6 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowEnterTransition">@transition/hotel_search_enter_transition</item>
-        <item name="android:windowReturnTransition">@transition/hotel_search_return_transition</item>
 
         <item name="android:statusBarColor">@color/app_primary_dark</item>
 

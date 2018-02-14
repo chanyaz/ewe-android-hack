@@ -14,13 +14,11 @@ import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.rail.widget.PositionObservableTabLayout
-import com.expedia.bookings.rail.widget.RailOneWayReturnTabs
 import com.expedia.bookings.rail.widget.RailSearchPagerAdapter
 import com.expedia.bookings.rail.widget.RailSearchWidget
 import com.expedia.bookings.rail.widget.RailTravelerWidgetV2
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.shared.widget.SuggestionAdapter
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -49,8 +47,6 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
     override val tabs: PositionObservableTabLayout by bindView(R.id.tabs)
     override val viewpager: ViewPager by bindView<ViewPager>(R.id.viewpager)
-
-    private val oneWayReturnTripTabs: RailOneWayReturnTabs by bindView(R.id.rail_one_way_return_tabs)
 
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(context).railComponent().suggestionsService()
@@ -127,16 +123,7 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-
-        if (ProWizardBucketCache.isBucketed(context)) {
-            tabs.visibility = View.GONE
-            oneWayReturnTripTabs.visibility = View.VISIBLE
-            initializeProWizardTabs()
-        } else {
-            tabs.visibility = View.VISIBLE
-            oneWayReturnTripTabs.visibility = View.GONE
-            initializeToolbarTabs()
-        }
+        initializeToolbarTabs()
     }
 
     override fun getOriginSearchBoxPlaceholderText(): String {
@@ -149,15 +136,6 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.RAILS
-    }
-
-    private fun initializeProWizardTabs() {
-        oneWayReturnTripTabs.oneWayClickedSubject.subscribe {
-            handleRoundTripChanged(roundTrip = false)
-        }
-        oneWayReturnTripTabs.returnClickedSubject.subscribe {
-            handleRoundTripChanged(roundTrip = true)
-        }
     }
 
     private val railTabListener = object : TabLayout.OnTabSelectedListener {

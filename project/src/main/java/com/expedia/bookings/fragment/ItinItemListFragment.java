@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,7 +40,6 @@ import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
-import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
@@ -70,7 +68,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	private ItinItemListFragmentListener mListener;
 
-	private Toolbar tripToolbar;
 	private View mRoot;
 	private ItinListView mItinListView;
 	private View mOrEnterNumberTv;
@@ -147,7 +144,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_itinerary_list, null);
 
-		tripToolbar = Ui.findView(view, R.id.trip_launch_toolbar);
 		mRoot = Ui.findView(view, R.id.outer_container);
 		mItinListView = Ui.findView(view, android.R.id.list);
 		mDeepRefreshLoadingView = Ui.findView(view, R.id.deep_refresh_loading_layout);
@@ -229,17 +225,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mFindItineraryButton.setVisibility(View.GONE);
 
 		return view;
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		if (ProWizardBucketCache.isBucketed(getContext())) {
-			tripToolbar.setVisibility(View.VISIBLE);
-		}
-		else {
-			tripToolbar.setVisibility(View.GONE);
-		}
 	}
 
 	public void showAddGuestItinScreen() {
@@ -483,8 +468,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			}
 		}
 	};
-
-	// Animations
 
 	//////////////////////////////////////////////////////////////////////////
 	// Access into FragmentActivity

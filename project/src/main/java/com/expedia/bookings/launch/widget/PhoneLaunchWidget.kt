@@ -2,12 +2,9 @@ package com.expedia.bookings.launch.widget
 
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.Rect
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.GestureDetector
@@ -17,9 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.RelativeLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.animation.ActivityTransitionUtil
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
 import com.expedia.bookings.data.Property
@@ -27,22 +22,18 @@ import com.expedia.bookings.data.collections.Collection
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
-import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.launch.vm.LaunchLobViewModel
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.JodaUtils
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.widget.FrameLayout
-import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
 import io.reactivex.Observer
@@ -107,13 +98,6 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         newLaunchLobWidget.viewModel = LaunchLobViewModel(context, hasInternetConnection, posChangeSubject)
         newLaunchLobWidget
     }
-
-    private val proWizardSearchBar: RelativeLayout by bindView(R.id.pro_wizard_search_bar)
-    private val proWizardSearchCardView: CardView by bindView(R.id.pro_wizard_search_card_view)
-    private val proWizardSearchBarView: SearchInputTextView by bindView(R.id.pro_wizard_search_bar_view)
-    private val proWizardSearchBarShadow: View by bindView(R.id.pro_wizard_search_bar_shadow)
-
-    private val proWizardItemDecorationPadding = PaddingItemDecoration(resources.getDimensionPixelOffset(R.dimen.launch_list_padding_to_pro_wizard))
 
     var hasInternetConnection = BehaviorSubject.create<Boolean>()
     var currentLocationSubject = BehaviorSubject.create<Location>()
@@ -210,39 +194,11 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
                 locationNotAvailable.onNext(Unit)
             }
             launchListWidget.onPOSChange()
-
-            initializeProWizard()
-
             refreshFeatureConfig()
         }
 
-        initializeProWizard()
-
         //init the meso card if the test is bucketed
         (launchListWidget.adapter as LaunchListAdapter).initMesoAd()
-    }
-
-    fun initializeProWizard() {
-        val proWizardBucketed = ProWizardBucketCache.isBucketed(context)
-        proWizardSearchBar.setVisibility(proWizardBucketed)
-        proWizardSearchBarShadow.setVisibility(proWizardBucketed)
-
-        proWizardSearchBarView.setText(PointOfSale.getPointOfSale().getProWizardLOBString(context))
-
-        if (proWizardBucketed) {
-            launchListWidget.removeItemDecoration(proWizardItemDecorationPadding)
-            launchListWidget.addItemDecoration(proWizardItemDecorationPadding)
-        } else {
-            launchListWidget.removeItemDecoration(proWizardItemDecorationPadding)
-        }
-    }
-
-    fun toggleProWizardClickListener(enable: Boolean) {
-        if (enable) {
-            proWizardSearchBarView.setOnClickListener(ProWizardClickListener())
-        } else {
-            proWizardSearchBarView.setOnClickListener(null)
-        }
     }
 
     private fun refreshFeatureConfig() {
@@ -316,10 +272,6 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
     }
 
     private fun showFabButton() {
-        if (ProWizardBucketCache.isBucketed(context)) {
-            return
-        }
-
         if (fab.visibility != VISIBLE) {
             fab.visibility = VISIBLE
         }
@@ -330,10 +282,6 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
     }
 
     private fun hideFabButton() {
-        if (ProWizardBucketCache.isBucketed(context)) {
-            return
-        }
-
         if ((fab.translationY <= 0f)
                 && !fabAnimOut.isRunning) {
             fabAnimOut.start()
@@ -484,29 +432,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         }
     }
 
-    private inner class ProWizardClickListener : View.OnClickListener {
-        override fun onClick(v: View?) {
-            OmnitureTracking.trackProWizardClick()
-            val activity = context as PhoneLaunchActivity
-            val pairs = ActivityTransitionUtil.createPairsWithAndroidComponents(activity,
-                    proWizardSearchCardView, context.getString(R.string.pro_wizard_bar_hero_animation))
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as PhoneLaunchActivity, *pairs)
-
-            HotelNavUtils.goToHotelsV2Params(context, null, options.toBundle(), 0)
-        }
-    }
-
     fun refreshState() {
         launchListWidget.notifyDataSetChanged()
-    }
-
-    private inner class PaddingItemDecoration(private val size: Int) : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            super.getItemOffsets(outRect, view, parent, state)
-
-            if (parent.getChildAdapterPosition(view) == 0) {
-                outRect.top += size
-            }
-        }
     }
 }

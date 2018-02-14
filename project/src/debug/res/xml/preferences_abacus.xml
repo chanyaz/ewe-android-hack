@@ -335,15 +335,6 @@
             android:summary="%s"
             android:key="15842"
             android:title="Show Meso Destination Card - 15842" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="16136"
-            android:summary="%s"
-            android:title="ProWizard Launch/Search - 16136" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

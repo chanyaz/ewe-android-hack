@@ -680,30 +680,8 @@
         <item name="android:textSize">11sp</item>
     </style>
 
-    <style name="TabWidget" />
-
-    <style name="TabWidget.TabIcon">
-        <item name="android:layout_width">24dp</item>
-        <item name="android:layout_height">24dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:layout_marginTop">16dp</item>
-        <item name="android:scaleType">centerInside</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-    </style>
-
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
-    </style>
-
-    <style name="TabWidget.TabText">
-        <item name="android:layout_width">120dp</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:paddingBottom">16dp</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/material_tab_text</item>
-        <item name="android:textSize">@dimen/type_300_text_size</item>
     </style>
 
     <style name="ETPInfoTextLeft" parent="HotelDetailsInfo">

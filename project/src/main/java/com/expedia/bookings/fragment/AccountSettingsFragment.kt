@@ -6,7 +6,6 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.TextViewDialog
-import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
@@ -40,7 +38,6 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -105,7 +102,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         activity.findViewById<ImageView>(com.mobiata.android.R.id.logo)
     }
 
-    val accountToolbar: Toolbar by bindView(R.id.account_launch_toolbar)
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val toolBarHeight: Float by lazy {
         Ui.getToolbarSize(context).toFloat()
@@ -351,11 +347,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         scrollContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         legalFragment?.setRowVisibility(ROW_TERMS_AND_CONDITIONS,
                 (if (PointOfSale.getPointOfSale().termsAndConditionsUrl.isNullOrEmpty()) View.GONE else View.VISIBLE))
-    }
-
-    override fun onStart() {
-        super.onStart()
-        accountToolbar.setVisibility(ProWizardBucketCache.isBucketed(context))
     }
 
     override fun onUserAccountRefreshed() {

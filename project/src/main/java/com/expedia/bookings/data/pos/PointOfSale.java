@@ -610,22 +610,6 @@ public class PointOfSale {
 		return !TextUtils.isEmpty(number) ? number : getSupportPhoneNumber();
 	}
 
-	public String getProWizardLOBString(Context context) {
-		String searchString = context.getString(R.string.search);
-		if (supports(LineOfBusiness.HOTELS)) {
-			searchString = context.getString(R.string.search_hotels);
-			if (supports(LineOfBusiness.FLIGHTS) || supports(LineOfBusiness.FLIGHTS_V2)) {
-				searchString = context.getString(R.string.search_hotels_and_flights);
-				if (supports(LineOfBusiness.CARS) || supports(LineOfBusiness.LX)
-						|| supports(LineOfBusiness.PACKAGES) || supports(LineOfBusiness.RAILS)
-						|| supports(LineOfBusiness.TRANSPORT)) {
-					searchString = context.getString(R.string.search_hotels_flight_more);
-				}
-			}
-		}
-		return searchString;
-	}
-
 	public String getTwoLetterCountryCode() {
 		return mTwoLetterCountryCode;
 	}

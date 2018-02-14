@@ -89,7 +89,7 @@ class PhoneLaunchActivityTest {
     fun brandColorsIsTrackedOnLaunchScreen_whenBucketed() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppBrandColors)
-        OmnitureTracking.trackPageLoadLaunchScreen(0)
+        OmnitureTracking.trackPageLoadLaunchScreen()
         assertStateTracked("App.LaunchScreen", withAbacusTestBucketed(15846), mockAnalyticsProvider)
     }
 
@@ -98,7 +98,7 @@ class PhoneLaunchActivityTest {
     fun brandColorsIsNotTrackedOnLaunchScreen_whenUnbucketed() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
-        OmnitureTracking.trackPageLoadLaunchScreen(0)
+        OmnitureTracking.trackPageLoadLaunchScreen()
         assertStateNotTracked(withAbacusTestBucketed(15846), mockAnalyticsProvider)
     }
 

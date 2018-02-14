@@ -37,9 +37,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
-import com.expedia.bookings.extensions.setVisibility
-import com.expedia.bookings.launch.widget.LobToolbarWidget
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
@@ -54,7 +51,6 @@ import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
-import com.expedia.vm.launch.LobToolbarViewModel
 import org.joda.time.LocalDate
 import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
@@ -98,8 +94,6 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     }
     open val tabs: TabLayout by bindView(R.id.tabs)
     open val viewpager: ViewPager by bindView(R.id.viewpager)
-
-    protected val lobToolbar: LobToolbarWidget by bindView(R.id.lob_toolbar)
 
     var firstLaunch = true
     var transitioningFromOriginToDestination = true
@@ -153,8 +147,6 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         if (AccessibilityUtil.isTalkBackEnabled(context)) {
             searchButton.isEnabled = false
         }
-
-        setupLobToolbar()
     }
 
     protected fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {
@@ -526,15 +518,6 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
     open fun shouldSaveSuggestionHierarchyChildInfo(): Boolean {
         return false
-    }
-
-    private fun setupLobToolbar() {
-        lobToolbar.viewModel = LobToolbarViewModel(context, getLineOfBusiness())
-        val newLaunchscreenEnabled = ProWizardBucketCache.isBucketed(context)
-        lobToolbar.setVisibility(newLaunchscreenEnabled)
-        if (newLaunchscreenEnabled) {
-            toolBarTitle.text = context.resources.getText(R.string.search_title)
-        }
     }
 
     abstract fun inflate()

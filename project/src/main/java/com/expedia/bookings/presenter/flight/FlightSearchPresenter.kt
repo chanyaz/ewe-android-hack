@@ -29,7 +29,6 @@ import com.expedia.bookings.shared.widget.SuggestionAdapter
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -40,7 +39,6 @@ import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
 import com.expedia.bookings.widget.TravelerWidgetV2
-import com.expedia.bookings.widget.flights.FlightOneWayRoundTripTabs
 import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
@@ -71,8 +69,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     val flightAdvanceSearchWidget by lazy {
         flightAdvanceSearchStub.inflate().findViewById<FlightAdvanceSearchWidget>(R.id.flight_advanced_search_widget)
     }
-
-    val oneWayRoundTripTabs: FlightOneWayRoundTripTabs by bindView(R.id.one_way_round_trip_tabs)
 
     lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
         @Inject set
@@ -266,7 +262,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2 //Not sure why we still have Flights V2 all over the place??
-        showFlightOneWayRoundTripOptions = !ProWizardBucketCache.isBucketed(context)
+        showFlightOneWayRoundTripOptions = true
 
         if (isSwitchToAndFromFieldsFeatureEnabled) {
             swapFlightsLocationsButton.isEnabled = false
@@ -294,16 +290,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-
-        if (ProWizardBucketCache.isBucketed(context)) {
-            tabs.visibility = View.GONE
-            oneWayRoundTripTabs.visibility = View.VISIBLE
-            initializeProWizardTabs()
-        } else {
-            tabs.visibility = View.VISIBLE
-            oneWayRoundTripTabs.visibility = View.GONE
-            initializeToolbarTabs()
-        }
+        initializeToolbarTabs()
     }
 
     override fun getSuggestionHistoryFileName(): String {
@@ -338,16 +325,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         return LineOfBusiness.FLIGHTS
     }
 
-    private fun initializeProWizardTabs() {
-        oneWayRoundTripTabs.oneWayClickedSubject.subscribe {
-            roundTripChanged(roundTrip = false)
-        }
-        oneWayRoundTripTabs.roundTripClickedSubject.subscribe {
-            roundTripChanged(roundTrip = true)
-        }
-    }
-
     private fun initializeToolbarTabs() {
+        tabs.visibility = View.VISIBLE
         val pagerAdapter = FlightSearchPageAdapter(context)
         viewpager.adapter = pagerAdapter
         viewpager.overScrollMode = ViewPager.OVER_SCROLL_NEVER

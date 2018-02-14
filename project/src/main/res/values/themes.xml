@@ -119,8 +119,6 @@
 
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowExitTransition">@transition/launch_activity_exit_transition</item>
-        <item name="android:windowReenterTransition">@transition/launch_activity_reenter_animation</item>
 
         <item name="android:statusBarColor">@color/app_status_bar_color</item>
         <item name="android:colorPrimaryDark">#04445e</item>

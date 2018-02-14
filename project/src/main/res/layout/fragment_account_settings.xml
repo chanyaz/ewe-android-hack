@@ -6,22 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/account_background_color">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/account_launch_toolbar"
-        style="@style/LaunchActionBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/new_launch_toolbar_background_color"
-        android:visibility="gone"
-        app:title="@string/account_settings_menu_label"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-        tools:visibility="visible"/>
-
     <ScrollView
         android:id="@+id/scroll_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/account_launch_toolbar"
         android:fadingEdge="none"
         android:fillViewport="true">
 
@@ -383,7 +371,6 @@
         android:id="@+id/toolbar_dropshadow"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_dropshadow_height"
-        android:layout_below="@+id/account_launch_toolbar"
         android:background="@drawable/tb_shadow" />
 
 </RelativeLayout>

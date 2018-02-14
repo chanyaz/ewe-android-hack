@@ -171,7 +171,7 @@ class OmnitureTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun launchScreenTilesTracked() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        OmnitureTracking.trackPageLoadLaunchScreen(0, "event322,event326,event327")
+        OmnitureTracking.trackPageLoadLaunchScreen("event322,event326,event327")
 
         assertStateTracked("App.LaunchScreen", withEventsString("event322,event326,event327"), mockAnalyticsProvider)
     }

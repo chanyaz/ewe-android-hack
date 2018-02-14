@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.v4.content.ContextCompat
-import android.transition.ChangeBounds
 import com.expedia.bookings.R
 import com.expedia.bookings.dagger.HotelComponentInjector
 import com.expedia.bookings.data.Codes
@@ -54,8 +53,6 @@ class HotelActivity : AbstractAppCompatActivity() {
         } else {
             hotelPresenter.setDefaultTransition(Screen.SEARCH)
         }
-
-        setUpAnimations()
     }
 
     private fun handleDeepLink(intent: Intent) {
@@ -152,16 +149,5 @@ class HotelActivity : AbstractAppCompatActivity() {
         SEARCH,
         DETAILS,
         RESULTS
-    }
-
-    private fun setUpAnimations() {
-        val res = this.resources
-        val sharedEnterTransition = ChangeBounds()
-        sharedEnterTransition.duration = res.getInteger(R.integer.pro_wizard_shared_enter_duration).toLong()
-        window.sharedElementEnterTransition = sharedEnterTransition
-
-        val sharedReturnTransition = ChangeBounds()
-        sharedReturnTransition.duration = res.getInteger(R.integer.pro_wizard_shared_return_duration).toLong()
-        window.sharedElementReturnTransition = sharedReturnTransition
     }
 }

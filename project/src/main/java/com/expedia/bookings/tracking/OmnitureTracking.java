@@ -2148,20 +2148,6 @@ public class OmnitureTracking {
 		return "App.LMD.Rank." + String.valueOf(position);
 	}
 
-	private static void trackProWizardTest(ADMS_Measurement s, int testValue) {
-		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
-			return;
-		}
-		AbacusTest test = Db.sharedInstance.getAbacusResponse().testForKey(AbacusUtils.ProWizardTest);
-		if (test == null) {
-			return;
-		}
-		test.value = testValue;
-
-		appendAbacusTest(s, test);
-		logAbacusQuery(test);
-	}
-
 	@VisibleForTesting
 	static void trackAbacusTest(ADMS_Measurement s, ABTest abTest) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
@@ -3431,13 +3417,11 @@ public class OmnitureTracking {
 		s.trackLink("Accounts");
 	}
 
-	// todo : https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/5759
-	public static void trackPageLoadLaunchScreen(int proWizardTestValue) {
-		trackPageLoadLaunchScreen(proWizardTestValue, null);
+	public static void trackPageLoadLaunchScreen() {
+		trackPageLoadLaunchScreen(null);
 	}
 
-	// todo : https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/5759
-	public static void trackPageLoadLaunchScreen(int proWizardTestValue, String trackingEvents) {
+	public static void trackPageLoadLaunchScreen(String trackingEvents) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(LAUNCH_SCREEN);
 		boolean isFirstAppLaunch =
 			ExpediaBookingApp.isFirstLaunchEver() || ExpediaBookingApp.isFirstLaunchOfAppVersion();
@@ -3450,7 +3434,6 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesEnablePOS);
 		}
 
-		trackProWizardTest(s, proWizardTestValue);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
 		trackAbacusTest(s, AbacusUtils.HotelEarn2xMessaging);
@@ -3668,18 +3651,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		s.setEvar(12, LAUNCH_SEARCH + "." + lobString);
-		s.setEvar(28, link);
-		s.setProp(16, link);
-
-		s.trackLink("App Landing");
-	}
-
-	public static void trackProWizardClick() {
-		String link = LAUNCH_SCREEN_LOB_NAVIGATION;
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		s.setEvar(12, LAUNCH_SEARCH);
 		s.setEvar(28, link);
 		s.setProp(16, link);
 

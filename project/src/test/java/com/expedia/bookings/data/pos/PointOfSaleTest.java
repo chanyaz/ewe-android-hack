@@ -8,7 +8,6 @@ import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
@@ -277,33 +276,6 @@ public class PointOfSaleTest {
 		assertShouldShowCarsCrossSellButton(PointOfSaleId.VIETNAM.getId(), false);
 		assertShouldShowCarsCrossSellButton(PointOfSaleId.SWITZERLAND.getId(), false);
 		assertShouldShowCarsCrossSellButton(PointOfSaleId.FINLAND.getId(), true);
-	}
-
-	@Test
-	public void proWizardHotelOnlyPOS() {
-		String expectedText = context.getString(R.string.search_hotels);
-		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_hotel_lob_only.json", false);
-		PointOfSale pos = PointOfSale.getPointOfSale();
-
-		assertEquals(expectedText, pos.getProWizardLOBString(context));
-	}
-
-	@Test
-	public void proWizardHotelFlightOnlyPOS() {
-		String expectedText = context.getString(R.string.search_hotels_and_flights);
-		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_hotel_flight_lob_only.json", false);
-		PointOfSale pos = PointOfSale.getPointOfSale();
-
-		assertEquals(expectedText, pos.getProWizardLOBString(context));
-	}
-
-	@Test
-	public void proWizardAllLobsPOS() {
-		String expectedText = context.getString(R.string.search_hotels_flight_more);
-		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_all_lobs_enabled.json", false);
-		PointOfSale pos = PointOfSale.getPointOfSale();
-
-		assertEquals(expectedText, pos.getProWizardLOBString(context));
 	}
 
 	private void assertVipAccessForPOSKey(int posKey, boolean enabled) {
