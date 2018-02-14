@@ -367,10 +367,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mJumpToItinId = null;
 	}
 
-	public ItinCardData getSelectedItinCardData() {
-		return mItinListView.getSelectedItinCard();
-	}
-
 	public void syncItinManager(boolean forceRefresh, boolean showLoading) {
 		if (mAllowLoadItins && mItinListView != null && isAttached) {
 			boolean syncing = getItineraryManager().startSync(forceRefresh);
