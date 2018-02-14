@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
-import com.expedia.bookings.OmnitureTestUtils
 import android.widget.TextView
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
@@ -10,7 +10,6 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -58,15 +57,16 @@ class PackagesCreateTripTest {
     @Test
     fun testMultiItemCreateTripParamsFromSearchParams() {
         val searchParams = getDummySearchParams()
-        val fromPackageSearchParams = MultiItemCreateTripParams.fromPackageSearchParamsAndLatestPackageResponse(searchParams, getPackageResponse())
+        val fromPackageSearchParams = MultiItemCreateTripParams.fromPackageSearchParams(searchParams)
+        val date = LocalDate.now()
 
         assertEquals("mid_create_trip", fromPackageSearchParams.flightPIID)
         assertEquals(1, fromPackageSearchParams.adults)
-        assertEquals("2017-09-07", fromPackageSearchParams.startDate)
-        assertEquals(LocalDate.now().plusDays(2), fromPackageSearchParams.endDate)
+        assertEquals(date.plusDays(2).toString(), fromPackageSearchParams.startDate)
+        assertEquals(date.plusDays(4).toString(), fromPackageSearchParams.endDate)
         assertEquals("hotelID", fromPackageSearchParams.hotelID)
-        assertEquals("201660950", fromPackageSearchParams.roomTypeCode)
-        assertEquals("208290304", fromPackageSearchParams.ratePlanCode)
+        assertEquals("roomTypeCode", fromPackageSearchParams.roomTypeCode)
+        assertEquals("ratePlanCode", fromPackageSearchParams.ratePlanCode)
         assertEquals("inventoryType", fromPackageSearchParams.inventoryType)
         assertEquals(BigDecimal(300.50), fromPackageSearchParams.totalPrice.packageTotalPrice.amount)
         assertEquals("1,14", fromPackageSearchParams.childAges)
@@ -78,7 +78,7 @@ class PackagesCreateTripTest {
         val searchParams = getDummySearchParams()
         searchParams.latestSelectedOfferInfo.roomTypeCode = null
         try {
-            MultiItemCreateTripParams.fromPackageSearchParamsAndLatestPackageResponse(searchParams, getPackageResponse())
+            MultiItemCreateTripParams.fromPackageSearchParams(searchParams)
         } catch (e: Exception) {
             assertEquals(IllegalArgumentException().javaClass, e.javaClass)
         }
@@ -152,7 +152,7 @@ class PackagesCreateTripTest {
         createTripViewModel.midCreateTripErrorObservable.subscribe(showErrorAlertObserver)
         createTripViewModel.packageServices = packageServiceRule.services!!
 
-        val errorParams = MultiItemCreateTripParams.fromPackageSearchParamsAndLatestPackageResponse(getDummySearchParams("error"), getPackageResponse())
+        val errorParams = MultiItemCreateTripParams.fromPackageSearchParams(getDummySearchParams("error"))
         showErrorAlertObserver.assertValueCount(0)
 
         createTripViewModel.packageServices.multiItemCreateTrip(errorParams).subscribe(createTripViewModel.makeMultiItemCreateTripResponseObserver())
@@ -193,7 +193,7 @@ class PackagesCreateTripTest {
 
         val packagePrice = PackageOfferModel.PackagePrice()
         packagePrice.packageTotalPrice = Money()
-        val errorParams = MultiItemCreateTripParams("", "", "", "", "", packagePrice, "", LocalDate(), 0, null, null)
+        val errorParams = MultiItemCreateTripParams("", "", "", "", "", packagePrice, "", "", 0, null, null)
         showErrorPresenterTestSubscriber.assertValueCount(0)
 
         createTripViewModel.packageServices.multiItemCreateTrip(errorParams).subscribe(createTripViewModel.makeMultiItemCreateTripResponseObserver())
@@ -217,6 +217,8 @@ class PackagesCreateTripTest {
         params.packagePIID = "packagePIID"
         params.latestSelectedOfferInfo.ratePlanCode = "ratePlanCode"
         params.latestSelectedOfferInfo.roomTypeCode = "roomTypeCode"
+        params.latestSelectedOfferInfo.hotelCheckInDate = date.plusDays(2).toString()
+        params.latestSelectedOfferInfo.hotelCheckOutDate = date.plusDays(4).toString()
         params.latestSelectedOfferInfo.inventoryType = "inventoryType"
         params.latestSelectedOfferInfo.productOfferPrice = PackageOfferModel.PackagePrice()
         params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice = Money(BigDecimal(300.50), "USD")
@@ -224,11 +226,6 @@ class PackagesCreateTripTest {
         params.searchProduct = Constants.PRODUCT_FLIGHT
         params.currentFlights = arrayOf("legs")
         return params
-    }
-
-    private fun getPackageResponse(): BundleSearchResponse {
-        return PackageTestUtil.getMockMIDResponse(offers = emptyList(),
-                hotels = mapOf("1" to PackageTestUtil.dummyMidHotelRoomOffer()))
     }
 
     fun getOriginDestSuggestions(): Pair<SuggestionV4, SuggestionV4> {

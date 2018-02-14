@@ -283,6 +283,8 @@ class PackageTestUtil {
             packageParams.latestSelectedOfferInfo.inventoryType = "AA"
             packageParams.latestSelectedOfferInfo.ratePlanCode = "AAA"
             packageParams.latestSelectedOfferInfo.roomTypeCode = "AA"
+            packageParams.latestSelectedOfferInfo.hotelCheckInDate = "2017-12-07"
+            packageParams.latestSelectedOfferInfo.hotelCheckOutDate = "2017-12-08"
             packageParams.latestSelectedOfferInfo.productOfferPrice = PackageOfferModel.PackagePrice()
             packageParams.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice = Money(100, "USD")
             return packageParams

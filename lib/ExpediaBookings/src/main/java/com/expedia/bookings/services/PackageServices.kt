@@ -284,7 +284,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 body.roomTypeCode,
                 body.adults,
                 body.startDate,
-                body.endDate.toString(),
+                body.endDate,
                 body.totalPrice.packageTotalPrice.amount,
                 body.childAges,
                 body.infantsInSeats)
