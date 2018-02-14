@@ -60,7 +60,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	private int mSummaryCardPosition;
 	private int mAltSummaryCardPosition;
 	private List<ItinCardData> mItinCardDatas;
-	private int mDetailPosition = -1;
 	private String mSelectedCardId;
 	// This is used when we are syncing with the manager; that way we don't ever make
 	// the adapter's data and the ListView's data go out of sync.
@@ -395,7 +394,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	private boolean isItemDetailCard(int position) {
-		return (position == mDetailPosition);
+		return (position == -1);
 	}
 
 	private boolean isItemAButtonCard(int position) {
