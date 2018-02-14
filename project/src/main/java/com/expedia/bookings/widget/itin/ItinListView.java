@@ -57,12 +57,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private static final String STATE_LAST_ITEM_COUNT = "STATE_LAST_ITEM_COUNT";
 	private static final String STATE_SELECTED_CARD_ID = "STATE_SELECTED_CARD_ID";
 
-	public static final int SCROLL_HEADER_HIDDEN = -9999;
-
-	private static final int MODE_LIST = 0;
-	private static final int MODE_DETAIL = 1;
-
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
