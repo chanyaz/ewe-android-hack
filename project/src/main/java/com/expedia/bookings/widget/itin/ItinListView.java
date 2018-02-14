@@ -72,7 +72,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private boolean mWasChildConsumedTouch = false;
 
 	private int mScrollState = SCROLL_STATE_IDLE;
-	private int mDetailPosition = -1;
 	private boolean mScrollToReleventOnDataSetChange;
 
 	private int mLastItemCount = 0;
@@ -561,20 +560,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	private void synchronizedOnDataSetChanged() {
-		int selectedPosition = mAdapter.getPosition(mSelectedCardId);
-
-		// If the expanded card is no longer in the dataset, clean things up.
-		if (selectedPosition == -1 && mDetailPosition != -1) {
-			hideDetails();
-		}
-
-		// If a card is expanded but at a different index, make sure it's still showing/expanded
-		else if (selectedPosition != -1 && mDetailPosition != -1) {
-			showDetails(selectedPosition);
-		}
-
-		// Otherwise if we should scroll to the most relevant card, do that
-		else if (mScrollToReleventOnDataSetChange || mLastItemCount <= 0) {
+		if (mScrollToReleventOnDataSetChange || mLastItemCount <= 0) {
 			if (scrollToMostRelevantCard() >= 0) {
 				mScrollToReleventOnDataSetChange = false;
 			}
