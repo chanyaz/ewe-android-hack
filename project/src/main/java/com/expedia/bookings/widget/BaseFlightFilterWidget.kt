@@ -176,11 +176,14 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         vm.updateDynamicFeedbackWidget.subscribe {
-            if (it < 0) {
+            if (it.first < 0) {
                 dynamicFeedbackWidget.hideDynamicFeedback()
             } else {
                 dynamicFeedbackWidget.showDynamicFeedback()
-                dynamicFeedbackWidget.setDynamicCounterText(it)
+                when (vm.shouldShowShowPriceAndLogoOnFilter && it.second != null) {
+                    true -> dynamicFeedbackWidget.setDynamicCounterText(it.first, it.second)
+                    false -> dynamicFeedbackWidget.setDynamicCounterText(it.first)
+                }
             }
         }
 

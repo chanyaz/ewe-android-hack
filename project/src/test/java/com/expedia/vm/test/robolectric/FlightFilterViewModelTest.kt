@@ -206,6 +206,24 @@ class FlightFilterViewModelTest {
         assertEquals("https/AmericanAirline", airlineOutput.get("American Airlines")?.logo)
     }
 
+    @Test
+    fun testDynamicWidgetForPriceAndLogoAbTest() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo, 1)
+        setViewModel()
+        val testDynamicFeedbackWidgetSubscriber = TestObserver<Pair<Int, Money?>>()
+        vm.updateDynamicFeedbackWidget.subscribe(testDynamicFeedbackWidgetSubscriber)
+        vm.flightResultsObservable.onNext(getFlightList())
+
+        //Apply filter forr one stop
+        vm.selectStop.onNext(1)
+        testDynamicFeedbackWidgetSubscriber.assertValue(Pair(3, Money("200", "USD")))
+
+        //Apply filter for American Airline and remove for 1 stop
+        vm.selectStop.onNext(1)
+        vm.selectAirline.onNext("American Airlines")
+        testDynamicFeedbackWidgetSubscriber.assertValueAt(2, Pair(3, Money("200", "USD")))
+    }
+
     private fun getFlightList(): List<FlightLeg> {
         val list = ArrayList<FlightLeg>()
         val flightLeg1 = FlightLeg()

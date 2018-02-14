@@ -95,6 +95,13 @@
         <item quantity="one">{number} Result</item>
         <item quantity="other">{number} Results</item>
     </plurals>
+
+    <!-- Label to tell the user how many products match their filter -->
+    <plurals name="count_with_price_results_template">
+        <item quantity="one">{number} Result from {price}</item>
+        <item quantity="other">{number} Results from {price}</item>
+    </plurals>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} Result Filtered</item>

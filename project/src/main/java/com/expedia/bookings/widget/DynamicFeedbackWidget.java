@@ -6,6 +6,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
@@ -74,5 +75,15 @@ public class DynamicFeedbackWidget extends CardView {
 				.put("number", count)
 				.format().toString();
 		announceForAccessibility(announcementString + " " + getContext().getString(R.string.search_filter_clear_button_alert_cont_desc));
+	}
+
+	public void setDynamicCounterText(int count, Money minPrice) {
+		CharSequence text = Phrase
+			.from(getContext().getResources().getQuantityString(R.plurals.count_with_price_results_template, count))
+			.put("number", count).put("price", Money
+				.getFormattedMoneyFromAmountAndCurrencyCode(minPrice.roundedAmount, minPrice.currencyCode,
+					Money.F_NO_DECIMAL).toString())
+			.format();
+		dynamicFeedbackCounter.setText(text);
 	}
 }

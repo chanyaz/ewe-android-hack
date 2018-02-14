@@ -34,7 +34,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     var originalList: List<FlightLeg>? = null
     var filteredList: List<FlightLeg> = emptyList()
 
-    val updateDynamicFeedbackWidget = BehaviorSubject.create<Int>()
+    val updateDynamicFeedbackWidget = PublishSubject.create<Pair<Int, Money?>>()
     val clearChecks = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
     val sortContainerObservable = BehaviorSubject.create<Boolean>()
@@ -234,11 +234,12 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         // not to include best flight in the count
         val allFlightsListSize = if (filteredList.isNotEmpty() && filteredList[0].isBestFlight) filteredList.size - 1 else filteredList.size
         val dynamicFeedbackWidgetCount = if (filterCount > 0) allFlightsListSize else -1
+        val minPriceLeg = filteredList.minBy { it.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount }
         if (lob == LineOfBusiness.FLIGHTS_V2 && !hasTrackedZeroFilteredResults && dynamicFeedbackWidgetCount == 0) {
             OmnitureTracking.trackFlightFilterZeroResults()
             hasTrackedZeroFilteredResults = true
         }
-        updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
+        updateDynamicFeedbackWidget.onNext(Pair(dynamicFeedbackWidgetCount, minPriceLeg?.packageOfferModel?.price?.averageTotalPricePerTicket))
         doneButtonEnableObservable.onNext(filteredList.size > 0)
         filterCountObservable.onNext(filterCount)
     }

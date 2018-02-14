@@ -3,6 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -72,6 +73,41 @@ class FlightFilterWidgetTest {
         assertEquals(View.GONE, firstStop.logoImage.visibility)
         assertEquals("1 Stop", firstStop.stopsLabel.text)
         assertEquals("$200", firstStop.resultsLabel.text)
+    }
+
+    @Test
+    fun testDynamicFeedbackWidget() {
+        vm.flightResultsObservable.onNext(getFlightList())
+        val dynamicFeedbackWidget = widget.dynamicFeedbackWidget
+        assertEquals(View.GONE, dynamicFeedbackWidget.visibility)
+
+        val dynamicCounter = dynamicFeedbackWidget.findViewById<TextView>(R.id.dynamic_feedback_counter)
+        vm.selectStop.onNext(0)
+        assertEquals(View.VISIBLE, dynamicFeedbackWidget.visibility)
+        assertEquals("0 Results", dynamicCounter.text.toString())
+
+        vm.selectStop.onNext(1)
+        assertEquals(View.VISIBLE, dynamicFeedbackWidget.visibility)
+        assertEquals("3 Results", dynamicCounter.text.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testDynamicFeedbackWidgetForPriceVariant() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo, 1)
+        setViewModel()
+        vm.flightResultsObservable.onNext(getFlightList())
+        val dynamicFeedbackWidget = widget.dynamicFeedbackWidget
+        assertEquals(View.GONE, dynamicFeedbackWidget.visibility)
+
+        val dynamicCounter = dynamicFeedbackWidget.findViewById<TextView>(R.id.dynamic_feedback_counter)
+        vm.selectStop.onNext(0)
+        assertEquals(View.VISIBLE, dynamicFeedbackWidget.visibility)
+        assertEquals("0 Results", dynamicCounter.text.toString())
+
+        vm.selectStop.onNext(1)
+        assertEquals(View.VISIBLE, dynamicFeedbackWidget.visibility)
+        assertEquals("3 Results from $200", dynamicCounter.text.toString())
     }
 
     @Test
