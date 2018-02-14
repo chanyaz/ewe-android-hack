@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
@@ -22,7 +23,9 @@ class StoredCouponViewHolder(view: View, clickActionObserver: PublishSubject<Int
 
     val viewModel: StoredCouponViewHolderViewModel by lazy {
         val vm = StoredCouponViewHolderViewModel()
-        vm.couponName.subscribeText(couponNameTextView)
+        vm.couponName.doOnNext {
+            AccessibilityUtil.appendRoleContDesc(couponNameTextView, it, R.string.accessibility_cont_desc_role_button)
+        }.subscribeText(couponNameTextView)
         vm.couponStatus.subscribe { status ->
             progressBar.visibility = View.GONE
             when (status) {

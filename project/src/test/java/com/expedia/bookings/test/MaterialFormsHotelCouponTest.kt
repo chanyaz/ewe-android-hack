@@ -14,6 +14,7 @@ import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
 import com.expedia.bookings.presenter.shared.StoredCouponAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
+import com.expedia.bookings.presenter.shared.StoredCouponViewHolder
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.services.TestObserver
@@ -24,6 +25,7 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.MaterialFormsCouponWidget
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
@@ -114,6 +116,25 @@ class MaterialFormsHotelCouponTest {
         couponWidget.isExpanded = false
 
         assertTrue(couponWidget.showHotelCheckoutView("1"))
+    }
+
+    @Test
+    fun testSavedCouponHeaderTextFocusability() {
+        val savedText = couponWidget.findViewById<TextView>(R.id.header_text_view)
+
+        assertTrue(savedText.isFocusable)
+        assertTrue(savedText.isFocusableInTouchMode)
+    }
+
+    @Test
+    fun testStoredCouponContentDescription() {
+        val couponAdapter = couponWidget.storedCouponWidget.storedCouponRecyclerView.adapter as StoredCouponListAdapter
+        couponAdapter.coupons.addAll(CouponTestUtil.createStoredCouponAdapterData())
+        val viewHolder = couponAdapter.onCreateViewHolder(couponWidget, 0) as StoredCouponViewHolder
+        couponAdapter.bindViewHolder(viewHolder, 0)
+
+        assertEquals("A", viewHolder.couponNameTextView.text)
+        assertEquals("A Button", viewHolder.couponNameTextView.contentDescription)
     }
 
     @Test
