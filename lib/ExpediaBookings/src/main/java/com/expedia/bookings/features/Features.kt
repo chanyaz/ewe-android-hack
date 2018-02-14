@@ -10,5 +10,5 @@ class Features {
         val all = Features()
     }
 
-    val legacyItinCardInActivity: Feature by RemoteFeatureDelegate()
+    val unusedFeature: Feature by RemoteFeatureDelegate()
 }

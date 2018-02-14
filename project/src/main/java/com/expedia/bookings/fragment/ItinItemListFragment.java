@@ -297,7 +297,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		syncItinManager(true, false);
 
 		if (mJumpToItinId != null) {
-			showItinCard(mJumpToItinId, true);
+			showItinCard(mJumpToItinId);
 		}
 
 		mFragmentModLock.setSafe(true);
@@ -342,7 +342,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()));
 		}
 		else {
-			showItinCard(itinId, false);
+			showItinCard(itinId);
 		}
 	}
 
@@ -363,7 +363,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 	}
 
-	public void showItinCard(final String id, final boolean animate) {
+	public void showItinCard(final String id) {
 		if (mIsLoading || mItinListView == null) {
 			mJumpToItinId = id;
 			return;
@@ -375,7 +375,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		if (itinId == null) {
 			itinId = id;
 		}
-		mItinListView.showDetails(itinId, animate);
+		mItinListView.showDetails(itinId);
 
 		mJumpToItinId = null;
 	}
@@ -763,7 +763,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			updateLoginState();
 
 			if (mJumpToItinId != null) {
-				showItinCard(mJumpToItinId, true);
+				showItinCard(mJumpToItinId);
 			}
 		}
 		mCurrentSyncHasErrors = false;

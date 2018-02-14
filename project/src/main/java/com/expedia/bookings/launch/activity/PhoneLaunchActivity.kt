@@ -607,7 +607,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         }
 
         if (jumpToItinId != null) {
-            itinListFragment?.showItinCard(jumpToItinId, false)
+            itinListFragment?.showItinCard(jumpToItinId)
             jumpToItinId = null
         }
     }
