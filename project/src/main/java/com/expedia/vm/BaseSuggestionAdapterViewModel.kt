@@ -38,6 +38,7 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
     // Outputs
     val suggestionItemsSubject = PublishSubject.create<List<SuggestionDataItem>>()
     val suggestionSelectedSubject = PublishSubject.create<SearchSuggestion>()
+    val searchInfoSelectedSubject = PublishSubject.create<SearchInfo>()
 
     @VisibleForTesting
     var gaiaManager = GaiaNearbyManager(suggestionsService)

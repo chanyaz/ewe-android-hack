@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.shared.data.SuggestionDataItem
@@ -81,8 +82,7 @@ abstract class BaseSuggestionAdapter(val viewModel: BaseSuggestionAdapterViewMod
                 val item = suggestionItems[position] as SuggestionDataItem.SearchInfoDropDown
                 holder.vm.bind(item.searchInfo)
                 holder.displayDivider(shouldDisplayDivider(position))
-                //TODO emit search info instead and populate search form: mingle 9799
-                holder.itemView.setOnClickListener(SuggestionClickListener(item.searchInfo.destination, position))
+                holder.itemView.setOnClickListener(SearchInfoClickListener(item.searchInfo))
             }
             is SuggestionViewHolder -> {
                 val item = suggestionItems[position] as SuggestionDataItem.SuggestionDropDown
@@ -131,6 +131,12 @@ abstract class BaseSuggestionAdapter(val viewModel: BaseSuggestionAdapterViewMod
             val searchSuggestion = SearchSuggestion(suggestion)
             searchSuggestion.trackingData = getSuggestionTrackingData(suggestion, position)
             viewModel.suggestionSelectedSubject.onNext(searchSuggestion)
+        }
+    }
+
+    private inner class SearchInfoClickListener(private val searchInfo: SearchInfo) : View.OnClickListener {
+        override fun onClick(v: View?) {
+            viewModel.searchInfoSelectedSubject.onNext(searchInfo)
         }
     }
 }

@@ -10,25 +10,26 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import com.expedia.bookings.extensions.setInverseVisibility
-import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.hotel.widget.AdvancedSearchOptionsView
 import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
-import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.travelgraph.vm.TravelGraphViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
+
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -118,19 +119,24 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { searchSuggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
-            val suggestion = searchSuggestion.suggestionV4
+
             suggestionTrackingData = searchSuggestion.trackingData!!
             suggestionTrackingData.suggestionSelected = true
-            searchViewModel.destinationLocationObserver.onNext(suggestion)
-
             suggestionTrackingData.charactersTypedCount = suggestionViewModel.getLastQuery().count()
-            val suggestionName = HtmlCompat.stripHtml(suggestion.regionNames.displayName)
-            updateDestinationText(suggestionName)
+
+            val suggestion = searchSuggestion.suggestionV4
+            searchViewModel.destinationLocationObserver.onNext(suggestion)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName(), shouldSaveSuggestionHierarchyChildInfo())
             updateSearchOptions(suggestion)
-            if (suggestion.isRecentSearchItem) {
-                HotelTracking.trackHotelRecentSearchClick()
-            }
+
+            showDefault()
+        }
+
+        vm.searchInfoSelectedSubject.subscribe { searchInfo ->
+            com.mobiata.android.util.Ui.hideKeyboard(this)
+            updateWithRecentSearchInfo(searchInfo)
+
+            HotelTracking.trackHotelRecentSearchClick()
             showDefault()
         }
     }
@@ -245,7 +251,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     }
 
     private fun isUserSearchHistoryEnabled(): Boolean =
-            FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_user_search_history)
+            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelRecentSearch)
 
     private fun updateSearchOptions(suggestion: SuggestionV4) {
         if (!AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelSuperSearch)) {
@@ -263,6 +269,12 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         destinationCardView.contentDescription = Phrase.from(context, R.string.hotel_search_destination_cont_desc_TEMPLATE)
                 .put("destination", locationText)
                 .format().toString()
+    }
+
+    private fun updateWithRecentSearchInfo(searchInfo: SearchInfo) {
+        searchViewModel.datesUpdated(searchInfo.startDate, searchInfo.endDate)
+        searchViewModel.destinationLocationObserver.onNext(searchInfo.destination)
+        selectTravelers(TravelerParams(searchInfo.travelers.numOfAdults, searchInfo.travelers.agesOfChildren, emptyList(), emptyList()))
     }
 
     private val searchToAdvancedOptions = object : Transition(InputSelectionState::class.java, AdvancedSearchOptionsView::class.java) {

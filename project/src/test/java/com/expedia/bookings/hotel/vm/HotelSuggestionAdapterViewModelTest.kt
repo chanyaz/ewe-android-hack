@@ -3,15 +3,16 @@ package com.expedia.bookings.hotel.vm
 import android.location.Location
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.data.travelgraph.TravelerInfo
 import com.expedia.bookings.services.ISuggestionV4Services
 import com.expedia.bookings.shared.data.SuggestionDataItem
 import com.expedia.bookings.shared.util.GaiaNearbyManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.testutils.builder.TestSuggestionV4Builder
 import com.expedia.vm.HotelSuggestionAdapterViewModel
-import com.mobiata.android.util.SettingUtils
 import io.reactivex.observers.TestObserver
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
@@ -68,7 +69,7 @@ class HotelSuggestionAdapterViewModelTest {
 
     @Test
     fun testGaiaPlusRecentSearches() {
-        SettingUtils.save(context, R.string.preference_user_search_history, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelRecentSearch)
         val expectedGaiaName = "Hello"
         val recentSearchId = "12345"
         viewModel.suggestionItemsSubject.subscribe(testSubscriber)
