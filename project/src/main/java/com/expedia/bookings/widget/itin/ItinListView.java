@@ -145,7 +145,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			super.onRestoreInstanceState(bundle.getParcelable(STATE_DEFAULT_SAVESTATE));
 			mScrollToReleventOnDataSetChange = bundle.getBoolean(STATE_DO_AUTOSCROLL, true);
 			mLastItemCount = bundle.getInt(STATE_LAST_ITEM_COUNT, 0);
-			setSelectedCardId(bundle.getString(STATE_SELECTED_CARD_ID));
+			mSelectedCardId = bundle.getString(STATE_SELECTED_CARD_ID);
 		}
 		else {
 			super.onRestoreInstanceState(state);
@@ -373,10 +373,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			}
 		}
 		return null;
-	}
-
-	private void setSelectedCardId(String cardId) {
-		mSelectedCardId = cardId;
 	}
 
 	public void showDetails(String id) {
