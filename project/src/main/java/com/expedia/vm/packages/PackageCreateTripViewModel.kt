@@ -13,6 +13,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -20,6 +21,7 @@ import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -30,8 +32,11 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
 
     val tripParams = BehaviorSubject.create<PackageCreateTripParams>()
     val performMultiItemCreateTripSubject = PublishSubject.create<Unit>()
+    val cancelMultiItemCreateTripSubject = PublishSubject.create<Unit>()
     val multiItemResponseSubject = PublishSubject.create<MultiItemApiCreateTripResponse>()
     val midCreateTripErrorObservable = PublishSubject.create<String>()
+
+    private var multiItemCreateTripDisposable: Disposable? = null
 
     init {
         tripParams.subscribe { params ->
@@ -48,7 +53,12 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
 
         performMultiItemCreateTripSubject.subscribe {
             val params = MultiItemCreateTripParams.fromPackageSearchParams(Db.sharedInstance.packageParams)
-            packageServices.multiItemCreateTrip(params).subscribe(makeMultiItemCreateTripResponseObserver())
+            multiItemCreateTripDisposable = packageServices.multiItemCreateTrip(params).subscribeObserver(makeMultiItemCreateTripResponseObserver())
+        }
+
+        cancelMultiItemCreateTripSubject.subscribe {
+            multiItemCreateTripDisposable?.dispose()
+            multiItemCreateTripDisposable = null
         }
     }
 

@@ -177,16 +177,19 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         }
 
         changeHotel.setOnMenuItemClickListener({
+            cancelMIDCreateTripCall()
             onChangeHotelClicked()
             true
         })
 
         changeHotelRoom.setOnMenuItemClickListener({
+            cancelMIDCreateTripCall()
             onChangeHotelRoomClicked()
             true
         })
 
         changeFlight.setOnMenuItemClickListener({
+            cancelMIDCreateTripCall()
             onFlightChange()
             PackagesTracking().trackBundleEditItemClick("Flight")
 
@@ -216,6 +219,15 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 webCheckoutView.viewModel.webViewURLObservable.onNext("about:blank")
                 (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).doCreateTrip()
                 setupOverviewPresenterForMID()
+            }
+        }
+    }
+
+    private fun cancelMIDCreateTripCall() {
+        if (isMidAPIEnabled(context)) {
+            val vm = webCheckoutView.viewModel
+            if (vm is PackageWebCheckoutViewViewModel) {
+                vm.packageCreateTripViewModel.cancelMultiItemCreateTripSubject.onNext(Unit)
             }
         }
     }
@@ -303,6 +315,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             //Back press from overview screen
 
             if (isBackFlowFromOverviewEnabled(context)) {
+                cancelMIDCreateTripCall()
                 checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
                 bundleOverviewHeader.toggleOverviewHeader(false)
                 bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
@@ -322,6 +335,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         builder.setMessage(R.string.package_checkout_back_dialog_message)
         builder.setNegativeButton(context.getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
         builder.setPositiveButton(context.getString(R.string.start_over)) { _, _ ->
+            cancelMIDCreateTripCall()
             checkoutPresenter.clearPaymentInfo()
             checkoutPresenter.resetTravelers()
             bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")
