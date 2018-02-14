@@ -949,6 +949,19 @@ class HotelCheckoutPresenterTest {
         assertEquals("$135.81", checkout.hotelCheckoutSummaryWidget.totalPriceWithTax.text)
     }
 
+    @Test
+    fun testFocusElementOnCouponCardViewExpand() {
+        setupHotelMaterialForms()
+        goToCheckout()
+        checkout.show(CheckoutBasePresenter.Ready())
+        checkout.couponCardView.performClick()
+        val backButton = checkout.toolbar.getChildAt(1)
+        val toolbarTitle = checkout.toolbar.getChildAt(2).id
+
+        assertTrue(backButton.isFocused)
+        assertEquals(toolbarTitle, backButton.nextFocusRightId)
+    }
+
     private fun givenLoggedInUserAndTravelerInDb() {
         val testUser = User()
         val traveler = mockTravelerProvider.getCompleteMockTraveler()

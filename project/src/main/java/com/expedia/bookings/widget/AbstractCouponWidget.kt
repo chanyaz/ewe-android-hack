@@ -28,7 +28,6 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.withLatestFrom
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelCouponViewModel
-import com.mobiata.android.util.Ui
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -171,9 +170,7 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
             applied.visibility = View.GONE
             onExpand()
             HotelTracking.trackHotelExpandCoupon()
-            couponCode.requestFocus()
             viewmodel.onMenuClickedMethod.onNext { onMenuButtonPressed() }
-            Ui.showKeyboard(couponCode, null)
         } else {
             couponCode.removeTextChangedListener(textWatcher)
             resetFields()
