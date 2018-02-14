@@ -4,6 +4,8 @@ data class PackageSelectedOfferInfo(var hotelId: String? = null,
                                     var ratePlanCode: String? = null,
                                     var roomTypeCode: String? = null,
                                     var inventoryType: String? = null,
+                                    var hotelCheckInDate: String? = null,
+                                    var hotelCheckOutDate: String? = null,
 
                                     var productOfferPrice: PackageOfferModel.PackagePrice? = null,
 

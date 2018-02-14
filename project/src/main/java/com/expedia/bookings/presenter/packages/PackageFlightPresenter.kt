@@ -84,6 +84,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             params.latestSelectedOfferInfo.inboundFlightBaggageFeesUrl = flight.baggageFeesUrl
             params.latestSelectedOfferInfo.outboundFlightBaggageFeesUrl = Db.getPackageResponse().getFlightLegs().firstOrNull { it.legId == params.currentFlights[0] }?.baggageFeesUrl
             params.latestSelectedOfferInfo.isSplitTicketFlights = Db.getPackageResponse().isSplitTicketFlights(params.currentFlights[0], params.currentFlights[1])
+            params.latestSelectedOfferInfo.hotelCheckInDate = Db.getPackageResponse().getHotelCheckInDate()
+            params.latestSelectedOfferInfo.hotelCheckOutDate = Db.getPackageResponse().getHotelCheckOutDate()
+            params.latestSelectedOfferInfo.ratePlanCode = Db.getPackageResponse().getRatePlanCode()
+            params.latestSelectedOfferInfo.roomTypeCode = Db.getPackageResponse().getRoomTypeCode()
         }
         params.selectedLegId = flight.departureLeg
         params.packagePIID = flight.packageOfferModel.piid
