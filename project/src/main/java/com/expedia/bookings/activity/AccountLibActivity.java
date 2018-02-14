@@ -40,6 +40,7 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.widget.TextView;
 import com.squareup.phrase.Phrase;
+import com.mobiata.android.Log;
 
 import javax.inject.Inject;
 
@@ -188,6 +189,9 @@ public class AccountLibActivity extends AppCompatActivity
 					config.setEnableRecaptcha(true);
 					config.setRecaptchaAPIKey(getString(R.string.recaptcha_sdk_site_key));
 		}
+
+		Log.i("RECAPTCHA", "Satellite Enabled Status = " + String.valueOf(isRecaptchaSatelliteEnabled()));
+		Log.i("RECAPTCHA", "AB Test Enabled Status = " + String.valueOf(isRecaptchaABTestEnabled()));
 
 		accountView.configure(config);
 

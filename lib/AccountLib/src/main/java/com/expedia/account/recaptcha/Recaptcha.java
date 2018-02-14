@@ -26,6 +26,7 @@ public class Recaptcha {
 						public void onSuccess(SafetyNetApi.RecaptchaTokenResponse response) {
 							String userResponseToken = response.getTokenResult();
 							handler.onSuccess(userResponseToken);
+							Log.i("RECAPTCHA", "Successful Token Acquired: " + userResponseToken);
 						}
 					})
 				.addOnFailureListener(context, new OnFailureListener() {

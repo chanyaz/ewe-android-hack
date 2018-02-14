@@ -1529,6 +1529,7 @@ public class AccountView extends BufferedPresenter {
 		}
 		else {
 			doSignIn(e.email, e.password, null);
+			Log.i("RECAPTCHA", "Not Enabled -> From Sign In Button Click");
 		}
 		vHeaderLayout.showSpecialMessage(false);
 	}
@@ -1633,6 +1634,7 @@ public class AccountView extends BufferedPresenter {
 		}
 		else {
 			doCreateAccount(null);
+			Log.i("RECAPTCHA", "Not Enabled -> From TOS Button Click");
 		}
 	}
 
