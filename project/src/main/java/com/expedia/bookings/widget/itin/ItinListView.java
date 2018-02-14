@@ -78,8 +78,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private FooterView mFooterView;
 
-	private int mExpandedHeight = 0;
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -112,10 +110,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
-
-		int oldExpandedHeight = mExpandedHeight;
-		mExpandedHeight = Math.max(h, oldh);
-		Log.d("ItinListView.onSizeChanged mExpandedHeight - oldValue:" + oldExpandedHeight + " newValue:" + mExpandedHeight);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
