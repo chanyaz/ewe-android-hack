@@ -390,9 +390,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mAdapter.setSelectedCardId(cardId);
 	}
 
-	public void hideDetails() {
-	}
-
 	public void showDetails(String id) {
 		showDetails(mAdapter.getPosition(id));
 	}
@@ -520,7 +517,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public void onCloseButtonClicked() {
-		hideDetails();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
