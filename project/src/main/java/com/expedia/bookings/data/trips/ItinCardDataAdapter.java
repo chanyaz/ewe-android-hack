@@ -298,14 +298,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		notifyDataSetChanged();
 	}
 
-	public void setSimpleMode(boolean enabled) {
-		mSimpleMode = enabled;
-	}
-
-	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
-		mOnItinCardClickListener = onItinCardClickListener;
-	}
-
 	/**
 	 * The first (and usually only) summary view card position
 	 *
