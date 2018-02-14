@@ -27,7 +27,6 @@ import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
 import com.expedia.bookings.widget.itin.ItinCard;
-import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
 import com.mobiata.flightlib.data.Waypoint;
 
 import org.joda.time.DateTime;
@@ -37,7 +36,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
+public class ItinCardDataAdapter extends BaseAdapter implements OnHideListener {
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE ENUMERATIONS
@@ -66,8 +65,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	private List<ItinCardData> mItinCardDatasSync;
 
 	private boolean mSimpleMode = false;
-
-	private OnItinCardClickListener mOnItinCardClickListener;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTOR
@@ -161,7 +158,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				}
 				else {
 					card = new FlightItinCard(mContext, null);
-					card.setOnItinCardClickListener(this);
 				}
 			}
 			else {
@@ -170,7 +166,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				}
 				else {
 					card = new ItinCard(mContext);
-					card.setOnItinCardClickListener(this);
 				}
 			}
 
@@ -699,16 +694,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	//////////////////////////////////////////////////////////////////////////////////////
 	// LISTENER IMPLEMENTATIONS
 	//////////////////////////////////////////////////////////////////////////////////////
-
-	// ItinCard button click listener
-
-	@Override
-	public void onCloseButtonClicked() {
-		// Pass the click event back up to the ListView to handle the closing of the card
-		if (mOnItinCardClickListener != null) {
-			mOnItinCardClickListener.onCloseButtonClicked();
-		}
-	}
 
 	// ItinButtonCard hide listener
 
