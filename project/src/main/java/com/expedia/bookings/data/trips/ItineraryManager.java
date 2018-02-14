@@ -69,6 +69,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.PublishSubject;
+import retrofit2.HttpException;
 
 /**
  * This singleton keeps all of our itinerary data together.  It loads, syncs and stores all itin data.
@@ -1400,7 +1401,13 @@ public class ItineraryManager implements JSONable {
 			return new Function<Throwable, JSONObject>() {
 				@Override
 				public JSONObject apply(Throwable throwable) {
-					return null;
+					try {
+						String jsonString = ((HttpException) throwable).response().errorBody().string();
+						return new JSONObject(jsonString);
+					}
+					catch (Exception e) {
+						return null;
+					}
 				}
 			};
 		}
