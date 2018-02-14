@@ -368,7 +368,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public boolean isInDetailMode() {
-		return mMode == ItinListView.MODE_DETAIL;
+		return false;
 	}
 
 	public void setOnListModeChangedListener(OnListModeChangedListener onListModeChangedListener) {
