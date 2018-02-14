@@ -231,14 +231,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public void setDetailPosition(int position) {
-		mDetailPosition = position;
-	}
-
-	public int getDetailPosition() {
-		return mDetailPosition;
-	}
-
 	public void setSelectedCardId(String cardId) {
 		mSelectedCardId = cardId;
 	}
