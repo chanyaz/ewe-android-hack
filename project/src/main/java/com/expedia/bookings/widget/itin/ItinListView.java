@@ -333,14 +333,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		return mAdapter.getItem(position);
 	}
 
-	public ItinCardData getSelectedItinCard() {
-		int pos = mAdapter.getPosition(mSelectedCardId);
-		if (pos != -1) {
-			return mAdapter.getItem(pos);
-		}
-		return null;
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
