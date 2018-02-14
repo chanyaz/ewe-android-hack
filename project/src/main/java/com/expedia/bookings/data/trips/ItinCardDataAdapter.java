@@ -64,8 +64,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnHideListener {
 	// the adapter's data and the ListView's data go out of sync.
 	private List<ItinCardData> mItinCardDatasSync;
 
-	private boolean mSimpleMode = false;
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTOR
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -171,7 +169,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnHideListener {
 
 			State state = getItemViewCardState(position);
 
-			card.setCardSelected(mSimpleMode && data.getId().equals(mSelectedCardId));
+			card.setCardSelected(false);
 			card.setCardShaded(state == State.PAST);
 			card.setShowSummary(isItemASummaryCard(position));
 
@@ -199,7 +197,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnHideListener {
 		if (isInThePast) {
 			retVal += Type.values().length;
 		}
-		else if (isSumCard && !mSimpleMode) {
+		else if (isSumCard) {
 			retVal += (Type.values().length * State.NORMAL.ordinal());
 		}
 		else if (isButtonCard) {
