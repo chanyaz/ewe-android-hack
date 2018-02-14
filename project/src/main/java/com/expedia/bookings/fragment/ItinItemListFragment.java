@@ -370,7 +370,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 
 		// ItinListView will take care of executing these in order.
-		mItinListView.hideDetails(false);
+		mItinListView.hideDetails();
 		String itinId = getItineraryManager().getItinIdByTripNumber(id);
 		if (itinId == null) {
 			itinId = id;
@@ -426,7 +426,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public void hideDetails() {
 		if (mItinListView != null) {
-			mItinListView.hideDetails(true);
+			mItinListView.hideDetails();
 		}
 	}
 
@@ -522,7 +522,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		// Note: On 2.x, the user can logout from the expanded details view, be sure to collapse the view so when we
 		// re-populate the ListView with data, it does not think there is something expanded.
 		if (mItinListView != null) {
-			mItinListView.hideDetails(false);
+			mItinListView.hideDetails();
 
 			//Make it invisible so nobody clicks anything
 			mItinListView.getItinCardDataAdapter().clearAdapter();

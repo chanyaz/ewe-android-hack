@@ -410,7 +410,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mAdapter.setSelectedCardId(cardId);
 	}
 
-	public void hideDetails(final boolean animate) {
+	public void hideDetails() {
 		if (mSimpleMode) {
 			setSelectedCardId(null);
 			mAdapter.notifyDataSetChanged();
@@ -544,7 +544,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public void onCloseButtonClicked() {
-		hideDetails(true);
+		hideDetails();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -576,7 +576,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		// If the expanded card is no longer in the dataset, clean things up.
 		if (selectedPosition == -1 && mDetailPosition != -1) {
-			hideDetails(false);
+			hideDetails();
 		}
 
 		// If a card is expanded but at a different index, make sure it's still showing/expanded
