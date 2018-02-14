@@ -467,9 +467,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			post(new Runnable() {
 				@Override
 				public void run() {
-					if (ItinListView.this != null && !false) {
-						smoothScrollToPositionFromTop(pos, 0);
-					}
+					smoothScrollToPositionFromTop(pos, 0);
 				}
 			});
 		}
