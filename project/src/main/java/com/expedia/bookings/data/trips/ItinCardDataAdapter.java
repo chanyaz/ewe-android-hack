@@ -199,23 +199,19 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		int retVal = type.ordinal();
 		boolean isInThePast = isItemInThePast(position);
 		boolean isSumCard = isItemASummaryCard(position);
-		boolean isDetailCard = isItemDetailCard(position);
 		boolean isButtonCard = isItemAButtonCard(position);
 		boolean isAirAttachCard = isItemAnAirAttachCard(position);
-		if (isDetailCard) {
-			retVal += (TripComponent.Type.values().length * State.DETAIL.ordinal());
-		}
-		else if (isInThePast) {
-			retVal += TripComponent.Type.values().length;
+		if (isInThePast) {
+			retVal += Type.values().length;
 		}
 		else if (isSumCard && !mSimpleMode) {
-			retVal += (TripComponent.Type.values().length * State.NORMAL.ordinal());
+			retVal += (Type.values().length * State.NORMAL.ordinal());
 		}
 		else if (isButtonCard) {
-			retVal += (TripComponent.Type.values().length * State.BUTTON.ordinal());
+			retVal += (Type.values().length * State.BUTTON.ordinal());
 		}
 		else if (isAirAttachCard) {
-			retVal += (TripComponent.Type.values().length * State.AIR_ATTACH.ordinal());
+			retVal += (Type.values().length * State.AIR_ATTACH.ordinal());
 		}
 
 		return retVal;
@@ -391,10 +387,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	private boolean isItemASummaryCard(int position) {
 		return position == mSummaryCardPosition || position == mAltSummaryCardPosition;
-	}
-
-	private boolean isItemDetailCard(int position) {
-		return (position == -1);
 	}
 
 	private boolean isItemAButtonCard(int position) {
