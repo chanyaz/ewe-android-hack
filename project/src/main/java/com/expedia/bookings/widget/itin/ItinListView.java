@@ -444,23 +444,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		if (mSimpleMode) {
 			setSelectedCardId(null);
 			mAdapter.notifyDataSetChanged();
-			return;
 		}
-
-		if (!false) {
-			return;
-		}
-
-		if (!mModeSwitchSemaphore.tryAcquire()) {
-			mUiQueue.add(new Runnable() {
-				public void run() {
-					hideDetails(animate);
-				}
-			});
-			return;
-		}
-
-		synchronizedHideDetails(animate);
 	}
 
 	/**
