@@ -536,11 +536,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             }
             searchPresenter.resetSuggestionTracking()
             HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
-
-            //TODO this is good enough for the TG skeleton, but will have to move the trigger elsewhere
-            if (forward) {
-                searchPresenter.fetchUserSearchHistory()
-            }
         }
     }
 

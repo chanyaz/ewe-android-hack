@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
+import android.support.annotation.CallSuper
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
@@ -496,7 +497,8 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         toolBarTitle.translationY = (if (forward) Math.abs(1 - f) else f) * -toolbarTitleTop
     }
 
-    fun animationFinalize(forward: Boolean) {
+    @CallSuper
+    open fun animationFinalize(forward: Boolean) {
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type.toFloat()
     }
 

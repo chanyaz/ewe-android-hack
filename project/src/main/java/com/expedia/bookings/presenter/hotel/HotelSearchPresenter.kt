@@ -184,6 +184,15 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
         val showAdvancedOptions = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)
         advancedOptionsContainerCard.updateVisibility(showAdvancedOptions)
+
+        fetchUserSearchHistory()
+    }
+
+    override fun animationFinalize(forward: Boolean) {
+        super.animationFinalize(forward)
+        if (!forward) {
+            fetchUserSearchHistory()
+        }
     }
 
     override fun back(): Boolean {
@@ -233,8 +242,9 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         }
     }
 
-    fun fetchUserSearchHistory() {
+    private fun fetchUserSearchHistory() {
         if (isUserSearchHistoryEnabled()) {
+            suggestionViewModel.setUserSearchHistory(emptyList())
             travelGraphViewModel.fetchUserHistory()
         }
     }
