@@ -16,7 +16,6 @@ import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeContentDescription
-import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelInfoToolbarViewModel
@@ -62,7 +61,6 @@ class HotelGalleryToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
     fun setViewModel(vm: HotelInfoToolbarViewModel) {
         viewmodel = vm
 
-        vm.toolBarRatingColor.subscribeStarColor(toolBarRating)
         vm.hotelNameObservable.subscribeText(toolbarTitle)
         vm.hotelRatingObservable.subscribe {
             toolBarRating.setRating(it)

@@ -1,8 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.HotelsV2DataUtil
@@ -23,8 +21,6 @@ class HotelInfoToolbarViewModelTest {
     private var soldOutHotelOffer: HotelOffersResponse by Delegates.notNull()
 
     private var context: Context by Delegates.notNull()
-    private var soldOutStarRatingColor: Int by Delegates.notNull()
-    private var notSoldOutStarRatingColor: Int by Delegates.notNull()
 
     @Before
     fun before() {
@@ -45,9 +41,6 @@ class HotelInfoToolbarViewModelTest {
         zeroRatingHotel.hotelName = "zeroRatingHotel"
         zeroRatingHotel.hotelStarRating = 0.0
         zeroRatingHotel.hotelRoomResponse = listOf(HotelOffersResponse.HotelRoomResponse())
-
-        soldOutStarRatingColor = ContextCompat.getColor(context, android.R.color.white)
-        notSoldOutStarRatingColor = ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color)
     }
 
     @Test
@@ -61,7 +54,6 @@ class HotelInfoToolbarViewModelTest {
         viewModelUnderTest.hotelNameObservable.subscribe(hotelNameSubscriber)
         viewModelUnderTest.hotelRatingObservable.subscribe(hotelRatingSubscriber)
         viewModelUnderTest.hotelRatingContentDescriptionObservable.subscribe(hotelRatingContentDescriptionSubscriber)
-        viewModelUnderTest.toolBarRatingColor.subscribe(toolBarRatingColorSubscriber)
 
         viewModelUnderTest.bind(soldOutHotelOffer)
 
@@ -71,7 +63,6 @@ class HotelInfoToolbarViewModelTest {
         hotelNameSubscriber.assertValue(soldOutHotelOffer.hotelName)
         hotelRatingSubscriber.assertValue(1.0f)
         hotelRatingContentDescriptionSubscriber.assertValue(HotelsV2DataUtil.getHotelDetailRatingContentDescription(context, soldOutHotelOffer.hotelStarRating))
-        toolBarRatingColorSubscriber.assertValue(soldOutStarRatingColor)
     }
 
     @Test
@@ -85,7 +76,6 @@ class HotelInfoToolbarViewModelTest {
         viewModelUnderTest.hotelNameObservable.subscribe(hotelNameSubscriber)
         viewModelUnderTest.hotelRatingObservable.subscribe(hotelRatingSubscriber)
         viewModelUnderTest.hotelRatingContentDescriptionObservable.subscribe(hotelRatingContentDescriptionSubscriber)
-        viewModelUnderTest.toolBarRatingColor.subscribe(toolBarRatingColorSubscriber)
 
         viewModelUnderTest.bind(hotelOffer)
 
@@ -95,16 +85,11 @@ class HotelInfoToolbarViewModelTest {
         hotelNameSubscriber.assertValue(hotelOffer.hotelName)
         hotelRatingSubscriber.assertValue(5.0f)
         hotelRatingContentDescriptionSubscriber.assertValue(HotelsV2DataUtil.getHotelDetailRatingContentDescription(context, hotelOffer.hotelStarRating))
-        toolBarRatingColorSubscriber.assertValue(notSoldOutStarRatingColor)
     }
 
     @Test
     fun testBindhotelOffersResponseForZeroRatingHotel() {
         val viewModelUnderTest = HotelInfoToolbarViewModel(context)
-        val toolBarRatingColorSubscriber = TestObserver.create<Int>()
-
-        viewModelUnderTest.toolBarRatingColor.subscribe(toolBarRatingColorSubscriber)
-
         viewModelUnderTest.bind(zeroRatingHotel)
 
         assertTrue(viewModelUnderTest.hotelRatingObservableVisibility.value == false)
