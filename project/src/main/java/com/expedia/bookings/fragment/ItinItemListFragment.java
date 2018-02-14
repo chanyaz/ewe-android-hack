@@ -403,13 +403,10 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	public boolean isInDetailMode() {
-		// false when mItinListView == null because we start out in list mode
-		return mItinListView != null && false;
+		return false;
 	}
 
 	public void hideDetails() {
-		if (mItinListView != null) {
-		}
 	}
 
 	public void enableLoadItins() {
@@ -417,10 +414,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		if (mNumberOfItinCardsOfGuestUser == 0) {
 			syncItinManager(false, false);
 		}
-	}
-
-	public void disableLoadItins() {
-		mAllowLoadItins = false;
 	}
 
 	public synchronized void startLoginActivity() {
