@@ -31,7 +31,6 @@ import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
 import com.expedia.bookings.itin.activity.LegacyItinCardDataActivity;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
-import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
 import com.mobiata.android.Log;
 
 import java.util.LinkedList;
@@ -39,7 +38,7 @@ import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
 @SuppressWarnings("rawtypes")
-public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
+public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +98,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		super(context, attrs, defStyle);
 
 		mAdapter = new ItinCardDataAdapter(context);
-		mAdapter.setOnItinCardClickListener(this);
 		mAdapter.syncWithManager();
 
 		// We have a footer view taking up blank space presumably so that the last card
@@ -513,10 +511,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		if (mOnScrollListener != null) {
 			mOnScrollListener.onScrollStateChanged(view, scrollState);
 		}
-	}
-
-	@Override
-	public void onCloseButtonClicked() {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
