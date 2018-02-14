@@ -144,6 +144,16 @@ class PackageOverviewPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBundleHotelWidgetDatesAndGuestTextForMID() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
+        setupOverviewPresenter()
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        assertEquals(overviewPresenter.bundleWidget.bundleHotelWidget.hotelsDatesGuestInfoText.text, "Sep 7 - Sep 10, 2 guests")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBundleTotalTextAfterCreateTrip() {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         val testSubscriber = TestObserver.create<PackageCreateTripResponse>()

@@ -7,6 +7,10 @@ import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager.Companion.isBucketedForVariant
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.StrUtils
+import com.squareup.phrase.Phrase
+import org.joda.time.format.DateTimeFormat
 
 object PackageUtil {
 
@@ -69,5 +73,16 @@ object PackageUtil {
         }
 
         return R.string.nav_packages
+    }
+
+    fun getBundleHotelDatesAndGuestsText(context: Context, checkInDate: String, checkOutDate: String, guests: Int): String {
+        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
+
+        return Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
+                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(checkInDate)))
+                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(checkOutDate)))
+                .put("guests", StrUtils.formatGuestString(context, guests))
+                .format()
+                .toString()
     }
 }
