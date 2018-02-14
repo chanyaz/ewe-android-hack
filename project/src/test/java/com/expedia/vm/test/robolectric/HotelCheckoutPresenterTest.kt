@@ -625,6 +625,17 @@ class HotelCheckoutPresenterTest {
     }
 
     @Test
+    fun testCouponWidgetContentDescriptionMaterialTestControl() {
+        assertEquals("Enter coupon code button", checkout.couponCardView.unexpanded.contentDescription)
+    }
+
+    @Test
+    fun testCouponWidgetContentDescriptionMaterialTestBucketed() {
+        setupHotelMaterialForms()
+        assertEquals("Enter coupon code button", checkout.couponCardView.unexpanded.contentDescription)
+    }
+
+    @Test
     fun testUiDisabledOnApplyControl() {
         setup()
         goToCheckout(mockHotelServices.getHotelCouponCreateTripResponse())

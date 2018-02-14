@@ -15,6 +15,7 @@
         android:paddingTop="20dp"
         android:text="@string/enter_coupon_code"
         android:textColor="@color/hotelsv2_enter_coupon_code_color"
+        android:contentDescription="@string/coupon_widget_content_description"
         android:textSize="15sp"
         app:textStyle="medium" />
 
