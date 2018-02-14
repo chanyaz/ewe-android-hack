@@ -413,7 +413,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
             onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             getLobPriceObservable(rate)
-            totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
+            totalPriceObservable.onNext(Money(BigDecimal(rate.priceToShowUsers.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
 
             val hasMemberDeal = hasMemberDeal(firstHotelRoomResponse)
             memberOnlyDealTagVisibilityObservable.onNext(hasMemberDeal)
