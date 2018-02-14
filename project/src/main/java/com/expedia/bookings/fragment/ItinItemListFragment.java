@@ -421,7 +421,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public boolean isInDetailMode() {
 		// false when mItinListView == null because we start out in list mode
-		return mItinListView != null && mItinListView.isInDetailMode();
+		return mItinListView != null && false;
 	}
 
 	public void hideDetails() {

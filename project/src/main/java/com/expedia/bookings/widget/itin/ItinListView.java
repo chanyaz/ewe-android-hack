@@ -143,7 +143,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		Log.d("ItinListView.onSizeChanged mExpandedHeight - oldValue:" + oldExpandedHeight + " newValue:" + mExpandedHeight);
 
 		//If the size changed while we were in detail mode, we better update the detail card to reflect that.
-		if (isInDetailMode() && mExpandedHeight != oldExpandedHeight) {
+		if (false && mExpandedHeight != oldExpandedHeight) {
 			boolean semGot = false;
 			try {
 				//If this happens while the showDetails is still running, we just skip it because finishExpand will be called anyway
@@ -226,7 +226,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	public boolean onTouchEvent(MotionEvent event) {
 		//If we are in detail mode, pass all touches to the ItinCard
 
-		if (isInDetailMode()) {
+		if (false) {
 			if (mDetailsCardView != null) {
 				boolean retVal = mDetailsCardView.dispatchTouchEvent(event);
 				return retVal;
@@ -367,10 +367,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public boolean isInDetailMode() {
-		return false;
-	}
-
 	public void setOnListModeChangedListener(OnListModeChangedListener onListModeChangedListener) {
 		mOnListModeChangedListener = onListModeChangedListener;
 	}
@@ -463,7 +459,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return;
 		}
 
-		if (!isInDetailMode()) {
+		if (!false) {
 			return;
 		}
 
@@ -495,7 +491,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		mMode = MODE_LIST;
 		if (mOnListModeChangedListener != null) {
-			mOnListModeChangedListener.onListModeChanged(isInDetailMode(), animate);
+			mOnListModeChangedListener.onListModeChanged(false, animate);
 		}
 
 		if (animate) {
@@ -600,7 +596,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			post(new Runnable() {
 				@Override
 				public void run() {
-					if (ItinListView.this != null && !isInDetailMode()) {
+					if (ItinListView.this != null && !false) {
 						smoothScrollToPositionFromTop(pos, 0);
 					}
 				}
