@@ -446,10 +446,10 @@ class HotelDetailViewModelTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
-    fun priceShownToCustomerIncludesCustomerFees() {
+    fun totalPricePullsApiPriceToShowUsers() {
         vm.hotelOffersSubject.onNext(offer2)
         val df = DecimalFormat("#")
-        val expectedPrice = "$" + df.format(expectedTotalPriceWithMandatoryFees)
+        val expectedPrice = "$" + df.format(offer2.hotelRoomResponse[0].rateInfo.chargeableRateInfo.priceToShowUsers)
         assertEquals(expectedPrice, vm.totalPriceObservable.value)
     }
 
