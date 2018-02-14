@@ -1869,7 +1869,9 @@ public class ItineraryManager implements JSONable {
 				// Note: In the future, we may be getting these parameters from the URL. Currently, we do not, thus we just
 				// send the generic "AppShare" event any time that we import a shared itin. Ideally, the URL will contain
 				// some more info pertaining to tracking and we'd send something like "AppShare.Facebook".
-				OmnitureTracking.setDeepLinkTrackingParams("brandcid", "AppShare");
+				HashMap<String, String> deepLinkArg = new HashMap<>();
+				deepLinkArg.put("brandcid", "AppShare");
+				OmnitureTracking.storeDeepLinkParams(deepLinkArg);
 			}
 		}
 

@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils
 
 import com.expedia.bookings.services.IClientLogServices
-import com.expedia.bookings.tracking.OmnitureTracking
 import okhttp3.HttpUrl
 import java.util.HashMap
 import java.util.HashSet
@@ -38,23 +37,23 @@ object DeepLinkUtils {
         }
     }
 
-    @JvmStatic fun parseAndTrackDeepLink(clientLogServices: IClientLogServices, url: HttpUrl?) {
+    @JvmStatic fun parseAndTrackDeepLink(clientLogServices: IClientLogServices, url: HttpUrl?, deepLinkAnalytics: DeepLinkAnalytics) {
         if (url == null) {
             return
         }
-        val clientLogQueryParams = HashMap<String, String>()
+        val deepLinkParams = HashMap<String, String>()
 
         url.queryParameterNames().forEach { key ->
             val lowerCaseKey = key.toLowerCase(Locale.US)
             val queryParam = url.queryParameter(key)
             if (KNOWN_DEEP_LINK_ARGS.contains(lowerCaseKey) && queryParam != null) {
-                OmnitureTracking.setDeepLinkTrackingParams(lowerCaseKey, queryParam)
-                clientLogQueryParams.put(lowerCaseKey, queryParam)
+                deepLinkParams.put(lowerCaseKey, queryParam)
             }
         }
 
-        if (clientLogQueryParams.isNotEmpty()) {
-            clientLogServices.deepLinkMarketingIdLog(clientLogQueryParams)
+        if (deepLinkParams.isNotEmpty()) {
+            deepLinkAnalytics.setDeepLinkTrackingParams(deepLinkParams)
+            clientLogServices.deepLinkMarketingIdLog(deepLinkParams)
         }
     }
 }

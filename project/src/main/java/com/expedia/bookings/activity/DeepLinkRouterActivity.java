@@ -48,6 +48,7 @@ import com.expedia.bookings.utils.DeepLinkUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXNavUtils;
+import com.expedia.bookings.utils.OmnitureDeepLinkAnalytics;
 import com.expedia.bookings.utils.ShortcutUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
@@ -181,7 +182,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private void handleDeepLinkUri(Uri data) {
 		clientLogServices = Ui.getApplication(this).appComponent().clientLog();
-		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, HttpUrl.parse(data.toString()));
+		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, HttpUrl.parse(data.toString()), new OmnitureDeepLinkAnalytics());
 
 		DeepLink deepLink = deepLinkParser.parseDeepLink(data);
 

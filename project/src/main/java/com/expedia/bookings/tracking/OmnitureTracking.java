@@ -40,6 +40,9 @@ import com.expedia.bookings.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.analytics.cesc.CESCTrackingUtil;
+import com.expedia.bookings.analytics.cesc.PersistingCESCDataUtil;
+import com.expedia.bookings.analytics.cesc.SharedPrefsCESCPersistenceProvider;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightItinDetailsResponse;
@@ -144,6 +147,8 @@ public class OmnitureTracking {
 	private static Context sContext = null;
 	private static UserStateManager userStateManager;
 
+	private static CESCTrackingUtil cescTrackingUtil;
+
 	public static void init(ExpediaBookingApp app) {
 		Log.d(TAG, "init");
 		Config.setContext(app.getApplicationContext());
@@ -154,6 +159,7 @@ public class OmnitureTracking {
 		app.registerActivityLifecycleCallbacks(sOmnitureActivityCallbacks);
 		sMarketingDate = SettingUtils
 			.get(sContext, sContext.getString(R.string.preference_marketing_date), sMarketingDate);
+		cescTrackingUtil = new CESCTrackingUtil(new PersistingCESCDataUtil(new SharedPrefsCESCPersistenceProvider(sContext)));
 	}
 
 	private static final Application.ActivityLifecycleCallbacks sOmnitureActivityCallbacks = new Application.ActivityLifecycleCallbacks() {
@@ -2611,16 +2617,8 @@ public class OmnitureTracking {
 		s.trackLink("Itinerary Action");
 	}
 
-	private static HashMap<String, String> deepLinkArgs = new HashMap<>();
-
-	/* This is a separate method because other classes also use it */
-	public static void setDeepLinkTrackingParams(String key, String value) {
-		deepLinkArgs.put(key, value);
-	}
-
-	@VisibleForTesting
-	public static HashMap<String, String> getDeepLinkArgs() {
-		return deepLinkArgs;
+	public static void storeDeepLinkParams(HashMap<String, String> hashMap) {
+		cescTrackingUtil.storeMarketingCode(hashMap, DateTime.now());
 	}
 
 	/**
@@ -3807,11 +3805,8 @@ public class OmnitureTracking {
 			s.setDebugLogging(true);
 		}
 
-		// Marketing date tracking
-		s.setEvar(10, sMarketingDate);
-
-		// Deep Link tracking
-		addDeepLinkData(s);
+		// CESC Deep Link Tracking
+		cescTrackingUtil.setEvars(s, DateTime.now());
 
 		// Add the country locale
 		s.setEvar(31, Locale.getDefault().getCountry());
@@ -4048,80 +4043,6 @@ public class OmnitureTracking {
 			itinNumber = "NA";
 		}
 		return travelRecordLocator + "|" + itinNumber;
-	}
-
-	@VisibleForTesting
-	protected static void addDeepLinkData(ADMS_Measurement s) {
-		// Yes this logic is ugly (but is as desired by marketing).
-		// See https://eiwork.mingle.thoughtworks.com/projects/eb_ad_app/cards/9353 for details
-
-		if (!deepLinkArgs.isEmpty()) {
-
-			String var = null;
-			String deepLinkValue = null;
-
-			// eVar22 items
-			if ((deepLinkValue = deepLinkArgs.get("emlcid")) != null) {
-				var = "EML." + deepLinkValue;
-			}
-			else if ((deepLinkValue = deepLinkArgs.get("semcid")) != null) {
-				var = "SEM." + deepLinkValue;
-			}
-			else if ((deepLinkValue = deepLinkArgs.get("olacid")) != null) {
-				var = "OLA." + deepLinkValue;
-				if ((deepLinkValue = deepLinkArgs.get("oladtl")) != null) {
-					var += "&OLADTL=" + deepLinkValue;
-				}
-			}
-			else if ((deepLinkValue = deepLinkArgs.get("brandcid")) != null) {
-				var = "Brand." + deepLinkValue;
-			}
-			else if ((deepLinkValue = deepLinkArgs.get("seocid")) != null) {
-				var = "SEO." + deepLinkValue;
-			}
-			else if ((deepLinkValue = deepLinkArgs.get("mdpcid")) != null) {
-				var = "MDP." + deepLinkValue;
-				if ((deepLinkValue = deepLinkArgs.get("mdpdtl")) != null) {
-					var += "&MDPDTL=" + deepLinkValue;
-				}
-			}
-			else if ((deepLinkValue = deepLinkArgs.get("affcid")) != null) {
-				var = "AFF." + deepLinkValue;
-				if ((deepLinkValue = deepLinkArgs.get("afflid")) != null) {
-					var += "&AFFLID=" + deepLinkValue;
-				}
-			}
-			else if ((deepLinkValue = deepLinkArgs.get("icmcid")) != null) {
-				var = "ICM." + deepLinkValue;
-				if ((deepLinkValue = deepLinkArgs.get("icmdtl")) != null) {
-					var += "&ICMDTL=" + deepLinkValue;
-				}
-			}
-
-			if (var != null) {
-				s.setEvar(22, var);
-			}
-
-
-			// kword eVar15
-			if ((deepLinkValue = deepLinkArgs.get("kword")) != null) {
-				s.setEvar(15, deepLinkValue);
-			}
-
-			// eVar26
-			if ((deepLinkValue = deepLinkArgs.get("gclid")) != null) {
-				s.setEvar(26, deepLinkValue);
-			}
-
-			// eVar36
-			if ((deepLinkValue = deepLinkArgs.get("semdtl")) != null) {
-				s.setEvar(36, deepLinkValue);
-			}
-
-			s.appendEvents("event320");
-
-			deepLinkArgs.clear();
-		}
 	}
 
 	private static String hashEmail(String s) {

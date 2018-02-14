@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils
 
 import com.expedia.bookings.test.MockClientLogServices
-import com.expedia.bookings.tracking.OmnitureTracking
 import okhttp3.HttpUrl
 import org.junit.Before
 import org.junit.Test
@@ -11,11 +10,13 @@ import kotlin.test.assertTrue
 
 class DeepLinkUtilsTest {
 
-    lateinit var mockClientLogServices: MockClientLogServices
+    private lateinit var mockClientLogServices: MockClientLogServices
+    private lateinit var mockDeepLinkAnalytics: MockDeepLinkAnalytics
 
     @Before
     fun setup() {
         mockClientLogServices = MockClientLogServices()
+        mockDeepLinkAnalytics = MockDeepLinkAnalytics()
     }
 
     @Test
@@ -175,7 +176,7 @@ class DeepLinkUtilsTest {
     fun gclid() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2017&endDate=01/03/2018&regionId=602231&gclid=SEMGCLID_KRABI_TEST_GCLID")
         assertEquals("SEMGCLID_KRABI_TEST_GCLID", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("gclid"))
-        assertOmnitureDeepLinkArgsSetup("icmdtl")
+        assertOmnitureDeepLinkArgsSetup("gclid")
     }
 
     @Test
@@ -189,18 +190,18 @@ class DeepLinkUtilsTest {
 
     @Test
     fun testNoDeeplinkArgs() {
-        val trackingArgsSizeBefore = OmnitureTracking.getDeepLinkArgs().size
+        val trackingArgsSizeBefore = mockDeepLinkAnalytics.deepLinkArgs.size
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033")
         assertNull(mockClientLogServices.lastSeenDeepLinkQueryParams)
-        val trackingArgsSizeAfter = OmnitureTracking.getDeepLinkArgs().size
+        val trackingArgsSizeAfter = mockDeepLinkAnalytics.deepLinkArgs.size
         assertEquals(trackingArgsSizeBefore, trackingArgsSizeAfter)
     }
 
     private fun trackDeepLink(url: String) {
-        DeepLinkUtils.parseAndTrackDeepLink(mockClientLogServices, HttpUrl.parse(url))
+        DeepLinkUtils.parseAndTrackDeepLink(mockClientLogServices, HttpUrl.parse(url), mockDeepLinkAnalytics)
     }
 
     private fun assertOmnitureDeepLinkArgsSetup(key: String) {
-        assertTrue(OmnitureTracking.getDeepLinkArgs().containsKey(key))
+        assertTrue(mockDeepLinkAnalytics.deepLinkArgs.containsKey(key))
     }
 }
