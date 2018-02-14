@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -54,7 +55,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     } // not used for flights LOB
     val menuSearch: MenuItem by lazy {
         val menuSearch = toolbar.menu.findItem(R.id.menu_search)
-        AccessibilityUtil.setMenuItemContentDescription(toolbar, context.getString(R.string.search_button_cont_desc))
+        MenuItemCompat.setContentDescription(menuSearch, context.getString(R.string.search_button_cont_desc))
         menuSearch
     }
 

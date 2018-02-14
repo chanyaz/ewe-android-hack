@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.annotation.StringRes
 import android.support.design.widget.TabLayout
 import android.support.design.widget.TextInputLayout
-import android.support.v7.widget.ActionMenuView
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.Toolbar
 import android.view.View
@@ -41,18 +40,6 @@ object AccessibilityUtil {
 
     @JvmStatic fun delayFocusToToolbarNavigationIcon(toolbar: Toolbar, delayMillis: Long) {
         toolbar.postDelayed(Runnable { setFocusToToolbarNavigationIcon(toolbar) }, delayMillis)
-    }
-
-    @JvmStatic fun setMenuItemContentDescription(toolbar: Toolbar, contentDescription: String) {
-        if (AccessibilityUtil.isTalkBackEnabled(toolbar.context)) {
-            for (i in 0..toolbar.childCount - 1) {
-                val v = toolbar.getChildAt(i)
-                if (v is ActionMenuView) {
-                    v.getChildAt(0)?.contentDescription = contentDescription
-                    break
-                }
-            }
-        }
     }
 
     @JvmStatic fun delayedFocusToView(view: View, delayMillis: Long) {

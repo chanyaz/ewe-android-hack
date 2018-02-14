@@ -3,12 +3,12 @@ package com.expedia.bookings.widget.shared
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.EntryFormToolbarViewModel
@@ -56,6 +56,6 @@ class EntryFormToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context
 
     private fun updateMenuTitle(titleId: Int, contDescId: Int) {
         menuItem.title = context.getString(titleId)
-        AccessibilityUtil.setMenuItemContentDescription(this, context.getString(contDescId))
+        MenuItemCompat.setContentDescription(menuItem, context.getString(contDescId))
     }
 }

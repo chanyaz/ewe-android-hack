@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.widget.Toolbar
@@ -11,7 +12,6 @@ import android.view.MenuItem
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.interfaces.ToolbarListener
-import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.util.endlessObserver
@@ -154,6 +154,6 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
             contentDescription.append(", ${context.getString(R.string.accessibility_cont_desc_card_is_disabled)}")
         }
         contentDescription.append(", ${context.getString(R.string.accessibility_cont_desc_role_button)}")
-        AccessibilityUtil.setMenuItemContentDescription(this, contentDescription.toString())
+        MenuItemCompat.setContentDescription(menuItem, contentDescription.toString())
     }
 }

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
@@ -18,7 +19,6 @@ import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.navigation.NavUtils
@@ -38,7 +38,7 @@ class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolba
         if (variateForTest == AbacusVariant.TWO.value) {
             item.icon = null
         }
-        AccessibilityUtil.setMenuItemContentDescription(this, context.getString(R.string.share_action_content_description))
+        MenuItemCompat.setContentDescription(item, context.getString(R.string.share_action_content_description))
         item
     }
 

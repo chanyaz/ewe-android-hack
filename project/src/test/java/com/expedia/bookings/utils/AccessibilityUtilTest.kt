@@ -1,14 +1,11 @@
 package com.expedia.bookings.utils
 
-import android.app.Activity
 import android.content.Context
-import android.support.v7.widget.ActionMenuView
 import android.support.v7.widget.Toolbar
 import android.view.accessibility.AccessibilityManager
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.expedia.bookings.R
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -115,26 +112,6 @@ class AccessibilityUtilTest {
         assertNull(textView1.findFocus())
         textView1.setFocusForView()
         assertNull(textView1.findFocus())
-    }
-
-    @Test
-    fun testToolbarMenuItemContentDescription() {
-        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.Theme_Rail)
-        val spyContext = Mockito.spy(activity)
-        val mockAccessibilityManager = Mockito.mock(AccessibilityManager::class.java)
-
-        Mockito.`when`(spyContext.getSystemService(Context.ACCESSIBILITY_SERVICE)).thenReturn(mockAccessibilityManager)
-        Mockito.`when`(mockAccessibilityManager.isEnabled).thenReturn(true)
-        Mockito.`when`(mockAccessibilityManager.isTouchExplorationEnabled).thenReturn(true)
-
-        val toolbar = Toolbar(spyContext)
-        toolbar.inflateMenu(R.menu.checkout_menu)
-
-        val actionMenuView = toolbar.getChildAt(0) as ActionMenuView
-        val contentDescription = "Done button"
-        AccessibilityUtil.setMenuItemContentDescription(toolbar, contentDescription)
-        assertEquals(contentDescription, actionMenuView.getChildAt(0).contentDescription)
     }
 
     @Test
