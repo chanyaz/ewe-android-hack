@@ -83,9 +83,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private int mExpandedHeight = 0;
 
-	// If true, there's a second pane which handles showing card details.  Don't expand cards when clicked.
-	private boolean mSimpleMode = false;
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -334,11 +331,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mScrollToReleventOnDataSetChange = true;
 	}
 
-	public void setSimpleMode(boolean enabled) {
-		mSimpleMode = enabled;
-		mAdapter.setSimpleMode(enabled);
-	}
-
 	public ItinCardData getItinCardData(int position) {
 		return mAdapter.getItem(position);
 	}
@@ -399,10 +391,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	public void hideDetails() {
-		if (mSimpleMode) {
-			setSelectedCardId(null);
-			mAdapter.notifyDataSetChanged();
-		}
 	}
 
 	public void showDetails(String id) {
