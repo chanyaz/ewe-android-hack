@@ -73,7 +73,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
-	private OnListModeChangedListener mOnListModeChangedListener;
 
 	private View mLastChild = null;
 	private boolean mWasChildConsumedTouch = false;
@@ -324,10 +323,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
-
-	public void setOnListModeChangedListener(OnListModeChangedListener onListModeChangedListener) {
-		mOnListModeChangedListener = onListModeChangedListener;
-	}
 
 	public void syncWithManager() {
 		if (mAdapter == null) {

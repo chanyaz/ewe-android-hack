@@ -1,8 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Collection;
-import java.util.List;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -51,8 +48,8 @@ import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
+import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
@@ -60,6 +57,9 @@ import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
+
+import java.util.Collection;
+import java.util.List;
 
 import io.reactivex.functions.Consumer;
 import kotlin.Unit;
@@ -179,7 +179,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mStatusImage = Ui.findView(view, R.id.no_trips_image);
 		mFindItineraryButton = Ui.findView(view, R.id.find_itinerary_button);
 
-		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItemClickListener(mOnItemClickListener);
 		mOldEmptyView =  Ui.findView(view, R.id.old_sign_in_view);
 
