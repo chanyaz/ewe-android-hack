@@ -1,10 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
@@ -82,8 +77,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
 	private OnListModeChangedListener mOnListModeChangedListener;
-
-	private int mMode = MODE_LIST;
 
 	private View mLastChild = null;
 	private boolean mWasChildConsumedTouch = false;
@@ -445,80 +438,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			setSelectedCardId(null);
 			mAdapter.notifyDataSetChanged();
 		}
-	}
-
-	/**
-	 * Returns true if hide details is "done" including done with any animation. This method
-	 * is designed to call itself several times (through a posted Runnable).
-	 * @param animate
-	 * @return
-	 */
-	private void synchronizedHideDetails(boolean animate) {
-		if (mDetailPosition < 0 || mDetailsCardView == null) {
-			releaseSemaphore();
-			return;
-		}
-
-		mFooterView.setHeight(0);
-
-		mMode = MODE_LIST;
-		if (mOnListModeChangedListener != null) {
-			mOnListModeChangedListener.onListModeChanged(false, animate);
-		}
-
-		if (animate) {
-			Animator set = buildCollapseAnimatorSet();
-			set.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationCancel(Animator arg0) {
-					finishCollapse();
-					releaseSemaphore();
-				}
-
-				@Override
-				public void onAnimationEnd(Animator arg0) {
-					finishCollapse();
-					releaseSemaphore();
-				}
-			});
-			set.start();
-		}
-		else {
-			mDetailsCardView.collapse(false);
-			finishCollapse();
-			releaseSemaphore();
-		}
-	}
-
-	private Animator buildCollapseAnimatorSet() {
-		int collapsedHeight = mDetailsCardView.getCollapsedHeight();
-		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCardView, collapsedHeight);
-		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-			public void onAnimationUpdate(ValueAnimator animator) {
-				// We are animating the top offset of the detail card from 0 to mOriginalViewTop
-				float fraction = animator.getAnimatedFraction();
-				int offset = (int) (mDetailsCardView.getCollapsedTop() * fraction);
-
-				setSelectionFromTop(mDetailPosition, offset);
-				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-			}
-		});
-
-		AnimatorSet collapseAnimator = mDetailsCardView.collapse(true);
-		AnimatorSet set = new AnimatorSet();
-		set.playTogether(resizeAnimator, collapseAnimator);
-		return set;
-	}
-
-	private void finishCollapse() {
-		setSelectionFromTop(mDetailPosition, mDetailsCardView.getCollapsedTop());
-		onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-		ResizeAnimator.setHeight(mDetailsCardView, mDetailsCardView.getCollapsedHeight());
-
-		mDetailPosition = -1;
-		mDetailsCardView = null;
-		mAdapter.setDetailPosition(-1);
-		setSelectedCardId(null);
 	}
 
 	public void showDetails(String id) {
