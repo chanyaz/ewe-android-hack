@@ -3,7 +3,6 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
-import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
@@ -14,18 +13,15 @@ import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.subscribeObserver
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.Optional
+import com.expedia.util.PackageUtil
 import com.expedia.vm.BaseCreateTripViewModel
-import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import org.joda.time.format.DateTimeFormat
 import retrofit2.HttpException
 
 class PackageCreateTripViewModel(var packageServices: PackageServices, val context: Context) : BaseCreateTripViewModel() {
@@ -89,7 +85,6 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                     multiItemResponseSubject.onNext(response)
                 }
             }
-
             override fun onComplete() {
             }
         }
@@ -111,15 +106,8 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                     Db.getTripBucket().clearPackages()
                     Db.getTripBucket().add(TripBucketItemPackages(response))
                     createTripResponseObservable.onNext(Optional(response))
-
                     //set the hotel check in, check out dates on checkout overview from create trip response
-                    val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
-                    bundleDatesObservable.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
-                            .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkInDate)))
-                            .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkOutDate)))
-                            .put("guests", StrUtils.formatGuestString(context, Db.sharedInstance.packageParams.guests))
-                            .format()
-                            .toString())
+                    bundleDatesObservable.onNext(PackageUtil.getBundleHotelDatesAndGuestsText(context, response.packageDetails.hotel.checkInDate, response.packageDetails.hotel.checkOutDate, Db.sharedInstance.packageParams.guests))
                 }
             }
 

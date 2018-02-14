@@ -177,6 +177,12 @@ class PackageUtilTest {
                 expectedPackageTitle = "Hotel + Flight")
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBundleHotelDatesGuestText() {
+        assertEquals("Mar 7 - Mar 10, 3 guests", PackageUtil.getBundleHotelDatesAndGuestsText(context, "2021-03-07", "2021-03-10", 3))
+    }
+
     private fun updateABTestVariant(value: Int) {
         AbacusTestUtils.bucketTests(AbacusUtils.PackagesTitleChange)
         RoboTestHelper.updateABTest(AbacusUtils.PackagesTitleChange, value)
