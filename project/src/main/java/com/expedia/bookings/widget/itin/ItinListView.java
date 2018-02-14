@@ -29,7 +29,6 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
 import com.expedia.bookings.itin.activity.LegacyItinCardDataActivity;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
@@ -71,8 +70,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private ItinCardDataAdapter mAdapter;
 
 	private String mSelectedCardId;
-
-	private ItinCard mDetailsCardView;
 
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
@@ -438,13 +435,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 						.toBundle());
 	}
 
-	private void finishExpand(int expandedHeight) {
-		setSelectionFromTop(mDetailPosition, 0);
-		ResizeAnimator.setHeight(mDetailsCardView, expandedHeight);
-		onScroll(ItinListView.this, mDetailPosition, getChildCount(), mAdapter.getCount());
-		trackOmnitureItinExpanded(mDetailsCardView);
-	}
-
 	private void registerDataSetObserver() {
 		mAdapter.registerDataSetObserver(mDataSetObserver);
 	}
@@ -472,24 +462,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			});
 		}
 		return pos;
-	}
-
-	private void trackOmnitureItinExpanded(ItinCard card) {
-		if (card == null) {
-			return;
-		}
-
-		switch (card.getType()) {
-		case CAR:
-			OmnitureTracking.trackItinCar(getContext());
-			break;
-		case FLIGHT:
-			OmnitureTracking.trackItinFlight(getContext(), null);
-			break;
-		case ACTIVITY:
-			OmnitureTracking.trackItinActivity(getContext());
-			break;
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
