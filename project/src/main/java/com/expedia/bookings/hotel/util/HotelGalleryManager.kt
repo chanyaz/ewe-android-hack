@@ -8,7 +8,7 @@ import java.util.ArrayList
 import com.expedia.bookings.hotel.DEFAULT_HOTEL_GALLERY_CODE
 import com.expedia.bookings.utils.Images.getMediaHost
 
-open class HotelGalleryManager() {
+open class HotelGalleryManager {
 
     private val overviewImages = ArrayList<HotelMedia>()
     private val roomImages = HashMap<String, ArrayList<HotelMedia>>()
@@ -40,8 +40,15 @@ open class HotelGalleryManager() {
                 if (roomImages[code] == null) {
                     roomImages.put(code, ArrayList<HotelMedia>())
                 }
-                roomImages[code]!!.add(HotelMedia(getMediaHost() + url))
+                if (!isDuplicateUrl(roomImages[code]!!, url)) {
+                    roomImages[code]!!.add(HotelMedia(getMediaHost() + url))
+                }
             }
         }
+    }
+
+    private fun isDuplicateUrl(currentList: ArrayList<HotelMedia>, url: String): Boolean {
+        val mediaUrl = getMediaHost() + url
+        return currentList.any { media -> media.originalUrl == mediaUrl }
     }
 }

@@ -44,6 +44,27 @@ class HotelGalleryManagerTest {
         assertEquals(0, testManager.fetchMediaList(DEFAULT_HOTEL_GALLERY_CODE).size)
     }
 
+    @Test
+    fun testDuplicatesNotSaved() {
+        val roomCode = "200674447"
+        val response = loadOfferInfo("src/test/resources/raw/hotel/hotel_happy_offer.json")
+
+        response.hotelRoomResponse[0].roomTypeCode = roomCode
+        val urls = response.hotelRoomResponse[0].roomThumbnailUrlArray!!
+        urls.addAll(urls)
+        urls.add("/hotels/999099/999099/999099/999099/999099_999099_t.jpg")
+        response.hotelRoomResponse[0].roomThumbnailUrlArray = urls
+        assertEquals(2, urls.count { url -> urls[0] == url },
+                "FAILURE: Sanity check to verify a duplicate exists")
+
+        testManager.saveHotelOfferMedia(response)
+        val roomImages = testManager.fetchMediaList(roomCode)
+
+        assertEquals(2, roomImages.size)
+        assertEquals(1, roomImages.count { media -> roomImages[0].originalUrl == media.originalUrl },
+                "FAILURE: Duplicates should have been removed during saving")
+    }
+
     private fun loadOfferInfo(resourcePath: String): HotelOffersResponse {
         val resourceReader = JSONResourceReader(resourcePath)
         return resourceReader.constructUsingGson(HotelOffersResponse::class.java)
