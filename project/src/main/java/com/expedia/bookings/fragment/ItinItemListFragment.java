@@ -351,17 +351,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mRoot.setBackgroundColor(color);
 	}
 
-	public void setSimpleMode(boolean enabled) {
-		mItinListView.setSimpleMode(true);
-
-		if (enabled) {
-			mShadowImageView.setVisibility(View.GONE);
-		}
-		else if (!isInDetailMode()) {
-			mShadowImageView.setVisibility(View.VISIBLE);
-		}
-	}
-
 	public void showItinCard(final String id) {
 		if (mIsLoading || mItinListView == null) {
 			mJumpToItinId = id;
