@@ -1,16 +1,12 @@
 package com.expedia.account.sample;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 
 import com.expedia.account.AccountView;
-import com.expedia.account.AnalyticsListener;
 import com.expedia.account.util.Events;
 import com.expedia.account.util.FacebookViewHelper;
 import com.expedia.account.util.MockFacebookViewHelper;
-import com.expedia.account.util.MockSmartPasswordViewHelper;
-import com.expedia.account.util.SmartPasswordViewHelper;
 import com.squareup.otto.Subscribe;
 
 public class MockAccountView extends AccountView {
@@ -28,14 +24,6 @@ public class MockAccountView extends AccountView {
 		return mIsMockModeEnabled
 			? new MockFacebookViewHelper(this)
 			: new FacebookViewHelper(this);
-	}
-
-	@Override
-	public SmartPasswordViewHelper createSmartPasswordViewHelper(AnalyticsListener analyticsListener,
-		FragmentActivity currentActivity) {
-		return mIsMockModeEnabled
-			? new MockSmartPasswordViewHelper(analyticsListener, currentActivity)
-			: new SmartPasswordViewHelper(analyticsListener, currentActivity);
 	}
 
 	public void setMockMode(boolean enabled) {

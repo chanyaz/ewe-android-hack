@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import javax.inject.Inject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -34,7 +32,6 @@ import com.expedia.bookings.tracking.AppStartupTimeClientLog;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.RouterToSignInTimeLogger;
 import com.expedia.bookings.utils.CarnivalUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StrUtils;
@@ -43,6 +40,8 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.widget.TextView;
 import com.squareup.phrase.Phrase;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -175,12 +174,6 @@ public class AccountLibActivity extends AppCompatActivity
 			.setUserRewardsEnrollmentCheck(ProductFlavorFeatureConfiguration.getInstance().showUserRewardsEnrollmentCheck())
 			.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this))
 			.setSignupString(Phrase.from(this, R.string.account_signup_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
-
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSmartLockTest,
-			R.string.preference_enable_smart_lock)) {
-			config.setParentActivity(this);
-		}
-
 
 		accountView.setWhiteBackgroundFromActivity(whiteBackground);
 		config.setEnableSinglePageSignUp(true);

@@ -1,14 +1,5 @@
 package com.expedia.account.sample;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,12 +22,21 @@ import com.expedia.account.AccountService;
 import com.expedia.account.AccountView;
 import com.expedia.account.Config;
 import com.expedia.account.PanningImageView;
+import com.mobiata.android.Log;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import okhttp3.OkHttpClient;
-import com.mobiata.android.Log;
 
 public class SignInActivity extends FragmentActivity {
 
@@ -96,7 +96,7 @@ public class SignInActivity extends FragmentActivity {
 	};
 
 	private Config getAccountViewConfig() {
-		Config config = Config.build()
+		return Config.build()
 			.setBackgroundImageView(vBackground)
 			.setPOSEnableSpamByDefault(true)
 			.setPOSShowSpamOptIn(true)
@@ -110,9 +110,7 @@ public class SignInActivity extends FragmentActivity {
 			.setRewardsText(Html.fromHtml(getString(R.string.loyalty_terms_of_service)))
 			.setListener(mAccountViewListener)
 			.setAnalyticsListener(null)
-			.setInitialState(Config.InitialState.SignIn)
-			.setParentActivity(this);
-		return config;
+			.setInitialState(Config.InitialState.SignIn);
 
 	}
 

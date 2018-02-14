@@ -2,8 +2,6 @@ package com.expedia.account;
 
 import java.lang.ref.WeakReference;
 
-import android.support.v4.app.FragmentActivity;
-
 import okhttp3.OkHttpClient;
 
 /**
@@ -58,8 +56,6 @@ public class Config {
 
 	String facebookAppId;
 	String recaptchaAPIKey;
-
-	FragmentActivity parentActivity;
 
 	private AnalyticsListener analyticsListener;
 	private AccountView.Listener accountViewListener;
@@ -193,11 +189,6 @@ public class Config {
 
 	public Config setInitialState(InitialState initialState) {
 		this.initialState = initialState.state;
-		return this;
-	}
-
-	public Config setParentActivity(FragmentActivity activity) {
-		this.parentActivity = activity;
 		return this;
 	}
 

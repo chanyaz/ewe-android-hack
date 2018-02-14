@@ -10,7 +10,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -37,7 +36,6 @@ import com.expedia.account.util.AccessibilityUtil;
 import com.expedia.account.util.Events;
 import com.expedia.account.util.FacebookViewHelper;
 import com.expedia.account.util.PresenterUtils;
-import com.expedia.account.util.SmartPasswordViewHelper;
 import com.expedia.account.util.Utils;
 import com.expedia.account.view.AnimatedIconToolbar;
 import com.expedia.account.view.EmailNameLayout;
@@ -48,6 +46,7 @@ import com.expedia.account.view.PasswordLayout;
 import com.expedia.account.view.SignInLayout;
 import com.expedia.account.view.TOSLayout;
 import com.expedia.account.view.WelcomeLayout;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import io.reactivex.Observer;
@@ -56,7 +55,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import com.mobiata.android.Log;
 
 public class AccountView extends BufferedPresenter {
 
@@ -77,7 +75,6 @@ public class AccountView extends BufferedPresenter {
 	private String mBrand;
 
 	private FacebookViewHelper mFacebookHelper;
-	private SmartPasswordViewHelper mSmartLockHelper;
 	private Disposable mCurrentDownload;
 	private static final Boolean isMinimumAccessibilityAPI = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1;
 
@@ -155,21 +152,11 @@ public class AccountView extends BufferedPresenter {
 		if (!STATE_SIGN_IN.equals(mConfig.initialState)) {
 			show(mConfig.initialState, FLAG_CLEAR_BACKSTACK | FLAG_SKIP_ANIMATION_TIME);
 		}
-
-		if (mConfig.parentActivity != null && STATE_SIGN_IN.equals(mConfig.initialState)) {
-			mSmartLockHelper = createSmartPasswordViewHelper(mConfig.getAnalyticsListener(), config.parentActivity);
-		}
 	}
 
 	public FacebookViewHelper createFacebookViewHelper() {
 		return new FacebookViewHelper(this);
 	}
-
-	public SmartPasswordViewHelper createSmartPasswordViewHelper(AnalyticsListener analyticsListener,
-		FragmentActivity currentActivity) {
-		return new SmartPasswordViewHelper(analyticsListener, currentActivity);
-	}
-
 
 	public AccountService getService() {
 		return mConfig == null ? null : mConfig.getService();
@@ -358,9 +345,6 @@ public class AccountView extends BufferedPresenter {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (mFacebookHelper != null) {
 			mFacebookHelper.onActivityResult(requestCode, resultCode, data);
-		}
-		if (mSmartLockHelper != null) {
-			mSmartLockHelper.onActivityResult(requestCode, resultCode, data);
 		}
 	}
 
@@ -1419,7 +1403,6 @@ public class AccountView extends BufferedPresenter {
 						}
 					}
 					show(STATE_WELCOME);
-					saveCredentials(email, password);
 				}
 			});
 	}
@@ -1487,16 +1470,8 @@ public class AccountView extends BufferedPresenter {
 					}
 					doCreateAccountSuccessful();
 					show(STATE_WELCOME);
-					saveCredentials(user.email, user.password);
-
 				}
 			});
-	}
-
-	public void saveCredentials(String email, String password) {
-		if (mSmartLockHelper != null) {
-			mSmartLockHelper.saveCredentials(email, password);
-		}
 	}
 
 	// Post successful signin, perhaps, depending on the timing we want

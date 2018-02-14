@@ -23,7 +23,6 @@
     <color name="acct__default_user_info_text_color">@color/acct__white</color>
     <color name="acct__default_welcome_text_color">@color/acct__white</color>
     <color name="acct__default_toolbar_icon_color">@color/acct__white</color>
-    <color name="acct__transparent_colour">#00000000</color>
     <color name="acct__default_edit_text_hint_color">#80849a</color>
 
     <color name="acct__single_page_checkbox_checked_color">#0947B2</color>
