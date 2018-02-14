@@ -380,7 +380,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		invalidateOptionsMenu();
 
 		if (isLoading && mSignInPresenter != null) {
-			if (mNumberOfItinCardsOfGuestUser > 0) {
+			if (mNumberOfItinCardsOfGuestUser > 0 && userStateManager.isUserAuthenticated()) {
 				mItinListView.getItinCardDataAdapter().clearAdapter();
 			}
 			mSignInPresenter.showItinFetchProgress();
