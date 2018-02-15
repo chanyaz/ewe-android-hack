@@ -25,6 +25,7 @@ public class TripHotel extends TripComponent {
 	private List<TripHotelRoom> mRooms = new ArrayList<>();
 	private List<String> changeAndCancelRules = new ArrayList<>();
 	private TripAction action;
+	private String mLateArrivalInstructions;
 
 	public TripHotel() {
 		super(Type.HOTEL);
@@ -40,6 +41,14 @@ public class TripHotel extends TripComponent {
 
 	public String getCheckInTime() {
 		return mCheckInTime;
+	}
+
+	public String getLateArrivalInstructions() {
+		return mLateArrivalInstructions;
+	}
+
+	public void setLateArrivalInstructions(String lateArrivalInstructions) {
+		this.mLateArrivalInstructions = lateArrivalInstructions;
 	}
 
 	public void setCheckInTime(String checkInTime) {
@@ -117,6 +126,7 @@ public class TripHotel extends TripComponent {
 			obj.put("guests", mGuests);
 			obj.putOpt("checkInTime", mCheckInTime);
 			obj.putOpt("checkOutTime", mCheckOutTime);
+			obj.putOpt("lateArrivalInstructions", mLateArrivalInstructions);
 			JSONUtils.putStringList(obj, "confNumbers", mConfirmationNumbers);
 			obj.putOpt("sharableItemDetailURL", mSharableDetailsUrl);
 			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
@@ -136,6 +146,7 @@ public class TripHotel extends TripComponent {
 		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
 		mGuests = obj.optInt("guests");
 		mCheckInTime = obj.optString("checkInTime", null);
+		mLateArrivalInstructions = obj.optString("lateArrivalInstructions", null);
 		mCheckOutTime = obj.optString("checkOutTime", null);
 		mSharableDetailsUrl = obj.optString("sharableItemDetailURL");
 		mPrimaryTraveler = JSONUtils.getJSONable(obj, "primaryTraveler", Traveler.class);

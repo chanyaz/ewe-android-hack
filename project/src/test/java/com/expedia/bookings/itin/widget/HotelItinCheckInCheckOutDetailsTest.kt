@@ -107,4 +107,25 @@ class HotelItinCheckInCheckOutDetailsTest {
         assertEquals(View.VISIBLE, dialog.findViewById<View>(R.id.fragment_dialog_scrollable_second_text_content).visibility)
         assertEquals("No running in the halls", (dialog.findViewById<View>(R.id.fragment_dialog_scrollable_second_text_content) as TextView).text.toString())
     }
+
+    @Test
+    fun testTitleContentWithoutLateArrival() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
+        hotelItinCheckinCheckOutWidget.checkInOutPoliciesContainer.performClick()
+        val dialog = ShadowAlertDialog.getLatestAlertDialog()
+        assertEquals("Minimum check-in age is 18\nCheck-in time starts at 3 PM", dialog.findViewById<TextView>(R.id.fragment_dialog_scrollable_text_content).text.toString())
+    }
+
+    @Test
+    fun testTitleContentWithLateArrival() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        val lateArrivalInstructions = "Your room/unit will be guaranteed for late arrival."
+        (itinCardDataHotel.getTripComponent() as TripHotel).lateArrivalInstructions = lateArrivalInstructions
+        hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
+        hotelItinCheckinCheckOutWidget.checkInOutPoliciesContainer.performClick()
+        val dialog = ShadowAlertDialog.getLatestAlertDialog()
+        val expectedString = "Minimum check-in age is 18\nCheck-in time starts at 3 PM\n" + lateArrivalInstructions
+        assertEquals(expectedString, dialog.findViewById<TextView>(R.id.fragment_dialog_scrollable_text_content).text.toString())
+    }
 }

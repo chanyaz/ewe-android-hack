@@ -296,6 +296,7 @@ public class TripParser {
 
 		JSONObject rulesJson = obj.optJSONObject("rules");
 		if (rulesJson != null) {
+			hotel.setLateArrivalInstructions(rulesJson.optString("lateArrivalInstructions"));
 			List<String> rules = new ArrayList<>();
 			if (rulesJson.has("cancelChangeRulesIntroduction") && !rulesJson.optString("cancelChangeRulesIntroduction").isEmpty()) {
 				rules.add(rulesJson.optString("cancelChangeRulesIntroduction"));

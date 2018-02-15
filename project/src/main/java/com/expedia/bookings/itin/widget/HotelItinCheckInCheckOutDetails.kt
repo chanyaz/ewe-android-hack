@@ -10,11 +10,13 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.fragment.ScrollableContentDialogFragment
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 
@@ -53,17 +55,28 @@ class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : L
                 val dialog = if (shouldShowSpecialInstruction) {
                     ScrollableContentDialogFragment.newInstance(
                             context.resources.getString(R.string.itin_hotel_check_in_policies_dialog_title),
-                            TextUtils.join("<br>", itinCardDataHotel.property.checkInPolicies).toString(),
+                            getTitleContent(itinCardDataHotel),
                             context.getString(R.string.itin_hotel_special_instruction_dialog_sub_title),
                             TextUtils.join("<br>", specialInstructions).toString())
                 } else {
                     ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_in_policies_dialog_title),
-                            TextUtils.join("<br>", itinCardDataHotel.property.checkInPolicies).toString())
+                            getTitleContent(itinCardDataHotel))
                 }
                 dialog.show(fragmentManager, DIALOG_TAG)
                 OmnitureTracking.trackHotelItinCheckInPoliciesDialogClick()
             }
             checkInOutPoliciesButtonText.setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
         }
+    }
+
+    private fun getTitleContent(itinCardDataHotel: ItinCardDataHotel): String {
+        val stringBuilder = StringBuilder()
+        val lateArrivalInstructions = (itinCardDataHotel.getTripComponent() as TripHotel).lateArrivalInstructions
+        stringBuilder.append(TextUtils.join("<br>", itinCardDataHotel.property.checkInPolicies).toString())
+        if (Strings.isNotEmpty(lateArrivalInstructions)) {
+            stringBuilder.append("<br>")
+            stringBuilder.append(lateArrivalInstructions)
+        }
+        return stringBuilder.toString()
     }
 }
